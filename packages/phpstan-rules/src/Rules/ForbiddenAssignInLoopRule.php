@@ -76,10 +76,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
 
         $nodeClass = get_class($node);
         foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
-            if (! $node->{$expr} instanceof Expr) {
-                continue;
-            }
-
             /** @var Variable[] $variables */
             $variables = $this->nodeFinder->find($node->{$expr}, function (Node $n): bool {
                 return $n instanceof Variable;
