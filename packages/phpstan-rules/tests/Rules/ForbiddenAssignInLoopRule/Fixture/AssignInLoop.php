@@ -13,5 +13,11 @@ final class AssignInLoop
             if ($value) {
             }
         }
+
+        for ($i = 1; $i <=10; $i++) {
+            $value = new SmartFileInfo('a.php');
+            if ($value) {
+            }
+        }
     }
 }
