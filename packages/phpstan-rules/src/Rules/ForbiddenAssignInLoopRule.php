@@ -128,7 +128,7 @@ CODE_SAMPLE
                 return $n instanceof Variable;
             });
 
-            if ($this->isUsedInPreviously($variablesInAssign, $node)) {
+            if ($this->isUsedInPreviousLoop($variablesInAssign, $node)) {
                 return true;
             }
         }
@@ -156,7 +156,7 @@ CODE_SAMPLE
     /**
      * @param Variable[] $variables
      */
-    private function isUsedInPreviously(array $variables, Node $node): bool
+    private function isUsedInPreviousLoop(array $variables, Node $node): bool
     {
         $previous = $node->getAttribute(PHPStanAttributeKey::PREVIOUS);
         if (! $previous instanceof Node) {
@@ -165,7 +165,7 @@ CODE_SAMPLE
                 return false;
             }
 
-            return $this->isUsedInPreviously($variables, $parent);
+            return $this->isUsedInPreviousLoop($variables, $parent);
         }
 
         foreach ($variables as $variable) {
