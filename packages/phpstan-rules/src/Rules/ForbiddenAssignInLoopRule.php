@@ -15,7 +15,6 @@ use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -40,11 +39,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     ];
 
     /**
-     * @var ParentNodeFinder
-     */
-    private $parentNodeFinder;
-
-    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -59,12 +53,8 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $assignVariable;
 
-    public function __construct(
-        ParentNodeFinder $parentNodeFinder,
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver
-    ) {
-        $this->parentNodeFinder = $parentNodeFinder;
+    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
+    {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
     }
