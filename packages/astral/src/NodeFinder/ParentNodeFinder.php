@@ -27,7 +27,7 @@ final class ParentNodeFinder
      * @param class-string<T> $nodeClass
      * @return T|null
      */
-    public function getFirstParentByType(Node $node, string $nodeClass): ?Node
+    private function getFirstParentByType(Node $node, string $nodeClass): ?Node
     {
         $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {
@@ -35,7 +35,7 @@ final class ParentNodeFinder
                 return $node;
             }
 
-            $node = $node->getAttribute(\Symplify\Astral\ValueObject\CommonAttributeKey::PARENT);
+            $node = $node->getAttribute(CommonAttributeKey::PARENT);
         }
 
         return null;
@@ -46,7 +46,7 @@ final class ParentNodeFinder
      * @param class-string<T>[] $nodeTypes
      * @return T|null
      */
-    public function getFirstParentByTypes(Node $node, array $nodeTypes): ?Node
+    private function getFirstParentByTypes(Node $node, array $nodeTypes): ?Node
     {
         $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {
