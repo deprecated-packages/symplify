@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\Fixture;
 
-final class AssignInDo
+final class SkipAssignExprUseWhileVar
 {
     public function run()
     {
-        do {
-            $value = new SmartFileInfo('a.php');
-            if ($value) {
-            }
-        } while ($i++ < 10);
+        while ($i++ < 10) {
+            $value = new SmartFileInfo($i);
+        }
     }
 }
