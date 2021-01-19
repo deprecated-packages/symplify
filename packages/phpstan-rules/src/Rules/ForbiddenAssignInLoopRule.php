@@ -48,11 +48,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    /**
-     * @var Expr
-     */
-    private $assignVariable;
-
     public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->nodeFinder = $nodeFinder;
@@ -80,6 +75,10 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
 
         $nodeClass = get_class($node);
         foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
+            if (! isset($node->{$expr})) {
+                continue;
+            }
+
             $variables = $this->nodeFinder->find($node->{$expr}, function (Node $n): bool {
                 return $n instanceof Variable;
             });
