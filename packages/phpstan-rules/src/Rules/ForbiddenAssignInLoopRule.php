@@ -33,7 +33,24 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const LOOP_STMTS = [Do_::class, For_::class, Foreach_::class, While_::class];
+    private const LOOP_STMTS_CHECKS = [
+        Do_::class => [
+            'cond'
+        ],
+        For_::class => [
+            'init',
+            'cond',
+            'loop',
+        ],
+        Foreach_::class => [
+            'expr',
+            'keyVar',
+            'valueVar',
+        ],
+        While_::class => [
+            'cond',
+        ],
+    ];
 
     /**
      * @var ParentNodeFinder
