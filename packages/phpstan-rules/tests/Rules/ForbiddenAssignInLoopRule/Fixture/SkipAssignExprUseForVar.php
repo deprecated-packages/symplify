@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\Fixture;
 
-final class SkipReUsedAssignExprVarInForeach
+final class SkipAssignExprUseForVar
 {
     public function run()
     {
-        foreach ($data as $d) {
-            $x     = process($d);
-            $value = new SmartFileInfo($x);
+        for ($i = 1; $i <= 10; $i++) {
+            $value = new SmartFileInfo($i);
         }
     }
 }

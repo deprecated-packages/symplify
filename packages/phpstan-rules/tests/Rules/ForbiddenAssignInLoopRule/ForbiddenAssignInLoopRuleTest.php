@@ -23,7 +23,7 @@ final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCa
     {
         yield [__DIR__ . '/Fixture/SkipNoAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipAssignExprUseForeachVar.php', []];
-        yield [__DIR__ . '/Fixture/SkipReUsedAssignExprVarInForeach.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprUseForVar.php', []];
         yield [__DIR__ . '/Fixture/AssignInLoop.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
     }
 
