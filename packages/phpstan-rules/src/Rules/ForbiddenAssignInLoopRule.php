@@ -89,6 +89,29 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+foreach (...) {
+    $value = new SmartFileInfo('a.php');
+    if ($value) {
+    }
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+$value = new SmartFileInfo('a.php');
+foreach (...) {
+    if ($value) {
+    }
+}
+CODE_SAMPLE
+            ),
+        ]);
+    }
+
     /**
      * @param Assign[] $assigns
      * @param Variable[] $variables
@@ -111,29 +134,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
         }
 
         return false;
-    }
-
-    public function getRuleDefinition(): RuleDefinition
-    {
-        return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
-foreach (...) {
-    $value = new SmartFileInfo('a.php');
-    if ($value) {
-    }
-}
-CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
-$value = new SmartFileInfo('a.php');
-foreach (...) {
-    if ($value) {
-    }
-}
-CODE_SAMPLE
-            ),
-        ]);
     }
 
     /**
