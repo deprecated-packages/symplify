@@ -86,7 +86,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
                     return [];
                 }
 
-                /** @var Variable[] $variables */
+                /** @var Variable[] $variablesInAssign */
                 $variablesInAssign = $this->nodeFinder->find($assign, function (Node $n): bool {
                     return $n instanceof Variable;
                 });
