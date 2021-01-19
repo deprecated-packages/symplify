@@ -6,19 +6,18 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\While_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\NodeFinder;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\ForbiddenAssignInLoopRuleTest
@@ -34,22 +33,10 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      * @var array<string, array<int, string>>
      */
     private const LOOP_STMTS_CHECKS = [
-        Do_::class => [
-            'cond'
-        ],
-        For_::class => [
-            'init',
-            'cond',
-            'loop',
-        ],
-        Foreach_::class => [
-            'expr',
-            'keyVar',
-            'valueVar',
-        ],
-        While_::class => [
-            'cond',
-        ],
+        Do_::class => ['cond'],
+        For_::class => ['init', 'cond', 'loop'],
+        Foreach_::class => ['expr', 'keyVar', 'valueVar'],
+        While_::class => ['cond'],
     ];
 
     /**
@@ -72,8 +59,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $assignVariable;
 
-    public function __construct(ParentNodeFinder $parentNodeFinder, NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
+    public function __construct(
+        ParentNodeFinder $parentNodeFinder,
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->parentNodeFinder = $parentNodeFinder;
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
@@ -100,7 +90,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
 
         $nodeClass = get_class($node);
         foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
-            $variables = $this->nodeFinder->find($node->$expr, function (Node $n) : bool {
+            $variables = $this->nodeFinder->find($node->{$expr}, function (Node $n): bool {
                 return $n instanceof Variable;
             });
 
@@ -110,7 +100,9 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
 
             foreach ($assigns as $assign) {
                 foreach ($variables as $variable) {
-                    $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use ($variable): bool {
+                    $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use (
+                        $variable
+                    ): bool {
                         return $this->simpleNameResolver->areNamesEqual($n, $variable);
                     });
                     if ($isInAssign) {
