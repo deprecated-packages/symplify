@@ -93,12 +93,22 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $nodeClass     = get_class($node);
+        $isFoundAssign = $this->nodeFinder->findFirst($node, function (Node $n) use ($nodeClass): bool {
+            foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
+                $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
+            }
+
+            return true;
+        });
+
         $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
         if ($assigns === []) {
             return [];
         }
 
         foreach ($assigns as $assign) {
+
             if ($node instanceof Foreach_) {
                 $validate = $this->validateForeach($assign, $node);
                 if ($validate === []) {
