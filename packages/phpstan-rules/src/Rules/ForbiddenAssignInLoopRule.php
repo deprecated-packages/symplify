@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
@@ -15,6 +14,7 @@ use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -85,6 +85,15 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
                 if ($this->isInAssign($variables, $assign)) {
                     return [];
                 }
+
+                /** @var Variable[] $variables */
+                $variablesInAssign = $this->nodeFinder->find($assign, function (Node $n): bool {
+                    return $n instanceof Variable;
+                });
+
+                if ($this->isUsedInPreviously($variablesInAssign, $node)) {
+                    return [];
+                }
             }
         }
 
@@ -124,6 +133,34 @@ CODE_SAMPLE
                 return $this->simpleNameResolver->areNamesEqual($n, $variable);
             });
             if ($isInAssign) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Variable[] $variables
+     * @param Do_|For_|Foreach_|While_ $node
+     */
+    private function isUsedInPreviously(array $variables, Node $node): bool
+    {
+        $previous = $node->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        if (! $previous instanceof Node) {
+            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            if (! $parent instanceof Node) {
+                return false;
+            }
+
+            return $this->isUsedInPreviously($variables, $parent);
+        }
+
+        foreach ($variables as $variable) {
+            $isInPrevious = (bool) $this->nodeFinder->findFirst($previous, function (Node $n) use ($variable): bool {
+                return $this->simpleNameResolver->areNamesEqual($n, $variable);
+            });
+            if ($isInPrevious) {
                 return true;
             }
         }
