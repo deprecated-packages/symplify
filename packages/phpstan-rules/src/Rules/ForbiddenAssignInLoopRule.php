@@ -68,6 +68,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        /** @var Assign[] $assigns */
         $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
         if ($assigns === []) {
             return [];
@@ -75,28 +76,18 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
 
         $nodeClass = get_class($node);
         foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
-            if (! isset($node->{$expr})) {
+            if (! $node->{$expr} instanceof Expr) {
                 continue;
             }
 
+            /** @var Variable[] $variables */
             $variables = $this->nodeFinder->find($node->{$expr}, function (Node $n): bool {
                 return $n instanceof Variable;
             });
 
-            if ($variables === []) {
-                continue;
-            }
-
             foreach ($assigns as $assign) {
-                foreach ($variables as $variable) {
-                    $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use (
-                        $variable
-                    ): bool {
-                        return $this->simpleNameResolver->areNamesEqual($n, $variable);
-                    });
-                    if ($isInAssign) {
-                        return [];
-                    }
+                if ($this->isInAssign($variables, $assign)) {
+                    return [];
                 }
             }
         }
@@ -125,5 +116,22 @@ foreach (...) {
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @param Variable[] $variables
+     */
+    private function isInAssign(array $variables, Assign $assign): bool
+    {
+        foreach ($variables as $variable) {
+            $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use ($variable): bool {
+                return $this->simpleNameResolver->areNamesEqual($n, $variable);
+            });
+            if ($isInAssign) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

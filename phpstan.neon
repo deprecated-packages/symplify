@@ -526,3 +526,15 @@ parameters:
              paths:
                  - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
+        -
+            message: '#Use explicit names over dynamic ones#'
+            paths:
+                - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php #78
+                - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php #82
+
+        -
+            message: '#Access to an undefined property PhpParser\\Node\\Stmt\\Do_\|PhpParser\\Node\\Stmt\\For_\|PhpParser\\Node\\Stmt\\Foreach_\|PhpParser\\Node\\Stmt\\While_\:\:\$*#'
+            paths:
+                - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php #78
+
