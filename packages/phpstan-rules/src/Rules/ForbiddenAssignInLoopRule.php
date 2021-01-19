@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
@@ -27,16 +28,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
-
-    /**
-     * @var array<string, array<int, string>>
-     */
-    private const LOOP_STMTS_CHECKS = [
-        Do_::class => ['cond'],
-        For_::class => ['init', 'cond', 'loop'],
-        Foreach_::class => ['expr', 'keyVar', 'valueVar'],
-        While_::class => ['cond'],
-    ];
 
     /**
      * @var NodeFinder
@@ -74,19 +65,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
             return [];
         }
 
-        $nodeClass = get_class($node);
-        foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
-            /** @var Variable[] $variables */
-            $variables = $this->nodeFinder->find($node->{$expr}, function (Node $n): bool {
-                return $n instanceof Variable;
-            });
-
-            if ($this->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
-                return [];
-            }
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $this->validateAssignInLoop($assigns, $node);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -114,6 +93,104 @@ CODE_SAMPLE
 
     /**
      * @param Assign[] $assigns
+     * @param Expr[]|null|Expr $expr
+     * @return string[]
+     */
+    private function validateVarExprAssign(array $assigns, Node $node, $expr): array
+    {
+        if ($expr === null) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        /** @var Variable[] $variables */
+        $variables = $this->nodeFinder->findInstanceOf($expr, Variable::class);
+        if ($this->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return string[]
+     */
+    private function validateAssignInLoop(array $assigns, Node $node): array
+    {
+        if ($node instanceof Do_) {
+            return $this->validateAssignInDo($assigns, $node);
+        }
+
+        if ($node instanceof For_) {
+            return $this->validateAssignInFor($assigns, $node);
+        }
+
+        if ($node instanceof Foreach_) {
+            return $this->validateAssignInForeach($assigns, $node);
+        }
+
+        /** @var While_ $node */
+        return $this->validateAssignInWhile($assigns, $node);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return string[]
+     */
+    private function validateAssignInDo(array $assigns, Do_ $do): array
+    {
+        return $this->validateVarExprAssign($assigns, $do, $do->cond);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return string[]
+     */
+    private function validateAssignInFor(array $assigns, For_ $for): array
+    {
+        $validateInit = $this->validateVarExprAssign($assigns, $for, $for->init);
+        if ($validateInit === []) {
+            return [];
+        }
+
+        $validateCond = $this->validateVarExprAssign($assigns, $for, $for->cond);
+        if ($validateCond === []) {
+            return [];
+        }
+
+        return $this->validateVarExprAssign($assigns, $for, $for->loop);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return string[]
+     */
+    private function validateAssignInForeach(array $assigns, Foreach_ $foreach): array
+    {
+        $validateExpr = $this->validateVarExprAssign($assigns, $foreach, $foreach->expr);
+        if ($validateExpr === []) {
+            return [];
+        }
+
+        $validateKeyVar = $this->validateVarExprAssign($assigns, $foreach, $foreach->keyVar);
+        if ($validateKeyVar === []) {
+            return [];
+        }
+
+        return $this->validateVarExprAssign($assigns, $foreach, $foreach->valueVar);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return string[]
+     */
+    private function validateAssignInWhile(array $assigns, While_ $while): array
+    {
+        return $this->validateVarExprAssign($assigns, $while, $while->cond);
+    }
+
+    /**
+     * @param Assign[] $assigns
      * @param Variable[] $variables
      */
     private function isInAssignOrUsedPreviously(array $assigns, array $variables, Node $node): bool
@@ -124,10 +201,7 @@ CODE_SAMPLE
             }
 
             /** @var Variable[] $variablesInAssign */
-            $variablesInAssign = $this->nodeFinder->find($assign, function (Node $n): bool {
-                return $n instanceof Variable;
-            });
-
+            $variablesInAssign = $this->nodeFinder->findInstanceOf($assign, Variable::class);
             if ($this->isUsedInPreviousLoop($variablesInAssign, $node)) {
                 return true;
             }
