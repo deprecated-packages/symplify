@@ -69,7 +69,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
+        $assigns = $this->nodeFinder->findInstanceOf($node->stmts, Assign::class);
         if ($assigns === []) {
             return [];
         }
