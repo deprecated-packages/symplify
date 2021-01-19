@@ -66,19 +66,21 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Assign::class];
+        return [Do_::class, For_::class, Foreach_::class, While_::class];
     }
 
     /**
-     * @param Assign $node
+     * @param Do_|For_|Foreach_|While_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $loop = $this->parentNodeFinder->getFirstParentByTypes($node, self::LOOP_STMTS);
-        if (! $loop instanceof Stmt) {
+        $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
+        if ($assigns === []) {
             return [];
         }
+
+        return [];
 
         if ($loop instanceof Foreach_) {
             return $this->validateForeach($node, $loop);
