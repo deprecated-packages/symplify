@@ -80,10 +80,13 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [];
-
-        if ($loop instanceof Foreach_) {
-            return $this->validateForeach($node, $loop);
+        foreach ($assigns as $assign) {
+            if ($node instanceof Foreach_) {
+                $validate = $this->validateForeach($assign, $node);
+                if ($validate !== []) {
+                    return $validate;
+                }
+            }
         }
 
         return [self::ERROR_MESSAGE];
@@ -109,15 +112,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
         });
 
         if ($isInAssign) {
-            $this->assignVariable = $assign->var;
-            return [];
-        }
-
-        $isUsingPrevAssignVariable = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) : bool {
-            return $this->simpleNameResolver->areNamesEqual($node, $this->assignVariable);
-        });
-
-        if ($isUsingPrevAssignVariable) {
             return [];
         }
 
