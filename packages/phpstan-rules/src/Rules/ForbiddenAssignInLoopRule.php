@@ -81,23 +81,36 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
                 return $n instanceof Variable;
             });
 
-            foreach ($assigns as $assign) {
-                if ($this->isInAssign($variables, $assign)) {
-                    return [];
-                }
-
-                /** @var Variable[] $variablesInAssign */
-                $variablesInAssign = $this->nodeFinder->find($assign, function (Node $n): bool {
-                    return $n instanceof Variable;
-                });
-
-                if ($this->isUsedInPreviously($variablesInAssign, $node)) {
-                    return [];
-                }
+            if ($this->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
+                return [];
             }
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @param Variable[] $variables
+     */
+    private function isInAssignOrUsedPreviously(array $assigns, array $variables, Node $node): bool
+    {
+        foreach ($assigns as $assign) {
+            if ($this->isInAssign($variables, $assign)) {
+                return true;
+            }
+
+            /** @var Variable[] $variablesInAssign */
+            $variablesInAssign = $this->nodeFinder->find($assign, function (Node $n): bool {
+                return $n instanceof Variable;
+            });
+
+            if ($this->isUsedInPreviously($variablesInAssign, $node)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -142,7 +155,6 @@ CODE_SAMPLE
 
     /**
      * @param Variable[] $variables
-     * @param Do_|For_|Foreach_|While_ $node
      */
     private function isUsedInPreviously(array $variables, Node $node): bool
     {
