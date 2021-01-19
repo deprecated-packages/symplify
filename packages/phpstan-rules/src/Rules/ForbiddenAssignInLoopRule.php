@@ -31,7 +31,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
-     * @var string[]
+     * @var array<string, array<int, string>>
      */
     private const LOOP_STMTS_CHECKS = [
         Do_::class => [
