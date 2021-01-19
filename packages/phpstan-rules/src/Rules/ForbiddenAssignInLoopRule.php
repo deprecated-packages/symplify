@@ -93,58 +93,31 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $nodeClass     = get_class($node);
-        $isFoundAssign = $this->nodeFinder->findFirst($node, function (Node $n) use ($nodeClass): bool {
-            foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
-                $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
-            }
-
-            return true;
-        });
-
         $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
         if ($assigns === []) {
             return [];
         }
 
-        foreach ($assigns as $assign) {
+        $nodeClass = get_class($node);
+        foreach (self::LOOP_STMTS_CHECKS[$nodeClass] as $expr) {
+            $variables = $this->nodeFinder->find($node->$expr, function (Node $n) : bool {
+                return $n instanceof Variable;
+            });
 
-            if ($node instanceof Foreach_) {
-                $validate = $this->validateForeach($assign, $node);
-                if ($validate === []) {
-                    return $validate;
+            if ($variables === []) {
+                continue;
+            }
+
+            foreach ($assigns as $assign) {
+                foreach ($variables as $variable) {
+                    $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use ($variable): bool {
+                        return $this->simpleNameResolver->areNamesEqual($n, $variable);
+                    });
+                    if ($isInAssign) {
+                        return [];
+                    }
                 }
             }
-        }
-
-        return [self::ERROR_MESSAGE];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function validateForeach(Assign $assign, Foreach_ $foreach): array
-    {
-        $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) use ($foreach): bool {
-            if (! $node instanceof Variable) {
-                return false;
-            }
-
-            $isExprInAssign = $this->simpleNameResolver->areNamesEqual($node, $foreach->expr);
-            if ($isExprInAssign) {
-                return true;
-            }
-
-            $isKeyVarInAssign = $foreach->keyVar instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->keyVar);
-            if ($isKeyVarInAssign) {
-                return true;
-            }
-
-            return $this->simpleNameResolver->areNamesEqual($node, $foreach->valueVar);
-        });
-
-        if ($isInAssign) {
-            return [];
         }
 
         return [self::ERROR_MESSAGE];
