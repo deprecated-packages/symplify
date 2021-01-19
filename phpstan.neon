@@ -534,3 +534,11 @@ parameters:
             paths:
                 - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php #78
 
+        -
+            message: '#Assign in loop is not allowed#'
+            paths:
+                - packages/monorepo-builder/packages/merge/src/Validation/AutoloadPathValidator.php #30
+                - packages/phpstan-rules/src/Rules/AbstractInvokableControllerRule.php #50
+                - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php #81
+                - packages/phpunit-upgrader/src/FileInfoDecorator/AssertContainsInfoDecorator.php #39
+
