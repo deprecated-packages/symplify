@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Do_;
@@ -83,7 +84,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
         foreach ($assigns as $assign) {
             if ($node instanceof Foreach_) {
                 $validate = $this->validateForeach($assign, $node);
-                if ($validate !== []) {
+                if ($validate === []) {
                     return $validate;
                 }
             }
@@ -98,7 +99,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     private function validateForeach(Assign $assign, Foreach_ $foreach): array
     {
         $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) use ($foreach): bool {
-            $isExprInAssign = $foreach->expr instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->expr);
+            if (! $node instanceof Variable) {
+                return false;
+            }
+
+            $isExprInAssign = $this->simpleNameResolver->areNamesEqual($node, $foreach->expr);
             if ($isExprInAssign) {
                 return true;
             }
@@ -108,7 +113,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
                 return true;
             }
 
-            return $foreach->valueVar instanceof Expr && $this->simpleNameResolver->areNamesEqual($node, $foreach->valueVar);
+            return $this->simpleNameResolver->areNamesEqual($node, $foreach->valueVar);
         });
 
         if ($isInAssign) {
