@@ -333,17 +333,13 @@ parameters:
              paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
                  - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php
+                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
+                 - packages/coding-standard/src/Php/PhpContentAnalyzer.php
+                 - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php
 
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createNodesFromCaseConverters\(\)" is \d+, keep it under 8#'
-
-        -
-            message: '#Class cognitive complexity is \d+, keep it under \d+#'
-            paths:
-                - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
-                - packages/coding-standard/src/Php/PhpContentAnalyzer.php
-
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\CaseConverter\\AliasCaseConverter\:\:convertToMethodCall\(\)" is 10, keep it under 8#'
 
@@ -526,3 +522,12 @@ parameters:
              paths:
                  - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
+        -
+            message: '#Assign in loop is not allowed#'
+            paths:
+                - packages/monorepo-builder/packages/merge/src/Validation/AutoloadPathValidator.php #30
+                - packages/phpstan-rules/src/Rules/AbstractInvokableControllerRule.php #50
+                - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php #81
+                - packages/phpunit-upgrader/src/FileInfoDecorator/AssertContainsInfoDecorator.php #39
+

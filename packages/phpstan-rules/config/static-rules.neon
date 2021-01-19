@@ -163,6 +163,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
         tags: [phpstan.rules.rule]
 
