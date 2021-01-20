@@ -1,7 +1,7 @@
 {
     "name": "symfony/symfony",
     "require": {
-        "symfony/dependency-injection": "v1.0.0",
-        "rector/rector": "v1.0.0"
+        "rector/rector": "v1.0.0",
+        "symfony/dependency-injection": "v1.0.0"
     }
 }
