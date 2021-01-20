@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -53,7 +54,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $docComment = $node->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return [];
         }
 

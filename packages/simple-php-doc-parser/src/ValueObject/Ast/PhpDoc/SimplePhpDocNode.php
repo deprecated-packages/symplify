@@ -31,7 +31,7 @@ class SimplePhpDocNode extends PhpDocNode
     public function getParamType(string $desiredParamName): ?TypeNode
     {
         $paramTagValueNode = $this->getParam($desiredParamName);
-        if ($paramTagValueNode === null) {
+        if (! $paramTagValueNode instanceof ParamTagValueNode) {
             return null;
         }
 

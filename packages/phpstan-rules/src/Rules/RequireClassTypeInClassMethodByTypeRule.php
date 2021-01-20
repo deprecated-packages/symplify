@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Types\ConstantTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -75,7 +76,7 @@ final class RequireClassTypeInClassMethodByTypeRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 

@@ -59,7 +59,7 @@ final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
         }
 
         $classMethod = $this->getClassMethodInCurrentClass($node);
-        if ($classMethod === null) {
+        if (! $classMethod instanceof ClassMethod) {
             return [];
         }
 

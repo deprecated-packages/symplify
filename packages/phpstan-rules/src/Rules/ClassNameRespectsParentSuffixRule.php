@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -76,7 +77,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $shortClassName = $node->name;
-        if ($shortClassName === null) {
+        if (! $shortClassName instanceof Identifier) {
             return [];
         }
 

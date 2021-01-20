@@ -27,7 +27,7 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
     public function decorate(ComposerJson $composerJson): void
     {
         $removingComposerJson = $this->modifyingComposerJsonProvider->getRemovingComposerJson();
-        if ($removingComposerJson === null) {
+        if (! $removingComposerJson instanceof ComposerJson) {
             return;
         }
 

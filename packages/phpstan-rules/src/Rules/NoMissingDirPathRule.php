@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
@@ -116,7 +117,7 @@ CODE_SAMPLE
     private function isPartOfPHPUnit(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 

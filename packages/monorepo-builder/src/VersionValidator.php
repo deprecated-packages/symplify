@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\File;
@@ -72,7 +73,7 @@ final class VersionValidator
     private function appendAppendingComposerJson(array $packageVersionsPerFile): array
     {
         $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
-        if ($appendingComposerJson === null) {
+        if (! $appendingComposerJson instanceof ComposerJson) {
             return $packageVersionsPerFile;
         }
 

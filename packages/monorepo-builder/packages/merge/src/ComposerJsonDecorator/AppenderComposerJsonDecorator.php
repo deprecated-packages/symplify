@@ -35,7 +35,7 @@ final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterf
     public function decorate(ComposerJson $mainComposerJson): void
     {
         $appendingComposerJson = $this->modifyingComposerJsonProvider->getAppendingComposerJson();
-        if ($appendingComposerJson === null) {
+        if (! $appendingComposerJson instanceof ComposerJson) {
             return;
         }
 

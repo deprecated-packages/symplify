@@ -89,7 +89,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $classReflection = $this->matchClassReflection($node);
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
@@ -99,7 +99,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
 
         $docComment = $node->getDocComment();
         $errorMessage = sprintf(self::ERROR_MESSAGE, $classReflection->getName());
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return [$errorMessage];
         }
 

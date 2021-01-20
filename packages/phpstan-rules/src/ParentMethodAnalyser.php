@@ -12,7 +12,7 @@ final class ParentMethodAnalyser
     public function hasParentClassMethodWithSameName(Scope $scope, string $methodName): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 

@@ -6,8 +6,10 @@ namespace Symplify\PHPStanRules\PhpDoc;
 
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 
 final class ClassAnnotationResolver
@@ -39,12 +41,12 @@ final class ClassAnnotationResolver
     public function resolveClassAnnotations(Node $node, Scope $scope): array
     {
         $docComment = $node->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return [];
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 

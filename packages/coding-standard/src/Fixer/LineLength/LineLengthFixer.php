@@ -189,7 +189,7 @@ CODE_SAMPLE
         }
 
         $blockInfo = $this->blockFinder->findInTokensByPositionAndContent($tokens, $methodNamePosition, '(');
-        if ($blockInfo === null) {
+        if (! $blockInfo instanceof BlockInfo) {
             return;
         }
 
@@ -211,7 +211,7 @@ CODE_SAMPLE
     private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
-        if ($blockInfo === null) {
+        if (! $blockInfo instanceof BlockInfo) {
             return;
         }
 

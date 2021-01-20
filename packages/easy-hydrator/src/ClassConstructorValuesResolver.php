@@ -52,7 +52,7 @@ final class ClassConstructorValuesResolver
         $reflectionClass = new ReflectionClass($class);
 
         $constructorReflectionMethod = $reflectionClass->getConstructor();
-        if ($constructorReflectionMethod === null) {
+        if (! $constructorReflectionMethod instanceof ReflectionMethod) {
             throw new MissingConstructorException(sprintf('Hydrated class "%s" is missing constructor.', $class));
         }
 

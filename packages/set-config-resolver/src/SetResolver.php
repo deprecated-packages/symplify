@@ -9,6 +9,7 @@ use Symplify\SetConfigResolver\Console\Option\OptionName;
 use Symplify\SetConfigResolver\Console\OptionValueResolver;
 use Symplify\SetConfigResolver\Contract\SetProviderInterface;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
+use Symplify\SetConfigResolver\ValueObject\Set;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SetResolver
@@ -42,7 +43,7 @@ final class SetResolver
     public function detectFromName(string $setName): SmartFileInfo
     {
         $set = $this->setProvider->provideByName($setName);
-        if ($set === null) {
+        if (! $set instanceof Set) {
             $this->reportSetNotFound($setName);
         }
 

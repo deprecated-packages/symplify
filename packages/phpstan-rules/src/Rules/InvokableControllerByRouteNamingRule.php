@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -52,7 +53,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
         }
 
         $fullyQualified = $this->getRouteAttribute($node);
-        if ($fullyQualified === null) {
+        if (! $fullyQualified instanceof FullyQualified) {
             return [];
         }
 

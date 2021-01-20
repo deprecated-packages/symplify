@@ -15,6 +15,7 @@ use Symplify\Psr4Switcher\Json\JsonAutoloadPrinter;
 use Symplify\Psr4Switcher\Psr4Filter;
 use Symplify\Psr4Switcher\RobotLoader\PhpClassLoader;
 use Symplify\Psr4Switcher\ValueObject\Option;
+use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPath;
 use Symplify\Psr4Switcher\ValueObjectFactory\Psr4NamespaceToPathFactory;
 
 final class GeneratePsr4ToPathsCommand extends AbstractSymplifyCommand
@@ -78,7 +79,7 @@ final class GeneratePsr4ToPathsCommand extends AbstractSymplifyCommand
         $classesToFilesWithMissedCommonNamespace = [];
         foreach ($classesToFiles as $class => $file) {
             $psr4NamespaceToPath = $this->psr4NamespaceToPathFactory->createFromClassAndFile($class, $file);
-            if ($psr4NamespaceToPath === null) {
+            if (! $psr4NamespaceToPath instanceof Psr4NamespaceToPath) {
                 $classesToFilesWithMissedCommonNamespace[$class] = $file;
                 continue;
             }

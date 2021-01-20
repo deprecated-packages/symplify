@@ -73,7 +73,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
             : $right;
 
         $type = $this->getMethodCallType($methodCall, $scope);
-        if ($type === null) {
+        if (! $type instanceof ObjectType) {
             return [];
         }
 
