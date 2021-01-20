@@ -31,9 +31,8 @@ final class EmptyLineNodeDecorator
      */
     public function decorate(array $stmts): void
     {
-        /** @var Closure|null $closure */
         $closure = $this->nodeFinder->findFirstInstanceOf($stmts, Closure::class);
-        if ($closure === null) {
+        if (! $closure instanceof Closure) {
             throw new ShouldNotHappenException();
         }
 

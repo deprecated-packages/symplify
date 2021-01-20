@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
@@ -122,7 +123,7 @@ CODE_SAMPLE
     private function hasDocBlockWithRegexLink(ClassConst $classConst): bool
     {
         $docComment = $classConst->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return false;
         }
 

@@ -23,7 +23,7 @@ final class MissingVarNameMalformWorker extends AbstractMalformWorker
         }
 
         $nextVariableToken = $this->getNextVariableToken($tokens, $position);
-        if ($nextVariableToken === null) {
+        if (! $nextVariableToken instanceof Token) {
             return $docContent;
         }
 

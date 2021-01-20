@@ -10,6 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -133,7 +134,7 @@ CODE_SAMPLE
     private function isLocatedInCorrectlyNamedClass(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return true;
         }
 

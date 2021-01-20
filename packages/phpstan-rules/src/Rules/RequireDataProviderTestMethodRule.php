@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -64,7 +65,7 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 

@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\Validation;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\FileSystemGuard;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AutoloadPathValidator
 {
@@ -22,7 +23,7 @@ final class AutoloadPathValidator
     public function ensureAutoloadPathExists(ComposerJson $composerJson): void
     {
         $composerJsonFileInfo = $composerJson->getFileInfo();
-        if ($composerJsonFileInfo === null) {
+        if (! $composerJsonFileInfo instanceof SmartFileInfo) {
             return;
         }
 

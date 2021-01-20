@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class ParentParamTypeGuard
@@ -29,7 +30,7 @@ final class ParentParamTypeGuard
         $methodName = (string) $parentParent->name;
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 

@@ -9,6 +9,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -130,7 +131,7 @@ CODE_SAMPLE
         }
 
         $classMethod = $this->classMethodNodeFinder->findByMethodCall($methodCall);
-        if ($classMethod === null) {
+        if (! $classMethod instanceof ClassMethod) {
             return [];
         }
 

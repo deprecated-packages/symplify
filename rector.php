@@ -59,6 +59,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
+    $parameters->set(Option::ENABLE_CACHE, true);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',
@@ -82,8 +83,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         RemoveUnusedClassesRector::class => [
-            __DIR__ . '/packages/easy-coding-standard/packages/changed-files-detector/tests/FileHashComputerSource/ChangedScannedClass.php',
-            __DIR__ . '/packages/easy-coding-standard/packages/changed-files-detector/tests/FileHashComputerSource/SomeScannedClass.php',
+            __DIR__ . '/packages/easy-coding-standard/packages/changed-files-detector/tests/FileHashComputerSource',
             __DIR__ . '/packages/easy-coding-standard/packages/sniff-runner/tests/Application/FixerSource/SomeFile.php',
             __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
             __DIR__ . '/packages/template-checker/tests/SomeBundle/RealClassBundle.php',

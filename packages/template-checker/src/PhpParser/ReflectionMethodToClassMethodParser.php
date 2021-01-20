@@ -51,7 +51,6 @@ final class ReflectionMethodToClassMethodParser
             throw new ShouldNotHappenException();
         }
 
-        /** @var ClassMethod|null $classMethod */
         $classMethod = $this->nodeFinder->findFirst($nodes, static function (Node $node) use (
             $desiredMethodName
         ): bool {
@@ -62,7 +61,7 @@ final class ReflectionMethodToClassMethodParser
             return (string) $node->name === $desiredMethodName;
         });
 
-        if ($classMethod === null) {
+        if (! $classMethod instanceof ClassMethod) {
             $reflectionClass = $reflectionMethod->getDeclaringClass();
             $className = $reflectionClass->getName();
 

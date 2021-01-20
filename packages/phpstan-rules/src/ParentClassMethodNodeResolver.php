@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PhpParser\Parser;
 use PHPStan\Analyser\Scope;
@@ -59,14 +60,13 @@ final class ParentClassMethodNodeResolver
                 return [];
             }
 
-            /** @var Class_|null $class */
             $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
-            if ($class === null) {
+            if (! $class instanceof Class_) {
                 return [];
             }
 
             $classMethod = $class->getMethod($methodName);
-            if ($classMethod === null) {
+            if (! $classMethod instanceof ClassMethod) {
                 continue;
             }
 
@@ -94,7 +94,7 @@ final class ParentClassMethodNodeResolver
 
             foreach ($classes as $class) {
                 $classMethod = $class->getMethod($methodName);
-                if ($classMethod === null) {
+                if (! $classMethod instanceof ClassMethod) {
                     continue;
                 }
 
@@ -110,9 +110,8 @@ final class ParentClassMethodNodeResolver
      */
     private function getParentClassReflections(Scope $scope): array
     {
-        /** @var ClassReflection|null $classReflection */
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
@@ -124,9 +123,8 @@ final class ParentClassMethodNodeResolver
      */
     private function getParentClassIncludeInterfaceReflections(Scope $scope): array
     {
-        /** @var ClassReflection|null $classReflection */
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 

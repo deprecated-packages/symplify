@@ -12,6 +12,7 @@ use Symplify\CodingStandard\Contract\ArrayFixerInterface;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements ArrayFixerInterface
 {
@@ -65,7 +66,7 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
             }
 
             $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $index);
-            if ($blockInfo === null) {
+            if (! $blockInfo instanceof BlockInfo) {
                 continue;
             }
 

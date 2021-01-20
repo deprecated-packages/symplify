@@ -10,7 +10,9 @@ use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\TypeNode;
 use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use ReflectionClass;
 use ReflectionParameter;
+use ReflectionType;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
@@ -38,7 +40,7 @@ final class ParameterTypeRecognizer
         }
 
         $docNode = $this->getDocNode($reflectionParameter);
-        if ($docNode === null) {
+        if (! $docNode instanceof SimplePhpDocNode) {
             return false;
         }
 
@@ -76,10 +78,10 @@ final class ParameterTypeRecognizer
         $docNode = $this->getDocNode($reflectionParameter);
 
         $declaringClass = $reflectionParameter->getDeclaringClass();
-        if ($declaringClass === null) {
+        if (! $declaringClass instanceof ReflectionClass) {
             return null;
         }
-        if ($docNode === null) {
+        if (! $docNode instanceof SimplePhpDocNode) {
             return null;
         }
 
@@ -113,7 +115,7 @@ final class ParameterTypeRecognizer
     private function getTypeFromTypeHint(ReflectionParameter $reflectionParameter): ?string
     {
         $parameterType = $reflectionParameter->getType();
-        if ($parameterType === null) {
+        if (! $parameterType instanceof ReflectionType) {
             return null;
         }
 

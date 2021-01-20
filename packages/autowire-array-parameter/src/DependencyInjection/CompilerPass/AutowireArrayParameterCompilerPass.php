@@ -118,7 +118,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
-        if ($reflectionClass === null) {
+        if (! $reflectionClass instanceof ReflectionClass) {
             return true;
         }
 

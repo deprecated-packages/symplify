@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Contract\NodeNameResolverInterface;
 
 /**
@@ -138,7 +139,7 @@ final class SimpleNameResolver
     {
         if ($scope->isInTrait()) {
             $traitReflection = $scope->getTraitReflection();
-            if ($traitReflection === null) {
+            if (! $traitReflection instanceof ClassReflection) {
                 return null;
             }
 
@@ -146,7 +147,7 @@ final class SimpleNameResolver
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return null;
         }
 

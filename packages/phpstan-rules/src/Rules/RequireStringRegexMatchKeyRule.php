@@ -86,7 +86,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             : $parent;
 
         $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($locate, $node->var);
-        if ($nextUsedAsArrayDimFetch === null) {
+        if (! $nextUsedAsArrayDimFetch instanceof ArrayDimFetch) {
             return [];
         }
 
@@ -153,10 +153,9 @@ CODE_SAMPLE
             return null;
         }
 
-        /** @var Node|null $next */
         $next = $nodes->getAttribute(PHPStanAttributeKey::NEXT);
 
-        if ($next === null) {
+        if (! $next instanceof Node) {
             return null;
         }
 

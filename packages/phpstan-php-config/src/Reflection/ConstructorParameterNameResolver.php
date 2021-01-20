@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanPHPConfig\Reflection;
 
 use ReflectionClass;
+use ReflectionMethod;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ConstructorParameterNameResolver
@@ -13,7 +14,7 @@ final class ConstructorParameterNameResolver
     {
         $reflectionClass = new ReflectionClass($serviceClass);
         $constructorReflection = $reflectionClass->getConstructor();
-        if ($constructorReflection === null) {
+        if (! $constructorReflection instanceof ReflectionMethod) {
             throw new ShouldNotHappenException();
         }
 

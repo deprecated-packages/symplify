@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Class_;
@@ -62,7 +63,7 @@ final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
         }
 
         $classMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
-        if ($classMethod === null) {
+        if (! $classMethod instanceof \PhpParser\Node\Stmt\ClassMethod) {
             return [];
         }
 
@@ -146,7 +147,7 @@ CODE_SAMPLE
     private function matchDataProviderMethodName(ClassMethod $classMethod): ?string
     {
         $docComment = $classMethod->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return null;
         }
 

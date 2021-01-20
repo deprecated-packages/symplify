@@ -16,6 +16,7 @@ use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenAnalyzer\ChainMethodCallAnalyzer;
 use Symplify\CodingStandard\TokenAnalyzer\NewlineAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -187,7 +188,7 @@ CODE_SAMPLE
     private function isPreceededByOpenedCallInAnotherBracket(Tokens $tokens, int $position): bool
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
-        if ($blockInfo === null) {
+        if (! $blockInfo instanceof BlockInfo) {
             return false;
         }
 

@@ -88,9 +88,8 @@ CODE_SAMPLE
     {
         $preArrayCloserPosition = $arrayCloserPosition - 1;
 
-        /** @var Token|null $previousCloserToken */
         $previousCloserToken = $tokens[$preArrayCloserPosition] ?? null;
-        if ($previousCloserToken === null) {
+        if (! $previousCloserToken instanceof Token) {
             return;
         }
 
@@ -106,9 +105,8 @@ CODE_SAMPLE
     {
         $postArrayOpenerPosition = $arrayOpenerPosition + 1;
 
-        /** @var Token|null $nextToken */
         $nextToken = $tokens[$postArrayOpenerPosition] ?? null;
-        if ($nextToken === null) {
+        if (! $nextToken instanceof Token) {
             return;
         }
 

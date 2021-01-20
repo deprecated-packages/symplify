@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ConstFetch;
@@ -130,7 +131,7 @@ CODE_SAMPLE
     private function resolveOnlyVarAnnotationType(ClassConst $classConst): ?string
     {
         $varTagValueNode = $this->getVarTagValueForNode($classConst);
-        if ($varTagValueNode === null) {
+        if (! $varTagValueNode instanceof VarTagValueNode) {
             return null;
         }
 
@@ -161,7 +162,7 @@ CODE_SAMPLE
     private function getVarTagValueForNode(ClassConst $classConst): ?VarTagValueNode
     {
         $docComment = $classConst->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return null;
         }
 

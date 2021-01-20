@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Types;
 
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 
 final class ClassMethodTypeAnalyzer
 {
@@ -29,7 +30,7 @@ final class ClassMethodTypeAnalyzer
     private function isClassType(Scope $scope, string $classType): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 

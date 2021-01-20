@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
@@ -156,7 +157,7 @@ final class DependencyNodeAnalyzer
     private function hasRequiredAnnotation(ClassMethod $classMethod): bool
     {
         $docComment = $classMethod->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return false;
         }
 

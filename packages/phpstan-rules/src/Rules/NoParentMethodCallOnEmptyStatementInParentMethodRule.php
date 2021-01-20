@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -139,7 +140,7 @@ CODE_SAMPLE
     private function shouldSkipClass(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return true;
         }
 

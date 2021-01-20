@@ -176,9 +176,8 @@ CODE_SAMPLE
 
         $nextTokenPosition = $index + 1;
 
-        /** @var Token|null $nextToken */
         $nextToken = $tokens[$nextTokenPosition] ?? null;
-        if ($nextToken === null) {
+        if (! $nextToken instanceof \PhpCsFixer\Doctrine\Annotation\Token) {
             return true;
         }
 

@@ -13,6 +13,7 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\TokensNewliner;
+use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -108,7 +109,7 @@ CODE_SAMPLE
     private function processFunction(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
-        if ($blockInfo === null) {
+        if (! $blockInfo instanceof BlockInfo) {
             return;
         }
 

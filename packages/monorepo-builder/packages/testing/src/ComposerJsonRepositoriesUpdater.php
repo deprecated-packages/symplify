@@ -82,7 +82,7 @@ final class ComposerJsonRepositoriesUpdater
         $oldComposerJsonContents = $packageFileInfo->getContents();
 
         $rootComposerJsonFileInfo = $rootComposerJson->getFileInfo();
-        if ($rootComposerJsonFileInfo === null) {
+        if (! $rootComposerJsonFileInfo instanceof SmartFileInfo) {
             throw new ShouldNotHappenException();
         }
 

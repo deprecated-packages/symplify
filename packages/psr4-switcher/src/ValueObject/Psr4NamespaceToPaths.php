@@ -16,6 +16,9 @@ final class Psr4NamespaceToPaths
      */
     private $paths = [];
 
+    /**
+     * @param string[] $paths
+     */
     public function __construct(string $namespace, array $paths)
     {
         $this->namespace = $namespace;

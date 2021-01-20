@@ -38,7 +38,7 @@ final class ExpectedAndOutputFileInfoPair
      */
     public function getOutputFileContent(): string
     {
-        if ($this->outputFileInfo === null) {
+        if (! $this->outputFileInfo instanceof SmartFileInfo) {
             throw new ShouldNotHappenException();
         }
 

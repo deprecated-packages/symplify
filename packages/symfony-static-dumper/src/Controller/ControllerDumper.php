@@ -94,7 +94,7 @@ final class ControllerDumper
 
         foreach ($routesWithParameters as $routeName => $route) {
             $controllerWithDataProvider = $this->controllerWithDataProviderMatcher->matchRoute($route);
-            if ($controllerWithDataProvider === null) {
+            if (! $controllerWithDataProvider instanceof ControllerWithDataProviderInterface) {
                 continue;
             }
 

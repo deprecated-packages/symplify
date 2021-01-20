@@ -54,7 +54,7 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
 
         // is previous array dim assign too? - print the exprt conteont
         $previousArrayDimFetch = $this->matchParentArrayDimFetch($node);
-        if ($previousArrayDimFetch === null) {
+        if (! $previousArrayDimFetch instanceof ArrayDimFetch) {
             return [];
         }
 

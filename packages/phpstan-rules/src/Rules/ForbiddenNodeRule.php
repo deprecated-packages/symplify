@@ -115,7 +115,7 @@ CODE_SAMPLE
             $node = $this->parentNodeFinder->getFirstParentByType($node, Stmt::class);
         }
 
-        if ($node === null) {
+        if (! $node instanceof Stmt) {
             return false;
         }
 

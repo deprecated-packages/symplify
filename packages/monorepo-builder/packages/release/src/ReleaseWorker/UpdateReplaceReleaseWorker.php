@@ -9,6 +9,7 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\EasyCI\Exception\ShouldNotHappenException;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class UpdateReplaceReleaseWorker implements ReleaseWorkerInterface
 {
@@ -46,7 +47,7 @@ final class UpdateReplaceReleaseWorker implements ReleaseWorkerInterface
         $rootComposerJson->setReplace($newReplace);
 
         $rootFileInfo = $rootComposerJson->getFileInfo();
-        if ($rootFileInfo === null) {
+        if (! $rootFileInfo instanceof SmartFileInfo) {
             throw new ShouldNotHappenException();
         }
 

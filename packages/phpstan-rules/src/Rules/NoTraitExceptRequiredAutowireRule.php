@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
@@ -48,7 +49,7 @@ final class NoTraitExceptRequiredAutowireRule extends AbstractSymplifyRule
 
         foreach ($methods as $method) {
             $docComment = $method->getDocComment();
-            if ($docComment === null) {
+            if (! $docComment instanceof Doc) {
                 return [self::ERROR_MESSAGE];
             }
 
