@@ -11,6 +11,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symfony\Component\HttpKernel\Kernel;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\ForbiddenThisArgumentRuleTest
@@ -21,6 +23,17 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = '$this as argument is not allowed';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver
+    ) {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return string[]
@@ -45,7 +58,21 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->shouldSkipClassWithKernelParent($scope)) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
+    }
+
+    private function shouldSkipClassWithKernelParent(Scope $scope): bool
+    {
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
+        if ($className === null) {
+            return false;
+        }
+
+        return is_a($className, Kernel::class, true);
     }
 
     public function getRuleDefinition(): RuleDefinition

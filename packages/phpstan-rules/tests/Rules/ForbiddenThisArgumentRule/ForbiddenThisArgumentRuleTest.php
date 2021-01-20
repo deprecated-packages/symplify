@@ -23,6 +23,7 @@ final class ForbiddenThisArgumentRuleTest extends AbstractServiceAwareRuleTestCa
     {
         yield [__DIR__ . '/Fixture/SkipNotVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipNotThis.php', []];
+        yield [__DIR__ . '/Fixture/SkipExtendsKernel.php', []];
         yield [__DIR__ . '/Fixture/ThisArgument.php', [[ForbiddenThisArgumentRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/ThisArgumentCopy.php', [[ForbiddenThisArgumentRule::ERROR_MESSAGE, 12]]];
     }
