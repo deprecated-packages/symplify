@@ -10,9 +10,10 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PHPStan\Type\ThisType;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\ForbiddenThisArgumentRule
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\ForbiddenThisArgumentRuleTest
  */
 final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
 {
@@ -40,7 +41,10 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
         }
 
         if ($node->value->name !== 'this') {
-            return [];
+            $argType = $scope->getType($node->value);
+            if (! $argType instanceof ThisType) {
+                return [];
+            }
         }
 
         return [self::ERROR_MESSAGE];
