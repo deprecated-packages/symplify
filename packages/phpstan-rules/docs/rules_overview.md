@@ -3081,7 +3081,7 @@ Instead of protected element in final class use private element or contract meth
 ```php
 final class SomeClass
 {
-    private function run()
+    protected function run()
     {
     }
 }
