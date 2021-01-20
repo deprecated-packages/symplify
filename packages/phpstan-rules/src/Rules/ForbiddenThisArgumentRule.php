@@ -9,10 +9,10 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
-use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\ForbiddenThisArgumentRuleTest
@@ -29,9 +29,8 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
      */
     private $simpleNameResolver;
 
-    public function __construct(
-        SimpleNameResolver $simpleNameResolver
-    ) {
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -65,16 +64,6 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
         return [self::ERROR_MESSAGE];
     }
 
-    private function shouldSkipClassWithKernelParent(Scope $scope): bool
-    {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
-            return false;
-        }
-
-        return is_a($className, Kernel::class, true);
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -88,5 +77,15 @@ $this->someService->process($value, ...);
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function shouldSkipClassWithKernelParent(Scope $scope): bool
+    {
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
+        if ($className === null) {
+            return false;
+        }
+
+        return is_a($className, Kernel::class, true);
     }
 }
