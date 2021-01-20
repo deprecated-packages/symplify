@@ -49,11 +49,6 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private $classMethodContent = [];
 
     /**
-     * @var string[]
-     */
-    private $reportedClassWithMethodDuplicate = [];
-
-    /**
      * @var DuplicatedClassMethodPrinter
      */
     private $duplicatedClassMethodPrinter;
@@ -173,18 +168,11 @@ CODE_SAMPLE
         string $classMethodName,
         string $currentPrintedClassMethod
     ): array {
-        $duplicationPlaceholder = $className . $classMethodName;
-
         foreach ($this->classMethodContent as $contentMethod) {
             if ($contentMethod['content'] !== $currentPrintedClassMethod) {
                 continue;
             }
 
-            if (in_array($duplicationPlaceholder, $this->reportedClassWithMethodDuplicate, true)) {
-                continue;
-            }
-
-            $this->reportedClassWithMethodDuplicate[] = $duplicationPlaceholder;
             $errorMessage = sprintf(
                 self::ERROR_MESSAGE,
                 $classMethodName,

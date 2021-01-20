@@ -69,8 +69,6 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         yield [[
             __DIR__ . '/Fixture/DifferentMethodName1.php',
             __DIR__ . '/Fixture/DifferentMethodName2.php',
-            // test duplicate load
-            __DIR__ . '/Fixture/DifferentMethodName2.php',
         ], [[$errorMessage, 9]]];
     }
 
