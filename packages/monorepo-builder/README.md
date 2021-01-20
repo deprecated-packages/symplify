@@ -146,7 +146,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 Thanks to GitHub Actions, this was never simpler to set up. Use [symplify/github-action-monorepo-split](https://github.com/symplify/github-action-monorepo-split).
 
-How to configure it? See our local setup at [.github/workflows/split_monorepo.yaml](https://github.com/symplify/symplify/blob/6f24c4e2e38de76ab09a4dceb28d48672296bfd2/.github/workflows/split_monorepo.yaml)
+How to configure it? See our local setup at [.github/workflows/split_monorepo.yaml](https://github.com/symplify/symplify/blob/master/.github/workflows/split_monorepo.yaml)
 
 ### 6. Release Flow
 
