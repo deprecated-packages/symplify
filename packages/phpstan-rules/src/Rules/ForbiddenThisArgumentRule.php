@@ -40,11 +40,9 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($node->value->name !== 'this') {
-            $argType = $scope->getType($node->value);
-            if (! $argType instanceof ThisType) {
-                return [];
-            }
+        $argType = $scope->getType($node->value);
+        if (! $argType instanceof ThisType) {
+            return [];
         }
 
         return [self::ERROR_MESSAGE];
