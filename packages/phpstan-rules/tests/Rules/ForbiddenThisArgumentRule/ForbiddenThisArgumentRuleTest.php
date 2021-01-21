@@ -21,6 +21,7 @@ final class ForbiddenThisArgumentRuleTest extends AbstractServiceAwareRuleTestCa
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipReflectionCalling.php', []];
         yield [__DIR__ . '/Fixture/SkipNotVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipNotThis.php', []];
         yield [__DIR__ . '/Fixture/SkipExtendsKernel.php', []];
