@@ -531,3 +531,17 @@ parameters:
                 - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php #81
                 - packages/phpunit-upgrader/src/FileInfoDecorator/AssertContainsInfoDecorator.php #39
 
+        -
+            message: '#\$this as argument is not allowed#'
+            paths:
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #86
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #89
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #93
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #96
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #99
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #103
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #142
+                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #177
+                - packages/easy-coding-standard/src/Console/Style/EasyCodingStandardStyle.php #60
+                - packages/easy-hydrator/src/ClassConstructorValuesResolver.php #44
+                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php #39
