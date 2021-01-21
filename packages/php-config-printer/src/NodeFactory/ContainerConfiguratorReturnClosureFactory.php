@@ -35,16 +35,23 @@ final class ContainerConfiguratorReturnClosureFactory
     private $instanceOfNestedCaseConverter;
 
     /**
+     * @var ContainerNestedNodesFactory
+     */
+    private $containerNestedNodesFactory;
+
+    /**
      * @param CaseConverterInterface[] $caseConverters
      */
     public function __construct(
         ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
         array $caseConverters,
-        InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter
+        InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter,
+        \Symplify\PhpConfigPrinter\NodeFactory\ContainerNestedNodesFactory $containerNestedNodesFactory
     ) {
         $this->configuratorClosureNodeFactory = $configuratorClosureNodeFactory;
         $this->caseConverters = $caseConverters;
         $this->instanceOfNestedCaseConverter = $instanceOfNestedCaseConverter;
+        $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
     public function createFromYamlArray(array $arrayData): Return_
@@ -81,16 +88,11 @@ final class ContainerConfiguratorReturnClosureFactory
                 $nestedNodes = [];
 
                 if (is_array($nestedValues)) {
-                    foreach ($nestedValues as $subNestedKey => $subNestedValue) {
-                        if (! $this->instanceOfNestedCaseConverter->isMatch($key, $nestedKey)) {
-                            continue;
-                        }
-
-                        $nestedNodes[] = $this->instanceOfNestedCaseConverter->convertToMethodCall(
-                            $subNestedKey,
-                            $subNestedValue
-                        );
-                    }
+                    $nestedNodes = $this->containerNestedNodesFactory->createFromValues(
+                        $nestedValues,
+                        $key,
+                        $nestedKey
+                    );
                 }
 
                 if ($nestedNodes !== []) {

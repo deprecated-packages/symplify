@@ -5,12 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\PHPStanRules\Types\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -22,16 +26,44 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '$this as argument is not allowed';
+    public const ERROR_MESSAGE = '$this as argument is not allowed. Refator method to service composition';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_PARENT_CLASSES = [Kernel::class];
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_CALLER_CLASSES = [
+        // workaround type
+        PrivatesCaller::class,
+    ];
 
     /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
+    /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    /**
+     * @var ObjectTypeAnalyzer
+     */
+    private $objectTypeAnalyzer;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        TypeChecker $typeChecker,
+        ObjectTypeAnalyzer $objectTypeAnalyzer
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->typeChecker = $typeChecker;
+        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**
@@ -39,29 +71,33 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Arg::class];
+        return [MethodCall::class, FuncCall::class, StaticCall::class];
     }
 
     /**
-     * @param Arg $node
+     * @param MethodCall|FuncCall|StaticCall $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->value instanceof Variable) {
+        if ($this->shouldSkipNode($node, $scope)) {
             return [];
         }
 
-        $argType = $scope->getType($node->value);
-        if (! $argType instanceof ThisType) {
-            return [];
+        foreach ($node->args as $arg) {
+            $argType = $scope->getType($arg->value);
+            if (! $argType instanceof ThisType) {
+                continue;
+            }
+
+            if ($this->shouldSkipClass($scope)) {
+                continue;
+            }
+
+            return [self::ERROR_MESSAGE];
         }
 
-        if ($this->shouldSkipClassWithKernelParent($scope)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -79,13 +115,30 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipClassWithKernelParent(Scope $scope): bool
+    private function shouldSkipClass(Scope $scope): bool
     {
         $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {
             return false;
         }
 
-        return is_a($className, Kernel::class, true);
+        return $this->typeChecker->isInstanceOf($className, self::ALLOWED_PARENT_CLASSES);
+    }
+
+    /**
+     * @param MethodCall|FuncCall|StaticCall $node
+     */
+    private function shouldSkipNode(Node $node, Scope $scope): bool
+    {
+        if ($node instanceof MethodCall) {
+            $callerType = $scope->getType($node->var);
+            return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::ALLOWED_CALLER_CLASSES);
+        }
+
+        if ($node instanceof FuncCall) {
+            return $this->simpleNameResolver->isName($node, 'method_exists');
+        }
+
+        return false;
     }
 }

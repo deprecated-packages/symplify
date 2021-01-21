@@ -25,7 +25,6 @@ services:
     - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
-    - Symplify\PHPStanRules\ComposerAutoloadResolver
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 
     - Symplify\PHPStanRules\Types\TypeUnwrapper
@@ -49,3 +48,7 @@ services:
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeFinder\StatementFinder
+
+    - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
+    - Symplify\PHPStanRules\Composer\Psr4PathValidator
+    - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher

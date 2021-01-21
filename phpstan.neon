@@ -103,7 +103,6 @@ parameters:
 
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
-        - '#Variable \$processedFileContent might not be defined#'
 
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag\(\)#'
@@ -120,12 +119,8 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        # known values
-        - '#Static property Symplify\\PackageBuilder\\Testing\\AbstractKernelTestCase\:\:\$container \(Psr\\Container\\ContainerInterface\) does not accept null#'
-
         # false positive
         - '#Unreachable statement \- code above always terminates#'
-        - '#Property Symplify\\Autodiscovery\\Tests\\Twig\\TwigPathAutodiscoveryTest\:\:\$twigFilesystemLoader \(Twig\\Loader\\FilesystemLoader\) does not accept Twig\\Loader\\LoaderInterface#'
 
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
@@ -142,12 +137,6 @@ parameters:
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
-        # cognitive complexity
-        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ValueObject\\ComposerJson::getJsonArray\(\)" is \d+, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory::createFromArray\(\)" is \d+, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\SnifferFixerToECSConverter\\ParameterCollector\\SkipParameterCollector::collectSkipParameter\(\)" is \d+, keep it under 8#'
-
-        - '#Parameter \#1 \$token of method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:getBlockTypeByToken\(\) expects PhpCsFixer\\Tokenizer\\Token, PhpCsFixer\\Tokenizer\\Token\|null given#'
         - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
 
@@ -174,20 +163,11 @@ parameters:
 
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-
-                # json array
-                - *Json*
-
                 # php scoper config array
                 - */scoper.inc.php
-
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
-
                 - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
-                 # yaml array construction
-                - packages/neon-to-yaml-converter/src/ConverterWorker/*ConverterWorker.php
-                - */packages/neon-to-yaml-converter/src/NeonToYamlConverter.php
                 - packages/easy-testing/src/MissplacedSkipPrefixResolver.php #23
 
         -
@@ -199,8 +179,6 @@ parameters:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 - packages/config-transformer/src/Configuration/Configuration.php
-
-        - '#Parameter \#1 \$argument of class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         -
              message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -223,8 +201,6 @@ parameters:
             message: '#Do not use setter on a service#'
             paths:
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
-                - packages/easy-coding-standard/packages/snippet-formatter/src/Provider/CurrentParentFileInfoProvider.php # 16
-#                - packages/package-builder/tests/HttpKernel/PackageBuilderTestKernel.php # 31
 
         -
             message: '#Do not call parent method if parent method is empty#'
@@ -235,11 +211,6 @@ parameters:
            message: '#Use explicit return value over magic &reference#'
            paths:
                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-
-        -
-            message:  '#Node "errorsuppress" is fobidden to use#'
-            paths:
-                - packages/smart-file-system/src/SmartFileSystem.php
 
         -
             message: '#Instead of container injection, use specific service#'
@@ -260,20 +231,12 @@ parameters:
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
-        - '#Property Symplify\\Skipper\\ValueObject\\SkipRules\:\:\$skippedClasses \(array<string, array<string\>\|null\>\) does not accept array<string\>#'
-
-        -
-            message: '#Spread operator is not allowed#'
-            paths:
-                - packages/package-builder/src/Reflection/PrivatesCaller.php # 19
-
         -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 23
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
-                - packages/skipper/src/Skipper/Skipper.php # 50
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
         # false positives
@@ -287,12 +250,10 @@ parameters:
         - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
 
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
-        - '#Class "Symplify\\PackageBuilder\\Console\\Command\\CommandNaming" with static method must have "Static" in its name it explicit#'
 
         -
             message: '#Nested foreach with empty statement is not allowed#'
             paths:
-                - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php # 70
                 # xml nesting
                 - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
 
@@ -318,36 +279,15 @@ parameters:
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
                 - packages/template-checker/src/Latte/LatteFilterManager.php # 88
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 234
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 235
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 236
                 - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 237
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 25
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 32
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 85
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
-
-        -
-             message: '#Class cognitive complexity is \d+, keep it under \d+#'
-             paths:
-                 - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
-                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php
-                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
-                 - packages/coding-standard/src/Php/PhpContentAnalyzer.php
-                 - packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php
 
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
-        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createNodesFromCaseConverters\(\)" is \d+, keep it under 8#'
-        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
-        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\CaseConverter\\AliasCaseConverter\:\:convertToMethodCall\(\)" is 10, keep it under 8#'
 
         -
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
-
-        - '#The path "/JsonFileSystemSource/temp_file\.json" was not found#'
 
         - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
         - '#Cannot cast array<string\>\|bool\|string\|null to string#'
@@ -357,10 +297,6 @@ parameters:
             path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
 
         - '#Parameter \#5 \$default of method Symfony\\Component\\Console\\Command\\Command\:\:addOption\(\) expects array<string\>\|bool\|int\|string\|null, float given#'
-        # phpstan glitch
-        -
-            message: '#Call to an undefined method PHP_CodeSniffer\\Sniffs\\Sniff\:\:register\(\)#'
-            path: packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
 
         -
             message: '#Instead of container injection, use specific service#'
@@ -383,26 +319,10 @@ parameters:
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
 
         -
-            message: '#Cognitive complexity for "resolve_argument_values\(\)" is \d+, keep it under 8#'
-            path: 'packages/symfony-php-config/functions/functions.php'
-
-        -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
 
-        -
-            message: '#Repository type not allowed to use ObjectRepository type as dependency, use EntityManager instead#'
-            path: 'packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php'
-
-        -
-            message: '#Only EntityManager\* type as dependency is allowed#'
-            paths:
-                - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php #14
-                - packages/symfony-route-usage/src/EntityRepository/RouteVisitRepository.php #12
-
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-
-        - '#Property (.*?)Test\:\:\$(.*?) does not accept object#'
 
         -
             message: '#"Doctrine\\ORM\\EntityManagerInterface" dependency is allowed only in "\*Repository" types#'
@@ -410,23 +330,15 @@ parameters:
                 # database helper
                  - packages/symfony-route-usage/src/Database/TableInitiator.php
 
-        # generic
-        - '#Method Symplify\\PHPStanRules\\Rules\\AbstractSymplifyRule\:\:(.*?)\(\) should return PhpParser\\Node\\Stmt\\(.*?)\|null but returns PhpParser\\Node\|null#'
-
-        - '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
-
         -
             message: '#"%s" in sprintf\(\) format must be quoted#'
             paths:
                  - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
 
-        - '#Method Symplify\\PHPStanRules\\Rules\\CheckTypehintCallerTypeRule\:\:findMethodCallUses\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-        - '#Content of method "resolveClassName\(\)" is duplicated with method in "Symplify\\PHPStanExtensions\\TypeResolver\\ClassConstFetchReturnTypeResolver" class\. Use unique content or abstract service instead#'
-        - '#Content of method "create\(\)" is duplicated with method in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
-
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
             paths:
+                - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
@@ -435,21 +347,13 @@ parameters:
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
                 # PHP 7/8 compact
                 - packages/easy-hydrator/src/ParameterTypeRecognizer.php
-                - packages/phpstan-rules/src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
             paths:
-                # XML magic object
-                - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
-                # helpers methods; PHPStan without nette di inject
-                - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
                 - packages/astral/src/NodeNameResolver/ClassLikeNodeNameResolver.php
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
-
-                # @todo refactor
-                - packages/phpstan-rules/src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php
 
                 # multiple probabilities of Nodes that have stmts
                 - packages/phpstan-rules/src/Rules/RequireStringRegexMatchKeyRule.php #139
@@ -458,19 +362,12 @@ parameters:
             message: '#"self\:\:.*" regex need to use string named capture group instead of numeric#'
             paths:
                  - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php #45
-                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #45
-                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #50
                  - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #51
-
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\CheckClassNamespaceFollowPsr4Rule\:\:process\(\)" is 11, keep it under 8#'
 
         -
             message: '#Anonymous class is not allowed#'
             paths:
                  - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
-
-        - '#File "AbstractSomeAbstractClass\.php" should have prefix "Skip" prefix#'
-        - '#File "AbstractClass\.php" should have prefix "Skip" prefix#'
 
         -
             message: '#Use controller class name based on route name instead#'
@@ -480,13 +377,6 @@ parameters:
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/TwoArgumentsController.php #13
 
         - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$routeHash is never read, only written#'
-
-        - '#Method Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:parseCodeToTokens\(\) should return array<array<int\|string\>\> but returns array<int, array<int, int\|string\>\|string\>#'
-
-        -
-             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
-             paths:
-                 - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
 
         # the file must start with "Abstract" to be correct
         -
@@ -501,18 +391,6 @@ parameters:
                 - packages/symfony-static-dumper/tests/test_project
                 - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
-        -
-            message: '#Content of method "\w+\(\)" is duplicated with method "\w+\(\)" in ".*" class\. Use unique content or abstract service instead#'
-            paths:
-                - packages/astral/src/Naming/SimpleNameResolver.php #166
-                - packages/console-color-diff/src/Diff/Output/CompleteUnifiedDiffOutputBuilderFactory.php #28
-                - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php #56
-                - packages/phpstan-rules/src/Rules/ForbiddenNullableParameterRule.php #163
-                - packages/phpstan-rules/src/Rules/NoContainerInjectionInConstructorRule.php #94
-                - packages/phpstan-rules/packages/cognitive-complexity/src/NodeVisitor/AbstractComplexityNodeVisitor.php #54
-                - packages/class-presence/src/Regex/NonExistingClassExtractor.php #70
-
-        - '#Content of method "doesClassLikeExist\(\)" is duplicated with method "doesClassExists\(\)" in "Symplify\\ClassPresence\\Regex\\NonExistingClassExtractor" class\. Use unique content or abstract service instead#'
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
@@ -534,14 +412,24 @@ parameters:
         -
             message: '#\$this as argument is not allowed#'
             paths:
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #86
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #89
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #93
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #96
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #99
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #103
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #142
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #177
-                - packages/easy-coding-standard/src/Console/Style/EasyCodingStandardStyle.php #60
                 - packages/easy-hydrator/src/ClassConstructorValuesResolver.php #44
-                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php #39
+
+        # required complexity, as get/set methods for API of composer.json
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'
+
+        - '#Cognitive complexity for "Symplify\\SnifferFixerToECSConverter\\ParameterCollector\\SkipParameterCollector\:\:collectSkipParameter\(\)" is 9, keep it under 8#'
+        - '#Property Symplify\\PHPStanRules\\Rules\\CheckClassNamespaceFollowPsr4Rule\:\:\$directoryChecker is never read, only written#'
+        - '#Property Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:\$instanceOfNestedCaseConverter is never read, only written#'
+        - '#\$this as argument is not allowed\. Refator method to service composition#'
+
+        # temporary ignore, resolve right after this PR
+        - '#Content of method "resolveShortName\(\)" is duplicated with method "getShortClassName\(\)" in "Symplify\\Astral\\Naming\\SimpleNameResolver" class\. Use unique content or abstract service instead#'
+        - '#Method parameters must be compatible with its parent#'
+        - '#Variable \$singleDirectory might not be defined#'
+        - '#Class cognitive complexity is 23, keep it under 16#'
+        - '#Class cognitive complexity is 42, keep it under 25#'
+        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createNodesFromCaseConverters\(\)" is 13, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is 48, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\CaseConverter\\AliasCaseConverter\:\:convertToMethodCall\(\)" is 10, keep it under 8#'
+        - '#Class cognitive complexity is 55, keep it under 25#'
+        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'

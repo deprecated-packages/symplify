@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules;
+namespace Symplify\PHPStanRules\Composer;
 
 use Nette\Utils\Json;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -25,7 +25,7 @@ final class ComposerAutoloadResolver
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]|string>
      */
     public function getPsr4Autoload(): array
     {

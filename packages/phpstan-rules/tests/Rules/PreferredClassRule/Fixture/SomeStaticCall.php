@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture;
 
 use DateTime;
 
-final class StaticCall
+final class SomeStaticCall
 {
     public function run()
     {
