@@ -37,7 +37,7 @@ final class CommandNaming
     public static function classToName(string $class): string
     {
         /** @var string $shortClassName */
-        $shortClassName = self::getShortClassName($class);
+        $shortClassName = self::resolveShortName($class);
         $rawCommandName = Strings::substring($shortClassName, 0, -strlen('Command'));
 
         // ECSCommand => ecs
@@ -56,7 +56,7 @@ final class CommandNaming
         });
     }
 
-    private static function getShortClassName(string $class): string
+    private static function resolveShortName(string $class): string
     {
         $classParts = explode('\\', $class);
 

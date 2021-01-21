@@ -423,7 +423,7 @@ parameters:
         - '#\$this as argument is not allowed\. Refator method to service composition#'
 
         # temporary ignore, resolve right after this PR
-#        - '#Content of method "resolveShortName\(\)" is duplicated with method "getShortClassName\(\)" in "Symplify\\Astral\\Naming\\SimpleNameResolver" class\. Use unique content or abstract service instead#'
+#        - '#Content of method "resolveShortName\(\)" is duplicated with method "resolveShortName\(\)" in "Symplify\\Astral\\Naming\\SimpleNameResolver" class\. Use unique content or abstract service instead#'
 #        - '#Method parameters must be compatible with its parent#'
 #        - '#Variable \$singleDirectory might not be defined#'
 #        - '#Class cognitive complexity is 23, keep it under 16#'

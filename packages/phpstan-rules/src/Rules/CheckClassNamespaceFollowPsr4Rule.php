@@ -149,7 +149,7 @@ CODE_SAMPLE
             return null;
         }
 
-        $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($classLike);
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromNode($classLike);
         if ($shortClassName === null) {
             return null;
         }
