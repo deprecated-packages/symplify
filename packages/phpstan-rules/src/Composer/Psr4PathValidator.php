@@ -5,17 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Composer;
 
 use Nette\Utils\Strings;
+use Symplify\PHPStanRules\ValueObject\ClassNamespaceAndDirectory;
 
 final class Psr4PathValidator
 {
     public function isClassNamespaceCorrect(
-        string $namespace,
-        string $directory,
-        string $namespaceBeforeClass,
+        ClassNamespaceAndDirectory $classNamespaceAndDirectories,
+//        string $namespace,
+//        string $directory,
+//        string $namespaceBeforeClass,
         string $file
     ): bool {
         /** @var array<int, string> $paths */
-        $paths = explode($directory, $file);
+        $paths = explode($classNamespaceAndDirectories->getSingleDirectory(), $file);
         if (count($paths) === 1) {
             return false;
         }
@@ -25,8 +27,12 @@ final class Psr4PathValidator
 
         $namespaceSuffixByDirectoryClass = ltrim($directoryInNamespacedRoot, '\\');
 
+        // @todo put into value object
         $namespaceSuffixByNamespaceBeforeClass = rtrim(
-            Strings::substring($namespaceBeforeClass, strlen($namespace)),
+            Strings::substring(
+                $classNamespaceAndDirectories->getNamespaceBeforeClass(),
+                strlen($classNamespaceAndDirectories->getNamespace())
+            ),
             '\\'
         );
 

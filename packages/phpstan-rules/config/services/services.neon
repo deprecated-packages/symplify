@@ -51,3 +51,4 @@ services:
 
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
+    - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
