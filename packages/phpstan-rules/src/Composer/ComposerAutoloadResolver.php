@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules;
+namespace Symplify\PHPStanRules\Composer;
 
 use Nette\Utils\Json;
 use Symplify\SmartFileSystem\SmartFileSystem;
