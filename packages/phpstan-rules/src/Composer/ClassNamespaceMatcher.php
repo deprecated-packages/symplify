@@ -42,13 +42,14 @@ final class ClassNamespaceMatcher
                 if (! $this->directoryChecker->isInDirectoryNamed($scope, $singleDirectory)) {
                     continue;
                 }
-            }
 
-            $namespaceToDirectories[] = new ClassNamespaceAndDirectory(
-                $namespace,
-                $singleDirectory,
-                $namespaceBeforeClass
-            );
+                $namespaceToDirectories[] = new ClassNamespaceAndDirectory(
+                    $namespace,
+                    $singleDirectory,
+                    $namespaceBeforeClass
+                );
+                continue 2;
+            }
         }
 
         return $namespaceToDirectories;
