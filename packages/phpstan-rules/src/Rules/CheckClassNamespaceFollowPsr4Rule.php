@@ -12,7 +12,6 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Composer\ClassNamespaceMatcher;
 use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
 use Symplify\PHPStanRules\Composer\Psr4PathValidator;
-use Symplify\PHPStanRules\Location\DirectoryChecker;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -37,11 +36,6 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var DirectoryChecker
-     */
-    private $directoryChecker;
-
-    /**
      * @var Psr4PathValidator
      */
     private $psr4PathValidator;
@@ -54,13 +48,11 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         ComposerAutoloadResolver $composerAutoloadResolver,
-        DirectoryChecker $directoryChecker,
         Psr4PathValidator $psr4PathValidator,
         ClassNamespaceMatcher $classNamespaceMatcher
     ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->directoryChecker = $directoryChecker;
         $this->psr4PathValidator = $psr4PathValidator;
         $this->classNamespaceMatcher = $classNamespaceMatcher;
     }
@@ -88,7 +80,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
-        $file = (string) str_replace('\\', '/', $scope->getFile());
+        $filePath = str_replace('\\', '/', $scope->getFile());
 
         $possibleNamespacesToDirectories = $this->classNamespaceMatcher->matchPossibleDirectoriesForClass(
             $namespaceBeforeClass,
@@ -101,7 +93,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         }
 
         foreach ($possibleNamespacesToDirectories as $possibleNamespaceToDirectory) {
-            if ($this->psr4PathValidator->isClassNamespaceCorrect($possibleNamespaceToDirectory, $file)) {
+            if ($this->psr4PathValidator->isClassNamespaceCorrect($possibleNamespaceToDirectory, $filePath)) {
                 return [];
             }
         }
@@ -149,7 +141,7 @@ CODE_SAMPLE
             return null;
         }
 
-        $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($classLike);
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromNode($classLike);
         if ($shortClassName === null) {
             return null;
         }

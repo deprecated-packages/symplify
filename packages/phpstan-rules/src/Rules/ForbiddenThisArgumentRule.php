@@ -80,7 +80,7 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkipNode($node, $scope)) {
+        if ($this->shouldSkip($node, $scope)) {
             return [];
         }
 
@@ -128,7 +128,7 @@ CODE_SAMPLE
     /**
      * @param MethodCall|FuncCall|StaticCall $node
      */
-    private function shouldSkipNode(Node $node, Scope $scope): bool
+    private function shouldSkip(Node $node, Scope $scope): bool
     {
         if ($node instanceof MethodCall) {
             $callerType = $scope->getType($node->var);

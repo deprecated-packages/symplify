@@ -50,7 +50,7 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule extend
             return [];
         }
 
-        $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($node);
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromNode($node);
         if ($shortClassName === null) {
             return [];
         }

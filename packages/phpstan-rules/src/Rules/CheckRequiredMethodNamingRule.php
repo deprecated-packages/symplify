@@ -112,7 +112,7 @@ CODE_SAMPLE
 
     private function resolveRequiredMethodName(Scope $scope): ?string
     {
-        $shortClassName = $this->simpleNameResolver->getShortClassNameFromScope($scope);
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
         if ($shortClassName === null) {
             return null;
         }

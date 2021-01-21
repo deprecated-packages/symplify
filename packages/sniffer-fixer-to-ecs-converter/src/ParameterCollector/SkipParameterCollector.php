@@ -29,41 +29,10 @@ final class SkipParameterCollector
      */
     public function collectSkipParameter(SimpleXMLElement $simpleXml): array
     {
-        $skipParameter = [];
+        $skippedClassParameter = $this->resolveSkippedClassParameter($simpleXml);
+        $skippedClassByPathsParameter = $this->resolveSkippedClassByPathsParameter($simpleXml);
 
-        foreach ($simpleXml->children() as $name => $child) {
-            if (! $child instanceof SimpleXMLElement) {
-                continue;
-            }
-
-            if ($name === 'rule' && (property_exists($child, 'exclude') && $child->exclude !== null)) {
-                $id = (string) $child->exclude['name'];
-                $className = $this->classFromKeyResolver->resolveFromStringName($id);
-                $skipParameter[$className] = null;
-            }
-
-            if (! isset($child[self::REF])) {
-                continue;
-            }
-
-            $ruleId = (string) $child[self::REF];
-            if (! $this->isRuleStringReference($ruleId)) {
-                continue;
-            }
-
-            $className = $this->classFromKeyResolver->resolveFromStringName($ruleId);
-
-            $excludePatterns = $this->resolveExcludedPatterns($child);
-            if ($excludePatterns === []) {
-                continue;
-            }
-
-            /** @var string[] $uniqueClassNames */
-            $uniqueClassNames = array_unique($excludePatterns);
-            $skipParameter[$className] = $uniqueClassNames;
-        }
-
-        return $skipParameter;
+        return array_merge($skippedClassParameter, $skippedClassByPathsParameter);
     }
 
     /**
@@ -80,11 +49,66 @@ final class SkipParameterCollector
             $excludePatterns[] = (string) $childValue;
         }
 
-        return $excludePatterns;
+        return array_unique($excludePatterns);
     }
 
     private function isRuleStringReference(string $ruleId): bool
     {
         return substr_count($ruleId, '.') === 2;
+    }
+
+    /**
+     * @return array<string, null>
+     */
+    private function resolveSkippedClassParameter(SimpleXMLElement $simpleXml): array
+    {
+        $skipClasses = [];
+
+        foreach ($simpleXml->children() as $name => $child) {
+            if (! $child instanceof SimpleXMLElement) {
+                continue;
+            }
+
+            if ($name === 'rule' && (property_exists($child, 'exclude') && $child->exclude !== null)) {
+                $id = (string) $child->exclude['name'];
+                $class = $this->classFromKeyResolver->resolveFromStringName($id);
+                $skipClasses[$class] = null;
+            }
+        }
+
+        return $skipClasses;
+    }
+
+    /**
+     * @return array<string, string[]>
+     */
+    private function resolveSkippedClassByPathsParameter(SimpleXMLElement $simpleXml): array
+    {
+        $skipParameter = [];
+
+        foreach ($simpleXml->children() as $child) {
+            if (! $child instanceof SimpleXMLElement) {
+                continue;
+            }
+
+            if (! isset($child[self::REF])) {
+                continue;
+            }
+
+            $ruleId = (string) $child[self::REF];
+            if (! $this->isRuleStringReference($ruleId)) {
+                continue;
+            }
+
+            $excludePatterns = $this->resolveExcludedPatterns($child);
+            if ($excludePatterns === []) {
+                continue;
+            }
+
+            $className = $this->classFromKeyResolver->resolveFromStringName($ruleId);
+            $skipParameter[$className] = $excludePatterns;
+        }
+
+        return $skipParameter;
     }
 }

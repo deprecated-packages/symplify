@@ -76,7 +76,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
 
         $this->prepareDeclaredClassesByShortName();
 
-        $shortClassName = $this->simpleNameResolver->getShortClassName($className);
+        $shortClassName = $this->simpleNameResolver->resolveShortName($className);
 
         $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
         if (count($classesByShortName) <= 1) {

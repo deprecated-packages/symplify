@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
-use Symplify\PhpConfigPrinter\CaseConverter\InstanceOfNestedCaseConverter;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
@@ -30,11 +29,6 @@ final class ContainerConfiguratorReturnClosureFactory
     private $caseConverters = [];
 
     /**
-     * @var InstanceOfNestedCaseConverter
-     */
-    private $instanceOfNestedCaseConverter;
-
-    /**
      * @var ContainerNestedNodesFactory
      */
     private $containerNestedNodesFactory;
@@ -45,12 +39,10 @@ final class ContainerConfiguratorReturnClosureFactory
     public function __construct(
         ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
         array $caseConverters,
-        InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter,
-        \Symplify\PhpConfigPrinter\NodeFactory\ContainerNestedNodesFactory $containerNestedNodesFactory
+        ContainerNestedNodesFactory $containerNestedNodesFactory
     ) {
         $this->configuratorClosureNodeFactory = $configuratorClosureNodeFactory;
         $this->caseConverters = $caseConverters;
-        $this->instanceOfNestedCaseConverter = $instanceOfNestedCaseConverter;
         $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
@@ -83,8 +75,6 @@ final class ContainerConfiguratorReturnClosureFactory
             $nodes = $this->createInitializeNode($key, $nodes);
 
             foreach ($values as $nestedKey => $nestedValues) {
-                $expression = null;
-
                 $nestedNodes = [];
 
                 if (is_array($nestedValues)) {
@@ -100,17 +90,8 @@ final class ContainerConfiguratorReturnClosureFactory
                     continue;
                 }
 
-                foreach ($this->caseConverters as $caseConverter) {
-                    if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
-                        continue;
-                    }
-
-                    /** @var string $nestedKey */
-                    $expression = $caseConverter->convertToMethodCall($nestedKey, $nestedValues);
-                    break;
-                }
-
-                if ($expression === null) {
+                $expression = $this->resolveExpression($key, $nestedKey, $nestedValues);
+                if (! $expression instanceof Expression) {
                     continue;
                 }
 
@@ -145,5 +126,23 @@ final class ContainerConfiguratorReturnClosureFactory
         }
 
         return $nodes;
+    }
+
+    /**
+     * @param int|string $nestedKey
+     * @param mixed|mixed[] $nestedValues
+     */
+    private function resolveExpression(string $key, $nestedKey, $nestedValues): ?Expression
+    {
+        foreach ($this->caseConverters as $caseConverter) {
+            if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
+                continue;
+            }
+
+            /** @var string $nestedKey */
+            return $caseConverter->convertToMethodCall($nestedKey, $nestedValues);
+        }
+
+        return null;
     }
 }
