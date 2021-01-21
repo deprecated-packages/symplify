@@ -11,9 +11,6 @@ final class Psr4PathValidator
 {
     public function isClassNamespaceCorrect(
         ClassNamespaceAndDirectory $classNamespaceAndDirectories,
-//        string $namespace,
-//        string $directory,
-//        string $namespaceBeforeClass,
         string $file
     ): bool {
         /** @var array<int, string> $paths */
