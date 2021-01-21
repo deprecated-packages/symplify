@@ -7,12 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\Fixture;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\Source\AnotherClassWithRun;
-use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture\StaticCall;
+use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture\SomeStaticCall;
 
 class DifferentClassSameMethodCallName
 {
     /**
-     * @param StaticCall|MethodCall $node
+     * @param SomeStaticCall|MethodCall $node
      */
     public function process(AnotherClassWithRun $anotherClassWithRun)
     {
@@ -20,7 +20,7 @@ class DifferentClassSameMethodCallName
     }
 
     /**
-     * @param StaticCall|MethodCall $node
+     * @param SomeStaticCall|MethodCall $node
      */
     private function run(Node $node)
     {

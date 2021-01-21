@@ -28,7 +28,7 @@ final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/ClassUsingOld.php', [[$errorMessage, 13]]];
         yield [__DIR__ . '/Fixture/ClassExtendingOld.php', [[$errorMessage, 9]]];
         yield [__DIR__ . '/Fixture/ClassMethodParameterUsingOld.php', [[$errorMessage, 11]]];
-        yield [__DIR__ . '/Fixture/StaticCall.php', [[$errorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/SomeStaticCall.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipPreferredExtendingTheOldOne.php', []];
         yield [__DIR__ . '/Fixture/SkipRequiredByContract.php', []];

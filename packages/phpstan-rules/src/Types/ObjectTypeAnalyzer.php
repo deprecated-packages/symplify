@@ -19,6 +19,17 @@ final class ObjectTypeAnalyzer
         $this->typeUnwrapper = $typeUnwrapper;
     }
 
+    public function isObjectOrUnionOfObjectTypes(Type $type, array $desiredClasses): bool
+    {
+        foreach ($desiredClasses as $desiredClass) {
+            if ($this->isObjectOrUnionOfObjectType($type, $desiredClass)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function isObjectOrUnionOfObjectType(Type $type, string $desiredClass): bool
     {
         $unwrappedType = $this->typeUnwrapper->unwrapNullableType($type);

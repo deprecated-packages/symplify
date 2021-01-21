@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
@@ -69,16 +71,16 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [MethodCall::class, FuncCall::class, StaticCall::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param MethodCall|FuncCall|StaticCall $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->skipCaller($node, $scope)) {
+        if ($this->shouldSkipNode($node, $scope)) {
             return [];
         }
 
@@ -123,14 +125,18 @@ CODE_SAMPLE
         return $this->typeChecker->isInstanceOf($className, self::ALLOWED_PARENT_CLASSES);
     }
 
-    private function skipCaller(MethodCall $methodCall, Scope $scope): bool
+    /**
+     * @param MethodCall|FuncCall|StaticCall $node
+     */
+    private function shouldSkipNode(Node $node, Scope $scope): bool
     {
-        $callerType = $scope->getType($methodCall->var);
+        if ($node instanceof MethodCall) {
+            $callerType = $scope->getType($node->var);
+            return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::ALLOWED_CALLER_CLASSES);
+        }
 
-        foreach (self::ALLOWED_CALLER_CLASSES as $allowedCallerClass) {
-            if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($callerType, $allowedCallerClass)) {
-                return true;
-            }
+        if ($node instanceof FuncCall) {
+            return $this->simpleNameResolver->isName($node, 'method_exists');
         }
 
         return false;

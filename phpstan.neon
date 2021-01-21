@@ -412,7 +412,4 @@ parameters:
         -
             message: '#\$this as argument is not allowed#'
             paths:
-                - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php #86
-                - packages/easy-coding-standard/src/Console/Style/EasyCodingStandardStyle.php #60
                 - packages/easy-hydrator/src/ClassConstructorValuesResolver.php #44
-                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php #39
