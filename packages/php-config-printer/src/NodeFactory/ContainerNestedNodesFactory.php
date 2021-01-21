@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
+use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\CaseConverter\InstanceOfNestedCaseConverter;
 
 final class ContainerNestedNodesFactory
@@ -18,6 +19,9 @@ final class ContainerNestedNodesFactory
         $this->instanceOfNestedCaseConverter = $instanceOfNestedCaseConverter;
     }
 
+    /**
+     * @return Expression[]
+     */
     public function createFromValues(array $nestedValues, string $key, $nestedKey): array
     {
         $nestedNodes = [];

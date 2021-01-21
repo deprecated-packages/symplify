@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
@@ -55,14 +56,21 @@ final class AliasCaseConverter implements CaseConverterInterface
      */
     private $serviceOptionNodeFactory;
 
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
     public function __construct(
         CommonNodeFactory $commonNodeFactory,
         ArgsNodeFactory $argsNodeFactory,
-        ServiceOptionNodeFactory $serviceOptionNodeFactory
+        ServiceOptionNodeFactory $serviceOptionNodeFactory,
+        ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
         $this->commonNodeFactory = $commonNodeFactory;
         $this->argsNodeFactory = $argsNodeFactory;
         $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     public function convertToMethodCall($key, $values): Expression
@@ -72,7 +80,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         }
 
         $servicesVariable = new Variable(VariableName::SERVICES);
-        if (class_exists($key) || interface_exists($key)) {
+        if ($this->classLikeExistenceChecker->doesClassLikeExist($key)) {
             return $this->createFromClassLike($key, $values, $servicesVariable);
         }
 

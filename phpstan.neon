@@ -419,3 +419,13 @@ parameters:
 
         - '#\$this as argument is not allowed\. Refator method to service composition#'
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
+
+        -
+            message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
+            path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
+
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'

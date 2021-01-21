@@ -13,11 +13,10 @@ use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use Symfony\Component\Yaml\Tag\TaggedValue;
-use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
 use Symplify\PhpConfigPrinter\Exception\NotImplementedYetException;
-use Symplify\PhpConfigPrinter\ExprResolver\ServiceReferenceExprResolver;
 use Symplify\PhpConfigPrinter\ExprResolver\StringExprResolver;
-use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
+use Symplify\PhpConfigPrinter\ExprResolver\TaggedReturnsCloneResolver;
+use Symplify\PhpConfigPrinter\ExprResolver\TaggedServiceResolver;
 
 final class ArgsNodeFactory
 {
@@ -37,23 +36,23 @@ final class ArgsNodeFactory
     private $stringExprResolver;
 
     /**
-     * @var SymfonyFunctionNameProvider
+     * @var TaggedReturnsCloneResolver
      */
-    private $symfonyFunctionNameProvider;
+    private $taggedReturnsCloneResolver;
 
     /**
-     * @var ServiceReferenceExprResolver
+     * @var TaggedServiceResolver
      */
-    private $serviceReferenceExprResolver;
+    private $taggedServiceResolver;
 
     public function __construct(
         StringExprResolver $stringExprResolver,
-        SymfonyFunctionNameProvider $symfonyFunctionNameProvider,
-        ServiceReferenceExprResolver $serviceReferenceExprResolver
+        TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
+        TaggedServiceResolver $taggedServiceResolver
     ) {
         $this->stringExprResolver = $stringExprResolver;
-        $this->symfonyFunctionNameProvider = $symfonyFunctionNameProvider;
-        $this->serviceReferenceExprResolver = $serviceReferenceExprResolver;
+        $this->taggedReturnsCloneResolver = $taggedReturnsCloneResolver;
+        $this->taggedServiceResolver = $taggedServiceResolver;
     }
 
     /**
@@ -158,32 +157,17 @@ final class ArgsNodeFactory
 
     private function createServiceReferenceFromTaggedValue(TaggedValue $taggedValue): Expr
     {
-        $shouldWrapInArray = false;
-
         // that's the only value
         if ($taggedValue->getTag() === self::TAG_RETURNS_CLONE) {
-            $serviceName = $taggedValue->getValue()[0];
-            $functionName = $this->symfonyFunctionNameProvider->provideRefOrService();
-            $shouldWrapInArray = true;
-        } elseif ($taggedValue->getTag() === self::TAG_SERVICE) {
-            $serviceName = $taggedValue->getValue()['class'];
-            $functionName = FunctionName::INLINE_SERVICE;
-        } else {
-            $args = $this->createFromValues($taggedValue->getValue());
-            return new FuncCall(new Name($taggedValue->getTag()), $args);
+            return $this->taggedReturnsCloneResolver->resolve($taggedValue);
         }
 
-        $funcCall = $this->serviceReferenceExprResolver->resolveServiceReferenceExpr(
-            $serviceName,
-            false,
-            $functionName
-        );
-
-        if ($shouldWrapInArray) {
-            return new Array_([new ArrayItem($funcCall)]);
+        if ($taggedValue->getTag() === self::TAG_SERVICE) {
+            return $this->taggedServiceResolver->resolve($taggedValue);
         }
 
-        return $funcCall;
+        $args = $this->createFromValues($taggedValue->getValue());
+        return new FuncCall(new Name($taggedValue->getTag()), $args);
     }
 
     /**

@@ -28,9 +28,7 @@ final class CompleteUnifiedDiffOutputBuilderFactory
     public function create(): UnifiedDiffOutputBuilder
     {
         $unifiedDiffOutputBuilder = new UnifiedDiffOutputBuilder('');
-
         $this->privatesAccessor->setPrivateProperty($unifiedDiffOutputBuilder, 'contextLines', 10000);
-
         return $unifiedDiffOutputBuilder;
     }
 }

@@ -80,7 +80,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
-        $file = (string) str_replace('\\', '/', $scope->getFile());
+        $filePath = str_replace('\\', '/', $scope->getFile());
 
         $possibleNamespacesToDirectories = $this->classNamespaceMatcher->matchPossibleDirectoriesForClass(
             $namespaceBeforeClass,
@@ -93,7 +93,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         }
 
         foreach ($possibleNamespacesToDirectories as $possibleNamespaceToDirectory) {
-            if ($this->psr4PathValidator->isClassNamespaceCorrect($possibleNamespaceToDirectory, $file)) {
+            if ($this->psr4PathValidator->isClassNamespaceCorrect($possibleNamespaceToDirectory, $filePath)) {
                 return [];
             }
         }

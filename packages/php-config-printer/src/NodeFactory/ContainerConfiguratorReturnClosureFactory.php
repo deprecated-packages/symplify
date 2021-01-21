@@ -75,7 +75,6 @@ final class ContainerConfiguratorReturnClosureFactory
             $nodes = $this->createInitializeNode($key, $nodes);
 
             foreach ($values as $nestedKey => $nestedValues) {
-                $expression = null;
                 $nestedNodes = [];
 
                 if (is_array($nestedValues)) {
@@ -92,7 +91,7 @@ final class ContainerConfiguratorReturnClosureFactory
                 }
 
                 $expression = $this->resolveExpression($key, $nestedKey, $nestedValues);
-                if ($expression === null) {
+                if (! $expression instanceof Expression) {
                     continue;
                 }
 

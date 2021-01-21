@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Provider\YamlContentProvider;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 use Symplify\SmartFileSystem\FileSystemFilter;
@@ -36,4 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(SymfonyVersionFeatureGuardInterface::class, Configuration::class);
     $services->alias(YamlFileContentProviderInterface::class, YamlContentProvider::class);
+
+    $services->set(ClassLikeExistenceChecker::class);
 };

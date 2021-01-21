@@ -10,11 +10,11 @@ use Symplify\PHPStanRules\ValueObject\ClassNamespaceAndDirectory;
 final class Psr4PathValidator
 {
     public function isClassNamespaceCorrect(
-        ClassNamespaceAndDirectory $classNamespaceAndDirectories,
+        ClassNamespaceAndDirectory $classNamespaceAndDirectory,
         string $file
     ): bool {
         /** @var array<int, string> $paths */
-        $paths = explode($classNamespaceAndDirectories->getSingleDirectory(), $file);
+        $paths = explode($classNamespaceAndDirectory->getSingleDirectory(), $file);
         if (count($paths) === 1) {
             return false;
         }
@@ -27,8 +27,8 @@ final class Psr4PathValidator
         // @todo put into value object
         $namespaceSuffixByNamespaceBeforeClass = rtrim(
             Strings::substring(
-                $classNamespaceAndDirectories->getNamespaceBeforeClass(),
-                strlen($classNamespaceAndDirectories->getNamespace())
+                $classNamespaceAndDirectory->getNamespaceBeforeClass(),
+                strlen($classNamespaceAndDirectory->getNamespace())
             ),
             '\\'
         );
