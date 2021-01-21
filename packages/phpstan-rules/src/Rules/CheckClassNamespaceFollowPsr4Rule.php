@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
+use Symplify\PHPStanRules\Composer\Psr4PathValidator;
 use Symplify\PHPStanRules\Location\DirectoryChecker;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -22,16 +23,10 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s namespace "%s" does not follow PSR-4 configuration in composer.json';
+    public const ERROR_MESSAGE = 'Class like namespace "%s" does not follow PSR-4 configuration in composer.json';
 
     /**
-     * @see https://regex101.com/r/ChpDsj/1
-     * @var string
-     */
-    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
-
-    /**
-     * @var array<string, string>
+     * @var array<string, string|string[]>
      */
     private $autoloadPsr4Paths = [];
 
@@ -46,7 +41,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     private $directoryChecker;
 
     /**
-     * @var \Symplify\PHPStanRules\Composer\Psr4PathValidator
+     * @var Psr4PathValidator
      */
     private $psr4PathValidator;
 
@@ -54,7 +49,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
         SimpleNameResolver $simpleNameResolver,
         ComposerAutoloadResolver $composerAutoloadResolver,
         DirectoryChecker $directoryChecker,
-        \Symplify\PHPStanRules\Composer\Psr4PathValidator $psr4PathValidator
+        Psr4PathValidator $psr4PathValidator
     ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
         $this->simpleNameResolver = $simpleNameResolver;
@@ -85,13 +80,12 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var string $shortClassName */
         $shortClassName = $this->simpleNameResolver->getShortClassNameFromNode($node);
-        if (Strings::match($shortClassName, self::ANONYMOUS_CLASS_REGEX)) {
+        if ($shortClassName === null) {
             return [];
         }
 
-        $file = str_replace('\\', '/', $scope->getFile());
+        $file = (string) str_replace('\\', '/', $scope->getFile());
         $namespaceBeforeClass = $this->resolveNamespacePartOfClass($className, $shortClassName);
 
         foreach ($this->autoloadPsr4Paths as $namespace => $directory) {
@@ -101,6 +95,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             }
 
             $directories = $this->resolveDirectories($directory);
+
             foreach ($directories as $singleDirectory) {
                 if (! $this->directoryChecker->isInDirectoryNamed($scope, $singleDirectory)) {
                     continue;
@@ -117,10 +112,9 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             }
         }
 
-        $type = $this->getType($className, $file);
-
         $namespacePart = substr($namespaceBeforeClass, 0, -1);
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $type, $namespacePart);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $namespacePart);
+
         return [$errorMessage];
     }
 
@@ -148,41 +142,6 @@ CODE_SAMPLE
             ),
         ]);
     }
-
-    private function getType(string $namespacedName, string $file): string
-    {
-        // totally different namespace needs include file
-        include_once $file;
-
-        if (trait_exists($namespacedName)) {
-            return 'Trait';
-        }
-
-        if (interface_exists($namespacedName)) {
-            return 'Interface';
-        }
-
-        return 'Class';
-    }
-
-
-//        $paths = explode($directory, $file);
-//        if (count($paths) === 1) {
-//            return false;
-//        }
-//
-//        $directoryInNamespacedRoot = dirname($paths[1]);
-//        $directoryInNamespacedRoot = $this->normalizePath($directoryInNamespacedRoot);
-//
-//        $namespaceSuffixByDirectoryClass = ltrim($directoryInNamespacedRoot, '\\');
-//
-//        $namespaceSuffixByNamespaceBeforeClass = rtrim(
-//            Strings::substring($namespaceBeforeClass, strlen($namespace)),
-//            '\\'
-//        );
-//
-//        return $namespaceSuffixByDirectoryClass === $namespaceSuffixByNamespaceBeforeClass;
-//    }
 
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {

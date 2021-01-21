@@ -20,6 +20,12 @@ use Symplify\Astral\Contract\NodeNameResolverInterface;
 final class SimpleNameResolver
 {
     /**
+     * @see https://regex101.com/r/ChpDsj/1
+     * @var string
+     */
+    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
+
+    /**
      * @var NodeNameResolverInterface[]
      */
     private $nodeNameResolvers = [];
@@ -110,6 +116,11 @@ final class SimpleNameResolver
     {
         $className = $this->getName($classLike);
         if ($className === null) {
+            return null;
+        }
+
+        // anonymous class return null name
+        if (Strings::match($className, self::ANONYMOUS_CLASS_REGEX)) {
             return null;
         }
 

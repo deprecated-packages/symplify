@@ -113,6 +113,7 @@ CODE_SAMPLE
 
     /**
      * @param Assign[] $assigns
+     * @param Do_|For_|Foreach_|While_ $node
      * @return string[]
      */
     private function validateAssignInLoop(array $assigns, Node $node): array
@@ -129,7 +130,6 @@ CODE_SAMPLE
             return $this->validateAssignInForeach($assigns, $node);
         }
 
-        /** @var While_ $node */
         return $this->validateAssignInWhile($assigns, $node);
     }
 

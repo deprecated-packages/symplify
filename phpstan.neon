@@ -413,3 +413,6 @@ parameters:
             message: '#\$this as argument is not allowed#'
             paths:
                 - packages/easy-hydrator/src/ClassConstructorValuesResolver.php #44
+
+        # required complexity, as get/set methods for API of composer.json
+        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'

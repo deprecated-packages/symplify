@@ -25,7 +25,7 @@ final class ComposerAutoloadResolver
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]|string>
      */
     public function getPsr4Autoload(): array
     {
