@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
-use Symplify\PhpConfigPrinter\CaseConverter\InstanceOfNestedCaseConverter;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
@@ -30,11 +29,6 @@ final class ContainerConfiguratorReturnClosureFactory
     private $caseConverters = [];
 
     /**
-     * @var InstanceOfNestedCaseConverter
-     */
-    private $instanceOfNestedCaseConverter;
-
-    /**
      * @var ContainerNestedNodesFactory
      */
     private $containerNestedNodesFactory;
@@ -45,12 +39,10 @@ final class ContainerConfiguratorReturnClosureFactory
     public function __construct(
         ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
         array $caseConverters,
-        InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter,
-        \Symplify\PhpConfigPrinter\NodeFactory\ContainerNestedNodesFactory $containerNestedNodesFactory
+        ContainerNestedNodesFactory $containerNestedNodesFactory
     ) {
         $this->configuratorClosureNodeFactory = $configuratorClosureNodeFactory;
         $this->caseConverters = $caseConverters;
-        $this->instanceOfNestedCaseConverter = $instanceOfNestedCaseConverter;
         $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
