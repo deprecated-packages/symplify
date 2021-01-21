@@ -84,7 +84,6 @@ final class ContainerConfiguratorReturnClosureFactory
 
             foreach ($values as $nestedKey => $nestedValues) {
                 $expression = null;
-
                 $nestedNodes = [];
 
                 if (is_array($nestedValues)) {
@@ -100,16 +99,7 @@ final class ContainerConfiguratorReturnClosureFactory
                     continue;
                 }
 
-                foreach ($this->caseConverters as $caseConverter) {
-                    if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
-                        continue;
-                    }
-
-                    /** @var string $nestedKey */
-                    $expression = $caseConverter->convertToMethodCall($nestedKey, $nestedValues);
-                    break;
-                }
-
+                $expression = $this->resolveExpression($key, $nestedKey, $nestedValues);
                 if ($expression === null) {
                     continue;
                 }
@@ -145,5 +135,23 @@ final class ContainerConfiguratorReturnClosureFactory
         }
 
         return $nodes;
+    }
+
+    /**
+     * @param int|string $nestedKey
+     * @param mixed|mixed[] $nestedValues
+     */
+    private function resolveExpression(string $key, $nestedKey, $nestedValues): ?Expression
+    {
+        foreach ($this->caseConverters as $caseConverter) {
+            if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
+                continue;
+            }
+
+            /** @var string $nestedKey */
+            return $caseConverter->convertToMethodCall($nestedKey, $nestedValues);
+        }
+
+        return null;
     }
 }

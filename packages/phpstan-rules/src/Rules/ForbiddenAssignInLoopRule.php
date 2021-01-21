@@ -14,8 +14,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -35,14 +34,14 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
-     * @var SimpleNameResolver
+     * @var PreviouslyUsedAnalyzer
      */
-    private $simpleNameResolver;
+    private $previouslyUsedAnalyzer;
 
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
+    public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer)
     {
         $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+        $this->previouslyUsedAnalyzer = $previouslyUsedAnalyzer;
     }
 
     /**
@@ -104,7 +103,7 @@ CODE_SAMPLE
 
         /** @var Variable[] $variables */
         $variables = $this->nodeFinder->findInstanceOf($expr, Variable::class);
-        if ($this->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
+        if ($this->previouslyUsedAnalyzer->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
             return [];
         }
 
@@ -187,70 +186,5 @@ CODE_SAMPLE
     private function validateAssignInWhile(array $assigns, While_ $while): array
     {
         return $this->validateVarExprAssign($assigns, $while, $while->cond);
-    }
-
-    /**
-     * @param Assign[] $assigns
-     * @param Variable[] $variables
-     */
-    private function isInAssignOrUsedPreviously(array $assigns, array $variables, Node $node): bool
-    {
-        foreach ($assigns as $assign) {
-            if ($this->isInAssign($variables, $assign)) {
-                return true;
-            }
-
-            /** @var Variable[] $variablesInAssign */
-            $variablesInAssign = $this->nodeFinder->findInstanceOf($assign, Variable::class);
-            if ($this->isUsedInPreviousLoop($variablesInAssign, $node)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Variable[] $variables
-     */
-    private function isInAssign(array $variables, Assign $assign): bool
-    {
-        foreach ($variables as $variable) {
-            $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $n) use ($variable): bool {
-                return $this->simpleNameResolver->areNamesEqual($n, $variable);
-            });
-            if ($isInAssign) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Variable[] $variables
-     */
-    private function isUsedInPreviousLoop(array $variables, Node $node): bool
-    {
-        $previous = $node->getAttribute(PHPStanAttributeKey::PREVIOUS);
-        if (! $previous instanceof Node) {
-            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-            if (! $parent instanceof Node) {
-                return false;
-            }
-
-            return $this->isUsedInPreviousLoop($variables, $parent);
-        }
-
-        foreach ($variables as $variable) {
-            $isInPrevious = (bool) $this->nodeFinder->findFirst($previous, function (Node $n) use ($variable): bool {
-                return $this->simpleNameResolver->areNamesEqual($n, $variable);
-            });
-            if ($isInPrevious) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
