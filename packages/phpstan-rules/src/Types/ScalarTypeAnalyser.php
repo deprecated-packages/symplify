@@ -12,29 +12,33 @@ use PHPStan\Type\NullType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
+use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class ScalarTypeAnalyser
 {
+    /**
+     * @var TypeChecker
+     */
+    private $typeChecker;
+
+    public function __construct(TypeChecker $typeChecker)
+    {
+        $this->typeChecker = $typeChecker;
+    }
+
     public function isScalarOrArrayType(Type $type): bool
     {
-        if ($type instanceof StringType) {
-            return true;
-        }
-
-        if ($type instanceof FloatType) {
-            return true;
-        }
-        if ($type instanceof BooleanType) {
-            return true;
-        }
-
-        if ($type instanceof IntegerType) {
+        if ($this->typeChecker->isInstanceOf(
+            $type,
+            [StringType::class, FloatType::class, BooleanType::class, IntegerType::class]
+        )) {
             return true;
         }
 
         if ($type instanceof ArrayType) {
             return $this->isScalarOrArrayType($type->getItemType());
         }
+
         return $this->isNullableScalarType($type);
     }
 

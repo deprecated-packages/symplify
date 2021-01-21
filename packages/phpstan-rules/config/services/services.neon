@@ -54,3 +54,6 @@ services:
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
     - Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder
     - Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
+    - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
