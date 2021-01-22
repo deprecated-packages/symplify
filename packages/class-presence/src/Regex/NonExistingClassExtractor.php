@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ClassPresence\Regex;
 
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -16,9 +17,15 @@ final class NonExistingClassExtractor
      */
     private $classExtractor;
 
-    public function __construct(ClassExtractor $classExtractor)
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
+    public function __construct(ClassExtractor $classExtractor, ClassLikeExistenceChecker $classLikeExistenceChecker)
     {
         $this->classExtractor = $classExtractor;
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     /**
@@ -63,20 +70,7 @@ final class NonExistingClassExtractor
     private function filterNonExistingClasses(array $classes): array
     {
         return array_filter($classes, function (string $class): bool {
-            return ! $this->doesClassExists($class);
+            return ! $this->classLikeExistenceChecker->doesClassLikeExist($class);
         });
-    }
-
-    private function doesClassExists(string $className): bool
-    {
-        if (class_exists($className)) {
-            return true;
-        }
-
-        if (interface_exists($className)) {
-            return true;
-        }
-
-        return trait_exists($className);
     }
 }
