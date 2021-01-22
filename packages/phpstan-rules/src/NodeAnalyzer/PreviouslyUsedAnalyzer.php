@@ -7,12 +7,23 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Do_;
+use PhpParser\Node\Stmt\For_;
+use PhpParser\Node\Stmt\Foreach_;
+use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder;
 
 final class PreviouslyUsedAnalyzer
 {
+    /**
+     * @var string[]
+     */
+    private const IF_AND_LOOP_NODE_TYPES = [If_::class, Do_::class, For_::class, Foreach_::class, While_::class];
+
     /**
      * @var NodeFinder
      */
@@ -28,14 +39,21 @@ final class PreviouslyUsedAnalyzer
      */
     private $simpleNameResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         NodeFinder $nodeFinder,
         PreviousLoopFinder $previousLoopFinder,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->previousLoopFinder = $previousLoopFinder;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -45,6 +63,10 @@ final class PreviouslyUsedAnalyzer
     public function isInAssignOrUsedPreviously(array $assigns, array $variables, Node $node): bool
     {
         foreach ($assigns as $assign) {
+            if ($this->isInsideIf($assign)) {
+                return true;
+            }
+
             if ($this->isInAssign($variables, $assign)) {
                 return true;
             }
@@ -74,5 +96,11 @@ final class PreviouslyUsedAnalyzer
         }
 
         return false;
+    }
+
+    private function isInsideIf(Assign $assign): bool
+    {
+        $previousLoopOrIf = $this->parentNodeFinder->getFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
+        return $previousLoopOrIf instanceof If_;
     }
 }

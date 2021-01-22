@@ -31,11 +31,11 @@ final class PreviousLoopFinder
     /**
      * @param Variable[] $variables
      */
-    public function isUsedInPreviousLoop(array $variables, Node $node): bool
+    public function isUsedInPreviousLoop(array $variables, Node $desiredNode): bool
     {
-        $previous = $node->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        $previous = $desiredNode->getAttribute(PHPStanAttributeKey::PREVIOUS);
         if (! $previous instanceof Node) {
-            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $desiredNode->getAttribute(PHPStanAttributeKey::PARENT);
             if (! $parent instanceof Node) {
                 return false;
             }
@@ -44,9 +44,10 @@ final class PreviousLoopFinder
         }
 
         foreach ($variables as $variable) {
-            $isInPrevious = (bool) $this->nodeFinder->findFirst($previous, function (Node $n) use ($variable): bool {
-                return $this->simpleNameResolver->areNamesEqual($n, $variable);
+            $isInPrevious = (bool) $this->nodeFinder->findFirst($previous, function (Node $node) use ($variable): bool {
+                return $this->simpleNameResolver->areNamesEqual($node, $variable);
             });
+
             if ($isInPrevious) {
                 return true;
             }
