@@ -17,7 +17,7 @@ final class SkipAssignExprIsCall
         foreach ($this->postRectors as $postRector) {
             $nodeTraverser = new NodeTraverser();
             $nodeTraverser->addVisitor($postRector);
-            $nodes = Foo::traverse($nodes);
+            $nodes = $nodeTraverser::traverse($nodes);
         }
     }
 }
