@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
@@ -114,6 +115,14 @@ CODE_SAMPLE
             }
 
             if ($assign->expr instanceof PropertyFetch) {
+                return [];
+            }
+
+            if ($assign->expr instanceof MethodCall) {
+                return [];
+            }
+
+            if ($assign->expr instanceof StaticCall) {
                 return [];
             }
         }
