@@ -4,28 +4,44 @@ declare(strict_types=1);
 
 namespace Symplify\AutowireArrayParameter\Tests\Source;
 
-use Symplify\AutowireArrayParameter\Tests\Source\Contract\CollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\Source\Contract\FirstCollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\Source\Contract\SecondCollectedInterface;
 
 final class IterableCollector
 {
     /**
-     * @var iterable<CollectedInterface>
+     * @var iterable<FirstCollectedInterface>
      */
-    private $collected = [];
+    private $firstCollected = [];
 
     /**
-     * @param iterable<CollectedInterface> $collected
+     * @var iterable<SecondCollectedInterface>
      */
-    public function __construct(array $collected)
+    private $secondCollected = [];
+
+    /**
+     * @param iterable<FirstCollectedInterface> $firstCollected
+     * @param iterable<SecondCollectedInterface> $secondCollected
+     */
+    public function __construct(array $firstCollected, array $secondCollected)
     {
-        $this->collected = $collected;
+        $this->firstCollected = $firstCollected;
+        $this->secondCollected = $secondCollected;
     }
 
     /**
-     * @return iterable<CollectedInterface>
+     * @return iterable<FirstCollectedInterface>
      */
-    public function getCollected(): array
+    public function getFirstCollected(): array
     {
-        return $this->collected;
+        return $this->firstCollected;
+    }
+
+    /**
+     * @return iterable<SecondCollectedInterface>
+     */
+    public function getSecondCollected(): array
+    {
+        return $this->secondCollected;
     }
 }

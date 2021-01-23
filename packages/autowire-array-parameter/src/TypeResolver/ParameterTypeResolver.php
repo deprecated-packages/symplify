@@ -33,7 +33,7 @@ final class ParameterTypeResolver
         }
 
         $declaringClassReflection = $reflectionMethod->getDeclaringClass();
-        $uniqueKey = $declaringClassReflection->getName() . $reflectionMethod->getName();
+        $uniqueKey = $parameterName . $declaringClassReflection->getName() . $reflectionMethod->getName();
         if (isset($this->resolvedParameterTypesCached[$uniqueKey])) {
             return $this->resolvedParameterTypesCached[$uniqueKey];
         }
