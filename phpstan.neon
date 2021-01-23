@@ -431,5 +431,5 @@ parameters:
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
 
         -
-            message: '#Class cognitive complexity is 22, keep it under 16#'
+            message: '#Class cognitive complexity is 24, keep it under 16#'
             path: packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php
