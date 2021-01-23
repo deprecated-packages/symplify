@@ -113,10 +113,13 @@ CODE_SAMPLE
             return [];
         }
 
-        $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n): bool {
+        $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n) use ($assigns): bool {
             foreach (self::LOOP_NODE_TYPES as $loopType) {
                 if (is_a($n, $loopType, true)) {
-                    return true;
+                    $validateAssignInLoop = $this->validateAssignInLoop($assigns, $n);
+                    if ($validateAssignInLoop === []) {
+                        return true;
+                    }
                 }
             }
 
