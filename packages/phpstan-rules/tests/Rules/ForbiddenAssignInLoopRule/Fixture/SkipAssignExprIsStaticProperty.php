@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\Fixture;
 
-final class SkipAssignExprIsProperty
+final class SkipAssignExprIsStaticProperty
 {
     public function run()
     {
@@ -13,7 +13,7 @@ final class SkipAssignExprIsProperty
                 return false;
             }
 
-            $node = $node->var;
+            $node2 = $node::$var;
         }
     }
 }
