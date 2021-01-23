@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
@@ -134,6 +135,14 @@ CODE_SAMPLE
             }
 
             if ($assign->expr instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($assign->var instanceof StaticPropertyFetch) {
+                return true;
+            }
+
+            if ($assign->expr instanceof StaticPropertyFetch) {
                 return true;
             }
 
