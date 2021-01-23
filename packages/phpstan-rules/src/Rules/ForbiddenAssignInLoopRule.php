@@ -38,6 +38,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $previouslyUsedAnalyzer;
 
+    /**
+     * @var string[]
+     */
+    private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
+
     public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer)
     {
         $this->nodeFinder = $nodeFinder;
@@ -49,7 +54,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Do_::class, For_::class, Foreach_::class, While_::class];
+        return self::LOOP_NODE_TYPES;
     }
 
     /**
@@ -97,6 +102,20 @@ CODE_SAMPLE
      */
     private function validateVarExprAssign(array $assigns, Node $node, $expr): array
     {
+        $inLoop = $this->nodeFinder->findFirst($node, function (Node $n): bool {
+            foreach (self::LOOP_NODE_TYPES as $loopType) {
+                if (is_a($n, $loopType, true)) {
+                    return true;
+                }
+            }
+
+            return false;
+        });
+
+        if ($inLoop instanceof Node) {
+            $node = $inLoop;
+        }
+
         if ($expr === null) {
             return [self::ERROR_MESSAGE];
         }
