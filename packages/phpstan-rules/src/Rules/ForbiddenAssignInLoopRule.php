@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
@@ -21,6 +22,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAssignInLoopRule\ForbiddenAssignInLoopRuleTest
@@ -47,10 +49,16 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $previouslyUsedAnalyzer;
 
-    public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer, SimpleNameResolver $simpleNameResolver)
     {
         $this->nodeFinder = $nodeFinder;
         $this->previouslyUsedAnalyzer = $previouslyUsedAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -138,15 +146,34 @@ CODE_SAMPLE
                 return true;
             }
 
-            if ($assign->expr instanceof StaticPropertyFetch) {
+            if ($assign->expr instanceof StaticPropertyFetch ) {
                 return true;
             }
 
-            if ($assign->expr instanceof MethodCall) {
+            if ($assign->expr instanceof MethodCall && $this->isArgPropertyOrAssignVariable($assign->expr->args, $assign->var)) {
                 return true;
             }
 
-            if ($assign->expr instanceof StaticCall) {
+            if ($assign->expr instanceof StaticCall && $this->isArgPropertyOrAssignVariable($assign->expr->args, $assign->var)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isArgPropertyOrAssignVariable(array $args, Variable $variable): bool
+    {
+        foreach ($args as $arg) {
+            if ($arg->value instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($arg->value instanceof StaticPropertyFetch) {
+                return true;
+            }
+
+            if ($this->simpleNameResolver->areNamesEqual($arg->value, $variable)) {
                 return true;
             }
         }
