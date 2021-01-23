@@ -106,26 +106,12 @@ CODE_SAMPLE
      */
     private function validateVarExprAssign(array $assigns, Node $node, $expr): array
     {
-        if ($expr === null) {
-            return [self::ERROR_MESSAGE];
+        if ($this->isUsePropertyOrCall($assigns)) {
+            return [];
         }
 
-        foreach ($assigns as $assign) {
-            if ($assign->var instanceof PropertyFetch) {
-                return [];
-            }
-
-            if ($assign->expr instanceof PropertyFetch) {
-                return [];
-            }
-
-            if ($assign->expr instanceof MethodCall) {
-                return [];
-            }
-
-            if ($assign->expr instanceof StaticCall) {
-                return [];
-            }
+        if ($expr === null) {
+            return [self::ERROR_MESSAGE];
         }
 
         /** @var Variable[] $variables */
@@ -135,6 +121,32 @@ CODE_SAMPLE
         }
 
         return $this->revalidateExprAssignInsideLoop($assigns, $node);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     */
+    private function isUsePropertyOrCall(array $assigns): bool
+    {
+        foreach ($assigns as $assign) {
+            if ($assign->var instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($assign->expr instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($assign->expr instanceof MethodCall) {
+                return true;
+            }
+
+            if ($assign->expr instanceof StaticCall) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
