@@ -34,6 +34,7 @@ final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/SkipAssignExprIsProperty.php', []];
         yield [__DIR__ . '/Fixture/SkipMultiLoopNoAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipAssignInMultiLoopWithConcat.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprIsCall.php', []];
 
         yield [__DIR__ . '/Fixture/AssignInForeach.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInFor.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
