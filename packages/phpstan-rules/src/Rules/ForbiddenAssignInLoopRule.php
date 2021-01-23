@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
@@ -29,6 +30,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
+     * @var string[]
+     */
+    private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
+
+    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -37,11 +43,6 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      * @var PreviouslyUsedAnalyzer
      */
     private $previouslyUsedAnalyzer;
-
-    /**
-     * @var string[]
-     */
-    private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
 
     public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer)
     {
@@ -105,6 +106,12 @@ CODE_SAMPLE
     {
         if ($expr === null) {
             return [self::ERROR_MESSAGE];
+        }
+
+        foreach ($assigns as $assign) {
+            if ($assign->var instanceof PropertyFetch) {
+                return [];
+            }
         }
 
         /** @var Variable[] $variables */
