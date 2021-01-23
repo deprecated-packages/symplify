@@ -97,11 +97,22 @@ CODE_SAMPLE
 
     /**
      * @param Assign[] $assigns
+     * @param Do_|For_|Foreach_|While_ $node
      * @param Expr[]|null|Expr $expr
      * @return string[]
      */
     private function validateVarExprAssign(array $assigns, Node $node, $expr): array
     {
+        if ($expr === null) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        /** @var Variable[] $variables */
+        $variables = $this->nodeFinder->findInstanceOf($expr, Variable::class);
+        if ($this->previouslyUsedAnalyzer->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
+            return [];
+        }
+
         $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n): bool {
             foreach (self::LOOP_NODE_TYPES as $loopType) {
                 if (is_a($n, $loopType, true)) {
@@ -113,16 +124,6 @@ CODE_SAMPLE
         });
 
         if ($inLoop instanceof Node) {
-            return [];
-        }
-
-        if ($expr === null) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        /** @var Variable[] $variables */
-        $variables = $this->nodeFinder->findInstanceOf($expr, Variable::class);
-        if ($this->previouslyUsedAnalyzer->isInAssignOrUsedPreviously($assigns, $variables, $node)) {
             return [];
         }
 
