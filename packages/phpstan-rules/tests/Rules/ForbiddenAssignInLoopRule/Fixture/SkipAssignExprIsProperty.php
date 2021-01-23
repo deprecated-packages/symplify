@@ -14,6 +14,7 @@ final class SkipAssignExprIsProperty
             }
 
             $node = $node->var;
+            $node2 = $node::$var;
         }
     }
 }
