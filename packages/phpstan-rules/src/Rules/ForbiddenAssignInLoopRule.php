@@ -156,10 +156,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            if ($this->isArgPropertyOrAssignVariable(
-                $assign->expr->args,
-                $assign->var
-            )) {
+            if ($this->isArgPropertyOrAssignVariable($assign->expr->args, $assign->var)) {
                 return true;
             }
         }
