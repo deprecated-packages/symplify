@@ -7,6 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
@@ -14,6 +18,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,6 +34,11 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
+     * @var string[]
+     */
+    private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
+
+    /**
      * @var NodeFinder
      */
     private $nodeFinder;
@@ -38,10 +48,19 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private $previouslyUsedAnalyzer;
 
-    public function __construct(NodeFinder $nodeFinder, PreviouslyUsedAnalyzer $previouslyUsedAnalyzer)
-    {
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        NodeFinder $nodeFinder,
+        PreviouslyUsedAnalyzer $previouslyUsedAnalyzer,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->previouslyUsedAnalyzer = $previouslyUsedAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -49,7 +68,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Do_::class, For_::class, Foreach_::class, While_::class];
+        return self::LOOP_NODE_TYPES;
     }
 
     /**
@@ -92,11 +111,16 @@ CODE_SAMPLE
 
     /**
      * @param Assign[] $assigns
+     * @param Do_|For_|Foreach_|While_ $node
      * @param Expr[]|null|Expr $expr
      * @return string[]
      */
     private function validateVarExprAssign(array $assigns, Node $node, $expr): array
     {
+        if ($this->isUsePropertyOrCall($assigns)) {
+            return [];
+        }
+
         if ($expr === null) {
             return [self::ERROR_MESSAGE];
         }
@@ -107,7 +131,83 @@ CODE_SAMPLE
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        return $this->revalidateExprAssignInsideLoop($assigns, $node);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     */
+    private function isUsePropertyOrCall(array $assigns): bool
+    {
+        foreach ($assigns as $assign) {
+            if (! $assign->var instanceof Variable) {
+                return true;
+            }
+
+            if ($assign->expr instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($assign->expr instanceof StaticPropertyFetch) {
+                return true;
+            }
+
+            if (! $assign->expr instanceof MethodCall && ! $assign->expr instanceof StaticCall) {
+                continue;
+            }
+
+            if ($this->isArgPropertyOrAssignVariable($assign->expr->args, $assign->var)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isArgPropertyOrAssignVariable(array $args, Variable $variable): bool
+    {
+        foreach ($args as $arg) {
+            if ($arg->value instanceof PropertyFetch) {
+                return true;
+            }
+
+            if ($arg->value instanceof StaticPropertyFetch) {
+                return true;
+            }
+
+            if ($this->simpleNameResolver->areNamesEqual($arg->value, $variable)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @param Do_|For_|Foreach_|While_ $node
+     * @return string[]
+     */
+    private function revalidateExprAssignInsideLoop(array $assigns, Node $node): array
+    {
+        $loop = $this->nodeFinder->findFirst($node->stmts, function (Node $n): bool {
+            foreach (self::LOOP_NODE_TYPES as $loopType) {
+                if (! is_a($n, $loopType, true)) {
+                    continue;
+                }
+
+                return true;
+            }
+
+            return false;
+        });
+
+        if (! $loop instanceof Node) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        /** @var Do_|For_|Foreach_|While_ $loop */
+        return $this->validateAssignInLoop($assigns, $loop);
     }
 
     /**

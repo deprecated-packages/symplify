@@ -29,11 +29,21 @@ final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/SkipAssignVarExprUsedPreviousLoop.php', []];
         yield [__DIR__ . '/Fixture/SkipConditionalAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipConditionalElseAssign.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignVarUsedInMultiLoopVar.php', []];
+        yield [__DIR__ . '/Fixture/SkipVarIsProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipVarIsPropertyInDeepLoop.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprIsProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprIsStaticProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipMultiLoopNoAssign.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignInMultiLoopWithConcat.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprIsMethodCallAssignVar.php', []];
+        yield [__DIR__ . '/Fixture/SkipAssignExprIsStaticCallAssignVar.php', []];
 
         yield [__DIR__ . '/Fixture/AssignInForeach.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInFor.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInDo.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInWhile.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/CallAsAssignExprInLoopNotUseLoopVar.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule
