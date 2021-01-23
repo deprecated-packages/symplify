@@ -102,7 +102,7 @@ CODE_SAMPLE
      */
     private function validateVarExprAssign(array $assigns, Node $node, $expr): array
     {
-        $inLoop = $this->nodeFinder->findFirst($node, function (Node $n): bool {
+        $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n): bool {
             foreach (self::LOOP_NODE_TYPES as $loopType) {
                 if (is_a($n, $loopType, true)) {
                     return true;
@@ -113,7 +113,7 @@ CODE_SAMPLE
         });
 
         if ($inLoop instanceof Node) {
-            $node = $inLoop;
+            return [];
         }
 
         if ($expr === null) {
