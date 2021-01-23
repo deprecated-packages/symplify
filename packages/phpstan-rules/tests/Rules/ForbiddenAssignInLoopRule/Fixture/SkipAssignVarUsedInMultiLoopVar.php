@@ -67,14 +67,5 @@ final class SkipAssignVarUsedInMultiLoopVar
                 $this->removeNode($classMethod);
             }
         }
-
-        foreach ($parentNestingBreakTypes as $parentNestingBreakType) {
-            if (! is_a($node, $parentNestingBreakType, true)) {
-                continue;
-            }
-
-            $this->isBreakingNodeFoundFirst = true;
-            return true;
-        }
     }
 }
