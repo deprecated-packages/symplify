@@ -113,13 +113,26 @@ CODE_SAMPLE
             return [];
         }
 
+        return $this->revalidateExprAssignInsideLoop($assigns, $node);
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @param Do_|For_|Foreach_|While_ $node
+     * @return string[]
+     */
+    private function revalidateExprAssignInsideLoop(array $assigns, Node $node): array
+    {
         $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n) use ($assigns): bool {
             foreach (self::LOOP_NODE_TYPES as $loopType) {
-                if (is_a($n, $loopType, true)) {
-                    $validateAssignInLoop = $this->validateAssignInLoop($assigns, $n);
-                    if ($validateAssignInLoop === []) {
-                        return true;
-                    }
+                if (! is_a($n, $loopType, true)) {
+                    continue;
+                }
+
+                /** @var Do_|For_|Foreach_|While_ $n */
+                $validateAssignInLoop = $this->validateAssignInLoop($assigns, $n);
+                if ($validateAssignInLoop === []) {
+                    return true;
                 }
             }
 
