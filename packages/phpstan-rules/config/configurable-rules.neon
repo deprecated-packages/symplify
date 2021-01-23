@@ -64,6 +64,7 @@ services:
                 - 'var_dump'
                 - 'extract'
                 - 'curl_*'
+                - 'compact'
                 - 'method_exists'
                 - 'property_exists'
                 - 'spl_autoload_register'
