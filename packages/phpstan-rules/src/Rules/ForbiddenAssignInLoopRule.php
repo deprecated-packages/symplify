@@ -123,27 +123,24 @@ CODE_SAMPLE
      */
     private function revalidateExprAssignInsideLoop(array $assigns, Node $node): array
     {
-        $inLoop = $this->nodeFinder->findFirst($node->stmts, function (Node $n) use ($assigns): bool {
+        $loop = $this->nodeFinder->findFirst($node->stmts, function (Node $n): bool {
             foreach (self::LOOP_NODE_TYPES as $loopType) {
                 if (! is_a($n, $loopType, true)) {
                     continue;
                 }
 
-                /** @var Do_|For_|Foreach_|While_ $n */
-                $validateAssignInLoop = $this->validateAssignInLoop($assigns, $n);
-                if ($validateAssignInLoop === []) {
-                    return true;
-                }
+                return true;
             }
 
             return false;
         });
 
-        if ($inLoop instanceof Node) {
-            return [];
+        if (! $loop instanceof Node) {
+            return [self::ERROR_MESSAGE];
         }
 
-        return [self::ERROR_MESSAGE];
+        /** @var Do_|For_|Foreach_|While_ $loop */
+        return $this->validateAssignInLoop($assigns, $loop);
     }
 
     /**
