@@ -8,14 +8,16 @@ final class SkipAssignVarUseLoopVar
 {
     public function run()
     {
-        foreach ($class->stmts as $key => $classStmt) {
-            if (! $classStmt instanceof $type) {
-                continue;
+        foreach (self::BEFORE_TRAIT_TYPES as $type) {
+            foreach ($class->stmts as $key => $classStmt) {
+                if (! $classStmt instanceof $type) {
+                    continue;
+                }
+
+                $class->stmts = $this->insertBefore($class->stmts, $traitUse, $key);
+
+                return;
             }
-
-            $class->stmts = $this->insertBefore($class->stmts, $traitUse, $key);
-
-            return;
         }
     }
 }
