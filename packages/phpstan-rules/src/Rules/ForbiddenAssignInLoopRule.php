@@ -130,15 +130,11 @@ CODE_SAMPLE
     private function isUsePropertyOrCall(array $assigns): bool
     {
         foreach ($assigns as $assign) {
-            if ($assign->var instanceof PropertyFetch) {
+            if (! $assign->var instanceof Variable) {
                 return true;
             }
 
             if ($assign->expr instanceof PropertyFetch) {
-                return true;
-            }
-
-            if ($assign->var instanceof StaticPropertyFetch) {
                 return true;
             }
 
