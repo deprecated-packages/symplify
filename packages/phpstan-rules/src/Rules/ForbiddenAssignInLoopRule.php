@@ -112,6 +112,10 @@ CODE_SAMPLE
             if ($assign->var instanceof PropertyFetch) {
                 return [];
             }
+
+            if ($assign->expr instanceof PropertyFetch) {
+                return [];
+            }
         }
 
         /** @var Variable[] $variables */
