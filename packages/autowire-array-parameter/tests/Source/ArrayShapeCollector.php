@@ -4,28 +4,45 @@ declare(strict_types=1);
 
 namespace Symplify\AutowireArrayParameter\Tests\Source;
 
-use Symplify\AutowireArrayParameter\Tests\Source\Contract\CollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\Source\Contract\FirstCollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\Source\Contract\SecondCollectedInterface;
 
 final class ArrayShapeCollector
 {
     /**
-     * @var array<CollectedInterface>
+     * @var array<FirstCollectedInterface>
      */
-    private $collected = [];
+    private $firstCollected = [];
 
     /**
-     * @param array<CollectedInterface> $collected
+     * @var array<SecondCollectedInterface>
      */
-    public function __construct(array $collected)
+    private $secondCollected = [];
+
+    /**
+     * @param array<FirstCollectedInterface> $firstCollected
+     * @param array<SecondCollectedInterface> $secondCollected
+     */
+    public function __construct(array $firstCollected, array $secondCollected)
     {
-        $this->collected = $collected;
+        $this->firstCollected = $firstCollected;
+        $this->secondCollected = $secondCollected;
     }
 
     /**
-     * @return array<CollectedInterface>
+     * @return array<FirstCollectedInterface>
      */
-    public function getCollected(): array
+    public function getFirstCollected(): array
     {
-        return $this->collected;
+        return $this->firstCollected;
     }
+
+    /**
+     * @return array<SecondCollectedInterface>
+     */
+    public function getSecondCollected(): array
+    {
+        return $this->secondCollected;
+    }
+
 }
