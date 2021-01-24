@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
-use Symplify\PHPStanRules\Types\ObjectTypeAnalyzer;
+use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

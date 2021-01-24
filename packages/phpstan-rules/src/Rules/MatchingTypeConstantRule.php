@@ -13,6 +13,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -161,7 +162,7 @@ CODE_SAMPLE
     private function getVarTagValueForNode(ClassConst $classConst): ?VarTagValueNode
     {
         $phpDocNode = $this->barePhpDocParser->parseNode($classConst);
-        if ($phpDocNode === null) {
+        if (! $phpDocNode instanceof PhpDocNode) {
             return null;
         }
 

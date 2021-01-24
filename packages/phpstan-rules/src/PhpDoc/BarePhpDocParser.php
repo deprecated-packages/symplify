@@ -46,7 +46,7 @@ final class BarePhpDocParser
     public function parseNodeToPhpDocTagNodes(Node $node): array
     {
         $phpDocNode = $this->parseNode($node);
-        if ($phpDocNode === null) {
+        if (! $phpDocNode instanceof PhpDocNode) {
             return [];
         }
 

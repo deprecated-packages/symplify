@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Types\ScalarTypeAnalyser;
+use Symplify\PHPStanRules\TypeAnalyzer\ScalarTypeAnalyser;
 use Symplify\PHPStanRules\VariableAsParamAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;

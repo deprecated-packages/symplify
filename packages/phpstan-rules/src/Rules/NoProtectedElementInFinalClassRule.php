@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\Reflection\TraitMethodAnalyser;
-use Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer;
+use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;

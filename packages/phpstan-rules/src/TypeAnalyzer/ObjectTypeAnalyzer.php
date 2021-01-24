@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Types;
+namespace Symplify\PHPStanRules\TypeAnalyzer;
 
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
