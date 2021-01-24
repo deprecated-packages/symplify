@@ -221,6 +221,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
             return $this->createServiceNameFromClass($className);
         }
 
-        return sprintf('%d_%s', ++$this->count, hash('sha256', $file));
+        $hashedFileName = hash('sha256', $file);
+        return sprintf('%d_%s', ++$this->count, $hashedFileName);
     }
 }

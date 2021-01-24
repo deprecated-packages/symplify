@@ -127,8 +127,10 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->dumpFile($fileTemporaryPath, $inputAndExpected->getInput());
 
         // require class to autoload it
-        assert(file_exists($temporaryPath . '/src/SomeClass.php'));
-        require_once $temporaryPath . '/src/SomeClass.php';
+        $expectedFilePath = $temporaryPath . '/src/SomeClass.php';
+        $this->assertFileExists($expectedFilePath);
+
+        require_once $expectedFilePath;
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
 

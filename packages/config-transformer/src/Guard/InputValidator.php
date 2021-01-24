@@ -26,9 +26,10 @@ final class InputValidator
             return;
         }
 
+        $type = ucfirst($type);
         $message = sprintf(
             '%s format "%s" is not supported. Pick one of "%s"',
-            ucfirst($type),
+            $type,
             $formatValue,
             implode('", ', $allowedValues)
         );

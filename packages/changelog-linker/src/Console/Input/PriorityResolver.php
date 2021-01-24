@@ -30,13 +30,15 @@ final class PriorityResolver
 
         $requiredOptions = [Option::IN_PACKAGES, Option::IN_CATEGORIES];
 
-        if (count(array_intersect($requiredOptions, array_keys($rawOptions))) !== count($requiredOptions)) {
+        $optionNames = array_keys($rawOptions);
+        $usedOptions = array_intersect($requiredOptions, $optionNames);
+
+        if (count($usedOptions) !== count($requiredOptions)) {
             return null;
         }
 
-        $names = array_keys($rawOptions);
-        foreach ($names as $name) {
-            if ($name === Option::IN_PACKAGES) {
+        foreach ($optionNames as $optionName) {
+            if ($optionName === Option::IN_PACKAGES) {
                 return 'packages';
             }
 

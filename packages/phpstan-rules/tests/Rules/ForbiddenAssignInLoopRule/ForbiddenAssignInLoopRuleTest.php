@@ -43,7 +43,10 @@ final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/AssignInFor.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInDo.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/AssignInWhile.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/CallAsAssignExprInLoopNotUseLoopVar.php', [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11]]];
+        yield [
+            __DIR__ . '/Fixture/CallAsAssignExprInLoopNotUseLoopVar.php',
+            [[ForbiddenAssignInLoopRule::ERROR_MESSAGE, 11],
+            ], ];
     }
 
     protected function getRule(): Rule

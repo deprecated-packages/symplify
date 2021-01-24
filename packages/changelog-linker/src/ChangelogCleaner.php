@@ -29,7 +29,7 @@ final class ChangelogCleaner
         $deadLinks = $this->linksAnalyzer->getDeadLinks();
 
         foreach ($deadLinks as $deadLink) {
-            $deadLinkPattern = sprintf('#\[\#?(%s)\]:(.*?)\n#', preg_quote($deadLink));
+            $deadLinkPattern = '#\[\#?(' . preg_quote($deadLink, '#') . ')\]:(.*?)\n#';
             $changelogContent = Strings::replace($changelogContent, $deadLinkPattern, '');
         }
 
