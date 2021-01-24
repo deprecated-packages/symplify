@@ -18,8 +18,10 @@ use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\PHPStanRules\Types\TypeUnwrapper;
+use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -141,6 +143,10 @@ CODE_SAMPLE
             return true;
         }
 
+        if ($this->isInvokableObjectType($nameStaticType)) {
+            return true;
+        }
+
         return $this->isForeachedVariable($node);
     }
 
@@ -162,5 +168,14 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function isInvokableObjectType(Type $type): bool
+    {
+        if (! $type instanceof ObjectType) {
+            return false;
+        }
+
+        return method_exists($type->getClassName(), MethodName::INVOKE);
     }
 }
