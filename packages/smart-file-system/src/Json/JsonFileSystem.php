@@ -30,6 +30,9 @@ final class JsonFileSystem
         $this->smartFileSystem = $smartFileSystem;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function loadFilePathToJson(string $filePath): array
     {
         $this->fileSystemGuard->ensureFileExists($filePath, __METHOD__);

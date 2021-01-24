@@ -1,9 +1,5 @@
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ValidNetteInjectRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\NoNestedFuncCallRule
         tags: [phpstan.rules.rule]
 
