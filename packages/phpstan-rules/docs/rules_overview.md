@@ -1,4 +1,4 @@
-# 124 Rules Overview
+# 128 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -67,7 +67,7 @@ class SomeClass
 
 ## CheckClassNamespaceFollowPsr4Rule
 
-%s namespace "%s" does not follow PSR-4 configuration in `composer.json`
+Class like namespace "%s" does not follow PSR-4 configuration in `composer.json`
 
 - class: `Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule`
 
@@ -201,7 +201,7 @@ class SomeTest
 
 ## CheckOptionArgumentCommandRule
 
-`%s()` called in `configure()`, must be called with `%s()` in `execute()` in "Symfony\Component\Console\Command\Command" type
+Argument and options "%s" got confused
 
 - class: `Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`
 
@@ -210,12 +210,12 @@ class SomeClass extends Command
 {
     protected function configure(): void
     {
-        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addOption('source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shouldCategorize = (bool) $input->getArgument(Option::CATEGORIZE);
+        $source = $input->getArgument('source');
     }
 }
 ```
@@ -229,12 +229,12 @@ class SomeClass extends Command
 {
     protected function configure(): void
     {
-        $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addArgument('source');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
+        $source = $input->getArgument('source');
     }
 }
 ```
@@ -744,6 +744,62 @@ class SomeCommand extends Command
 
 <br>
 
+## ConstantMapRuleRule
+
+Static constant map should be extracted from this method
+
+- class: `Symplify\PHPStanRules\Rules\ConstantMapRuleRule`
+
+```php
+class SomeClass
+{
+    public function run($value)
+    {
+        if ($value instanceof SomeType) {
+            return 100;
+        }
+
+        if ($value instanceof AnotherType) {
+            return 1000;
+        }
+
+        return 200;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    /**
+     * @var array<string, int>
+     */
+    private const TYPE_TO_VALUE = [
+        SomeType::class => 100,
+        AnotherType::class => 1000,
+    ];
+
+    public function run($value)
+    {
+        foreach (self::TYPE_TO_VALUE as $type => $value) {
+            if (is_a($value, $type, true)) {
+                return $value;
+            }
+        }
+
+        return 200;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## DifferentMethodNameToParameterRule
 
 Method name should be different to its parameter name, in a verb form
@@ -1054,6 +1110,36 @@ if ($isRandom = mt_rand()) {
 $isRandom = mt_rand();
 if ($isRandom) {
     // ...
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenAssignInLoopRule
+
+Assign in loop is not allowed.
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`
+
+```php
+foreach (...) {
+    $value = new SmartFileInfo('a.php');
+    if ($value) {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+$value = new SmartFileInfo('a.php');
+foreach (...) {
+    if ($value) {
+    }
 }
 ```
 
@@ -1923,6 +2009,28 @@ class SomeClass
 
 <br>
 
+## ForbiddenThisArgumentRule
+
+`$this` as argument is not allowed. Refator method to service composition
+
+- class: `Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule`
+
+```php
+$this->someService->process($this, ...);
+```
+
+:x:
+
+<br>
+
+```php
+$this->someService->process($value, ...);
+```
+
+:+1:
+
+<br>
+
 ## FunctionLikeCognitiveComplexityRule
 
 Cognitive complexity of function/method must be under specific limit
@@ -2694,6 +2802,40 @@ final class SomeRepository
     {
         $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
     }
+}
+```
+
+:+1:
+
+<br>
+
+## NoInjectOnFinalRule
+
+Property `@inject` can be used on non-final class only
+
+- class: `Symplify\PHPStanRules\Rules\NoInjectOnFinalRule`
+
+```php
+final class SomePresenter
+{
+    /**
+     * @inject
+     */
+    public $property;
+}
+```
+
+:x:
+
+<br>
+
+```php
+abstract class SomePresenter
+{
+    /**
+     * @inject
+     */
+    public $property;
 }
 ```
 
