@@ -75,7 +75,8 @@ final class LoopsCaseConverter implements CaseConverterInterface
             $content,
             self::FOREACH_LIST_REGEX,
             function (array $match): string {
-                return sprintf('{%% for %s in %s %%}', str_replace('$', '', $match['items']), $match['list']);
+                $variablesWithoutDollar = str_replace('$', '', $match['items']);
+                return sprintf('{%% for %s in %s %%}', $variablesWithoutDollar, $match['list']);
             }
         );
 

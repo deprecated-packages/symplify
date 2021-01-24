@@ -733,6 +733,17 @@ final class ComposerJson
         $this->scriptsDescriptions = $scriptsDescriptions;
     }
 
+    /**
+     * @return string[]
+     */
+    public function getDuplicatedRequirePackages(): array
+    {
+        $requiredPackageNames = $this->require;
+        $requiredDevPackageNames = $this->requireDev;
+
+        return array_intersect($requiredPackageNames, $requiredDevPackageNames);
+    }
+
     private function moveValueToBack(string $valueName): void
     {
         $key = array_search($valueName, $this->orderedKeys, true);

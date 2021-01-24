@@ -20,7 +20,9 @@ final class StringFormatConverter
 
     public function underscoreAndHyphenToCamelCase(string $value): string
     {
-        $value = str_replace(' ', '', ucwords(str_replace(['_', '-'], ' ', $value)));
+        $underscoreToHyphensValue = str_replace(['_', '-'], ' ', $value);
+        $uppercasedWords = ucwords($underscoreToHyphensValue);
+        $value = str_replace(' ', '', $uppercasedWords);
 
         return lcfirst($value);
     }

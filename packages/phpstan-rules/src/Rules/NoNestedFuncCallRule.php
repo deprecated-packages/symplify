@@ -22,6 +22,11 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use separate function calls with readable variable names';
 
     /**
+     * @var string[]
+     */
+    private const ALLOWED_FUNC_NAMES = ['count', 'trim', 'ltrim', 'rtrim', 'get_class', 'implode', 'strlen'];
+
+    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -52,7 +57,7 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
 
             $funcCall = $arg->value;
 
-            if ($this->simpleNameResolver->isNames($funcCall, ['count', 'trim', 'ltrim', 'rtrim', 'get_class'])) {
+            if ($this->simpleNameResolver->isNames($funcCall, self::ALLOWED_FUNC_NAMES)) {
                 continue;
             }
 

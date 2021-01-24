@@ -52,7 +52,8 @@ final class PackageNameVersionProvider
      */
     private function extractFromComposer(string $packageName): ?Version
     {
-        $installedJsonFilename = sprintf('%s/composer/installed.json', dirname(__DIR__, 6));
+        $vendorDirectory = dirname(__DIR__, 6);
+        $installedJsonFilename = sprintf('%s/composer/installed.json', $vendorDirectory);
 
         if (is_file($installedJsonFilename)) {
             $installedJsonFileContent = $this->smartFileSystem->readFile($installedJsonFilename);
