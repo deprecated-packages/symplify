@@ -59,3 +59,4 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
+    - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer

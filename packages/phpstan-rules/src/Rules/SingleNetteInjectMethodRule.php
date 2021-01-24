@@ -8,7 +8,6 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,16 +20,6 @@ final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use single inject*() class method per class';
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-    }
 
     /**
      * @return string[]
@@ -116,9 +105,7 @@ CODE_SAMPLE
     {
         $methodNames = [];
         foreach ($classMethodsNode->getMethods() as $classMethod) {
-            /** @var string $methodName */
-            $methodName = $this->simpleNameResolver->getName($classMethod);
-            $methodNames[] = $methodName;
+            $methodNames[] = $classMethod->name->toString();
         }
 
         return $methodNames;
