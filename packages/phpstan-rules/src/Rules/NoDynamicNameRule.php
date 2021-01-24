@@ -20,7 +20,7 @@ use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
-use Symplify\PHPStanRules\Types\TypeUnwrapper;
+use Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper;
 use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -78,17 +78,11 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node instanceof ClassConstFetch) {
+        if ($node instanceof ClassConstFetch || $node instanceof StaticPropertyFetch) {
             if (! $node->class instanceof Expr) {
                 return [];
             }
 
-            return [self::ERROR_MESSAGE];
-        }
-        if ($node instanceof StaticPropertyFetch) {
-            if (! $node->class instanceof Expr) {
-                return [];
-            }
             return [self::ERROR_MESSAGE];
         }
 
@@ -176,6 +170,6 @@ CODE_SAMPLE
             return false;
         }
 
-        return method_exists($type->getClassName(), MethodName::INVOKE);
+        return $type->hasMethod(MethodName::INVOKE)->yes();
     }
 }

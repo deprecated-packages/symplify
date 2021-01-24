@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
-use Symplify\PHPStanRules\Types\ContainsTypeAnalyser;
+use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
