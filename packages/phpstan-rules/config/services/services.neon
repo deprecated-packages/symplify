@@ -10,9 +10,6 @@ services:
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\VariableAsParamAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
-    - Symplify\PHPStanRules\Types\ScalarTypeAnalyser
-    - Symplify\PHPStanRules\Types\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\Types\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
@@ -22,12 +19,10 @@ services:
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
 
-    - Symplify\PHPStanRules\Types\ConstantTypeAnalyzer
 
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 
-    - Symplify\PHPStanRules\Types\TypeUnwrapper
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Matcher\PositionMatcher
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
@@ -44,7 +39,6 @@ services:
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
-    - Symplify\PHPStanRules\Types\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeFinder\StatementFinder
@@ -57,3 +51,11 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
+
+    - Symplify\PHPStanRules\TypeAnalyzer\ScalarTypeAnalyser
+    - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
+    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
+    - Symplify\PHPStanRules\TypeAnalyzer\ConstantTypeAnalyzer
+    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
+    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
+    - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
