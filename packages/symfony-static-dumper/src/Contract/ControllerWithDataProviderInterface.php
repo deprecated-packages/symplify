@@ -10,5 +10,8 @@ interface ControllerWithDataProviderInterface
 
     public function getControllerMethod(): string;
 
+    /**
+     * @return mixed[]
+     */
     public function getArguments(): array;
 }
