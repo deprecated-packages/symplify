@@ -24,7 +24,7 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_FUNC_NAMES = ['count', 'trim', 'ltrim', 'rtrim', 'get_class', 'implode', 'strlen'];
+    private const ALLOWED_FUNC_NAMES = ['count', 'trim', 'ltrim', 'rtrim', 'get_class', 'implode', 'strlen', 'getcwd'];
 
     /**
      * @var SimpleNameResolver
