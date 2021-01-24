@@ -8,7 +8,10 @@
     "autoload": {
         "psr-4": {
             "Symplify\\Amnesia\\": "src"
-        }
+        },
+        "files": [
+            "src/Functions/env.php"
+        ]
     },
     "extra": {
         "branch-alias": {
