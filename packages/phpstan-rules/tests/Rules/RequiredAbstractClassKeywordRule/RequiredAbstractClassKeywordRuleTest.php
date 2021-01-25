@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule;
+namespace Symplify\PHPStanRules\Tests\Rules\RequiredAbstractClassKeywordRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule;
+use Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule;
 
-final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequiredAbstractClassKeywordRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,14 +26,14 @@ final class CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest ex
 
         yield [
             __DIR__ . '/Fixture/AbstractPrefixOnNonAbstractClass.php',
-            [[CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule::ERROR_MESSAGE, 7]],
+            [[RequiredAbstractClassKeywordRule::ERROR_MESSAGE, 7]],
         ];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule::class,
+            RequiredAbstractClassKeywordRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

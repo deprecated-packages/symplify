@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\ObjectType;
@@ -31,21 +29,21 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class, Variable::class, PropertyFetch::class];
+        return [Return_::class];
     }
 
     /**
-     * @param MethodCall|Variable|PropertyFetch $node
+     * @param Return_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node instanceof MethodCall) {
-            return $this->processMethodCall($node, $scope);
+        if ($node->expr === null) {
+            return [];
         }
 
-        $variableType = $scope->getType($node);
-        if (! $this->isArrayStringToObjetType($variableType)) {
+        $returnedExprType = $scope->getType($node->expr);
+        if (! $this->isArrayStringToObjectType($returnedExprType)) {
             return [];
         }
 
@@ -59,6 +57,11 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
+    public getItems()
+    {
+        return $this->getValues();
+    }
+
     /**
      * @return array<string, Value>
      */
@@ -71,6 +74,11 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
+    public getItems()
+    {
+        return $this->getValues();
+    }
+
     /**
      * @return WrappingValue[]
      */
@@ -84,20 +92,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @return string[]
-     */
-    private function processMethodCall(MethodCall $methodCall, Scope $scope): array
-    {
-        $methodCallReturnType = $scope->getType($methodCall);
-        if (! $this->isArrayStringToObjetType($methodCallReturnType)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
-    }
-
-    private function isArrayStringToObjetType(Type $type): bool
+    private function isArrayStringToObjectType(Type $type): bool
     {
         if (! $type instanceof ArrayType) {
             return false;

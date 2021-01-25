@@ -1,6 +1,14 @@
 services:
     -
-        class: Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
+        class: Symplify\PHPStanRules\Rules\RequireInvokableControllerRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule
         tags: [phpstan.rules.rule]
 
     -
@@ -22,3 +30,7 @@ services:
             attributeWithNames:
                 Symfony\Component\Routing\Annotation\Route:
                     - name
+
+    -
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        tags: [phpstan.rules.rule]
