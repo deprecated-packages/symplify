@@ -46,6 +46,10 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($node->isAbstract()) {
+            return [];
+        }
+
         $constructMethod = $node->getMethod(MethodName::CONSTRUCTOR);
         if ($constructMethod === null) {
             return [];

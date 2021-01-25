@@ -22,6 +22,8 @@ final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRule
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipOnlyConstructor.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstract.php', []];
+
         yield [__DIR__ . '/Fixture/InjectMethodAndConstructor.php', [
             [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 7],
         ]];
