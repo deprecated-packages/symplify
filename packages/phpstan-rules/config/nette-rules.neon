@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoInjectOnFinalRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule
         tags: [phpstan.rules.rule]
 
