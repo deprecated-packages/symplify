@@ -4,14 +4,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\RequireInvokableControllerRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule
         tags: [phpstan.rules.rule]
 
