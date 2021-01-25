@@ -25,16 +25,13 @@ final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTe
             [NoArrayStringObjectReturnRule::ERROR_MESSAGE, 18],
             [NoArrayStringObjectReturnRule::ERROR_MESSAGE, 26],
         ]];
+
         yield [
             __DIR__ . '/Fixture/WithoutPropertyArrayStringObjectReturn.php',
             [[NoArrayStringObjectReturnRule::ERROR_MESSAGE, 13]],
         ];
 
         yield [__DIR__ . '/Fixture/ParamArrayStringObject.php', [[NoArrayStringObjectReturnRule::ERROR_MESSAGE, 16]]];
-        yield [
-            __DIR__ . '/Fixture/PropertyArrayStringObject.php',
-            [[NoArrayStringObjectReturnRule::ERROR_MESSAGE, 18]],
-        ];
 
         yield [__DIR__ . '/Fixture/SkipNonStringKey.php', []];
     }
