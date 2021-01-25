@@ -9,9 +9,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Rules\Generics\TemplateTypeCheck;
-
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,27 +24,12 @@ final class RequireChildClassGenericTypeRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parent class has defined generic types, so they must be defined here too';
 
     /**
-     * @var TemplateTypeCheck
-     */
-    private $templateTypeCheck;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @var PrivatesCaller
      */
     private $privatesCaller;
 
-    public function __construct(
-        TemplateTypeCheck $templateTypeCheck,
-        SimpleNameResolver $simpleNameResolver,
-        PrivatesCaller $privatesCaller
-    ) {
-        $this->templateTypeCheck = $templateTypeCheck;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(PrivatesCaller $privatesCaller)
+    {
         $this->privatesCaller = $privatesCaller;
     }
 
@@ -67,6 +49,10 @@ final class RequireChildClassGenericTypeRule extends AbstractSymplifyRule
     {
         $classReflection = $scope->getClassReflection();
         if ($classReflection === null) {
+            return [];
+        }
+
+        if ($classReflection->isAbstract()) {
             return [];
         }
 

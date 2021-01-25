@@ -383,7 +383,7 @@ parameters:
             message: '#Skipped tested file must start with "Skip" prefix#'
             paths:
                  - packages/phpstan-rules/tests/Rules/PrefixAbstractClassRule/PrefixAbstractClassRuleTest.php
-                 - packages/phpstan-rules/tests/Rules/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule/CheckRequiredAbstractKeywordForClassNameStartWithAbstractRuleTest.php
+                 - packages/phpstan-rules/tests/Rules/RequiredAbstractClassKeywordRule/RequiredAbstractClassKeywordRuleTest.php
 
         -
             message: '#Argument "name" must be a constant#'

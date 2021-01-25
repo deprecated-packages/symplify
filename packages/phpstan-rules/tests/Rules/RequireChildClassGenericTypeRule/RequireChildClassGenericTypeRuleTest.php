@@ -22,7 +22,9 @@ final class RequireChildClassGenericTypeRuleTest extends AbstractServiceAwareRul
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAbstract.php', []];
         yield [__DIR__ . '/Fixture/SkipCorrect.php', []];
+
         yield [__DIR__ . '/Fixture/MissingGenericType.php', [[RequireChildClassGenericTypeRule::ERROR_MESSAGE, 9]]];
     }
 
