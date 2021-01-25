@@ -4,6 +4,7 @@ includes:
 
     # 2. prepared sets
     - nette-rules.neon
+    - generic-rules.neon
     - array-rules.neon
     - code-complexity-rules.neon
     - forbidden-static-rules.neon

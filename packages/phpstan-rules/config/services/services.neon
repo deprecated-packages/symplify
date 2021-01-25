@@ -60,3 +60,4 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
+    - Symplify\PackageBuilder\Reflection\PrivatesCaller

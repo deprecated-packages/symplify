@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\ClassPropertiesNode;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -41,7 +42,7 @@ final class TooManyPropertiesRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @param Class_ $node
+     * @param ClassPropertiesNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
