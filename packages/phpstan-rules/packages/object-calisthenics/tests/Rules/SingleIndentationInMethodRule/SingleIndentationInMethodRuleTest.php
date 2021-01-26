@@ -31,7 +31,7 @@ final class SingleIndentationInMethodRuleTest extends AbstractServiceAwareRuleTe
     {
         return $this->getRuleFromConfig(
             SingleIndentationInMethodRule::class,
-            __DIR__ . '/../../../config/object-calisthenics-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/services/services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
@@ -5,5 +8,3 @@ services:
         arguments:
             annotations:
                 - Symfony\Component\Routing\Annotation\Route
-
-    - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver

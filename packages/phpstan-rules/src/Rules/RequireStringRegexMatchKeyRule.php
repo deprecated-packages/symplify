@@ -159,14 +159,14 @@ CODE_SAMPLE
             return null;
         }
 
-        $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $n) use ($expr): bool {
-            if (! $n instanceof ArrayDimFetch) {
+        $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $node) use ($expr): bool {
+            if (! $node instanceof ArrayDimFetch) {
                 return false;
             }
-            if (! $n->dim instanceof LNumber) {
+            if (! $node->dim instanceof LNumber) {
                 return false;
             }
-            return $this->nodeComparator->areNodesEqual($n->var, $expr);
+            return $this->nodeComparator->areNodesEqual($node->var, $expr);
         });
 
         if ($arrayDimFetch instanceof ArrayDimFetch) {
