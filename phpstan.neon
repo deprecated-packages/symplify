@@ -424,6 +424,4 @@ parameters:
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
-        -
-            message: '#Class cognitive complexity is 29, keep it under 16#'
-            path: packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'

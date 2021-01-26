@@ -45,9 +45,12 @@ final class TypeCastersCollector
      */
     private function sortCastersByPriority(array $typeCasters): array
     {
-        usort($typeCasters, static function (TypeCasterInterface $a, TypeCasterInterface $b): int {
-            return $a->getPriority() <=> $b->getPriority();
-        });
+        usort(
+            $typeCasters,
+            static function (TypeCasterInterface $firstTypeCaster, TypeCasterInterface $secondTypeCaster): int {
+                return $firstTypeCaster->getPriority() <=> $secondTypeCaster->getPriority();
+            }
+        );
 
         return $typeCasters;
     }

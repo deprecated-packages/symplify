@@ -21,12 +21,15 @@ final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        $emErrorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'em', 3);
-        $yeErrorMEssage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'YE', 3);
-
-        yield [__DIR__ . '/Fixture/ShortNamingClass.php', [[$emErrorMessage, 9], [$yeErrorMEssage, 11]]];
-
         yield [__DIR__ . '/Fixture/SkipId.php', []];
+
+        $errorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'em', 3);
+        $yeErrorMEssage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'YE', 3);
+        yield [__DIR__ . '/Fixture/ShortNamingClass.php', [[$errorMessage, 9], [$yeErrorMEssage, 11]]];
+
+        $errorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'n', 3);
+        yield [__DIR__ . '/Fixture/ShortClosureParam.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/ShortParam.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule
