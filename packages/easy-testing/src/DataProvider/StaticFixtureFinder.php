@@ -7,7 +7,6 @@ namespace Symplify\EasyTesting\DataProvider;
 use Iterator;
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -18,55 +17,61 @@ final class StaticFixtureFinder
 {
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $fileInfos = self::findFilesInDirectory($directory, $suffix);
-        foreach ($fileInfos as $fileInfo) {
+        $finder = self::findFilesInDirectory($directory, $suffix);
+        foreach ($finder as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
-        foreach ($fileInfos as $fileInfo) {
+        $finder = self::findFilesInDirectoryExclusively($directory, $suffix);
+        foreach ($finder as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private static function findFilesInDirectory(string $directory, string $suffix): array
+    public static function yieldDirectoryByFileName(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $finder = Finder::create()->in($directory)->files()->name($suffix);
-        $fileInfos = iterator_to_array($finder);
-
-        return array_values($fileInfos);
+        $finder = self::findFilesInDirectory($directory, $suffix);
+        foreach ($finder as $fileInfo) {
+            yield $fileInfo->getRelativePathname() => [new SmartFileInfo($fileInfo->getRealPath())];
+        }
     }
 
-    /**
-     * @return SplFileInfo[]
-     */
-    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
+    public static function yieldDirectoryExclusivelyByFileName(string $directory, string $suffix = '*.php.inc'): Iterator
+    {
+        $finder = self::findFilesInDirectoryExclusively($directory, $suffix);
+        foreach ($finder as $fileInfo) {
+            yield $fileInfo->getRelativePathname() => [new SmartFileInfo($fileInfo->getRealPath())];
+        }
+    }
+
+    private static function findFilesInDirectory(string $directory, string $suffix): Finder
+    {
+        return Finder::create()
+            ->in($directory)
+            ->files()
+            ->name($suffix);
+    }
+
+    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): Finder
     {
         self::ensureNoOtherFileName($directory, $suffix);
 
-        $finder = Finder::create()->in($directory)
+        return Finder::create()->in($directory)
             ->files()
             ->name($suffix);
-
-        $fileInfos = iterator_to_array($finder->getIterator());
-        return array_values($fileInfos);
     }
 
     private static function ensureNoOtherFileName(string $directory, string $suffix): void
     {
-        $iterator = Finder::create()->in($directory)
+        $finder = Finder::create()->in($directory)
             ->files()
-            ->notName($suffix)
-            ->getIterator();
+            ->notName($suffix);
 
         $relativeFilePaths = [];
-        foreach ($iterator as $fileInfo) {
+        foreach ($finder as $fileInfo) {
             $relativeFilePaths[] = Strings::substring($fileInfo->getRealPath(), strlen(getcwd()) + 1);
         }
 

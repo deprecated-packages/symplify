@@ -33,4 +33,22 @@ final class StaticFixtureFinderTest extends TestCase
         // this is needed to call the iterator
         $fileInfos = iterator_to_array($files);
     }
+
+    public function testYieldDirectoryWithFileNames(): void
+    {
+        $files = StaticFixtureFinder::yieldDirectoryByFileName(__DIR__ . '/Fixture', '*.php');
+        $files = iterator_to_array($files);
+        $this->assertCount(1, $files);
+        $this->assertArrayHasKey('foo.php', $files);
+    }
+
+    public function testYieldDirectoryWithFileNamesExclusivelyThrowException(): void
+    {
+        $this->expectException(ShouldNotHappenException::class);
+
+        $files = StaticFixtureFinder::yieldDirectoryExclusivelyByFileName(__DIR__ . '/FixtureMulti', '*.php');
+
+        // this is needed to call the iterator
+        $fileInfos = iterator_to_array($files);
+    }
 }
