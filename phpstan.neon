@@ -279,7 +279,6 @@ parameters:
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
                 - packages/template-checker/src/Latte/LatteFilterManager.php # 88
-                - packages/easy-hydrator/tests/ArrayToValueObjectHydratorTest.php # 237
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         # nesting
@@ -405,9 +404,6 @@ parameters:
             message: '#Assign in loop is not allowed#'
             paths:
                 - packages/monorepo-builder/packages/merge/src/Validation/AutoloadPathValidator.php #30
-                - packages/phpstan-rules/src/Rules/AbstractInvokableControllerRule.php #50
-                - packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php #81
-                - packages/phpunit-upgrader/src/FileInfoDecorator/AssertContainsInfoDecorator.php #39
 
         -
             message: '#\$this as argument is not allowed#'
@@ -427,8 +423,6 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
-
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
 
         -
             message: '#Class cognitive complexity is 29, keep it under 16#'
