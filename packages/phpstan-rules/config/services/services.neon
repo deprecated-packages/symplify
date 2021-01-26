@@ -62,3 +62,4 @@ services:
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\VariableUsageAnalyzer

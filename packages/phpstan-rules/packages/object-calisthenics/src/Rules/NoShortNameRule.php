@@ -42,7 +42,7 @@ final class NoShortNameRule extends AbstractSymplifyRule implements Configurable
     /**
      * @param string[] $allowedShortNames
      */
-    public function __construct(int $minNameLength, array $allowedShortNames)
+    public function __construct(int $minNameLength, array $allowedShortNames = ['i', 'y', 'z'])
     {
         $this->minNameLength = $minNameLength;
         $this->allowedShortNames = $allowedShortNames;
