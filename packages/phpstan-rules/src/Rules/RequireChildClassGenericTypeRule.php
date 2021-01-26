@@ -48,7 +48,7 @@ final class RequireChildClassGenericTypeRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 

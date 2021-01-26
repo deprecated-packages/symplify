@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
 use Symplify\PHPStanRules\ValueObject\MethodName;
@@ -27,9 +28,9 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
      */
     private $netteInjectAnalyzer;
 
-    public function __construct(NetteInjectAnalyzer $injectPropertyOrClassMethodAnalyzer)
+    public function __construct(NetteInjectAnalyzer $netteInjectAnalyzer)
     {
-        $this->netteInjectAnalyzer = $injectPropertyOrClassMethodAnalyzer;
+        $this->netteInjectAnalyzer = $netteInjectAnalyzer;
     }
 
     /**
@@ -51,7 +52,7 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
         }
 
         $constructMethod = $node->getMethod(MethodName::CONSTRUCTOR);
-        if ($constructMethod === null) {
+        if (! $constructMethod instanceof ClassMethod) {
             return [];
         }
 
