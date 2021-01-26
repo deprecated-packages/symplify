@@ -1,9 +1,0 @@
-includes:
-    - ../../../../../object-calisthenics/config/object-calisthenics-services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxNestingLevel: 1
