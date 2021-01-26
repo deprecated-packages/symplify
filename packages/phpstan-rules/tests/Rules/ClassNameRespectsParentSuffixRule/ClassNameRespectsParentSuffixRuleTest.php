@@ -21,25 +21,21 @@ final class ClassNameRespectsParentSuffixRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(ClassNameRespectsParentSuffixRule::ERROR_MESSAGE, 'SomeController', 'Command');
-        yield [__DIR__ . '/Fixture/SomeController.php', [[$errorMessage, 9]]];
-
-        $errorMessage = sprintf(
-            ClassNameRespectsParentSuffixRule::ERROR_MESSAGE,
-            'SomeEventSubscriberFalse',
-            'EventSubscriber'
-        );
-        yield [__DIR__ . '/Fixture/SomeEventSubscriberFalse.php', [[$errorMessage, 9]]];
-
         yield [__DIR__ . '/Fixture/SkipCommand.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeEventSubscriber.php', []];
         yield [__DIR__ . '/Fixture/SkipFixer.php', []];
         yield [__DIR__ . '/Fixture/SkipAnonymousClass.php', []];
-
-        $errorMessage = sprintf(ClassNameRespectsParentSuffixRule::ERROR_MESSAGE, 'NonTestSuffix', 'TestCase');
-        yield [__DIR__ . '/Fixture/NonTestSuffix.php', [[$errorMessage, 9]]];
         yield [__DIR__ . '/Fixture/SkipTest.php', []];
         yield [__DIR__ . '/Fixture/SkipAbstractTestCase.php', []];
+
+        $errorMessage = sprintf(ClassNameRespectsParentSuffixRule::ERROR_MESSAGE, 'Test');
+        yield [__DIR__ . '/Fixture/NonTestSuffix.php', [[$errorMessage, 9]]];
+
+        $errorMessage = sprintf(ClassNameRespectsParentSuffixRule::ERROR_MESSAGE, 'Command');
+        yield [__DIR__ . '/Fixture/SomeController.php', [[$errorMessage, 9]]];
+
+        $errorMessage = sprintf(ClassNameRespectsParentSuffixRule::ERROR_MESSAGE, 'EventSubscriber');
+        yield [__DIR__ . '/Fixture/SomeEventSubscriberFalse.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule

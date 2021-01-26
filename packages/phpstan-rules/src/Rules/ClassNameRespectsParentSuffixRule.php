@@ -5,48 +5,39 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Naming\ClassToSuffixResolver;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule\ClassNameRespectsParentSuffixRuleTest
  */
-final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
+final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class "%s" should have suffix "%s" by parent class/interface';
-
-    /**
-     * @see https://regex101.com/r/ChpDsj/1
-     * @var string
-     */
-    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
+    public const ERROR_MESSAGE = 'Class should have suffix "%s" to respect parent type';
 
     /**
      * @var string[]
      */
     private const DEFAULT_PARENT_CLASSES = [
-        'Command',
-        'Controller',
-        'Repository',
-        'Presenter',
-        'Request',
-        'Response',
-        'EventSubscriber',
-        'EventSubscriberInterface',
-        'FixerInterface',
-        'Sniff',
-        'FixerInterface',
-        'Handler',
-        'Rule',
-        'TestCase' => 'Test',
+        Command::class,
+        EventSubscriberInterface::class,
+        AbstractController::class,
+        Sniff::class,
+        TestCase::class,
     ];
 
     /**
@@ -55,11 +46,26 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
     private $parentClasses = [];
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
+     * @var ClassToSuffixResolver
+     */
+    private $classToSuffixResolver;
+
+    /**
      * @param string[] $parentClasses
      */
-    public function __construct(array $parentClasses = [])
-    {
-        $this->parentClasses = $parentClasses;
+    public function __construct(
+        ClassToSuffixResolver $classToSuffixResolver,
+        SimpleNameResolver $simpleNameResolver,
+        array $parentClasses = []
+    ) {
+        $this->parentClasses = array_merge($parentClasses, self::DEFAULT_PARENT_CLASSES);
+        $this->simpleNameResolver = $simpleNameResolver;
+        $this->classToSuffixResolver = $classToSuffixResolver;
     }
 
     /**
@@ -76,8 +82,8 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $shortClassName = $node->name;
-        if (! $shortClassName instanceof Identifier) {
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
             return [];
         }
 
@@ -85,29 +91,13 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule
             return [];
         }
 
-        $class = (string) $shortClassName;
-        if (Strings::match($class, self::ANONYMOUS_CLASS_REGEX)) {
-            return [];
-        }
-
-        if ($node->extends !== null) {
-            return $this->processParent($node, $node->extends);
-        }
-
-        foreach ($node->implements as $implement) {
-            $errorMessages = $this->processClassNameAndShort($class, $implement->getLast());
-            if ($errorMessages !== []) {
-                return $errorMessages;
-            }
-        }
-
-        return [];
+        return $this->processClassNameAndShort($className);
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 class Some extends Command
 {
@@ -119,77 +109,33 @@ class SomeCommand extends Command
 {
 }
 CODE_SAMPLE
+                ,
+                [
+                    'parentClasses' => [Command::class],
+                ]
             ),
         ]);
     }
 
     /**
-     * - SomeInterface => Some
-     * - SomeAbstract => Some
-     * - AbstractSome => Some
-     */
-    private function resolveExpectedSuffix(string $parentType): string
-    {
-        if (Strings::endsWith($parentType, 'Interface')) {
-            $parentType = Strings::substring($parentType, 0, -strlen('Interface'));
-        }
-
-        if (Strings::endsWith($parentType, 'Abstract')) {
-            $parentType = Strings::substring($parentType, 0, -strlen('Abstract'));
-        }
-
-        if (Strings::startsWith($parentType, 'Abstract')) {
-            $parentType = Strings::substring($parentType, strlen('Abstract'));
-        }
-
-        return $parentType;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function processParent(Class_ $class, Name $parentClassName): array
-    {
-        $shortClassName = (string) $class->name;
-
-        $parentShortClassName = $parentClassName->getLast();
-        $parentShortClassName = $this->resolveExpectedSuffix($parentShortClassName);
-
-        return $this->processClassNameAndShort($shortClassName, $parentShortClassName);
-    }
-
-    /**
      * @return array<int, string>
      */
-    private function processClassNameAndShort(string $class, string $currentShortClass): array
+    private function processClassNameAndShort(string $className): array
     {
-        $currentShortClass = $this->resolveExpectedSuffix($currentShortClass);
-        $parentClassesToCheck = $this->getParentClassesToCheck();
-        foreach ($parentClassesToCheck as $parentSuffix => $expectedSuffix) {
-            if (is_int($parentSuffix)) {
-                $parentSuffix = $expectedSuffix;
-            }
-
-            if (! Strings::endsWith($currentShortClass, $parentSuffix)) {
+        foreach ($this->parentClasses as $parentClass) {
+            if (! is_a($className, $parentClass, true)) {
                 continue;
             }
 
-            if (Strings::endsWith($class, $expectedSuffix)) {
+            $expectedSuffix = $this->classToSuffixResolver->resolveFromClass($parentClass);
+            if (Strings::endsWith($className, $expectedSuffix)) {
                 return [];
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $class, $currentShortClass);
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $expectedSuffix);
             return [$errorMessage];
         }
 
         return [];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getParentClassesToCheck(): array
-    {
-        return array_merge(self::DEFAULT_PARENT_CLASSES, $this->parentClasses);
     }
 }
