@@ -26,7 +26,7 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '$this as argument is not allowed. Refator method to service composition';
+    public const ERROR_MESSAGE = '$this as argument is not allowed. Refactor method to service composition';
 
     /**
      * @var string[]
