@@ -6,9 +6,12 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyOnStaticCallRule\NoDynamicPropertyOnStaticCallRuleTest
@@ -25,15 +28,19 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [StaticCall::class];
+        return [StaticCall::class, StaticPropertyFetch::class, ClassConstFetch::class];
     }
 
     /**
-     * @param StaticCall $node
+     * @param StaticCall|StaticPropertyFetch|ClassConstFetch $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($node->class instanceof FullyQualified) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
     }
 
