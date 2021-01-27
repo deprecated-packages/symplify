@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Expr\StaticPropertyFetch;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use PhpParser\Node\Name\FullyQualified;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyOnStaticCallRule\NoDynamicPropertyOnStaticCallRuleTest
@@ -28,11 +27,11 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [StaticCall::class, StaticPropertyFetch::class, ClassConstFetch::class];
+        return [StaticCall::class, ClassConstFetch::class];
     }
 
     /**
-     * @param StaticCall|StaticPropertyFetch|ClassConstFetch $node
+     * @param StaticCall|ClassConstFetch $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
