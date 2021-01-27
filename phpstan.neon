@@ -413,7 +413,7 @@ parameters:
         # required complexity, as get/set methods for API of composer.json
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'
 
-        - '#\$this as argument is not allowed\. Refator method to service composition#'
+        - '#\$this as argument is not allowed\. Refactor method to service composition#'
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
 
         -

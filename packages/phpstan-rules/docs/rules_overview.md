@@ -2011,7 +2011,7 @@ class SomeClass
 
 ## ForbiddenThisArgumentRule
 
-`$this` as argument is not allowed. Refator method to service composition
+`$this` as argument is not allowed. Refactor method to service composition
 
 - class: `Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule`
 
