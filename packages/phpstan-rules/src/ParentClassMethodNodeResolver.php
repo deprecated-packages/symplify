@@ -13,6 +13,7 @@ use PhpParser\NodeFinder;
 use PhpParser\Parser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use ReflectionMethod;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
@@ -48,7 +49,12 @@ final class ParentClassMethodNodeResolver
         /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassReflections($scope);
         foreach ($parentClassReflections as $parentClassReflection) {
-            $fileName = $parentClassReflection->getFileName();
+            if (! $parentClassReflection->hasMethod($methodName)) {
+                continue;
+            }
+
+            $parentMethodReflection = new ReflectionMethod($parentClassReflection->getName(), $methodName);
+            $fileName = $parentMethodReflection->getFileName();
             if ($fileName === false) {
                 continue;
             }

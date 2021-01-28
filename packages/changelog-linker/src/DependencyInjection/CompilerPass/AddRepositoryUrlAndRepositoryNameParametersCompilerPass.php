@@ -48,7 +48,7 @@ final class AddRepositoryUrlAndRepositoryNameParametersCompilerPass implements C
 
     private function detectRepositoryName(ContainerBuilder $containerBuilder): string
     {
-        $repositoryUrl = $containerBuilder->getParameter(Option::REPOSITORY_URL);
+        $repositoryUrl = (string) $containerBuilder->getParameter(Option::REPOSITORY_URL);
 
         return Strings::substring($repositoryUrl, Strings::length('https://github.com/'));
     }
