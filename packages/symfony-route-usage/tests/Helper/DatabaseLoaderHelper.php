@@ -31,7 +31,7 @@ final class DatabaseLoaderHelper
     {
         /** @var Connection $connection */
         $connection = $this->container->get('doctrine.dbal.default_connection');
-        $databaseName = $this->container->getParameter('database_name');
+        $databaseName = (string) $this->container->getParameter('database_name');
 
         /** @var AbstractSchemaManager $schemaManager */
         $schemaManager = $connection->getSchemaManager();
