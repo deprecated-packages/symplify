@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\ComposerKeyMerger;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class ExtraComposerKeyMerger implements ComposerKeyMergerInterface
 {
@@ -13,6 +14,16 @@ final class ExtraComposerKeyMerger implements ComposerKeyMergerInterface
      * @var string
      */
     private const PHPSTAN = 'phpstan';
+
+    /**
+     * @var ParametersMerger
+     */
+    private $parametersMerger;
+
+    public function __construct(ParametersMerger $parametersMerger)
+    {
+        $this->parametersMerger = $parametersMerger;
+    }
 
     public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {

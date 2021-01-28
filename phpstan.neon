@@ -1,5 +1,4 @@
 includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
@@ -425,3 +424,11 @@ parameters:
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
+
+        # parameters in tests
+        -
+             message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
+             paths:
+                 - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php
+                 - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
