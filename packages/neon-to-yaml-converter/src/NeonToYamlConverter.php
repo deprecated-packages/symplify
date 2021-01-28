@@ -81,6 +81,12 @@ final class NeonToYamlConverter
     private const ENV_GET_REGEX = "#\@env::get\(\'?(.*?)\'?(,.*?)?\)#ms";
 
     /**
+     * @see https://regex101.com/r/SnyASO/1
+     * @var string
+     */
+    private const RANDOM_DASH_LEFTOVER_REGEX = '#: \|\-#';
+
+    /**
      * @var ArrayParameterCollector
      */
     private $arrayParameterCollector;
@@ -148,6 +154,9 @@ final class NeonToYamlConverter
         $content = $this->replaceTilda($content);
 
         $content = $this->yamlOutputFormatter->format($content);
+
+        // clear |-
+        $content = Strings::replace($content, self::RANDOM_DASH_LEFTOVER_REGEX, ': |');
 
         return $this->replaceOldToNewParameters($content);
     }
