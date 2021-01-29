@@ -37,14 +37,17 @@ final class StaticFixtureFinder
             ->files();
 
         if (count($finderSuffix) !== count($finderAll)) {
-            foreach ($finderAll as $fileInfo) {
-                $fileName = $fileInfo->getFileName();
-                if (! Strings::match($fileName, '#' . $suffix . '$#')) {
-                    throw new ShouldNotHappenException(sprintf(
-                        '"%s" has invalid suffix, use "%s" suffix instead',
-                        $fileName,
-                        $suffix
-                    ));
+            foreach ($finderAll as $key => $fileInfoAll) {
+                $fileNameFromAll = $fileInfoAll->getFileName();
+                foreach ($finderSuffix as $key2 => $fileInfoSuffix) {
+                    $fileNameFromSuffix = $fileInfoSuffix->getFileName();
+                    if ($key === $key2 && $fileNameFromAll !== $fileNameFromSuffix) {
+                        throw new ShouldNotHappenException(sprintf(
+                            '"%s" has invalid suffix, use "%s" suffix instead',
+                            $fileName,
+                            $suffix
+                        ));
+                    }
                 }
             }
         }
