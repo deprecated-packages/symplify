@@ -33,6 +33,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
     public function provideDataForRouting(): Iterator
     {
+        StaticFixtureFinder::$enableValidation = false;
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/routing', '*.yaml');
     }
 
