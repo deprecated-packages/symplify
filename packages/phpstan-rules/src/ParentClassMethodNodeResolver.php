@@ -10,34 +10,27 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
-use PhpParser\Parser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Parser\Parser;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
-use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
 final class ParentClassMethodNodeResolver
 {
     /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
      * @var Parser
      */
-    private $phpParser;
+    private $parser;
 
     /**
      * @var NodeFinder
      */
     private $nodeFinder;
 
-    public function __construct(SmartFileSystem $smartFileSystem, Parser $phpParser, NodeFinder $nodeFinder)
+    public function __construct(Parser $parser, NodeFinder $nodeFinder)
     {
-        $this->smartFileSystem = $smartFileSystem;
-        $this->phpParser = $phpParser;
+        $this->parser = $parser;
         $this->nodeFinder = $nodeFinder;
     }
 
@@ -147,7 +140,6 @@ final class ParentClassMethodNodeResolver
      */
     private function parseFileToNodes(string $filePath): array
     {
-        $fileContent = $this->smartFileSystem->readFile($filePath);
-        return (array) $this->phpParser->parse($fileContent);
+        return $this->parser->parseFile($filePath);
     }
 }
