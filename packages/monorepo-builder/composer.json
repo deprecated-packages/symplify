@@ -14,12 +14,12 @@
         "symfony/dependency-injection": "^5.1",
         "symfony/console": "^4.4|^5.1",
         "symfony/process": "^4.4|^5.1",
-        "symplify/package-builder": "^9.0.47",
-        "symplify/composer-json-manipulator": "^9.0.47",
-        "symplify/smart-file-system": "^9.0.47",
-        "symplify/console-color-diff": "^9.0.47",
-        "symplify/symplify-kernel": "^9.0.47",
-        "symplify/set-config-resolver": "^9.0.47"
+        "symplify/package-builder": "^9.1",
+        "symplify/composer-json-manipulator": "^9.1",
+        "symplify/smart-file-system": "^9.1",
+        "symplify/console-color-diff": "^9.1",
+        "symplify/symplify-kernel": "^9.1",
+        "symplify/set-config-resolver": "^9.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
