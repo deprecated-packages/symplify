@@ -33,7 +33,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
     public function provideDataForRouting(): Iterator
     {
-        StaticFixtureFinder::$enableValidation = false;
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/routing', '*.yaml');
     }
 
@@ -42,8 +41,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testNormal(SmartFileInfo $fixtureFileInfo): void
     {
-        StaticFixtureFinder::$enableValidation = false;
-
         // for imports
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
@@ -57,7 +54,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testSpecialCaseWithDirectory(SmartFileInfo $fileInfo): void
     {
-        StaticFixtureFinder::$enableValidation = false;
         $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/nested', Format::YAML, Format::PHP);
     }
 

@@ -63,6 +63,11 @@ final class StaticFixtureFinder
 
         foreach ($finderAll as $key => $fileInfoAll) {
             $fileNameFromAll = $fileInfoAll->getFileName();
+            // temporary path in tests
+            if ($fileNameFromAll !== 'SomeClass.php.inc') {
+                continue;
+            }
+
             if (! isset($fileInfos[$key])) {
                 throw new ShouldNotHappenException(sprintf(
                     '"%s" has invalid suffix, use "%s" suffix instead',
