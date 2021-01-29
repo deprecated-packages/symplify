@@ -35,27 +35,30 @@ final class StaticFixtureFinder
             ->in($directory)
             ->files();
 
-        self::validateFixtureSuffix($finderAll, $finderSuffix, $suffix);
-
         $fileInfos = iterator_to_array($finderSuffix);
+        self::validateFixtureSuffix($finderAll, $finderSuffix, $fileInfos, $suffix);
+
         return array_values($fileInfos);
     }
 
-    private static function validateFixtureSuffix(Finder $finderAll, Finder $finderSuffix, string $suffix): void
-    {
-        if (count($finderSuffix) !== count($finderAll)) {
-            foreach ($finderAll as $key => $fileInfoAll) {
-                $fileNameFromAll = $fileInfoAll->getFileName();
-                foreach ($finderSuffix as $key2 => $fileInfoSuffix) {
-                    $fileNameFromSuffix = $fileInfoSuffix->getFileName();
-                    if ($key === $key2 && $fileNameFromAll !== $fileNameFromSuffix) {
-                        throw new ShouldNotHappenException(sprintf(
-                            '"%s" has invalid suffix, use "%s" suffix instead',
-                            $fileNameFromAll,
-                            $suffix
-                        ));
-                    }
-                }
+    private static function validateFixtureSuffix(
+        Finder $finderAll,
+        Finder $finderSuffix,
+        array $fileInfos,
+        string $suffix
+    ): void {
+        if (count($finderSuffix) === count($finderAll)) {
+            return;
+        }
+
+        foreach ($finderAll as $key => $fileInfoAll) {
+            $fileNameFromAll = $fileInfoAll->getFileName();
+            if (! isset($fileInfos[$key])) {
+                throw new ShouldNotHappenException(sprintf(
+                    '"%s" has invalid suffix, use "%s" suffix instead',
+                    $fileNameFromAll,
+                    $suffix
+                ));
             }
         }
     }
