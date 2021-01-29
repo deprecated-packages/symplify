@@ -60,6 +60,15 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
 
             $docBlockLines = explode(PHP_EOL, $token->getContent());
             foreach ($docBlockLines as $docBlockLine) {
+                if (Strings::match($docBlockLine, '/^[\s]*\*[\s]*@/')) {
+                    /*
+                     * The line looks like it contains an annotation. This fixer doesn't know how to
+                     * reformat those lines. They are assumed to be at the bottom of the doc block,
+                     * so we should just stop trying to reformat the doc block here.
+                     */
+                    break;
+                }
+
                 if (Strings::length($docBlockLine) <= $this->lineLength) {
                     continue;
                 }
