@@ -90,7 +90,12 @@ final class ParentClassMethodNodeResolver
         /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassIncludeInterfaceReflections($scope);
         foreach ($parentClassReflections as $parentClassReflection) {
-            $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
+            try {
+                $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
+            } catch (Throwable $throwable) {
+                // not reachable
+                return [];
+            }
 
             /** @var ClassLike[] $classes */
             $classes = $this->nodeFinder->findInstanceOf($parentClassNodes, ClassLike::class);
