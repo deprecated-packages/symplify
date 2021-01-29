@@ -38,13 +38,13 @@ final class StaticFixtureFinder
             ->files()
             ->name($suffix);
 
-        $finderAll = Finder::create()
-            ->in($directory)
-            ->files();
-
         $fileInfos = iterator_to_array($finderSuffix);
 
         if (self::$enableValidation) {
+            $finderAll = Finder::create()
+                ->in($directory)
+                ->files();
+
             self::validateFixtureSuffix($finderAll, $finderSuffix, $fileInfos, $suffix);
         }
 
