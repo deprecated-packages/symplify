@@ -64,7 +64,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                     continue;
                 }
 
-                $extraDocBlockLines = str_split($docBlockLine, $this->lineLength);
+                $extraDocBlockLines = explode(PHP_EOL, wordwrap($docBlockLine, $this->lineLength));
                 $extraDocBlockLines = $this->standardizeExtraLines($extraDocBlockLines);
                 array_splice($docBlockLines, 1, 1, $extraDocBlockLines);
             }
