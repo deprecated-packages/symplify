@@ -11,7 +11,7 @@
     "require-dev": {
         "symfony/http-kernel": "^4.4|^5.1",
         "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^0.12.64"
+        "phpstan/phpstan": "^0.12.64, <0.12.70"
     },
     "autoload": {
         "psr-4": {
