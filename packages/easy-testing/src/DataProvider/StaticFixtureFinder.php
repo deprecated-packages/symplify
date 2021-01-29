@@ -64,7 +64,7 @@ final class StaticFixtureFinder
         foreach ($finderAll as $key => $fileInfoAll) {
             $fileNameFromAll = $fileInfoAll->getFileName();
             // temporary path in tests
-            if ($fileNameFromAll !== 'SomeClass.php.inc') {
+            if ($fileNameFromAll === 'SomeClass.php.inc') {
                 continue;
             }
 
