@@ -193,6 +193,7 @@ parameters:
                 - packages/easy-testing/src/DataProvider/StaticFixtureFinder.php #47
                 - packages/config-transformer/tests/Converter/ConfigFormatConverter/YamlToPhp/YamlToPhpTest.php #95
                 - packages/config-transformer/tests/Converter/ConfigFormatConverter/YamlToPhp/YamlToPhpTest.php #101
+                - packages/phpstan-php-config/tests/PHPStanPHPToNeonConverter/PHPStanPHPToNeonConverterTest.php #60
 
         # todo resolve later
         -
