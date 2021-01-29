@@ -53,7 +53,7 @@ final class ParentClassMethodNodeResolver
             }
 
             try {
-                $parentClassNodes = $this->parseFileToNodes($fileName);
+                $parentClassNodes = $this->parser->parseFile($fileName);
             } catch (Throwable $throwable) {
                 // not reachable
                 return [];
@@ -82,18 +82,17 @@ final class ParentClassMethodNodeResolver
     {
         /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassIncludeInterfaceReflections($scope);
+
         foreach ($parentClassReflections as $parentClassReflection) {
-            try {
-                $parentClassNodes = $this->parseFileToNodes((string) $parentClassReflection->getFileName());
-            } catch (Throwable $throwable) {
-                // not reachable
-                return [];
+            $parentClassNodes = $this->resolveClassNodes($parentClassReflection);
+            if ($parentClassNodes === []) {
+                continue;
             }
 
             /** @var ClassLike[] $classes */
             $classes = $this->nodeFinder->findInstanceOf($parentClassNodes, ClassLike::class);
             if ($classes === []) {
-                return [];
+                continue;
             }
 
             foreach ($classes as $class) {
@@ -138,8 +137,18 @@ final class ParentClassMethodNodeResolver
     /**
      * @return Node[]
      */
-    private function parseFileToNodes(string $filePath): array
+    private function resolveClassNodes(ClassReflection $parentClassReflection): array
     {
-        return $this->parser->parseFile($filePath);
+        try {
+            $parentClassFileName = $parentClassReflection->getFileName();
+            if ($parentClassFileName === false) {
+                return [];
+            }
+
+            return $this->parser->parseFile($parentClassFileName);
+        } catch (Throwable $throwable) {
+            // not reachable
+            return [];
+        }
     }
 }
