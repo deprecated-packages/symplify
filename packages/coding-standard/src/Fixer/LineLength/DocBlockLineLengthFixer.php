@@ -54,33 +54,39 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             /** @var Token $token */
             $token = $tokens[$position];
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
+            if (!$token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
 
-            $docBlockLines = explode(PHP_EOL, $token->getContent());
+            $docBlock = $token->getContent();
+            // Remove the prefix '/**'
+            $docBlock = Strings::replace($docBlock, '/^(\/\*\*[\n]?)/');
+            // Remove the suffix '*/'
+            $docBlock = Strings::replace($docBlock, '/(\*\/)$/');
+            // Remove extra whitespace at the end
+            $docBlock = rtrim($docBlock);
+
+            $docBlockLines = explode(PHP_EOL, $docBlock);
             $indentationString = $this->resolveIndentationStringFor($docBlockLines);
 
-            foreach ($docBlockLines as $docBlockLine) {
-                if (Strings::match($docBlockLine, '/^[\s]*\*[\s]*@/')) {
-                    /*
-                     * The line looks like it contains an annotation. This fixer doesn't know how to
-                     * reformat those lines. They are assumed to be at the bottom of the doc block,
-                     * so we should just stop trying to reformat the doc block here.
-                     */
-                    break;
-                }
+            $docBlockLines = $this->cleanUpDocBlockLines($docBlockLines);
+            // The available line length is the configured line length, minus the existing indentation, minus ' * '
+            $maximumLineLength = $this->lineLength - strlen($indentationString) - 3;
 
-                if (Strings::length($docBlockLine) <= $this->lineLength) {
-                    continue;
-                }
+            list($descriptionLines, $otherLines) = $this->splitLines($docBlockLines);
 
-                $extraDocBlockLines = explode(PHP_EOL, wordwrap($docBlockLine, $this->lineLength));
-                $extraDocBlockLines = $this->standardizeExtraLines($extraDocBlockLines, $indentationString);
-                array_splice($docBlockLines, 1, 1, $extraDocBlockLines);
+            $description = trim(implode(' ', $descriptionLines));
+            $wrappedDescription = wordwrap($description, $maximumLineLength);
+            if (count($otherLines) > 0) {
+                $wrappedDescription .= "\n";
             }
 
-            $newDocBlockContent = implode(PHP_EOL, $docBlockLines);
+            $reformattedLines = array_merge(
+                explode(PHP_EOL, $wrappedDescription),
+                $otherLines
+            );
+
+            $newDocBlockContent = $this->formatLinesAsDocBlockContent($reformattedLines, $indentationString);
             if ($token->getContent() === $newDocBlockContent) {
                 continue;
             }
@@ -127,61 +133,68 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param string[] $extraDocBlockLines
-     * @return string[]
-     */
-    private function standardizeExtraLines(array $extraDocBlockLines, string $indentationString): array
-    {
-        $extraDocBlockLines = $this->prependLinesWithAsterisk($extraDocBlockLines, $indentationString);
-        return $this->rtrimLines($extraDocBlockLines);
-    }
-
-    /**
-     * @param string[] $extraDocBlockLines
-     * @return string[]
-     */
-    private function prependLinesWithAsterisk(array $extraDocBlockLines, string $indentationString): array
-    {
-        foreach ($extraDocBlockLines as $extraKey => $extraDocBlockLine) {
-            if ($extraKey === 0) {
-                continue;
-            }
-
-            $extraDocBlockLines[$extraKey] = $indentationString . ' * ' . $extraDocBlockLine;
-        }
-
-        return $extraDocBlockLines;
-    }
-
-    /**
-     * @param string[] $lines
-     * @return string[]
-     */
-    private function rtrimLines(array $lines): array
-    {
-        foreach ($lines as $extraKey => $extraDocBlockLine) {
-            $lines[$extraKey] = rtrim($extraDocBlockLine);
-        }
-
-        return $lines;
-    }
-
     private function resolveIndentationStringFor(array $docBlockLines): string
     {
-        // The first line of the doc block has no indentation
-        array_shift($docBlockLines);
-
-        // The common prefix will be `[a number of spaces or tabs]*`
-        $prefix = Strings::findPrefix($docBlockLines);
-
-        // TODO test for edge cases, maybe each line starts with the same character?
-
-        if (strlen($prefix) >= 2) {
-            // Remove the last two characters, which for a doc block will always be ' *'
-            return substr($prefix, 0, strlen($prefix) - 2);
+        foreach ($docBlockLines as $line) {
+            if (preg_match('/^([\s]*) \*/', $line, $matches)) {
+                return $matches[1];
+            }
         }
 
-        return $prefix;
+        return '';
+    }
+
+    /**
+     * @param string[] $docBlockLines
+     * @return string[]
+     */
+    private function cleanUpDocBlockLines(array $docBlockLines): array
+    {
+        return array_map(
+            function (string $line): string {
+                $noWhitespace = Strings::trim($line, Strings::TRIM_CHARACTERS);
+                // Remove asterisks on the left side, plus additional whitespace
+                return ltrim($noWhitespace, Strings::TRIM_CHARACTERS . '*');
+            },
+            $docBlockLines
+        );
+    }
+
+    private function formatLinesAsDocBlockContent(array $docBlockLines, string $indentationString): string
+    {
+        foreach ($docBlockLines as $index => $docBlockLine) {
+            $docBlockLines[$index] = $indentationString . ' *' . ($docBlockLine !== '' ? ' ' : '') . $docBlockLine;
+        }
+
+        array_unshift($docBlockLines, '/**');
+        array_push($docBlockLines, $indentationString . ' */');
+
+        return implode(PHP_EOL, $docBlockLines);
+    }
+
+    /**
+     * @param string[] $docBlockLines
+     * @return array<{string[]},{string[]}>
+     */
+    private function splitLines(array $docBlockLines): array
+    {
+        $descriptionLines = [];
+        $otherLines = [];
+
+        $collectDescriptionLines = true;
+
+        foreach ($docBlockLines as $docBlockLine) {
+            if (Strings::startsWith($docBlockLine, '@')) {
+                $collectDescriptionLines = false;
+            }
+
+            if ($collectDescriptionLines) {
+                $descriptionLines[] = $docBlockLine;
+            } else {
+                $otherLines[] = $docBlockLine;
+            }
+        }
+
+        return [$descriptionLines, $otherLines];
     }
 }
