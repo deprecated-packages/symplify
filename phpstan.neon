@@ -191,7 +191,6 @@ parameters:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
                 - packages/easy-testing/src/DataProvider/StaticFixtureFinder.php #28
                 - packages/easy-testing/src/DataProvider/StaticFixtureFinder.php #47
-                - packages/phpstan-php-config/tests/PHPStanPHPToNeonConverter/PHPStanPHPToNeonConverterTest.php #60
 
         # todo resolve later
         -
