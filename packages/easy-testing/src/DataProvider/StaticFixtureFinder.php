@@ -33,11 +33,11 @@ final class StaticFixtureFinder
      */
     private static function findFilesInDirectory(string $directory, string $suffix, bool $isExclusive = false): array
     {
-        $finderAll = Finder::create()->in($directory)->files();
         $finder    = Finder::create()->in($directory)->files()->name($suffix);
         $fileInfos = iterator_to_array($finder);
 
         if (! $isExclusive) {
+            $finderAll = Finder::create()->in($directory)->files();
             foreach ($finderAll as $key => $fileInfoAll) {
                 $fileNameFromAll = $fileInfoAll->getFileName();
                 if (! isset($fileInfos[$key])) {
