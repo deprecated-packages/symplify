@@ -59,6 +59,8 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             }
 
             $docBlockLines = explode(PHP_EOL, $token->getContent());
+            $indentationString = $this->resolveIndentationStringFor($docBlockLines);
+
             foreach ($docBlockLines as $docBlockLine) {
                 if (Strings::match($docBlockLine, '/^[\s]*\*[\s]*@/')) {
                     /*
@@ -74,7 +76,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 }
 
                 $extraDocBlockLines = explode(PHP_EOL, wordwrap($docBlockLine, $this->lineLength));
-                $extraDocBlockLines = $this->standardizeExtraLines($extraDocBlockLines);
+                $extraDocBlockLines = $this->standardizeExtraLines($extraDocBlockLines, $indentationString);
                 array_splice($docBlockLines, 1, 1, $extraDocBlockLines);
             }
 
@@ -129,9 +131,9 @@ CODE_SAMPLE
      * @param string[] $extraDocBlockLines
      * @return string[]
      */
-    private function standardizeExtraLines(array $extraDocBlockLines): array
+    private function standardizeExtraLines(array $extraDocBlockLines, string $indentationString): array
     {
-        $extraDocBlockLines = $this->prependLinesWithAsterisk($extraDocBlockLines);
+        $extraDocBlockLines = $this->prependLinesWithAsterisk($extraDocBlockLines, $indentationString);
         return $this->rtrimLines($extraDocBlockLines);
     }
 
@@ -139,14 +141,14 @@ CODE_SAMPLE
      * @param string[] $extraDocBlockLines
      * @return string[]
      */
-    private function prependLinesWithAsterisk(array $extraDocBlockLines): array
+    private function prependLinesWithAsterisk(array $extraDocBlockLines, string $indentationString): array
     {
         foreach ($extraDocBlockLines as $extraKey => $extraDocBlockLine) {
             if ($extraKey === 0) {
                 continue;
             }
 
-            $extraDocBlockLines[$extraKey] = ' * ' . $extraDocBlockLine;
+            $extraDocBlockLines[$extraKey] = $indentationString . ' * ' . $extraDocBlockLine;
         }
 
         return $extraDocBlockLines;
@@ -163,5 +165,23 @@ CODE_SAMPLE
         }
 
         return $lines;
+    }
+
+    private function resolveIndentationStringFor(array $docBlockLines): string
+    {
+        // The first line of the doc block has no indentation
+        array_shift($docBlockLines);
+
+        // The common prefix will be `[a number of spaces or tabs]*`
+        $prefix = Strings::findPrefix($docBlockLines);
+
+        // TODO test for edge cases, maybe each line starts with the same character?
+
+        if (strlen($prefix) >= 2) {
+            // Remove the last two characters, which for a doc block will always be ' *'
+            return substr($prefix, 0, strlen($prefix) - 2);
+        }
+
+        return $prefix;
     }
 }
