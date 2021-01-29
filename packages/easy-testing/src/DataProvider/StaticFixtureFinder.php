@@ -12,6 +12,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class StaticFixtureFinder
 {
+    /**
+     * @var bool
+     */
+    public static $enableValidation = true;
+
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
@@ -19,6 +24,8 @@ final class StaticFixtureFinder
         foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
+
+        static::$enableValidation = true;
     }
 
     /**
@@ -36,7 +43,10 @@ final class StaticFixtureFinder
             ->files();
 
         $fileInfos = iterator_to_array($finderSuffix);
-        self::validateFixtureSuffix($finderAll, $finderSuffix, $fileInfos, $suffix);
+
+        if (self::$enableValidation) {
+            self::validateFixtureSuffix($finderAll, $finderSuffix, $fileInfos, $suffix);
+        }
 
         return array_values($fileInfos);
     }
