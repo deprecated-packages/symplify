@@ -35,13 +35,13 @@ final class StaticFixtureFinder
             ->in($directory)
             ->files();
 
-        $this->validateFixtureSuffix($finderAll, $finderSuffix, $suffix);
+        self::validateFixtureSuffix($finderAll, $finderSuffix, $suffix);
 
         $fileInfos = iterator_to_array($finderSuffix);
         return array_values($fileInfos);
     }
 
-    private function validateFixtureSuffix(Finder $finderAll, Finder $finderSuffix, string $suffix): void
+    private static function validateFixtureSuffix(Finder $finderAll, Finder $finderSuffix, string $suffix): void
     {
         if (count($finderSuffix) !== count($finderAll)) {
             foreach ($finderAll as $key => $fileInfoAll) {
