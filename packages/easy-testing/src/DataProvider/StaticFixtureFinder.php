@@ -12,69 +12,44 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class StaticFixtureFinder
 {
-    /**
-     * @var bool
-     */
-    public static $enableValidation = true;
-
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
-
         foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
+    }
 
-        static::$enableValidation = true;
+    public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
+    {
+        $fileInfos = self::findFilesInDirectory($directory, $suffix, true);
+        foreach ($fileInfos as $fileInfo) {
+            yield [new SmartFileInfo($fileInfo->getRealPath())];
+        }
     }
 
     /**
      * @return SplFileInfo[]
      */
-    private static function findFilesInDirectory(string $directory, string $suffix): array
+    private static function findFilesInDirectory(string $directory, string $suffix, bool $isExclusive = false): array
     {
-        $finderSuffix = Finder::create()
-            ->in($directory)
-            ->files()
-            ->name($suffix);
+        $finderAll = Finder::create()->in($directory)->files();
+        $finder    = Finder::create()->in($directory)->files()->name($suffix);
+        $fileInfos = iterator_to_array($finder);
 
-        $fileInfos = iterator_to_array($finderSuffix);
-
-        if (self::$enableValidation) {
-            $finderAll = Finder::create()
-                ->in($directory)
-                ->files();
-
-            self::validateFixtureSuffix($finderAll, $finderSuffix, $fileInfos, $suffix);
+        if (! $isExclusive) {
+            foreach ($finderAll as $key => $fileInfoAll) {
+                $fileNameFromAll = $fileInfoAll->getFileName();
+                if (! isset($fileInfos[$key])) {
+                    throw new ShouldNotHappenException(sprintf(
+                        '"%s" has invalid suffix, use "%s" suffix instead',
+                        $fileNameFromAll,
+                        $suffix
+                    ));
+                }
+            }
         }
 
         return array_values($fileInfos);
-    }
-
-    private static function validateFixtureSuffix(
-        Finder $finderAll,
-        Finder $finderSuffix,
-        array $fileInfos,
-        string $suffix
-    ): void {
-        if (count($finderSuffix) === count($finderAll)) {
-            return;
-        }
-
-        foreach ($finderAll as $key => $fileInfoAll) {
-            $fileNameFromAll = $fileInfoAll->getFileName();
-            // temporary path in tests
-            if ($fileNameFromAll === 'SomeClass.php.inc') {
-                continue;
-            }
-
-            if (! isset($fileInfos[$key])) {
-                throw new ShouldNotHappenException(sprintf(
-                    '"%s" has invalid suffix, use "%s" suffix instead',
-                    $fileNameFromAll,
-                    $suffix
-                ));
-            }
-        }
     }
 }
