@@ -38,7 +38,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
      * @see https://regex101.com/r/F2ZZHa/1
      * @var string
      */
-    private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^([\s]*) \*/m';
+    private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^(?<indentation>\s*) \*/m';
 
     /**
      * @see https://regex101.com/r/CUxOj5/1
@@ -161,7 +161,7 @@ CODE_SAMPLE
             return '';
         }
 
-        return $matches[1];
+        return $matches['indentation'];
     }
 
     /**
