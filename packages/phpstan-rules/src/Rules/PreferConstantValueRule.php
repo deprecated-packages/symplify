@@ -58,14 +58,14 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $value = $node->value;
-        foreach ($this->constantHoldingObjects as $class => $contants) {
+        foreach ($this->constantHoldingObjects as $class => $constants) {
             if (! class_exists($class)) {
                 continue;
             }
 
             $reflectionClass = new ReflectionClass($class);
             foreach ($constants as $constant) {
-                $reflectionConstant = $reflectionClass->getReflectionConstant($contant);
+                $reflectionConstant = $reflectionClass->getReflectionConstant($constant);
 
                 if (! $reflectionConstant instanceof ReflectionClassConstant) {
                     continue;
@@ -75,7 +75,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
                     continue;
                 }
 
-                if ($value === (string) $reflectionConstant) {
+                if ($value === $reflectionConstant->getValue()) {
                     return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
                 }
             }

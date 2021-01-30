@@ -7,4 +7,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantHoldingObjects:
-                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection: ['REQUIRE']
+                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection: ['REQUIRE', 'REQUIRE_DEV']
