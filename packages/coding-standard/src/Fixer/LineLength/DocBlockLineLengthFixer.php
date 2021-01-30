@@ -105,7 +105,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 $wrappedDescription .= "\n";
             }
 
-            $reformattedLines = array_merge(explode(PHP_EOL, $wrappedDescription), $otherLines);
+            $reformattedLines = array_merge($this->getLines($wrappedDescription), $otherLines);
 
             $newDocBlockContent = $this->formatLinesAsDocBlockContent($reformattedLines, $indentationString);
             if ($docBlock === $newDocBlockContent) {
@@ -176,7 +176,7 @@ CODE_SAMPLE
         // Remove extra whitespace at the end
         $docBlock = rtrim($docBlock);
 
-        $docBlockLines = explode(PHP_EOL, $docBlock);
+        $docBlockLines = $this->getLines($docBlock);
 
         return array_map(
             function (string $line): string {
@@ -254,5 +254,13 @@ CODE_SAMPLE
         return array_map(function (array $lines): string {
             return implode(' ', $lines);
         }, $paragraphLines);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getLines(string $string): array
+    {
+        return explode(PHP_EOL, $string);
     }
 }
