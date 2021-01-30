@@ -84,11 +84,13 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+
 class SomeClass
 {
     public function run()
     {
-        return \ComposerJsonSectoin::REQUIRE;
+        return ComposerJsonSection::REQUIRE;
     }
 }
 CODE_SAMPLE
