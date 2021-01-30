@@ -70,6 +70,10 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
                 continue;
             }
 
+            if (! $reflectionConstant->isPublic()) {
+                continue;
+            }
+
             if ($value === (string) $reflectionConstant) {
                 return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
             }
