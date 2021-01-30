@@ -13,7 +13,8 @@ final class StaticFixtureFinderTest extends TestCase
     public function testYieldDirectory(): void
     {
         $files = StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php');
-        $this->assertCount(1, iterator_to_array($files));
+        $files = iterator_to_array($files);
+        $this->assertCount(1, $files);
     }
 
     public function testYieldDirectoryThrowException(): void
@@ -27,6 +28,7 @@ final class StaticFixtureFinderTest extends TestCase
     public function testYieldDirectoryExclusively(): void
     {
         $files = StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureMulti', '*.php');
-        $this->assertCount(1, iterator_to_array($files));
+        $files = iterator_to_array($files);
+        $this->assertCount(1, $files);
     }
 }
