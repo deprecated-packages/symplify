@@ -25,7 +25,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Use defined constant %s::%s over string %s';
 
     /**
-     * @var array<string, array<string, array<int, string>>>
+     * @var array<string, array<string, string>>
      */
     private $constantHoldingObjects = [];
 
@@ -35,7 +35,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     private $simpleNameResolver;
 
     /**
-     * @param array<string, array<string, array<int, string>>> $constantHoldingObjects
+     * @param array<string, array<string, string>> $constantHoldingObjects
      */
     public function __construct(SimpleNameResolver $simpleNameResolver, array $constantHoldingObjects = [])
     {
@@ -64,21 +64,12 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
             }
 
             $reflectionClass = new ReflectionClass($class);
-            foreach ($constants as $constant) {
-                $reflectionConstant = $reflectionClass->getReflectionConstant($constant);
-
-                if (! $reflectionConstant instanceof ReflectionClassConstant) {
-                    continue;
-                }
-
-                if (! $reflectionConstant->isPublic()) {
-                    continue;
-                }
-
-                if ($value === $reflectionConstant->getValue()) {
-                    return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
-                }
+            $validateConstant = $this->validateConstant($reflectionClass, $class, $constants, $value);
+            if ($validateConstant === []) {
+                continue;
             }
+
+            return $validateConstant;
         }
 
         return [];
@@ -115,5 +106,34 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    /**
+     * @param array<string, string> $constants
+     * @return string[]
+     */
+    private function validateConstant(
+        ReflectionClass $reflectionClass,
+        string $class,
+        array $constants,
+        string $value
+    ): array {
+        foreach ($constants as $constant) {
+            $reflectionConstant = $reflectionClass->getReflectionConstant($constant);
+
+            if (! $reflectionConstant instanceof ReflectionClassConstant) {
+                continue;
+            }
+
+            if (! $reflectionConstant->isPublic()) {
+                continue;
+            }
+
+            if ($value === $reflectionConstant->getValue()) {
+                return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
+            }
+        }
+
+        return [];
     }
 }
