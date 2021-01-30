@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
@@ -106,7 +107,7 @@ CODE_SAMPLE
                 ,
                 [
                     'constantHoldingObjects' => [
-                        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
+                        ComposerJsonSection::class,
                     ],
                 ]
             ),
