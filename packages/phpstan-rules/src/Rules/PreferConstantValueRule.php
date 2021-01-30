@@ -63,7 +63,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
                 continue;
             }
 
-            $reflectionClass    = new ReflectionClass($class);
+            $reflectionClass = new ReflectionClass($class);
             $reflectionConstant = $reflectionClass->getReflectionConstant($contant);
 
             if (! $reflectionConstant instanceof ReflectionClassConstant) {
@@ -108,9 +108,7 @@ CODE_SAMPLE
                 ,
                 [
                     'constantHoldingObjects' => [
-                        'ComposerJsonSection' => [
-                            'REQUIRE'
-                        ],
+                        'ComposerJsonSection' => ['REQUIRE'],
                     ],
                 ]
             ),
