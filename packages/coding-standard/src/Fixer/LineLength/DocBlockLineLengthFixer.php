@@ -54,7 +54,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             /** @var Token $token */
             $token = $tokens[$position];
-            if (! $token->isGivenKind(T_DOC_COMMENT)) {
+            if (!$token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
 
@@ -70,8 +70,15 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 continue;
             }
 
-            $description = trim(implode(' ', $descriptionLines));
-            $wrappedDescription = wordwrap($description, $maximumLineLength);
+            $paragraphs = $this->extractParagraphsFromDescriptionLines($descriptionLines);
+
+            $lineWrappedParagraphs = array_map(
+                function (string $paragraph) use ($maximumLineLength): string {
+                    return wordwrap($paragraph, $maximumLineLength);
+                },
+                $paragraphs);
+
+            $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
             if (count($otherLines) > 0) {
                 $wrappedDescription .= "\n";
             }
@@ -195,5 +202,33 @@ CODE_SAMPLE
         }
 
         return [$descriptionLines, $otherLines];
+    }
+
+    /**
+     * @return array<string>
+     */
+    private function extractParagraphsFromDescriptionLines(array $descriptionLines): array
+    {
+        $paragraphLines = [];
+        $paragraphIndex = 0;
+
+        foreach ($descriptionLines as $line) {
+            if (!isset($paragraphLines[$paragraphIndex])) {
+                $paragraphLines[$paragraphIndex] = [];
+            }
+
+            if (trim($line) === '') {
+                $paragraphIndex++;
+            } else {
+                $paragraphLines[$paragraphIndex][] = $line;
+            }
+        }
+
+        return array_map(
+            function (array $lines): string {
+                return implode(' ', $lines);
+            },
+            $paragraphLines
+        );
     }
 }
