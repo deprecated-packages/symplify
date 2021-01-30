@@ -224,8 +224,9 @@ CODE_SAMPLE
                 $paragraphLines[$paragraphIndex] = [];
             }
 
-            if (trim($line) === '') {
-                $paragraphIndex++;
+            $line = trim($line);
+            if ($line === '') {
+                ++$paragraphIndex;
             } else {
                 $paragraphLines[$paragraphIndex][] = $line;
             }
