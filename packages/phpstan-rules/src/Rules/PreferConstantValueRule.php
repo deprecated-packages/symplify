@@ -24,12 +24,12 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Use defined constant %s::%s over string %s';
 
     /**
-     * @var array<string, array<string, string>>
+     * @var string[]
      */
     private $constantHoldingObjects = [];
 
     /**
-     * @param array<string, array<string, string>> $constantHoldingObjects
+     * @param string[] $constantHoldingObjects
      */
     public function __construct(array $constantHoldingObjects = [])
     {
@@ -51,13 +51,14 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $value = $node->value;
-        foreach ($this->constantHoldingObjects as $class => $constants) {
+        foreach ($this->constantHoldingObjects as $class) {
             if (! class_exists($class)) {
                 continue;
             }
 
             $reflectionClass = new ReflectionClass($class);
-            $validateConstant = $this->validateConstant($reflectionClass, $class, $constants, $value);
+            $constants = $reflectionClass->getReflectionConstants();
+            $validateConstant = $this->validateConstant($class, $constants, $value);
             if ($validateConstant === []) {
                 continue;
             }
@@ -102,28 +103,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<string, string> $constants
+     * @param ReflectionClassConstant[] $constants
      * @return string[]
      */
-    private function validateConstant(
-        ReflectionClass $reflectionClass,
-        string $class,
-        array $constants,
-        string $value
-    ): array {
+    private function validateConstant(string $class, array $constants, string $value): array
+    {
         foreach ($constants as $constant) {
-            $reflectionConstant = $reflectionClass->getReflectionConstant($constant);
-
-            if (! $reflectionConstant instanceof ReflectionClassConstant) {
+            if (! $constant->isPublic()) {
                 continue;
             }
 
-            if (! $reflectionConstant->isPublic()) {
-                continue;
-            }
-
-            if ($value === $reflectionConstant->getValue()) {
-                return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
+            if ($value === $constant->getValue()) {
+                return [sprintf(self::ERROR_MESSAGE, $class, $constant->getName(), $value)];
             }
         }
 
