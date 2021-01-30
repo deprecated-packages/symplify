@@ -25,7 +25,7 @@ final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipNotFoundInConstantValue.php', []];
         yield [__DIR__ . '/Fixture/FoundInConstantValue.php', [
-            [sprintf(PreferConstantValueRule::ERROR_MESSAGE, 'Symplify\ComposerJsonManipulator\ValueObject', 'REQUIRE', 'require'), 11],
+            [sprintf(PreferConstantValueRule::ERROR_MESSAGE, 'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection', 'REQUIRE', 'require'), 11],
         ]];
     }
 
