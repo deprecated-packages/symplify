@@ -26,7 +26,7 @@ final class StaticFixtureFinderTest extends TestCase
 
     public function testYieldDirectoryExclusively(): void
     {
-        $files = StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureExclusive', '*.php');
+        $files = StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureMulti', '*.php');
         $this->assertCount(1, iterator_to_array($files));
     }
 }
