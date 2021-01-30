@@ -23,7 +23,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Use defined constant %s::%s over string %s';
 
     /**
-     * @var array<string, array<int, string>>
+     * @var array<string, array<string, array<int, string>>>
      */
     private $constantHoldingObjects = [];
 
@@ -33,7 +33,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     private $simpleNameResolver;
 
     /**
-     * @param array<string, array<int, string>> $constantHoldingObjects
+     * @param array<string, array<string, array<int, string>>> $constantHoldingObjects
      */
     public function __construct(SimpleNameResolver $simpleNameResolver, array $constantHoldingObjects = [])
     {
@@ -55,6 +55,11 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
+        $value = $node->value;
+        foreach ($this->constantHoldingObjects as $object => $contant) {
+
+        }
+
         return [self::ERROR_MESSAGE];
     }
 
@@ -83,7 +88,11 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 [
-                    'constantHoldingObjects' => ['ComposerJsonSection'],
+                    'constantHoldingObjects' => [
+                        'ComposerJsonSection' => [
+                            'REQUIRE'
+                        ],
+                    ],
                 ]
             ),
         ]);
