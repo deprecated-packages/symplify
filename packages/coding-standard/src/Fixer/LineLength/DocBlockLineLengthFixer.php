@@ -85,8 +85,8 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             $maximumLineLength = $this->lineLength - strlen($indentationString) - 3;
 
             $lines = $this->splitLines($docBlockLines);
-            $descriptionLines = $lines->descriptionLines();
-            if (count($descriptionLines) === 0) {
+            $descriptionLines = $lines->getDescriptionLines();
+            if ($descriptionLines === []) {
                 continue;
             }
 
@@ -100,8 +100,8 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             );
 
             $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
-            $otherLines = $lines->otherLines();
-            if (count($otherLines) > 0) {
+            $otherLines = $lines->getOtherLines();
+            if ($otherLines !== []) {
                 $wrappedDescription .= "\n";
             }
 
@@ -195,7 +195,7 @@ CODE_SAMPLE
         }
 
         array_unshift($docBlockLines, '/**');
-        array_push($docBlockLines, $indentationString . ' */');
+        $docBlockLines[] = $indentationString . ' */';
 
         return implode(PHP_EOL, $docBlockLines);
     }

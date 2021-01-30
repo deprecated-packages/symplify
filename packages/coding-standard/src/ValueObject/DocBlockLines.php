@@ -9,12 +9,12 @@ final class DocBlockLines
     /**
      * @var array<string>
      */
-    private $descriptionLines;
+    private $descriptionLines = [];
 
     /**
      * @var array<string>
      */
-    private $otherLines;
+    private $otherLines = [];
 
     /**
      * @param array<string> $descriptionLines
@@ -29,7 +29,7 @@ final class DocBlockLines
     /**
      * @return array<string>
      */
-    public function descriptionLines(): array
+    public function getDescriptionLines(): array
     {
         return $this->descriptionLines;
     }
@@ -37,7 +37,7 @@ final class DocBlockLines
     /**
      * @return array<string>
      */
-    public function otherLines(): array
+    public function getOtherLines(): array
     {
         return $this->otherLines;
     }
