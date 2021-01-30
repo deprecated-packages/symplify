@@ -51,6 +51,9 @@ final class StaticFixtureFinder
         return array_values($fileInfos);
     }
 
+    /**
+     * @return SplFileInfo[]
+     */
     private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
     {
         $finder = Finder::create()->in($directory)->files()->name($suffix);
