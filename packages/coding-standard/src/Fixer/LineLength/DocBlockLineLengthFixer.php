@@ -12,6 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\ValueObject\DocBlockLines;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -65,7 +66,8 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             // The available line length is the configured line length, minus the existing indentation, minus ' * '
             $maximumLineLength = $this->lineLength - strlen($indentationString) - 3;
 
-            [$descriptionLines, $otherLines] = $this->splitLines($docBlockLines);
+            $lines = $this->splitLines($docBlockLines);
+            $descriptionLines = $lines->descriptionLines();
             if (count($descriptionLines) === 0) {
                 continue;
             }
@@ -80,6 +82,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             );
 
             $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
+            $otherLines = $lines->otherLines();
             if (count($otherLines) > 0) {
                 $wrappedDescription .= "\n";
             }
@@ -180,9 +183,8 @@ CODE_SAMPLE
 
     /**
      * @param string[] $docBlockLines
-     * @return array<{string[]},{string[]}>
      */
-    private function splitLines(array $docBlockLines): array
+    private function splitLines(array $docBlockLines): DocBlockLines
     {
         $descriptionLines = [];
         $otherLines = [];
@@ -203,7 +205,10 @@ CODE_SAMPLE
             }
         }
 
-        return [$descriptionLines, $otherLines];
+        return new DocBlockLines(
+            $descriptionLines,
+            $otherLines
+        );
     }
 
     /**
