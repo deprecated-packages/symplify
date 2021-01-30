@@ -9,6 +9,7 @@ use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferConstantValueRule;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 
 final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -24,8 +25,9 @@ final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNotFoundInConstantValue.php', []];
+        yield [__DIR__ . '/Fixture/SkipUseDefinedConstant.php', []];
         yield [__DIR__ . '/Fixture/FoundInConstantValue.php', [
-            [sprintf(PreferConstantValueRule::ERROR_MESSAGE, 'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection', 'REQUIRE', 'require'), 11],
+            [sprintf(PreferConstantValueRule::ERROR_MESSAGE, ComposerJsonSection::class, 'REQUIRE', 'require'), 11],
         ]];
     }
 
