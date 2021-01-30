@@ -95,7 +95,7 @@ CODE_SAMPLE
                 ,
                 [
                     'constantHoldingObjects' => [
-                        'ComposerJsonSection'
+                        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection'
                     ],
                 ]
             ),
