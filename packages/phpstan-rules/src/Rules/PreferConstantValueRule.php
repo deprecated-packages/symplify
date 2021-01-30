@@ -29,6 +29,11 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     private $constantHoldingObjects = [];
 
     /**
+     * @var array<string, ReflectionClassConstant[]>
+     */
+    private $cacheDefinedConstants = [];
+
+    /**
      * @param string[] $constantHoldingObjects
      */
     public function __construct(array $constantHoldingObjects = [])
@@ -56,8 +61,12 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
                 continue;
             }
 
-            $reflectionClass = new ReflectionClass($class);
-            $constants = $reflectionClass->getReflectionConstants();
+            if (! isset($this->cacheDefinedConstants[$class])) {
+                $reflectionClass = new ReflectionClass($class);
+                $this->cacheDefinedConstants[$class] = $reflectionClass->getReflectionConstants();
+            }
+
+            $constants = $this->cacheDefinedConstants[$class];
             $validateConstant = $this->validateConstant($class, $constants, $value);
             if ($validateConstant === []) {
                 continue;
@@ -97,7 +106,7 @@ CODE_SAMPLE
                 ,
                 [
                     'constantHoldingObjects' => [
-                        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection'
+                        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
                     ],
                 ]
             ),
