@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Rules\PreferConstantValueRule;
 
 use Iterator;
-use Nette\Utils\Strings;
 use PHPStan\Rules\Rule;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferConstantValueRule;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 
 final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -33,9 +32,6 @@ final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            PreferConstantValueRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return $this->getRuleFromConfig(PreferConstantValueRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }
