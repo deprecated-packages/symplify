@@ -22,7 +22,7 @@ final class StaticFixtureFinder
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $fileInfos = self::findFilesInDirectory($directory, $suffix, true);
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix, true);
         foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
@@ -31,24 +31,30 @@ final class StaticFixtureFinder
     /**
      * @return SplFileInfo[]
      */
-    private static function findFilesInDirectory(string $directory, string $suffix, bool $isExclusive = false): array
+    private static function findFilesInDirectory(string $directory, string $suffix): array
     {
-        $finder    = Finder::create()->in($directory)->files()->name($suffix);
+        $finder = Finder::create()->in($directory)->files()->name($suffix);
         $fileInfos = iterator_to_array($finder);
+        $finderAll = Finder::create()->in($directory)->files();
 
-        if (! $isExclusive) {
-            $finderAll = Finder::create()->in($directory)->files();
-            foreach ($finderAll as $key => $fileInfoAll) {
-                $fileNameFromAll = $fileInfoAll->getFileName();
-                if (! isset($fileInfos[$key])) {
-                    throw new ShouldNotHappenException(sprintf(
-                        '"%s" has invalid suffix, use "%s" suffix instead',
-                        $fileNameFromAll,
-                        $suffix
-                    ));
-                }
+        foreach ($finderAll as $key => $fileInfoAll) {
+            $fileNameFromAll = $fileInfoAll->getFileName();
+            if (! isset($fileInfos[$key])) {
+                throw new ShouldNotHappenException(sprintf(
+                    '"%s" has invalid suffix, use "%s" suffix instead',
+                    $fileNameFromAll,
+                    $suffix
+                ));
             }
         }
+
+        return array_values($fileInfos);
+    }
+
+    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
+    {
+        $finder = Finder::create()->in($directory)->files()->name($suffix);
+        $fileInfos = iterator_to_array($finder);
 
         return array_values($fileInfos);
     }
