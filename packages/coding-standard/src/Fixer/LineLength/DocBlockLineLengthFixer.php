@@ -190,7 +190,9 @@ CODE_SAMPLE
         $collectDescriptionLines = true;
 
         foreach ($docBlockLines as $docBlockLine) {
-            if (Strings::startsWith($docBlockLine, '@')) {
+            if (Strings::startsWith($docBlockLine, '@')
+                || Strings::startsWith($docBlockLine, '{@')) {
+                // The line has a special meaning (it's an annotation, or something like {@inheritdoc})
                 $collectDescriptionLines = false;
             }
 
