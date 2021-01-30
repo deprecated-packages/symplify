@@ -22,7 +22,7 @@ final class StaticFixtureFinder
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix, true);
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
         foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
