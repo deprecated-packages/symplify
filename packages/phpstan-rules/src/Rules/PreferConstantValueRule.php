@@ -7,6 +7,8 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use ReflectionClass;
+use ReflectionClassConstant;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -56,11 +58,24 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $value = $node->value;
-        foreach ($this->constantHoldingObjects as $object => $contant) {
+        foreach ($this->constantHoldingObjects as $class => $contant) {
+            if (! class_exists($class, false)) {
+                continue;
+            }
 
+            $reflectionClass    = new ReflectionClass($class);
+            $reflectionConstant = $reflectionClass->getReflectionConstant($contant);
+
+            if (! $reflectionConstant instanceof ReflectionClassConstant) {
+                continue;
+            }
+
+            if ($value === (string) $reflectionConstant) {
+                return [sprintf(self::ERROR_MESSAGE, $class, $constant, $value)];
+            }
         }
 
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
