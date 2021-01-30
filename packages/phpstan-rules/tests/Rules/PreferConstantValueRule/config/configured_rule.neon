@@ -1,0 +1,10 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferConstantValueRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantHoldingObjects:
+                - Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection
