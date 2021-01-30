@@ -35,7 +35,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
     private const ERROR_MESSAGE = 'Docblock lenght should fit expected width';
 
     /**
-     * @see https://regex101.com/r/F2ZZHa/1
+     * @see https://regex101.com/r/DNWfB6/1
      * @var string
      */
     private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^(?<indentation>\s*) \*/m';
