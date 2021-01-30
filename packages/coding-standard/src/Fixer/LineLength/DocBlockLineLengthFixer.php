@@ -54,7 +54,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             /** @var Token $token */
             $token = $tokens[$position];
-            if (!$token->isGivenKind(T_DOC_COMMENT)) {
+            if (! $token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
 
@@ -76,7 +76,8 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 function (string $paragraph) use ($maximumLineLength): string {
                     return wordwrap($paragraph, $maximumLineLength);
                 },
-                $paragraphs);
+                $paragraphs
+            );
 
             $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
             if (count($otherLines) > 0) {
@@ -142,7 +143,6 @@ CODE_SAMPLE
     }
 
     /**
-     * @param string $docBlock
      * @return string[]
      */
     private function getDocBlockLines(string $docBlock): array
@@ -215,7 +215,7 @@ CODE_SAMPLE
         $paragraphIndex = 0;
 
         foreach ($descriptionLines as $line) {
-            if (!isset($paragraphLines[$paragraphIndex])) {
+            if (! isset($paragraphLines[$paragraphIndex])) {
                 $paragraphLines[$paragraphIndex] = [];
             }
 
@@ -226,11 +226,8 @@ CODE_SAMPLE
             }
         }
 
-        return array_map(
-            function (array $lines): string {
-                return implode(' ', $lines);
-            },
-            $paragraphLines
-        );
+        return array_map(function (array $lines): string {
+            return implode(' ', $lines);
+        }, $paragraphLines);
     }
 }
