@@ -35,6 +35,24 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
     private const ERROR_MESSAGE = 'Docblock lenght should fit expected width';
 
     /**
+     * @see https://regex101.com/r/F2ZZHa/1
+     * @var string
+     */
+    private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^([\s]*) \*/m';
+
+    /**
+     * @see https://regex101.com/r/CUxOj5/1
+     * @var string
+     */
+    private const BEGINNING_OF_DOC_BLOCK_REGEX = '/^(\/\*\*[\n]?)/';
+
+    /**
+     * @see https://regex101.com/r/otQGPe/1
+     * @var string
+     */
+    private const END_OF_DOC_BLOCK_REGEX = '/(\*\/)$/';
+
+    /**
      * @var int
      */
     private $lineLength = 120;
@@ -138,7 +156,7 @@ CODE_SAMPLE
 
     private function resolveIndentationStringFor(string $docBlock): string
     {
-        if (preg_match('/^([\s]*) \*/m', $docBlock, $matches)) {
+        if (preg_match(self::INDENTATION_BEFORE_ASTERISK_REGEX, $docBlock, $matches)) {
             return $matches[1];
         }
 
@@ -151,9 +169,9 @@ CODE_SAMPLE
     private function getDocBlockLines(string $docBlock): array
     {
         // Remove the prefix '/**'
-        $docBlock = Strings::replace($docBlock, '/^(\/\*\*[\n]?)/');
+        $docBlock = Strings::replace($docBlock, self::BEGINNING_OF_DOC_BLOCK_REGEX);
         // Remove the suffix '*/'
-        $docBlock = Strings::replace($docBlock, '/(\*\/)$/');
+        $docBlock = Strings::replace($docBlock, self::END_OF_DOC_BLOCK_REGEX);
         // Remove extra whitespace at the end
         $docBlock = rtrim($docBlock);
 
