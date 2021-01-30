@@ -224,10 +224,7 @@ CODE_SAMPLE
             }
         }
 
-        return new DocBlockLines(
-            $descriptionLines,
-            $otherLines
-        );
+        return new DocBlockLines($descriptionLines, $otherLines);
     }
 
     /**
