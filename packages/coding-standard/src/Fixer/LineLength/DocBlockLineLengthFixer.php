@@ -156,11 +156,12 @@ CODE_SAMPLE
 
     private function resolveIndentationStringFor(string $docBlock): string
     {
-        if (preg_match(self::INDENTATION_BEFORE_ASTERISK_REGEX, $docBlock, $matches)) {
-            return $matches[1];
+        $matches = Strings::match($docBlock, self::INDENTATION_BEFORE_ASTERISK_REGEX);
+        if ($matches === null) {
+            return '';
         }
 
-        return '';
+        return $matches[1];
     }
 
     /**
