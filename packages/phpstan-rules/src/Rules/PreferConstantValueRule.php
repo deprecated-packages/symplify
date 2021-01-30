@@ -9,7 +9,6 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use ReflectionClassConstant;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,16 +29,10 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     private $constantHoldingObjects = [];
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @param array<string, array<string, string>> $constantHoldingObjects
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $constantHoldingObjects = [])
+    public function __construct(array $constantHoldingObjects = [])
     {
-        $this->simpleNameResolver = $simpleNameResolver;
         $this->constantHoldingObjects = $constantHoldingObjects;
     }
 
