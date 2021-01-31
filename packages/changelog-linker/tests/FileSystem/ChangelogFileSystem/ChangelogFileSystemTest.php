@@ -74,6 +74,15 @@ $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
+$this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
+## Unreleased
+
+### Added
+
+- [#35] Added xxxxxx1, Thanks to [@samsonasik]- [#34] Added yyyyy1
+CODE_SAMPLE
+, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
         $smartFileSystem = new SmartFileSystem();
 
         $changelogFile = file_exists(self::FILE_CHANGELOG)
