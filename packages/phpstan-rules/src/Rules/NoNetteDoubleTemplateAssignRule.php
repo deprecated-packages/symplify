@@ -152,7 +152,7 @@ CODE_SAMPLE
 
         foreach ($assigns as $assign) {
             $templatePropertyFetch = $this->matchTemplatePropertyFetch($assign);
-            if ($templatePropertyFetch === null) {
+            if (! $templatePropertyFetch instanceof PropertyFetch) {
                 continue;
             }
 

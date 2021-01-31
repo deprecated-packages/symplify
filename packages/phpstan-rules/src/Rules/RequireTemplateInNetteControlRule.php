@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Application\UI\Control;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -102,11 +104,11 @@ CODE_SAMPLE
     private function isInControlClass(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
-        return is_a($classReflection->getName(), 'Nette\Application\UI\Control', true);
+        return is_a($classReflection->getName(), Control::class, true);
     }
 
     private function hasTemplateSet(ClassMethod $classMethod): bool

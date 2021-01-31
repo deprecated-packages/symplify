@@ -22,7 +22,7 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixerTest extends Abstrac
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

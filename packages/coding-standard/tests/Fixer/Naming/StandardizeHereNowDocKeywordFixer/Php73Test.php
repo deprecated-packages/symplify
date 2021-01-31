@@ -25,7 +25,7 @@ final class Php73Test extends AbstractCheckerTestCase
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixturePhp73');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp73');
     }
 
     protected function getCheckerClass(): string
