@@ -65,7 +65,7 @@ CODE_SAMPLE
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
-$this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
 ## Unreleased
 
 ### Added
@@ -74,7 +74,7 @@ $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
-$this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
+        $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
 ## Unreleased
 
 ### Added

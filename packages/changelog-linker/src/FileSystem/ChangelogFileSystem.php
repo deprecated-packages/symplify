@@ -118,7 +118,11 @@ final class ChangelogFileSystem
         $multiUnreleased = explode(self::UNRELEASED_HEADLINE, $updatedChangelogContent);
         if (count($multiUnreleased) > 2) {
             $updatedChangelogContent = str_replace(self::UNRELEASED_HEADLINE, '', $updatedChangelogContent);
-            $updatedChangelogContent = str_replace($placeholder, $placeholder . PHP_EOL . PHP_EOL . self::UNRELEASED_HEADLINE, $updatedChangelogContent);
+            $updatedChangelogContent = str_replace(
+                $placeholder,
+                $placeholder . PHP_EOL . PHP_EOL . self::UNRELEASED_HEADLINE,
+                $updatedChangelogContent
+            );
         }
 
         return str_replace(PHP_EOL . PHP_EOL . PHP_EOL, PHP_EOL, $updatedChangelogContent);
