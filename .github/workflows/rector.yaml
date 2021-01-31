@@ -35,7 +35,7 @@ jobs:
             -   uses: "ramsey/composer-install@v1"
 
             -   run: vendor/bin/rector process --ansi
-            -   run: vendor/bin/ecs check --match-git-diff --fix --ansi
+            -   run: packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
 
             # see https://github.com/EndBug/add-and-commit
             -
