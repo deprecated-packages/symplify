@@ -129,7 +129,7 @@ CODE_SAMPLE
         foreach ($constants as $constant) {
             $constantNames = array_keys($definedConstants);
             foreach ($constantNames as $constantName) {
-                if (Strings::match($constantName, '#' . $constant . '#')) {
+                if (Strings::match($constantName, '#^' . $constant . '$#')) {
                     $this->cacheDefinedConstants[$class][] = $reflectionClass->getReflectionConstant($constantName);
                 }
             }
