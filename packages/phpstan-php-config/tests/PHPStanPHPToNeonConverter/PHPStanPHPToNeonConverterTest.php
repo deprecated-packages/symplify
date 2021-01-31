@@ -57,6 +57,6 @@ final class PHPStanPHPToNeonConverterTest extends AbstractKernelTestCase
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.php');
     }
 }

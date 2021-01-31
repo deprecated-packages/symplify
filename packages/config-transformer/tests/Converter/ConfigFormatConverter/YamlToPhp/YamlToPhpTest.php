@@ -92,12 +92,12 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/normal', '*.yaml');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture/normal', '*.yaml');
     }
 
     public function provideDataWithDirectory(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/nested', '*.yaml');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture/nested', '*.yaml');
     }
 
     public function provideDataMakerBundle(): Iterator
