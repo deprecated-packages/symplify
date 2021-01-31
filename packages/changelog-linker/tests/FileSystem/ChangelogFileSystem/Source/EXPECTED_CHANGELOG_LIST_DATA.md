@@ -12,6 +12,11 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 
 ### Added
 
+- [#32] Added xxxxxx
+- [#31] Added yyyyy
+
+### Added
+
 - [#6] Added y
 - [#5] Added x
 

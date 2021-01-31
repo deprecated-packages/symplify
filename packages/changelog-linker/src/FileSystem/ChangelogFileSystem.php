@@ -101,11 +101,11 @@ final class ChangelogFileSystem
         );
 
         // clean up ## Unreleased
-        $updatedChangelogContent = $this->cleanUpUnreleased($updatedChangelogContent);
+        $updatedChangelogContent = $this->cleanUpUnreleased($updatedChangelogContent, $placeholder);
         $this->storeChangelog($updatedChangelogContent);
     }
 
-    private function cleanUpUnreleased(string $updatedChangelogContent): string
+    private function cleanUpUnreleased(string $updatedChangelogContent, string $placeholder): string
     {
         $updatedChangelogContent = Strings::replace(
             $updatedChangelogContent,
@@ -118,6 +118,7 @@ final class ChangelogFileSystem
         $multiUnreleased = explode(self::UNRELEASED_HEADLINE, $updatedChangelogContent);
         if (count($multiUnreleased) > 2) {
             $updatedChangelogContent = str_replace(self::UNRELEASED_HEADLINE, '', $updatedChangelogContent);
+            $updatedChangelogContent = str_replace($placeholder, $placeholder . PHP_EOL . PHP_EOL . self::UNRELEASED_HEADLINE, $updatedChangelogContent);
         }
 
         return str_replace(PHP_EOL . PHP_EOL . PHP_EOL, PHP_EOL, $updatedChangelogContent);

@@ -70,7 +70,7 @@ $this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
 
 ### Added
 
-- [#32] Added bar- [#31] Added baz
+- [#32] Added xxxxxx- [#31] Added yyyyy
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
