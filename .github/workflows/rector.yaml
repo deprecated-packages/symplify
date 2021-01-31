@@ -1,3 +1,5 @@
+# inspired at https://github.com/rectorphp/rector/blob/master/.github/workflows/rector_ci.yaml
+
 name: Rector
 
 on:
@@ -9,11 +11,21 @@ env:
 
 jobs:
     rector:
+        # run only for repository write-users
         runs-on: ubuntu-latest
 
         steps:
             -
+                if: github.event.pull_request.head.repo.full_name == github.repository
                 uses: actions/checkout@v2
+                with:
+                    # Must be used to trigger workflow after push
+                    token: ${{ secrets.ACCESS_TOKEN }}
+
+            # in forks, the token is not available - so we cannot us eit
+            -
+                 if: github.event.pull_request.head.repo.full_name != github.repository
+                 uses: actions/checkout@v2
 
             -
                 uses: shivammathur/setup-php@v2
@@ -22,4 +34,20 @@ jobs:
 
             -   uses: "ramsey/composer-install@v1"
 
-            -   run: vendor/bin/rector process --ansi --dry-run
+            -   run: vendor/bin/rector process --ansi
+            -   run: vendor/bin/ecs check --match-git-diff --fix --ansi
+
+            # see https://github.com/EndBug/add-and-commit
+            -
+                # commit only to core contributors who have repository access
+                if: github.event.pull_request.head.repo.full_name == github.repository
+                uses: EndBug/add-and-commit@v5.1.0
+                with:
+                    # The arguments for the `git add` command (see the paragraph below for more info)
+                    add: .
+                    message: "[ci-review] Rector Rectify"
+                    author_name: kaizen-ci
+                    author_email: info@kaizen-ci.org
+                env:
+                    # to get push access
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
