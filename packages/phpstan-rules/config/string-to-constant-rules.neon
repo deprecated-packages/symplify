@@ -19,4 +19,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantHoldingObjects:
-                - Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection
+                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection: ['REQUIRE(_.*)?', 'AUTOLOAD(_.*)?']
