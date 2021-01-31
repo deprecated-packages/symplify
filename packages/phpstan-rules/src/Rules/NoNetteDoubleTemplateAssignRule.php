@@ -162,7 +162,12 @@ CODE_SAMPLE
             }
 
             $templatePropertyFetch = $assign->var;
-            $assignedTemplateVariableNames[] = $this->simpleNameResolver->getName($templatePropertyFetch->name);
+            $variableName = $this->simpleNameResolver->getName($templatePropertyFetch->name);
+            if ($variableName === null) {
+                continue;
+            }
+
+            $assignedTemplateVariableNames[] = $variableName;
         }
         return $assignedTemplateVariableNames;
     }
