@@ -10,6 +10,9 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
+/**
+ * @see \Symplify\EasyTesting\Tests\DataProvider\StaticFixtureFinder\StaticFixtureFinderTest
+ */
 final class StaticFixtureFinder
 {
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
@@ -35,6 +38,17 @@ final class StaticFixtureFinder
     {
         $finder = Finder::create()->in($directory)->files()->name($suffix);
         $fileInfos = iterator_to_array($finder);
+
+        return array_values($fileInfos);
+    }
+
+    /**
+     * @return SplFileInfo[]
+     */
+    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
+    {
+        $finder = Finder::create()->in($directory)->files()->name($suffix);
+        $fileInfos = iterator_to_array($finder);
         $finderAll = Finder::create()->in($directory)->files();
 
         foreach ($finderAll as $key => $fileInfoAll) {
@@ -47,17 +61,6 @@ final class StaticFixtureFinder
                 ));
             }
         }
-
-        return array_values($fileInfos);
-    }
-
-    /**
-     * @return SplFileInfo[]
-     */
-    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
-    {
-        $finder = Finder::create()->in($directory)->files()->name($suffix);
-        $fileInfos = iterator_to_array($finder);
 
         return array_values($fileInfos);
     }
