@@ -52,6 +52,7 @@ Typical location for packages is `/packages`. But what if you have different nam
 // File: monorepo-builder.php
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -72,18 +73,18 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // what extra parts to add after merge?
     $parameters->set(Option::DATA_TO_APPEND, [
-        'autoload-dev' => [
+        ComposerJsonSection::AUTOLOAD_DEV => [
             'psr-4' => [
                 'Symplify\Tests\\' => 'tests',
             ],
         ],
-        'require-dev' => [
+        ComposerJsonSection::REQUIRE_DEV => [
             'phpstan/phpstan' => '^0.12',
         ],
     ]);
 
     $parameters->set(Option::DATA_TO_REMOVE, [
-        'require' => [
+        ComposerJsonSection::REQUIRE => [
             // the line is removed by key, so version is irrelevant, thus *
             'phpunit/phpunit' => '*',
         ],

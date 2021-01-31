@@ -6,6 +6,7 @@ namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\HttpKernel\ComposerJsonManipulatorKernel;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -43,9 +44,9 @@ final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
         /*
          * Check empty keys are present in "source" but not in "target"
          */
-        $this->assertArrayHasKey('require-dev', $sourceJson);
+        $this->assertArrayHasKey(ComposerJsonSection::REQUIRE_DEV, $sourceJson);
         $this->assertArrayHasKey('auto-scripts', $sourceJson['scripts']);
-        $this->assertArrayNotHasKey('require-dev', $targetJson);
+        $this->assertArrayNotHasKey(ComposerJsonSection::REQUIRE_DEV, $targetJson);
         $this->assertArrayNotHasKey('auto-scripts', $targetJson['scripts']);
     }
 }

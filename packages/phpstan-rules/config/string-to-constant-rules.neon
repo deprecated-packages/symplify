@@ -14,3 +14,9 @@ services:
                 PhpParser\Node:
                     getAttribute: [0]
                     setAttribute: [0]
+    -
+        class: Symplify\PHPStanRules\Rules\PreferConstantValueRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantHoldingObjects:
+                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection: ['REQUIRE(_.*)?', 'AUTOLOAD(_.*)?']

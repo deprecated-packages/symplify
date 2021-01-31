@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\Psr4Switcher\Json;
 
 use Nette\Utils\Json;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\Psr4Switcher\FileSystem\Psr4PathNormalizer;
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPaths;
 
@@ -29,7 +30,7 @@ final class JsonAutoloadPrinter
             $psr4NamespaceToPaths
         );
         $composerData = [
-            'autoload' => [
+            ComposerJsonSection::AUTOLOAD => [
                 'psr-4' => $normalizedJsonArray,
             ],
         ];

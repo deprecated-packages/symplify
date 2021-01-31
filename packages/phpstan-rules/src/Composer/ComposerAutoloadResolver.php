@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Composer;
 
 use Nette\Utils\Json;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ComposerAutoloadResolver
@@ -36,8 +37,8 @@ final class ComposerAutoloadResolver
         $fileContent = $this->smartFileSystem->readFile(self::COMPOSER_JSON_FILE);
         $composerJsonContent = Json::decode($fileContent, Json::FORCE_ARRAY);
 
-        $autoloadPsr4 = $composerJsonContent['autoload']['psr-4'] ?? [];
-        $autoloadDevPsr4 = $composerJsonContent['autoload-dev']['psr-4'] ?? [];
+        $autoloadPsr4 = $composerJsonContent[ComposerJsonSection::AUTOLOAD]['psr-4'] ?? [];
+        $autoloadDevPsr4 = $composerJsonContent[ComposerJsonSection::AUTOLOAD_DEV]['psr-4'] ?? [];
 
         return $autoloadPsr4 + $autoloadDevPsr4;
     }

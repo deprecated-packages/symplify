@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Const_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use ReflectionClassConstant;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,7 +28,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Use defined constant %s::%s over string %s';
 
     /**
-     * @var string[]
+     * @var array<string, array<string, string>>
      */
     private $constantHoldingObjects = [];
 
@@ -35,7 +38,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     private $cacheDefinedConstants = [];
 
     /**
-     * @param string[] $constantHoldingObjects
+     * @param array<string, array<string, string>> $constantHoldingObjects
      */
     public function __construct(array $constantHoldingObjects = [])
     {
@@ -57,23 +60,21 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $value = $node->value;
-        foreach ($this->constantHoldingObjects as $class) {
-            if (! class_exists($class)) {
-                continue;
-            }
+        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        if ($parent instanceof Const_) {
+            return [];
+        }
 
+        foreach ($this->constantHoldingObjects as $class => $constants) {
             if (! isset($this->cacheDefinedConstants[$class])) {
-                $reflectionClass = new ReflectionClass($class);
-                $this->cacheDefinedConstants[$class] = $reflectionClass->getReflectionConstants();
+                $this->collectConstants($class, $constants);
             }
 
             $constants = $this->cacheDefinedConstants[$class];
             $validateConstant = $this->validateConstant($class, $constants, $value);
-            if ($validateConstant === []) {
-                continue;
+            if ($validateConstant !== []) {
+                return $validateConstant;
             }
-
-            return $validateConstant;
         }
 
         return [];
@@ -107,11 +108,32 @@ CODE_SAMPLE
                 ,
                 [
                     'constantHoldingObjects' => [
-                        ComposerJsonSection::class,
+                        ComposerJsonSection::class => ['REQUIRE(_.*)?', 'AUTOLOAD(_.*)?'],
                     ],
                 ]
             ),
         ]);
+    }
+
+    private function collectConstants(string $class, array $constants): void
+    {
+        $this->cacheDefinedConstants[$class] = [];
+
+        if (! class_exists($class)) {
+            return;
+        }
+
+        $reflectionClass = new ReflectionClass($class);
+        $definedConstants = $reflectionClass->getConstants();
+
+        foreach ($constants as $constant) {
+            $constantNames = array_keys($definedConstants);
+            foreach ($constantNames as $constantName) {
+                if (Strings::match($constantName, '#^' . $constant . '$#')) {
+                    $this->cacheDefinedConstants[$class][] = $reflectionClass->getReflectionConstant($constantName);
+                }
+            }
+        }
     }
 
     /**

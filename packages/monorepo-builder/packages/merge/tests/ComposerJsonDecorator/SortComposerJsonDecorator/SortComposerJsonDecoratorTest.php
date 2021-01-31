@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\SortCompose
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\SortComposerJsonDecorator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -35,7 +36,14 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->sortComposerJsonDecorator->decorate($this->composerJson);
 
         $this->assertSame(
-            ['random-this', 'random-that', 'require', 'require-dev', 'autoload', 'autoload-dev'],
+            [
+                'random-this',
+                'random-that',
+                ComposerJsonSection::REQUIRE,
+                ComposerJsonSection::REQUIRE_DEV,
+                ComposerJsonSection::AUTOLOAD,
+                ComposerJsonSection::AUTOLOAD_DEV,
+            ],
             $this->composerJson->getOrderedKeys()
         );
     }
@@ -47,11 +55,11 @@ final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
 
         return $composerJsonFactory->createFromArray([
             'random-this' => [],
-            'autoload-dev' => [],
-            'autoload' => [],
+            ComposerJsonSection::AUTOLOAD_DEV => [],
+            ComposerJsonSection::AUTOLOAD => [],
             'random-that' => [],
-            'require-dev' => [],
-            'require' => [],
+            ComposerJsonSection::REQUIRE_DEV => [],
+            ComposerJsonSection::REQUIRE => [],
         ]);
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\Fixture;
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 final class SkipExtendsKernel extends Kernel
 {

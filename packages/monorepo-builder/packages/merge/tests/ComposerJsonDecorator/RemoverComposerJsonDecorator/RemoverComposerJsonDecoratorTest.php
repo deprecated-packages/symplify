@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\RemoverComp
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
@@ -18,11 +19,11 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
      * @var mixed[]
      */
     private const COMPOSER_JSON_DATA = [
-        'require' => [
+        ComposerJsonSection::REQUIRE => [
             'phpunit/phpunit' => 'v1.0.0',
             'rector/rector' => 'v1.0.0',
         ],
-        'autoload-dev' => [
+        ComposerJsonSection::AUTOLOAD_DEV => [
             'psr-4' => [
                 'Symplify\Tests\\' => 'tests',
                 'Symplify\SuperTests\\' => 'super-tests',
@@ -53,10 +54,10 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
         /** @var ParameterProvider $parameterProvider */
         $parameterProvider = $this->getService(ParameterProvider::class);
         $parameterProvider->changeParameter(Option::DATA_TO_REMOVE, [
-            'require' => [
+            ComposerJsonSection::REQUIRE => [
                 'phpunit/phpunit' => '*',
             ],
-            'autoload-dev' => [
+            ComposerJsonSection::AUTOLOAD_DEV => [
                 'psr-4' => [
                     'Symplify\\Tests\\' => 'tests',
                 ],
@@ -91,10 +92,10 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
         $composerJsonFactory = $this->getService(ComposerJsonFactory::class);
 
         $expectedComposerJson = [
-            'require' => [
+            ComposerJsonSection::REQUIRE => [
                 'rector/rector' => 'v1.0.0',
             ],
-            'autoload-dev' => [
+            ComposerJsonSection::AUTOLOAD_DEV => [
                 'psr-4' => [
                     'Symplify\SuperTests\\' => 'super-tests',
                 ],
