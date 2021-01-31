@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Composer;
 
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Nette\Utils\Json;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ComposerAutoloadResolver
