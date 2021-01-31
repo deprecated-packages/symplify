@@ -26,7 +26,7 @@ final class Php74Test extends AbstractCheckerTestCase
 
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixturePhp74');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp74');
     }
 
     protected function getCheckerClass(): string

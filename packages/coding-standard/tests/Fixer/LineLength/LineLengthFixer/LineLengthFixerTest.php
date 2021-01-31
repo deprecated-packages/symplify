@@ -25,7 +25,7 @@ final class LineLengthFixerTest extends AbstractCheckerTestCase
      */
     public function provideDataForTest(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
     protected function getCheckerClass(): string

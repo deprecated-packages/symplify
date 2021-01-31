@@ -28,7 +28,7 @@ final class Php80Test extends AbstractCheckerTestCase
      */
     public function provideDataForTest(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixturePhp80');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp80');
     }
 
     protected function getCheckerClass(): string
