@@ -1,4 +1,4 @@
-# 128 Rules Overview
+# 135 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -282,32 +282,6 @@ class SomeClass extends ParentClass
     public function run(string $someParameter)
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule
-
-Class name starting with "Abstract" must have an `abstract` keyword
-
-- class: `Symplify\PHPStanRules\Rules\CheckRequiredAbstractKeywordForClassNameStartWithAbstractRule`
-
-```php
-class AbstractClass
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-abstract class AbstractClass
-{
 }
 ```
 
@@ -720,9 +694,23 @@ class SomeCommand extends Command
 
 ## ClassNameRespectsParentSuffixRule
 
-Class "%s" should have suffix "%s" by parent class/interface
+Class should have suffix "%s" to respect parent type
+
+:wrench: **configure it!**
 
 - class: `Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentClasses:
+                - Symfony\Component\Console\Command\Command
+```
+
+↓
 
 ```php
 class Some extends Command
@@ -2331,6 +2319,11 @@ Use another value object over array with string-keys and objects, array<string, 
 ```php
 final class SomeClass
 {
+    public getItems()
+    {
+        return $this->getValues();
+    }
+
     /**
      * @return array<string, Value>
      */
@@ -2347,6 +2340,11 @@ final class SomeClass
 ```php
 final class SomeClass
 {
+    public getItems()
+    {
+        return $this->getValues();
+    }
+
     /**
      * @return WrappingValue[]
      */
@@ -2631,6 +2629,40 @@ class SomeClass
     public function old(): bool
     {
         return $this->specificMethodName();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoDynamicPropertyOnStaticCallRule
+
+Use non-dynamic property on static call
+
+- class: `Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return $this->connection::literal;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return Connection::literal;
     }
 }
 ```
@@ -3029,6 +3061,84 @@ final class SomeClass
     {
         $values = [];
         $values[] = new Person('Tom', 'Dev');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNestedFuncCallRule
+
+Use separate function calls with readable variable names
+
+- class: `Symplify\PHPStanRules\Rules\NoNestedFuncCallRule`
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return array_filter(array_map($callback, $items));
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $mappedItems = array_map($callback, $items);
+        return array_filter($mappedItems);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteInjectAndConstructorRule
+
+Use either `__construct()` or injects, not both
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`
+
+```php
+class SomeClass
+{
+    private $someType;
+
+    public function __construct()
+    {
+        // ...
+    }
+
+    public function injectSomeType($someType)
+    {
+        $this->someType = $someType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    private $someType;
+
+    public function __construct($someType)
+    {
+        $this->someType = $someType;
     }
 }
 ```
@@ -3612,6 +3722,56 @@ class SomeClass implements CheckedInterface
 
 <br>
 
+## PreferConstantValueRule
+
+Use defined constant %s::%s over string %s
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\PreferConstantValueRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferConstantValueRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            constantHoldingObjects:
+                - Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return 'require';
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+
+class SomeClass
+{
+    public function run()
+    {
+        return ComposerJsonSection::REQUIRE;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## PreferredAttributeOverAnnotationRule
 
 Use attribute instead of "%s" annotation
@@ -4135,6 +4295,50 @@ class SomeClass
     {
         $somePath = preg_match(self::SOME_NAME_REGEX, $value);
     }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireChildClassGenericTypeRule
+
+Parent class has defined generic types, so they must be defined here too
+
+- class: `Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule`
+
+```php
+final class SomeClass extends AbstractParentWithGeneric
+{
+}
+
+/**
+ * @template T of Some
+ */
+abstract class AbstractParentWithGeneric
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @template T of SpecificSome
+ * @extends AbstractParentWithGeneric<T>
+ */
+final class SomeClass extends AbstractParentWithGeneric
+{
+}
+
+/**
+ * @template T of Some
+ */
+abstract class AbstractParentWithGeneric
+{
 }
 ```
 
@@ -4781,6 +4985,32 @@ class SomeClass extends SomeParentClass
 
 <br>
 
+## RequiredAbstractClassKeywordRule
+
+Class name starting with "Abstract" must have an `abstract` keyword
+
+- class: `Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule`
+
+```php
+class AbstractClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+abstract class AbstractClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## SeeAnnotationToTestRule
 
 Class "%s" is missing `@see` annotation with test case class reference
@@ -4865,6 +5095,54 @@ function someFunction()
     }
 
     if (!...) {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## SingleNetteInjectMethodRule
+
+Use single inject*() class method per class
+
+- class: `Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule`
+
+```php
+class SomeClass
+{
+    private $type;
+
+    private $anotherType;
+
+    public function injectOne(Type $type)
+    {
+        $this->type = $type;
+    }
+
+    public function injectTwo(AnotherType $anotherType)
+    {
+        $this->anotherType = $anotherType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    private $type;
+
+    private $anotherType;
+
+    public function injectSomeClass(Type $type, AnotherType $anotherType)
+    {
+        $this->type = $type;
+        $this->anotherType = $anotherType;
     }
 }
 ```
@@ -5221,6 +5499,42 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
+}
+```
+
+:+1:
+
+<br>
+
+## ValidNetteInjectRule
+
+Nette `@inject` annotation must be valid
+
+- class: `Symplify\PHPStanRules\Rules\ValidNetteInjectRule`
+
+```php
+class SomeClass
+{
+    /**
+     * @injected
+     * @var
+     */
+    public $someDependency;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    /**
+     * @inject
+     * @var
+     */
+    public $someDependency;
 }
 ```
 
