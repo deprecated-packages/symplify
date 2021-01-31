@@ -13,11 +13,11 @@
         "symfony/config": "^4.4|^5.1",
         "symfony/dependency-injection": "^5.1",
         "symfony/routing": "^4.4|^5.1",
-        "symplify/autowire-array-parameter": "^9.0.50",
-        "symplify/package-builder": "^9.0.50",
-        "symplify/symplify-kernel": "^9.0.50",
-        "symplify/smart-file-system": "^9.0.50",
-        "symplify/console-package-builder": "^9.0.50"
+        "symplify/autowire-array-parameter": "^9.1",
+        "symplify/package-builder": "^9.1",
+        "symplify/symplify-kernel": "^9.1",
+        "symplify/smart-file-system": "^9.1",
+        "symplify/console-package-builder": "^9.1"
     },
     "require-dev": {
         "doctrine/annotations": "^1.10",
