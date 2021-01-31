@@ -9,10 +9,14 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Else_;
+use PhpParser\Node\Stmt\ElseIf_;
+use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -36,10 +40,19 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
-    {
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        NodeFinder $nodeFinder,
+        ParentNodeFinder $parentNodeFinder
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->nodeFinder = $nodeFinder;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -138,17 +151,21 @@ CODE_SAMPLE
         $duplicatedTemplateNames = [];
 
         foreach ($assigns as $assign) {
-            if (! $assign->var instanceof PropertyFetch) {
+            $templatePropertyFetch = $this->matchTemplatePropertyFetch($assign);
+            if ($templatePropertyFetch === null) {
                 continue;
             }
 
-            if (! $this->isThisTemplatePropertyFetch($assign->var)) {
-                continue;
-            }
-
-            $templatePropertyFetch = $assign->var;
             $variableName = $this->simpleNameResolver->getName($templatePropertyFetch->name);
             if ($variableName === null) {
+                continue;
+            }
+
+            $parentScopeNode = $this->parentNodeFinder->getFirstParentByTypes(
+                $assign,
+                [ClassMethod::class, If_::class, Else_::class, ElseIf_::class]
+            );
+            if (! $parentScopeNode instanceof ClassMethod) {
                 continue;
             }
 
@@ -160,5 +177,18 @@ CODE_SAMPLE
         }
 
         return array_unique($duplicatedTemplateNames);
+    }
+
+    private function matchTemplatePropertyFetch(Assign $assign): ?PropertyFetch
+    {
+        if (! $assign->var instanceof PropertyFetch) {
+            return null;
+        }
+
+        if (! $this->isThisTemplatePropertyFetch($assign->var)) {
+            return null;
+        }
+
+        return $assign->var;
     }
 }
