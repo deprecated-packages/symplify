@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\MonorepoBuilder\ValueObject\Option;
@@ -26,10 +27,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'license',
         'authors',
         'bin',
-        'require',
-        'require-dev',
-        'autoload',
-        'autoload-dev',
+        ComposerJsonSection::REQUIRE,
+        ComposerJsonSection::REQUIRE_DEV,
+        ComposerJsonSection::AUTOLOAD,
+        ComposerJsonSection::AUTOLOAD_DEV,
         'repositories',
         'conflict',
         'replace',
