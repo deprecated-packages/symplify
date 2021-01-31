@@ -21,6 +21,7 @@ final class NoNetteDoubleTemplateAssignRuleTest extends AbstractServiceAwareRule
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipIfElseAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipUniqueAssignPresenter.php', []];
         yield [__DIR__ . '/Fixture/SkipNoPresenter.php', []];
 
