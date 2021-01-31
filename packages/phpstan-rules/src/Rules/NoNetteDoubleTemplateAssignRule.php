@@ -66,12 +66,12 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
         /** @var Assign[] $assigns */
         $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
 
-        $duplicatedVariableNames = $this->resolveDuplicatedVaribleNames($assigns);
+        $duplicatedVariableNames = $this->resolveDuplicatedTemplateVariableNames($assigns);
         if ($duplicatedVariableNames === []) {
             return [];
         }
 
-        $variableNamesString = implode('", ', $duplicatedVariableNames);
+        $variableNamesString = implode('", "', $duplicatedVariableNames);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $variableNamesString);
         return [$errorMessage];
     }
@@ -130,28 +130,11 @@ CODE_SAMPLE
      * @param Assign[] $assigns
      * @return string[]
      */
-    private function resolveDuplicatedVaribleNames(array $assigns): array
-    {
-        $assignedTemplateVariableNames = $this->resolveUsedTemplateVariableNames($assigns);
-        if ($assignedTemplateVariableNames === []) {
-            return [];
-        }
-
-        $variableNamesToCount = array_count_values($assignedTemplateVariableNames);
-        $duplicatedVariableNames = [];
-        foreach ($variableNamesToCount as $variableName => $count) {
-            if ($count < 2) {
-                continue;
-            }
-
-            $duplicatedVariableNames[] = $variableName;
-        }
-        return $duplicatedVariableNames;
-    }
-
-    private function resolveUsedTemplateVariableNames(array $assigns): array
+    private function resolveDuplicatedTemplateVariableNames(array $assigns): array
     {
         $assignedTemplateVariableNames = [];
+        $duplicatedTemplateNames = [];
+
         foreach ($assigns as $assign) {
             if (! $assign->var instanceof PropertyFetch) {
                 continue;
@@ -167,8 +150,13 @@ CODE_SAMPLE
                 continue;
             }
 
+            if (in_array($variableName, $assignedTemplateVariableNames, true)) {
+                $duplicatedTemplateNames[] = $variableName;
+            }
+
             $assignedTemplateVariableNames[] = $variableName;
         }
-        return $assignedTemplateVariableNames;
+
+        return array_unique($duplicatedTemplateNames);
     }
 }
