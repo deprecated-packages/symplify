@@ -23,9 +23,9 @@ final class ChangelogFileSystem
 
     /**
      * @var string
-     * @see https://regex101.com/r/MTJC7T/3
+     * @see https://regex101.com/r/PY5Clp/1
      */
-    private const TRIMMED_NEW_ENTRY_DASH_REGEX = '#(?<prevlist>\w+)(?<newlist>- \[\#\d\])#';
+    private const TRIMMED_NEW_ENTRY_DASH_REGEX = '#(?<prevlist>\w+)(?<newlist>- \[\#\d+\])#';
 
     /**
      * @var ChangelogLinker

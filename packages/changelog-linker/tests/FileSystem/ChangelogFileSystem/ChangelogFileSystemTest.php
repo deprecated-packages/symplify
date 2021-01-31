@@ -64,6 +64,16 @@ CODE_SAMPLE
 - [#5] Added x
 CODE_SAMPLE
 , DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
+$this->changelogFileSystem->addToChangelogOnPlaceholder(<<<CODE_SAMPLE
+## Unreleased
+
+### Added
+
+- [#32] Added bar- [#31] Added baz
+CODE_SAMPLE
+, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+
         $smartFileSystem = new SmartFileSystem();
 
         $changelogFile = file_exists(self::FILE_CHANGELOG)
