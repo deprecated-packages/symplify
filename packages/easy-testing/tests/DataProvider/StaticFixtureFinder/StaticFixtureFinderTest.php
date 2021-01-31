@@ -27,7 +27,6 @@ final class StaticFixtureFinderTest extends TestCase
     public function testYieldDirectoryExclusivelyThrowException(): void
     {
         $this->expectException(ShouldNotHappenException::class);
-        $this->expectExceptionMessage('"foo.txt" has invalid suffix, use "*.php" suffix instead');
 
         $files = StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureMulti', '*.php');
 
