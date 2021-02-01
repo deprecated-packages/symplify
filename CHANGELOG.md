@@ -1,6 +1,30 @@
 <!-- changelog-linker -->
 
-## 9.0.49 - 2021-01-31
+## Unreleased
+
+### Added
+
+#### EasyTesting
+
+- [#2884] Add Check Fixture suffix, Thanks to [@samsonasik]
+
+#### PHPStanRules
+
+- [#2896] Add RequireTemplateInNetteControlRule
+- [#2895] Add NoNetteDoubleTemplateAssignRule
+
+### Changed
+
+- [#2897] skip if/else assign
+- [#2888] Enable PreferConstantValueRule, Thanks to [@samsonasik]
+
+### Fixed
+
+#### ChangelogLinker
+
+- [#2894] Regex fix ChangelogFileSystem on multi digit number and - after [], Thanks to [@samsonasik]
+
+## [9.0.49] - 2021-01-31
 
 ### Added
 
@@ -1511,3 +1535,9 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [@botris]: https://github.com/botris
 [@addshore]: https://github.com/addshore
 [9.0.36]: https://github.com/symplify/symplify/compare/9.0.24...9.0.36
+[#2897]: https://github.com/symplify/symplify/pull/2897
+[#2896]: https://github.com/symplify/symplify/pull/2896
+[#2895]: https://github.com/symplify/symplify/pull/2895
+[#2894]: https://github.com/symplify/symplify/pull/2894
+[#2884]: https://github.com/symplify/symplify/pull/2884
+[9.0.49]: https://github.com/symplify/symplify/compare/9.0.36...9.0.49
