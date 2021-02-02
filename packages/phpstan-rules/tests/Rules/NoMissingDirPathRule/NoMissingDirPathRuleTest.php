@@ -25,7 +25,8 @@ final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/FileMissing.php', [[$message, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipBracketPathFromSymfonyConfigImport.php', []];
-        yield [__DIR__ . '/Fixture/SkipExistingFile.php', []];
+        yield [__DIR__ . '/Fixture/SkipConcat.php', []];
+        yield [__DIR__ . '/Fixture/SkipVendorAutoload.php', []];
         yield [__DIR__ . '/Fixture/SkipVendorAutoload.php', []];
         yield [__DIR__ . '/Fixture/SkipAssertMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipFnMatch.php', []];
