@@ -67,6 +67,11 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
             return [];
         }
 
+        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        if ($parentParent instanceof Concat) {
+            return [];
+        }
+
         if (! $parent->right instanceof String_) {
             return [];
         }
