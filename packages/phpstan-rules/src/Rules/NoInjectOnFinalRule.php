@@ -21,7 +21,13 @@ final class NoInjectOnFinalRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Property @inject can be used on non-final class only';
+    public const ERROR_MESSAGE = 'Use constructor on final classes, instead of property injection';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/VqX9MC/1
+     */
+    public const INJECT_REQUIRE_REGEX = '#\@(inject|required)#';
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -70,7 +76,7 @@ CODE_SAMPLE
             return [];
         }
 
-        if (! Strings::contains($docComment->getText(), '@inject')) {
+        if (! Strings::match($docComment->getText(), self::INJECT_REQUIRE_REGEX)) {
             return [];
         }
 

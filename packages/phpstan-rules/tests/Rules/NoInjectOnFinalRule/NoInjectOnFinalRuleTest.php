@@ -26,12 +26,20 @@ final class NoInjectOnFinalRuleTest extends AbstractServiceAwareRuleTestCase
 
         yield [
             __DIR__ . '/Fixture/InjectOnNonAbstractWithAbstractParent.php',
-            [[NoInjectOnFinalRule::ERROR_MESSAGE, 13]],
+            [[NoInjectOnFinalRule::ERROR_MESSAGE, 15]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/RequireOnNonAbstractWithAbstractParent.php',
+            [[NoInjectOnFinalRule::ERROR_MESSAGE, 15]],
         ];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoInjectOnFinalRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
+        return $this->getRuleFromConfig(
+            NoInjectOnFinalRule::class,
+            __DIR__ . '/../../../config/symplify-rules.neon'
+        );
     }
 }
