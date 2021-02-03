@@ -6,11 +6,11 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule\Fixture;
 
 use Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule\Source\SomeType;
 
-class SkipInjectOnNonAbstract
+final class RequireOnNonAbstractWithAbstractParent extends SkipAbstractClass
 {
     /**
-     * @inject
+     * @required
      * @var SomeType
      */
-    public $someProperty;
+    public $someChildProperty;
 }

@@ -18,6 +18,9 @@
             "Symplify\\PHPStanPHPConfig\\": "src"
         }
     },
+    "bin" : [
+        "bin/phpstan-php-config"
+    ],
     "autoload-dev": {
         "psr-4": {
             "Symplify\\PHPStanPHPConfig\\Tests\\": "tests"
