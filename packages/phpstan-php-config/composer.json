@@ -19,7 +19,7 @@
         }
     },
     "bin" : [
-        'bin/phpstan-php-config'
+        "bin/phpstan-php-config"
     ],
     "autoload-dev": {
         "psr-4": {
