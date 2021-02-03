@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
 use Composer\XdebugHandler\XdebugHandler;
+use Jean85\Exception\ReplacedPackageException;
 use Jean85\PrettyVersions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
@@ -32,7 +33,11 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
      */
     public function __construct(NoCheckersLoaderReporter $noCheckersLoaderReporter, array $commands)
     {
-        $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+        try {
+            $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
+        } catch (\OutOfBoundsException | ReplacedPackageException $exception) {
+            $version = PrettyVersions::getVersion('symplify/symplify');
+        }
 
         parent::__construct($commands, 'EasyCodingStandard', $version->getPrettyVersion());
         $this->noCheckersLoaderReporter = $noCheckersLoaderReporter;
