@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Init\Composer;
 
+use Jean85\Exception\ReplacedPackageException;
 use Jean85\PrettyVersions;
 use Nette\Utils\Json as NetteJson;
 use OutOfBoundsException;
@@ -31,8 +32,7 @@ final class PackageNameVersionProvider
         $version = null;
 
         try {
-            $prettyVersion = PrettyVersions::getVersion($packageName)
-                ->getPrettyVersion();
+            $prettyVersion = $this->getPrettyVersion($packageName);
 
             $version = new Version(str_replace('x-dev', '0', $prettyVersion));
         } catch (OutOfBoundsException | InvalidVersionException $exceptoin) {
@@ -45,6 +45,20 @@ final class PackageNameVersionProvider
         }
 
         return sprintf('^%d.%d', $version->getMajor()->getValue(), $version->getMinor()->getValue());
+    }
+
+    /**
+     * Workaround for when this is executed in the monorepo
+     */
+    private function getPrettyVersion(string $packageName): string
+    {
+        try {
+            return PrettyVersions::getVersion($packageName)
+                ->getPrettyVersion();
+        } catch (OutOfBoundsException | ReplacedPackageException $exception) {
+            return PrettyVersions::getVersion('symplify/symplify')
+                ->getPrettyVersion();
+        }
     }
 
     /**
