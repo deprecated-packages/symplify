@@ -52,13 +52,15 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $value = $this->randomString();
 
         $this->gitWrapper->setEnvVar($var, $value);
-        $this->assertSame($value, $this->gitWrapper->getEnvVar($var));
+        $envVar = $this->gitWrapper->getEnvVar($var);
+        $this->assertSame($value, $envVar);
 
-        $envvars = $this->gitWrapper->getEnvVars();
-        $this->assertSame($value, $envvars[$var]);
+        $envVars = $this->gitWrapper->getEnvVars();
+        $this->assertSame($value, $envVars[$var]);
 
         $this->gitWrapper->unsetEnvVar($var);
-        $this->assertNull($this->gitWrapper->getEnvVar($var));
+        $unsetEnvVar = $this->gitWrapper->getEnvVar($var);
+        $this->assertNull($unsetEnvVar);
     }
 
     public function testEnvVarDefault(): void
@@ -174,7 +176,9 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     public function testWrapperExecutable(): void
     {
         $sshWrapper = dirname(__DIR__) . '/bin/git-ssh-wrapper.sh';
-        $this->assertTrue(is_executable($sshWrapper));
+
+        $isExecutable = is_executable($sshWrapper);
+        $this->assertTrue($isExecutable);
     }
 
     public function testWorkingCopy(): void
