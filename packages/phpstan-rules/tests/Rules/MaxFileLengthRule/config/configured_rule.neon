@@ -1,0 +1,9 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\MaxFileLengthRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxLength: 178
