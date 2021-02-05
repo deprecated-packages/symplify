@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\ValueObject;
+namespace Symplify\PackageBuilder\ValueObject;
 
 final class MethodName
 {

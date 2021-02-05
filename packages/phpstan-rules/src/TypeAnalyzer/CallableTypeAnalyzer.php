@@ -15,7 +15,7 @@ use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
-use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class CallableTypeAnalyzer
 {
