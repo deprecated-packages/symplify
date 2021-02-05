@@ -22,8 +22,8 @@ final class MaxFileLengthRuletest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNotLong.php', []];
-        yield [__DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfig.php', [
-            [sprintf(MaxFileLengthRule::ERROR_MESSAGE, realpath(getcwd() . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfig.php'), 20, 17 ), 17]
+        yield [__DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php', [
+            [sprintf(MaxFileLengthRule::ERROR_MESSAGE, __DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php', 180, 178 ), 03]
         ]];
     }
 

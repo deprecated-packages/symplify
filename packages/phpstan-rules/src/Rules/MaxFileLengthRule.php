@@ -53,7 +53,7 @@ final class MaxFileLengthRule extends AbstractSymplifyRule implements Configurab
             return [];
         }
 
-        return [self::ERROR_MESSAGE, $file, $long, $this->maxLength];
+        return [sprintf(self::ERROR_MESSAGE, $file, $long, $this->maxLength)];
     }
 
     public function getRuleDefinition(): RuleDefinition
