@@ -13,8 +13,8 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
-use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
 use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

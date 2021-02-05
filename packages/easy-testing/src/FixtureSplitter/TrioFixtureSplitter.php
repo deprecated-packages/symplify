@@ -22,7 +22,6 @@ final class TrioFixtureSplitter
 
     /**
      * @param mixed[] $parts
-     * @param SmartFileInfo $smartFileInfo
      */
     private function ensureHasThreeParts(array $parts, SmartFileInfo $smartFileInfo): void
     {
@@ -30,7 +29,11 @@ final class TrioFixtureSplitter
             return;
         }
 
-        $message = sprintf('The fixture "%s" should have 3 parts. %d found', $smartFileInfo->getRelativeFilePathFromCwd(), count($parts));
+        $message = sprintf(
+            'The fixture "%s" should have 3 parts. %d found',
+            $smartFileInfo->getRelativeFilePathFromCwd(),
+            count($parts)
+        );
         throw new ShouldNotHappenException($message);
     }
 }

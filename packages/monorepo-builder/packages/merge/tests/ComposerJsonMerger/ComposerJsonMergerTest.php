@@ -26,6 +26,7 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->composerJsonMerger = $this->getService(ComposerJsonMerger::class);
         $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
@@ -33,7 +34,7 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
     /**
      * @dataProvider provideData()
      */
-    public function testFixture(SmartFileInfo $fixtureFileInfo)
+    public function testFixture(SmartFileInfo $fixtureFileInfo): void
     {
         $trioContent = $this->trioFixtureSplitter->splitFileInfo($fixtureFileInfo);
 
@@ -49,17 +50,4 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.json');
     }
-
-//    public function test(): void
-//    {
-//        $mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
-//
-//        $package1Json = $this->createComposerJson(__DIR__ . '/Source/package1-composer.json');
-//        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package1Json);
-//
-//        $package2Json = $this->createComposerJson(__DIR__ . '/Source/package2-composer.json');
-//        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package2Json);
-//
-//        $this->assertComposerJsonEquals(__DIR__ . '/Source/expected-root.json', $mainComposerJson);
-//    }
 }

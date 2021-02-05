@@ -42,6 +42,4 @@ final class TrioContent
     {
         return $this->expectedResult;
     }
-
-
 }
