@@ -162,7 +162,7 @@ CODE_SAMPLE;
         $git = $this->getWorkingCopy();
         $branches = $git->getBranches();
 
-        $this->assertTrue($branches instanceof GitBranches);
+        $this->assertInstanceOf(GitBranches::class, $branches);
 
         // Dumb count checks. Is there a better way to do this?
         $allBranches = 0;
@@ -218,8 +218,8 @@ CODE_SAMPLE;
         $git = $this->getWorkingCopy();
         $git->mv('move.me', 'moved');
 
-        $this->assertFalse(is_file(self::WORKING_DIR . '/move.me'));
-        $this->assertTrue(is_file(self::WORKING_DIR . '/moved'));
+        $this->assertFileExists(self::WORKING_DIR . '/move.me');
+        $this->assertFileExists(self::WORKING_DIR . '/moved');
     }
 
     public function testGitBranch(): void
@@ -308,7 +308,9 @@ CODE_SAMPLE;
     {
         $git = $this->getWorkingCopy();
         $output = $git->pull();
-        $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", rtrim($output));
+        $cleanOutput = rtrim($output);
+
+        $this->assertMatchesRegularExpression("/^Already up[- ]to[ -]date\.$/", $cleanOutput);
     }
 
     public function testGitArchive(): void
@@ -797,9 +799,10 @@ CODE_SAMPLE;
 
     protected function assertRemoteBranch(GitWorkingCopy $gitWorkingCopy, string $branch): void
     {
-        $branches = $gitWorkingCopy->getBranches()
-            ->remote();
-        $this->assertArrayHasKey($branch, array_flip($branches));
+        $gitBranches = $gitWorkingCopy->getBranches();
+
+        $remoteBranches = $gitBranches->remote();
+        $this->assertArrayHasKey($branch, array_flip($remoteBranches));
     }
 
     /**
@@ -814,9 +817,10 @@ CODE_SAMPLE;
 
     protected function assertNoRemoteBranch(GitWorkingCopy $gitWorkingCopy, string $branch): void
     {
-        $branches = $gitWorkingCopy->getBranches()
-            ->remote();
-        $this->assertArrayNotHasKey($branch, array_flip($branches));
+        $gitBranches = $gitWorkingCopy->getBranches();
+
+        $remoteBranches = $gitBranches->remote();
+        $this->assertArrayNotHasKey($branch, array_flip($remoteBranches));
     }
 
     private function createRemote(): void

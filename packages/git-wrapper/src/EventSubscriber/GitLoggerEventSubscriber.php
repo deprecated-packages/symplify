@@ -16,6 +16,9 @@ use Symplify\GitWrapper\Event\GitPrepareEvent;
 use Symplify\GitWrapper\Event\GitSuccessEvent;
 use Symplify\GitWrapper\Exception\GitException;
 
+/**
+ * @see \Symplify\GitWrapper\Tests\EventSubscriber\GitLoggerEventSubscriberTest
+ */
 final class GitLoggerEventSubscriber implements EventSubscriberInterface, LoggerAwareInterface
 {
     /**

@@ -65,7 +65,9 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $var = $this->randomString();
         $default = $this->randomString();
-        $this->assertSame($default, $this->gitWrapper->getEnvVar($var, $default));
+
+        $randomEnvVar = $this->gitWrapper->getEnvVar($var, $default);
+        $this->assertSame($default, $randomEnvVar);
     }
 
     public function testGitVersion(): void
@@ -90,7 +92,9 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $port = random_int(1024, 10000);
         $this->gitWrapper->setPrivateKey('./tests/id_rsa', $port);
-        $this->assertSame($port, $this->gitWrapper->getEnvVar('GIT_SSH_PORT'));
+
+        $sshPortEnvVar = $this->gitWrapper->getEnvVar('GIT_SSH_PORT');
+        $this->assertSame($port, $sshPortEnvVar);
     }
 
     public function testSetPrivateKeyWrapper(): void
@@ -98,7 +102,9 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $sshWrapper = './tests/dummy-wrapper.sh';
         $sshWrapperExpected = realpath($sshWrapper);
         $this->gitWrapper->setPrivateKey('./tests/id_rsa', 22, $sshWrapper);
-        $this->assertSame($sshWrapperExpected, $this->gitWrapper->getEnvVar('GIT_SSH'));
+
+        $sshEnvVar = $this->gitWrapper->getEnvVar('GIT_SSH');
+        $this->assertSame($sshWrapperExpected, $sshEnvVar);
     }
 
     public function testSetPrivateKeyError(): void
