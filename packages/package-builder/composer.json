@@ -5,7 +5,6 @@
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.0",
-        "nette/finder": "^2.5",
         "symfony/config": "^4.4|^5.1",
         "symfony/console": "^4.4|^5.1",
         "symfony/dependency-injection": "^5.1",
