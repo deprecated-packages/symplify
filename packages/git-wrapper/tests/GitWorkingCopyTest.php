@@ -590,7 +590,7 @@ CODE_SAMPLE;
     }
 
     /**
-     * @dataProvider addRemoteDataProvider()
+     * @dataProvider provideDataNoRemoteBranches()
      * @param mixed[] $options
      * @param string[] $noRemoteBranches
      */
@@ -621,10 +621,13 @@ CODE_SAMPLE;
             ['remote/master', 'remote/remote-branch'],
         ];
 
-        yield [[
-            '-f' => true,
-            '-t' => ['master'],
-        ], [['remote/remote-branch']]];
+        yield [
+            [
+                '-f' => true,
+                '-t' => ['master'],
+            ],
+            ['remote/remote-branch'],
+        ];
 
         yield [
             [
@@ -633,6 +636,70 @@ CODE_SAMPLE;
                 '--tags' => true,
             ],
             ['remote/remote-branch'],
+        ];
+    }
+
+    /**
+     * @dataProvider provideDataRemoteBranches()
+     * @param mixed[] $options
+     * @param string[] $remoteBranches
+     */
+    public function testRemoteBranches(array $options, array $remoteBranches): void
+    {
+        $this->createRemote();
+
+        $gitWorkingCopy = $this->getWorkingCopy();
+        $gitWorkingCopy->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR, $options);
+        $this->assertTrue($gitWorkingCopy->hasRemote('remote'));
+
+        foreach ($remoteBranches as $remoteBranch) {
+            $this->assertRemoteBranch($gitWorkingCopy, $remoteBranch);
+        }
+    }
+
+    public function provideDataRemoteBranches(): Iterator
+    {
+        yield [
+            [
+                '-f' => true,
+            ],
+            [
+                ['remote/master', 'remote/remote-branch']
+            ]
+        ];
+
+        yield [
+            [
+                '-f' => true,
+                '-t' => ['master'],
+            ],
+            ['remote/master'],
+        ];
+
+        yield [
+            // The --no-tags options should omit importing tags.
+            [
+                '-f' => true,
+                '--no-tags' => true,
+            ],
+            ['remote/master', 'remote/remote-branch'],
+        ];
+
+        yield [
+            [
+                '-f' => true,
+                '-t' => ['master'],
+                '--tags' => true,
+            ],
+            ['remote/master'],
+        ];
+
+        yield [
+            [
+                '-f' => true,
+                '-m' => 'remote-branch',
+            ],
+            ['remote/master', 'remote/remote-branch'],
         ];
     }
 
@@ -668,7 +735,6 @@ CODE_SAMPLE;
                     '--no-tags' => true,
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
                     'assertNoGitTag' => ['remote-tag'],
                     'assertNoRemoteMaster' => [],
                 ],
@@ -683,7 +749,6 @@ CODE_SAMPLE;
                     '-t' => ['master'],
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master']],
                     'assertNoGitTag' => ['remote-tag'],
                     'assertNoRemoteMaster' => [],
                 ],
@@ -697,7 +762,6 @@ CODE_SAMPLE;
                     '--tags' => true,
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master']],
                     'assertGitTag' => ['remote-tag'],
                     'assertNoRemoteMaster' => [],
                 ],
@@ -709,7 +773,6 @@ CODE_SAMPLE;
                     '-m' => 'remote-branch',
                 ],
                 [
-                    'assertRemoteBranches' => [['remote/master', 'remote/remote-branch']],
                     'assertGitTag' => ['remote-tag'],
                     'assertRemoteMaster' => [],
                 ],
@@ -829,16 +892,6 @@ CODE_SAMPLE;
         }
 
         throw new GitException('Branch `master` should not exist');
-    }
-
-    /**
-     * @param string[] $branches
-     */
-    protected function assertRemoteBranches(GitWorkingCopy $gitWorkingCopy, array $branches): void
-    {
-        foreach ($branches as $branch) {
-            $this->assertRemoteBranch($gitWorkingCopy, $branch);
-        }
     }
 
     private function assertRemoteBranch(GitWorkingCopy $gitWorkingCopy, string $branch): void
