@@ -1,0 +1,17 @@
+{
+    "require": {
+        "phpstan/phpstan": "^0.13"
+    }
+}
+-----
+{
+    "require-dev": {
+        "phpstan/phpstan": "^0.13"
+    }
+}
+-----
+{
+    "require": {
+        "phpstan/phpstan": "^0.13"
+    }
+}
