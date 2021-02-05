@@ -22,16 +22,26 @@ final class MaxFileLengthRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNotLong.php', []];
-        yield [__DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php', [
-            [sprintf(MaxFileLengthRule::ERROR_MESSAGE, __DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php', 180, 178 ), 03]
-        ]];
+        yield [
+            __DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php',
+            [
+                [
+                    sprintf(
+                        MaxFileLengthRule::ERROR_MESSAGE,
+                        __DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php',
+                        strlen(
+                            __DIR__ . '/Fixture/ItIsVeryLongFileThatPassedMaxLengthConfigItIsVeryLongFileThatPassedMaxLengthConfigss.php'
+                        ),
+                        178
+                    ),
+                    03,
+                ],
+            ],
+        ];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            MaxFileLengthRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return $this->getRuleFromConfig(MaxFileLengthRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }
