@@ -64,7 +64,7 @@ CODE_SAMPLE
 CODE_SAMPLE
                 ,
                 [
-                    'maxLength' => $this->maxLength,
+                    'maxLength' => 17,
                 ]
             ),
         ]);
