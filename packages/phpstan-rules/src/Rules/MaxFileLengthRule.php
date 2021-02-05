@@ -60,7 +60,7 @@ CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 # file path
-/app/foo/bar/baz.php
+/app/foo/baz.php
 CODE_SAMPLE
                 ,
                 [
