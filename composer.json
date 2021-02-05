@@ -69,6 +69,7 @@
     },
     "autoload": {
         "files": [
+            "packages/amnesia/src/Functions/env.php",
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
         ],
         "psr-4": {
@@ -92,6 +93,7 @@
             "Symplify\\EasyCodingStandard\\SnippetFormatter\\": "packages/easy-coding-standard/packages/snippet-formatter/src",
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
+            "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LatteToTwigConverter\\": "packages/latte-to-twig-converter/src",
             "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
@@ -155,6 +157,7 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/easy-coding-standard/tests",
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
+            "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LatteToTwigConverter\\Tests\\": "packages/latte-to-twig-converter/tests",
             "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
@@ -204,6 +207,7 @@
         "symplify/easy-coding-standard-tester": "9.0.50",
         "symplify/easy-hydrator": "9.0.50",
         "symplify/easy-testing": "9.0.50",
+        "symplify/git-wrapper": "self.version",
         "symplify/latte-to-twig-converter": "9.0.50",
         "symplify/markdown-diff": "9.0.50",
         "symplify/monorepo-builder": "9.0.50",
