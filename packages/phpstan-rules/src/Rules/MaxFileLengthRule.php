@@ -51,7 +51,7 @@ final class MaxFileLengthRule extends AbstractSymplifyRule implements Configurab
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, [
+        return new RuleDefinition('Path file must be shorten then configured maxLength', [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 # file path
