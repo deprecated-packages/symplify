@@ -46,7 +46,14 @@ final class MaxFileLengthRule extends AbstractSymplifyRule implements Configurab
      */
     public function process(Node $node, Scope $scope): array
     {
-        return [self::ERROR_MESSAGE];
+        $file = $scope->getFile();
+        $long = strlen($file);
+
+        if ($long < $this->maxLength) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE, $file, $long, $this->maxLength];
     }
 
     public function getRuleDefinition(): RuleDefinition
