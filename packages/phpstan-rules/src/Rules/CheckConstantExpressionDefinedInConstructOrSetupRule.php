@@ -16,7 +16,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
-use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
