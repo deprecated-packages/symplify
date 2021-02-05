@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule;
+use Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
 
-final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,14 +26,14 @@ final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest 
 
         yield [
             __DIR__ . '/Fixture/ConfigServiceMissingMethodCall.php',
-            [[CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule::ERROR_MESSAGE, 9]],
+            [[CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule::ERROR_MESSAGE, 9]],
         ];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule::class,
+            CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule::class,
             __DIR__ . '/../../../config/symplify-rules.neon'
         );
     }

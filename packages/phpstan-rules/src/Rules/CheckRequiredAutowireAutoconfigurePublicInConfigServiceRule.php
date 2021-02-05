@@ -15,9 +15,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest
  */
-final class CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule extends AbstractSymplifyRule
+final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends AbstractSymplifyRule
 {
     /**
      * @var string

@@ -289,11 +289,11 @@ class SomeClass extends ParentClass
 
 <br>
 
-## CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+## CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule
 
 `autowire()`, `autoconfigure()`, and `public()` are required in config service
 
-- class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule`
+- class: `Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule`
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

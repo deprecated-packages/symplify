@@ -32,7 +32,7 @@ services:
                     - name
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule
+        class: Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule
         tags: [phpstan.rules.rule]
 
     -

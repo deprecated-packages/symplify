@@ -432,8 +432,3 @@ parameters:
              paths:
                  - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php
                  - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
-
-        -
-            message: '#Paths for file ".*CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest\.php" has \d+ chars, but must be shorter than 200#'
-            paths:
-                - packages/phpstan-rules/tests/Rules/CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule/CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRuleTest.php
