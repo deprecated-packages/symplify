@@ -70,7 +70,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
     }
 
     /**
-     * @return int[][]|string[][]
+     * @return array<string, array<int|string>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -90,10 +90,12 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = []): void
     {
-        $method = $this->getLogLevelMapping(get_class($gitEvent));
+        $gitEventClass = get_class($gitEvent);
+        $method = $this->getLogLevelMapping($gitEventClass);
+
+        $process = $gitEvent->getProcess();
         $context += [
-            'command' => $gitEvent->getProcess()
-                ->getCommandLine(),
+            'command' => $process->getCommandLine(),
         ];
 
         $this->logger->{$method}($message, $context);
@@ -106,10 +108,9 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
 
     public function handleOutput(GitOutputEvent $gitOutputEvent): void
     {
-        $context = [
+        $this->log($gitOutputEvent, $gitOutputEvent->getBuffer(), [
             'error' => $gitOutputEvent->isError(),
-        ];
-        $this->log($gitOutputEvent, $gitOutputEvent->getBuffer(), $context);
+        ]);
     }
 
     public function onSuccess(GitSuccessEvent $gitSuccessEvent): void

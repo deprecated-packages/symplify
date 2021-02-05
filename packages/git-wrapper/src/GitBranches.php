@@ -8,6 +8,7 @@ use ArrayIterator;
 use IteratorAggregate;
 use Nette\Utils\Strings;
 use Symplify\GitWrapper\ValueObject\CommandName;
+use Symplify\GitWrapper\ValueObject\Regex;
 
 /**
  * Class that parses and returnes an array of branches.
@@ -42,7 +43,8 @@ final class GitBranches implements IteratorAggregate
             'a' => true,
         ];
         $output = $this->gitWorkingCopy->branch($options);
-        $branches = Strings::split(rtrim($output), "/\r\n|\n|\r/");
+        $branches = Strings::split(rtrim($output), Regex::NEWLINE_REGEX);
+
         return array_map(function (string $branch): string {
             return $this->trimBranch($branch);
         }, $branches);

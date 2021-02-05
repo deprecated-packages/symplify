@@ -6,6 +6,9 @@ namespace Symplify\GitWrapper\Strings;
 
 use Nette\Utils\Strings;
 
+/**
+ * @see \Symplify\GitWrapper\Tests\Strings\GitStringsTest
+ */
 final class GitStrings
 {
     /**

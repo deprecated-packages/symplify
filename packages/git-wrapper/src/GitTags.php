@@ -7,6 +7,7 @@ namespace Symplify\GitWrapper;
 use ArrayIterator;
 use IteratorAggregate;
 use Nette\Utils\Strings;
+use Symplify\GitWrapper\ValueObject\Regex;
 
 /**
  * Class that parses and returnes an array of Tags.
@@ -33,7 +34,9 @@ final class GitTags implements IteratorAggregate
         $output = $this->gitWorkingCopy->tag([
             'l' => true,
         ]);
-        $tags = Strings::split(rtrim($output), "/\r\n|\n|\r/");
+
+        $tags = Strings::split(rtrim($output), Regex::NEWLINE_REGEX);
+
         return array_map(function (string $branch): string {
             return $this->trimTags($branch);
         }, $tags);

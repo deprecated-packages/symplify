@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Symplify\GitWrapper\Tests;
 
 use Nette\Utils\Random;
+use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Filesystem\Filesystem;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitWrapper;
 use Symplify\GitWrapper\Tests\Event\TestBypassEventSubscriber;
 use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestEventSubscriber;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractGitWrapperTestCase extends TestCase
 {
@@ -35,9 +36,15 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected const CONFIG_NAME = 'Testing name';
 
     /**
-     * @var Filesystem
+     * @see https://regex101.com/r/ordjZ6/1
+     * @var string
      */
-    protected $filesystem;
+    private const GIT_VERSION_REGEX = '#^git version [.0-9]+#';
+
+    /**
+     * @var SmartFileSystem
+     */
+    protected $smartFileSystem;
 
     /**
      * @var GitWrapper
@@ -46,7 +53,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->filesystem = new Filesystem();
+        $this->smartFileSystem = new SmartFileSystem();
         $this->gitWrapper = new GitWrapper();
     }
 
@@ -64,8 +71,8 @@ abstract class AbstractGitWrapperTestCase extends TestCase
      */
     protected function createRegisterAndReturnBypassEventSubscriber(): TestBypassEventSubscriber
     {
-        $testBypassEventSubscriber = new TestBypassEventSubscriber();
         $eventDispatcher = $this->gitWrapper->getDispatcher();
+        $testBypassEventSubscriber = new TestBypassEventSubscriber();
         $eventDispatcher->addSubscriber($testBypassEventSubscriber);
 
         return $testBypassEventSubscriber;
@@ -78,7 +85,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
      */
     protected function assertGitVersion(string $version): void
     {
-        $match = preg_match('#^git version [.0-9]+#', $version);
+        $match = Strings::match($version, self::GIT_VERSION_REGEX);
         $this->assertNotEmpty($match);
     }
 

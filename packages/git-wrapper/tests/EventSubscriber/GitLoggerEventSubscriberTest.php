@@ -11,14 +11,13 @@ use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\Tests\AbstractGitWrapperTestCase;
 use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestLogger;
-use Throwable;
 
 final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 {
     protected function tearDown(): void
     {
         if (is_dir(self::REPO_DIR)) {
-            $this->filesystem->remove(self::REPO_DIR);
+            $this->smartFileSystem->remove(self::REPO_DIR);
         }
     }
 
@@ -27,7 +26,8 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
         $gitLoggerEventSubscriber = new GitLoggerEventSubscriber(new NullLogger());
         $gitLoggerEventSubscriber->setLogLevelMapping('test.event', 'test-level');
 
-        $this->assertSame('test-level', $gitLoggerEventSubscriber->getLogLevelMapping('test.event'));
+        $logLevelMapping = $gitLoggerEventSubscriber->getLogLevelMapping('test.event');
+        $this->assertSame('test-level', $logLevelMapping);
     }
 
     public function testGetInvalidLogLevelMapping(): void
@@ -40,54 +40,36 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
 
     public function testRegisterLogger(): void
     {
-        $logger = new TestLogger();
-        $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($logger));
-        $git = $this->gitWrapper->init(self::REPO_DIR, [
+        $testLogger = new TestLogger();
+        $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($testLogger));
+
+        $gitWorkingCopy = $this->gitWrapper->init(self::REPO_DIR, [
             'bare' => true,
         ]);
 
-        $this->assertSame('Git command preparing to run', $logger->messages[0]);
-        $this->assertSame(
+        $this->assertContains('Git command preparing to run', $testLogger->messages);
+        $this->assertContains(
             'Initialized empty Git repository in ' . realpath(self::REPO_DIR) . "/\n",
-            $logger->messages[1]
+            $testLogger->messages
         );
-        $this->assertSame('Git command successfully run', $logger->messages[2]);
 
-        $this->assertArrayHasKey('command', $logger->contexts[0]);
-        $this->assertArrayHasKey('command', $logger->contexts[1]);
-        $this->assertArrayHasKey('error', $logger->contexts[1]);
-        $this->assertArrayHasKey('command', $logger->contexts[2]);
-
-        $this->assertSame(LogLevel::INFO, $logger->levels[0]);
-        $this->assertSame(LogLevel::DEBUG, $logger->levels[1]);
-        $this->assertSame(LogLevel::INFO, $logger->levels[2]);
-
-        try {
-            $logger->clearMessages();
-            $git->commit('fatal: This operation must be run in a work tree');
-        } catch (Throwable $throwable) {
-            // Nothing to do, this is expected.
-        }
-
-        $this->assertSame('Error running Git command', $logger->messages[2]);
-        $this->assertArrayHasKey('command', $logger->contexts[2]);
-        $this->assertSame(LogLevel::ERROR, $logger->levels[2]);
+        $this->assertSame('Git command successfully run', $testLogger->messages);
     }
 
     public function testLogBypassedCommand(): void
     {
-        $logger = new TestLogger();
-        $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($logger));
+        $testLogger = new TestLogger();
+        $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($testLogger));
 
-        $command = new GitCommand('status', [
+        $gitCommand = new GitCommand('status', [
             's' => true,
         ]);
-        $command->bypass();
+        $gitCommand->bypass();
 
-        $this->gitWrapper->run($command);
+        $this->gitWrapper->run($gitCommand);
 
-        $this->assertSame('Git command bypassed', $logger->messages[1]);
-        $this->assertArrayHasKey('command', $logger->contexts[1]);
-        $this->assertSame(LogLevel::INFO, $logger->levels[1]);
+        $this->assertSame('Git command bypassed', $testLogger->messages[1]);
+        $this->assertArrayHasKey('command', $testLogger->contexts[1]);
+        $this->assertSame(LogLevel::INFO, $testLogger->levels[1]);
     }
 }

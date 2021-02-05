@@ -18,10 +18,10 @@ use Symplify\GitWrapper\Strings\GitStrings;
 /**
  * A wrapper class around the Git binary.
  *
- * A GitWrapper object contains the necessary context to run Git commands such
- * as the path to the Git binary and environment variables. It also provides
- * helper methods to run Git commands as set up the connection to the GIT_SSH
- * wrapper script.
+ * A GitWrapper object contains the necessary context to run Git commands such as the path to the Git binary and environment variables.
+ * It also provides helper methods to run Git commands as set up the connection to the GIT_SSH wrapper script.
+ *
+ * @see \Symplify\GitWrapper\Tests\GitWrapperTest
  */
 final class GitWrapper
 {
@@ -59,8 +59,8 @@ final class GitWrapper
     public function __construct(?string $gitBinary = null)
     {
         if ($gitBinary === null) {
-            $finder = new ExecutableFinder();
-            $gitBinary = $finder->find('git');
+            $executableFinder = new ExecutableFinder();
+            $gitBinary = $executableFinder->find('git');
             if (! $gitBinary) {
                 throw new GitException('Unable to find the Git executable.');
             }
@@ -106,8 +106,7 @@ final class GitWrapper
      * Git command.
      *
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     * @param mixed $default The value returned if the environment variable is not set, defaults to
-     *   null.
+     * @param mixed $default The value returned if the environment variable is not set, defaults to null.
      */
     public function getEnvVar(string $var, $default = null)
     {
@@ -150,12 +149,14 @@ final class GitWrapper
 
         $wrapperPath = realpath($wrapper);
         if ($wrapperPath === false) {
-            throw new GitException('Path to GIT_SSH wrapper script could not be resolved: ' . $wrapper);
+            $message = sprintf('Path to GIT_SSH wrapper script could not be resolved "%s"', $wrapper);
+            throw new GitException($message);
         }
 
         $privateKeyPath = realpath($privateKey);
         if ($privateKeyPath === false) {
-            throw new GitException('Path private key could not be resolved: ' . $privateKey);
+            $message = sprintf('Path private key could not be resolved "%s"', $privateKey);
+            throw new GitException($message);
         }
 
         $this->setEnvVar('GIT_SSH', $wrapperPath);
@@ -275,10 +276,11 @@ final class GitWrapper
      */
     public function git(string $commandLine, ?string $cwd = null): string
     {
-        $command = new GitCommand($commandLine);
-        $command->executeRaw(is_string($commandLine));
-        $command->setDirectory($cwd);
-        return $this->run($command);
+        $gitCommand = new GitCommand($commandLine);
+        $gitCommand->executeRaw();
+        $gitCommand->setDirectory($cwd);
+
+        return $this->run($gitCommand);
     }
 
     /**
@@ -286,12 +288,13 @@ final class GitWrapper
      */
     public function run(GitCommand $gitCommand, ?string $cwd = null): string
     {
-        $process = new GitProcess($this, $gitCommand, $cwd);
-        $process->run(function ($type, $buffer) use ($process, $gitCommand): void {
-            $event = new GitOutputEvent($this, $process, $gitCommand, $type, $buffer);
-            $this->eventDispatcher->dispatch($event);
+        $gitProcess = new GitProcess($this, $gitCommand, $cwd);
+
+        $gitProcess->run(function ($type, $buffer) use ($gitProcess, $gitCommand): void {
+            $gitOutputEvent = new GitOutputEvent($this, $gitProcess, $gitCommand, $type, $buffer);
+            $this->eventDispatcher->dispatch($gitOutputEvent);
         });
 
-        return $gitCommand->isBypassed() ? '' : $process->getOutput();
+        return $gitCommand->isBypassed() ? '' : $gitProcess->getOutput();
     }
 }

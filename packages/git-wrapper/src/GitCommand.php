@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\GitWrapper;
 
+/**
+ * @see \Symplify\GitWrapper\Tests\GitCommandTest
+ */
 final class GitCommand
 {
     /**
@@ -27,7 +30,7 @@ final class GitCommand
      *
      * @var bool
      */
-    private $bypass = false;
+    private $isBypassed = false;
 
     /**
      * Whether to execute the raw command without escaping it. This is useful
@@ -51,7 +54,7 @@ final class GitCommand
     /**
      * @param mixed ...$argsAndOptions
      */
-    public function __construct(string $command = '', ...$argsAndOptions)
+    public function __construct(string $command = '', ... $argsAndOptions)
     {
         $this->command = $command;
 
@@ -90,7 +93,7 @@ final class GitCommand
      */
     public function bypass(bool $bypass = true): void
     {
-        $this->bypass = $bypass;
+        $this->isBypassed = $bypass;
     }
 
     /**
@@ -106,7 +109,7 @@ final class GitCommand
      */
     public function isBypassed(): bool
     {
-        return $this->bypass;
+        return $this->isBypassed;
     }
 
     /**

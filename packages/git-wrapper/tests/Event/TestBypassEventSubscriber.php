@@ -10,7 +10,7 @@ use Symplify\GitWrapper\Event\GitPrepareEvent;
 final class TestBypassEventSubscriber implements EventSubscriberInterface
 {
     /**
-     * @return int[][]|string[][]
+     * @return array<string, array<int|string>>
      */
     public static function getSubscribedEvents(): array
     {
@@ -21,7 +21,7 @@ final class TestBypassEventSubscriber implements EventSubscriberInterface
 
     public function onPrepare(GitPrepareEvent $gitPrepareEvent): void
     {
-        $gitPrepareEvent->getCommand()
-            ->bypass();
+        $gitCommand = $gitPrepareEvent->getCommand();
+        $gitCommand->bypass();
     }
 }

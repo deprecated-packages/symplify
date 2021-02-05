@@ -9,10 +9,9 @@ use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\ValueObject\CommandName;
 
 /**
- * Interacts with a working copy.
+ * All commands executed via an instance of this class act on the working copy  that is set through the constructor.
  *
- * All commands executed via an instance of this class act on the working copy
- * that is set through the constructor.
+ * @see \Symplify\GitWrapper\Tests\GitWorkingCopyTest
  */
 final class GitWorkingCopy
 {
@@ -97,12 +96,12 @@ final class GitWorkingCopy
      */
     public function run(string $command, array $argsAndOptions = [], bool $setDirectory = true): string
     {
-        $command = new GitCommand($command, ...$argsAndOptions);
+        $gitCommand = new GitCommand($command, ...$argsAndOptions);
         if ($setDirectory) {
-            $command->setDirectory($this->directory);
+            $gitCommand->setDirectory($this->directory);
         }
 
-        return $this->gitWrapper->run($command);
+        return $this->gitWrapper->run($gitCommand);
     }
 
     /**
@@ -118,8 +117,8 @@ final class GitWorkingCopy
      */
     public function hasChanges(): bool
     {
-        $output = $this->getStatus();
-        return ! empty($output);
+        $status = $this->getStatus();
+        return $status !== '';
     }
 
     /**
@@ -167,7 +166,12 @@ final class GitWorkingCopy
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
-        return $mergeBase === $remoteSha && $localSha !== $remoteSha;
+
+        if ($mergeBase !== $remoteSha) {
+            return false;
+        }
+
+        return $localSha !== $remoteSha;
     }
 
     /**
@@ -185,7 +189,12 @@ final class GitWorkingCopy
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
-        return $mergeBase === $localSha && $localSha !== $remoteSha;
+
+        if ($mergeBase !== $localSha) {
+            return false;
+        }
+
+        return $localSha !== $remoteSha;
     }
 
     /**
@@ -204,7 +213,12 @@ final class GitWorkingCopy
         $mergeBase = $this->run(CommandName::MERGE_BASE, ['@', '@{u}']);
         $localSha = $this->run(CommandName::REV_PARSE, ['@']);
         $remoteSha = $this->run(CommandName::REV_PARSE, ['@{u}']);
-        return $mergeBase !== $localSha && $mergeBase !== $remoteSha;
+
+        if ($mergeBase === $localSha) {
+            return false;
+        }
+
+        return $mergeBase !== $remoteSha;
     }
 
     /**
@@ -292,13 +306,13 @@ final class GitWorkingCopy
 
         // Add boolean options.
         foreach (['-f', '--tags', '--no-tags'] as $option) {
-            if (! empty($options[$option])) {
+            if (isset($options[$option])) {
                 $args[] = $option;
             }
         }
 
         // Add tracking branches.
-        if (! empty($options[self::_T])) {
+        if (isset($options[self::_T]) && is_array($options[self::_T])) {
             foreach ($options[self::_T] as $branch) {
                 $args[] = self::_T;
                 $args[] = $branch;
@@ -306,7 +320,7 @@ final class GitWorkingCopy
         }
 
         // Add master branch.
-        if (! empty($options[self::_M])) {
+        if (isset($options[self::_M])) {
             $args[] = self::_M;
             $args[] = $options[self::_M];
         }
@@ -350,7 +364,7 @@ final class GitWorkingCopy
     public function getRemotes(): array
     {
         $result = rtrim($this->remote());
-        if (empty($result)) {
+        if ($result === '') {
             return [];
         }
 
@@ -683,15 +697,18 @@ final class GitWorkingCopy
 
     private function ensureAddRemoteArgsAreValid(string $name, string $url): void
     {
-        if (empty($name)) {
+        if ($name === '') {
             throw new GitException('Cannot add remote without a name.');
         }
 
-        if (empty($url)) {
+        if ($url === '') {
             throw new GitException('Cannot add remote without a URL.');
         }
     }
 
+    /**
+     * @return string[]
+     */
     private function splitByNewline(string $string): array
     {
         return Strings::split($string, '#\R#');
