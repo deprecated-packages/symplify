@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonMerger;
 
+use Iterator;
+use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
+use Symplify\EasyTesting\FixtureSplitter\TrioFixtureSplitter;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonMerger;
 use Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
 {
@@ -14,22 +18,36 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
      */
     private $composerJsonMerger;
 
+    /**
+     * @var TrioFixtureSplitter
+     */
+    private $trioFixtureSplitter;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->composerJsonMerger = $this->getService(ComposerJsonMerger::class);
+        $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
 
-    public function test(): void
+    /**
+     * @dataProvider provideData()
+     */
+    public function testFixture(SmartFileInfo $fixtureFileInfo): void
     {
-        $mainComposerJson = $this->createComposerJson(__DIR__ . '/Source/main-composer.json');
-        $package1Json = $this->createComposerJson(__DIR__ . '/Source/package1-composer.json');
+        $trioContent = $this->trioFixtureSplitter->splitFileInfo($fixtureFileInfo);
 
-        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package1Json);
-        $package2Json = $this->createComposerJson(__DIR__ . '/Source/package2-composer.json');
-        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $package2Json);
+        $mainComposerJson = $this->createComposerJson($trioContent->getFirstValue());
+        $packageComposerJson = $this->createComposerJson($trioContent->getSecondValue());
 
-        $this->assertComposerJsonEquals(__DIR__ . '/Source/expected-root.json', $mainComposerJson);
+        $this->composerJsonMerger->mergeJsonToRoot($mainComposerJson, $packageComposerJson);
+
+        $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $mainComposerJson);
+    }
+
+    public function provideData(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.json');
     }
 }

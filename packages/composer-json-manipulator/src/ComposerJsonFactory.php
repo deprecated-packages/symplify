@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator;
 
+use Nette\Utils\Json;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
@@ -22,6 +23,12 @@ final class ComposerJsonFactory
     public function __construct(JsonFileManager $jsonFileManager)
     {
         $this->jsonFileManager = $jsonFileManager;
+    }
+
+    public function createFromString(string $jsonString): ComposerJson
+    {
+        $jsonArray = Json::decode($jsonString, Json::FORCE_ARRAY);
+        return $this->createFromArray($jsonArray);
     }
 
     public function createFromFileInfo(SmartFileInfo $smartFileInfo): ComposerJson

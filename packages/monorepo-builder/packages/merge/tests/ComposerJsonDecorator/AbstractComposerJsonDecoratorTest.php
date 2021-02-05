@@ -20,7 +20,6 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
-
         $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
     }
 
@@ -29,6 +28,10 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
      */
     protected function createComposerJson($source): ComposerJson
     {
+        if (is_string($source) && ! file_exists($source)) {
+            return $this->composerJsonFactory->createFromString($source);
+        }
+
         if (is_array($source)) {
             return $this->composerJsonFactory->createFromArray($source);
         }

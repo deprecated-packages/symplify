@@ -1,0 +1,85 @@
+{
+    "require": {
+        "php": "^7.1",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/molaux/PostgreSearchBundle.git",
+            "options": {
+                "symlink": false
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/*"
+        }
+    ]
+}
+-----
+{
+    "require": {
+        "php": "^7.1"
+    },
+    "authors": [
+        {
+            "name": "Package 2 Author",
+            "email": "package2@example.com"
+        },
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Some\\": "some"
+        }
+    }
+}
+-----
+{
+    "require": {
+        "php": "^7.1",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Some\\": "some"
+        }
+    },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        },
+        {
+            "name": "Package 2 Author",
+            "email": "package2@example.com"
+        },
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/molaux/PostgreSearchBundle.git",
+            "options": {
+                "symlink": false
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/*"
+        }
+    ]
+}

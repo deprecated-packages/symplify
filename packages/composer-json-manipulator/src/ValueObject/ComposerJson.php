@@ -67,7 +67,7 @@ final class ComposerJson
     private $repositories = [];
 
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     private $require = [];
 
@@ -82,7 +82,7 @@ final class ComposerJson
     private $extra = [];
 
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     private $requireDev = [];
 
@@ -744,6 +744,14 @@ final class ComposerJson
         return array_intersect($requiredPackageNames, $requiredDevPackageNames);
     }
 
+    /**
+     * @return string[]
+     */
+    public function getRequirePackageNames(): array
+    {
+        return array_keys($this->require);
+    }
+
     private function moveValueToBack(string $valueName): void
     {
         $key = array_search($valueName, $this->orderedKeys, true);
@@ -803,6 +811,7 @@ final class ComposerJson
         if ($sortPackages) {
             return $this->composerPackageSorter->sortPackages($packages);
         }
+
         return $packages;
     }
 }

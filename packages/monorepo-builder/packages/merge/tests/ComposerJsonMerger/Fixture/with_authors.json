@@ -1,0 +1,41 @@
+{
+    "require": {
+        "php": "^7.1",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        }
+    ]
+}
+-----
+{
+    "require": {
+        "php": "^7.1"
+    },
+    "authors": [
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        }
+    ]
+}
+-----
+{
+    "require": {
+        "php": "^7.1",
+        "symfony/dependency-injection": "^4.1"
+    },
+    "authors": [
+        {
+            "name": "Original Author",
+            "email": "original@example.com"
+        },
+        {
+            "name": "New Author",
+            "email": "new@example.com"
+        }
+    ]
+}
