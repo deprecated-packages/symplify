@@ -9,7 +9,7 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\MaxFileLengthRule;
 
-final class MaxFileLengthRuletest extends AbstractServiceAwareRuleTestCase
+final class MaxFileLengthRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
