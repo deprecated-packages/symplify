@@ -1,7 +1,6 @@
 # PHP Wrapper around GIT
 
 [![Total Downloads](https://img.shields.io/packagist/dt/symplify/git-wrapper.svg?style=flat-square)](https://packagist.org/packages/symplify/git-wrapper)
-[![Latest Stable Version](https://img.shields.io/packagist/v/symplify/git-wrapper.svg?style=flat-square)](https://packagist.org/packages/symplify/git-wrapper)
 
 Git Wrapper provides a **readable API that abstracts challenges of executing Git commands from within a PHP process** for you.
 
@@ -27,16 +26,16 @@ require_once __DIR__ . '/vendor/autoload.php';
 $gitWrapper = new GitWrapper();
 
 // Optionally specify a private key other than one of the defaults
-$gitWrapper->setPrivateKey('/path/to/private/key');
+$gitWrapper->setPrivateKey(__DIR__ . '/path/to/private/key');
 
 // Clone a repo into `/path/to/working/copy`, get a working copy object
-$git = $gitWrapper->cloneRepository('git://github.com/symplify/git-wrapper.git', '/path/to/working/copy');
+$git = $gitWrapper->cloneRepository('git://github.com/symplify/git-wrapper.git', __DIR__ . '/path/to/working/copy');
 
 // Create a file in the working copy
-touch('/path/to/working/copy/text.txt');
+touch(__DIR__ . '/path/to/working/copy/text.txt');
 
 // Add it, commit it, and push the change
-$git->add('test.txt');
+$git->add(__DIR__ . '/test.txt');
 $git->commit('Added the test.txt file as per the examples.');
 $git->push();
 
@@ -101,7 +100,7 @@ There are a few "gotchas" that are out of scope for this library to solve but mi
 Sometimes the `HOME` environment variable is not set in the Git process that is spawned by PHP. This will cause many Git operations to fail. It is advisable to set the `HOME` environment variable to a path outside of the document root that the web server has write access to. Note that this environment variable is only set for the process running Git and NOT the PHP process that is spawns it.
 
 ```php
-$gitWrapper->setEnvVar('HOME', '/path/to/a/private/writable/dir');
+$gitWrapper->setEnvVar('HOME', __DIR__ . '/path/to/private/writable/dir');
 ```
 
 It is important that the storage is persistent as the `~/.gitconfig` file will be written to this location. See the following "gotcha" for why this is important.
