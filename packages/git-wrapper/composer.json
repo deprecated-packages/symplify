@@ -11,7 +11,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "symfony/filesystem": "^4.4|^5.1",
+        "symplify/smart-file-system": "^9.1",
         "psr/log": "^1.1",
         "ondram/ci-detector": "^3.5"
     },
@@ -24,5 +24,7 @@
         "psr-4": {
             "Symplify\\GitWrapper\\Tests\\": "tests"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

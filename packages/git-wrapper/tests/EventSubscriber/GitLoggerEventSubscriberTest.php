@@ -53,7 +53,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
             $testLogger->messages
         );
 
-        $this->assertSame('Git command successfully run', $testLogger->messages);
+        $this->assertContains('Git command successfully run', $testLogger->messages);
     }
 
     public function testLogBypassedCommand(): void
