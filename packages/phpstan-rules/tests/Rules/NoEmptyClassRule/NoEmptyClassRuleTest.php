@@ -27,6 +27,7 @@ final class NoEmptyClassRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipWithContent.php', []];
         yield [__DIR__ . '/Fixture/SkipWithCommentAbove.php', []];
         yield [__DIR__ . '/Fixture/SkipFinalChildOfAbstract.php', []];
+        yield [__DIR__ . '/Fixture/SkipEmptyClassWithImplements.php', []];
 
         yield [__DIR__ . '/Fixture/SomeEmptyClass.php', [[NoEmptyClassRule::ERROR_MESSAGE, 7]]];
     }
