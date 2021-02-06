@@ -18,7 +18,7 @@
             "Symplify\\PHPStanPHPConfig\\": "src"
         }
     },
-    "bin" : [
+    "bin": [
         "bin/phpstan-php-config"
     ],
     "autoload-dev": {
@@ -28,7 +28,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "9.1-dev"
+            "dev-master": "9.2-dev"
         }
     },
     "minimum-stability": "dev",

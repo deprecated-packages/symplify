@@ -8,8 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
-use Symplify\PHPStanRules\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

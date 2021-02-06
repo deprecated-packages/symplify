@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\ComposerKeyMerger;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Arrays\SortedParameterMerger;
+use Symplify\MonorepoBuilder\Merge\Cleaner\RequireRequireDevDuplicateCleaner;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 
 final class RequireDevComposerKeyMerger implements ComposerKeyMergerInterface
@@ -15,9 +16,17 @@ final class RequireDevComposerKeyMerger implements ComposerKeyMergerInterface
      */
     private $sortedParameterMerger;
 
-    public function __construct(SortedParameterMerger $sortedParameterMerger)
-    {
+    /**
+     * @var RequireRequireDevDuplicateCleaner
+     */
+    private $requireRequireDevDuplicateCleaner;
+
+    public function __construct(
+        SortedParameterMerger $sortedParameterMerger,
+        RequireRequireDevDuplicateCleaner $requireRequireDevDuplicateCleaner
+    ) {
         $this->sortedParameterMerger = $sortedParameterMerger;
+        $this->requireRequireDevDuplicateCleaner = $requireRequireDevDuplicateCleaner;
     }
 
     public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
@@ -30,6 +39,9 @@ final class RequireDevComposerKeyMerger implements ComposerKeyMergerInterface
             $newComposerJson->getRequireDev(),
             $mainComposerJson->getRequireDev()
         );
+
+        $requireDev = $this->requireRequireDevDuplicateCleaner->unsetPackageFromRequire($mainComposerJson, $requireDev);
+
         $mainComposerJson->setRequireDev($requireDev);
     }
 }

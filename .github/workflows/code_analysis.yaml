@@ -25,6 +25,10 @@ jobs:
                         run: packages/easy-ci/bin/easy-ci check-conflicts .
 
                     -
+                        name: Check File Length
+                        run: packages/easy-ci/bin/easy-ci validate-file-length packages
+
+                    -
                         name: Composer Validate
                         run: composer validate --strict
 

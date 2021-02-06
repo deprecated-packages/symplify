@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Reflection;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
-use Symplify\PHPStanRules\ValueObject\MethodName;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class MethodNodeAnalyser
 {

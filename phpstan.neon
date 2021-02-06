@@ -200,6 +200,7 @@ parameters:
             message: '#Do not use setter on a service#'
             paths:
                 - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
+                - packages/git-wrapper/src/GitWorkingCopy.php
 
         -
             message: '#Do not call parent method if parent method is empty#'
@@ -417,7 +418,9 @@ parameters:
 
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
-            path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
+            paths:
+                 - packages/coding-standard/src/Php/PhpContentAnalyzer.php
+                 - packages/git-wrapper/src/GitWorkingCopy.php
 
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
@@ -432,3 +435,67 @@ parameters:
              paths:
                  - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php
                  - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
+        -
+             message: '#There should be no empty class#'
+             paths:
+                 - packages/git-wrapper/tests/Event/TestDispatcher.php
+
+        # tests
+        - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\Event\\TestBypassEventSubscriber" object#'
+        - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\EventSubscriber\\Source\\TestEventSubscriber" object#'
+
+        -
+            message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
+            paths:
+                # manually created value objects mostly
+                - packages/git-wrapper/src/*
+
+        -
+            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
+            paths:
+                # manually created value objects mostly
+                - packages/git-wrapper/src/*
+
+        -
+            message: '#Method name should be different to its parameter name, in a verb form#'
+            paths:
+                - packages/git-wrapper/src/GitWrapper.php
+                - packages/git-wrapper/src/GitCommand.php
+
+        -
+            message: '#Do not use setter on a service#'
+            paths:
+                # manually created value objects mostly
+                - packages/git-wrapper/src/*
+
+        -
+            message: '#Spread operator is not allowed#'
+            paths:
+                - packages/git-wrapper/src
+
+        - '#Method "needsMerge\(\)" returns bool type, so the name should start with is/has/was#'
+
+        -
+            message: '#Use value object over multi array assign#'
+            paths:
+                - packages/git-wrapper/src/GitWorkingCopy.php
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            paths:
+                - packages/git-wrapper/src/GitWorkingCopy.php
+                - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
+
+        - '#Content of method "getIterator\(\)" is duplicated with method "getIterator\(\)" in "Symplify\\GitWrapper\\GitBranches" class\. Use unique content or abstract service instead#'
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            paths:
+                - packages/git-wrapper/src/GitBranches.php
+
+        -
+            message: '#Use explicit names over dynamic ones#'
+            paths:
+                - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
+
+        - '#Class with base "Regex" name is already used in "Symplify\\PHPStanRules\\ValueObject\\Regex", "Symplify\\GitWrapper\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'

@@ -106,16 +106,20 @@ CODE_SAMPLE
             return true;
         }
 
-        return $this->isFinalClassWithAbstractParent($classLike);
+        return $this->isFinalClassWithAbstractOrInterfaceParent($classLike);
     }
 
     /**
      * @param Class_|Trait_ $classLike
      */
-    private function isFinalClassWithAbstractParent(ClassLike $classLike): bool
+    private function isFinalClassWithAbstractOrInterfaceParent(ClassLike $classLike): bool
     {
         if (! $classLike instanceof Class_) {
             return false;
+        }
+
+        if ($classLike->implements !== []) {
+            return true;
         }
 
         if (! $classLike->isFinal()) {
