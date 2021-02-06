@@ -16,7 +16,6 @@
         "jean85/pretty-package-versions": "^1.5",
         "knplabs/doctrine-behaviors": "^2.0.7",
         "nette/di": "^3.0",
-        "nette/finder": "^2.5",
         "nette/neon": "^3.2",
         "nette/robot-loader": "^3.2",
         "nette/utils": "^3.0",
@@ -58,6 +57,9 @@
         "latte/latte": "^2.9",
         "nette/application": "^3.0.7",
         "nette/bootstrap": "^3.0",
+        "nette/finder": "^2.5",
+        "ondram/ci-detector": "^3.5",
+        "psr/log": "^1.1",
         "rector/rector": "^0.9.6",
         "symfony/doctrine-bridge": "^4.4|^5.1",
         "symfony/framework-bundle": "^4.4|^5.1",
@@ -69,6 +71,7 @@
     },
     "autoload": {
         "files": [
+            "packages/amnesia/src/Functions/env.php",
             "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
         ],
         "psr-4": {
@@ -92,6 +95,7 @@
             "Symplify\\EasyCodingStandard\\SnippetFormatter\\": "packages/easy-coding-standard/packages/snippet-formatter/src",
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
+            "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LatteToTwigConverter\\": "packages/latte-to-twig-converter/src",
             "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
             "Symplify\\MonorepoBuilder\\": "packages/monorepo-builder/src",
@@ -155,6 +159,7 @@
             "Symplify\\EasyCodingStandard\\Tests\\": "packages/easy-coding-standard/tests",
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
+            "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LatteToTwigConverter\\Tests\\": "packages/latte-to-twig-converter/tests",
             "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
             "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/monorepo-builder/packages/merge/tests",
@@ -204,6 +209,7 @@
         "symplify/easy-coding-standard-tester": "9.0.50",
         "symplify/easy-hydrator": "9.0.50",
         "symplify/easy-testing": "9.0.50",
+        "symplify/git-wrapper": "self.version",
         "symplify/latte-to-twig-converter": "9.0.50",
         "symplify/markdown-diff": "9.0.50",
         "symplify/monorepo-builder": "9.0.50",
