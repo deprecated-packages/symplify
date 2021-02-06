@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Command;
 
-use Symplify\EasyCI\Finder\ProjectFilesFinder;
-use Symplify\EasyCI\Resolver\TooLongFilesResolver;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\EasyCI\Finder\ProjectFilesFinder;
+use Symplify\EasyCI\Resolver\TooLongFilesResolver;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\ValueObject\Option;
-use Symfony\Component\Console\Input\InputArgument;
 
 final class ValidateFileLengthCommand extends Command
 {
