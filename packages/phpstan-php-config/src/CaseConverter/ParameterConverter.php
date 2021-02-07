@@ -39,6 +39,12 @@ final class ParameterConverter
             );
         }
 
+        if ($parameterBag->has(OPTION::IGNORE_ERRORS)) {
+            $neonParameters[OPTION::IGNORE_ERRORS] = (array) $parameterBag->get(
+                OPTION::IGNORE_ERRORS
+            );
+        }
+
         return $neonParameters;
     }
 

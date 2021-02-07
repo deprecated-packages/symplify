@@ -57,4 +57,11 @@ final class Option
      * @var string
      */
     public const OUTPUT_FILE = 'output-file';
+
+    /**
+     * @api
+     * Do not change the value, it is internal PHPStan naming
+     * @var string
+     */
+    public const IGNORE_ERRORS = 'ignoreErrors';
 }
