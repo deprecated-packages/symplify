@@ -2,3 +2,7 @@ services:
     -
          class: Symplify\Astral\Naming\SimpleNameResolver
          factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
+
+    - Symplify\Astral\NodeValue\NodeValueResolver
+    - Symplify\Astral\NodeFinder\ParentNodeFinder
+    - Symplify\PackageBuilder\Php\TypeChecker
