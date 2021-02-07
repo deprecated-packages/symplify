@@ -46,6 +46,9 @@ final class ServiceAndValueObjectHaveSameStartsRule extends AbstractSymplifyRule
      */
     private $classSuffixes = [];
 
+    /**
+     * @param string[] $classSuffixes
+     */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         SymfonyConfigRectorValueObjectResolver $symfonyConfigRectorValueObjectResolver,

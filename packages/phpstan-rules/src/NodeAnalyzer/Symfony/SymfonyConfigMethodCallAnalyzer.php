@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer;
 
 final class SymfonyConfigMethodCallAnalyzer
@@ -25,7 +26,7 @@ final class SymfonyConfigMethodCallAnalyzer
         return $this->typeAndNameAnalyzer->isMethodCallTypeAndName(
             $methodCall,
             $scope,
-            'Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator',
+            ServicesConfigurator::class,
             'set'
         );
     }

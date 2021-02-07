@@ -12,13 +12,14 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class SymfonyConfigRectorValueObjectResolver
 {
     /**
      * @var string
      */
-    private const INLINE_CLASS_NAME = 'Symplify\SymfonyPhpConfig\ValueObjectInliner';
+    private const INLINE_CLASS_NAME = ValueObjectInliner::class;
 
     /**
      * @var NodeFinder

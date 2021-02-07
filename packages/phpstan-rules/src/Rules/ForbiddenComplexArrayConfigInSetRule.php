@@ -24,7 +24,7 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'For complex configuration use value object over array';
 
     /**
-     * @var \Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
+     * @var SymfonyPhpConfigClosureAnalyzer
      */
     private $symfonyPhpConfigClosureAnalyzer;
 
