@@ -1,4 +1,4 @@
-# 135 Rules Overview
+# 137 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2843,7 +2843,7 @@ final class SomeRepository
 
 ## NoInjectOnFinalRule
 
-Property `@inject` can be used on non-final class only
+Use constructor on final classes, instead of property injection
 
 - class: `Symplify\PHPStanRules\Rules\NoInjectOnFinalRule`
 
@@ -3096,6 +3096,45 @@ class SomeClass
     {
         $mappedItems = array_map($callback, $items);
         return array_filter($mappedItems);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteDoubleTemplateAssignRule
+
+Avoid double template variable override of "%s"
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule`
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        $this->template->key = '1';
+        $this->template->key = '2';
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        $this->template->key = '2';
     }
 }
 ```
@@ -3737,7 +3776,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             constantHoldingObjects:
-                - Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection
+                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection:
+                    - "REQUIRE(_.*)?"
+                    - "AUTOLOAD(_.*)?"
 ```
 
 ↓
@@ -4887,6 +4928,43 @@ class SomeClass
         if ($matches) {
             echo $matches['c'];
         }
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireTemplateInNetteControlRule
+
+Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
+
+- class: `Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule`
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render('some_file.latte');
     }
 }
 ```
