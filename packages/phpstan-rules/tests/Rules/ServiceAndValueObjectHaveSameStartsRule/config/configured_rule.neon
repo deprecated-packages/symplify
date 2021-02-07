@@ -1,0 +1,10 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+         class: Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule
+         tags: [phpstan.rules.rule]
+         arguments:
+             classSuffixes:
+                 - Rector

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer;
+namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony;
 
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Native\NativeParameterReflection;

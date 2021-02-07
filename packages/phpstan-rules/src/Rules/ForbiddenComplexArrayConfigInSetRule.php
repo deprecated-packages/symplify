@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -24,7 +24,7 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'For complex configuration use value object over array';
 
     /**
-     * @var SymfonyPhpConfigClosureAnalyzer
+     * @var \Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
      */
     private $symfonyPhpConfigClosureAnalyzer;
 
