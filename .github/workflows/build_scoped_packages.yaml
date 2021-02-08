@@ -5,8 +5,13 @@ on:
         # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
         tags:
             - '*'
+        branches:
+            - master
+    pull_request: null
 
-        branches: null
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
     build_scoped_packages:
