@@ -14,7 +14,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
 
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
@@ -63,3 +63,6 @@ services:
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
     - Symplify\PHPStanRules\NodeAnalyzer\VariableUsageAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer

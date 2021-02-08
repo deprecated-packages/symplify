@@ -61,6 +61,10 @@ abstract class AbstractKernelTestCase extends TestCase
 
     /**
      * Syntax sugger to remove static from the test cases vission
+     *
+     * @template T of object
+     * @param class-string<T> $type
+     * @return T
      */
     protected function getService(string $type): object
     {
