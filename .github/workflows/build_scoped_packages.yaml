@@ -5,6 +5,13 @@ on:
         # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
         tags:
             - '*'
+        branches:
+            - master
+    pull_request: null
+
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
     build_scoped_packages:
@@ -31,15 +38,15 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
-            -   run: composer update --no-progress --ansi --prefer-lowest
+            # --prefer-lowest makes sure there are the same package in root + package
+            -   run: composer update --no-progress --ansi
 
             # 1. install package dependencies
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package.directory }}/composer.json --ansi
 
             # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
             -
-                run: composer update --working-dir packages/${{ matrix.scoped_package.directory }} --ansi --no-dev --prefer-lowest
+                run: composer update --working-dir packages/${{ matrix.scoped_package.directory }} --ansi --no-dev
 
             # 2. scope it
             -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package.directory }} --output-dir packages-scoped/${{ matrix.scoped_package.directory }} --config packages/${{ matrix.scoped_package.directory }}/scoper.inc.php --force --ansi
