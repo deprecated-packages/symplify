@@ -2,9 +2,9 @@ name: Split Unused Packages
 
 on:
     # no need to run always, just once a day is enough
-    schedule:
-        # https://crontab.guru/#0_0_*_*_* - every day at midnight
-        -   cron: '0 0 * * *'
+    push:
+        branches:
+            - master
 
 env:
     # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
