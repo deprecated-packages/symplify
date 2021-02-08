@@ -5,9 +5,9 @@
     "require": {
         "php": ">=7.3",
         "phpstan/phpstan": "^0.12.64",
-        "symplify/package-builder": "^9.1.3",
-        "symplify/smart-file-system": "^9.1.3",
-        "symplify/astral": "^9.1.3"
+        "symplify/package-builder": "^9.2",
+        "symplify/smart-file-system": "^9.2",
+        "symplify/astral": "^9.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
