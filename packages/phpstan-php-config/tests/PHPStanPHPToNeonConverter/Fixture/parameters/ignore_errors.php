@@ -10,9 +10,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(
         OPTION::IGNORE_ERRORS,
         [
-            "#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\\:\\:children\\(\\)#",
-            "#Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition\:\:children\(\)#",
-            "#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:children\(\)#"
+            '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\\:\\:children\\(\\)#',
+            '#Call to an undefined method Symfony\Component\Config\Definition\Builder\NodeDefinition\:\:children\(\)#',
+            '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:children\(\)#'
         ]
     );
 };
