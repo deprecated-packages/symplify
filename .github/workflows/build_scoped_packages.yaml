@@ -14,9 +14,6 @@ jobs:
             matrix:
                 scoped_package:
                     -
-                        directory: 'monorepo-builder'
-                        binary_file_name: 'monorepo-builder'
-                    -
                         directory: 'easy-coding-standard'
                         binary_file_name: 'ecs'
 
