@@ -5,10 +5,6 @@ on:
         branches:
             - master
 
-        # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
-        tags:
-            - '*'
-
 jobs:
     provide_packages_json:
         # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
