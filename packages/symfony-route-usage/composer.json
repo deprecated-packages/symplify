@@ -5,7 +5,6 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "ext-pdo": "*",
         "symplify/package-builder": "^9.2",
         "symplify/smart-file-system": "^9.2",
         "symplify/symplify-kernel": "^9.2",

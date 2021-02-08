@@ -5,7 +5,6 @@
     "require": {
         "php": ">=7.3",
         "ext-dom": "*",
-        "ext-pdo": "*",
         "ext-simplexml": "*",
         "composer/semver": "^3.2",
         "composer/xdebug-handler": "^1.4",
@@ -40,8 +39,7 @@
         "symfony/http-kernel": "^4.4|^5.1",
         "symfony/process": "^4.4|^5.1",
         "symfony/routing": "^4.4|^5.1",
-        "symfony/yaml": "^4.4|^5.1",
-        "twig/twig": "^3.0"
+        "symfony/yaml": "^4.4|^5.1"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.3",
