@@ -21,7 +21,8 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
     public function __construct(string $badCode, string $goodCode, array $configuration)
     {
         if ($configuration === []) {
-            throw new InvalidConfigurationException('Configuration cannot be empty');
+            $message = sprintf('Configuration cannot be empty. Look for "%s"', $badCode);
+            throw new InvalidConfigurationException($message);
         }
 
         $this->configuration = $configuration;

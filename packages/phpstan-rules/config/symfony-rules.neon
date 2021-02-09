@@ -12,7 +12,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule
+        class: Symplify\PHPStanRules\Rules\NoTraitRule
         tags: [phpstan.rules.rule]
 
     -

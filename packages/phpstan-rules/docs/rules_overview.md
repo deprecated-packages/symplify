@@ -1,4 +1,4 @@
-# 137 Rules Overview
+# 138 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -389,48 +389,6 @@ final class SomeClass
     public function autowireSomeClass(...)
     {
         // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckTraitMethodOnlyDelegateOtherClassRule
-
-Trait method `"%s()"` should not contain any logic, but only delegate to other class call
-
-- class: `Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule`
-
-```php
-trait SomeTrait
-{
-    public function someComplexLogic()
-    {
-        if (...) {
-        } else {
-            // ...
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-trait SomeTrait
-{
-    /**
-     * @required
-     */
-    public $someDependency;
-
-    public function someDelegateCall()
-    {
-        $this->someDependency->singleDelegateCall();
     }
 }
 ```
@@ -971,6 +929,50 @@ class CheckboxRepository
     {
         $this->entityManager = $entityManager;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## ExclusiveNamespaceRule
+
+Exclusive namespace can only contain classes of specific type, nothing else
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            namespaceParts:
+                - Presenter
+```
+
+↓
+
+```php
+namespace App\Presenter;
+
+class SomeRepository
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+namespace App\Presenter;
+
+class SomePresenter
+{
 }
 ```
 
@@ -2361,7 +2363,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
@@ -3673,11 +3675,11 @@ class Some
 
 <br>
 
-## NoTraitExceptRequiredAutowireRule
+## NoTraitRule
 
-Do not use trait
+Do not use trait, `extract` to a service and dependency injection instead
 
-- class: `Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule`
+- class: `Symplify\PHPStanRules\Rules\NoTraitRule`
 
 ```php
 trait SomeTrait
@@ -3693,14 +3695,10 @@ trait SomeTrait
 <br>
 
 ```php
-trait SomeTrait
+class SomeService
 {
-    /**
-     * @required
-     */
-    public function autowire(...)
+    public function run(...)
     {
-        // ...
     }
 }
 ```
@@ -5132,6 +5130,56 @@ class SomeClass extends Rule
 
 <br>
 
+## ServiceAndValueObjectHaveSameStartsRule
+
+Make specific service suffix to use similar value object names for configuring in Symfony configs
+
+:wrench: **configure it!**
+
+- class: `Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule`
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classSuffixes:
+                - Rector
+```
+
+↓
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(SomeRector::class)
+        ->call('configure', [[new Another()]]);
+};
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(SomeRector::class)
+        ->call('configure', [[new Some()]]);
+};
+```
+
+:+1:
+
+<br>
+
 ## SingleIndentationInMethodRule
 
 Do not indent more than %dx in class methods
@@ -5283,7 +5331,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
