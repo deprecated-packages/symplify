@@ -7,6 +7,7 @@ namespace Symplify\EasyTesting\DataProvider;
 use Iterator;
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -17,61 +18,73 @@ final class StaticFixtureFinder
 {
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $finder = self::findFilesInDirectory($directory, $suffix);
-        foreach ($finder as $fileInfo) {
+        $fileInfos = self::findFilesInDirectory($directory, $suffix);
+        foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $finder = self::findFilesInDirectoryExclusively($directory, $suffix);
-        foreach ($finder as $fileInfo) {
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+        foreach ($fileInfos as $fileInfo) {
             yield [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
     public static function yieldDirectoryByFileName(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $finder = self::findFilesInDirectory($directory, $suffix);
-        foreach ($finder as $fileInfo) {
-            yield $fileInfo->getRelativePathname() => [new SmartFileInfo($fileInfo->getRealPath())];
+        $fileInfos = self::findFilesInDirectory($directory, $suffix);
+        foreach ($fileInfos as $fileInfo) {
+            $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
+            yield $smartFileInfo->getRelativePathname() => [$smartFileInfo];
         }
     }
 
     public static function yieldDirectoryExclusivelyByFileName(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        $finder = self::findFilesInDirectoryExclusively($directory, $suffix);
-        foreach ($finder as $fileInfo) {
-            yield $fileInfo->getRelativePathname() => [new SmartFileInfo($fileInfo->getRealPath())];
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+        foreach ($fileInfos as $fileInfo) {
+            $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
+            yield $smartFileInfo->getRelativePathname() => [$smartFileInfo];
         }
     }
 
-    private static function findFilesInDirectory(string $directory, string $suffix): Finder
+    /**
+     * @return SplFileInfo[]
+     */
+    private static function findFilesInDirectory(string $directory, string $suffix): array
     {
-        return Finder::create()
-            ->in($directory)
-            ->files()
-            ->name($suffix);
+        $finder = Finder::create()->in($directory)->files()->name($suffix);
+        $fileInfos = iterator_to_array($finder);
+
+        return array_values($fileInfos);
     }
 
-    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): Finder
+    /**
+     * @return SplFileInfo[]
+     */
+    private static function findFilesInDirectoryExclusively(string $directory, string $suffix): array
     {
         self::ensureNoOtherFileName($directory, $suffix);
 
-        return Finder::create()->in($directory)
+        $finder = Finder::create()->in($directory)
             ->files()
             ->name($suffix);
+
+        $fileInfos = iterator_to_array($finder->getIterator());
+        return array_values($fileInfos);
     }
 
     private static function ensureNoOtherFileName(string $directory, string $suffix): void
     {
-        $finder = Finder::create()->in($directory)
+        $iterator = Finder::create()->in($directory)
             ->files()
-            ->notName($suffix);
+            ->notName($suffix)
+            ->getIterator();
 
         $relativeFilePaths = [];
-        foreach ($finder as $fileInfo) {
+        foreach ($iterator as $fileInfo) {
             $relativeFilePaths[] = Strings::substring($fileInfo->getRealPath(), strlen(getcwd()) + 1);
         }
 
