@@ -34,6 +34,12 @@ abstract class AbstractKernelTestCase extends TestCase
     protected static $container;
 
     /**
+     * @var array<string, KernelInterface>
+     */
+    private static $kernelsByHash = [];
+
+    /**
+     * @param class-string<KernelInterface> $kernelClass
      * @param string[]|SmartFileInfo[] $configs
      */
     protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface
@@ -44,17 +50,32 @@ abstract class AbstractKernelTestCase extends TestCase
 
         $this->ensureKernelShutdown();
 
-        $kernel = new $kernelClass('test_' . $configsHash, true);
-        if (! $kernel instanceof KernelInterface) {
-            throw new ShouldNotHappenException();
+        $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
+
+        static::$kernel = $bootedKernel;
+
+        return $bootedKernel;
+    }
+
+    /**
+     * @param class-string<KernelInterface> $kernelClass
+     * @param string[]|SmartFileInfo[] $configs
+     */
+    protected function bootKernelWithConfigsAndStaticCache(string $kernelClass, array $configs): KernelInterface
+    {
+        // unwrap file infos to real paths
+        $configFilePaths = $this->resolveConfigFilePaths($configs);
+        $configsHash = $this->resolveConfigsHash($configFilePaths);
+
+        if (isset(self::$kernelsByHash[$configsHash])) {
+            static::$kernel = self::$kernelsByHash[$configsHash];
+            self::$container = static::$kernel->getContainer();
+        } else {
+            $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
+
+            static::$kernel = $bootedKernel;
+            self::$kernelsByHash[$configsHash] = $bootedKernel;
         }
-
-        $this->ensureIsConfigAwareKernel($kernel);
-
-        /** @var ExtraConfigAwareKernelInterface $kernel */
-        $kernel->setConfigs($configFilePaths);
-
-        static::$kernel = $this->bootAndReturnKernel($kernel);
 
         return static::$kernel;
     }
@@ -115,7 +136,7 @@ abstract class AbstractKernelTestCase extends TestCase
     /**
      * @param string[] $configs
      */
-    private function resolveConfigsHash(array $configs): string
+    protected function resolveConfigsHash(array $configs): string
     {
         $configsHash = '';
         foreach ($configs as $config) {
@@ -123,6 +144,21 @@ abstract class AbstractKernelTestCase extends TestCase
         }
 
         return md5($configsHash);
+    }
+
+    /**
+     * @param string[]|SmartFileInfo[] $configs
+     * @return string[]
+     */
+    protected function resolveConfigFilePaths(array $configs): array
+    {
+        $configFilePaths = [];
+
+        foreach ($configs as $config) {
+            $configFilePaths[] = $config instanceof SmartFileInfo ? $config->getRealPath() : $config;
+        }
+
+        return $configFilePaths;
     }
 
     private function ensureIsConfigAwareKernel(KernelInterface $kernel): void
@@ -165,17 +201,19 @@ abstract class AbstractKernelTestCase extends TestCase
     }
 
     /**
-     * @param string[]|SmartFileInfo[] $configs
-     * @return string[]
+     * @param string[] $configFilePaths
      */
-    private function resolveConfigFilePaths(array $configs): array
-    {
-        $configFilePaths = [];
+    private function createBootedKernelFromConfigs(
+        string $kernelClass,
+        string $configsHash,
+        array $configFilePaths
+    ): KernelInterface {
+        $kernel = new $kernelClass('test_' . $configsHash, true);
+        $this->ensureIsConfigAwareKernel($kernel);
 
-        foreach ($configs as $config) {
-            $configFilePaths[] = $config instanceof SmartFileInfo ? $config->getRealPath() : $config;
-        }
+        /** @var ExtraConfigAwareKernelInterface $kernel */
+        $kernel->setConfigs($configFilePaths);
 
-        return $configFilePaths;
+        return $this->bootAndReturnKernel($kernel);
     }
 }
