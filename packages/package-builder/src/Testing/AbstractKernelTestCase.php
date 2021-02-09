@@ -48,16 +48,30 @@ abstract class AbstractKernelTestCase extends TestCase
         $configFilePaths = $this->resolveConfigFilePaths($configs);
         $configsHash = $this->resolveConfigsHash($configFilePaths);
 
+        $this->ensureKernelShutdown();
+
+        $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
+
+        static::$kernel = $bootedKernel;
+
+        return $bootedKernel;
+    }
+
+    /**
+     * @param class-string<KernelInterface> $kernelClass
+     * @param string[]|SmartFileInfo[] $configs
+     */
+    protected function bootKernelWithConfigsAndStaticCache(string $kernelClass, array $configs): KernelInterface
+    {
+        // unwrap file infos to real paths
+        $configFilePaths = $this->resolveConfigFilePaths($configs);
+        $configsHash = $this->resolveConfigsHash($configFilePaths);
+
         if (isset(self::$kernelsByHash[$configsHash])) {
             static::$kernel = self::$kernelsByHash[$configsHash];
             self::$container = static::$kernel->getContainer();
         } else {
-            $kernel = new $kernelClass('test_' . $configsHash, true);
-            $this->ensureIsConfigAwareKernel($kernel);
-
-            /** @var ExtraConfigAwareKernelInterface $kernel */
-            $kernel->setConfigs($configFilePaths);
-            $bootedKernel = $this->bootAndReturnKernel($kernel);
+            $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
 
             static::$kernel = $bootedKernel;
             self::$kernelsByHash[$configsHash] = $bootedKernel;
@@ -184,5 +198,22 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$container = $container;
 
         return $kernel;
+    }
+
+    /**
+     * @param string[] $configFilePaths
+     */
+    private function createBootedKernelFromConfigs(
+        string $kernelClass,
+        string $configsHash,
+        array $configFilePaths
+    ): KernelInterface {
+        $kernel = new $kernelClass('test_' . $configsHash, true);
+        $this->ensureIsConfigAwareKernel($kernel);
+
+        /** @var ExtraConfigAwareKernelInterface $kernel */
+        $kernel->setConfigs($configFilePaths);
+
+        return $this->bootAndReturnKernel($kernel);
     }
 }
