@@ -138,7 +138,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 CODE_SAMPLE
 ,
-                    []
+                    [
+                        'classSuffixes' => ['Rector'],
+                    ]
                 ),
             ]
         );
