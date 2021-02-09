@@ -25,7 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Symplify\CodingStandard\Rules\NoDynamicMethodNameRule' => 'Symplify\PHPStanRules\Rules\NoDynamicNameRule',
                 'Symplify\CodingStandard\Rules\PreferredClassConstantOverVariableConstantRule' => 'Symplify\PHPStanRules\Rules\NoDynamicNameRule',
 
-                'Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule' => 'Symplify\PHPStanRules\Rules\NoTraitExceptRequiredAutowireRule',
+                'Symplify\CodingStandard\Rules\NoTraitExceptItsMethodsPublicAndRequiredRule' => 'Symplify\PHPStanRules\Rules\NoTraitRule',
                 'Symplify\CodingStandard\Rules\CheckRequiredMethodTobeAutowireWithClassNameRule' => 'Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule',
                 'Symplify\CodingStandard\Rules\PrefferedStaticCallOverFuncCallRule' => 'Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule',
                 'Symplify\CodingStandard\Rules\NoFunctionCallInMethodCallRule' => 'Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule',

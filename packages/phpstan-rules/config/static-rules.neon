@@ -147,10 +147,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckTraitMethodOnlyDelegateOtherClassRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
         tags: [phpstan.rules.rule]
 
