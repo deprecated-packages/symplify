@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\LatteUsedControlResolver;
@@ -113,6 +114,15 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        return $classMethod->isPrivate();
+        if ($classMethod->isPrivate()) {
+            return true;
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        return $classReflection->isAbstract();
     }
 }

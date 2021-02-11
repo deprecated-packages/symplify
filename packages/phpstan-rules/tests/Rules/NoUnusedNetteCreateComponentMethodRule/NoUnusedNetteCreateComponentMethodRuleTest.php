@@ -22,6 +22,7 @@ final class NoUnusedNetteCreateComponentMethodRuleTest extends AbstractServiceAw
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAbstractPresenter.php', []];
         yield [__DIR__ . '/Fixture/SkipNonPresneter.php', []];
         yield [__DIR__ . '/Fixture/SkipUsedCreateComponentMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipUsedInThisGetComponent.php', []];
