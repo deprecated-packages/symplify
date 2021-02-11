@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\Yaml;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
@@ -37,11 +36,6 @@ use Symplify\PackageBuilder\Strings\StringFormatConverter;
  */
 final class CheckerServiceParametersShifter
 {
-    /**
-     * @var string
-     */
-    private const HEADER = 'header';
-
     /**
      * @var string
      */
@@ -97,7 +91,15 @@ final class CheckerServiceParametersShifter
     private function processServices(array $services): array
     {
         foreach ($services as $serviceName => $serviceDefinition) {
-            if (! $this->isCheckerClass($serviceName) || $serviceDefinition === null || $serviceDefinition === []) {
+            if (! $this->isCheckerClass($serviceName)) {
+                continue;
+            }
+
+            if ($serviceDefinition === null) {
+                continue;
+            }
+
+            if ($serviceDefinition === []) {
                 continue;
             }
 
@@ -133,7 +135,6 @@ final class CheckerServiceParametersShifter
                 continue;
             }
 
-            $serviceDefinition = $this->correctHeader($checker, $serviceDefinition);
             $serviceDefinition = $this->stringFormatConverter->camelCaseToUnderscoreInArrayKeys($serviceDefinition);
 
             $services[$checker]['calls'] = [['configure', [$serviceDefinition]]];
@@ -191,24 +192,6 @@ final class CheckerServiceParametersShifter
         }
 
         return in_array($key, $this->serviceKeywords, true);
-    }
-
-    /**
-     * @param mixed[] $serviceDefinition
-     * @return mixed[]
-     */
-    private function correctHeader(string $checker, array $serviceDefinition): array
-    {
-        // fixes comment extra bottom space
-        if ($checker !== HeaderCommentFixer::class) {
-            return $serviceDefinition;
-        }
-
-        if (isset($serviceDefinition[self::HEADER])) {
-            $serviceDefinition[self::HEADER] = trim($serviceDefinition[self::HEADER]);
-        }
-
-        return $serviceDefinition;
     }
 
     /**

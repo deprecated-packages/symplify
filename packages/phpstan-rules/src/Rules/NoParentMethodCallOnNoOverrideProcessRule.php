@@ -97,10 +97,6 @@ CODE_SAMPLE
 
     private function isParentSelfMethodStaticCall(StaticCall $staticCall, ClassMethod $classMethod): bool
     {
-        if (! $staticCall instanceof StaticCall) {
-            return false;
-        }
-
         if (! $this->simpleNameResolver->isName($staticCall->class, 'parent')) {
             return false;
         }

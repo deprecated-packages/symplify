@@ -178,7 +178,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return StaticCall[]|MethodCall[]
+     * @return array<StaticCall|MethodCall>
      */
     private function findCallsInIfCond(Expr $expr): array
     {

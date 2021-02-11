@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Symplify\TemplateChecker\Analyzer;
 
 use Nette\Utils\Strings;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use function class_exists;
-use function interface_exists;
-use function trait_exists;
 
 /**
  * @see \Symplify\TemplateChecker\Tests\Analyzer\MissingClassesLatteAnalyzer\MissingClassesLatteAnalyzerTest
@@ -26,6 +24,16 @@ final class MissingClassesLatteAnalyzer
      * @var string
      */
     private const VARTYPE_INSTANCEOF_CLASS_REGEX = '#(vartype|varType|instanceof|instanceOf)\s+(\\\\)?(?<class>[A-Z][\w\\\\]+)#ms';
+
+    /**
+     * @var ClassLikeExistenceChecker
+     */
+    private $classLikeExistenceChecker;
+
+    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
+    {
+        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    }
 
     /**
      * @param SmartFileInfo[] $fileInfos
@@ -49,7 +57,7 @@ final class MissingClassesLatteAnalyzer
 
             foreach ($matches as $foundClassesMatch) {
                 $class = $foundClassesMatch['class'];
-                if (class_exists($class) || trait_exists($class) || interface_exists($class)) {
+                if ($this->classLikeExistenceChecker->doesClassLikeExist($class)) {
                     continue;
                 }
 

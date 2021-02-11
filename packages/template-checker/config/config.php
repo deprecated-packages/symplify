@@ -7,6 +7,7 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -28,4 +29,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(Standard::class);
     $services->set(NodeFinder::class);
+    $services->set(ClassLikeExistenceChecker::class);
 };

@@ -125,10 +125,6 @@ CODE_SAMPLE
 
     private function isThisTemplatePropertyFetch(PropertyFetch $propertyFetch): bool
     {
-        if (! $propertyFetch instanceof PropertyFetch) {
-            return false;
-        }
-
         if (! $propertyFetch->var instanceof PropertyFetch) {
             return false;
         }
