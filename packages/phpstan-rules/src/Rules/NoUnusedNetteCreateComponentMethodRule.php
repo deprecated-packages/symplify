@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\LatteUsedControlResolver;
@@ -109,10 +111,19 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        if (! is_a($className, 'Nette\Application\UI\Presenter', true)) {
+        if (! is_a($className, Presenter::class, true)) {
             return true;
         }
 
-        return $classMethod->isPrivate();
+        if ($classMethod->isPrivate()) {
+            return true;
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        return $classReflection->isAbstract();
     }
 }
