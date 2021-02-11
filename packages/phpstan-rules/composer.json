@@ -15,6 +15,7 @@
     },
     "require-dev": {
         "nette/application": "^3.0.7",
+        "nette/forms": "^3.1",
         "symplify/easy-testing": "^9.2",
         "symplify/phpstan-extensions": "^9.2",
         "phpunit/phpunit": "^9.5",

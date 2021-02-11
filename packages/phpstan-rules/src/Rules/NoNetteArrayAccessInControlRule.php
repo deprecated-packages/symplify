@@ -45,6 +45,16 @@ final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
+        if ($className === null) {
+            return [];
+        }
+
+        // this type has getComponent() method
+        if (! is_a($className, 'Nette\ComponentModel\Container', true)) {
+            return [];
+        }
+
         if (! $this->simpleNameResolver->isName($node->var, 'this')) {
             return [];
         }
