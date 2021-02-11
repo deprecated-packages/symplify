@@ -28,7 +28,6 @@ final class NoUnusedNetteCreateComponentMethodRuleTest extends AbstractServiceAw
         yield [__DIR__ . '/Fixture/SkipUsedInArrayDimFetch.php', []];
 
         $errorMessage = sprintf(NoUnusedNetteCreateComponentMethodRule::ERROR_MESSAGE, 'createComponentWhatever');
-
         yield [__DIR__ . '/Fixture/UnusedCreateComponentMethod.php', [[$errorMessage, 11]]];
     }
 

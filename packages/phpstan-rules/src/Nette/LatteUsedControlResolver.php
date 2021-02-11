@@ -24,7 +24,7 @@ final class LatteUsedControlResolver
     private const NAME_PART = 'name';
 
     /**
-     * @var string[]
+     * @var array<string, string[]>
      */
     private $latteUsedComponentNames = [];
 
@@ -45,19 +45,20 @@ final class LatteUsedControlResolver
      */
     public function resolveControlMethodNames(Scope $scope): array
     {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
+        if ($shortClassName === null) {
             return [];
         }
 
-        dump($className);
-        die;
-
-        if ($this->latteUsedComponentNames !== []) {
-            return $this->latteUsedComponentNames;
+        if (Strings::endsWith($shortClassName, 'Presenter')) {
+            $shortClassName = Strings::substring($shortClassName, 0, - Strings::length('Presenter'));
         }
 
-        $latteFileInfos = $this->findLatteFileInfos();
+        if (isset($this->latteUsedComponentNames[$shortClassName])) {
+            return $this->latteUsedComponentNames[$shortClassName];
+        }
+
+        $latteFileInfos = $this->findLatteFileInfos($shortClassName);
 
         $latteUsedComponentNames = [];
         foreach ($latteFileInfos as $latteFileInfo) {
@@ -68,7 +69,7 @@ final class LatteUsedControlResolver
             }
         }
 
-        $this->latteUsedComponentNames = $latteUsedComponentNames;
+        $this->latteUsedComponentNames[$shortClassName] = $latteUsedComponentNames;
 
         return $latteUsedComponentNames;
     }
@@ -76,12 +77,13 @@ final class LatteUsedControlResolver
     /**
      * @return SplFileInfo[]
      */
-    private function findLatteFileInfos(): array
+    private function findLatteFileInfos(string $presenterPathName): array
     {
         $finder = new Finder();
         $finder->files()
             ->in(\getcwd())
             ->exclude('vendor')
+            ->path($presenterPathName)
             ->name('*latte');
 
         return iterator_to_array($finder->getIterator());
