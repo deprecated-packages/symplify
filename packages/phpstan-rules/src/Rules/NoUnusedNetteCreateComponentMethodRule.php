@@ -75,12 +75,24 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return [];
         }
 
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
         $localUsedControlMethodNames = $this->usedLocaComponentNamesResolver->resolveFromClassMethod($node);
         if (in_array($controlName, $localUsedControlMethodNames, true)) {
             return [];
         }
 
-        $latteUsedControlNames = $this->latteUsedControlResolver->resolveControlMethodNames($scope);
+        if ($classReflection->isAbstract()) {
+            $layoutUsedControlNames = $this->latteUsedControlResolver->resolveLayoutControlNames();
+            if (in_array($controlName, $layoutUsedControlNames, true)) {
+                return [];
+            }
+        }
+
+        $latteUsedControlNames = $this->latteUsedControlResolver->resolveControlNames($scope);
         if (in_array($controlName, $latteUsedControlNames, true)) {
             return [];
         }
@@ -115,15 +127,6 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        if ($classMethod->isPrivate()) {
-            return true;
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
-        return $classReflection->isAbstract();
+        return $classMethod->isPrivate();
     }
 }

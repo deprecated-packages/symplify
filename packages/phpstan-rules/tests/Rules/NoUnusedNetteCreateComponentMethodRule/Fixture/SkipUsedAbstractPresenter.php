@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRu
 
 use Nette\Application\UI\Presenter;
 
-abstract class SkipAbstractPresenter extends Presenter
+abstract class SkipUsedAbstractPresenter extends Presenter
 {
     protected function createComponentWhateverElse()
     {
