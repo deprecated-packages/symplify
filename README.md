@@ -4,8 +4,6 @@
     <h2>Making Everyday PHP Development Simple</h2>
 </div>
 
-[![Coverage](https://img.shields.io/coveralls/symplify/symplify/master.svg?style=flat-square)](https://coveralls.io/github/symplify/symplify?branch=master)
-
 In [this monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/) you'll find PHP packages that help you with:
 
 * your **first coding standard**
