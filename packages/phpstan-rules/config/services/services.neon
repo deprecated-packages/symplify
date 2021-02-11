@@ -66,3 +66,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
+
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
+    - Symplify\PHPStanRules\Nette\LatteUsedControlResolver

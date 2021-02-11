@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoUnusedNetteCreateComponentMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule
         tags: [phpstan.rules.rule]
 

@@ -499,3 +499,8 @@ parameters:
                 - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
 
         - '#Class with base "Regex" name is already used in "Symplify\\PHPStanRules\\ValueObject\\Regex", "Symplify\\GitWrapper\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+        -
+             message: '#Binary operation "\." between array\|string\|false and (.*?) results in an error#'
+             paths:
+                 - packages/package-builder/src/Composer/VendorDirProvider.php
