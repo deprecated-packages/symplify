@@ -7,8 +7,9 @@ namespace Symplify\PHPStanRules\Nette;
 use Nette\Utils\Strings;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\SmartFileSystem\Finder\FinderSanitizer;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteUsedControlResolver
 {
@@ -33,9 +34,20 @@ final class LatteUsedControlResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var FinderSanitizer
+     */
+    private $finderSanitizer;
+
+    /**
+     * @var string[]
+     */
+    private $layoutUsedComponentNames = [];
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, FinderSanitizer $finderSanitizer)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->finderSanitizer = $finderSanitizer;
     }
 
     /**
@@ -43,39 +55,44 @@ final class LatteUsedControlResolver
      *
      * @return string[]
      */
-    public function resolveControlMethodNames(Scope $scope): array
+    public function resolveControlNames(Scope $scope): array
     {
-        $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
-        if ($shortClassName === null) {
+        $suffixlessPresenterShortName = $this->resolveSuffixlessPresenterShortName($scope);
+        if ($suffixlessPresenterShortName === null) {
             return [];
         }
 
-        if (Strings::endsWith($shortClassName, 'Presenter')) {
-            $shortClassName = Strings::substring($shortClassName, 0, - Strings::length('Presenter'));
+        if (isset($this->latteUsedComponentNames[$suffixlessPresenterShortName])) {
+            return $this->latteUsedComponentNames[$suffixlessPresenterShortName];
         }
 
-        if (isset($this->latteUsedComponentNames[$shortClassName])) {
-            return $this->latteUsedComponentNames[$shortClassName];
-        }
+        $latteFileInfos = $this->findLatteFileInfos($suffixlessPresenterShortName);
 
-        $latteFileInfos = $this->findLatteFileInfos($shortClassName);
-
-        $latteUsedComponentNames = [];
-        foreach ($latteFileInfos as $latteFileInfo) {
-            // @see https://regex101.com/r/sROkSZ/1/
-            $matches = Strings::matchAll($latteFileInfo->getContents(), self::CONTROL_MARCO_REGEX);
-            foreach ($matches as $match) {
-                $latteUsedComponentNames[] = (string) $match[self::NAME_PART];
-            }
-        }
-
-        $this->latteUsedComponentNames[$shortClassName] = $latteUsedComponentNames;
+        $latteUsedComponentNames = $this->resolveControlNamesFromFileInfos($latteFileInfos);
+        $this->latteUsedComponentNames[$suffixlessPresenterShortName] = $latteUsedComponentNames;
 
         return $latteUsedComponentNames;
     }
 
     /**
-     * @return SplFileInfo[]
+     * @return string[]
+     */
+    public function resolveLayoutControlNames(): array
+    {
+        if ($this->layoutUsedComponentNames !== []) {
+            return $this->layoutUsedComponentNames;
+        }
+
+        $layoutLatteFileInfos = $this->findLatteLayoutFileInfos();
+        $latteUsedComponentNames = $this->resolveControlNamesFromFileInfos($layoutLatteFileInfos);
+
+        $this->layoutUsedComponentNames = $latteUsedComponentNames;
+
+        return $latteUsedComponentNames;
+    }
+
+    /**
+     * @return SmartFileInfo[]
      */
     private function findLatteFileInfos(string $presenterPathName): array
     {
@@ -86,6 +103,52 @@ final class LatteUsedControlResolver
             ->path($presenterPathName)
             ->name('*latte');
 
-        return iterator_to_array($finder->getIterator());
+        return $this->finderSanitizer->sanitize($finder);
+    }
+
+    private function resolveSuffixlessPresenterShortName(Scope $scope): ?string
+    {
+        $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
+        if ($shortClassName === null) {
+            return null;
+        }
+
+        if (Strings::endsWith($shortClassName, 'Presenter')) {
+            return Strings::substring($shortClassName, 0, -Strings::length('Presenter'));
+        }
+
+        return $shortClassName;
+    }
+
+    /**
+     * @return SmartFileInfo[]
+     */
+    private function findLatteLayoutFileInfos(): array
+    {
+        $finder = new Finder();
+        $finder->files()
+            ->in(\getcwd())
+            ->exclude('vendor')
+            ->name('#@(.*?)\.latte$#');
+
+        return $this->finderSanitizer->sanitize($finder);
+    }
+
+    /**
+     * @param SmartFileInfo[] $latteFileInfos
+     * @return string[]
+     */
+    private function resolveControlNamesFromFileInfos(array $latteFileInfos): array
+    {
+        $latteUsedComponentNames = [];
+
+        foreach ($latteFileInfos as $latteFileInfo) {
+            $matches = Strings::matchAll($latteFileInfo->getContents(), self::CONTROL_MARCO_REGEX);
+            foreach ($matches as $match) {
+                $latteUsedComponentNames[] = (string) $match[self::NAME_PART];
+            }
+        }
+
+        return $latteUsedComponentNames;
     }
 }
