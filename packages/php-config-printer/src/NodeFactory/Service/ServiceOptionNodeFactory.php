@@ -33,13 +33,15 @@ final class ServiceOptionNodeFactory
         $this->serviceOptionAnalyzer = $serviceOptionAnalyzer;
     }
 
+    /**
+     * @param mixed[] $servicesValues
+     */
     public function convertServiceOptionsToNodes(array $servicesValues, MethodCall $methodCall): MethodCall
     {
         $servicesValues = $this->unNestArguments($servicesValues);
 
         foreach ($servicesValues as $key => $value) {
-            // options started by decoration_<option> are used as options of the method decorate().
-            if (Strings::startsWith($key, 'decoration_') || $key === 'alias') {
+            if ($this->shouldSkip($key)) {
                 continue;
             }
 
@@ -74,5 +76,15 @@ final class ServiceOptionNodeFactory
         return [
             YamlServiceKey::ARGUMENTS => $servicesValues,
         ];
+    }
+
+    private function shouldSkip(string $key): bool
+    {
+        // options started by decoration_<option> are used as options of the method decorate().
+        if (Strings::startsWith($key, 'decoration_')) {
+            return true;
+        }
+
+        return $key === 'alias';
     }
 }

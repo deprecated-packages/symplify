@@ -504,3 +504,9 @@ parameters:
              message: '#Binary operation "\." between array\|string\|false and (.*?) results in an error#'
              paths:
                  - packages/package-builder/src/Composer/VendorDirProvider.php
+
+        # some super weird bug, returns mixed type, but works in tests
+        -
+            message: '#Method nor static call in if\(\) or elseif\(\) is not allowed\. Extract expression to a new variable assign on line before#'
+            paths:
+                - packages/template-checker/src/Analyzer/MissingClassesLatteAnalyzer.php

@@ -22,6 +22,11 @@ final class NoNetteArrayAccessInControlRuleTest extends AbstractServiceAwareRule
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNoArrayDimFetch.php', []];
+        yield [__DIR__ . '/Fixture/SkipDimFetchOutsideNette.php', []];
+
+        yield [__DIR__ . '/Fixture/ArrayDimFetchInForm.php', [
+            [NoNetteArrayAccessInControlRule::ERROR_MESSAGE, 13],
+        ]];
 
         yield [__DIR__ . '/Fixture/ArrayDimFetchInPresenter.php', [
             [NoNetteArrayAccessInControlRule::ERROR_MESSAGE, 13],

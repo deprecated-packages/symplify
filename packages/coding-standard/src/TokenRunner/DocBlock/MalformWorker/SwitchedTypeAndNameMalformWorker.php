@@ -30,7 +30,11 @@ final class SwitchedTypeAndNameMalformWorker implements MalformWorkerInterface
                 continue;
             }
 
-            if ($match['name'] === '' || $match['type'] === '') {
+            if ($match['name'] === '') {
+                continue;
+            }
+
+            if ($match['type'] === '') {
                 continue;
             }
 

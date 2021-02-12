@@ -70,3 +70,4 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
+    - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
