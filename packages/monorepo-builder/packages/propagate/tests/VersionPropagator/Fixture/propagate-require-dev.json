@@ -1,0 +1,22 @@
+{
+    "require": {
+        "symfony/console": "^5.2"
+    },
+    "require-dev": {
+        "symfony/event-dispatcher": "^4.4"
+    }
+}
+-----
+{
+    "name": "another-package",
+    "require-dev": {
+        "symfony/event-dispatcher": "^4.1"
+    }
+}
+-----
+{
+    "name": "another-package",
+    "require-dev": {
+        "symfony/event-dispatcher": "^4.4"
+    }
+}

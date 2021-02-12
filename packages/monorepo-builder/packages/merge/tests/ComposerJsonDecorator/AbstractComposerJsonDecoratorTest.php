@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Merge\Tests\ComposerJsonDecorator;
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\EasyTesting\FixtureSplitter\TrioFixtureSplitter;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -17,10 +18,17 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
      */
     protected $composerJsonFactory;
 
+    /**
+     * @var TrioFixtureSplitter
+     */
+    protected $trioFixtureSplitter;
+
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
         $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
+
+        $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
 
     /**
