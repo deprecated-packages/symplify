@@ -12,6 +12,7 @@ use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Propagate\VersionPropagator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PropagateCommand extends AbstractSymplifyCommand
 {
@@ -63,7 +64,7 @@ final class PropagateCommand extends AbstractSymplifyCommand
             }
 
             $packageFileInfo = $packageComposerJson->getFileInfo();
-            if ($packageFileInfo === null) {
+            if (! $packageFileInfo instanceof SmartFileInfo) {
                 throw new ShouldNotHappenException();
             }
 
