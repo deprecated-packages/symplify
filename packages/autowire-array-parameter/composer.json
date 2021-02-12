@@ -4,8 +4,8 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "nette/utils": "^3.0",
-        "symfony/dependency-injection": "^5.1",
+        "nette/utils": "^3.2",
+        "symfony/dependency-injection": "^5.2",
         "symplify/package-builder": "^9.2"
     },
     "require-dev": {

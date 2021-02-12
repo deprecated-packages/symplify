@@ -4,9 +4,9 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "nette/utils": "^3.0",
-        "symfony/finder": "^4.4|^5.1",
-        "symfony/filesystem": "^4.4|^5.1"
+        "nette/utils": "^3.2",
+        "symfony/finder": "^4.4|^5.2",
+        "symfony/filesystem": "^4.4|^5.2"
     },
     "require-dev": {
         "nette/finder": "^2.5",

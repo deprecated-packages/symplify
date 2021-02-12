@@ -8,20 +8,20 @@
     "require": {
         "php": ">=7.3",
         "ext-dom": "*",
-        "symfony/dependency-injection": "^5.1",
-        "symfony/console": "^4.4|^5.1",
-        "symfony/http-kernel": "^4.4|^5.1",
-        "symfony/expression-language": "^4.4|^5.1",
-        "symfony/yaml": "^4.4|^5.1",
+        "symfony/dependency-injection": "^5.2",
+        "symfony/console": "^4.4|^5.2",
+        "symfony/http-kernel": "^4.4|^5.2",
+        "symfony/expression-language": "^4.4|^5.2",
+        "symfony/yaml": "^4.4|^5.2",
         "nette/neon": "^3.2",
-        "nette/utils": "^3.0",
+        "nette/utils": "^3.2",
         "nikic/php-parser": "^4.10.4",
         "symplify/php-config-printer": "^9.2"
     },
     "require-dev": {
         "symplify/easy-testing": "^9.2",
         "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^4.4|^5.1"
+        "symfony/framework-bundle": "^4.4|^5.2"
     },
     "autoload": {
         "psr-4": {
