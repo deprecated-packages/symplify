@@ -24,6 +24,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Exception',
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
+                'Nette\Application\UI\Template',
+                'Nette\Bridges\ApplicationLatte\Template',
+                'Nette\Bridges\ApplicationLatte\DefaultTemplate',
             ],
         ]]);
 

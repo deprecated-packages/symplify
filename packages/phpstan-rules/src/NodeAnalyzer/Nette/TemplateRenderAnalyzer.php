@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\Nette;
 
-use Nette\Application\UI\Template;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 
 final class TemplateRenderAnalyzer
 {
@@ -17,9 +16,15 @@ final class TemplateRenderAnalyzer
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var ObjectTypeAnalyzer
+     */
+    private $objectTypeAnalyzer;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, ObjectTypeAnalyzer $objectTypeAnalyzer)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     public function isTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
@@ -28,15 +33,15 @@ final class TemplateRenderAnalyzer
             return false;
         }
 
-        return $this->isOnTemplateCall($methodCall, $scope);
-    }
-
-    private function isOnTemplateCall(MethodCall $methodCall, Scope $scope): bool
-    {
         $callerType = $scope->getType($methodCall->var);
 
-        $templateObjectType = new ObjectType(Template::class);
-        return $callerType->isSuperTypeOf($templateObjectType)
-            ->yes();
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes(
+            $callerType,
+            [
+                'Nette\Application\UI\Template',
+                'Nette\Bridges\ApplicationLatte\Template',
+                'Nette\Bridges\ApplicationLatte\DefaultTemplate',
+            ]
+        );
     }
 }
