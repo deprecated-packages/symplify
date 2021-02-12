@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\TypeAnalyzer;
 
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeWithClassName;
+use PHPStan\Type\UnionType;
 
 final class ObjectTypeAnalyzer
 {
@@ -32,6 +34,10 @@ final class ObjectTypeAnalyzer
 
     public function isObjectOrUnionOfObjectType(Type $type, string $desiredClass): bool
     {
+        if ($type instanceof UnionType && $this->doesUnionTypeContainObjectType($type, $desiredClass)) {
+            return true;
+        }
+
         $unwrappedType = $this->typeUnwrapper->unwrapNullableType($type);
         if (! $unwrappedType instanceof ObjectType) {
             return false;
@@ -39,5 +45,20 @@ final class ObjectTypeAnalyzer
 
         return $unwrappedType->isInstanceOf($desiredClass)
             ->yes();
+    }
+
+    private function doesUnionTypeContainObjectType($type, string $desiredClass): bool
+    {
+        foreach ($type->getTypes() as $unionedType) {
+            if (! $unionedType instanceof TypeWithClassName) {
+                continue;
+            }
+
+            if (is_a($unionedType->getClassName(), $desiredClass, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

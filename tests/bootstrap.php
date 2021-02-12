@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Util\Tokens;
+use Tracy\Debugger;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php';
@@ -18,3 +19,6 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
 // e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after monorepo)
 // use this to find out where you are
 define('SYMPLIFY_MONOREPO', true);
+
+// to keep dumping of Nodes simple
+Debugger::$maxDepth = 2;
