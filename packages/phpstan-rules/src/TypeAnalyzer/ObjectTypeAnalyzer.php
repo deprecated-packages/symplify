@@ -34,10 +34,8 @@ final class ObjectTypeAnalyzer
 
     public function isObjectOrUnionOfObjectType(Type $type, string $desiredClass): bool
     {
-        if ($type instanceof UnionType) {
-            if ($this->doesUnionTypeContainObjectType($type, $desiredClass)) {
-                return true;
-            }
+        if ($type instanceof UnionType && $this->doesUnionTypeContainObjectType($type, $desiredClass)) {
+            return true;
         }
 
         $unwrappedType = $this->typeUnwrapper->unwrapNullableType($type);
