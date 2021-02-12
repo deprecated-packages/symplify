@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "nette/utils": "^3.0",
+        "nette/utils": "^3.2",
         "friendsofphp/php-cs-fixer": "^2.17.3",
         "symplify/symplify-kernel": "^9.2",
         "symplify/package-builder": "^9.2",

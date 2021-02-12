@@ -9,7 +9,7 @@
         "symplify/symplify-kernel": "^9.2"
     },
     "require-dev": {
-        "symfony/http-kernel": "^4.4|^5.1",
+        "symfony/http-kernel": "^4.4|^5.2",
         "symplify/package-builder": "^9.2",
         "phpunit/phpunit": "^9.5"
     },

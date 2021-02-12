@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "phpstan/phpdoc-parser": "^0.4.9",
+        "phpstan/phpdoc-parser": "^0.4.10",
         "symfony/dependency-injection": "^5.1",
         "symfony/config": "^4.4|^5.1",
         "symfony/http-kernel": "^4.4|^5.1",
