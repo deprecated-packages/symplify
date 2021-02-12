@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Application\UI\Presenter;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -74,7 +73,7 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! is_a($classReflection->getName(), Presenter::class, true)) {
+        if (! is_a($classReflection->getName(), 'Nette\Application\UI\Presenter', true)) {
             return [];
         }
 

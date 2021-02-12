@@ -14,7 +14,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
 
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
@@ -59,15 +58,26 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-    - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
     - Symplify\PHPStanRules\NodeAnalyzer\VariableUsageAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
+
+    - Symplify\SmartFileSystem\Finder\FinderSanitizer
+    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
+    - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
+
+    # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
 
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
+    # nette
+    - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver
-    - Symplify\SmartFileSystem\Finder\FinderSanitizer
-    - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
+    - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\MissingTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver
