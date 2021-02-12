@@ -1,5 +1,13 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule
         tags: [phpstan.rules.rule]
 

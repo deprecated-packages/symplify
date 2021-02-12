@@ -510,3 +510,6 @@ parameters:
             message: '#Method nor static call in if\(\) or elseif\(\) is not allowed\. Extract expression to a new variable assign on line before#'
             paths:
                 - packages/template-checker/src/Analyzer/MissingClassesLatteAnalyzer.php
+
+        - '#Content of method "resolveFromTemplateAndMethodCall\(\)" is duplicated with method "resolveMethodCallAndTemplate\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\UnusedTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
+        - '#Content of method "resolveMethodCallAndTemplate\(\)" is duplicated with method "resolveFromTemplateAndMethodCall\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\MissingTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'

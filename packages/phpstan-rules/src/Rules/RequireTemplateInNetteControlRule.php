@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Application\UI\Control;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -108,7 +107,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return is_a($classReflection->getName(), Control::class, true);
+        return is_a($classReflection->getName(), 'Nette\Application\UI\Control', true);
     }
 
     private function hasTemplateSet(ClassMethod $classMethod): bool
