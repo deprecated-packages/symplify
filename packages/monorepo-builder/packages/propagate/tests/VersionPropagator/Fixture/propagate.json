@@ -1,0 +1,19 @@
+{
+    "require": {
+        "symfony/console": "^5.2"
+    }
+}
+-----
+{
+    "name": "another-package",
+    "require": {
+        "symfony/console": "^4.2"
+    }
+}
+-----
+{
+    "name": "another-package",
+    "require": {
+        "symfony/console": "^5.2"
+    }
+}

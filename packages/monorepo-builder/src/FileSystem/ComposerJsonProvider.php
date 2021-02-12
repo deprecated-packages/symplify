@@ -57,6 +57,19 @@ final class ComposerJsonProvider
         );
     }
 
+    /**
+     * @return ComposerJson[]
+     */
+    public function getPackageComposerJsons(): array
+    {
+        $packageComposerJsons = [];
+        foreach ($this->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
+            $packageComposerJsons[] = $this->composerJsonFactory->createFromFileInfo($packagesComposerFileInfo);
+        }
+
+        return $packageComposerJsons;
+    }
+
     public function getPackageFileInfoByName(string $packageName): SmartFileInfo
     {
         foreach ($this->getPackagesComposerFileInfos() as $packagesComposerFileInfo) {
