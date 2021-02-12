@@ -7,6 +7,7 @@ use Rector\CodeQualityStrict\Rector\Variable\MoveVariableDeclarationNearReferenc
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
+use Rector\Core\ValueObject\ProjectType;
 use Rector\DeadCode\Rector\Class_\RemoveUnusedClassesRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
@@ -61,6 +62,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
     $parameters->set(Option::ENABLE_CACHE, true);
+
+    $parameters->set(Option::PROJECT_TYPE, ProjectType::OPEN_SOURCE);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.inc.php',

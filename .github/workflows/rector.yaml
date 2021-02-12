@@ -10,9 +10,36 @@ env:
     COMPOSER_ROOT_VERSION: "dev-master"
 
 jobs:
+    provide_packages_json:
+        # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.4
+                    coverage: none
+
+            -   uses: "ramsey/composer-install@v1"
+
+            # get package json list
+            -
+                id: output_data
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --tests)"
+
+        outputs:
+            matrix: ${{ steps.output_data.outputs.matrix }}
+
     rector:
         # run only for repository write-users
         runs-on: ubuntu-latest
+        needs: provide_packages_json
+
+        strategy:
+            fail-fast: false
+            matrix:
+                package: ${{ fromJson(needs.provide_packages_json.outputs.matrix )}}
 
         steps:
             -
@@ -34,7 +61,8 @@ jobs:
 
             -   uses: "ramsey/composer-install@v1"
 
-            -   run: vendor/bin/rector process --ansi
+            -   run: vendor/bin/rector process packages/${{ matrix.package }} --ansi
+
             -   run: packages/easy-coding-standard/bin/ecs check --match-git-diff --fix --ansi
 
             # see https://github.com/EndBug/add-and-commit
