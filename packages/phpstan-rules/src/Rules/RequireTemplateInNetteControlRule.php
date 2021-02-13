@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -34,10 +34,19 @@ final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
      */
     private $nodeFinder;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
-    {
+    /**
+     * @var NetteTypeAnalyzer
+     */
+    private $netteTypeAnalyzer;
+
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        NodeFinder $nodeFinder,
+        NetteTypeAnalyzer $netteTypeAnalyzer
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->nodeFinder = $nodeFinder;
+        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
     }
 
     /**
@@ -54,7 +63,7 @@ final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInControlClass($scope)) {
+        if (! $this->netteTypeAnalyzer->isInsideControl($scope)) {
             return [];
         }
 
@@ -62,8 +71,7 @@ final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
             return [];
         }
 
-        $hasTemplateSet = $this->hasTemplateSet($node);
-        if ($hasTemplateSet) {
+        if ($this->hasTemplateSet($node)) {
             return [];
         }
 
@@ -98,16 +106,6 @@ final class SomeControl extends Control
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isInControlClass(Scope $scope): bool
-    {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
-        return is_a($classReflection->getName(), 'Nette\Application\UI\Control', true);
     }
 
     private function hasTemplateSet(ClassMethod $classMethod): bool
