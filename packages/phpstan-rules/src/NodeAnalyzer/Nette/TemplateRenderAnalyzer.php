@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\NodeAnalyzer\Nette;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 
 final class TemplateRenderAnalyzer
 {
@@ -17,14 +16,14 @@ final class TemplateRenderAnalyzer
     private $simpleNameResolver;
 
     /**
-     * @var ObjectTypeAnalyzer
+     * @var NetteTypeAnalyzer
      */
-    private $objectTypeAnalyzer;
+    private $netteTypeAnalyzer;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, ObjectTypeAnalyzer $objectTypeAnalyzer)
+    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
     {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
+        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
     }
 
     public function isTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
@@ -33,15 +32,6 @@ final class TemplateRenderAnalyzer
             return false;
         }
 
-        $callerType = $scope->getType($methodCall->var);
-
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes(
-            $callerType,
-            [
-                'Nette\Application\UI\Template',
-                'Nette\Bridges\ApplicationLatte\Template',
-                'Nette\Bridges\ApplicationLatte\DefaultTemplate',
-            ]
-        );
+        return $this->netteTypeAnalyzer->isTemplateType($methodCall->var, $scope);
     }
 }

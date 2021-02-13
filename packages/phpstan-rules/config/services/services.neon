@@ -81,3 +81,4 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\MissingTemplateRenderVariableResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer
