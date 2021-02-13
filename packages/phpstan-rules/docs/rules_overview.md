@@ -1,4 +1,4 @@
-# 138 Rules Overview
+# 141 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3106,6 +3106,44 @@ class SomeClass
 
 <br>
 
+## NoNetteArrayAccessInControlRule
+
+Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule`
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        return $this['someControl'];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        return $this->getComponent('someControl');
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoNetteDoubleTemplateAssignRule
 
 Avoid double template variable override of "%s"
@@ -3180,6 +3218,88 @@ class SomeClass
     public function __construct($someType)
     {
         $this->someType = $someType;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteRenderMissingVariableRule
+
+Passed "%s" variable that are not used in the template
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule`
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_file.latte', [
+            'non_existing_variable' => 'value',
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_file.latte', [
+            'existing_variable' => 'value',
+        ]);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteRenderUnusedVariableRule
+
+Missing "%s" variable that are not passed to the template
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule`
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_file.latte');
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_file.latte', [
+            'existing_variable' => 'value',
+        ]);
     }
 }
 ```
