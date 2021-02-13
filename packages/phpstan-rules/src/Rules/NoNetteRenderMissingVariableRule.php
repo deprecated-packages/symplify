@@ -87,7 +87,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", ', $missingVariableNames);
+        $unusedPassedVariablesString = implode('", "', $missingVariableNames);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
         return [$errorMessage];
     }

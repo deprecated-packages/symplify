@@ -25,6 +25,10 @@ final class NoNetteRenderMissingVariableRuleTest extends AbstractServiceAwareRul
             [sprintf(NoNetteRenderMissingVariableRule::ERROR_MESSAGE, 'use_me'), 13],
         ]];
 
+        yield [__DIR__ . '/Fixture/MultipleMissingVariables.php', [
+            [sprintf(NoNetteRenderMissingVariableRule::ERROR_MESSAGE, 'name", "anotherOne'), 13],
+        ]];
+
         yield [__DIR__ . '/Fixture/SkipCompleteVariables.php', []];
     }
 

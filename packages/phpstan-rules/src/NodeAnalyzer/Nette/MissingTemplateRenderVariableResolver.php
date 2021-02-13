@@ -40,6 +40,7 @@ final class MissingTemplateRenderVariableResolver
         $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFile($templateFilePath);
         $availableVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition($methodCall, $scope, 1);
 
-        return array_diff($templateUsedVariableNames, $availableVariableNames);
+        $missingVariableNames = array_diff($templateUsedVariableNames, $availableVariableNames);
+        return array_unique($missingVariableNames);
     }
 }
