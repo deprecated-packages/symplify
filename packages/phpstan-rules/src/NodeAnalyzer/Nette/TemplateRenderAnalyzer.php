@@ -18,12 +18,12 @@ final class TemplateRenderAnalyzer
     /**
      * @var NetteTypeAnalyzer
      */
-    private $controlTypeAnalyzer;
+    private $netteTypeAnalyzer;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $controlTypeAnalyzer)
+    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
     {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->controlTypeAnalyzer = $controlTypeAnalyzer;
+        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
     }
 
     public function isTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
@@ -32,6 +32,6 @@ final class TemplateRenderAnalyzer
             return false;
         }
 
-        return $this->controlTypeAnalyzer->isTemplateType($methodCall->var, $scope);
+        return $this->netteTypeAnalyzer->isTemplateType($methodCall->var, $scope);
     }
 }
