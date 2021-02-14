@@ -118,13 +118,11 @@ CODE_SAMPLE
 
     private function getFunctionName(Tokens $tokens, int $position): ?string
     {
-        $nextPosition = $tokens->getNextMeaningfulToken($position);
-        if (! is_int($nextPosition)) {
+        $nextToken = $this->getNextMeaningfulToken($tokens, $position);
+        if (! $nextToken instanceof Token) {
             return null;
         }
 
-        /** @var Token $nextToken */
-        $nextToken = $tokens[$nextPosition];
         return $nextToken->getContent();
     }
 }

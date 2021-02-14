@@ -288,10 +288,10 @@ CODE_SAMPLE
     private function isHerenowDoc(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         // heredoc/nowdoc => skip
-        $nextTokenPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
-
-        /** @var Token $nextToken */
-        $nextToken = $tokens[$nextTokenPosition];
+        $nextToken = $this->getNextMeaningfulToken($tokens, $blockInfo->getStart());
+        if (! $nextToken instanceof Token) {
+            return false;
+        }
 
         return Strings::contains($nextToken->getContent(), '<<<');
     }

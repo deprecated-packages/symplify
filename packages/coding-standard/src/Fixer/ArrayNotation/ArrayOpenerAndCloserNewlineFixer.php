@@ -75,13 +75,12 @@ CODE_SAMPLE
 
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool
     {
-        $nextMeaningFullTokenPosition = $tokens->getNextMeaningfulToken($index);
-        if ($nextMeaningFullTokenPosition === null) {
+        $nextToken = $this->getNextMeaningfulToken($tokens, $index);
+        if (! $nextToken instanceof Token) {
             return false;
         }
 
-        $nextMeaningFullToken = $tokens[$nextMeaningFullTokenPosition];
-        return $nextMeaningFullToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
+        return $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
     }
 
     private function handleArrayCloser(Tokens $tokens, int $arrayCloserPosition): void

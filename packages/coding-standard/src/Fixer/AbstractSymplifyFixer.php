@@ -58,4 +58,24 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
 
         return $fixer->getPriority() + 5;
     }
+
+    protected function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
+    {
+        $nextMeaninfulTokenPosition = $tokens->getNextMeaningfulToken($index);
+        if ($nextMeaninfulTokenPosition === null) {
+            return null;
+        }
+
+        return $tokens[$nextMeaninfulTokenPosition];
+    }
+
+    protected function getPreviousToken(Tokens $tokens, int $index): ?Token
+    {
+        $previousIndex = $index - 1;
+        if (! isset($tokens[$previousIndex])) {
+            return null;
+        }
+
+        return $tokens[$previousIndex];
+    }
 }
