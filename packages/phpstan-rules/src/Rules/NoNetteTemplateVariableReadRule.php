@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Stmt\Unset_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer;
@@ -59,12 +60,16 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->isThisTemplatePropertyFetch($node->var)) {
+        if (! $this->isThisPropertyFetch($node->var, 'template')) {
             return [];
         }
 
         $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
         if ($parent instanceof Assign && $parent->var === $node) {
+            return [];
+        }
+
+        if ($this->shouldSkip($parent, $node)) {
             return [];
         }
 
@@ -106,9 +111,9 @@ CODE_SAMPLE
 
     /**
      * Looks for:
-     * $this->template
+     * $this->...
      */
-    private function isThisTemplatePropertyFetch(Expr $expr): bool
+    private function isThisPropertyFetch(Expr $expr, string $propertyName): bool
     {
         if (! $expr instanceof PropertyFetch) {
             return false;
@@ -118,6 +123,36 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->simpleNameResolver->isName($expr->name, 'template');
+        return $this->simpleNameResolver->isName($expr->name, $propertyName);
+    }
+
+    private function shouldSkip($parent, $node): bool
+    {
+        if ($parent instanceof Unset_) {
+            return true;
+        }
+
+        // flashes are allowed
+        if ($this->simpleNameResolver->isNames($node->name, ['flashes'])) {
+            return true;
+        }
+
+        // payload ajax juggling
+        // is: $this->payload->xyz = $this->template->xyz
+        return $this->isPayloadAjaxJuggling($parent);
+    }
+
+    private function isPayloadAjaxJuggling(Node $node): bool
+    {
+        if (! $node instanceof Assign) {
+            return false;
+        }
+
+        if (! $node->var instanceof PropertyFetch) {
+            return false;
+        }
+
+        $propertyFetch = $node->var;
+        return $this->isThisPropertyFetch($propertyFetch->var, 'payload');
     }
 }

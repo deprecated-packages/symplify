@@ -24,6 +24,9 @@ final class NoNetteTemplateVariableReadRuleTest extends AbstractServiceAwareRule
     {
         yield [__DIR__ . '/Fixture/SkipAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipNoControl.php', []];
+        yield [__DIR__ . '/Fixture/SkipFlashes.php', []];
+        yield [__DIR__ . '/Fixture/SkipUnset.php', []];
+        yield [__DIR__ . '/Fixture/SkipPayloadAjaxJuggling.php', []];
 
         yield [__DIR__ . '/Fixture/ReadUsage.php', [[NoNetteTemplateVariableReadRule::ERROR_MESSAGE, 13]]];
     }
