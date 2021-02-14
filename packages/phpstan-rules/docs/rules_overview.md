@@ -1,4 +1,4 @@
-# 141 Rules Overview
+# 142 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2363,7 +2363,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put each on separated lines.
+Do not use chained method calls. Put `each` on separated lines.
 
 :wrench: **configure it!**
 
@@ -3300,6 +3300,46 @@ final class SomeControl extends Control
         $this->template->render(__DIR__ . '/some_file.latte', [
             'existing_variable' => 'value',
         ]);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteTemplateVariableReadRule
+
+Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
+
+- class: `Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule`
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        if ($this->template->key === 'value') {
+            return;
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        $this->template->key = 'value';
     }
 }
 ```
@@ -5451,7 +5491,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
 
 :wrench: **configure it!**
 
