@@ -46,14 +46,14 @@ final class RemoveUselessDefaultCommentFixer extends AbstractSymplifyFixer imple
 
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
-        $reverseTokens = $this->reverseTokens($tokens);
-        foreach ($reverseTokens as $index => $token) {
+        $reversedTokens = $this->reverseTokens($tokens);
+        foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
             }
 
             $cleanedDocContent = $this->uselessDocBlockCleaner->clearDocTokenContent(
-                $reverseTokens,
+                $reversedTokens,
                 $index,
                 $token->getContent()
             );

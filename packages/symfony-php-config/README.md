@@ -26,6 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(FuncCallToStaticCallRector::class)
+
         ->call('configure', [[
             FuncCallToStaticCallRector::FUNC_CALLS_TO_STATIC_CALLS => ValueObjectInliner::inline([
                 new FuncCallToStaticCall('dump', 'Tracy\Debugger', 'dump'),

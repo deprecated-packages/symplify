@@ -72,10 +72,10 @@ final class UselessDocBlockCleaner
     }
 
     /**
-     * @param Token[] $reverseTokens
+     * @param Token[] $reversedTokens
      */
     private function cleanClassMethodCommentMimicMethodName(
-        array $reverseTokens,
+        array $reversedTokens,
         int $index,
         string $docContent
     ): string {
@@ -84,7 +84,7 @@ final class UselessDocBlockCleaner
             return $docContent;
         }
 
-        if (! $this->isNextFunction($reverseTokens, $index)) {
+        if (! $this->isNextFunction($reversedTokens, $index)) {
             return $docContent;
         }
 
@@ -96,7 +96,7 @@ final class UselessDocBlockCleaner
         $obviousMethodComment = $matchAnyMethodClass['obvious_method_comment'];
         $obviousMethodComment = $this->removeSpaces($obviousMethodComment);
 
-        $methodNameContent = $reverseTokens[$index + 6]->getContent();
+        $methodNameContent = $reversedTokens[$index + 6]->getContent();
 
         if (strtolower($obviousMethodComment) !== strtolower($methodNameContent)) {
             return $docContent;
@@ -105,12 +105,12 @@ final class UselessDocBlockCleaner
         return Strings::replace($docContent, self::COMMENT_ANY_METHOD_CLASS_REGEX, '');
     }
 
-    private function isNextFunction(array $reverseTokens, int $index): bool
+    private function isNextFunction(array $reversedTokens, int $index): bool
     {
-        if (! isset($reverseTokens[$index + 4])) {
+        if (! isset($reversedTokens[$index + 4])) {
             return false;
         }
-        return $reverseTokens[$index + 4]->getContent() === 'function';
+        return $reversedTokens[$index + 4]->getContent() === 'function';
     }
 
     private function removeSpaces(string $content): string
