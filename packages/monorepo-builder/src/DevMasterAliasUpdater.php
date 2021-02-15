@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -25,16 +27,24 @@ final class DevMasterAliasUpdater
     /**
      * @var string
      */
-    private const DEV_MASTER = 'dev-master';
+    private const COMPOSER_BRANCH_PREFIX = 'dev-';
 
     /**
      * @var JsonFileManager
      */
     private $jsonFileManager;
 
-    public function __construct(JsonFileManager $jsonFileManager)
+    /**
+     * @var string
+     */
+    private $branchAliasTarget;
+
+    public function __construct(JsonFileManager $jsonFileManager, ParameterProvider $parameterProvider)
     {
         $this->jsonFileManager = $jsonFileManager;
+        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(
+            Option::DEFAULT_BRANCH_NAME
+        );
     }
 
     /**
@@ -48,7 +58,7 @@ final class DevMasterAliasUpdater
                 continue;
             }
 
-            $json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER] = $alias;
+            $json[self::EXTRA][self::BRANCH_ALIAS][$this->branchAliasTarget] = $alias;
 
             $this->jsonFileManager->printJsonToFileInfo($json, $fileInfo);
         }
@@ -60,11 +70,11 @@ final class DevMasterAliasUpdater
     private function shouldSkip(array $json, string $alias): bool
     {
         // update only when already present
-        if (! isset($json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER])) {
+        if (! isset($json[self::EXTRA][self::BRANCH_ALIAS][$this->branchAliasTarget])) {
             return true;
         }
 
-        $currentAlias = $json[self::EXTRA][self::BRANCH_ALIAS][self::DEV_MASTER];
+        $currentAlias = $json[self::EXTRA][self::BRANCH_ALIAS][$this->branchAliasTarget];
 
         return $currentAlias === $alias;
     }

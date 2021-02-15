@@ -7,6 +7,8 @@ namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
 final class TagVersionReleaseWorker implements ReleaseWorkerInterface
@@ -16,15 +18,26 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
      */
     private $processRunner;
 
-    public function __construct(ProcessRunner $processRunner)
+    /**
+     * @var string
+     */
+    private $branchName;
+
+    public function __construct(ProcessRunner $processRunner, ParameterProvider $parameterProvider)
     {
         $this->processRunner = $processRunner;
+        $this->branchName = $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
     }
 
     public function work(Version $version): void
     {
         try {
-            $this->processRunner->run('git add . && git commit -m "prepare release" && git push origin master');
+            $gitAddCommitCommand = sprintf(
+                'git add . && git commit -m "prepare release" && git push origin "%s"',
+                $this->branchName
+            );
+
+            $this->processRunner->run($gitAddCommitCommand);
         } catch (Throwable $throwable) {
             // nothing to commit
         }

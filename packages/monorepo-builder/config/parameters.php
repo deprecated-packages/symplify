@@ -15,6 +15,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, []);
     $parameters->set(Option::DATA_TO_APPEND, []);
     $parameters->set(Option::DATA_TO_REMOVE, []);
+    $parameters->set(Option::DEFAULT_BRANCH_NAME, 'master');
     $parameters->set(Option::ROOT_DIRECTORY, getcwd());
     $parameters->set(Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>-dev');
     $parameters->set(Option::INLINE_SECTIONS, ['keywords']);
