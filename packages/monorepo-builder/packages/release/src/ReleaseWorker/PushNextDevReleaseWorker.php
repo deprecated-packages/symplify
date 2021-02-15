@@ -8,6 +8,8 @@ use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
 final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 {
@@ -21,10 +23,20 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
      */
     private $versionUtils;
 
-    public function __construct(ProcessRunner $processRunner, VersionUtils $versionUtils)
+    /**
+     * @var string
+     */
+    private $branchName;
+
+    public function __construct(
+        ProcessRunner $processRunner,
+        VersionUtils $versionUtils,
+        ParameterProvider $parameterProvider
+        )
     {
         $this->processRunner = $processRunner;
         $this->versionUtils = $versionUtils;
+        $this->branchName = $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
     }
 
     public function work(Version $version): void
@@ -32,7 +44,7 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
         $versionInString = $this->getVersionDev($version);
 
         $gitAddCommitCommand = sprintf(
-            'git add . && git commit --allow-empty -m "open %s" && git push origin master',
+            'git add . && git commit --allow-empty -m "open %s" && git push origin ' . $this->branchName,
             $versionInString
         );
 
