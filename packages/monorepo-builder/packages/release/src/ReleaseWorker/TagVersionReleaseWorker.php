@@ -32,9 +32,12 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
     public function work(Version $version): void
     {
         try {
-            $this->processRunner->run(
-                'git add . && git commit -m "prepare release" && git push origin ' . $this->branchName
+            $gitAddCommitCommand = sprintf(
+                'git add . && git commit -m "prepare release" && git push origin %s',
+                $this->branchName
             );
+
+            $this->processRunner->run($gitAddCommitCommand);
         } catch (Throwable $throwable) {
             // nothing to commit
         }
