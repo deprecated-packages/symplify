@@ -15,6 +15,7 @@ final class StaticFixtureFinderTest extends TestCase
         $files = StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php');
         $files = iterator_to_array($files);
         $this->assertCount(1, $files);
+        $this->assertArrayHasKey('foo.php', $files);
     }
 
     public function testYieldDirectoryThrowException(): void
