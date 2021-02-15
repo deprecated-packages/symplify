@@ -34,7 +34,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
      */
     public function test(string $directory, string $expectedFile, bool $shouldCategorize = false): void
     {
-        $fileContent = $this->directoryToMarkdownPrinter->print([$directory], $shouldCategorize);
+        $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
