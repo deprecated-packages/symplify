@@ -20,7 +20,7 @@ final class StaticFixtureFinder
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
         foreach ($fileInfos as $fileInfo) {
-            yield [new SmartFileInfo($fileInfo->getRealPath())];
+            yield $fileInfo->getFilename() => [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
@@ -28,7 +28,7 @@ final class StaticFixtureFinder
     {
         $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
         foreach ($fileInfos as $fileInfo) {
-            yield [new SmartFileInfo($fileInfo->getRealPath())];
+            yield $fileInfo->getFilename() => [new SmartFileInfo($fileInfo->getRealPath())];
         }
     }
 
