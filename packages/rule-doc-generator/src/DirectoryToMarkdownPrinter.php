@@ -8,6 +8,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Finder\ClassByTypeFinder;
 use Symplify\RuleDocGenerator\Printer\RuleDefinitionsPrinter;
+use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
 
 /**
  * @see \Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\DirectoryToMarkdownPrinterTest
@@ -57,7 +58,14 @@ final class DirectoryToMarkdownPrinter
         $message = sprintf('Found %d documented rule classes', count($documentedRuleClasses));
         $this->symfonyStyle->note($message);
 
-        $this->symfonyStyle->listing($documentedRuleClasses);
+        $classes = array_map(
+            function (RuleClassWithFilePath $rule) {
+                return $rule->getClass();
+            },
+            $documentedRuleClasses
+        );
+
+        $this->symfonyStyle->listing($classes);
 
         // 2. create rule definition collection
         $ruleDefinitions = $this->ruleDefinitionsResolver->resolveFromClassNames($documentedRuleClasses);

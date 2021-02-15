@@ -23,6 +23,11 @@ final class RuleDefinition
     private $ruleClass;
 
     /**
+     * @var string
+     */
+    private $ruleFilePath;
+
+    /**
      * @var CodeSampleInterface[]
      */
     private $codeSamples = [];
@@ -60,6 +65,20 @@ final class RuleDefinition
         }
 
         return $this->ruleClass;
+    }
+
+    public function setRuleFilePath(string $ruleFilePath): void
+    {
+        $this->ruleFilePath = $ruleFilePath;
+    }
+
+    public function getRuleFilePath(): string
+    {
+        if ($this->ruleFilePath === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->ruleFilePath;
     }
 
     public function getRuleShortClass(): string

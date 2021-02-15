@@ -6,7 +6,7 @@ Some change
 
 :wrench: **configure it!**
 
-- class: `Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\ConfigurableRector`
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\ConfigurableRector`](packages/rule-doc-generator/tests/DirectoryToMarkdownPrinter/Fixture/Rector/Configurable/ConfigurableRector.php)
 
 ```php
 <?php

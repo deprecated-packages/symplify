@@ -104,7 +104,7 @@ final class RuleDefinitionsPrinter
                 $lines[] = Lines::CONFIGURE_IT;
             }
 
-            $lines[] = '- class: `' . $ruleDefinition->getRuleClass() . '`';
+            $lines[] = '- class: [`' . $ruleDefinition->getRuleClass() . '`](' . $ruleDefinition->getRuleFilePath() . ')';
 
             $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
             $lines = array_merge($lines, $codeSampleLines);

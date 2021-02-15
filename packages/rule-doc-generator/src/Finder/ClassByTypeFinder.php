@@ -6,12 +6,14 @@ namespace Symplify\RuleDocGenerator\Finder;
 
 use Nette\Loaders\RobotLoader;
 use ReflectionClass;
+use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class ClassByTypeFinder
 {
     /**
      * @param string[] $directories
-     * @return string[]
+     * @return RuleClassWithFilePath[]
      */
     public function findByType(array $directories, string $type): array
     {
@@ -24,8 +26,14 @@ final class ClassByTypeFinder
 
         $robotLoader->rebuild();
 
+        $workingDirectory = getcwd();
+
+        if (substr($workingDirectory, -1, 1) !== DIRECTORY_SEPARATOR) {
+            $workingDirectory .= DIRECTORY_SEPARATOR;
+        }
+
         $desiredClasses = [];
-        foreach (array_keys($robotLoader->getIndexedClasses()) as $class) {
+        foreach ($robotLoader->getIndexedClasses() as $class => $file) {
             if (! is_a($class, $type, true)) {
                 continue;
             }
@@ -36,10 +44,17 @@ final class ClassByTypeFinder
                 continue;
             }
 
-            $desiredClasses[] = $class;
+            $relativeFile = str_replace($workingDirectory, '', $file);
+
+            $desiredClasses[] = new RuleClassWithFilePath($class, $relativeFile);
         }
 
-        sort($desiredClasses);
+        usort(
+            $desiredClasses,
+            function (RuleClassWithFilePath $left, RuleClassWithFilePath $right): int {
+                return $left->getClass() <=> $right->getClass();
+            }
+        );
 
         return $desiredClasses;
     }
