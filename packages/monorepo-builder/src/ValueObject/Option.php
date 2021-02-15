@@ -28,6 +28,12 @@ final class Option
      * @var string
      * @api
      */
+    public const DEFAULT_BRANCH_NAME = 'default_branch_name';
+
+    /**
+     * @var string
+     * @api
+     */
     public const ROOT_DIRECTORY = 'root_directory';
 
     /**

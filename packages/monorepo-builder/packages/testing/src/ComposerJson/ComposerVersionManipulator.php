@@ -5,9 +5,25 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Testing\ComposerJson;
 
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ComposerVersionManipulator
 {
+    private const COMPOSER_BRANCH_PREFIX = 'dev-';
+
+    /**
+     * @var string
+     */
+    private $branchAliasTarget;
+
+    public function __construct(ParameterProvider $parameterProvider)
+    {
+        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(
+            Option::DEFAULT_BRANCH_NAME
+        );
+    }
+
     /**
      * @param mixed[] $packageComposerJson
      * @param string[] $usedPackageNames
@@ -21,7 +37,7 @@ final class ComposerVersionManipulator
                     continue;
                 }
 
-                $packageComposerJson[$section][$usedPackageName] = 'dev-master';
+                $packageComposerJson[$section][$usedPackageName] = $this->branchAliasTarget;
             }
         }
 
