@@ -23,10 +23,7 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
      */
     private $branchName;
 
-    public function __construct(
-        ProcessRunner $processRunner,
-        ParameterProvider $parameterProvider
-        )
+    public function __construct(ProcessRunner $processRunner, ParameterProvider $parameterProvider)
     {
         $this->processRunner = $processRunner;
         $this->branchName = $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
@@ -35,7 +32,9 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
     public function work(Version $version): void
     {
         try {
-            $this->processRunner->run('git add . && git commit -m "prepare release" && git push origin ' . $this->branchName);
+            $this->processRunner->run(
+                'git add . && git commit -m "prepare release" && git push origin ' . $this->branchName
+            );
         } catch (Throwable $throwable) {
             // nothing to commit
         }

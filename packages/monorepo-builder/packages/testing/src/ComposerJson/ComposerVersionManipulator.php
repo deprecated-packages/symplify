@@ -10,7 +10,6 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ComposerVersionManipulator
 {
-
     private const COMPOSER_BRANCH_PREFIX = 'dev-';
 
     /**
@@ -20,7 +19,9 @@ final class ComposerVersionManipulator
 
     public function __construct(ParameterProvider $parameterProvider)
     {
-        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
+        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(
+            Option::DEFAULT_BRANCH_NAME
+        );
     }
 
     /**

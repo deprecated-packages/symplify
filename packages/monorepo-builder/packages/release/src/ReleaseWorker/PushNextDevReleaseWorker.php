@@ -8,8 +8,8 @@ use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 use Symplify\MonorepoBuilder\Utils\VersionUtils;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 {
@@ -32,8 +32,7 @@ final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
         ProcessRunner $processRunner,
         VersionUtils $versionUtils,
         ParameterProvider $parameterProvider
-        )
-    {
+    ) {
         $this->processRunner = $processRunner;
         $this->versionUtils = $versionUtils;
         $this->branchName = $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);

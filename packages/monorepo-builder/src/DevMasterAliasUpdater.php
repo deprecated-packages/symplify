@@ -6,8 +6,8 @@ namespace Symplify\MonorepoBuilder;
 
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\ValueObject\Option;
-use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\DevMasterAliasUpdater\DevMasterAliasUpdaterTest
@@ -39,13 +39,12 @@ final class DevMasterAliasUpdater
      */
     private $branchAliasTarget;
 
-    public function __construct(
-        JsonFileManager $jsonFileManager,
-        ParameterProvider $parameterProvider
-        )
+    public function __construct(JsonFileManager $jsonFileManager, ParameterProvider $parameterProvider)
     {
         $this->jsonFileManager = $jsonFileManager;
-        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
+        $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(
+            Option::DEFAULT_BRANCH_NAME
+        );
     }
 
     /**
