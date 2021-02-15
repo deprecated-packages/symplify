@@ -48,9 +48,10 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $workingDirectory = getcwd();
         $paths = (array) $input->getArgument(Option::PATHS);
         $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
-        $markdownFileContent = $this->directoryToMarkdownPrinter->print($paths, $shouldCategorize);
+        $markdownFileContent = $this->directoryToMarkdownPrinter->print($workingDirectory,$paths, $shouldCategorize);
 
         // dump markdown file
         $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);

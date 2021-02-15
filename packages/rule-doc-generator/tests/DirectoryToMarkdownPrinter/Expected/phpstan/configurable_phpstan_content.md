@@ -6,7 +6,7 @@ Some description
 
 :wrench: **configure it!**
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Configurable\SomePHPStanRule`](packages/rule-doc-generator/tests/DirectoryToMarkdownPrinter/Fixture/PHPStan/Configurable/SomePHPStanRule.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Configurable\SomePHPStanRule`](Fixture/PHPStan/Configurable/SomePHPStanRule.php)
 
 ```yaml
 services:

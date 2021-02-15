@@ -12,10 +12,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ClassByTypeFinder
 {
     /**
+     * @param string $workingDirectory
      * @param string[] $directories
      * @return RuleClassWithFilePath[]
      */
-    public function findByType(array $directories, string $type): array
+    public function findByType(string $workingDirectory, array $directories, string $type): array
     {
         $robotLoader = new RobotLoader();
         $robotLoader->setTempDirectory(sys_get_temp_dir() . '/robot_loader_temp');
@@ -39,8 +40,9 @@ final class ClassByTypeFinder
             }
 
             $fileInfo = new SmartFileInfo($file);
+            $relativeFilePath = $fileInfo->getRelativeFilePathFromDirectory($workingDirectory);
 
-            $desiredClasses[] = new RuleClassWithFilePath($class, $fileInfo->getRelativeFilePathFromCwd());
+            $desiredClasses[] = new RuleClassWithFilePath($class, $relativeFilePath);
         }
 
         usort(
