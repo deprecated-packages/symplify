@@ -7,7 +7,7 @@ namespace Symplify\RuleDocGenerator\Finder;
 use Nette\Loaders\RobotLoader;
 use ReflectionClass;
 use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
-use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassByTypeFinder
 {
@@ -26,12 +26,6 @@ final class ClassByTypeFinder
 
         $robotLoader->rebuild();
 
-        $workingDirectory = getcwd();
-
-        if (substr($workingDirectory, -1, 1) !== DIRECTORY_SEPARATOR) {
-            $workingDirectory .= DIRECTORY_SEPARATOR;
-        }
-
         $desiredClasses = [];
         foreach ($robotLoader->getIndexedClasses() as $class => $file) {
             if (! is_a($class, $type, true)) {
@@ -44,9 +38,9 @@ final class ClassByTypeFinder
                 continue;
             }
 
-            $relativeFile = str_replace($workingDirectory, '', $file);
+            $fileInfo = new SmartFileInfo($file);
 
-            $desiredClasses[] = new RuleClassWithFilePath($class, $relativeFile);
+            $desiredClasses[] = new RuleClassWithFilePath($class, $fileInfo->getRelativeFilePathFromCwd());
         }
 
         usort(
