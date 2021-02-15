@@ -33,7 +33,7 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
     {
         try {
             $gitAddCommitCommand = sprintf(
-                'git add . && git commit -m "prepare release" && git push origin %s',
+                'git add . && git commit -m "prepare release" && git push origin "%s"',
                 $this->branchName
             );
 
