@@ -1,6 +1,116 @@
 <!-- changelog-linker -->
 
-## 9.1.0 - 2021-02-06
+## Unreleased
+
+### Added
+
+#### Astral
+
+- [#2921] Add missing services
+
+#### CodingStandard
+
+- [#2953] Add NewlineServiceDefinitionConfigFixer
+
+#### EasyTesting
+
+- [#2912] Add TrioFixtureSplitter
+
+#### PHPStanRules
+
+- [#2950] Add NoNetteTemplateVariableReadRule
+- [#2907] Add MaxFileLengthRule, Thanks to [@samsonasik]
+- [#2920] Add ServiceAndValueObjectHaveSameStartsRule
+- [#2936] Add NoUnusedNetteCreateComponentMethodRule
+- [#2919] Add ExclusiveNamespaceRule
+- [#2939] Add NoNetteArrayAccessInControlRule
+- [#2902] Add require ot inject property final
+- [#2943] Add NoNetteRenderUnusedVariableRule + NoNetteRenderMissingVariableRule
+- [#2900] Add symfony validation to check attirbute
+
+#### PackageBuilder
+
+- [#2911] Add MethodName value object with common method names
+- [#2931] Add bootKernelWithConfigsAndStaticCache() to handle data providres
+
+#### PhpstanPhpConfig
+
+- [#2918] Add ignore error option, Thanks to [@gertvdb]
+
+### Changed
+
+#### CI
+
+- [#2940] run rector per package to speedup
+
+#### EasyCI
+
+- [#2913] Move ValidateFileLengthCommand to easy-ci command, Thanks to [@samsonasik]
+
+#### EasyCodingStandard
+
+- [#2926] Tests build scoped version
+
+#### GitWrapper
+
+- [#2909] Raw init
+
+#### PHPStanResult
+
+- [#2904] Make NoMissingDirPathRule skip concat concat
+
+#### PHPStanRules
+
+- [#2908] Rename CheckRequiredAutowireAutoconfigurePublicUsedInConfigServiceRule to CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule, Thanks to [@samsonasik]
+- [#2928] Rename NoTraitExceptRequiredAutowireRule to NoTraitRule
+- [#2937] Skip abstract in NoUnusedNetteCreateComponentMethodRule
+- [#2938] Make NoUnusedNetteCreateComponentMethodRule figure out usage of abstract components in layouts
+- [#2941] Run only on presenter/control
+- [#2948] Include more template types
+- [#2914] Improve NoEmptyClassRule: skip if class has implements, Thanks to [@samsonasik]
+
+#### Unknown Package
+
+- [#2899] Automated Update of Changelog on 2021-02-01, Thanks to [@github-actions][bot]
+- [#2946] Symfony 5.1 is not supported anymore, bump to Symfony 5.2
+
+#### automated
+
+- [#2917] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#2951] Re-Generate Docs, Thanks to [@github-actions][bot]
+
+### Deprecated
+
+#### EasyCodingStandard
+
+- [#2922] Deprecate "upgrade" sets, use Rector instead
+
+### Fixed
+
+#### MonorepoBuilder
+
+- [#2947] Fix propagate command
+
+#### Unknown Package
+
+- [#2905] Fix "vendor/bin/phpstan-php-config" not being available, Thanks to [@gertvdb]
+
+### Removed
+
+#### MonorepoBuilder
+
+- [#2925] Drop unused prefixed version
+
+#### PHPStanRules
+
+- [#2916] Remove MaxFileLengthRule, replaced by EasyCI command
+- [#2927] Remove CheckTraitMethodOnlyDelegateOtherClassRule, not much value
+
+#### Unknown Package
+
+- [#2935] drop coverage
+
+## [9.1.0] - 2021-02-06
 
 ### Added
 
@@ -1541,3 +1651,43 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2894]: https://github.com/symplify/symplify/pull/2894
 [#2884]: https://github.com/symplify/symplify/pull/2884
 [9.0.49]: https://github.com/symplify/symplify/compare/9.0.36...9.0.49
+[#2953]: https://github.com/symplify/symplify/pull/2953
+[#2951]: https://github.com/symplify/symplify/pull/2951
+[#2950]: https://github.com/symplify/symplify/pull/2950
+[#2948]: https://github.com/symplify/symplify/pull/2948
+[#2947]: https://github.com/symplify/symplify/pull/2947
+[#2946]: https://github.com/symplify/symplify/pull/2946
+[#2943]: https://github.com/symplify/symplify/pull/2943
+[#2941]: https://github.com/symplify/symplify/pull/2941
+[#2940]: https://github.com/symplify/symplify/pull/2940
+[#2939]: https://github.com/symplify/symplify/pull/2939
+[#2938]: https://github.com/symplify/symplify/pull/2938
+[#2937]: https://github.com/symplify/symplify/pull/2937
+[#2936]: https://github.com/symplify/symplify/pull/2936
+[#2935]: https://github.com/symplify/symplify/pull/2935
+[#2931]: https://github.com/symplify/symplify/pull/2931
+[#2928]: https://github.com/symplify/symplify/pull/2928
+[#2927]: https://github.com/symplify/symplify/pull/2927
+[#2926]: https://github.com/symplify/symplify/pull/2926
+[#2925]: https://github.com/symplify/symplify/pull/2925
+[#2922]: https://github.com/symplify/symplify/pull/2922
+[#2921]: https://github.com/symplify/symplify/pull/2921
+[#2920]: https://github.com/symplify/symplify/pull/2920
+[#2919]: https://github.com/symplify/symplify/pull/2919
+[#2918]: https://github.com/symplify/symplify/pull/2918
+[#2917]: https://github.com/symplify/symplify/pull/2917
+[#2916]: https://github.com/symplify/symplify/pull/2916
+[#2914]: https://github.com/symplify/symplify/pull/2914
+[#2913]: https://github.com/symplify/symplify/pull/2913
+[#2912]: https://github.com/symplify/symplify/pull/2912
+[#2911]: https://github.com/symplify/symplify/pull/2911
+[#2909]: https://github.com/symplify/symplify/pull/2909
+[#2908]: https://github.com/symplify/symplify/pull/2908
+[#2907]: https://github.com/symplify/symplify/pull/2907
+[#2905]: https://github.com/symplify/symplify/pull/2905
+[#2904]: https://github.com/symplify/symplify/pull/2904
+[#2902]: https://github.com/symplify/symplify/pull/2902
+[#2900]: https://github.com/symplify/symplify/pull/2900
+[#2899]: https://github.com/symplify/symplify/pull/2899
+[@gertvdb]: https://github.com/gertvdb
+[9.1.0]: https://github.com/symplify/symplify/compare/9.0.49...9.1.0
