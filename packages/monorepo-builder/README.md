@@ -60,7 +60,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // where are the packages located?
     $parameters->set(Option::PACKAGE_DIRECTORIES, [
-        // default vaulue
+        // default value
         __DIR__ . '/packages',
         // custom
         __DIR__ . '/projects',
