@@ -63,7 +63,7 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
 
     /**
      * @param MethodCall $node
-     * @return string[]
+     * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -123,7 +123,7 @@ CODE_SAMPLE
 
     /**
      * @param Arg[] $args
-     * @return string[]
+     * @return RuleError[]
      */
     private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope): array
     {
