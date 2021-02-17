@@ -19,17 +19,16 @@ final class RuleClassWithFilePath
     public function __construct(string $class, string $path)
     {
         $this->class = $class;
-        $this->path  = $path;
+        $this->path = $path;
     }
 
-    public function getClass() : string
+    public function getClass(): string
     {
         return $this->class;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
-
 }

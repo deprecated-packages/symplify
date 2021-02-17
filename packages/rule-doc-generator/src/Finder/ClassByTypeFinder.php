@@ -12,7 +12,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ClassByTypeFinder
 {
     /**
-     * @param string $workingDirectory
      * @param string[] $directories
      * @return RuleClassWithFilePath[]
      */

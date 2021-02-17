@@ -53,7 +53,11 @@ final class DirectoryToMarkdownPrinter
     public function print(string $workingDirectory, array $directories, bool $shouldCategorize = false): string
     {
         // 1. collect documented rules in provided path
-        $documentedRuleClasses = $this->classByTypeFinder->findByType($workingDirectory, $directories, DocumentedRuleInterface::class);
+        $documentedRuleClasses = $this->classByTypeFinder->findByType(
+            $workingDirectory,
+            $directories,
+            DocumentedRuleInterface::class
+        );
 
         $message = sprintf('Found %d documented rule classes', count($documentedRuleClasses));
         $this->symfonyStyle->note($message);
