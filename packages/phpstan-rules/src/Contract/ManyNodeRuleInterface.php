@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Contract;
 
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleError;
 
 interface ManyNodeRuleInterface
 {
@@ -15,7 +16,7 @@ interface ManyNodeRuleInterface
     public function getNodeTypes(): array;
 
     /**
-     * @return string[]
+     * @return array<string|RuleError>
      */
     public function process(Node $node, Scope $scope): array;
 }
