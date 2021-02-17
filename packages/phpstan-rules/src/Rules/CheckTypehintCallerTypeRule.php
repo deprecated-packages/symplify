@@ -11,6 +11,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
@@ -163,7 +165,7 @@ CODE_SAMPLE
         return $errorMessages;
     }
 
-    private function validateParam(Param $param, int $position, Type $argType): ?string
+    private function validateParam(Param $param, int $position, Type $argType): ?RuleError
     {
         $type = $param->type;
         // @todo some static type mapper from php-parser to PHPStan?
@@ -193,6 +195,11 @@ CODE_SAMPLE
             return null;
         }
 
-        return sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
+
+        $ruleErrorBuilder = RuleErrorBuilder::message($errorMessage)
+            ->line($param->getLine());
+
+        return $ruleErrorBuilder->build();
     }
 }

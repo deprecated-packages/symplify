@@ -40,12 +40,12 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/SkipNotPrivate.php', []];
 
         $errorMessage = sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, MethodCall::class);
-        yield [__DIR__ . '/Fixture/Fixture.php', [[$errorMessage, 15]]];
-        yield [__DIR__ . '/Fixture/DifferentClassSameMethodCallName.php', [[$errorMessage, 28]]];
+        yield [__DIR__ . '/Fixture/Fixture.php', [[$errorMessage, 19]]];
+        yield [__DIR__ . '/Fixture/DifferentClassSameMethodCallName.php', [[$errorMessage, 25]]];
 
         $argErrorMessage = sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 1, Arg::class);
         $paramErrorMessage = sprintf(CheckTypehintCallerTypeRule::ERROR_MESSAGE, 2, Param::class);
-        yield [__DIR__ . '/Fixture/DoubleShot.php', [[$argErrorMessage, 13], [$paramErrorMessage, 13]]];
+        yield [__DIR__ . '/Fixture/DoubleShot.php', [[$argErrorMessage, 15], [$paramErrorMessage, 15]]];
     }
 
     protected function getRule(): Rule
