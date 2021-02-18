@@ -33,7 +33,7 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     /**
      * @var array<string, array<int>>
      */
-    private $stringArgByType = [];
+    private $stringArgPositionsByType = [];
 
     /**
      * @var SimpleNameResolver
@@ -41,11 +41,11 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     private $simpleNameResolver;
 
     /**
-     * @param array<string, array<int>> $stringArgByType
+     * @param array<string, array<int>> $stringArgPositionsByType
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgByType = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgPositionsByType = [])
     {
-        $this->stringArgByType = $stringArgByType;
+        $this->stringArgPositionsByType = $stringArgPositionsByType;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -65,7 +65,7 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     {
         $errorMessages = [];
 
-        foreach ($this->stringArgByType as $type => $positions) {
+        foreach ($this->stringArgPositionsByType as $type => $positions) {
             if (! $this->isNodeVarType($node, $scope, $type)) {
                 continue;
             }
@@ -101,13 +101,13 @@ class AnotherClass
 {
     public function run()
     {
-        new SomeClass('YetAnotherClass'');
+        new SomeClass('YetAnotherClass');
     }
 }
 CODE_SAMPLE
                 ,
                 [
-                    'stringArgByType' => [
+                    'stringArgPositionsByType' => [
                         'SomeClass' => [0],
                     ],
                 ]

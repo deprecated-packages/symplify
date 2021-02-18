@@ -6,5 +6,5 @@ services:
         class: Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule
         tags: [phpstan.rules.rule]
         arguments:
-            stringArgByType:
+            stringArgPositionsByType:
                 Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString: [1]
