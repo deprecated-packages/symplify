@@ -10,6 +10,9 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ComposerVersionManipulator
 {
+    /**
+     * @var string
+     */
     private const COMPOSER_BRANCH_PREFIX = 'dev-';
 
     /**

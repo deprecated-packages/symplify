@@ -154,7 +154,7 @@ CODE_SAMPLE
             }
 
             $paramErrorMessage = $this->validateParam($param, $position, $argType);
-            if ($paramErrorMessage === null) {
+            if (! $paramErrorMessage instanceof RuleError) {
                 continue;
             }
 
