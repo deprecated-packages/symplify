@@ -128,8 +128,10 @@ CODE_SAMPLE
             return true;
         }
 
-        /** @var ClassConstFetch $classConstFetch */
         $classConstFetch = $arg->value;
+        if (! $classConstFetch instanceof ClassConstFetch) {
+            return true;
+        }
 
         return ! $this->simpleNameResolver->isName($classConstFetch->name, 'class');
     }
