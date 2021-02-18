@@ -14,6 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -41,11 +42,17 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     private $simpleNameResolver;
 
     /**
+     * @var ObjectTypeAnalyzer
+     */
+    private $objectTypeAnalyzer;
+
+    /**
      * @param array<string, array<int>> $stringArgPositionsByType
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgPositionsByType = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, ObjectTypeAnalyzer $objectTypeAnalyzer, array $stringArgPositionsByType = [])
     {
         $this->stringArgPositionsByType = $stringArgPositionsByType;
+        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -66,7 +73,8 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
         $errorMessages = [];
 
         foreach ($this->stringArgPositionsByType as $type => $positions) {
-            if (! $this->isNodeVarType($node, $scope, $type)) {
+            $constructCallType = $scope->getType($node);
+            if (! $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($constructCallType, $type)) {
                 continue;
             }
 
@@ -134,24 +142,5 @@ CODE_SAMPLE
         }
 
         return ! $this->simpleNameResolver->isName($classConstFetch->name, 'class');
-    }
-
-    private function isNodeVarType(New_ $constructCall, Scope $scope, string $desiredType): bool
-    {
-        if (trait_exists($desiredType)) {
-            $message = sprintf(
-                'Do not use trait "%s" as type to match, it breaks the matching. Use specific class that is in this trait',
-                $desiredType
-            );
-
-            throw new ShouldNotHappenException($message);
-        }
-
-        $constructCallType = $scope->getType($constructCall);
-        if (! $constructCallType instanceof TypeWithClassName) {
-            return false;
-        }
-
-        return is_a($constructCallType->getClassName(), $desiredType, true);
     }
 }
