@@ -35,7 +35,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     /**
      * @var array<string, array<string, array<int>>>
      */
-    private $stringArgByMethodByType = [];
+    private $stringArgPositionByMethodByType = [];
 
     /**
      * @var SimpleNameResolver
@@ -43,11 +43,11 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     private $simpleNameResolver;
 
     /**
-     * @param array<string, array<string, array<int>>> $stringArgByMethodByType
+     * @param array<string, array<string, array<int>>> $stringArgPositionByMethodByType
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgByMethodByType = [])
+    public function __construct(SimpleNameResolver $simpleNameResolver, array $stringArgPositionByMethodByType = [])
     {
-        $this->stringArgByMethodByType = $stringArgByMethodByType;
+        $this->stringArgPositionByMethodByType = $stringArgPositionByMethodByType;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -72,7 +72,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
 
         $errorMessages = [];
 
-        foreach ($this->stringArgByMethodByType as $type => $positionsByMethods) {
+        foreach ($this->stringArgPositionByMethodByType as $type => $positionsByMethods) {
             $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodCallName);
             if ($positions === null) {
                 continue;
@@ -115,7 +115,7 @@ class AnotherClass
 CODE_SAMPLE
                 ,
                 [
-                    'stringArgByMethodByType' => [
+                    'stringArgPositionByMethodByType' => [
                         'SomeClass' => [
                             'someMethod' => [0],
                         ],

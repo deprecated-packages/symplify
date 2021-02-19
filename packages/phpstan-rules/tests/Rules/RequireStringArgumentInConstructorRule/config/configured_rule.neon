@@ -1,0 +1,10 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            stringArgPositionsByType:
+                Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString: [1]
