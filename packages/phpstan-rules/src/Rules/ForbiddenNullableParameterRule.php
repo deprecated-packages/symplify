@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
@@ -16,6 +17,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
@@ -98,11 +100,8 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node instanceof ClassMethod) {
-            $classMethodName = $this->simpleNameResolver->getName($node);
-            if ($this->parentMethodResolver->resolve($scope, $classMethodName)) {
-                return [];
-            }
+        if ($this->isProtectedByParentContract($node, $scope)) {
+            return [];
         }
 
         $errorMessages = [];
@@ -212,5 +211,24 @@ CODE_SAMPLE
         }
 
         return $paramType;
+    }
+
+    /**
+     * @param ClassMethod|Function_|Closure $functionLike
+     */
+    private function isProtectedByParentContract(FunctionLike $functionLike, Scope $scope): bool
+    {
+        if (! $functionLike instanceof ClassMethod) {
+            return false;
+        }
+
+        $classMethodName = $this->simpleNameResolver->getName($functionLike);
+        if ($classMethodName === null) {
+            return false;
+        }
+
+        $methodReflection = $this->parentMethodResolver->resolve($scope, $classMethodName);
+
+        return $methodReflection instanceof MethodReflection;
     }
 }
