@@ -6,19 +6,12 @@ declare(strict_types=1);
 
 use PHP_CodeSniffer\Util\Tokens;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\EasyCodingStandard\Bootstrap\ECSConfigsResolver;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
 use Symplify\EasyCodingStandard\DependencyInjection\ECSContainerFactory;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
-use Symplify\EasyCodingStandard\Set\ConstantReflectionSetFactory;
-use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
-use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\SetConfigResolver\Bootstrap\InvalidSetReporter;
 use Symplify\SetConfigResolver\Exception\SetNotFoundException;
-use Symplify\SetConfigResolver\SetAwareConfigResolver;
 
 // performance boost
 gc_disable();
@@ -30,14 +23,6 @@ $autoloadIncluder->autoloadProjectAutoloaderFile('/../../autoload.php');
 $autoloadIncluder->includeDependencyOrRepositoryVendorAutoloadIfExists();
 $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
 
-$symfonyStyleFactory = new SymfonyStyleFactory();
-$symfonyStyle = $symfonyStyleFactory->create();
-
-// 1. --config CLI option or default
-//$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider(new ConstantReflectionSetFactory()));
-
-
-# 2. create container
 try {
     $input = new ArgvInput();
     $ecsContainerFactory = new ECSContainerFactory();
@@ -47,11 +32,13 @@ try {
     $invalidSetReporter->report($setNotFoundException);
     exit(ShellCode::ERROR);
 } catch (Throwable $throwable) {
+    $symfonyStyleFactory = new SymfonyStyleFactory();
+    $symfonyStyle = $symfonyStyleFactory->create();
+
     $symfonyStyle->error($throwable->getMessage());
     exit(ShellCode::ERROR);
 }
 
-# 3. run
 $application = $container->get(EasyCodingStandardConsoleApplication::class);
 exit($application->run());
 

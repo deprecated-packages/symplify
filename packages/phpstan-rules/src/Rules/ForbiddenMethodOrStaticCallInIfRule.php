@@ -36,7 +36,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method nor static call in if() or elseif() is not allowed. Extract expression to a new variable assign on line before';
 
     /**
-     * @var class-string<Strings>[]|class-string<TrinaryLogic>[]
+     * @var array<class-string>
      */
     private const ALLOWED_CLASS_TYPES = [Strings::class, TrinaryLogic::class];
 

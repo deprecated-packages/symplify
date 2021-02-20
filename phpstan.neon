@@ -531,5 +531,4 @@ parameters:
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
         # will be resolved soon
-        - '#Parameter "route" cannot be nullable#'
-
+        - '#Parameter "mainConfigFileInfo" cannot be nullable#'
