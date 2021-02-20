@@ -7,14 +7,18 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
 use Symplify\PHPStanRules\TypeResolver\NullableTypeResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -56,6 +60,11 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $nullableTypeResolver;
 
     /**
+     * @var ParentMethodResolver
+     */
+    private $parentMethodResolver;
+
+    /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
@@ -63,6 +72,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
         NullableTypeResolver $nullableTypeResolver,
+        ParentMethodResolver $parentMethodResolver,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
@@ -71,6 +81,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
         $this->nullableTypeResolver = $nullableTypeResolver;
+        $this->parentMethodResolver = $parentMethodResolver;
     }
 
     /**
@@ -87,14 +98,17 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($node instanceof ClassMethod) {
+            $classMethodName = $this->simpleNameResolver->getName($node);
+            if ($this->parentMethodResolver->resolve($scope, $classMethodName)) {
+                return [];
+            }
+        }
+
         $errorMessages = [];
         foreach ($node->params as $param) {
-            $paramType = $param->type;
+            $paramType = $this->matchNullableParamType($param);
             if ($paramType === null) {
-                continue;
-            }
-
-            if (! $this->isNullableParam($param)) {
                 continue;
             }
 
@@ -181,5 +195,22 @@ CODE_SAMPLE
         }
 
         return $this->simpleNameResolver->isName($param->default, 'null');
+    }
+
+    /**
+     * @return Identifier|Name|NullableType|UnionType
+     */
+    private function matchNullableParamType(Param $param): ?Node
+    {
+        $paramType = $param->type;
+        if ($paramType === null) {
+            return null;
+        }
+
+        if (! $this->isNullableParam($param)) {
+            return null;
+        }
+
+        return $paramType;
     }
 }

@@ -20,7 +20,7 @@ use Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder;
 final class PreviouslyUsedAnalyzer
 {
     /**
-     * @var string[]
+     * @var array<class-string<\PhpParser\Node>>
      */
     private const IF_AND_LOOP_NODE_TYPES = [If_::class, Do_::class, For_::class, Foreach_::class, While_::class];
 

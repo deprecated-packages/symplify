@@ -84,7 +84,6 @@ parameters:
         - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
         - '*/Source/*'
         - '*/Fixture/*'
-        - '*/Fixture*/*'
         - */vendor/*
         - */stubs/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php

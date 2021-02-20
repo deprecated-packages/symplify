@@ -22,7 +22,9 @@ final class DefaultConfigurationTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(ForbiddenNullableParameterRule::ERROR_MESSAGE, 'name');
-        yield [__DIR__ . '/FixtureDefaultConfiguration/MethodWithNullableScalar.php', [[$errorMessage, 9]]];
+        yield [__DIR__ . '/Fixture/MethodWithNullableScalar.php', [[$errorMessage, 9]]];
+
+        yield [__DIR__ . '/Fixture/SkipParentContract.php', []];
     }
 
     protected function getRule(): Rule
