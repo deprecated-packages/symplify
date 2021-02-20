@@ -56,11 +56,6 @@ abstract class AbstractConfigResolver
         return $this->createFallbackFileInfoIfFound($fallbackFiles);
     }
 
-    public function getFirstResolvedConfigFileInfo(): ?SmartFileInfo
-    {
-        return $this->firstResolvedConfigFileInfo;
-    }
-
     /**
      * @param string[] $fallbackFiles
      */

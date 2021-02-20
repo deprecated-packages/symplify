@@ -129,13 +129,13 @@ CODE_SAMPLE
      */
     private function processParentClass(string $currentParentClass): array
     {
+        $errorMessages = [];
         foreach ($this->forbiddenParentClasses as $forbiddenParentClass) {
             if (! $this->arrayStringAndFnMatcher->isMatch($currentParentClass, [$forbiddenParentClass])) {
                 continue;
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $currentParentClass, self::COMPOSITION_OVER_INHERITANCE);
-            return [$errorMessage];
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $currentParentClass, self::COMPOSITION_OVER_INHERITANCE);
         }
 
         foreach ($this->forbiddenParentClassesWithPreferences as $forbiddenParentClass => $preferredClass) {
@@ -143,10 +143,9 @@ CODE_SAMPLE
                 continue;
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $currentParentClass, $preferredClass);
-            return [$errorMessage];
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $currentParentClass, $preferredClass);
         }
 
-        return [];
+        return $errorMessages;
     }
 }

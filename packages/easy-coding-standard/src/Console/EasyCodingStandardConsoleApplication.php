@@ -62,11 +62,6 @@ final class EasyCodingStandardConsoleApplication extends AbstractSymplifyConsole
             $output->writeln($this->getLongVersion());
         }
 
-        $firstResolvedConfigFileInfo = $this->configuration->getFirstResolvedConfigFileInfo();
-        if ($firstResolvedConfigFileInfo !== null && $this->shouldPrintMetaInformation($input)) {
-            $output->writeln('Config file: ' . $firstResolvedConfigFileInfo->getRelativeFilePathFromCwd());
-        }
-
         return parent::doRun($input, $output);
     }
 

@@ -61,11 +61,6 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     {
         $errorsArray = $this->createBaseErrorsArray($errorAndDiffResult);
 
-        $firstResolvedConfigFileInfo = $this->configuration->getFirstResolvedConfigFileInfo();
-        if ($firstResolvedConfigFileInfo !== null) {
-            $errorsArray['meta']['config'] = $firstResolvedConfigFileInfo->getRealPath();
-        }
-
         $codingStandardErrors = $errorAndDiffResult->getErrors();
         foreach ($codingStandardErrors as $codingStandardError) {
             $errorsArray[self::FILES][$codingStandardError->getRelativeFilePathFromCwd()]['errors'][] = [

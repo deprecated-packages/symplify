@@ -520,3 +520,16 @@ parameters:
              paths:
                  - packages/git-wrapper/src
                  - packages/git-wrapper/tests
+
+
+        # needed to use the abstract test case features
+        -
+             message: '#Inheritance from "PHPStan\\Testing\\RuleTestCase" class is forbidden\. Use "Symplify\\PHPStanExtensions\\Testing\\AbstractServiceAwareRuleTestCase" instead#'
+             paths:
+                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+
+        - '#Parameter "outputFileInfo" cannot be nullable#'
+
+        # will be resolved soon
+        - '#Parameter "route" cannot be nullable#'
+

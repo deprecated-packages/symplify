@@ -50,9 +50,9 @@ try {
         if ($parameterSetsConfigs !== []) {
             $configFileInfos = array_merge($configFileInfos, $parameterSetsConfigs);
         }
-    }
 
-    $configFileInfos[] = $inputConfigFileInfo;
+        $configFileInfos[] = $inputConfigFileInfo;
+    }
 
     $environment = 'prod' . random_int(1, 100000);
     $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
@@ -76,10 +76,6 @@ try {
 /** @var ChangedFilesDetector $changedFilesDetector */
 $changedFilesDetector = $container->get(ChangedFilesDetector::class);
 $changedFilesDetector->setUsedConfigs($configFileInfos);
-
-/** @var Configuration $configuration */
-$configuration = $container->get(Configuration::class);
-$configuration->setFirstResolvedConfigFileInfo($configResolver->getFirstResolvedConfigFileInfo());
 
 # 3. run
 $application = $container->get(EasyCodingStandardConsoleApplication::class);

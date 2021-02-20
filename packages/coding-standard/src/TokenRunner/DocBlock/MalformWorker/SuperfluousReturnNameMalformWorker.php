@@ -14,7 +14,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
      * @var string
      * @see https://regex101.com/r/26Wy7Y/1
      */
-    private const RETURN_VARIABLE_NAME_REGEX = '#(@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<variableName>\$[\w]+)#';
+    private const RETURN_VARIABLE_NAME_REGEX = '#(@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<' . self::VARIABLE_NAME_PART . '>\$[\w]+)#';
 
     /**
      * @var string[]
@@ -27,6 +27,11 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
      */
     private const VARIABLE_NAME_REGEX = '#\$\w+#';
 
+    /**
+     * @var string
+     */
+    private const VARIABLE_NAME_PART = 'variableName';
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);
@@ -34,6 +39,10 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
         $lines = $docBlock->getLines();
         foreach ($lines as $line) {
             $match = Strings::match($line->getContent(), self::RETURN_VARIABLE_NAME_REGEX);
+            if ($match === null) {
+                continue;
+            }
+
             if ($this->shouldSkip($match, $line->getContent())) {
                 continue;
             }
@@ -58,17 +67,14 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
     }
 
     /**
-     * @param mixed[]|null $match
+     * @param array<string, string> $match
      */
-    private function shouldSkip(?array $match, string $content): bool
+    private function shouldSkip(array $match, string $content): bool
     {
-        if ($match === null) {
+        if (in_array($match[self::VARIABLE_NAME_PART], self::ALLOWED_VARIABLE_NAMES, true)) {
             return true;
         }
 
-        if (in_array($match['variableName'], self::ALLOWED_VARIABLE_NAMES, true)) {
-            return true;
-        }
         // has multiple return values? "@return array $one, $two"
         return count(Strings::matchAll($content, self::VARIABLE_NAME_REGEX)) >= 2;
     }

@@ -31,7 +31,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
-     * @var string[]
+     * @var array<class-string<Node>>
      */
     private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
 
