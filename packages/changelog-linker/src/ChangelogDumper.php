@@ -6,6 +6,7 @@ namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
+use Symplify\ChangelogLinker\ValueObject\PackageCategoryPriority;
 
 /**
  * @see \Symplify\ChangelogLinker\Tests\ChangelogDumper\ChangelogDumperTest
@@ -81,7 +82,7 @@ final class ChangelogDumper
     ): void {
         $this->displayTag($change);
 
-        if ($priority === ValueObject\PackageCategoryPriority::PACKAGES) {
+        if ($priority === PackageCategoryPriority::PACKAGES) {
             $this->displayPackageIfDesired($change, $withPackages, $priority);
             $this->displayCategoryIfDesired($change, $withCategories, $priority);
         } else {
@@ -108,7 +109,7 @@ final class ChangelogDumper
         if ($this->previousPackage === $change->getPackage()) {
             return;
         }
-        $headlineLevel = $priority === ValueObject\PackageCategoryPriority::CATEGORIES ? 4 : 3;
+        $headlineLevel = $priority === PackageCategoryPriority::CATEGORIES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
         $this->previousPackage = $change->getPackage();
     }
@@ -121,7 +122,7 @@ final class ChangelogDumper
         if ($this->previousCategory === $change->getCategory()) {
             return;
         }
-        $headlineLevel = $priority === ValueObject\PackageCategoryPriority::PACKAGES ? 4 : 3;
+        $headlineLevel = $priority === PackageCategoryPriority::PACKAGES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
         $this->previousCategory = $change->getCategory();
     }

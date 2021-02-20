@@ -37,7 +37,7 @@ final class ParamTypeDocBlockResolverTest extends TestCase
     }
 
     /**
-     * @dataProvider provideData()
+     * @dataProvider provideDataMissmatchName()
      */
     public function testMissmatchName(string $docBlock, string $parameterName): void
     {
