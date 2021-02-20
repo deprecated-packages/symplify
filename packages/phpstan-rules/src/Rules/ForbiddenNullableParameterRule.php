@@ -154,6 +154,10 @@ CODE_SAMPLE
 
     private function isForbiddenType(string $typeName): bool
     {
+        if ($this->forbiddenTypes === []) {
+            return true;
+        }
+
         return $this->typeChecker->isInstanceOf($typeName, $this->forbiddenTypes);
     }
 
