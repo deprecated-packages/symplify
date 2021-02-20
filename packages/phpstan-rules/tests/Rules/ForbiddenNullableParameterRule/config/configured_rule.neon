@@ -8,3 +8,5 @@ services:
         arguments:
             forbiddenTypes:
                 - PhpParser\Node
+            allowedTypes:
+                - PhpParser\Node\Scalar\String_

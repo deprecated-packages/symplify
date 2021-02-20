@@ -27,7 +27,9 @@ final class ForbiddenNullableParameterRuleTest extends AbstractServiceAwareRuleT
         $errorMessage = sprintf(ForbiddenNullableParameterRule::ERROR_MESSAGE, 'defaultValue');
         yield [__DIR__ . '/Fixture/MethodWithNullDefaultParam.php', [[$errorMessage, 9]]];
 
+        yield [__DIR__ . '/Fixture/SkipExcludedString.php', []];
         yield [__DIR__ . '/Fixture/SkipNoType.php', []];
+
         yield [__DIR__ . '/Fixture/SkipAllowedType.php', []];
         yield [__DIR__ . '/Fixture/SkipParamDefaultString.php', []];
     }

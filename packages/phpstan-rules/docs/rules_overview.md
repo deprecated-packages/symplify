@@ -1736,6 +1736,8 @@ services:
         arguments:
             forbiddenTypes:
                 - PhpParser\Node
+            excludedTypes:
+                - PhpParser\Expr\String
 ```
 
 ↓

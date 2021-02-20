@@ -67,6 +67,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
+    - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
 
     # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
