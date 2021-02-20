@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer;
 
+use PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;
 use PhpParser\Node\Expr\Ternary;
@@ -25,7 +26,7 @@ final class ComplexityAffectingNodeFinder
 {
     /**
      * B1. Increments
-     * @var string[]
+     * @var array<class-string<Stmt>>
      */
     private const BREAKING_NODE_TYPES = [Continue_::class, Goto_::class, Break_::class];
 

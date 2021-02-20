@@ -29,12 +29,12 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '$this as argument is not allowed. Refactor method to service composition';
 
     /**
-     * @var string[]
+     * @var class-string<Kernel>[]
      */
     private const ALLOWED_PARENT_CLASSES = [Kernel::class];
 
     /**
-     * @var string[]
+     * @var class-string<PrivatesCaller>[]
      */
     private const ALLOWED_CALLER_CLASSES = [
         // workaround type

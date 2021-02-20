@@ -25,7 +25,7 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit methods over array access on object';
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
     private const ALLOWED_CLASSES = [SplFixedArray::class, SimpleXMLElement::class];
 

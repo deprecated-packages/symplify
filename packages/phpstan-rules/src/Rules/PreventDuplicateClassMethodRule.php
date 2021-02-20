@@ -34,7 +34,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private const PHPSTAN_GET_NODE_TYPE_METHODS = ['getNodeType', 'getNodeTypes'];
 
     /**
-     * @var string[]
+     * @var class-string<Extension>[]|class-string<Kernel>[]
      */
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 

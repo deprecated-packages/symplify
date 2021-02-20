@@ -20,6 +20,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
 use Symplify\PHPStanRules\TypeResolver\NullableTypeResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -62,9 +63,9 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $nullableTypeResolver;
 
     /**
-     * @var ParentMethodResolver
+     * @var ParentClassMethodGuard
      */
-    private $parentMethodResolver;
+    private $parentClassMethodGuard;
 
     /**
      * @param class-string[] $forbiddenTypes
@@ -74,7 +75,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
         NullableTypeResolver $nullableTypeResolver,
-        ParentMethodResolver $parentMethodResolver,
+        ParentClassMethodGuard $parentClassMethodGuard,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
@@ -83,7 +84,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
         $this->nullableTypeResolver = $nullableTypeResolver;
-        $this->parentMethodResolver = $parentMethodResolver;
+        $this->parentClassMethodGuard = $parentClassMethodGuard;
     }
 
     /**
@@ -100,7 +101,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->isProtectedByParentContract($node, $scope)) {
+        if ($this->parentClassMethodGuard->isFunctionLikeProtected($node, $scope)) {
             return [];
         }
 
@@ -213,22 +214,5 @@ CODE_SAMPLE
         return $paramType;
     }
 
-    /**
-     * @param ClassMethod|Function_|Closure $functionLike
-     */
-    private function isProtectedByParentContract(FunctionLike $functionLike, Scope $scope): bool
-    {
-        if (! $functionLike instanceof ClassMethod) {
-            return false;
-        }
 
-        $classMethodName = $this->simpleNameResolver->getName($functionLike);
-        if ($classMethodName === null) {
-            return false;
-        }
-
-        $methodReflection = $this->parentMethodResolver->resolve($scope, $classMethodName);
-
-        return $methodReflection instanceof MethodReflection;
-    }
 }

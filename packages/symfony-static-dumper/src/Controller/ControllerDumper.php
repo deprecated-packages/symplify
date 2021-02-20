@@ -46,11 +46,6 @@ final class ControllerDumper
      */
     private $smartFileSystem;
 
-    /**
-     * @var ProgressBar|null
-     */
-    private $progressBar;
-
     public function __construct(
         ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
         ControllerContentResolver $controllerContentResolver,
