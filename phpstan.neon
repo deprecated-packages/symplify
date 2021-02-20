@@ -513,3 +513,10 @@ parameters:
 
         - '#Content of method "resolveFromTemplateAndMethodCall\(\)" is duplicated with method "resolveMethodCallAndTemplate\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\UnusedTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
         - '#Content of method "resolveMethodCallAndTemplate\(\)" is duplicated with method "resolveFromTemplateAndMethodCall\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\MissingTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
+
+        # third party package
+        -
+             message: '#Parameter "(.*?)" cannot be nullable#'
+             paths:
+                 - packages/git-wrapper/src
+                 - packages/git-wrapper/tests

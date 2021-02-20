@@ -30,7 +30,7 @@ final class ChangeSorterTogetherTest extends TestCase
      * Tags should keep the same order for whatever priority
      * @dataProvider provideDataForTags()
      */
-    public function testTags(?string $priority): void
+    public function testTags(string $priority): void
     {
         $changes = $this->dummyChangesFactory->create();
         $sortedChanges = $this->changeSorter->sort($changes, $priority);
@@ -55,7 +55,7 @@ final class ChangeSorterTogetherTest extends TestCase
     {
         yield [ChangeSorter::PRIORITY_CATEGORIES];
         yield [ChangeSorter::PRIORITY_PACKAGES];
-        yield [null];
+        yield [ChangeSorter::PRIORITY_NONE];
     }
 
     public function testSortWithCategoryPriority(): void
