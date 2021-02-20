@@ -6,11 +6,10 @@ declare(strict_types=1);
 
 use PHP_CodeSniffer\Util\Tokens;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symplify\EasyCodingStandard\Bootstrap\ConfigHasher;
-use Symplify\EasyCodingStandard\Bootstrap\ConfigShifter;
+use Symplify\EasyCodingStandard\Bootstrap\ECSConfigsResolver;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
+use Symplify\EasyCodingStandard\DependencyInjection\ECSContainerFactory;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Set\ConstantReflectionSetFactory;
 use Symplify\EasyCodingStandard\Set\EasyCodingStandardSetProvider;
@@ -35,34 +34,14 @@ $symfonyStyleFactory = new SymfonyStyleFactory();
 $symfonyStyle = $symfonyStyleFactory->create();
 
 // 1. --config CLI option or default
-$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider(new ConstantReflectionSetFactory()));
-$input = new ArgvInput();
+//$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider(new ConstantReflectionSetFactory()));
+
 
 # 2. create container
 try {
-    $configFileInfos = [];
-
-    $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback($input, ['ecs.php']);
-
-    if ($inputConfigFileInfo !== null) {
-        // 2. "parameters > set" in provided yaml files
-        $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configFileInfos);
-        if ($parameterSetsConfigs !== []) {
-            $configFileInfos = array_merge($configFileInfos, $parameterSetsConfigs);
-        }
-
-        $configFileInfos[] = $inputConfigFileInfo;
-    }
-
-    $environment = 'prod' . random_int(1, 100000);
-    $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
-
-    if ($configFileInfos !== []) {
-        $easyCodingStandardKernel->setConfigs($configFileInfos);
-    }
-
-    $easyCodingStandardKernel->boot();
-    $container = $easyCodingStandardKernel->getContainer();
+    $input = new ArgvInput();
+    $ecsContainerFactory = new ECSContainerFactory();
+    $container = $ecsContainerFactory->createFromFromInput($input);
 } catch (SetNotFoundException $setNotFoundException) {
     $invalidSetReporter = new InvalidSetReporter();
     $invalidSetReporter->report($setNotFoundException);
@@ -71,11 +50,6 @@ try {
     $symfonyStyle->error($throwable->getMessage());
     exit(ShellCode::ERROR);
 }
-
-// for cache invalidation on config change
-/** @var ChangedFilesDetector $changedFilesDetector */
-$changedFilesDetector = $container->get(ChangedFilesDetector::class);
-$changedFilesDetector->setUsedConfigs($configFileInfos);
 
 # 3. run
 $application = $container->get(EasyCodingStandardConsoleApplication::class);
