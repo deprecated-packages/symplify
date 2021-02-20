@@ -34,46 +34,31 @@ $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
 $symfonyStyleFactory = new SymfonyStyleFactory();
 $symfonyStyle = $symfonyStyleFactory->create();
 
+// 1. --config CLI option or default
+$configResolver = new SetAwareConfigResolver(new EasyCodingStandardSetProvider(new ConstantReflectionSetFactory()));
+$input = new ArgvInput();
+
 # 2. create container
 try {
     $configFileInfos = [];
 
-    // 1. --config CLI option or default
-    $configResolver = new SetAwareConfigResolver(
-        new EasyCodingStandardSetProvider(new ConstantReflectionSetFactory())
-    );
-
-    $input = new ArgvInput();
     $inputConfigFileInfo = $configResolver->resolveFromInputWithFallback($input, ['ecs.php']);
 
     if ($inputConfigFileInfo !== null) {
-        $configFileInfos[] = $inputConfigFileInfo;
+        // 2. "parameters > set" in provided yaml files
+        $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configFileInfos);
+        if ($parameterSetsConfigs !== []) {
+            $configFileInfos = array_merge($configFileInfos, $parameterSetsConfigs);
+        }
     }
 
-    // 2. --set CLI option
-    $setInputConfig = $configResolver->resolveSetFromInput($input);
-    if ($setInputConfig !== null) {
-        $configFileInfos[] = $setInputConfig;
-    }
+    $configFileInfos[] = $inputConfigFileInfo;
 
-    // 3. "parameters > set" in provided yaml files
-    $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configFileInfos);
-    if ($parameterSetsConfigs !== []) {
-        $configFileInfos = array_merge($configFileInfos, $parameterSetsConfigs);
-    }
-
-    $configHasher = new ConfigHasher();
-    $environment = 'prod' . md5($configHasher->computeFileInfosHash($configFileInfos) . random_int(1, 100000));
-
-    $configShifter = new ConfigShifter();
-    $configFileInfosWithInputAsLast = $configShifter->shiftInputConfigAsLast(
-        $configFileInfos,
-        $inputConfigFileInfo
-    );
-
+    $environment = 'prod' . random_int(1, 100000);
     $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
+
     if ($configFileInfos !== []) {
-        $easyCodingStandardKernel->setConfigs($configFileInfosWithInputAsLast);
+        $easyCodingStandardKernel->setConfigs($configFileInfos);
     }
 
     $easyCodingStandardKernel->boot();
