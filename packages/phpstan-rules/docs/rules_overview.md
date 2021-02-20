@@ -1734,7 +1734,7 @@ services:
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
         arguments:
-            forbidddenTypes:
+            forbiddenTypes:
                 - PhpParser\Node
 ```
 

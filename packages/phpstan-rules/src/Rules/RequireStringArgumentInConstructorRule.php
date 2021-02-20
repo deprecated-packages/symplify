@@ -49,10 +49,8 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         ObjectTypeAnalyzer $objectTypeAnalyzer,
-        array $stringArgPositionsByType = [
-        ]
-    )
-    {
+        array $stringArgPositionsByType = []
+    ) {
         $this->stringArgPositionsByType = $stringArgPositionsByType;
         $this->objectTypeAnalyzer = $objectTypeAnalyzer;
         $this->simpleNameResolver = $simpleNameResolver;
