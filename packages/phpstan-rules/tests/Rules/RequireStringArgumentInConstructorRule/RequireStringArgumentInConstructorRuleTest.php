@@ -24,7 +24,11 @@ final class RequireStringArgumentInConstructorRuleTest extends AbstractServiceAw
      */
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(RequireStringArgumentInConstructorRule::ERROR_MESSAGE, 'Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString', 1);
+        $errorMessage = sprintf(
+            RequireStringArgumentInConstructorRule::ERROR_MESSAGE,
+            'Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString',
+            1
+        );
         yield [__DIR__ . '/Fixture/WithClassConstant.php', [[$errorMessage, 14]]];
 
         yield [__DIR__ . '/Fixture/SkipWithConstant.php', []];

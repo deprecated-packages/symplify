@@ -7,13 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -49,7 +46,12 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     /**
      * @param array<string, array<int>> $stringArgPositionsByType
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, ObjectTypeAnalyzer $objectTypeAnalyzer, array $stringArgPositionsByType = [])
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        ObjectTypeAnalyzer $objectTypeAnalyzer,
+        array $stringArgPositionsByType = [
+        ]
+    )
     {
         $this->stringArgPositionsByType = $stringArgPositionsByType;
         $this->objectTypeAnalyzer = $objectTypeAnalyzer;
