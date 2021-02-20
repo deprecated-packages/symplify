@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule;
+use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
 
 final class RequireStringArgumentInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -26,7 +27,7 @@ final class RequireStringArgumentInConstructorRuleTest extends AbstractServiceAw
     {
         $errorMessage = sprintf(
             RequireStringArgumentInConstructorRule::ERROR_MESSAGE,
-            'Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString',
+            AlwaysCallMeWithString::class,
             1
         );
         yield [__DIR__ . '/Fixture/WithClassConstant.php', [[$errorMessage, 14]]];
