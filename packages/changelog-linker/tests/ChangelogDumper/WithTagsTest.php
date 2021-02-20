@@ -8,6 +8,7 @@ use Iterator;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
+use Symplify\ChangelogLinker\ValueObject\PackageCategoryPriority;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class WithTagsTest extends AbstractKernelTestCase
@@ -46,7 +47,7 @@ final class WithTagsTest extends AbstractKernelTestCase
     public function testReportBothWithCategoriesPriority(
         bool $withCategories,
         bool $withPackages,
-        ?string $priority,
+        string $priority,
         string $expectedOutputFile
     ): void {
         $this->markTestSkipped('Random false positives on Github Actions');
@@ -63,7 +64,7 @@ final class WithTagsTest extends AbstractKernelTestCase
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
+        yield [true, false, PackageCategoryPriority::NONE, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [false, true, PackageCategoryPriority::NONE, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }

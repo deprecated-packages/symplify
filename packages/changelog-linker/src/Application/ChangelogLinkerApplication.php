@@ -37,7 +37,7 @@ final class ChangelogLinkerApplication
 
     public function createContentFromPullRequestsBySortPriority(
         array $pullRequests,
-        ?string $sortPriority,
+        string $sortPriority,
         bool $inCategories,
         bool $inPackages
     ): string {

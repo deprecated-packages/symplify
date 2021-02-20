@@ -7,6 +7,7 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ValueObject\PackageCategoryPriority;
 
 final class ChangeSorterTogetherTest extends TestCase
 {
@@ -53,16 +54,16 @@ final class ChangeSorterTogetherTest extends TestCase
 
     public function provideDataForTags(): Iterator
     {
-        yield [ChangeSorter::PRIORITY_CATEGORIES];
-        yield [ChangeSorter::PRIORITY_PACKAGES];
-        yield [ChangeSorter::PRIORITY_NONE];
+        yield [PackageCategoryPriority::CATEGORIES];
+        yield [PackageCategoryPriority::PACKAGES];
+        yield [PackageCategoryPriority::NONE];
     }
 
     public function testSortWithCategoryPriority(): void
     {
         $changes = $this->dummyChangesFactory->create();
 
-        $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
+        $sortedChanges = $this->changeSorter->sort($changes, PackageCategoryPriority::CATEGORIES);
 
         $categoriesByTags = [];
         foreach ($sortedChanges as $sortedChange) {
@@ -117,7 +118,7 @@ final class ChangeSorterTogetherTest extends TestCase
     public function testSortWithPackagePriority(): void
     {
         $changes = $this->dummyChangesFactory->create();
-        $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_PACKAGES);
+        $sortedChanges = $this->changeSorter->sort($changes, PackageCategoryPriority::PACKAGES);
 
         $packagesByTags = [];
         foreach ($sortedChanges as $sortedChange) {
