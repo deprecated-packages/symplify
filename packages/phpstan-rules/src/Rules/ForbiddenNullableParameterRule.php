@@ -32,7 +32,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     /**
      * @var string[]
      */
-    private $forbidddenTypes = [];
+    private $forbiddenTypes = [];
 
     /**
      * @var SimpleNameResolver
@@ -45,14 +45,14 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $typeChecker;
 
     /**
-     * @param string[] $forbidddenTypes
+     * @param string[] $forbiddenTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        array $forbidddenTypes
+        array $forbiddenTypes
     ) {
-        $this->forbidddenTypes = $forbidddenTypes;
+        $this->forbiddenTypes = $forbiddenTypes;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->typeChecker = $typeChecker;
     }
@@ -120,7 +120,7 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 [
-                    'forbidddenTypes' => [Node::class],
+                    'forbiddenTypes' => [Node::class],
                 ]
             ),
         ]);
@@ -147,7 +147,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this-> typeChecker->isInstanceOf($typeName, $this->forbidddenTypes);
+        return $this-> typeChecker->isInstanceOf($typeName, $this->forbiddenTypes);
     }
 
     private function isNullableParam(Param $param): bool
