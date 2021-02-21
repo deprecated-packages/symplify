@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\ChangelogLinker;
 
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
-use Symplify\ChangelogLinker\ValueObject\PackageCategoryPriority;
 
 /**
  * @see \Symplify\ChangelogLinker\Tests\ChangelogDumper\ChangelogDumperTest
@@ -54,18 +54,27 @@ final class ChangelogDumper
     /**
      * @param Change[] $changes
      */
-    public function reportChangesWithHeadlines(
-        array $changes,
-        bool $withCategories,
-        bool $withPackages,
-        string $priority
-    ): string {
+    public function reportChangesWithHeadlines(array $changes, string $changelogFormat): string
+    {
         $this->content .= PHP_EOL;
 
         foreach ($changes as $change) {
-            $this->displayHeadlines($withCategories, $withPackages, $priority, $change);
+            $this->displayHeadlines($changelogFormat, $change);
 
-            $message = $withPackages ? $change->getMessageWithoutPackage() : $change->getMessage();
+            if (in_array(
+                $changelogFormat,
+                [
+                    ChangelogFormat::PACKAGES_ONLY,
+                    ChangelogFormat::PACKAGES_THEN_CATEGORIES,
+                    ChangelogFormat::CATEGORIES_THEN_PACKAGES,
+                ],
+                true
+            )) {
+                $message = $change->getMessageWithoutPackage();
+            } else {
+                $message = $change->getMessage();
+            }
+
             $this->content .= $message . PHP_EOL;
         }
 
@@ -74,20 +83,16 @@ final class ChangelogDumper
         return $this->changelogFormatter->format($this->content);
     }
 
-    private function displayHeadlines(
-        bool $withCategories,
-        bool $withPackages,
-        string $priority,
-        Change $change
-    ): void {
+    private function displayHeadlines(string $changelogFormat, Change $change): void
+    {
         $this->displayTag($change);
 
-        if ($priority === PackageCategoryPriority::PACKAGES) {
-            $this->displayPackageIfDesired($change, $withPackages, $priority);
-            $this->displayCategoryIfDesired($change, $withCategories, $priority);
+        if ($changelogFormat === ChangelogFormat::PACKAGES_THEN_CATEGORIES) {
+            $this->displayPackageIfDesired($change, $changelogFormat);
+            $this->displayCategoryIfDesired($change, $changelogFormat);
         } else {
-            $this->displayCategoryIfDesired($change, $withCategories, $priority);
-            $this->displayPackageIfDesired($change, $withPackages, $priority);
+            $this->displayCategoryIfDesired($change, $changelogFormat);
+            $this->displayPackageIfDesired($change, $changelogFormat);
         }
     }
 
@@ -101,28 +106,40 @@ final class ChangelogDumper
         $this->previousTag = $change->getTag();
     }
 
-    private function displayPackageIfDesired(Change $change, bool $withPackages, string $priority): void
+    private function displayPackageIfDesired(Change $change, string $changelogFormat): void
     {
-        if (! $withPackages) {
+        if ($changelogFormat === ChangelogFormat::BARE) {
             return;
         }
+
+        if ($changelogFormat === ChangelogFormat::CATEGORIES_ONLY) {
+            return;
+        }
+
         if ($this->previousPackage === $change->getPackage()) {
             return;
         }
-        $headlineLevel = $priority === PackageCategoryPriority::CATEGORIES ? 4 : 3;
+
+        $headlineLevel = $changelogFormat === ChangelogFormat::CATEGORIES_THEN_PACKAGES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getPackage() . PHP_EOL;
         $this->previousPackage = $change->getPackage();
     }
 
-    private function displayCategoryIfDesired(Change $change, bool $withCategories, string $priority): void
+    private function displayCategoryIfDesired(Change $change, string $changelogFormat): void
     {
-        if (! $withCategories) {
+        if ($changelogFormat === ChangelogFormat::BARE) {
             return;
         }
+
+        if ($changelogFormat === ChangelogFormat::PACKAGES_ONLY) {
+            return;
+        }
+
         if ($this->previousCategory === $change->getCategory()) {
             return;
         }
-        $headlineLevel = $priority === PackageCategoryPriority::PACKAGES ? 4 : 3;
+
+        $headlineLevel = $changelogFormat === ChangelogFormat::PACKAGES_THEN_CATEGORIES ? 4 : 3;
         $this->content .= str_repeat('#', $headlineLevel) . ' ' . $change->getCategory() . PHP_EOL;
         $this->previousCategory = $change->getCategory();
     }

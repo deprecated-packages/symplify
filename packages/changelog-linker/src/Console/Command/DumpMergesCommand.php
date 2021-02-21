@@ -9,13 +9,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
 use Symplify\ChangelogLinker\Configuration\HighestMergedIdResolver;
-use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @inspired by https://github.com/weierophinney/changelog_generator
@@ -39,11 +40,6 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
     private $changelogFileSystem;
 
     /**
-     * @var PriorityResolver
-     */
-    private $priorityResolver;
-
-    /**
      * @var ChangelogPlaceholderGuard
      */
     private $changelogPlaceholderGuard;
@@ -58,10 +54,15 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
      */
     private $highestMergedIdResolver;
 
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
     public function __construct(
         GithubApi $githubApi,
         ChangelogFileSystem $changelogFileSystem,
-        PriorityResolver $priorityResolver,
+        ParameterProvider $parameterProvider,
         ChangelogPlaceholderGuard $changelogPlaceholderGuard,
         ChangelogLinkerApplication $changelogLinkerApplication,
         HighestMergedIdResolver $highestMergedIdResolver
@@ -70,10 +71,10 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
 
         $this->githubApi = $githubApi;
         $this->changelogFileSystem = $changelogFileSystem;
-        $this->priorityResolver = $priorityResolver;
         $this->changelogPlaceholderGuard = $changelogPlaceholderGuard;
         $this->changelogLinkerApplication = $changelogLinkerApplication;
         $this->highestMergedIdResolver = $highestMergedIdResolver;
+        $this->parameterProvider = $parameterProvider;
     }
 
     protected function configure(): void
@@ -120,6 +121,10 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $content = $this->changelogFileSystem->readChangelog();
+        $inCategories = (bool) $input->getOption(Option::IN_CATEGORIES);
+        $inPackages = (bool) $input->getOption(Option::IN_PACKAGES);
+
+        $this->reportDeprecatedOptions($inCategories, $inPackages);
 
         $this->changelogPlaceholderGuard->ensurePlaceholderIsPresent($content, self::CHANGELOG_PLACEHOLDER_TO_WRITE);
 
@@ -134,20 +139,16 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
             if ($sinceId > 0) {
                 $message = sprintf('No new pull requests have been merged since ID "%d".', $sinceId);
             }
-            $this->symfonyStyle->note($message);
+            $this->symfonyStyle->success($message);
 
             return ShellCode::SUCCESS;
         }
 
-        $sortPriority = $this->priorityResolver->resolveFromInput($input);
-        $inCategories = (bool) $input->getOption(Option::IN_CATEGORIES);
-        $inPackages = (bool) $input->getOption(Option::IN_PACKAGES);
+        $changelogFormat = $this->parameterProvider->provideStringParameter(Option::CHANGELOG_FORMAT);
 
         $content = $this->changelogLinkerApplication->createContentFromPullRequestsBySortPriority(
             $pullRequests,
-            $sortPriority,
-            $inCategories,
-            $inPackages
+            $changelogFormat
         );
 
         $dryRun = $input->getOption(Option::DRY_RUN);
@@ -161,5 +162,30 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->success('The CHANGELOG.md was updated');
 
         return ShellCode::SUCCESS;
+    }
+
+    private function reportDeprecatedOptions(bool $inCategories, bool $inPackages): void
+    {
+        if ($inCategories) {
+            $message = sprintf(
+                'Command option "--%s" is deprecated, use config and "%s" parameter instead. Use constans from "%s" class to configure it',
+                Option::IN_CATEGORIES,
+                'Option::CHANGELOG_FORMAT',
+                ChangelogFormat::class
+            );
+            $this->symfonyStyle->error($message);
+            sleep(3);
+        }
+
+        if ($inPackages) {
+            $message = sprintf(
+                'Command option "--%s" is deprecated, use config and "%s" parameter instead. Use constans from "%s" class to configure it',
+                Option::IN_PACKAGES,
+                'Option::CHANGELOG_FORMAT',
+                ChangelogFormat::class
+            );
+            $this->symfonyStyle->error($message);
+            sleep(3);
+        }
     }
 }
