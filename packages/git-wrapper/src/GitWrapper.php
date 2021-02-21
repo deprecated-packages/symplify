@@ -61,7 +61,7 @@ final class GitWrapper
         if ($gitBinary === null) {
             $executableFinder = new ExecutableFinder();
             $gitBinary = $executableFinder->find('git');
-            if (! $gitBinary) {
+            if ($gitBinary === null) {
                 throw new GitException('Unable to find the Git executable.');
             }
         }

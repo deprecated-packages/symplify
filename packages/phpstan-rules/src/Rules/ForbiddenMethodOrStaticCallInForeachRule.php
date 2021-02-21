@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\Expr;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
@@ -24,7 +25,7 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     public const ERROR_MESSAGE = 'Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before';
 
     /**
-     * @var string[]
+     * @var array<class-string<Expr>>
      */
     private const CALL_CLASS_TYPES = [MethodCall::class, StaticCall::class];
 

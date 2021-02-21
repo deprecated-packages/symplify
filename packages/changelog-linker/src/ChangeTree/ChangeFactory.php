@@ -10,6 +10,8 @@ use Symplify\ChangelogLinker\ChangeTree\Resolver\PackageResolver;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\ChangelogLinker\ValueObject\PackageName;
+use Symplify\MonorepoBuilder\ValueObject\Package;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
@@ -91,9 +93,9 @@ final class ChangeFactory
         return Strings::replace($content, self::ASTERISK_REGEX, '\\\$1');
     }
 
-    private function resolveMessageWithoutPackage(string $message, ?string $package): string
+    private function resolveMessageWithoutPackage(string $message, string $package): string
     {
-        if ($package === null) {
+        if ($package === PackageName::UNKNOWN) {
             return $message;
         }
 

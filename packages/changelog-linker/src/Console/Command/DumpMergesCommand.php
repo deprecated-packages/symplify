@@ -126,7 +126,7 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         $sinceId = $this->highestMergedIdResolver->resolveFromInputAndChangelogContent($input, $content);
 
         /** @var string $baseBranch */
-        $baseBranch = $input->getOption(Option::BASE_BRANCH);
+        $baseBranch = (string) $input->getOption(Option::BASE_BRANCH);
 
         $pullRequests = $this->githubApi->getMergedPullRequestsSinceId($sinceId, $baseBranch);
         if ($pullRequests === []) {

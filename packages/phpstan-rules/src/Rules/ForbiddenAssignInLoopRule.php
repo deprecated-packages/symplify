@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
@@ -31,7 +32,7 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign in loop is not allowed.';
 
     /**
-     * @var string[]
+     * @var array<class-string<Stmt>>
      */
     private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
 

@@ -32,7 +32,7 @@ final class ChangeResolver
      */
     public function resolveSortedChangesFromPullRequestsWithSortPriority(
         array $pullRequests,
-        ?string $sortPriority
+        string $sortPriority
     ): array {
         $changes = [];
 

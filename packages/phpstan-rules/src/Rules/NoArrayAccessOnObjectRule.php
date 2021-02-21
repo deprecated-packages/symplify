@@ -8,8 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
-use SimpleXMLElement;
-use SplFixedArray;
+
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,9 +24,9 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit methods over array access on object';
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
-    private const ALLOWED_CLASSES = [SplFixedArray::class, SimpleXMLElement::class];
+    private const ALLOWED_CLASSES = ['SplFixedArray', 'SimpleXMLElement'];
 
     /**
      * @var ArrayStringAndFnMatcher

@@ -84,7 +84,7 @@ final class GithubApi
     /**
      * @return mixed[]
      */
-    public function getMergedPullRequestsSinceId(int $id, ?string $baseBranch = null): array
+    public function getMergedPullRequestsSinceId(int $id, string $baseBranch): array
     {
         $pullRequests = $this->getPullRequestsSinceId($id, $baseBranch);
 
@@ -113,15 +113,13 @@ final class GithubApi
     /**
      * @return mixed[]
      */
-    private function getPullRequestsSinceId(int $id, ?string $baseBranch = null): array
+    private function getPullRequestsSinceId(int $id, string $baseBranch): array
     {
         $pullRequests = [];
 
         for ($i = 1; $i <= self::MAX_PAGE; ++$i) {
             $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
-            if ($baseBranch !== null) {
-                $url .= '&base=' . $baseBranch;
-            }
+            $url .= '&base=' . $baseBranch;
             $response = $this->getResponseToUrl($url);
 
             // already no more pages → stop

@@ -513,3 +513,22 @@ parameters:
 
         - '#Content of method "resolveFromTemplateAndMethodCall\(\)" is duplicated with method "resolveMethodCallAndTemplate\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\UnusedTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
         - '#Content of method "resolveMethodCallAndTemplate\(\)" is duplicated with method "resolveFromTemplateAndMethodCall\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\MissingTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
+
+        # third party package
+        -
+             message: '#Parameter "(.*?)" cannot be nullable#'
+             paths:
+                 - packages/git-wrapper/src
+                 - packages/git-wrapper/tests
+
+
+        # needed to use the abstract test case features
+        -
+             message: '#Inheritance from "PHPStan\\Testing\\RuleTestCase" class is forbidden\. Use "Symplify\\PHPStanExtensions\\Testing\\AbstractServiceAwareRuleTestCase" instead#'
+             paths:
+                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+
+        - '#Parameter "outputFileInfo" cannot be nullable#'
+
+        # will be resolved soon
+        - '#Parameter "mainConfigFileInfo" cannot be nullable#'
