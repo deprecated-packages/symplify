@@ -13,7 +13,7 @@ use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 final class NetteTypeAnalyzer
 {
     /**
-     * @var class-string<Template>[]
+     * @var array<class-string<Template>>
      */
     private const TEMPLATE_TYPES = [
         'Nette\Application\UI\Template',
