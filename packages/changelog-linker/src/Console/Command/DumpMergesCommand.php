@@ -143,6 +143,10 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         $inCategories = (bool) $input->getOption(Option::IN_CATEGORIES);
         $inPackages = (bool) $input->getOption(Option::IN_PACKAGES);
 
+        // @todo put in local constant
+        dump($sortPriority);
+        die;
+
         $content = $this->changelogLinkerApplication->createContentFromPullRequestsBySortPriority(
             $pullRequests,
             $sortPriority,
