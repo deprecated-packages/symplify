@@ -4,7 +4,7 @@
 
 Some description
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Standard\SomePHPStanRule`](Fixture/PHPStan/Standard/SomePHPStanRule.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPStan\Standard\SomePHPStanRule`](/Fixture/PHPStan/Standard/SomePHPStanRule.php)
 
 ```php
 bad code
