@@ -14,7 +14,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
      * @var string
      * @see https://regex101.com/r/26Wy7Y/1
      */
-    private const RETURN_VARIABLE_NAME_REGEX = '#(@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<' . self::VARIABLE_NAME_PART . '>\$[\w]+)#';
+    private const RETURN_VARIABLE_NAME_REGEX = '#(?<tag>@return)(?<type>\s+[|\\\\\w]+)?(\s+)(?<' . self::VARIABLE_NAME_PART . '>\$[\w]+)#';
 
     /**
      * @var string[]
@@ -51,7 +51,7 @@ final class SuperfluousReturnNameMalformWorker extends AbstractMalformWorker
                 $line->getContent(),
                 self::RETURN_VARIABLE_NAME_REGEX,
                 function (array $match) {
-                    $replacement = $match[1];
+                    $replacement = $match['tag'];
                     if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }

@@ -19,7 +19,6 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -49,6 +48,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
+
     /**
      * @var ObjectTypeAnalyzer
      */
@@ -58,8 +58,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
         ObjectTypeAnalyzer $objectTypeAnalyzer
-    )
-    {
+    ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->objectTypeAnalyzer = $objectTypeAnalyzer;

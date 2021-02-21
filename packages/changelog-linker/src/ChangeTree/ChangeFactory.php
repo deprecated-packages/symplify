@@ -11,7 +11,6 @@ use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\ChangelogLinker\ValueObject\PackageName;
-use Symplify\MonorepoBuilder\ValueObject\Package;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**

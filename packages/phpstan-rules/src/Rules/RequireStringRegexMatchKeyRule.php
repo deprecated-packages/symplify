@@ -11,12 +11,13 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\ValueObject\NodeFinder\ScopeTypes;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -28,7 +29,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '"%s" regex need to use string named capture group instead of numeric';
+    public const ERROR_MESSAGE = 'Regex must use string named capture groups instead of numeric';
 
     /**
      * @var NodeFinder
@@ -36,23 +37,23 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
+    /**
+     * @var ParentNodeFinder
+     */
+    private $parentNodeFinder;
+
     public function __construct(
         NodeFinder $nodeFinder,
-        NodeComparator $nodeComparator,
-        SimpleNameResolver $simpleNameResolver
+        SimpleNameResolver $simpleNameResolver,
+        ParentNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
-        $this->nodeComparator = $nodeComparator;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->parentNodeFinder = $parentNodeFinder;
     }
 
     /**
@@ -73,30 +74,27 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var Node|null $parent */
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof Node) {
+        if (! $node->var instanceof Variable) {
             return [];
         }
 
-        // assignment can be inside If_, While_, Do_, we need to locate its stmts
-        /** @var Node[]|Node|null $locate */
-        $locate = property_exists($parent, 'stmts')
-            ? $parent->stmts
-            : $parent;
+        $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
+        if ($scopeNode === null) {
+            return [];
+        }
 
-        $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($locate, $node->var);
-        if (! $nextUsedAsArrayDimFetch instanceof ArrayDimFetch) {
+        $usedAsArrayDimFetches = $this->findVariableArrayDimFetches($scopeNode, $node->var);
+        if ($usedAsArrayDimFetches === []) {
             return [];
         }
 
         /** @var StaticCall $expr */
         $expr = $node->expr;
+
         /** @var ClassConstFetch $value */
         $value = $expr->args[1]->value;
-        $regex = (string) $value->getAttribute(PHPStanAttributeKey::PHPSTAN_CACHE_PRINTER);
 
-        return [sprintf(self::ERROR_MESSAGE, $regex)];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -125,13 +123,13 @@ use Nette\Utils\Strings;
 
 class SomeClass
 {
-    private const REGEX = '#(?<c>a content)#';
+    private const REGEX = '#(?<content>a content)#';
 
     public function run()
     {
         $matches = Strings::match('a content', self::REGEX);
         if ($matches) {
-            echo $matches['c'];
+            echo $matches['content'];
         }
     }
 }
@@ -141,51 +139,30 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Node[]|Node|null $nodes
+     * @return ArrayDimFetch[]
      */
-    private function getNextUsedAsArrayDimFetch($nodes, Expr $expr): ?ArrayDimFetch
+    private function findVariableArrayDimFetches(Node $node, Variable $variable): array
     {
-        if (is_array($nodes)) {
-            return $this->getArrayDimFetchInStmts($nodes, $expr);
+        $variableName = $this->simpleNameResolver->getName($variable);
+        if ($variableName === null) {
+            return [];
         }
 
-        if (! $nodes instanceof Node) {
-            return null;
-        }
-
-        $next = $nodes->getAttribute(PHPStanAttributeKey::NEXT);
-
-        if (! $next instanceof Node) {
-            return null;
-        }
-
-        $arrayDimFetch = $this->nodeFinder->findFirst($next, function (Node $node) use ($expr): bool {
+        return $this->nodeFinder->find($node, function (Node $node) use ($variableName): bool {
             if (! $node instanceof ArrayDimFetch) {
                 return false;
             }
+
+            if (! $node->var instanceof Variable) {
+                return false;
+            }
+
             if (! $node->dim instanceof LNumber) {
                 return false;
             }
-            return $this->nodeComparator->areNodesEqual($node->var, $expr);
+
+            return $this->simpleNameResolver->isName($node->var, $variableName);
         });
-
-        if ($arrayDimFetch instanceof ArrayDimFetch) {
-            return $arrayDimFetch;
-        }
-
-        return $this->getNextUsedAsArrayDimFetch($next, $expr);
-    }
-
-    private function getArrayDimFetchInStmts(array $array, Expr $expr): ?ArrayDimFetch
-    {
-        foreach ($array as $node) {
-            $arrayDimFetch = $this->getNextUsedAsArrayDimFetch($node, $expr);
-            if ($arrayDimFetch !== null) {
-                return $arrayDimFetch;
-            }
-        }
-
-        return null;
     }
 
     private function shouldSkipExpr(Expr $expr): bool

@@ -27,7 +27,7 @@ final class ParentNodeFinder
      * @param class-string<T> $nodeClass
      * @return T|null
      */
-    public function getFirstParentByType(Node $node, string $nodeClass): ?Node
+    public function findFirstParentByType(Node $node, string $nodeClass): ?Node
     {
         $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {
@@ -46,7 +46,7 @@ final class ParentNodeFinder
      * @param class-string<T>[] $nodeTypes
      * @return T|null
      */
-    public function getFirstParentByTypes(Node $node, array $nodeTypes): ?Node
+    public function findFirstParentByTypes(Node $node, array $nodeTypes): ?Node
     {
         $node = $node->getAttribute(CommonAttributeKey::PARENT);
         while ($node) {

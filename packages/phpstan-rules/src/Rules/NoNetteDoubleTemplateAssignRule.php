@@ -156,7 +156,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $parentScopeNode = $this->parentNodeFinder->getFirstParentByTypes(
+            $parentScopeNode = $this->parentNodeFinder->findFirstParentByTypes(
                 $assign,
                 [ClassMethod::class, If_::class, Else_::class, ElseIf_::class]
             );

@@ -148,17 +148,11 @@ parameters:
         - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
-        # false positive
-        - '#Property Symplify\\ChangelogLinker\\ChangelogDumper\:\:\$content is never written, only read#'
-
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
                 # yaml
                 - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
-                # table data for symfony console output
-                - packages/symfony-route-usage/src/Command/ShowRouteUsageCommand.php
-                - packages/symfony-route-usage/src/Command/ShowDeadRoutesCommand.php
 
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
@@ -227,22 +221,12 @@ parameters:
         - '#The path "/another\-one\.php" was not found#'
 
         -
-            message: '#Trait method "assertDirectoryEquals\(\)" should not contain any logic, but only delegate to other class call#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-
-        -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 23
                 - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
-
-        # false positives
-        - '#Constant Symplify\\ChangelogLinker\\Tests\\ChangeTree\\ChangeFactory\\ChangeFactoryTest\:\:PULL_REQUEST is unused#'
-        - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changes is never read, only written#'
-        - '#Property Symplify\\ChangelogLinker\\Tests\\ChangelogDumper\\WithTagsTest\:\:\$changelogDumper is never read, only written#'
 
         # solve later
         - '#Constant string value need to only have small letters, _, \-, \. and numbers#'
@@ -297,24 +281,7 @@ parameters:
 
         - '#Parameter \#5 \$default of method Symfony\\Component\\Console\\Command\\Command\:\:addOption\(\) expects array<string\>\|bool\|int\|string\|null, float given#'
 
-        -
-            message: '#Instead of container injection, use specific service#'
-            paths:
-                # tests helper
-                - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
-
-        # doctrine
-        - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$id is never written, only read#'
-
-        -
-            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
-            paths:
-                # tests
-                - packages/symfony-route-usage/src/Database/TableInitiator.php
-
         # skipped tests
-        - '#Property Symplify\\SymfonyRouteUsage\\Tests\\EntityRepository\\RouteVisitRepositoryTest\:\:\$routeVisitRepository is never written, only read#'
-        - '#Property Symplify\\SymfonyRouteUsage\\Tests\\Routing\\DeadRoutesProviderTest\:\:\$deadRoutesProvider is never written, only read#'
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
 
         -
@@ -322,12 +289,6 @@ parameters:
             path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
-
-        -
-            message: '#"Doctrine\\ORM\\EntityManagerInterface" dependency is allowed only in "\*Repository" types#'
-            paths:
-                # database helper
-                 - packages/symfony-route-usage/src/Database/TableInitiator.php
 
         -
             message: '#"%s" in sprintf\(\) format must be quoted#'
@@ -354,15 +315,6 @@ parameters:
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
-                # multiple probabilities of Nodes that have stmts
-                - packages/phpstan-rules/src/Rules/RequireStringRegexMatchKeyRule.php #139
-
-        -
-            message: '#"self\:\:.*" regex need to use string named capture group instead of numeric#'
-            paths:
-                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousReturnNameMalformWorker.php #45
-                 - packages/coding-standard/src/TokenRunner/DocBlock/MalformWorker/SuperfluousVarNameMalformWorker.php #51
-
         -
             message: '#Anonymous class is not allowed#'
             paths:
@@ -374,8 +326,6 @@ parameters:
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/OneArgumentController.php #13
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/SomeController.php #13
                  - packages/symfony-static-dumper/tests/test_project/src/Controller/TwoArgumentsController.php #13
-
-        - '#Property Symplify\\SymfonyRouteUsage\\Entity\\RouteVisit\:\:\$routeHash is never read, only written#'
 
         # the file must start with "Abstract" to be correct
         -
@@ -391,7 +341,6 @@ parameters:
                 - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-        - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:getFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         # manually constructored for Symfony compiler pass, before DI is created
         -
@@ -426,15 +375,12 @@ parameters:
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
-
         # parameters in tests
         -
              message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
              paths:
                  - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php
-                 - packages/symfony-route-usage/tests/Helper/DatabaseLoaderHelper.php
+
         -
              message: '#There should be no empty class#'
              paths:
@@ -500,20 +446,6 @@ parameters:
 
         - '#Class with base "Regex" name is already used in "Symplify\\PHPStanRules\\ValueObject\\Regex", "Symplify\\GitWrapper\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
 
-        -
-             message: '#Binary operation "\." between array\|string\|false and (.*?) results in an error#'
-             paths:
-                 - packages/package-builder/src/Composer/VendorDirProvider.php
-
-        # some super weird bug, returns mixed type, but works in tests
-        -
-            message: '#Method nor static call in if\(\) or elseif\(\) is not allowed\. Extract expression to a new variable assign on line before#'
-            paths:
-                - packages/template-checker/src/Analyzer/MissingClassesLatteAnalyzer.php
-
-        - '#Content of method "resolveFromTemplateAndMethodCall\(\)" is duplicated with method "resolveMethodCallAndTemplate\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\UnusedTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
-        - '#Content of method "resolveMethodCallAndTemplate\(\)" is duplicated with method "resolveFromTemplateAndMethodCall\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Nette\\MissingTemplateRenderVariableResolver" class\. Use unique content or abstract service instead#'
-
         # third party package
         -
              message: '#Parameter "(.*?)" cannot be nullable#'
@@ -532,3 +464,7 @@ parameters:
 
         # will be resolved soon
         - '#Parameter "mainConfigFileInfo" cannot be nullable#'
+
+        - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
+        - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'

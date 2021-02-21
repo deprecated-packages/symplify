@@ -33,7 +33,7 @@ final class ClassLikeExistenceChecker
 
     public function doesClassLikeInsensitiveExists(string $classLikeName): bool
     {
-        if (!$this->doesClassLikeExist($classLikeName)) {
+        if (! $this->doesClassLikeExist($classLikeName)) {
             return false;
         }
 
@@ -56,4 +56,3 @@ final class ClassLikeExistenceChecker
         return true;
     }
 }
-

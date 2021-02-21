@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SetConfigResolver;
 
-use Symfony\Component\Console\Input\InputInterface;
 use Symplify\SetConfigResolver\Config\SetsParameterResolver;
 use Symplify\SetConfigResolver\Contract\SetProviderInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -39,13 +38,5 @@ final class SetAwareConfigResolver extends AbstractConfigResolver
     public function resolveFromParameterSetsFromConfigFiles(array $fileInfos): array
     {
         return $this->setsParameterResolver->resolveFromFileInfos($fileInfos);
-    }
-
-    /**
-     * @api
-     */
-    public function resolveSetFromInput(InputInterface $input): ?SmartFileInfo
-    {
-        return $this->setResolver->detectFromInput($input);
     }
 }

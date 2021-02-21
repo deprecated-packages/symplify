@@ -6,33 +6,27 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
-use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
-use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
 use Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer;
-use Symplify\PHPStanRules\TypeResolver\NullableTypeResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNullableParameterRule\ForbiddenNullableParameterRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNullableReturnRule\ForbiddenNullableReturnRuleTest
  */
-final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Parameter "%s" cannot be nullable';
+    public const ERROR_MESSAGE = 'Return type "%s" cannot be nullable';
 
     /**
      * @var SimpleNameResolver
@@ -50,11 +44,6 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $allowedTypes = [];
 
     /**
-     * @var NullableTypeResolver
-     */
-    private $nullableTypeResolver;
-
-    /**
      * @var ParentClassMethodGuard
      */
     private $parentClassMethodGuard;
@@ -70,7 +59,6 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        NullableTypeResolver $nullableTypeResolver,
         ParentClassMethodGuard $parentClassMethodGuard,
         ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
         array $forbiddenTypes = [],
@@ -79,7 +67,6 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         $this->simpleNameResolver = $simpleNameResolver;
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
-        $this->nullableTypeResolver = $nullableTypeResolver;
         $this->parentClassMethodGuard = $parentClassMethodGuard;
         $this->forbiddenAllowedTypeAnalyzer = $forbiddenAllowedTypeAnalyzer;
     }
@@ -102,31 +89,27 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
             return [];
         }
 
-        $errorMessages = [];
-        foreach ($node->params as $param) {
-            $paramType = $this->matchNullableParamType($param);
-            if ($paramType === null) {
-                continue;
-            }
-
-            $normalType = $this->nullableTypeResolver->resolveNormalType($paramType);
-            if ($normalType === null) {
-                continue;
-            }
-
-            if ($this->forbiddenAllowedTypeAnalyzer->shouldSkip(
-                $normalType,
-                $this->forbiddenTypes,
-                $this->allowedTypes
-            )) {
-                continue;
-            }
-
-            $paramName = $this->simpleNameResolver->getName($param->var);
-            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $paramName);
+        $returnType = $node->returnType;
+        if (! $returnType instanceof NullableType) {
+            return [];
         }
 
-        return $errorMessages;
+        $mainReturnType = $this->simpleNameResolver->getName($returnType->type);
+        if ($mainReturnType === null) {
+            return [];
+        }
+
+        if ($this->forbiddenAllowedTypeAnalyzer->shouldSkip(
+            $mainReturnType,
+            $this->forbiddenTypes,
+            $this->allowedTypes
+        )) {
+            return [];
+        }
+
+        $paramName = $this->simpleNameResolver->getName($mainReturnType);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $paramName);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -138,7 +121,7 @@ use PhpParser\Node;
 
 class SomeClass
 {
-    public function run(?Node $node = null): void
+    public function run(): ?Node
     {
     }
 }
@@ -149,7 +132,7 @@ use PhpParser\Node;
 
 class SomeClass
 {
-    public function run(Node $node): void
+    public function run(): Node
     {
     }
 }
@@ -161,39 +144,5 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    /**
-     * @return Identifier|Name|NullableType|UnionType
-     */
-    private function matchNullableParamType(Param $param): ?Node
-    {
-        $paramType = $param->type;
-        if ($paramType === null) {
-            return null;
-        }
-
-        if (! $this->isNullableParam($param)) {
-            return null;
-        }
-
-        return $paramType;
-    }
-
-    private function isNullableParam(Param $param): bool
-    {
-        if ($param->type instanceof NullableType) {
-            return true;
-        }
-
-        if ($param->default === null) {
-            return false;
-        }
-
-        if (! $param->default instanceof ConstFetch) {
-            return false;
-        }
-
-        return $this->simpleNameResolver->isName($param->default, 'null');
     }
 }

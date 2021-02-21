@@ -77,7 +77,7 @@ final class CallableTypeAnalyzer
         }
 
         // possible closure
-        $parentForeach = $this->parentNodeFinder->getFirstParentByType($node, Foreach_::class);
+        $parentForeach = $this->parentNodeFinder->findFirstParentByType($node, Foreach_::class);
 
         if ($parentForeach instanceof Foreach_) {
             $nameContent = $this->standard->prettyPrint([$node->name]);
