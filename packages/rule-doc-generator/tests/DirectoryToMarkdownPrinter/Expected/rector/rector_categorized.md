@@ -14,7 +14,7 @@
 
 Some change
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard\SomeRector`](Fixture/Rector/Standard/SomeRector.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard\SomeRector`](/Fixture/Rector/Standard/SomeRector.php)
 
 ```diff
 -before
@@ -27,7 +27,7 @@ Some change
 
 Some change
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard\SomeWhiteSpaceCodeSampleRector`](Fixture/Rector/Standard/SomeWhiteSpaceCodeSampleRector.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard\SomeWhiteSpaceCodeSampleRector`](/Fixture/Rector/Standard/SomeWhiteSpaceCodeSampleRector.php)
 
 ```diff
 -before
