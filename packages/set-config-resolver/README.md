@@ -29,13 +29,7 @@ if ($inputConfig !== null) {
     $configs[] = $inputConfig;
 }
 
-// 2. --set CLI option
-$setInputConfig = $configResolver->resolveSetFromInput(new ArgvInput());
-if ($setInputConfig) {
-    $configs[] = $setInputConfig;
-}
-
-// 3. "parameters > set" in provided yaml files
+// 2. "parameters > set" in provided YAML/PHP configs
 $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs);
 if ($parameterSetsConfigs !== []) {
     $configs = array_merge($configs, $parameterSetsConfigs);

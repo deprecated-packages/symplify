@@ -30,16 +30,6 @@ final class SetResolver
         $this->setProvider = $setProvider;
     }
 
-    public function detectFromInput(InputInterface $input): ?SmartFileInfo
-    {
-        $setName = $this->optionValueResolver->getOptionValue($input, OptionName::SET);
-        if ($setName === null) {
-            return null;
-        }
-
-        return $this->detectFromName($setName);
-    }
-
     public function detectFromName(string $setName): SmartFileInfo
     {
         $set = $this->setProvider->provideByName($setName);
