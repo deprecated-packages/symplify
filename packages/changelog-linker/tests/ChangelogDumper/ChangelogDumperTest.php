@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\ChangelogFormatter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangelogDumperTest extends TestCase
@@ -30,37 +31,21 @@ final class ChangelogDumperTest extends TestCase
         $this->changes = [new Change('[SomePackage] Message', 'Added', 'SomePackage', 'Message', 'Unreleased')];
     }
 
-    public function testReportChanges(): void
-    {
-        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'packages');
-
-        $this->assertStringEqualsFile(__DIR__ . '/ChangelogDumperSource/expected1.md', $content);
-    }
-
     /**
-     * @dataProvider provideDataForReportBothWithPriority()
+     * @dataProvider provideData()
      */
-    public function testReportBothWithPriority(
-        bool $withCategories,
-        bool $withPackages,
-        string $priority,
-        string $expectedOutputFile
-    ): void {
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $this->changes,
-            $withCategories,
-            $withPackages,
-            $priority
-        );
-
+    public function test(string $changelogFormat, string $expectedOutputFile): void
+    {
+        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, $changelogFormat);
         $this->assertStringEqualsFile($expectedOutputFile, $content);
     }
 
-    public function provideDataForReportBothWithPriority(): Iterator
+    public function provideData(): Iterator
     {
-        yield [true, false, 'categories', __DIR__ . '/ChangelogDumperSource/expected2.md'];
-        yield [false, true, 'packages', __DIR__ . '/ChangelogDumperSource/expected3.md'];
-        yield [true, true, 'packages', __DIR__ . '/ChangelogDumperSource/expected4.md'];
-        yield [true, true, 'categories', __DIR__ . '/ChangelogDumperSource/expected5.md'];
+        yield [ChangelogFormat::BARE, __DIR__ . '/ChangelogDumperSource/expected1.md'];
+        yield [ChangelogFormat::CATEGORIES_ONLY, __DIR__ . '/ChangelogDumperSource/expected2.md'];
+        yield [ChangelogFormat::PACKAGES_ONLY, __DIR__ . '/ChangelogDumperSource/expected3.md'];
+        yield [ChangelogFormat::PACKAGES_THEN_CATEGORIES, __DIR__ . '/ChangelogDumperSource/expected4.md'];
+        yield [ChangelogFormat::CATEGORIES_THEN_PACKAGES, __DIR__ . '/ChangelogDumperSource/expected5.md'];
     }
 }

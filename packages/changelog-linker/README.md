@@ -56,8 +56,19 @@ But that is a mash-up of everything. Not very nice:
 
 What if we'd have *Added*, *Changed*... all the standard categories?
 
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
+use Symplify\ChangelogLinker\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::CHANGELOG_FORMAT, ChangelogFormat::CATEGORIES_ONLY);
+};
+```
+
 ```bash
-vendor/bin/changelog-linker dump-merges --in-categories
+vendor/bin/changelog-linker dump-merges
 ```
 
 ↓
@@ -75,62 +86,16 @@ Nice, now everything is nicely grouped.
 
 *(Do you want to know how we detect the category? [Follow me](https://github.com/symplify/symplify/blob/master/packages/changelog-linker/src/ChangeTree/Resolver/CategoryResolver.php))*
 
-What about packages - can we have group them as well? Sure:
+You have 4 packages/cateogires options you can use:
 
-```bash
-vendor/bin/changelog-linker dump-merges --in-packages
+```php
+Symplify\ChangelogLinker\ValueObject\ChangelogFormat::PACKAGES_THEN_CATEGORIES;
+Symplify\ChangelogLinker\ValueObject\ChangelogFormat::CATEGORIES_THEN_PACKAGES;
+Symplify\ChangelogLinker\ValueObject\ChangelogFormat::CATEGORIES_ONLY;
+Symplify\ChangelogLinker\ValueObject\ChangelogFormat::PACKAGES_ONLY;
 ```
 
-↓
-
-```markdown
-## Unreleased
-
-### CodingStandard
-
-- [#851] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] Add test case for #855, Thanks to @OndraM
-```
-
-*(Technical secret: it reacts to *[Package]* in PR title.)*
-
-Let's take it one step further!
-
-```bash
-vendor/bin/changelog-linker dump-merges --in-packages --in-categories
-```
-
-↓
-
-```markdown
-## Unreleased
-
-### CodingStandard
-
-#### Added
-
-- [#851] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] Add test case for #855, Thanks to @OndraM
-```
-
-Do you prefer categories first? Just switch the order:
-
-```bash
-vendor/bin/changelog-linker dump-merges --in-categories --in-packages
-```
-
-↓
-
-```markdown
-## Unreleased
-
-### Added
-
-#### EasyCodingStandard
-
-- [#851] Add _ support to PropertyNameMatchingTypeFixer
-- [#860] Add test case for #855, Thanks to @OndraM
-```
+### Base Branch
 
 Do you want to dump only such pull requests that were merged into a particular branch? Just use `base-branch` option:
 

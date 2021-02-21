@@ -76,5 +76,10 @@ final class Option
     /**
      * @var string
      */
+    public const CHANGELOG_FORMAT = 'format';
+
+    /**
+     * @var string
+     */
     public const BASE_BRANCH = 'base-branch';
 }

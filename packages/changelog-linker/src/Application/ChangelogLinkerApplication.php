@@ -35,23 +35,14 @@ final class ChangelogLinkerApplication
         $this->changelogLinker = $changelogLinker;
     }
 
-    public function createContentFromPullRequestsBySortPriority(
-        array $pullRequests,
-        string $sortPriority,
-        bool $inCategories,
-        bool $inPackages
-    ): string {
+    public function createContentFromPullRequestsBySortPriority(array $pullRequests, string $changelogFormat): string
+    {
         $changes = $this->changeResolver->resolveSortedChangesFromPullRequestsWithSortPriority(
             $pullRequests,
-            $sortPriority
+            $changelogFormat
         );
 
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $changes,
-            $inCategories,
-            $inPackages,
-            $sortPriority
-        );
+        $content = $this->changelogDumper->reportChangesWithHeadlines($changes, $changelogFormat);
 
         return $this->changelogLinker->processContent($content);
     }

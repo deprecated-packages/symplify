@@ -32,7 +32,7 @@ final class ChangeResolver
      */
     public function resolveSortedChangesFromPullRequestsWithSortPriority(
         array $pullRequests,
-        string $sortPriority
+        string $changelogFormat
     ): array {
         $changes = [];
 
@@ -42,7 +42,7 @@ final class ChangeResolver
 
         $changes = $this->filterOutUselessChanges($changes);
 
-        return $this->changeSorter->sort($changes, $sortPriority);
+        return $this->changeSorter->sort($changes, $changelogFormat);
     }
 
     /**
