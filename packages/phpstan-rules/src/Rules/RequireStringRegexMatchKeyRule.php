@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Stmt;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -176,9 +177,12 @@ CODE_SAMPLE
         return $this->getNextUsedAsArrayDimFetch($next, $expr);
     }
 
-    private function getArrayDimFetchInStmts(array $array, Expr $expr): ?ArrayDimFetch
+    /**
+     * @param Stmt[] $stmts
+     */
+    private function getArrayDimFetchInStmts(array $stmts, Expr $expr): ?ArrayDimFetch
     {
-        foreach ($array as $node) {
+        foreach ($stmts as $node) {
             $arrayDimFetch = $this->getNextUsedAsArrayDimFetch($node, $expr);
             if ($arrayDimFetch !== null) {
                 return $arrayDimFetch;

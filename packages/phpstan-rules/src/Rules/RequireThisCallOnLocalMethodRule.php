@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -109,7 +110,7 @@ CODE_SAMPLE
     {
         $class = $this->parentNodeFinder->getFirstParentByType($staticCall, Class_::class);
         if (! $class instanceof Class_) {
-            return null;
+            throw new ShouldNotHappenException();
         }
 
         $staticCallName = $this->simpleNameResolver->getName($staticCall->name);
