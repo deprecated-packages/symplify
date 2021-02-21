@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ChangelogLinker\Application\ChangelogLinkerApplication;
 use Symplify\ChangelogLinker\Configuration\HighestMergedIdResolver;
-use Symplify\ChangelogLinker\Console\Input\PriorityResolver;
 use Symplify\ChangelogLinker\FileSystem\ChangelogFileSystem;
 use Symplify\ChangelogLinker\FileSystem\ChangelogPlaceholderGuard;
 use Symplify\ChangelogLinker\Github\GithubApi;
@@ -146,7 +145,6 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
         }
 
         $changelogFormat = $this->parameterProvider->provideStringParameter(Option::CHANGELOG_FORMAT);
-        //$sortPriority = $this->priorityResolver->resolveFromInput($input);
 
         $content = $this->changelogLinkerApplication->createContentFromPullRequestsBySortPriority(
             $pullRequests,

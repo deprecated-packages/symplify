@@ -7,7 +7,6 @@ use GuzzleHttp\ClientInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\Option;
-use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemGuard;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -38,9 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ])
     ;
 
-    $services->set(ParametersMerger::class);
-
     $services->set(Client::class);
-
     $services->alias(ClientInterface::class, Client::class);
 };
