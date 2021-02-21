@@ -31,7 +31,7 @@ final class ClassLikeExistenceChecker
         return trait_exists($classLike);
     }
 
-    public function doesClassLikeInensitiveExists(string $classLikeName): bool
+    public function doesClassLikeInsensitiveExists(string $classLikeName): bool
     {
         if (!$this->doesClassLikeExist($classLikeName)) {
             return false;
