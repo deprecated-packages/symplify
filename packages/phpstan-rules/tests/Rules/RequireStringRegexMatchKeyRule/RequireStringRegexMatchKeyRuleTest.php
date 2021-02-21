@@ -26,11 +26,12 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkipStringDim.php', []];
         yield [__DIR__ . '/Fixture/SkipNotRegexMatchResult.php', []];
 
-        $errorMessage = sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX');
-        yield [__DIR__ . '/Fixture/NumericDim.php', [[$errorMessage, 15]]];
-        yield [__DIR__ . '/Fixture/NumericDimDirectNext.php', [[$errorMessage, 15]]];
-        yield [__DIR__ . '/Fixture/NumericDimInsideIfCond.php', [[$errorMessage, 15]]];
-        yield [__DIR__ . '/Fixture/NumericDimOtherNameMultipleValues.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDim.php', [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDimDirectNext.php', [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDimInsideIfCond.php', [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
+        yield [
+            __DIR__ . '/Fixture/NumericDimOtherNameMultipleValues.php',
+            [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
     }
 
     protected function getRule(): Rule

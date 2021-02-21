@@ -9,12 +9,12 @@ services:
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedTypes:
-                - 'Symplify\SmartFileSystem\SmartFileInfo'
+#    -
+#        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            allowedTypes:
+#                - 'Symplify\SmartFileSystem\SmartFileInfo'
 
     -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule

@@ -119,22 +119,22 @@ final class SnifferToECSConverter
         return substr_count($ruleId, '.') === 2;
     }
 
-    private function resolveServiceConfiguration(SimpleXMLElement $child): ?array
+    /**
+     * @return array<string, mixed>
+     */
+    private function resolveServiceConfiguration(SimpleXMLElement $child): array
     {
         if (! (property_exists($child, 'properties') && $child->properties !== null)) {
-            return null;
+            return [];
         }
 
         $serviceConfiguration = [];
+
         foreach ($child->properties as $properties) {
             foreach ($properties as $property) {
                 $name = (string) $property->attributes()['name'];
                 $serviceConfiguration[$name] = $this->resolvePropertyValue($property);
             }
-        }
-
-        if ($serviceConfiguration === []) {
-            return null;
         }
 
         return $serviceConfiguration;

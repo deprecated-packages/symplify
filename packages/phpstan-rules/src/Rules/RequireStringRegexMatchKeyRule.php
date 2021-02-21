@@ -33,7 +33,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '"%s" regex need to use string named capture group instead of numeric';
+    public const ERROR_MESSAGE = 'Regex must use string named capture groups instead of numeric';
 
     /**
      * @var NodeFinder
@@ -83,12 +83,8 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         }
 
         $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
-        $nextUsedAsArrayDimFetch = $this->getNextUsedAsArrayDimFetch($scopeNode, $node->var);
-
-//        dump($nextUsedAsArrayDimFetch);
-//        die;
-
-        if (! $nextUsedAsArrayDimFetch instanceof ArrayDimFetch) {
+        $usedAsArrayDimFetches = $this->findVariableArrayDimFetches($scopeNode, $node->var);
+        if ($usedAsArrayDimFetches === []) {
             return [];
         }
 
@@ -98,9 +94,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         /** @var ClassConstFetch $value */
         $value = $expr->args[1]->value;
 
-        $regex = (string) $value->getAttribute(PHPStanAttributeKey::PHPSTAN_CACHE_PRINTER);
-
-        return [sprintf(self::ERROR_MESSAGE, $regex)];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -145,16 +139,16 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Node[]|Node|null $nodes
+     * @return ArrayDimFetch[]
      */
-    private function getNextUsedAsArrayDimFetch($nodes, Variable $variable): ?ArrayDimFetch
+    private function findVariableArrayDimFetches(Node $node, Variable $variable): array
     {
         $variableName = $this->simpleNameResolver->getName($variable);
         if ($variableName === null) {
-            return null;
+            return [];
         }
 
-        return $this->nodeFinder->findFirst($nodes, function (Node $node) use ($variableName): bool {
+        return $this->nodeFinder->find($node, function (Node $node) use ($variableName): bool {
             if (! $node instanceof ArrayDimFetch) {
                 return false;
             }
