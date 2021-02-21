@@ -122,8 +122,8 @@ CODE_SAMPLE
 
     private function isPropertyExistInParentClass(Name $name, string $propertyName): bool
     {
-        $reflectionClass = $this->reflectionProvider->getClass((string) $name);
-        return $reflectionClass->hasProperty($propertyName);
+        $classReflection = $this->reflectionProvider->getClass((string) $name);
+        return $classReflection->hasProperty($propertyName);
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SmartFileSystem;
 
-use Nette\Utils\Html;
 use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
