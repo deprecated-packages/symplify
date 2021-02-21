@@ -26,11 +26,11 @@ final class ProtectedAnalyzer
 
     public function isProtectedPropertyOrClassConstAllowed(Property $property): bool
     {
-        if ($this->dependencyNodeAnalyzer->isInsideAbstractClassAndPassedAsDependencyViaConstructorOrSetUp($property)) {
+        if ($this->dependencyNodeAnalyzer->isInsideAbstractClassAndPassedAsDependency($property)) {
             return true;
         }
 
-        if ($this->dependencyNodeAnalyzer->isInsideClassAndPassedAsDependencyViaAutowireMethod($property)) {
+        if ($this->dependencyNodeAnalyzer->isInsideClassAndAutowiredMethod($property)) {
             return true;
         }
 

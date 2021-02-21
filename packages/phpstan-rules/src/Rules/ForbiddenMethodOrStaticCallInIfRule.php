@@ -21,6 +21,7 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -35,7 +36,7 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method nor static call in if() or elseif() is not allowed. Extract expression to a new variable assign on line before';
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
     private const ALLOWED_CLASS_TYPES = [Strings::class, TrinaryLogic::class];
 
@@ -48,11 +49,20 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
+    /**
+     * @var ObjectTypeAnalyzer
+     */
+    private $objectTypeAnalyzer;
 
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
+    public function __construct(
+        NodeFinder $nodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        ObjectTypeAnalyzer $objectTypeAnalyzer
+    )
     {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**
@@ -120,7 +130,7 @@ CODE_SAMPLE
 
         $callType = $scope->getType($expr);
 
-        if ($this->isAllowedClassType($callType)) {
+        if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callType, self::ALLOWED_CLASS_TYPES)) {
             return true;
         }
 
@@ -157,24 +167,8 @@ CODE_SAMPLE
         if (! $node instanceof StaticCall) {
             return false;
         }
-        return $this->isAllowedClassType($type);
-    }
 
-    private function isAllowedClassType(Type $type): bool
-    {
-        if (! $type instanceof TypeWithClassName) {
-            return false;
-        }
-
-        foreach (self::ALLOWED_CLASS_TYPES as $allowedClassType) {
-            if (! is_a($type->getClassName(), $allowedClassType, true)) {
-                continue;
-            }
-
-            return true;
-        }
-
-        return false;
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($type, self::ALLOWED_CLASS_TYPES);
     }
 
     /**

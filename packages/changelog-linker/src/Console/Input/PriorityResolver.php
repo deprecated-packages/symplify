@@ -6,6 +6,7 @@ namespace Symplify\ChangelogLinker\Console\Input;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\ChangelogLinker\ValueObject\Option;
+use Symplify\ChangelogLinker\ValueObject\PackageCategoryPriority;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class PriorityResolver
@@ -24,7 +25,7 @@ final class PriorityResolver
      * Detects the order in which "--in-packages" and "--in-categories" are both called.
      * The first has a priority.
      */
-    public function resolveFromInput(InputInterface $input): ?string
+    public function resolveFromInput(InputInterface $input): string
     {
         $rawOptions = $this->privatesAccessor->getPrivateProperty($input, 'options');
 
@@ -34,17 +35,17 @@ final class PriorityResolver
         $usedOptions = array_intersect($requiredOptions, $optionNames);
 
         if (count($usedOptions) !== count($requiredOptions)) {
-            return null;
+            return PackageCategoryPriority::NONE;
         }
 
         foreach ($optionNames as $optionName) {
             if ($optionName === Option::IN_PACKAGES) {
-                return 'packages';
+                return PackageCategoryPriority::PACKAGES;
             }
 
-            return 'categories';
+            return PackageCategoryPriority::CATEGORIES;
         }
 
-        return null;
+        return PackageCategoryPriority::NONE;
     }
 }

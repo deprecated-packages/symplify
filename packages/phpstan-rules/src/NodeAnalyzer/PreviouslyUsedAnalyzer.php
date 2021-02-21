@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
@@ -20,7 +21,7 @@ use Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder;
 final class PreviouslyUsedAnalyzer
 {
     /**
-     * @var string[]
+     * @var array<class-string<Stmt>>
      */
     private const IF_AND_LOOP_NODE_TYPES = [If_::class, Do_::class, For_::class, Foreach_::class, While_::class];
 

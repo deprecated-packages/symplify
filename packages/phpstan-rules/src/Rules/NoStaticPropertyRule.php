@@ -25,9 +25,9 @@ final class NoStaticPropertyRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use static property';
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
-    private const CACHEABLE_TYPES = [ContainerInterface::class, Container::class, KernelInterface::class];
+    private const ALLOWED_TYPES = [ContainerInterface::class, Container::class, KernelInterface::class];
 
     /**
      * @var ContainsTypeAnalyser
@@ -53,7 +53,7 @@ final class NoStaticPropertyRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, self::CACHEABLE_TYPES)) {
+        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, self::ALLOWED_TYPES)) {
             return [];
         }
 

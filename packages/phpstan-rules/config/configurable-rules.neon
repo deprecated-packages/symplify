@@ -8,9 +8,6 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - PhpParser\Node
 
     -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule

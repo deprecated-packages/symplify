@@ -23,7 +23,7 @@ final class ParamTypeDocBlockResolverTest extends TestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(string $docBlock, string $parameterName, ?string $expectedType): void
+    public function test(string $docBlock, string $parameterName, string $expectedType): void
     {
         $resolvedType = $this->paramTypeDocBlockResolver->resolve($docBlock, $parameterName);
         $this->assertSame($expectedType, $resolvedType);
@@ -32,8 +32,21 @@ final class ParamTypeDocBlockResolverTest extends TestCase
     public function provideData(): Iterator
     {
         yield ['/** @param Type[] $name */', 'name', 'Type'];
-        yield ['/** @param Type[] $name */', '___not', null];
         yield ['/** @param array<Type> $name */', 'name', 'Type'];
         yield ['/** @param iterable<Type> $name */', 'name', 'Type'];
+    }
+
+    /**
+     * @dataProvider provideDataMissmatchName()
+     */
+    public function testMissmatchName(string $docBlock, string $parameterName): void
+    {
+        $resolvedType = $this->paramTypeDocBlockResolver->resolve($docBlock, $parameterName);
+        $this->assertNull($resolvedType);
+    }
+
+    public function provideDataMissmatchName(): Iterator
+    {
+        yield ['/** @param Type[] $name */', '___not'];
     }
 }

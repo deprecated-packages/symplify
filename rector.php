@@ -8,7 +8,6 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
-use Rector\DeadCode\Rector\Class_\RemoveUnusedClassesRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
@@ -87,13 +86,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             // @api + used in test
             __DIR__ . '/packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php',
             __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
-        ],
-
-        RemoveUnusedClassesRector::class => [
-            __DIR__ . '/packages/easy-coding-standard/packages/changed-files-detector/tests/FileHashComputerSource',
-            __DIR__ . '/packages/easy-coding-standard/packages/sniff-runner/tests/Application/FixerSource/SomeFile.php',
-            __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
-            __DIR__ . '/packages/template-checker/tests/SomeBundle/RealClassBundle.php',
         ],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',

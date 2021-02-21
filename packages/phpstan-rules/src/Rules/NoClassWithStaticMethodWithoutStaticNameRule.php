@@ -12,8 +12,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -31,12 +29,12 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
     public const ERROR_MESSAGE = 'Class "%s" with static method must have "Static" in its name it explicit';
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
     private const ALLOWED_CLASS_TYPES = [
         // symfony classes with static methods
-        EventSubscriberInterface::class,
-        Command::class,
+        'Symfony\Component\EventDispatcher\EventSubscriberInterface',
+        'Symfony\Component\Console\Command\Command',
         ValueObjectInliner::class,
     ];
 

@@ -68,11 +68,11 @@ final class ControllerDumper
         $this->dumpControllerWithParametersContents($outputDirectory);
     }
 
-    private function dumpControllerWithoutParametersContents($outputDirectory): void
+    private function dumpControllerWithoutParametersContents(string $outputDirectory): void
     {
         $routesWithoutArguments = $this->routesProvider->provideRoutesWithoutArguments();
 
-        $progressBar = $this->createProgressBarIfNeeded($routesWithoutArguments);
+        $this->createProgressBarIfNeeded($routesWithoutArguments);
 
         foreach ($routesWithoutArguments as $routeName => $route) {
             $fileContent = $this->controllerContentResolver->resolveFromRoute($routeName, $route);
@@ -81,8 +81,7 @@ final class ControllerDumper
             }
 
             $filePath = $this->filePathResolver->resolveFilePath($route, $outputDirectory);
-
-            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
+            $this->advance($route, $filePath);
 
             $this->smartFileSystem->dumpFile($filePath, $fileContent);
         }
@@ -100,38 +99,39 @@ final class ControllerDumper
 
             $this->printHeadline($controllerWithDataProvider, $routeName);
 
-            $progressBar = $this->createProgressBarIfNeeded($controllerWithDataProvider->getArguments());
+            $this->createProgressBarIfNeeded($controllerWithDataProvider->getArguments());
 
             $this->processControllerWithDataProvider(
                 $controllerWithDataProvider,
                 $routeName,
                 $route,
-                $outputDirectory,
-                $progressBar
+                $outputDirectory
             );
         }
     }
 
-    private function createProgressBarIfNeeded(array $items): ?ProgressBar
+    /**
+     * @param mixed[] $items
+     */
+    private function createProgressBarIfNeeded(array $items): void
     {
         if ($this->symfonyStyle->isDebug()) {
             // show file names on debug, no progress bar
-            return null;
-        }
-
-        $stepCount = count($items);
-        return $this->symfonyStyle->createProgressBar($stepCount);
-    }
-
-    private function printProgressOrDumperFileInfo(Route $route, string $filePath, ?ProgressBar $progressBar): void
-    {
-        if ($progressBar instanceof ProgressBar) {
-            $progressBar->advance();
             return;
         }
 
-        $message = sprintf('Dumping static content for "%s" route to "%s" path', $route->getPath(), $filePath);
-        $this->symfonyStyle->note($message);
+        $stepCount = count($items);
+        $this->symfonyStyle->progressStart($stepCount);
+    }
+
+    private function advance(Route $route, string $filePath): void
+    {
+        if ($this->symfonyStyle->isDebug()) {
+            $message = sprintf('Dumping static content for "%s" route to "%s" path', $route->getPath(), $filePath);
+            $this->symfonyStyle->note($message);
+        } else {
+            $this->symfonyStyle->progressAdvance();
+        }
     }
 
     private function printHeadline(ControllerWithDataProviderInterface $controllerWithDataProvider, $routeName): void
@@ -151,8 +151,7 @@ final class ControllerDumper
         ControllerWithDataProviderInterface $controllerWithDataProvider,
         $routeName,
         $route,
-        string $outputDirectory,
-        ?ProgressBar $progressBar
+        string $outputDirectory
     ): void {
         $arguments = $controllerWithDataProvider->getArguments();
         foreach ($arguments as $argument) {
@@ -167,8 +166,7 @@ final class ControllerDumper
             }
 
             $filePath = $this->filePathResolver->resolveFilePathWithArgument($route, $outputDirectory, $argument);
-
-            $this->printProgressOrDumperFileInfo($route, $filePath, $progressBar);
+            $this->advance($route, $filePath);
 
             $this->smartFileSystem->dumpFile($filePath, $fileContent);
         }

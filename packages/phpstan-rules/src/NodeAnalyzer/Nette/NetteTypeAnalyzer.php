@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\Nette;
 
+use Nette\Application\UI\Template;
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -12,7 +13,7 @@ use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 final class NetteTypeAnalyzer
 {
     /**
-     * @var array<class-string>
+     * @var class-string<Template>[]
      */
     private const TEMPLATE_TYPES = [
         'Nette\Application\UI\Template',

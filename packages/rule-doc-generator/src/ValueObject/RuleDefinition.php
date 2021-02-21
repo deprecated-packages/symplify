@@ -69,7 +69,7 @@ final class RuleDefinition
 
     public function setRuleFilePath(string $ruleFilePath): void
     {
-        $this->ruleFilePath = $ruleFilePath;
+        $this->ruleFilePath = '/' . ltrim($ruleFilePath, '/');
     }
 
     public function getRuleFilePath(): string
