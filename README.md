@@ -23,9 +23,9 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For Symfony
 
+- [Amnesia](https://github.com/symplify/amnesia)
 - [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 - [PHP Config Printer](https://github.com/symplify/php-config-printer)
-- [Symfony Route Usage](https://github.com/symplify/symfony-route-usage)
 
 ## For Package Development
 
@@ -54,6 +54,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For PHPStan Lovers
 
+- [Astral](https://github.com/symplify/astral)
 - [PHPStan Rules](https://github.com/symplify/phpstan-rules)
 - [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
 - [PHPStan PHP Config](https://github.com/symplify/phpstan-php-config)
