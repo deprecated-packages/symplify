@@ -74,7 +74,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
 
         foreach ($this->stringArgPositionByMethodByType as $type => $positionsByMethods) {
             $positions = $this->matchPositions($node, $scope, $type, $positionsByMethods, $methodCallName);
-            if ($positions === null) {
+            if ($positions === []) {
                 continue;
             }
 
@@ -127,6 +127,7 @@ CODE_SAMPLE
 
     /**
      * @param array<string, array<int>> $positionsByMethods
+     * @return int[]
      */
     private function matchPositions(
         MethodCall $methodCall,
@@ -134,12 +135,12 @@ CODE_SAMPLE
         string $desiredType,
         array $positionsByMethods,
         string $methodName
-    ): ?array {
+    ): array {
         if (! $this->isNodeVarType($methodCall, $scope, $desiredType)) {
-            return null;
+            return [];
         }
 
-        return $positionsByMethods[$methodName] ?? null;
+        return $positionsByMethods[$methodName] ?? [];
     }
 
     /**
