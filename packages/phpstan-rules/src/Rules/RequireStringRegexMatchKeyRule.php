@@ -13,15 +13,11 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
-use PhpParser\Node\Stmt;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Rector\NodeNestingScope\ParentScopeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\ParentNodeFinder;
 use Symplify\Astral\ValueObject\NodeFinder\ScopeTypes;
-use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -83,6 +79,10 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         }
 
         $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
+        if ($scopeNode === null) {
+            return [];
+        }
+
         $usedAsArrayDimFetches = $this->findVariableArrayDimFetches($scopeNode, $node->var);
         if ($usedAsArrayDimFetches === []) {
             return [];

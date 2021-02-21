@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\Controller;
 
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Route;
 use Symplify\SmartFileSystem\SmartFileSystem;

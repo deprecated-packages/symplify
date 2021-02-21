@@ -13,5 +13,6 @@ package-lock.json
 
 packages/easy-coding-standard/vendor/
 packages/easy-coding-standard/tmp/
+packages/git-wrapper/tests/build
 
 /packages-scoped

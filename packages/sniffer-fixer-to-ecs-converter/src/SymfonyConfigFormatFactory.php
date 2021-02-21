@@ -13,7 +13,7 @@ final class SymfonyConfigFormatFactory
     /**
      * @param string[] $sniffClasses
      * @param string[] $setsParameter
-     * @param array<string, string|string[]> $skipParameter
+     * @param array<string|int, mixed> $skipParameter
      * @param string[] $excludePathsParameter
      * @return mixed[]
      */

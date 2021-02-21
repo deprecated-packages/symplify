@@ -18,8 +18,7 @@ services:
 
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
-
-
+    - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 

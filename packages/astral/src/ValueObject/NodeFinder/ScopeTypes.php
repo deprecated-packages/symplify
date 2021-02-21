@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\ValueObject\NodeFinder;
 
+use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
@@ -15,7 +16,7 @@ use PhpParser\Node\Stmt\While_;
 final class ScopeTypes
 {
     /**
-     * @var array<class-string<\PhpParser\Node>>
+     * @var array<class-string<Node>>
      */
     public const STMT_TYPES = [
         If_::class,
@@ -24,6 +25,6 @@ final class ScopeTypes
         While_::class,
         ClassMethod::class,
         Function_::class,
-        Closure::class
+        Closure::class,
     ];
 }

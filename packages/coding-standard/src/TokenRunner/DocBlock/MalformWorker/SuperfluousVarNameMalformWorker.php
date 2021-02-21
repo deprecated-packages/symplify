@@ -21,7 +21,7 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
      * @var string
      * @see https://regex101.com/r/8LCnOl/1
      */
-    private const VAR_VARIABLE_NAME_REGEX = '#(@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
+    private const VAR_VARIABLE_NAME_REGEX = '#(?<tag>@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
@@ -42,13 +42,13 @@ final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
                 $line->getContent(),
                 self::VAR_VARIABLE_NAME_REGEX,
                 function (array $match): string {
-                    $replacement = $match[1];
+                    $replacement = $match['tag'];
                     if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
 
-                    if (Strings::match($match[0], self::THIS_VARIABLE_REGEX)) {
-                        return Strings::replace($match[0], self::THIS_VARIABLE_REGEX, 'self');
+                    if (Strings::match($match['propertyName'], self::THIS_VARIABLE_REGEX)) {
+                        return $match['tag'] . ' self';
                     }
 
                     return $replacement;

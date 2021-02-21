@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
@@ -17,11 +16,9 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\MethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
-use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
+use Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer;
 use Symplify\PHPStanRules\TypeResolver\NullableTypeResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -41,11 +38,6 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
 
     /**
      * @var class-string[]
@@ -68,23 +60,28 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     private $parentClassMethodGuard;
 
     /**
+     * @var ForbiddenAllowedTypeAnalyzer
+     */
+    private $forbiddenAllowedTypeAnalyzer;
+
+    /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
         NullableTypeResolver $nullableTypeResolver,
         ParentClassMethodGuard $parentClassMethodGuard,
+        ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->typeChecker = $typeChecker;
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
         $this->nullableTypeResolver = $nullableTypeResolver;
         $this->parentClassMethodGuard = $parentClassMethodGuard;
+        $this->forbiddenAllowedTypeAnalyzer = $forbiddenAllowedTypeAnalyzer;
     }
 
     /**
@@ -117,11 +114,11 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
                 continue;
             }
 
-            if (! $this->isForbiddenType($normalType)) {
-                continue;
-            }
-
-            if ($this->isAllowedType($normalType)) {
+            if ($this->forbiddenAllowedTypeAnalyzer->shouldSkip(
+                $normalType,
+                $this->forbiddenTypes,
+                $this->allowedTypes
+            )) {
                 continue;
             }
 
@@ -166,18 +163,21 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isForbiddenType(string $typeName): bool
+    /**
+     * @return Identifier|Name|NullableType|UnionType
+     */
+    private function matchNullableParamType(Param $param): ?Node
     {
-        if ($this->forbiddenTypes === []) {
-            return true;
+        $paramType = $param->type;
+        if ($paramType === null) {
+            return null;
         }
 
-        return $this->typeChecker->isInstanceOf($typeName, $this->forbiddenTypes);
-    }
+        if (! $this->isNullableParam($param)) {
+            return null;
+        }
 
-    private function isAllowedType(string $typeName): bool
-    {
-        return $this->typeChecker->isInstanceOf($typeName, $this->allowedTypes);
+        return $paramType;
     }
 
     private function isNullableParam(Param $param): bool
@@ -196,23 +196,4 @@ CODE_SAMPLE
 
         return $this->simpleNameResolver->isName($param->default, 'null');
     }
-
-    /**
-     * @return Identifier|Name|NullableType|UnionType
-     */
-    private function matchNullableParamType(Param $param): ?Node
-    {
-        $paramType = $param->type;
-        if ($paramType === null) {
-            return null;
-        }
-
-        if (! $this->isNullableParam($param)) {
-            return null;
-        }
-
-        return $paramType;
-    }
-
-
 }

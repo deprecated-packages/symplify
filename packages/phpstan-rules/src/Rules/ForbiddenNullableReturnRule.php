@@ -12,9 +12,8 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
-use Symplify\PHPStanRules\TypeResolver\NullableTypeResolver;
+use Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,11 +34,6 @@ final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements 
     private $simpleNameResolver;
 
     /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
      * @var class-string[]
      */
     private $forbiddenTypes = [];
@@ -55,21 +49,26 @@ final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements 
     private $parentClassMethodGuard;
 
     /**
+     * @var ForbiddenAllowedTypeAnalyzer
+     */
+    private $forbiddenAllowedTypeAnalyzer;
+
+    /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
         ParentClassMethodGuard $parentClassMethodGuard,
+        ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->typeChecker = $typeChecker;
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
         $this->parentClassMethodGuard = $parentClassMethodGuard;
+        $this->forbiddenAllowedTypeAnalyzer = $forbiddenAllowedTypeAnalyzer;
     }
 
     /**
@@ -90,18 +89,21 @@ final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements 
             return [];
         }
 
-
         $returnType = $node->returnType;
         if (! $returnType instanceof NullableType) {
             return [];
         }
 
         $mainReturnType = $this->simpleNameResolver->getName($returnType->type);
-        if (! $this->isForbiddenType($mainReturnType)) {
+        if ($mainReturnType === null) {
             return [];
         }
 
-        if ($this->isAllowedType($mainReturnType)) {
+        if ($this->forbiddenAllowedTypeAnalyzer->shouldSkip(
+            $mainReturnType,
+            $this->forbiddenTypes,
+            $this->allowedTypes
+        )) {
             return [];
         }
 
@@ -142,19 +144,5 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    private function isForbiddenType(string $typeName): bool
-    {
-        if ($this->forbiddenTypes === []) {
-            return true;
-        }
-
-        return $this->typeChecker->isInstanceOf($typeName, $this->forbiddenTypes);
-    }
-
-    private function isAllowedType(string $typeName): bool
-    {
-        return $this->typeChecker->isInstanceOf($typeName, $this->allowedTypes);
     }
 }
