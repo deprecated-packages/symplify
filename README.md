@@ -20,6 +20,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 - [Coding Standard](https://github.com/symplify/coding-standard)
 - [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
+- [Simple PHP Doc Parser](https://github.com/symplify/simple-php-doc-parser)
 
 ## For Symfony
 
@@ -46,6 +47,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For Any Developer
 
+- [Git Wrapper](https://github.com/symplify/git-wrapper)
 - [Markdown Diff](https://github.com/symplify/markdown-diff)
 - [Easy Hydrator](https://github.com/symplify/easy-hydrator)
 - [Easy Testing](https://github.com/symplify/easy-testing)
@@ -62,12 +64,13 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For CI Keeping you Safe
 
 - [Easy CI](https://github.com/symplify/easy-ci)
-- [Class Presence](https://github.com/symplify/class-presence)
 - [Template Checker](https://github.com/symplify/template-checker)
+- [Class Presence](https://github.com/symplify/class-presence)
 - [Static Detector](https://github.com/symplify/static-detector)
 
 ## For Syntax Transformation
 
+- [Config Transformer](https://github.com/symplify/config-transformer)
 - [Latte to TWIG Converter](https://github.com/symplify/latte-to-twig-converter)
 - [NEON to YAML Converter](https://github.com/symplify/neon-to-yaml-converter)
 - [Sniffer Fixer to ECS Converter](https://github.com/symplify/sniffer-fixer-to-ecs-converter)
