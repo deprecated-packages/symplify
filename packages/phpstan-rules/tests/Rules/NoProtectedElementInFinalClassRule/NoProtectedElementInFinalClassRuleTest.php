@@ -30,7 +30,6 @@ final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareR
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
         yield [[__DIR__ . '/Fixture/SkipTrait.php'], []];
         yield [[__DIR__ . '/Fixture/SkipNotFinalClass.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipFinalClassUsesTrait.php'], []];
 
         yield [[__DIR__ . '/Fixture/SkipMicroKernelProtectedMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipKernelProtectedMethod.php'], []];

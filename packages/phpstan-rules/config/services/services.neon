@@ -28,7 +28,6 @@ services:
 
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\PHPStanRules\Location\DirectoryChecker
-    - Symplify\PHPStanRules\Reflection\TraitMethodAnalyser
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\Astral\NodeFinder\ParentNodeFinder
