@@ -10,6 +10,10 @@ services:
         tags: [phpstan.rules.rule]
 
     -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -65,6 +69,7 @@ services:
                 - 'property_exists'
                 - 'spl_autoload_register'
                 - 'spl_autoload_unregister'
+                - array_walk
 
     -
         class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
