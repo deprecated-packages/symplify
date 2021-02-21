@@ -25,18 +25,12 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkipNotUsed.php', []];
         yield [__DIR__ . '/Fixture/SkipStringDim.php', []];
         yield [__DIR__ . '/Fixture/SkipNotRegexMatchResult.php', []];
-        yield [__DIR__ . '/Fixture/NumericDim.php', [
-            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
-        ]];
-        yield [__DIR__ . '/Fixture/NumericDimDirectNext.php', [
-            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
-        ]];
-        yield [__DIR__ . '/Fixture/NumericDimInsideIfCond.php', [
-            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
-        ]];
-        yield [__DIR__ . '/Fixture/NumericDimOtherNameMultipleValues.php', [
-            [sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX'), 15],
-        ]];
+
+        $errorMessage = sprintf(RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 'self::REGEX');
+        yield [__DIR__ . '/Fixture/NumericDim.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDimDirectNext.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDimInsideIfCond.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/NumericDimOtherNameMultipleValues.php', [[$errorMessage, 15]]];
     }
 
     protected function getRule(): Rule

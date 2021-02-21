@@ -75,7 +75,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        $class = $this->parentNodeFinder->getFirstParentByType($node, Class_::class);
+        $class = $this->parentNodeFinder->findFirstParentByType($node, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

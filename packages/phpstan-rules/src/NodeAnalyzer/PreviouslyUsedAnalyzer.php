@@ -101,7 +101,7 @@ final class PreviouslyUsedAnalyzer
 
     private function isInsideIf(Assign $assign): bool
     {
-        $previousLoopOrIf = $this->parentNodeFinder->getFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
+        $previousLoopOrIf = $this->parentNodeFinder->findFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
         return $previousLoopOrIf instanceof If_;
     }
 }

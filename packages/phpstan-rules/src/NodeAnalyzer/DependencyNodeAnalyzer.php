@@ -54,7 +54,7 @@ final class DependencyNodeAnalyzer
 
     public function isInsideAbstractClassAndPassedAsDependency(Property $property): bool
     {
-        $classLike = $this->parentNodeFinder->getFirstParentByType($property, Class_::class);
+        $classLike = $this->parentNodeFinder->findFirstParentByType($property, Class_::class);
         if (! $classLike instanceof Class_) {
             return false;
         }
@@ -79,7 +79,7 @@ final class DependencyNodeAnalyzer
 
     public function isInsideClassAndAutowiredMethod(Property $property): bool
     {
-        $classLike = $this->parentNodeFinder->getFirstParentByType($property, ClassLike::class);
+        $classLike = $this->parentNodeFinder->findFirstParentByType($property, ClassLike::class);
         if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
             return false;
         }

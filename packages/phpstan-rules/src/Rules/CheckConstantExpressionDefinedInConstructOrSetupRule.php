@@ -166,7 +166,7 @@ CODE_SAMPLE
 
     private function isInInstatiationClassMethod(Assign $assign): bool
     {
-        $classMethod = $this->parentNodeFinder->getFirstParentByType($assign, ClassMethod::class);
+        $classMethod = $this->parentNodeFinder->findFirstParentByType($assign, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return true;
         }

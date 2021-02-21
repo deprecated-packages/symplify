@@ -90,7 +90,7 @@ final class NodeValueResolver
         $className = $this->simpleNameResolver->getName($classConstFetch->class);
 
         if ($className === 'self') {
-            $classLike = $this->parentNodeFinder->getFirstParentByType($classConstFetch, ClassLike::class);
+            $classLike = $this->parentNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
             if (! $classLike instanceof ClassLike) {
                 return null;
             }
