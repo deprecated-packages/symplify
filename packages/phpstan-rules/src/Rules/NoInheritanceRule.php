@@ -29,22 +29,31 @@ final class NoInheritanceRule extends AbstractSymplifyRule
      * @var array<class-string>
      */
     private const ALLOWED_PARENT_TYPES = [
-        // possibly configurable?
+        // @todo make configurable
         'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
         'Symplify\PHPStanRules\Rules\AbstractSymplifyRule',
-
+        'Symplify\RuleDocGenerator\Contract\CodeSampleInterface',
+        'Symplify\CodingStandard\Fixer\AbstractSymplifyFixer',
+        'Symplify\SetConfigResolver\Provider\AbstractSetProvider',
 
         'Symfony\Component\HttpKernel\KernelInterface',
         'Symfony\Component\HttpKernel\Bundle\Bundle',
-        'PHPUnit\Framework\TestCase',
-        'Throwable',
         'Symfony\Component\Console\Application',
         'Symfony\Component\Console\Command\Command',
+        'Symfony\Component\Console\Style\SymfonyStyle',
         'Symfony\Component\DependencyInjection\Extension\Extension',
+        'Symfony\Component\DependencyInjection\Loader\FileLoader',
+        'Symfony\Contracts\EventDispatcher\Event',
+        'Symfony\Component\Filesystem\Filesystem',
+        'PhpCsFixer\AbstractDoctrineAnnotationFixer',
         'PhpParser\NodeTraverser',
         'PhpParser\NodeVisitor',
+        'PhpParser\Builder',
         'PhpParser\PrettyPrinter\Standard',
+        'PHPStan\PhpDocParser\Ast\Node',
+        'PHPUnit\Framework\TestCase',
         'SplFileInfo',
+        'Throwable',
     ];
 
     /**

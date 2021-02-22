@@ -8,6 +8,9 @@ use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @deprecated Move only hcildren and servcie form this one
+ */
 abstract class AbstractFileProcessor implements FileProcessorInterface
 {
     /**

@@ -5,19 +5,28 @@ declare(strict_types=1);
 namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
 
 use Symplify\PHPUnitUpgrader\FileInfoDecorator\AssertContainsInfoDecorator;
+use Symplify\PHPUnitUpgrader\ReportingFileDumper;
 use Symplify\PHPUnitUpgrader\ValueObject\FilePathWithContent;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class AssertContainsPHPUnitUpgrader extends AbstractPHPUnitUpgrader
+final class AssertContainsPHPUnitUpgrader
 {
     /**
      * @var AssertContainsInfoDecorator
      */
     private $assertContainsInfoDecorator;
 
-    public function __construct(AssertContainsInfoDecorator $assertContainsInfoDecorator)
-    {
+    /**
+     * @var ReportingFileDumper
+     */
+    private $reportingFileDumper;
+
+    public function __construct(
+        AssertContainsInfoDecorator $assertContainsInfoDecorator,
+        ReportingFileDumper $reportingFileDumper
+    ) {
         $this->assertContainsInfoDecorator = $assertContainsInfoDecorator;
+        $this->reportingFileDumper = $reportingFileDumper;
     }
 
     public function renameFileInfos(array $fileInfos, SmartFileInfo $errorReportFileInfo): void
@@ -33,7 +42,7 @@ final class AssertContainsPHPUnitUpgrader extends AbstractPHPUnitUpgrader
                 continue;
             }
 
-            $this->processChangedFileInfo($fileInfo, $changedContent);
+            $this->reportingFileDumper->processChangedFileInfo($fileInfo, $changedContent);
         }
     }
 }

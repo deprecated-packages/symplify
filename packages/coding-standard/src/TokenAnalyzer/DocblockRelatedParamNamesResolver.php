@@ -42,7 +42,9 @@ final class DocblockRelatedParamNamesResolver
             return [];
         }
 
+        /** @var array<string, mixed> $functionArgumentAnalyses */
         $functionArgumentAnalyses = $this->functionsAnalyzer->getFunctionArguments($tokens, $functionTokenPosition);
+
         return array_keys($functionArgumentAnalyses);
     }
 
