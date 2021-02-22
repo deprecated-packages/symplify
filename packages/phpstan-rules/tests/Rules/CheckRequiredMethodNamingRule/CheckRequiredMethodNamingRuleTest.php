@@ -21,21 +21,6 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(CheckRequiredMethodNamingRule::ERROR_MESSAGE, 'autowireRequiredByTrait');
-        yield [
-            [__DIR__ . '/Fixture/ClassUsingRequiredByTrait.php', __DIR__ . '/Fixture/RequiredByTrait.php'],
-            [[$errorMessage, 12]],
-        ];
-
-        $errorMessage = sprintf(CheckRequiredMethodNamingRule::ERROR_MESSAGE, 'autowireRequiredByTraitCorrect');
-        yield [
-            [
-                __DIR__ . '/Fixture/ClassUsingRequiredByTraitCorrect.php',
-                __DIR__ . '/Fixture/RequiredByTraitCorrect.php',
-            ],
-            [[$errorMessage, 12]],
-        ];
-
         yield [[__DIR__ . '/Fixture/SkipWithoutRequired.php'], []];
         yield [[__DIR__ . '/Fixture/SkipCorretName.php'], []];
 

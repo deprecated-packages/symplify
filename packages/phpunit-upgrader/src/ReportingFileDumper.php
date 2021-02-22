@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
+namespace Symplify\PHPUnitUpgrader;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-abstract class AbstractPHPUnitUpgrader
+final class ReportingFileDumper
 {
     /**
      * @var SymfonyStyle
@@ -26,17 +26,17 @@ abstract class AbstractPHPUnitUpgrader
      */
     private $smartFileSystem;
 
-    public function autowireAbstractCompleter(
+    public function __construct(
         SymfonyStyle $symfonyStyle,
         ConsoleDiffer $consoleDiffer,
         SmartFileSystem $smartFileSystem
-    ): void {
+    ) {
         $this->symfonyStyle = $symfonyStyle;
         $this->consoleDiffer = $consoleDiffer;
         $this->smartFileSystem = $smartFileSystem;
     }
 
-    protected function processChangedFileInfo(SmartFileInfo $testFileInfo, string $changedContent): void
+    public function processChangedFileInfo(SmartFileInfo $testFileInfo, string $changedContent): void
     {
         $this->symfonyStyle->newLine();
         $this->consoleDiffer->diff($testFileInfo->getContents(), $changedContent);

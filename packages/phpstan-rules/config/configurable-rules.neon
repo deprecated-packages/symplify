@@ -1,5 +1,16 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedParentTypes:
+                 - 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController'
+                 - 'Symplify\PHPStanRules\Rules\AbstractSymplifyRule'
+                 - 'Symplify\CodingStandard\Fixer\AbstractSymplifyFixer'
+                 - 'Symplify\RuleDocGenerator\Contract\CodeSampleInterface'
+                 - 'Symplify\SetConfigResolver\Provider\AbstractSetProvider'
+
+    -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
         tags: [phpstan.rules.rule]
         arguments:

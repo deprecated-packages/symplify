@@ -19,8 +19,8 @@ final class ForbiddenAllowedTypeAnalyzer
     }
 
     /**
-     * @param string[] $forbiddenTypes
-     * @param string[] $allowedTypes
+     * @param class-string[] $forbiddenTypes
+     * @param class-string[] $allowedTypes
      */
     public function shouldSkip(string $mainType, array $forbiddenTypes, array $allowedTypes): bool
     {
@@ -31,6 +31,9 @@ final class ForbiddenAllowedTypeAnalyzer
         return ! $this->isForbiddenType($mainType, $forbiddenTypes);
     }
 
+    /**
+     * @param class-string[] $forbiddenTypes
+     */
     private function isForbiddenType(string $typeName, array $forbiddenTypes): bool
     {
         if ($forbiddenTypes === []) {
@@ -41,7 +44,7 @@ final class ForbiddenAllowedTypeAnalyzer
     }
 
     /**
-     * @param string[] $allowedTypes
+     * @param class-string[] $allowedTypes
      */
     private function isAllowedType(string $typeName, array $allowedTypes): bool
     {

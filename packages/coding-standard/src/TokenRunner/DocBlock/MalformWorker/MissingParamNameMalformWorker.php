@@ -8,9 +8,11 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\DocBlock\Line;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenAnalyzer\DocblockRelatedParamNamesResolver;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
-final class MissingParamNameMalformWorker extends AbstractMalformWorker
+final class MissingParamNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
@@ -30,10 +32,20 @@ final class MissingParamNameMalformWorker extends AbstractMalformWorker
      */
     private const PARAM_WITH_NAME_REGEX = '#@param(.*?)\$[\w]+(.*?)\n#';
 
+    /**
+     * @var DocblockRelatedParamNamesResolver
+     */
+    private $docblockRelatedParamNamesResolver;
+
+    public function __construct(DocblockRelatedParamNamesResolver $docblockRelatedParamNamesResolver)
+    {
+        $this->docblockRelatedParamNamesResolver = $docblockRelatedParamNamesResolver;
+    }
+
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
-        $argumentNames = $this->getDocRelatedArgumentNames($tokens, $position);
-        if ($argumentNames === null) {
+        $argumentNames = $this->docblockRelatedParamNamesResolver->resolve($tokens, $position);
+        if ($argumentNames === []) {
             return $docContent;
         }
 

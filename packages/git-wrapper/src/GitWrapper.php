@@ -6,9 +6,9 @@ namespace Symplify\GitWrapper;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Event\GitOutputEvent;
-use Symplify\GitWrapper\EventSubscriber\AbstractOutputEventSubscriber;
 use Symplify\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
 use Symplify\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
 use Symplify\GitWrapper\Exception\GitException;
@@ -47,7 +47,7 @@ final class GitWrapper
     private $env = [];
 
     /**
-     * @var AbstractOutputEventSubscriber
+     * @var EventSubscriberInterface
      */
     private $outputEventSubscriber;
 
@@ -177,9 +177,9 @@ final class GitWrapper
     /**
      * @api
      */
-    public function addOutputEventSubscriber(AbstractOutputEventSubscriber $gitOutputEventSubscriber): void
+    public function addOutputEventSubscriber(EventSubscriberInterface $eventSubscriber): void
     {
-        $this->eventDispatcher->addSubscriber($gitOutputEventSubscriber);
+        $this->eventDispatcher->addSubscriber($eventSubscriber);
     }
 
     public function addLoggerEventSubscriber(GitLoggerEventSubscriber $gitLoggerEventSubscriber): void
@@ -190,9 +190,9 @@ final class GitWrapper
     /**
      * @api
      */
-    public function removeOutputEventSubscriber(AbstractOutputEventSubscriber $gitOutputEventSubscriber): void
+    public function removeOutputEventSubscriber(EventSubscriberInterface $eventSubscriber): void
     {
-        $this->eventDispatcher->removeSubscriber($gitOutputEventSubscriber);
+        $this->eventDispatcher->removeSubscriber($eventSubscriber);
     }
 
     /**

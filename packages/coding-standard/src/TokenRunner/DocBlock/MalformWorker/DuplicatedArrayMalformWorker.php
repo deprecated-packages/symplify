@@ -7,8 +7,9 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
-final class DuplicatedArrayMalformWorker extends AbstractMalformWorker
+final class DuplicatedArrayMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string

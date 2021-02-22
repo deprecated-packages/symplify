@@ -14,7 +14,6 @@ use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
-use Symplify\PHPStanRules\Reflection\TraitMethodAnalyser;
 use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -46,11 +45,6 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var TraitMethodAnalyser
-     */
-    private $traitMethodAnalyser;
-
-    /**
      * @var ReflectionProvider
      */
     private $reflectionProvider;
@@ -59,13 +53,11 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         ParentMethodAnalyser $parentMethodAnalyser,
         ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
         SimpleNameResolver $simpleNameResolver,
-        TraitMethodAnalyser $traitMethodAnalyser,
         ReflectionProvider $reflectionProvider
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->traitMethodAnalyser = $traitMethodAnalyser;
         $this->reflectionProvider = $reflectionProvider;
     }
 
@@ -128,30 +120,10 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isPropertyExistInTraits(Class_ $class, string $propertyName): bool
-    {
-        $className = $this->simpleNameResolver->getName($class);
-        if ($className === null) {
-            return false;
-        }
-
-        /** @var string[] $usedTraits */
-        $usedTraits = (array) class_uses($className);
-
-        foreach ($usedTraits as $trait) {
-            $traitReflection = $this->reflectionProvider->getClass($trait);
-            if ($traitReflection->hasProperty($propertyName)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private function isPropertyExistInParentClass(Name $name, string $propertyName): bool
     {
-        $reflectionClass = $this->reflectionProvider->getClass((string) $name);
-        return $reflectionClass->hasProperty($propertyName);
+        $classReflection = $this->reflectionProvider->getClass((string) $name);
+        return $classReflection->hasProperty($propertyName);
     }
 
     /**
@@ -165,9 +137,6 @@ CODE_SAMPLE
         }
 
         $methodName = (string) $classMethod->name;
-        if ($this->traitMethodAnalyser->doesMethodExistInClassTraits($class, $methodName)) {
-            return [];
-        }
         if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
             return [];
         }
@@ -184,10 +153,6 @@ CODE_SAMPLE
 
         /** @var string $propertyName */
         $propertyName = $this->simpleNameResolver->getName($property);
-
-        if ($this->isPropertyExistInTraits($class, $propertyName)) {
-            return [];
-        }
 
         if ($extends && $this->isPropertyExistInParentClass($extends, $propertyName)) {
             return [];

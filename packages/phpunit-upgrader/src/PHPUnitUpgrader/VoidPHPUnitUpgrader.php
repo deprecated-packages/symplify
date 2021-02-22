@@ -5,17 +5,26 @@ declare(strict_types=1);
 namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
 
 use Symplify\PHPUnitUpgrader\FileInfoDecorator\SetUpTearDownVoidFileInfoDecorator;
+use Symplify\PHPUnitUpgrader\ReportingFileDumper;
 
-final class VoidPHPUnitUpgrader extends AbstractPHPUnitUpgrader
+final class VoidPHPUnitUpgrader
 {
     /**
      * @var SetUpTearDownVoidFileInfoDecorator
      */
     private $setUpTearDownVoidFileInfoDecorator;
 
-    public function __construct(SetUpTearDownVoidFileInfoDecorator $setUpTearDownVoidFileInfoDecorator)
-    {
+    /**
+     * @var ReportingFileDumper
+     */
+    private $reportingFileDumper;
+
+    public function __construct(
+        SetUpTearDownVoidFileInfoDecorator $setUpTearDownVoidFileInfoDecorator,
+        ReportingFileDumper $reportingFileDumper
+    ) {
         $this->setUpTearDownVoidFileInfoDecorator = $setUpTearDownVoidFileInfoDecorator;
+        $this->reportingFileDumper = $reportingFileDumper;
     }
 
     public function completeFileInfos(array $fileInfos): void
@@ -26,7 +35,7 @@ final class VoidPHPUnitUpgrader extends AbstractPHPUnitUpgrader
                 continue;
             }
 
-            $this->processChangedFileInfo($fileInfo, $changedContent);
+            $this->reportingFileDumper->processChangedFileInfo($fileInfo, $changedContent);
         }
     }
 }

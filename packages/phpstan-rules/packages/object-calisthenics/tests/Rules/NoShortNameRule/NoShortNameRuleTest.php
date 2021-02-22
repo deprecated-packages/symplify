@@ -30,6 +30,11 @@ final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
         $errorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'n', 3);
         yield [__DIR__ . '/Fixture/ShortClosureParam.php', [[$errorMessage, 11]]];
         yield [__DIR__ . '/Fixture/ShortParam.php', [[$errorMessage, 9]]];
+
+        $errorMessage = sprintf(NoShortNameRule::ERROR_MESSAGE, 'n', 3);
+        yield [
+            __DIR__ . '/Fixture/ShortAssignParameter.php',
+            [[$errorMessage, 11], [$errorMessage, 13], [$errorMessage, 15]], ];
     }
 
     protected function getRule(): Rule

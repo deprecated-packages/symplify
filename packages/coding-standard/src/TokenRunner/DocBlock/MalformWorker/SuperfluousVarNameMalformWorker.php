@@ -8,8 +8,9 @@ use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
-final class SuperfluousVarNameMalformWorker extends AbstractMalformWorker
+final class SuperfluousVarNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
