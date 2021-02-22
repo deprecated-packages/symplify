@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -111,7 +111,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 class SomeClass extends AbstratcClass
 {
@@ -136,6 +136,10 @@ class SomeClass
     }
 }
 CODE_SAMPLE
+                ,
+                [
+                    'allowedParentTypes' => ['AnotherParent'],
+                ]
             ),
         ]);
     }

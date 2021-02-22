@@ -464,6 +464,7 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
+        - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         -
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
