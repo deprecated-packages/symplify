@@ -32,6 +32,8 @@ final class ForbiddenNullableParameterRuleTest extends AbstractServiceAwareRuleT
 
         yield [__DIR__ . '/Fixture/SkipAllowedType.php', []];
         yield [__DIR__ . '/Fixture/SkipParamDefaultString.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipParentContract.php', []];
     }
 
     protected function getRule(): Rule
