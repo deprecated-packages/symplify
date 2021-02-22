@@ -22,11 +22,17 @@ final class RequireQuoteStringValueSprintfRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipNumber.php', []];
+        yield [__DIR__ . '/Fixture/SkipOtherSide.php', []];
+        yield [__DIR__ . '/Fixture/SkipSingleSide.php', []];
+        yield [__DIR__ . '/Fixture/SkipBrackets.php', []];
         yield [__DIR__ . '/Fixture/SkipNotSprintf.php', []];
+
         yield [__DIR__ . '/Fixture/SkipSprintfArgsOne.php', []];
         yield [__DIR__ . '/Fixture/SkipNotStringArgs.php', []];
         yield [__DIR__ . '/Fixture/SkipHasQuote.php', []];
         yield [__DIR__ . '/Fixture/SkipEmptyString.php', []];
+
         yield [__DIR__ . '/Fixture/SkipRepetitive.php', []];
         yield [__DIR__ . '/Fixture/SkipSingleQuote.php', []];
         yield [__DIR__ . '/Fixture/NoQuoteInFirstOrLast.php', [

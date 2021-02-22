@@ -24,10 +24,20 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = '"%s" in sprintf() format must be quoted';
 
     /**
-     * @see https://regex101.com/r/qDY6y0/1
+     * @see https://regex101.com/r/OMs5yL/1
      * @var string
      */
-    private const UNQUOTED_STRING_MASK_REGEX = '#[^\'"s](%s)[^\'"%]#';
+    private const UNQUOTED_STRING_MASK_REGEX = '#(?<' . self::BEFORE_PART . '>.{1})?(%s)(?<' . self::AFTER_PART . '>.{1})?#';
+
+    /**
+     * @var string
+     */
+    private const BEFORE_PART = 'before';
+
+    /**
+     * @var string
+     */
+    private const AFTER_PART = 'after';
 
     /**
      * @var SimpleNameResolver
@@ -67,7 +77,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->doesContainUnquotedSMask($format->value)) {
+        if (! $this->doesContainBareStringMask($format->value)) {
             return [];
         }
 
@@ -101,17 +111,30 @@ CODE_SAMPLE
         ]);
     }
 
-    private function doesContainUnquotedSMask(string $content): bool
+    private function doesContainBareStringMask(string $content): bool
     {
         $matches = Strings::match($content, self::UNQUOTED_STRING_MASK_REGEX);
-        if ($matches !== null) {
-            return true;
+        if ($matches === null) {
+            return false;
         }
 
-        if (Strings::startsWith($content, '%s ')) {
-            return true;
+        $before = $matches[self::BEFORE_PART] ?? ' ';
+        if ($before === '') {
+            $before = ' ';
+        }
+        $after = $matches[self::AFTER_PART] ?? ' ';
+        if ($after === '') {
+            $after = ' ';
         }
 
-        return Strings::endsWith($content, ' %s');
+        if ($before !== $after) {
+            return false;
+        }
+
+        if (in_array($before, ["'", '"'], true)) {
+            return false;
+        }
+
+        return $before === ' ';
     }
 }

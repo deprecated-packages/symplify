@@ -293,7 +293,8 @@ parameters:
         -
             message: '#"%s" in sprintf\(\) format must be quoted#'
             paths:
-                 - packages/monorepo-builder/packages/release/src/Command/ReleaseCommand.php #110
+                - packages/latte-to-twig-converter/src/CaseConverter/LoopsCaseConverter.php
+                - packages/config-transformer/src/Guard/InputValidator.php
 
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
