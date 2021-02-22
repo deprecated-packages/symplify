@@ -37,11 +37,10 @@ final class BootstrapConfigs
      */
     public function getConfigFileInfos(): array
     {
-        $configFileInfos = [];
-        if ($this->mainConfigFileInfo !== null) {
-            $configFileInfos[] = $this->mainConfigFileInfo;
+        if (! $this->mainConfigFileInfo instanceof SmartFileInfo) {
+            return $this->setConfigFileInfos;
         }
 
-        return array_merge($configFileInfos, $this->setConfigFileInfos);
+        return array_merge($this->setConfigFileInfos, [$this->mainConfigFileInfo]);
     }
 }
