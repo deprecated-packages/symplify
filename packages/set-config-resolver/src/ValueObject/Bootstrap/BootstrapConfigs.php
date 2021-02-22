@@ -37,7 +37,7 @@ final class BootstrapConfigs
      */
     public function getConfigFileInfos(): array
     {
-        if ($this->mainConfigFileInfo === null) {
+        if (! $this->mainConfigFileInfo instanceof SmartFileInfo) {
             return $this->setConfigFileInfos;
         }
 
