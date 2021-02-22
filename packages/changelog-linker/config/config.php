@@ -18,6 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set('env(GITHUB_TOKEN)', null);
     $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
     $parameters->set(Option::CHANGELOG_FORMAT, ChangelogFormat::BARE);
+    $parameters->set(Option::FILE, getcwd() . '/CHANGELOG.md');
 
     $services = $containerConfigurator->services();
 
