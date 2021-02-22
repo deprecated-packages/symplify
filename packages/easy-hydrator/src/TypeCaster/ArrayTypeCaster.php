@@ -69,6 +69,10 @@ final class ArrayTypeCaster implements TypeCasterInterface
 
     private function isAllowedNull($value, ReflectionParameter $reflectionParameter): bool
     {
-        return $value === null && $reflectionParameter->allowsNull();
+        if ($value !== null) {
+            return false;
+        }
+
+        return $reflectionParameter->allowsNull();
     }
 }

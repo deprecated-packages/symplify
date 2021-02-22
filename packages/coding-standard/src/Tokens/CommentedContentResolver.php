@@ -86,12 +86,20 @@ final class CommentedContentResolver
             return true;
         }
 
-        // next line is not a comment
-        if ($lastLineSeen < $tokenLine && ! Strings::startsWith($token->getContent(), '//')) {
+        if ($this->isNextLineNotComment($lastLineSeen, $tokenLine, $token)) {
             return true;
         }
 
         // Blank line breaks a '//' style comment block.
         return $lastLineSeen + 1 < $tokenLine;
+    }
+
+    private function isNextLineNotComment(int $lastLineSeen, int $tokenLine, Token $token): bool
+    {
+        if ($lastLineSeen >= $tokenLine) {
+            return false;
+        }
+
+        return ! Strings::startsWith($token->getContent(), '//');
     }
 }
