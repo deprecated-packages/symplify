@@ -474,3 +474,5 @@ parameters:
             message: '#Do not inherit from abstract class, better use composition#'
             paths:
                 - packages/git-wrapper/src
+                - packages/set-config-resolver/src/ConfigResolver.php
+                - packages/set-config-resolver/src/SetAwareConfigResolver.php

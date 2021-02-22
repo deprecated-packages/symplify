@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\GitWrapper\Tests;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWorkingCopy;
@@ -30,13 +29,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
     {
         $this->gitWrapper->setGitBinary(self::BINARY);
         $this->assertSame(self::BINARY, $this->gitWrapper->getGitBinary());
-    }
-
-    public function testSetDispatcher(): void
-    {
-        $eventDispatcher = new EventDispatcher();
-        $this->gitWrapper->setDispatcher($eventDispatcher);
-        $this->assertSame($eventDispatcher, $this->gitWrapper->getDispatcher());
     }
 
     public function testSetTimeout(): void
