@@ -2,44 +2,47 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
+namespace Symplify\CodingStandard\TokenAnalyzer;
 
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
-abstract class AbstractMalformWorker implements MalformWorkerInterface
+final class DocblockRelatedParamNamesResolver
 {
     /**
      * @var FunctionsAnalyzer
      */
     private $functionsAnalyzer;
 
+    /**
+     * @var Token[]
+     */
+    private $functionTokens = [];
+
     public function __construct(FunctionsAnalyzer $functionsAnalyzer)
     {
         $this->functionsAnalyzer = $functionsAnalyzer;
+
+        $this->functionTokens[] = new Token([T_FUNCTION, 'function']);
+
+        // only in PHP 7.4+
+        if (defined('T_FN') && PHP_VERSION_ID >= 70400) {
+            $this->functionTokens[] = new Token([T_FN, 'fn']);
+        }
     }
 
     /**
      * @return string[]
      */
-    protected function getDocRelatedArgumentNames(Tokens $tokens, int $docTokenPosition): ?array
+    public function resolve(Tokens $tokens, int $docTokenPosition): array
     {
-        $functionTokens = [new Token([T_FUNCTION, 'function'])];
-
-        // only in PHP 7.4+
-        if (defined('T_FN') && PHP_VERSION_ID >= 70400) {
-            $functionTokens[] = new Token([T_FN, 'fn']);
-        }
-
-        $functionTokenPosition = $tokens->getNextTokenOfKind($docTokenPosition, $functionTokens);
+        $functionTokenPosition = $tokens->getNextTokenOfKind($docTokenPosition, $this->functionTokens);
         if ($functionTokenPosition === null) {
-            return null;
+            return [];
         }
 
         $functionArgumentAnalyses = $this->functionsAnalyzer->getFunctionArguments($tokens, $functionTokenPosition);
-
         return array_keys($functionArgumentAnalyses);
     }
 }

@@ -7,8 +7,9 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
-final class MissingVarNameMalformWorker extends AbstractMalformWorker
+final class MissingVarNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string

@@ -7,9 +7,10 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
-final class InlineVariableDocBlockMalformWorker extends AbstractMalformWorker
+final class InlineVariableDocBlockMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
