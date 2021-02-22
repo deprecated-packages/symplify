@@ -8,7 +8,7 @@
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.2",
-        "jean85/pretty-package-versions": "^1.5",
+        "jean85/pretty-package-versions": "^1.6",
         "phar-io/version": "^3.0.4",
         "symfony/finder": "^4.4|^5.2",
         "symfony/dependency-injection": "^5.2",
