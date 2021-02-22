@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
@@ -21,6 +22,12 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = '"%s" in sprintf() format must be quoted';
+
+    /**
+     * @see https://regex101.com/r/qDY6y0/1
+     * @var string
+     */
+    private const UNQUOTED_STRING_MASK_REGEX = '#[^\'"s](%s)[^\'"%]#';
 
     /**
      * @var SimpleNameResolver
@@ -60,22 +67,11 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $stringFormats = explode('%s', $format->value);
-        $countStringFormats = count($stringFormats);
-        if ($countStringFormats === 1) {
-            return [];
-        }
-        if ($countStringFormats > 2) {
+        if (! $this->doesContainUnquotedSMask($format->value)) {
             return [];
         }
 
-        /** @var int $positionStringFormat */
-        $positionStringFormat = strpos($format->value, '%s');
-        if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -105,18 +101,17 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isNotSpaced(int $positionStringFormat, string $formatValue): bool
+    private function doesContainUnquotedSMask(string $content): bool
     {
-        if ($positionStringFormat === 0 && substr($formatValue, 2, 1) === ' ') {
-            return false;
+        $matches = Strings::match($content, self::UNQUOTED_STRING_MASK_REGEX);
+        if ($matches !== null) {
+            return true;
         }
 
-        $positionBeforeEnd = strlen($formatValue) - 2;
-        if ($positionStringFormat === $positionBeforeEnd && substr($formatValue, $positionBeforeEnd - 1, 1) === ' ') {
-            return false;
+        if (Strings::startsWith($content, '%s ')) {
+            return true;
         }
 
-        return substr($formatValue, $positionStringFormat - 1, 1) !== ' '
-            || substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
+        return Strings::endsWith($content, ' %s');
     }
 }
