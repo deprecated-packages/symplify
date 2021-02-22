@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -18,7 +19,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInheritanceRule\NoInheritanceRuleTest
  */
-final class NoInheritanceRule extends AbstractSymplifyRule
+final class NoInheritanceRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -28,14 +29,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule
     /**
      * @var array<class-string>
      */
-    private const ALLOWED_PARENT_TYPES = [
-        // @todo make configurable
-        'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
-        'Symplify\PHPStanRules\Rules\AbstractSymplifyRule',
-        'Symplify\RuleDocGenerator\Contract\CodeSampleInterface',
-        'Symplify\CodingStandard\Fixer\AbstractSymplifyFixer',
-        'Symplify\SetConfigResolver\Provider\AbstractSetProvider',
-
+    private const DEFAULT_ALLOWED_PARENT_TYPES = [
         'Symfony\Component\HttpKernel\KernelInterface',
         'Symfony\Component\HttpKernel\Bundle\Bundle',
         'Symfony\Component\Console\Application',
@@ -66,10 +60,22 @@ final class NoInheritanceRule extends AbstractSymplifyRule
      */
     private $typeChecker;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, TypeChecker $typeChecker)
-    {
+    /**
+     * @var array<class-string>
+     */
+    private $allowedParentTypes = [];
+
+    /**
+     * @param array<class-string> $allowedParentTypes
+     */
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        TypeChecker $typeChecker,
+        array $allowedParentTypes
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->typeChecker = $typeChecker;
+        $this->allowedParentTypes = array_merge(self::DEFAULT_ALLOWED_PARENT_TYPES, $allowedParentTypes);
     }
 
     /**
@@ -95,7 +101,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->typeChecker->isInstanceOf($parentClassName, self::ALLOWED_PARENT_TYPES)) {
+        if ($this->typeChecker->isInstanceOf($parentClassName, $this->allowedParentTypes)) {
             return [];
         }
 
