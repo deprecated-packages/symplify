@@ -39,6 +39,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'Symfony\Component\DependencyInjection\Loader\FileLoader',
         'Symfony\Contracts\EventDispatcher\Event',
         'Symfony\Component\Filesystem\Filesystem',
+        'Twig\Extension\ExtensionInterface',
         'PhpCsFixer\AbstractDoctrineAnnotationFixer',
         'PhpParser\NodeTraverser',
         'PhpParser\NodeVisitor',
