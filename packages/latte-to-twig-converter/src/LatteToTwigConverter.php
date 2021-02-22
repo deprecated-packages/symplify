@@ -49,7 +49,7 @@ final class LatteToTwigConverter
         }
 
         throw new ConfigurationException(sprintf(
-            'Duplicate case converter priority: %s and %s',
+            'Duplicate case converter priority: "%s" and "%s"',
             get_class($caseConverter),
             get_class($this->caseConverters[$caseConverter->getPriority()])
         ));

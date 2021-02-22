@@ -130,11 +130,6 @@ final class ChangelogFileSystem
 
     private function getChangelogFilePath(): string
     {
-        $fileParameter = $this->parameterProvider->provideParameter(Option::FILE);
-        if (is_string($fileParameter) && file_exists($fileParameter)) {
-            return $fileParameter;
-        }
-
-        return getcwd() . '/CHANGELOG.md';
+        return $this->parameterProvider->provideStringParameter(Option::FILE);
     }
 }

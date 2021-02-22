@@ -20,7 +20,7 @@
         "symplify/console-package-builder": "^9.2"
     },
     "require-dev": {
-        "doctrine/annotations": "^1.10",
+        "doctrine/annotations": "^1.12",
         "doctrine/cache": "^1.10",
         "phpstan/phpstan": "^0.12.69",
         "phpunit/phpunit": "^9.5",

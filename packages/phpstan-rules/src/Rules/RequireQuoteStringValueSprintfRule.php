@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
@@ -21,6 +22,22 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = '"%s" in sprintf() format must be quoted';
+
+    /**
+     * @see https://regex101.com/r/OMs5yL/1
+     * @var string
+     */
+    private const UNQUOTED_STRING_MASK_REGEX = '#(?<' . self::BEFORE_PART . '>.{1})?(%s)(?<' . self::AFTER_PART . '>.{1})?#';
+
+    /**
+     * @var string
+     */
+    private const BEFORE_PART = 'before';
+
+    /**
+     * @var string
+     */
+    private const AFTER_PART = 'after';
 
     /**
      * @var SimpleNameResolver
@@ -60,22 +77,11 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $stringFormats = explode('%s', $format->value);
-        $countStringFormats = count($stringFormats);
-        if ($countStringFormats === 1) {
-            return [];
-        }
-        if ($countStringFormats > 2) {
+        if (! $this->doesContainBareStringMask($format->value)) {
             return [];
         }
 
-        /** @var int $positionStringFormat */
-        $positionStringFormat = strpos($format->value, '%s');
-        if (! $this->isNotSpaced($positionStringFormat, $format->value)) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -105,18 +111,30 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isNotSpaced(int $positionStringFormat, string $formatValue): bool
+    private function doesContainBareStringMask(string $content): bool
     {
-        if ($positionStringFormat === 0 && substr($formatValue, 2, 1) === ' ') {
+        $matches = Strings::match($content, self::UNQUOTED_STRING_MASK_REGEX);
+        if ($matches === null) {
             return false;
         }
 
-        $positionBeforeEnd = strlen($formatValue) - 2;
-        if ($positionStringFormat === $positionBeforeEnd && substr($formatValue, $positionBeforeEnd - 1, 1) === ' ') {
+        $before = $matches[self::BEFORE_PART] ?? ' ';
+        if ($before === '') {
+            $before = ' ';
+        }
+        $after = $matches[self::AFTER_PART] ?? ' ';
+        if ($after === '') {
+            $after = ' ';
+        }
+
+        if ($before !== $after) {
             return false;
         }
 
-        return substr($formatValue, $positionStringFormat - 1, 1) !== ' '
-            || substr($formatValue, $positionStringFormat + 2, 1) !== ' ';
+        if (in_array($before, ["'", '"'], true)) {
+            return false;
+        }
+
+        return $before === ' ';
     }
 }

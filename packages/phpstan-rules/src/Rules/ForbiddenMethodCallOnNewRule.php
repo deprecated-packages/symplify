@@ -36,11 +36,11 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node instanceof MethodCall && $node->var instanceof New_) {
+        if ($this->isMethodCallOnNew($node)) {
             return [self::ERROR_MESSAGE];
         }
 
-        if ($node instanceof StaticCall && $node->class instanceof New_) {
+        if ($this->isStaticCallOnNew($node)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -61,5 +61,29 @@ $someClass->run();
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @param MethodCall|StaticCall $node
+     */
+    private function isMethodCallOnNew(Node $node): bool
+    {
+        if (! $node instanceof MethodCall) {
+            return false;
+        }
+
+        return $node->var instanceof New_;
+    }
+
+    /**
+     * @param MethodCall|StaticCall $node
+     */
+    private function isStaticCallOnNew(Node $node): bool
+    {
+        if (! $node instanceof StaticCall) {
+            return false;
+        }
+
+        return $node->class instanceof New_;
     }
 }

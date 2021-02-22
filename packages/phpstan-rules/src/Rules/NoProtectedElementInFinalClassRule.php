@@ -150,11 +150,13 @@ CODE_SAMPLE
     private function processProperty(Class_ $class, Property $property): array
     {
         $extends = $class->extends;
+        if (! $extends instanceof Name) {
+            return [self::ERROR_MESSAGE];
+        }
 
         /** @var string $propertyName */
         $propertyName = $this->simpleNameResolver->getName($property);
-
-        if ($extends && $this->isPropertyExistInParentClass($extends, $propertyName)) {
+        if ($this->isPropertyExistInParentClass($extends, $propertyName)) {
             return [];
         }
 

@@ -37,8 +37,7 @@ final class ArrayTypeCaster implements TypeCasterInterface
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ): ?array {
         $type = $this->parameterTypeRecognizer->getTypeFromDocBlock($reflectionParameter);
-
-        if ($value === null && $reflectionParameter->allowsNull()) {
+        if ($this->isAllowedNull($value, $reflectionParameter)) {
             return null;
         }
 
@@ -66,5 +65,14 @@ final class ArrayTypeCaster implements TypeCasterInterface
     public function getPriority(): int
     {
         return 8;
+    }
+
+    private function isAllowedNull($value, ReflectionParameter $reflectionParameter): bool
+    {
+        if ($value !== null) {
+            return false;
+        }
+
+        return $reflectionParameter->allowsNull();
     }
 }

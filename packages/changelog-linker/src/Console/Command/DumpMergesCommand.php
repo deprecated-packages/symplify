@@ -116,6 +116,8 @@ final class DumpMergesCommand extends AbstractSymplifyCommand
             InputOption::VALUE_OPTIONAL,
             'Base branch towards which the pull requests are targeted'
         );
+
+        $this->addOption(Option::CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Config file');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

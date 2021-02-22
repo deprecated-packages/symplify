@@ -145,8 +145,7 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
         $this->inputValidator->validateFormatValue(
             $outputFormat,
             self::ALLOWED_OUTPUT_FORMATS,
-            Option::OUTPUT_FORMAT,
-            'output'
+            Option::OUTPUT_FORMAT
         );
 
         $this->outputFormat = $outputFormat;
@@ -154,12 +153,8 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
 
     private function setInputFormat(string $inputFormat): void
     {
-        $this->inputValidator->validateFormatValue(
-            $inputFormat,
-            self::ALLOWED_INPUT_FORMATS,
-            Option::INPUT_FORMAT,
-            'input'
-        );
+        $this->inputValidator->validateFormatValue($inputFormat, self::ALLOWED_INPUT_FORMATS, Option::INPUT_FORMAT);
+
         if ($inputFormat === Format::YML) {
             $inputFormat = Format::YAML;
         }
