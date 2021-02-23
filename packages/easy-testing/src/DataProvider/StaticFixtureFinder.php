@@ -8,6 +8,7 @@ use Iterator;
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -19,16 +20,59 @@ final class StaticFixtureFinder
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
-        foreach ($fileInfos as $fileInfo) {
-            yield [new SmartFileInfo($fileInfo->getRealPath())];
-        }
+
+        return self::yieldFileInfos($fileInfos);
     }
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+
+        return self::yieldFileInfos($fileInfos);
+    }
+
+    public static function yieldDirectoryWithRelativePathname(string $directory, string $suffix = '*.php.inc'): Iterator
+    {
+        $fileInfos = self::findFilesInDirectory($directory, $suffix);
+
+        return self::yieldFileInfosWithRelativePathname($fileInfos);
+    }
+
+    public static function yieldDirectoryExclusivelyWithRelativePathname(
+        string $directory,
+        string $suffix = '*.php.inc'
+    ): Iterator {
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+
+        return self::yieldFileInfosWithRelativePathname($fileInfos);
+    }
+
+    /**
+     * @param SplFileInfo[] $fileInfos
+     */
+    private static function yieldFileInfos(array $fileInfos): Iterator
+    {
         foreach ($fileInfos as $fileInfo) {
-            yield [new SmartFileInfo($fileInfo->getRealPath())];
+            try {
+                $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
+                yield [$smartFileInfo];
+            } catch (FileNotFoundException $e) {
+            }
+        }
+    }
+
+    /**
+     * @param SplFileInfo[] $fileInfos
+     * @return Iterator<string, array<int, SplFileInfo>>
+     */
+    private static function yieldFileInfosWithRelativePathname(array $fileInfos): Iterator
+    {
+        foreach ($fileInfos as $fileInfo) {
+            try {
+                $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
+                yield $fileInfo->getRelativePathname() => [$smartFileInfo];
+            } catch (FileNotFoundException $e) {
+            }
         }
     }
 
