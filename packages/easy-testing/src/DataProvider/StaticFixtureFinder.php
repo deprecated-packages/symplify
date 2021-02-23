@@ -19,24 +19,32 @@ final class StaticFixtureFinder
 {
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        return self::yieldFileInfos(self::findFilesInDirectory($directory, $suffix));
+        $fileInfos = self::findFilesInDirectory($directory, $suffix);
+
+        return self::yieldFileInfos($fileInfos);
     }
 
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        return self::yieldFileInfosWithRelativePathname(self::findFilesInDirectoryExclusively($directory, $suffix));
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+
+        return self::yieldFileInfos($fileInfos);
     }
 
     public static function yieldDirectoryWithRelativePathname(string $directory, string $suffix = '*.php.inc'): Iterator
     {
-        return self::yieldFileInfosWithRelativePathname(self::findFilesInDirectory($directory, $suffix));
+        $fileInfos = self::findFilesInDirectory($directory, $suffix);
+
+        return self::yieldFileInfosWithRelativePathname($fileInfos);
     }
 
     public static function yieldDirectoryExclusivelyWithRelativePathname(
         string $directory,
         string $suffix = '*.php.inc'
     ): Iterator {
-        return self::yieldFileInfosWithRelativePathname(self::findFilesInDirectoryExclusively($directory, $suffix));
+        $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
+
+        return self::yieldFileInfosWithRelativePathname($fileInfos);
     }
 
     /**
@@ -55,6 +63,7 @@ final class StaticFixtureFinder
 
     /**
      * @param SplFileInfo[] $fileInfos
+     * @return Iterator<string, array<int, SplFileInfo>>
      */
     private static function yieldFileInfosWithRelativePathname(array $fileInfos): Iterator
     {
