@@ -42,11 +42,11 @@ final class TagVersionReleaseWorker implements ReleaseWorkerInterface
             // nothing to commit
         }
 
-        $this->processRunner->run('git tag ' . $version->getVersionString());
+        $this->processRunner->run('git tag ' . $version->getOriginalString());
     }
 
     public function getDescription(Version $version): string
     {
-        return sprintf('Add local tag "%s"', $version->getVersionString());
+        return sprintf('Add local tag "%s"', $version->getOriginalString());
     }
 }
