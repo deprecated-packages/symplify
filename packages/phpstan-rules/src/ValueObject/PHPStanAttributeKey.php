@@ -33,9 +33,4 @@ final class PHPStanAttributeKey
      * @var string
      */
     public const STATEMENT_DEPTH = 'statementDepth';
-
-    /**
-     * @var string
-     */
-    public const PHPSTAN_CACHE_PRINTER = 'phpstan_cache_printer';
 }

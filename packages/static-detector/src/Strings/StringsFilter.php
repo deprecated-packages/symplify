@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\StaticDetector\Strings;
 
-use Nette\Utils\Strings;
-
 /**
  * @see \Symplify\StaticDetector\Tests\Strings\StringsFilterTest
  */
@@ -21,7 +19,7 @@ final class StringsFilter
                 return true;
             }
 
-            if (Strings::contains($matchingValue, '*') && fnmatch($matchingValue, $currentValue, FNM_NOESCAPE)) {
+            if (fnmatch($matchingValue, $currentValue, FNM_NOESCAPE)) {
                 return true;
             }
         }

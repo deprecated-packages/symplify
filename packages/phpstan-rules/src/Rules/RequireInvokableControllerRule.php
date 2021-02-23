@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -96,11 +97,15 @@ CODE_SAMPLE
             return false;
         }
 
-        $docComment = $classMethod->getDocComment();
-        if ($docComment !== null && Strings::contains($docComment->getText(), '@Route')) {
+        if ($this->getRouteAttribute($classMethod) instanceof FullyQualified) {
             return true;
         }
 
-        return $this->getRouteAttribute($classMethod) instanceof FullyQualified;
+        $docComment = $classMethod->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return false;
+        }
+
+        return Strings::contains($docComment->getText(), '@Route');
     }
 }

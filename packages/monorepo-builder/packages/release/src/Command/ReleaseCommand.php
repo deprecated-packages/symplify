@@ -107,7 +107,7 @@ final class ReleaseCommand extends AbstractSymplifyCommand
         $version = $this->versionResolver->resolveVersion($input, $stage);
 
         foreach ($activeReleaseWorkers as $releaseWorker) {
-            $title = sprintf('%d/%d) %s', ++$i, $totalWorkerCount, $releaseWorker->getDescription($version));
+            $title = sprintf('%d/%d)', ++$i, $totalWorkerCount) . $releaseWorker->getDescription($version);
             $this->symfonyStyle->title($title);
             $this->releaseWorkerReporter->printMetadata($releaseWorker);
 

@@ -29,15 +29,10 @@ final class SetAwareConfigResolverTest extends TestCase
      * @dataProvider provideOptionsAndExpectedConfig()
      * @param mixed[] $options
      */
-    public function testDetectFromInputAndProvideWithAbsolutePath(array $options, ?string $expectedConfig): void
+    public function testDetectFromInputAndProvideWithAbsolutePath(array $options, string $expectedConfig): void
     {
         $resolvedConfigFileInfo = $this->setAwareConfigResolver->resolveFromInput(new ArrayInput($options));
-
-        if ($expectedConfig === null) {
-            $this->assertNull($resolvedConfigFileInfo);
-        } else {
-            $this->assertSame($expectedConfig, $resolvedConfigFileInfo->getRealPath());
-        }
+        $this->assertSame($expectedConfig, $resolvedConfigFileInfo->getRealPath());
     }
 
     public function provideOptionsAndExpectedConfig(): Iterator
@@ -55,7 +50,20 @@ final class SetAwareConfigResolverTest extends TestCase
         yield [[
             '-c' => getcwd() . '/README.md',
         ], getcwd() . '/README.md'];
+    }
 
+    /**
+     * @dataProvider provideDataForEmptyConfig()
+     * @param mixed[] $options
+     */
+    public function testDetectFromInputAndProvideWithEmptyConfig(array $options): void
+    {
+        $resolvedConfigFileInfo = $this->setAwareConfigResolver->resolveFromInput(new ArrayInput($options));
+        $this->assertNull($resolvedConfigFileInfo);
+    }
+
+    public function provideDataForEmptyConfig(): Iterator
+    {
         yield [
             [
                 '--',

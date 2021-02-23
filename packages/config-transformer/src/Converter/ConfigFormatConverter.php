@@ -103,7 +103,7 @@ final class ConfigFormatConverter
             }
         }
 
-        $message = sprintf('Converting from %s to %s it not support yet', $inputFormat, $outputFormat);
+        $message = sprintf('Converting from "%s" to "%s" it not support yet', $inputFormat, $outputFormat);
         throw new NotImplementedYetException($message);
     }
 

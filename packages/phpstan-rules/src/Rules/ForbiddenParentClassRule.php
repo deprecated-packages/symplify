@@ -21,7 +21,7 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class "%s" inherits from forbidden parent class "%s". Use "%s" instead';
+    public const ERROR_MESSAGE = 'Inheritance from "%s" class is forbidden. Use "%s" instead';
 
     /**
      * @var string
@@ -34,19 +34,23 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
     private $arrayStringAndFnMatcher;
 
     /**
-     * @var array<string, string|null>
-     * Null, if there is no preference. Just forbidden
-     */
-    private $forbiddenParentClassesWithPreferences = [];
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
     /**
+     * @var string[]
+     */
+    private $forbiddenParentClasses = [];
+
+    /**
+     * @var array<string, string>
+     */
+    private $forbiddenParentClassesWithPreferences = [];
+
+    /**
      * @param string[] $forbiddenParentClasses
-     * @param string[] $forbiddenParentClassesWithPreferences
+     * @param array<string, string> $forbiddenParentClassesWithPreferences
      */
     public function __construct(
         ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
@@ -57,11 +61,8 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
         $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->simpleNameResolver = $simpleNameResolver;
 
+        $this->forbiddenParentClasses = $forbiddenParentClasses;
         $this->forbiddenParentClassesWithPreferences = $forbiddenParentClassesWithPreferences;
-
-        foreach ($forbiddenParentClasses as $forbiddenParentClass) {
-            $this->forbiddenParentClassesWithPreferences[$forbiddenParentClass] = null;
-        }
     }
 
     /**
@@ -83,28 +84,17 @@ final class ForbiddenParentClassRule extends AbstractSymplifyRule implements Con
             return [];
         }
 
-        // no parent
         if ($node->extends === null) {
             return [];
         }
 
-        $currentParentClass = $node->extends->toString();
-
-        foreach ($this->forbiddenParentClassesWithPreferences as $forbiddenParentClass => $preference) {
-            if (! $this->arrayStringAndFnMatcher->isMatch($currentParentClass, [$forbiddenParentClass])) {
-                continue;
-            }
-
-            // allow inheritance
-            if ($preference !== null && $node->isAbstract()) {
-                continue;
-            }
-
-            $errorMessage = $this->createErrorMessage($preference, $className, $currentParentClass);
-            return [$errorMessage];
+        // no parent
+        $currentParentClass = $this->simpleNameResolver->getName($node->extends);
+        if ($currentParentClass === null) {
+            return [];
         }
 
-        return [];
+        return $this->processParentClass($currentParentClass);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -134,10 +124,28 @@ CODE_SAMPLE
         ]);
     }
 
-    private function createErrorMessage(?string $preference, string $class, string $currentParentClass): string
+    /**
+     * @return string[]
+     */
+    private function processParentClass(string $currentParentClass): array
     {
-        $preferenceMessage = $preference ?? self::COMPOSITION_OVER_INHERITANCE;
+        $errorMessages = [];
+        foreach ($this->forbiddenParentClasses as $forbiddenParentClass) {
+            if (! $this->arrayStringAndFnMatcher->isMatch($currentParentClass, [$forbiddenParentClass])) {
+                continue;
+            }
 
-        return sprintf(self::ERROR_MESSAGE, $class, $currentParentClass, $preferenceMessage);
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $currentParentClass, self::COMPOSITION_OVER_INHERITANCE);
+        }
+
+        foreach ($this->forbiddenParentClassesWithPreferences as $forbiddenParentClass => $preferredClass) {
+            if (! $this->arrayStringAndFnMatcher->isMatch($currentParentClass, [$forbiddenParentClass])) {
+                continue;
+            }
+
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $currentParentClass, $preferredClass);
+        }
+
+        return $errorMessages;
     }
 }

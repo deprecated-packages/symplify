@@ -8,6 +8,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 final class ObjectTypeAnalyzer
 {
@@ -34,6 +35,8 @@ final class ObjectTypeAnalyzer
 
     public function isObjectOrUnionOfObjectType(Type $type, string $desiredClass): bool
     {
+        $this->ensureIsNotTrait($desiredClass);
+
         if ($type instanceof UnionType && $this->doesUnionTypeContainObjectType($type, $desiredClass)) {
             return true;
         }
@@ -60,5 +63,19 @@ final class ObjectTypeAnalyzer
         }
 
         return false;
+    }
+
+    private function ensureIsNotTrait(string $desiredClass): void
+    {
+        if (! trait_exists($desiredClass)) {
+            return;
+        }
+
+        $message = sprintf(
+            'Do not use trait "%s" as type to match, it breaks the matching. Use specific class that is in this trait',
+            $desiredClass
+        );
+
+        throw new ShouldNotHappenException($message);
     }
 }

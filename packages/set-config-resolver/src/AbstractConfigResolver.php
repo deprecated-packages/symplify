@@ -13,11 +13,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 abstract class AbstractConfigResolver
 {
     /**
-     * @var SmartFileInfo|null
-     */
-    private $firstResolvedConfigFileInfo;
-
-    /**
      * @var OptionValueResolver
      */
     private $optionValueResolver;
@@ -56,11 +51,6 @@ abstract class AbstractConfigResolver
         return $this->createFallbackFileInfoIfFound($fallbackFiles);
     }
 
-    public function getFirstResolvedConfigFileInfo(): ?SmartFileInfo
-    {
-        return $this->firstResolvedConfigFileInfo;
-    }
-
     /**
      * @param string[] $fallbackFiles
      */
@@ -78,9 +68,6 @@ abstract class AbstractConfigResolver
 
     private function createFileInfo(string $configValue): SmartFileInfo
     {
-        $configFileInfo = new SmartFileInfo($configValue);
-        $this->firstResolvedConfigFileInfo = $configFileInfo;
-
-        return $configFileInfo;
+        return new SmartFileInfo($configValue);
     }
 }

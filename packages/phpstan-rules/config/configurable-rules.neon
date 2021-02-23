@@ -1,5 +1,16 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedParentTypes:
+                 - 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController'
+                 - 'Symplify\PHPStanRules\Rules\AbstractSymplifyRule'
+                 - 'Symplify\CodingStandard\Fixer\AbstractSymplifyFixer'
+                 - 'Symplify\RuleDocGenerator\Contract\CodeSampleInterface'
+                 - 'Symplify\SetConfigResolver\Provider\AbstractSetProvider'
+
+    -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
         tags: [phpstan.rules.rule]
         arguments:
@@ -8,9 +19,13 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - PhpParser\Node
+
+#    -
+#        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
+#        tags: [phpstan.rules.rule]
+#        arguments:
+#            allowedTypes:
+#                - 'Symplify\SmartFileSystem\SmartFileInfo'
 
     -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
@@ -68,6 +83,7 @@ services:
                 - 'property_exists'
                 - 'spl_autoload_register'
                 - 'spl_autoload_unregister'
+                - array_walk
 
     -
         class: Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule

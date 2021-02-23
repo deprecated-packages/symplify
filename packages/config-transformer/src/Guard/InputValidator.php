@@ -11,12 +11,8 @@ final class InputValidator
     /**
      * @param string[] $allowedValues
      */
-    public function validateFormatValue(
-        string $formatValue,
-        array $allowedValues,
-        string $optionKey,
-        string $type
-    ): void {
+    public function validateFormatValue(string $formatValue, array $allowedValues, string $optionKey): void
+    {
         if ($formatValue === '') {
             $message = sprintf('Add missing "--%s" option to command line', $optionKey);
             throw new InvalidConfigurationException($message);
@@ -26,10 +22,9 @@ final class InputValidator
             return;
         }
 
-        $type = ucfirst($type);
         $message = sprintf(
-            '%s format "%s" is not supported. Pick one of "%s"',
-            $type,
+            '"--%s" format "%s" is not supported. Pick one of "%s"',
+            $optionKey,
             $formatValue,
             implode('", ', $allowedValues)
         );

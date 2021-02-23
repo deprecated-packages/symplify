@@ -10,7 +10,6 @@ use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\Exception\Configuration\SourceNotFoundException;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class Configuration
 {
@@ -33,11 +32,6 @@ final class Configuration
      * @var bool
      */
     private $showErrorTable = true;
-
-    /**
-     * @var SmartFileInfo|null
-     */
-    private $firstResolvedConfigFileInfo;
 
     /**
      * @var string[]
@@ -113,19 +107,6 @@ final class Configuration
     public function shouldShowErrorTable(): bool
     {
         return $this->showErrorTable;
-    }
-
-    /**
-     * @api
-     */
-    public function setFirstResolvedConfigFileInfo(?SmartFileInfo $firstResolverConfigFileInfo): void
-    {
-        $this->firstResolvedConfigFileInfo = $firstResolverConfigFileInfo;
-    }
-
-    public function getFirstResolvedConfigFileInfo(): ?SmartFileInfo
-    {
-        return $this->firstResolvedConfigFileInfo;
     }
 
     /**

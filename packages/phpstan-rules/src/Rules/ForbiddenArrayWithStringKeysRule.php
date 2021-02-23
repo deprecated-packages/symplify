@@ -145,7 +145,7 @@ CODE_SAMPLE
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
         // skip part of attribute
-        $parentAttribute = $this->parentNodeFinder->getFirstParentByType($array, Attribute::class);
+        $parentAttribute = $this->parentNodeFinder->findFirstParentByType($array, Attribute::class);
         if ($parentAttribute instanceof Attribute) {
             return true;
         }
@@ -164,7 +164,7 @@ CODE_SAMPLE
 
     private function isPartOfClassConstOrNew(Array_ $array): bool
     {
-        return (bool) $this->parentNodeFinder->getFirstParentByTypes($array, [
+        return (bool) $this->parentNodeFinder->findFirstParentByTypes($array, [
             ClassConst::class,
             New_::class,
             MethodCall::class,

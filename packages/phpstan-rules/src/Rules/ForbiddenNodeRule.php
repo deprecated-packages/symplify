@@ -112,7 +112,7 @@ CODE_SAMPLE
     private function hasIntentionallyDocComment(Node $node): bool
     {
         if (! $node instanceof Stmt) {
-            $node = $this->parentNodeFinder->getFirstParentByType($node, Stmt::class);
+            $node = $this->parentNodeFinder->findFirstParentByType($node, Stmt::class);
         }
 
         if (! $node instanceof Stmt) {

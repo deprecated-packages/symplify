@@ -22,15 +22,9 @@ final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareR
 
     public function provideData(): Iterator
     {
-        yield [[
-            __DIR__ . '/Fixture/SkipAnotherClassUsingTrait.php',
-            __DIR__ . '/Fixture/SkipSomeAutowiredTrait.php',
-        ], []];
-
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
         yield [[__DIR__ . '/Fixture/SkipTrait.php'], []];
         yield [[__DIR__ . '/Fixture/SkipNotFinalClass.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipFinalClassUsesTrait.php'], []];
 
         yield [[__DIR__ . '/Fixture/SkipMicroKernelProtectedMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipKernelProtectedMethod.php'], []];

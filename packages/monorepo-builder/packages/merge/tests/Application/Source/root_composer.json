@@ -15,7 +15,7 @@
         ],
         "phpstan": "phpstan analyse packages --error-format symplify --ansi",
         "changelog": [
-            "packages/changelog-linker/bin/changelog-linker dump-merges --in-categories --in-packages --ansi",
+            "packages/changelog-linker/bin/changelog-linker dump-merges --ansi",
             "packages/changelog-linker/bin/changelog-linker link --ansi",
             "packages/changelog-linker/bin/changelog-linker cleanup --ansi"
         ],

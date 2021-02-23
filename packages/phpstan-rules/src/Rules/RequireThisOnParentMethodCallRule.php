@@ -58,7 +58,7 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethod = $this->parentNodeFinder->getFirstParentByType($node, ClassMethod::class);
+        $classMethod = $this->parentNodeFinder->findFirstParentByType($node, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return [];
         }
@@ -119,7 +119,7 @@ CODE_SAMPLE
 
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
     {
-        $class = $this->parentNodeFinder->getFirstParentByType($classMethod, Class_::class);
+        $class = $this->parentNodeFinder->findFirstParentByType($classMethod, Class_::class);
         if (! $class instanceof Class_) {
             return false;
         }

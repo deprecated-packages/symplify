@@ -77,7 +77,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     public function process(Node $node, Scope $scope): array
     {
-        $class = $this->parentNodeFinder->getFirstParentByType($node, Class_::class);
+        $class = $this->parentNodeFinder->findFirstParentByType($node, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

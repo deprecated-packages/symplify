@@ -44,29 +44,29 @@ final class SmartPhpConfigPrinter
     {
         $servicesWithConfigureCalls = [];
         foreach ($configuredServices as $service => $configuration) {
-            $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration($configuration, $service);
+            if ($configuration === null) {
+                $servicesWithConfigureCalls[$service] = null;
+            } else {
+                $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration($configuration, $service);
+            }
         }
 
-        $return = $this->configuratorReturnClosureFactory->createFromYamlArray(
-            [
-                'services' => $servicesWithConfigureCalls,
-            ]
-        );
+        $return = $this->configuratorReturnClosureFactory->createFromYamlArray([
+            'services' => $servicesWithConfigureCalls,
+        ]);
 
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
     }
 
     /**
-     * @param mixed[]|null $configuration
+     * @param mixed[] $configuration
      */
-    private function createServiceConfiguration(?array $configuration, string $class): ?array
+    private function createServiceConfiguration(array $configuration, string $class): ?array
     {
-        if ($configuration === null) {
-            return null;
-        }
         if ($configuration === []) {
             return null;
         }
+
         $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class);
 
         return [

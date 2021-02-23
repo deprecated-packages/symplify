@@ -29,8 +29,8 @@ final class NonExistingElementsReporter
         $i = 0;
 
         foreach ($nonExistingClassesByFile as $file => $nonExistingClasses) {
-            $fileMssage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
-            $this->symfonyStyle->writeln($fileMssage);
+            $fileMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
+            $this->symfonyStyle->writeln($fileMessage);
             $this->symfonyStyle->newLine();
 
             foreach ($nonExistingClasses as $nonExistingClass) {
@@ -40,8 +40,8 @@ final class NonExistingElementsReporter
         }
 
         foreach ($nonExistingClassConstantsByFile as $file => $nonExistingClassConstants) {
-            $fileMssage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
-            $this->symfonyStyle->writeln($fileMssage);
+            $fileMessage = sprintf('<options=bold>%d) %s</>', ++$i, $file);
+            $this->symfonyStyle->writeln($fileMessage);
 
             foreach ($nonExistingClassConstants as $nonExistingClassConstant) {
                 $errorMessage = sprintf('Class constant "%s" does not exist', $nonExistingClassConstant);

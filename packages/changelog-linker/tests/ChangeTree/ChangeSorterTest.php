@@ -6,6 +6,7 @@ namespace Symplify\ChangelogLinker\Tests\ChangeTree;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangeTree\ChangeSorter;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangeSorterTest extends TestCase
@@ -24,7 +25,7 @@ final class ChangeSorterTest extends TestCase
     {
         $changes = $this->createChanges();
 
-        $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_CATEGORIES);
+        $sortedChanges = $this->changeSorter->sort($changes, ChangelogFormat::CATEGORIES_THEN_PACKAGES);
         $this->assertNotSame($changes, $sortedChanges);
 
         /** @var Change $firstChange */
@@ -42,7 +43,7 @@ final class ChangeSorterTest extends TestCase
     {
         $changes = $this->createChanges();
 
-        $sortedChanges = $this->changeSorter->sort($changes, ChangeSorter::PRIORITY_PACKAGES);
+        $sortedChanges = $this->changeSorter->sort($changes, ChangelogFormat::PACKAGES_THEN_CATEGORIES);
         $this->assertNotSame($changes, $sortedChanges);
 
         /** @var Change $firstChange */

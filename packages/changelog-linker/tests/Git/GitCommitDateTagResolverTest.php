@@ -44,7 +44,7 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideDataResolveDateForTag()
      */
-    public function testResolveDateForTag(string $tag, ?string $expectedDate): void
+    public function testResolveDateForTag(string $tag, string $expectedDate): void
     {
         $resvoledDate = $this->gitCommitDateTagResolver->resolveDateForTag($tag);
         $this->assertSame($expectedDate, $resvoledDate);
@@ -54,6 +54,19 @@ final class GitCommitDateTagResolverTest extends AbstractKernelTestCase
     {
         yield ['v4.4.1', '2018-06-07'];
         yield ['v4.4.2', '2018-06-10'];
-        yield ['Unreleased', null];
+    }
+
+    /**
+     * @dataProvider provideDataResolveDateForUnknownTag()
+     */
+    public function testResolveDateForUnknownTag(string $tag): void
+    {
+        $resvoledDate = $this->gitCommitDateTagResolver->resolveDateForTag($tag);
+        $this->assertNull($resvoledDate);
+    }
+
+    public function provideDataResolveDateForUnknownTag(): Iterator
+    {
+        yield ['Unreleased'];
     }
 }

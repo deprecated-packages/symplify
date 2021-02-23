@@ -116,7 +116,7 @@ CODE_SAMPLE
     private function isVariableNamedShortClassName(PropertyFetch $propertyFetch): bool
     {
         /** @var Assign|null $assign */
-        $assign = $this->parentNodeFinder->getFirstParentByType($propertyFetch, Assign::class);
+        $assign = $this->parentNodeFinder->findFirstParentByType($propertyFetch, Assign::class);
         if (! $assign instanceof Assign) {
             return false;
         }

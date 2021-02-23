@@ -24,11 +24,15 @@ final class ParametersMerger
             });
         }
 
-        if ($left === null && is_array($right)) {
-            return $right;
+        if ($left !== null) {
+            return $left;
         }
 
-        return $left;
+        if (! is_array($right)) {
+            return $left;
+        }
+
+        return $right;
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ChangelogLinker\ChangeTree;
 
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 /**
@@ -12,16 +13,6 @@ use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 final class ChangeSorter
 {
     /**
-     * @var string
-     */
-    public const PRIORITY_PACKAGES = 'packages';
-
-    /**
-     * @var string
-     */
-    public const PRIORITY_CATEGORIES = 'categories';
-
-    /**
      * Inspiration: https://stackoverflow.com/a/8598241/1348344
      *
      * Sorts packages, then category or vice versa, depends on 2nd parameter
@@ -29,16 +20,16 @@ final class ChangeSorter
      * @param Change[] $changes
      * @return Change[]
      */
-    public function sort(array $changes, ?string $priority): array
+    public function sort(array $changes, string $changelogFormat): array
     {
         // pur newer versions to the top, and "Unreleased" first
-        usort($changes, function (Change $firstChange, Change $secondChange) use ($priority): int {
+        usort($changes, function (Change $firstChange, Change $secondChange) use ($changelogFormat): int {
             $comparisonStatus = $this->compareTags($firstChange, $secondChange);
             if ($comparisonStatus !== 0) {
                 return $comparisonStatus;
             }
 
-            if ($priority === self::PRIORITY_PACKAGES) {
+            if ($changelogFormat === ChangelogFormat::PACKAGES_THEN_CATEGORIES) {
                 return $this->comparePackagesOverCategories($firstChange, $secondChange);
             }
 

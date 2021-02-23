@@ -7,6 +7,7 @@ namespace Symplify\ChangelogLinker\Tests\ChangelogDumper;
 use Iterator;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\HttpKernel\ChangelogLinkerKernel;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
@@ -34,7 +35,7 @@ final class WithTagsTest extends AbstractKernelTestCase
     {
         $this->markTestSkipped('Random false positives on Github Actions');
 
-        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, false, false, 'categories');
+        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, ChangelogFormat::BARE);
 
         $expectedFile = __DIR__ . '/WithTagsSource/expected1.md';
         $this->assertStringEqualsFile($expectedFile, $content);
@@ -44,26 +45,19 @@ final class WithTagsTest extends AbstractKernelTestCase
      * @dataProvider provideDataForReportChangesWithHeadlines()
      */
     public function testReportBothWithCategoriesPriority(
-        bool $withCategories,
-        bool $withPackages,
-        ?string $priority,
+        string $changelogFormat,
         string $expectedOutputFile
     ): void {
         $this->markTestSkipped('Random false positives on Github Actions');
 
-        $content = $this->changelogDumper->reportChangesWithHeadlines(
-            $this->changes,
-            $withCategories,
-            $withPackages,
-            $priority
-        );
+        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, $changelogFormat);
 
         $this->assertStringEqualsFile($expectedOutputFile, $content);
     }
 
     public function provideDataForReportChangesWithHeadlines(): Iterator
     {
-        yield [true, false, null, __DIR__ . '/WithTagsSource/expected2.md'];
-        yield [false, true, null, __DIR__ . '/WithTagsSource/expected3.md'];
+        yield [ChangelogFormat::CATEGORIES_ONLY, __DIR__ . '/WithTagsSource/expected2.md'];
+        yield [ChangelogFormat::PACKAGES_ONLY, __DIR__ . '/WithTagsSource/expected3.md'];
     }
 }

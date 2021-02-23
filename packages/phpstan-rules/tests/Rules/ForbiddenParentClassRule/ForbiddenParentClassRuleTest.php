@@ -8,9 +8,6 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenParentClassRule;
-use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\AnotherForbiddenParent;
-use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\ClassForbiddenParent;
-use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Fixture\HasParentWithPrefference;
 use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\ForbiddenParent;
 use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\PreferredClass;
 use Symplify\PHPStanRules\Tests\Rules\ForbiddenParentClassRule\Source\SomeFnMatched;
@@ -33,7 +30,6 @@ final class ForbiddenParentClassRuleTest extends AbstractServiceAwareRuleTestCas
     {
         $errorMessage = sprintf(
             ForbiddenParentClassRule::ERROR_MESSAGE,
-            ClassForbiddenParent::class,
             ForbiddenParent::class,
             ForbiddenParentClassRule::COMPOSITION_OVER_INHERITANCE
         );
@@ -41,19 +37,16 @@ final class ForbiddenParentClassRuleTest extends AbstractServiceAwareRuleTestCas
 
         $errorMessage = sprintf(
             ForbiddenParentClassRule::ERROR_MESSAGE,
-            AnotherForbiddenParent::class,
             SomeFnMatched::class,
             ForbiddenParentClassRule::COMPOSITION_OVER_INHERITANCE
         );
         yield [__DIR__ . '/Fixture/AnotherForbiddenParent.php', [[$errorMessage, 9]]];
 
         yield [__DIR__ . '/Fixture/SkipParentClass.php', []];
-        yield [__DIR__ . '/Fixture/SkipAbstractClassInheritingFromUnwantedClass.php', []];
 
         // test preference
         $errorMessage = sprintf(
             ForbiddenParentClassRule::ERROR_MESSAGE,
-            HasParentWithPrefference::class,
             UnwantedClass::class,
             PreferredClass::class
         );

@@ -1,0 +1,14 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTypes:
+                - PhpParser\Node
+            allowedTypes:
+                - PhpParser\Node\Scalar\String_
+                # @todo add support for this siht
+                #- string

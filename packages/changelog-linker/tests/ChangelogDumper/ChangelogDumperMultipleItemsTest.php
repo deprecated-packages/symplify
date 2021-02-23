@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Symplify\ChangelogLinker\ChangelogDumper;
 use Symplify\ChangelogLinker\ChangelogFormatter;
 use Symplify\ChangelogLinker\Git\GitCommitDateTagResolver;
+use Symplify\ChangelogLinker\ValueObject\ChangelogFormat;
 use Symplify\ChangelogLinker\ValueObject\ChangeTree\Change;
 
 final class ChangelogDumperMultipleItemsTest extends TestCase
@@ -34,8 +35,10 @@ final class ChangelogDumperMultipleItemsTest extends TestCase
 
     public function testReportBothWithPriority(): void
     {
-        $content = $this->changelogDumper->reportChangesWithHeadlines($this->changes, true, true, 'packages');
-
+        $content = $this->changelogDumper->reportChangesWithHeadlines(
+            $this->changes,
+            ChangelogFormat::PACKAGES_THEN_CATEGORIES
+        );
         $this->assertStringEqualsFile(__DIR__ . '/ChangelogDumperSource/expected-multiple1.md', $content);
     }
 }

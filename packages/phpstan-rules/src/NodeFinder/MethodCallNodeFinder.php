@@ -65,7 +65,7 @@ final class MethodCallNodeFinder
      */
     public function findUsages(MethodCall $methodCall): array
     {
-        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
+        $class = $this->parentNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

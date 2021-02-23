@@ -25,7 +25,7 @@ final class SkipParameterCollector
     }
 
     /**
-     * @return array<string, string[]|null>
+     * @return array<string|int, mixed>
      */
     public function collectSkipParameter(SimpleXMLElement $simpleXml): array
     {
@@ -58,7 +58,7 @@ final class SkipParameterCollector
     }
 
     /**
-     * @return array<string, null>
+     * @return array<string|int, string>
      */
     private function resolveSkippedClassParameter(SimpleXMLElement $simpleXml): array
     {
@@ -71,8 +71,7 @@ final class SkipParameterCollector
 
             if ($name === 'rule' && (property_exists($child, 'exclude') && $child->exclude !== null)) {
                 $id = (string) $child->exclude['name'];
-                $class = $this->classFromKeyResolver->resolveFromStringName($id);
-                $skipClasses[$class] = null;
+                $skipClasses[] = $this->classFromKeyResolver->resolveFromStringName($id);
             }
         }
 

@@ -15,3 +15,6 @@ packages/*/docs/ export-ignore
 
 # highlight neon files as yaml
 *.neon linguist-language=YAML
+
+# for git-wrapper
+packages/git-wrapper/tests/build/*

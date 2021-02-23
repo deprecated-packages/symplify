@@ -30,7 +30,7 @@ final class ClassMethodNodeFinder
 
     public function findByMethodCall(MethodCall $methodCall): ?ClassMethod
     {
-        $class = $this->parentNodeFinder->getFirstParentByType($methodCall, Class_::class);
+        $class = $this->parentNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }

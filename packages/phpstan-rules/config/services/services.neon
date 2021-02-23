@@ -14,11 +14,11 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard
 
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
-
-
+    - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 
@@ -28,7 +28,6 @@ services:
 
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\PHPStanRules\Location\DirectoryChecker
-    - Symplify\PHPStanRules\Reflection\TraitMethodAnalyser
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\Astral\NodeFinder\ParentNodeFinder
