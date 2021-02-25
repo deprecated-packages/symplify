@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Rector\CodeQualityStrict\Rector\Variable\MoveVariableDeclarationNearReferenceRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
@@ -89,12 +88,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
-
-        MoveVariableDeclarationNearReferenceRector::class => [
-            __DIR__ . '/packages/symfony-static-dumper/src/FileSystem/FilePathResolver.php',
-            // ob_get_contents()
-            __DIR__ . '/packages/git-wrapper/tests/GitWorkingCopyTest.php',
-        ],
 
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
     ]);
