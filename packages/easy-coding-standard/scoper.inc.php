@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
+$symfonyPolyfillPhpFilesFinder = Finder::create();
+$symfonyPolyfillPhpFilesFinder = $symfonyPolyfillPhpFilesFinder->files();
+$symfonyPolyfillPhpFilesFinder = $symfonyPolyfillPhpFilesFinder->in(__DIR__ . '/vendor/symfony/polyfill-*');
+$symfonyPolyfillPhpFilesFinder = $symfonyPolyfillPhpFilesFinder->name('*.php');
+
+$symfonyPolyfillPhpFilesArray = \iterator_to_array($symfonyPolyfillPhpFilesFinder);
+$symfonyPolyfillPhpFilenames = \array_values($symfonyPolyfillPhpFilesArray);
 $symfonyPolyfillAllowlist = \array_map(
     static function ($file) {
         return $file->getPathName();
     },
-    \array_values(
-        \iterator_to_array(
-            Finder::create()
-                ->files()
-                ->in(__DIR__ . '/vendor/symfony/polyfill-*')
-                ->name('*.php')
-        )
-    )
+    $symfonyPolyfillPhpFilenames
 );
 
 return [
