@@ -56,7 +56,7 @@ final class StaticFixtureFinder
             try {
                 $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
                 yield [$smartFileInfo];
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException $fileNotFoundException) {
             }
         }
     }
