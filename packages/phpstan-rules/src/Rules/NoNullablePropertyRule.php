@@ -8,29 +8,18 @@ use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\NoNullableArrayPropertyRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoNullablePropertyRule\NoNullablePropertyRuleTest
  */
-final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
+final class NoNullablePropertyRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use required typed property over of nullable array property';
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-    }
+    public const ERROR_MESSAGE = 'Use required typed property over of nullable property';
 
     /**
      * @return string[]
@@ -50,11 +39,6 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
             return [];
         }
 
-        $type = $node->type->type;
-        if (! $this->simpleNameResolver->isName($type, 'array')) {
-            return [];
-        }
-
         return [self::ERROR_MESSAGE];
     }
 
@@ -65,14 +49,14 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    private ?array $property = null;
+    private ?DateTime $property = null;
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    private array $property;
+    private DateTime $property;
 }
 CODE_SAMPLE
             ),
