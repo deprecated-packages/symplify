@@ -478,3 +478,9 @@ parameters:
                 - packages/git-wrapper/src
                 - packages/set-config-resolver/src/ConfigResolver.php
                 - packages/set-config-resolver/src/SetAwareConfigResolver.php
+
+        # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
+        -
+            message: '#Call to static method create\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
+            paths:
+                - packages/easy-coding-standard/scoper.inc.php
