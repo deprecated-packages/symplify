@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\Fixture;
 
-final class SkipNotReturnObject
+use DateTime;
+
+final class SkipNoReturn
 {
-    public function run()
+    public function run(DateTime $dateTime)
     {
+        $dateTime->format('Y-m-d');
     }
 }
