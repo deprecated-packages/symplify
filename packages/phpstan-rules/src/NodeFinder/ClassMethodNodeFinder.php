@@ -8,12 +8,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 
 final class ClassMethodNodeFinder
 {
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -22,7 +22,7 @@ final class ClassMethodNodeFinder
      */
     private $simpleNameResolver;
 
-    public function __construct(ParentNodeFinder $parentNodeFinder, SimpleNameResolver $simpleNameResolver)
+    public function __construct(SimpleNodeFinder $parentNodeFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->parentNodeFinder = $parentNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;

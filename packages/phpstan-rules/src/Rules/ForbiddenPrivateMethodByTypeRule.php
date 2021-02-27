@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,7 +35,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -44,7 +44,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $parentNodeFinder,
         array $forbiddenTypes = []
     ) {
         $this->forbiddenTypes = $forbiddenTypes;

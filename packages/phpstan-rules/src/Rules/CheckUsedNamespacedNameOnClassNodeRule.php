@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -34,11 +34,11 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, ParentNodeFinder $parentNodeFinder)
+    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $parentNodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->parentNodeFinder = $parentNodeFinder;

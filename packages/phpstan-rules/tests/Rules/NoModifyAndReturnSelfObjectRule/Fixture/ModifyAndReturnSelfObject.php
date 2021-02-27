@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\NoModifyAndReturnSelfObjectRule\Fixture;
 
-use DateTime;
+use Symplify\PHPStanRules\Tests\Rules\NoModifyAndReturnSelfObjectRule\Source\SomeObjectToReturn;
 
 final class ModifyAndReturnSelfObject
 {
-    public function run(DateTime $dateTime)
+    public function run(SomeObjectToReturn $someObjectToReturn)
     {
-        $dateTime->format('Y-m-d');
-        return $dateTime;
+        $this->process($someObjectToReturn);
+        return $someObjectToReturn;
     }
 }

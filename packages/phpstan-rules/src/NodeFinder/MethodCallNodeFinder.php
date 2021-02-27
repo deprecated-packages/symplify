@@ -9,13 +9,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 
 final class MethodCallNodeFinder
 {
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -35,7 +35,7 @@ final class MethodCallNodeFinder
     private $simpleNameResolver;
 
     public function __construct(
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $parentNodeFinder,
         NodeFinder $nodeFinder,
         NodeComparator $nodeComparator,
         SimpleNameResolver $simpleNameResolver

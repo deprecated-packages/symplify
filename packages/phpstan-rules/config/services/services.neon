@@ -30,22 +30,26 @@ services:
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\PHPStanRules\Location\DirectoryChecker
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
+
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
-    - Symplify\Astral\NodeFinder\ParentNodeFinder
+    - Symplify\Astral\NodeFinder\SimpleNodeFinder
+
     - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
-    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
-    - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeFinder\StatementFinder
-
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
     - Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder
+
+    - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
+
+    - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer

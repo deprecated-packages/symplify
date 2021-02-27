@@ -16,7 +16,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
@@ -56,7 +56,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     private $parentMethodReturnTypeResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -68,7 +68,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $parentNodeFinder,
         ArrayAnalyzer $arrayAnalyzer
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;

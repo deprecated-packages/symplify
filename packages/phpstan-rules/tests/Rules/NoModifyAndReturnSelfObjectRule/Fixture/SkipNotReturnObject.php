@@ -6,13 +6,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoModifyAndReturnSelfObjectRule\Fixt
 
 use DateTime;
 
-final class SkipReturnClone
+final class SkipNotReturnObject
 {
     public function run(DateTime $dateTime)
     {
-        $new = clone $dateTime;
-        $new->format('Y-m-d');
+        $dateTime->format('Y-m-d');
 
-        return $new;
+        return 0;
     }
 }

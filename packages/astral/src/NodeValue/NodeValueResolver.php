@@ -21,7 +21,7 @@ use PhpParser\Node\Scalar\MagicConst\File;
 use PhpParser\Node\Stmt\ClassLike;
 use ReflectionClassConstant;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
@@ -50,14 +50,14 @@ final class NodeValueResolver
     private $currentFilePath;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $parentNodeFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
 

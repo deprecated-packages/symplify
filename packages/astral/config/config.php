@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PhpParser\ConstExprEvaluator;
+use PhpParser\NodeFinder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
@@ -23,4 +24,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ConstExprEvaluator::class);
     $services->set(TypeChecker::class);
+    $services->set(NodeFinder::class);
 };

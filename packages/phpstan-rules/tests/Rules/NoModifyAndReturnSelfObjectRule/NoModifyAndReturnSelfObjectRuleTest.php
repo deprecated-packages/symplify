@@ -13,6 +13,18 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
 {
     /**
      * @dataProvider provideData()
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+     * @param mixed[]<int, array<int|string>> $expectedErrorMessagesWithLines
+=======
+     * @param array<string|int> $expectedErrorMessagesWithLines
+>>>>>>> c9cc6b8f4... fixup! make use of return scope
+>>>>>>> f7e82b7bf... fixup! make use of return scope
+=======
+     * @param array<string|int> $expectedErrorMessagesWithLines
+>>>>>>> 13fee3ea3... fixup! fixup! make use of return scope
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
@@ -21,14 +33,18 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipNoParams.php', []];
-        yield [__DIR__ . '/Fixture/SkipNoReturn.php', []];
+        yield [__DIR__ . '/Fixture/SkipUnnesting.php', []];
+        yield [__DIR__ . '/Fixture/SkipAnotherType.php', []];
         yield [__DIR__ . '/Fixture/SkipNoReturnNoExpr.php', []];
         yield [__DIR__ . '/Fixture/SkipReturnClone.php', []];
+        yield [__DIR__ . '/Fixture/SkipNotReturnObject.php', []];
+        yield [__DIR__ . '/Fixture/SkipStringUnion.php', []];
 
         yield [__DIR__ . '/Fixture/ModifyAndReturnSelfObject.php', [
-            [NoModifyAndReturnSelfObjectRule::ERROR_MESSAGE, 11]
+            [NoModifyAndReturnSelfObjectRule::ERROR_MESSAGE, 14],
         ]];
+
+        yield [__DIR__ . '/Fixture/NoClone.php', [[NoModifyAndReturnSelfObjectRule::ERROR_MESSAGE, 15]]];
     }
 
     protected function getRule(): Rule

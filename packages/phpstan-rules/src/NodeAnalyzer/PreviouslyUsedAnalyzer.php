@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder;
 
 final class PreviouslyUsedAnalyzer
@@ -41,7 +41,7 @@ final class PreviouslyUsedAnalyzer
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -49,7 +49,7 @@ final class PreviouslyUsedAnalyzer
         NodeFinder $nodeFinder,
         PreviousLoopFinder $previousLoopFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->previousLoopFinder = $previousLoopFinder;

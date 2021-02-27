@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -38,14 +38,14 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     private $standard;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
     /**
      * @param class-string<T>[] $forbiddenNodes
      */
-    public function __construct(Standard $standard, ParentNodeFinder $parentNodeFinder, array $forbiddenNodes = [])
+    public function __construct(Standard $standard, SimpleNodeFinder $parentNodeFinder, array $forbiddenNodes = [])
     {
         Assert::allIsAOf($forbiddenNodes, Node::class);
 

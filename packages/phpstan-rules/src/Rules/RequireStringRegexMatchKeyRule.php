@@ -16,7 +16,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\ValueObject\NodeFinder\ScopeTypes;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -42,14 +42,14 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;

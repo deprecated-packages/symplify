@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class CallableTypeAnalyzer
@@ -25,7 +25,7 @@ final class CallableTypeAnalyzer
     private $typeUnwrapper;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -34,7 +34,7 @@ final class CallableTypeAnalyzer
      */
     private $standard;
 
-    public function __construct(TypeUnwrapper $typeUnwrapper, ParentNodeFinder $parentNodeFinder, Standard $standard)
+    public function __construct(TypeUnwrapper $typeUnwrapper, SimpleNodeFinder $parentNodeFinder, Standard $standard)
     {
         $this->typeUnwrapper = $typeUnwrapper;
         $this->parentNodeFinder = $parentNodeFinder;

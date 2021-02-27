@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
@@ -37,7 +37,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -54,7 +54,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         NodeValueResolver $nodeValueResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $parentNodeFinder,
         StatementFinder $statementFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;

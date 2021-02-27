@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
@@ -42,7 +42,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     private $parentClassMethodNodeResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
@@ -54,7 +54,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $parentNodeFinder,
         SimpleNameResolver $simpleNameResolver
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;

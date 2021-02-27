@@ -16,7 +16,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer
@@ -38,14 +38,14 @@ final class DependencyNodeAnalyzer
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
     private $parentNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $parentNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
