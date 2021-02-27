@@ -18,7 +18,7 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use void for modify and return self object';
+    public const ERROR_MESSAGE = 'Use void instead of modify and return self object';
 
     /**
      * @return string[]
