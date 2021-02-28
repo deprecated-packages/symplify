@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-interface SkipInterface
+class SkipAnotherTest
 {
-    public function someMethod();
+    public function test()
+    {
+        return 100;
+    }
 }

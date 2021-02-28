@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-class SkipSingleStmt
+class SkipAnotherConstruct
 {
-    public function singleStmt()
+    public function __construct()
     {
-        return 'single';
+        echo '__construct';
     }
 }

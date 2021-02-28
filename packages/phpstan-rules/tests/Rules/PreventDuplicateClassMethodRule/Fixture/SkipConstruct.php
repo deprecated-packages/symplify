@@ -9,6 +9,5 @@ class SkipConstruct
     public function __construct()
     {
         echo '__construct';
-        echo 'statement';
     }
 }

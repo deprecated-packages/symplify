@@ -39,6 +39,11 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
+     * @var string
+     */
+    private const MINIMUM_LINE_COUNT = 3;
+
+    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -202,7 +207,7 @@ CODE_SAMPLE
 
         /** @var Stmt[] $stmts */
         $stmts = (array) $classMethod->stmts;
-        if (count($stmts) <= 1) {
+        if (count($stmts) < self::MINIMUM_LINE_COUNT) {
             return true;
         }
 
