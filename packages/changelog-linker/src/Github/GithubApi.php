@@ -119,7 +119,9 @@ final class GithubApi
 
         for ($i = 1; $i <= self::MAX_PAGE; ++$i) {
             $url = sprintf(self::URL_CLOSED_PULL_REQUESTS, $this->repositoryName) . '&page=' . $i;
-            $url .= '&base=' . $baseBranch;
+            if ($baseBranch !== '') {
+                $url .= '&base=' . $baseBranch;
+            }
             $response = $this->getResponseToUrl($url);
 
             // already no more pages → stop
