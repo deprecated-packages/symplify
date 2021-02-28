@@ -25,6 +25,7 @@ final class ForbiddenComplexFuncCallRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/ComlextArrayFilter.php', [[$errorMessage, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipSimpleArrayFilter.php', []];
+        yield [__DIR__ . '/Fixture/SkipArrayFilterWithoutCallable.php', []];
     }
 
     protected function getRule(): Rule
