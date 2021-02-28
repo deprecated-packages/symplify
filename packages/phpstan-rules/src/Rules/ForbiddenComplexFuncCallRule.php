@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -24,11 +24,6 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
     public const ERROR_MESSAGE = 'Do not use "%s" function with complex content, make it more readable with extracted method or single-line statement';
 
     /**
-     * @var int
-     */
-    private const MAXIMUM_ALLOWED_STMT_COUNT = 2;
-
-    /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
@@ -39,12 +34,21 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
     private $forbiddenComplexFunctions = [];
 
     /**
+     * @var int
+     */
+    private $maximumStmtCount;
+
+    /**
      * @param string[] $forbiddenComplexFunctions
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenComplexFunctions = [])
-    {
+    public function __construct(
+        SimpleNameResolver $simpleNameResolver,
+        array $forbiddenComplexFunctions = [],
+        int $maximumStmtCount = 2
+    ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->forbiddenComplexFunctions = $forbiddenComplexFunctions;
+        $this->maximumStmtCount = $maximumStmtCount;
     }
 
     /**
@@ -70,7 +74,7 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
             return [];
         }
 
-        if (count($secondArgValue->stmts) < self::MAXIMUM_ALLOWED_STMT_COUNT) {
+        if (count($secondArgValue->stmts) < $this->maximumStmtCount) {
             return [];
         }
 
@@ -81,7 +85,7 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 $filteredElements = array_filter($elemnets, function ($item) {
     if ($item) {
@@ -101,6 +105,11 @@ $filteredElements = array_filter($elemnets, function ($item) {
     return $item instanceof KeepItSimple;
 };
 CODE_SAMPLE
+                ,
+                [
+                    'forbiddenComplexFunctions' => ['array_filter'],
+                    'maximumStmtCount' => 2,
+                ]
             ),
         ]);
     }

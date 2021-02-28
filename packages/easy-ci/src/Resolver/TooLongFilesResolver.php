@@ -21,8 +21,13 @@ final class TooLongFilesResolver
     public function resolve(array $fileInfos): array
     {
         return array_filter($fileInfos, function (SmartFileInfo $fileInfo): bool {
-            $filePathLength = strlen($fileInfo->getRealPath());
-            return $filePathLength > self::MAX_FILE_LENGTH;
+            return $this->isFileContentLongerThan($fileInfo, self::MAX_FILE_LENGTH);
         });
+    }
+
+    private function isFileContentLongerThan(SmartFileInfo $fileInfo, int $maxFileLenght): bool
+    {
+        $filePathLength = strlen($fileInfo->getRealPath());
+        return $filePathLength > $maxFileLenght;
     }
 }

@@ -8,3 +8,4 @@ services:
         arguments:
             forbiddenComplexFunctions:
                 - 'array_filter'
+            maximumStmtCount: 2
