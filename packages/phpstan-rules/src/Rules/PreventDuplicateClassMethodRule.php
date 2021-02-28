@@ -15,18 +15,19 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
  */
-final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
+final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method "%s()" in "%s" class. Use unique content or abstract service instead';
+    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method "%s()" in "%s" class. Use unique content or service instead';
 
     /**
      * @var string[]
@@ -58,14 +59,21 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
      */
     private $typeChecker;
 
+    /**
+     * @var int
+     */
+    private $minimumLineCount;
+
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
-        TypeChecker $typeChecker
+        TypeChecker $typeChecker,
+        int $minimumLineCount = 3
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->duplicatedClassMethodPrinter = $duplicatedClassMethodPrinter;
         $this->typeChecker = $typeChecker;
+        $this->minimumLineCount = $minimumLineCount;
     }
 
     /**
@@ -116,46 +124,42 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-class A
+class SomeClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $value = new SmartFinder();
     }
 }
 
-class B
+class AnotherClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $differentValue = new SmartFinder();
     }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class A
+class SomeClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $value = new SmartFinder();
     }
 }
-
-class B
-{
-    public function someMethod()
-    {
-        echo 'statement';
-        (new SmartFinder())->run('.js');
-    }
 }
 CODE_SAMPLE
+        ,
+                [
+                    'minimumLineCount' => 1,
+                ]
             ),
         ]);
     }
@@ -202,7 +206,7 @@ CODE_SAMPLE
 
         /** @var Stmt[] $stmts */
         $stmts = (array) $classMethod->stmts;
-        if (count($stmts) <= 1) {
+        if (count($stmts) < $this->minimumLineCount) {
             return true;
         }
 

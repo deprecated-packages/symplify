@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture;
 
-final class WithNoParameter1
+class SkipAnotherConstruct
 {
-    public function diff()
+    public function __construct()
     {
-        echo 'statement';
-        (new SmartFinder())->run('.php');
+        echo '__construct';
     }
 }

@@ -9,8 +9,6 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\DifferentMethodName1;
-use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithNoParameter1;
-use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\WithParameter1;
 
 final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
@@ -29,10 +27,11 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
         yield [[__DIR__ . '/Fixture/Entity/SkipApple.php', __DIR__ . '/Fixture/Entity/SkipCar.php'], []];
 
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipConstruct.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipTest.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipConstruct.php', __DIR__ . '/Fixture/SkipAnotherConstruct.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipTest.php', __DIR__ . '/Fixture/SkipAnotherTest.php'], []];
+
         yield [[__DIR__ . '/Fixture/SkipNodeType.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipSingleStmt.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipDoubleStmt.php'], []];
 
         yield [[
             __DIR__ . '/Fixture/SkipClassWithTrait.php',
@@ -48,24 +47,11 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
 
         $errorMessage = sprintf(
             PreventDuplicateClassMethodRule::ERROR_MESSAGE,
-            'diff',
-            'diff',
-            WithNoParameter1::class
-        );
-        $errorMessage2 = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'diff', 'diff', WithParameter1::class);
-        yield [[
-            __DIR__ . '/Fixture/WithNoParameter1.php',
-            __DIR__ . '/Fixture/WithNoParameter2.php',
-            __DIR__ . '/Fixture/WithParameter1.php',
-            __DIR__ . '/Fixture/WithParameter2.php',
-        ], [[$errorMessage, 9], [$errorMessage2, 9]]];
-
-        $errorMessage = sprintf(
-            PreventDuplicateClassMethodRule::ERROR_MESSAGE,
             'sleep',
             'go',
             DifferentMethodName1::class
         );
+
         yield [[
             __DIR__ . '/Fixture/DifferentMethodName1.php',
             __DIR__ . '/Fixture/DifferentMethodName2.php',
