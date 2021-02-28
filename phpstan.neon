@@ -294,7 +294,6 @@ parameters:
             message: '#"%s" in sprintf\(\) format must be quoted#'
             paths:
                 - packages/latte-to-twig-converter/src/CaseConverter/LoopsCaseConverter.php
-                - packages/config-transformer/src/Guard/InputValidator.php
 
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
@@ -428,8 +427,6 @@ parameters:
                 - packages/git-wrapper/src/GitWorkingCopy.php
                 - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
 
-        - '#Content of method "getIterator\(\)" is duplicated with method "getIterator\(\)" in "Symplify\\GitWrapper\\GitBranches" class\. Use unique content or abstract service instead#'
-
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
@@ -463,8 +460,6 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or abstract service instead#'
         - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         -
@@ -478,3 +473,5 @@ parameters:
                 - packages/git-wrapper/src
                 - packages/set-config-resolver/src/ConfigResolver.php
                 - packages/set-config-resolver/src/SetAwareConfigResolver.php
+
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
