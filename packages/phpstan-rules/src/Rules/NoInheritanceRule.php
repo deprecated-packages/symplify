@@ -71,16 +71,27 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     private $allowedParentTypes = [];
 
     /**
+     * @var array<class-string>
+     */
+    private $allowedDirectParentTypes = [];
+
+    /**
      * @param array<class-string> $allowedParentTypes
+     * @param array<class-string> $allowedDirectParentTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        array $allowedParentTypes
+        array $allowedParentTypes = [],
+        array $allowedDirectParentTypes = []
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->typeChecker = $typeChecker;
         $this->allowedParentTypes = array_merge(self::DEFAULT_ALLOWED_PARENT_TYPES, $allowedParentTypes);
+        $this->allowedDirectParentTypes = array_merge(
+            self::DEFAULT_ALLOWED_DIRECT_PARENT_TYPES,
+            $allowedDirectParentTypes
+        );
     }
 
     /**
@@ -111,7 +122,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         }
 
         $parentClass = $this->simpleNameResolver->getName($node->extends);
-        foreach (self::DEFAULT_ALLOWED_DIRECT_PARENT_TYPES as $allowedDirectParentType) {
+        foreach ($this->allowedDirectParentTypes as $allowedDirectParentType) {
             if ($allowedDirectParentType === $parentClass) {
                 return [];
             }
