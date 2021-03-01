@@ -1,6 +1,118 @@
 <!-- changelog-linker -->
 
-## 9.2.0 - 2021-02-22
+## Unreleased
+
+### ChangelogLinker
+
+#### Changed
+
+- [#2986] Move packages/category priority to config option
+
+#### Fixed
+
+- [#3007] Fix get pull requests since id without base-branch option, Thanks to [@zingimmick]
+
+### Cleaning
+
+#### Changed
+
+- [#2977] Get rid of nullable parameters
+
+### EasyCodingStandard
+
+#### Added
+
+- [#2995] Add StandaloneLineInMultilineArrayFixer to array set
+
+#### Changed
+
+- [#2993] Make main config last to use its configuratoin
+
+### MonorepoBuilder
+
+#### Added
+
+- [#2959] Add DEFAULT_BRANCH_NAME parameter, Thanks to [@addshore]
+
+#### Changed
+
+- [#2997] Use original version string for tag, Thanks to [@addshore]
+
+#### Fixed
+
+- [#2967] Fix "vaulue" typo in README, Thanks to [@addshore]
+
+### PHPStanRules
+
+#### Added
+
+- [#2968] Add RequireStringArgumentInConstructorRule, Thanks to [@ruudk]
+- [#2987] Add no NoInheritanceRule rule and apply it
+- [#3010] Add ForbiddenComplexFuncCallRule
+- [#2985] Add ForbiddenNullableReturnRule
+- [#2999] Add NoNullablePropertyRule, Thanks to [@samsonasik]
+
+#### Changed
+
+- [#2975] Extend ForbiddenNullableParameterRule with allowedTypes
+- [#3009] Make PreventDuplicateClassMethodRule configurable with minium line count to take into account
+
+#### Fixed
+
+- [#2974] fix ddd typo
+
+### Rector
+
+#### Changed
+
+- [#3000] Clean up rector config of skip MoveVariableDeclarationNearReferenceRector, Thanks to [@samsonasik]
+
+### RuleDocGenerator
+
+- [#2956] Link rule class to source, Thanks to [@ruudk]
+- [#2970] Ensure trim $badCode and $goodCode in AbstractCodeSample, Thanks to [@samsonasik]
+- [#2984] Ensure rule file path has / prefix in generation, Thanks to [@samsonasik]
+
+### SymfonyRouteUsage
+
+- [#2982] Move elsewhere
+
+### TASK
+
+- [#2979] Named fixtures for dataProvider, Thanks to [@sabbelasichon]
+
+### Unknown Package
+
+- [#2969] Rename package action workflows to repo-lockdown.yaml, Thanks to [@addshore]
+- [#3011] cleanup
+- [#2955] Automated Update of Changelog on 2021-02-15, Thanks to [@github-actions][bot]
+
+#### Fixed
+
+- [#2990] bump deps + various static fixes
+- [#2994] Fix typo bulid -> build, Thanks to [@addshore]
+- [#2966] Fix Github workflow name. cron_generate_changelog.yaml, Thanks to [@addshore]
+- [#2965] Fix "Unfortunatelly" typo in all Github Action workflows, Thanks to [@addshore]
+- [#2958] Fix "Unfortunatelly" typo, Thanks to [@addshore]
+
+#### Removed
+
+- [#2996] remove forgotten old phar supported config
+
+### automated
+
+#### Changed
+
+- [#2983] Re-Generate Docs, Thanks to [@github-actions][bot]
+- [#3005] Re-Generate Docs, Thanks to [@github-actions][bot]
+
+### class-presence
+
+#### Fixed
+
+- [#3008] Handle quoted class names in twig templates (fixes [#3001]), Thanks to [@guillaumesmo]
+
+## [9.2.0] - 2021-02-22
 
 ### Added
 
@@ -1691,3 +1803,41 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 [#2899]: https://github.com/symplify/symplify/pull/2899
 [@gertvdb]: https://github.com/gertvdb
 [9.1.0]: https://github.com/symplify/symplify/compare/9.0.49...9.1.0
+[#3011]: https://github.com/symplify/symplify/pull/3011
+[#3010]: https://github.com/symplify/symplify/pull/3010
+[#3009]: https://github.com/symplify/symplify/pull/3009
+[#3008]: https://github.com/symplify/symplify/pull/3008
+[#3007]: https://github.com/symplify/symplify/pull/3007
+[#3005]: https://github.com/symplify/symplify/pull/3005
+[#3001]: https://github.com/symplify/symplify/pull/3001
+[#3000]: https://github.com/symplify/symplify/pull/3000
+[#2999]: https://github.com/symplify/symplify/pull/2999
+[#2997]: https://github.com/symplify/symplify/pull/2997
+[#2996]: https://github.com/symplify/symplify/pull/2996
+[#2995]: https://github.com/symplify/symplify/pull/2995
+[#2994]: https://github.com/symplify/symplify/pull/2994
+[#2993]: https://github.com/symplify/symplify/pull/2993
+[#2990]: https://github.com/symplify/symplify/pull/2990
+[#2987]: https://github.com/symplify/symplify/pull/2987
+[#2986]: https://github.com/symplify/symplify/pull/2986
+[#2985]: https://github.com/symplify/symplify/pull/2985
+[#2984]: https://github.com/symplify/symplify/pull/2984
+[#2983]: https://github.com/symplify/symplify/pull/2983
+[#2982]: https://github.com/symplify/symplify/pull/2982
+[#2979]: https://github.com/symplify/symplify/pull/2979
+[#2977]: https://github.com/symplify/symplify/pull/2977
+[#2975]: https://github.com/symplify/symplify/pull/2975
+[#2974]: https://github.com/symplify/symplify/pull/2974
+[#2970]: https://github.com/symplify/symplify/pull/2970
+[#2969]: https://github.com/symplify/symplify/pull/2969
+[#2968]: https://github.com/symplify/symplify/pull/2968
+[#2967]: https://github.com/symplify/symplify/pull/2967
+[#2966]: https://github.com/symplify/symplify/pull/2966
+[#2965]: https://github.com/symplify/symplify/pull/2965
+[#2959]: https://github.com/symplify/symplify/pull/2959
+[#2958]: https://github.com/symplify/symplify/pull/2958
+[#2956]: https://github.com/symplify/symplify/pull/2956
+[#2955]: https://github.com/symplify/symplify/pull/2955
+[@sabbelasichon]: https://github.com/sabbelasichon
+[@guillaumesmo]: https://github.com/guillaumesmo
+[9.2.0]: https://github.com/symplify/symplify/compare/9.1.0...9.2.0
