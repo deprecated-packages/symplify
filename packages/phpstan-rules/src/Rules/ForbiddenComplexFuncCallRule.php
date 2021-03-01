@@ -69,6 +69,10 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
             return [];
         }
 
+        if (! isset($node->args[1])) {
+            return [];
+        }
+
         $secondArgValue = $node->args[1]->value;
         if (! $secondArgValue instanceof Closure) {
             return [];
