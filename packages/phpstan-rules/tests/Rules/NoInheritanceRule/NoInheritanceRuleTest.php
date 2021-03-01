@@ -22,7 +22,10 @@ final class NoInheritanceRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeClassWithParent.php', [[NoInheritanceRule::ERROR_MESSAGE, 9]]];
+        yield [__DIR__ . '/Fixture/UndirectClassNodeVisitor.php', [[NoInheritanceRule::ERROR_MESSAGE, 9]]];
+
         yield [__DIR__ . '/Fixture/SkipTestCase.php', []];
+        yield [__DIR__ . '/Fixture/SkipDirectNodeVisitor.php', []];
     }
 
     protected function getRule(): Rule
