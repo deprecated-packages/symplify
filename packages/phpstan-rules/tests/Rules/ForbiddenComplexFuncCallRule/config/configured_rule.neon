@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenComplexFunctions:
+                - 'array_filter'
+            maximumStmtCount: 2

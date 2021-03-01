@@ -8,5 +8,6 @@ class SkipTest
 {
     public function test()
     {
+        return 100;
     }
 }

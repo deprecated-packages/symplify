@@ -42,7 +42,6 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'Twig\Extension\ExtensionInterface',
         'PhpCsFixer\AbstractDoctrineAnnotationFixer',
         'PhpParser\NodeTraverser',
-        'PhpParser\NodeVisitor',
         'PhpParser\Builder',
         'PhpParser\PrettyPrinter\Standard',
         'PHPStan\PhpDocParser\Ast\Node',
@@ -50,6 +49,11 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'SplFileInfo',
         'Throwable',
     ];
+
+    /**
+     * @var string[]
+     */
+    private const DEFAULT_ALLOWED_DIRECT_PARENT_TYPES = ['PhpParser\NodeVisitorAbstract'];
 
     /**
      * @var SimpleNameResolver
@@ -67,16 +71,27 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     private $allowedParentTypes = [];
 
     /**
+     * @var array<class-string>
+     */
+    private $allowedDirectParentTypes = [];
+
+    /**
      * @param array<class-string> $allowedParentTypes
+     * @param array<class-string> $allowedDirectParentTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        array $allowedParentTypes
+        array $allowedParentTypes = [],
+        array $allowedDirectParentTypes = []
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->typeChecker = $typeChecker;
         $this->allowedParentTypes = array_merge(self::DEFAULT_ALLOWED_PARENT_TYPES, $allowedParentTypes);
+        $this->allowedDirectParentTypes = array_merge(
+            self::DEFAULT_ALLOWED_DIRECT_PARENT_TYPES,
+            $allowedDirectParentTypes
+        );
     }
 
     /**
@@ -104,6 +119,13 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
 
         if ($this->typeChecker->isInstanceOf($parentClassName, $this->allowedParentTypes)) {
             return [];
+        }
+
+        $parentClass = $this->simpleNameResolver->getName($node->extends);
+        foreach ($this->allowedDirectParentTypes as $allowedDirectParentType) {
+            if ($allowedDirectParentType === $parentClass) {
+                return [];
+            }
         }
 
         return [self::ERROR_MESSAGE];

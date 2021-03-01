@@ -14,9 +14,10 @@ final class NonExistingClassConstantExtractor
 {
     /**
      * @var string
-     * @see https://regex101.com/r/Wrfff2/1
+     * @see https://regex101.com/r/Wrfff2/14
+     * @see https://regex101.com/r/6ree2D/1
      */
-    private const CLASS_CONSTANT_NAME_REGEX = '#\b(?<class_constant_name>[A-Z](\w+\\\\(\\\\)?)+(\w+)::[A-Z_0-9]+)#';
+    private const CLASS_CONSTANT_NAME_REGEX = '#(?<quote>["\']?)[\\\\]*\b(?<class_constant_name>[A-Z](\w+\\\\(\\\\)?)+(\w+)::[A-Z_0-9]+)#';
 
     /**
      * @return string[]
@@ -31,6 +32,11 @@ final class NonExistingClassConstantExtractor
         $missingClassConstantNames = [];
         foreach ($foundMatches as $foundMatch) {
             $classConstantName = $foundMatch['class_constant_name'];
+
+            if ($fileInfo->getSuffix() === 'twig' && $foundMatch['quote'] !== '') {
+                $classConstantName = str_replace('\\\\', '\\', $classConstantName);
+            }
+
             if (defined($classConstantName)) {
                 continue;
             }

@@ -9,6 +9,7 @@ class DifferentMethodName2
     public function sleep($yet)
     {
         $yet += 100000;
+        $yet += 100000;
         return $yet + 1000;
     }
 }

@@ -13,15 +13,15 @@ final class ClassExtractor
 {
     /**
      * @var string
-     * @see https://regex101.com/r/1VKOxi/7
+     * @see https://regex101.com/r/1VKOxi/8
      */
-    private const CLASS_NAME_REGEX = '#\b(?<class_name>[A-Z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:)?(?!:)$#m';
+    private const CLASS_NAME_REGEX = '#(?<quote>["\']?)\b(?<class_name>[A-Z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
 
     /**
      * @var string
-     * @see https://regex101.com/r/1IpNtV/2
+     * @see https://regex101.com/r/1IpNtV/3
      */
-    private const STATIC_CALL_CLASS_REGEX = '#(?<class_name>[A-Z][\w\\\\]+)::#';
+    private const STATIC_CALL_CLASS_REGEX = '#(?<quote>["\']?)[\\\\]*(?<class_name>[A-Z][\w\\\\]+)::#';
 
     /**
      * @var string
@@ -43,12 +43,12 @@ final class ClassExtractor
                 continue;
             }
 
-            $classNames[] = $match['class_name'];
+            $classNames[] = $this->extractClassName($fileInfo, $match);
         }
 
         $matches = Strings::matchAll($fileContent, self::STATIC_CALL_CLASS_REGEX);
         foreach ($matches as $match) {
-            $classNames[] = $match['class_name'];
+            $classNames[] = $this->extractClassName($fileInfo, $match);
         }
 
         return $classNames;
@@ -66,5 +66,14 @@ final class ClassExtractor
         }
 
         return $fileInfo->getContents();
+    }
+
+    private function extractClassName(SmartFileInfo $fileInfo, array $match): string
+    {
+        if ($fileInfo->getSuffix() === 'twig' && $match['quote'] !== '') {
+            return str_replace('\\\\', '\\', $match['class_name']);
+        }
+
+        return $match['class_name'];
     }
 }

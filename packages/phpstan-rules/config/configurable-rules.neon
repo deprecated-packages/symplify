@@ -17,6 +17,13 @@ services:
             minNameLength: 2
 
     -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenComplexFunctions:
+                - 'array_filter'
+
+    -
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
 
