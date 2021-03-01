@@ -52,7 +52,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     ];
 
     /**
-     * @var string[]
+     * @var array<class-string>
      */
     private const DEFAULT_ALLOWED_DIRECT_PARENT_TYPES = ['PhpParser\NodeVisitorAbstract'];
 

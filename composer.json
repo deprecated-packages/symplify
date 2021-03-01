@@ -38,7 +38,8 @@
         "symfony/http-kernel": "^4.4|^5.2",
         "symfony/process": "^4.4|^5.2",
         "symfony/routing": "^4.4|^5.2",
-        "symfony/yaml": "^4.4|^5.2"
+        "symfony/yaml": "^4.4|^5.2",
+        "webmozart/assert": "^1.9"
     },
     "require-dev": {
         "doctrine/annotations": "^1.12",
