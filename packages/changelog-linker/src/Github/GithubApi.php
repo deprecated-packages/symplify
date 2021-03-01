@@ -149,10 +149,7 @@ final class GithubApi
     private function filterMergedPullRequests(array $pullRequests): array
     {
         return array_filter($pullRequests, function (array $pullRequest): bool {
-            if (! isset($pullRequest[self::MERGED_AT])) {
-                return false;
-            }
-            return $pullRequest[self::MERGED_AT] !== null;
+            return $this->isKeySetWithValue($pullRequest, self::MERGED_AT);
         });
     }
 
@@ -214,5 +211,14 @@ final class GithubApi
         $message = $reason . PHP_EOL . 'Create a token at https://github.com/settings/tokens/new with only repository scope and use it as ENV variable: "GITHUB_TOKEN=... vendor/bin/changelog-linker ..." option.';
 
         return new GithubApiException($message, $throwable->getCode(), $throwable);
+    }
+
+    private function isKeySetWithValue(array $data, string $keyName): bool
+    {
+        if (! isset($data[$keyName])) {
+            return false;
+        }
+
+        return $data[$keyName] !== null;
     }
 }
