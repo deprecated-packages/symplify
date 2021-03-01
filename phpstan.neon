@@ -474,4 +474,10 @@ parameters:
                 - packages/set-config-resolver/src/ConfigResolver.php
                 - packages/set-config-resolver/src/SetAwareConfigResolver.php
 
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
+        # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
+        -
+            message: '#Call to static method create\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
+            paths:
+                - packages/easy-coding-standard/scoper.inc.php
+
+- '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
