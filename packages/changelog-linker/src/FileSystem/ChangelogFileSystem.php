@@ -111,6 +111,11 @@ final class ChangelogFileSystem
         $this->storeChangelog($updatedChangelogContent);
     }
 
+    public function getChangelogFilePath(): string
+    {
+        return $this->parameterProvider->provideStringParameter(Option::FILE);
+    }
+
     private function cleanUpUnreleased(string $updatedChangelogContent, string $placeholder): string
     {
         $updatedChangelogContent = Strings::replace(
@@ -132,10 +137,5 @@ final class ChangelogFileSystem
         }
 
         return str_replace(PHP_EOL . PHP_EOL . PHP_EOL, PHP_EOL, $updatedChangelogContent);
-    }
-
-    public function getChangelogFilePath(): string
-    {
-        return $this->parameterProvider->provideStringParameter(Option::FILE);
     }
 }
