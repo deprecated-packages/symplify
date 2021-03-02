@@ -54,26 +54,21 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
             /** @var Token $token */
             $token = $tokens[$position];
-            if (!$token->isGivenKind(T_DOC_COMMENT)) {
+            if (! $token->isGivenKind(T_DOC_COMMENT)) {
                 continue;
             }
 
             $docBlock = $token->getContent();
-            // Remove the prefix '/**'
-            $docBlock = Strings::replace($docBlock, '/^(\/\*\*[\n]?)/');
-            // Remove the suffix '*/'
-            $docBlock = Strings::replace($docBlock, '/(\*\/)$/');
-            // Remove extra whitespace at the end
-            $docBlock = rtrim($docBlock);
+            $indentationString = $this->resolveIndentationStringFor($docBlock);
 
-            $docBlockLines = explode(PHP_EOL, $docBlock);
-            $indentationString = $this->resolveIndentationStringFor($docBlockLines);
-
-            $docBlockLines = $this->cleanUpDocBlockLines($docBlockLines);
+            $docBlockLines = $this->getDocBlockLines($docBlock);
             // The available line length is the configured line length, minus the existing indentation, minus ' * '
             $maximumLineLength = $this->lineLength - strlen($indentationString) - 3;
 
-            list($descriptionLines, $otherLines) = $this->splitLines($docBlockLines);
+            [$descriptionLines, $otherLines] = $this->splitLines($docBlockLines);
+            if (count($descriptionLines) === 0) {
+                continue;
+            }
 
             $description = trim(implode(' ', $descriptionLines));
             $wrappedDescription = wordwrap($description, $maximumLineLength);
@@ -81,13 +76,10 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 $wrappedDescription .= "\n";
             }
 
-            $reformattedLines = array_merge(
-                explode(PHP_EOL, $wrappedDescription),
-                $otherLines
-            );
+            $reformattedLines = array_merge(explode(PHP_EOL, $wrappedDescription), $otherLines);
 
             $newDocBlockContent = $this->formatLinesAsDocBlockContent($reformattedLines, $indentationString);
-            if ($token->getContent() === $newDocBlockContent) {
+            if ($docBlock === $newDocBlockContent) {
                 continue;
             }
 
@@ -133,23 +125,30 @@ CODE_SAMPLE
         ]);
     }
 
-    private function resolveIndentationStringFor(array $docBlockLines): string
+    private function resolveIndentationStringFor(string $docBlock): string
     {
-        foreach ($docBlockLines as $line) {
-            if (preg_match('/^([\s]*) \*/', $line, $matches)) {
-                return $matches[1];
-            }
+        if (preg_match('/^([\s]*) \*/m', $docBlock, $matches)) {
+            return $matches[1];
         }
 
         return '';
     }
 
     /**
-     * @param string[] $docBlockLines
+     * @param string $docBlock
      * @return string[]
      */
-    private function cleanUpDocBlockLines(array $docBlockLines): array
+    private function getDocBlockLines(string $docBlock): array
     {
+        // Remove the prefix '/**'
+        $docBlock = Strings::replace($docBlock, '/^(\/\*\*[\n]?)/');
+        // Remove the suffix '*/'
+        $docBlock = Strings::replace($docBlock, '/(\*\/)$/');
+        // Remove extra whitespace at the end
+        $docBlock = rtrim($docBlock);
+
+        $docBlockLines = explode(PHP_EOL, $docBlock);
+
         return array_map(
             function (string $line): string {
                 $noWhitespace = Strings::trim($line, Strings::TRIM_CHARACTERS);
