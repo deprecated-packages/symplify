@@ -6,8 +6,10 @@ namespace Symplify\ChangelogLinker\FileSystem;
 
 use Nette\Utils\Strings;
 use Symplify\ChangelogLinker\ChangelogLinker;
+use Symplify\ChangelogLinker\Console\Command\DumpMergesCommand;
 use Symplify\ChangelogLinker\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -69,7 +71,11 @@ final class ChangelogFileSystem
     public function readChangelog(): string
     {
         $changelogFilePath = $this->getChangelogFilePath();
-        $this->fileSystemGuard->ensureFileExists($changelogFilePath, __METHOD__);
+        try {
+            $this->fileSystemGuard->ensureFileExists($changelogFilePath, __METHOD__);
+        } catch (FileNotFoundException $fileNotFoundException) {
+            $this->smartFileSystem->dumpFile($changelogFilePath, DumpMergesCommand::CHANGELOG_PLACEHOLDER_TO_WRITE);
+        }
 
         return $this->smartFileSystem->readFile($changelogFilePath);
     }
