@@ -134,7 +134,7 @@ final class ChangelogFileSystem
         return str_replace(PHP_EOL . PHP_EOL . PHP_EOL, PHP_EOL, $updatedChangelogContent);
     }
 
-    private function getChangelogFilePath(): string
+    public function getChangelogFilePath(): string
     {
         return $this->parameterProvider->provideStringParameter(Option::FILE);
     }
