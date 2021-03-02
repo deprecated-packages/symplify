@@ -33,6 +33,21 @@ final class ChangelogFileSystemTest extends AbstractKernelTestCase
         $this->changelogFileSystem = $this->getService(ChangelogFileSystem::class);
     }
 
+    public function testReadChangeLogNotExists(): void
+    {
+        rename($this->changelogFileSystem->getChangelogFilePath(), $this->changelogFileSystem->getChangelogFilePath() . '.backup');
+
+        $isExists = file_exists($this->changelogFileSystem->getChangelogFilePath());
+        $this->assertFalse($isExists);
+
+        $this->changelogFileSystem->readChangelog();
+
+        $isExists = file_exists($this->changelogFileSystem->getChangelogFilePath());
+        $this->assertTrue($isExists);
+
+        rename($this->changelogFileSystem->getChangelogFilePath() . '.backup', $this->changelogFileSystem->getChangelogFilePath());
+    }
+
     public function testAddToChangelogOnPlaceholder(): void
     {
         $originalContent = $this->changelogFileSystem->readChangelog();

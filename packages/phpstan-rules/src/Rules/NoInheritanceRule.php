@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
@@ -52,7 +53,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     ];
 
     /**
-     * @var array<class-string>
+     * @var class-string<NodeVisitorAbstract>[]
      */
     private const DEFAULT_ALLOWED_DIRECT_PARENT_TYPES = ['PhpParser\NodeVisitorAbstract'];
 
