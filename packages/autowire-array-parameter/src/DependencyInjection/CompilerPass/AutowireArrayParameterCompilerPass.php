@@ -42,6 +42,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
         'Sonata\Doctrine\Adapter\AdapterChain',
         'Sonata\Twig\Extension\TemplateExtension',
+        'Symfony\Component\HttpKernel\KernelInterface',
     ];
 
     /**
