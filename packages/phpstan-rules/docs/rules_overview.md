@@ -1,4 +1,4 @@
-# 146 Rules Overview
+# 147 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1251,6 +1251,56 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
+## ForbiddenComplexFuncCallRule
+
+Do not use "%s" function with complex content, make it more readable with extracted method or single-line statement
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule`](/packages/phpstan-rules/src/Rules/ForbiddenComplexFuncCallRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenComplexFunctions:
+                - array_filter
+
+            maximumStmtCount: 2
+```
+
+↓
+
+```php
+$filteredElements = array_filter($elemnets, function ($item) {
+    if ($item) {
+        return true;
+    }
+
+    if ($item === null) {
+        return true;
+    }
+
+    return false;
+};
+```
+
+:x:
+
+<br>
+
+```php
+$filteredElements = array_filter($elemnets, function ($item) {
+    return $item instanceof KeepItSimple;
+};
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenDependencyByTypeRule
 
 Object instance of "%s" is forbidden to be passed to constructor
@@ -2419,7 +2469,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
@@ -4502,26 +4552,39 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## PreventDuplicateClassMethodRule
 
-Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use unique content or abstract service instead
+Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use unique content or service instead
+
+:wrench: **configure it!**
 
 - class: [`Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule`](/packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php)
 
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minimumLineCount: 1
+```
+
+↓
+
 ```php
-class A
+class SomeClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $value = new SmartFinder();
     }
 }
 
-class B
+class AnotherClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $differentValue = new SmartFinder();
     }
 }
 ```
@@ -4531,22 +4594,14 @@ class B
 <br>
 
 ```php
-class A
+class SomeClass
 {
     public function someMethod()
     {
         echo 'statement';
-        (new SmartFinder())->run('.php');
+        $value = new SmartFinder();
     }
 }
-
-class B
-{
-    public function someMethod()
-    {
-        echo 'statement';
-        (new SmartFinder())->run('.js');
-    }
 }
 ```
 
@@ -5677,7 +5732,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 

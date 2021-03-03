@@ -42,6 +42,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Sonata\CoreBundle\Model\Adapter\AdapterInterface',
         'Sonata\Doctrine\Adapter\AdapterChain',
         'Sonata\Twig\Extension\TemplateExtension',
+        'Symfony\Component\HttpKernel\KernelInterface',
     ];
 
     /**
@@ -106,7 +107,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 
         // skip 3rd party classes, they're autowired by own config
         $excludedNamespacePattern = '#^(' . implode('|', self::EXCLUDED_NAMESPACES) . ')\\\\#';
-        if ((bool) Strings::match($resolvedClassName, $excludedNamespacePattern)) {
+        if (Strings::match($resolvedClassName, $excludedNamespacePattern)) {
             return true;
         }
 
@@ -115,6 +116,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         }
 
         if ($definition->getFactory()) {
+            return true;
+        }
+
+        if (! class_exists($definition->getClass())) {
             return true;
         }
 

@@ -42,9 +42,6 @@ jobs:
                             packages/easy-coding-standard/bin/ecs --ansi
                             # packages/rule-doc-generator/bin/rule-doc-generator --ansi
 
-                            # test "check" options
-                            packages/easy-coding-standard/bin/ecs check packages/changelog-linker/src --no-progress-bar --no-error-table --clear-cache --ansi
-
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
 
