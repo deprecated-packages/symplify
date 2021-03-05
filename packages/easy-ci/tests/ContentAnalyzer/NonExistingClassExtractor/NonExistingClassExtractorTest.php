@@ -37,7 +37,7 @@ final class NonExistingClassExtractorTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/config/skip_psr4_autodiscovery.yaml', 0];
-        yield [__DIR__ . '/Fixture/config/nette/skip_routing_mapping.neon', 0];
+        yield [__DIR__ . '/Fixture/config/nette/skip_routing_mapping.neon', 1];
 
         // nette
         yield [__DIR__ . '/Fixture/config/mapping_only.neon', 0];
