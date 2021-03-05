@@ -41,19 +41,9 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
     private $blockFinder;
 
     /**
-     * @var int
-     */
-    private $bracketNesting = 0;
-
-    /**
      * @var ChainMethodCallAnalyzer
      */
     private $chainMethodCallAnalyzer;
-
-    /**
-     * @var NewlineAnalyzer
-     */
-    private $newlineAnalyzer;
 
     public function __construct(
         WhitespacesFixerConfig $whitespacesFixerConfig,
@@ -64,7 +54,6 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->blockFinder = $blockFinder;
         $this->chainMethodCallAnalyzer = $chainMethodCallAnalyzer;
-        $this->newlineAnalyzer = $newlineAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface

@@ -46,7 +46,7 @@ final class DocBlockLines
 
     public function hasListDescriptionLines(): bool
     {
-        foreach ($this->descriptionLines as $key => $descriptionLine) {
+        foreach ($this->descriptionLines as $descriptionLine) {
             if (Strings::startsWith($descriptionLine, '-')) {
                 return true;
             }
