@@ -55,14 +55,14 @@ final class FilterCaseConverter implements CaseConverterInterface
     public function convertContent(string $content): string
     {
         /**
-         * | noescape => ↓ | raw
+         * | noescape → | raw
          */
         $content = Strings::replace($content, self::NOESCAPE_REGEX, '|$1raw');
 
         /**
-         * {$value|date:'j. n. Y'} ↓ {{ value|date('j. n. Y') }}
+         * {$value|date:'j. n. Y'} → {{ value|date('j. n. Y') }}
          *
-         * {$11874|number:0:',':' '} ↓ {{ 11874|number_format(0, ',', ' ') }}
+         * {$11874|number:0:',':' '} → {{ 11874|number_format(0, ',', ' ') }}
          */
         $content = Strings::replace($content, self::IN_BRACKET_REGEX, function (array $match): string {
             // has some filter with args?
