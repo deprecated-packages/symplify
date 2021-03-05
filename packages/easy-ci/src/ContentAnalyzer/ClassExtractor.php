@@ -42,11 +42,16 @@ final class ClassExtractor
         $fileContent = $this->getFileContent($fileInfo);
 
         $matches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
+
+        dump($fileContent);
+
         foreach ($matches as $match) {
             if (isset($match[self::NEXT_CHAR]) && ($match[self::NEXT_CHAR] === '\\' || $match[self::NEXT_CHAR] === '\\:')) {
                 // is Symfony autodiscovery → skip
                 continue;
             }
+
+            dump($match);
 
             $classNames[] = $this->extractClassName($fileInfo, $match);
         }
