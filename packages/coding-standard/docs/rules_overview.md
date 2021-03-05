@@ -1,4 +1,4 @@
-# 15 Rules Overview
+# 16 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -39,6 +39,43 @@ Strict type declaration has to be followed by empty line
  declare(strict_types=1);
 +
  namespace App;
+```
+
+<br>
+
+## DocBlockLineLengthFixer
+
+Docblock lenght should fit expected width
+
+:wrench: **configure it!**
+
+- class: [`Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer`](/packages/coding-standard/src/Fixer/LineLength/DocBlockLineLengthFixer.php)
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(DocBlockLineLengthFixer::class)
+        ->call('configure', [[
+            DocBlockLineLengthFixer::LINE_LENGTH => 40,
+        ]]);
+};
+```
+
+↓
+
+```diff
+ /**
+- * Super long doc block description
++ * Super long doc
++ * block description
+  */
+ function some()
+ {
+ }
 ```
 
 <br>

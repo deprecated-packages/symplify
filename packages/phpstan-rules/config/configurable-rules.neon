@@ -52,14 +52,14 @@ services:
 
     # parenting
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
+        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
         tags: [phpstan.rules.rule]
         arguments:
-            forbiddenParentClasses:
-                - Doctrine\ORM\EntityRepository
-
-            forbiddenParentClassesWithPreferences:
-                PHPStan\Testing\RuleTestCase: 'Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase'
+            allowedDirectParentTypes:
+                - Symplify\PHPStanRules\Rules\AbstractSymplifyRule
+                - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase
+                - Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample
+                - Symplify\SetConfigResolver\Provider\AbstractSetProvider
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredClassRule

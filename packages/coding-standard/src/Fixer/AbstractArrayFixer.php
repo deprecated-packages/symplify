@@ -74,10 +74,4 @@ abstract class AbstractArrayFixer extends AbstractSymplifyFixer implements Array
             $this->fixArrayOpener($tokens, $blockInfo, $index);
         }
     }
-
-    public function getPriority(): int
-    {
-        // to handle the indent
-        return $this->getPriorityBefore(LineLengthFixer::class);
-    }
 }
