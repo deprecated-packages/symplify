@@ -14,7 +14,7 @@ final class ClassToSuffixResolver
     public function resolveFromClass(string $parentClass): string
     {
         $expectedSuffix = (string) Strings::after($parentClass, '\\', -1);
-        $expectedSuffix = $this->resolveExpectedSuffix($expectedSuffix);
+        $expectedSuffix = $this->removeAbstractInterfacePrefixSuffix($expectedSuffix);
 
         // special case for tests
         if ($expectedSuffix === 'TestCase') {
@@ -24,12 +24,7 @@ final class ClassToSuffixResolver
         return $expectedSuffix;
     }
 
-    /**
-     * - SomeInterface => Some
-     * - SomeAbstract => Some
-     * - AbstractSome => Some
-     */
-    private function resolveExpectedSuffix(string $parentType): string
+    private function removeAbstractInterfacePrefixSuffix(string $parentType): string
     {
         if (Strings::endsWith($parentType, 'Interface')) {
             $parentType = Strings::substring($parentType, 0, -strlen('Interface'));

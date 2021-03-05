@@ -12,6 +12,7 @@ final class ProcessRunner
 {
     /**
      * Reasonable timeout to report hang off: 10 minutes
+     *
      * @var float
      */
     private const TIMEOUT = 10 * 60.0;

@@ -17,6 +17,7 @@ final class RegexPattern
 
     /**
      * Use names, but not "@var" annotation etc.
+     *
      * @var string
      * @see https://regex101.com/r/n28u2E/1
      */
@@ -43,6 +44,7 @@ final class RegexPattern
 
     /**
      * links: "[<...>]: http://"
+     *
      * @var string
      * @see https://regex101.com/r/t8GV67/1
      */

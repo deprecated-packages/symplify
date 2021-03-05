@@ -36,6 +36,7 @@ final class LinksToReferencesWorker implements WorkerInterface
 
     /**
      * Github can redirects PRs to issues, so no need to trouble with their separatoin
+     *
      * @inspiration for Regex: https://stackoverflow.com/a/406408/1348344
      */
     public function processContent(string $content): string

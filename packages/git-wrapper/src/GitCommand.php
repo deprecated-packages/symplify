@@ -10,9 +10,8 @@ namespace Symplify\GitWrapper;
 final class GitCommand
 {
     /**
-     * Path to the directory containing the working copy. If this variable is
-     * set, then the process will change into this directory while the Git
-     * command is being run.
+     * Path to the directory containing the working copy. If this variable is set, then the process will change into
+     * this directory while the Git command is being run.
      *
      * @var string|null
      */
@@ -33,9 +32,8 @@ final class GitCommand
     private $isBypassed = false;
 
     /**
-     * Whether to execute the raw command without escaping it. This is useful
-     * for executing arbitrary commands, e.g. "status -s". If this is true,
-     * any options and arguments are ignored.
+     * Whether to execute the raw command without escaping it. This is useful for executing arbitrary commands, e.g.
+     * "status -s". If this is true, any options and arguments are ignored.
      *
      * @var bool
      */
@@ -71,6 +69,7 @@ final class GitCommand
 
     /**
      * Returns Git command being run, e.g. "clone", "commit", etc.
+     *
      * @api
      */
     public function getCommand(): string

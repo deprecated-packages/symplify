@@ -31,8 +31,8 @@ final class BlockFinder
     private const START_EDGES = ['(', '[', '{'];
 
     /**
-     * Accepts position to both start and end token, e.g. (, ), [, ], {, }
-     * also to: "array"(, "function" ...(, "use"(, "new" ...(
+     * Accepts position to both start and end token, e.g. (, ), [, ], {, } also to: "array"(, "function" ...(, "use"(,
+     * "new" ...(
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
     {

@@ -229,8 +229,7 @@ CODE_SAMPLE
     }
 
     /**
-     * We go through tokens from down to up,
-     * so we need to find ")" and then the start of function
+     * We go through tokens from down to up, so we need to find ")" and then the start of function
      */
     private function matchNamePositionForEndOfFunctionCall(Tokens $tokens, int $position): ?int
     {

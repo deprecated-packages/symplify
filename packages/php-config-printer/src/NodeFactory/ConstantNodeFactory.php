@@ -13,8 +13,9 @@ use PhpParser\Node\Name\FullyQualified;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 
 /**
- * Hacking constants @solve better in the future
- * now it's hardcoded very deep in yaml parser, so unable to detected: https://github.com/symfony/symfony/blob/ba4d57bb5fc0e9a1b4f63ced66156296dea3687e/src/Symfony/Component/Yaml/Inline.php#L617
+ * Hacking constants @solve better in the future now it's hardcoded very deep in yaml parser, so unable to detected:
+ * https://github.com/symfony/symfony/blob/ba4d57bb5fc0e9a1b4f63ced66156296dea3687e/src/Symfony/Component/Yaml/Inline.php#L617
+ *
  * @see https://github.com/symfony/symfony/pull/18626/files
  */
 final class ConstantNodeFactory

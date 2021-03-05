@@ -22,10 +22,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 /**
  * Based on https://www.sonarsource.com/docs/CognitiveComplexity.pdf
  *
- * A Cognitive Complexity score has 3 rules:
- * - B1. Ignore structures that allow multiple statements to be readably shorthanded into one
- * - B2. Increment (add one) for each break in the linear flow of the code
- * - B3. Increment when flow-breaking structures are nested
+ * A Cognitive Complexity score has 3 rules: - B1. Ignore structures that allow multiple statements to be readably
+ * shorthanded into one - B2. Increment (add one) for each break in the linear flow of the code - B3. Increment when
+ * flow-breaking structures are nested
  *
  * @see https://www.tomasvotruba.com/blog/2018/05/21/is-your-code-readable-by-humans-cognitive-complexity-tells-you/
  *

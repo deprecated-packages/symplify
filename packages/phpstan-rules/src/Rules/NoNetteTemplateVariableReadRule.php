@@ -110,8 +110,7 @@ CODE_SAMPLE
     }
 
     /**
-     * Looks for:
-     * $this->...
+     * Looks for: $this->...
      */
     private function isThisPropertyFetch(Expr $expr, string $propertyName): bool
     {

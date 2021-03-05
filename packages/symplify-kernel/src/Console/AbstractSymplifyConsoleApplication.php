@@ -29,6 +29,7 @@ abstract class AbstractSymplifyConsoleApplication extends Application
 
     /**
      * Add names to all commands by class-name convention
+     *
      * @param Command[] $commands
      */
     public function addCommands(array $commands): void

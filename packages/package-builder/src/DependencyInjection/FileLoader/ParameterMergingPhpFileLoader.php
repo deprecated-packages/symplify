@@ -10,9 +10,8 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 /**
- * The need:
- * - https://github.com/symfony/symfony/issues/26713
- * - https://github.com/symfony/symfony/pull/21313#issuecomment-372037445
+ * The need: - https://github.com/symfony/symfony/issues/26713 -
+ * https://github.com/symfony/symfony/pull/21313#issuecomment-372037445
  */
 final class ParameterMergingPhpFileLoader extends PhpFileLoader
 {

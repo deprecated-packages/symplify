@@ -13,9 +13,8 @@ use PHPStan\Type\Type;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Symfony provided Symfony\Component\Finder\SplFileInfo always exists,
- * so checking every single $splFileInfo->getRealPath() has no added value.
- * Just pollutes code and config and makes it unreadable.
+ * Symfony provided Symfony\Component\Finder\SplFileInfo always exists, so checking every single
+ * $splFileInfo->getRealPath() has no added value. Just pollutes code and config and makes it unreadable.
  *
  * This narrows validation only to custom created SplFileInfo.
  */

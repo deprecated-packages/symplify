@@ -18,6 +18,7 @@ final class SymplifyStrings
 
     /**
      * Same as ↓, just for the suffix
+     *
      * @see \Nette\Utils\Strings::findPrefix()
      */
     public function findSharedSlashedSuffix(array $strings): string

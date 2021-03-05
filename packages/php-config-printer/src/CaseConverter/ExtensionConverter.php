@@ -16,8 +16,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 /**
  * Handles this part:
  *
- * framework: <---
- *     key: value
+ * framework: <--- key: value
  */
 final class ExtensionConverter implements CaseConverterInterface
 {

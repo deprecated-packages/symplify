@@ -108,6 +108,7 @@ final class TokensNewliner
 
     /**
      * Has already newline? usually the last line => skip to prevent double spacing
+     *
      * @param Tokens|Token[] $tokens
      */
     private function isLastItem(Tokens $tokens, int $position): bool

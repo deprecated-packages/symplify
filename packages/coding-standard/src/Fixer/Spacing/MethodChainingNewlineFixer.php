@@ -150,10 +150,7 @@ CODE_SAMPLE
     }
 
     /**
-     * Matches e.g.:
-     * - someMethod($this->some()->method())
-     * - [$this->some()->method()]
-     * - ' ' . $this->some()->method()
+     * Matches e.g. someMethod($this->some()->method()), [$this->some()->method()]
      */
     private function isPartOfMethodCallOrArray(Tokens $tokens, int $position): bool
     {
@@ -181,9 +178,7 @@ CODE_SAMPLE
     }
 
     /**
-     * Matches e.g.:
-     * - app([
-     *   ])->some()
+     * Matches e.g.: - app([ ])->some()
      */
     private function isPreceededByOpenedCallInAnotherBracket(Tokens $tokens, int $position): bool
     {

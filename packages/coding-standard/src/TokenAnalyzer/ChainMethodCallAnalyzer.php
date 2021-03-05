@@ -20,10 +20,7 @@ final class ChainMethodCallAnalyzer
     }
 
     /**
-     * Matches e..g:
-     * - return app()->some()
-     * - app()->some()
-     * - (clone app)->some()
+     * Matches e.g: return app()->some(), app()->some(), (clone app)->some()
      */
     public function isPreceededByFuncCall(Tokens $tokens, int $position): bool
     {

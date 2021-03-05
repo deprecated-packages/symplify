@@ -12,8 +12,7 @@ use Nette\Utils\Strings;
 final class GitStrings
 {
     /**
-     * For example, passing the "git@github.com:symplify/git-wrapper.git"
-     * repository would return "git-wrapper".
+     * For example, passing the "git@github.com:symplify/git-wrapper.git" repository would return "git-wrapper".
      */
     public static function parseRepositoryName(string $repositoryUrl): string
     {

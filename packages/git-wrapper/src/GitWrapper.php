@@ -18,8 +18,9 @@ use Symplify\GitWrapper\Strings\GitStrings;
 /**
  * A wrapper class around the Git binary.
  *
- * A GitWrapper object contains the necessary context to run Git commands such as the path to the Git binary and environment variables.
- * It also provides helper methods to run Git commands as set up the connection to the GIT_SSH wrapper script.
+ * A GitWrapper object contains the necessary context to run Git commands such as the path to the Git binary and
+ * environment variables. It also provides helper methods to run Git commands as set up the connection to the GIT_SSH
+ * wrapper script.
  *
  * @see \Symplify\GitWrapper\Tests\GitWrapperTest
  */
@@ -102,8 +103,7 @@ final class GitWrapper
     }
 
     /**
-     * Returns an environment variable that is defined only in the scope of the
-     * Git command.
+     * Returns an environment variable that is defined only in the scope of the Git command.
      *
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
      * @param mixed $default The value returned if the environment variable is not set, defaults to null.
@@ -134,12 +134,11 @@ final class GitWrapper
     /**
      * Set an alternate private key used to connect to the repository.
      *
-     * This method sets the GIT_SSH environment variable to use the wrapper
-     * script included with this library. It also sets the custom GIT_SSH_KEY
-     * and GIT_SSH_PORT environment variables that are used by the script.
+     * This method sets the GIT_SSH environment variable to use the wrapper script included with this library. It also
+     * sets the custom GIT_SSH_KEY and GIT_SSH_PORT environment variables that are used by the script.
      *
      * @param string|null $wrapper Path the the GIT_SSH wrapper script, defaults to null which uses the
-     *   script included with this library.
+     * script included with this library.
      */
     public function setPrivateKey(string $privateKey, int $port = 22, ?string $wrapper = null): void
     {
@@ -249,11 +248,11 @@ final class GitWrapper
     /**
      * Executes a `git clone` command and returns a working copy object.
      *
-     * Clone a repository into a new directory. Use @see GitWorkingCopy::cloneRepository()
-     * instead for more readable code.
+     * Clone a repository into a new directory. Use @see GitWorkingCopy::cloneRepository() instead for more readable
+     * code.
      *
      * @param string $directory The directory that the repository will be cloned into. If null is
-     *   passed, the directory will be generated from the URL with @see GitStrings::parseRepositoryName().
+     * passed, the directory will be generated from the URL with @see GitStrings::parseRepositoryName().
      * @param mixed[] $options
      */
     public function cloneRepository(string $repository, ?string $directory = null, array $options = []): GitWorkingCopy
@@ -269,8 +268,8 @@ final class GitWrapper
     }
 
     /**
-     * The command is simply a raw command line entry for everything after the Git binary.
-     * For example, a `git config -l` command would be passed as `config -l` via the first argument of this method.
+     * The command is simply a raw command line entry for everything after the Git binary. For example, a `git config
+     * -l` command would be passed as `config -l` via the first argument of this method.
      *
      * @return string The STDOUT returned by the Git command.
      */

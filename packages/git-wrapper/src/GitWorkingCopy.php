@@ -28,8 +28,8 @@ final class GitWorkingCopy
     /**
      * A boolean flagging whether the repository is cloned.
      *
-     * If the variable is null, the a rudimentary check will be performed to see
-     * if the directory looks like it is a working copy.
+     * If the variable is null, the a rudimentary check will be performed to see if the directory looks like it is a
+     * working copy.
      *
      * @var bool|null
      */
@@ -154,8 +154,7 @@ final class GitWorkingCopy
     /**
      * Returns whether HEAD is ahead of its remote tracking branch.
      *
-     * If this returns true it means that commits are present locally which have
-     * not yet been pushed to the remote.
+     * If this returns true it means that commits are present locally which have not yet been pushed to the remote.
      */
     public function isAhead(): bool
     {
@@ -177,8 +176,7 @@ final class GitWorkingCopy
     /**
      * Returns whether HEAD is behind its remote tracking branch.
      *
-     * If this returns true it means that a pull is needed to bring the branch
-     * up-to-date with the remote.
+     * If this returns true it means that a pull is needed to bring the branch up-to-date with the remote.
      */
     public function isBehind(): bool
     {
@@ -200,9 +198,8 @@ final class GitWorkingCopy
     /**
      * Returns whether HEAD needs to be merged with its remote tracking branch.
      *
-     * If this returns true it means that HEAD has diverged from its remote
-     * tracking branch; new commits are present locally as well as on the
-     * remote.
+     * If this returns true it means that HEAD has diverged from its remote tracking branch; new commits are present
+     * locally as well as on the remote.
      */
     public function needsMerge(): bool
     {
@@ -222,8 +219,7 @@ final class GitWorkingCopy
     }
 
     /**
-     * Returns a GitBranches object containing information on the repository's
-     * branches.
+     * Returns a GitBranches object containing information on the repository's branches.
      */
     public function getBranches(): GitBranches
     {
@@ -234,7 +230,7 @@ final class GitWorkingCopy
      * This is synonymous with `git push origin tag v1.2.3`.
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of
-     *   the remote. Defaults to "origin".
+     * the remote. Defaults to "origin".
      * @param mixed[] $options
      */
     public function pushTag(string $tag, string $repository = 'origin', array $options = []): string
@@ -284,19 +280,19 @@ final class GitWorkingCopy
      * Adds a remote to the repository.
      *
      * @param mixed[] $options An associative array of options, with the following keys:
-     *   - -f: Boolean, set to true to run git fetch immediately after the
-     *     remote is set up. Defaults to false.
-     *   - --tags: Boolean. By default only the tags from the fetched branches
-     *     are imported when git fetch is run. Set this to true to import every
-     *     tag from the remote repository. Defaults to false.
-     *   - --no-tags: Boolean, when set to true, git fetch does not import tags
-     *     from the remote repository. Defaults to false.
-     *   - -t: Optional array of branch names to track. If left empty, all
-     *     branches will be tracked.
-     *   - -m: Optional name of the master branch to track. This will set up a
-     *     symbolic ref 'refs/remotes/<name>/HEAD which points at the specified
-     *     master branch on the remote. When omitted, no symbolic ref will be
-     *     created.
+     * - -f: Boolean, set to true to run git fetch immediately after the
+     * remote is set up. Defaults to false.
+     * - --tags: Boolean. By default only the tags from the fetched branches
+     * are imported when git fetch is run. Set this to true to import every
+     * tag from the remote repository. Defaults to false.
+     * - --no-tags: Boolean, when set to true, git fetch does not import tags
+     * from the remote repository. Defaults to false.
+     * - -t: Optional array of branch names to track. If left empty, all
+     * branches will be tracked.
+     * - -m: Optional name of the master branch to track. This will set up a
+     * symbolic ref 'refs/remotes/<name>/HEAD which points at the specified
+     * master branch on the remote. When omitted, no symbolic ref will be
+     * created.
      */
     public function addRemote(string $name, string $url, array $options = []): string
     {

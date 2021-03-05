@@ -28,6 +28,7 @@ final class SingleIndentationInMethodRule extends AbstractSymplifyRule implement
 
     /**
      * The depth from nested values inside method, so 2 nestings are from class and method and 1 from inner method
+     *
      * @var int
      */
     private const DEFAULT_DEPTH = 5;

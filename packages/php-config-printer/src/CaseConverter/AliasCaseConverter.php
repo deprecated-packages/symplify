@@ -24,8 +24,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 /**
  * Handles this part:
  *
- * services:
- *     Some: Other <---
+ * services: Some: Other <---
  */
 final class AliasCaseConverter implements CaseConverterInterface
 {

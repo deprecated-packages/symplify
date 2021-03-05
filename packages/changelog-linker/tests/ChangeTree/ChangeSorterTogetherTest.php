@@ -29,6 +29,7 @@ final class ChangeSorterTogetherTest extends TestCase
 
     /**
      * Tags should keep the same order for whatever priority
+     *
      * @dataProvider provideDataForTags()
      */
     public function testTags(string $priority): void

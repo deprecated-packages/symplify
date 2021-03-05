@@ -8,8 +8,8 @@ use Nette\Utils\Strings;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 
 /**
- * This needs to be run first, since it only move n:sytax to {syntax}...{/syntax} - all in Latte
- * Other case converters will change it then to Twig.
+ * This needs to be run first, since it only move n:sytax to {syntax}...{/syntax} - all in Latte Other case converters
+ * will change it then to Twig.
  *
  * @see https://regex101.com/r/sOgdcK/1
  */

@@ -13,6 +13,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  * Use only in "\PHPUnit\Framework\TestCase"
  *
  * Answer here
+ *
  * @see https://stackoverflow.com/questions/54263109/how-to-assert-2-directories-are-identical-in-phpunit
  */
 trait DirectoryAssertableTrait

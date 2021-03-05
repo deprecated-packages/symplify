@@ -26,12 +26,14 @@ final class ComplexityAffectingNodeFinder
 {
     /**
      * B1. Increments
+     *
      * @var array<class-string<Stmt>>
      */
     private const BREAKING_NODE_TYPES = [Continue_::class, Goto_::class, Break_::class];
 
     /**
      * B1. Increments
+     *
      * @var class-string[]
      */
     private const INCREASING_NODE_TYPES = [

@@ -16,8 +16,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 /**
  * Handles this part:
  *
- * services:
- *     _defaults: <---
+ * services: _defaults: <---
  */
 final class ServicesDefaultsCaseConverter implements CaseConverterInterface
 {

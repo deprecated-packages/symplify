@@ -17,6 +17,7 @@ final class LatteVariableNamesResolver
 
     /**
      * E.g. foreached single variable
+     *
      * @see https://regex101.com/r/SrXwyh/1
      * @var string
      */

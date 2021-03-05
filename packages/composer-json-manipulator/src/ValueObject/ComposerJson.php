@@ -764,6 +764,7 @@ final class ComposerJson
 
     /**
      * 2. sort item by prescribed key order
+     *
      * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
      * @param mixed[] $contentItems
      * @param string[] $orderedVisibleItems

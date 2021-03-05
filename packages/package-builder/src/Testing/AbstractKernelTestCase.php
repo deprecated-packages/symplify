@@ -19,6 +19,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * Inspiration
+ *
  * @see https://github.com/symfony/symfony/blob/master/src/Symfony/Bundle/FrameworkBundle/Test/KernelTestCase.php
  */
 abstract class AbstractKernelTestCase extends TestCase

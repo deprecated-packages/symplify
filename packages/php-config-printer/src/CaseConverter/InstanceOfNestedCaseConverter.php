@@ -17,8 +17,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 /**
  * Handles this part:
  *
- * services:
- *     _instanceof: <---
+ * services: _instanceof: <---
  */
 final class InstanceOfNestedCaseConverter
 {

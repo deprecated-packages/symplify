@@ -12,9 +12,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 /**
  * Handles this part:
  *
- * services:
- *     App\\: <--
- *          source: '../src'
+ * services: App\\: <-- source: '../src'
  */
 final class ResourceCaseConverter implements CaseConverterInterface
 {
