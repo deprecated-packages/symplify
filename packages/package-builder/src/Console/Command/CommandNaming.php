@@ -19,7 +19,9 @@ final class CommandNaming
     private const BIG_LETTER_REGEX = '#[A-Z]#';
 
     /**
-     * Converts: "SomeClass\SomeSuperCommand" → "some-super" "SomeClass\SOMESuperCommand" → "some-super"
+     * Converts:
+     * - "SomeClass\SomeSuperCommand" → "some-super"
+     * - "SomeClass\SOMESuperCommand" → "some-super"
      */
     public function resolveFromCommand(Command $command): string
     {
@@ -28,7 +30,9 @@ final class CommandNaming
     }
 
     /**
-     * Converts: "SomeClass\SomeSuperCommand" → "some-super" "SomeClass\SOMESuperCommand" → "some-super"
+     * Converts:
+     * - "SomeClass\SomeSuperCommand" → "some-super"
+     * - "SomeClass\SOMESuperCommand" → "some-super"
      */
     public static function classToName(string $class): string
     {

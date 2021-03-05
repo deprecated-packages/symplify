@@ -32,7 +32,7 @@ services:
             maxClassCognitiveComplexity: 25
             limitsByTypes:
                 PHPStan\Rules\Rule: 16
-                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 20
+                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 18
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule

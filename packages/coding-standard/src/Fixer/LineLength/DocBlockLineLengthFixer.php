@@ -183,10 +183,6 @@ CODE_SAMPLE
         return implode(PHP_EOL, $docBlockLines);
     }
 
-//    /**
-//     * @param string[] $descriptionLines
-//     */
-
     /**
      * @return array<string>
      */
