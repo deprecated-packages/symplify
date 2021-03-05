@@ -483,3 +483,4 @@ parameters:
 
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
+        - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'

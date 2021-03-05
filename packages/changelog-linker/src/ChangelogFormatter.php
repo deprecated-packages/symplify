@@ -39,13 +39,9 @@ final class ChangelogFormatter
     }
 
     /**
-     * Before:
-     * # Headline\n
+     * Before: # Headline\n
      *
-     * After:
-     * \n
-     * # Headline\n
-     * \n
+     * After: \n # Headline\n \n
      */
     private function wrapHeadlinesWithEmptyLines(string $content): string
     {

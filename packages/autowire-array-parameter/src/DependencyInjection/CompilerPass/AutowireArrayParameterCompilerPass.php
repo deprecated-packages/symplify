@@ -24,12 +24,14 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
 {
     /**
      * These namespaces are already configured by their bundles/extensions.
+     *
      * @var string[]
      */
     private const EXCLUDED_NAMESPACES = ['Doctrine', 'JMS', 'Symfony', 'Sensio', 'Knp', 'EasyCorp', 'Sonata', 'Twig'];
 
     /**
      * Classes that create circular dependencies
+     *
      * @var string[]
      * @noRector
      */

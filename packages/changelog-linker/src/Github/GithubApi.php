@@ -35,6 +35,7 @@ final class GithubApi
 
     /**
      * Max. 1000 merge requests to dump
+     *
      * @var int
      */
     private const MAX_PAGE = 10;

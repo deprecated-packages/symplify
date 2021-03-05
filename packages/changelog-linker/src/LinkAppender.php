@@ -52,11 +52,10 @@ final class LinkAppender
     }
 
     /**
-     * Tells you if links have been removed from LinkAppender::$linksToAppend
-     * after calling LinkAppender::removeAlreadyExistingLinks
+     * Tells you if links have been removed from LinkAppender::$linksToAppend after calling
+     * LinkAppender::removeAlreadyExistingLinks
      *
-     * Implicitly this method is telling you that changelog file already
-     * contains links at the end.
+     * Implicitly this method is telling you that changelog file already contains links at the end.
      */
     public function isExistingLinks(): bool
     {
