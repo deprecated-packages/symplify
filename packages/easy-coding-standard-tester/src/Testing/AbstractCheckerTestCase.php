@@ -141,6 +141,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
 
     /**
      * File should stay the same and contain 0 errors
+     *
      * @todo resolve their combination with PSR-12
      */
     protected function doTestCorrectFileInfo(SmartFileInfo $fileInfo): void

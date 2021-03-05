@@ -26,6 +26,7 @@ final class GitTags implements IteratorAggregate
 
     /**
      * Fetches the Tags via the `git branch` command.
+     *
      * @api
      * @return string[]
      */

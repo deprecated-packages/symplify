@@ -12,13 +12,6 @@ use PHPStan\Type\Type;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 
-/**
- * Covers case:
- * \Symplify\PackageBuilder\Testing\AbstractKernelTestCase::getService($type)
- *
- * ↓
- * return object of: $type
- */
 final class GetServiceReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     /**

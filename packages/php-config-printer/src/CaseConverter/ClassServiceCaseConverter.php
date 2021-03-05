@@ -14,13 +14,6 @@ use Symplify\PhpConfigPrinter\ValueObject\MethodName;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
-/**
- * Handles this part:
- *
- * services:
- *     Some:
- *         class: Other <---
- */
 final class ClassServiceCaseConverter implements CaseConverterInterface
 {
     /**

@@ -20,6 +20,7 @@ final class AutoloadPathNormalizer
 
     /**
      * Class map path needs to be prefixed before merge, otherwise will override one another
+     *
      * @see https://github.com/symplify/symplify/issues/1333
      */
     public function normalizeAutoloadPaths(ComposerJson $packageComposerJson, SmartFileInfo $packageFile): void

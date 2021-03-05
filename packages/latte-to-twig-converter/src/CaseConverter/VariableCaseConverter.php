@@ -75,23 +75,17 @@ final class VariableCaseConverter implements CaseConverterInterface
         });
 
         /**
-         * {$post->getId()}
-         * ↓
-         * {{ post.getId() }}
+         * {$post->getId()} → {{ post.getId() }}
          */
         $content = Strings::replace($content, '#{\$([\w-]+)' . self::METHOD_CALL_REGEX . '(.*?)}#', '{{ $1.$2$3 }}');
 
         /**
-         * {$post['relativeUrl']}
-         * ↓
-         * {{ post.relativeUrl }}
+         * {$post['relativeUrl']} → {{ post.relativeUrl }}
          */
         $content = Strings::replace($content, '#{\$([\w-]+)' . self::ARRAY_ACCESS_REGEX . '(.*?)}#', '{{ $1.$2$3 }}');
 
         /**
-         * { $post['relativeUrl'] }
-         * ↓
-         * { post.relativeUrl }
+         * { $post['relativeUrl'] } → { post.relativeUrl }
          */
         $content = Strings::replace(
             $content,
@@ -100,20 +94,14 @@ final class VariableCaseConverter implements CaseConverterInterface
         );
 
         /**
-         * {$google_analytics_tracking_id}
-         * ↓
-         * {{ google_analytics_tracking_id }}
+         * {$google_analytics_tracking_id} → {{ google_analytics_tracking_id }}
          *
-         * {$google_analytics_tracking_id|someFilter}
-         * ↓
-         * {{ google_analytics_tracking_id|someFilter }}
+         * {$google_analytics_tracking_id|someFilter} → {{ google_analytics_tracking_id|someFilter }}
          */
         $content = Strings::replace($content, self::VARIABLE_REGEX, '{{ $1$2 }}');
 
         /**
-         * {11874|number(0:',':' ')}
-         * ↓
-         * {{ 11874|number(0:',':' ') }}
+         * {11874|number(0:',':' ')} → {{ 11874|number(0:',':' ') }}
          */
         $content = Strings::replace($content, self::VARIABLE_WITH_FILTER_REGEX, '{{ $1$2 }}');
 
@@ -123,9 +111,7 @@ final class VariableCaseConverter implements CaseConverterInterface
     private function processLoopAndConditionsVariables(string $content): string
     {
         /**
-         * {... $variable->someMethodCall() ...}
-         * ↓
-         * {... variable.someMethodCall() ...}
+         * {... $variable->someMethodCall() ...} → {... variable.someMethodCall() ...}
          */
         $content = Strings::replace(
             $content,
@@ -134,9 +120,7 @@ final class VariableCaseConverter implements CaseConverterInterface
         );
 
         /**
-         * {... $variable['someKey'], $variable['anotherKey'] ...}
-         * ↓
-         * {... variable.someKey, variable.anotherKey ...}
+         * {... $variable['someKey'], $variable['anotherKey'] ...} → {... variable.someKey, variable.anotherKey ...}
          */
         $content = Strings::replace(
             $content,
@@ -148,9 +132,7 @@ final class VariableCaseConverter implements CaseConverterInterface
         );
 
         /**
-         * {%... $variable ...%}
-         * ↓
-         * {%... variable ...%}
+         * {%... $variable ...%} → {%... variable ...%}
          */
         return Strings::replace($content, self::LATTE_VARIABLE_REGEX, '{%$1$2$3%}');
     }

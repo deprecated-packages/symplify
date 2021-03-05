@@ -35,6 +35,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer impleme
 
     /**
      * Generates: "declare(strict_types=1);"
+     *
      * @var Token[]
      */
     private $declareStrictTypeTokens = [];

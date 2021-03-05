@@ -109,10 +109,6 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * Looks for:
-     * $this->...
-     */
     private function isThisPropertyFetch(Expr $expr, string $propertyName): bool
     {
         if (! $expr instanceof PropertyFetch) {

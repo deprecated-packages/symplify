@@ -9,8 +9,7 @@ use Symplify\GitWrapper\Contract\OutputEventSubscriberInterface;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 
 /**
- * Event handler that streams real-time output from Git commands
- * to STDOUT and STDERR.
+ * Event handler that streams real-time output from Git commands to STDOUT and STDERR.
  */
 final class StreamOutputEventSubscriber implements EventSubscriberInterface, OutputEventSubscriberInterface
 {

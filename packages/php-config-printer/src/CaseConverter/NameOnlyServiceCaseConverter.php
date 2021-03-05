@@ -13,12 +13,6 @@ use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
-/**
- * Handles this part:
- *
- * services:
- *     SomeNamespace\SomeClass: null <---
- */
 final class NameOnlyServiceCaseConverter implements CaseConverterInterface
 {
     /**

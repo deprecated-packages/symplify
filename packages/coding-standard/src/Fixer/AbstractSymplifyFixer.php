@@ -42,8 +42,7 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
     }
 
     /**
-     * Helper method to run this before specified fixer,
-     * works even in case of change.
+     * Helper method to run this before specified fixer, works even in case of change.
      */
     protected function getPriorityBefore(string $fixerClass): int
     {

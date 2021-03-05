@@ -32,6 +32,7 @@ services:
             maxClassCognitiveComplexity: 25
             limitsByTypes:
                 PHPStan\Rules\Rule: 16
+                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
 
     -
         class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
@@ -481,3 +482,4 @@ parameters:
                 - packages/easy-coding-standard/scoper.inc.php
 
         - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
+        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'

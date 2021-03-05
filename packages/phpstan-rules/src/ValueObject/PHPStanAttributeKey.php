@@ -8,6 +8,7 @@ final class PHPStanAttributeKey
 {
     /**
      * Do not change, part of internal PHPStan naming
+     *
      * @api
      * @var string
      */
@@ -15,6 +16,7 @@ final class PHPStanAttributeKey
 
     /**
      * Do not change, part of internal PHPStan naming
+     *
      * @api
      * @var string
      */
@@ -22,6 +24,7 @@ final class PHPStanAttributeKey
 
     /**
      * Do not change, part of internal PHPStan naming
+     *
      * @api
      * @var string
      */
@@ -29,6 +32,7 @@ final class PHPStanAttributeKey
 
     /**
      * Do not change, part of internal PHPStan naming
+     *
      * @api
      * @var string
      */

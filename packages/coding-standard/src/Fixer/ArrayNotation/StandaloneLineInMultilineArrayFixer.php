@@ -51,7 +51,7 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractArrayFixer imple
 
     public function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo, int $index): void
     {
-        if ($this->shouldSkip($tokens, $blockInfo)) {
+        if ($this->shouldSkipNestedArrayValue($tokens, $blockInfo)) {
             return;
         }
 
@@ -81,11 +81,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * skip: [$array => value]
-     * keep: [$array => [value => nested]]
-     */
-    private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
+    private function shouldSkipNestedArrayValue(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);
         if (! $arrayWrapper->isAssociativeArray()) {

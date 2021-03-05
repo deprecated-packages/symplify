@@ -7,14 +7,12 @@ namespace Symplify\CodingStandard\Fixer\Spacing;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenAnalyzer\ChainMethodCallAnalyzer;
-use Symplify\CodingStandard\TokenAnalyzer\NewlineAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -42,30 +40,18 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
     private $blockFinder;
 
     /**
-     * @var int
-     */
-    private $bracketNesting = 0;
-
-    /**
      * @var ChainMethodCallAnalyzer
      */
     private $chainMethodCallAnalyzer;
 
-    /**
-     * @var NewlineAnalyzer
-     */
-    private $newlineAnalyzer;
-
     public function __construct(
         WhitespacesFixerConfig $whitespacesFixerConfig,
         BlockFinder $blockFinder,
-        ChainMethodCallAnalyzer $chainMethodCallAnalyzer,
-        NewlineAnalyzer $newlineAnalyzer
+        ChainMethodCallAnalyzer $chainMethodCallAnalyzer
     ) {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->blockFinder = $blockFinder;
         $this->chainMethodCallAnalyzer = $chainMethodCallAnalyzer;
-        $this->newlineAnalyzer = $newlineAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -150,40 +136,7 @@ CODE_SAMPLE
     }
 
     /**
-     * Matches e.g.:
-     * - someMethod($this->some()->method())
-     * - [$this->some()->method()]
-     * - ' ' . $this->some()->method()
-     */
-    private function isPartOfMethodCallOrArray(Tokens $tokens, int $position): bool
-    {
-        $this->bracketNesting = 0;
-
-        for ($i = $position; $i >= 0; --$i) {
-            /** @var Token $currentToken */
-            $currentToken = $tokens[$i];
-
-            // break
-            if ($this->newlineAnalyzer->isNewlineToken($currentToken)) {
-                return false;
-            }
-
-            if ($this->isBreakingChar($currentToken)) {
-                return true;
-            }
-
-            if ($this->shouldBreakOnBracket($currentToken)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Matches e.g.:
-     * - app([
-     *   ])->some()
+     * Matches e.g.: - app([ ])->some()
      */
     private function isPreceededByOpenedCallInAnotherBracket(Tokens $tokens, int $position): bool
     {
@@ -201,7 +154,7 @@ CODE_SAMPLE
             return false;
         }
 
-        if ($this->isPartOfMethodCallOrArray($tokens, $position)) {
+        if ($this->chainMethodCallAnalyzer->isPartOfMethodCallOrArray($tokens, $position)) {
             return false;
         }
 
@@ -215,37 +168,5 @@ CODE_SAMPLE
 
         // all good, there is a newline
         return ! $tokens->isPartialCodeMultiline($position, $objectOperatorIndex);
-    }
-
-    private function isBreakingChar(Token $currentToken): bool
-    {
-        if ($currentToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_OPEN, T_ARRAY, T_DOUBLE_COLON])) {
-            return true;
-        }
-
-        if ($currentToken->getContent() === '[') {
-            return true;
-        }
-
-        return $currentToken->getContent() === '.';
-    }
-
-    private function shouldBreakOnBracket(Token $token): bool
-    {
-        if ($token->getContent() === ')') {
-            --$this->bracketNesting;
-            return false;
-        }
-
-        if ($token->getContent() === '(') {
-            if ($this->bracketNesting !== 0) {
-                ++$this->bracketNesting;
-                return false;
-            }
-
-            return true;
-        }
-
-        return false;
     }
 }

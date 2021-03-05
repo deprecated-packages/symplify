@@ -47,34 +47,25 @@ final class BlockCaseConverter implements CaseConverterInterface
     public function convertContent(string $content): string
     {
         /**
-         * {block content}...{/block}
-         * ↓
-         * {% block content %}...{% endblock %}
+         * {block content}...{/block} → {% block content %}...{% endblock %}
          */
         $content = Strings::replace($content, self::BLOCK_REGEX, '{% block $1 %}$2{% endblock %}');
 
         /**
-         * {include "_snippets/menu.latte"}
-         * ↓
-         * {% include "_snippets/menu.latte" %}
+         * {include "_snippets/menu.latte"} → {% include "_snippets/menu.latte" %}
          *
-         * {extends "_snippets/menu.latte"}
-         * ↓
-         * {% extends "_snippets/menu.latte" %}
+         * {extends "_snippets/menu.latte"} → {% extends "_snippets/menu.latte" %}
          */
         $content = Strings::replace($content, self::INCLUDE_EXTENDS_REGEX, '{% $1 $2 %}');
 
         /**
-         * {define sth}...{/define}
-         * ↓
-         * {% block sth %}...{% endblock %}
+         * {define sth}...{/define} → {% block sth %}...{% endblock %}
          */
         $content = Strings::replace($content, self::DEFINE_REGEX, '{% block $1 %}$2{% endblock %}');
 
         /**
-         * {% include "_snippets/menu.latte", "data" => $data %}
-         * ↓
-         * {% include "_snippets/menu.twig", { "data": data } %}
+         * {% include "_snippets/menu.latte", "data" => $data %} → {% include "_snippets/menu.twig", { "data": data }
+         * %}
          *
          * @see https://twig.symfony.com/doc/2.x/functions/include.html
          * single lines
@@ -108,9 +99,7 @@ final class BlockCaseConverter implements CaseConverterInterface
         });
 
         /**
-         * {% include "sth",
-         * ↓
-         * {% include "sth" with
+         * {% include "sth", ↓ {% include "sth" with
          */
         return Strings::replace($content, self::INCLUDE_WITH_COMMA_REGEX, '$1 with');
     }

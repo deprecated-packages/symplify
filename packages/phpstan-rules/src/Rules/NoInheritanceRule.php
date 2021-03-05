@@ -16,6 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * It's faster
+ *
  * @see https://twitter.com/nicolasgrekas/status/1357743051905654786
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInheritanceRule\NoInheritanceRuleTest

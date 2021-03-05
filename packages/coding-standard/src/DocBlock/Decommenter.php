@@ -9,6 +9,7 @@ use Symplify\CodingStandard\Tokens\CommentedLineTrimmer;
 
 /**
  * Heavily inspired by
+ *
  * @see https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/CommentedOutCodeSniff.php
  */
 final class Decommenter
@@ -44,8 +45,7 @@ final class Decommenter
     }
 
     /**
-     * Quite a few comments use multiple dashes, equals signs etc
-     * to frame comments and licence headers.
+     * Quite a few comments use multiple dashes, equals signs etc to frame comments and licence headers.
      */
     private function clearContent(string $content): string
     {

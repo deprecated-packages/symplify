@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * Heavily inspired by
+ *
  * @see https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/PHP/CommentedOutCodeSniff.php
  */
 final class CommentedLineTrimmer

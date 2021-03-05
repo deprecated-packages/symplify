@@ -7,7 +7,8 @@ namespace Symplify\SmartFileSystem\Normalizer;
 use Nette\Utils\Strings;
 
 /**
- * Used from https://github.com/phpstan/phpstan-src/blob/02425e61aa48f0668b4efb3e73d52ad544048f65/src/File/FileHelper.php#L40,
+ * Used from
+ * https://github.com/phpstan/phpstan-src/blob/02425e61aa48f0668b4efb3e73d52ad544048f65/src/File/FileHelper.php#L40,
  * with custom modifications
  *
  * @see \Symplify\SmartFileSystem\Tests\Normalizer\PathNormalizerTest

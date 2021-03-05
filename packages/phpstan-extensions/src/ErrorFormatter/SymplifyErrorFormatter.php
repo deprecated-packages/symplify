@@ -21,6 +21,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 {
     /**
      * To fit in Linux/Windows terminal windows to prevent overflow.
+     *
      * @var int
      */
     private const BULGARIAN_CONSTANT = 8;

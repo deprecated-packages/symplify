@@ -8,6 +8,7 @@ final class Level
 {
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -15,6 +16,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -22,6 +24,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -29,6 +32,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -36,6 +40,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -43,6 +48,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -50,6 +56,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -57,6 +64,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -64,6 +72,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var int
      */
@@ -71,6 +80,7 @@ final class Level
 
     /**
      * Do not change the value, it is internal PHPStan naming
+     *
      * @api
      * @var string
      */

@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * Mostly inspired by https://github.com/composer/composer/blob/master/src/Composer/Json/JsonManipulator.php
+ *
  * @see \Symplify\ComposerJsonManipulator\Tests\Sorter\ComposerPackageSorterTest
  */
 final class ComposerPackageSorter
@@ -26,6 +27,7 @@ final class ComposerPackageSorter
 
     /**
      * Sorts packages by importance (platform packages first, then PHP dependencies) and alphabetically.
+     *
      * @link https://getcomposer.org/doc/02-libraries.md#platform-packages
      *
      * @param array<string, string> $packages

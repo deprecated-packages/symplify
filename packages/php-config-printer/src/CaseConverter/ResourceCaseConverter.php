@@ -9,13 +9,6 @@ use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\Service\ServicesPhpNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
-/**
- * Handles this part:
- *
- * services:
- *     App\\: <--
- *          source: '../src'
- */
 final class ResourceCaseConverter implements CaseConverterInterface
 {
     /**

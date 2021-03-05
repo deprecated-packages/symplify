@@ -21,12 +21,6 @@ use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-/**
- * Handles this part:
- *
- * services:
- *     Some: Other <---
- */
 final class AliasCaseConverter implements CaseConverterInterface
 {
     /**

@@ -29,16 +29,12 @@ final class CaptureCaseConverter implements CaseConverterInterface
     public function convertContent(string $content): string
     {
         /**
-         * {var $var = $anotherVar} =>
-         * ↓
-         * {% set var = anotherVar %}
+         * {var $var = $anotherVar} → {% set var = anotherVar %}
          */
         $content = Strings::replace($content, self::VAR_REGEX, '{% set $1 = $2 %}');
 
         /**
-         * {capture $var}...{/capture}
-         * ↓
-         * {% set var %}...{% endset %}
+         * {capture $var}...{/capture} → {% set var %}...{% endset %}
          */
         return Strings::replace($content, self::CAPTURE_REGEX, '{% set $1 %}$2{% endset %}');
     }

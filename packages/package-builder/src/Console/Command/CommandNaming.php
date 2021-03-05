@@ -20,8 +20,8 @@ final class CommandNaming
 
     /**
      * Converts:
-     *  "SomeClass\SomeSuperCommand" → "some-super"
-     *  "SomeClass\SOMESuperCommand" → "some-super"
+     * - "SomeClass\SomeSuperCommand" → "some-super"
+     * - "SomeClass\SOMESuperCommand" → "some-super"
      */
     public function resolveFromCommand(Command $command): string
     {
@@ -31,8 +31,8 @@ final class CommandNaming
 
     /**
      * Converts:
-     *  "SomeClass\SomeSuperCommand" → "some-super"
-     *  "SomeClass\SOMESuperCommand" → "some-super"
+     * - "SomeClass\SomeSuperCommand" → "some-super"
+     * - "SomeClass\SOMESuperCommand" → "some-super"
      */
     public static function classToName(string $class): string
     {

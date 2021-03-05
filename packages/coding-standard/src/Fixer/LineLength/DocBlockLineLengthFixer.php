@@ -12,7 +12,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\ValueObject\DocBlockLines;
+use Symplify\CodingStandard\ValueObjectFactory\DocBlockLinesFactory;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -38,24 +38,32 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
      * @see https://regex101.com/r/DNWfB6/1
      * @var string
      */
-    private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^(?<indentation>\s*) \*/m';
+    private const INDENTATION_BEFORE_ASTERISK_REGEX = '/^(?<' . self::INDENTATION_PART . '>\s*) \*/m';
 
     /**
-     * @see https://regex101.com/r/CUxOj5/1
      * @var string
      */
-    private const BEGINNING_OF_DOC_BLOCK_REGEX = '/^(\/\*\*[\n]?)/';
-
-    /**
-     * @see https://regex101.com/r/otQGPe/1
-     * @var string
-     */
-    private const END_OF_DOC_BLOCK_REGEX = '/(\*\/)$/';
+    private const INDENTATION_PART = 'indentation_part';
 
     /**
      * @var int
      */
-    private $lineLength = 120;
+    private const DEFAULT_LINE_LENGHT = 120;
+
+    /**
+     * @var int
+     */
+    private $lineLength = self::DEFAULT_LINE_LENGHT;
+
+    /**
+     * @var DocBlockLinesFactory
+     */
+    private $docBlockLinesFactory;
+
+    public function __construct(DocBlockLinesFactory $docBlockLinesFactory)
+    {
+        $this->docBlockLinesFactory = $docBlockLinesFactory;
+    }
 
     public function getDefinition(): FixerDefinitionInterface
     {
@@ -78,15 +86,18 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             }
 
             $docBlock = $token->getContent();
-            $indentationString = $this->resolveIndentationStringFor($docBlock);
+            $docBlockLines = $this->docBlockLinesFactory->createFromDocBlock($docBlock);
 
-            $docBlockLines = $this->getDocBlockLines($docBlock);
             // The available line length is the configured line length, minus the existing indentation, minus ' * '
+            $indentationString = $this->resolveIndentationStringFor($docBlock);
             $maximumLineLength = $this->lineLength - strlen($indentationString) - 3;
 
-            $lines = $this->splitLines($docBlockLines);
-            $descriptionLines = $lines->getDescriptionLines();
+            $descriptionLines = $docBlockLines->getDescriptionLines();
             if ($descriptionLines === []) {
+                continue;
+            }
+
+            if ($docBlockLines->hasListDescriptionLines()) {
                 continue;
             }
 
@@ -100,7 +111,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
             );
 
             $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
-            $otherLines = $lines->getOtherLines();
+            $otherLines = $docBlockLines->getOtherLines();
             if ($otherLines !== []) {
                 $wrappedDescription .= "\n";
             }
@@ -121,7 +132,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
      */
     public function configure(?array $configuration = null): void
     {
-        $this->lineLength = $configuration[self::LINE_LENGTH] ?? 120;
+        $this->lineLength = $configuration[self::LINE_LENGTH] ?? self::DEFAULT_LINE_LENGHT;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -157,35 +168,7 @@ CODE_SAMPLE
     private function resolveIndentationStringFor(string $docBlock): string
     {
         $matches = Strings::match($docBlock, self::INDENTATION_BEFORE_ASTERISK_REGEX);
-        if ($matches === null) {
-            return '';
-        }
-
-        return $matches['indentation'];
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getDocBlockLines(string $docBlock): array
-    {
-        // Remove the prefix '/**'
-        $docBlock = Strings::replace($docBlock, self::BEGINNING_OF_DOC_BLOCK_REGEX);
-        // Remove the suffix '*/'
-        $docBlock = Strings::replace($docBlock, self::END_OF_DOC_BLOCK_REGEX);
-        // Remove extra whitespace at the end
-        $docBlock = rtrim($docBlock);
-
-        $docBlockLines = $this->getLines($docBlock);
-
-        return array_map(
-            function (string $line): string {
-                $noWhitespace = Strings::trim($line, Strings::TRIM_CHARACTERS);
-                // Remove asterisks on the left side, plus additional whitespace
-                return ltrim($noWhitespace, Strings::TRIM_CHARACTERS . '*');
-            },
-            $docBlockLines
-        );
+        return $matches[self::INDENTATION_PART] ?? '';
     }
 
     private function formatLinesAsDocBlockContent(array $docBlockLines, string $indentationString): string
@@ -198,33 +181,6 @@ CODE_SAMPLE
         $docBlockLines[] = $indentationString . ' */';
 
         return implode(PHP_EOL, $docBlockLines);
-    }
-
-    /**
-     * @param string[] $docBlockLines
-     */
-    private function splitLines(array $docBlockLines): DocBlockLines
-    {
-        $descriptionLines = [];
-        $otherLines = [];
-
-        $collectDescriptionLines = true;
-
-        foreach ($docBlockLines as $docBlockLine) {
-            if (Strings::startsWith($docBlockLine, '@')
-                || Strings::startsWith($docBlockLine, '{@')) {
-                // The line has a special meaning (it's an annotation, or something like {@inheritdoc})
-                $collectDescriptionLines = false;
-            }
-
-            if ($collectDescriptionLines) {
-                $descriptionLines[] = $docBlockLine;
-            } else {
-                $otherLines[] = $docBlockLine;
-            }
-        }
-
-        return new DocBlockLines($descriptionLines, $otherLines);
     }
 
     /**

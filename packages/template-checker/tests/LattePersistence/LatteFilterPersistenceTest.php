@@ -12,8 +12,8 @@ use Symplify\TemplateChecker\Tests\LattePersistence\Source\PlusFilterProvider;
 use Symplify\TemplateChecker\Tests\LattePersistence\Source\SomePresenter;
 
 /**
- * This is a meta test for @see \Symplify\TemplateChecker\StaticCallWithFilterReplacer
- * To verify that the filter behaves the same as static function
+ * This is a meta test for @see \Symplify\TemplateChecker\StaticCallWithFilterReplacer To verify that the filter behaves
+ * the same as static function
  */
 final class LatteFilterPersistenceTest extends TestCase
 {
@@ -40,6 +40,7 @@ final class LatteFilterPersistenceTest extends TestCase
 
     /**
      * Fixture testing is based on @see https://github.com/symplify/easy-testing
+     *
      * @dataProvider provideData()
      * @dataProvider provideDataInArray()
      */

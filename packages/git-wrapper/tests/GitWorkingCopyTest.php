@@ -325,10 +325,10 @@ CODE_SAMPLE;
     }
 
     /**
-     * This tests an odd case where sometimes even though a command fails and an exception is thrown
-     * the result of Process::getErrorOutput() is empty because the output is sent to STDOUT instead of STDERR. So
-     * there's a code path in GitProcess::run() to check the output from Process::getErrorOutput() and if it's empty use
-     * the result from Process::getOutput() instead
+     * This tests an odd case where sometimes even though a command fails and an exception is thrown the result of
+     * Process::getErrorOutput() is empty because the output is sent to STDOUT instead of STDERR. So there's a code path
+     * in GitProcess::run() to check the output from Process::getErrorOutput() and if it's empty use the result from
+     * Process::getOutput() instead
      */
     public function testGitPullErrorWithEmptyErrorOutput(): void
     {
@@ -752,6 +752,7 @@ CODE_SAMPLE;
 
     /**
      * The -m option should set up a remote master branch.
+     *
      * @doesNotPerformAssertions
      */
     public function testRemoteMaster(): void

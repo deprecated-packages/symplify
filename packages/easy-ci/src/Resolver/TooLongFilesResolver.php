@@ -10,6 +10,7 @@ final class TooLongFilesResolver
 {
     /**
      * In windows the max-path length is 260 chars. we give a bit room for the path up to the rector project
+     *
      * @var int
      */
     public const MAX_FILE_LENGTH = 200;
