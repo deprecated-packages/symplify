@@ -13,7 +13,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenAnalyzer\ChainMethodCallAnalyzer;
-use Symplify\CodingStandard\TokenAnalyzer\NewlineAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -48,8 +47,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
     public function __construct(
         WhitespacesFixerConfig $whitespacesFixerConfig,
         BlockFinder $blockFinder,
-        ChainMethodCallAnalyzer $chainMethodCallAnalyzer,
-        NewlineAnalyzer $newlineAnalyzer
+        ChainMethodCallAnalyzer $chainMethodCallAnalyzer
     ) {
         $this->whitespacesFixerConfig = $whitespacesFixerConfig;
         $this->blockFinder = $blockFinder;
