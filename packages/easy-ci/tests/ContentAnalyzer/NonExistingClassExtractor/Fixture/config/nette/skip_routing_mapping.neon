@@ -1,0 +1,6 @@
+application:
+    mapping:
+        Rest: ['App\RestModule\Presenter', '*Presenter', '*Presenter']
+
+services:
+    - App\Some\SomeClass

@@ -15,7 +15,7 @@ final class ChangelogFormatter
      * @see https://regex101.com/r/JmKFH1/1
      * @var string
      */
-    private const HEADLINE_REGEX = '#^(?<headline>[\#]{2,} [\w\d.\-/ ]+)$#m';
+    private const HEADLINE_REGEX = '#^(?<' . self::HEADLINE_PART . '>[\#]{2,} [\w\d.\-/ ]+)$#m';
 
     /**
      * @var string
@@ -29,28 +29,23 @@ final class ChangelogFormatter
      */
     private const THREE_LINES_REGEX = '#(\n){3,}#';
 
+    /**
+     * @var string
+     */
+    private const HEADLINE_PART = 'headline';
+
     public function format(string $content): string
     {
         $content = $this->wrapHeadlinesWithEmptyLines($content);
-
         $content = $this->removeSuperfluousSpaces($content);
 
         return ltrim($content);
     }
 
-    /**
-     * Before:
-     * # Headline\n
-     *
-     * After:
-     * \n
-     * # Headline\n
-     * \n
-     */
     private function wrapHeadlinesWithEmptyLines(string $content): string
     {
         return Strings::replace($content, self::HEADLINE_REGEX, function (array $match): string {
-            return PHP_EOL . $match['headline'] . PHP_EOL;
+            return PHP_EOL . $match[self::HEADLINE_PART] . PHP_EOL;
         });
     }
 

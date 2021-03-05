@@ -93,6 +93,14 @@ jobs:
         # ...
 ```
 
+### 3. Check Configs for Non-Existing Classes
+
+```bash
+vendor/bin/easy-ci check-config src
+```
+
+Supported types are YAML and NEON.
+
 <br>
 
 ## Report Issues

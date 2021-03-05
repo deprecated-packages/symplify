@@ -8,6 +8,7 @@ final class CommonAttributeKey
 {
     /**
      * Convention key name in php-parser and PHPStan for parent node
+     *
      * @var string
      */
     public const PARENT = 'parent';
