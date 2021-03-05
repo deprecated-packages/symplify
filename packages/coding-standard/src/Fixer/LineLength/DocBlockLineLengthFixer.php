@@ -97,6 +97,10 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
                 continue;
             }
 
+            if ($docBlockLines->hasListDescriptionLines()) {
+                continue;
+            }
+
             $paragraphs = $this->extractParagraphsFromDescriptionLines($descriptionLines);
 
             $lineWrappedParagraphs = array_map(
