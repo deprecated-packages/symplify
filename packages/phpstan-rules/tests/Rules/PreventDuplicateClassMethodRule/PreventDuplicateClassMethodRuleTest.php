@@ -14,6 +14,7 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
 {
     /**
      * @param string[] $filePaths
+     * @param array<int|string> $expectedErrorMessagesWithLines
      * @dataProvider provideData()
      */
     public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void

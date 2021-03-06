@@ -13,6 +13,7 @@ final class RequireInvokableControllerRuleTest extends AbstractServiceAwareRuleT
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

@@ -41,6 +41,9 @@ final class JsonFileSystem
         return Json::decode($fileContent, Json::FORCE_ARRAY);
     }
 
+    /**
+     * @param array<string, mixed> $jsonArray
+     */
     public function writeJsonToFilePath(array $jsonArray, string $filePath): void
     {
         $jsonContent = Json::encode($jsonArray, Json::PRETTY) . PHP_EOL;

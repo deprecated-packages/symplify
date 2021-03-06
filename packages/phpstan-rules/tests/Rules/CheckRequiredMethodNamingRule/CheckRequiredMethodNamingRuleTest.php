@@ -13,6 +13,8 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
 {
     /**
      * @dataProvider provideData()
+     * @param string[] $filePaths
+     * @param array<int|string> $expectedErrorMessagesWithLines
      */
     public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void
     {

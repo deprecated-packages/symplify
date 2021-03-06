@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -19,6 +20,16 @@ final class NoDefaultParameterValueRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Parameter "%s" cannot have default value';
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver)
+    {
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -40,7 +51,7 @@ final class NoDefaultParameterValueRule extends AbstractSymplifyRule
                 continue;
             }
 
-            $paramName = (string) $param->var->name;
+            $paramName = $this->simpleNameResolver->getName($param);
             $errorMessages[] = sprintf(self::ERROR_MESSAGE, $paramName);
         }
 

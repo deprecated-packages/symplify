@@ -67,16 +67,7 @@ final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
             return $this->processConstantName($firstArgValue);
         }
 
-        if ($node instanceof StaticCall) {
-            if (! $this->regexStaticCallAnalyzer->isRegexStaticCall($node)) {
-                return [];
-            }
-
-            $secondArgValue = $node->args[1]->value;
-            return $this->processConstantName($secondArgValue);
-        }
-
-        return [];
+        return $this->processStaticCall($node);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -130,5 +121,18 @@ CODE_SAMPLE
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $constantName);
         return [$errorMessage];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processStaticCall(StaticCall $staticCall): array
+    {
+        if (! $this->regexStaticCallAnalyzer->isRegexStaticCall($staticCall)) {
+            return [];
+        }
+
+        $secondArgValue = $staticCall->args[1]->value;
+        return $this->processConstantName($secondArgValue);
     }
 }

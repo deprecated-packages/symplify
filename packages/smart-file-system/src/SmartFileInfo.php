@@ -63,6 +63,9 @@ final class SmartFileInfo extends SplFileInfo
         return pathinfo($this->getFilename(), PATHINFO_EXTENSION);
     }
 
+    /**
+     * @param string[] $suffixes
+     */
     public function hasSuffixes(array $suffixes): bool
     {
         return in_array($this->getSuffix(), $suffixes, true);

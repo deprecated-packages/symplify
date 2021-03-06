@@ -132,6 +132,7 @@ CODE_SAMPLE
     }
 
     /**
+     * @param mixed[] $config
      * @return string[]
      */
     private function getErrorMessages(

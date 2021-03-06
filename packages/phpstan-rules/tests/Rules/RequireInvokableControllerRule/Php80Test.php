@@ -14,6 +14,7 @@ final class Php80Test extends AbstractServiceAwareRuleTestCase
     /**
      * @requires PHP 8.0
      * @dataProvider provideData()
+     * @param array<int|string> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

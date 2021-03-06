@@ -147,13 +147,14 @@ CODE_SAMPLE
     }
 
     /**
+     * @param Param[] $params
      * @return string[]|null[]
      */
     private function getParameterTypes(array $params): array
     {
         $parameterTypes = [];
+
         foreach ($params as $param) {
-            /** @var Param $param */
             if ($param->type === null) {
                 continue;
             }

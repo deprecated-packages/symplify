@@ -61,11 +61,7 @@ final class NoInlineStringRegexRule extends AbstractSymplifyRule
             return $this->processRegexFuncCall($node);
         }
 
-        if ($node instanceof StaticCall) {
-            return $this->processRegexStaticCall($node);
-        }
-
-        return [];
+        return $this->processRegexStaticCall($node);
     }
 
     public function getRuleDefinition(): RuleDefinition

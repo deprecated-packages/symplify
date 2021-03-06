@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -54,6 +55,9 @@ final class VariableUsageAnalyzer
         return false;
     }
 
+    /**
+     * @param Arg[] $args
+     */
     private function isArgPropertyOrAssignVariable(array $args, Variable $variable): bool
     {
         foreach ($args as $arg) {

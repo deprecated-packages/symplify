@@ -13,6 +13,7 @@ final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractSe
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

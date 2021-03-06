@@ -44,6 +44,7 @@ final class SkipperTest extends AbstractKernelTestCase
     }
 
     /**
+     * @param object|class-string $element
      * @dataProvider provideDataShouldSkipElement()
      */
     public function testSkipElement($element, bool $expectedSkip): void

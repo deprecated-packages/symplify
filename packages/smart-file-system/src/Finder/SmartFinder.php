@@ -30,6 +30,7 @@ final class SmartFinder
     }
 
     /**
+     * @param string[] $directoriesOrFiles
      * @return SmartFileInfo[]
      */
     public function findPaths(array $directoriesOrFiles, string $path): array
@@ -53,6 +54,7 @@ final class SmartFinder
     }
 
     /**
+     * @param string[] $directoriesOrFiles
      * @param string[] $excludedDirectories
      * @return SmartFileInfo[]
      */

@@ -29,6 +29,9 @@ final class AssertContainsPHPUnitUpgrader
         $this->reportingFileDumper = $reportingFileDumper;
     }
 
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     */
     public function renameFileInfos(array $fileInfos, SmartFileInfo $errorReportFileInfo): void
     {
         foreach ($fileInfos as $fileInfo) {

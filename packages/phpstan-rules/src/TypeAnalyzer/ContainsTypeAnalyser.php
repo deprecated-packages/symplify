@@ -80,7 +80,7 @@ final class ContainsTypeAnalyser
         return is_a($arrayItemType->getClassName(), $type, true);
     }
 
-    private function isExprTypeOfType($exprType, string $type): bool
+    private function isExprTypeOfType(Type $exprType, string $type): bool
     {
         if ($exprType instanceof TypeWithClassName) {
             return is_a($exprType->getClassName(), $type, true);

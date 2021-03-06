@@ -19,6 +19,7 @@ final class MultipleClassInOneFileFinder
     }
 
     /**
+     * @param string[] $directories
      * @return string[][]
      */
     public function findInDirectories(array $directories): array

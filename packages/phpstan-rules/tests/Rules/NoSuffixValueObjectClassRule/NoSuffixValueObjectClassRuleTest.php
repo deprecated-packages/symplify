@@ -13,6 +13,7 @@ final class NoSuffixValueObjectClassRuleTest extends AbstractServiceAwareRuleTes
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

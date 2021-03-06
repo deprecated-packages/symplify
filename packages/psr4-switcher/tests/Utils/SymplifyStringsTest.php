@@ -24,10 +24,11 @@ final class SymplifyStringsTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param string[] $values
      */
-    public function test(array $strings, string $expectedSharedSuffix): void
+    public function test(array $values, string $expectedSharedSuffix): void
     {
-        $sharedSuffix = $this->symplifyStrings->findSharedSlashedSuffix($strings);
+        $sharedSuffix = $this->symplifyStrings->findSharedSlashedSuffix($values);
         $this->assertSame($expectedSharedSuffix, $sharedSuffix);
     }
 

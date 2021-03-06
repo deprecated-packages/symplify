@@ -13,6 +13,7 @@ final class ForbiddenAnonymousClassRuleTest extends AbstractServiceAwareRuleTest
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

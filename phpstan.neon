@@ -19,6 +19,7 @@ services:
             interfacesByNewTypes:
                 Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample: Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface
 
+    # cognitive complexity
     -
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
@@ -45,7 +46,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -171,7 +172,7 @@ parameters:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
                 - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
-        - '#Method Symplify(.*?)provideData(.*?) return type has no value type specified in iterable type Iterator#'
+        - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
 
         -
             message: '#Do not use trait#'
@@ -460,3 +461,5 @@ parameters:
             paths:
                 - packages/smart-file-system/src/SmartFileInfo.php
 
+        # xml magic
+        - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
