@@ -59,7 +59,7 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

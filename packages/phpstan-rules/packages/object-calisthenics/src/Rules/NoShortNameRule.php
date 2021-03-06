@@ -61,7 +61,7 @@ final class NoShortNameRule extends AbstractSymplifyRule implements Configurable
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

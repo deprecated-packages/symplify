@@ -35,7 +35,7 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

@@ -45,7 +45,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

@@ -21,7 +21,7 @@ final class NoAbstractMethodRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit interface contract or a service over unclear abstract methods';
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

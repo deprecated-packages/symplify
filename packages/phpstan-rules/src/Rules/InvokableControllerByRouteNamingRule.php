@@ -28,7 +28,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
     public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

@@ -72,7 +72,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

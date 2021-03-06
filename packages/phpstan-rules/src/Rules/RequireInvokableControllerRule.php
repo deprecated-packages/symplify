@@ -22,10 +22,10 @@ final class RequireInvokableControllerRule extends AbstractInvokableControllerRu
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead';
+    public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead of named action method';
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

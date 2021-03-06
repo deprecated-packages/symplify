@@ -76,7 +76,7 @@ final class NoScalarAndArrayConstructorParameterRule extends AbstractSymplifyRul
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

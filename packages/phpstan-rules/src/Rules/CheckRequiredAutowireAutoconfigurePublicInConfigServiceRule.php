@@ -40,7 +40,7 @@ final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends 
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

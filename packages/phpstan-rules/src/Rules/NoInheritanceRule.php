@@ -98,7 +98,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

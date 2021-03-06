@@ -44,7 +44,7 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

@@ -47,7 +47,7 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {

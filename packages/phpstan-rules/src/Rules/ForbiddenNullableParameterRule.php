@@ -85,7 +85,7 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {
