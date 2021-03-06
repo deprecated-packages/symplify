@@ -127,10 +127,14 @@ CODE_SAMPLE
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
 =======
     private function shouldSkip(\PhpParser\Node $parentNode, PropertyFetch $propertyFetch): bool
 >>>>>>> b8ac1a5d0... add more types
+=======
+    private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
+>>>>>>> c41df2abf... [PhpConfigPrinter] Simplify service keywords
     {
         if ($parentNode instanceof Unset_) {
             return true;

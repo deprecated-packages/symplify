@@ -33,7 +33,11 @@ use Throwable;
 final class FixerFileProcessor implements FileProcessorInterface
 {
     /**
+<<<<<<< HEAD
      * @var array<class-string<DefinedFixerInterface>>
+=======
+     * @var array<class-string<FixerInterface>>
+>>>>>>> c41df2abf... [PhpConfigPrinter] Simplify service keywords
      */
     private const MARKDOWN_EXCLUDED_FIXERS = [
         VoidReturnFixer::class,

@@ -8,6 +8,7 @@ use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
+use Rector\DeadCode\Rector\Cast\RecastingRemovalRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
@@ -110,5 +111,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
 
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
+
+        // false positive, max actually returns mixed, not int, see https://www.php.net/manual/en/function.max.php
+        RecastingRemovalRector::class => [__DIR__ . '/packages/changelog-linker/src/Analyzer/IdsAnalyzer.php'],
     ]);
 };

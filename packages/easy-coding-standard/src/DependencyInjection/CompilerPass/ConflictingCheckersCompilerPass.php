@@ -24,7 +24,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
     /**
      * These groups do the opposite of each other, e.g. Yoda vs NoYoda.
      *
-     * @var array<array<class-string<FixerInterface|Sniff>>
+     * @var array<array<class-string<FixerInterface|Sniff>|string>>
      */
     private const CONFLICTING_CHECKER_GROUPS = [
         ['SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff', YodaStyleFixer::class],
