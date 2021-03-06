@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
@@ -100,7 +101,7 @@ CODE_SAMPLE
                 ,
                 [
                     'funcCallToPreferredMethodCalls' => [
-                        'strlen' => ['Nette\Utils\Strings', 'length'],
+                        'strlen' => [Strings::class, 'length'],
                     ],
                 ]
             ),

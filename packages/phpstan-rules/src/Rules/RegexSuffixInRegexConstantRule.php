@@ -54,7 +54,7 @@ final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
 
     /**
      * @param StaticCall|FuncCall $node
-     * @return string[]
+     * @return mixed[]|string[]
      */
     public function process(Node $node, Scope $scope): array
     {
