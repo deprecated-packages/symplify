@@ -23,7 +23,7 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method call on new expression is not allowed.';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

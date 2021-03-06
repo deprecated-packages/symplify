@@ -64,7 +64,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

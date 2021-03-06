@@ -1,6 +1,6 @@
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\FixturePhp80;
 
 class SomeClass
 {
@@ -16,7 +16,7 @@ class SomeClass
 -----
 <?php
 
-namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\Fixture;
+namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer\FixturePhp80;
 
 class SomeClass
 {

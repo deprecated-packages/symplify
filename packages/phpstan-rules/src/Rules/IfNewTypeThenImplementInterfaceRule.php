@@ -53,7 +53,7 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

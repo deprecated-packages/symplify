@@ -21,7 +21,7 @@ final class NoTraitRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use trait, extract to a service and dependency injection instead';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

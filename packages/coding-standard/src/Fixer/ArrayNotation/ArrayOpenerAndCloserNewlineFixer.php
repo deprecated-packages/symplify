@@ -8,9 +8,14 @@ use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Fixer\AbstractArrayFixer;
+use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
+use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
+use Symplify\CodingStandard\TokenRunner\Traverser\ArrayBlockInfoFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenRunner\ValueObject\TokenKinds;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -18,37 +23,41 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer\ArrayOpenerAndCloserNewlineFixerTest
  */
-final class ArrayOpenerAndCloserNewlineFixer extends AbstractArrayFixer implements DocumentedRuleInterface
+final class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
     /**
      * @var string
      */
     private const ERROR_MESSAGE = 'Indexed PHP array opener [ and closer ] must be on own line';
 
+    /**
+     * @var ArrayBlockInfoFinder
+     */
+    private $arrayBlockInfoFinder;
+
+    /**
+     * @var WhitespacesFixerConfig
+     */
+    private $whitespacesFixerConfig;
+
+    /**
+     * @var ArrayAnalyzer
+     */
+    private $arrayAnalyzer;
+
+    public function __construct(
+        ArrayBlockInfoFinder $arrayBlockInfoFinder,
+        WhitespacesFixerConfig $whitespacesFixerConfig,
+        ArrayAnalyzer $arrayAnalyzer
+    ) {
+        $this->arrayBlockInfoFinder = $arrayBlockInfoFinder;
+        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+        $this->arrayAnalyzer = $arrayAnalyzer;
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(self::ERROR_MESSAGE, []);
-    }
-
-    public function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo, int $index): void
-    {
-        if ($this->isNextTokenAlsoArrayOpener($tokens, $index)) {
-            return;
-        }
-
-        // no items
-        $itemCount = $this->arrayAnalyzer->getItemCount($tokens, $blockInfo);
-        if ($itemCount === 0) {
-            return;
-        }
-
-        if (! $this->arrayAnalyzer->isIndexedList($tokens, $blockInfo)) {
-            return;
-        }
-
-        // closer must run before the opener, as tokens as added by traversing up
-        $this->handleArrayCloser($tokens, $blockInfo->getEnd());
-        $this->handleArrayOpener($tokens, $index);
     }
 
     public function getPriority(): int
@@ -73,6 +82,44 @@ CODE_SAMPLE
         ]);
     }
 
+    public function isCandidate(Tokens $tokens): bool
+    {
+        if (! $tokens->isAnyTokenKindsFound(TokenKinds::ARRAY_OPEN_TOKENS)) {
+            return false;
+        }
+
+        return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
+    }
+
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens)
+    {
+        $blockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
+        foreach ($blockInfos as $blockInfo) {
+            $this->fixArrayOpener($tokens, $blockInfo);
+        }
+    }
+
+    private function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo): void
+    {
+        if ($this->isNextTokenAlsoArrayOpener($tokens, $blockInfo->getStart())) {
+            return;
+        }
+
+        // no items
+        $itemCount = $this->arrayAnalyzer->getItemCount($tokens, $blockInfo);
+        if ($itemCount === 0) {
+            return;
+        }
+
+        if (! $this->arrayAnalyzer->isIndexedList($tokens, $blockInfo)) {
+            return;
+        }
+
+        // closer must run before the opener, as tokens as added by traversing up
+        $this->handleArrayCloser($tokens, $blockInfo->getEnd());
+        $this->handleArrayOpener($tokens, $blockInfo->getStart());
+    }
+
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool
     {
         $nextToken = $this->getNextMeaningfulToken($tokens, $index);
@@ -80,7 +127,7 @@ CODE_SAMPLE
             return false;
         }
 
-        return $nextToken->isGivenKind(self::ARRAY_OPEN_TOKENS);
+        return $nextToken->isGivenKind(TokenKinds::ARRAY_OPEN_TOKENS);
     }
 
     private function handleArrayCloser(Tokens $tokens, int $arrayCloserPosition): void

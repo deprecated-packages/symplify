@@ -36,7 +36,7 @@ final class ExcessiveParameterListRule extends AbstractSymplifyRule implements C
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

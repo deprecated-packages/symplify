@@ -29,7 +29,7 @@ final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
     private const METHOD_TAG_REGEX = '#\*\s+@method\s+.*\n?#';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

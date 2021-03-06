@@ -30,7 +30,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     private const A_CONTRACT_NAMESPACE_REGEX = '#\bContract\b#';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

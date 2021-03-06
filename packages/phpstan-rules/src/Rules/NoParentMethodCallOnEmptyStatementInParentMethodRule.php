@@ -44,7 +44,7 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

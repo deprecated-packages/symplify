@@ -61,7 +61,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

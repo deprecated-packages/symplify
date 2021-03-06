@@ -28,7 +28,7 @@ final class ForbiddenAnonymousClassRule extends AbstractSymplifyRule
     private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

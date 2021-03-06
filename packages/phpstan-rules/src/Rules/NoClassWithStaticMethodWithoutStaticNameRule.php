@@ -64,7 +64,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

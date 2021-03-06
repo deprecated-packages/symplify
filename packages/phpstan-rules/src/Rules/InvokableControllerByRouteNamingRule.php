@@ -8,11 +8,13 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
+use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer;
 use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,7 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule\InvokableControllerByRouteNamingRuleTest
  */
-final class InvokableControllerByRouteNamingRule extends AbstractInvokableControllerRule
+final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -28,7 +30,37 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
     public const ERROR_MESSAGE = 'Use controller class name based on route name instead';
 
     /**
-     * @return string[]
+     * @var string
+     */
+    private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
+
+    /**
+     * @var SymfonyControllerAnalyzer
+     */
+    private $symfonyControllerAnalyzer;
+
+    /**
+     * @var AttributeFinder
+     */
+    private $attributeFinder;
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        SymfonyControllerAnalyzer $symfonyControllerAnalyzer,
+        AttributeFinder $attributeFinder,
+        SimpleNameResolver $simpleNameResolver
+    ) {
+        $this->symfonyControllerAnalyzer = $symfonyControllerAnalyzer;
+        $this->attributeFinder = $attributeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
+    }
+
+    /**
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
@@ -41,7 +73,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInControllerClass($scope)) {
+        if (! $this->symfonyControllerAnalyzer->isInControllerClass($scope)) {
             return [];
         }
 
@@ -52,18 +84,16 @@ final class InvokableControllerByRouteNamingRule extends AbstractInvokableContro
             return [];
         }
 
-        $fullyQualified = $this->getRouteAttribute($node);
-        if (! $fullyQualified instanceof FullyQualified) {
+        if (! $this->symfonyControllerAnalyzer->isActionMethod($node)) {
             return [];
         }
 
-        /** @var Attribute|null $parent */
-        $parent = $fullyQualified->getAttribute(PHPStanAttributeKey::PARENT);
-        if (! $parent instanceof Attribute) {
+        $routeAttribute = $this->attributeFinder->findAttribute($node, self::ROUTE_ATTRIBUTE);
+        if (! $routeAttribute instanceof Attribute) {
             return [];
         }
 
-        return $this->validateInvokable($scope, $parent->args);
+        return $this->validateInvokable($scope, $routeAttribute);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -100,9 +130,9 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function validateInvokable(Scope $scope, array $array): array
+    private function validateInvokable(Scope $scope, Attribute $attribute): array
     {
-        foreach ($array as $arg) {
+        foreach ($attribute->args as $arg) {
             /** @var Identifier $argIdentifier */
             $argIdentifier = $arg->name;
             $argName = (string) $argIdentifier;

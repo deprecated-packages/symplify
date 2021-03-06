@@ -4,28 +4,36 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\RequireInvokableControllerRuleTest
  */
-final class RequireInvokableControllerRule extends AbstractInvokableControllerRule
+final class RequireInvokableControllerRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead';
+    public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead of named action method';
 
     /**
-     * @return string[]
+     * @var SymfonyControllerAnalyzer
+     */
+    private $symfonyControllerAnalyzer;
+
+    public function __construct(SymfonyControllerAnalyzer $symfonyControllerAnalyzer)
+    {
+        $this->symfonyControllerAnalyzer = $symfonyControllerAnalyzer;
+    }
+
+    /**
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
@@ -38,11 +46,11 @@ final class RequireInvokableControllerRule extends AbstractInvokableControllerRu
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isInControllerClass($scope)) {
+        if (! $this->symfonyControllerAnalyzer->isInControllerClass($scope)) {
             return [];
         }
 
-        if (! $this->isRouteMethod($node)) {
+        if (! $this->symfonyControllerAnalyzer->isActionMethod($node)) {
             return [];
         }
 
@@ -89,23 +97,5 @@ final class SomeController extends AbstractController
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    private function isRouteMethod(ClassMethod $classMethod): bool
-    {
-        if (! $classMethod->isPublic()) {
-            return false;
-        }
-
-        if ($this->getRouteAttribute($classMethod) instanceof FullyQualified) {
-            return true;
-        }
-
-        $docComment = $classMethod->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return false;
-        }
-
-        return Strings::contains($docComment->getText(), '@Route');
     }
 }

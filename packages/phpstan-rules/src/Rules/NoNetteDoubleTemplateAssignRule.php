@@ -55,7 +55,7 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

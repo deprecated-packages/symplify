@@ -69,7 +69,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

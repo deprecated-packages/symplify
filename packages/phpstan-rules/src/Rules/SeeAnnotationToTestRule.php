@@ -75,7 +75,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

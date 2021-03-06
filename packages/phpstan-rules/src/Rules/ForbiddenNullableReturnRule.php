@@ -72,7 +72,7 @@ final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements 
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

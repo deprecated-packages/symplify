@@ -77,7 +77,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -1,4 +1,4 @@
-# 147 Rules Overview
+# 146 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1868,50 +1868,6 @@ class SomeClass
 {
     public function run(): Node
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenParentClassRule
-
-Inheritance from "%s" class is forbidden. Use "%s" instead
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenParentClassRule`](/packages/phpstan-rules/src/Rules/ForbiddenParentClassRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenParentClassRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenParentClasses:
-                - ParentClass
-```
-
-↓
-
-```php
-class SomeClass extends ParentClass
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function __construct(DecoupledClass $decoupledClass)
-    {
-        $this->decoupledClass = $decoupledClass;
     }
 }
 ```

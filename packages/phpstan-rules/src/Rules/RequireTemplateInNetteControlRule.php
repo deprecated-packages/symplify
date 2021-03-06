@@ -50,7 +50,7 @@ final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

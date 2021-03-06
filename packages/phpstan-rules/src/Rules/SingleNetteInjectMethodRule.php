@@ -22,7 +22,7 @@ final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use single inject*() class method per class';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

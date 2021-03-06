@@ -474,6 +474,7 @@ parameters:
                 - packages/git-wrapper/src
                 - packages/set-config-resolver/src/ConfigResolver.php
                 - packages/set-config-resolver/src/SetAwareConfigResolver.php
+                - packages/symfony-static-dumper/tests/test_project
 
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
         -

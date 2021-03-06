@@ -67,11 +67,13 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
 
     # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer
 
     # nette
     - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver

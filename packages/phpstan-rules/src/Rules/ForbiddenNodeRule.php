@@ -55,7 +55,7 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -34,7 +34,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

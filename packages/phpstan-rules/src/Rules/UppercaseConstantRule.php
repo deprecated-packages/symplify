@@ -21,7 +21,7 @@ final class UppercaseConstantRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Constant "%s" must be uppercase';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

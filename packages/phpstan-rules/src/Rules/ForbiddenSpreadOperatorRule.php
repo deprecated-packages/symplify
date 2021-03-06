@@ -28,7 +28,7 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Spread operator is not allowed.';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

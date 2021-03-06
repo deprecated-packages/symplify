@@ -40,7 +40,7 @@ final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRu
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

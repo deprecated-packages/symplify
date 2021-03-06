@@ -25,7 +25,7 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use another value object over array with string-keys and objects, array<string, ValueObject>';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

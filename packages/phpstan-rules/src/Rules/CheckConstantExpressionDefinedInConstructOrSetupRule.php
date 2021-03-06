@@ -64,7 +64,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

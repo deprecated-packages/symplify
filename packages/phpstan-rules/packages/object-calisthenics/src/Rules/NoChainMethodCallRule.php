@@ -76,7 +76,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

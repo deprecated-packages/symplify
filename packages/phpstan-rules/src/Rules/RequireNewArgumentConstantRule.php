@@ -38,7 +38,7 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

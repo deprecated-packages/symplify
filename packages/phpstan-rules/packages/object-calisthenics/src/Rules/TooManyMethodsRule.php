@@ -33,7 +33,7 @@ final class TooManyMethodsRule extends AbstractSymplifyRule implements Configura
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

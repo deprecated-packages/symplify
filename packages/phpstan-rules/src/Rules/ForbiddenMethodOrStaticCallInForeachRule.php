@@ -40,7 +40,7 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

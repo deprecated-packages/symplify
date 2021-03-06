@@ -61,7 +61,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

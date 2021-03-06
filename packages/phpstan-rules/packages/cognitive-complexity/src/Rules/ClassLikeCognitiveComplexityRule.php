@@ -64,7 +64,7 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

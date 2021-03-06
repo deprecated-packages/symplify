@@ -34,7 +34,7 @@ final class TooLongVariableRule extends AbstractSymplifyRule implements Configur
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -25,7 +25,7 @@ final class NoIssetOnObjectRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use default null value and nullable compare instead of isset on object';
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

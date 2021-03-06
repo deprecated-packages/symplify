@@ -36,7 +36,7 @@ abstract class AbstractRegexRule extends AbstractSymplifyRule implements RegexRu
     private const NETTE_UTILS_STRINGS_CLASS = Strings::class;
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
