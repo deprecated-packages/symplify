@@ -14,6 +14,13 @@ final class SymplifyKernelExtension extends Extension
     /**
      * @param string[] $configs
      */
+<<<<<<< HEAD
+=======
+
+    /**
+     * @param string[] $configs
+     */
+>>>>>>> 629e94c25... [phpstan] add more types
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../config'));

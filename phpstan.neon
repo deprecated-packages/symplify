@@ -46,7 +46,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -172,7 +172,11 @@ parameters:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
                 - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
+<<<<<<< HEAD
         - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
+=======
+        - '#Method Symplify(.*?)provideData(.*?) return type has no value type specified in iterable type Iterator#'
+>>>>>>> 629e94c25... [phpstan] add more types
 
         -
             message: '#Do not use trait#'
@@ -456,6 +460,7 @@ parameters:
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
         - '#Use decoupled factory service to create "Symfony\\Component\\HttpKernel\\KernelInterface" object#'
 
+<<<<<<< HEAD
         # some phpstan bug
         - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
@@ -464,11 +469,14 @@ parameters:
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
+=======
+>>>>>>> 629e94c25... [phpstan] add more types
         -
             message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
             paths:
                 - packages/smart-file-system/src/SmartFileInfo.php
 
+<<<<<<< HEAD
         # xml magic
         - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
         -
@@ -483,3 +491,5 @@ parameters:
         # resolve first
         - '#Method (.*?) has parameter (.*?) with no typehint specified#'
 
+=======
+>>>>>>> 629e94c25... [phpstan] add more types
