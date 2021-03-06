@@ -46,7 +46,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -173,10 +173,14 @@ parameters:
                 - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
 =======
         - '#Method Symplify(.*?)provideData(.*?) return type has no value type specified in iterable type Iterator#'
 >>>>>>> 629e94c25... [phpstan] add more types
+=======
+        - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
+>>>>>>> b8ac1a5d0... add more types
 
         -
             message: '#Do not use trait#'
@@ -477,6 +481,7 @@ parameters:
                 - packages/smart-file-system/src/SmartFileInfo.php
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         # xml magic
         - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
         -
@@ -493,3 +498,7 @@ parameters:
 
 =======
 >>>>>>> 629e94c25... [phpstan] add more types
+=======
+        # xml magic
+        - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
+>>>>>>> b8ac1a5d0... add more types

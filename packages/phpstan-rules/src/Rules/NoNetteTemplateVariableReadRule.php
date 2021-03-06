@@ -126,7 +126,11 @@ CODE_SAMPLE
         return $this->simpleNameResolver->isName($expr->name, $propertyName);
     }
 
+<<<<<<< HEAD
     private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
+=======
+    private function shouldSkip(\PhpParser\Node $parentNode, PropertyFetch $propertyFetch): bool
+>>>>>>> b8ac1a5d0... add more types
     {
         if ($parentNode instanceof Unset_) {
             return true;
