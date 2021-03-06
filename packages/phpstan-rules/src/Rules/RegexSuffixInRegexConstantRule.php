@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
+use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RegexSuffixInRegexConstantRule\RegexSuffixInRegexConstantRuleTest
  */
-final class RegexSuffixInRegexConstantRule extends AbstractRegexRule
+final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -23,21 +27,56 @@ final class RegexSuffixInRegexConstantRule extends AbstractRegexRule
     public const ERROR_MESSAGE = 'Name your constant with "_REGEX" suffix, instead of "%s"';
 
     /**
-     * @return string[]
+     * @var RegexFuncCallAnalyzer
      */
-    public function processRegexFuncCall(FuncCall $funcCall): array
-    {
-        $firstArgValue = $funcCall->args[0]->value;
-        return $this->processConstantName($firstArgValue);
+    private $regexFuncCallAnalyzer;
+
+    /**
+     * @var RegexStaticCallAnalyzer
+     */
+    private $regexStaticCallAnalyzer;
+
+    public function __construct(
+        RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
+        RegexStaticCallAnalyzer $regexStaticCallAnalyzer
+    ) {
+        $this->regexFuncCallAnalyzer = $regexFuncCallAnalyzer;
+        $this->regexStaticCallAnalyzer = $regexStaticCallAnalyzer;
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
-    public function processRegexStaticCall(StaticCall $staticCall): array
+    public function getNodeTypes(): array
     {
-        $secondArgValue = $staticCall->args[1]->value;
-        return $this->processConstantName($secondArgValue);
+        return [StaticCall::class, FuncCall::class];
+    }
+
+    /**
+     * @param StaticCall|FuncCall $node
+     * @return mixed[]|string[]
+     */
+    public function process(Node $node, Scope $scope): array
+    {
+        if ($node instanceof FuncCall) {
+            if (! $this->regexFuncCallAnalyzer->isRegexFuncCall($node)) {
+                return [];
+            }
+
+            $firstArgValue = $node->args[0]->value;
+            return $this->processConstantName($firstArgValue);
+        }
+
+        if ($node instanceof StaticCall) {
+            if (! $this->regexStaticCallAnalyzer->isRegexStaticCall($node)) {
+                return [];
+            }
+
+            $secondArgValue = $node->args[1]->value;
+            return $this->processConstantName($secondArgValue);
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition

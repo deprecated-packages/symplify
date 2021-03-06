@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
-abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
+final class FuncCallMatcher
 {
     /**
      * @var SimpleNameResolver
@@ -23,17 +22,9 @@ abstract class AbstractPrefferedCallOverFuncRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
-    {
-        return [FuncCall::class];
-    }
-
-    /**
      * @param string[] $call
      */
-    protected function isFuncCallToCallMatch(FuncCall $funcCall, Scope $scope, string $functionName, array $call): bool
+    public function isFuncCallToCallMatch(FuncCall $funcCall, Scope $scope, string $functionName, array $call): bool
     {
         if (! $this->simpleNameResolver->isName($funcCall->name, $functionName)) {
             return false;

@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverFuncCallRule\PreferredMethodCallOverFuncCallRuleTest
  */
-final class PreferredMethodCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule implements ConfigurableRuleInterface
+final class PreferredMethodCallOverFuncCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -29,13 +29,25 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
     private $funcCallToPreferredMethodCalls = [];
 
     /**
+     * @var FuncCallMatcher
+     */
+    private $funcCallMatcher;
+
+    /**
      * @param array<string, string[]> $funcCallToPreferredMethodCalls
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $funcCallToPreferredMethodCalls = [])
+    public function __construct(FuncCallMatcher $funcCallMatcher, array $funcCallToPreferredMethodCalls = [])
     {
-        parent::__construct($simpleNameResolver);
-
         $this->funcCallToPreferredMethodCalls = $funcCallToPreferredMethodCalls;
+        $this->funcCallMatcher = $funcCallMatcher;
+    }
+
+    /**
+     * @return array<class-string<Node>>
+     */
+    public function getNodeTypes(): array
+    {
+        return [FuncCall::class];
     }
 
     /**
@@ -45,7 +57,7 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractPrefferedCallOve
     public function process(Node $node, Scope $scope): array
     {
         foreach ($this->funcCallToPreferredMethodCalls as $functionName => $methodCall) {
-            if (! $this->isFuncCallToCallMatch($node, $scope, $functionName, $methodCall)) {
+            if (! $this->funcCallMatcher->isFuncCallToCallMatch($node, $scope, $functionName, $methodCall)) {
                 continue;
             }
 

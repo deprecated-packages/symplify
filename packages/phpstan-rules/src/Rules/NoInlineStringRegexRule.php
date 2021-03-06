@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
+use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
+use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\NoInlineStringRegexRuleTest
  */
-final class NoInlineStringRegexRule extends AbstractRegexRule
+final class NoInlineStringRegexRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -22,39 +26,46 @@ final class NoInlineStringRegexRule extends AbstractRegexRule
     public const ERROR_MESSAGE = 'Use local named constant instead of inline string for regex to explain meaning by constant name';
 
     /**
-     * @return string[]
+     * @var RegexFuncCallAnalyzer
      */
-    public function processRegexFuncCall(FuncCall $funcCall): array
-    {
-        $firstArgValue = $funcCall->args[0]->value;
+    private $regexFuncCallAnalyzer;
 
-        // it's not string → good
-        if (! $firstArgValue instanceof String_) {
-            return [];
-        }
+    /**
+     * @var RegexStaticCallAnalyzer
+     */
+    private $regexStaticCallAnalyzer;
 
-        return [self::ERROR_MESSAGE];
+    public function __construct(
+        RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
+        RegexStaticCallAnalyzer $regexStaticCallAnalyzer
+    ) {
+        $this->regexFuncCallAnalyzer = $regexFuncCallAnalyzer;
+        $this->regexStaticCallAnalyzer = $regexStaticCallAnalyzer;
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Node>>
      */
-    public function processRegexStaticCall(StaticCall $staticCall): array
+    public function getNodeTypes(): array
     {
-        $secondArgValue = $staticCall->args[1]->value;
+        return [StaticCall::class, FuncCall::class];
+    }
 
-        // it's not string → good
-        if (! $secondArgValue instanceof String_) {
-            return [];
+    /**
+     * @param StaticCall|FuncCall $node
+     * @return mixed[]|string[]
+     */
+    public function process(Node $node, Scope $scope): array
+    {
+        if ($node instanceof FuncCall) {
+            return $this->processRegexFuncCall($node);
         }
 
-        $regexValue = $secondArgValue->value;
-
-        if (Strings::length($regexValue) <= 7) {
-            return [];
+        if ($node instanceof StaticCall) {
+            return $this->processRegexStaticCall($node);
         }
 
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -87,5 +98,49 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processRegexFuncCall(FuncCall $funcCall): array
+    {
+        if (! $this->regexFuncCallAnalyzer->isRegexFuncCall($funcCall)) {
+            return [];
+        }
+
+        $firstArgValue = $funcCall->args[0]->value;
+
+        // it's not string → good
+        if (! $firstArgValue instanceof String_) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processRegexStaticCall(StaticCall $staticCall): array
+    {
+        if (! $this->regexStaticCallAnalyzer->isRegexStaticCall($staticCall)) {
+            return [];
+        }
+
+        $secondArgValue = $staticCall->args[1]->value;
+
+        // it's not string → good
+        if (! $secondArgValue instanceof String_) {
+            return [];
+        }
+
+        $regexValue = $secondArgValue->value;
+
+        if (Strings::length($regexValue) <= 7) {
+            return [];
+        }
+
+        return [self::ERROR_MESSAGE];
     }
 }

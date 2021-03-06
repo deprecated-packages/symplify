@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredStaticCallOverFuncCallRule\PreferredStaticCallOverFuncCallRuleTest
  */
-final class PreferredStaticCallOverFuncCallRule extends AbstractPrefferedCallOverFuncRule implements ConfigurableRuleInterface
+final class PreferredStaticCallOverFuncCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -29,13 +29,25 @@ final class PreferredStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
     private $funcCallToPreferredStaticCalls = [];
 
     /**
+     * @var FuncCallMatcher
+     */
+    private $funcCallMatcher;
+
+    /**
      * @param array<string, string[]> $funcCallToPreferredStaticCalls
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $funcCallToPreferredStaticCalls = [])
+    public function __construct(FuncCallMatcher $funcCallMatcher, array $funcCallToPreferredStaticCalls = [])
     {
-        parent::__construct($simpleNameResolver);
-
         $this->funcCallToPreferredStaticCalls = $funcCallToPreferredStaticCalls;
+        $this->funcCallMatcher = $funcCallMatcher;
+    }
+
+    /**
+     * @return array<class-string<Node>>
+     */
+    public function getNodeTypes(): array
+    {
+        return [FuncCall::class];
     }
 
     /**
@@ -45,7 +57,7 @@ final class PreferredStaticCallOverFuncCallRule extends AbstractPrefferedCallOve
     public function process(Node $node, Scope $scope): array
     {
         foreach ($this->funcCallToPreferredStaticCalls as $functionName => $staticCall) {
-            if (! $this->isFuncCallToCallMatch($node, $scope, $functionName, $staticCall)) {
+            if (! $this->funcCallMatcher->isFuncCallToCallMatch($node, $scope, $functionName, $staticCall)) {
                 continue;
             }
 
