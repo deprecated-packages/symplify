@@ -4,11 +4,14 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             allowedParentTypes:
-                 - 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController'
-                 - 'Symplify\PHPStanRules\Rules\AbstractSymplifyRule'
-                 - 'Symplify\CodingStandard\Fixer\AbstractSymplifyFixer'
                  - 'Symplify\RuleDocGenerator\Contract\CodeSampleInterface'
-                 - 'Symplify\SetConfigResolver\Provider\AbstractSetProvider'
+            allowedDirectParentTypes:
+                 - 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController'
+                 - Symplify\CodingStandard\Fixer\AbstractSymplifyFixer
+                 - Symplify\PHPStanRules\Rules\AbstractSymplifyRule
+                 - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase
+                 - Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample
+                 - Symplify\SetConfigResolver\Provider\AbstractSetProvider
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
@@ -49,18 +52,6 @@ services:
                 - PhpParser\Node\Expr\Empty_
                 - PhpParser\Node\Stmt\Switch_
                 - PhpParser\Node\Expr\ErrorSuppress
-
-    # parenting
-    -
-        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedDirectParentTypes:
-                - Symplify\CodingStandard\Fixer\AbstractSymplifyFixer
-                - Symplify\PHPStanRules\Rules\AbstractSymplifyRule
-                - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase
-                - Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample
-                - Symplify\SetConfigResolver\Provider\AbstractSetProvider
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredClassRule

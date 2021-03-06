@@ -10,6 +10,7 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
+use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\ArrayAnalyzer;
 use Symplify\CodingStandard\TokenRunner\Traverser\ArrayBlockInfoFinder;
@@ -68,7 +69,7 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
         return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
-    public function fix(\SplFileInfo $fileInfo, Tokens $tokens)
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens)
     {
         $arrayBlockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
         foreach ($arrayBlockInfos as $arrayBlockInfo) {
