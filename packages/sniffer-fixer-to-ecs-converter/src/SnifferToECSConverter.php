@@ -132,6 +132,10 @@ final class SnifferToECSConverter
 
         foreach ($child->properties as $properties) {
             foreach ($properties as $property) {
+                if (! $property instanceof SimpleXMLElement) {
+                    continue;
+                }
+
                 $name = (string) $property->attributes()['name'];
                 $serviceConfiguration[$name] = $this->resolvePropertyValue($property);
             }
@@ -143,7 +147,7 @@ final class SnifferToECSConverter
     /**
      * @return int|string
      */
-    private function resolvePropertyValue($property)
+    private function resolvePropertyValue(SimpleXMLElement $property)
     {
         $value = (string) $property->attributes()['value'];
 

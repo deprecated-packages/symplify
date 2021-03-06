@@ -92,7 +92,7 @@ final class TemplatePathsResolver
         throw new ShouldNotHappenException();
     }
 
-    private function resolveRelativeTemplateFilepath(SmartFileInfo $templateFileInfo)
+    private function resolveRelativeTemplateFilepath(SmartFileInfo $templateFileInfo): string
     {
         $match = Strings::match($templateFileInfo->getRealPath(), self::TEMPLATE_PATH_REGEX);
         if (! isset($match['template_relative_path'])) {

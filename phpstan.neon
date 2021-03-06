@@ -45,7 +45,7 @@ services:
 parameters:
     level: max
     checkGenericClassInNonGenericObjectType: false
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -72,11 +72,10 @@ parameters:
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         # 3rd party
         - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
+        - packages/package-builder/src/Yaml/ParametersMerger.php
+
         # tests
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
-
-        # 3rd party
-        - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # requires PHP 7.4
         - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
@@ -111,14 +110,8 @@ parameters:
         # phpstan 0.10 news
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
 
-        # mixed up iterables
-        - '#PHPDoc tag @return with type array<string\> is incompatible with native type Iterator#'
-
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
-
-        # false positive
-        - '#Unreachable statement \- code above always terminates#'
 
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
@@ -127,11 +120,6 @@ parameters:
         - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
 
-        # mixed by default, handled by coding standards
-        - '#(has|with) no (return )?typehint specified#'
-        - '#Offset (.*?) does not exist on array\|null#'
-        - '#in iterable type#'
-
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
@@ -139,7 +127,6 @@ parameters:
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
-        - '#Cannot cast PhpParser\\Node\\Expr\|string to string#'
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
@@ -182,8 +169,10 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
+                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
-        # todo resolve later
+        - '#Method Symplify(.*?)provideData(.*?) return type has no value type specified in iterable type Iterator#'
+
         -
             message: '#Do not use trait#'
             paths:
@@ -210,12 +199,6 @@ parameters:
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
-
-        # static cache
-        -
-            message: '#Do not use static property#'
-            paths:
-                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
         - '#The path "/another\-one\.php" was not found#'
 
@@ -469,6 +452,11 @@ parameters:
             paths:
                 - packages/easy-coding-standard/scoper.inc.php
 
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\ConsoleColorDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
-        - '#Content of method "create\(\)" is duplicated with method "create\(\)" in "Symplify\\MarkdownDiff\\Diff\\Output\\CompleteUnifiedDiffOutputBuilderFactory" class\. Use unique content or service instead#'
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
+        - '#Use decoupled factory service to create "Symfony\\Component\\HttpKernel\\KernelInterface" object#'
+
+        -
+            message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
+            paths:
+                - packages/smart-file-system/src/SmartFileInfo.php
+

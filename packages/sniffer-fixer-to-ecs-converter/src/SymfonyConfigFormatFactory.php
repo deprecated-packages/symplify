@@ -15,6 +15,7 @@ final class SymfonyConfigFormatFactory
      * @param string[] $setsParameter
      * @param array<string|int, mixed> $skipParameter
      * @param string[] $excludePathsParameter
+     * @param string[] $pathsParameter
      * @return mixed[]
      */
     public function createSymfonyConfigFormat(

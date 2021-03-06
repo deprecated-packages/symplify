@@ -47,6 +47,9 @@ final class JsonFileSystem
         $this->smartFileSystem->dumpFile($filePath, $jsonContent);
     }
 
+    /**
+     * @param array<string, mixed> $newJsonArray
+     */
     public function mergeArrayToJsonFile(string $filePath, array $newJsonArray): void
     {
         $jsonArray = $this->loadFilePathToJson($filePath);

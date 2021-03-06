@@ -23,6 +23,7 @@ final class StringsFilterTest extends AbstractKernelTestCase
     }
 
     /**
+     * @param string[] $matchingValues
      * @dataProvider provideData()
      */
     public function test(string $inputValue, array $matchingValues, bool $expectedIsMatch): void
