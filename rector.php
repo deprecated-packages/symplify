@@ -8,6 +8,7 @@ use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
+use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
@@ -54,12 +55,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_72,
         SetList::PHP_73,
 <<<<<<< HEAD
+<<<<<<< HEAD
         //        SetList::TYPE_DECLARATION,
         //        SetList::TYPE_DECLARATION_STRICT,
 =======
         SetList::TYPE_DECLARATION,
         SetList::TYPE_DECLARATION_STRICT,
 >>>>>>> b8ac1a5d0... add more types
+=======
+        //        SetList::TYPE_DECLARATION,
+        //        SetList::TYPE_DECLARATION_STRICT,
+>>>>>>> 63a1a53b6... composer: allow Rector dev
         SetList::PHPUNIT_CODE_QUALITY,
         //        SetList::NAMING,
         SetList::PRIVATIZATION,
@@ -89,7 +95,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
 
         // many false postivies
+<<<<<<< HEAD
         \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class,
+=======
+        RenameForeachValueVariableToMatchExprVariableRector::class,
+>>>>>>> 63a1a53b6... composer: allow Rector dev
 
         PrivatizeLocalOnlyMethodRector::class => [
             // @api + used in test

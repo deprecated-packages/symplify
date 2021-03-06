@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\DependencyInjection\CompilerPass;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseConstantSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff;
 use PHP_CodeSniffer\Standards\PSR12\Sniffs\Files\FileHeaderSniff;
 use PhpCsFixer\Fixer\Casing\ConstantCaseFixer;
 use PhpCsFixer\Fixer\Casing\LowercaseConstantsFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
@@ -22,7 +24,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
     /**
      * These groups do the opposite of each other, e.g. Yoda vs NoYoda.
      *
-     * @var string[][]
+     * @var array<array<class-string<FixerInterface|Sniff>>
      */
     private const CONFLICTING_CHECKER_GROUPS = [
         ['SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff', YodaStyleFixer::class],

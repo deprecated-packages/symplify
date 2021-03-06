@@ -10,6 +10,7 @@ interface ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     /**
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @param mixed $key
      * @param mixed $yaml
      * @param mixed $values
@@ -18,6 +19,11 @@ interface ServiceOptionsKeyYamlToPhpFactoryInterface
      * @param mixed[] $yaml
      * @param mixed[] $values
 >>>>>>> b8ac1a5d0... add more types
+=======
+     * @param mixed $key
+     * @param mixed $yaml
+     * @param mixed $values
+>>>>>>> 63a1a53b6... composer: allow Rector dev
      */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $serviceMethodCall): MethodCall;
 
