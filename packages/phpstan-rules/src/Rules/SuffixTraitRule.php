@@ -22,7 +22,7 @@ final class SuffixTraitRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Trait name "%s" must be suffixed with "Trait"';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -75,7 +75,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

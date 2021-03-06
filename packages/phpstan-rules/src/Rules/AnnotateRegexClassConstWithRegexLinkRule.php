@@ -30,7 +30,7 @@ final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRul
     private const ALL_MODIFIERS = 'imsxeADSUXJu';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

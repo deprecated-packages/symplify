@@ -25,7 +25,7 @@ final class NoElseAndElseIfRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use "else/elseif". Refactor to early return';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

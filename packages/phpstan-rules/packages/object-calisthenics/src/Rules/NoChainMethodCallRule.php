@@ -76,7 +76,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

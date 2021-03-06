@@ -61,7 +61,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -23,7 +23,7 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use non-dynamic property on static call';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

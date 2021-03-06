@@ -23,7 +23,7 @@ final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRu
     public const ERROR_MESSAGE = 'Change "%s()" method visibility to "%s" to respect parent method visibility.';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

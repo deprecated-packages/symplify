@@ -30,7 +30,7 @@ final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
     private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir'];
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

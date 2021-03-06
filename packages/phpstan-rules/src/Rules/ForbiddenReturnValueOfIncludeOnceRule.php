@@ -23,7 +23,7 @@ final class ForbiddenReturnValueOfIncludeOnceRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Cannot return include_once/require_once';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

@@ -22,7 +22,7 @@ final class NoNullablePropertyRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use required typed property over of nullable property';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

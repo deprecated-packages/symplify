@@ -33,7 +33,7 @@ final class TooManyMethodsRule extends AbstractSymplifyRule implements Configura
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

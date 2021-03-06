@@ -21,7 +21,7 @@ final class NoDefaultParameterValueRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parameter "%s" cannot have default value';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

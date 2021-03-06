@@ -89,7 +89,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
         }
 
         $routeAttribute = $this->attributeFinder->findAttribute($node, self::ROUTE_ATTRIBUTE);
-        if ($routeAttribute === null) {
+        if (! $routeAttribute instanceof Attribute) {
             return [];
         }
 

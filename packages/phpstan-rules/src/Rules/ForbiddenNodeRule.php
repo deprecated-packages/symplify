@@ -55,7 +55,7 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

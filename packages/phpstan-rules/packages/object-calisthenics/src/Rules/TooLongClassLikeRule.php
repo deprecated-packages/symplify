@@ -35,7 +35,7 @@ final class TooLongClassLikeRule extends AbstractSymplifyRule implements Configu
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

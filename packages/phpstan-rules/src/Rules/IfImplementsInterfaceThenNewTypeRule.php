@@ -53,7 +53,7 @@ final class IfImplementsInterfaceThenNewTypeRule extends AbstractSymplifyRule im
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

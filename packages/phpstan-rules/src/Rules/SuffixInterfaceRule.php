@@ -22,7 +22,7 @@ final class SuffixInterfaceRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Interface name "%s" must be suffixed with "Interface"';
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

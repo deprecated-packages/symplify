@@ -54,7 +54,7 @@ final class ForbiddenNewInMethodRule extends AbstractSymplifyRule implements Con
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
