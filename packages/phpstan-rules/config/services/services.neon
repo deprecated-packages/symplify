@@ -72,6 +72,7 @@ services:
     # regex
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
 
     # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
