@@ -4,9 +4,8 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             allowedParentTypes:
-                 - 'Symplify\RuleDocGenerator\Contract\CodeSampleInterface'
-            allowedDirectParentTypes:
-                 - 'Symfony\Bundle\FrameworkBundle\Controller\AbstractController'
+                 - Symplify\RuleDocGenerator\Contract\CodeSampleInterface
+                 - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
                  - Symplify\CodingStandard\Fixer\AbstractSymplifyFixer
                  - Symplify\PHPStanRules\Rules\AbstractSymplifyRule
                  - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase

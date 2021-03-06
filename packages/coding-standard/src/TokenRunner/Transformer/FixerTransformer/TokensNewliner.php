@@ -62,7 +62,6 @@ final class TokensNewliner
     {
         // from bottom top, to prevent skipping ids
         //  e.g when token is added in the middle, the end index does now point to earlier element!
-
         $newlineIndentWhitespace = $this->indentResolver->resolveNewlineIndentWhitespace(
             $tokens,
             $blockInfo->getStart()
@@ -133,6 +132,7 @@ final class TokensNewliner
         if ($nextNextToken->isComment()) {
             return true;
         }
+
         // if next token is just space, turn it to newline
         if (! $nextToken->isWhitespace(' ')) {
             return false;
