@@ -14,10 +14,6 @@ final class SymplifyKernelExtension extends Extension
     /**
      * @param string[] $configs
      */
-
-    /**
-     * @param string[] $configs
-     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator(__DIR__ . '/../../../config'));

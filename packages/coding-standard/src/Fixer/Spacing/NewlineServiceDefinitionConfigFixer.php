@@ -28,7 +28,7 @@ final class NewlineServiceDefinitionConfigFixer extends AbstractSymplifyFixer im
     private const ERROR_MESSAGE = 'Add newline for a fluent call on service definition in Symfony config';
 
     /**
-     * @var string
+     * @var string[]
      */
     private const FLUENT_METHOD_NAMES = ['call', 'property', 'args', 'arg'];
 

@@ -69,7 +69,10 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
         return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
-    public function fix(SplFileInfo $fileInfo, Tokens $tokens)
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $arrayBlockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
         foreach ($arrayBlockInfos as $arrayBlockInfo) {

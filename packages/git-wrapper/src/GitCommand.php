@@ -137,6 +137,7 @@ final class GitCommand
 
     /**
      * @api
+     * @return mixed
      */
     public function getOption(string $option, $default = null)
     {

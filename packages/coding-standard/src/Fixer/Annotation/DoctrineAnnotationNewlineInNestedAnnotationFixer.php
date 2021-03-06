@@ -139,6 +139,9 @@ CODE_SAMPLE
         return false;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function processEndBracket(int $index, Tokens $tokens, int $previousTokenPosition): void
     {
         /** @var Token $previousToken */
@@ -167,6 +170,9 @@ CODE_SAMPLE
         }
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function shouldSkip(int $index, Tokens $tokens, Token $previousToken): bool
     {
         // docblock opener → skip it
@@ -177,7 +183,7 @@ CODE_SAMPLE
         $nextTokenPosition = $index + 1;
 
         $nextToken = $tokens[$nextTokenPosition] ?? null;
-        if (! $nextToken instanceof \PhpCsFixer\Doctrine\Annotation\Token) {
+        if (! $nextToken instanceof Token) {
             return true;
         }
 

@@ -1,0 +1,3 @@
+includes:
+    - ../../../../config/services/services.neon
+    - ../../../../config/symplify-strict-rules.neon

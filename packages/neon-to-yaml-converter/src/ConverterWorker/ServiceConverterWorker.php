@@ -31,7 +31,7 @@ final class ServiceConverterWorker
 
     public function __construct(
         EntityConverterWorker $entityConverterWorker,
-        \Symplify\NeonToYamlConverter\ConverterWorker\StringNamedServiceConverterWorker $stringNamedServiceConverterWorker
+        StringNamedServiceConverterWorker $stringNamedServiceConverterWorker
     ) {
         $this->entityConverterWorker = $entityConverterWorker;
         $this->stringNamedServiceConverterWorker = $stringNamedServiceConverterWorker;

@@ -9,9 +9,9 @@ use PhpParser\Node\Expr\MethodCall;
 interface ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     /**
-     * @param string $key
-     * @param mixed[] $yaml
-     * @param mixed[] $values
+     * @param mixed $key
+     * @param mixed $yaml
+     * @param mixed $values
      */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $serviceMethodCall): MethodCall;
 
