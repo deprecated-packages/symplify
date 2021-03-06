@@ -24,8 +24,8 @@ class SomeClass
     {
         return [
             'first' => [
-            '$controllerClass' => SymfonyController::class
-        ]
+                '$controllerClass' => SymfonyController::class
+            ]
         ];
     }
 }
