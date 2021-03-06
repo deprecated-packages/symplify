@@ -69,6 +69,10 @@ services:
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
 
+    # regex
+    - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
+
     # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
