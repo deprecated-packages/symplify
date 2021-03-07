@@ -1,6 +1,6 @@
 <!-- changelog-linker -->
 
-## Unreleased
+## 9.2.5 - 2021-03-07
 
 ### ChangelogLinker
 
