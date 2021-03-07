@@ -2425,7 +2425,7 @@ final class SomeClass
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put each on separated lines.
+Do not use chained method calls. Put `each` on separated lines.
 
 :wrench: **configure it!**
 
@@ -4911,7 +4911,7 @@ class SomeRectorTestCase extends RectorTestCase
 
 ## RequireInvokableControllerRule
 
-Use invokable controller with `__invoke()` method instead
+Use invokable controller with `__invoke()` method instead of named action method
 
 - class: [`Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`](/packages/phpstan-rules/src/Rules/RequireInvokableControllerRule.php)
 
@@ -5688,7 +5688,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
 
 :wrench: **configure it!**
 
