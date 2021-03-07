@@ -17,8 +17,8 @@
     "require-dev": {
         "nette/application": "^3.1",
         "nette/forms": "^3.1",
-        "symplify/easy-testing": "^9.3",
-        "symplify/phpstan-extensions": "^9.3",
+        "symplify/easy-testing": "^9.2.5",
+        "symplify/phpstan-extensions": "^9.2.5",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.2"
     },
