@@ -1,4 +1,15 @@
-<!-- changelog-linker -->
+# Changelog for Symplify 9.x
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLinker](https://github.com/symplify/changelog-linker).
+
+For future relases, we won't use CHANGELOG.md approach. Instead, we'll [use GitHub relases](https://github.com/symplify/symplify/releases), that will highlight main important changes and new features we've added.
+
+See [this issue](https://github.com/symplify/symplify/issues/3027) for more.
 
 ## 9.2.5 - 2021-03-07
 
