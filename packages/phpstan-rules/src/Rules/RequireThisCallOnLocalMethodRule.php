@@ -109,8 +109,8 @@ CODE_SAMPLE
     private function getClassMethodInCurrentClass(StaticCall $staticCall): ?ClassMethod
     {
         $class = $this->parentNodeFinder->findFirstParentByType($staticCall, Class_::class);
-        if (! $class instanceof Class_) {
-            throw new ShouldNotHappenException();
+        if ($class === null) {
+            return null;
         }
 
         $staticCallName = $this->simpleNameResolver->getName($staticCall->name);
