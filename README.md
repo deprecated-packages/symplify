@@ -30,7 +30,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For Package Development
 
-- [Changelog Linker](https://github.com/symplify/changelog-linker)
 - [Monorepo Builder](https://github.com/symplify/monorepo-builder)
 - [Package Builder](https://github.com/symplify/package-builder)
 - [Smart File System](https://github.com/symplify/smart-file-system)

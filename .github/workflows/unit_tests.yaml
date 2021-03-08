@@ -48,9 +48,6 @@ jobs:
 
         steps:
             -   uses: actions/checkout@v2
-            # required for "git tag" presence for changelog-linker git tags resolver; default is 1
-            # https://github.com/actions/checkout#fetch-all-tags
-            -   run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
             # see https://github.com/shivammathur/setup-php
             -   uses: shivammathur/setup-php@v2

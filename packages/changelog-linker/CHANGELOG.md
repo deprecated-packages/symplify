@@ -1,3 +1,0 @@
-### Changelog
-
-For testing purposes

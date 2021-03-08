@@ -1,6 +1,0 @@
-## Unreleased
-
-### SomePackage
-
-Message
-

@@ -70,8 +70,6 @@ parameters:
         - *packages/phpstan-extensions/**/Source/**
         # tests
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
-        # Symfony workaround
-        - packages/changelog-linker/src/DependencyInjection/Dummy/ResolveAutowiringExceptionHelper.php
         # 3rd party
         - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
         # tests
@@ -376,12 +374,6 @@ parameters:
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
-        # parameters in tests
-        -
-             message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
-             paths:
-                 - packages/changelog-linker/src/DependencyInjection/CompilerPass/AddRepositoryUrlAndRepositoryNameParametersCompilerPass.php
-
         # tests
         - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\Event\\TestBypassEventSubscriber" object#'
         - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\EventSubscriber\\Source\\TestEventSubscriber" object#'
@@ -462,11 +454,6 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
         - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
-
-        -
-            message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
-            paths:
-                -  packages/changelog-linker/src/Console/Command/DumpMergesCommand.php
 
         -
             message: '#Do not inherit from abstract class, better use composition#'
