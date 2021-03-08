@@ -244,11 +244,6 @@
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules --output-file packages/phpstan-rules/docs/rules_overview.md",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/phpstan-rules/docs/rules_overview.md --fix"
         ],
-        "changelog": [
-            "packages/changelog-linker/bin/changelog-linker dump-merges --ansi",
-            "packages/changelog-linker/bin/changelog-linker link --ansi",
-            "packages/changelog-linker/bin/changelog-linker cleanup --ansi"
-        ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --dry-run --ansi",

@@ -25,7 +25,7 @@ final class MissingClassStaticCallLatteAnalyzer
      */
     public function analyze(array $fileInfos): array
     {
-        Assert::allIsInstanceOf($fileInfos, SmartFileInfo::class);
+        Assert::allIsAOf($fileInfos, SmartFileInfo::class);
 
         $errors = [];
 

@@ -18,8 +18,8 @@ Update typo prone stringy configs to realiable PHP constants:
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symplify\Amnesia\Functions\env;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\FrameworkExtension;
+use function Symplify\Amnesia\Functions\env;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension(FrameworkExtension::NAME, [
@@ -38,9 +38,7 @@ use Symplify\Amnesia\ValueObject\Symfony\Extension\TwigExtension;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension(TwigExtension::NAME, [
         TwigExtension::DEFAULT_PATH => '%kernel.project_dir%/templates',
-        TwigExtension::PATHS => [
-            __DIR__ . '/../../packages/framework-stats/templates',
-        ],
+        TwigExtension::PATHS => [__DIR__ . '/../../packages/framework-stats/templates'],
         TwigExtension::GLOBALS => [
             'site_title' => 'Tomas Votruba',
         ],
@@ -69,11 +67,11 @@ return static function (RoutingConfigurator $routes): void {
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symplify\Amnesia\Functions\env;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\Doctrine\DBAL;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\Doctrine\Mapping;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\Doctrine\ORM;
 use Symplify\Amnesia\ValueObject\Symfony\Extension\DoctrineExtension;
+use function Symplify\Amnesia\Functions\env;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->extension(DoctrineExtension::NAME, [
