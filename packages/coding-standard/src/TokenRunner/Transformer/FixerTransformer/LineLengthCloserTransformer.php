@@ -30,6 +30,9 @@ final class LineLengthCloserTransformer
         $this->tokenFinder = $tokenFinder;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function insertNewlineBeforeClosingIfNeeded(
         Tokens $tokens,
         BlockInfo $blockInfo,

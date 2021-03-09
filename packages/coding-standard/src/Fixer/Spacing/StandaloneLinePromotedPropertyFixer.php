@@ -50,6 +50,9 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([
@@ -59,6 +62,9 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $splFileInfo, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
@@ -106,6 +112,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function processFunction(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
@@ -116,6 +125,9 @@ CODE_SAMPLE
         $this->tokensNewliner->breakItems($blockInfo, $tokens);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function getFunctionName(Tokens $tokens, int $position): ?string
     {
         $nextToken = $this->getNextMeaningfulToken($tokens, $position);

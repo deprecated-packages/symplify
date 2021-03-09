@@ -13,6 +13,7 @@ final class TokenFinder
 {
     /**
      * @param int|Token $position
+     * @param Tokens<Token> $tokens
      */
     public function getPreviousMeaningfulToken(Tokens $tokens, $position): Token
     {
@@ -78,6 +79,9 @@ final class TokenFinder
         return $lastToken;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function findPreviousTokenByPosition(Tokens $tokens, int $position): Token
     {
         $previousPosition = $position - 1;
@@ -93,12 +97,18 @@ final class TokenFinder
         return $previousToken;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function findPreviousTokenByToken(Tokens $tokens, Token $positionToken): Token
     {
         $position = $this->resolvePositionByToken($tokens, $positionToken);
         return $this->findPreviousTokenByPosition($tokens, $position - 1);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function resolvePositionByToken(Tokens $tokens, Token $positionToken): int
     {
         foreach ($tokens as $position => $token) {

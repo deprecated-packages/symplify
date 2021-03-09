@@ -18,6 +18,9 @@ final class InlineArrayTest extends AbstractCheckerTestCase
         $this->doTestFileInfo($fileInfo);
     }
 
+    /**
+     * @return Iterator<SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/inline_array.php.inc')];

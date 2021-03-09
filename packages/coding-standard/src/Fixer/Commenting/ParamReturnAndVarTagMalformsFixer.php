@@ -64,6 +64,9 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         if (! $tokens->isAnyTokenKindsFound([T_DOC_COMMENT, T_COMMENT])) {
@@ -72,6 +75,9 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
         return $tokens->isAnyTokenKindsFound([T_FUNCTION, T_VARIABLE]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $reversedTokens = $this->reverseTokens($tokens);

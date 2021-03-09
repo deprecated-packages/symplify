@@ -60,6 +60,9 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         if (! $tokens->isAnyTokenKindsFound(TokenKinds::ARRAY_OPEN_TOKENS)) {
@@ -96,6 +99,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo): void
     {
         if (! $this->arrayAnalyzer->isIndexedList($tokens, $blockInfo)) {

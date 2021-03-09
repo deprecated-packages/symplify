@@ -10,6 +10,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class NewlineAnalyzer
 {
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function doesContentBeforeBracketRequireNewline(Tokens $tokens, int $i): bool
     {
         $previousMeaningfulTokenPosition = $tokens->getPrevNonWhitespace($i);

@@ -20,6 +20,9 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixerTest extends Abstrac
         $this->doTestFileInfo($fileInfo);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');

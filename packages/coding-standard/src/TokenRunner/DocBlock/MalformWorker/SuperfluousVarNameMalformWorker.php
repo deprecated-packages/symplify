@@ -24,6 +24,9 @@ final class SuperfluousVarNameMalformWorker implements MalformWorkerInterface
      */
     private const VAR_VARIABLE_NAME_REGEX = '#(?<tag>@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         if ($this->shouldSkip($tokens, $position)) {
@@ -64,6 +67,8 @@ final class SuperfluousVarNameMalformWorker implements MalformWorkerInterface
 
     /**
      * Is property doc block?
+     *
+     * @param Tokens<Token> $tokens
      */
     private function shouldSkip(Tokens $tokens, int $position): bool
     {

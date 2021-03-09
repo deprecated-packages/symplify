@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
@@ -23,6 +24,9 @@ final class DuplicatedArrayMalformWorker implements MalformWorkerInterface
      */
     private const IMPLICIT_ARRAY_WITH_ARRAY_RIGHT_REGEX = '#array\|((.*?\|)?(\w+\(?\)?\[\]))#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);

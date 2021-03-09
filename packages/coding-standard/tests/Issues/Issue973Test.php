@@ -19,6 +19,9 @@ final class Issue973Test extends AbstractCheckerTestCase
         $this->doTestFileInfo($fileInfo);
     }
 
+    /**
+     * @return Iterator<SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/correct973.php.inc')];

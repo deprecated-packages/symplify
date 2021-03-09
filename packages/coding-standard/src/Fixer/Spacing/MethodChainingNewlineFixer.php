@@ -64,11 +64,17 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
         return $this->getPriorityBefore(MethodChainingIndentationFixer::class);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_OBJECT_OPERATOR]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
@@ -103,6 +109,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function shouldPrefixNewline(Tokens $tokens, int $objectOperatorIndex): bool
     {
         for ($i = $objectOperatorIndex; $i >= 0; --$i) {
@@ -125,6 +134,9 @@ CODE_SAMPLE
         return false;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function isDoubleBracket(Tokens $tokens, int $position): bool
     {
         /** @var int $nextTokenPosition */
@@ -137,6 +149,8 @@ CODE_SAMPLE
 
     /**
      * Matches e.g.: - app([ ])->some()
+     *
+     * @param Tokens<Token> $tokens
      */
     private function isPreceededByOpenedCallInAnotherBracket(Tokens $tokens, int $position): bool
     {
@@ -148,6 +162,9 @@ CODE_SAMPLE
         return $tokens->isPartialCodeMultiline($blockInfo->getStart(), $blockInfo->getEnd());
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function shouldBracketPrefix(Tokens $tokens, int $position, int $objectOperatorIndex): bool
     {
         if ($this->isDoubleBracket($tokens, $position)) {

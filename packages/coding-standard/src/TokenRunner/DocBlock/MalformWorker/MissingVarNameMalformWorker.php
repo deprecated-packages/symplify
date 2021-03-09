@@ -17,6 +17,9 @@ final class MissingVarNameMalformWorker implements MalformWorkerInterface
      */
     private const VAR_WITHOUT_NAME_REGEX = '#^(?<open>\/\*\* @var )(?<type>[\\\\\w\|]+)(?<close>\s+\*\/)$#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         if (! Strings::match($docContent, self::VAR_WITHOUT_NAME_REGEX)) {
@@ -35,6 +38,9 @@ final class MissingVarNameMalformWorker implements MalformWorkerInterface
         });
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function getNextVariableToken(Tokens $tokens, int $position): ?Token
     {
         $nextMeaningfulTokenPosition = $tokens->getNextMeaningfulToken($position);

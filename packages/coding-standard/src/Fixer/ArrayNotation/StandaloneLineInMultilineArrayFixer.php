@@ -84,6 +84,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         if (! $tokens->isAnyTokenKindsFound(TokenKinds::ARRAY_OPEN_TOKENS)) {
@@ -93,6 +96,9 @@ CODE_SAMPLE
         return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
@@ -113,6 +119,9 @@ CODE_SAMPLE
         }
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function shouldSkipNestedArrayValue(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $arrayWrapper = $this->arrayWrapperFactory->createFromTokensAndBlockInfo($tokens, $blockInfo);

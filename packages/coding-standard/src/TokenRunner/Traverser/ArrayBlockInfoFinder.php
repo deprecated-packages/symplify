@@ -24,6 +24,7 @@ final class ArrayBlockInfoFinder
 
     /**
      * @return BlockInfo[]
+     * @param Tokens<Token> $tokens
      */
     public function findArrayOpenerBlockInfos(Tokens $tokens): array
     {
@@ -48,6 +49,7 @@ final class ArrayBlockInfoFinder
 
     /**
      * @return Token[]
+     * @param Tokens<Token> $tokens
      */
     private function reverseTokens(Tokens $tokens): array
     {

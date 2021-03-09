@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
@@ -17,6 +18,9 @@ final class SwitchedTypeAndNameMalformWorker implements MalformWorkerInterface
      */
     private const NAME_THEN_TYPE_REGEX = '#@(param|var)(\s+)(?<name>\$\w+)(\s+)(?<type>[\\\\\w\[\]]+)#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);

@@ -17,6 +17,9 @@ final class InlineVarMalformWorker implements MalformWorkerInterface
      */
     private const SINGLE_ASTERISK_START_REGEX = '#^/\*(\n?\s+@var)#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         /** @var Token $token */

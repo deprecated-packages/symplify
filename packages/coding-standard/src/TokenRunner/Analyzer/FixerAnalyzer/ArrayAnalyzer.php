@@ -21,6 +21,9 @@ final class ArrayAnalyzer
         $this->tokenSkipper = $tokenSkipper;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function getItemCount(Tokens $tokens, BlockInfo $blockInfo): int
     {
         $nextMeanninfulPosition = $tokens->getNextMeaningfulToken($blockInfo->getStart());
@@ -46,6 +49,9 @@ final class ArrayAnalyzer
         return $itemCount;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isIndexedList(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $isIndexedList = false;
@@ -58,6 +64,9 @@ final class ArrayAnalyzer
         return $isIndexedList;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function traverseArrayWithoutNesting(Tokens $tokens, BlockInfo $blockInfo, callable $callable): void
     {
         for ($i = $blockInfo->getEnd() - 1; $i >= $blockInfo->getStart() + 1; --$i) {

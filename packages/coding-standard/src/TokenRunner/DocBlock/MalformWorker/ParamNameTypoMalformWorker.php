@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\Annotation;
 use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenAnalyzer\DocblockRelatedParamNamesResolver;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
@@ -29,6 +30,9 @@ final class ParamNameTypoMalformWorker implements MalformWorkerInterface
         $this->docblockRelatedParamNamesResolver = $docblockRelatedParamNamesResolver;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $argumentNames = $this->docblockRelatedParamNamesResolver->resolve($tokens, $position);
