@@ -169,7 +169,8 @@ CODE_SAMPLE
         }
 
         // is it implements interface, it can have many forms
-        if (class_implements($valueObjectClass) !== []) {
+        $interfaces = class_implements($valueObjectClass);
+        if ($interfaces !== []) {
             return null;
         }
 
