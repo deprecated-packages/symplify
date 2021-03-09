@@ -31,6 +31,9 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fileInfo, Format::YAML, Format::PHP);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideDataForRouting(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/routing', '*.yaml');
@@ -65,6 +68,9 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/ecs', Format::YAML, Format::PHP);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideDataEcs(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*.yaml');
@@ -90,16 +96,25 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fileInfo, Format::YAML, Format::PHP);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/normal', '*.yaml');
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideDataWithDirectory(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/nested', '*.yaml');
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideDataMakerBundle(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/maker-bundle', '*.yaml');

@@ -20,6 +20,9 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstract
         $this->analyse([$filePath], $expectedErrorsWithLines);
     }
 
+    /**
+     * @return Iterator<array<int, array|string>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/Tests/SkipTestsNamespaceInsideTestsDirectoryClass.php', []];

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SymfonyStaticDumper;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\ConsolePackageBuilder\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPass;
@@ -20,7 +19,7 @@ final class SymfonyStaticDumperBundle extends Bundle
         $containerBuilder->addCompilerPass(new NamelessConsoleCommandCompilerPass());
     }
 
-    protected function createContainerExtension(): ?ExtensionInterface
+    protected function createContainerExtension(): SymfonyStaticDumperExtension
     {
         return new SymfonyStaticDumperExtension();
     }

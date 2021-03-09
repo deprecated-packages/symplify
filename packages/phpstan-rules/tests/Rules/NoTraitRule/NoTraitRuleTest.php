@@ -20,6 +20,9 @@ final class NoTraitRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitRule::ERROR_MESSAGE, 7]]];

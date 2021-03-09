@@ -22,6 +22,9 @@ final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleT
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         // make sure both files are loaded

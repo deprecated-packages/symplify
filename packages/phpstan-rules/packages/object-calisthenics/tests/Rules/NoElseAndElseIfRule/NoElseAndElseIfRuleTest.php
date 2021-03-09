@@ -20,6 +20,9 @@ final class NoElseAndElseIfRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeElse.php', [[NoElseAndElseIfRule::ERROR_MESSAGE, 13]]];

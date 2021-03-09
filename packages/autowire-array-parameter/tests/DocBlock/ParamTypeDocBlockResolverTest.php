@@ -45,6 +45,9 @@ final class ParamTypeDocBlockResolverTest extends TestCase
         $this->assertNull($resolvedType);
     }
 
+    /**
+     * @return Iterator<string[]>
+     */
     public function provideDataMissmatchName(): Iterator
     {
         yield ['/** @param Type[] $name */', '___not'];

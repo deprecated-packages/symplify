@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
@@ -118,7 +119,7 @@ CODE_SAMPLE
         return $arrayDimFetch;
     }
 
-    private function matchParentArrayDimFetch(Assign $assign): ?ArrayDimFetch
+    private function matchParentArrayDimFetch(Assign $assign): ?Expr
     {
         $parent = $assign->getAttribute(PHPStanAttributeKey::PARENT);
         if (! $parent instanceof Expression) {

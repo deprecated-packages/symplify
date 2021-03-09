@@ -20,6 +20,9 @@ final class MatchingTypeConstantRuleTest extends AbstractServiceAwareRuleTestCas
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         $firstErrorMessage = sprintf(MatchingTypeConstantRule::ERROR_MESSAGE, 'bool', 'string');

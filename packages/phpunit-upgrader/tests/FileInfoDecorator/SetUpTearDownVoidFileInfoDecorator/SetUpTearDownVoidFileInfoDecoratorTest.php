@@ -36,6 +36,9 @@ final class SetUpTearDownVoidFileInfoDecoratorTest extends AbstractKernelTestCas
         $this->assertSame($inputAndExpected->getExpected(), $changedContent);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php.inc');

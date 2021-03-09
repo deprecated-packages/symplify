@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyHydrator;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\EasyHydrator\DependencyInjection\Extension\EasyHydratorExtension;
@@ -17,7 +16,7 @@ final class EasyHydratorBundle extends Bundle
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
     }
 
-    protected function createContainerExtension(): ?ExtensionInterface
+    protected function createContainerExtension(): EasyHydratorExtension
     {
         return new EasyHydratorExtension();
     }

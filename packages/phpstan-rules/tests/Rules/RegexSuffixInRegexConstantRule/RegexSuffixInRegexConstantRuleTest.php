@@ -20,6 +20,9 @@ final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleT
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(RegexSuffixInRegexConstantRule::ERROR_MESSAGE, 'SOME_NAME');

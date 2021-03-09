@@ -50,6 +50,9 @@ final class NeonToYamlConverterTest extends AbstractKernelTestCase
         );
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.neon');

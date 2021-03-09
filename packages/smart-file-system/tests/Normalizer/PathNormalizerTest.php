@@ -29,6 +29,9 @@ final class PathNormalizerTest extends TestCase
         $this->assertSame($expectedNormalizedPath, $normalizedPath);
     }
 
+    /**
+     * @return Iterator<string[]>
+     */
     public function provideData(): Iterator
     {
         // based on Linux

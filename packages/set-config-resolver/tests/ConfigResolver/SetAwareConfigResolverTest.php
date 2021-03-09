@@ -62,6 +62,9 @@ final class SetAwareConfigResolverTest extends TestCase
         $this->assertNull($resolvedConfigFileInfo);
     }
 
+    /**
+     * @return Iterator<array<int, array<int|string, string>>|null[]>
+     */
     public function provideDataForEmptyConfig(): Iterator
     {
         yield [

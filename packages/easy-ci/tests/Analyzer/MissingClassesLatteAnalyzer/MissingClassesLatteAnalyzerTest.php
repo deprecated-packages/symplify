@@ -32,6 +32,9 @@ final class MissingClassesLatteAnalyzerTest extends AbstractKernelTestCase
         $this->assertCount($expectedErrorCount, $result);
     }
 
+    /**
+     * @return Iterator<int[]|SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/existing_classes.latte'), 0];

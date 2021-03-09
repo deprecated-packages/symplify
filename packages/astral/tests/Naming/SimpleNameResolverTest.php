@@ -33,6 +33,9 @@ final class SimpleNameResolverTest extends AbstractKernelTestCase
         $this->assertSame($expectedName, $resolvedName);
     }
 
+    /**
+     * @return Iterator<string[]|Identifier[]>
+     */
     public function provideData(): Iterator
     {
         $identifier = new Identifier('first name');

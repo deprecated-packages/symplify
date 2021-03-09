@@ -21,6 +21,9 @@ final class Php80Test extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<int, array|string>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/FixturePhp80/SkipAttributeArrayKey.php', []];

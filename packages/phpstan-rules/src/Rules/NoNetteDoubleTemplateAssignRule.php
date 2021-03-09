@@ -176,14 +176,15 @@ CODE_SAMPLE
 
     private function matchTemplatePropertyFetch(Assign $assign): ?PropertyFetch
     {
-        if (! $assign->var instanceof PropertyFetch) {
+        $assignedVar = $assign->var;
+        if (! $assignedVar instanceof PropertyFetch) {
             return null;
         }
 
-        if (! $this->isThisTemplatePropertyFetch($assign->var)) {
+        if (! $this->isThisTemplatePropertyFetch($assignedVar)) {
             return null;
         }
 
-        return $assign->var;
+        return $assignedVar;
     }
 }
