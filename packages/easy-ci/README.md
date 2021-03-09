@@ -4,6 +4,11 @@
 
 Tools that make easy to setup CI.
 
+- Check git conflicts in CI
+- Check TWIG and Latte templates for missing classes, non-existing static calls and constant fetches
+- Check YAML and NEON configs for the same
+- Extract Latte filters from static calls in templates
+
 ## Install
 
 ```bash
@@ -31,6 +36,8 @@ vendor/bin/easy-ci check-conflicts .
 ```
 
 The `/vendor` directory is excluded by default.
+
+<br>
 
 ### 2. Provide `php-json` for Dynamic GitHub Actions Matrix
 
@@ -93,6 +100,8 @@ jobs:
         # ...
 ```
 
+<br>
+
 ### 3. Check Configs for Non-Existing Classes
 
 ```bash
@@ -100,6 +109,82 @@ vendor/bin/easy-ci check-config src
 ```
 
 Supported types are YAML and NEON.
+
+<br>
+
+### 4. Check Templates for Non-Existing Classes
+
+```bash
+vendor/bin/easy-ci check-latte-template templates
+```
+
+<br>
+
+### 5. Check Twig Controller Paths
+
+```bash
+vendor/bin/easy-ci check-twig-render src/Controller
+```
+
+```php
+final class SomeController
+{
+    public function index()
+    {
+        return $this->render('does_path_exist.twig');
+    }
+}
+```
+
+<br>
+
+### 6. Extract Static Calls from Latte Templates to FilterProvider
+
+Do you have a static call in your template? It's a hidden filter. Let's decouple it so we can use DI and services as in the rest of project:
+
+```bash
+vendor/bin/easy-ci extract-latte-static-call-to-filter templates
+```
+
+But that's just a dry run... how to apply changes?
+
+```bash
+vendor/bin/easy-ci extract-latte-static-call-to-filter templates --fix
+```
+
+What happens? The static call will be replaced by a Latte filter:
+
+```diff
+ # any latte file
+-{\App\SomeClass::someStaticMethod($value)}
++{$value|someStaticMethod}
+```
+
+The filter will be provided
+
+```php
+use App\Contract\Latte\FilterProviderInterface;
+use App\SomeClass;
+
+final class SomeMethodFilterProvider implements FilterProviderInterface
+{
+    public const FILTER_NAME = 'someMethod';
+
+    public function __invoke(string $name): int
+    {
+        return SomeClass::someStaticMethod($name);
+    }
+
+    public function getName(): string
+    {
+        return self::FILTER_NAME;
+    }
+}
+```
+
+The file will be generated into `/generated` directory. Just rename namespaces and copy it to your workflow.
+
+Do you want to know more about **clean Latte filters**? Read [How to Get Rid of Magic, Static and Chaos from Latte Filters](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters/)
 
 <br>
 

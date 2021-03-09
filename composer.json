@@ -120,7 +120,6 @@
             "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
-            "Symplify\\TemplateChecker\\": "packages/template-checker/src",
             "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
@@ -182,7 +181,6 @@
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
-            "Symplify\\TemplateChecker\\Tests\\": "packages/template-checker/tests",
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
@@ -223,7 +221,6 @@
         "symplify/symfony-php-config": "9.2.5",
         "symplify/symfony-static-dumper": "9.2.5",
         "symplify/symplify-kernel": "9.2.5",
-        "symplify/template-checker": "9.2.5",
         "symplify/vendor-patches": "9.2.5"
     },
     "scripts": {

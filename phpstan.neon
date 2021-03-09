@@ -245,7 +245,7 @@ parameters:
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
-                - packages/template-checker/src/Latte/LatteFilterManager.php # 88
+                - packages/easy-ci/src/Latte/LatteFilterManager.php # 88
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         # nesting
@@ -285,7 +285,7 @@ parameters:
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
-                - packages/template-checker/src/Analyzer/MissingClassStaticCallLatteAnalyzer.php
+                - packages/easy-ci/src/Latte/Analyzer/MissingClassStaticCallLatteAnalyzer.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
                 # PHP 7/8 compact

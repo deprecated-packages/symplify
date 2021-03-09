@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 use Composer\Semver\Semver;
 use Composer\Semver\VersionParser;
+use PhpParser\NodeFinder;
+use PhpParser\Parser;
+use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter\Standard;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -21,5 +26,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(VersionParser::class);
     $services->set(Semver::class);
 
+    // php-parser
+    $services->set(ParserFactory::class);
+    $services->set(Parser::class)
+        ->factory([service(ParserFactory::class), 'create'])
+        ->args([ParserFactory::PREFER_PHP7]);
+
+    $services->set(Standard::class);
+    $services->set(NodeFinder::class);
     $services->set(ClassLikeExistenceChecker::class);
 };
