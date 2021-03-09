@@ -24,11 +24,11 @@ final class ConvertCommand extends AbstractSymplifyCommand
     /**
      * @var LatteToTwigConverter
      */
-    private $LatteToTwigConverter;
+    private $latteToTwigConverter;
 
     public function __construct(LatteToTwigConverter $LatteToTwigConverter)
     {
-        $this->LatteToTwigConverter = $LatteToTwigConverter;
+        $this->latteToTwigConverter = $LatteToTwigConverter;
 
         parent::__construct();
     }
@@ -49,7 +49,7 @@ final class ConvertCommand extends AbstractSymplifyCommand
         $fileInfos = $this->smartFinder->find($sources, '#\.(twig|latte)$#');
 
         foreach ($fileInfos as $fileInfo) {
-            $convertedContent = $this->LatteToTwigConverter->convertFile($fileInfo);
+            $convertedContent = $this->latteToTwigConverter->convertFile($fileInfo);
             $oldFilePath = $fileInfo->getPathname();
             $newFilePath = Strings::replace($fileInfo->getPathname(), self::LATTE_SUFFIX_REGEX, '.twig');
 

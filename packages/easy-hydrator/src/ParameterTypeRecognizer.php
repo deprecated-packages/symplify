@@ -77,8 +77,8 @@ final class ParameterTypeRecognizer
     {
         $docNode = $this->getDocNode($reflectionParameter);
 
-        $declaringClass = $reflectionParameter->getDeclaringClass();
-        if (! $declaringClass instanceof ReflectionClass) {
+        $declaringReflectionClass = $reflectionParameter->getDeclaringClass();
+        if (! $declaringReflectionClass instanceof ReflectionClass) {
             return null;
         }
         if (! $docNode instanceof SimplePhpDocNode) {
@@ -95,18 +95,18 @@ final class ParameterTypeRecognizer
             /** @var IdentifierTypeNode $identifierTypeNode */
             $identifierTypeNode = $typeNode->type;
 
-            return Reflection::expandClassName($identifierTypeNode->name, $declaringClass);
+            return Reflection::expandClassName($identifierTypeNode->name, $declaringReflectionClass);
         }
 
         if ($typeNode instanceof GenericTypeNode) {
             $genericTypeNodes = $typeNode->genericTypes;
             $genericTypeNode = $genericTypeNodes[count($genericTypeNodes) - 1];
 
-            return Reflection::expandClassName((string) $genericTypeNode, $declaringClass);
+            return Reflection::expandClassName((string) $genericTypeNode, $declaringReflectionClass);
         }
 
         if ($typeNode instanceof IdentifierTypeNode) {
-            return Reflection::expandClassName($typeNode->name, $declaringClass);
+            return Reflection::expandClassName($typeNode->name, $declaringReflectionClass);
         }
 
         return null;
@@ -114,16 +114,16 @@ final class ParameterTypeRecognizer
 
     private function getTypeFromTypeHint(ReflectionParameter $reflectionParameter): ?string
     {
-        $parameterType = $reflectionParameter->getType();
-        if (! $parameterType instanceof ReflectionType) {
+        $parameterReflectionType = $reflectionParameter->getType();
+        if (! $parameterReflectionType instanceof ReflectionType) {
             return null;
         }
 
-        if (method_exists($parameterType, 'getName')) {
-            return $parameterType->getName();
+        if (method_exists($parameterReflectionType, 'getName')) {
+            return $parameterReflectionType->getName();
         }
 
-        return (string) $parameterType;
+        return (string) $parameterReflectionType;
     }
 
     private function findFirstNonNullNodeType(UnionTypeNode $unionTypeNode): ?TypeNode
