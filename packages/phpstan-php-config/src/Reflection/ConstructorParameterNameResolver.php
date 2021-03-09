@@ -13,12 +13,13 @@ final class ConstructorParameterNameResolver
     public function resolveFromClassAndArgumentPosition(string $serviceClass, int $argumentPosition): string
     {
         $reflectionClass = new ReflectionClass($serviceClass);
-        $constructorReflection = $reflectionClass->getConstructor();
-        if (! $constructorReflection instanceof ReflectionMethod) {
+
+        $constructorReflectionMethod = $reflectionClass->getConstructor();
+        if (! $constructorReflectionMethod instanceof ReflectionMethod) {
             throw new ShouldNotHappenException();
         }
 
-        foreach ($constructorReflection->getParameters() as $key => $reflectionParameter) {
+        foreach ($constructorReflectionMethod->getParameters() as $key => $reflectionParameter) {
             if ($key !== $argumentPosition) {
                 continue;
             }

@@ -35,8 +35,8 @@ final class ClassConstructorValuesResolver
     {
         $arguments = [];
 
-        $constructorMethodReflection = $this->getConstructorMethodReflection($class);
-        $parameterReflections = $constructorMethodReflection->getParameters();
+        $constructorReflectionMethod = $this->getConstructorMethodReflection($class);
+        $parameterReflections = $constructorReflectionMethod->getParameters();
 
         foreach ($parameterReflections as $parameterReflection) {
             $value = $this->parameterValueResolver->getValue($parameterReflection, $data);

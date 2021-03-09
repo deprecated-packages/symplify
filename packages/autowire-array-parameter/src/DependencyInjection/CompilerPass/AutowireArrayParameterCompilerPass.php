@@ -86,10 +86,10 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             /** @var ReflectionClass $reflectionClass */
             $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
 
-            /** @var ReflectionMethod $constructorMethodReflection */
-            $constructorMethodReflection = $reflectionClass->getConstructor();
+            /** @var ReflectionMethod $constructorReflectionMethod */
+            $constructorReflectionMethod = $reflectionClass->getConstructor();
 
-            $this->processParameters($containerBuilder, $constructorMethodReflection, $definition);
+            $this->processParameters($containerBuilder, $constructorReflectionMethod, $definition);
         }
     }
 
@@ -134,9 +134,9 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        /** @var ReflectionMethod $constructorMethodReflection */
-        $constructorMethodReflection = $reflectionClass->getConstructor();
-        return ! $constructorMethodReflection->getParameters();
+        /** @var ReflectionMethod $constructorReflectionMethod */
+        $constructorReflectionMethod = $reflectionClass->getConstructor();
+        return ! $constructorReflectionMethod->getParameters();
     }
 
     private function processParameters(

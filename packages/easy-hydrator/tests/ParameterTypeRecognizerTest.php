@@ -30,9 +30,9 @@ final class ParameterTypeRecognizerTest extends AbstractKernelTestCase
     {
         $reflectionClass = new ReflectionClass(DocTypeTestObject::class);
 
-        /** @var ReflectionMethod $reflectionConstructor */
-        $reflectionConstructor = $reflectionClass->getConstructor();
-        $reflectionParameters = $reflectionConstructor->getParameters();
+        /** @var ReflectionMethod $constructorReflectionMethod */
+        $constructorReflectionMethod = $reflectionClass->getConstructor();
+        $reflectionParameters = $constructorReflectionMethod->getParameters();
 
         for ($i = 0; $i < 6; ++$i) {
             $actual = $this->parameterTypeRecognizer->getTypeFromDocBlock($reflectionParameters[$i]);

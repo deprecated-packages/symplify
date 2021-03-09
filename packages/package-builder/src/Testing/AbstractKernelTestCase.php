@@ -118,10 +118,11 @@ abstract class AbstractKernelTestCase extends TestCase
             // make sure boot() is called
             // @see https://github.com/symfony/symfony/pull/31202/files
             $kernelReflectionClass = new ReflectionClass(static::$kernel);
-            $containerPropertyReflection = $kernelReflectionClass->getProperty('container');
-            $containerPropertyReflection->setAccessible(true);
 
-            $kernel = $containerPropertyReflection->getValue(static::$kernel);
+            $containerReflectionProperty = $kernelReflectionClass->getProperty('container');
+            $containerReflectionProperty->setAccessible(true);
+
+            $kernel = $containerReflectionProperty->getValue(static::$kernel);
             if ($kernel !== null) {
                 $container = static::$kernel->getContainer();
                 static::$kernel->shutdown();

@@ -32,8 +32,8 @@ final class ParameterTypeResolver
             return null;
         }
 
-        $declaringClassReflection = $reflectionMethod->getDeclaringClass();
-        $uniqueKey = $parameterName . $declaringClassReflection->getName() . $reflectionMethod->getName();
+        $declaringReflectionClass = $reflectionMethod->getDeclaringClass();
+        $uniqueKey = $parameterName . $declaringReflectionClass->getName() . $reflectionMethod->getName();
         if (isset($this->resolvedParameterTypesCached[$uniqueKey])) {
             return $this->resolvedParameterTypesCached[$uniqueKey];
         }
@@ -48,7 +48,7 @@ final class ParameterTypeResolver
             return null;
         }
 
-        $resolvedClass = Reflection::expandClassName($resolvedType, $declaringClassReflection);
+        $resolvedClass = Reflection::expandClassName($resolvedType, $declaringReflectionClass);
         $this->resolvedParameterTypesCached[$uniqueKey] = $resolvedClass;
 
         return $resolvedClass;

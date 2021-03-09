@@ -42,12 +42,12 @@ final class ParameterValueResolver
             return $reflectionParameter->getDefaultValue();
         }
 
-        $declaringClassReflection = $reflectionParameter->getDeclaringClass();
+        $declaringReflectionClass = $reflectionParameter->getDeclaringClass();
 
         throw new MissingDataException(sprintf(
             'Missing data of "$%s" parameter for hydrated class "%s" __construct method.',
             $parameterName,
-            $declaringClassReflection !== null ? $declaringClassReflection->getName() : ''
+            $declaringReflectionClass !== null ? $declaringReflectionClass->getName() : ''
         ));
     }
 }

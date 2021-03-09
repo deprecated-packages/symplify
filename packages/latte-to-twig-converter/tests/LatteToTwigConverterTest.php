@@ -17,12 +17,12 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
     /**
      * @var LatteToTwigConverter
      */
-    private $LatteToTwigConverter;
+    private $latteToTwigConverter;
 
     protected function setUp(): void
     {
         $this->bootKernel(LatteToTwigConverterKernel::class);
-        $this->LatteToTwigConverter = $this->getService(LatteToTwigConverter::class);
+        $this->latteToTwigConverter = $this->getService(LatteToTwigConverter::class);
     }
 
     /**
@@ -34,7 +34,7 @@ final class LatteToTwigConverterTest extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
-        $convertedContent = $this->LatteToTwigConverter->convertFile(
+        $convertedContent = $this->latteToTwigConverter->convertFile(
             $inputFileInfoAndExpectedFileInfo->getInputFileInfo()
         );
 

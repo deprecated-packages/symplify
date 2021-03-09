@@ -56,7 +56,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         //        SetList::TYPE_DECLARATION,
         //        SetList::TYPE_DECLARATION_STRICT,
         SetList::PHPUNIT_CODE_QUALITY,
-        //        SetList::NAMING,
+        SetList::NAMING,
         SetList::PRIVATIZATION,
         // enable later
         // SetList::DEAD_CLASSES,
