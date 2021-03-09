@@ -201,3 +201,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\ConstantMapRuleRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoMagicClosureRule
+        tags: [phpstan.rules.rule]
