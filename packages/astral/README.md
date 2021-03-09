@@ -138,7 +138,7 @@ use PhpParser\Builder\Class_;
 use PhpParser\Node\Stmt\Class_;
 
 $class = new Class_('ClassName');
-$class = $class->getClass();
+$class = $class->getNode();
 ```
 
 This confuses IDE and lead to wrong classes being used as type hints. To avoid that, this package provides `*Builder` names:
