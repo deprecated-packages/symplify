@@ -15,7 +15,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class MissingClassStaticCallLatteAnalyzerTest extends AbstractKernelTestCase
 {
     /**
-     * @var \Symplify\EasyCI\Latte\Analyzer\MissingClassStaticCallLatteAnalyzer
+     * @var MissingClassStaticCallLatteAnalyzer
      */
     private $missingClassStaticCallLatteAnalyzer;
 
