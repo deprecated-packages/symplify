@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class SkipAttributeArrayKey
 {
-    #[Route('/blog/{slug}', name: 'post_detail', requirements: [
+    #[Route(path: '/blog/{slug}', name: 'post_detail', requirements: [
         'slug' => '\d+\/\d+.+',
     ])]
     public function run(): string

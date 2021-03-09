@@ -3,6 +3,7 @@ includes:
 
 services:
     - PhpParser\NodeFinder
+    - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
