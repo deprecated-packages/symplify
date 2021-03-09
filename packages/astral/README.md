@@ -72,6 +72,8 @@ For dynamic names that are not possible to resolve, the `null` will be returned:
 $variable->${someMethod}();
 ```
 
+<br>
+
 ### 2. Resolve Value of Node
 
 ```php
@@ -126,6 +128,50 @@ __DIR__;
 ```
 
 <br>
+
+### 3. Unique `*Builder` Classes
+
+Native PhpParser node class and builder class share the same short class name.
+
+```php
+```
+
+This confuses IDE and lead to wrong classes being used as type hints. To avoid that, this package provides `*Builder` names:
+
+```php
+use Symplify\Astral\ValueObject\NodeBuilder\ClassBuilder;
+
+$classBuilder = new ClassBuilder('some_class');
+$class = $classBuilder->getNode();
+```
+
+<br>
+
+### 4. Traverse Nodes with Simple Callback
+
+Working with nodes is based on traversing each one of them. You can use native `NodeVisitor` and `NodeTraverses`. But that requires to create at least 2 objects, to connect them and call them.
+
+What if we need just a small traverse right in this method? Service `SimpleCallableNodeTraverser` to the rescue:
+
+```php
+use PhpParser\Node;
+use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\ClassMethod;
+use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
+
+/** @var ClassMethod $classMethod */
+$classMethod = '...';
+
+$simpleCallableNodeTraverser = new SimpleCallableNodeTraverser();
+$simpleCallableNodeTraverser->traverseNodesWithCallable($classMethod, function (Node $node) {
+    if (! $node instanceof String_) {
+        return null;
+    }
+
+    $node->value = 'changed name';
+    return $node;
+});
+```
 
 ## Report Issues
 
