@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
 use PhpCsFixer\Tokenizer\CT;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
@@ -42,6 +43,9 @@ final class LineLengthTransformer
         $this->tokensNewliner = $tokensNewliner;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fixStartPositionToEndPosition(
         BlockInfo $blockInfo,
         Tokens $tokens,
@@ -66,6 +70,9 @@ final class LineLengthTransformer
         }
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function hasPromotedProperty(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $resultByKind = $tokens->findGivenKind([

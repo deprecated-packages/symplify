@@ -102,6 +102,9 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([
@@ -120,6 +123,9 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
@@ -195,6 +201,9 @@ CODE_SAMPLE
         $this->inlineShortLines = $configuration[self::INLINE_SHORT_LINES] ?? true;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function processMethodCall(Tokens $tokens, int $position): void
     {
         $methodNamePosition = $this->functionCallNameMatcher->matchName($tokens, $position);
@@ -222,6 +231,9 @@ CODE_SAMPLE
         );
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function processFunctionOrArray(Tokens $tokens, int $position): void
     {
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
@@ -242,6 +254,9 @@ CODE_SAMPLE
         );
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function shouldSkip(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         // no items inside => skip
@@ -263,6 +278,9 @@ CODE_SAMPLE
         return (bool) $tokens->findGivenKind(T_COMMENT, $blockInfo->getStart(), $blockInfo->getEnd());
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function isHerenowDoc(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         // heredoc/nowdoc => skip

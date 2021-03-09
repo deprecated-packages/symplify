@@ -23,6 +23,7 @@ final class PrivatesCallerTest extends TestCase
 
     /**
      * @dataProvider provideData()
+     * @param mixed[]|int[] $arguments
      */
     public function test($object, string $methodName, array $arguments, int $expectedResult): void
     {
@@ -40,9 +41,17 @@ final class PrivatesCallerTest extends TestCase
     /**
      * @dataProvider provideDataReference()
      */
-    public function testReference($object, string $methodName, $referencedArgument, int $expectedResult): void
-    {
-        $result = $this->privatesCaller->callPrivateMethodWithReference($object, $methodName, $referencedArgument);
+    public function testReference(
+        SomeClassWithPrivateMethods $someClassWithPrivateMethods,
+        string $methodName,
+        int $referencedArgument,
+        int $expectedResult
+    ): void {
+        $result = $this->privatesCaller->callPrivateMethodWithReference(
+            $someClassWithPrivateMethods,
+            $methodName,
+            $referencedArgument
+        );
         $this->assertSame($expectedResult, $result);
     }
 

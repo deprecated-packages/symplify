@@ -61,11 +61,17 @@ final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements Do
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_COMMENT);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $contentWithPositions = [];
@@ -123,6 +129,8 @@ CODE_SAMPLE
 
     /**
      * Remove the indent space ahead of comments
+     *
+     * @param Tokens<Token> $tokens
      */
     private function resolveRealStart(StartAndEnd $startAndEnd, Tokens $tokens): int
     {

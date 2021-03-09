@@ -29,14 +29,16 @@ final class NodeValueResolverTest extends TestCase
 
     /**
      * @dataProvider provideData()
-     * @param mixed $expectedValue
      */
-    public function test(Expr $expr, $expectedValue): void
+    public function test(Expr $expr, string $expectedValue): void
     {
         $resolvedValue = $this->nodeValueResolver->resolve($expr, __FILE__);
         $this->assertSame($expectedValue, $resolvedValue);
     }
 
+    /**
+     * @return Iterator<string[]|String_[]>
+     */
     public function provideData(): Iterator
     {
         yield [new String_('value'), 'value'];

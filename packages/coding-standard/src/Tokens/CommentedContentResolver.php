@@ -32,6 +32,9 @@ final class CommentedContentResolver
         $this->lineResolver = $lineResolver;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function resolve(Tokens $tokens, int $position): StartAndEnd
     {
         $token = $tokens[$position];

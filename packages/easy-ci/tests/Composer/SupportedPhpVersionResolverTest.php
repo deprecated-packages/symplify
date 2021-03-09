@@ -34,6 +34,9 @@ final class SupportedPhpVersionResolverTest extends AbstractKernelTestCase
         $this->assertSame($expectedPhpVersions, $supportedVersions);
     }
 
+    /**
+     * @return Iterator<array<string|string[]|DateTime>>
+     */
     public function provideData(): Iterator
     {
         yield ['>= 8.0', ['8.0'], DateTime::from('2020-12-05')];

@@ -30,6 +30,9 @@ final class InlineVariableDocBlockMalformWorker implements MalformWorkerInterfac
      */
     private const ASTERISK_LEFTOVERS_REGEX = '#(\*\*)(\s+\*)#';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         if (! $this->isVariableComment($tokens, $position)) {
@@ -51,6 +54,9 @@ final class InlineVariableDocBlockMalformWorker implements MalformWorkerInterfac
         return Strings::replace($docContent, self::ASTERISK_LEFTOVERS_REGEX, '$1');
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function isVariableComment(Tokens $tokens, int $position): bool
     {
         $nextPosition = $tokens->getNextMeaningfulToken($position);

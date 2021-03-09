@@ -30,11 +30,17 @@ final class SpaceAfterCommaHereNowDocFixer extends AbstractSymplifyFixer impleme
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_START_HEREDOC, T_START_NOWDOC]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()

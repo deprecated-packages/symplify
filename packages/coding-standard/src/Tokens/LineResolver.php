@@ -9,6 +9,9 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class LineResolver
 {
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function resolve(Tokens $tokens, int $position): int
     {
         $lineCount = 0;

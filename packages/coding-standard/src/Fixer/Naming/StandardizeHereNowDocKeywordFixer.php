@@ -55,11 +55,17 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_START_HEREDOC, T_START_NOWDOC]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
@@ -108,6 +114,9 @@ CODE_SAMPLE
         $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function fixStartToken(Tokens $tokens, Token $token, int $position): void
     {
         $match = Strings::match($token->getContent(), self::START_HEREDOC_NOWDOC_NAME_REGEX);
@@ -124,6 +133,9 @@ CODE_SAMPLE
         $tokens[$position] = new Token([$token->getId(), $newContent]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function fixEndToken(Tokens $tokens, Token $token, int $position): void
     {
         if ($token->getContent() === $this->keyword) {

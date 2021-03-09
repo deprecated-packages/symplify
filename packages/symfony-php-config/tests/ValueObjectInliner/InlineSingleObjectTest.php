@@ -18,6 +18,7 @@ final class InlineSingleObjectTest extends TestCase
 {
     /**
      * @dataProvider provideData()
+     * @param SomeValueObject $valueObject
      */
     public function test(object $valueObject, string $expectedType): void
     {
@@ -31,6 +32,9 @@ final class InlineSingleObjectTest extends TestCase
         $this->assertSame($expectedType, $id);
     }
 
+    /**
+     * @return Iterator<class-string<SomeValueObject>[]|SomeValueObject[]>
+     */
     public function provideData(): Iterator
     {
         yield [new SomeValueObject('Rector'), SomeValueObject::class];

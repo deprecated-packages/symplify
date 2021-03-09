@@ -22,6 +22,9 @@ final class LineLengthOpenerTransformer
         $this->callAnalyzer = $callAnalyzer;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function insertNewlineAfterOpeningIfNeeded(
         Tokens $tokens,
         int $blockStartIndex,

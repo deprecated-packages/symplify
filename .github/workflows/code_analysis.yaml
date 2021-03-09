@@ -36,10 +36,12 @@ jobs:
                         name: Binary File Run
                         run: |
                             # test run bin files
-                            packages/easy-coding-standard/bin/ecs --ansi
+                            packages/easy-coding-standard/bin/ecs -h --ansi
                             packages/monorepo-builder/bin/monorepo-builder --ansi
-                            packages/easy-coding-standard/bin/ecs --ansi
-                            # packages/rule-doc-generator/bin/rule-doc-generator --ansi
+                            packages/rule-doc-generator/bin/rule-doc-generator --ansi
+                            packages/config-transformer/bin/config-transformer --ansi
+                            packages/easy-ci/bin/easy-ci --ansi
+                            packages/easy-testing/bin/easy-testing --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest

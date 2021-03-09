@@ -54,6 +54,8 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
 
     /**
      * Here are tested all examples from https://www.sonarsource.com/docs/CognitiveComplexity.pdf
+     *
+     * @return Iterator<mixed, SmartFileInfo[]>
      */
     public function provideTokensAndExpectedCognitiveComplexity(): Iterator
     {

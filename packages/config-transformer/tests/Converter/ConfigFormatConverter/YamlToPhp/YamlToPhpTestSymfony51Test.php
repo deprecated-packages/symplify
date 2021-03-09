@@ -30,6 +30,9 @@ final class YamlToPhpTestSymfony51Test extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fixtureFileInfo, Format::YAML, Format::PHP);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixtureSymfony51', '*.yaml');

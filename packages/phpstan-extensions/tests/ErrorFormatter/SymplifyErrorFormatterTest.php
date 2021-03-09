@@ -35,6 +35,7 @@ final class SymplifyErrorFormatterTest extends TestCase
 
     /**
      * @dataProvider provideData()
+     * @param Error[] $errors
      */
     public function testSingleFileSingleError(array $errors, string $expectedFile): void
     {

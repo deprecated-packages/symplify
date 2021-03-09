@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\DocBlock\DocBlock;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 
@@ -33,6 +34,9 @@ final class SuperfluousReturnNameMalformWorker implements MalformWorkerInterface
      */
     private const VARIABLE_NAME_PART = 'variableName';
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function work(string $docContent, Tokens $tokens, int $position): string
     {
         $docBlock = new DocBlock($docContent);

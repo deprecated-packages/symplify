@@ -20,6 +20,9 @@ final class ExcessiveParameterListRuleTest extends AbstractServiceAwareRuleTestC
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         $message = sprintf(ExcessiveParameterListRule::ERROR_MESSAGE, 'run', 10, 5);

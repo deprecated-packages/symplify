@@ -20,6 +20,9 @@ final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<int, array<int, array<int, int|string>|string>>
+     */
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(UppercaseConstantRule::ERROR_MESSAGE, 'SMall');

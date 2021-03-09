@@ -20,7 +20,7 @@ final class SecondControllerDataProvider implements ControllerWithDataProviderIn
     }
 
     /**
-     * @return int[][]|string[][]
+     * @return array<int, array<int|string>>
      */
     public function getArguments(): array
     {

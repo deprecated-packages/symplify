@@ -33,6 +33,8 @@ final class BlockFinder
     /**
      * Accepts position to both start and end token, e.g. (, ), [, ], {, } also to: "array"(, "function" ...(, "use"(,
      * "new" ...(
+     *
+     * @param Tokens<Token> $tokens
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): ?BlockInfo
     {
@@ -69,6 +71,9 @@ final class BlockFinder
         return $this->createBlockInfo($token, $position, $tokens, $blockType);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function findInTokensByPositionAndContent(Tokens $tokens, int $position, string $content): ?BlockInfo
     {
         $blockStart = $tokens->getNextTokenOfKind($position, [$content]);
@@ -107,6 +112,9 @@ final class BlockFinder
         return $this->getBlockTypeByContent($token->getContent());
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function createBlockInfo(Token $token, int $position, Tokens $tokens, int $blockType): ?BlockInfo
     {
         try {

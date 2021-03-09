@@ -32,6 +32,7 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param array<string, array<string, string>>|array<string, null>|array<string, array<int|string, string>>|array<string, array<string, Simple>>|array<string, array<string, Simple[]>>|array<string, array<string, ClassWithType[]>> $services
      */
     public function test(array $services, string $expectedContentFilePath): void
     {

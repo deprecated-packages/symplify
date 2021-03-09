@@ -20,6 +20,9 @@ final class TooManyMethodsRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         $message = sprintf(TooManyMethodsRule::ERROR_MESSAGE, 4, 3);

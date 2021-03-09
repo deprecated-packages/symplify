@@ -20,6 +20,9 @@ final class TooManyPropertiesRuleTest extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<int, array<int, array<int, int|string>>|string>>
+     */
     public function provideData(): Iterator
     {
         $message = sprintf(TooManyPropertiesRule::ERROR_MESSAGE, 4, 3);

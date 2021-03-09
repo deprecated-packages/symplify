@@ -35,6 +35,7 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
 
     /**
      * @return Token[]
+     * @param Tokens<Token> $tokens
      */
     protected function reverseTokens(Tokens $tokens): array
     {
@@ -58,6 +59,9 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
         return $fixer->getPriority() + 5;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     protected function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
     {
         $nextMeaninfulTokenPosition = $tokens->getNextMeaningfulToken($index);
@@ -68,6 +72,9 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
         return $tokens[$nextMeaninfulTokenPosition];
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     protected function getPreviousToken(Tokens $tokens, int $index): ?Token
     {
         $previousIndex = $index - 1;

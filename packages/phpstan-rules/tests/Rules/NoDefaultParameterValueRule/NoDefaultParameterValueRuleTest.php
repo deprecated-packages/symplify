@@ -20,6 +20,9 @@ final class NoDefaultParameterValueRuleTest extends AbstractServiceAwareRuleTest
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(NoDefaultParameterValueRule::ERROR_MESSAGE, 'value');

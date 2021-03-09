@@ -32,6 +32,9 @@ final class MissingClassConstantLatteAnalyzerTest extends AbstractKernelTestCase
         $this->assertCount($expectedErrorCount, $fileInfosWithMissingClassConstantErrors);
     }
 
+    /**
+     * @return Iterator<int[]|SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/missing_constant.twig'), 2];

@@ -55,6 +55,9 @@ final class PHPStanPHPToNeonConverterTest extends AbstractKernelTestCase
         $this->assertSame($splitFileInfoToLocalInputAndExpected->getExpected(), $convertedContent);
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.php');

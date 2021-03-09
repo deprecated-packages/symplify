@@ -82,6 +82,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         if (! $tokens->isAnyTokenKindsFound(TokenKinds::ARRAY_OPEN_TOKENS)) {
@@ -91,6 +94,9 @@ CODE_SAMPLE
         return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $blockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
@@ -99,6 +105,9 @@ CODE_SAMPLE
         }
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function fixArrayOpener(Tokens $tokens, BlockInfo $blockInfo): void
     {
         if ($this->isNextTokenAlsoArrayOpener($tokens, $blockInfo->getStart())) {
@@ -120,6 +129,9 @@ CODE_SAMPLE
         $this->handleArrayOpener($tokens, $blockInfo->getStart());
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function isNextTokenAlsoArrayOpener(Tokens $tokens, int $index): bool
     {
         $nextToken = $this->getNextMeaningfulToken($tokens, $index);
@@ -130,6 +142,9 @@ CODE_SAMPLE
         return $nextToken->isGivenKind(TokenKinds::ARRAY_OPEN_TOKENS);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function handleArrayCloser(Tokens $tokens, int $arrayCloserPosition): void
     {
         $preArrayCloserPosition = $arrayCloserPosition - 1;
@@ -147,6 +162,9 @@ CODE_SAMPLE
         $tokens->ensureWhitespaceAtIndex($preArrayCloserPosition, 1, $this->whitespacesFixerConfig->getLineEnding());
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function handleArrayOpener(Tokens $tokens, int $arrayOpenerPosition): void
     {
         $postArrayOpenerPosition = $arrayOpenerPosition + 1;

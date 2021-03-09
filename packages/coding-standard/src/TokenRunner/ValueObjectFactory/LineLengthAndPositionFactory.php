@@ -13,6 +13,9 @@ use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class LineLengthAndPositionFactory
 {
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function createFromTokensAndLineStartPosition(Tokens $tokens, int $currentPosition): LineLengthAndPosition
     {
         $length = 0;

@@ -27,6 +27,8 @@ final class ChainMethodCallAnalyzer
 
     /**
      * Matches e.g: return app()->some(), app()->some(), (clone app)->some()
+     *
+     * @param Tokens<Token> $tokens
      */
     public function isPreceededByFuncCall(Tokens $tokens, int $position): bool
     {
@@ -52,6 +54,8 @@ final class ChainMethodCallAnalyzer
 
     /**
      * Matches e.g. someMethod($this->some()->method()), [$this->some()->method()]
+     *
+     * @param Tokens<Token> $tokens
      */
     public function isPartOfMethodCallOrArray(Tokens $tokens, int $position): bool
     {

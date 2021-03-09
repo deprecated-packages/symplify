@@ -483,3 +483,11 @@ parameters:
         # resolve first
         - '#Method (.*?) has parameter (.*?) with no typehint specified#'
 
+        # wrong keys
+        - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
+        -
+            message: '#Generator expects value type (.*?), array<int, array<int, array<int, int\|string\>\>\|string\> given#'
+            paths:
+                -  packages/phpstan-rules/tests/Rules
+
+        - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'

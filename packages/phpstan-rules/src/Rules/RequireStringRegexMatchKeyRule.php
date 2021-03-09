@@ -79,7 +79,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         }
 
         $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
-        if ($scopeNode === null) {
+        if (! $scopeNode instanceof Node) {
             return [];
         }
 

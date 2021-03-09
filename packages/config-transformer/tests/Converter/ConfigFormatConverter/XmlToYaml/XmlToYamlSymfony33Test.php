@@ -30,6 +30,9 @@ final class XmlToYamlSymfony33Test extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fixtureFileInfo, 'xml', 'yaml');
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/FixtureSymfony33', '*.xml');

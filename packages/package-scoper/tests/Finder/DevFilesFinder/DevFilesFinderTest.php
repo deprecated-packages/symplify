@@ -24,6 +24,7 @@ final class DevFilesFinderTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param string[] $source
      */
     public function test(array $source, int $expectedFileCount): void
     {
@@ -31,6 +32,9 @@ final class DevFilesFinderTest extends AbstractKernelTestCase
         $this->assertCount($expectedFileCount, $foundFiles);
     }
 
+    /**
+     * @return Iterator<array<int, array|string|int>>
+     */
     public function provideData(): Iterator
     {
         yield [[__DIR__ . '/Fixture/dummy_file'], 1];

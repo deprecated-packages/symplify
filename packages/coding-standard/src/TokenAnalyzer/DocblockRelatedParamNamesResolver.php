@@ -34,6 +34,7 @@ final class DocblockRelatedParamNamesResolver
 
     /**
      * @return string[]
+     * @param Tokens<Token> $tokens
      */
     public function resolve(Tokens $tokens, int $docTokenPosition): array
     {

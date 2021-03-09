@@ -24,6 +24,9 @@ final class XmlToPhpTest extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fixtureFileInfo, 'xml', 'php');
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.xml');

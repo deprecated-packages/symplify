@@ -24,6 +24,8 @@ final class ComposerPackageSorterTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param array<string, string> $packages
+     * @param array<string, string> $expectedSortedPackages
      */
     public function test(array $packages, array $expectedSortedPackages): void
     {
@@ -31,6 +33,9 @@ final class ComposerPackageSorterTest extends AbstractKernelTestCase
         $this->assertSame($expectedSortedPackages, $sortedPackages);
     }
 
+    /**
+     * @return Iterator<array<int, array<string, string>>>
+     */
     public function provideData(): Iterator
     {
         yield [

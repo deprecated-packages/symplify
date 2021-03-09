@@ -30,6 +30,9 @@ final class XmlToYamlTest extends AbstractConfigFormatConverterTest
         $this->doTestOutput($fixtureFileInfo, 'xml', 'yaml');
     }
 
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture', '*.xml');
