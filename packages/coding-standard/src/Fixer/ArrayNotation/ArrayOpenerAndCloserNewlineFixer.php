@@ -91,7 +91,7 @@ CODE_SAMPLE
         return $tokens->isTokenKindFound(T_DOUBLE_ARROW);
     }
 
-    public function fix(SplFileInfo $fileInfo, Tokens $tokens)
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $blockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
         foreach ($blockInfos as $blockInfo) {

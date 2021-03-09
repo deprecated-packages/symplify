@@ -40,6 +40,8 @@ final class DoctrineBlockFinder
 
     /**
      * Accepts position to both start and end token, e.g. (, ), {, }
+     *
+     * @param Tokens<Token> $tokens
      */
     public function findInTokensByEdge(Tokens $tokens, int $position): BlockInfo
     {
@@ -65,6 +67,8 @@ final class DoctrineBlockFinder
     }
 
     /**
+     * @param Tokens<Token> $tokens
+     *
      * @copied from
      * @see \PhpCsFixer\Tokenizer\Tokens::findBlockEnd()
      */
@@ -82,6 +86,9 @@ final class DoctrineBlockFinder
         throw new EdgeFindingException($message);
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function resolveIndexForBlockLevel(
         int $startIndex,
         int $endIndex,
@@ -115,6 +122,9 @@ final class DoctrineBlockFinder
         return $index;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function ensureStartTokenIsNotStartEdge(
         Tokens $tokens,
         int $startIndex,
@@ -132,6 +142,9 @@ final class DoctrineBlockFinder
         }
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     private function resolveDocBlockEdgeByType(
         DocBlockEdgeDefinition $docBlockEdgeDefinition,
         int $searchIndex,

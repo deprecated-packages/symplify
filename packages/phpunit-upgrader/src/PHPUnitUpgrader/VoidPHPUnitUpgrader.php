@@ -6,6 +6,7 @@ namespace Symplify\PHPUnitUpgrader\PHPUnitUpgrader;
 
 use Symplify\PHPUnitUpgrader\FileInfoDecorator\SetUpTearDownVoidFileInfoDecorator;
 use Symplify\PHPUnitUpgrader\ReportingFileDumper;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VoidPHPUnitUpgrader
 {
@@ -27,6 +28,9 @@ final class VoidPHPUnitUpgrader
         $this->reportingFileDumper = $reportingFileDumper;
     }
 
+    /**
+     * @param SmartFileInfo[] $fileInfos
+     */
     public function completeFileInfos(array $fileInfos): void
     {
         foreach ($fileInfos as $fileInfo) {

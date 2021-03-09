@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\Yaml;
 
 use Nette\Utils\Strings;
-use ReflectionClass;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 /**
@@ -42,19 +40,34 @@ final class CheckerServiceParametersShifter
     private const SERVICES_KEY = 'services';
 
     /**
-     * @var string
-     */
-    private const SERVICE_KEYWORDS_KEY_STATIC = 'serviceKeywords';
-
-    /**
-     * @var string
-     */
-    private const SERVICE_KEYWORDS_KEY_CONST = 'SERVICE_KEYWORDS';
-
-    /**
+     * @see \Symfony\Component\DependencyInjection\Loader\YamlFileLoader::SERVICE_KEYWORDS
      * @var string[]
      */
-    private $serviceKeywords = [];
+    private const SERVICE_KEYWORDS = [
+        'alias',
+        'parent',
+        'class',
+        'shared',
+        'synthetic',
+        'lazy',
+        'public',
+        'abstract',
+        'deprecated',
+        'factory',
+        'file',
+        'arguments',
+        'properties',
+        'configurator',
+        'calls',
+        'tags',
+        'decorates',
+        'decoration_inner_name',
+        'decoration_priority',
+        'decoration_on_invalid',
+        'autowire',
+        'autoconfigure',
+        'bind',
+    ];
 
     /**
      * @var StringFormatConverter
@@ -64,7 +77,6 @@ final class CheckerServiceParametersShifter
     public function __construct()
     {
         $this->stringFormatConverter = new StringFormatConverter();
-        $this->initializeServiceKeywords();
     }
 
     /**
@@ -120,7 +132,11 @@ final class CheckerServiceParametersShifter
 
     private function isCheckerClass(string $checker): bool
     {
-        return Strings::endsWith($checker, 'Fixer') || Strings::endsWith($checker, 'Sniff');
+        if (Strings::endsWith($checker, 'Fixer')) {
+            return true;
+        }
+
+        return Strings::endsWith($checker, 'Sniff');
     }
 
     /**
@@ -191,7 +207,7 @@ final class CheckerServiceParametersShifter
             return false;
         }
 
-        return in_array($key, $this->serviceKeywords, true);
+        return in_array($key, self::SERVICE_KEYWORDS, true);
     }
 
     /**
@@ -212,24 +228,5 @@ final class CheckerServiceParametersShifter
         }
 
         return Strings::replace($value, '#^@#', '@@');
-    }
-
-    private function initializeServiceKeywords(): void
-    {
-        $reflectionClass = new ReflectionClass(YamlFileLoader::class);
-        /** @var array<string, mixed> $constants */
-        $constants = $reflectionClass->getConstants();
-        if (array_key_exists(self::SERVICE_KEYWORDS_KEY_CONST, $constants)) {
-            /** @var string[] $serviceKeywordsProperty */
-            $serviceKeywordsProperty = $constants[self::SERVICE_KEYWORDS_KEY_CONST];
-            $this->serviceKeywords = $serviceKeywordsProperty;
-            return;
-        }
-
-        /** @var array<string, mixed> $staticProperties */
-        $staticProperties = $reflectionClass->getStaticProperties();
-        /** @var string[] $serviceKeywordsProperty */
-        $serviceKeywordsProperty = $staticProperties[self::SERVICE_KEYWORDS_KEY_STATIC];
-        $this->serviceKeywords = $serviceKeywordsProperty;
     }
 }

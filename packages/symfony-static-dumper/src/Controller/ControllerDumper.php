@@ -133,8 +133,10 @@ final class ControllerDumper
         }
     }
 
-    private function printHeadline(ControllerWithDataProviderInterface $controllerWithDataProvider, $routeName): void
-    {
+    private function printHeadline(
+        ControllerWithDataProviderInterface $controllerWithDataProvider,
+        string $routeName
+    ): void {
         $this->symfonyStyle->newLine(2);
 
         $message = sprintf(
@@ -148,8 +150,8 @@ final class ControllerDumper
 
     private function processControllerWithDataProvider(
         ControllerWithDataProviderInterface $controllerWithDataProvider,
-        $routeName,
-        $route,
+        string $routeName,
+        Route $route,
         string $outputDirectory
     ): void {
         $arguments = $controllerWithDataProvider->getArguments();

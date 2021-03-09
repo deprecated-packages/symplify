@@ -510,7 +510,7 @@ final class ComposerJson
     }
 
     /**
-     * @return string|array|null
+     * @return string|string[]|null
      */
     public function getLicense()
     {

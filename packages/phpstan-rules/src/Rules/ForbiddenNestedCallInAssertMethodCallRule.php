@@ -63,7 +63,7 @@ final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRu
         }
 
         $argMethodCall = $this->nodeFinder->findFirstInstanceOf($node->args[1], MethodCall::class);
-        if (! $argMethodCall instanceof \PhpParser\Node\Expr\MethodCall) {
+        if (! $argMethodCall instanceof MethodCall) {
             return [];
         }
 

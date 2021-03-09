@@ -21,6 +21,7 @@ final class TwigAnalyzer
 
     /**
      * @param SmartFileInfo[] $controllerFileInfos
+     * @param string[] $allowedTemplatePaths
      * @return string[]
      */
     public function analyzeFileInfos(array $controllerFileInfos, array $allowedTemplatePaths): array

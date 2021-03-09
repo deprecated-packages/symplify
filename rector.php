@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
+use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
@@ -31,7 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PreferThisOrSelfMethodCallRector::class)
         ->call('configure', [[
             PreferThisOrSelfMethodCallRector::TYPE_TO_PREFERENCE => [
-                TestCase::class => PreferThisOrSelfMethodCallRector::PREFER_THIS,
+                TestCase::class => PreferenceSelfThis::PREFER_THIS,
             ],
         ]]);
 
@@ -52,9 +53,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_71,
         SetList::PHP_72,
         SetList::PHP_73,
-        SetList::TYPE_DECLARATION,
+        //        SetList::TYPE_DECLARATION,
+        //        SetList::TYPE_DECLARATION_STRICT,
         SetList::PHPUNIT_CODE_QUALITY,
-        SetList::NAMING,
+        //        SetList::NAMING,
         SetList::PRIVATIZATION,
         // enable later
         // SetList::DEAD_CLASSES,
@@ -80,6 +82,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         # tests
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
+
+        // many false postivies
+        \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class,
 
         PrivatizeLocalOnlyMethodRector::class => [
             // @api + used in test

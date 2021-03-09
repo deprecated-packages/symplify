@@ -13,6 +13,7 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

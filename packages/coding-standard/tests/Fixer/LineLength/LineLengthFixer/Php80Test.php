@@ -24,7 +24,7 @@ final class Php80Test extends AbstractCheckerTestCase
     }
 
     /**
-     * @return string[]
+     * @return Iterator<SmartFileInfo>
      */
     public function provideDataForTest(): Iterator
     {

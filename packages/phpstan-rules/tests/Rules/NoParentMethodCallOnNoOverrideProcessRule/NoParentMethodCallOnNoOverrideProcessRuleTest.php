@@ -13,6 +13,7 @@ final class NoParentMethodCallOnNoOverrideProcessRuleTest extends AbstractServic
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

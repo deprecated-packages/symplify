@@ -24,6 +24,9 @@ final class AliasConfigurableExtension extends Extension
         return $this->alias;
     }
 
+    /**
+     * @param string[] $configs
+     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
     }

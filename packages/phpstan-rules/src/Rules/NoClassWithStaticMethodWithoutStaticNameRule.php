@@ -130,9 +130,10 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isClassWithStaticMethod($node): bool
+    private function isClassWithStaticMethod(Class_ $class): bool
     {
-        $classMethods = $node->getMethods();
+        $classMethods = $class->getMethods();
+
         foreach ($classMethods as $classMethod) {
             if (! $classMethod->isStatic()) {
                 continue;

@@ -9,6 +9,9 @@ namespace Symplify\StaticDetector\Strings;
  */
 final class StringsFilter
 {
+    /**
+     * @param string[] $matchingValues
+     */
     public function isMatchOrFnMatch(string $currentValue, array $matchingValues): bool
     {
         if ($matchingValues === []) {

@@ -21,7 +21,7 @@ final class ArrayLineLengthFixerTest extends AbstractCheckerTestCase
     }
 
     /**
-     * @return string[]
+     * @return Iterator<SmartFileInfo>
      */
     public function provideData(): Iterator
     {

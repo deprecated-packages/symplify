@@ -14,7 +14,7 @@ use Throwable;
 final class BlockFinder
 {
     /**
-     * @var int[]
+     * @var array<string, int>
      */
     private const CONTENT_TO_BLOCK_TYPE = [
         '(' => Tokens::BLOCK_TYPE_PARENTHESIS_BRACE,

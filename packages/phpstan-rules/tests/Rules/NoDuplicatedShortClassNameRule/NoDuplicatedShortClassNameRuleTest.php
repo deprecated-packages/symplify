@@ -15,6 +15,7 @@ final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleT
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

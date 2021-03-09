@@ -69,6 +69,10 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($parent === []) {
+            return [];
+        }
+
         if ($this->shouldSkip($parent, $node)) {
             return [];
         }
@@ -122,20 +126,20 @@ CODE_SAMPLE
         return $this->simpleNameResolver->isName($expr->name, $propertyName);
     }
 
-    private function shouldSkip($parent, $node): bool
+    private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
     {
-        if ($parent instanceof Unset_) {
+        if ($parentNode instanceof Unset_) {
             return true;
         }
 
         // flashes are allowed
-        if ($this->simpleNameResolver->isNames($node->name, ['flashes'])) {
+        if ($this->simpleNameResolver->isNames($propertyFetch->name, ['flashes'])) {
             return true;
         }
 
         // payload ajax juggling
         // is: $this->payload->xyz = $this->template->xyz
-        return $this->isPayloadAjaxJuggling($parent);
+        return $this->isPayloadAjaxJuggling($parentNode);
     }
 
     private function isPayloadAjaxJuggling(Node $node): bool

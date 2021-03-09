@@ -16,6 +16,7 @@ final class RequireConstantInAttributeArgumentRuleTest extends AbstractServiceAw
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

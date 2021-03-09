@@ -60,6 +60,7 @@ final class SmartPhpConfigPrinter
 
     /**
      * @param mixed[] $configuration
+     * @return array<string, mixed>|null
      */
     private function createServiceConfiguration(array $configuration, string $class): ?array
     {

@@ -22,6 +22,9 @@ final class ObjectTypeAnalyzer
         $this->typeUnwrapper = $typeUnwrapper;
     }
 
+    /**
+     * @param array<class-string> $desiredClasses
+     */
     public function isObjectOrUnionOfObjectTypes(Type $type, array $desiredClasses): bool
     {
         foreach ($desiredClasses as $desiredClass) {
@@ -50,9 +53,9 @@ final class ObjectTypeAnalyzer
             ->yes();
     }
 
-    private function doesUnionTypeContainObjectType($type, string $desiredClass): bool
+    private function doesUnionTypeContainObjectType(UnionType $unionType, string $desiredClass): bool
     {
-        foreach ($type->getTypes() as $unionedType) {
+        foreach ($unionType->getTypes() as $unionedType) {
             if (! $unionedType instanceof TypeWithClassName) {
                 continue;
             }

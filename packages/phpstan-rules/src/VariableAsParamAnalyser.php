@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\Php\PhpMethodFromParserNodeReflection;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
@@ -19,9 +20,15 @@ final class VariableAsParamAnalyser
      */
     private $privatesAccessor;
 
-    public function __construct(PrivatesAccessor $privatesAccessor)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(PrivatesAccessor $privatesAccessor, SimpleNameResolver $simpleNameResolver)
     {
         $this->privatesAccessor = $privatesAccessor;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function isVariableFromConstructorParam(MethodReflection $methodReflection, Variable $variable): bool
@@ -46,8 +53,7 @@ final class VariableAsParamAnalyser
         $variableName = $variable->name;
 
         foreach ($constructorClassMethod->params as $param) {
-            $paramName = (string) $param->var->name;
-            if ($variableName === $paramName) {
+            if ($this->simpleNameResolver->isName($param, $variableName)) {
                 return true;
             }
         }

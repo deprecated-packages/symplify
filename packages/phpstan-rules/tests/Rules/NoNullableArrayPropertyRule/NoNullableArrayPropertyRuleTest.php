@@ -14,6 +14,7 @@ final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTest
     /**
      * @requires PHP 7.4
      * @dataProvider provideData()
+     * @param array<int|string> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

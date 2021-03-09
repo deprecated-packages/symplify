@@ -123,6 +123,10 @@ final class ValueObjectInliner
         return $inlineServiceConfigurator;
     }
 
+    /**
+     * @param mixed|mixed[] $resolvedValue
+     * @return mixed|mixed[]
+     */
     private static function inlineNestedArrayObjects($resolvedValue)
     {
         if (is_array($resolvedValue)) {
@@ -132,6 +136,7 @@ final class ValueObjectInliner
                 }
             }
         }
+
         return $resolvedValue;
     }
 }

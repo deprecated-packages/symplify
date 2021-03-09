@@ -79,7 +79,7 @@ final class SmartFileInfoTest extends TestCase
     /**
      * Normalizing required to allow running tests on windows.
      */
-    private function normalizePath($path): string
+    private function normalizePath(string $path): string
     {
         return str_replace('\\', '/', $path);
     }

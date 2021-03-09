@@ -11,6 +11,9 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
 final class SkipperExtension extends Extension
 {
+    /**
+     * @param string[] $configs
+     */
     public function load(array $configs, ContainerBuilder $containerBuilder): void
     {
         // needed for parameter shifting of sniff/fixer params

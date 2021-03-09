@@ -41,12 +41,18 @@ final class JsonFileSystem
         return Json::decode($fileContent, Json::FORCE_ARRAY);
     }
 
+    /**
+     * @param array<string, mixed> $jsonArray
+     */
     public function writeJsonToFilePath(array $jsonArray, string $filePath): void
     {
         $jsonContent = Json::encode($jsonArray, Json::PRETTY) . PHP_EOL;
         $this->smartFileSystem->dumpFile($filePath, $jsonContent);
     }
 
+    /**
+     * @param array<string, mixed> $newJsonArray
+     */
     public function mergeArrayToJsonFile(string $filePath, array $newJsonArray): void
     {
         $jsonArray = $this->loadFilePathToJson($filePath);

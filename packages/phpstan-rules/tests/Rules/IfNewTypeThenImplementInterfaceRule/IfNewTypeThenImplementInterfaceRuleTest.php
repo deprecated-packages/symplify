@@ -14,6 +14,7 @@ final class IfNewTypeThenImplementInterfaceRuleTest extends AbstractServiceAware
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

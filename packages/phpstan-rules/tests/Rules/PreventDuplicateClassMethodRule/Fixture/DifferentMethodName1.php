@@ -10,6 +10,7 @@ class DifferentMethodName1
     {
         $value += 100000;
         $value += 100000;
+        $value += 100000;
         return $value + 1000;
     }
 }

@@ -27,7 +27,7 @@ final class SmartFileInfo extends SplFileInfo
      */
     private $smartFileSystem;
 
-    public function __construct($filePath)
+    public function __construct(string $filePath)
     {
         $this->smartFileSystem = new SmartFileSystem();
 
@@ -63,6 +63,9 @@ final class SmartFileInfo extends SplFileInfo
         return pathinfo($this->getFilename(), PATHINFO_EXTENSION);
     }
 
+    /**
+     * @param string[] $suffixes
+     */
     public function hasSuffixes(array $suffixes): bool
     {
         return in_array($this->getSuffix(), $suffixes, true);

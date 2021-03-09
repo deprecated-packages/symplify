@@ -115,6 +115,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param array<string, mixed> $constants
+     */
     private function collectConstants(string $class, array $constants): void
     {
         $this->cacheDefinedConstants[$class] = [];

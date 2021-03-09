@@ -17,6 +17,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  */
 final class StaticFixtureFinder
 {
+    /**
+     * @return Iterator<array<int, SmartFileInfo>>
+     */
     public static function yieldDirectory(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
@@ -24,6 +27,9 @@ final class StaticFixtureFinder
         return self::yieldFileInfos($fileInfos);
     }
 
+    /**
+     * @return Iterator<SmartFileInfo>
+     */
     public static function yieldDirectoryExclusively(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectoryExclusively($directory, $suffix);
@@ -31,6 +37,9 @@ final class StaticFixtureFinder
         return self::yieldFileInfos($fileInfos);
     }
 
+    /**
+     * @return Iterator<string, array<int, SplFileInfo>>
+     */
     public static function yieldDirectoryWithRelativePathname(string $directory, string $suffix = '*.php.inc'): Iterator
     {
         $fileInfos = self::findFilesInDirectory($directory, $suffix);
@@ -38,6 +47,9 @@ final class StaticFixtureFinder
         return self::yieldFileInfosWithRelativePathname($fileInfos);
     }
 
+    /**
+     * @return Iterator<string, array<int, SplFileInfo>>
+     */
     public static function yieldDirectoryExclusivelyWithRelativePathname(
         string $directory,
         string $suffix = '*.php.inc'
@@ -49,6 +61,7 @@ final class StaticFixtureFinder
 
     /**
      * @param SplFileInfo[] $fileInfos
+     * @return Iterator<array<int, SmartFileInfo>>
      */
     private static function yieldFileInfos(array $fileInfos): Iterator
     {

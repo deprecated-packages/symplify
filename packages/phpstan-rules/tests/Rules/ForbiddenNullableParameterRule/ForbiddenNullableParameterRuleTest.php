@@ -13,6 +13,7 @@ final class ForbiddenNullableParameterRuleTest extends AbstractServiceAwareRuleT
 {
     /**
      * @dataProvider provideData()
+     * @param array<string|int> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

@@ -12,6 +12,9 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
  */
 final class PrivatesAccessor
 {
+    /**
+     * @return mixed
+     */
     public function getPrivateProperty(object $object, string $propertyName)
     {
         $propertyReflection = $this->resolvePropertyReflection($object, $propertyName);

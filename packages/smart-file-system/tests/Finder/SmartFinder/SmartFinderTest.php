@@ -23,6 +23,7 @@ final class SmartFinderTest extends TestCase
     }
 
     /**
+     * @param string[] $paths
      * @dataProvider provideData()
      */
     public function test(array $paths, string $suffix, int $expectedCount): void

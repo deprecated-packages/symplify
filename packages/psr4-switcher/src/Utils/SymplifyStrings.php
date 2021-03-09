@@ -20,9 +20,12 @@ final class SymplifyStrings
      * Same as ↓, just for the suffix
      *
      * @see \Nette\Utils\Strings::findPrefix()
+     *
+     * @param string[] $strings
      */
     public function findSharedSlashedSuffix(array $strings): string
     {
+        /** @var string $first */
         $first = array_shift($strings);
         $first = $this->normalizePath($first);
 
