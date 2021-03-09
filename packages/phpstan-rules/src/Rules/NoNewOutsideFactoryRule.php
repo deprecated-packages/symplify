@@ -27,7 +27,7 @@ final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use decoupled factory service to create "%s" object';
 
     /**
-     * @var string[]
+     * @var string[]|class-string<Token>[]
      */
     private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*', Token::class, '*Reflection', 'Reflection*'];
 

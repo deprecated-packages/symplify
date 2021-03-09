@@ -63,7 +63,7 @@ final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
         }
 
         $classMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
-        if (! $classMethod instanceof \PhpParser\Node\Stmt\ClassMethod) {
+        if (! $classMethod instanceof ClassMethod) {
             return [];
         }
 

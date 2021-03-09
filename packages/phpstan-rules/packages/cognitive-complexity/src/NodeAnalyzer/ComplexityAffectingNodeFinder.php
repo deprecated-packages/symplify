@@ -34,7 +34,7 @@ final class ComplexityAffectingNodeFinder
     /**
      * B1. Increments
      *
-     * @var class-string[]
+     * @var array<class-string<Node>>
      */
     private const INCREASING_NODE_TYPES = [
         If_::class,

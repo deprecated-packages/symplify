@@ -21,7 +21,7 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNo
 final class NestingNodeVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var class-string[]
+     * @var array<class-string<Node>>
      */
     private const NESTING_NODE_TYPES = [
         If_::class,

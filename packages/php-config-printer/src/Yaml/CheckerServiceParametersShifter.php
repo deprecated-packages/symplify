@@ -132,22 +132,11 @@ final class CheckerServiceParametersShifter
 
     private function isCheckerClass(string $checker): bool
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return Strings::endsWith($checker, 'Fixer') || Strings::endsWith($checker, 'Sniff');
-=======
         if (Strings::endsWith($checker, 'Fixer')) {
             return true;
         }
 
         return Strings::endsWith($checker, 'Sniff');
->>>>>>> 3f47b60f8... fixup! fixup! fixup! composer: allow Rector dev
-=======
-        if (Strings::endsWith($checker, 'Fixer')) {
-            return true;
-        }
-        return Strings::endsWith($checker, 'Sniff');
->>>>>>> f866cc921... [ci-review] Rector Rectify
     }
 
     /**
