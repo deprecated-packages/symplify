@@ -134,6 +134,11 @@ __DIR__;
 Native PhpParser node class and builder class share the same short class name.
 
 ```php
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\Builder\Class_;
+
+$class = new Class_('ClassName');
+$class = $class->getClass();
 ```
 
 This confuses IDE and lead to wrong classes being used as type hints. To avoid that, this package provides `*Builder` names:
