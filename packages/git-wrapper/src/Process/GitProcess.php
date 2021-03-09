@@ -84,7 +84,6 @@ final class GitProcess extends Process
                 $this->dispatchEvent($gitSuccessEvent);
             } else {
                 $output = $this->getErrorOutput();
-
                 if (trim($output) === '') {
                     $output = $this->getOutput();
                 }

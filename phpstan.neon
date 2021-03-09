@@ -491,3 +491,8 @@ parameters:
                 -  packages/phpstan-rules/tests/Rules
 
         - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
+
+        -
+             message: '#Do not compare call directly, use a variable assign#'
+             paths:
+                 - packages/easy-ci/src/Git/ConflictResolver.php

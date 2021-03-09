@@ -36,6 +36,7 @@ final class ArraySorter
      */
     private function isSequential(array $array): bool
     {
-        return array_keys($array) === range(0, count($array) - 1);
+        $zeroToItemCount = range(0, count($array) - 1);
+        return array_keys($array) === $zeroToItemCount;
     }
 }
