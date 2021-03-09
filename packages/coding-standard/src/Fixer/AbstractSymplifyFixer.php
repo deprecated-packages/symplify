@@ -58,6 +58,9 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
         return $fixer->getPriority() + 5;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     protected function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
     {
         $nextMeaninfulTokenPosition = $tokens->getNextMeaningfulToken($index);

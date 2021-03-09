@@ -489,3 +489,5 @@ parameters:
             message: '#Generator expects value type (.*?), array<int, array<int, array<int, int\|string\>\>\|string\> given#'
             paths:
                 -  packages/phpstan-rules/tests/Rules
+
+        - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
