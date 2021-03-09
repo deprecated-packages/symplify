@@ -63,7 +63,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For CI Keeping you Safe
 
 - [Easy CI](https://github.com/symplify/easy-ci)
-- [Template Checker](https://github.com/symplify/template-checker)
 - [Class Presence](https://github.com/symplify/class-presence)
 - [Static Detector](https://github.com/symplify/static-detector)
 
