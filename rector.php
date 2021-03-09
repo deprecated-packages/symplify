@@ -54,7 +54,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_72,
         SetList::PHP_73,
         //        SetList::TYPE_DECLARATION,
-        //        SetList::TYPE_DECLARATION_STRICT,
+        SetList::TYPE_DECLARATION_STRICT,
         SetList::PHPUNIT_CODE_QUALITY,
         SetList::NAMING,
         SetList::PRIVATIZATION,
