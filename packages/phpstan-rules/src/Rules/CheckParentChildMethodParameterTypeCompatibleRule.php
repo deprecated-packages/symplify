@@ -44,7 +44,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var SimpleNameResolver
@@ -54,12 +54,12 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
-        SimpleNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         SimpleNameResolver $simpleNameResolver
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -77,7 +77,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     public function process(Node $node, Scope $scope): array
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($node, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

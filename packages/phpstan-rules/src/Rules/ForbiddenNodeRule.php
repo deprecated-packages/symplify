@@ -40,18 +40,18 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @param class-string<T>[] $forbiddenNodes
      */
-    public function __construct(Standard $standard, SimpleNodeFinder $parentNodeFinder, array $forbiddenNodes = [])
+    public function __construct(Standard $standard, SimpleNodeFinder $simpleNodeFinder, array $forbiddenNodes = [])
     {
         Assert::allIsAOf($forbiddenNodes, Node::class);
 
         $this->forbiddenNodes = $forbiddenNodes;
         $this->standard = $standard;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -112,7 +112,7 @@ CODE_SAMPLE
     private function hasIntentionallyDocComment(Node $node): bool
     {
         if (! $node instanceof Stmt) {
-            $node = $this->parentNodeFinder->findFirstParentByType($node, Stmt::class);
+            $node = $this->simpleNodeFinder->findFirstParentByType($node, Stmt::class);
         }
 
         if (! $node instanceof Stmt) {

@@ -27,17 +27,17 @@ final class CallableTypeAnalyzer
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var Standard
      */
     private $standard;
 
-    public function __construct(TypeUnwrapper $typeUnwrapper, SimpleNodeFinder $parentNodeFinder, Standard $standard)
+    public function __construct(TypeUnwrapper $typeUnwrapper, SimpleNodeFinder $simpleNodeFinder, Standard $standard)
     {
         $this->typeUnwrapper = $typeUnwrapper;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->standard = $standard;
     }
 
@@ -77,7 +77,7 @@ final class CallableTypeAnalyzer
         }
 
         // possible closure
-        $parentForeach = $this->parentNodeFinder->findFirstParentByType($node, Foreach_::class);
+        $parentForeach = $this->simpleNodeFinder->findFirstParentByType($node, Foreach_::class);
 
         if ($parentForeach instanceof Foreach_) {
             $nameContent = $this->standard->prettyPrint([$node->name]);

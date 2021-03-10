@@ -15,22 +15,22 @@ final class ClassMethodNodeFinder
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNodeFinder $parentNodeFinder, SimpleNameResolver $simpleNameResolver)
+    public function __construct(SimpleNodeFinder $simpleNodeFinder, SimpleNameResolver $simpleNameResolver)
     {
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function findByMethodCall(MethodCall $methodCall): ?ClassMethod
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }

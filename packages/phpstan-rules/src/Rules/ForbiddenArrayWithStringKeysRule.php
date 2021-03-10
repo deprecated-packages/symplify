@@ -58,7 +58,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var ArrayAnalyzer
@@ -68,12 +68,12 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         ArrayAnalyzer $arrayAnalyzer
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
@@ -145,7 +145,7 @@ CODE_SAMPLE
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
         // skip part of attribute
-        $parentAttribute = $this->parentNodeFinder->findFirstParentByType($array, Attribute::class);
+        $parentAttribute = $this->simpleNodeFinder->findFirstParentByType($array, Attribute::class);
         if ($parentAttribute instanceof Attribute) {
             return true;
         }
@@ -164,7 +164,7 @@ CODE_SAMPLE
 
     private function isPartOfClassConstOrNew(Array_ $array): bool
     {
-        return (bool) $this->parentNodeFinder->findFirstParentByTypes($array, [
+        return (bool) $this->simpleNodeFinder->findFirstParentByTypes($array, [
             ClassConst::class,
             New_::class,
             MethodCall::class,

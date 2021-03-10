@@ -13,18 +13,7 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
 {
     /**
      * @dataProvider provideData()
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-     * @param mixed[]<int, array<int|string>> $expectedErrorMessagesWithLines
-=======
      * @param array<string|int> $expectedErrorMessagesWithLines
->>>>>>> c9cc6b8f4... fixup! make use of return scope
->>>>>>> f7e82b7bf... fixup! make use of return scope
-=======
-     * @param array<string|int> $expectedErrorMessagesWithLines
->>>>>>> 13fee3ea3... fixup! fixup! make use of return scope
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

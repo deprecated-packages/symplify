@@ -52,12 +52,12 @@ final class NodeValueResolver
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        SimpleNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
 
@@ -65,7 +65,7 @@ final class NodeValueResolver
             return $this->resolveByNode($expr);
         });
         $this->typeChecker = $typeChecker;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -90,7 +90,7 @@ final class NodeValueResolver
         $className = $this->simpleNameResolver->getName($classConstFetch->class);
 
         if ($className === 'self') {
-            $classLike = $this->parentNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
+            $classLike = $this->simpleNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
             if (! $classLike instanceof ClassLike) {
                 return null;
             }

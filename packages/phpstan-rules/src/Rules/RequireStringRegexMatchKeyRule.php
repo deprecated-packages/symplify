@@ -44,16 +44,16 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -78,7 +78,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
-        $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
+        $scopeNode = $this->simpleNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
         if (! $scopeNode instanceof Node) {
             return [];
         }

@@ -43,18 +43,18 @@ final class PreviouslyUsedAnalyzer
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         PreviousLoopFinder $previousLoopFinder,
         SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->previousLoopFinder = $previousLoopFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -101,7 +101,7 @@ final class PreviouslyUsedAnalyzer
 
     private function isInsideIf(Assign $assign): bool
     {
-        $previousLoopOrIf = $this->parentNodeFinder->findFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
+        $previousLoopOrIf = $this->simpleNodeFinder->findFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
         return $previousLoopOrIf instanceof If_;
     }
 }

@@ -37,19 +37,19 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @param array<string, string> $forbiddenTypes
      */
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         array $forbiddenTypes = []
     ) {
         $this->forbiddenTypes = $forbiddenTypes;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -75,7 +75,7 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        $class = $this->parentNodeFinder->findFirstParentByType($node, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

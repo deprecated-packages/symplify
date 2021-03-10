@@ -42,16 +42,16 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         NodeFinder $nodeFinder,
-        SimpleNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->nodeFinder = $nodeFinder;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -156,7 +156,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $parentScopeNode = $this->parentNodeFinder->findFirstParentByTypes(
+            $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes(
                 $assign,
                 [ClassMethod::class, If_::class, Else_::class, ElseIf_::class]
             );

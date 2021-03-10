@@ -32,12 +32,12 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $parentNodeFinder)
+    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $simpleNodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -58,7 +58,7 @@ final class RequireThisOnParentMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classMethod = $this->parentNodeFinder->findFirstParentByType($node, ClassMethod::class);
+        $classMethod = $this->simpleNodeFinder->findFirstParentByType($node, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return [];
         }
@@ -119,7 +119,7 @@ CODE_SAMPLE
 
     private function isMethodNameExistsInCurrentClass(ClassMethod $classMethod, string $methodName): bool
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($classMethod, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($classMethod, Class_::class);
         if (! $class instanceof Class_) {
             return false;
         }

@@ -39,7 +39,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var NodeValueResolver
@@ -54,11 +54,11 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         NodeValueResolver $nodeValueResolver,
-        SimpleNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         StatementFinder $statementFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->nodeValueResolver = $nodeValueResolver;
         $this->statementFinder = $statementFinder;
     }
@@ -166,7 +166,7 @@ CODE_SAMPLE
 
     private function isInInstatiationClassMethod(Assign $assign): bool
     {
-        $classMethod = $this->parentNodeFinder->findFirstParentByType($assign, ClassMethod::class);
+        $classMethod = $this->simpleNodeFinder->findFirstParentByType($assign, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return true;
         }

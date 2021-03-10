@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ErrorType;
 use PHPStan\Type\ObjectType;
@@ -36,11 +35,6 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
     private $returnNodeFinder;
 
     /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @var NodeComparator
      */
     private $nodeComparator;
@@ -62,14 +56,12 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
 
     public function __construct(
         ReturnNodeFinder $returnNodeFinder,
-        NodeFinder $nodeFinder,
         NodeComparator $nodeComparator,
         SimpleNodeFinder $simpleNodeFinder,
         SimpleNameResolver $simpleNameResolver,
         AssignAnalyzer $assignAnalyzer
     ) {
         $this->returnNodeFinder = $returnNodeFinder;
-        $this->nodeFinder = $nodeFinder;
         $this->nodeComparator = $nodeComparator;
         $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
@@ -77,7 +69,7 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {

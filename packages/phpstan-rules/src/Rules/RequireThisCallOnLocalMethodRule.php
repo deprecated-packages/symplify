@@ -32,12 +32,12 @@ final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
     /**
      * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $parentNodeFinder)
+    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $simpleNodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -107,7 +107,7 @@ CODE_SAMPLE
 
     private function getClassMethodInCurrentClass(StaticCall $staticCall): ?ClassMethod
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($staticCall, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($staticCall, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }
