@@ -8,29 +8,29 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 
 final class ClassMethodNodeFinder
 {
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(ParentNodeFinder $parentNodeFinder, SimpleNameResolver $simpleNameResolver)
+    public function __construct(SimpleNodeFinder $simpleNodeFinder, SimpleNameResolver $simpleNameResolver)
     {
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function findByMethodCall(MethodCall $methodCall): ?ClassMethod
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }

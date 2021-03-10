@@ -16,7 +16,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer
@@ -38,23 +38,23 @@ final class DependencyNodeAnalyzer
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     public function isInsideAbstractClassAndPassedAsDependency(Property $property): bool
     {
-        $classLike = $this->parentNodeFinder->findFirstParentByType($property, Class_::class);
+        $classLike = $this->simpleNodeFinder->findFirstParentByType($property, Class_::class);
         if (! $classLike instanceof Class_) {
             return false;
         }
@@ -79,7 +79,7 @@ final class DependencyNodeAnalyzer
 
     public function isInsideClassAndAutowiredMethod(Property $property): bool
     {
-        $classLike = $this->parentNodeFinder->findFirstParentByType($property, ClassLike::class);
+        $classLike = $this->simpleNodeFinder->findFirstParentByType($property, ClassLike::class);
         if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
             return false;
         }

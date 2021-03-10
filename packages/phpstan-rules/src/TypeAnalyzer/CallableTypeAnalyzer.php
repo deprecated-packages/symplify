@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class CallableTypeAnalyzer
@@ -25,19 +25,19 @@ final class CallableTypeAnalyzer
     private $typeUnwrapper;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var Standard
      */
     private $standard;
 
-    public function __construct(TypeUnwrapper $typeUnwrapper, ParentNodeFinder $parentNodeFinder, Standard $standard)
+    public function __construct(TypeUnwrapper $typeUnwrapper, SimpleNodeFinder $simpleNodeFinder, Standard $standard)
     {
         $this->typeUnwrapper = $typeUnwrapper;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->standard = $standard;
     }
 
@@ -77,7 +77,7 @@ final class CallableTypeAnalyzer
         }
 
         // possible closure
-        $parentForeach = $this->parentNodeFinder->findFirstParentByType($node, Foreach_::class);
+        $parentForeach = $this->simpleNodeFinder->findFirstParentByType($node, Foreach_::class);
 
         if ($parentForeach instanceof Foreach_) {
             $nameContent = $this->standard->prettyPrint([$node->name]);

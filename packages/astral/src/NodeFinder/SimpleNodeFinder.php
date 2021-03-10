@@ -5,19 +5,36 @@ declare(strict_types=1);
 namespace Symplify\Astral\NodeFinder;
 
 use PhpParser\Node;
+use PhpParser\NodeFinder;
 use Symplify\Astral\ValueObject\CommonAttributeKey;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
-final class ParentNodeFinder
+final class SimpleNodeFinder
 {
     /**
      * @var TypeChecker
      */
     private $typeChecker;
 
-    public function __construct(TypeChecker $typeChecker)
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(TypeChecker $typeChecker, NodeFinder $nodeFinder)
     {
         $this->typeChecker = $typeChecker;
+        $this->nodeFinder = $nodeFinder;
+    }
+
+    /**
+     * @template T of Node
+     * @param class-string<T> $nodeClass
+     * @return T[]
+     */
+    public function findByType(Node $node, string $nodeClass): array
+    {
+        return $this->nodeFinder->findInstanceOf($node, $nodeClass);
     }
 
     /**

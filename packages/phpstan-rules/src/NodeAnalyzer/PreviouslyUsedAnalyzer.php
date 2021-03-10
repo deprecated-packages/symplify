@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder;
 
 final class PreviouslyUsedAnalyzer
@@ -41,20 +41,20 @@ final class PreviouslyUsedAnalyzer
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         PreviousLoopFinder $previousLoopFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->previousLoopFinder = $previousLoopFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -101,7 +101,7 @@ final class PreviouslyUsedAnalyzer
 
     private function isInsideIf(Assign $assign): bool
     {
-        $previousLoopOrIf = $this->parentNodeFinder->findFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
+        $previousLoopOrIf = $this->simpleNodeFinder->findFirstParentByTypes($assign, self::IF_AND_LOOP_NODE_TYPES);
         return $previousLoopOrIf instanceof If_;
     }
 }

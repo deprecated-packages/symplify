@@ -15,7 +15,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -40,18 +40,18 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
     private $nodeFinder;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         NodeFinder $nodeFinder,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->nodeFinder = $nodeFinder;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -156,7 +156,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $parentScopeNode = $this->parentNodeFinder->findFirstParentByTypes(
+            $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes(
                 $assign,
                 [ClassMethod::class, If_::class, Else_::class, ElseIf_::class]
             );

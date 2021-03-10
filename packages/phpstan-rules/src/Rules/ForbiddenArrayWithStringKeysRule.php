@@ -16,7 +16,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
@@ -56,9 +56,9 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     private $parentMethodReturnTypeResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var ArrayAnalyzer
@@ -68,12 +68,12 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         ArrayAnalyzer $arrayAnalyzer
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
@@ -145,7 +145,7 @@ CODE_SAMPLE
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
         // skip part of attribute
-        $parentAttribute = $this->parentNodeFinder->findFirstParentByType($array, Attribute::class);
+        $parentAttribute = $this->simpleNodeFinder->findFirstParentByType($array, Attribute::class);
         if ($parentAttribute instanceof Attribute) {
             return true;
         }
@@ -164,7 +164,7 @@ CODE_SAMPLE
 
     private function isPartOfClassConstOrNew(Array_ $array): bool
     {
-        return (bool) $this->parentNodeFinder->findFirstParentByTypes($array, [
+        return (bool) $this->simpleNodeFinder->findFirstParentByTypes($array, [
             ClassConst::class,
             New_::class,
             MethodCall::class,

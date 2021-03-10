@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
@@ -37,9 +37,9 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var NodeValueResolver
@@ -54,11 +54,11 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         NodeValueResolver $nodeValueResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         StatementFinder $statementFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->nodeValueResolver = $nodeValueResolver;
         $this->statementFinder = $statementFinder;
     }
@@ -166,7 +166,7 @@ CODE_SAMPLE
 
     private function isInInstatiationClassMethod(Assign $assign): bool
     {
-        $classMethod = $this->parentNodeFinder->findFirstParentByType($assign, ClassMethod::class);
+        $classMethod = $this->simpleNodeFinder->findFirstParentByType($assign, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
             return true;
         }

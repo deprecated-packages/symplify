@@ -14,7 +14,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
@@ -42,9 +42,9 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     private $parentClassMethodNodeResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var SimpleNameResolver
@@ -54,12 +54,12 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
     public function __construct(
         ParentMethodAnalyser $parentMethodAnalyser,
         ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         SimpleNameResolver $simpleNameResolver
     ) {
         $this->parentMethodAnalyser = $parentMethodAnalyser;
         $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
     }
 
@@ -77,7 +77,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     public function process(Node $node, Scope $scope): array
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($node, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

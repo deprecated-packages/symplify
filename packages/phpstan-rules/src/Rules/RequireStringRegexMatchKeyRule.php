@@ -16,7 +16,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\ValueObject\NodeFinder\ScopeTypes;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -42,18 +42,18 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         NodeFinder $nodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->nodeFinder = $nodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -78,7 +78,7 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
-        $scopeNode = $this->parentNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
+        $scopeNode = $this->simpleNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
         if (! $scopeNode instanceof Node) {
             return [];
         }

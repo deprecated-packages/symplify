@@ -21,7 +21,7 @@ use PhpParser\Node\Scalar\MagicConst\File;
 use PhpParser\Node\Stmt\ClassLike;
 use ReflectionClassConstant;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
@@ -50,14 +50,14 @@ final class NodeValueResolver
     private $currentFilePath;
 
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         TypeChecker $typeChecker,
-        ParentNodeFinder $parentNodeFinder
+        SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
 
@@ -65,7 +65,7 @@ final class NodeValueResolver
             return $this->resolveByNode($expr);
         });
         $this->typeChecker = $typeChecker;
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -90,7 +90,7 @@ final class NodeValueResolver
         $className = $this->simpleNameResolver->getName($classConstFetch->class);
 
         if ($className === 'self') {
-            $classLike = $this->parentNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
+            $classLike = $this->simpleNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
             if (! $classLike instanceof ClassLike) {
                 return null;
             }

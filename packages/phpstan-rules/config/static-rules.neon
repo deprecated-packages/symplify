@@ -69,6 +69,10 @@ services:
         class: Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
+        tags: [phpstan.rules.rule]
+
     # explicit naming
     -
         class: Symplify\PHPStanRules\Rules\NoDefaultExceptionRule

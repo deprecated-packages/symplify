@@ -496,3 +496,7 @@ parameters:
              message: '#Do not compare call directly, use a variable assign#'
              paths:
                  - packages/easy-ci/src/Git/ConflictResolver.php
+
+        # known types
+        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
+        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'

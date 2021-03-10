@@ -9,15 +9,15 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\ParentNodeFinder;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 
 final class MethodCallNodeFinder
 {
     /**
-     * @var ParentNodeFinder
+     * @var SimpleNodeFinder
      */
-    private $parentNodeFinder;
+    private $simpleNodeFinder;
 
     /**
      * @var NodeFinder
@@ -35,12 +35,12 @@ final class MethodCallNodeFinder
     private $simpleNameResolver;
 
     public function __construct(
-        ParentNodeFinder $parentNodeFinder,
+        SimpleNodeFinder $simpleNodeFinder,
         NodeFinder $nodeFinder,
         NodeComparator $nodeComparator,
         SimpleNameResolver $simpleNameResolver
     ) {
-        $this->parentNodeFinder = $parentNodeFinder;
+        $this->simpleNodeFinder = $simpleNodeFinder;
         $this->nodeFinder = $nodeFinder;
         $this->nodeComparator = $nodeComparator;
         $this->simpleNameResolver = $simpleNameResolver;
@@ -65,7 +65,7 @@ final class MethodCallNodeFinder
      */
     public function findUsages(MethodCall $methodCall): array
     {
-        $class = $this->parentNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }
