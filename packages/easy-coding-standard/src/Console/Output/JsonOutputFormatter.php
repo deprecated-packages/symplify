@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use Jean85\Exception\ReplacedPackageException;
-use Jean85\PrettyVersions;
 use Nette\Utils\Json;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
+use Symplify\PackageBuilder\Composer\PackageVersionProvider;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
@@ -81,15 +80,12 @@ final class JsonOutputFormatter implements OutputFormatterInterface
      */
     private function createBaseErrorsArray(ErrorAndDiffResult $errorAndDiffResult): array
     {
-        try {
-            $version = PrettyVersions::getVersion('symplify/easy-coding-standard');
-        } catch (\OutOfBoundsException | ReplacedPackageException $exception) {
-            $version = PrettyVersions::getVersion('symplify/symplify');
-        }
+        $packageVersionProvider = new PackageVersionProvider();
+        $version = $packageVersionProvider->provide('symplify/easy-coding-standard');
 
         return [
             'meta' => [
-                'version' => $version->getPrettyVersion() ?: 'Unknown',
+                'version' => $version,
             ],
             'totals' => [
                 'errors' => $errorAndDiffResult->getErrorCount(),

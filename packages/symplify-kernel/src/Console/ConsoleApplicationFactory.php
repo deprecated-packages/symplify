@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\SymplifyKernel\Console;
 
-use Jean85\PrettyVersions;
 use Symfony\Component\Console\Command\Command;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\PackageBuilder\Composer\PackageVersionProvider;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymplifyKernel\Strings\StringsConverter;
-use Throwable;
 
 final class ConsoleApplicationFactory
 {
@@ -89,17 +88,9 @@ final class ConsoleApplicationFactory
             return;
         }
 
-        $packageVersion = $this->resolveVersionFromPackageName($packageName);
-        $autowiredConsoleApplication->setVersion($packageVersion);
-    }
+        $packageVersionProvider = new PackageVersionProvider();
+        $version = $packageVersionProvider->provide($packageName);
 
-    private function resolveVersionFromPackageName(string $packageName): string
-    {
-        try {
-            $version = PrettyVersions::getVersion($packageName);
-            return $version->getPrettyVersion();
-        } catch (Throwable $throwable) {
-            return 'Unknown';
-        }
+        $autowiredConsoleApplication->setVersion($version);
     }
 }
