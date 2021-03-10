@@ -6,6 +6,7 @@ namespace Symplify\PackageBuilder\Composer;
 
 use Jean85\Exception\ReplacedPackageException;
 use Jean85\PrettyVersions;
+use Jean85\Version;
 use OutOfBoundsException;
 use PharIo\Version\InvalidVersionException;
 
@@ -30,7 +31,7 @@ final class PackageVersionProvider
      * @see https://github.com/symplify/symplify/pull/2901#issuecomment-771536136
      * @see https://github.com/Jean85/pretty-package-versions/pull/16#issuecomment-620550459
      */
-    private function getVersion(string $packageName, string $replacingPackageName): \Jean85\Version
+    private function getVersion(string $packageName, string $replacingPackageName): Version
     {
         try {
             return PrettyVersions::getVersion($packageName);
