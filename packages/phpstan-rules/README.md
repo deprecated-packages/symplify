@@ -56,7 +56,7 @@ Pick what you need, drop the rest.
 
 ## 3. How we use Configurable Rules
 
-Last but not least, configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/master/docs/rules_overview.md#allowedexclusivedependencyrule).
+Last but not least, configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/main/docs/rules_overview.md#allowedexclusivedependencyrule).
 
 You might not like them, but maybe you do:
 
