@@ -22,6 +22,7 @@ final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipStaticPropertyInAbstractTestCase.php', []];
         yield [__DIR__ . '/Fixture/SkipStaticIntersectionOffsetContainer.php', []];
         yield [__DIR__ . '/Fixture/SkipStaticKernel.php', []];
         yield [__DIR__ . '/Fixture/SkipStaticContainerPHPStan.php', []];
