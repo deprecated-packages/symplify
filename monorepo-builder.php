@@ -15,6 +15,8 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
+
+    $parameters->set(Option::DEFAULT_BRANCH_NAME, 'main');
     $parameters->set(Option::DATA_TO_REMOVE, [
         'require' => [
             # remove these to merge of packages' composer.json
