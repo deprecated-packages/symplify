@@ -1,4 +1,4 @@
-# 146 Rules Overview
+# 150 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2423,9 +2423,34 @@ final class SomeClass
 
 <br>
 
+## NoBinaryOpCallCompareRule
+
+No magic closure function call is allowed, use explicit class with method instead
+
+- class: [`Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule`](/packages/phpstan-rules/src/Rules/NoBinaryOpCallCompareRule.php)
+
+```php
+return array_filter($items, function ($item) {
+}) !== [];
+```
+
+:x:
+
+<br>
+
+```php
+$values = array_filter($items, function ($item) {
+});
+return $values !== [];
+```
+
+:+1:
+
+<br>
+
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
@@ -3078,6 +3103,36 @@ class SomeClass
 
 <br>
 
+## NoMagicClosureRule
+
+No magic closure function call is allowed, use explicit class with method instead
+
+- class: [`Symplify\PHPStanRules\Rules\NoMagicClosureRule`](/packages/phpstan-rules/src/Rules/NoMagicClosureRule.php)
+
+```php
+(static function () {
+    // ...
+})
+```
+
+:x:
+
+<br>
+
+```php
+final class HelpfulName
+{
+    public function clearName()
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoMethodTagInClassDocblockRule
 
 Do not use `@method` tag in class docblock
@@ -3141,6 +3196,41 @@ class SomeClass
     public function run()
     {
         return __DIR__ . '/existing_location.txt';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoModifyAndReturnSelfObjectRule
+
+Use void instead of modify and return self object
+
+- class: [`Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule`](/packages/phpstan-rules/src/Rules/NoModifyAndReturnSelfObjectRule.php)
+
+```php
+final class SomeClass
+{
+    public function modify(ComposerJson $composerJson): ComposerJson
+    {
+        $composerJson->addPackage('some-package');
+        return $composerJson;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function modify(ComposerJson $composerJson): void
+    {
+        $composerJson->addPackage('some-package');
     }
 }
 ```
@@ -4649,6 +4739,44 @@ class SomeClass
 
 <br>
 
+## RequireAttributeNameRule
+
+Attribute must have all names explicitly defined
+
+- class: [`Symplify\PHPStanRules\Rules\RequireAttributeNameRule`](/packages/phpstan-rules/src/Rules/RequireAttributeNameRule.php)
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class SomeController
+{
+    #[Route('/path')]
+    public function someAction()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Routing\Annotation\Route;
+
+class SomeController
+{
+    #[Route(path: '/path')]
+    public function someAction()
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## RequireChildClassGenericTypeRule
 
 Parent class has defined generic types, so they must be defined here too
@@ -5690,7 +5818,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
