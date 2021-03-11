@@ -57,3 +57,4 @@ jobs:
                     split-repository-name: '${{ matrix.package }}'
                     user-name: "kaizen-ci"
                     user-email: "info@kaizen-ci.org"
+                    branch: "main"
