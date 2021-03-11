@@ -4,7 +4,7 @@
 
 Some change
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\ExtraFile\ExtraFileRector`](/Fixture/Rector/ExtraFile/ExtraFileRector.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\ExtraFile\ExtraFileRector`](Fixture/Rector/ExtraFile/ExtraFileRector.php)
 
 ```diff
 -before

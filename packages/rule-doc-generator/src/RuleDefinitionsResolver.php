@@ -13,23 +13,26 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class RuleDefinitionsResolver
 {
     /**
-     * @param RuleClassWithFilePath[] $classNames
+     * @param RuleClassWithFilePath[] $ruleClassWithFilePaths
      * @return RuleDefinition[]
      */
-    public function resolveFromClassNames(array $classNames): array
+    public function resolveFromClassNames(array $ruleClassWithFilePaths): array
     {
         $ruleDefinitions = [];
 
-        foreach ($classNames as $rule) {
-            $reflectionClass = new ReflectionClass($rule->getClass());
+        foreach ($ruleClassWithFilePaths as $ruleClassWithFilePath) {
+            $reflectionClass = new ReflectionClass($ruleClassWithFilePath->getClass());
+
             $documentedRule = $reflectionClass->newInstanceWithoutConstructor();
             if (! $documentedRule instanceof DocumentedRuleInterface) {
                 throw new ShouldNotHappenException();
             }
 
             $ruleDefinition = $documentedRule->getRuleDefinition();
-            $ruleDefinition->setRuleClass($rule->getClass());
-            $ruleDefinition->setRuleFilePath($rule->getPath());
+            $ruleDefinition->setRuleClass($ruleClassWithFilePath->getClass());
+
+            $ruleDefinition->setRuleFilePath($ruleClassWithFilePath->getPath());
+
             $ruleDefinitions[] = $ruleDefinition;
         }
 

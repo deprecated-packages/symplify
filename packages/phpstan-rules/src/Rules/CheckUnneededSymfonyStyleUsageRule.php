@@ -113,7 +113,7 @@ class SomeClass
 {
     public function run()
     {
-        echo 'Hi'. PHP_EOL;
+        echo 'Hi' . PHP_EOL;
     }
 }
 CODE_SAMPLE
