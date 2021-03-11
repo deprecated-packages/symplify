@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Reflection\ClassReflection;
+use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
@@ -96,6 +97,6 @@ CODE_SAMPLE
             return false;
         }
 
-        return $classReflection->isSubclassOf('PHPUnit\Framework\TestCase');
+        return $classReflection->isSubclassOf(TestCase::class);
     }
 }
