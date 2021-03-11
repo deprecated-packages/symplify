@@ -69,7 +69,8 @@ final class RuleDefinition
 
     public function setRuleFilePath(string $ruleFilePath): void
     {
-        $this->ruleFilePath = '/' . ltrim($ruleFilePath, '/');
+        // fir relative file path for GitHub
+        $this->ruleFilePath = ltrim($ruleFilePath, '/');
     }
 
     public function getRuleFilePath(): string

@@ -4,7 +4,7 @@
 
 Add regex101.com `link` to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
 
-- class: [`Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`](/packages/phpstan-rules/src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
+- class: [`Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
 
 ```php
 class SomeClass
@@ -35,7 +35,7 @@ class SomeClass
 
 Method `"%s()"` returns bool type, so the name should start with is/has/was...
 
-- class: [`Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule`](/packages/phpstan-rules/src/Rules/BoolishClassMethodPrefixRule.php)
+- class: [`Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule`](../src/Rules/BoolishClassMethodPrefixRule.php)
 
 ```php
 class SomeClass
@@ -69,7 +69,7 @@ class SomeClass
 
 Class like namespace "%s" does not follow PSR-4 configuration in `composer.json`
 
-- class: [`Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule`](/packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule`](../src/Rules/CheckClassNamespaceFollowPsr4Rule.php)
 
 ```php
 // defined "Foo\Bar" namespace in composer.json > autoload > psr-4
@@ -101,7 +101,7 @@ class Baz
 
 Move constant expression to `__construct()`, `setUp()` method or constant
 
-- class: [`Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`](/packages/phpstan-rules/src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`](../src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php)
 
 ```php
 class SomeClass
@@ -143,7 +143,7 @@ class SomeClass
 
 `Constant` string value need to only have small letters, _, -, . and numbers
 
-- class: [`Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`](/packages/phpstan-rules/src/Rules/CheckConstantStringValueFormatRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`](../src/Rules/CheckConstantStringValueFormatRule.php)
 
 ```php
 class SomeClass
@@ -171,7 +171,7 @@ class SomeClass
 
 "*Test.php" file cannot be located outside "Tests" namespace
 
-- class: [`Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule`](/packages/phpstan-rules/src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/CheckNotTestsNamespaceOutsideTestsDirectoryRule.php)
 
 ```php
 // file: "SomeTest.php
@@ -203,7 +203,7 @@ class SomeTest
 
 Argument and options "%s" got confused
 
-- class: [`Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`](/packages/phpstan-rules/src/Rules/CheckOptionArgumentCommandRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`](../src/Rules/CheckOptionArgumentCommandRule.php)
 
 ```php
 class SomeClass extends Command
@@ -247,7 +247,7 @@ class SomeClass extends Command
 
 Method parameters must be compatible with its parent
 
-- class: [`Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`](/packages/phpstan-rules/src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`](../src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php)
 
 ```php
 class ParentClass
@@ -293,7 +293,7 @@ class SomeClass extends ParentClass
 
 `autowire()`, `autoconfigure()`, and `public()` are required in config service
 
-- class: [`Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule`](/packages/phpstan-rules/src/Rules/CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule`](../src/Rules/CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule.php)
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -331,7 +331,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 Interface must be located in "Contract" namespace
 
-- class: [`Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`](/packages/phpstan-rules/src/Rules/CheckRequiredInterfaceInContractNamespaceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule`](../src/Rules/CheckRequiredInterfaceInContractNamespaceRule.php)
 
 ```php
 namespace App\Repository;
@@ -361,7 +361,7 @@ interface ProductRepositoryInterface
 
 Method with "@required" must respect "autowire" + class name `("%s()")`
 
-- class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](/packages/phpstan-rules/src/Rules/CheckRequiredMethodNamingRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](../src/Rules/CheckRequiredMethodNamingRule.php)
 
 ```php
 final class SomeClass
@@ -401,7 +401,7 @@ final class SomeClass
 
 Parameter %d should use "%s" type as the only type passed to this method
 
-- class: [`Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule`](/packages/phpstan-rules/src/Rules/CheckTypehintCallerTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule`](../src/Rules/CheckTypehintCallerTypeRule.php)
 
 ```php
 use PhpParser\Node;
@@ -448,7 +448,7 @@ class SomeClass
 
 SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead
 
-- class: [`Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`](/packages/phpstan-rules/src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
 
 ```php
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -491,7 +491,7 @@ class SomeClass
 
 Use `$class->namespaceName` instead of `$class->name` that only returns short class name
 
-- class: [`Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`](/packages/phpstan-rules/src/Rules/CheckUsedNamespacedNameOnClassNodeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`](../src/Rules/CheckUsedNamespacedNameOnClassNodeRule.php)
 
 ```php
 use PhpParser\Node\Stmt\Class_;
@@ -531,7 +531,7 @@ Cognitive complexity of class/trait must be under specific limit
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](/packages/phpstan-rules/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
 services:
@@ -656,7 +656,7 @@ Class should have suffix "%s" to respect parent type
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`](/packages/phpstan-rules/src/Rules/ClassNameRespectsParentSuffixRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`](../src/Rules/ClassNameRespectsParentSuffixRule.php)
 
 ```yaml
 services:
@@ -694,7 +694,7 @@ class SomeCommand extends Command
 
 Static constant map should be extracted from this method
 
-- class: [`Symplify\PHPStanRules\Rules\ConstantMapRuleRule`](/packages/phpstan-rules/src/Rules/ConstantMapRuleRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ConstantMapRuleRule`](../src/Rules/ConstantMapRuleRule.php)
 
 ```php
 class SomeClass
@@ -750,7 +750,7 @@ class SomeClass
 
 Method name should be different to its parameter name, in a verb form
 
-- class: [`Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule`](/packages/phpstan-rules/src/Rules/DifferentMethodNameToParameterRule.php)
+- class: [`Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule`](../src/Rules/DifferentMethodNameToParameterRule.php)
 
 ```php
 class SomeClass
@@ -786,7 +786,7 @@ Method `"%s()"` is using too many parameters - %d. Make it under %d
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`](/packages/phpstan-rules/src/Rules/ExcessiveParameterListRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
 
 ```yaml
 services:
@@ -833,7 +833,7 @@ Too many public elements on class - %d. Narrow it down under %d
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`](/packages/phpstan-rules/src/Rules/ExcessivePublicCountRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
 
 ```yaml
 services:
@@ -880,7 +880,7 @@ Dependency of specific type can be used only in specific class types
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`](/packages/phpstan-rules/src/Rules/ExclusiveDependencyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`](../src/Rules/ExclusiveDependencyRule.php)
 
 ```yaml
 services:
@@ -942,7 +942,7 @@ Exclusive namespace can only contain classes of specific type, nothing else
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule`](/packages/phpstan-rules/src/Rules/ExclusiveNamespaceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule`](../src/Rules/ExclusiveNamespaceRule.php)
 
 ```yaml
 services:
@@ -984,11 +984,10 @@ class SomePresenter
 
 Anonymous class is not allowed.
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](/packages/phpstan-rules/src/Rules/ForbiddenAnonymousClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](../src/Rules/ForbiddenAnonymousClassRule.php)
 
 ```php
-new class() {
-};
+new class {};
 ```
 
 :x:
@@ -998,9 +997,10 @@ new class() {
 ```php
 class SomeClass
 {
+
 }
 
-new SomeClass();
+new SomeClass;
 ```
 
 :+1:
@@ -1011,7 +1011,7 @@ new SomeClass();
 
 Array destruct is not allowed. Use value object to pass data instead
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule`](/packages/phpstan-rules/src/Rules/ForbiddenArrayDestructRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule`](../src/Rules/ForbiddenArrayDestructRule.php)
 
 ```php
 final class SomeClass
@@ -1047,7 +1047,7 @@ final class SomeClass
 
 Array with keys is not allowed. Use value object to pass data instead
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule`](/packages/phpstan-rules/src/Rules/ForbiddenArrayWithStringKeysRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule`](../src/Rules/ForbiddenArrayWithStringKeysRule.php)
 
 ```php
 final class SomeClass
@@ -1084,7 +1084,7 @@ final class SomeClass
 
 Assignment inside if is not allowed. `Extract` condition to extra variable on line above
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`](/packages/phpstan-rules/src/Rules/ForbiddenAssignInIfRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`](../src/Rules/ForbiddenAssignInIfRule.php)
 
 ```php
 if ($isRandom = mt_rand()) {
@@ -1111,7 +1111,7 @@ if ($isRandom) {
 
 Assign in loop is not allowed.
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`](/packages/phpstan-rules/src/Rules/ForbiddenAssignInLoopRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`](../src/Rules/ForbiddenAssignInLoopRule.php)
 
 ```php
 foreach (...) {
@@ -1143,7 +1143,7 @@ Method call or Static Call on %s is not allowed
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule`](/packages/phpstan-rules/src/Rules/ForbiddenCallOnTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule`](../src/Rules/ForbiddenCallOnTypeRule.php)
 
 ```yaml
 services:
@@ -1213,7 +1213,7 @@ class SomeClass
 
 For complex configuration use value object over array
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule`](/packages/phpstan-rules/src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -1257,7 +1257,7 @@ Do not use "%s" function with complex content, make it more readable with extrac
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule`](/packages/phpstan-rules/src/Rules/ForbiddenComplexFuncCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule`](../src/Rules/ForbiddenComplexFuncCallRule.php)
 
 ```yaml
 services:
@@ -1307,7 +1307,7 @@ Object instance of "%s" is forbidden to be passed to constructor
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule`](/packages/phpstan-rules/src/Rules/ForbiddenDependencyByTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule`](../src/Rules/ForbiddenDependencyByTypeRule.php)
 
 ```yaml
 services:
@@ -1355,7 +1355,7 @@ Function `"%s()"` cannot be used/left in the code
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule`](/packages/phpstan-rules/src/Rules/ForbiddenFuncCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule`](../src/Rules/ForbiddenFuncCallRule.php)
 
 ```yaml
 services:
@@ -1395,7 +1395,7 @@ class SomeClass
 
 Method call on new expression is not allowed.
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule`](/packages/phpstan-rules/src/Rules/ForbiddenMethodCallOnNewRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule`](../src/Rules/ForbiddenMethodCallOnNewRule.php)
 
 ```php
 (new SomeClass())->run();
@@ -1420,7 +1420,7 @@ Prevent using certain method calls on certains types
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule`](/packages/phpstan-rules/src/Rules/ForbiddenMethodCallOnTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule`](../src/Rules/ForbiddenMethodCallOnTypeRule.php)
 
 ```yaml
 services:
@@ -1467,7 +1467,7 @@ class SomeClass
 
 Method nor static call in foreach is not allowed. `Extract` expression to a new variable assign on line before
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](/packages/phpstan-rules/src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
 
 ```php
 foreach ($this->getData($arg) as $key => $item) {
@@ -1494,7 +1494,7 @@ foreach ($arg as $key => $item) {
 
 Method nor static call in `if()` or `elseif()` is not allowed. `Extract` expression to a new variable assign on line before
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`](/packages/phpstan-rules/src/Rules/ForbiddenMethodOrStaticCallInIfRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`](../src/Rules/ForbiddenMethodOrStaticCallInIfRule.php)
 
 ```php
 $someObject = new SomeClass();
@@ -1523,7 +1523,7 @@ if ($dataFirstArg === []) {
 
 Multiple class/interface/trait is not allowed in single file
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule`](/packages/phpstan-rules/src/Rules/ForbiddenMultipleClassLikeInOneFileRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule`](../src/Rules/ForbiddenMultipleClassLikeInOneFileRule.php)
 
 ```php
 class SomeClass
@@ -1559,7 +1559,7 @@ interface SomeInterface
 
 Decouple method call in `assert` to standalone line to make test core more readable
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule`](/packages/phpstan-rules/src/Rules/ForbiddenNestedCallInAssertMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule`](../src/Rules/ForbiddenNestedCallInAssertMethodCallRule.php)
 
 ```php
 use PHPUnit\Framework\TestCase;
@@ -1598,7 +1598,7 @@ final class SomeClass extends TestCase
 
 Nested foreach with empty statement is not allowed
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule`](/packages/phpstan-rules/src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule`](../src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
 
 ```php
 $collectedFileErrors = [];
@@ -1632,7 +1632,7 @@ foreach ($fileErrors as $fileError) {
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`](/packages/phpstan-rules/src/Rules/ForbiddenNewInMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`](../src/Rules/ForbiddenNewInMethodRule.php)
 
 ```yaml
 services:
@@ -1685,7 +1685,7 @@ class SomeRuleTest implements Rule
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`](/packages/phpstan-rules/src/Rules/ForbiddenNewOutsideFactoryServiceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`](../src/Rules/ForbiddenNewOutsideFactoryServiceRule.php)
 
 ```yaml
 services:
@@ -1740,7 +1740,7 @@ class SomeClass
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNodeRule`](/packages/phpstan-rules/src/Rules/ForbiddenNodeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNodeRule`](../src/Rules/ForbiddenNodeRule.php)
 
 ```yaml
 services:
@@ -1776,7 +1776,7 @@ Parameter "%s" cannot be nullable
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule`](/packages/phpstan-rules/src/Rules/ForbiddenNullableParameterRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule`](../src/Rules/ForbiddenNullableParameterRule.php)
 
 ```yaml
 services:
@@ -1829,7 +1829,7 @@ Return type "%s" cannot be nullable
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule`](/packages/phpstan-rules/src/Rules/ForbiddenNullableReturnRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule`](../src/Rules/ForbiddenNullableReturnRule.php)
 
 ```yaml
 services:
@@ -1882,7 +1882,7 @@ Private method in is not allowed here - it should only delegate to others. Decou
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`](/packages/phpstan-rules/src/Rules/ForbiddenPrivateMethodByTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`](../src/Rules/ForbiddenPrivateMethodByTypeRule.php)
 
 ```yaml
 services:
@@ -1943,7 +1943,7 @@ class SomeCommand extends Command
 
 Property with protected modifier is not allowed. Use interface contract method instead
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule`](/packages/phpstan-rules/src/Rules/ForbiddenProtectedPropertyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule`](../src/Rules/ForbiddenProtectedPropertyRule.php)
 
 ```php
 class SomeClass
@@ -1974,7 +1974,7 @@ class SomeClass implements RepositoryAwareInterface
 
 Cannot return include_once/require_once
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule`](/packages/phpstan-rules/src/Rules/ForbiddenReturnValueOfIncludeOnceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule`](../src/Rules/ForbiddenReturnValueOfIncludeOnceRule.php)
 
 ```php
 class SomeClass
@@ -2008,11 +2008,11 @@ class SomeClass
 
 Spread operator is not allowed.
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule`](/packages/phpstan-rules/src/Rules/ForbiddenSpreadOperatorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule`](../src/Rules/ForbiddenSpreadOperatorRule.php)
 
 ```php
 $args = [$firstValue, $secondValue];
-$message = sprintf('%s', ...$args);
+$message =  sprintf('%s', ...$args);
 ```
 
 :x:
@@ -2020,7 +2020,7 @@ $message = sprintf('%s', ...$args);
 <br>
 
 ```php
-$message = sprintf('%s', $firstValue, $secondValue);
+$message =  sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -2031,7 +2031,7 @@ $message = sprintf('%s', $firstValue, $secondValue);
 
 "Tests" namespace can be only in "/tests" directory
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule`](/packages/phpstan-rules/src/Rules/ForbiddenTestsNamespaceOutsideTestsDirectoryRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/ForbiddenTestsNamespaceOutsideTestsDirectoryRule.php)
 
 ```php
 // file path: "src/SomeClass.php
@@ -2065,7 +2065,7 @@ class SomeClass
 
 `$this` as argument is not allowed. Refactor method to service composition
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule`](/packages/phpstan-rules/src/Rules/ForbiddenThisArgumentRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule`](../src/Rules/ForbiddenThisArgumentRule.php)
 
 ```php
 $this->someService->process($this, ...);
@@ -2089,7 +2089,7 @@ Cognitive complexity of function/method must be under specific limit
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](/packages/phpstan-rules/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
 
 ```yaml
 services:
@@ -2146,7 +2146,7 @@ Class that implements specific interface, must use related class in `new SomeCla
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule`](/packages/phpstan-rules/src/Rules/IfImplementsInterfaceThenNewTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule`](../src/Rules/IfImplementsInterfaceThenNewTypeRule.php)
 
 ```yaml
 services:
@@ -2194,7 +2194,7 @@ Class must implement "%s" interface
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule`](/packages/phpstan-rules/src/Rules/IfNewTypeThenImplementInterfaceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule`](../src/Rules/IfNewTypeThenImplementInterfaceRule.php)
 
 ```yaml
 services:
@@ -2240,7 +2240,7 @@ class SomeRule implements ConfiguredRuleInterface
 
 Use controller class name based on route name instead
 
-- class: [`Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule`](/packages/phpstan-rules/src/Rules/InvokableControllerByRouteNamingRule.php)
+- class: [`Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule`](../src/Rules/InvokableControllerByRouteNamingRule.php)
 
 ```php
 use Symfony\Component\Routing\Annotation\Route;
@@ -2278,7 +2278,7 @@ final class LogoutController extends AbstractController
 
 `Constant` type should be "%s", but is "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`](/packages/phpstan-rules/src/Rules/MatchingTypeConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
 ```php
 class SomeClass
@@ -2312,7 +2312,7 @@ class SomeClass
 
 Use explicit interface contract or a service over unclear abstract methods
 
-- class: [`Symplify\PHPStanRules\Rules\NoAbstractMethodRule`](/packages/phpstan-rules/src/Rules/NoAbstractMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoAbstractMethodRule`](../src/Rules/NoAbstractMethodRule.php)
 
 ```php
 abstract class SomeClass
@@ -2344,7 +2344,7 @@ interface RunnableInterface
 
 Use explicit methods over array access on object
 
-- class: [`Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule`](/packages/phpstan-rules/src/Rules/NoArrayAccessOnObjectRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule`](../src/Rules/NoArrayAccessOnObjectRule.php)
 
 ```php
 class SomeClass
@@ -2378,7 +2378,7 @@ class SomeClass
 
 Use another value object over array with string-keys and objects, array<string, ValueObject>
 
-- class: [`Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule`](/packages/phpstan-rules/src/Rules/NoArrayStringObjectReturnRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule`](../src/Rules/NoArrayStringObjectReturnRule.php)
 
 ```php
 final class SomeClass
@@ -2427,7 +2427,7 @@ final class SomeClass
 
 No magic closure function call is allowed, use explicit class with method instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule`](/packages/phpstan-rules/src/Rules/NoBinaryOpCallCompareRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule`](../src/Rules/NoBinaryOpCallCompareRule.php)
 
 ```php
 return array_filter($items, function ($item) {
@@ -2454,7 +2454,7 @@ Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](../packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
 
 ```yaml
 services:
@@ -2469,12 +2469,10 @@ services:
 ↓
 
 ```php
-$this->runThis()
-    ->runThat();
+$this->runThis()->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :x:
@@ -2486,8 +2484,7 @@ $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :+1:
@@ -2498,7 +2495,7 @@ $fluentClass->one()
 
 Class "%s" with static method must have "Static" in its name it explicit
 
-- class: [`Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](/packages/phpstan-rules/src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
 
 ```php
 class SomeClass
@@ -2530,7 +2527,7 @@ class SomeStaticClass
 
 Do not use constructor in tests. Move to `setUp()` method
 
-- class: [`Symplify\PHPStanRules\Rules\NoConstructorInTestRule`](/packages/phpstan-rules/src/Rules/NoConstructorInTestRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoConstructorInTestRule`](../src/Rules/NoConstructorInTestRule.php)
 
 ```php
 final class SomeTest
@@ -2549,7 +2546,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    protected function setUp()
+    public function setUp()
     {
         // ...
     }
@@ -2564,7 +2561,7 @@ final class SomeTest
 
 Instead of container injection, use specific service
 
-- class: [`Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule`](/packages/phpstan-rules/src/Rules/NoContainerInjectionInConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule`](../src/Rules/NoContainerInjectionInConstructorRule.php)
 
 ```php
 class SomeClass
@@ -2598,7 +2595,7 @@ class SomeClass
 
 Use custom exceptions instead of native "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\NoDefaultExceptionRule`](/packages/phpstan-rules/src/Rules/NoDefaultExceptionRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoDefaultExceptionRule`](../src/Rules/NoDefaultExceptionRule.php)
 
 ```php
 throw new RuntimeException('...');
@@ -2622,7 +2619,7 @@ throw new FileNotFoundException('...');
 
 Parameter "%s" cannot have default value
 
-- class: [`Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule`](/packages/phpstan-rules/src/Rules/NoDefaultParameterValueRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
 
 ```php
 class SomeClass
@@ -2654,7 +2651,7 @@ class SomeClass
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
 
-- class: [`Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule`](/packages/phpstan-rules/src/Rules/NoDuplicatedShortClassNameRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
 
 ```php
 namespace App;
@@ -2696,7 +2693,7 @@ class AnotherClass
 
 Use explicit names over dynamic ones
 
-- class: [`Symplify\PHPStanRules\Rules\NoDynamicNameRule`](/packages/phpstan-rules/src/Rules/NoDynamicNameRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoDynamicNameRule`](../src/Rules/NoDynamicNameRule.php)
 
 ```php
 class SomeClass
@@ -2730,7 +2727,7 @@ class SomeClass
 
 Use non-dynamic property on static call
 
-- class: [`Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`](/packages/phpstan-rules/src/Rules/NoDynamicPropertyOnStaticCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`](../src/Rules/NoDynamicPropertyOnStaticCallRule.php)
 
 ```php
 class SomeClass
@@ -2764,7 +2761,7 @@ class SomeClass
 
 Do not use "else/elseif". Refactor to early return
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
 
 ```php
 if (...) {
@@ -2794,7 +2791,7 @@ return 2;
 
 There should be no empty class
 
-- class: [`Symplify\PHPStanRules\Rules\NoEmptyClassRule`](/packages/phpstan-rules/src/Rules/NoEmptyClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoEmptyClassRule`](../src/Rules/NoEmptyClassRule.php)
 
 ```php
 class SomeClass
@@ -2823,7 +2820,7 @@ class SomeClass
 
 Do not use factory/method call in constructor. Put factory in config and get service with dependency injection
 
-- class: [`Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule`](/packages/phpstan-rules/src/Rules/NoFactoryInConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule`](../src/Rules/NoFactoryInConstructorRule.php)
 
 ```php
 class SomeClass
@@ -2861,7 +2858,7 @@ class SomeClass
 
 Separate function `"%s()"` in method call to standalone row to improve readability
 
-- class: [`Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule`](/packages/phpstan-rules/src/Rules/NoFuncCallInMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule`](../src/Rules/NoFuncCallInMethodCallRule.php)
 
 ```php
 final class SomeClass
@@ -2900,7 +2897,7 @@ final class SomeClass
 
 Do not use `"$entityManager->getRepository()"` outside of the constructor of repository service or `setUp()` method in test case
 
-- class: [`Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`](/packages/phpstan-rules/src/Rules/NoGetRepositoryOutsideConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
 
 ```php
 final class SomeController
@@ -2936,7 +2933,7 @@ Do not inherit from abstract class, better use composition
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\NoInheritanceRule`](/packages/phpstan-rules/src/Rules/NoInheritanceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoInheritanceRule`](../src/Rules/NoInheritanceRule.php)
 
 ```yaml
 services:
@@ -2987,7 +2984,7 @@ class SomeClass
 
 Use constructor on final classes, instead of property injection
 
-- class: [`Symplify\PHPStanRules\Rules\NoInjectOnFinalRule`](/packages/phpstan-rules/src/Rules/NoInjectOnFinalRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoInjectOnFinalRule`](../src/Rules/NoInjectOnFinalRule.php)
 
 ```php
 final class SomePresenter
@@ -3021,7 +3018,7 @@ abstract class SomePresenter
 
 Use local named constant instead of inline string for regex to explain meaning by constant name
 
-- class: [`Symplify\PHPStanRules\Rules\NoInlineStringRegexRule`](/packages/phpstan-rules/src/Rules/NoInlineStringRegexRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoInlineStringRegexRule`](../src/Rules/NoInlineStringRegexRule.php)
 
 ```php
 class SomeClass
@@ -3060,7 +3057,7 @@ class SomeClass
 
 Use default null value and nullable compare instead of isset on object
 
-- class: [`Symplify\PHPStanRules\Rules\NoIssetOnObjectRule`](/packages/phpstan-rules/src/Rules/NoIssetOnObjectRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoIssetOnObjectRule`](../src/Rules/NoIssetOnObjectRule.php)
 
 ```php
 class SomeClass
@@ -3068,7 +3065,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if (isset($object)) {
@@ -3089,7 +3086,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if ($object !== null) {
@@ -3107,7 +3104,7 @@ class SomeClass
 
 No magic closure function call is allowed, use explicit class with method instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoMagicClosureRule`](/packages/phpstan-rules/src/Rules/NoMagicClosureRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoMagicClosureRule`](../src/Rules/NoMagicClosureRule.php)
 
 ```php
 (static function () {
@@ -3137,7 +3134,7 @@ final class HelpfulName
 
 Do not use `@method` tag in class docblock
 
-- class: [`Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`](/packages/phpstan-rules/src/Rules/NoMethodTagInClassDocblockRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`](../src/Rules/NoMethodTagInClassDocblockRule.php)
 
 ```php
 /**
@@ -3174,7 +3171,7 @@ class SomeClass
 
 The path "%s" was not found
 
-- class: [`Symplify\PHPStanRules\Rules\NoMissingDirPathRule`](/packages/phpstan-rules/src/Rules/NoMissingDirPathRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoMissingDirPathRule`](../src/Rules/NoMissingDirPathRule.php)
 
 ```php
 class SomeClass
@@ -3208,7 +3205,7 @@ class SomeClass
 
 Use void instead of modify and return self object
 
-- class: [`Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule`](/packages/phpstan-rules/src/Rules/NoModifyAndReturnSelfObjectRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule`](../src/Rules/NoModifyAndReturnSelfObjectRule.php)
 
 ```php
 final class SomeClass
@@ -3243,7 +3240,7 @@ final class SomeClass
 
 Use value object over multi array assign
 
-- class: [`Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`](/packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`](../src/Rules/NoMultiArrayAssignRule.php)
 
 ```php
 final class SomeClass
@@ -3280,7 +3277,7 @@ final class SomeClass
 
 Use separate function calls with readable variable names
 
-- class: [`Symplify\PHPStanRules\Rules\NoNestedFuncCallRule`](/packages/phpstan-rules/src/Rules/NoNestedFuncCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNestedFuncCallRule`](../src/Rules/NoNestedFuncCallRule.php)
 
 ```php
 class SomeClass
@@ -3315,7 +3312,7 @@ class SomeClass
 
 Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule`](/packages/phpstan-rules/src/Rules/NoNetteArrayAccessInControlRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule`](../src/Rules/NoNetteArrayAccessInControlRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3353,7 +3350,7 @@ class SomeClass extends Presenter
 
 Avoid double template variable override of "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule`](/packages/phpstan-rules/src/Rules/NoNetteDoubleTemplateAssignRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule`](../src/Rules/NoNetteDoubleTemplateAssignRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3392,7 +3389,7 @@ class SomeClass extends Presenter
 
 Use either `__construct()` or injects, not both
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](/packages/phpstan-rules/src/Rules/NoNetteInjectAndConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
 
 ```php
 class SomeClass
@@ -3435,7 +3432,7 @@ class SomeClass
 
 Passed "%s" variable that are not used in the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule`](/packages/phpstan-rules/src/Rules/NoNetteRenderMissingVariableRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule`](../src/Rules/NoNetteRenderMissingVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3445,7 +3442,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'non_existing_variable' => 'value',
+            'non_existing_variable' => 'value'
         ]);
     }
 }
@@ -3463,7 +3460,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value',
+            'existing_variable' => 'value'
         ]);
     }
 }
@@ -3477,7 +3474,7 @@ final class SomeControl extends Control
 
 Missing "%s" variable that are not passed to the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule`](/packages/phpstan-rules/src/Rules/NoNetteRenderUnusedVariableRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule`](../src/Rules/NoNetteRenderUnusedVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3503,7 +3500,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value',
+            'existing_variable' => 'value'
         ]);
     }
 }
@@ -3517,7 +3514,7 @@ final class SomeControl extends Control
 
 Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule`](/packages/phpstan-rules/src/Rules/NoNetteTemplateVariableReadRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule`](../src/Rules/NoNetteTemplateVariableReadRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3557,7 +3554,7 @@ class SomeClass extends Presenter
 
 Use decoupled factory service to create "%s" object
 
-- class: [`Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule`](/packages/phpstan-rules/src/Rules/NoNewOutsideFactoryRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule`](../src/Rules/NoNewOutsideFactoryRule.php)
 
 ```php
 final class SomeClass
@@ -3591,7 +3588,7 @@ final class SomeFactory
 
 Use required typed property over of nullable array property
 
-- class: [`Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule`](/packages/phpstan-rules/src/Rules/NoNullableArrayPropertyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule`](../src/Rules/NoNullableArrayPropertyRule.php)
 
 ```php
 final class SomeClass
@@ -3619,7 +3616,7 @@ final class SomeClass
 
 Use required typed property over of nullable property
 
-- class: [`Symplify\PHPStanRules\Rules\NoNullablePropertyRule`](/packages/phpstan-rules/src/Rules/NoNullablePropertyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoNullablePropertyRule`](../src/Rules/NoNullablePropertyRule.php)
 
 ```php
 final class SomeClass
@@ -3647,7 +3644,7 @@ final class SomeClass
 
 Do not call parent method if parent method is empty
 
-- class: [`Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule`](/packages/phpstan-rules/src/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule.php)
 
 ```php
 class ParentClass
@@ -3694,7 +3691,7 @@ class SomeClass extends ParentClass
 
 Do not call parent method if no override process
 
-- class: [`Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule`](/packages/phpstan-rules/src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule`](../src/Rules/NoParentMethodCallOnNoOverrideProcessRule.php)
 
 ```php
 class SomeClass extends Printer
@@ -3724,7 +3721,7 @@ class SomeClass extends Printer
 
 Post operation are forbidden, as they make 2 values at the same line. Use pre instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoPostIncPostDecRule`](/packages/phpstan-rules/src/Rules/NoPostIncPostDecRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoPostIncPostDecRule`](../src/Rules/NoPostIncPostDecRule.php)
 
 ```php
 class SomeClass
@@ -3762,12 +3759,12 @@ class SomeClass
 
 Instead of protected element in final class use private element or contract method
 
-- class: [`Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule`](/packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule`](../src/Rules/NoProtectedElementInFinalClassRule.php)
 
 ```php
 final class SomeClass
 {
-    private function run()
+    protected function run()
     {
     }
 }
@@ -3794,7 +3791,7 @@ final class SomeClass
 
 Use explicit return value over magic &reference
 
-- class: [`Symplify\PHPStanRules\Rules\NoReferenceRule`](/packages/phpstan-rules/src/Rules/NoReferenceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoReferenceRule`](../src/Rules/NoReferenceRule.php)
 
 ```php
 class SomeClass
@@ -3827,7 +3824,7 @@ class SomeClass
 
 Use value object over return of values
 
-- class: [`Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule`](/packages/phpstan-rules/src/Rules/NoReturnArrayVariableListRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule`](../src/Rules/NoReturnArrayVariableListRule.php)
 
 ```php
 class ReturnVariables
@@ -3861,7 +3858,7 @@ final class ReturnVariables
 
 Do not use scalar or array as constructor parameter. Use "Symplify\PackageBuilder\Parameter\ParameterProvider" service instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`](/packages/phpstan-rules/src/Rules/NoScalarAndArrayConstructorParameterRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`](../src/Rules/NoScalarAndArrayConstructorParameterRule.php)
 
 ```php
 final class SomeClass
@@ -3905,7 +3902,7 @@ final class SomeClass
 
 Setter `"%s()"` is not allowed. Use constructor injection or behavior name instead, e.g. `"changeName()"`
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](../packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
 
 ```php
 final class SomeClass
@@ -3939,7 +3936,7 @@ final class SomeClass
 
 Do not use setter on a service
 
-- class: [`Symplify\PHPStanRules\Rules\NoSetterOnServiceRule`](/packages/phpstan-rules/src/Rules/NoSetterOnServiceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoSetterOnServiceRule`](../src/Rules/NoSetterOnServiceRule.php)
 
 ```php
 class SomeService
@@ -3973,7 +3970,7 @@ Do not name "%s", shorter than %d chars
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
 
 ```yaml
 services:
@@ -4010,7 +4007,7 @@ function isClass()
 
 Do not use static property
 
-- class: [`Symplify\PHPStanRules\Rules\NoStaticPropertyRule`](/packages/phpstan-rules/src/Rules/NoStaticPropertyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoStaticPropertyRule`](../src/Rules/NoStaticPropertyRule.php)
 
 ```php
 final class SomeClass
@@ -4038,7 +4035,7 @@ final class SomeClass
 
 Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".
 
-- class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](/packages/phpstan-rules/src/Rules/NoSuffixValueObjectClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
 
 ```php
 class SomeValueObject
@@ -4072,7 +4069,7 @@ class Some
 
 Do not use trait, `extract` to a service and dependency injection instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoTraitRule`](/packages/phpstan-rules/src/Rules/NoTraitRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoTraitRule`](../src/Rules/NoTraitRule.php)
 
 ```php
 trait SomeTrait
@@ -4106,7 +4103,7 @@ Allow only one of methods to be implemented on type
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule`](/packages/phpstan-rules/src/Rules/OnlyOneClassMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule`](../src/Rules/OnlyOneClassMethodRule.php)
 
 ```yaml
 services:
@@ -4158,7 +4155,7 @@ Use defined constant %s::%s over string %s
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferConstantValueRule`](/packages/phpstan-rules/src/Rules/PreferConstantValueRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferConstantValueRule`](../src/Rules/PreferConstantValueRule.php)
 
 ```yaml
 services:
@@ -4210,7 +4207,7 @@ Use attribute instead of "%s" annotation
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule`](/packages/phpstan-rules/src/Rules/PreferredAttributeOverAnnotationRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule`](../src/Rules/PreferredAttributeOverAnnotationRule.php)
 
 ```yaml
 services:
@@ -4264,7 +4261,7 @@ Instead of "%s" class/interface use "%s"
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredClassRule`](/packages/phpstan-rules/src/Rules/PreferredClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredClassRule`](../src/Rules/PreferredClassRule.php)
 
 ```yaml
 services:
@@ -4314,7 +4311,7 @@ Use `"%s->%s()"` method call over `"%s()"` func call
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`](/packages/phpstan-rules/src/Rules/PreferredMethodCallOverFuncCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`](../src/Rules/PreferredMethodCallOverFuncCallRule.php)
 
 ```yaml
 services:
@@ -4371,7 +4368,7 @@ Use "%s->%s('value')" method call over `"%s->%s()` === 'value'" comparison
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule`](/packages/phpstan-rules/src/Rules/PreferredMethodCallOverIdenticalCompareRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule`](../src/Rules/PreferredMethodCallOverIdenticalCompareRule.php)
 
 ```yaml
 services:
@@ -4402,6 +4399,8 @@ class SomeClass
 <br>
 
 ```php
+use Nette\Utils\Strings;
+
 class SomeClass
 {
     public function run($value)
@@ -4420,7 +4419,7 @@ class SomeClass
 
 Code configured at `setUp()` cannot be used in data provider. Move it to `test()` method
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`](/packages/phpstan-rules/src/Rules/PreferredRawDataInTestDataProviderRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`](../src/Rules/PreferredRawDataInTestDataProviderRule.php)
 
 ```php
 final class UseDataFromSetupInTestDataProviderTest extends TestCase
@@ -4458,9 +4457,9 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    private function setUp()
+    protected function setUp()
     {
-        $this->obj = new stdClass();
+        $this->obj = new stdClass;
     }
 
     public function provideFoo()
@@ -4489,7 +4488,7 @@ Use `"%s::%s()"` static call over `"%s()"` func call
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`](/packages/phpstan-rules/src/Rules/PreferredStaticCallOverFuncCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`](../src/Rules/PreferredStaticCallOverFuncCallRule.php)
 
 ```yaml
 services:
@@ -4539,7 +4538,7 @@ class SomeClass
 
 Abstract class name "%s" must be prefixed with "Abstract"
 
-- class: [`Symplify\PHPStanRules\Rules\PrefixAbstractClassRule`](/packages/phpstan-rules/src/Rules/PrefixAbstractClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PrefixAbstractClassRule`](../src/Rules/PrefixAbstractClassRule.php)
 
 ```php
 abstract class SomeClass
@@ -4565,7 +4564,7 @@ abstract class AbstractSomeClass
 
 Set param value is overriden. Merge it to previous set above
 
-- class: [`Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule`](/packages/phpstan-rules/src/Rules/PreventDoubleSetParameterRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule`](../src/Rules/PreventDoubleSetParameterRule.php)
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -4602,7 +4601,7 @@ Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule`](/packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule`](../src/Rules/PreventDuplicateClassMethodRule.php)
 
 ```yaml
 services:
@@ -4659,7 +4658,7 @@ class SomeClass
 
 Change `"%s()"` method visibility to "%s" to respect parent method visibility.
 
-- class: [`Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule`](/packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php)
+- class: [`Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule`](../src/Rules/PreventParentMethodVisibilityOverrideRule.php)
 
 ```php
 class SomeParentClass
@@ -4705,7 +4704,7 @@ class SomeClass
 
 Name your constant with "_REGEX" suffix, instead of "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule`](/packages/phpstan-rules/src/Rules/RegexSuffixInRegexConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule`](../src/Rules/RegexSuffixInRegexConstantRule.php)
 
 ```php
 class SomeClass
@@ -4743,14 +4742,14 @@ class SomeClass
 
 Attribute must have all names explicitly defined
 
-- class: [`Symplify\PHPStanRules\Rules\RequireAttributeNameRule`](/packages/phpstan-rules/src/Rules/RequireAttributeNameRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireAttributeNameRule`](../src/Rules/RequireAttributeNameRule.php)
 
 ```php
 use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -4766,7 +4765,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
@@ -4781,7 +4780,7 @@ class SomeController
 
 Parent class has defined generic types, so they must be defined here too
 
-- class: [`Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule`](/packages/phpstan-rules/src/Rules/RequireChildClassGenericTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule`](../src/Rules/RequireChildClassGenericTypeRule.php)
 
 ```php
 final class SomeClass extends AbstractParentWithGeneric
@@ -4827,7 +4826,7 @@ Required specific class-string types in defined methods
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule`](/packages/phpstan-rules/src/Rules/RequireClassTypeInClassMethodByTypeRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule`](../src/Rules/RequireClassTypeInClassMethodByTypeRule.php)
 
 ```yaml
 services:
@@ -4884,7 +4883,7 @@ Argument "%s" must be a constant
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule`](/packages/phpstan-rules/src/Rules/RequireConstantInAttributeArgumentRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule`](../src/Rules/RequireConstantInAttributeArgumentRule.php)
 
 ```yaml
 services:
@@ -4937,7 +4936,7 @@ Parameter argument on position %d must use %s constant
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`](/packages/phpstan-rules/src/Rules/RequireConstantInMethodCallPositionRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`](../src/Rules/RequireConstantInMethodCallPositionRule.php)
 
 ```yaml
 services:
@@ -4989,7 +4988,7 @@ The `"%s()"` method must use data provider
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`](/packages/phpstan-rules/src/Rules/RequireDataProviderTestMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
 
 ```yaml
 services:
@@ -5041,7 +5040,7 @@ class SomeRectorTestCase extends RectorTestCase
 
 Use invokable controller with `__invoke()` method instead of named action method
 
-- class: [`Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`](/packages/phpstan-rules/src/Rules/RequireInvokableControllerRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`](../src/Rules/RequireInvokableControllerRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -5087,7 +5086,7 @@ Method call argument on position %d must use constant (e.g. "Option::NAME") over
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`](/packages/phpstan-rules/src/Rules/RequireMethodCallArgumentConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`](../src/Rules/RequireMethodCallArgumentConstantRule.php)
 
 ```yaml
 services:
@@ -5139,7 +5138,7 @@ New expression argument on position %d must use constant over value
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`](/packages/phpstan-rules/src/Rules/RequireNewArgumentConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`](../src/Rules/RequireNewArgumentConstantRule.php)
 
 ```yaml
 services:
@@ -5178,7 +5177,7 @@ $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 
 "%s" in `sprintf()` format must be quoted
 
-- class: [`Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule`](/packages/phpstan-rules/src/Rules/RequireQuoteStringValueSprintfRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule`](../src/Rules/RequireQuoteStringValueSprintfRule.php)
 
 ```php
 class SomeClass
@@ -5212,7 +5211,7 @@ class SomeClass
 
 Skipped tested file must start with "Skip" prefix
 
-- class: [`Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`](/packages/phpstan-rules/src/Rules/RequireSkipPrefixForRuleSkippedFixtureRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`](../src/Rules/RequireSkipPrefixForRuleSkippedFixtureRule.php)
 
 ```php
 use PHPStan\Testing\RuleTestCase;
@@ -5280,7 +5279,7 @@ Use quoted string in constructor "new `%s()"` argument on position %d instead of
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule`](/packages/phpstan-rules/src/Rules/RequireStringArgumentInConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule`](../src/Rules/RequireStringArgumentInConstructorRule.php)
 
 ```yaml
 services:
@@ -5329,7 +5328,7 @@ Use quoted string in method call `"%s()"` argument on position %d instead of "::
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule`](/packages/phpstan-rules/src/Rules/RequireStringArgumentInMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule`](../src/Rules/RequireStringArgumentInMethodCallRule.php)
 
 ```yaml
 services:
@@ -5377,7 +5376,7 @@ class AnotherClass
 
 Regex must use string named capture groups instead of numeric
 
-- class: [`Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`](/packages/phpstan-rules/src/Rules/RequireStringRegexMatchKeyRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`](../src/Rules/RequireStringRegexMatchKeyRule.php)
 
 ```php
 use Nette\Utils\Strings;
@@ -5425,7 +5424,7 @@ class SomeClass
 
 Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
 
-- class: [`Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule`](/packages/phpstan-rules/src/Rules/RequireTemplateInNetteControlRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule`](../src/Rules/RequireTemplateInNetteControlRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -5462,7 +5461,7 @@ final class SomeControl extends Control
 
 Use "$this-><method>()" instead of "self::<method>()" to call local method
 
-- class: [`Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule`](/packages/phpstan-rules/src/Rules/RequireThisCallOnLocalMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule`](../src/Rules/RequireThisCallOnLocalMethodRule.php)
 
 ```php
 class SomeClass
@@ -5504,7 +5503,7 @@ class SomeClass
 
 Use "$this-><method>()" instead of "parent::<method>()" unless in the same named method
 
-- class: [`Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule`](/packages/phpstan-rules/src/Rules/RequireThisOnParentMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule`](../src/Rules/RequireThisOnParentMethodCallRule.php)
 
 ```php
 class SomeParentClass
@@ -5552,7 +5551,7 @@ class SomeClass extends SomeParentClass
 
 Class name starting with "Abstract" must have an `abstract` keyword
 
-- class: [`Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule`](/packages/phpstan-rules/src/Rules/RequiredAbstractClassKeywordRule.php)
+- class: [`Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule`](../src/Rules/RequiredAbstractClassKeywordRule.php)
 
 ```php
 class AbstractClass
@@ -5580,7 +5579,7 @@ Class "%s" is missing `@see` annotation with test case class reference
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule`](/packages/phpstan-rules/src/Rules/SeeAnnotationToTestRule.php)
+- class: [`Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule`](../src/Rules/SeeAnnotationToTestRule.php)
 
 ```yaml
 services:
@@ -5623,7 +5622,7 @@ Make specific service suffix to use similar value object names for configuring i
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule`](/packages/phpstan-rules/src/Rules/ServiceAndValueObjectHaveSameStartsRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule`](../src/Rules/ServiceAndValueObjectHaveSameStartsRule.php)
 
 ```yaml
 services:
@@ -5644,7 +5643,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[new Another()]]);
+        ->call('configure', [[
+            new Another()
+        ]]);
 };
 ```
 
@@ -5659,7 +5660,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[new Some()]]);
+        ->call('configure', [[
+            new Some()
+        ]]);
 };
 ```
 
@@ -5673,7 +5676,7 @@ Do not indent more than %dx in class methods
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`](../packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php)
 
 ```yaml
 services:
@@ -5720,7 +5723,7 @@ function someFunction()
 
 Use single inject*() class method per class
 
-- class: [`Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule`](/packages/phpstan-rules/src/Rules/SingleNetteInjectMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule`](../src/Rules/SingleNetteInjectMethodRule.php)
 
 ```php
 class SomeClass
@@ -5752,8 +5755,10 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(Type $type, AnotherType $anotherType)
-    {
+    public function injectSomeClass(
+        Type $type,
+        AnotherType $anotherType
+    ) {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
@@ -5768,7 +5773,7 @@ class SomeClass
 
 Interface name "%s" must be suffixed with "Interface"
 
-- class: [`Symplify\PHPStanRules\Rules\SuffixInterfaceRule`](/packages/phpstan-rules/src/Rules/SuffixInterfaceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\SuffixInterfaceRule`](../src/Rules/SuffixInterfaceRule.php)
 
 ```php
 interface SomeClass
@@ -5794,7 +5799,7 @@ interface SomeInterface
 
 Trait name "%s" must be suffixed with "Trait"
 
-- class: [`Symplify\PHPStanRules\Rules\SuffixTraitRule`](/packages/phpstan-rules/src/Rules/SuffixTraitRule.php)
+- class: [`Symplify\PHPStanRules\Rules\SuffixTraitRule`](../src/Rules/SuffixTraitRule.php)
 
 ```php
 trait SomeClass
@@ -5822,7 +5827,7 @@ new <class> is limited to %d "new <class>(new <class>))" nesting to each other. 
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`](/packages/phpstan-rules/src/Rules/TooDeepNewClassNestingRule.php)
+- class: [`Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`](../src/Rules/TooDeepNewClassNestingRule.php)
 
 ```yaml
 services:
@@ -5836,7 +5841,11 @@ services:
 ↓
 
 ```php
-$someObject = new A(new B(new C()));
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
 ```
 
 :x:
@@ -5858,7 +5867,7 @@ $someObject = new A($firstObject);
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/TooLongClassLikeRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`](../packages/object-calisthenics/src/Rules/TooLongClassLikeRule.php)
 
 ```yaml
 services:
@@ -5909,7 +5918,7 @@ class SomeClass
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/TooLongFunctionLikeRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`](../packages/object-calisthenics/src/Rules/TooLongFunctionLikeRule.php)
 
 ```yaml
 services:
@@ -5954,7 +5963,7 @@ Variable "$%s" is too long with %d chars. Narrow it under %d chars
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\TooLongVariableRule`](/packages/phpstan-rules/src/Rules/TooLongVariableRule.php)
+- class: [`Symplify\PHPStanRules\Rules\TooLongVariableRule`](../src/Rules/TooLongVariableRule.php)
 
 ```yaml
 services:
@@ -6001,7 +6010,7 @@ Method has too many methods %d. Try narrowing it down under %d
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/TooManyMethodsRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`](../packages/object-calisthenics/src/Rules/TooManyMethodsRule.php)
 
 ```yaml
 services:
@@ -6050,7 +6059,7 @@ Class has too many properties %d. Try narrowing it down under %d
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`](/packages/phpstan-rules/packages/object-calisthenics/src/Rules/TooManyPropertiesRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`](../packages/object-calisthenics/src/Rules/TooManyPropertiesRule.php)
 
 ```yaml
 services:
@@ -6095,7 +6104,7 @@ class SomeClass
 
 `Constant` "%s" must be uppercase
 
-- class: [`Symplify\PHPStanRules\Rules\UppercaseConstantRule`](/packages/phpstan-rules/src/Rules/UppercaseConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\UppercaseConstantRule`](../src/Rules/UppercaseConstantRule.php)
 
 ```php
 final class SomeClass
@@ -6123,7 +6132,7 @@ final class SomeClass
 
 Nette `@inject` annotation must be valid
 
-- class: [`Symplify\PHPStanRules\Rules\ValidNetteInjectRule`](/packages/phpstan-rules/src/Rules/ValidNetteInjectRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ValidNetteInjectRule`](../src/Rules/ValidNetteInjectRule.php)
 
 ```php
 class SomeClass

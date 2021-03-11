@@ -102,7 +102,6 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
