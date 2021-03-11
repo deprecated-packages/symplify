@@ -6,7 +6,7 @@ Some description
 
 :wrench: **configure it!**
 
-- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\Configurable\SomeConfiguredFixer`](/Fixture/PHPCSFixer/Configurable/SomeConfiguredFixer.php)
+- class: [`Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\Configurable\SomeConfiguredFixer`](Fixture/PHPCSFixer/Configurable/SomeConfiguredFixer.php)
 
 ```php
 <?php
