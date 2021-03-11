@@ -96,7 +96,10 @@ final class SmartFileInfo extends SplFileInfo
             ));
         }
 
-        $relativeFilePath = $this->smartFileSystem->makePathRelative($this->getNormalizedRealPath(), (string) realpath($directory));
+        $relativeFilePath = $this->smartFileSystem->makePathRelative(
+            $this->getNormalizedRealPath(),
+            (string) realpath($directory)
+        );
         return rtrim($relativeFilePath, '/');
     }
 
