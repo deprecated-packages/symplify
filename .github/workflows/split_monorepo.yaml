@@ -3,7 +3,7 @@ name: Split Monorepo Dev-Master
 on:
     push:
         branches:
-            - master
+            - main
 
 jobs:
     provide_packages_json:
