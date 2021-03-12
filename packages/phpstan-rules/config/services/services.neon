@@ -9,7 +9,6 @@ services:
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
-    - Symplify\PHPStanRules\VariableAsParamAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
     - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
@@ -55,7 +54,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
 
-    - Symplify\PHPStanRules\TypeAnalyzer\ScalarTypeAnalyser
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\ConstantTypeAnalyzer

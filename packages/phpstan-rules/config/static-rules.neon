@@ -25,10 +25,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\NoAbstractMethodRule
         tags: [phpstan.rules.rule]
 

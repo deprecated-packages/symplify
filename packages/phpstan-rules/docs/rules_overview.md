@@ -1,4 +1,4 @@
-# 150 Rules Overview
+# 149 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -987,7 +987,8 @@ Anonymous class is not allowed.
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](../src/Rules/ForbiddenAnonymousClassRule.php)
 
 ```php
-new class {};
+new class() {
+};
 ```
 
 :x:
@@ -997,10 +998,9 @@ new class {};
 ```php
 class SomeClass
 {
-
 }
 
-new SomeClass;
+new SomeClass();
 ```
 
 :+1:
@@ -2012,7 +2012,7 @@ Spread operator is not allowed.
 
 ```php
 $args = [$firstValue, $secondValue];
-$message =  sprintf('%s', ...$args);
+$message = sprintf('%s', ...$args);
 ```
 
 :x:
@@ -2020,7 +2020,7 @@ $message =  sprintf('%s', ...$args);
 <br>
 
 ```php
-$message =  sprintf('%s', $firstValue, $secondValue);
+$message = sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -2469,10 +2469,12 @@ services:
 ↓
 
 ```php
-$this->runThis()->runThat();
+$this->runThis()
+    ->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
+$fluentClass->one()
+    ->two();
 ```
 
 :x:
@@ -2484,7 +2486,8 @@ $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
+$fluentClass->one()
+    ->two();
 ```
 
 :+1:
@@ -2546,7 +2549,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    public function setUp()
+    protected function setUp()
     {
         // ...
     }
@@ -3065,7 +3068,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if (isset($object)) {
@@ -3086,7 +3089,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if ($object !== null) {
@@ -3442,7 +3445,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'non_existing_variable' => 'value'
+            'non_existing_variable' => 'value',
         ]);
     }
 }
@@ -3460,7 +3463,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value'
+            'existing_variable' => 'value',
         ]);
     }
 }
@@ -3500,7 +3503,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value'
+            'existing_variable' => 'value',
         ]);
     }
 }
@@ -3764,7 +3767,7 @@ Instead of protected element in final class use private element or contract meth
 ```php
 final class SomeClass
 {
-    protected function run()
+    private function run()
     {
     }
 }
@@ -3846,50 +3849,6 @@ final class ReturnVariables
     public function run($value, $value2): ValueObject
     {
         return new ValueObject($value, $value2);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoScalarAndArrayConstructorParameterRule
-
-Do not use scalar or array as constructor parameter. Use "Symplify\PackageBuilder\Parameter\ParameterProvider" service instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoScalarAndArrayConstructorParameterRule`](../src/Rules/NoScalarAndArrayConstructorParameterRule.php)
-
-```php
-final class SomeClass
-{
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    public function __construct(string $outputDirectory)
-    {
-        $this->outputDirectory = $outputDirectory;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->outputDirectory = $parameterProvider->getStringParam(...);
     }
 }
 ```
@@ -4399,8 +4358,6 @@ class SomeClass
 <br>
 
 ```php
-use Nette\Utils\Strings;
-
 class SomeClass
 {
     public function run($value)
@@ -4457,9 +4414,9 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    protected function setUp()
+    private function setUp()
     {
-        $this->obj = new stdClass;
+        $this->obj = new stdClass();
     }
 
     public function provideFoo()
@@ -4749,7 +4706,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4765,7 +4722,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }
@@ -5643,9 +5600,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[
-            new Another()
-        ]]);
+        ->call('configure', [[new Another()]]);
 };
 ```
 
@@ -5660,9 +5615,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[
-            new Some()
-        ]]);
+        ->call('configure', [[new Some()]]);
 };
 ```
 
@@ -5755,10 +5708,8 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(
-        Type $type,
-        AnotherType $anotherType
-    ) {
+    public function injectSomeClass(Type $type, AnotherType $anotherType)
+    {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
@@ -5841,11 +5792,7 @@ services:
 ↓
 
 ```php
-$someObject = new A(
-    new B(
-        new C()
-    )
-);
+$someObject = new A(new B(new C()));
 ```
 
 :x:
