@@ -94,6 +94,7 @@ CODE_SAMPLE
                 'count',
                 'trim',
                 'getcwd',
+                'get_class',
                 'array_keys',
                 'constant',
                 'substr_count',
