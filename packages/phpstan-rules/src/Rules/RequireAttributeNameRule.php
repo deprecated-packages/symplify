@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Attribute;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -88,7 +89,7 @@ CODE_SAMPLE
         $attrs = $this->attrFinder->extra($node);
 
         foreach ($attrs as $attr) {
-            if ($this->simpleNameResolver->isName($attr->name, 'Attribute')) {
+            if ($this->simpleNameResolver->isName($attr->name, Attribute::class)) {
                 continue;
             }
 

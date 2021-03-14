@@ -89,7 +89,6 @@ use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
 
 $phpDocNodeTraverser = new PhpDocNodeTraverser();
 
-
 $node = // ...any node;
 $docContent = '/** @var string */';
 
