@@ -15,6 +15,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ThrowsTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ArrayShapeItemNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
@@ -82,6 +83,13 @@ final class PhpDocNodeTraverser
             foreach ($typeNode->items as $key => $itemNode) {
                 $typeNode->items[$key] = $this->traverseTypeNode($itemNode, $docContent, $callable);
             }
+
+            return $typeNode;
+        }
+
+
+        if ($typeNode instanceof ArrayShapeItemNode) {
+            $typeNode->valueType = $this->traverseTypeNode($typeNode->valueType, $docContent, $callable);
         }
 
         if ($typeNode instanceof GenericTypeNode) {
