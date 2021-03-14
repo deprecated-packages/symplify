@@ -10,12 +10,12 @@
         "symfony/dependency-injection": "^5.2",
         "symfony/console": "^4.4|^5.2",
         "nette/robot-loader": "^3.3",
-        "symplify/symplify-kernel": "^9.2.8",
-        "symplify/markdown-diff": "^9.2.8",
-        "symplify/package-builder": "^9.2.8",
+        "symplify/symplify-kernel": "^9.3",
+        "symplify/markdown-diff": "^9.3",
+        "symplify/package-builder": "^9.3",
         "nette/neon": "^3.2",
-        "symplify/php-config-printer": "^9.2.8",
-        "symplify/smart-file-system": "^9.2.8"
+        "symplify/php-config-printer": "^9.3",
+        "symplify/smart-file-system": "^9.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
