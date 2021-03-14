@@ -52,6 +52,10 @@ final class PhpDocNodeTraverser
             return $this->traverseMethodTagValueNode($node, $docContent, $callable);
         }
 
+        if ($node instanceof TypeNode) {
+            return $this->traverseTypeNode($node, $docContent, $callable);
+        }
+
         return $node;
     }
 

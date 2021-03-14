@@ -40,7 +40,7 @@ final class AppKernel extends Kernel
 }
 ```
 
-## 3. Usage
+## 3. Usage of `SimplePhpDocParser`
 
 Required services `Symplify\SimplePhpDocParser\SimplePhpDocParser` in constructor, where you need it, and use it:
 
@@ -78,4 +78,27 @@ final class SomeClass
         $nameParamTagValueNode = $phpDocNode->getParam('name');
     }
 }
+```
+
+## 4. Traverse Nodes with `PhpDocNodeTraverser`
+
+```php
+use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+
+$phpDocNodeTraverser = new PhpDocNodeTraverser();
+
+
+$node = // ...any node;
+$docContent = '/** @var string */';
+
+$phpDocNodeTraverser->traverseWithCallable($node, $docContent, function (Node $node, string $docContent): Node {
+    if ($node instanceof UnionTypeNode) {
+        return $node;
+    }
+
+    // do some operation on $node
+    return $node;
+});
 ```
