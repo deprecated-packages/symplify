@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeFinder\AttrFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,9 +29,15 @@ final class RequireAttributeNameRule extends AbstractSymplifyRule
      */
     private $attrFinder;
 
-    public function __construct(AttrFinder $attrFinder)
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(AttrFinder $attrFinder, SimpleNameResolver $simpleNameResolver)
     {
         $this->attrFinder = $attrFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -79,7 +86,12 @@ CODE_SAMPLE
     public function process(Node $node, Scope $scope): array
     {
         $attrs = $this->attrFinder->extra($node);
+
         foreach ($attrs as $attr) {
+            if ($this->simpleNameResolver->isName($attr->name, 'Attribute')) {
+                continue;
+            }
+
             foreach ($attr->args as $arg) {
                 if ($arg->name !== null) {
                     continue;

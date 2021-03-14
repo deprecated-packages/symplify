@@ -27,6 +27,7 @@ final class RequireAttributeNameRuleTest extends AbstractServiceAwareRuleTestCas
     {
         yield [__DIR__ . '/Fixture/MissingName.php', [[RequireAttributeNameRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/SkipCorrectName.php', []];
+        yield [__DIR__ . '/Fixture/SkipDefaultName.php', []];
     }
 
     protected function getRule(): Rule
