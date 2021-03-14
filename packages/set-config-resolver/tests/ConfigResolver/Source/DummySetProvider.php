@@ -18,7 +18,6 @@ final class DummySetProvider extends AbstractSetProvider implements SetProviderI
 
     public function __construct()
     {
-        $this->sets[] = new Set('some_set', new SmartFileInfo(__DIR__ . '/../Source/some_set.yaml'));
         $this->sets[] = new Set('some_php_set', new SmartFileInfo(__DIR__ . '/../Source/some_php_set.php'));
     }
 

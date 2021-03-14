@@ -14,7 +14,7 @@ final class ParameterProviderTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(
             PackageBuilderTestKernel::class,
-            [__DIR__ . '/ParameterProviderSource/config.yml']
+            [__DIR__ . '/ParameterProviderSource/config.php']
         );
 
         $parameterProvider = $this->getService(ParameterProvider::class);
@@ -36,7 +36,7 @@ final class ParameterProviderTest extends AbstractKernelTestCase
         $this->assertSame('anotherKey', $keyParameter);
     }
 
-    public function testIncludingYaml(): void
+    public function testInclude(): void
     {
         $this->bootKernelWithConfigs(
             PackageBuilderTestKernel::class,

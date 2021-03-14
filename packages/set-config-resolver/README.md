@@ -29,7 +29,7 @@ if ($inputConfig !== null) {
     $configs[] = $inputConfig;
 }
 
-// 2. "parameters > set" in provided YAML/PHP configs
+// 2. "parameters > set" in provided PHP configs
 $parameterSetsConfigs = $configResolver->resolveFromParameterSetsFromConfigFiles($configs);
 if ($parameterSetsConfigs !== []) {
     $configs = array_merge($configs, $parameterSetsConfigs);
