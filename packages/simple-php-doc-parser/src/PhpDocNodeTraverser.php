@@ -30,7 +30,7 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
 final class PhpDocNodeTraverser
 {
     /**
-     * @template T as Node
+     * @template T of \PHPStan\PhpDocParser\Ast\Node
      * @param T $node
      * @return T
      */
@@ -80,28 +80,21 @@ final class PhpDocNodeTraverser
         }
 
         if ($typeNode instanceof ArrayShapeNode) {
-            foreach ($typeNode->items as $key => $itemNode) {
-                $typeNode->items[$key] = $this->traverseTypeNode($itemNode, $docContent, $callable);
-            }
+            $this->traverseArrayShapeNode($typeNode, $docContent, $callable);
 
             return $typeNode;
         }
-
 
         if ($typeNode instanceof ArrayShapeItemNode) {
             $typeNode->valueType = $this->traverseTypeNode($typeNode->valueType, $docContent, $callable);
         }
 
         if ($typeNode instanceof GenericTypeNode) {
-            foreach ($typeNode->genericTypes as $key => $genericType) {
-                $typeNode->genericTypes[$key] = $this->traverseTypeNode($genericType, $docContent, $callable);
-            }
+            $this->traverseGenericTypeNode($typeNode, $docContent, $callable);
         }
 
         if ($typeNode instanceof UnionTypeNode || $typeNode instanceof IntersectionTypeNode) {
-            foreach ($typeNode->types as $key => $subTypeNode) {
-                $typeNode->types[$key] = $this->traverseTypeNode($subTypeNode, $docContent, $callable);
-            }
+            $this->traverseUnionIntersectionType($typeNode, $docContent, $callable);
         }
 
         return $typeNode;
@@ -147,6 +140,36 @@ final class PhpDocNodeTraverser
             }
 
             $phpDocChildNode->value = $this->traverseWithCallable($phpDocChildNode->value, $docContent, $callable);
+        }
+    }
+
+    private function traverseGenericTypeNode(
+        GenericTypeNode $genericTypeNode,
+        string $docContent,
+        callable $callable
+    ): void {
+        foreach ($genericTypeNode->genericTypes as $key => $genericType) {
+            $genericTypeNode->genericTypes[$key] = $this->traverseTypeNode($genericType, $docContent, $callable);
+        }
+    }
+
+    /**
+     * @param UnionTypeNode|IntersectionTypeNode $node
+     */
+    private function traverseUnionIntersectionType(Node $node, string $docContent, callable $callable): void
+    {
+        foreach ($node->types as $key => $subTypeNode) {
+            $node->types[$key] = $this->traverseTypeNode($subTypeNode, $docContent, $callable);
+        }
+    }
+
+    private function traverseArrayShapeNode(
+        ArrayShapeNode $arrayShapeNode,
+        string $docContent,
+        callable $callable
+    ): void {
+        foreach ($arrayShapeNode->items as $key => $itemNode) {
+            $arrayShapeNode->items[$key] = $this->traverseTypeNode($itemNode, $docContent, $callable);
         }
     }
 }
