@@ -41,7 +41,9 @@ final class PhpDocNodeTraverser
 
         if ($this->isValueNodeWithType($node)) {
             /** @var ParamTagValueNode|VarTagValueNode|ReturnTagValueNode|GenericTypeNode $node */
-            $node->type = $this->traverseTypeNode($node->type, $docContent, $callable);
+            if ($node->type !== null) {
+                $node->type = $this->traverseTypeNode($node->type, $docContent, $callable);
+            }
 
             return $callable($node, $docContent);
         }
@@ -90,7 +92,7 @@ final class PhpDocNodeTraverser
         MethodTagValueNode $methodTagValueNode,
         string $docContent,
         callable $callable
-    ): MethodTagValueParameterNode {
+    ): MethodTagValueNode {
         if ($methodTagValueNode->returnType !== null) {
             $methodTagValueNode->returnType = $this->traverseTypeNode(
                 $methodTagValueNode->returnType,
