@@ -16,10 +16,10 @@
         "nette/neon": "^3.2",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.10.4",
-        "symplify/php-config-printer": "^9.3"
+        "symplify/php-config-printer": "^9.2.7"
     },
     "require-dev": {
-        "symplify/easy-testing": "^9.3",
+        "symplify/easy-testing": "^9.2.7",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.2"
     },
