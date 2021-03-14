@@ -144,12 +144,12 @@ final class PhpDocNodeTraverser
     }
 
     private function traverseGenericTypeNode(
-        GenericTypeNode $typeNode,
+        GenericTypeNode $genericTypeNode,
         string $docContent,
         callable $callable
     ): void {
-        foreach ($typeNode->genericTypes as $key => $genericType) {
-            $typeNode->genericTypes[$key] = $this->traverseTypeNode($genericType, $docContent, $callable);
+        foreach ($genericTypeNode->genericTypes as $key => $genericType) {
+            $genericTypeNode->genericTypes[$key] = $this->traverseTypeNode($genericType, $docContent, $callable);
         }
     }
 
