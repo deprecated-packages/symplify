@@ -2450,7 +2450,7 @@ return $values !== [];
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put each on separated lines.
+Do not use chained method calls. Put `each` on separated lines.
 
 :wrench: **configure it!**
 
@@ -4706,7 +4706,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -4722,7 +4722,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
@@ -5774,7 +5774,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
 
 :wrench: **configure it!**
 
