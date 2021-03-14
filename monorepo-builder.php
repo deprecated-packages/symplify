@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\MonorepoBuilder\Release\ReleaseWorker\AddTagToChangelogReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker;
@@ -32,7 +31,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     # release workers - in order to execute
     $services->set(UpdateReplaceReleaseWorker::class);
     $services->set(SetCurrentMutualDependenciesReleaseWorker::class);
-    $services->set(AddTagToChangelogReleaseWorker::class);
     $services->set(TagVersionReleaseWorker::class);
     $services->set(PushTagReleaseWorker::class);
     $services->set(SetNextMutualDependenciesReleaseWorker::class);
