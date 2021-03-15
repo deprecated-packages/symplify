@@ -5,11 +5,11 @@
     "require": {
         "php": ">=7.3",
         "phpunit/phpunit": "^9.5",
-        "symplify/easy-coding-standard": "^9.3",
-        "symplify/skipper": "^9.3",
-        "symplify/package-builder": "^9.3",
-        "symplify/easy-testing": "^9.3",
-        "symplify/smart-file-system": "^9.3"
+        "symplify/easy-coding-standard": "^9.2.11",
+        "symplify/skipper": "^9.2.11",
+        "symplify/package-builder": "^9.2.11",
+        "symplify/easy-testing": "^9.2.11",
+        "symplify/smart-file-system": "^9.2.11"
     },
     "autoload": {
         "psr-4": {
