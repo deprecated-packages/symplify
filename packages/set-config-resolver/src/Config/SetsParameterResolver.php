@@ -7,7 +7,7 @@ namespace Symplify\SetConfigResolver\Config;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Yaml\Yaml;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\SetConfigResolver\SetResolver;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -51,20 +51,12 @@ final class SetsParameterResolver
     private function resolveSetsFromFileInfo(SmartFileInfo $configFileInfo): array
     {
         if ($configFileInfo->hasSuffixes(['yml', 'yaml'])) {
-            return $this->resolveSetsParameterFromYamlFileInfo($configFileInfo);
+            throw new ShouldNotHappenException(
+                'Only PHP config suffix is supported now. Migrete your Symfony config to PHP'
+            );
         }
 
         return $this->resolveSetsParameterFromPhpFileInfo($configFileInfo);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveSetsParameterFromYamlFileInfo(SmartFileInfo $configFileInfo): array
-    {
-        $configContent = Yaml::parse($configFileInfo->getContents());
-
-        return (array) ($configContent['parameters'][self::SETS] ?? []);
     }
 
     /**
