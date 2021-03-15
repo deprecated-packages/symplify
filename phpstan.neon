@@ -90,8 +90,8 @@ parameters:
 
     bootstrapFiles:
         - tests/bootstrap.php
-        - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
-        - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
+#        - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
+#        - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
         # command argument value type conversion - known string
