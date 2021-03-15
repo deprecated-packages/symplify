@@ -1,6 +1,8 @@
-name: Build Scoped Packages
+name: Build ECS Prefixed
 
 on:
+    pull_request: null
+
     push:
         # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
         tags:
@@ -11,16 +13,8 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    build_scoped_packages:
+    build_ecs_prefixed:
         runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                scoped_package:
-                    -
-                        directory: 'easy-coding-standard'
-                        binary_file_name: 'ecs'
-
         steps:
             -
                 uses: actions/checkout@v2
@@ -39,26 +33,29 @@ jobs:
             -   run: composer update --no-progress --ansi
 
             # 1. install package dependencies
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.scoped_package.directory }}/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/easy-coding-standard/composer.json --ansi
 
             # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
             -
-                run: composer update --working-dir packages/${{ matrix.scoped_package.directory }} --ansi --no-dev
+                run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
 
             # 2. scope it
-            -   run: vendor/bin/php-scoper add-prefix packages/${{ matrix.scoped_package.directory }} --output-dir packages-scoped/${{ matrix.scoped_package.directory }} --config packages/${{ matrix.scoped_package.directory }}/scoper.inc.php --force --ansi
-            -   run: composer dump-autoload --working-dir packages-scoped/${{ matrix.scoped_package.directory }} --ansi --optimize --classmap-authoritative
-            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/${{ matrix.scoped_package.directory }}/composer.json --ansi
+            -   run: vendor/bin/php-scoper add-prefix packages/easy-coding-standard --output-dir packages-scoped/easy-coding-standard --config packages/easy-coding-standard/scoper.inc.php --force --ansi
+            -   run: composer dump-autoload --working-dir packages-scoped/easy-coding-standard --ansi --optimize --classmap-authoritative
+            -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/easy-coding-standard/composer.json --ansi
 
             # 3. run it
-            -   run: chmod 777 ./packages-scoped/${{ matrix.scoped_package.directory }}/bin/${{ matrix.scoped_package.binary_file_name }}
+            -   run: chmod 777 ./packages-scoped/easy-coding-standard/bin/ecs
 
-            # 4. get tag - see https://github.com/WyriHaximus/github-action-get-previous-tag
+            # 4. copy github actoins to repository, so tests run there too
+            -   run: cp -R build/ecs-scoped/target-repository/. packages-scoped/easy-coding-standard
+
+            # 5. get tag - see https://github.com/WyriHaximus/github-action-get-previous-tag
             -
                 id: previous_tag
                 uses: "WyriHaximus/github-action-get-previous-tag@master"
 
-            # 5. split it to remote repository
+            # 6. split it to remote repository
             # see https://github.com/cpina/github-action-push-to-another-repository
             -
                 # Uses an action in the root directory
@@ -66,9 +63,9 @@ jobs:
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
-                    package-directory: 'packages-scoped/${{ matrix.scoped_package.directory }}'
+                    package-directory: 'packages-scoped/easy-coding-standard'
                     split-repository-organization: 'symplify'
-                    split-repository-name: '${{ matrix.scoped_package.directory }}-prefixed'
+                    split-repository-name: 'easy-coding-standard-prefixed'
                     tag: ${{ steps.previous_tag.outputs.tag }}
                     user-name: "kaizen-ci"
                     user-email: "info@kaizen-ci.org"
