@@ -8,8 +8,10 @@ use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueParameterNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocChildNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTextNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
@@ -29,11 +31,6 @@ use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
  */
 final class PhpDocNodeTraverser
 {
-    /**
-     * @template T of \PHPStan\PhpDocParser\Ast\Node
-     * @param T $node
-     * @return T
-     */
     public function traverseWithCallable(Node $node, string $docContent, callable $callable): Node
     {
         if ($node instanceof PhpDocNode) {
@@ -115,11 +112,13 @@ final class PhpDocNodeTraverser
 
         foreach ($methodTagValueNode->parameters as $key => $methodTagValueParameterNode) {
             /** @var MethodTagValueParameterNode $methodTagValueParameterNode */
-            $methodTagValueNode->parameters[$key] = $this->traverseWithCallable(
+            $methodTagValueParameterNode = $this->traverseWithCallable(
                 $methodTagValueParameterNode,
                 $docContent,
                 $callable
             );
+
+            $methodTagValueNode->parameters[$key] = $methodTagValueParameterNode;
         }
 
         return $callable($methodTagValueNode, $docContent);
@@ -128,6 +127,7 @@ final class PhpDocNodeTraverser
     private function traversePhpDocNode(PhpDocNode $phpDocNode, string $docContent, callable $callable): void
     {
         foreach ($phpDocNode->children as $key => $phpDocChildNode) {
+            /** @var PhpDocChildNode $phpDocChildNode */
             $phpDocChildNode = $this->traverseWithCallable($phpDocChildNode, $docContent, $callable);
             $phpDocNode->children[$key] = $phpDocChildNode;
 
@@ -139,7 +139,9 @@ final class PhpDocNodeTraverser
                 continue;
             }
 
-            $phpDocChildNode->value = $this->traverseWithCallable($phpDocChildNode->value, $docContent, $callable);
+            /** @var PhpDocTagValueNode $traversedValue */
+            $traversedValue = $this->traverseWithCallable($phpDocChildNode->value, $docContent, $callable);
+            $phpDocChildNode->value = $traversedValue;
         }
     }
 
