@@ -106,7 +106,6 @@ CODE_SAMPLE
                 continue;
             }
 
-            /** @var Token|null $previousToken */
             $previousTokenPosition = $index - 1;
             $previousToken = $tokens[$previousTokenPosition] ?? null;
             if ($previousToken === null) {

@@ -25,7 +25,7 @@ final class SymfonyClosureAnalyzer
     }
 
     /**
-     * @param Tokens&iterable<Token> $tokens
+     * @param Tokens<Token> $tokens
      */
     public function isContainerConfiguratorClosure(Tokens $tokens): bool
     {
