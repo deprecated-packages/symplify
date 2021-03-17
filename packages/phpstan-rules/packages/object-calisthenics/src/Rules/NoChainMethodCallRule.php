@@ -14,14 +14,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
 use PHPStan\TrinaryLogic;
-use PHPStan\Type\Type;
-use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
+use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -41,7 +40,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Do not use chained method calls. Put each on separated lines.';
 
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
         TwitterAPIExchange::class,
@@ -60,19 +59,26 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         // Doctrine
         QueryBuilder::class,
         Query::class,
+        'Stringy\Stringy',
     ];
 
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private $allowedChainTypes = [];
 
     /**
-     * @param string[] $allowedChainTypes
+     * @var ObjectTypeMatcher
      */
-    public function __construct(array $allowedChainTypes = [])
+    private $objectTypeMatcher;
+
+    /**
+     * @param class-string[] $allowedChainTypes
+     */
+    public function __construct(ObjectTypeMatcher $objectTypeMatcher, array $allowedChainTypes = [])
     {
         $this->allowedChainTypes = array_merge(self::DEFAULT_ALLOWED_CHAIN_TYPES, $allowedChainTypes);
+        $this->objectTypeMatcher = $objectTypeMatcher;
     }
 
     /**
@@ -128,27 +134,10 @@ CODE_SAMPLE
 
     private function shouldSkipType(Scope $scope, MethodCall $methodCall): bool
     {
-        $methodCallType = $scope->getType($methodCall);
-        $callerType = $scope->getType($methodCall->var);
-
-        foreach ($this->allowedChainTypes as $allowedChainType) {
-            if ($this->isSkippedType($methodCallType, $allowedChainType)) {
-                return true;
-            }
-
-            if ($this->isSkippedType($callerType, $allowedChainType)) {
-                return true;
-            }
+        if ($this->objectTypeMatcher->isExprTypes($methodCall, $scope, $this->allowedChainTypes)) {
+            return true;
         }
 
-        return false;
-    }
-
-    private function isSkippedType(Type $callerType, string $allowedChainType): bool
-    {
-        if (! $callerType instanceof TypeWithClassName) {
-            return false;
-        }
-        return is_a($callerType->getClassName(), $allowedChainType, true);
+        return $this->objectTypeMatcher->isExprTypes($methodCall->var, $scope, $this->allowedChainTypes);
     }
 }
