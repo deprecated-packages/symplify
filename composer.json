@@ -237,6 +237,7 @@
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules --output-file packages/phpstan-rules/docs/rules_overview.md",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/phpstan-rules/docs/rules_overview.md --fix"
         ],
+        "docker-cli": "docker build -t symplify-dev . && docker run -it -v $(pwd):/var/www symplify-dev",
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --dry-run --ansi",
