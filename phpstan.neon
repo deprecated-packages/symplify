@@ -502,3 +502,4 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         - '#Array \(array<PHPStan\\PhpDocParser\\Ast\\Type\\ArrayShapeItemNode\>\) does not accept PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode#'
+        - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
