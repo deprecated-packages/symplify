@@ -41,7 +41,6 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
         $fileInfo = $composerJson->getFileInfo();
         $this->assertInstanceOf(SmartFileInfo::class, $fileInfo);
 
-        /** @var SmartFileInfo $fileInfo */
         $this->assertCount(2, $composerJson->getAllClassmaps());
 
         $this->assertSame(['directory', 'src'], $composerJson->getPsr4AndClassmapDirectories());
