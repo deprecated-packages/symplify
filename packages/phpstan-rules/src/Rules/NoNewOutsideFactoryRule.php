@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -29,7 +30,15 @@ final class NoNewOutsideFactoryRule extends AbstractSymplifyRule
     /**
      * @var string[]|class-string<Token>[]
      */
-    private const ALLOWED_CLASSES = ['*FileInfo', '*\Node\*', Token::class, '*Reflection', 'Reflection*'];
+    private const ALLOWED_CLASSES = [
+        '*FileInfo',
+        '*\Node\*',
+        Token::class,
+        '*Reflection',
+        'Reflection*',
+        Node::class,
+        Type::class,
+    ];
 
     /**
      * @var ArrayStringAndFnMatcher
