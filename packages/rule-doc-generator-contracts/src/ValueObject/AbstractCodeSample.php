@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\ValueObject;
 
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
+use Symplify\RuleDocGenerator\Exception\ShouldNotHappenException;
 
 abstract class AbstractCodeSample implements CodeSampleInterface
 {
