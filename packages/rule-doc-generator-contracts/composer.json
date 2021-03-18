@@ -1,0 +1,23 @@
+{
+    "name": "symplify/rule-doc-generator-contracts",
+    "description": "Contracts for production code of RuleDocGenerator",
+    "license": "MIT",
+    "bin": [
+        "bin/rule-doc-generator"
+    ],
+    "require": {
+        "php": ">=7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\RuleDocGenerator\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "9.3-dev"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

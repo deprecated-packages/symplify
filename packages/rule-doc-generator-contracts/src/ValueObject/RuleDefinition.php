@@ -7,8 +7,8 @@ namespace Symplify\RuleDocGenerator\ValueObject;
 use Nette\Utils\Strings;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Exception\PoorDocumentationException;
+use Symplify\RuleDocGenerator\Exception\ShouldNotHappenException;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class RuleDefinition
 {

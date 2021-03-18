@@ -101,7 +101,7 @@ final class RuleDefinitionsPrinter
             $lines[] = $this->keywordHighlighter->highlight($ruleDefinition->getDescription());
 
             if ($ruleDefinition->isConfigurable()) {
-                $lines[] = Lines::CONFIGURE_IT;
+                $lines[] = ':wrench: **configure it!**';
             }
 
             $lines[] = '- class: [`' . $ruleDefinition->getRuleClass() . '`](' . $ruleDefinition->getRuleFilePath() . ')';
