@@ -171,10 +171,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
         tags: [phpstan.rules.rule]
 

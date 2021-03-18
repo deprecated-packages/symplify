@@ -11,7 +11,7 @@
         "symplify/astral": "^9.3",
         "symplify/package-builder": "^9.3",
         "symplify/smart-file-system": "^9.3",
-        "symplify/rule-doc-generator": "^9.3",
+        "symplify/rule-doc-generator-contracts": "^9.3",
         "webmozart/assert": "^1.9"
     },
     "require-dev": {
@@ -19,6 +19,7 @@
         "nette/forms": "^3.1",
         "symplify/easy-testing": "^9.3",
         "symplify/phpstan-extensions": "^9.3",
+        "symplify/rule-doc-generator": "^9.3",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.2"
     },
