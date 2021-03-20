@@ -20,6 +20,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeItemNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\CallableTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\GenericTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\IntersectionTypeNode;
 use PHPStan\PhpDocParser\Ast\Type\NullableTypeNode;
@@ -76,22 +77,29 @@ final class PhpDocNodeTraverser
             $typeNode->type = $this->traverseTypeNode($typeNode->type, $docContent, $callable);
         }
 
+        if ($typeNode instanceof CallableTypeNode) {
+            $typeNode->returnType = $this->traverseTypeNode($typeNode->returnType, $docContent, $callable);
+            return $typeNode;
+        }
+
         if ($typeNode instanceof ArrayShapeNode) {
             $this->traverseArrayShapeNode($typeNode, $docContent, $callable);
-
             return $typeNode;
         }
 
         if ($typeNode instanceof ArrayShapeItemNode) {
             $typeNode->valueType = $this->traverseTypeNode($typeNode->valueType, $docContent, $callable);
+            return $typeNode;
         }
 
         if ($typeNode instanceof GenericTypeNode) {
             $this->traverseGenericTypeNode($typeNode, $docContent, $callable);
+            return $typeNode;
         }
 
         if ($typeNode instanceof UnionTypeNode || $typeNode instanceof IntersectionTypeNode) {
             $this->traverseUnionIntersectionType($typeNode, $docContent, $callable);
+            return $typeNode;
         }
 
         return $typeNode;
