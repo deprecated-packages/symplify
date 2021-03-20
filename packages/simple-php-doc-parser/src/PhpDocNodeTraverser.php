@@ -55,7 +55,7 @@ final class PhpDocNodeTraverser
             return $this->traverseTypeNode($node, $docContent, $callable);
         }
 
-        return $node;
+        return $callable($node, $docContent);
     }
 
     private function isValueNodeWithType(Node $node): bool
