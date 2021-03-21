@@ -202,7 +202,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
     $services->set(PhpdocAnnotationWithoutDotFixer::class);
     $services->set(PhpdocIndentFixer::class);
-    $services->set(PhpdocInlineTagFixer::class);
     $services->set(PhpdocNoAccessFixer::class);
     $services->set(PhpdocNoAliasTagFixer::class);
     $services->set(PhpdocNoPackageFixer::class);

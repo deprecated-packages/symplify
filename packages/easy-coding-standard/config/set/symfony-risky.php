@@ -59,7 +59,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NonPrintableCharacterFixer::class);
     $services->set(PhpUnitConstructFixer::class);
     $services->set(PhpUnitMockShortWillReturnFixer::class);
-    $services->set(Psr4Fixer::class);
     $services->set(SelfAccessorFixer::class);
     $services->set(SetTypeToCastFixer::class);
 };

@@ -9,7 +9,11 @@
         "composer/semver": "^3.2",
         "composer/xdebug-handler": "^1.4",
         "cweagans/composer-patches": "^1.7",
+<<<<<<< HEAD
         "friendsofphp/php-cs-fixer": "^2.18.5",
+=======
+        "friendsofphp/php-cs-fixer": "^3.0",
+>>>>>>> 3079c0973... [composer] allow php-cs-fixer 3.0
         "j7mbo/twitter-api-php": "^1.0.6",
         "jean85/pretty-package-versions": "^1.6|^2.0.1",
         "nette/di": "^3.0",

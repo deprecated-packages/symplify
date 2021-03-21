@@ -232,7 +232,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NoMultilineWhitespaceAroundDoubleArrowFixer::class);
     $services->set(NoNullPropertyInitializationFixer::class);
     $services->set(NoShortBoolCastFixer::class);
-    $services->set(NoShortEchoTagFixer::class);
     $services->set(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
     $services->set(NoSpacesAfterFunctionNameFixer::class);
     $services->set(NoSpacesAroundOffsetFixer::class);
@@ -265,7 +264,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitFqcnAnnotationFixer::class);
     $services->set(PhpUnitInternalClassFixer::class);
     $services->set(PhpUnitMethodCasingFixer::class);
-    $services->set(PhpUnitOrderedCoversFixer::class);
     $services->set(PhpUnitTestClassRequiresCoversFixer::class);
     $services->set(PhpdocAddMissingParamAnnotationFixer::class);
     $services->set(PhpdocAlignFixer::class)
@@ -274,7 +272,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
     $services->set(PhpdocAnnotationWithoutDotFixer::class);
     $services->set(PhpdocIndentFixer::class);
-    $services->set(PhpdocInlineTagFixer::class);
     $services->set(PhpdocNoAccessFixer::class);
     $services->set(PhpdocNoAliasTagFixer::class);
     $services->set(PhpdocNoEmptyReturnFixer::class);

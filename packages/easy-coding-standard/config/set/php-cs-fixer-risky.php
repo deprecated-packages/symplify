@@ -83,7 +83,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PhpUnitStrictFixer::class);
     $services->set(PhpUnitTestAnnotationFixer::class);
     $services->set(PhpUnitTestCaseStaticMethodCallsFixer::class);
-    $services->set(Psr4Fixer::class);
     $services->set(SelfAccessorFixer::class);
     $services->set(SetTypeToCastFixer::class);
     $services->set(StrictComparisonFixer::class);
