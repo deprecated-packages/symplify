@@ -89,17 +89,7 @@ final class TokenFinder
             throw new ShouldNotHappenException();
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         return $tokens[$previousPosition];
-=======
-        $previousToken = $tokens[$previousPosition];
-
-        return $previousToken;
->>>>>>> bc07a4fc7... make conflicts last
-=======
-        return $tokens[$previousPosition];
->>>>>>> 93afc942c... [CodingStandard] Fix LineLengthFixer in combination with array
     }
 
     /**

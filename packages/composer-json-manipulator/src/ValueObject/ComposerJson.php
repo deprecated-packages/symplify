@@ -441,10 +441,7 @@ final class ComposerJson
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
             ComposerJsonSection::CONFLICT => $this->conflicts,
-<<<<<<< HEAD
             ComposerJsonSection::VERSION => $this->version,
-=======
->>>>>>> 85de8575e... [ComposerJsonManipulator] Make previous unsorted sections last
         ]);
 
         if ($this->minimumStability !== null) {

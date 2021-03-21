@@ -20,11 +20,13 @@
 =======
         "squizlabs/php_codesniffer": "^3.5",
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 784b277cf ([composer] allow php-cs-fixer 3.0)
         "friendsofphp/php-cs-fixer": "^2.18.5",
 =======
+=======
+>>>>>>> 63d157e60 (is null is not configurable anymore)
         "friendsofphp/php-cs-fixer": "^3.0",
->>>>>>> 3079c0973... [composer] allow php-cs-fixer 3.0
         "symplify/symplify-kernel": "^9.3"
     },
     "require-dev": {
