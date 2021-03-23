@@ -109,10 +109,10 @@ final class ConfigFormatConverter
 
     private function dumpContainerBuilderToYaml(ContainerBuilder $containerBuilder): string
     {
-        $dumper = $this->dumperFactory->createFromContainerBuilderAndOutputFormat($containerBuilder, Format::YAML);
+        $yamlDumper = $this->dumperFactory->createFromContainerBuilderAndOutputFormat($containerBuilder, Format::YAML);
         $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
-        $content = $dumper->dump();
+        $content = $yamlDumper->dump();
         if (! is_string($content)) {
             throw new ShouldNotHappenException();
         }

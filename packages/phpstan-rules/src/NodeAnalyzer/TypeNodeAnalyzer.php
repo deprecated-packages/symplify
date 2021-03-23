@@ -33,10 +33,6 @@ final class TypeNodeAnalyzer
             return false;
         }
 
-        if (! $node instanceof Property) {
-            return false;
-        }
-
         if (! $node->isStatic()) {
             return false;
         }

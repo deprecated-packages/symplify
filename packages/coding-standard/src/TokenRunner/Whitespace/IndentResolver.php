@@ -42,19 +42,29 @@ final class IndentResolver
     /**
      * @param Tokens<Token> $tokens
      */
-    public function resolveNewlineIndentWhitespace(Tokens $tokens, int $startIndex): string
+    public function resolveCurrentNewlineIndentWhitespace(Tokens $tokens, int $index): string
     {
-        $indentWhitespace = $this->resolveIndentWhitespace($tokens, $startIndex);
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $index);
+        $indentWhitespace = str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel);
+
         return $this->whitespacesFixerConfig->getLineEnding() . $indentWhitespace;
     }
 
     /**
      * @param Tokens<Token> $tokens
      */
-    private function resolveIndentWhitespace(Tokens $tokens, int $startIndex): string
+    public function resolveNewlineIndentWhitespace(Tokens $tokens, int $index): string
     {
-        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $startIndex);
+        $indentWhitespace = $this->resolveIndentWhitespace($tokens, $index);
+        return $this->whitespacesFixerConfig->getLineEnding() . $indentWhitespace;
+    }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function resolveIndentWhitespace(Tokens $tokens, int $index): string
+    {
+        $indentLevel = $this->indentDetector->detectOnPosition($tokens, $index);
         return str_repeat($this->whitespacesFixerConfig->getIndent(), $indentLevel + 1);
     }
 }

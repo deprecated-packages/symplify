@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\New_;
@@ -145,10 +144,6 @@ CODE_SAMPLE
         $exprCount = 0;
         foreach ($array->items as $item) {
             if (! $item instanceof ArrayItem) {
-                continue;
-            }
-
-            if (! $item->value instanceof Expr) {
                 continue;
             }
 

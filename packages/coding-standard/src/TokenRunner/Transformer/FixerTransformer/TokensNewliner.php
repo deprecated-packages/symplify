@@ -62,6 +62,11 @@ final class TokensNewliner
     {
         // from bottom top, to prevent skipping ids
         //  e.g when token is added in the middle, the end index does now point to earlier element!
+        $currentNewlineIndentWhitespace = $this->indentResolver->resolveCurrentNewlineIndentWhitespace(
+            $tokens,
+            $blockInfo->getStart()
+        );
+
         $newlineIndentWhitespace = $this->indentResolver->resolveNewlineIndentWhitespace(
             $tokens,
             $blockInfo->getStart()
@@ -72,7 +77,7 @@ final class TokensNewliner
             $tokens,
             $blockInfo,
             $kind,
-            $newlineIndentWhitespace,
+            $currentNewlineIndentWhitespace,
             $this->indentResolver->resolveClosingBracketNewlineWhitespace($tokens, $blockInfo->getStart()),
         );
 
