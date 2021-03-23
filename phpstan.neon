@@ -514,3 +514,8 @@ parameters:
             message: '#Call to method files\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
             paths:
                 - packages/easy-coding-standard/scoper.inc.php
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            paths:
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
