@@ -114,4 +114,14 @@ final class ComposerJsonSection
      * @see https://getcomposer.org/doc/articles/scripts.md#custom-descriptions-
      */
     public const SCRIPTS_DESCRIPTIONS = 'scripts-descriptions';
+
+    /**
+     * @var string
+     */
+    public const PROVIDES = 'provides';
+
+    /**
+     * @var string
+     */
+    public const SUGGESTS = 'suggests';
 }
