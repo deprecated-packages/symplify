@@ -32,7 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->call('configure', [[
             UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => ValueObjectInliner::inline([
                 new IssetUnsetToMethodCall('SomeContainer', 'hasService', 'removeService'),
-                ]),
+            ]),
         ]]);
 };
 

@@ -38,7 +38,7 @@ final class BreakFuncCallWithArray
                 'configure',
                 [[UnsetAndIssetToMethodCallRector::ISSET_UNSET_TO_METHOD_CALL => ValueObjectInliner::inline([
                     new IssetUnsetToMethodCall('SomeContainer', 'hasService', 'removeService')
-                    ])]]
+                ])]]
             );
     }
 }

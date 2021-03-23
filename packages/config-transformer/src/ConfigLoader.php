@@ -60,7 +60,7 @@ final class ConfigLoader
     ): ContainerBuilderAndFileContent {
         $containerBuilder = new ContainerBuilder();
 
-        $loader = $this->createLoaderBySuffix($containerBuilder, $smartFileInfo->getSuffix());
+        $delegatingLoader = $this->createLoaderBySuffix($containerBuilder, $smartFileInfo->getSuffix());
 
         $fileRealPath = $smartFileInfo->getRealPath();
 
@@ -77,7 +77,7 @@ final class ConfigLoader
             $this->extensionFaker->fakeInContainerBuilder($containerBuilder, $content);
         }
 
-        $loader->load($fileRealPath);
+        $delegatingLoader->load($fileRealPath);
 
         return new ContainerBuilderAndFileContent($containerBuilder, $content);
     }

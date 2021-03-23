@@ -89,9 +89,7 @@ final class TokenFinder
             throw new ShouldNotHappenException();
         }
 
-        $previousToken = $tokens[$previousPosition];
-
-        return $previousToken;
+        return $tokens[$previousPosition];
     }
 
     /**
