@@ -10,6 +10,26 @@ use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class MethodNodeAnalyser
 {
+    public function hasParentVendorLock(Scope $scope, string $methodName): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
+        }
+
+        foreach ($classReflection->getAncestors() as $ancestorClassReflection) {
+            if ($classReflection === $ancestorClassReflection) {
+                continue;
+            }
+
+            if ($ancestorClassReflection->hasNativeMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function isInConstructor(Scope $scope): bool
     {
         $reflectionFunction = $scope->getFunction();

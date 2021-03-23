@@ -54,18 +54,25 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
      */
     private $assignAnalyzer;
 
+    /**
+     * @var \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
+     */
+    private $methodNodeAnalyser;
+
     public function __construct(
         ReturnNodeFinder $returnNodeFinder,
         NodeComparator $nodeComparator,
         SimpleNodeFinder $simpleNodeFinder,
         SimpleNameResolver $simpleNameResolver,
-        AssignAnalyzer $assignAnalyzer
+        AssignAnalyzer $assignAnalyzer,
+        \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser $methodNodeAnalyser
     ) {
         $this->returnNodeFinder = $returnNodeFinder;
         $this->nodeComparator = $nodeComparator;
         $this->simpleNodeFinder = $simpleNodeFinder;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->assignAnalyzer = $assignAnalyzer;
+        $this->methodNodeAnalyser = $methodNodeAnalyser;
     }
 
     /**
@@ -88,6 +95,13 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
 
         $classMethod = $this->simpleNodeFinder->findFirstParentByType($node, ClassMethod::class);
         if (! $classMethod instanceof ClassMethod) {
+            return [];
+        }
+
+        /** @var string $methodName */
+        $methodName = $this->simpleNameResolver->getName($classMethod);
+
+        if ($this->methodNodeAnalyser->hasParentVendorLock($scope, $methodName)) {
             return [];
         }
 
