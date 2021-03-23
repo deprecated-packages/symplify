@@ -13,7 +13,6 @@ use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Sets\PHPUnitSetList;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
-use Rector\TypeDeclaration\Rector\ClassMethod\AddArrayParamDocTypeRector;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
