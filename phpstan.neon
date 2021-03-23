@@ -503,3 +503,10 @@ parameters:
 
         - '#Array \(array<PHPStan\\PhpDocParser\\Ast\\Type\\ArrayShapeItemNode\>\) does not accept PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode#'
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
+
+        # not found on purpose
+        - '#Instantiated class Isolated\\Symfony\\Component\\Finder\\Finder not found#'
+        -
+            message: '#Do not use chained method calls\. Put each on separated lines#'
+            paths:
+                - packages/easy-coding-standard/scoper.inc.php
