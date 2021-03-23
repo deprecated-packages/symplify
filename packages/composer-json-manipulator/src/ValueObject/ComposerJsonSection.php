@@ -124,9 +124,12 @@ final class ComposerJsonSection
      * @var string
      */
     public const SUGGESTS = 'suggests';
+<<<<<<< HEAD
 
     /**
      * @var string
      */
     public const VERSION = 'version';
+=======
+>>>>>>> 51734310a... [ComposerJsonManipulator] Add rest of composer json sections
 }
