@@ -441,10 +441,7 @@ final class ComposerJson
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
             ComposerJsonSection::CONFLICT => $this->conflicts,
-<<<<<<< HEAD
             ComposerJsonSection::VERSION => $this->version,
-=======
->>>>>>> 5e3f100f6 ([ComposerJsonManipulator] Add rest of composer json sections)
         ]);
 
         if ($this->minimumStability !== null) {
@@ -794,16 +791,6 @@ final class ComposerJson
         uksort($contentItems, function ($firstContentItem, $secondContentItem) use ($orderedVisibleItems): int {
             $firstItemPosition = $this->findPosition($firstContentItem, $orderedVisibleItems);
             $secondItemPosition = $this->findPosition($secondContentItem, $orderedVisibleItems);
-
-            if ($firstItemPosition === false) {
-                // new item, put in the back
-                return -1;
-            }
-
-            if ($secondItemPosition === false) {
-                // new item, put in the back
-                return -1;
-            }
 
             if ($firstItemPosition === false) {
                 // new item, put in the back

@@ -88,11 +88,7 @@ final class ConfigFormatConverter
 
     private function dumpContainerBuilderToYaml(ContainerBuilder $containerBuilder): string
     {
-<<<<<<< HEAD
         $yamlDumper = new YamlDumper($containerBuilder);
-=======
-        $yamlDumper = $this->dumperFactory->createFromContainerBuilderAndOutputFormat($containerBuilder, Format::YAML);
->>>>>>> 17db1b2da ([CodingStandard] Fix LineLengthFixer in combination with array)
         $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
         $content = $yamlDumper->dump();

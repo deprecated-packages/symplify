@@ -1,0 +1,8 @@
+{
+    "require": {
+        "symplify/package-builder": "^9.2"
+    },
+    "conflict": {
+        "symplify/another-package": "<9.2.0"
+    }
+}

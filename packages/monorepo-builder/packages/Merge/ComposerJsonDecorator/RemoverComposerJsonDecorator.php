@@ -45,8 +45,10 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         if ($composerJsonToRemove->getRequire() === []) {
             return;
         }
+
         $currentRequire = $composerJson->getRequire();
         $packages = array_keys($composerJsonToRemove->getRequire());
+
         foreach ($packages as $package) {
             unset($currentRequire[$package]);
         }
