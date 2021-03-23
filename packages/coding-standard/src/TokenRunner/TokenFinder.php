@@ -89,7 +89,17 @@ final class TokenFinder
             throw new ShouldNotHappenException();
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $tokens[$previousPosition];
+=======
+        $previousToken = $tokens[$previousPosition];
+
+        return $previousToken;
+>>>>>>> 5e3f100f6 ([ComposerJsonManipulator] Add rest of composer json sections)
+=======
+        return $tokens[$previousPosition];
+>>>>>>> 17db1b2da ([CodingStandard] Fix LineLengthFixer in combination with array)
     }
 
     /**

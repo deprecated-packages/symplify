@@ -470,6 +470,7 @@ parameters:
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
+<<<<<<< HEAD
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
 
         # node traverser magic
@@ -589,3 +590,11 @@ parameters:
 
         # reoslve later
         - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
+=======
+                - packages/easy-coding-standard/scoper.inc.php
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            paths:
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+>>>>>>> 5e3f100f6 ([ComposerJsonManipulator] Add rest of composer json sections)

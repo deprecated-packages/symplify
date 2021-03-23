@@ -6,7 +6,12 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+<<<<<<< HEAD
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
+=======
+use Symplify\EasyCodingStandard\Bootstrap\ECSConfigsResolver;
+use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+>>>>>>> 5e3f100f6 ([ComposerJsonManipulator] Add rest of composer json sections)
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\SmartFileSystem\SmartFileInfo;
