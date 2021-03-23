@@ -510,3 +510,7 @@ parameters:
             message: '#Do not use chained method calls\. Put each on separated lines#'
             paths:
                 - packages/easy-coding-standard/scoper.inc.php
+        -
+            message: '#Call to method files\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
+            paths:
+                - packages/easy-coding-standard/scoper.inc.php

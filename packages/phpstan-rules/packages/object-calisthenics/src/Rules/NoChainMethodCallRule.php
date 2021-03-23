@@ -49,7 +49,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         Alias::class,
         Finder::class,
         // php-scoper finder
-        \Isolated\Symfony\Component\Finder\Finder::class,
+        'Isolated\Symfony\Component\Finder\Finder',
         Definition::class,
         VersionNumber::class,
         Version::class,
