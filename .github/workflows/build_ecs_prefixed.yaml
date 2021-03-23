@@ -47,16 +47,12 @@ jobs:
             -   run: composer dump-autoload --working-dir packages-scoped/easy-coding-standard --ansi --optimize --classmap-authoritative
             -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/easy-coding-standard/composer.json --ansi
 
-            # 3. run it
             -   run: chmod 777 ./packages-scoped/easy-coding-standard/bin/ecs
 
-            # 4. copy github actoins to repository, so tests run there too
+            # copy github actoins to repository, so tests run there too
             -   run: cp -R build/ecs-scoped/target-repository/. packages-scoped/easy-coding-standard
 
-            # 5. copy repository meta files
-            -   run: cp -R packages-scoped/easy-coding-standard/. easy-coding-standard-prefixed
-
-            # 6. clone remote repository, so we can push it
+            # clone remote repository, so we can push it
             -
                 uses: "actions/checkout@v2"
                 with:
@@ -64,14 +60,17 @@ jobs:
                     path: remote-repository
                     token: ${{ secrets.ACCESS_TOKEN }}
 
-            # 5. setup git
+            # copy repository meta files
+            -   run: cp -R packages-scoped/easy-coding-standard/. remote-repository
+
+            # setup git
             -
                 working-directory: remote-repository
                 run: |
                     git config user.email "tomas.vot@gmail.com"
                     git config user.name "Tomas Votruba"
 
-            # commit metadata
+            # 7. commit metadata
             -
                 name: "Get Git log"
                 id: git-log
@@ -86,6 +85,7 @@ jobs:
                     git add --all
                     git commit -m "Updated ECS to commit ${{ github.event.after }}" -m "${{ steps.git-log.outputs.log }}"
                     git push --quiet origin main
+
             # 8.B publish it to remote repository with tag
             -
                 name: "Commit Prefixed - tag"
