@@ -120,9 +120,6 @@ CODE_SAMPLE
     {
         /** @var FullyQualified $fullyQualifiedName */
         $fullyQualifiedName = $new->class;
-        if (! $fullyQualifiedName instanceof FullyQualified) {
-            return false;
-        }
 
         $className = (string) end($fullyQualifiedName->parts);
         if (! Strings::startsWith($type, '*')) {

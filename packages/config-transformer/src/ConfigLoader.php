@@ -82,7 +82,7 @@ final class ConfigLoader
         return new ContainerBuilderAndFileContent($containerBuilder, $content);
     }
 
-    private function createLoaderBySuffix(ContainerBuilder $containerBuilder, string $suffix): Loader
+    private function createLoaderBySuffix(ContainerBuilder $containerBuilder, string $suffix): DelegatingLoader
     {
         if ($suffix === Format::XML) {
             $idAwareXmlFileLoader = $this->idAwareXmlFileLoaderFactory->createFromContainerBuilder($containerBuilder);
