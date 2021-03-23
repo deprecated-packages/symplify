@@ -4,10 +4,10 @@
     "require": {
         "php": "^7.2"
     },
-    "conflict": {
-        "some/package": "*"
-    },
     "replace": {
         "some/package": "self.version"
+    },
+    "conflict": {
+        "some/package": "*"
     }
 }
