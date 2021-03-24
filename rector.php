@@ -10,7 +10,7 @@ use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\PHPUnit\Sets\PHPUnitSetList;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
