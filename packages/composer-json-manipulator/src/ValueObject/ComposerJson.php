@@ -146,6 +146,11 @@ final class ComposerJson
      */
     private $scriptsDescriptions = [];
 
+    /**
+     * @var string|null
+     */
+    private $version;
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -172,6 +177,16 @@ final class ComposerJson
     public function setRequire(array $require): void
     {
         $this->require = $this->sortPackagesIfNeeded($require);
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
     }
 
     /**
@@ -426,6 +441,7 @@ final class ComposerJson
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
             ComposerJsonSection::CONFLICT => $this->conflicts,
+            ComposerJsonSection::VERSION => $this->version,
         ]);
 
         if ($this->minimumStability !== null) {

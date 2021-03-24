@@ -3,6 +3,7 @@
     "description": "Package to load, merge and save composer.json file(s)",
     "license": "MIT",
     "type": "symfony-bundle",
+    "version": "1.0.0",
     "require": {
         "php": ">=7.3"
     },
