@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Reflection;
 
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
@@ -13,7 +14,7 @@ final class MethodNodeAnalyser
     public function hasParentVendorLock(Scope $scope, string $methodName): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 

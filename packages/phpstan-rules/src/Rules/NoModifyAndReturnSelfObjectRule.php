@@ -16,6 +16,7 @@ use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -55,7 +56,7 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
     private $assignAnalyzer;
 
     /**
-     * @var \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
+     * @var MethodNodeAnalyser
      */
     private $methodNodeAnalyser;
 
@@ -65,7 +66,7 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
         SimpleNodeFinder $simpleNodeFinder,
         SimpleNameResolver $simpleNameResolver,
         AssignAnalyzer $assignAnalyzer,
-        \Symplify\PHPStanRules\Reflection\MethodNodeAnalyser $methodNodeAnalyser
+        MethodNodeAnalyser $methodNodeAnalyser
     ) {
         $this->returnNodeFinder = $returnNodeFinder;
         $this->nodeComparator = $nodeComparator;
