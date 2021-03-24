@@ -148,6 +148,10 @@ final class ComposerJsonFactory
             $composerJson->setRepositories($jsonArray[ComposerJsonSection::REPOSITORIES]);
         }
 
+        if (isset($jsonArray[ComposerJsonSection::VERSION])) {
+            $composerJson->setVersion($jsonArray[ComposerJsonSection::VERSION]);
+        }
+
         $orderedKeys = array_keys($jsonArray);
         $composerJson->setOrderedKeys($orderedKeys);
 
