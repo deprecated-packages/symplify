@@ -1,4 +1,4 @@
-# 149 Rules Overview
+# 148 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -132,34 +132,6 @@ class SomeClass
     {
         return $this->mainPath;
     }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckConstantStringValueFormatRule
-
-`Constant` string value need to only have small letters, _, -, . and numbers
-
-- class: [`Symplify\PHPStanRules\Rules\CheckConstantStringValueFormatRule`](../src/Rules/CheckConstantStringValueFormatRule.php)
-
-```php
-class SomeClass
-{
-    private const FOO = '$not_ok$';
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private const FOO = 'bar';
 }
 ```
 
@@ -5708,8 +5680,7 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(Type $type, AnotherType $anotherType)
-    {
+    public function injectSomeClass(Type $type, AnotherType $anotherType) {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
