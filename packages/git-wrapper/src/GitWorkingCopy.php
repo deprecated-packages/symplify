@@ -691,6 +691,15 @@ final class GitWorkingCopy
         return new GitTags($this);
     }
 
+    /**
+     * @api
+     * Returns a GitCommits object that contains information about the commits of the current branch.
+     */
+    public function commits(): GitCommits
+    {
+        return new GitCommits($this);
+    }
+
     private function ensureAddRemoteArgsAreValid(string $name, string $url): void
     {
         if ($name === '') {

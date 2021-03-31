@@ -10,6 +10,7 @@ use OndraM\CiDetector\CiDetector;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
+use Symplify\GitWrapper\GitCommits;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSubscriber;
 use Symplify\GitWrapper\Tests\Source\StreamSuppressFilter;
@@ -848,6 +849,29 @@ CODE_SAMPLE;
 
         $resolveRemoveUrl = $git->getRemoteUrl($remote, $operation);
         $this->assertSame('file://' . $expectedRemoteUrl, $resolveRemoveUrl);
+    }
+
+    public function testCommits(): void
+    {
+        $git = $this->getWorkingCopy();
+        $gitCommits = $git->commits();
+
+        $this->assertInstanceOf(GitCommits::class, $gitCommits);
+
+        $this->assertCount(1, $gitCommits);
+
+        // Add another commit
+        $this->smartFileSystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+
+        $this->assertTrue($git->hasChanges());
+
+        $git->add('commit.txt');
+        $git->commit([
+            'm' => 'Committed testing branch.',
+            'a' => true,
+        ]);
+
+        $this->assertCount(2, $gitCommits);
     }
 
     /**
