@@ -45,35 +45,28 @@ final class GitCommit
      */
     private $body;
 
-    public function __construct(
-        string $hash,
-        string $author,
-        string $authorDate,
-        string $committer,
-        string $committerDate,
-        string $subject,
-        string $body
-    ) {
-        $this->hash = $hash;
-        $this->author = $author;
-        $parsed = DateTimeImmutable::createFromFormat(DateTime::ISO8601, $authorDate);
+    public function __construct(array $data)
+    {
+        $this->hash = $data['hash'];
+        $this->author = $data['author'];
+        $parsed = DateTimeImmutable::createFromFormat(DateTime::ISO8601, $data['authorDate']);
 
         if (! $parsed) {
             throw new GitException('Could not parse author date.');
         }
 
         $this->authorDate = $parsed;
-        $this->committer = $committer;
+        $this->committer = $data['committer'];
 
-        $parsed = DateTimeImmutable::createFromFormat(DateTime::ISO8601, $committerDate);
+        $parsed = DateTimeImmutable::createFromFormat(DateTime::ISO8601, $data['committerDate']);
 
         if (! $parsed) {
             throw new GitException('Could not parse commiter date.');
         }
 
         $this->committerDate = $parsed;
-        $this->subject = $subject;
-        $this->body = $body;
+        $this->subject = $data['subject'];
+        $this->body = $data['body'];
     }
 
     public function getHash(): string

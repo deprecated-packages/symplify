@@ -127,7 +127,7 @@ final class GitCommits implements IteratorAggregate
             }
         }
 
-        return new GitCommit(...$items);
+        return new GitCommit($items);
     }
 
     private function parseCommit(string $commit): string
