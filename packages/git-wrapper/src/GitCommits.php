@@ -24,6 +24,9 @@ final class GitCommits implements IteratorAggregate
         $this->gitWorkingCopy = clone $gitWorkingCopy;
     }
 
+    /**
+     * @return ArrayIterator<string>
+     */
     public function getIterator(): ArrayIterator
     {
         $commits = $this->all();
