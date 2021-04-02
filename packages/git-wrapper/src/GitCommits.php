@@ -51,8 +51,8 @@ final class GitCommits implements IteratorAggregate
     public function fetchCommits(): array
     {
         $output = $this->gitWorkingCopy->log([
-                'format=%H' => '',
-            ]);
+            'format=%H' => '',
+        ]);
 
         return Strings::split(trim($output), Regex::NEWLINE_REGEX);
     }
