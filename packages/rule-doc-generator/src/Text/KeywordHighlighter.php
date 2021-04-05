@@ -126,6 +126,24 @@ final class KeywordHighlighter
             return true;
         }
 
+        if ($this->isFunctionExists($word)) {
+            return true;
+        }
+
+        if ($this->classLikeExistenceChecker->doesClassLikeExist($word)) {
+            // not a class
+            if (! Strings::contains($word, '\\')) {
+                return in_array($word, [Throwable::class, 'Exception'], true);
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isFunctionExists(string $word): bool
+    {
         if (Strings::endsWith($word, '()')) {
             $word = Strings::substring($word, -2);
             if (function_exists($word)) {
@@ -138,15 +156,6 @@ final class KeywordHighlighter
             if (function_exists($word)) {
                 return true;
             }
-        }
-
-        if ($this->classLikeExistenceChecker->doesClassLikeExist($word)) {
-            // not a class
-            if (! Strings::contains($word, '\\')) {
-                return in_array($word, [Throwable::class, 'Exception'], true);
-            }
-
-            return true;
         }
 
         return false;
