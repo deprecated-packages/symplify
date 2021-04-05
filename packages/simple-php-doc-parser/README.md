@@ -84,20 +84,46 @@ final class SomeClass
 
 ```php
 use PHPStan\PhpDocParser\Ast\Node;
-use PHPStan\PhpDocParser\Ast\Type\UnionTypeNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
+use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
 
 $phpDocNodeTraverser = new PhpDocNodeTraverser();
+$phpDocNode = new PhpDocNode([new PhpDocTagNode('@var', new VarTagValueNode(new IdentifierTypeNode('string')))]);
 
-$node = // ...any node;
-$docContent = '/** @var string */';
-
-$phpDocNodeTraverser->traverseWithCallable($node, $docContent, function (Node $node, string $docContent): Node {
-    if ($node instanceof UnionTypeNode) {
+// A. you can use callable to traverse
+$callable = function (Node $node): Node {
+    if (! $node instanceof VarTagValueNode) {
         return $node;
     }
 
-    // do some operation on $node
+    $node->type = new IdentifierTypeNode('int');
     return $node;
-});
+};
+
+$callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable);
+$phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
+
+// B. or class that extends AbstractPhpDocNodeVisitor
+final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
+{
+    public function enterNode(Node $node): ?Node
+    {
+        if (! $node instanceof VarTagValueNode) {
+            return $node;
+        }
+
+        $node->type = new IdentifierTypeNode('int');
+        return $node;
+    }
+}
+
+$integerPhpDocNodeVisitor = new IntegerPhpDocNodeVisitor();
+
+// then traverse the main node
+$phpDocNodeTraverser->traverse($phpDocNode);
 ```

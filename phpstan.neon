@@ -516,3 +516,30 @@ parameters:
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+
+        # node traverser magic
+        -
+            message: '#Use explicit return value over magic &reference#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
+            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 12, keep it under 8#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
+            message: '#Class cognitive complexity is 43, keep it under 25#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
+            message: '#Use void instead of modify and return self object#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
+            message: '#Do not inherit from abstract class, better use composition#'
+            paths:
+                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/*PhpDocNodeVisitor.php
+
+        -
+            message: '#Parameter "docContent" cannot be nullable#'
+            paths:
+                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
