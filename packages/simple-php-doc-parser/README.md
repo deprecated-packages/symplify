@@ -123,6 +123,7 @@ final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 }
 
 $integerPhpDocNodeVisitor = new IntegerPhpDocNodeVisitor();
+$phpDocNodeTraverser->addPhpDocNodeVisitor($integerPhpDocNodeVisitor);
 
 // then traverse the main node
 $phpDocNodeTraverser->traverse($phpDocNode);
