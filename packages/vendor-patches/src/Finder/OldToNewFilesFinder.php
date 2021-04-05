@@ -62,7 +62,7 @@ final class OldToNewFilesFinder
             // excluded built files
             ->exclude('composer/')
             ->exclude('ocramius/')
-            ->name('*.php.old');
+            ->name('*.old');
 
         return $this->finderSanitizer->sanitize($finder);
     }
