@@ -56,9 +56,11 @@ final class PhpDocNodeTraverser
      */
     private function traverseNode(Node $node): Node
     {
-        $subNodes = get_object_vars($node);
+        $subNodeNames = array_keys(get_object_vars($node));
 
-        foreach ($subNodes as &$subNode) {
+        foreach ($subNodeNames as $subNodeName) {
+            $subNode =& $node->$subNodeName;
+
             if (\is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
             } elseif ($subNode instanceof Node) {
@@ -77,6 +79,7 @@ final class PhpDocNodeTraverser
             }
         }
 
+
         return $node;
     }
 
@@ -86,7 +89,7 @@ final class PhpDocNodeTraverser
      */
     private function traverseArray(array $nodes): array
     {
-        foreach ($nodes as $key => $node) {
+        foreach ($nodes as &$node) {
             // can be string or something else
             if (! $node instanceof Node) {
                 continue;
@@ -104,8 +107,6 @@ final class PhpDocNodeTraverser
             foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
                 $phpDocNodeVisitor->leaveNode($node);
             }
-
-            $nodes[$key] = $node;
         }
 
         return $nodes;
