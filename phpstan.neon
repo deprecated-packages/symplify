@@ -459,9 +459,6 @@ parameters:
         # some phpstan bug
         - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
-        - '#Method (.*?) return type has no value type specified in iterable type Symplify\\GitWrapper\\GitTags#'
-        - '#Method (.*?) return type has no value type specified in iterable type Symplify\\GitWrapper\\GitBranches#'
-
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
         -
