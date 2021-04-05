@@ -22,29 +22,35 @@ final class ParentConnectingPhpDocNodeVisitorTest extends AbstractKernelTestCase
      */
     private $phpDocNodeTraverser;
 
-    /**
-     * @var ParentConnectingPhpDocNodeVisitor
-     */
-    private $parentConnectingPhpDocNodeVisitor;
-
     protected function setUp(): void
     {
         $this->bootKernel(SimplePhpDocParserKernel::class);
 
         $this->phpDocNodeTraverser = $this->getService(PhpDocNodeTraverser::class);
-        $this->parentConnectingPhpDocNodeVisitor = $this->getService(ParentConnectingPhpDocNodeVisitor::class);
+
+        /** @var ParentConnectingPhpDocNodeVisitor $parentConnectingPhpDocNodeVisitor */
+        $parentConnectingPhpDocNodeVisitor = $this->getService(ParentConnectingPhpDocNodeVisitor::class);
+        $this->phpDocNodeTraverser->addPhpDocNodeVisitor($parentConnectingPhpDocNodeVisitor);
     }
 
-    public function test(): void
+    public function testChildNode(): void
     {
-        $this->phpDocNodeTraverser->addPhpDocNodeVisitor($this->parentConnectingPhpDocNodeVisitor);
-
         $phpDocNode = $this->createPhpDocNode();
-
         $this->phpDocNodeTraverser->traverse($phpDocNode);
 
         $phpDocChildNode = $phpDocNode->children[0];
         $this->assertInstanceOf(PhpDocTagNode::class, $phpDocChildNode);
+
+        $childParent = $phpDocChildNode->getAttribute(PhpDocAttributeKey::PARENT);
+        $this->assertSame($phpDocNode, $childParent);
+    }
+
+    public function testTypeNode(): void
+    {
+        $phpDocNode = $this->createPhpDocNode();
+        $this->phpDocNodeTraverser->traverse($phpDocNode);
+
+        $phpDocChildNode = $phpDocNode->children[0];
 
         /** @var PhpDocTagNode $phpDocChildNode */
         $returnTagValueNode = $phpDocChildNode->value;
