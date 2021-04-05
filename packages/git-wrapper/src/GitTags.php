@@ -51,6 +51,9 @@ final class GitTags implements IteratorAggregate
         return ltrim($branch, ' *');
     }
 
+    /**
+     * @return ArrayIterator<string>
+     */
     public function getIterator(): ArrayIterator
     {
         $tags = $this->all();
@@ -59,7 +62,7 @@ final class GitTags implements IteratorAggregate
 
     /**
      * @api
-     * @return mixed[]
+     * @return string[]
      */
     public function all(): array
     {
