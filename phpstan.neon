@@ -535,6 +535,14 @@ parameters:
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
+            message: '#Use explicit names over dynamic ones#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
+            message:  '#Use separate function calls with readable variable names#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        -
             message: '#Do not inherit from abstract class, better use composition#'
             paths:
                  - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/*PhpDocNodeVisitor.php
