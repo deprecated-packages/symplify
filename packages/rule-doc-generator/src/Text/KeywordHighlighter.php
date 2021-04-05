@@ -125,11 +125,19 @@ final class KeywordHighlighter
         if (Strings::match($word, self::METHOD_NAME_REGEX)) {
             return true;
         }
-        if (function_exists($word)) {
-            return true;
+
+        if (Strings::endsWith($word, '()')) {
+            $word = Strings::substring($word, -2);
+            if (function_exists($word)) {
+                return true;
+            }
         }
-        if (function_exists(trim($word, '()'))) {
-            return true;
+
+        if (Strings::endsWith($word, '(),')) {
+            $word = Strings::substring($word, -3);
+            if (function_exists($word)) {
+                return true;
+            }
         }
 
         if ($this->classLikeExistenceChecker->doesClassLikeExist($word)) {
