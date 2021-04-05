@@ -8,6 +8,9 @@ use PHPStan\PhpDocParser\Ast\Node;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 
+/**
+ * Inspired by https://github.com/nikic/PHP-Parser/blob/master/lib/PhpParser/NodeVisitorAbstract.php
+ */
 abstract class AbstractPhpDocNodeVisitor implements PhpDocNodeVisitorInterface
 {
     public function beforeTraverse(PhpDocNode $phpDocNode): void

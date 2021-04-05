@@ -536,4 +536,10 @@ parameters:
 
         -
             message: '#Do not inherit from abstract class, better use composition#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeVisitor/ParentConnectingPhpDocNodeVisitor.php
+            paths:
+                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/*PhpDocNodeVisitor.php
+
+        -
+            message: '#Parameter "docContent" cannot be nullable#'
+            paths:
+                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
