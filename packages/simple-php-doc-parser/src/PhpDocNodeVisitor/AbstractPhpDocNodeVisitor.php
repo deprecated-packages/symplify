@@ -13,7 +13,7 @@ use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
  */
 abstract class AbstractPhpDocNodeVisitor implements PhpDocNodeVisitorInterface
 {
-    public function beforeTraverse(PhpDocNode $phpDocNode): void
+    public function beforeTraverse(Node $node): void
     {
     }
 
@@ -26,7 +26,7 @@ abstract class AbstractPhpDocNodeVisitor implements PhpDocNodeVisitorInterface
     {
     }
 
-    public function afterTraverse(PhpDocNode $phpDocNode): void
+    public function afterTraverse(Node $node): void
     {
     }
 }

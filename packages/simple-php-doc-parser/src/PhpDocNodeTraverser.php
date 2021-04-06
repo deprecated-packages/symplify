@@ -27,16 +27,16 @@ final class PhpDocNodeTraverser
         $this->phpDocNodeVisitors[] = $phpDocNodeVisitor;
     }
 
-    public function traverse(PhpDocNode $phpDocNode): void
+    public function traverse(Node $node): void
     {
         foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
-            $phpDocNodeVisitor->beforeTraverse($phpDocNode);
+            $phpDocNodeVisitor->beforeTraverse($node);
         }
 
-        $phpDocNode = $this->traverseNode($phpDocNode);
+        $node = $this->traverseNode($node);
 
         foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
-            $phpDocNodeVisitor->afterTraverse($phpDocNode);
+            $phpDocNodeVisitor->afterTraverse($node);
         }
     }
 

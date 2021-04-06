@@ -20,9 +20,9 @@ final class ParentConnectingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
      */
     private $stack = [];
 
-    public function beforeTraverse(PhpDocNode $phpDocNode): void
+    public function beforeTraverse(Node $node): void
     {
-        $this->stack = [$phpDocNode];
+        $this->stack = [$node];
     }
 
     public function enterNode(Node $node): ?Node

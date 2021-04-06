@@ -12,11 +12,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
  */
 interface PhpDocNodeVisitorInterface
 {
-    public function beforeTraverse(PhpDocNode $phpDocNode): void;
+    public function beforeTraverse(Node $node): void;
 
     public function enterNode(Node $node): ?Node;
 
     public function leaveNode(Node $node): void;
 
-    public function afterTraverse(PhpDocNode $phpDocNode): void;
+    public function afterTraverse(Node $node): void;
 }
