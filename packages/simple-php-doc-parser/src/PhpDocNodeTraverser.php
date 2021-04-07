@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SimplePhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Node;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
 
@@ -40,17 +39,17 @@ final class PhpDocNodeTraverser
         }
     }
 
-    public function traverseWithCallable(PhpDocNode $phpDocNode, string $docContent, callable $callable): PhpDocNode
+    public function traverseWithCallable(Node $node, string $docContent, callable $callable): Node
     {
-        $callableNodeVisitor = new CallablePhpDocNodeVisitor($callable, $docContent);
-        $this->addPhpDocNodeVisitor($callableNodeVisitor);
+        $callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable, $docContent);
+        $this->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
 
-        $this->traverse($phpDocNode);
-        return $phpDocNode;
+        $this->traverse($node);
+        return $node;
     }
 
     /**
-     * @template TNode as Node
+     * @template TNode of Node
      * @param TNode $node
      * @return TNode
      */
