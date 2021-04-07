@@ -204,6 +204,11 @@ parameters:
         - '#The path "/another\-one\.php" was not found#'
 
         -
+            message: '#The path "/\.\./\.\./\.\./\.\./friendsofphp/php\-cs\-fixer/src" was not found#'
+            paths:
+                 - packages/sniffer-fixer-to-ecs-converter/src/RobotLoader/FixerClassProvider.php
+
+        -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 23
