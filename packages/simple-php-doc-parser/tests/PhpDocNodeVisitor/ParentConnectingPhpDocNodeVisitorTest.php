@@ -50,9 +50,9 @@ final class ParentConnectingPhpDocNodeVisitorTest extends AbstractKernelTestCase
         $phpDocNode = $this->createPhpDocNode();
         $this->phpDocNodeTraverser->traverse($phpDocNode);
 
+        /** @var PhpDocTagNode $phpDocChildNode */
         $phpDocChildNode = $phpDocNode->children[0];
 
-        /** @var PhpDocTagNode $phpDocChildNode */
         $returnTagValueNode = $phpDocChildNode->value;
 
         $this->assertInstanceOf(ReturnTagValueNode::class, $returnTagValueNode);
