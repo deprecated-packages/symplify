@@ -922,12 +922,15 @@ CODE_SAMPLE;
             'n' => '1',
         ]));
 
-        $commit = $gitCommits->get($latestCommit);
+        $gitCommit = $gitCommits->get($latestCommit);
 
-        $this->assertSame('Committed file.', $commit->getSubject());
-        $this->assertSame("File created for testing purpose.\nBody should contain this message.", $commit->getBody());
-        $this->assertSame('Author name <testing-author@email.com>', $commit->getAuthor());
-        $this->assertSame('Testing name <testing@email.com>', $commit->getCommitter());
+        $this->assertSame('Committed file.', $gitCommit->getSubject());
+        $this->assertSame(
+            "File created for testing purpose.\nBody should contain this message.",
+            $gitCommit->getBody()
+        );
+        $this->assertSame('Author name <testing-author@email.com>', $gitCommit->getAuthor());
+        $this->assertSame('Testing name <testing@email.com>', $gitCommit->getCommitter());
     }
 
     /**
