@@ -146,6 +146,11 @@ final class ComposerJson
      */
     private $scriptsDescriptions = [];
 
+    /**
+     * @var string|null
+     */
+    private $version;
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -172,6 +177,16 @@ final class ComposerJson
     public function setRequire(array $require): void
     {
         $this->require = $this->sortPackagesIfNeeded($require);
+    }
+
+    public function getVersion(): ?string
+    {
+        return $this->version;
+    }
+
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
     }
 
     /**
@@ -416,7 +431,6 @@ final class ComposerJson
             ComposerJsonSection::TYPE => $this->type,
             ComposerJsonSection::REQUIRE => $this->require,
             ComposerJsonSection::REQUIRE_DEV => $this->requireDev,
-            ComposerJsonSection::CONFLICT => $this->conflicts,
             ComposerJsonSection::AUTOLOAD => $this->autoload,
             ComposerJsonSection::AUTOLOAD_DEV => $this->autoloadDev,
             ComposerJsonSection::REPOSITORIES => $this->repositories,
@@ -426,6 +440,8 @@ final class ComposerJson
             ComposerJsonSection::SCRIPTS_DESCRIPTIONS => $this->scriptsDescriptions,
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
+            ComposerJsonSection::CONFLICT => $this->conflicts,
+            ComposerJsonSection::VERSION => $this->version,
         ]);
 
         if ($this->minimumStability !== null) {
@@ -766,7 +782,7 @@ final class ComposerJson
      * 2. sort item by prescribed key order
      *
      * @see https://www.designcise.com/web/tutorial/how-to-sort-an-array-by-keys-based-on-order-in-a-secondary-array-in-php
-     * @param mixed[] $contentItems
+     * @param array<string, mixed> $contentItems
      * @param string[] $orderedVisibleItems
      * @return mixed[]
      */
@@ -775,6 +791,16 @@ final class ComposerJson
         uksort($contentItems, function ($firstContentItem, $secondContentItem) use ($orderedVisibleItems): int {
             $firstItemPosition = array_search($firstContentItem, $orderedVisibleItems, true);
             $secondItemPosition = array_search($secondContentItem, $orderedVisibleItems, true);
+
+            if ($firstItemPosition === false) {
+                // new item, put in the back
+                return -1;
+            }
+
+            if ($secondItemPosition === false) {
+                // new item, put in the back
+                return -1;
+            }
 
             return $firstItemPosition <=> $secondItemPosition;
         });

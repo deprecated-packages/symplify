@@ -17,7 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
 /**
- * @template T as Node
+ * @template T of Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  */
 final class ForbiddenNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface

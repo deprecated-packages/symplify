@@ -8,7 +8,6 @@ use Nette\Utils\Strings;
 use Symplify\RuleDocGenerator\Category\CategoryResolver;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\CodeSamplePrinter;
 use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
-use Symplify\RuleDocGenerator\ValueObject\Lines;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class RuleDefinitionsPrinter
@@ -101,7 +100,7 @@ final class RuleDefinitionsPrinter
             $lines[] = $this->keywordHighlighter->highlight($ruleDefinition->getDescription());
 
             if ($ruleDefinition->isConfigurable()) {
-                $lines[] = Lines::CONFIGURE_IT;
+                $lines[] = ':wrench: **configure it!**';
             }
 
             $lines[] = '- class: [`' . $ruleDefinition->getRuleClass() . '`](' . $ruleDefinition->getRuleFilePath() . ')';

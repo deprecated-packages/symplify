@@ -56,6 +56,11 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
         $markdownFileDirectory = dirname($outputFilePath);
 
+        // ensure directory exists
+        if (! $this->smartFileSystem->exists($markdownFileDirectory)) {
+            $this->smartFileSystem->mkdir($markdownFileDirectory);
+        }
+
         $markdownFileContent = $this->directoryToMarkdownPrinter->print(
             $markdownFileDirectory,
             $paths,

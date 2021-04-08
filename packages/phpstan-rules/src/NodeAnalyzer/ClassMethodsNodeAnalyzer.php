@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
@@ -38,10 +37,6 @@ final class ClassMethodsNodeAnalyzer
 
     private function isMethodCallWithCallerOfType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
     {
-        if (! $methodCall->var instanceof Expr) {
-            return false;
-        }
-
         $callerType = $scope->getType($methodCall->var);
         if (! $callerType instanceof TypeWithClassName) {
             return false;

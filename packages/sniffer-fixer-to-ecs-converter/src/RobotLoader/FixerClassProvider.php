@@ -11,6 +11,16 @@ final class FixerClassProvider
     /**
      * @var string[]
      */
+    private const POSSIBLE_PHP_CS_FIXER_PATHS = [
+        // after split package
+        __DIR__ . '/../../../../friendsofphp/php-cs-fixer/src',
+        // monorepo
+        __DIR__ . '/../../../../vendor/friendsofphp/php-cs-fixer/src',
+    ];
+
+    /**
+     * @var string[]
+     */
     private $fixerClasses = [];
 
     /**
@@ -23,7 +33,13 @@ final class FixerClassProvider
         }
 
         $robotLoader = new RobotLoader();
-        $robotLoader->addDirectory(__DIR__ . '/../../../../vendor/friendsofphp/php-cs-fixer/src');
+
+        foreach (self::POSSIBLE_PHP_CS_FIXER_PATHS as $possiblePhpCsFixerPath) {
+            if (file_exists($possiblePhpCsFixerPath)) {
+                $robotLoader->addDirectory($possiblePhpCsFixerPath);
+                break;
+            }
+        }
 
         $robotLoader->acceptFiles = ['*Fixer.php'];
         $robotLoader->rebuild();

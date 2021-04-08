@@ -33,7 +33,7 @@ includes:
 
 ### 1. Resolve Name of Any Node
 
-How can you get name of speficic node?
+How can you get the name of a specific node?
 
 ```php
 $someObject->someMethodCall();

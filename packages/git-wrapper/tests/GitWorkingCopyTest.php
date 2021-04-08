@@ -10,6 +10,7 @@ use OndraM\CiDetector\CiDetector;
 use Symfony\Component\Process\Process;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
+use Symplify\GitWrapper\GitCommits;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSubscriber;
 use Symplify\GitWrapper\Tests\Source\StreamSuppressFilter;
@@ -848,6 +849,85 @@ CODE_SAMPLE;
 
         $resolveRemoveUrl = $git->getRemoteUrl($remote, $operation);
         $this->assertSame('file://' . $expectedRemoteUrl, $resolveRemoveUrl);
+    }
+
+    public function testCommits(): void
+    {
+        $git = $this->getWorkingCopy();
+        $gitCommits = $git->commits();
+
+        $this->assertInstanceOf(GitCommits::class, $gitCommits);
+
+        $this->assertCount(1, $gitCommits);
+
+        // Add another commit
+        $this->smartFileSystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+
+        $this->assertTrue($git->hasChanges());
+
+        $git->add('commit.txt');
+        $git->commit([
+            'm' => 'Committed testing branch.',
+            'a' => true,
+        ]);
+
+        $this->assertCount(2, $gitCommits);
+    }
+
+    public function testCommitRanges(): void
+    {
+        $git = $this->getWorkingCopy();
+        $gitCommits = $git->commits();
+
+        foreach (range(1, 10) as $index) {
+            $this->smartFileSystem->dumpFile(self::WORKING_DIR . '/commit-' . $index . '.txt', "created\n");
+
+            $this->assertTrue($git->hasChanges());
+
+            $git->add('commit-' . $index . '.txt');
+            $git->commit([
+                'm' => 'Committed ' . $index . '.',
+                'a' => true,
+            ]);
+        }
+
+        $firstCommitHash = trim($git->run(CommandName::REV_LIST, ['--max-parents=0', 'HEAD']));
+
+        $range = $gitCommits->fetchRange($firstCommitHash, 'HEAD');
+
+        // Initial commit and 10 created commits above
+        $this->assertCount(11, $range);
+    }
+
+    public function testCommitGet(): void
+    {
+        $git = $this->getWorkingCopy();
+        $gitCommits = $git->commits();
+
+        // Create test commit
+        $this->smartFileSystem->dumpFile(self::WORKING_DIR . '/commit.txt', "created\n");
+
+        $this->assertTrue($git->hasChanges());
+
+        $git->add('commit.txt');
+        $git->commit([
+            'm' => "Committed file.\n\nFile created for testing purpose.\nBody should contain this message.",
+            'a' => true,
+            'author' => 'Author name <testing-author@email.com>',
+        ]);
+
+        // Assert
+        $latestCommit = trim($git->log([
+            'format=%H' => '',
+            'n' => '1',
+        ]));
+
+        $commit = $gitCommits->get($latestCommit);
+
+        $this->assertSame('Committed file.', $commit->getSubject());
+        $this->assertSame("File created for testing purpose.\nBody should contain this message.", $commit->getBody());
+        $this->assertSame('Author name <testing-author@email.com>', $commit->getAuthor());
+        $this->assertSame('Testing name <testing@email.com>', $commit->getCommitter());
     }
 
     /**

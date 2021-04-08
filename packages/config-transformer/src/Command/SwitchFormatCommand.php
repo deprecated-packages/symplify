@@ -70,7 +70,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
             's',
             InputOption::VALUE_REQUIRED,
             'Symfony version to migrate config to',
-            3.2
+            '3.2'
         );
 
         $this->addOption(Option::DRY_RUN, null, InputOption::VALUE_NONE, 'Dry run - no removal or config change');

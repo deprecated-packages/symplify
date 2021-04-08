@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\ValueObject\CodeSample;
 
-use Rector\Core\Exception\Configuration\InvalidConfigurationException;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
+use Symplify\RuleDocGenerator\Exception\ShouldNotHappenException;
 use Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample;
 
 final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampleInterface
@@ -22,7 +22,7 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
     {
         if ($configuration === []) {
             $message = sprintf('Configuration cannot be empty. Look for "%s"', $badCode);
-            throw new InvalidConfigurationException($message);
+            throw new ShouldNotHappenException($message);
         }
 
         $this->configuration = $configuration;

@@ -1,9 +1,12 @@
+# builds the content of https://github.com/symplify/easy-coding-standard-prefixed
+# inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
 name: Build ECS Prefixed
 
 on:
-    pull_request: null
-
     push:
+        branches:
+            - main
+
         # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
         tags:
             - '*'
@@ -36,36 +39,63 @@ jobs:
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/easy-coding-standard/composer.json --ansi
 
             # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
-            -
-                run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
+            -   run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
 
             # 2. scope it
             -   run: vendor/bin/php-scoper add-prefix packages/easy-coding-standard --output-dir packages-scoped/easy-coding-standard --config packages/easy-coding-standard/scoper.inc.php --force --ansi
             -   run: composer dump-autoload --working-dir packages-scoped/easy-coding-standard --ansi --optimize --classmap-authoritative
             -   run: packages/package-scoper/bin/package-scoper scope-composer-json packages-scoped/easy-coding-standard/composer.json --ansi
 
-            # 3. run it
             -   run: chmod 777 ./packages-scoped/easy-coding-standard/bin/ecs
 
-            # 4. copy github actoins to repository, so tests run there too
+            # copy github actoins to repository, so tests run there too
             -   run: cp -R build/ecs-scoped/target-repository/. packages-scoped/easy-coding-standard
 
-            # 5. get tag - see https://github.com/WyriHaximus/github-action-get-previous-tag
+            # clone remote repository, so we can push it
             -
-                id: previous_tag
-                uses: "WyriHaximus/github-action-get-previous-tag@master"
-
-            # 6. split it to remote repository
-            # see https://github.com/cpina/github-action-push-to-another-repository
-            -
-                # Uses an action in the root directory
-                uses: symplify/github-action-monorepo-split@1.1
-                env:
-                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                uses: "actions/checkout@v2"
                 with:
-                    package-directory: 'packages-scoped/easy-coding-standard'
-                    split-repository-organization: 'symplify'
-                    split-repository-name: 'easy-coding-standard-prefixed'
-                    tag: ${{ steps.previous_tag.outputs.tag }}
-                    user-name: "kaizen-ci"
-                    user-email: "info@kaizen-ci.org"
+                    repository: symplify/easy-coding-standard-prefixed
+                    path: remote-repository
+                    token: ${{ secrets.ACCESS_TOKEN }}
+
+            # remove remote files, to avoid piling up dead code in remote repository
+            -   run: rm -rf remote-repository/config remote-repository/src remote-repository/packages remote-repository/tests remote-repository/vendor
+
+            # copy repository meta files
+            -   run: cp -R packages-scoped/easy-coding-standard/. remote-repository
+
+            # setup git
+            -
+                working-directory: remote-repository
+                run: |
+                    git config user.email "tomas.vot@gmail.com"
+                    git config user.name "Tomas Votruba"
+
+            # 7. commit metadata
+            -
+                name: "Get Git log"
+                id: git-log
+                run: echo ::set-output name=log::$(git log ${{ github.event.before }}..${{ github.event.after }} --reverse --pretty='%H %s' | sed -e 's/^/https:\/\/github.com\/symplify\/symplify\/commit\//')
+
+            # 8.A publish it to remote repository without tag
+            -
+                name: "Commit Prefixed - main"
+                working-directory: remote-repository
+                if: "!startsWith(github.ref, 'refs/tags/')"
+                run: |
+                    git add --all
+                    git commit -m "Updated ECS to commit ${{ github.event.after }}" -m "${{ steps.git-log.outputs.log }}"
+                    git push --quiet origin main
+
+            # 8.B publish it to remote repository with tag
+            -
+                name: "Commit Prefixed - tag"
+                working-directory: remote-repository
+                if: "startsWith(github.ref, 'refs/tags/')"
+                run: |
+                    git add --all
+                    git commit -m "ECS ${GITHUB_REF#refs/tags/}" -m "${{ steps.git-log.outputs.log }}"
+                    git push --quiet origin main
+                    git tag ${GITHUB_REF#refs/tags/} -m "${GITHUB_REF#refs/tags/}"
+                    git push --quiet origin ${GITHUB_REF#refs/tags/}

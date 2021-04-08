@@ -28,6 +28,7 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/SkipReturnClone.php', []];
         yield [__DIR__ . '/Fixture/SkipNotReturnObject.php', []];
         yield [__DIR__ . '/Fixture/SkipStringUnion.php', []];
+        yield [__DIR__ . '/Fixture/SkipNodeTraverser.php', []];
 
         yield [__DIR__ . '/Fixture/ModifyAndReturnSelfObject.php', [
             [NoModifyAndReturnSelfObjectRule::ERROR_MESSAGE, 14],

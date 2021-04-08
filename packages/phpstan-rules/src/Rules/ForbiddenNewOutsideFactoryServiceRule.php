@@ -118,7 +118,6 @@ CODE_SAMPLE
 
     private function hasNewWithTypeInside(New_ $new, string $type): bool
     {
-        /** @var FullyQualified $fullyQualifiedName */
         $fullyQualifiedName = $new->class;
         if (! $fullyQualifiedName instanceof FullyQualified) {
             return false;

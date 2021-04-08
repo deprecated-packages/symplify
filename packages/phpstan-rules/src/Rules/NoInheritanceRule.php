@@ -44,6 +44,8 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'Symfony\Component\Validator\ConstraintValidator',
         'Symfony\Component\Filesystem\Filesystem',
         'Twig\Extension\ExtensionInterface',
+        'PhpCsFixer\AbstractFixer',
+        'Rector\Core\Rector\AbstractRector',
         'PhpCsFixer\AbstractDoctrineAnnotationFixer',
         'PhpParser\NodeTraverser',
         'PhpParser\Builder',

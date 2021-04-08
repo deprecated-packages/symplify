@@ -6,7 +6,7 @@ services:
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
-    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
@@ -23,7 +23,11 @@ services:
     - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
 
     - Symplify\PHPStanRules\Printer\NodeComparator
+
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+    - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
+
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
 
     - Symplify\Astral\NodeValue\NodeValueResolver

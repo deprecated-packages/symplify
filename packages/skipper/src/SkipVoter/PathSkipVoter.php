@@ -36,7 +36,7 @@ final class PathSkipVoter implements SkipVoterInterface
     }
 
     /**
-     * @param string $element
+     * @param string|object $element
      */
     public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool
     {

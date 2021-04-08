@@ -44,7 +44,7 @@ final class ParentClassMethodGuard
             return false;
         }
 
-        $methodReflection = $this->parentMethodResolver->resolve($scope, $classMethodName);
-        return $methodReflection instanceof MethodReflection;
+        $phpMethodReflection = $this->parentMethodResolver->resolve($scope, $classMethodName);
+        return $phpMethodReflection instanceof MethodReflection;
     }
 }

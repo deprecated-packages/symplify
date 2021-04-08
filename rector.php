@@ -8,9 +8,11 @@ use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Core\ValueObject\ProjectType;
+use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -55,12 +57,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::PHP_73,
         SetList::TYPE_DECLARATION,
         SetList::TYPE_DECLARATION_STRICT,
-        SetList::PHPUNIT_CODE_QUALITY,
         SetList::NAMING,
         SetList::PRIVATIZATION,
         // enable later
         // SetList::DEAD_CLASSES,
         SetList::EARLY_RETURN,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
     ]);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
@@ -84,13 +86,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
 
         // many false postivies
-        \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class,
+        RenameForeachValueVariableToMatchExprVariableRector::class,
 
-        PrivatizeLocalOnlyMethodRector::class => [
-            // @api + used in test
-            __DIR__ . '/packages/symfony-static-dumper/tests/test_project/src/HttpKernel/TestSymfonyStaticDumperKernel.php',
-            __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
-        ],
+        // buggy with parent interface contract
+        ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
 

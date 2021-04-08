@@ -55,6 +55,9 @@ final class GitBranches implements IteratorAggregate
         return ltrim($branch, ' *');
     }
 
+    /**
+     * @return ArrayIterator<string>
+     */
     public function getIterator(): ArrayIterator
     {
         $branches = $this->all();
