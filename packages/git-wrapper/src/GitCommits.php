@@ -16,6 +16,19 @@ use Symplify\GitWrapper\ValueObject\Regex;
 final class GitCommits implements IteratorAggregate
 {
     /**
+     * @var string[]
+     */
+    private const FORMAT_LINES = [
+        'Hash: %H',
+        'Author: %an <%ae>',
+        'AuthorDate: %aI',
+        'Committer: %cn <%ce>',
+        'CommitterDate: %cI',
+        'Subject: %s',
+        'Body: %b',
+    ];
+
+    /**
      * @var GitWorkingCopy
      */
     private $gitWorkingCopy;
@@ -78,22 +91,14 @@ final class GitCommits implements IteratorAggregate
             ]
         );
 
-        return array_map([$this, 'parseCommit'], Strings::split(trim($output), Regex::NEWLINE_REGEX));
+        return array_map(function (string $commit): string {
+            return $this->parseCommit($commit);
+        }, Strings::split(trim($output), Regex::NEWLINE_REGEX));
     }
 
     public function get(string $hash): GitCommit
     {
-        $formatLines = [
-            'Hash: %H',
-            'Author: %an <%ae>',
-            'AuthorDate: %aI',
-            'Committer: %cn <%ce>',
-            'CommitterDate: %cI',
-            'Subject: %s',
-            'Body: %b',
-        ];
-
-        $format = implode('%n', $formatLines);
+        $format = implode('%n', self::FORMAT_LINES);
 
         $output = $this->gitWorkingCopy->show($hash, [
             'format=' . $format => '',
@@ -113,7 +118,7 @@ final class GitCommits implements IteratorAggregate
 
         foreach ($lines as $line) {
             if (! $captureBody) {
-                $split = Strings::split($line, '/:/');
+                $split = Strings::split($line, '#:#');
                 $key = array_shift($split);
                 $value = trim((implode(':', $split)));
 
