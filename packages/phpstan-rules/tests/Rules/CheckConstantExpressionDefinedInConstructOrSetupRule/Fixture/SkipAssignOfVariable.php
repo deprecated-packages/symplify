@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInCons
 
 final class SkipAssignOfVariable
 {
+    private $fileInfo;
+
     public function run($autoloadDirectory)
     {
         $filePathCandidates = [
