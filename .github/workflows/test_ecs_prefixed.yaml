@@ -20,6 +20,10 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -   run: composer require symplify/easy-coding-standard-prefixed:dev-main --ansi
+            -   run: |
+                  composer config minimum-stability dev
+                  composer config prefer-stable true  
+                  composer require symplify/easy-coding-standard-prefixed:dev-main --ansi
+                   
 
             -   run: vendor/bin/ecs list --ansi
