@@ -2,7 +2,7 @@
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
-Add regex101.com `link` to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
+Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
 
 - class: [`Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule`](../src/Rules/AnnotateRegexClassConstWithRegexLinkRule.php)
 
@@ -1054,7 +1054,7 @@ final class SomeClass
 
 ## ForbiddenAssignInIfRule
 
-Assignment inside if is not allowed. `Extract` condition to extra variable on line above
+Assignment inside if is not allowed. Extract condition to extra variable on line above
 
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`](../src/Rules/ForbiddenAssignInIfRule.php)
 
@@ -1437,7 +1437,7 @@ class SomeClass
 
 ## ForbiddenMethodOrStaticCallInForeachRule
 
-Method nor static call in foreach is not allowed. `Extract` expression to a new variable assign on line before
+Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before
 
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
 
@@ -1464,7 +1464,7 @@ foreach ($arg as $key => $item) {
 
 ## ForbiddenMethodOrStaticCallInIfRule
 
-Method nor static call in `if()` or `elseif()` is not allowed. `Extract` expression to a new variable assign on line before
+Method nor static call in `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
 
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`](../src/Rules/ForbiddenMethodOrStaticCallInIfRule.php)
 
@@ -1529,7 +1529,7 @@ interface SomeInterface
 
 ## ForbiddenNestedCallInAssertMethodCallRule
 
-Decouple method call in `assert` to standalone line to make test core more readable
+Decouple method call in assert to standalone line to make test core more readable
 
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule`](../src/Rules/ForbiddenNestedCallInAssertMethodCallRule.php)
 
@@ -2248,7 +2248,7 @@ final class LogoutController extends AbstractController
 
 ## MatchingTypeConstantRule
 
-`Constant` type should be "%s", but is "%s"
+Constant type should be "%s", but is "%s"
 
 - class: [`Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
 
@@ -2422,7 +2422,7 @@ return $values !== [];
 
 ## NoChainMethodCallRule
 
-Do not use chained method calls. Put `each` on separated lines.
+Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
@@ -3998,7 +3998,7 @@ class Some
 
 ## NoTraitRule
 
-Do not use trait, `extract` to a service and dependency injection instead
+Do not use trait, extract to a service and dependency injection instead
 
 - class: [`Symplify\PHPStanRules\Rules\NoTraitRule`](../src/Rules/NoTraitRule.php)
 
@@ -5745,7 +5745,7 @@ trait SomeTrait
 
 ## TooDeepNewClassNestingRule
 
-new <class> is limited to %d "new <class>(new <class>))" nesting to `each` other. You have %d nesting.
+new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
 
 :wrench: **configure it!**
 
@@ -6020,7 +6020,7 @@ class SomeClass
 
 ## UppercaseConstantRule
 
-`Constant` "%s" must be uppercase
+Constant "%s" must be uppercase
 
 - class: [`Symplify\PHPStanRules\Rules\UppercaseConstantRule`](../src/Rules/UppercaseConstantRule.php)
 
