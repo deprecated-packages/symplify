@@ -28,9 +28,6 @@ final class ArrayTypeCaster implements TypeCasterInterface
         return $type === 'array';
     }
 
-    /**
-     * @return array<string|object|mixed>|null
-     */
     public function retype(
         $value,
         ReflectionParameter $reflectionParameter,
