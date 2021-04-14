@@ -87,9 +87,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
             return [];
         }
 
-        /** @var StaticCall $expr */
-        $expr = $node->expr;
-
         return [self::ERROR_MESSAGE];
     }
 
