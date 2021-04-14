@@ -191,9 +191,6 @@ CODE_SAMPLE
         return $this->getPriorityBefore(TrimArraySpacesFixer::class);
     }
 
-    /**
-     * @param mixed[]|null $configuration
-     */
     public function configure(?array $configuration = null): void
     {
         $this->lineLength = $configuration[self::LINE_LENGTH] ?? self::DEFAULT_LINE_LENGHT;

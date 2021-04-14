@@ -106,9 +106,6 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param mixed[]|null $configuration
-     */
     public function configure(?array $configuration = null): void
     {
         $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;

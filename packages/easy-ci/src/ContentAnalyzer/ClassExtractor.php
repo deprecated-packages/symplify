@@ -34,18 +34,6 @@ final class ClassExtractor
     private const CLASS_NAME_PART = 'class_name';
 
     /**
-     * @var string
-     * @see https://regex101.com/r/PV3HcW/1
-     */
-    private const NEWLINE_THEN_SPACE_REGEX = '#\n[ \t]+#';
-
-    /**
-     * @see https://regex101.com/r/TKgsqu/1
-     * @var string
-     */
-    private const APPLICATION_START_REGEX = '#^(?<application_line>application:.*?)$#m';
-
-    /**
      * @return class-string[]
      */
     public function extractFromFileInfo(SmartFileInfo $fileInfo): array
@@ -55,19 +43,9 @@ final class ClassExtractor
 
         $matches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
 
-        $fileContentWithRootLines = Strings::replace($fileContent, self::NEWLINE_THEN_SPACE_REGEX);
-
-        // possibly mask for routes
-        $applicationLine = $this->resolveNetteApplicationLine($fileContentWithRootLines);
-
         foreach ($matches as $match) {
             if (isset($match[self::NEXT_CHAR]) && ($match[self::NEXT_CHAR] === '\\' || $match[self::NEXT_CHAR] === '\\:')) {
                 // is Symfony autodiscovery → skip
-                continue;
-            }
-
-            $classNamePart = $match[self::CLASS_NAME_PART];
-            if ($applicationLine && Strings::contains($applicationLine, $classNamePart)) {
                 continue;
             }
 
@@ -88,6 +66,7 @@ final class ClassExtractor
             $neon = Neon::decode($fileInfo->getContents());
 
             // section with no classes that resemble classes
+            unset($neon['application']['mapping']);
             unset($neon['mapping']);
 
             return Neon::encode($neon, Encoder::BLOCK);
@@ -107,16 +86,5 @@ final class ClassExtractor
         }
 
         return $match[self::CLASS_NAME_PART];
-    }
-
-    private function resolveNetteApplicationLine(string $fileContentWithRootLines): string
-    {
-        $isMaskForRoutes = Strings::startsWith($fileContentWithRootLines, 'application:');
-        if (! $isMaskForRoutes) {
-            return '';
-        }
-
-        $matches = Strings::match($fileContentWithRootLines, self::APPLICATION_START_REGEX);
-        return $matches['application_line'] ?? '';
     }
 }

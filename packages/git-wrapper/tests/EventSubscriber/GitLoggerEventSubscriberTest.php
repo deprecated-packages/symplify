@@ -43,10 +43,6 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
         $testLogger = new TestLogger();
         $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($testLogger));
 
-        $gitWorkingCopy = $this->gitWrapper->init(self::REPO_DIR, [
-            'bare' => true,
-        ]);
-
         $this->assertContains('Git command preparing to run', $testLogger->messages);
         $this->assertContains(
             'Initialized empty Git repository in ' . realpath(self::REPO_DIR) . "/\n",
