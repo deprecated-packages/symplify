@@ -43,7 +43,7 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
         $testLogger = new TestLogger();
         $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($testLogger));
 
-        $gitWorkingCopy = $this->gitWrapper->init(self::REPO_DIR, [
+        $this->gitWrapper->init(self::REPO_DIR, [
             'bare' => true,
         ]);
 

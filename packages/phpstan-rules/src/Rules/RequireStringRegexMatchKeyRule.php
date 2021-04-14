@@ -9,7 +9,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
@@ -87,12 +86,6 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
         if ($usedAsArrayDimFetches === []) {
             return [];
         }
-
-        /** @var StaticCall $expr */
-        $expr = $node->expr;
-
-        /** @var ClassConstFetch $value */
-        $value = $expr->args[1]->value;
 
         return [self::ERROR_MESSAGE];
     }
