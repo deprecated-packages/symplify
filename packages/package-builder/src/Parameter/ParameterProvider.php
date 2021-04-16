@@ -27,6 +27,11 @@ final class ParameterProvider
         $this->parameters = $parameterBag->all();
     }
 
+    public function hasParameter(string $name): bool
+    {
+        return isset($this->parameters[$name]);
+    }
+
     /**
      * @api
      * @return mixed|null
