@@ -28,6 +28,10 @@ final class JsonInliner
 
     public function inlineSections(string $jsonContent): string
     {
+        if (! $this->parameterProvider->hasParameter(Option::INLINE_SECTIONS)) {
+            return $jsonContent;
+        }
+
         $inlineSections = $this->parameterProvider->provideArrayParameter(Option::INLINE_SECTIONS);
 
         foreach ($inlineSections as $inlineSection) {
