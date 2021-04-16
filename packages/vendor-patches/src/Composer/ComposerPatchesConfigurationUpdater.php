@@ -26,21 +26,30 @@ final class ComposerPatchesConfigurationUpdater
     }
 
     /**
-     * @param mixed[] $composerExtraPatches
+     * Adds the patches to the composer.json file. Any patches that are already listed
+     * in the composer.json file are kept, unless the referenced patch has been deleted
+     * from disk.
+     *
+     * @param mixed[] $newPatches An array in the form [ $packageroot => [ $patches ] ]
      */
-    public function updateComposerJson(array $composerExtraPatches): void
+    public function updateComposerJson(array $newPatches): void
     {
-        $extra = [
-            'patches' => $composerExtraPatches,
-        ];
-
         $composerJsonFilePath = getcwd() . '/composer.json';
         $composerJson = $this->composerJsonFactory->createFromFilePath($composerJsonFilePath);
 
-        // merge "extra" section
-        $newExtra = array_merge($composerJson->getExtra(), $extra);
-        $composerJson->setExtra($newExtra);
+        // create new 'patches' section
+        $extraSection = $composerJson->getExtra();
+        $patches = array_merge_recursive($extraSection['patches'] ?? [], $newPatches);
 
+        // remove any patches that have been deleted from disk
+        foreach ($patches as $package=>$paths) {
+            $patches[$package] = array_filter(array_unique($paths), function($path) {
+                return file_exists(getcwd() . '/' . $path);
+            });
+        }
+
+        // update the composer.json file
+        $composerJson->setExtra(array_merge($extraSection, ['patches'=>$patches]));
         $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $composerJsonFilePath);
     }
 }
