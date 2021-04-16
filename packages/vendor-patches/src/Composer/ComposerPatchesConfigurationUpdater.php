@@ -43,13 +43,18 @@ final class ComposerPatchesConfigurationUpdater
 
         // remove any patches that have been deleted from disk
         foreach ($patches as $package=>$paths) {
-            $patches[$package] = array_filter(array_unique($paths), function($path) {
-                return file_exists(getcwd() . '/' . $path);
-            });
+            $new_paths = [];
+            foreach ($paths as $path) {
+                if (file_exists(getcwd() . '/' . $path)) {
+                    $new_paths[$path] = $path;
+                }
+            }
+            $patches[$package] = array_values($new_paths);
         }
 
         // update the composer.json file
-        $composerJson->setExtra(array_merge($extraSection, ['patches'=>$patches]));
+        $extra = array_merge($extraSection, ['patches'=>$patches]);
+        $composerJson->setExtra($extra);
         $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $composerJsonFilePath);
     }
 }
