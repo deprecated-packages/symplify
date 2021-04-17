@@ -1,9 +1,12 @@
-name: Split Monorepo Dev-Master
+name: Split Monorepo
 
 on:
     push:
         branches:
             - main
+        # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
+        tags:
+            - '*'
 
 jobs:
     provide_packages_json:
@@ -42,16 +45,35 @@ jobs:
                 package: ${{fromJson(needs.provide_packages_json.outputs.matrix)}}
 
         steps:
-            -
-                uses: actions/checkout@v2
+            -   uses: actions/checkout@v2
 
+            # no tag
             -
+                if: "!startsWith(github.ref, 'refs/tags/')"
                 # Uses an action in the root directory
                 name: Monorepo Split of ${{ matrix.package }}
                 uses: symplify/github-action-monorepo-split@1.1
                 env:
                     GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
                 with:
+                    package-directory: 'packages/${{ matrix.package }}'
+                    split-repository-organization: 'symplify'
+                    split-repository-name: '${{ matrix.package }}'
+                    user-name: "kaizen-ci"
+                    user-email: "info@kaizen-ci.org"
+                    branch: "main"
+
+            # with tag
+            -
+                if: "startsWith(github.ref, 'refs/tags/')"
+                # Uses an action in the root directory
+                name: Monorepo Tagged Split of ${{ matrix.package }}
+                uses: symplify/github-action-monorepo-split@1.1
+                env:
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    tag: ${GITHUB_REF#refs/tags/}
+
                     package-directory: 'packages/${{ matrix.package }}'
                     split-repository-organization: 'symplify'
                     split-repository-name: '${{ matrix.package }}'
