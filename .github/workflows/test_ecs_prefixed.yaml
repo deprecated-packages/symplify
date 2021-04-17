@@ -14,15 +14,15 @@ jobs:
     tests_ecs_prefixed:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout tools repo
-              uses: actions/checkout@v2
-              with:
-                repository: symplify/easy-coding-standard-prefixed
-                path: easy-coding-standard-prefixed
+            -   name: Checkout tools repo
+                uses: actions/checkout@v2
+                with:
+                    repository: symplify/easy-coding-standard-prefixed
+                    path: easy-coding-standard-prefixed
 
-            - uses: shivammathur/setup-php@v2
-              with:
-                php-version: 7.3
-                coverage: none
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.3
+                    coverage: none
 
-            - run: vendor/bin/ecs list --ansi
+            -   run: vendor/bin/ecs list --ansi
