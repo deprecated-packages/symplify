@@ -14,10 +14,14 @@ jobs:
     tests_ecs_prefixed:
         runs-on: ubuntu-latest
         steps:
-            -   name: Checkout tools repo
-                uses: actions/checkout@v2
+            -   uses: jakejarvis/wait-action@master
+                with:
+                    time: '60s'
+
+            -   uses: actions/checkout@v2
                 with:
                     repository: symplify/easy-coding-standard-prefixed
+
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.3
