@@ -23,4 +23,4 @@ jobs:
                     php-version: 7.3
                     coverage: none
 
-            -   run: bin/ecs list --ansi
+            -   run: php bin/ecs list --ansi
