@@ -22,8 +22,10 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
+
     $services->defaults()
-        ->autowire();
+        ->autowire()
+        ->autoconfigure();
 
     $services->set(ParameterProvider::class);
 
