@@ -1,0 +1,29 @@
+# test run of https://github.com/symplify/easy-coding-standard-prefixed
+name: Tests ECS Prefixed
+
+on:
+    push:
+        branches:
+            - main
+
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-main"
+
+jobs:
+    tests_ecs_prefixed:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 7.3
+                    coverage: none
+
+            -   run: |
+                  composer config minimum-stability dev
+                  composer config prefer-stable true  
+                  composer require symplify/easy-coding-standard-prefixed:dev-main --ansi
+                   
+
+            -   run: vendor/bin/ecs list --ansi

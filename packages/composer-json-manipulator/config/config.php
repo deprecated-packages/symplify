@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ComposerJsonManipulator\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -30,4 +32,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ParameterProvider::class)
         ->args([service(ContainerInterface::class)]);
+
+    $services->set(SymfonyStyleFactory::class);
+    $services->set(SymfonyStyle::class)
+        ->factory([service(SymfonyStyleFactory::class), 'create']);
 };
