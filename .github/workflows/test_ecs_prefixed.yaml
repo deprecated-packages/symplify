@@ -25,4 +25,4 @@ jobs:
                 php-version: 7.3
                 coverage: none
 
-            -   run: vendor/bin/ecs list --ansi
+            - run: vendor/bin/ecs list --ansi
