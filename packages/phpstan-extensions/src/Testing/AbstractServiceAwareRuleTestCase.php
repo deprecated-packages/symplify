@@ -19,6 +19,14 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
      */
     private static $containersByConfig = [];
 
+    public function analyse(array $filePaths, array $expectedErrorsWithLines): void
+    {
+        try {
+            parent::analyse($filePaths, $expectedErrorsWithLines);
+        } catch (Throwable $throwable) {
+        }
+    }
+
     protected function getRuleFromConfig(string $ruleClass, string $config): Rule
     {
         if (Strings::contains($config, '\\') && file_exists($ruleClass)) {
@@ -42,12 +50,5 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         self::$containersByConfig[$config] = $container;
 
         return $container;
-    }
-
-    public function analyse(array $filePaths, array $expectedErrorsWithLines): void
-    {
-        try {
-            parent::analyse($filePaths, $expectedErrorsWithLines);
-        } catch (Throwable $t) {}
     }
 }
