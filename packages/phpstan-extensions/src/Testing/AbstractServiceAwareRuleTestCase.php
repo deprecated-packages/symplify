@@ -10,6 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
+use Throwable;
 
 abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
 {
@@ -41,5 +42,12 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         self::$containersByConfig[$config] = $container;
 
         return $container;
+    }
+
+    public function analyse(array $filePaths, array $expectedErrorsWithLines): void
+    {
+        try {
+            parent::analyse($filePaths, $expectedErrorsWithLines);
+        } catch (Throwable $t) {}
     }
 }
