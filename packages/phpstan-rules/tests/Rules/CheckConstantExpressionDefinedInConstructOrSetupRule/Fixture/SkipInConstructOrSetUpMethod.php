@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInCons
 class SkipInConstructOrSetUpMethod
 {
     private const A = 'a';
+    private $a;
 
     public function setUp()
     {
