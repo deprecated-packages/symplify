@@ -24,7 +24,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         try {
             parent::analyse($filePaths, $expectedErrorsWithLines);
         } catch (ExpectationFailedException $throwable) {
-            if ($this->isMatchTokenEmulationExceptoin($throwable)) {
+            if ($this->isMatchTokenEmulationException($throwable)) {
                 return;
             }
 
