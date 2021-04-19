@@ -9,6 +9,7 @@ use PHPStan\DependencyInjection\Container;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
+use SebastianBergmann\Comparator\ComparisonFailure;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
 
@@ -32,6 +33,18 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         }
     }
 
+    protected function getRuleFromConfig(string $ruleClass, string $config): Rule
+    {
+        if (Strings::contains($config, '\\') && file_exists($ruleClass)) {
+            $message = sprintf('Swapped arguments in "%s()" method', __METHOD__);
+            throw new SwappedArgumentsException($message);
+        }
+
+        $container = $this->getServiceContainer($config);
+
+        return $container->getByType($ruleClass);
+    }
+
     /**
      * Fix for T_MATCH emulation type conflicts between php-parser and php_codesniffer
      * https://github.com/symplify/symplify/pull/3107#issuecomment-822251092
@@ -44,7 +57,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         }
 
         $comparisonFailure = $expectationFailedException->getComparisonFailure();
-        if ($comparisonFailure === null) {
+        if (! $comparisonFailure instanceof ComparisonFailure) {
             return false;
         }
 
@@ -54,18 +67,6 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
             $actualAsString,
             'Return value of PhpParser\Lexer\TokenEmulator\MatchTokenEmulator::getKeywordToken() must be of the type int, string returned'
         );
-    }
-
-    protected function getRuleFromConfig(string $ruleClass, string $config): Rule
-    {
-        if (Strings::contains($config, '\\') && file_exists($ruleClass)) {
-            $message = sprintf('Swapped arguments in "%s()" method', __METHOD__);
-            throw new SwappedArgumentsException($message);
-        }
-
-        $container = $this->getServiceContainer($config);
-
-        return $container->getByType($ruleClass);
     }
 
     private function getServiceContainer(string $config): Container
