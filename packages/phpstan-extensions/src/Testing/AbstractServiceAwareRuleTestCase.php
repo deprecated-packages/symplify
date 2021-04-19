@@ -62,7 +62,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
      * Fix for T_MATCH emulation type conflicts between php-parser and php_codesniffer
      * https://github.com/symplify/symplify/pull/3107#issuecomment-822251092
      */
-    private function isMatchTokenEmulationExceptoin(ExpectationFailedException $expectationFailedException): bool
+    private function isMatchTokenEmulationException(ExpectationFailedException $expectationFailedException): bool
     {
         // already native T_MATCH token
         if (PHP_VERSION_ID >= 80000) {
