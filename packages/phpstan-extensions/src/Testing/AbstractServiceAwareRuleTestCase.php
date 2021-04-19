@@ -9,6 +9,7 @@ use PHPStan\DependencyInjection\Container;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use PHPUnit\Framework\ExpectationFailedException;
+use SebastianBergmann\Comparator\ComparisonFailure;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
 
@@ -69,7 +70,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         }
 
         $comparisonFailure = $expectationFailedException->getComparisonFailure();
-        if ($comparisonFailure === null) {
+        if (! $comparisonFailure instanceof ComparisonFailure) {
             return false;
         }
 
