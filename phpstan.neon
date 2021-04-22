@@ -61,6 +61,10 @@ parameters:
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
+
+        # PHP 8 only
+        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php:8
+
         # functions false positive
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
