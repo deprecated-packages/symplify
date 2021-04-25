@@ -48,7 +48,8 @@
         "phpstan": {
             "includes": [
                 "config/services/services.neon",
-                "packages/cognitive-complexity/config/cognitive-complexity-services.neon"
+                "packages/cognitive-complexity/config/cognitive-complexity-services.neon",
+                "packages/object-calisthenics/config/object-calisthenics-services.neon"
             ]
         }
     },
