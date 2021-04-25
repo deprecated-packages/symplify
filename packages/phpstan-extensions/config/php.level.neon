@@ -1,5 +1,0 @@
-services:
-    # getcwd -> string
-    -
-        class: Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension
-        tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]
