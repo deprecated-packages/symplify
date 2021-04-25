@@ -31,8 +31,12 @@ final class ClassToSuffixResolverTest extends TestCase
         $this->assertSame($expectedSuffix, $resolvedSuffix);
     }
 
+    /**
+     * @return Iterator<string[]>
+     */
     public function provideData(): Iterator
     {
+        yield ['Exception', 'Exception'];
         yield [Command::class, 'Command'];
         yield [TestCase::class, 'Test'];
         yield [EventSubscriberInterface::class, 'EventSubscriber'];
