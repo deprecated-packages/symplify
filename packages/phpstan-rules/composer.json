@@ -1,5 +1,6 @@
 {
     "name": "symplify/phpstan-rules",
+    "type": "phpstan-extension",
     "description": "Set of Symplify rules for PHPStan",
     "license": "MIT",
     "require": {
@@ -43,6 +44,12 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.3-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services/services.neon",
+                "packages/cognitive-complexity/config/cognitive-complexity-services.neon"
+            ]
         }
     },
     "minimum-stability": "dev",
