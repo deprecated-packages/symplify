@@ -1,5 +1,6 @@
 {
     "name": "symplify/phpstan-extensions",
+    "type": "phpstan-extension",
     "description": "Pre-escaped error messages in 'symplify' error format, container aware test case and other useful extensions for PHPStan",
     "license": "MIT",
     "require": {
@@ -25,6 +26,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.3-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/config.neon"
+            ]
         }
     },
     "minimum-stability": "dev",
