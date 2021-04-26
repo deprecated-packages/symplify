@@ -31,7 +31,7 @@ final class Php74Test extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp74');
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/configured_rule.php';
     }

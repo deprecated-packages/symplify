@@ -27,7 +27,7 @@ final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureConfigured');
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/custom_rule.php';
     }

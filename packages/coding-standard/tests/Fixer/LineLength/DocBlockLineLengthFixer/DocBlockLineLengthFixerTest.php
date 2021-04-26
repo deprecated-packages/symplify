@@ -27,7 +27,7 @@ final class DocBlockLineLengthFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture');
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/configured_rule.php';
     }

@@ -30,7 +30,7 @@ final class Php80Test extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp80');
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/configured_rule.php';
     }

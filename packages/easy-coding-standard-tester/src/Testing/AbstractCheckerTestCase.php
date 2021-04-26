@@ -10,13 +10,14 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandardTester\Contract\ConfigAwareInterface;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
+abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements ConfigAwareInterface
 {
     /**
      * @var string[]
@@ -76,12 +77,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
             $inputFileInfoAndExpectedFileInfo->getExpectedFileInfoRealPath(),
             $fileInfo
         );
-    }
-
-    protected function provideConfig(): string
-    {
-        // to be implemented
-        return '';
     }
 
     /**

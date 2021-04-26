@@ -26,7 +26,7 @@ final class Issue973Test extends AbstractCheckerTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/correct973.php.inc')];
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/line_lenght_rule.php';
     }
