@@ -60,6 +60,11 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    public function getPriority(): int
+    {
+        return 40;
+    }
+
     /**
      * @param Tokens<Token> $tokens
      */
