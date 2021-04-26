@@ -8,10 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\NodeVisitor;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
@@ -31,12 +33,12 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use dependency injection instead of dependency juggling';
 
     /**
-     * @var array<class-string>
+     * @var array<class-string<NodeVisitor>>
      */
     private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
 
     /**
-     * @var array<class-string>
+     * @var array<class-string<CompilerPassInterface>>
      */
     private const ALLOWED_CLASS_TYPES = ['Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface'];
 
@@ -57,11 +59,11 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
 
     public function __construct(
         ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
-        ClassNameAnalyzer $factoryNameAnalyzer,
+        ClassNameAnalyzer $classNameAnalyzer,
         ObjectTypeAnalyzer $objectTypeAnalyzer
     ) {
         $this->constructorDefinedPropertyNodeAnalyzer = $constructorDefinedPropertyNodeAnalyzer;
-        $this->classNameAnalyzer = $factoryNameAnalyzer;
+        $this->classNameAnalyzer = $classNameAnalyzer;
         $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 

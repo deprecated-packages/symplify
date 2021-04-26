@@ -73,7 +73,7 @@ final class ConstructorDefinedPropertyNodeAnalyzer
         );
 
         $propertyNames = [];
-        foreach ($propertyNameToTypes as $propertyName => $propertyType) {
+        foreach (array_keys($propertyNameToTypes) as $propertyName) {
             if (! is_string($propertyName)) {
                 continue;
             }

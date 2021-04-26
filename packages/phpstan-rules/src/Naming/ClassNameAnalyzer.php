@@ -24,15 +24,8 @@ final class ClassNameAnalyzer
             return true;
         }
 
-        $methodReflection = $scope->getFunction();
-        if ($methodReflection instanceof MethodReflection && Strings::startsWith(
-            $methodReflection->getName(),
-            'create'
-        )) {
-            return true;
-        }
-
-        return false;
+        $function = $scope->getFunction();
+        return $function instanceof MethodReflection && Strings::startsWith($function->getName(), 'create');
     }
 
     public function isValueObjectClass(Scope $scope): bool
