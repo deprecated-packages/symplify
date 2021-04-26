@@ -32,7 +32,8 @@ final class ArrayToValueObjectHydrator
      */
     public function hydrateArray(array $data, string $class): object
     {
-        $arrayHash = md5(serialize($data) . $class);
+        $serializedData = serialize($data);
+        $arrayHash = md5($serializedData . $class);
 
         return $this->cache->get($arrayHash, function () use ($class, $data) {
             $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);

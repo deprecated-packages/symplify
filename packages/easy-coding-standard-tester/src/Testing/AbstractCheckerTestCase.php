@@ -99,7 +99,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         // use local if not overloaded
         if ($this->getCheckerClass() !== '') {
             $hash = $this->createConfigHash();
-            $configFileTempPath = sprintf(sys_get_temp_dir() . '/ecs_temp_tests/config_%s.php', $hash);
+            $configFileTempPath = sys_get_temp_dir() . '/ecs_temp_tests/config_' . $hash . '.php';
 
             // cache for 2nd run, similar to original config one
             if (file_exists($configFileTempPath)) {
