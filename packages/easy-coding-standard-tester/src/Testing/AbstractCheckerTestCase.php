@@ -88,6 +88,9 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         );
     }
 
+    /**
+     * @deprecated Use provideConfig() only instead
+     */
     protected function getCheckerClass(): string
     {
         // to be implemented

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
+use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -100,6 +101,7 @@ CODE_SAMPLE
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $blockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
+
         foreach ($blockInfos as $blockInfo) {
             $this->fixArrayOpener($tokens, $blockInfo);
         }
@@ -155,7 +157,7 @@ CODE_SAMPLE
         }
 
         // already whitespace
-        if ($previousCloserToken->isGivenKind(T_WHITESPACE)) {
+        if (Strings::contains($previousCloserToken->getContent(), "\n")) {
             return;
         }
 
@@ -175,7 +177,7 @@ CODE_SAMPLE
         }
 
         // already is whitespace
-        if ($nextToken->isGivenKind(T_WHITESPACE)) {
+        if (Strings::contains($nextToken->getContent(), "\n")) {
             return;
         }
 
