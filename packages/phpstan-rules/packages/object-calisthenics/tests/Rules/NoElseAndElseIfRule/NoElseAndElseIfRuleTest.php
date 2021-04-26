@@ -30,9 +30,6 @@ final class NoElseAndElseIfRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoElseAndElseIfRule::class,
-            __DIR__ . '/../../../../../packages/object-calisthenics/config/object-calisthenics-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoElseAndElseIfRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

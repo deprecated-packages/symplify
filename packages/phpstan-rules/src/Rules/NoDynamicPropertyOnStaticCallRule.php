@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\UnionType;
+use Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,7 +22,17 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use non-dynamic property on static call';
+    public const ERROR_MESSAGE = 'Use non-dynamic property on static calls or class const fetches';
+
+    /**
+     * @var StaticCallNodeAnalyzer
+     */
+    private $staticCallNodeAnalyzer;
+
+    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer)
+    {
+        $this->staticCallNodeAnalyzer = $staticCallNodeAnalyzer;
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -40,6 +52,15 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->staticCallNodeAnalyzer->isAbstractMethodStaticCall($node, $scope)) {
+            return [];
+        }
+
+        $callerType = $scope->getType($node->class);
+        if ($callerType instanceof UnionType) {
+            return [];
+        }
+
         return [self::ERROR_MESSAGE];
     }
 
@@ -52,7 +73,7 @@ class SomeClass
 {
     public function run()
     {
-        return $this->connection::literal;
+        return $this->connection::literal();
     }
 }
 CODE_SAMPLE
@@ -62,7 +83,7 @@ class SomeClass
 {
     public function run()
     {
-        return Connection::literal;
+        return Connection::literal();
     }
 }
 CODE_SAMPLE

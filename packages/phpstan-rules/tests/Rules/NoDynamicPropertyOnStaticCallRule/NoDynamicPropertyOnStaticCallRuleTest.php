@@ -27,6 +27,8 @@ final class NoDynamicPropertyOnStaticCallRuleTest extends AbstractServiceAwareRu
         yield [__DIR__ . '/Fixture/SkipNonDynamicPropertyCall.php', []];
         yield [__DIR__ . '/Fixture/SkipNonDynamicMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipSelfStatic.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractClassCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipUnionTypes.php', []];
     }
 
     protected function getRule(): Rule
