@@ -1,4 +1,4 @@
-# 148 Rules Overview
+# 149 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2622,6 +2622,39 @@ class SomeClass
 
 <br>
 
+## NoDependencyJugglingRule
+
+Use dependency injection instead of dependency juggling
+
+- class: [`Symplify\PHPStanRules\Rules\NoDependencyJugglingRule`](../src/Rules/NoDependencyJugglingRule.php)
+
+```php
+public function __construct($service)
+{
+    $this->service = $service;
+}
+
+public function run($someObject)
+{
+    return $someObject->someMethod($this->service);
+}
+```
+
+:x:
+
+<br>
+
+```php
+public function run($someObject)
+{
+    return $someObject->someMethod();
+}
+```
+
+:+1:
+
+<br>
+
 ## NoDuplicatedShortClassNameRule
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
@@ -2700,7 +2733,7 @@ class SomeClass
 
 ## NoDynamicPropertyOnStaticCallRule
 
-Use non-dynamic property on static call
+Use non-dynamic property on static calls or class const fetches
 
 - class: [`Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`](../src/Rules/NoDynamicPropertyOnStaticCallRule.php)
 
@@ -2709,7 +2742,7 @@ class SomeClass
 {
     public function run()
     {
-        return $this->connection::literal;
+        return $this->connection::literal();
     }
 }
 ```
@@ -2723,7 +2756,7 @@ class SomeClass
 {
     public function run()
     {
-        return Connection::literal;
+        return Connection::literal();
     }
 }
 ```
@@ -4678,7 +4711,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4694,7 +4727,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }

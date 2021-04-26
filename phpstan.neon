@@ -566,3 +566,10 @@ parameters:
             message: '#Method Symplify\\EasyHydrator\\TypeCaster\\ArrayTypeCaster\:\:retype\(\) return type has no value type specified in iterable type array#'
             paths:
                 - packages/easy-hydrator/src/TypeCaster/ArrayTypeCaster.php
+
+        # bad design
+        -
+            message: '#Use dependency injection instead of dependency juggling#'
+            paths:
+                - packages/git-wrapper/src/Process/GitProcess.php
+                - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php

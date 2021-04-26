@@ -18,15 +18,10 @@ final class SetAwareConfigResolver extends AbstractConfigResolver
      */
     private $setsParameterResolver;
 
-    /**
-     * @var SetResolver
-     */
-    private $setResolver;
-
     public function __construct(SetProviderInterface $setProvider)
     {
-        $this->setResolver = new SetResolver($setProvider);
-        $this->setsParameterResolver = new SetsParameterResolver($this->setResolver);
+        $setResolver = new SetResolver($setProvider);
+        $this->setsParameterResolver = new SetsParameterResolver($setResolver);
 
         parent::__construct();
     }

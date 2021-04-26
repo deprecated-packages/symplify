@@ -8,9 +8,8 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
-use PhpParser\NodeTraverser;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
-use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeTraverser\ComplexityNodeTraverserFactory;
 use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 
 /**
@@ -29,18 +28,18 @@ final class AstCognitiveComplexityAnalyzer
     private $nestingNodeVisitor;
 
     /**
-     * @var ComplexityNodeVisitor
+     * @var ComplexityNodeTraverserFactory
      */
-    private $complexityNodeVisitor;
+    private $complexityNodeTraverserFactory;
 
     public function __construct(
+        ComplexityNodeTraverserFactory $complexityNodeTraverserFactory,
         CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
-        NestingNodeVisitor $nestingNodeVisitor,
-        ComplexityNodeVisitor $complexityNodeVisitor
+        NestingNodeVisitor $nestingNodeVisitor
     ) {
         $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
         $this->nestingNodeVisitor = $nestingNodeVisitor;
-        $this->complexityNodeVisitor = $complexityNodeVisitor;
+        $this->complexityNodeTraverserFactory = $complexityNodeTraverserFactory;
     }
 
     public function analyzeClassLike(ClassLike $classLike): int
@@ -61,9 +60,7 @@ final class AstCognitiveComplexityAnalyzer
         $this->cognitiveComplexityDataCollector->reset();
         $this->nestingNodeVisitor->reset();
 
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor($this->nestingNodeVisitor);
-        $nodeTraverser->addVisitor($this->complexityNodeVisitor);
+        $nodeTraverser = $this->complexityNodeTraverserFactory->create();
         $nodeTraverser->traverse([$functionLike]);
 
         return $this->cognitiveComplexityDataCollector->getCognitiveComplexity();
