@@ -21,6 +21,8 @@ final class NonExistingClassExtractorTest extends AbstractKernelTestCase
     {
         $this->bootKernel(EasyCIKernel::class);
         $this->nonExistingClassExtractor = $this->getService(NonExistingClassExtractor::class);
+
+        require_once __DIR__ . '/Source/LowercaseFactory.php';
     }
 
     /**
@@ -43,6 +45,7 @@ final class NonExistingClassExtractorTest extends AbstractKernelTestCase
         yield [__DIR__ . '/Fixture/config/mapping_only.neon', 0];
         yield [__DIR__ . '/Fixture/config/some_config.neon', 1];
         yield [__DIR__ . '/Fixture/config/static_call.neon', 1];
+        yield [__DIR__ . '/Fixture/config/factory_lowercase.neon', 0];
 
         yield [__DIR__ . '/Fixture/template/file.latte', 2];
         yield [__DIR__ . '/Fixture/template/file_with_existing_class.latte', 0];
