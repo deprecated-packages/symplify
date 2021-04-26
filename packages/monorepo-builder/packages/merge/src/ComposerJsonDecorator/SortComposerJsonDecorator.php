@@ -36,7 +36,7 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
     }
 
     /**
-     * @return false|int|string
+     * @return int|string|bool
      */
     private function findKeyPosition(string $key)
     {
