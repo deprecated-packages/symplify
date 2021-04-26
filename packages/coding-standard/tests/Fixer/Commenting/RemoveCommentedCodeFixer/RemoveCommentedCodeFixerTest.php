@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -28,8 +27,8 @@ final class RemoveCommentedCodeFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return RemoveCommentedCodeFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

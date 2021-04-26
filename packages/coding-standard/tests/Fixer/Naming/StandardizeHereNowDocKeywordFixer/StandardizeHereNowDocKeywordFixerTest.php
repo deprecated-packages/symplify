@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -28,8 +27,8 @@ final class StandardizeHereNowDocKeywordFixerTest extends AbstractCheckerTestCas
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return StandardizeHereNowDocKeywordFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

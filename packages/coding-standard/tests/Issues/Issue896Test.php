@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Issues;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -27,8 +26,8 @@ final class Issue896Test extends AbstractCheckerTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/correct896.php.inc')];
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return LineLengthFixer::class;
+        return __DIR__ . '/config/line_lenght_rule.php';
     }
 }

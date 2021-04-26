@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -31,8 +30,8 @@ final class SpaceAfterCommaHereNowDocFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return SpaceAfterCommaHereNowDocFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

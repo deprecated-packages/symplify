@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
-use Nette\Utils\Json;
-use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandardTester\Contract\ConfigAwareInterface;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
-use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
+abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements ConfigAwareInterface
 {
     /**
      * @var string[]
@@ -30,11 +26,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
         __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
     ];
-
-    /**
-     * @var YamlToPhpConverter|null
-     */
-    private static $yamlToPhpConverter;
 
     /**
      * @var FixerFileProcessor
@@ -89,63 +80,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
     }
 
     /**
-     * @deprecated Use provideConfig() only instead
-     */
-    protected function getCheckerClass(): string
-    {
-        // to be implemented
-        return '';
-    }
-
-    protected function provideConfig(): string
-    {
-        // use local if not overloaded
-        if ($this->getCheckerClass() !== '') {
-            $hash = $this->createConfigHash();
-            $configFileTempPath = sys_get_temp_dir() . '/ecs_temp_tests/config_' . $hash . '.php';
-
-            // cache for 2nd run, similar to original config one
-            if (file_exists($configFileTempPath)) {
-                return $configFileTempPath;
-            }
-
-            $servicesConfiguration = [
-                'services' => [
-                    '_defaults' => [
-                        // for tests
-                        'public' => true,
-                        'autowire' => true,
-                    ],
-                    $this->getCheckerClass() => $this->getCheckerConfiguration() ?: null,
-                ],
-            ];
-
-            $yamlToPhpConverter = $this->getYamlToPhpConverter();
-            $phpConfigContent = $yamlToPhpConverter->convertYamlArray($servicesConfiguration);
-
-            $smartFileSystem = new SmartFileSystem();
-            $smartFileSystem->dumpFile($configFileTempPath, $phpConfigContent);
-
-            return $configFileTempPath;
-        }
-
-        // to be implemented
-        return '';
-    }
-
-    /**
-     * @return mixed[]
-     */
-    protected function getCheckerConfiguration(): ?array
-    {
-        // to be implemented
-        return null;
-    }
-
-    /**
      * File should stay the same and contain 0 errors
-     *
-     * @todo resolve their combination with PSR-12
      */
     protected function doTestCorrectFileInfo(SmartFileInfo $fileInfo): void
     {
@@ -227,15 +162,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         }
     }
 
-    private function createConfigHash(): string
-    {
-        return Strings::substring(
-            md5($this->getCheckerClass() . Json::encode($this->getCheckerConfiguration())),
-            0,
-            10
-        );
-    }
-
     private function ensureSomeCheckersAreRegistered(): void
     {
         $totalCheckersLoaded = count($this->sniffFileProcessor->getCheckers())
@@ -270,17 +196,5 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase
         $fileSystemGuard->ensureFileExists($config, static::class);
 
         return [$config];
-    }
-
-    private function getYamlToPhpConverter(): YamlToPhpConverter
-    {
-        if (self::$yamlToPhpConverter !== null) {
-            return self::$yamlToPhpConverter;
-        }
-
-        $this->bootKernel(PhpConfigPrinterKernel::class);
-        self::$yamlToPhpConverter = $this->getService(YamlToPhpConverter::class);
-
-        return self::$yamlToPhpConverter;
     }
 }

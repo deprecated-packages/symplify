@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -31,8 +30,8 @@ final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCas
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return ParamReturnAndVarTagMalformsFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

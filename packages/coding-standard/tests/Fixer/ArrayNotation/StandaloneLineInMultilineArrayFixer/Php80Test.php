@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -29,8 +28,8 @@ final class Php80Test extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp80');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return StandaloneLineInMultilineArrayFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }
