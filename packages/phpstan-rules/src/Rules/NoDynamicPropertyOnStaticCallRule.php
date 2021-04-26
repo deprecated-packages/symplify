@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,6 +22,16 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use non-dynamic property on static call';
+
+    /**
+     * @var StaticCallNodeAnalyzer
+     */
+    private $staticCallNodeAnalyzer;
+
+    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer)
+    {
+        $this->staticCallNodeAnalyzer = $staticCallNodeAnalyzer;
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -37,6 +48,10 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if ($node->class instanceof Name) {
+            return [];
+        }
+
+        if ($this->staticCallNodeAnalyzer->isAbstractMethodStaticCall($node, $scope)) {
             return [];
         }
 
