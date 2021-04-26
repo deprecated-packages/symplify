@@ -25,6 +25,7 @@ final class NoNestedFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipNonNested.php', []];
         yield [__DIR__ . '/Fixture/SkipCount.php', []];
         yield [__DIR__ . '/Fixture/NestedFuncCall.php', [[NoNestedFuncCallRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/NestedArrayFuncCall.php', [[NoNestedFuncCallRule::ERROR_MESSAGE, 11]]];
     }
 
     protected function getRule(): Rule
