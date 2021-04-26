@@ -15,13 +15,13 @@ final class ClassExtractor
      * @var string
      * @see https://regex101.com/r/1VKOxi/8
      */
-    private const CLASS_NAME_REGEX = '#(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
+    private const CLASS_NAME_REGEX = '#(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Za-z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
 
     /**
      * @var string
      * @see https://regex101.com/r/1IpNtV/3
      */
-    private const STATIC_CALL_CLASS_REGEX = '#(?<quote>["\']?)[\\\\]*(?<class_name>[A-Z][\w\\\\]+)::#';
+    private const STATIC_CALL_CLASS_REGEX = '#(?<quote>["\']?)[\\\\]*(?<class_name>[A-Za-z][\w\\\\]+)::#';
 
     /**
      * @var string
