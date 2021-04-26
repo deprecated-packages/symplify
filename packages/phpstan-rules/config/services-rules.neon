@@ -10,3 +10,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\NoDependencyJugglingRule
+        tags: [phpstan.rules.rule]

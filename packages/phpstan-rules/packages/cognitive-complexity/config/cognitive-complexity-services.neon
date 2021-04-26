@@ -4,3 +4,4 @@ services:
     - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor
     - Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor
     - Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder
+    - Symplify\PHPStanRules\CognitiveComplexity\NodeTraverser\ComplexityNodeTraverserFactory

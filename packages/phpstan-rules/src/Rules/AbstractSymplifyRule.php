@@ -12,6 +12,9 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
+    /**
+     * @return class-string<Node>
+     */
     public function getNodeType(): string
     {
         return Node::class;
