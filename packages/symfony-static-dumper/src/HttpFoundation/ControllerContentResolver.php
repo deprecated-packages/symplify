@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\HttpFoundation;
 
+use Nette\Utils\Strings;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,7 +84,7 @@ final class ControllerContentResolver
         $this->fakeRequest($routeName);
 
         $defaultParams = array_filter($route->getDefaults(), static function (string $key): bool {
-            return strpos($key, '_') !== 0;
+            return ! Strings::startsWith($key, '_');
         }, ARRAY_FILTER_USE_KEY);
 
         $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());

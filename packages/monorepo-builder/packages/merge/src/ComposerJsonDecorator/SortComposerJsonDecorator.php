@@ -28,14 +28,18 @@ final class SortComposerJsonDecorator implements ComposerJsonDecoratorInterface
     {
         $orderedKeys = $composerJson->getOrderedKeys();
 
-        usort($orderedKeys, function ($key1, $key2): int {
-            return array_search($key1, $this->sectionOrder, true) <=> array_search(
-                $key2,
-                $this->sectionOrder,
-                true
-            );
+        usort($orderedKeys, function (string $key1, string $key2): int {
+            return $this->findKeyPosition($key1) <=> $this->findKeyPosition($key2);
         });
 
         $composerJson->setOrderedKeys($orderedKeys);
+    }
+
+    /**
+     * @return int|string|bool
+     */
+    private function findKeyPosition(string $key)
+    {
+        return array_search($key, $this->sectionOrder, true);
     }
 }

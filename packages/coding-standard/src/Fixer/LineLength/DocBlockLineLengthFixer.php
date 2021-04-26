@@ -109,12 +109,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
 
             $paragraphs = $this->extractParagraphsFromDescriptionLines($descriptionLines);
 
-            $lineWrappedParagraphs = array_map(
-                function (string $paragraph) use ($maximumLineLength): string {
-                    return wordwrap($paragraph, $maximumLineLength);
-                },
-                $paragraphs
-            );
+            $lineWrappedParagraphs = $this->wrapParagraphs($paragraphs, $maximumLineLength);
 
             $wrappedDescription = implode(PHP_EOL . PHP_EOL, $lineWrappedParagraphs);
             $otherLines = $docBlockLines->getOtherLines();
@@ -218,5 +213,19 @@ CODE_SAMPLE
     private function getLines(string $string): array
     {
         return explode(PHP_EOL, $string);
+    }
+
+    /**
+     * @param string[] $lines
+     * @return string[]
+     */
+    private function wrapParagraphs(array $lines, int $maximumLineLength): array
+    {
+        $wrappedLines = [];
+        foreach ($lines as $line) {
+            $wrappedLines[] = wordwrap($line, $maximumLineLength);
+        }
+
+        return $wrappedLines;
     }
 }
