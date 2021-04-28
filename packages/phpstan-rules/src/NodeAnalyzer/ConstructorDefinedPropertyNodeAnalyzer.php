@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpClassReflectionExtension;
@@ -104,7 +105,7 @@ final class ConstructorDefinedPropertyNodeAnalyzer
         }
 
         $constructorClassMethod = $class->getMethod(MethodName::CONSTRUCTOR);
-        if ($constructorClassMethod === null) {
+        if (! $constructorClassMethod instanceof ClassMethod) {
             return [];
         }
 
@@ -123,7 +124,12 @@ final class ConstructorDefinedPropertyNodeAnalyzer
                 continue;
             }
 
-            $justCreatedPropertyNames[] = $this->simpleNameResolver->getName($propertyFetch->name);
+            $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
+            if ($propertyFetchName === null) {
+                continue;
+            }
+
+            $justCreatedPropertyNames[] = $propertyFetchName;
         }
 
         return $justCreatedPropertyNames;

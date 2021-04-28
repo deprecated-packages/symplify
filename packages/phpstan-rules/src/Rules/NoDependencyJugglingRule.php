@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\NodeVisitor;
@@ -33,7 +34,10 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     /**
      * @var array<class-string<NodeVisitor>>
      */
-    private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
+    private const ALLOWED_PROPERTY_TYPES = [
+        'PhpParser\NodeVisitor',
+        'Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface',
+    ];
 
     /**
      * @var array<class-string>
@@ -144,7 +148,7 @@ CODE_SAMPLE
         }
 
         $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($parentParent instanceof MethodCall && $this->isAllowedCallerType($scope, $parentParent)) {
+        if ($this->isAllowedCallerType($scope, $parentParent)) {
             return true;
         }
 
@@ -174,9 +178,13 @@ CODE_SAMPLE
         );
     }
 
-    private function isAllowedCallerType(Scope $scope, MethodCall $methodCall): bool
+    private function isAllowedCallerType(Scope $scope, Expr $expr): bool
     {
-        $callerType = $scope->getType($methodCall->var);
+        if (! $expr instanceof MethodCall) {
+            return false;
+        }
+
+        $callerType = $scope->getType($expr->var);
 
         foreach (self::ALLOWED_CALLER_TYPES as $allowedCallerType) {
             $privatesCallerObjectType = new ObjectType($allowedCallerType);
