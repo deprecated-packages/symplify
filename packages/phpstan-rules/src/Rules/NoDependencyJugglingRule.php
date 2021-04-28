@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
@@ -38,9 +37,12 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
 
     /**
-     * @var array<class-string<CompilerPassInterface>>
+     * @var array<class-string>
      */
-    private const ALLOWED_CLASS_TYPES = ['Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface'];
+    private const ALLOWED_CLASS_TYPES = [
+        'Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface',
+        'Symfony\Component\HttpKernel\KernelInterface',
+    ];
 
     /**
      * @var ConstructorDefinedPropertyNodeAnalyzer
