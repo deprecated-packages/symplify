@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\NodeVisitor;
@@ -13,8 +14,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
@@ -35,12 +34,26 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     /**
      * @var array<class-string<NodeVisitor>>
      */
-    private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
+    private const ALLOWED_PROPERTY_TYPES = [
+        'PhpParser\NodeVisitor',
+        'Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface',
+    ];
 
     /**
-     * @var array<class-string<CompilerPassInterface>>
+     * @var array<class-string>
      */
-    private const ALLOWED_CLASS_TYPES = ['Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface'];
+    private const ALLOWED_CALLER_TYPES = [
+        'Symplify\PackageBuilder\Reflection\PrivatesCaller',
+        'Symplify\PackageBuilder\Reflection\PrivatesAccessor',
+    ];
+
+    /**
+     * @var array<class-string>
+     */
+    private const ALLOWED_CLASS_TYPES = [
+        'Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface',
+        'Symfony\Component\HttpKernel\KernelInterface',
+    ];
 
     /**
      * @var ConstructorDefinedPropertyNodeAnalyzer
@@ -135,13 +148,8 @@ CODE_SAMPLE
         }
 
         $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($parentParent instanceof MethodCall) {
-            // special allowed case
-            $callerType = $scope->getType($parentParent->var);
-            $privatesCallerObjectType = new ObjectType(PrivatesCaller::class);
-            if ($privatesCallerObjectType->isSuperTypeOf($callerType)->yes()) {
-                return true;
-            }
+        if ($this->isAllowedCallerType($scope, $parentParent)) {
+            return true;
         }
 
         return $this->isAllowedType($scope, $propertyFetch);
@@ -168,5 +176,23 @@ CODE_SAMPLE
             $propertyFetchType,
             self::ALLOWED_PROPERTY_TYPES
         );
+    }
+
+    private function isAllowedCallerType(Scope $scope, Expr $expr): bool
+    {
+        if (! $expr instanceof MethodCall) {
+            return false;
+        }
+
+        $callerType = $scope->getType($expr->var);
+
+        foreach (self::ALLOWED_CALLER_TYPES as $allowedCallerType) {
+            $privatesCallerObjectType = new ObjectType($allowedCallerType);
+            if ($privatesCallerObjectType->isSuperTypeOf($callerType)->yes()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

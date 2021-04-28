@@ -573,3 +573,6 @@ parameters:
             paths:
                 - packages/git-wrapper/src/Process/GitProcess.php
                 - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
+
+        # private method return type
+        - '#Method Symplify\\PHPStanRules\\NodeAnalyzer\\ConstructorDefinedPropertyNodeAnalyzer\:\:resolveConstructorJustCreatedPropertyNames\(\) should return array<string\> but returns array<int, string\|null\>#'
