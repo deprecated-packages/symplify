@@ -33,10 +33,7 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     /**
      * @var array<class-string<NodeVisitor>>
      */
-    private const ALLOWED_PROPERTY_TYPES = [
-        'PhpParser\NodeVisitor',
-        'PHPStan\Type\Type',
-    ];
+    private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
 
     /**
      * @var array<class-string>
@@ -147,10 +144,8 @@ CODE_SAMPLE
         }
 
         $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
-        if ($parentParent instanceof MethodCall) {
-            if ($this->isAllowedCallerType($scope, $parentParent)) {
-                return true;
-            }
+        if ($parentParent instanceof MethodCall && $this->isAllowedCallerType($scope, $parentParent)) {
+            return true;
         }
 
         return $this->isAllowedType($scope, $propertyFetch);
@@ -179,9 +174,9 @@ CODE_SAMPLE
         );
     }
 
-    private function isAllowedCallerType(Scope $scope, MethodCall $parentParent): bool
+    private function isAllowedCallerType(Scope $scope, MethodCall $methodCall): bool
     {
-        $callerType = $scope->getType($parentParent->var);
+        $callerType = $scope->getType($methodCall->var);
 
         foreach (self::ALLOWED_CALLER_TYPES as $allowedCallerType) {
             $privatesCallerObjectType = new ObjectType($allowedCallerType);
