@@ -61,6 +61,10 @@ parameters:
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
+
+        # PHP 8 only
+        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php:8
+
         # functions false positive
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
@@ -562,3 +566,13 @@ parameters:
             message: '#Method Symplify\\EasyHydrator\\TypeCaster\\ArrayTypeCaster\:\:retype\(\) return type has no value type specified in iterable type array#'
             paths:
                 - packages/easy-hydrator/src/TypeCaster/ArrayTypeCaster.php
+
+        # bad design
+        -
+            message: '#Use dependency injection instead of dependency juggling#'
+            paths:
+                - packages/git-wrapper/src/Process/GitProcess.php
+                - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
+
+        # private method return type
+        - '#Method Symplify\\PHPStanRules\\NodeAnalyzer\\ConstructorDefinedPropertyNodeAnalyzer\:\:resolveConstructorJustCreatedPropertyNames\(\) should return array<string\> but returns array<int, string\|null\>#'

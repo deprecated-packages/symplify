@@ -17,15 +17,20 @@ composer require symplify/package-builder
 1. Register `ParameterProvider` service in your config:
 
 ```php
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-    $services->defaults()
-        ->autowire();
 
-    $services->set(ParameterProvider::class);
+    $services->defaults()
+        ->autowire()
+        ->autoconfigure();
+
+    $services->set(ParameterProvider::class)
+        ->args([service(ContainerInterface::class)]);
 
     $parameter = $containerConfigurator->parameters();
     // will be used later

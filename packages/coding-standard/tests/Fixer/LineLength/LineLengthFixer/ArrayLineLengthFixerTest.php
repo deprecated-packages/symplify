@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -28,8 +27,8 @@ final class ArrayLineLengthFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureArray');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return LineLengthFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

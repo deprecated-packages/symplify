@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -24,16 +25,34 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_FUNC_NAMES = ['count', 'trim', 'ltrim', 'rtrim', 'get_class', 'implode', 'strlen', 'getcwd'];
+    private const ALLOWED_FUNC_NAMES = [
+        'count',
+        'trim',
+        'ltrim',
+        'rtrim',
+        'get_class',
+        'implode',
+        'strlen',
+        'getcwd',
+        'is_file',
+        'file_exists',
+        'in_array',
+    ];
 
     /**
      * @var SimpleNameResolver
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolver)
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
     {
         $this->simpleNameResolver = $simpleNameResolver;
+        $this->nodeFinder = $nodeFinder;
     }
 
     /**
@@ -50,18 +69,19 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $rootFuncCallName = $this->simpleNameResolver->getName($node);
+        $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);
+
         foreach ($node->args as $arg) {
-            if (! $arg->value instanceof FuncCall) {
-                continue;
+            $nestedFuncCalls = $this->nodeFinder->findInstanceOf($arg, FuncCall::class);
+
+            foreach ($nestedFuncCalls as $nestedFuncCall) {
+                if ($this->simpleNameResolver->isNames($nestedFuncCall, $allowedNames)) {
+                    continue;
+                }
+
+                return [self::ERROR_MESSAGE];
             }
-
-            $funcCall = $arg->value;
-
-            if ($this->simpleNameResolver->isNames($funcCall, self::ALLOWED_FUNC_NAMES)) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
         }
 
         return [];

@@ -6,7 +6,6 @@
         "php": ">=7.3",
         "phpunit/phpunit": "^9.5",
         "symplify/easy-coding-standard": "^9.3",
-        "symplify/skipper": "^9.3",
         "symplify/package-builder": "^9.3",
         "symplify/easy-testing": "^9.3",
         "symplify/smart-file-system": "^9.3"
@@ -23,7 +22,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "9.3-dev"
+            "dev-main": "9.4-dev"
         }
     },
     "minimum-stability": "dev",

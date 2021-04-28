@@ -1,0 +1,3 @@
+services:
+    -
+        class: Symplify\EasyCI\Tests\ContentAnalyzer\NonExistingClassExtractor\Source\With__Underscore__1234

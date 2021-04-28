@@ -27,7 +27,7 @@ final class InlineArrayTest extends AbstractCheckerTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_already_inlined.php.inc')];
     }
 
-    protected function provideConfig(): string
+    public function provideConfig(): string
     {
         return __DIR__ . '/config/config_inline_long_array.php';
     }

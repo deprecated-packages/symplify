@@ -14,7 +14,7 @@ final class SwitchedTypeAndNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
-     * @see https://regex101.com/r/Ie89ks/2
+     * @see https://regex101.com/r/4us32A/1
      */
     private const NAME_THEN_TYPE_REGEX = '#@(param|var)(\s+)(?<name>\$\w+)(\s+)(?<type>[|\\\\\w\[\]]+)#';
 
@@ -29,7 +29,6 @@ final class SwitchedTypeAndNameMalformWorker implements MalformWorkerInterface
         foreach ($lines as $line) {
             // $value is first, instead of type is first
             $match = Strings::match($line->getContent(), self::NAME_THEN_TYPE_REGEX);
-
             if ($match === null) {
                 continue;
             }

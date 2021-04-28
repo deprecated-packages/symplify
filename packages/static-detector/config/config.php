@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
@@ -29,5 +30,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([service(ParserFactory::class), 'create'])
         ->arg('$kind', ParserFactory::PREFER_PHP7);
 
-    $services->set(ParameterProvider::class);
+    $services->set(ParameterProvider::class)
+        ->args([service(ContainerInterface::class)]);
 };

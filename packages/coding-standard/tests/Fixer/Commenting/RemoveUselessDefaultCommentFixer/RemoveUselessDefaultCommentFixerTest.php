@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
 
 use Iterator;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
 use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -28,8 +27,8 @@ final class RemoveUselessDefaultCommentFixerTest extends AbstractCheckerTestCase
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
     }
 
-    protected function getCheckerClass(): string
+    public function provideConfig(): string
     {
-        return RemoveUselessDefaultCommentFixer::class;
+        return __DIR__ . '/config/configured_rule.php';
     }
 }

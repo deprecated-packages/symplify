@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\TypeResolver;
 
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -32,7 +34,12 @@ final class ClassConstFetchReturnTypeResolver
             return $returnType;
         }
 
-        $className = $this->simpleNameResolver->getName($methodCall->args[0]->value);
+        $firstValue = $methodCall->args[0]->value;
+        if (! $firstValue instanceof ClassConstFetch) {
+            return new MixedType();
+        }
+
+        $className = $this->simpleNameResolver->getName($firstValue);
         if ($className !== null) {
             return new ObjectType($className);
         }

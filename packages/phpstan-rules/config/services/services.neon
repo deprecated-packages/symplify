@@ -7,6 +7,10 @@ services:
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
 
+    - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer
+    - Symplify\PHPStanRules\Naming\ClassNameAnalyzer
+
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
