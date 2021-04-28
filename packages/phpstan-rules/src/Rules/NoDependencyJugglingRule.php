@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
@@ -35,6 +34,14 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
      * @var array<class-string<NodeVisitor>>
      */
     private const ALLOWED_PROPERTY_TYPES = ['PhpParser\NodeVisitor'];
+
+    /**
+     * @var array<class-string>
+     */
+    private const ALLOWED_CALLER_TYPES = [
+        'Symplify\PackageBuilder\Reflection\PrivatesCaller',
+        'Symplify\PackageBuilder\Reflection\PrivatesAccessor',
+    ];
 
     /**
      * @var array<class-string>
@@ -138,10 +145,7 @@ CODE_SAMPLE
 
         $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
         if ($parentParent instanceof MethodCall) {
-            // special allowed case
-            $callerType = $scope->getType($parentParent->var);
-            $privatesCallerObjectType = new ObjectType(PrivatesCaller::class);
-            if ($privatesCallerObjectType->isSuperTypeOf($callerType)->yes()) {
+            if ($this->isAllowedCallerType($scope, $parentParent)) {
                 return true;
             }
         }
@@ -170,5 +174,18 @@ CODE_SAMPLE
             $propertyFetchType,
             self::ALLOWED_PROPERTY_TYPES
         );
+    }
+
+    private function isAllowedCallerType(Scope $scope, MethodCall $parentParent): bool
+    {
+        $callerType = $scope->getType($parentParent->var);
+        foreach (self::ALLOWED_CALLER_TYPES as $allowedCallerType) {
+            $privatesCallerObjectType = new ObjectType($allowedCallerType);
+            if ($privatesCallerObjectType->isSuperTypeOf($callerType)->yes()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

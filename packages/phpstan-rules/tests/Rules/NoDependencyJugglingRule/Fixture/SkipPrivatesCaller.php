@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoDependencyJugglingRule\Fixture;
 
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\Tests\Rules\NoDependencyJugglingRule\Source\JuggleBall;
 
@@ -19,8 +20,10 @@ final class SkipPrivatesCaller
         $this->juggleBall = $juggleBall;
     }
 
-    public function another(PrivatesCaller $privatesCaller)
+    public function another(PrivatesCaller $privatesCaller, PrivatesAccessor $privatesAccessor)
     {
-        return $privatesCaller->callPrivateMethod($this->juggleBall, 'hey');
+        $privatesCaller->callPrivateMethod($this->juggleBall, 'hey');
+
+        $privatesAccessor->getPrivateProperty($this->juggleBall, 'hey');
     }
 }
