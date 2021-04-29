@@ -6,8 +6,11 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\Throw_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use Rector\NodeTypeResolver\Node\AttributeKey;
+use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -52,7 +55,8 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule implements C
      */
     public function process(Node $node, Scope $scope): array
     {
-        $countNew = count($this->nodeFinder->findInstanceOf($node, New_::class));
+        $objectNews = $this->findObjectNews($node);
+        $countNew = count($objectNews);
 
         if ($this->maxNewClassNesting >= $countNew) {
             return [];
@@ -84,5 +88,27 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    /**
+     * @return New_[]
+     */
+    private function findObjectNews(New_ $new): array
+    {
+        /** @var New_[] $nestedNews */
+        $nestedNews = $this->nodeFinder->findInstanceOf($new, New_::class);
+
+        $objectNews = [];
+
+        foreach ($nestedNews as $nestedNew) {
+            $parent = $nestedNew->getAttribute(PHPStanAttributeKey::PARENT);
+            if ($parent instanceof Throw_) {
+                continue;
+            }
+
+            $objectNews[] = $nestedNew;
+        }
+
+        return $objectNews;
     }
 }
