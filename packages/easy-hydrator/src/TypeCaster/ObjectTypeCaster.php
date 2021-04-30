@@ -73,6 +73,10 @@ final class ObjectTypeCaster implements TypeCasterInterface
         $data,
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ) {
+        if (is_a($data, $className)) {
+            return $data;
+        }
+
         $constructorValues = $classConstructorValuesResolver->resolve($className, $data);
 
         return new $className(...$constructorValues);
