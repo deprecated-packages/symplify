@@ -10,7 +10,7 @@
         "composer/package-versions-deprecated": "^1.8",
         "composer/xdebug-handler": "^1.4",
         "friendsofphp/php-cs-fixer": "^2.18.5",
-        "jean85/pretty-package-versions": "^2.0.1",
+        "jean85/pretty-package-versions": "^1.6|^2.0.1",
         "nette/utils": "^3.2",
         "nette/robot-loader": "^3.3",
         "ocramius/package-versions": "^1.4",
