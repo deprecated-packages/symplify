@@ -4711,7 +4711,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -4727,7 +4727,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
