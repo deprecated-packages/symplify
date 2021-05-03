@@ -25,6 +25,7 @@ final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwar
         yield [__DIR__ . '/Fixture/ComplexConfig.php', [[ForbiddenComplexArrayConfigInSetRule::ERROR_MESSAGE, 15]]];
 
         yield [__DIR__ . '/Fixture/SkipSimpleConfig.php', []];
+        yield [__DIR__ . '/Fixture/SkipExtension.php', []];
     }
 
     protected function getRule(): Rule
