@@ -66,7 +66,7 @@ final class ObjectTypeCaster implements TypeCasterInterface
 
     /**
      * @param mixed $data
-     * @return mixed
+     * @return object|mixed
      */
     private function createObject(
         string $className,
