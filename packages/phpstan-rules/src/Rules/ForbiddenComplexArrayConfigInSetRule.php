@@ -8,7 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,9 +31,24 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
      */
     private $symfonyPhpConfigClosureAnalyzer;
 
-    public function __construct(SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer)
-    {
+    /**
+     * @var SimpleNodeFinder
+     */
+    private $simpleNodeFinder;
+
+    /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    public function __construct(
+        SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
+        SimpleNodeFinder $simpleNodeFinder,
+        SimpleNameResolver $simpleNameResolver
+    ) {
         $this->symfonyPhpConfigClosureAnalyzer = $symfonyPhpConfigClosureAnalyzer;
+        $this->simpleNodeFinder = $simpleNodeFinder;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -53,6 +71,11 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
         }
 
         if (! $this->symfonyPhpConfigClosureAnalyzer->isSymfonyPhpConfigScope($scope)) {
+            return [];
+        }
+
+        // skip extension
+        if ($this->isExtensionConfiguration($node)) {
             return [];
         }
 
@@ -109,5 +132,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isExtensionConfiguration(ArrayItem $arrayItem): bool
+    {
+        $methodCall = $this->simpleNodeFinder->findFirstParentByType($arrayItem, MethodCall::class);
+        if (! $methodCall instanceof MethodCall) {
+            return false;
+        }
+
+        return $this->simpleNameResolver->isName($methodCall->name, 'extension');
     }
 }
