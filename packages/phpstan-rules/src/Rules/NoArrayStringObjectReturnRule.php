@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
@@ -39,6 +40,11 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if ($node->expr === null) {
+            return [];
+        }
+
+        // skip func call that only delegates
+        if ($node->expr instanceof FuncCall) {
             return [];
         }
 
