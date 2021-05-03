@@ -63,4 +63,9 @@ final class DBAL
      * @var string
      */
     public const UUID = 'uuid';
+
+    /**
+     * @var string
+     */
+    public const MEMORY = 'memory';
 }
