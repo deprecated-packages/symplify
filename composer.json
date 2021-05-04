@@ -8,6 +8,7 @@
         "ext-simplexml": "*",
         "composer/semver": "^3.2",
         "composer/xdebug-handler": "^2.0",
+        "composer/package-versions-deprecated": "^1.8",
         "cweagans/composer-patches": "^1.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "j7mbo/twitter-api-php": "^1.0.6",
