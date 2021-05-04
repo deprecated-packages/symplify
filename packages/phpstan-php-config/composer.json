@@ -4,7 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "phpstan/phpstan": "dev-master#7a8ebc3",
+        "phpstan/phpstan": "0.12.85",
         "symfony/console": "^4.4|^5.2",
         "symplify/smart-file-system": "^9.3",
         "symplify/package-builder": "^9.3",
