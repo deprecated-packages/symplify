@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\UppercaseConstantRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<UppercaseConstantRule>
+ */
 final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

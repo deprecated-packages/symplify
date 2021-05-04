@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredMethodCallOverIdenticalCompareRule;
 use Symplify\PHPStanRules\Tests\Rules\PreferredMethodCallOverIdenticalCompareRule\Fixture\AbstractRector;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferredMethodCallOverIdenticalCompareRule>
+ */
 final class PreferredMethodCallOverIdenticalCompareRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

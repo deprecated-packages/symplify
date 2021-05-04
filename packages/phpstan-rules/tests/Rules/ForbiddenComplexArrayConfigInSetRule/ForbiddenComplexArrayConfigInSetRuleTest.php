@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenComplexArrayConfigInSetRule>
+ */
 final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

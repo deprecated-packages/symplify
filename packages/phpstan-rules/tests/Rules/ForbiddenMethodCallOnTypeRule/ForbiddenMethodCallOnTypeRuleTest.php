@@ -10,6 +10,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenMethodCallOnTypeRule>
+ */
 final class ForbiddenMethodCallOnTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

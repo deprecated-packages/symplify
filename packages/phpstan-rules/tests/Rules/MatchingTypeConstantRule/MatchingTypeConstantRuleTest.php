@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\MatchingTypeConstantRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<MatchingTypeConstantRule>
+ */
 final class MatchingTypeConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

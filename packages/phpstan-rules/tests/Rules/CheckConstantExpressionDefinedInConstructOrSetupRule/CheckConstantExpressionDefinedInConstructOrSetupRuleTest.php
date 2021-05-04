@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckConstantExpressionDefinedInConstructOrSetupRule>
+ */
 final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

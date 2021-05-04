@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNewOutsideFactoryServiceRule>
+ */
 final class ForbiddenNewOutsideFactoryServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

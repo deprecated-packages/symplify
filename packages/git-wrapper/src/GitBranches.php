@@ -12,6 +12,8 @@ use Symplify\GitWrapper\ValueObject\Regex;
 
 /**
  * Class that parses and returnes an array of branches.
+ *
+ * @implements IteratorAggregate<int, string>
  */
 final class GitBranches implements IteratorAggregate
 {
@@ -56,7 +58,7 @@ final class GitBranches implements IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator<string>
+     * @return ArrayIterator<int, string>
      */
     public function getIterator(): ArrayIterator
     {

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoSetterOnServiceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoSetterOnServiceRule>
+ */
 final class NoSetterOnServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

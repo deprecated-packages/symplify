@@ -10,6 +10,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ExclusiveDependencyRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ExclusiveDependencyRule>
+ */
 final class ExclusiveDependencyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

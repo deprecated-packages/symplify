@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckClassNamespaceFollowPsr4Rule>
+ */
 final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

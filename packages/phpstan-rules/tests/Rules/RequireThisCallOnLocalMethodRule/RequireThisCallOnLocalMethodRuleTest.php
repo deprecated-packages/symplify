@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireThisCallOnLocalMethodRule>
+ */
 final class RequireThisCallOnLocalMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -11,6 +11,9 @@ use Symfony\Component\DependencyInjection\Container;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenCallOnTypeRule>
+ */
 final class ForbiddenCallOnTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

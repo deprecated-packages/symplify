@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenArrayDestructRule>
+ */
 final class ForbiddenArrayDestructRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

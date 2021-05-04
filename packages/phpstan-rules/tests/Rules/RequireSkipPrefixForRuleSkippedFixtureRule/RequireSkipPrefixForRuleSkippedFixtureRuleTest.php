@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireSkipPrefixForRuleSkippedFixtureRule>
+ */
 final class RequireSkipPrefixForRuleSkippedFixtureRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDependencyJugglingRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoDependencyJugglingRule>
+ */
 final class NoDependencyJugglingRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

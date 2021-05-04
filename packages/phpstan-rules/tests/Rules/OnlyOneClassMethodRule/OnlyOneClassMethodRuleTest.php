@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<OnlyOneClassMethodRule>
+ */
 final class OnlyOneClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

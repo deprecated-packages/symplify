@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenReturnValueOfIncludeOnceRule>
+ */
 final class ForbiddenReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

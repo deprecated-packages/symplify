@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireStringArgumentInMethodCallRule>
+ */
 final class RequireStringArgumentInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ExcessivePublicCountRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ExcessivePublicCountRule>
+ */
 final class ExcessivePublicCountRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

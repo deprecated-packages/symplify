@@ -11,6 +11,9 @@ use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
 use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithoutSee;
 use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithSeeRandom;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<SeeAnnotationToTestRule>
+ */
 final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

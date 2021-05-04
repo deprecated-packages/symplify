@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ValidNetteInjectRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ValidNetteInjectRule>
+ */
 final class ValidNetteInjectRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

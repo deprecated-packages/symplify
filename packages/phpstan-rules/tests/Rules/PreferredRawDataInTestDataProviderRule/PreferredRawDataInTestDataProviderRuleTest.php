@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferredRawDataInTestDataProviderRule>
+ */
 final class PreferredRawDataInTestDataProviderRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

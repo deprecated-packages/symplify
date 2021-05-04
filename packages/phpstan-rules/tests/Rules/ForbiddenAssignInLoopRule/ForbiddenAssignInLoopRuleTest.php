@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenAssignInLoopRule>
+ */
 final class ForbiddenAssignInLoopRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

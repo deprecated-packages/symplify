@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoInheritanceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoInheritanceRule>
+ */
 final class NoInheritanceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

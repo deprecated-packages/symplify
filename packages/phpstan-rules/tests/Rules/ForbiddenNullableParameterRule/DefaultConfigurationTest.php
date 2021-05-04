@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNullableParameterRule>
+ */
 final class DefaultConfigurationTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -10,6 +10,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireClassTypeInClassMethodByTypeRule>
+ */
 final class RequireClassTypeInClassMethodByTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

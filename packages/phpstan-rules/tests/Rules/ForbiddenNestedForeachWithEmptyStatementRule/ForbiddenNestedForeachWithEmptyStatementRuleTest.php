@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNestedForeachWithEmptyStatementRule>
+ */
 final class ForbiddenNestedForeachWithEmptyStatementRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

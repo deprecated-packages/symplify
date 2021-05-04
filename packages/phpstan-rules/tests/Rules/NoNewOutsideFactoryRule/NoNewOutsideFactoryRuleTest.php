@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule;
 use Symplify\PHPStanRules\Tests\Rules\NoNewOutsideFactoryRule\Source\SomeValueObject;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNewOutsideFactoryRule>
+ */
 final class NoNewOutsideFactoryRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

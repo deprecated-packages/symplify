@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoUnusedNetteCreateComponentMethodRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoUnusedNetteCreateComponentMethodRule>
+ */
 final class NoUnusedNetteCreateComponentMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

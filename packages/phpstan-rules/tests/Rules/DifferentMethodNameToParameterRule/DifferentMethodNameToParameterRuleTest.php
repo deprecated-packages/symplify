@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<DifferentMethodNameToParameterRule>
+ */
 final class DifferentMethodNameToParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

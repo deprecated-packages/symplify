@@ -8,7 +8,6 @@ use PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
-use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
@@ -49,6 +48,7 @@ use PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUselessElseFixer;
 use PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer;
 use PhpCsFixer\Fixer\ControlStructure\SwitchCaseSpaceFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionDeclarationFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer;
@@ -310,7 +310,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SwitchCaseSemicolonToColonFixer::class);
     $services->set(SwitchCaseSpaceFixer::class);
     $services->set(TernaryOperatorSpacesFixer::class);
-    $services->set(TrailingCommaInMultilineArrayFixer::class);
+    $services->set(TrailingCommaInMultilineFixer::class)
+        ->call('configure', [[
+            'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
+        ]]);
     $services->set(TrimArraySpacesFixer::class);
     $services->set(UnaryOperatorSpacesFixer::class);
     $services->set(VisibilityRequiredFixer::class);

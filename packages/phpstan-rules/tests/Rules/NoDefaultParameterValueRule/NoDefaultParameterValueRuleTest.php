@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoDefaultParameterValueRule>
+ */
 final class NoDefaultParameterValueRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

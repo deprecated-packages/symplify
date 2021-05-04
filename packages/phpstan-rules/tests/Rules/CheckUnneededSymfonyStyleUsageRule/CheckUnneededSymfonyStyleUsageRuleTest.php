@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckUnneededSymfonyStyleUsageRule>
+ */
 final class CheckUnneededSymfonyStyleUsageRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

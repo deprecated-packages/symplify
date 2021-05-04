@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PrefixAbstractClassRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PrefixAbstractClassRule>
+ */
 final class PrefixAbstractClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

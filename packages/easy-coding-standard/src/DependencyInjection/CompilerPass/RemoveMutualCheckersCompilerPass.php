@@ -27,7 +27,6 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\Strings\DoubleQuoteUsageSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\Fixer\Casing\ConstantCaseFixer;
 use PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer;
@@ -36,6 +35,7 @@ use PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\ControlStructure\IncludeFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\ReturnTypeDeclarationFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
@@ -77,7 +77,7 @@ final class RemoveMutualCheckersCompilerPass implements CompilerPassInterface
         [PhpdocScalarFixer::class, 'SlevomatCodingStandard\Sniffs\TypeHints\LongTypeHintsSniff'],
         [OrderedImportsFixer::class, 'SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff'],
         [NoUnusedImportsFixer::class, 'SlevomatCodingStandard\Sniffs\Namespaces\UnusedUsesSniff'],
-        [TrailingCommaInMultilineArrayFixer::class, 'SlevomatCodingStandard\Sniffs\Arrays\TrailingArrayCommaSniff'],
+        [TrailingCommaInMultilineFixer::class, 'SlevomatCodingStandard\Sniffs\Arrays\TrailingArrayCommaSniff'],
         [
             NoUnneededControlParenthesesFixer::class,
             'SlevomatCodingStandard\Sniffs\ControlStructures\LanguageConstructWithParenthesesSniff',
