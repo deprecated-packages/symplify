@@ -22,7 +22,7 @@
     "require-dev": {
         "doctrine/annotations": "^1.12",
         "doctrine/cache": "^1.10",
-        "phpstan/phpstan": "^0.12.82",
+        "phpstan/phpstan": "dev-master#7a8ebc3",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.2",
         "symfony/twig-bundle": "^4.4|^5.2"

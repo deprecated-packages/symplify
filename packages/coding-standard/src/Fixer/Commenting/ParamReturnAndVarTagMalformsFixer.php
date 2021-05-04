@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -104,9 +103,14 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
         }
     }
 
+    /**
+     * Must run before
+     *
+     * @see \PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer::getPriority()
+     */
     public function getPriority(): int
     {
-        return $this->getPriorityBefore(PhpdocAlignFixer::class);
+        return -37;
     }
 
     public function getRuleDefinition(): RuleDefinition

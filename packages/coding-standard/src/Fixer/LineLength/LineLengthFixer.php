@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -188,9 +187,14 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * Must run before
+     *
+     * @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
+     */
     public function getPriority(): int
     {
-        return $this->getPriorityBefore(TrimArraySpacesFixer::class);
+        return 5;
     }
 
     public function configure(?array $configuration = null): void

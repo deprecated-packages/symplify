@@ -45,6 +45,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
+        __DIR__ . '/packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php',
 
         // full classes
         ArrayDeclarationSniff::class,
