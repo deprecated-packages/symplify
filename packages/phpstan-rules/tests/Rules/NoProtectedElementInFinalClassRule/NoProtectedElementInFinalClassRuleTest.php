@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoProtectedElementInFinalClassRule>
+ */
 final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

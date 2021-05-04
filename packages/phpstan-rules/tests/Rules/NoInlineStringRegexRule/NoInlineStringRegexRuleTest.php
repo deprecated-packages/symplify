@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoInlineStringRegexRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoInlineStringRegexRule>
+ */
 final class NoInlineStringRegexRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

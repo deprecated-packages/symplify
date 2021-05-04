@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<IfNewTypeThenImplementInterfaceRule>
+ */
 final class IfNewTypeThenImplementInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

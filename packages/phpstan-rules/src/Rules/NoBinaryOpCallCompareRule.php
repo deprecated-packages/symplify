@@ -102,6 +102,7 @@ CODE_SAMPLE
                 'strlen',
                 'strtolower',
                 'strtoupper',
+                'defined',
             ]);
         }
 

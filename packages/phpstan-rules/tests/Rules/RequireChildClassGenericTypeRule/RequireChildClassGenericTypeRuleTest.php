@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireChildClassGenericTypeRule>
+ */
 final class RequireChildClassGenericTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

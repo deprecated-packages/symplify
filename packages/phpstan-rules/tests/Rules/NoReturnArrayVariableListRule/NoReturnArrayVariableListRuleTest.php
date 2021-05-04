@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoReturnArrayVariableListRule>
+ */
 final class NoReturnArrayVariableListRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

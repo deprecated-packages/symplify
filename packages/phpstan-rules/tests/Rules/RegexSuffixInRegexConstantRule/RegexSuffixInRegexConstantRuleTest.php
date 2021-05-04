@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RegexSuffixInRegexConstantRule>
+ */
 final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

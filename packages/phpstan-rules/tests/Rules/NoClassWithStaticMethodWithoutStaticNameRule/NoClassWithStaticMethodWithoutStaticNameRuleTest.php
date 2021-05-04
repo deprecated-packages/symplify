@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
 use Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\Fixture\ClassWithMethod;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoClassWithStaticMethodWithoutStaticNameRule>
+ */
 final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

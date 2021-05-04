@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireQuoteStringValueSprintfRule>
+ */
 final class RequireQuoteStringValueSprintfRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

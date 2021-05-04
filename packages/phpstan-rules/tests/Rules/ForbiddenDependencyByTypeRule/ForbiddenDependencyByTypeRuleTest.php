@@ -10,6 +10,9 @@ use Psr\Container\ContainerInterface;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenDependencyByTypeRule>
+ */
 final class ForbiddenDependencyByTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

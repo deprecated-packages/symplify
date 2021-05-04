@@ -13,6 +13,10 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
 
+/**
+ * @template TRule of \PHPStan\Rules\Rule
+ * @template-extends RuleTestCase<TRule>
+ */
 abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
 {
     /**
@@ -33,6 +37,10 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
         }
     }
 
+    /**
+     * @param class-string<TRule> $ruleClass
+     * @return TRule
+     */
     protected function getRuleFromConfig(string $ruleClass, string $config): Rule
     {
         if (Strings::contains($config, '\\') && file_exists($ruleClass)) {

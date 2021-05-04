@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<TooManyMethodsRule>
+ */
 final class TooManyMethodsRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

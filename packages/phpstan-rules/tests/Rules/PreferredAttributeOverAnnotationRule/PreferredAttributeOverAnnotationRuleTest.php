@@ -10,6 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferredAttributeOverAnnotationRule>
+ */
 final class PreferredAttributeOverAnnotationRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -11,6 +11,9 @@ use Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule;
 use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\AlreadyExistingShortName as SecondAlreadyExistingShortName;
 use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Source\AlreadyExistingShortName;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoDuplicatedShortClassNameRule>
+ */
 final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

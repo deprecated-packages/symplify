@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoContainerInjectionInConstructorRule>
+ */
 final class NoContainerInjectionInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

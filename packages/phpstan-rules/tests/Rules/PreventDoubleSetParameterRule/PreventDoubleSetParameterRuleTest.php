@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreventDoubleSetParameterRule>
+ */
 final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

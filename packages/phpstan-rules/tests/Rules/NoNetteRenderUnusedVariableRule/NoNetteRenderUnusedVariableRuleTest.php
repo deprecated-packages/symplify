@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNetteRenderUnusedVariableRule>
+ */
 final class NoNetteRenderUnusedVariableRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

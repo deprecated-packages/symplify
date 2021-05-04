@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoAbstractMethodRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoAbstractMethodRule>
+ */
 final class NoAbstractMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

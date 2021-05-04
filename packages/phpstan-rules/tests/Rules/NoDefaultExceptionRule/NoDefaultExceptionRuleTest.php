@@ -10,6 +10,9 @@ use RuntimeException;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDefaultExceptionRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoDefaultExceptionRule>
+ */
 final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ServiceAndValueObjectHaveSameStartsRule>
+ */
 final class ServiceAndValueObjectHaveSameStartsRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

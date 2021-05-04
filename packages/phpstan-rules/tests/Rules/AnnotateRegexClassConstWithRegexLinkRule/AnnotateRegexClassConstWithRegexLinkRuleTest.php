@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<AnnotateRegexClassConstWithRegexLinkRule>
+ */
 final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

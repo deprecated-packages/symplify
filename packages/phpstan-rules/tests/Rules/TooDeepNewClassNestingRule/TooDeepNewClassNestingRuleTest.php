@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<TooDeepNewClassNestingRule>
+ */
 final class TooDeepNewClassNestingRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

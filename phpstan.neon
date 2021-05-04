@@ -45,7 +45,7 @@ services:
 
 parameters:
     level: max
-    checkGenericClassInNonGenericObjectType: false
+#    checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
 
     parallel:
@@ -75,6 +75,8 @@ parameters:
         - *packages/phpstan-extensions/**/Source/**
         # tests
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        - packages/symfony-static-dumper/tests/test_project/
+
         # 3rd party
         - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
         - packages/package-builder/src/Yaml/ParametersMerger.php
@@ -91,6 +93,10 @@ parameters:
         - */stubs/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
+
+        # requireds PHP 8
+        - packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php
+        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -128,7 +134,6 @@ parameters:
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
-        - '#Method Symplify\\ChangelogLinker\\Github\\GithubRepositoryFromRemoteResolver\:\:resolveFromUrl\(\) should return string but return statement is missing#'
         - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
@@ -205,8 +210,6 @@ parameters:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                  - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
 
-        - '#The path "/another\-one\.php" was not found#'
-
         -
             message: '#The path "/\.\./\.\./\.\./\.\./friendsofphp/php\-cs\-fixer/src" was not found#'
             paths:
@@ -220,8 +223,6 @@ parameters:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
-        # solve later
-        - '#Constant string value need to only have small letters, _, \-, \. and numbers#'
         # use rector rule for this
         - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
 
@@ -312,13 +313,6 @@ parameters:
             paths:
                  - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
 
-        -
-            message: '#Use controller class name based on route name instead#'
-            paths:
-                 - packages/symfony-static-dumper/tests/test_project/src/Controller/OneArgumentController.php #13
-                 - packages/symfony-static-dumper/tests/test_project/src/Controller/SomeController.php #13
-                 - packages/symfony-static-dumper/tests/test_project/src/Controller/TwoArgumentsController.php #13
-
         # the file must start with "Abstract" to be correct
         -
             message: '#Skipped tested file must start with "Skip" prefix#'
@@ -326,19 +320,9 @@ parameters:
                  - packages/phpstan-rules/tests/Rules/PrefixAbstractClassRule/PrefixAbstractClassRuleTest.php
                  - packages/phpstan-rules/tests/Rules/RequiredAbstractClassKeywordRule/RequiredAbstractClassKeywordRuleTest.php
 
-        -
-            message: '#Argument "name" must be a constant#'
-            paths:
-                - packages/symfony-static-dumper/tests/test_project
-                - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
-
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
         # manually constructored for Symfony compiler pass, before DI is created
-        -
-             message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
-             paths:
-                 - packages/autowire-array-parameter/src/Skipper/ParameterSkipper.php
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
         -
@@ -355,8 +339,6 @@ parameters:
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'
 
         - '#\$this as argument is not allowed\. Refactor method to service composition#'
-        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
-
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
@@ -433,19 +415,12 @@ parameters:
                  - packages/git-wrapper/tests
 
 
-        # needed to use the abstract test case features
-        -
-             message: '#Inheritance from "PHPStan\\Testing\\RuleTestCase" class is forbidden\. Use "Symplify\\PHPStanExtensions\\Testing\\AbstractServiceAwareRuleTestCase" instead#'
-             paths:
-                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
-
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
         # will be resolved soon
         - '#Parameter "mainConfigFileInfo" cannot be nullable#'
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
-        - '#Method Symplify\\Astral\\NodeFinder\\ParentNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
         - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         -
@@ -454,26 +429,14 @@ parameters:
                 - packages/git-wrapper/src
                 - packages/set-config-resolver/src/ConfigResolver.php
                 - packages/set-config-resolver/src/SetAwareConfigResolver.php
-                - packages/symfony-static-dumper/tests/test_project
 
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
-        -
-            message: '#Call to static method create\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
-            paths:
-                - packages/easy-coding-standard/scoper.inc.php
-
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
-        - '#Use decoupled factory service to create "Symfony\\Component\\HttpKernel\\KernelInterface" object#'
 
         # some phpstan bug
         - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
-
-        -
-            message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
-            paths:
-                - packages/smart-file-system/src/SmartFileInfo.php
 
         # xml magic
         - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
@@ -481,8 +444,7 @@ parameters:
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/bin/ecs.php
-                - packages/changelog-linker/tests/ChangeTree/ChangeFactory/*
-                - packages/changelog-linker/tests/ChangelogDumper/*
+                - packages/sniffer-fixer-to-ecs-converter/tests/FixerToECSConverter/FixerToECSConverterTest.php
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'
@@ -507,7 +469,6 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
-        - '#Array \(array<PHPStan\\PhpDocParser\\Ast\\Type\\ArrayShapeItemNode\>\) does not accept PHPStan\\PhpDocParser\\Ast\\Type\\TypeNode#'
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         # not found on purpose
@@ -574,5 +535,17 @@ parameters:
                 - packages/git-wrapper/src/Process/GitProcess.php
                 - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
 
-        # private method return type
-        - '#Method Symplify\\PHPStanRules\\NodeAnalyzer\\ConstructorDefinedPropertyNodeAnalyzer\:\:resolveConstructorJustCreatedPropertyNames\(\) should return array<string\> but returns array<int, string\|null\>#'
+        - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
+
+        # generics parent - resolve later
+        - '#Method Symplify\\GitWrapper\\GitBranches\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue#'
+
+        # some bug
+        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\ForbiddenNodeRule\\ForbiddenNodeRuleTest\:\:getRule\(\) return type with generic class Symplify\\PHPStanRules\\Rules\\ForbiddenNodeRule does not specify its types\: T#'
+
+
+        # only on CI
+        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+        # depends on jean85 version
+        - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'

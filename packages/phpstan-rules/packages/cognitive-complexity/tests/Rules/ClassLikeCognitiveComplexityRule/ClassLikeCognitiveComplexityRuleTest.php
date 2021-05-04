@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ClassLikeCognitiveComplexityRule>
+ */
 final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenThisArgumentRule>
+ */
 final class ForbiddenThisArgumentRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

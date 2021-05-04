@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoSuffixValueObjectClassRule>
+ */
 final class NoSuffixValueObjectClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

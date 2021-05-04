@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNestedFuncCallRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNestedFuncCallRule>
+ */
 final class NoNestedFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

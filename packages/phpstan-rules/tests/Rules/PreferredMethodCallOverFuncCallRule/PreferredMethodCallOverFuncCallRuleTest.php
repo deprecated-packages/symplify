@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferredMethodCallOverFuncCallRule>
+ */
 final class PreferredMethodCallOverFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

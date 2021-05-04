@@ -83,7 +83,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
                 continue;
             }
 
-            /** @var ReflectionClass $reflectionClass */
+            /** @var ReflectionClass<object> $reflectionClass */
             $reflectionClass = $containerBuilder->getReflectionClass($definition->getClass());
 
             /** @var ReflectionMethod $constructorReflectionMethod */

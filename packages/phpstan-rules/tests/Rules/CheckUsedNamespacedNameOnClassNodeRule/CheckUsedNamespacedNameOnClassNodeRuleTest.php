@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckUsedNamespacedNameOnClassNodeRule>
+ */
 final class CheckUsedNamespacedNameOnClassNodeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

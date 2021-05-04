@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ExcessiveParameterListRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ExcessiveParameterListRule>
+ */
 final class ExcessiveParameterListRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

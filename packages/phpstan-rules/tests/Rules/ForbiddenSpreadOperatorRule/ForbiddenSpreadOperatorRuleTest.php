@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenSpreadOperatorRule>
+ */
 final class ForbiddenSpreadOperatorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

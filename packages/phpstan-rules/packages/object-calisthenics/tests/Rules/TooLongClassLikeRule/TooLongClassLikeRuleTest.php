@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<TooLongClassLikeRule>
+ */
 final class TooLongClassLikeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
