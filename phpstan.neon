@@ -75,6 +75,8 @@ parameters:
         - *packages/phpstan-extensions/**/Source/**
         # tests
         - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        - packages/symfony-static-dumper/tests/test_project/
+
         # 3rd party
         - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
         - packages/package-builder/src/Yaml/ParametersMerger.php
@@ -442,6 +444,7 @@ parameters:
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/bin/ecs.php
+                - packages/sniffer-fixer-to-ecs-converter/tests/FixerToECSConverter/FixerToECSConverterTest.php
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'
@@ -540,3 +543,6 @@ parameters:
         # some bug
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\ForbiddenNodeRule\\ForbiddenNodeRuleTest\:\:getRule\(\) return type with generic class Symplify\\PHPStanRules\\Rules\\ForbiddenNodeRule does not specify its types\: T#'
 
+
+        # only on CI
+        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'

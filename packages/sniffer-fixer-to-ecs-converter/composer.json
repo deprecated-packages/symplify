@@ -15,17 +15,7 @@
         "symfony/yaml": "^4.4|^5.2",
         "symfony/http-kernel": "^4.4|^5.2",
         "symplify/php-config-printer": "^9.3",
-<<<<<<< HEAD
         "squizlabs/php_codesniffer": "^3.6",
-=======
-        "squizlabs/php_codesniffer": "^3.5",
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 784b277cf ([composer] allow php-cs-fixer 3.0)
-        "friendsofphp/php-cs-fixer": "^2.18.5",
-=======
-=======
->>>>>>> 63d157e60 (is null is not configurable anymore)
         "friendsofphp/php-cs-fixer": "^3.0",
         "symplify/symplify-kernel": "^9.3"
     },
