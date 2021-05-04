@@ -546,3 +546,6 @@ parameters:
 
         # only on CI
         - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
+
+        # depends on jean85 version
+        - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'

@@ -19,7 +19,7 @@ final class PackageVersionProvider
     {
         try {
             $version = $this->getVersion($packageName, 'symplify/symplify');
-            return $version->getPrettyVersion();
+            return $version->getPrettyVersion() ?: 'Unknown';
         } catch (OutOfBoundsException | InvalidVersionException $exceptoin) {
             return 'Unknown';
         }
