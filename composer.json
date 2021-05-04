@@ -7,7 +7,7 @@
         "ext-dom": "*",
         "ext-simplexml": "*",
         "composer/semver": "^3.2",
-        "composer/xdebug-handler": "^1.4",
+        "composer/xdebug-handler": "^2.0",
         "cweagans/composer-patches": "^1.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "j7mbo/twitter-api-php": "^1.0.6",
@@ -249,7 +249,5 @@
     },
     "config": {
         "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
