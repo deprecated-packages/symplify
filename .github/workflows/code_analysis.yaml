@@ -30,7 +30,7 @@ jobs:
 
                     -
                         name: Composer Validate
-                        run: composer validate --strict
+                        run: composer validate
 
                     -
                         name: Binary File Run
