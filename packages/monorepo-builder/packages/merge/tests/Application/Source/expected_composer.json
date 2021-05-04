@@ -15,7 +15,7 @@
         "symplify/smart-file-system": "^7.3"
     },
     "require-dev": {
-        "nikic/php-parser": "^4.3",
+        "nikic/php-parser": "4.3",
         "phpunit/phpunit": "^8.5"
     },
     "autoload": {
