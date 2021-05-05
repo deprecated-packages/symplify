@@ -27,6 +27,7 @@ final class ForbiddenMethodCallOnNewRuleTest extends AbstractServiceAwareRuleTes
     {
         yield [__DIR__ . '/Fixture/MethodCallOnNew.php', [[ForbiddenMethodCallOnNewRule::ERROR_MESSAGE, 7]]];
         yield [__DIR__ . '/Fixture/SkipMethodCallOnVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipNewFinder.php', []];
     }
 
     protected function getRule(): Rule
