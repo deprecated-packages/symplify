@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Finder\Finder;
+use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,6 +23,21 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Method call on new expression is not allowed.';
+
+    /**
+     * @var array<class-string<Finder>>
+     */
+    private const ALLOWED_TYPES = ['Symfony\Component\Finder\Finder'];
+
+    /**
+     * @var ContainsTypeAnalyser
+     */
+    private $containsTypeAnalyser;
+
+    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser)
+    {
+        $this->containsTypeAnalyser = $containsTypeAnalyser;
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -36,7 +53,7 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->isMethodCallOnNew($node)) {
+        if ($this->isMethodCallOnNew($node, $scope)) {
             return [self::ERROR_MESSAGE];
         }
 
@@ -66,13 +83,17 @@ CODE_SAMPLE
     /**
      * @param MethodCall|StaticCall $node
      */
-    private function isMethodCallOnNew(Node $node): bool
+    private function isMethodCallOnNew(Node $node, Scope $scope): bool
     {
         if (! $node instanceof MethodCall) {
             return false;
         }
 
-        return $node->var instanceof New_;
+        if (! $node->var instanceof New_) {
+            return false;
+        }
+
+        return ! $this->containsTypeAnalyser->containsExprTypes($node->var, $scope, self::ALLOWED_TYPES);
     }
 
     /**
