@@ -45,7 +45,6 @@ services:
 
 parameters:
     level: max
-#    checkGenericClassInNonGenericObjectType: false
     reportUnmatchedIgnoredErrors: false
 
     parallel:
@@ -179,7 +178,6 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
-                - packages/easy-coding-standard-tester/src/Testing/AbstractCheckerTestCase.php # 268
 
         - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
 
@@ -494,10 +492,6 @@ parameters:
 
         -
             message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 12, keep it under 8#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
-
-        -
-            message: '#Class cognitive complexity is 43, keep it under 25#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
