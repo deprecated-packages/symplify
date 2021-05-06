@@ -25,7 +25,7 @@ final class NoConstantInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/InterfaceWithMethods.php', []];
+        yield [__DIR__ . '/Fixture/SkipInterfaceWithMethods.php', []];
         yield [__DIR__ . '/Fixture/InterfaceWithConstants.php', [[NoConstantInterfaceRule::ERROR_MESSAGE, 7]]];
     }
 

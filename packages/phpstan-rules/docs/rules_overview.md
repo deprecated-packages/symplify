@@ -2498,6 +2498,38 @@ class SomeStaticClass
 
 <br>
 
+## NoConstantInterfaceRule
+
+Reserve interface for contract only. Move constant holder to a class soon-to-be Enum
+
+- class: [`Symplify\PHPStanRules\Rules\NoConstantInterfaceRule`](../src/Rules/NoConstantInterfaceRule.php)
+
+```php
+interface SomeContract
+{
+    public const YES = 'yes';
+
+    public const NO = 'ne';
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeValues
+{
+    public const YES = 'yes';
+
+    public const NO = 'ne';
+}
+```
+
+:+1:
+
+<br>
+
 ## NoConstructorInTestRule
 
 Do not use constructor in tests. Move to `setUp()` method
@@ -4711,7 +4743,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4727,54 +4759,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## RequireChildClassGenericTypeRule
-
-Parent class has defined generic types, so they must be defined here too
-
-- class: [`Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule`](../src/Rules/RequireChildClassGenericTypeRule.php)
-
-```php
-final class SomeClass extends AbstractParentWithGeneric
-{
-}
-
-/**
- * @template T of Some
- */
-abstract class AbstractParentWithGeneric
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-/**
- * @template T of SpecificSome
- * @extends AbstractParentWithGeneric<T>
- */
-final class SomeClass extends AbstractParentWithGeneric
-{
-}
-
-/**
- * @template T of Some
- */
-abstract class AbstractParentWithGeneric
-{
 }
 ```
 
