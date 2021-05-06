@@ -222,8 +222,6 @@ parameters:
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
         # use rector rule for this
-        - '#Use decoupled factory service to create "Symplify\\EasyTesting\\ValueObject\\InputAndExpected" object#'
-
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
 
         -
@@ -346,10 +344,6 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
-
-        # tests
-        - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\Event\\TestBypassEventSubscriber" object#'
-        - '#Use decoupled factory service to create "Symplify\\GitWrapper\\Tests\\EventSubscriber\\Source\\TestEventSubscriber" object#'
 
         -
             message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
@@ -543,3 +537,5 @@ parameters:
 
         # depends on jean85 version
         - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'
+
+        - '#Class with base "PathResolver" name is already used in "Symplify\\PHPStanRules\\NodeAnalyzer\\PathResolver", "Symplify\\VendorPatches\\FileSystem\\PathResolver"\. Use unique name to make classes easy to recognize#'

@@ -35,7 +35,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use factory/method call in constructor. Put factory in config and get service with dependency injection';
 
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private const ALLOWED_TYPES = [
         ParameterProvider::class,

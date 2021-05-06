@@ -1,4 +1,4 @@
-# 149 Rules Overview
+# 148 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3582,40 +3582,6 @@ class SomeClass extends Presenter
     public function render()
     {
         $this->template->key = 'value';
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNewOutsideFactoryRule
-
-Use decoupled factory service to create "%s" object
-
-- class: [`Symplify\PHPStanRules\Rules\NoNewOutsideFactoryRule`](../src/Rules/NoNewOutsideFactoryRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        return new SomeValueObject();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeFactory
-{
-    public function create()
-    {
-        return new SomeValueObject();
     }
 }
 ```
