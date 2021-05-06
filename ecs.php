@@ -16,16 +16,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(LineLengthFixer::class);
     $services->set(BlankLineAfterOpeningTagFixer::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $containerConfigurator->import(SetList::CLEAN_CODE);
+    $containerConfigurator->import(SetList::SYMPLIFY);
+    $containerConfigurator->import(SetList::COMMON);
+    $containerConfigurator->import(SetList::PSR_12);
+    $containerConfigurator->import(SetList::DOCTRINE_ANNOTATIONS);
+    $containerConfigurator->import(SetList::ARRAY);
 
-    $parameters->set(Option::SETS, [
-        SetList::CLEAN_CODE,
-        SetList::SYMPLIFY,
-        SetList::COMMON,
-        SetList::PSR_12,
-        SetList::DOCTRINE_ANNOTATIONS,
-        SetList::ARRAY,
-    ]);
+    $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::PATHS, [
         __DIR__ . '/packages',
