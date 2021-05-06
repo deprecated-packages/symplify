@@ -1,4 +1,0 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireChildClassGenericTypeRule
-        tags: [phpstan.rules.rule]

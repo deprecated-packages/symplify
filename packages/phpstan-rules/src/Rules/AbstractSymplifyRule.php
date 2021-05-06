@@ -11,7 +11,8 @@ use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
 /**
- * @implements Rule<Node>
+ * @template TNode of Node
+ * @template-implements Rule<TNode>
  */
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
