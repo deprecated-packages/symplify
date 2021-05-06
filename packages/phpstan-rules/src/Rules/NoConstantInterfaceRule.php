@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
-use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoConstantInterfaceRule\NoConstantInterfaceRuleTest
  */
-final class NoConstantInterfaceRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class NoConstantInterfaceRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -33,71 +29,40 @@ final class NoConstantInterfaceRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @param ClassMethod $node
+     * @param Interface_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentFullyQualifiedClassName = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($currentFullyQualifiedClassName === null) {
+        if ($node->getConstants() === []) {
             return [];
         }
 
-        $methodName = (string) $node->name;
-
-        foreach ($this->forbiddenClassMethods as $class => $methods) {
-            if (! is_a($currentFullyQualifiedClassName, $class, true)) {
-                continue;
-            }
-
-            if (in_array($methodName, $methods, true) && $this->hasNewInside($node)) {
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $currentFullyQualifiedClassName, $methodName);
-                return [$errorMessage];
-            }
-        }
-
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new ConfiguredCodeSample(
+            new CodeSample(
                 <<<'CODE_SAMPLE'
-use PHPStan\Rules\Rule;
-
-class SomeRuleTest implements Rule
+interface SomeContract
 {
-    protected function getRule(): Rule
-    {
-        return new SomeRule();
-    }
+    public const YES = 'yes';
+
+    public const NO = 'ne';
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use PHPStan\Rules\Rule;
-
-class SomeRuleTest implements Rule
+class SomeValues
 {
-    protected function getRule(): Rule
-    {
-        return $this->getService(SomeRule::class);
-    }
+    public const YES = 'yes';
+
+    public const NO = 'ne';
 }
 CODE_SAMPLE
-                ,
-                [
-                    'forbiddenClassMethods' => [
-                        Rule::class => ['getRule'],
-                    ],
-                ]
             ),
         ]);
-    }
-
-    private function hasNewInside(ClassMethod $classMethod): bool
-    {
-        return (bool) $this->nodeFinder->findFirstInstanceOf($classMethod, New_::class);
     }
 }

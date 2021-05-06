@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoConstantInterfaceRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\NoPostIncPostDecRule
         tags: [phpstan.rules.rule]
 
