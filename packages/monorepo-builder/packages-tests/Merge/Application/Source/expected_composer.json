@@ -1,0 +1,62 @@
+{
+    "name": "symplify/symplify",
+    "description": "Repository for Symplify packages development.",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "nette/di": "^3.0",
+        "nette/utils": "^3.0",
+        "phpstan/phpstan": "^0.12.7",
+        "symfony/console": "^4.4|^5.1",
+        "symfony/filesystem": "^4.4|^5.1",
+        "symfony/finder": "^4.4|^5.1",
+        "symplify/package-builder": "^7.3",
+        "symplify/smart-file-system": "^7.3"
+    },
+    "require-dev": {
+        "nikic/php-parser": "^4.3",
+        "phpunit/phpunit": "^8.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Symplify\\PHPStanExtensions\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src",
+            "Symplify\\SetConfigResolver\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\PHPStanExtensions\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests",
+            "Symplify\\SetConfigResolver\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests"
+
+        }
+    },
+    "scripts": {
+        "complete-check": [
+            "phpunit",
+            "@fix-cs",
+            "@phpstan"
+        ],
+        "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi",
+        "fix-cs": [
+            "packages/easy-coding-standard/bin/ecs check --fix --ansi",
+            "bin/clear_readmes.sh"
+        ],
+        "phpstan": "phpstan analyse packages --error-format symplify --ansi",
+        "changelog": [
+            "packages/changelog-linker/bin/changelog-linker dump-merges --ansi",
+            "packages/changelog-linker/bin/changelog-linker link --ansi",
+            "packages/changelog-linker/bin/changelog-linker cleanup --ansi"
+        ],
+        "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
+        "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
+        "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
+    },
+    "replace": {
+        "symplify/phpstan-extensions": "self.version",
+        "symplify/set-config-resolver": "self.version"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -73,7 +73,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Source/*',
         '*/Fixture/*',
         '*/ChangedFilesDetectorSource/*',
-        __DIR__ . '/packages/monorepo-builder/packages/init/templates',
+        __DIR__ . '/packages/monorepo-builder/templates',
 
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',

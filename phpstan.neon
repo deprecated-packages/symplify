@@ -67,7 +67,7 @@ parameters:
         # functions false positive
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
-        - *packages/monorepo-builder/packages/init/templates/*
+        - *packages/monorepo-builder/templates/*
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
         - *packages/coding-standard/tests/**/Wrong*
@@ -240,7 +240,7 @@ parameters:
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             paths:
                 - packages/easy-coding-standard/src/Configuration.php # 214
-                - packages/monorepo-builder/packages/release/src/Configuration/StageResolver.php # 26
+                - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
                 - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
 
@@ -283,7 +283,7 @@ parameters:
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
             paths:
-                - packages/monorepo-builder/packages/release/src/Process/ProcessRunner.php
+                - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
@@ -320,7 +320,7 @@ parameters:
         -
             message: '#Assign in loop is not allowed#'
             paths:
-                - packages/monorepo-builder/packages/merge/src/Validation/AutoloadPathValidator.php #30
+                - packages/monorepo-builder/packages/Merge/Validation/AutoloadPathValidator.php #30
 
         -
             message: '#\$this as argument is not allowed#'

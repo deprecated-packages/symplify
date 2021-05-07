@@ -26,21 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\": "src",
-            "Symplify\\MonorepoBuilder\\Release\\": "packages/release/src",
-            "Symplify\\MonorepoBuilder\\Init\\": "packages/init/src",
-            "Symplify\\MonorepoBuilder\\Testing\\": "packages/testing/src",
-            "Symplify\\MonorepoBuilder\\Merge\\": "packages/merge/src",
-            "Symplify\\MonorepoBuilder\\Propagate\\": "packages/propagate/src"
+            "Symplify\\MonorepoBuilder\\": ["src", "packages"]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\MonorepoBuilder\\Tests\\": "tests",
-            "Symplify\\MonorepoBuilder\\Merge\\Tests\\": "packages/merge/tests",
-            "Symplify\\MonorepoBuilder\\Release\\Tests\\": "packages/release/tests",
-            "Symplify\\MonorepoBuilder\\Testing\\Tests\\": "packages/testing/tests",
-            "Symplify\\MonorepoBuilder\\Propagate\\Tests\\": "packages/propagate/tests"
+            "Symplify\\MonorepoBuilder\\Tests\\": ["tests", "packages-tests"]
         }
     },
     "extra": {
