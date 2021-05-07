@@ -44,15 +44,19 @@ jobs:
             # 1. install package dependencies
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/easy-coding-standard/composer.json --ansi
 
-            # --prefer-lowest makes sure there are the same package in root + package - that prevents see https://github.com/symplify/symplify/pull/2442/checks?check_run_id=1348085811#step:8:5
             -
-                run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
+                run: composer install --working-dir packages/easy-coding-standard --ansi --no-dev
 
-            # 3. prefix class
-            -   run: sh packages/easy-coding-standard/build/build-ecs-scoped.sh packages/easy-coding-standard ecs-prefixed-downgraded
+            # 2. prepare build directory
+            -   run: cp -r packages/easy-coding-standard/. ecs-build
+            # remove test files
+            -   run: rm -rf ecs-build/tests ecs-build/packages/changed-files-detector/tests ecs-build/packages/configuration/tests ecs-build/packages/fixer-runner/tests ecs-build/packages/sniff-runner/tests ecs-build/packages/snippet-formatter/tests
 
-            # 4. downgrade it
-            -   run: vendor/bin/rector p ecs-prefixed-downgraded --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
+            # 3. downgrade
+            -   run: sh packages/easy-coding-standard/build/downgrade-ecs.sh ecs-build
+
+            # 4. prefix
+            -   run: sh packages/easy-coding-standard/build/build-ecs-scoped.sh ecs-build ecs-prefixed-downgraded
 
             -   run: chmod 777 ./ecs-prefixed-downgraded/bin/ecs
 

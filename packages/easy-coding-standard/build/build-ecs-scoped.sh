@@ -31,7 +31,7 @@ RESULT_DIRECTORY=$2
 note "Starts"
 
 # 2. scope it
-note "Running scoper to $RESULT_DIRECTORY"
+note "Running scoper with '$RESULT_DIRECTORY' output directory"
 wget https://github.com/humbug/php-scoper/releases/download/0.14.0/php-scoper.phar -N --no-verbose
 
 # create directory
@@ -40,7 +40,7 @@ mkdir "$RESULT_DIRECTORY" -p
 # Work around possible PHP memory limits
 php -d memory_limit=-1 php-scoper.phar add-prefix bin config src packages vendor composer.json --output-dir "../../$RESULT_DIRECTORY" --config scoper.php --force --ansi --working-dir "$BUILD_DIRECTORY"
 
-note "Show prefixed files in $RESULT_DIRECTORY"
+note "Show prefixed files in '$RESULT_DIRECTORY'"
 ls -l $RESULT_DIRECTORY
 
 note "Dumping Composer Autoload"
