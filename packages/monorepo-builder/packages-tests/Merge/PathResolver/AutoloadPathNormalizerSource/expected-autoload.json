@@ -1,0 +1,7 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "packages/monorepo-builder/packages-tests/Merge/PathResolver/AutoloadPathNormalizerSource/src"
+        }
+    }
+}

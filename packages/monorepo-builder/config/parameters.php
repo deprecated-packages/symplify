@@ -16,6 +16,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::DATA_TO_APPEND, []);
     $parameters->set(Option::DATA_TO_REMOVE, []);
 
+    $parameters->set(Option::IS_STAGE_REQUIRED, false);
+    $parameters->set(Option::STAGES_TO_ALLOW_EXISTING_TAG, []);
+
     // for back compatibility, better switch to "main"
     $parameters->set(Option::DEFAULT_BRANCH_NAME, 'master');
 
