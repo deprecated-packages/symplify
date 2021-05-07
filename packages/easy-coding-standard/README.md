@@ -182,37 +182,6 @@ vendor/bin/ecs check src --match-git-diff
 
 This option will filter the files included by the configuration, creating an intersection with the files listed in `git diff`.
 
-## Your IDE Integration
-
-### PHPStorm
-
-ECS can be used as an External Tool
-
-![PHPStorm Configuration](docs/phpstorm-config.png)
-
-Go to `Preferences` > `Tools` > `External Tools` and click `+` to add a new tool.
-
-- Name: `ecs` (Can be any value)
-- Description: `easyCodingStandard` (Can be any value)
-- Program: `$ProjectFileDir$/vendor/bin/ecs` (Path to `ecs` executable; On Windows path separators must be a `\`)
-- Parameters: `check $FilePathRelativeToProjectRoot$` (append `--fix` to auto-fix)
-- Working directory: `$ProjectFileDir$`
-
-Press `Cmd/Ctrl` + `Shift` + `A` (Find Action), search for `ecs`, and then hit Enter. It will run `ecs` for the current file.
-
-To run `ecs` on a directory, right click on a folder in the project browser go to external tools and select `ecs`.
-
-You can also create a keyboard shortcut in [Preferences > Keymap](https://www.jetbrains.com/help/webstorm/configuring-keyboard-and-mouse-shortcuts.html) to run `ecs`.
-
-### Visual Studio Code
-
-[EasyCodingStandard for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=azdanov.vscode-easy-coding-standard) extension adds support for running EasyCodingStandard inside the editor.
-
-## Tool Integration
-| Tool | Extension | Description |
-| ---- | --------- | ----------- |
-| [GrumPHP](https://github.com/phpro/grumphp) | [ECS Task](https://github.com/phpro/grumphp/blob/master/doc/tasks/ecs.md) | Provides a new task for GrumPHP which runs ECS |
-
 <br>
 
 ## Report Issues
