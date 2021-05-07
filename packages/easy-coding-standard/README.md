@@ -68,6 +68,8 @@ How to load own config?
 vendor/bin/ecs check src --config another-config.php
 ```
 
+<br>
+
 ## Configuration
 
 Configuration can be extended with many options. Here is list of them with example values and little description what are they for:
@@ -129,9 +131,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-## Codings Standards in Markdown
+<br>
+
+## Coding Standards in Markdown
 
 ![ECS-Run](docs/check_markdown.gif)
+
+<br>
 
 How to correct PHP snippets in Markdown files?
 
@@ -148,6 +154,8 @@ Do you have already paths defined in `ecs.php` config? Drop them from CLI and le
 ```bash
 vendor/bin/ecs check-markdown --fix
 ```
+
+<br>
 
 ## FAQ
 
