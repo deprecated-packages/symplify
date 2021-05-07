@@ -6,12 +6,11 @@ namespace Symplify\SymfonyPhpConfig;
 
 use ReflectionClass;
 use ReflectionMethod;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\Configurator\InlineServiceConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigurator;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\SymfonyPhpConfig\Reflection\ArgumentAndParameterFactory;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 final class ValueObjectInliner
 {
@@ -30,10 +29,10 @@ final class ValueObjectInliner
         $argumentValues = self::resolveArgumentValues($reflectionClass, $object);
 
         $servicesConfigurator->set($className)
-            ->factory([service(ArgumentAndParameterFactory::class), 'create'])
+            ->factory([new ReferenceConfigurator(ArgumentAndParameterFactory::class), 'create'])
             ->args([$className, $argumentValues, $propertyValues]);
 
-        return service($className);
+        return new ReferenceConfigurator($className);
     }
 
     /**
@@ -115,7 +114,7 @@ final class ValueObjectInliner
         $className = $reflectionClass->getName();
         $argumentValues = self::resolveArgumentValues($reflectionClass, $object);
 
-        $inlineServiceConfigurator = inline_service($className);
+        $inlineServiceConfigurator = new InlineServiceConfigurator(new Definition($className));
 
         if ($argumentValues !== []) {
             $inlineServiceConfigurator->args($argumentValues);

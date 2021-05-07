@@ -130,8 +130,7 @@
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
             "packages/phpstan-rules/tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php",
-            "vendor/squizlabs/php_codesniffer/autoload.php",
-            "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
