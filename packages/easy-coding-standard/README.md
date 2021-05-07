@@ -23,15 +23,6 @@ Are you already using another tool?
 composer require symplify/easy-coding-standard --dev
 ```
 
-### Prefixed Version
-
-The prefix verion can be used when there are dependancy clashes. Head over to the
-["Easy Coding Standard Prefixed" repository](https://github.com/symplify/easy-coding-standard-prefixed) for more information.
-
-```bash
-composer require symplify/easy-coding-standard-prefixed --dev
-```
-
 ## Usage
 
 ### 1. Create Configuration and Setup Checkers
