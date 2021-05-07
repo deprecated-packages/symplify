@@ -9,6 +9,20 @@ use PHPStan\Analyser\Scope;
 
 final class DirectoryChecker
 {
+    /**
+     * @param string[] $directoryNames
+     */
+    public function isInDirectoryNames(Scope $scope, array $directoryNames): bool
+    {
+        foreach ($directoryNames as $directoryName) {
+            if ($this->isInDirectoryNamed($scope, $directoryName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function isInDirectoryNamed(Scope $scope, string $directoryName): bool
     {
         $normalized = $this->normalizePath($directoryName);

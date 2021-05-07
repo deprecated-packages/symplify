@@ -536,9 +536,3 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             path: packages/easy-coding-standard/src/Configuration/Configuration.php
-
-        -
-            message: '#"Tests" namespace cannot be used outside of "tests" directory#'
-            path: packages/easy-coding-standard/packages-tests
-
-
