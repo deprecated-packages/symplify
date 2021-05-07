@@ -15,5 +15,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeSetList::PHP_70);
 
     $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SKIP, ['*/Tests/*', '*/tests/*']);
+    $parameters->set(Option::SKIP, [
+        '*/Tests/*',
+        '*/tests/*',
+        __DIR__ . '/../../tests',
+    ]);
 };
