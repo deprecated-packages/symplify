@@ -62,7 +62,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
             return [];
         }
 
-        if ($this->directoryChecker->isInDirectoryNamed($scope, 'tests')) {
+        if ($this->directoryChecker->isInDirectoryNames($scope, ['tests', 'packages-tests'])) {
             return [];
         }
 

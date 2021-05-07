@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/services.php');
-    $containerConfigurator->import(__DIR__ . '/../packages/*/config/*.php');
+    $containerConfigurator->import(__DIR__ . '/packages.php');
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);

@@ -62,7 +62,7 @@ parameters:
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
 
         # PHP 8 only
-        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php:8
+        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
         # functions false positive
         - *packages/**/tests/**/config.php
@@ -73,11 +73,11 @@ parameters:
         - *packages/coding-standard/tests/**/Wrong*
         - *packages/phpstan-extensions/**/Source/**
         # tests
-        - packages/easy-coding-standard/packages/sniff-runner/tests/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
+        - packages/easy-coding-standard/packages/SniffRunner/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/symfony-static-dumper/tests/test_project/
 
         # 3rd party
-        - packages/easy-coding-standard/packages/sniff-runner/src/ValueObject/File.php
+        - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
         - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # tests
@@ -99,8 +99,6 @@ parameters:
 
     bootstrapFiles:
         - tests/bootstrap.php
-#        - packages/easy-coding-standard/packages/changed-files-detector/tests/ChangedFilesDetectorSource/OneClass.php
-#        - packages/easy-coding-standard/tests/Finder/SourceFinderSource/Source/SomeClass.php
 
     ignoreErrors:
         # command argument value type conversion - known string
@@ -187,7 +185,7 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             paths:
-                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 146
+                - packages/easy-coding-standard/src/Configuration.php # 146
                 - packages/git-wrapper/src/GitWorkingCopy.php
 
         -
@@ -241,7 +239,7 @@ parameters:
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             paths:
-                - packages/easy-coding-standard/packages/configuration/src/Configuration.php # 214
+                - packages/easy-coding-standard/src/Configuration.php # 214
                 - packages/monorepo-builder/packages/release/src/Configuration/StageResolver.php # 26
                 - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
@@ -516,7 +514,7 @@ parameters:
             message: '#Use dependency injection instead of dependency juggling#'
             paths:
                 - packages/git-wrapper/src/Process/GitProcess.php
-                - packages/easy-coding-standard/packages/sniff-runner/src/Application/SniffFileProcessor.php
+                - packages/easy-coding-standard/packages/SniffRunner/Application/SniffFileProcessor.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
@@ -534,3 +532,7 @@ parameters:
         - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'
 
         - '#Class with base "PathResolver" name is already used in "Symplify\\PHPStanRules\\NodeAnalyzer\\PathResolver", "Symplify\\VendorPatches\\FileSystem\\PathResolver"\. Use unique name to make classes easy to recognize#'
+
+        -
+            message: '#Do not use setter on a service#'
+            path: packages/easy-coding-standard/src/Configuration/Configuration.php
