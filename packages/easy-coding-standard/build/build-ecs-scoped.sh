@@ -46,12 +46,6 @@ ls -l $RESULT_DIRECTORY
 note "Dumping Composer Autoload"
 composer dump-autoload --working-dir "$RESULT_DIRECTORY" --ansi --classmap-authoritative --no-dev
 
-rm -rf "$BUILD_DIRECTORY"
-
-# copy metafiles needed for release
-note "Copy metafiles like composer.json, .github etc to repository"
-rm -f "$RESULT_DIRECTORY/composer.json"
-
 # make bin/ecs runnable without "php"
 chmod 777 "$RESULT_DIRECTORY/bin/ecs"
 chmod 777 "$RESULT_DIRECTORY/bin/ecs.php"

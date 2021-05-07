@@ -8,8 +8,7 @@ use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Isolated\Symfony\Component\Finder\Finder;
 
-$finder = new Finder();
-$polyfillFileInfos = $finder->files()
+$polyfillFileInfos = (new \Symfony\Component\Finder\Finder())->files()
     ->in(__DIR__ . '/vendor/symfony/polyfill-*')
     ->name('*.php')
     ->getIterator();

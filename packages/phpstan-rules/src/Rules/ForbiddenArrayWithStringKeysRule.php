@@ -175,6 +175,13 @@ CODE_SAMPLE
 
     private function shouldSkipClass(Scope $scope): bool
     {
+        $filePath = $scope->getFile();
+
+        // php-scoper config, it return magic array by design
+        if (Strings::contains($filePath, 'scoper')) {
+            return true;
+        }
+
         $shortClassName = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($shortClassName === null) {
             return false;
