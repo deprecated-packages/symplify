@@ -38,7 +38,6 @@ jobs:
                     php-version: 8.0
                     coverage: none
 
-            # --prefer-lowest makes sure there are the same package in root + package
             -   run: composer update --no-progress --ansi
 
             # 1. install package dependencies
