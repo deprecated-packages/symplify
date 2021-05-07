@@ -108,7 +108,6 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
-            "Symplify\\PackageScoper\\": "packages/package-scoper/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -171,7 +170,6 @@
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
             "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
-            "Symplify\\PackageScoper\\Tests\\": "packages/package-scoper/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
@@ -208,7 +206,6 @@
         "symplify/monorepo-builder": "9.3.1",
         "symplify/neon-to-yaml-converter": "9.3.1",
         "symplify/package-builder": "9.3.1",
-        "symplify/package-scoper": "9.3.1",
         "symplify/php-config-printer": "9.3.1",
         "symplify/phpstan-extensions": "9.3.1",
         "symplify/phpstan-php-config": "9.3.1",

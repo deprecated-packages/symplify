@@ -28,11 +28,9 @@ return [
         'Symplify\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
-        'SlevomatCodingStandard\*',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
         'Composer\InstalledVersions',
-        'Symfony\Polyfill\*',
     ],
     'patchers' => [
         function (string $filePath, string $prefix, string $content): string {
