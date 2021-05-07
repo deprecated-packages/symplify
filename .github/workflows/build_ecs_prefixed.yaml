@@ -48,11 +48,8 @@ jobs:
             -
                 run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
 
-            # 2. scope it
-            -   run: vendor/bin/php-scoper add-prefix packages/easy-coding-standard/bin packages/easy-coding-standard/src packages/easy-coding-standard/config packages/easy-coding-standard/packages packages/easy-coding-standard/vendor packages/easy-coding-standard/composer.json --output-dir ecs-prefixed-downgraded --config packages/easy-coding-standard/scoper.inc.php --force --ansi
-
-            # 3. dum pcpomposer
-            -   run: composer dump-autoload --working-dir ecs-prefixed-downgraded --ansi --optimize --classmap-authoritative
+            # 3. prefix class
+            -   run: sh packages/easy-coding-standard/build/build-rector-scoped.sh packages/easy-coding-standard ecs-prefixed-downgraded
 
             # 4. downgrade it
             -   run: vendor/bin/rector p ecs-prefixed-downgraded --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
