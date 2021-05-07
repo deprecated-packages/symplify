@@ -151,8 +151,6 @@ parameters:
 
                 - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-                # php scoper config array
-                - */scoper.inc.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
                 - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
@@ -465,14 +463,11 @@ parameters:
 
         # not found on purpose
         - '#Instantiated class Isolated\\Symfony\\Component\\Finder\\Finder not found#'
+
         -
-            message: '#Do not use chained method calls\. Put each on separated lines#'
+            message: '#Use value object over return of values#'
             paths:
-                - packages/easy-coding-standard/scoper.inc.php
-        -
-            message: '#Call to method files\(\) on an unknown class Isolated\\Symfony\\Component\\Finder\\Finder#'
-            paths:
-                - packages/easy-coding-standard/scoper.inc.php
+                - packages/easy-coding-standard/scoper.php
 
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'

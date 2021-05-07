@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/vendor/autoload.php';
+
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use Isolated\Symfony\Component\Finder\Finder;
 
-$finder = new Finder();
-$polyfillFileInfos = $finder->files()
+$polyfillFileInfos = (new \Symfony\Component\Finder\Finder())->files()
     ->in(__DIR__ . '/vendor/symfony/polyfill-*')
     ->name('*.php')
     ->getIterator();
@@ -46,7 +46,11 @@ return [
             }
 
             // see https://regex101.com/r/v8zRMm/1
-            return Strings::replace($content, '#' . $prefix . '\\\\Composer\\\\InstalledVersions#', 'Composer\InstalledVersions');
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Composer\\\\InstalledVersions#',
+                'Composer\InstalledVersions'
+            );
         },
         // fixes https://github.com/symplify/symplify/issues/3102
         function (string $filePath, string $prefix, string $content): string {
@@ -56,7 +60,7 @@ return [
 
             // @see https://regex101.com/r/lBV8IO/2
             $fqcnReservedPattern = sprintf('#(\\\\)?%s\\\\(parent|self|static)#m', $prefix);
-            $matches             = Strings::matchAll($content, $fqcnReservedPattern);
+            $matches = Strings::matchAll($content, $fqcnReservedPattern);
 
             if (! $matches) {
                 return $content;

@@ -37,7 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
-        __DIR__ . '/packages/easy-coding-standard/scoper.inc.php',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
 

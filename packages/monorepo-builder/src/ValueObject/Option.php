@@ -113,4 +113,10 @@ final class Option
      * @var string
      */
     public const TESTS = 'tests';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const EXCLUDE_PACKAGE = 'exclude-package';
 }
