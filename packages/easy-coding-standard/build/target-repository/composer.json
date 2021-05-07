@@ -1,5 +1,5 @@
 {
-    "name": "symplify/easy-coding-standard-prefixed",
+    "name": "symplify/easy-coding-standard",
     "description": "Prefixed scoped version of ECS package",
     "license": "MIT",
     "require": {
@@ -7,11 +7,5 @@
     },
     "bin": [
         "bin/ecs"
-    ],
-    "replace": {
-        "symplify/easy-coding-standard": "self.version"
-    },
-    "conflict": {
-        "symplify/easy-coding-standard": "*"
-    }
+    ]
 }
