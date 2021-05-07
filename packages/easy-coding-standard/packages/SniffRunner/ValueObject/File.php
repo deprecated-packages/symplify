@@ -26,7 +26,7 @@ final class File extends BaseFile
     /**
      * Explicit list for classes that use only warnings. ECS only knows only errors, so this one promotes them to error.
      *
-     * @var class-string<Sniff>
+     * @var array<class-string<Sniff>>
      */
     private const REPORT_WARNINGS_SNIFFS = [PropertyDeclarationSniff::class, MethodDeclarationSniff::class];
 
