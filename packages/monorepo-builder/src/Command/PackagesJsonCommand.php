@@ -12,7 +12,6 @@ use Symplify\MonorepoBuilder\Json\PackageJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class PackagesJsonCommand extends AbstractSymplifyCommand
 {
@@ -21,17 +20,11 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
      */
     private $packageJsonProvider;
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    public function __construct(PackageJsonProvider $packageJsonProvider, ParameterProvider $parameterProvider)
+    public function __construct(PackageJsonProvider $packageJsonProvider)
     {
         $this->packageJsonProvider = $packageJsonProvider;
 
         parent::__construct();
-        $this->parameterProvider = $parameterProvider;
     }
 
     protected function configure(): void

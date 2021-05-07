@@ -71,7 +71,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PROJECT_TYPE, ProjectType::OPEN_SOURCE);
 
     $parameters->set(Option::SKIP, [
-        '*/scoper.inc.php',
+        '*/scoper.php',
         '*/vendor/*',
         '*/init/*',
         '*/Source/*',

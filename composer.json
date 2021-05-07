@@ -83,12 +83,10 @@
             "Symplify\\ConsolePackageBuilder\\": "packages/console-package-builder/src",
             "Symplify\\EasyCI\\": "packages/easy-ci/src",
             "Symplify\\EasyCodingStandardTester\\": "packages/easy-coding-standard-tester/src",
-            "Symplify\\EasyCodingStandard\\": "packages/easy-coding-standard/src",
-            "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\": "packages/easy-coding-standard/packages/changed-files-detector/src",
-            "Symplify\\EasyCodingStandard\\Configuration\\": "packages/easy-coding-standard/packages/configuration/src",
-            "Symplify\\EasyCodingStandard\\FixerRunner\\": "packages/easy-coding-standard/packages/fixer-runner/src",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\": "packages/easy-coding-standard/packages/sniff-runner/src",
-            "Symplify\\EasyCodingStandard\\SnippetFormatter\\": "packages/easy-coding-standard/packages/snippet-formatter/src",
+            "Symplify\\EasyCodingStandard\\": [
+                "packages/easy-coding-standard/packages",
+                "packages/easy-coding-standard/src"
+            ],
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
@@ -147,11 +145,10 @@
             "Symplify\\ConsolePackageBuilder\\Tests\\": "packages/console-package-builder/tests",
             "Symplify\\EasyCI\\Tests\\": "packages/easy-ci/tests",
             "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/easy-coding-standard-tester/tests",
-            "Symplify\\EasyCodingStandard\\ChangedFilesDetector\\Tests\\": "packages/easy-coding-standard/packages/changed-files-detector/tests",
-            "Symplify\\EasyCodingStandard\\FixerRunner\\Tests\\": "packages/easy-coding-standard/packages/fixer-runner/tests",
-            "Symplify\\EasyCodingStandard\\SniffRunner\\Tests\\": "packages/easy-coding-standard/packages/sniff-runner/tests",
-            "Symplify\\EasyCodingStandard\\SnippetFormatter\\Tests\\": "packages/easy-coding-standard/packages/snippet-formatter/tests",
-            "Symplify\\EasyCodingStandard\\Tests\\": "packages/easy-coding-standard/tests",
+            "Symplify\\EasyCodingStandard\\Tests\\": [
+                "packages/easy-coding-standard/packages-tests",
+                "packages/easy-coding-standard/tests"
+            ],
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
