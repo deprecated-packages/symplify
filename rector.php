@@ -43,27 +43,23 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
     $parameters->set(Option::AUTOLOAD_PATHS, [__DIR__ . '/tests/bootstrap.php', __DIR__ . '/ecs.php']);
 
-    $parameters->set(Option::SETS, [
-        SetList::CODE_QUALITY,
-        SetList::CODE_QUALITY_STRICT,
-        SetList::DEAD_CODE,
-        SetList::CODING_STYLE,
-        SetList::PHP_54,
-        SetList::PHP_55,
-        SetList::PHP_56,
-        SetList::PHP_70,
-        SetList::PHP_71,
-        SetList::PHP_72,
-        SetList::PHP_73,
-        SetList::TYPE_DECLARATION,
-        SetList::TYPE_DECLARATION_STRICT,
-        SetList::NAMING,
-        SetList::PRIVATIZATION,
-        // enable later
-        // SetList::DEAD_CLASSES,
-        SetList::EARLY_RETURN,
-        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
-    ]);
+    $containerConfigurator->import(SetList::CODE_QUALITY);
+    $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
+    $containerConfigurator->import(SetList::DEAD_CODE);
+    $containerConfigurator->import(SetList::CODING_STYLE);
+    $containerConfigurator->import(SetList::PHP_54);
+    $containerConfigurator->import(SetList::PHP_55);
+    $containerConfigurator->import(SetList::PHP_56);
+    $containerConfigurator->import(SetList::PHP_70);
+    $containerConfigurator->import(SetList::PHP_71);
+    $containerConfigurator->import(SetList::PHP_72);
+    $containerConfigurator->import(SetList::PHP_73);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
+    $containerConfigurator->import(SetList::NAMING);
+    $containerConfigurator->import(SetList::PRIVATIZATION);
+    $containerConfigurator->import(SetList::EARLY_RETURN);
+    $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
     $parameters->set(Option::ENABLE_CACHE, true);
