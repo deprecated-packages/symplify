@@ -12,6 +12,7 @@ use Symplify\MonorepoBuilder\Json\PackageJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class PackagesJsonCommand extends AbstractSymplifyCommand
 {
@@ -20,11 +21,17 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
      */
     private $packageJsonProvider;
 
-    public function __construct(PackageJsonProvider $packageJsonProvider)
+    /**
+     * @var ParameterProvider
+     */
+    private $parameterProvider;
+
+    public function __construct(PackageJsonProvider $packageJsonProvider, ParameterProvider $parameterProvider)
     {
         $this->packageJsonProvider = $packageJsonProvider;
 
         parent::__construct();
+        $this->parameterProvider = $parameterProvider;
     }
 
     protected function configure(): void
@@ -41,6 +48,13 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
         } else {
             $packagePaths = $this->packageJsonProvider->providePackages();
         }
+
+        $packagesJsonExcludes = $this->parameterProvider->provideArrayParameter(Option::PACKAGES_JSON_EXCLUDES);
+
+        $packagePaths = array_diff($packagePaths, $packagesJsonExcludes);
+
+        // re-index from 0
+        $packagePaths = array_values($packagePaths);
 
         // must be without spaces, otherwise it breaks GitHub Actions json
         $json = Json::encode($packagePaths);
