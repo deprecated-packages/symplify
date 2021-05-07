@@ -92,7 +92,10 @@
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LatteToTwigConverter\\": "packages/latte-to-twig-converter/src",
             "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
-            "Symplify\\MonorepoBuilder\\": ["packages/monorepo-builder/src", "packages/monorepo-builder/packages"],
+            "Symplify\\MonorepoBuilder\\": [
+                "packages/monorepo-builder/packages",
+                "packages/monorepo-builder/src"
+            ],
             "Symplify\\NeonToYamlConverter\\": "packages/neon-to-yaml-converter/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanPHPConfig\\": "packages/phpstan-php-config/src",
@@ -127,7 +130,8 @@
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
             "packages/phpstan-rules/tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php",
-            "vendor/squizlabs/php_codesniffer/autoload.php"
+            "vendor/squizlabs/php_codesniffer/autoload.php",
+            "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
         ],
         "psr-4": {
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
@@ -148,7 +152,10 @@
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LatteToTwigConverter\\Tests\\": "packages/latte-to-twig-converter/tests",
             "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
-            "Symplify\\MonorepoBuilder\\Tests\\": ["packages/monorepo-builder/tests", "packages/monorepo-builder/packages-tests"],
+            "Symplify\\MonorepoBuilder\\Tests\\": [
+                "packages/monorepo-builder/packages-tests",
+                "packages/monorepo-builder/tests"
+            ],
             "Symplify\\NeonToYamlConverter\\Tests\\": "packages/neon-to-yaml-converter/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanPHPConfig\\Tests\\": "packages/phpstan-php-config/tests",

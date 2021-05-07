@@ -21,7 +21,10 @@
     "autoload-dev": {
         "psr-4": {
             "Symplify\\SymfonyPhpConfig\\Tests\\": "tests"
-        }
+        },
+        "files": [
+            "vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php"
+        ]
     },
     "extra": {
         "branch-alias": {
