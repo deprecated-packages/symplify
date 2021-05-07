@@ -60,6 +60,10 @@
             "dev-main": "9.4-dev"
         }
     },
+    "config": {
+        "sort-packages": true,
+        "platform-check": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
