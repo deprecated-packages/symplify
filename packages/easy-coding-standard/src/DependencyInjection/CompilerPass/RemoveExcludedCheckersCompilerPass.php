@@ -30,21 +30,24 @@ final class RemoveExcludedCheckersCompilerPass implements CompilerPassInterface
      */
     private function getExcludedCheckersFromParameterBag(ParameterBagInterface $parameterBag): array
     {
-        $excludedCheckers = [];
 
         // parts of "skip" parameter
-        if ($parameterBag->has(Option::SKIP)) {
-            $skip = $parameterBag->get(Option::SKIP);
-            foreach ($skip as $key => $value) {
-                if ($value !== null) {
-                    continue;
-                }
+        if (! $parameterBag->has(Option::SKIP)) {
+            return [];
+        }
 
-                if (! class_exists($key)) {
-                    continue;
-                }
+        $excludedCheckers = [];
 
+        $skip = (array) $parameterBag->get(Option::SKIP);
+        foreach ($skip as $key => $value) {
+            // "SomeClass::class" => null
+            if (is_string($key) && class_exists($key) && $value === null) {
                 $excludedCheckers[] = $key;
+            }
+
+            // "SomeClass::class"
+            if (is_int($key) && class_exists($value)) {
+                $excludedCheckers[] = $value;
             }
         }
 
