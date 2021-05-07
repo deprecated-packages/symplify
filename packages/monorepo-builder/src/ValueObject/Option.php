@@ -58,12 +58,6 @@ final class Option
      * @var string
      * @api
      */
-    public const PACKAGES_JSON_EXCLUDES = 'packages_json_excludes';
-
-    /**
-     * @var string
-     * @api
-     */
     public const DATA_TO_APPEND = 'data_to_append';
 
     /**
@@ -119,4 +113,10 @@ final class Option
      * @var string
      */
     public const TESTS = 'tests';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const EXCLUDE_PACKAGE = 'exclude-package';
 }

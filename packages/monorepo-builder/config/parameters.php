@@ -13,7 +13,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
     $parameters->set(Option::PACKAGE_DIRECTORIES, [getcwd() . '/packages']);
     $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, []);
-    $parameters->set(Option::PACKAGES_JSON_EXCLUDES, []);
     $parameters->set(Option::DATA_TO_APPEND, []);
     $parameters->set(Option::DATA_TO_REMOVE, []);
 
