@@ -49,7 +49,7 @@ jobs:
                 run: composer update --working-dir packages/easy-coding-standard --ansi --no-dev
 
             # 3. prefix class
-            -   run: sh packages/easy-coding-standard/build/build-rector-scoped.sh packages/easy-coding-standard ecs-prefixed-downgraded
+            -   run: sh packages/easy-coding-standard/build/build-ecs-scoped.sh packages/easy-coding-standard ecs-prefixed-downgraded
 
             # 4. downgrade it
             -   run: vendor/bin/rector p ecs-prefixed-downgraded --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi

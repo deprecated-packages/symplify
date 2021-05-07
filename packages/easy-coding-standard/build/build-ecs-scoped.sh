@@ -18,8 +18,7 @@ note()
     MESSAGE=$1;
 
     printf "\n";
-    echo "[NOTE] $MESSAGE";
-    printf "\n";
+    echo "\033[0;33m[NOTE] $MESSAGE\033[0m";
 }
 
 
@@ -35,23 +34,26 @@ note "Starts"
 note "Running scoper to $RESULT_DIRECTORY"
 wget https://github.com/humbug/php-scoper/releases/download/0.14.0/php-scoper.phar -N --no-verbose
 
-# Work around possible PHP memory limits
-php -d memory_limit=-1 php-scoper.phar add-prefix preload.php bin config src packages vendor composer.json --output-dir "../$RESULT_DIRECTORY" --config packages/easy-coding-standard/scoper.php --force --ansi --working-dir "$BUILD_DIRECTORY"
+# create directory
+mkdir "$RESULT_DIRECTORY" -p
 
-# note "Dumping Composer Autoload"
+# Work around possible PHP memory limits
+php -d memory_limit=-1 php-scoper.phar add-prefix bin config src packages vendor composer.json --output-dir "../../$RESULT_DIRECTORY" --config scoper.php --force --ansi --working-dir "$BUILD_DIRECTORY"
+
+note "Show prefixed files in $RESULT_DIRECTORY"
+ls -l $RESULT_DIRECTORY
+
+note "Dumping Composer Autoload"
 composer dump-autoload --working-dir "$RESULT_DIRECTORY" --ansi --classmap-authoritative --no-dev
 
-php "$BUILD_DIRECTORY/build/build-preload.php" $RESULT_DIRECTORY
-
 rm -rf "$BUILD_DIRECTORY"
-
 
 # copy metafiles needed for release
 note "Copy metafiles like composer.json, .github etc to repository"
 rm -f "$RESULT_DIRECTORY/composer.json"
 
-# make bin/rector runnable without "php"
-chmod 777 "$RESULT_DIRECTORY/bin/rector"
-chmod 777 "$RESULT_DIRECTORY/bin/rector.php"
+# make bin/ecs runnable without "php"
+chmod 777 "$RESULT_DIRECTORY/bin/ecs"
+chmod 777 "$RESULT_DIRECTORY/bin/ecs.php"
 
 note "Finished"

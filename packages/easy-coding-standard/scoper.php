@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require __DIR__ . '/vendor/autoload.php';
+
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Isolated\Symfony\Component\Finder\Finder;
