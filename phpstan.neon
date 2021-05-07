@@ -536,3 +536,6 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             path: packages/easy-coding-standard/src/Configuration/Configuration.php
+
+        # only reported on CI
+        - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?))\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?))\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but returns Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator#'
