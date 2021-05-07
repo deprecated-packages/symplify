@@ -63,6 +63,8 @@ final class PackageComposerFinder
                 // "init" command template data
                 ->exclude('templates')
                 ->exclude('vendor')
+                // usually designed for prefixed/downgraded versions
+                ->exclude('build')
                 ->exclude('node_modules')
                 ->name('composer.json');
 

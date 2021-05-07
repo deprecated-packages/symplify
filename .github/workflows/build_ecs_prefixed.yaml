@@ -52,7 +52,7 @@ jobs:
             -   run: composer dump-autoload --working-dir packages-scoped/easy-coding-standard --ansi --optimize --classmap-authoritative
 
             # 4. downgrade it
-            -   run: vendor/bin/rector p packages/easy-coding-standard --config packages/easy-coding-standard/buildconfig/config-downgrade.php --ansi
+            -   run: vendor/bin/rector p packages/easy-coding-standard --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
 
             -   run: chmod 777 ./packages-scoped/easy-coding-standard/bin/ecs
 
