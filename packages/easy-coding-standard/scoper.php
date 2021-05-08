@@ -12,10 +12,10 @@ $timestamp = $dateTime->format('Ymd');
 
 
 /**
- * @see https://regex101.com/r/3GPUsl/1
+ * @see https://regex101.com/r/LMDq0p/1
  * @var string
  */
-const POLYFIL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#';
+const POLYFILL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#';
 
 // see https://github.com/humbug/php-scoper
 return [
@@ -40,8 +40,12 @@ return [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
         function (string $filePath, string $prefix, string $content): string {
-            if (Strings::match($filePath, POLYFIL_FILE_NAME_REGEX)) {
-                return Strings::replace($content, 'namespace '. $prefix . ';', '');
+            if (Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
+                $content = Strings::replace($content, '#namespace '. $prefix . ';#', '');
+
+                // add missing use statements prefixes
+                // @see https://github.com/symplify/easy-coding-standard/commit/5c11eca46fbe341ac30d0d5da2c51e1596950299#diff-87ecc51ebcf33f4c2699c08f35403560ad1ea98d22771df83a29d00dc5f53a1cR12
+                return Strings::replace($content, '#use Symfony\\\\Polyfill#', 'use ' . $prefix . ' Symfony\Polyfill');
             }
 
             return $content;
