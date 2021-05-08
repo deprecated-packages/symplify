@@ -48,7 +48,6 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/orm": "^2.7",
         "doctrine/persistence": "^2.1",
-        "humbug/php-scoper": "dev-master",
         "jetbrains/phpstorm-stubs": "2020.2 as dev-master",
         "latte/latte": "^2.10",
         "nette/application": "^3.1",
