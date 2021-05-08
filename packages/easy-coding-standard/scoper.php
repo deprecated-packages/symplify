@@ -10,6 +10,13 @@ use Nette\Utils\Strings;
 $dateTime = DateTime::from('now');
 $timestamp = $dateTime->format('Ymd');
 
+
+/**
+ * @see https://regex101.com/r/3GPUsl/1
+ * @var string
+ */
+const POLYFIL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#';
+
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'ECSPrefix' . $timestamp,
@@ -33,8 +40,7 @@ return [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
         function (string $filePath, string $prefix, string $content): string {
-            // @see https://regex101.com/r/3GPUsl/1
-            if (Strings::match($filePath, '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#')) {
+            if (Strings::match($filePath, POLYFIL_FILE_NAME_REGEX)) {
                 return Strings::replace($content, 'namespace '. $prefix . ';', '');
             }
 
