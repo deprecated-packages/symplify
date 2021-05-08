@@ -539,4 +539,4 @@ parameters:
 
         # only reported on CI
         - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but (.*?)#'
-        - '#Parameter \#2 \$servicesConfigurator of static method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inlineArgumentObject\(\) expects RectorPrefix20210507\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator, Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator given#'
+        - '#Parameter \#2 \$servicesConfigurator of static method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inlineArgumentObject\(\) expects (.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator, Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator given#'
