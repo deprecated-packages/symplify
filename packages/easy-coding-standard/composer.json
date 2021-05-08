@@ -52,7 +52,8 @@
         }
     },
     "replace": {
-        "symfony/polyfill-php72": "*"
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-mbstring": "*"
     },
     "config": {
         "sort-packages": true,
