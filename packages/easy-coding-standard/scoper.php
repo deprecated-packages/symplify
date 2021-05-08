@@ -7,16 +7,6 @@ require __DIR__ . '/vendor/autoload.php';
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 
-$polyfillFileInfos = (new \Symfony\Component\Finder\Finder())->files()
-    ->in(__DIR__ . '/vendor/symfony/polyfill-*')
-    ->name('*.php')
-    ->getIterator();
-
-$polyfillFilePaths = [];
-foreach ($polyfillFileInfos as $polyfillFileInfo) {
-    $polyfillFilePaths[] = $polyfillFileInfo->getPathname();
-}
-
 $dateTime = DateTime::from('now');
 $timestamp = $dateTime->format('Ymd');
 
@@ -28,7 +18,7 @@ return [
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
         // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
-    ] + $polyfillFilePaths,
+    ],
 
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
@@ -40,6 +30,16 @@ return [
         'Composer\InstalledVersions',
     ],
     'patchers' => [
+        // unprefix polyfill functions
+        // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
+        function (string $filePath, string $prefix, string $content): string {
+            if (Strings::match($filePath, '#vendor/symfony/polyfill-(.*)/bootstrap(.*?).php')) {
+                return Strings::replace($content, 'namespace '. $prefix . ';', '');
+            }
+
+            return $content;
+        },
+
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::endsWith($filePath, 'vendor/jean85/pretty-package-versions/src/PrettyVersions.php')) {
                 return $content;
