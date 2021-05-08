@@ -33,7 +33,8 @@ return [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
         function (string $filePath, string $prefix, string $content): string {
-            if (Strings::match($filePath, '#vendor/symfony/polyfill-(.*)/bootstrap(.*?).php')) {
+            // @see https://regex101.com/r/3GPUsl/1
+            if (Strings::match($filePath, '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#')) {
                 return Strings::replace($content, 'namespace '. $prefix . ';', '');
             }
 
