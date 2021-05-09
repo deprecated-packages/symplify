@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console;
 
-use Composer\InstalledVersions;
 use Composer\XdebugHandler\XdebugHandler;
 use Nette\Utils\Strings;
 use Symfony\Component\Console\Application;
@@ -102,19 +101,26 @@ final class EasyCodingStandardConsoleApplication extends Application
 
     private function resolveEasyCodingStandardVersion(): string
     {
-        $installedRawData = InstalledVersions::getRawData();
-        $ecsPackageData = $installedRawData['versions']['symplify/easy-coding-standard'] ?? null;
+        // load packages' scoped installed versions class
+        if (file_exists(__DIR__ . '/../../vendor/composer/InstalledVersions.php')) {
+            require_once __DIR__ . '/../../vendor/composer/InstalledVersions.php';
+        }
 
+        $installedRawData = \Composer\InstalledVersions::getRawData();
+        $ecsPackageData = isset($installedRawData['versions']['symplify/easy-coding-standard']) ? $installedRawData['versions']['symplify/easy-coding-standard'] : null;
         if ($ecsPackageData === null) {
             return 'Unknown';
         }
-
         if (isset($ecsPackageData['replaced'])) {
             return 'replaced@' . $ecsPackageData['replaced'][0];
         }
 
         if ($ecsPackageData['version'] === 'dev-main') {
-            return 'dev-main@' . Strings::substring($ecsPackageData['reference'], 0, 7);
+            if ($ecsPackageData['reference'] !== null) {
+                return 'dev-main@' . Strings::substring($ecsPackageData['reference'], 0, 7);
+            }
+
+            return $ecsPackageData['aliases'][0] ?? 'dev-main';
         }
 
         return $ecsPackageData['version'];
