@@ -8,9 +8,12 @@ use PhpParser\NodeFinder;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCI\Console\EasyCIConsoleApplication;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -22,6 +25,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\EasyCI\\', __DIR__ . '/../src')
         ->exclude([__DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
+
+    // console
+    $services->set(Symplify\PackageBuilder\Console\Command\CommandNaming::class);
+    $services->set(EasyCIConsoleApplication::class);
+    $services->alias(Application::class, EasyCIConsoleApplication::class);
 
     $services->set(VersionParser::class);
     $services->set(Semver::class);

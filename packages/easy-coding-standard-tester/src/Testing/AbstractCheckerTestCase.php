@@ -171,10 +171,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
             return;
         }
 
-        throw new NoCheckersLoadedException(
-            'No checkers were found. Registers them in your config in "services:" '
-            . 'section, load them via "--config <file>.yml" or "--level <level> option.'
-        );
+        throw new NoCheckersLoadedException('No checkers were found. Registers them in your config.');
     }
 
     private function assertStringEqualsWithFileLocation(
