@@ -4,13 +4,6 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Nette\Utils\DateTime;
-use Nette\Utils\Strings;
-
-$dateTime = DateTime::from('now');
-$timestamp = $dateTime->format('Ymd');
-
-
 /**
  * @see https://regex101.com/r/LMDq0p/1
  * @var string
@@ -23,6 +16,7 @@ const POLYFILL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*
  */
 const POLYFILL_STUBS_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/Resources\/stubs#';
 
+$timestamp = (new DateTime('now'))->format('Ymd');
 
 // see https://github.com/humbug/php-scoper
 return [
