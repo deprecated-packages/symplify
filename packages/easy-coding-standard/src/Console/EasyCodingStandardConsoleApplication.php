@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console;
 
+use Composer\InstalledVersions;
 use Composer\XdebugHandler\XdebugHandler;
+<<<<<<< HEAD
 use Symfony\Component\Console\Application;
+=======
+use Nette\Utils\Strings;
+>>>>>>> 003e87604 ([ECS] Fix version provider)
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\PackageBuilder\Composer\PackageVersionProvider;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class EasyCodingStandardConsoleApplication extends Application
@@ -24,8 +28,7 @@ final class EasyCodingStandardConsoleApplication extends Application
      */
     public function __construct(array $commands)
     {
-        $packageVersionProvider = new PackageVersionProvider();
-        $version = $packageVersionProvider->provide('symplify/easy-coding-standard');
+        $version = $this->resolveEasyCodingStandardVersion();
 
         parent::__construct('EasyCodingStandard', $version);
 
@@ -98,5 +101,25 @@ final class EasyCodingStandardConsoleApplication extends Application
             InputOption::VALUE_NONE,
             'Run in debug mode (alias for "-vvv")'
         ));
+    }
+
+    private function resolveEasyCodingStandardVersion(): string
+    {
+        $installedRawData = InstalledVersions::getRawData();
+        $ecsPackageData = $installedRawData['versions']['symplify/easy-coding-standard'] ?? null;
+
+        if ($ecsPackageData === null) {
+            return 'Unknown';
+        }
+
+        if (isset($ecsPackageData['replaced'])) {
+            return 'replaced@' . $ecsPackageData['replaced'][0];
+        }
+
+        if ($ecsPackageData['version'] === 'dev-main') {
+            return 'dev-main@' . Strings::substring($ecsPackageData['reference'], 0, 7);
+        }
+
+        return $ecsPackageData['version'];
     }
 }
