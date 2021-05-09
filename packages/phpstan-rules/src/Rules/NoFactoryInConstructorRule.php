@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Jean85\PrettyVersions;
-use Jean85\Version;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
@@ -41,8 +39,6 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         ParameterProvider::class,
         ParameterBagInterface::class,
         EntityManagerInterface::class,
-        PrettyVersions::class,
-        Version::class,
     ];
 
     /**
