@@ -22,9 +22,6 @@ final class EasyCIKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        return [
-            new ComposerJsonManipulatorBundle(),
-            new SymplifyKernelBundle(),
-        ];
+        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle()];
     }
 }
