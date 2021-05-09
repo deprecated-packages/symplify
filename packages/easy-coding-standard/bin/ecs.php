@@ -14,6 +14,14 @@ use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 // performance boost
 gc_disable();
 
+
+// preload local InstalledVersions.php - to fix incorrect version by same-named class in phpstan
+$currentlyInstalledVersions = __DIR__ . '/../../../../vendor/composer/InstalledVersions.php';
+if (file_exists($currentlyInstalledVersions)) {
+    require_once $currentlyInstalledVersions;
+}
+
+
 # 1. autoload
 $autoloadIncluder = new AutoloadIncluder();
 $autoloadIncluder->includeCwdVendorAutoloadIfExists();
