@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable;
 
 use Rector\Core\Contract\Rector\RectorInterface;
-use Rector\Core\RectorDefinition\RectorDefinition;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
