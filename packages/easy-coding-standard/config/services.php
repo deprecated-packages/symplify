@@ -6,8 +6,6 @@ use PHP_CodeSniffer\Fixer;
 use PhpCsFixer\Differ\DifferInterface;
 use PhpCsFixer\Differ\UnifiedDiffer;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Symfony\Component\Cache\Adapter\Psr16Adapter;
-use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -72,12 +70,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(UnifiedDiffer::class);
     $services->alias(DifferInterface::class, UnifiedDiffer::class);
     $services->set(FixerFileProcessor::class);
-
-    // cache
-    $services->set(Psr16Adapter::class);
-    $services->set(TagAwareAdapter::class)
-        ->args([
-            '$itemsPool' => service(Psr16Adapter::class),
-            '$tagsPool' => service(Psr16Adapter::class),
-        ]);
 };

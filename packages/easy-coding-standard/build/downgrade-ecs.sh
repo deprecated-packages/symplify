@@ -31,7 +31,7 @@ BUILD_DIRECTORY=$1
 note "Running downgrade in '$BUILD_DIRECTORY' directory\n"
 
 # 2. provide directories to downgrade, joined by spaces to run at once
-directories="vendor/symfony vendor/psr;vendor/symplify config bin src packages;vendor/composer;vendor/doctrine vendor/friendsofphp vendor/jean85 vendor/nette;vendor/php-cs-fixer vendor/sebastian vendor/squizlabs"
+directories="vendor/symfony vendor/psr;vendor/symplify config bin src packages;vendor/composer;vendor/doctrine vendor/friendsofphp vendor/nette;vendor/php-cs-fixer vendor/sebastian vendor/squizlabs"
 
 # split array see https://stackoverflow.com/a/1407098/1348344
 export IFS=";"

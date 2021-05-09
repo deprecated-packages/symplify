@@ -22,6 +22,6 @@ final class ConfigTransfomerConsoleApplication extends Application
             $this->add($command);
         }
 
-        parent::__construct('Rule Doc Generator');
+        parent::__construct('Config Transformer');
     }
 }
