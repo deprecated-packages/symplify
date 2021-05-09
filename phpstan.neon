@@ -65,6 +65,8 @@ parameters:
 
         # PHP 8 only
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
+        - packages/autowire-array-parameter/tests/SourcePhp8/PromotedPropertyCollector.php
+        - packages/autowire-array-parameter/tests/DependencyInjection/CompilerPass/Php8Test.php
 
         # functions false positive
         - *packages/**/tests/**/config.php

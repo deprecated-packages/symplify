@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandardTester\Testing;
 
-use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandardTester\Contract\ConfigAwareInterface;
+use Symplify\EasyCodingStandardTester\Exception\ShouldNotHappenException;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements ConfigAwareInterface
 {
@@ -171,9 +170,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
             return;
         }
 
-        throw new NoCheckersLoadedException(
-            'No checkers were found. Registers them in your config in "services:" '
-            . 'section, load them via "--config <file>.yml" or "--level <level> option.'
+        throw new \Symplify\EasyCodingStandardTester\Exception\ShouldNotHappenException(
+            'No checkers were found. Registers them in your config.'
         );
     }
 

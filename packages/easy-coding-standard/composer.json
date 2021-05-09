@@ -7,12 +7,9 @@
     ],
     "require": {
         "php": ">=7.3",
-        "composer/package-versions-deprecated": "^1.8",
         "composer/xdebug-handler": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0",
-        "jean85/pretty-package-versions": "^1.6|^2.0.1",
         "nette/utils": "^3.2",
-        "ocramius/package-versions": "^1.4",
         "psr/simple-cache": "^1.0",
         "squizlabs/php_codesniffer": "^3.6",
         "symfony/cache": "^4.4|^5.2",
