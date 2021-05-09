@@ -7,11 +7,10 @@ namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rec
 use Rector\Core\Contract\Rector\RectorInterface;
 use Rector\Core\RectorDefinition\RectorDefinition;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
-use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class ConfigurableRector implements RectorInterface, DocumentedRuleInterface, ConfigurableRuleInterface
+final class ConfigurableRector implements RectorInterface, ConfigurableRuleInterface
 {
     public function getRuleDefinition(): RuleDefinition
     {
