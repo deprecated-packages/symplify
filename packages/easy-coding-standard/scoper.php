@@ -17,7 +17,11 @@ $timestamp = $dateTime->format('Ymd');
  */
 const POLYFILL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#';
 
-const POLYFILL_STUBS_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\/Resources\/stubs#';
+/**
+ * @see https://regex101.com/r/RBZ0bN/1
+ * @var string
+ */
+const POLYFILL_STUBS_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/Resources\/stubs#';
 
 
 // see https://github.com/humbug/php-scoper
