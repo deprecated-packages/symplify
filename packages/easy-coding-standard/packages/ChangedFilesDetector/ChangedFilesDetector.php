@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ChangedFilesDetector;
 
-use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
-use Symfony\Component\Cache\CacheItem;
+use Nette\Caching\Cache;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -29,14 +28,14 @@ final class ChangedFilesDetector
     private $fileHashComputer;
 
     /**
-     * @var TagAwareAdapterInterface
+     * @var Cache
      */
-    private $tagAwareAdapter;
+    private $cache;
 
-    public function __construct(FileHashComputer $fileHashComputer, TagAwareAdapterInterface $tagAwareAdapter)
+    public function __construct(FileHashComputer $fileHashComputer, Cache $cache)
     {
         $this->fileHashComputer = $fileHashComputer;
-        $this->tagAwareAdapter = $tagAwareAdapter;
+        $this->cache = $cache;
     }
 
     /**
@@ -49,32 +48,36 @@ final class ChangedFilesDetector
 
     public function addFileInfo(SmartFileInfo $smartFileInfo): void
     {
-        /** @var CacheItem $cacheItem */
-        $cacheItem = $this->tagAwareAdapter->getItem($this->fileInfoToKey($smartFileInfo));
-        $cacheItem->set($this->fileHashComputer->compute($smartFileInfo->getRealPath()));
-        $cacheItem->tag(self::CHANGED_FILES_CACHE_TAG);
+        $cacheKey = $this->fileInfoToKey($smartFileInfo);
 
-        $this->tagAwareAdapter->save($cacheItem);
+        $currentValue = $this->fileHashComputer->compute($smartFileInfo->getRealPath());
+        $this->cache->save($cacheKey, $currentValue, [
+            Cache::TAGS => [self::CHANGED_FILES_CACHE_TAG],
+        ]);
     }
 
     public function invalidateFileInfo(SmartFileInfo $smartFileInfo): void
     {
-        $this->tagAwareAdapter->deleteItem($this->fileInfoToKey($smartFileInfo));
+        $cacheKey = $this->fileInfoToKey($smartFileInfo);
+        $this->cache->remove($cacheKey);
     }
 
     public function hasFileInfoChanged(SmartFileInfo $smartFileInfo): bool
     {
         $newFileHash = $this->fileHashComputer->compute($smartFileInfo->getRealPath());
 
-        $cacheItem = $this->tagAwareAdapter->getItem($this->fileInfoToKey($smartFileInfo));
-        $oldFileHash = $cacheItem->get();
-        return $newFileHash !== $oldFileHash;
+        $cacheKey = $this->fileInfoToKey($smartFileInfo);
+        $cachedValue = $this->cache->load($cacheKey);
+
+        return $newFileHash !== $cachedValue;
     }
 
     public function clearCache(): void
     {
         // clear cache only for changed files group
-        $this->tagAwareAdapter->invalidateTags([self::CHANGED_FILES_CACHE_TAG]);
+        $this->cache->clean([
+            Cache::TAGS => [self::CHANGED_FILES_CACHE_TAG],
+        ]);
     }
 
     /**
@@ -97,11 +100,7 @@ final class ChangedFilesDetector
     private function storeConfigurationDataHash(string $configurationHash): void
     {
         $this->invalidateCacheIfConfigurationChanged($configurationHash);
-
-        $cacheItem = $this->tagAwareAdapter->getItem(self::CONFIGURATION_HASH_KEY);
-        $cacheItem->set($configurationHash);
-
-        $this->tagAwareAdapter->save($cacheItem);
+        $this->cache->save(self::CONFIGURATION_HASH_KEY, $configurationHash);
     }
 
     private function fileInfoToKey(SmartFileInfo $smartFileInfo): string
@@ -111,11 +110,11 @@ final class ChangedFilesDetector
 
     private function invalidateCacheIfConfigurationChanged(string $configurationHash): void
     {
-        $cacheItem = $this->tagAwareAdapter->getItem(self::CONFIGURATION_HASH_KEY);
-
-        $oldConfigurationHash = $cacheItem->get();
-        if ($configurationHash !== $oldConfigurationHash) {
-            $this->clearCache();
+        $cachedValue = $this->cache->load(self::CONFIGURATION_HASH_KEY);
+        if ($configurationHash === $cachedValue) {
+            return;
         }
+
+        $this->clearCache();
     }
 }

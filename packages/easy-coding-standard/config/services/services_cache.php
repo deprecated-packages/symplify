@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Adapter\TagAwareAdapter;
-use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
-use Symfony\Component\Cache\Psr16Cache;
+use Nette\Caching\Cache;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Caching\NetteCacheFactory;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -18,18 +15,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure()
         ->public();
 
-    $services->set(Psr16Cache::class);
-
-    $services->alias(CacheInterface::class, Psr16Cache::class);
-
-    $services->set(FilesystemAdapter::class)
-        ->args([
-            '$namespace' => '%cache_namespace%',
-            '$defaultLifetime' => 0,
-            '$directory' => '%cache_directory%',
-        ]);
-
-    $services->alias(CacheItemPoolInterface::class, FilesystemAdapter::class);
-
-    $services->alias(TagAwareAdapterInterface::class, TagAwareAdapter::class);
+    $services->set(Cache::class)
+        ->factory([service(NetteCacheFactory::class), 'create']);
 };
