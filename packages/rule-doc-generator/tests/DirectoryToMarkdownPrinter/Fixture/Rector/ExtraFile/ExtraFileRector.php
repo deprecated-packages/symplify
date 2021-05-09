@@ -8,7 +8,7 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ExtraFileCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class ExtraFileRector implements RectorInterface, DocumentedRuleInterface
+final class ExtraFileRector implements RectorInterface
 {
     public function getRuleDefinition(): RuleDefinition
     {
