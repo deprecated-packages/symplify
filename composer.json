@@ -11,11 +11,7 @@
         "cweagans/composer-patches": "^1.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "j7mbo/twitter-api-php": "^1.0.6",
-<<<<<<< HEAD
-=======
-        "jean85/pretty-package-versions": "^1.6|^2.0.1",
         "nette/caching": "^3.1",
->>>>>>> 0614a557e ([ECS] Move complex symfony/cache to simpler nette/caching)
         "nette/di": "^3.0",
         "nette/neon": "^3.2",
         "nette/robot-loader": "^3.3",

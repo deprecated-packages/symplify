@@ -12,6 +12,7 @@ require_once __DIR__ . '/../packages/symfony-php-config/src/ValueObjectInliner.p
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php';
 
+
 // initalize token with INT type, otherwise php-cs-fixer and php-parser breaks
 if (defined('T_MATCH') === false) {
     define('T_MATCH', 5000);
