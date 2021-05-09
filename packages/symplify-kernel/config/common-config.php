@@ -17,7 +17,6 @@ use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use Symplify\SymplifyKernel\Console\ConsoleApplicationFactory;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -44,8 +43,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args([service(ContainerInterface::class)]);
 
     $services->set(PrivatesAccessor::class);
-
-    $services->set(ConsoleApplicationFactory::class);
 
     // composer json factory
     $services->set(ComposerJsonFactory::class);
