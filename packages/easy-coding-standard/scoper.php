@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Nette\Utils\Strings;
+
 require __DIR__ . '/vendor/autoload.php';
 
 /**
