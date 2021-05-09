@@ -8,7 +8,6 @@ use Nette\Utils\Json;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
-use Symplify\PackageBuilder\Composer\PackageVersionProvider;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
@@ -80,13 +79,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
      */
     private function createBaseErrorsArray(ErrorAndDiffResult $errorAndDiffResult): array
     {
-        $packageVersionProvider = new PackageVersionProvider();
-        $version = $packageVersionProvider->provide('symplify/easy-coding-standard');
-
         return [
-            'meta' => [
-                'version' => $version,
-            ],
             'totals' => [
                 'errors' => $errorAndDiffResult->getErrorCount(),
                 'diffs' => $errorAndDiffResult->getFileDiffsCount(),

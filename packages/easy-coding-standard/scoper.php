@@ -41,7 +41,6 @@ return [
         'PHP_CodeSniffer\*',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
-        'Composer\InstalledVersions',
     ],
     'patchers' => [
         // unprefix polyfill functions
@@ -69,18 +68,6 @@ return [
             return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
         },
 
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::endsWith($filePath, 'vendor/jean85/pretty-package-versions/src/PrettyVersions.php')) {
-                return $content;
-            }
-
-            // see https://regex101.com/r/v8zRMm/1
-            return Strings::replace(
-                $content,
-                '#' . $prefix . '\\\\Composer\\\\InstalledVersions#',
-                'Composer\InstalledVersions'
-            );
-        },
         // fixes https://github.com/symplify/symplify/issues/3102
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::contains($filePath, 'vendor/')) {
