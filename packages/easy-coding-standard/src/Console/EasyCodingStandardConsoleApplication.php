@@ -6,11 +6,8 @@ namespace Symplify\EasyCodingStandard\Console;
 
 use Composer\InstalledVersions;
 use Composer\XdebugHandler\XdebugHandler;
-<<<<<<< HEAD
-use Symfony\Component\Console\Application;
-=======
 use Nette\Utils\Strings;
->>>>>>> 003e87604 ([ECS] Fix version provider)
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;

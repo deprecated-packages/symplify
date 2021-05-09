@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyTesting\Console\EasyTestingConsoleApplication;
-use Symplify\MonorepoBuilder\Console\MonorepoBuilderConsoleApplication;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

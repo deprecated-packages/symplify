@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Console\ConfigTransfomerConsoleApplication;
 use Symplify\ConfigTransformer\Provider\YamlContentProvider;
-use Symplify\MonorepoBuilder\Console\MonorepoBuilderConsoleApplication;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;

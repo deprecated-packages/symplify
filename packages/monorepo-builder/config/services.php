@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCI\Console\EasyCIConsoleApplication;
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderConsoleApplication;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
