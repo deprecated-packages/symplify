@@ -61,8 +61,6 @@ parameters:
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
 
-        - packages/easy-coding-standard/scoper.php
-
         # PHP 8 only
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
         - packages/autowire-array-parameter/tests/SourcePhp8/PromotedPropertyCollector.php
@@ -544,3 +542,11 @@ parameters:
         # only reported on CI
         - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but (.*?)#'
         - '#Parameter \#2 \$servicesConfigurator of static method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inlineArgumentObject\(\) expects (.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator, Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator given#'
+
+        -
+            message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
+            path: packages/easy-coding-standard/scoper.php
+
+        -
+            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
+            path: packages/easy-coding-standard/scoper.php
