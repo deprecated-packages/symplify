@@ -66,6 +66,8 @@ parameters:
         - packages/autowire-array-parameter/tests/SourcePhp8/PromotedPropertyCollector.php
         - packages/autowire-array-parameter/tests/DependencyInjection/CompilerPass/Php8Test.php
 
+        - packages/phpstan-rules/tests/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule/FixturePhp80/SkipPromotedParentProperty.php
+
         # functions false positive
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php

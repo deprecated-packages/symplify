@@ -34,10 +34,7 @@ final class ParentClassMethodNodeResolver
         $this->nodeFinder = $nodeFinder;
     }
 
-    /**
-     * @return Node[]
-     */
-    public function resolveParentClassMethodNodes(Scope $scope, string $methodName): array
+    public function resolveParentClassMethod(Scope $scope, string $methodName): ?ClassMethod
     {
         /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassReflections($scope);
@@ -56,23 +53,18 @@ final class ParentClassMethodNodeResolver
                 $parentClassNodes = $this->parser->parseFile($fileName);
             } catch (Throwable $throwable) {
                 // not reachable
-                return [];
+                return null;
             }
 
             $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
             if (! $class instanceof Class_) {
-                return [];
+                return null;
             }
 
-            $classMethod = $class->getMethod($methodName);
-            if (! $classMethod instanceof ClassMethod) {
-                continue;
-            }
-
-            return (array) $classMethod->getStmts();
+            return $class->getMethod($methodName);
         }
 
-        return [];
+        return null;
     }
 
     /**
