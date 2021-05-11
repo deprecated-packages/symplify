@@ -53,9 +53,6 @@
             "dev-main": "9.4-dev"
         }
     },
-    "replace": {
-        "symfony/polyfill-php72": "*"
-    },
     "config": {
         "sort-packages": true,
         "platform-check": false
