@@ -8,6 +8,7 @@
         "symfony/http-kernel": "^4.4|^5.2",
         "symfony/dependency-injection": "^5.2",
         "symplify/smart-file-system": "^9.4",
+        "symplify/composer-json-manipulator": "^9.4",
         "symplify/autowire-array-parameter": "^9.4",
         "symplify/package-builder": "^9.4"
     },
