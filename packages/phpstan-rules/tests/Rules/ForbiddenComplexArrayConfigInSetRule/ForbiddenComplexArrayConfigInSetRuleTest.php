@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenComplexArrayConfigInSetRule>
+ */
 final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
@@ -25,6 +28,7 @@ final class ForbiddenComplexArrayConfigInSetRuleTest extends AbstractServiceAwar
         yield [__DIR__ . '/Fixture/ComplexConfig.php', [[ForbiddenComplexArrayConfigInSetRule::ERROR_MESSAGE, 15]]];
 
         yield [__DIR__ . '/Fixture/SkipSimpleConfig.php', []];
+        yield [__DIR__ . '/Fixture/SkipExtension.php', []];
     }
 
     protected function getRule(): Rule

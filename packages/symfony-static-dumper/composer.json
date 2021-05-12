@@ -13,16 +13,16 @@
         "symfony/config": "^4.4|^5.2",
         "symfony/dependency-injection": "^5.2",
         "symfony/routing": "^4.4|^5.2",
-        "symplify/autowire-array-parameter": "^9.3",
-        "symplify/package-builder": "^9.3",
-        "symplify/symplify-kernel": "^9.3",
-        "symplify/smart-file-system": "^9.3",
-        "symplify/console-package-builder": "^9.3"
+        "symplify/autowire-array-parameter": "^9.4",
+        "symplify/package-builder": "^9.4",
+        "symplify/symplify-kernel": "^9.4",
+        "symplify/smart-file-system": "^9.4",
+        "symplify/console-package-builder": "^9.4"
     },
     "require-dev": {
         "doctrine/annotations": "^1.12",
         "doctrine/cache": "^1.10",
-        "phpstan/phpstan": "^0.12.82",
+        "phpstan/phpstan": "0.12.86",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^4.4|^5.2",
         "symfony/twig-bundle": "^4.4|^5.2"

@@ -12,6 +12,11 @@ final class Mapping
     /**
      * @var string
      */
+    public const NAME = 'name';
+
+    /**
+     * @var string
+     */
     public const IS_BUNDLE = 'is_bundle';
 
     /**

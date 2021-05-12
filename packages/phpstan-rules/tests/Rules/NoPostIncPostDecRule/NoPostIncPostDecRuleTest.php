@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoPostIncPostDecRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoPostIncPostDecRule>
+ */
 final class NoPostIncPostDecRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

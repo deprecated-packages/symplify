@@ -55,6 +55,21 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertSame('Tom', $person->getName());
     }
 
+    public function testWithoutRetype(): void
+    {
+        $marriage = $this->arrayToValueObjectHydrator->hydrateArray([
+            'personA' => new Person('A'),
+            'personB' => new Person('B'),
+            'date' => new DateTimeImmutable('2020-02-03'),
+        ], Marriage::class);
+
+        $this->assertInstanceOf(Marriage::class, $marriage);
+
+        /** @var Marriage $marriage */
+        $person = $marriage->getPersonA();
+        $this->assertSame('A', $person->getName());
+    }
+
     public function testRetypes(): void
     {
         $personWithAge = $this->arrayToValueObjectHydrator->hydrateArray([

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoArrayStringObjectReturnRule>
+ */
 final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
@@ -35,6 +38,7 @@ final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/ParamArrayStringObject.php', [[NoArrayStringObjectReturnRule::ERROR_MESSAGE, 16]]];
 
         yield [__DIR__ . '/Fixture/SkipNonStringKey.php', []];
+        yield [__DIR__ . '/Fixture/SkipArrayFilter.php', []];
     }
 
     protected function getRule(): Rule

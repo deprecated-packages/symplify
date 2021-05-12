@@ -60,7 +60,7 @@ final class JsonFileManager
     }
 
     /**
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public function loadFromFilePath(string $filePath): array
     {

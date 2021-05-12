@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Guard;
 
 use Symplify\EasyCodingStandard\Application\FileProcessorCollector;
-use Symplify\EasyCodingStandard\Configuration\Exception\NoCheckersLoadedException;
+use Symplify\EasyCodingStandard\Bootstrap\NoCheckersLoaderReporter;
 
 final class LoadedCheckersGuard
 {
@@ -14,19 +14,28 @@ final class LoadedCheckersGuard
      */
     private $fileProcessorCollector;
 
-    public function __construct(FileProcessorCollector $fileProcessorCollector)
-    {
+    /**
+     * @var NoCheckersLoaderReporter
+     */
+    private $noCheckersLoaderReporter;
+
+    public function __construct(
+        FileProcessorCollector $fileProcessorCollector,
+        NoCheckersLoaderReporter $noCheckersLoaderReporter
+    ) {
         $this->fileProcessorCollector = $fileProcessorCollector;
+        $this->noCheckersLoaderReporter = $noCheckersLoaderReporter;
     }
 
-    public function ensureSomeCheckersAreRegistered(): void
+    public function areSomeCheckerRegistered(): bool
     {
         $checkerCount = $this->getCheckerCount();
-        if ($checkerCount !== 0) {
-            return;
-        }
+        return $checkerCount !== 0;
+    }
 
-        throw new NoCheckersLoadedException();
+    public function report(): void
+    {
+        $this->noCheckersLoaderReporter->report();
     }
 
     private function getCheckerCount(): int

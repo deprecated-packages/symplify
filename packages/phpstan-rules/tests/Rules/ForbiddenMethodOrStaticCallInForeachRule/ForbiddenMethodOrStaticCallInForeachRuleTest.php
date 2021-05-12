@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenMethodOrStaticCallInForeachRule>
+ */
 final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

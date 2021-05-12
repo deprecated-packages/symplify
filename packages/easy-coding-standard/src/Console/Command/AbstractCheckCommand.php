@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\EasyCodingStandardApplication;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
@@ -36,7 +34,7 @@ abstract class AbstractCheckCommand extends AbstractSymplifyCommand
     /**
      * @var LoadedCheckersGuard
      */
-    private $loadedCheckersGuard;
+    protected $loadedCheckersGuard;
 
     /**
      * @required
@@ -94,10 +92,5 @@ abstract class AbstractCheckCommand extends AbstractSymplifyCommand
             InputOption::VALUE_NONE,
             'Execute only on file(s) matching the git diff.'
         );
-    }
-
-    protected function initialize(InputInterface $input, OutputInterface $output): void
-    {
-        $this->loadedCheckersGuard->ensureSomeCheckersAreRegistered();
     }
 }

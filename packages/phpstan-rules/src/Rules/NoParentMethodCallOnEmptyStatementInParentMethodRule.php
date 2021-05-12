@@ -70,11 +70,9 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
             return [];
         }
 
-        $parentClassMethodStmtCount = $this->resolveParentClassMethodStmtCount($scope, $methodName);
-        if ($parentClassMethodStmtCount !== 0) {
+        if (! $this->isParentClassMethodEmpty($scope, $methodName)) {
             return [];
         }
-
         return [self::ERROR_MESSAGE];
     }
 
@@ -118,23 +116,25 @@ CODE_SAMPLE
         ]);
     }
 
-    private function resolveParentClassMethodStmtCount(Scope $scope, string $methodName): int
+    private function isParentClassMethodEmpty(Scope $scope, string $methodName): bool
     {
-        $parentClassMethodNodes = $this->parentClassMethodNodeResolver->resolveParentClassMethodNodes(
-            $scope,
-            $methodName
-        );
-
-        $countStmts = 0;
-        foreach ($parentClassMethodNodes as $stmt) {
-            // ensure empty statement not counted
-            if ($stmt instanceof Nop) {
-                continue;
-            }
-            ++$countStmts;
+        $countStmts = $this->resolveParentClassMethodStmtCount($scope, $methodName);
+        if ($countStmts !== 0) {
+            return false;
         }
 
-        return $countStmts;
+        $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod($scope, $methodName);
+        if ($parentClassMethod === null) {
+            return true;
+        }
+
+        foreach ($parentClassMethod->getParams() as $param) {
+            if ($param->flags !== null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function shouldSkipClass(Scope $scope): bool
@@ -146,5 +146,25 @@ CODE_SAMPLE
 
         // skip exceptions
         return is_a($classReflection->getName(), Throwable::class, true);
+    }
+
+    private function resolveParentClassMethodStmtCount(Scope $scope, string $methodName): int
+    {
+        $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod($scope, $methodName);
+        if ($parentClassMethod === null) {
+            return 0;
+        }
+
+        $stmts = (array) $parentClassMethod->getStmts();
+
+        $countStmts = 0;
+        foreach ($stmts as $stmt) {
+            // ensure empty statement not counted
+            if ($stmt instanceof Nop) {
+                continue;
+            }
+            ++$countStmts;
+        }
+        return $countStmts;
     }
 }

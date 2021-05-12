@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoFuncCallInMethodCallRule>
+ */
 final class NoFuncCallInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

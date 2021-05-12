@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoMagicClosureRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoMagicClosureRule>
+ */
 final class NoMagicClosureRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNetteInjectAndConstructorRule>
+ */
 final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

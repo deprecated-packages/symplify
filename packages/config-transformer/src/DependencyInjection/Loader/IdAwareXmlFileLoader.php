@@ -6,6 +6,7 @@ namespace Symplify\ConfigTransformer\DependencyInjection\Loader;
 
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 use Nette\Utils\Strings;
@@ -118,7 +119,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
 
         $definitions = $this->processAnonymousServicesInArguments($domxPath, $suffix, $file, $definitions);
 
-        /** @var DOMNodeList $nodeWithIds */
+        /** @var DOMNodeList<DOMNode> $nodeWithIds */
         $nodeWithIds = $domxPath->query('//container:services/container:service[@id]');
         $hasNamedServices = (bool) $nodeWithIds->length;
 

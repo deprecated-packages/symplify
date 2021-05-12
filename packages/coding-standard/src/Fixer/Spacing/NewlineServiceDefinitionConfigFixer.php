@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
-use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -129,9 +128,14 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * Must run before
+     *
+     * @see \PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer::getPriority()
+     */
     public function getPriority(): int
     {
-        return $this->getPriorityBefore(MethodChainingIndentationFixer::class);
+        return 39;
     }
 
     /**

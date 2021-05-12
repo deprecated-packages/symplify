@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNetteDoubleTemplateAssignRule>
+ */
 final class NoNetteDoubleTemplateAssignRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

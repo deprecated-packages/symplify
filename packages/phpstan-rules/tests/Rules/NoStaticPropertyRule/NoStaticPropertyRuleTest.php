@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoStaticPropertyRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoStaticPropertyRule>
+ */
 final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -16,6 +16,7 @@ use Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
+ * @implements Rule<ClassMethod>
  */
 final class NoUnusedNetteCreateComponentMethodRule implements Rule
 {

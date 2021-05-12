@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoGetRepositoryOutsideConstructorRule>
+ */
 final class NoGetRepositoryOutsideConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

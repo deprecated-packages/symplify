@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoMethodTagInClassDocblockRule>
+ */
 final class NoMethodTagInClassDocblockRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

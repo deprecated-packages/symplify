@@ -10,6 +10,9 @@ use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferConstantValueRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferConstantValueRule>
+ */
 final class PreferConstantValueRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

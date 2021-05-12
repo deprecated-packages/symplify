@@ -16,16 +16,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(LineLengthFixer::class);
     $services->set(BlankLineAfterOpeningTagFixer::class);
 
-    $parameters = $containerConfigurator->parameters();
+    $containerConfigurator->import(SetList::CLEAN_CODE);
+    $containerConfigurator->import(SetList::SYMPLIFY);
+    $containerConfigurator->import(SetList::COMMON);
+    $containerConfigurator->import(SetList::PSR_12);
+    $containerConfigurator->import(SetList::DOCTRINE_ANNOTATIONS);
 
-    $parameters->set(Option::SETS, [
-        SetList::CLEAN_CODE,
-        SetList::SYMPLIFY,
-        SetList::COMMON,
-        SetList::PSR_12,
-        SetList::DOCTRINE_ANNOTATIONS,
-        SetList::ARRAY,
-    ]);
+    $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::PATHS, [
         __DIR__ . '/packages',
@@ -39,12 +36,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
-        __DIR__ . '/packages/easy-coding-standard/scoper.inc.php',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
+        __DIR__ . '/packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php',
 
         // full classes
         ArrayDeclarationSniff::class,

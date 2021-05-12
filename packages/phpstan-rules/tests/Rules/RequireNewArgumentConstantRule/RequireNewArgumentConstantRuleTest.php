@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireNewArgumentConstantRule>
+ */
 final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

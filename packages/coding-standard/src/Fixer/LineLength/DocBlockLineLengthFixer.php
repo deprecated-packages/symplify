@@ -6,6 +6,7 @@ namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -17,6 +18,7 @@ use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\LineLength\DocBlockLineLengthFixer\DocBlockLineLengthFixerTest
@@ -161,6 +163,11 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        throw new ShouldNotHappenException();
     }
 
     private function resolveIndentationStringFor(string $docBlock): string

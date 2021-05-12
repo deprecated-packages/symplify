@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoBinaryOpCallCompareRule>
+ */
 final class NoBinaryOpCallCompareRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

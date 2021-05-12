@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\CT;
@@ -22,6 +22,7 @@ use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\LineLengthFixerTest
@@ -186,9 +187,14 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * Must run before
+     *
+     * @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
+     */
     public function getPriority(): int
     {
-        return $this->getPriorityBefore(TrimArraySpacesFixer::class);
+        return 5;
     }
 
     public function configure(?array $configuration = null): void
@@ -196,6 +202,11 @@ CODE_SAMPLE
         $this->lineLength = $configuration[self::LINE_LENGTH] ?? self::DEFAULT_LINE_LENGHT;
         $this->breakLongLines = $configuration[self::BREAK_LONG_LINES] ?? true;
         $this->inlineShortLines = $configuration[self::INLINE_SHORT_LINES] ?? true;
+    }
+
+    public function getConfigurationDefinition(): FixerConfigurationResolverInterface
+    {
+        throw new ShouldNotHappenException();
     }
 
     /**

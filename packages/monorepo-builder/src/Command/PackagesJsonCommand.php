@@ -31,6 +31,12 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
     {
         $this->setDescription('Provides package paths in json format. Useful for GitHub Actions Workflow');
         $this->addOption(Option::TESTS, null, InputOption::VALUE_NONE, 'Only with /tests directory');
+        $this->addOption(
+            Option::EXCLUDE_PACKAGE,
+            null,
+            InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+            'Exclude one or more package from the list, useful e.g. when scoping one package instead of bare split'
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -41,6 +47,12 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
         } else {
             $packagePaths = $this->packageJsonProvider->providePackages();
         }
+
+        $excludedPackages = (array) $input->getOption(Option::EXCLUDE_PACKAGE);
+        $packagePaths = array_diff($packagePaths, $excludedPackages);
+
+        // re-index from 0
+        $packagePaths = array_values($packagePaths);
 
         // must be without spaces, otherwise it breaks GitHub Actions json
         $json = Json::encode($packagePaths);

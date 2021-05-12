@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
 use Nette\Utils\Strings;
-use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -61,9 +60,14 @@ final class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer imple
         return new FixerDefinition(self::ERROR_MESSAGE, []);
     }
 
+    /**
+     * Must run before
+     *
+     * @see \PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer::getPriority()
+     */
     public function getPriority(): int
     {
-        return $this->getPriorityBefore(ArrayIndentationFixer::class);
+        return 34;
     }
 
     public function getRuleDefinition(): RuleDefinition

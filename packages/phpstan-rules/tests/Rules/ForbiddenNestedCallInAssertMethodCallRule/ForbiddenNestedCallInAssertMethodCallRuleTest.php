@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNestedCallInAssertMethodCallRule>
+ */
 final class ForbiddenNestedCallInAssertMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

@@ -2,10 +2,5 @@
 .gitignore export-ignore
 phpunit.xml export-ignore
 *.md export-ignore
-tests export-ignore
-packages/composer-json-object/tests export-ignore
-packages/init/tests export-ignore
-packages/merge/tests export-ignore
-packages/release/tests export-ignore
-packages/split/tests export-ignore
-packages/testing/tests export-ignore
+/tests export-ignore
+/packages-tests export-ignore

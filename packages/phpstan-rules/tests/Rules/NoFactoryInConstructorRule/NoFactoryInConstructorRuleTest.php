@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoFactoryInConstructorRule>
+ */
 final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

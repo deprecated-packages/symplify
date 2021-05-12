@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule;
 use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<RequireStringArgumentInConstructorRule>
+ */
 final class RequireStringArgumentInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

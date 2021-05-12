@@ -38,6 +38,8 @@ final class FixerToECSConverterTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
+        $this->markTestSkipped('Works only for php-cs-fixer 2.x, not 3.x');
+
         // add local "packages" directory, to make config run happy
         $packagesDirectory = StaticFixtureSplitter::getTemporaryPath() . '/temporary-packages';
         $this->smartFileSystem->dumpFile($packagesDirectory . '/some_file.txt', 'some content');

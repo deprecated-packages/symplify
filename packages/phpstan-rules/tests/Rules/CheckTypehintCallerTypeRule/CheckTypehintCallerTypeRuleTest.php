@@ -12,6 +12,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckTypehintCallerTypeRule>
+ */
 final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

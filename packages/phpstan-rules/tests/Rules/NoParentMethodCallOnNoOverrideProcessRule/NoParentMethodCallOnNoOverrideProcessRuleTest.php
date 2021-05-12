@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoParentMethodCallOnNoOverrideProcessRule>
+ */
 final class NoParentMethodCallOnNoOverrideProcessRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

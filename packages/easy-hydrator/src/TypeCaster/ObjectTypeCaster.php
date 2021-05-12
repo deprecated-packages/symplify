@@ -66,13 +66,17 @@ final class ObjectTypeCaster implements TypeCasterInterface
 
     /**
      * @param mixed $data
-     * @return mixed
+     * @return object|mixed
      */
     private function createObject(
         string $className,
         $data,
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ) {
+        if (is_a($data, $className)) {
+            return $data;
+        }
+
         $constructorValues = $classConstructorValuesResolver->resolve($className, $data);
 
         return new $className(...$constructorValues);

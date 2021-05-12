@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule>
+ */
 final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

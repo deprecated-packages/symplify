@@ -11,6 +11,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredClassRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreferredClassRule>
+ */
 final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

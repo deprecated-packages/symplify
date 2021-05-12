@@ -11,6 +11,9 @@ use Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\DefinedInterfaceAndParentClass;
 use Symplify\PHPStanRules\Tests\Rules\ForbiddenNewInMethodRule\Fixture\HasNewInMethod;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNewInMethodRule>
+ */
 final class ForbiddenNewInMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

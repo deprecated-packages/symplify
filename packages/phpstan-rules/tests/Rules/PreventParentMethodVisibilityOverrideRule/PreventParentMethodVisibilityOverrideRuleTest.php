@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<PreventParentMethodVisibilityOverrideRule>
+ */
 final class PreventParentMethodVisibilityOverrideRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

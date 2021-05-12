@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoNullableArrayPropertyRule>
+ */
 final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

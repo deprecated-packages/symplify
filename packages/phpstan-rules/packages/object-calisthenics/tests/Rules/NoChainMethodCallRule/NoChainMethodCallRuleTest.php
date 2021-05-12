@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<NoChainMethodCallRule>
+ */
 final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

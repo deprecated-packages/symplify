@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenArrayWithStringKeysRule>
+ */
 final class Php80Test extends AbstractServiceAwareRuleTestCase
 {
     /**

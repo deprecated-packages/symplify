@@ -9,6 +9,9 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\SuffixInterfaceRule;
 
+/**
+ * @extends AbstractServiceAwareRuleTestCase<SuffixInterfaceRule>
+ */
 final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**

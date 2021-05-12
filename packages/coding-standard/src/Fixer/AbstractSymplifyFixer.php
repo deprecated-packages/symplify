@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer;
 
-use PhpCsFixer\Fixer\DefinedFixerInterface;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use ReflectionClass;
 use SplFileInfo;
 
-abstract class AbstractSymplifyFixer implements DefinedFixerInterface
+abstract class AbstractSymplifyFixer implements FixerInterface
 {
     public function getPriority(): int
     {
@@ -40,23 +38,6 @@ abstract class AbstractSymplifyFixer implements DefinedFixerInterface
     protected function reverseTokens(Tokens $tokens): array
     {
         return array_reverse($tokens->toArray(), true);
-    }
-
-    /**
-     * Helper method to run this before specified fixer, works even in case of change.
-     */
-    protected function getPriorityBefore(string $fixerClass): int
-    {
-        if (! is_a($fixerClass, FixerInterface::class, true)) {
-            return 0;
-        }
-
-        $reflectionClass = (new ReflectionClass($fixerClass));
-
-        /** @var FixerInterface $fixer */
-        $fixer = $reflectionClass->newInstanceWithoutConstructor();
-
-        return $fixer->getPriority() + 5;
     }
 
     /**
