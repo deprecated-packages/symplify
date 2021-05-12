@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\Json\JsonFileSystem;
+use Symplify\VendorPatches\Console\VendorPatchesConsoleApplication;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -31,6 +34,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set(VendorDirProvider::class);
-
     $services->set(JsonFileSystem::class);
+
+    $services->alias(Application::class, VendorPatchesConsoleApplication::class);
+    $services->set(CommandNaming::class);
 };
