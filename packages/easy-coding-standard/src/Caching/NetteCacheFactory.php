@@ -6,7 +6,6 @@ namespace Symplify\EasyCodingStandard\Caching;
 
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
-use Nette\Caching\Storages\SQLiteJournal;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileSystem;
