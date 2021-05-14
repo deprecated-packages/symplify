@@ -32,7 +32,8 @@ return [
 
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
-        'Symplify\*',
+        'Symplify\EasyCodingStandard\*',
+        'Symplify\CodingStandard\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
