@@ -19,28 +19,35 @@ final class SuffixInterfaceRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Interface name "%s" must be suffixed with "Interface"';
+    public const ERROR_MESSAGE = 'Interface must be suffixed with "Interface" exclusively';
 
     /**
      * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
-        return [Interface_::class];
+        return [Node\Stmt\ClassLike::class];
     }
 
     /**
-     * @param Interface_ $node
+     * @param Node\Stmt\ClassLike $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $interfaceName = (string) $node->name;
-        if (Strings::endsWith($interfaceName, 'Interface')) {
+        if (Strings::endsWith((string) $node->name, 'Interface')) {
+            if (! $node instanceof Interface_) {
+                return [self::ERROR_MESSAGE];
+            }
+
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $interfaceName)];
+        if ($node instanceof Interface_) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
