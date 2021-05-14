@@ -15,7 +15,7 @@ require_once __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php';
 
 // initalize token with INT type, otherwise php-cs-fixer and php-parser breaks
 if (defined('T_MATCH') === false) {
-    define('T_MATCH', 5000);
+    define('T_MATCH', 5005);
 }
 
 // required for PHP_CodeSniffer in packages/EasyCodingStandard/tests/*
@@ -29,6 +29,3 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
 // e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after monorepo)
 // use this to find out where you are
 define('SYMPLIFY_MONOREPO', true);
-
-// to keep dumping of Nodes simple
-Debugger::$maxDepth = 2;

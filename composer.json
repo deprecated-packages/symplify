@@ -52,7 +52,7 @@
         "nette/forms": "^3.1",
         "ondram/ci-detector": "^4.0",
         "psr/log": "^1.1",
-        "rector/rector": "dev-main",
+        "rector/rector": "^0.11.1",
         "symfony/doctrine-bridge": "^4.4|^5.2",
         "symfony/framework-bundle": "^4.4|^5.2",
         "symfony/security-bundle": "^4.4|^5.2",
