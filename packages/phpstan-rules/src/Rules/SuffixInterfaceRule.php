@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,11 +27,11 @@ final class SuffixInterfaceRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Node\Stmt\ClassLike::class];
+        return [ClassLike::class];
     }
 
     /**
-     * @param Node\Stmt\ClassLike $node
+     * @param ClassLike $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
