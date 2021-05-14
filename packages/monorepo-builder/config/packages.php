@@ -12,7 +12,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('Symplify\\MonorepoBuilder\\', __DIR__ . '/../packages')
+    $services->load('Symplify\MonorepoBuilder\\', __DIR__ . '/../packages')
         ->exclude([
             // register manually
             __DIR__ . '/../packages/Release/ReleaseWorker',

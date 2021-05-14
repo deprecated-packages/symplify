@@ -17,7 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('Symplify\\MonorepoBuilder\\', __DIR__ . '/../src')
+    $services->load('Symplify\MonorepoBuilder\\', __DIR__ . '/../src')
         ->exclude([
             __DIR__ . '/../src/Exception',
             __DIR__ . '/../src/HttpKernel',

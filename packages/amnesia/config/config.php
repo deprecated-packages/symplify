@@ -12,6 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure()
         ->public();
 
-    $services->load('Symplify\\Amnesia\\', __DIR__ . '/../src')
+    $services->load('Symplify\Amnesia\\', __DIR__ . '/../src')
         ->exclude([__DIR__ . '/../src/ValueObject']);
 };
