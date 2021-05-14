@@ -27,8 +27,8 @@ final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipCorrectlyNameTrait.php', []];
 
-        $errorMessage = sprintf(SuffixTraitRule::ERROR_MESSAGE, 'TraitWithoutSuffix');
-        yield [__DIR__ . '/Fixture/TraitWithoutSuffix.php', [[$errorMessage, 7]]];
+        yield [__DIR__ . '/Fixture/TraitWithoutSuffix.php', [[SuffixTraitRule::ERROR_MESSAGE, 7]]];
+        yield [__DIR__ . '/Fixture/SomeNotTrait.php', [[SuffixTraitRule::ERROR_MESSAGE, 7]]];
     }
 
     protected function getRule(): Rule

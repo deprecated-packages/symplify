@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -19,28 +20,36 @@ final class SuffixTraitRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Trait name "%s" must be suffixed with "Trait"';
+    public const ERROR_MESSAGE = 'Trait must be suffixed by "Trait" exclusively';
 
     /**
      * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
-        return [Trait_::class];
+        return [Node\Stmt\ClassLike::class];
     }
 
     /**
-     * @param Trait_ $node
+     * @param Node\Stmt\ClassLike $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
         $traitName = (string) $node->name;
         if (Strings::endsWith($traitName, 'Trait')) {
-            return [];
+            if ($node instanceof Trait_) {
+                return [];
+            }
+
+            return [self::ERROR_MESSAGE];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $traitName)];
+        if ($node instanceof Trait_) {
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
