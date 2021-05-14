@@ -8,6 +8,7 @@ use Nette\Caching\Cache;
 use Nette\Caching\Storages\Journal;
 use Nette\Utils\Json;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symplify\EasyCodingStandard\Caching\JsonFile\LockingJsonFileAccessor;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 class JsonFileJournal implements Journal
@@ -23,45 +24,41 @@ class JsonFileJournal implements Journal
         ]
     ];
 
-    /** @var string */
-    private $filePath;
+    /** @var LockingJsonFileAccessor */
+    private $fileAccessor;
 
-    /** @var resource|null */
-    private $fileResource = null;
-
-    /** @var array  */
+    /** @var array[]  */
     private $journal;
 
     public function __construct(string $journalFilePath = 'journal.json')
     {
-        $this->filePath = $journalFilePath;
+        $this->fileAccessor = new LockingJsonFileAccessor($journalFilePath);
 
-        if (is_file($this->filePath)) {
-            if (!is_writable($this->filePath)) {
-                throw new IOException("Cache journal file '{$this->filePath}' is not writable");
-            }
-        } elseif (!is_writable(dirname($this->filePath))) {
-            throw new IOException("Cache journal file '{$this->filePath}' does not exist and its parent directory is not writable");
-        } else {
-            (new SmartFileSystem())->dumpFile($this->filePath, Json::encode(self::EMPTY_STRUCTURE));
+        if ($this->fileAccessor->exists() && !$this->fileAccessor->isWritable()) {
+            throw new IOException("Cache journal file '{$journalFilePath}' is not writable");
+        }
+
+        if (!$this->fileAccessor->exists()) {
+            $filesystem = new SmartFileSystem();
+            $filesystem->dumpFile($journalFilePath, Json::encode(self::EMPTY_STRUCTURE));
         }
     }
 
     public function write(string $key, array $dependencies): void
     {
-        $this->journal = $this->readFile();
+        $this->journal = $this->fileAccessor->openAndRead();
 
-        if (!empty($dependencies[Cache::TAGS])) {
+        if (count($dependencies[Cache::TAGS]) > 0) {
             $this->deleteTagsForKey($key);
             $this->addTagsForKey($key, $dependencies[Cache::TAGS]);
         }
 
-        if (!empty($dependencies[Cache::PRIORITY])) {
+        if (count($dependencies[Cache::PRIORITY]) > 0) {
             $this->unsetPriority($key);
             $this->setPriority($key, (int) $dependencies[Cache::PRIORITY]);
         }
 
-        $this->writeFile($this->journal);
+        $this->fileAccessor->writeAndClose($this->journal);
     }
 
     /**
@@ -71,27 +68,21 @@ class JsonFileJournal implements Journal
      */
     public function clean(array $conditions): ?array
     {
-        $this->journal = $this->readFile();
+        $this->journal = $this->fileAccessor->openAndRead();
 
-        if (!empty($conditions[Cache::ALL])) {
+        if (count($conditions[Cache::ALL]) > 0) {
             $this->journal = self::EMPTY_STRUCTURE;
 
             return null;
         }
 
         $keys = [];
-        if (!empty($conditions[Cache::TAGS])) {
-            foreach ($conditions[Cache::TAGS] as $tag) {
-                $keys = array_merge($keys, $this->journal['tags']['by-tag'][$tag] ?? []);
-            }
+        if (count($conditions[Cache::TAGS]) > 0) {
+            $keys += $this->getKeysByTags($conditions[Cache::TAGS]);
         }
 
-        if (!empty($conditions[Cache::PRIORITY])) {
-            foreach (array_keys($this->journal['priorities']['by-priority']) as $priority) {
-                if ($priority <= $conditions[Cache::PRIORITY]) {
-                    $keys = array_merge($keys, $this->journal['priorities']['by-priority'][$priority] ?? []);
-                }
-            }
+        if (count($conditions[Cache::PRIORITY]) > 0) {
+            $keys += $this->getKeysByPriority($conditions[Cache::PRIORITY]);
         }
 
         foreach ($keys as $key) {
@@ -99,77 +90,11 @@ class JsonFileJournal implements Journal
             $this->unsetPriority($key);
         }
 
-        $this->writeFile($this->journal);
+        $this->fileAccessor->writeAndClose($this->journal);
 
         return $keys;
     }
 
-    /**
-     * @return array[]
-     * @throws \JsonException
-     */
-    private function readFile(): array
-    {
-        if ($this->fileResource === null) {
-            $this->fileResource = fopen($this->filePath, 'r+');
-            if ($this->fileResource === false) {
-                throw new IOException("Failed to open journal file '$this->filePath' for reading & writing");
-            }
-
-            $result = flock($this->fileResource, LOCK_EX | LOCK_NB);
-            if ($result === false) {
-                throw new IOException("Failed to acquire exclusive lock on the journal file '{$this->filePath}'");
-            }
-        }
-
-        $rawData = fread($this->fileResource, (int) filesize($this->filePath));
-        if ($rawData === false) {
-            throw new IOException("Could not read contents from the journal file '{$this->filePath}'");
-        }
-
-        return Json::decode($rawData, Json::FORCE_ARRAY);
-    }
-
-    private function writeFile(array $data): void
-    {
-        if ($this->fileResource === null) {
-            throw new IOException("Trying to write journal file without first reading it");
-        }
-
-        $rawData = Json::encode($data);
-
-        $result = ftruncate($this->fileResource, mb_strlen($rawData, '8bit'));
-        if ($result === false) {
-            throw new IOException("Could not truncate the contents of journal file '$this->filePath' before writing new data to it");
-        }
-
-        $result = fseek($this->fileResource, 0);
-        if ($result === -1) {
-            throw new IOException("Could set the pointer to the beginning of the journal file '$this->filePath'");
-        }
-
-        $result = fwrite($this->fileResource, $rawData);
-        if ($result === false) {
-            throw new IOException("Could not write journal contents into file '$this->filePath'");
-        }
-
-        $result = flock($this->fileResource, LOCK_UN);
-        if ($result === false) {
-            throw new IOException("Failed to release lock on journal file '{$this->filePath}'");
-        }
-
-        $result = fflush($this->fileResource);
-        if ($result === false) {
-            throw new IOException("Failed to flush written data to journal file '{$this->filePath}'");
-        }
-
-        $result = fclose($this->fileResource);
-        if ($result === false) {
-            throw new IOException("Failed to close journal file '{$this->filePath}'");
-        }
-
-        $this->fileResource = null;
-    }
 
     private function deleteTagsForKey(string $key): void
     {
@@ -184,7 +109,7 @@ class JsonFileJournal implements Journal
             if (isset($this->journal['tags']['by-tag'][$tag])) {
                 $this->journal['tags']['by-tag'][$tag] = array_filter(
                     $this->journal['tags']['by-tag'][$tag],
-                    static function ($k) use ($key) { return $k !== $key; }
+                    static function ($itemKey) use ($key) { return $itemKey !== $key; }
                 );
             }
         }
@@ -205,13 +130,11 @@ class JsonFileJournal implements Journal
 
     private function setPriority(string $key, int $priority): void
     {
-        if ($priority !== null) {
-            $this->journal['priorities']['by-key'][$key] = $priority;
-            if (!isset($this->journal['priorities']['by-priority'][$priority])) {
-                $this->journal['priorities']['by-priority'][$priority] = [$key];
-            } else {
-                $this->journal['priorities']['by-priority'][$priority][] = $key;
-            }
+        $this->journal['priorities']['by-key'][$key] = $priority;
+        if (!isset($this->journal['priorities']['by-priority'][$priority])) {
+            $this->journal['priorities']['by-priority'][$priority] = [$key];
+        } else {
+            $this->journal['priorities']['by-priority'][$priority][] = $key;
         }
     }
 
@@ -222,12 +145,43 @@ class JsonFileJournal implements Journal
 
             $this->journal['priorities']['by-priority'][$currentPriority] = array_filter(
                 $this->journal['priorities']['by-priority'][$currentPriority],
-                static function ($k) use ($key) { return $k !== $key; }
+                static function ($itemKey) use ($key) { return $itemKey !== $key; }
             );
         }
 
         if (isset($this->journal['priorities']['by-key'][$key])) {
             unset($this->journal['priorities']['by-key'][$key]);
         }
+    }
+
+    /**
+     * @param array $tags
+     *
+     * @return mixed[]
+     */
+    private function getKeysByTags($tags): array
+    {
+        $keys = [];
+        foreach ($tags as $tag) {
+            $keys = array_merge($keys, $this->journal['tags']['by-tag'][$tag] ?? []);
+        }
+
+        return $keys;
+}
+
+    /**
+     * @param int $priorityThreshold
+     *
+     * @return mixed[]
+     */
+    private function getKeysByPriority(int $priorityThreshold): array
+    {
+        $keys = [];
+        foreach (array_keys($this->journal['priorities']['by-priority']) as $priority) {
+            if ($priority <= $priorityThreshold) {
+                $keys = array_merge($keys, $this->journal['priorities']['by-priority'][$priority] ?? []);
+            }
+        }
+        return $keys;
     }
 }
