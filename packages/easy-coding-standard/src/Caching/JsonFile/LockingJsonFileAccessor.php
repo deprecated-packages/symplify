@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Caching\JsonFile;
 
-use Nette\Utils\Json;
 use Symfony\Component\Filesystem\Exception\IOException;
+use Symplify\EasyCodingStandard\Caching\Journal\DataContainer;
 
 class LockingJsonFileAccessor
 {
@@ -31,10 +31,10 @@ class LockingJsonFileAccessor
     }
 
     /**
-     * @return mixed[]
+     * @return DataContainer
      * @throws \Nette\Utils\JsonException
      */
-    public function openAndRead(): array
+    public function openAndRead(): DataContainer
     {
         if ($this->fileResource === null) {
             $this->fileResource = fopen($this->filePath, 'r+') ?: null;
@@ -54,16 +54,16 @@ class LockingJsonFileAccessor
             throw new IOException("Could not read contents from the file '{$this->filePath}'");
         }
 
-        return Json::decode($rawData, Json::FORCE_ARRAY);
+        return DataContainer::fromJson($rawData);
     }
 
-    public function writeAndClose(array $data): void
+    public function writeAndClose(DataContainer $dataContainer): void
     {
         if ($this->fileResource === null) {
             throw new IOException("Trying to write file without first reading it");
         }
 
-        $rawData = Json::encode($data);
+        $rawData = $dataContainer->toJson();
 
         $byteLength = mb_strlen($rawData, '8bit');
         $result = ftruncate($this->fileResource, $byteLength);
