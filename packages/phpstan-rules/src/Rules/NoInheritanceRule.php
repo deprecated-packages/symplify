@@ -36,6 +36,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'Symfony\Component\HttpKernel\Bundle\Bundle',
         'Symfony\Component\Console\Application',
         'Symfony\Component\Console\Command\Command',
+        'Symfony\Component\Validator\Constraint',
         'Symfony\Component\Console\Style\SymfonyStyle',
         'Symfony\Component\DependencyInjection\Extension\Extension',
         'Symfony\Component\DependencyInjection\Loader\FileLoader',
