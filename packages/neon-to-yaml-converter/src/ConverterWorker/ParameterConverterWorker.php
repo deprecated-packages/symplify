@@ -7,7 +7,7 @@ namespace Symplify\NeonToYamlConverter\ConverterWorker;
 use Symplify\NeonToYamlConverter\ArrayParameterCollector;
 
 /**
- * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlTest
+ * @see \Symplify\NeonToYamlConverter\Tests\NeonToYamlConverterTest
  */
 final class ParameterConverterWorker
 {
