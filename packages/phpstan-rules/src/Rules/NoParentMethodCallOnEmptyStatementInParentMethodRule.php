@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Nop;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
@@ -124,7 +125,7 @@ CODE_SAMPLE
         }
 
         $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod($scope, $methodName);
-        if ($parentClassMethod === null) {
+        if (! $parentClassMethod instanceof ClassMethod) {
             return true;
         }
 
@@ -151,7 +152,7 @@ CODE_SAMPLE
     private function resolveParentClassMethodStmtCount(Scope $scope, string $methodName): int
     {
         $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod($scope, $methodName);
-        if ($parentClassMethod === null) {
+        if (! $parentClassMethod instanceof ClassMethod) {
             return 0;
         }
 

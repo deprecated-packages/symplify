@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Util\Tokens;
-use Tracy\Debugger;
 
 // prefer local class over Rector partially scoped one, to avoid confussion in tests autoload
 require_once __DIR__ . '/../packages/symfony-php-config/src/ValueObjectInliner.php';

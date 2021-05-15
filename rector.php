@@ -72,6 +72,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/init/*',
         '*/Source/*',
         '*/Fixture/*',
+        '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/templates',
 

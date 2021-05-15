@@ -64,7 +64,7 @@ final class ShowCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->loadedCheckersGuard->areSomeCheckerRegistered() === false) {
+        if (! $this->loadedCheckersGuard->areSomeCheckerRegistered()) {
             $this->loadedCheckersGuard->report();
             return ShellCode::ERROR;
         }

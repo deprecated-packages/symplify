@@ -39,8 +39,8 @@ final class NetteCacheFactory
         }
 
         // journal is needed for tags support
-        $sqlLiteJournal = new SQLiteJournal($cacheDirectory . '/_tags_journal');
-        $fileStorage = new FileStorage($cacheDirectory, $sqlLiteJournal);
+        $sqLiteJournal = new SQLiteJournal($cacheDirectory . '/_tags_journal');
+        $fileStorage = new FileStorage($cacheDirectory, $sqLiteJournal);
 
         // namespace is unique per project
         $namespace = md5(getcwd());
