@@ -98,7 +98,9 @@ final class ComposerJsonRepositoriesUpdater
         $message = sprintf('File "%s" was updated', $packageFileInfo->getRelativeFilePathFromCwd());
         $this->symfonyStyle->title($message);
 
-        $this->consoleDiffer->diffAndPrint($oldComposerJsonContents, $newComposerJsonContents);
+        $diff = $this->consoleDiffer->diff($oldComposerJsonContents, $newComposerJsonContents);
+        $this->symfonyStyle->writeln($diff);
+
         $this->symfonyStyle->newLine(2);
     }
 }
