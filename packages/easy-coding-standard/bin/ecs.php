@@ -36,7 +36,6 @@ try {
 } catch (Throwable $throwable) {
     $symfonyStyleFactory = new SymfonyStyleFactory();
     $symfonyStyle = $symfonyStyleFactory->create();
-
     $symfonyStyle->error($throwable->getMessage());
     exit(ShellCode::ERROR);
 }

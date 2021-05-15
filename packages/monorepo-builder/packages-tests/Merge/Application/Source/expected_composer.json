@@ -53,8 +53,7 @@
         "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
     },
     "replace": {
-        "symplify/phpstan-extensions": "self.version",
-        "symplify/set-config-resolver": "self.version"
+        "symplify/phpstan-extensions": "self.version"
     },
     "config": {
         "sort-packages": true

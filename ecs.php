@@ -50,7 +50,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // class in paths
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
-            __DIR__ . '/packages/set-config-resolver/tests/ConfigResolver/SetAwareConfigResolverTest.php',
         ],
     ]);
 };
