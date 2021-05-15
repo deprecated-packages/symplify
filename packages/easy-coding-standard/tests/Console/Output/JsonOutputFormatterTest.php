@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\Console\Output;
 
+use Symplify\PackageBuilder\Console\ShellCode;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
@@ -51,5 +52,18 @@ final class JsonOutputFormatterTest extends AbstractKernelTestCase
 
         $jsonContent = $this->jsonOutputFormatter->createJsonContent($errorAndDiffResult);
         $this->assertStringMatchesFormatFile(__DIR__ . '/Fixture/expected_json_output.json', $jsonContent . PHP_EOL);
+    }
+
+    public function testErrorExitStatusIfThereAreDiffs(): void
+    {
+        $randomFileInfo = new SmartFileInfo(__DIR__ . '/Source/RandomFile.php');
+
+        $this->errorAndDiffCollector->addDiffForFileInfo($randomFileInfo, 'some diff', [LineLengthFixer::class]);
+        $this->errorAndDiffCollector->addDiffForFileInfo($randomFileInfo, 'some other diff', [LineLengthFixer::class]);
+
+        $errorAndDiffResult = $this->errorAndDiffResultFactory->create();
+        $status = $this->jsonOutputFormatter->report($errorAndDiffResult, 1);
+
+        $this->assertEquals(ShellCode::ERROR, $status);
     }
 }

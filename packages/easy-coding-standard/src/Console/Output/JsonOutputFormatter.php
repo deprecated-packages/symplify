@@ -41,7 +41,9 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         $this->easyCodingStandardStyle->writeln($json);
 
         $errorCount = $errorAndDiffResult->getErrorCount();
-        return $errorCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
+        $diffCount = $errorAndDiffResult->getFileDiffsCount();
+
+        return $errorCount + $diffCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
     }
 
     public function getName(): string
