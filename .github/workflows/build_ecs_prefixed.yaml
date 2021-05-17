@@ -64,6 +64,9 @@ jobs:
             # copy github actoins to repository, so tests run there too
             -   run: cp -R packages/easy-coding-standard/build/target-repository/. ecs-prefixed-downgraded
 
+            # downgrade the bootstrap.php file too
+            -   run: php vendor/bin/rector process ecs-prefixed-downgraded/bootstrap.php --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
+
             # clone remote repository, so we can push it
             -
                 uses: "actions/checkout@v2"

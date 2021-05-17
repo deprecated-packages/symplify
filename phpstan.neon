@@ -57,6 +57,8 @@ parameters:
         - rector.php
 
     excludes_analyse:
+        - packages/easy-coding-standard/build/target-repository/bootstrap.php
+        - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
@@ -552,3 +554,8 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/scoper.php
+
+
+        -
+            message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
+            path: packages/easy-coding-standard/build/build-preload.php
