@@ -39,7 +39,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For CLI App Developers
 
-- [Set Config Resolver](https://github.com/symplify/set-config-resolver)
 - [Console Color Diff](https://github.com/symplify/console-color-diff)
 - [Console Package Builder](https://github.com/symplify/console-package-builder)
 
