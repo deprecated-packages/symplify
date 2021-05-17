@@ -40,19 +40,20 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
      */
     private $tokensNewliner;
 
+    public function __construct(BlockFinder $blockFinder, TokensNewliner $tokensNewliner)
+    {
+        $this->blockFinder = $blockFinder;
+        $this->tokensNewliner = $tokensNewliner;
+    }
+
     /**
      * Must run before
+     *
      * @see BracesFixer::getPriority()
      */
     public function getPriority(): int
     {
         return 40;
-    }
-
-    public function __construct(BlockFinder $blockFinder, TokensNewliner $tokensNewliner)
-    {
-        $this->blockFinder = $blockFinder;
-        $this->tokensNewliner = $tokensNewliner;
     }
 
     public function getDefinition(): FixerDefinitionInterface
