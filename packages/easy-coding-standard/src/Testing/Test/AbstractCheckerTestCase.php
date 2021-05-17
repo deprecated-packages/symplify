@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandardTester\Testing;
+namespace Symplify\EasyCodingStandard\Testing\Test;
 
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
@@ -16,17 +16,14 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-/**
- * @deprecated Use Symplify\EasyCodingStandard\Testing\Test\AbstractCheckerTestCase instead.
- */
 abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements ConfigAwareInterface
 {
     /**
      * @var string[]
      */
     private const POSSIBLE_CODE_SNIFFER_AUTOLOAD_PATHS = [
+        __DIR__ . '/../../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
         __DIR__ . '/../../../../../vendor/squizlabs/php_codesniffer/autoload.php',
-        __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
     ];
 
     /**
