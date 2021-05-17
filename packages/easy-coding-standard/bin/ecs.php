@@ -17,6 +17,11 @@ gc_disable();
 
 # 1. autoload
 $autoloadIncluder = new AutoloadIncluder();
+
+if (file_exists(__DIR__ . '/../preload.php')) {
+    require_once __DIR__ . '/../preload.php';
+}
+
 $autoloadIncluder->includeCwdVendorAutoloadIfExists();
 $autoloadIncluder->autoloadProjectAutoloaderFile('/../../autoload.php');
 $autoloadIncluder->includeDependencyOrRepositoryVendorAutoloadIfExists();
