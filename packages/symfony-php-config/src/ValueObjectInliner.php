@@ -37,7 +37,7 @@ final class ValueObjectInliner
 
     /**
      * @param object|object[] $object
-     * @return InlineServiceConfigurator|InlineServiceConfigurator[]
+     * @return InlineServiceConfigurator|\RectorPrefix20210517\Symfony\Component\DependencyInjection\Loader\Configurator\InlineServiceConfigurator[]
      */
     public static function inline($object)
     {
