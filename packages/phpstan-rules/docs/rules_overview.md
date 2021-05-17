@@ -5680,7 +5680,7 @@ class SomeClass
 
 ## SuffixInterfaceRule
 
-Interface name "%s" must be suffixed with "Interface"
+Interface must be suffixed with "Interface" exclusively
 
 - class: [`Symplify\PHPStanRules\Rules\SuffixInterfaceRule`](../src/Rules/SuffixInterfaceRule.php)
 
@@ -5706,7 +5706,7 @@ interface SomeInterface
 
 ## SuffixTraitRule
 
-Trait name "%s" must be suffixed with "Trait"
+Trait must be suffixed by "Trait" exclusively
 
 - class: [`Symplify\PHPStanRules\Rules\SuffixTraitRule`](../src/Rules/SuffixTraitRule.php)
 

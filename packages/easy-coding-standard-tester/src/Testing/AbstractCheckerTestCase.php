@@ -170,9 +170,7 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
             return;
         }
 
-        throw new \Symplify\EasyCodingStandardTester\Exception\ShouldNotHappenException(
-            'No checkers were found. Registers them in your config.'
-        );
+        throw new ShouldNotHappenException('No checkers were found. Registers them in your config.');
     }
 
     private function assertStringEqualsWithFileLocation(

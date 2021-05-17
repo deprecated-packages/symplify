@@ -76,7 +76,7 @@ return [
                 $content,
                 '#load\(\'Symplify\\\\\\\\(?<package_name>[A-Za-z]+)#',
                 function (array $match) use ($prefix) {
-                    if (in_array($match['package_name'], ['CodingStandard', 'EasyCodingStandard'])) {
+                    if (in_array($match['package_name'], ['CodingStandard', 'EasyCodingStandard'], true)) {
                         // skip
                         return $match[0];
                     }
