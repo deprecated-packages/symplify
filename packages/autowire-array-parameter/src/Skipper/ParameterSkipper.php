@@ -15,6 +15,7 @@ final class ParameterSkipper
      * Classes that create circular dependencies
      *
      * @var string[]
+     * @noRector
      */
     private const DEFAULT_EXCLUDED_FATAL_CLASSES = [
         'Symfony\Component\Form\FormExtensionInterface',
