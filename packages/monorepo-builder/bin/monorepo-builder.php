@@ -5,7 +5,9 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
+
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
@@ -49,7 +51,7 @@ function resolveConfigFileInfo(ArgvInput $argvInput): ?SmartFileInfo
         }
     }
 
-    $defaultConfigFilePath = getcwd() . '/' . \Symplify\MonorepoBuilder\ValueObject\File::CONFIG;
+    $defaultConfigFilePath = getcwd() . '/' . File::CONFIG;
     if (file_exists($defaultConfigFilePath)) {
         return new SmartFileInfo($defaultConfigFilePath);
     }
