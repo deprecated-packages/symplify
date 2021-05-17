@@ -14,6 +14,8 @@ use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 // performance boost
 gc_disable();
 
+define('__ECS_RUNNING__', true);
+
 
 # 1. autoload
 $autoloadIncluder = new AutoloadIncluder();

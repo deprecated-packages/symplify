@@ -14,9 +14,6 @@ on:
         tags:
             - '*'
 
-    # testing
-    pull_request: null
-
 env:
     # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
     COMPOSER_ROOT_VERSION: "dev-main"
@@ -26,9 +23,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # make dev build run a bit to avoid collission with tagged build
-#            -
-#                if: "!startsWith(github.ref, 'refs/tags/')"
-#                run: sleep 120
+            -
+                if: "!startsWith(github.ref, 'refs/tags/')"
+                run: sleep 120
 
             -
                 uses: actions/checkout@v2
@@ -66,6 +63,9 @@ jobs:
 
             # copy github actoins to repository, so tests run there too
             -   run: cp -R packages/easy-coding-standard/build/target-repository/. ecs-prefixed-downgraded
+
+            # downgrade the bootstrap.php file too
+            -   run: php vendor/bin/rector process ecs-prefixed-downgraded/bootstrap.php --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
 
             # clone remote repository, so we can push it
             -

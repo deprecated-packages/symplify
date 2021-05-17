@@ -33,14 +33,19 @@ CODE_SAMPLE;
         ->notPath('#\/Tests\/#')
         ->notPath('#\/config\/#')
         ->notPath('#\/set\/#')
-        ->in($vendorDir . '/psr/container')
-        ->in($vendorDir . '/symplify')
-        ->in($vendorDir . '/friendsofphp')
-        ->in($vendorDir . '/squizlabs')
-        ->in($vendorDir . '/symfony');
+        // order matters, as lower files depend on higher ones
+        ->in($vendorDir . '/psr/container');
 
     /** @var \Symfony\Component\Finder\SplFileInfo[] $fileInfos */
     $fileInfos = iterator_to_array($finder->getIterator());
+
+    // must be in specific order, as included class needs the classes it contains
+    $fileInfos[] = new SplFileInfo(
+        $vendorDir . '/symplify/rule-doc-generator-contracts/src/ValueObject/RuleDefinition.php'
+    );
+    $fileInfos[] = new SplFileInfo(
+        $vendorDir . '/symplify/rule-doc-generator-contracts/src/Contract/DocumentedRuleInterface.php'
+    );
 
     foreach ($fileInfos as $fileInfo) {
         $realPath = $fileInfo->getRealPath();
