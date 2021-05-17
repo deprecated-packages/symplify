@@ -105,7 +105,6 @@
                 "packages/rule-doc-generator-contracts/src",
                 "packages/rule-doc-generator/src"
             ],
-            "Symplify\\SetConfigResolver\\": "packages/set-config-resolver/src",
             "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
@@ -161,7 +160,6 @@
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
-            "Symplify\\SetConfigResolver\\Tests\\": "packages/set-config-resolver/tests",
             "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",

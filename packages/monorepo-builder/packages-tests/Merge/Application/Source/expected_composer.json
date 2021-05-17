@@ -21,13 +21,13 @@
     "autoload": {
         "psr-4": {
             "Symplify\\PHPStanExtensions\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src",
-            "Symplify\\SetConfigResolver\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src"
+            "Symplify\\OnePackage\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests",
-            "Symplify\\SetConfigResolver\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests"
+            "Symplify\\OnePackage\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests"
 
         }
     },

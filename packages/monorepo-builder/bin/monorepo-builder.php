@@ -5,9 +5,10 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
+
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\ValueObject\File;
-use Symplify\SetConfigResolver\ConfigResolver;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 # 1. autoload
@@ -30,12 +31,30 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 $configFileInfos = [];
 
-$configResolver = new ConfigResolver();
-$inputConfigFileInfo = $configResolver->resolveFromInputWithFallback(new ArgvInput(), [File::CONFIG]);
-
-if ($inputConfigFileInfo !== null) {
-    $configFileInfos[] = $inputConfigFileInfo;
+$argvInput = new ArgvInput();
+$configFileInfo = resolveConfigFileInfo($argvInput);
+if ($configFileInfo instanceof SmartFileInfo) {
+    $configFileInfos[] = $configFileInfo;
 }
 
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(MonorepoBuilderKernel::class, $configFileInfos);
 $kernelBootAndApplicationRun->run();
+
+
+
+function resolveConfigFileInfo(ArgvInput $argvInput): ?SmartFileInfo
+{
+    if ($argvInput->hasParameterOption(['-c', '--config'])) {
+        $configOption = $argvInput->getParameterOption(['-c', '--config']);
+        if (is_string($configOption) && file_exists($configOption)) {
+            return new SmartFileInfo($configOption);
+        }
+    }
+
+    $defaultConfigFilePath = getcwd() . '/' . File::CONFIG;
+    if (file_exists($defaultConfigFilePath)) {
+        return new SmartFileInfo($defaultConfigFilePath);
+    }
+
+    return null;
+}

@@ -421,8 +421,6 @@ parameters:
             message: '#Do not inherit from abstract class, better use composition#'
             paths:
                 - packages/git-wrapper/src
-                - packages/set-config-resolver/src/ConfigResolver.php
-                - packages/set-config-resolver/src/SetAwareConfigResolver.php
 
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'

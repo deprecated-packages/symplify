@@ -17,7 +17,6 @@ services:
                  - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
                  - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase
                  - Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample
-                 - Symplify\SetConfigResolver\Provider\AbstractSetProvider
 
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
