@@ -6,41 +6,43 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\EasyCodingStandard\Bootstrap\ECSConfigsResolver;
 use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
-use Symplify\SetConfigResolver\ValueObject\Bootstrap\BootstrapConfigs;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardContainerFactory
 {
     public function createFromFromInput(InputInterface $input): ContainerInterface
     {
-        $ecsConfigsResolver = new ECSConfigsResolver();
-        $bootstrapConfigs = $ecsConfigsResolver->resolveFromInput($input);
-
-        return $this->createFromFromBootstrapConfigs($bootstrapConfigs);
-    }
-
-    public function createFromFromBootstrapConfigs(BootstrapConfigs $bootstrapConfigs): ContainerInterface
-    {
         $environment = 'prod' . random_int(1, 100000);
         $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
 
-        $configFileInfos = $bootstrapConfigs->getConfigFileInfos();
-        if ($configFileInfos !== []) {
-            $easyCodingStandardKernel->setConfigs($configFileInfos);
+        $inputConfigFileInfos = [];
+        $rootECSConfig = getcwd() . DIRECTORY_SEPARATOR . '/ecs.php';
+
+        if ($input->hasParameterOption(['--config', '-c'])) {
+            $commandLineConfigFile = $input->getParameterOption(['--config', '-c']);
+            if (is_string($commandLineConfigFile) && file_exists($commandLineConfigFile)) {
+                $inputConfigFileInfos[] = new SmartFileInfo($commandLineConfigFile);
+            }
+        } elseif (file_exists($rootECSConfig)) {
+            $inputConfigFileInfos[] = new SmartFileInfo($rootECSConfig);
+        }
+
+        if ($inputConfigFileInfos !== []) {
+            $easyCodingStandardKernel->setConfigs($inputConfigFileInfos);
         }
 
         $easyCodingStandardKernel->boot();
 
         $container = $easyCodingStandardKernel->getContainer();
 
-        if ($configFileInfos !== []) {
+        if ($inputConfigFileInfos !== []) {
             // for cache invalidation on config change
             /** @var ChangedFilesDetector $changedFilesDetector */
             $changedFilesDetector = $container->get(ChangedFilesDetector::class);
-            $changedFilesDetector->setUsedConfigs($configFileInfos);
+            $changedFilesDetector->setUsedConfigs($inputConfigFileInfos);
         }
 
         return $container;

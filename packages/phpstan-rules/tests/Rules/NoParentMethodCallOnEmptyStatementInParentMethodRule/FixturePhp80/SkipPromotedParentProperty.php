@@ -11,5 +11,6 @@ final class SkipPromotedParentProperty extends SomePromotedPropertyAbstractClass
     public function __construct(string $value)
     {
         parent::__construct($value);
+        $test = 100;
     }
 }

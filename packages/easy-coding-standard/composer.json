@@ -19,7 +19,6 @@
         "symfony/finder": "^4.4|^5.2",
         "symplify/coding-standard": "^9.4",
         "symplify/package-builder": "^9.4",
-        "symplify/set-config-resolver": "^9.4",
         "symplify/symplify-kernel": "^9.4",
         "symplify/smart-file-system": "^9.4",
         "symplify/autowire-array-parameter": "^9.4",
