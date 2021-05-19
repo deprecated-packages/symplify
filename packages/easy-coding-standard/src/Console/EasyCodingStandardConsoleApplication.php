@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console;
 
+use Composer\InstalledVersions;
 use Composer\XdebugHandler\XdebugHandler;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -96,4 +97,34 @@ final class EasyCodingStandardConsoleApplication extends Application
             'Run in debug mode (alias for "-vvv")'
         ));
     }
+<<<<<<< HEAD
+=======
+
+    private function resolveEasyCodingStandardVersion(): string
+    {
+        // load packages' scoped installed versions class
+        if (file_exists(__DIR__ . '/../../vendor/composer/InstalledVersions.php')) {
+            require_once __DIR__ . '/../../vendor/composer/InstalledVersions.php';
+        }
+
+        $installedRawData = InstalledVersions::getRawData();
+        $ecsPackageData = $installedRawData['versions']['symplify/easy-coding-standard'] ?? null;
+        if ($ecsPackageData === null) {
+            return 'Unknown';
+        }
+        if (isset($ecsPackageData['replaced'])) {
+            return 'replaced@' . $ecsPackageData['replaced'][0];
+        }
+
+        if ($ecsPackageData['version'] === 'dev-main') {
+            if ($ecsPackageData['reference'] !== null) {
+                return 'dev-main@' . Strings::substring($ecsPackageData['reference'], 0, 7);
+            }
+
+            return $ecsPackageData['aliases'][0] ?? 'dev-main';
+        }
+
+        return $ecsPackageData['version'];
+    }
+>>>>>>> 332b98d6d ([ci-review] Rector Rectify)
 }
