@@ -557,3 +557,8 @@ parameters:
         -
             message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
             path: packages/easy-coding-standard/build/build-preload.php
+
+        # this class is used by scoper, so better use less external deps
+        -
+            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
+            path: packages/easy-coding-standard/src/Application/VersionResolver.php
