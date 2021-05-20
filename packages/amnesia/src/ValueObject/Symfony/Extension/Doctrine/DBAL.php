@@ -68,4 +68,9 @@ final class DBAL
      * @var string
      */
     public const MEMORY = 'memory';
+
+    /**
+     * @var string
+     */
+    public const URL = 'url';
 }
