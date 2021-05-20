@@ -197,7 +197,7 @@ CODE_SAMPLE
         return 5;
     }
 
-    public function configure(?array $configuration = null): void
+    public function configure(array $configuration): void
     {
         $this->lineLength = $configuration[self::LINE_LENGTH] ?? self::DEFAULT_LINE_LENGHT;
         $this->breakLongLines = $configuration[self::BREAK_LONG_LINES] ?? true;
