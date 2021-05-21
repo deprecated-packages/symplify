@@ -86,5 +86,12 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             false,
             __DIR__ . '/Fixture/expected_reuse_existing_repository.json',
         ];
+
+        yield [
+            __DIR__ . '/packages/with-more-depth/package-four/composer.json',
+            'example/package-two',
+            false,
+            __DIR__ . '/Fixture/expected_deeper_path_repository.json',
+        ];
     }
 }
