@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectPropertyAssignRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule\Fixture;
 
-use Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectPropertyAssignRule\Source\AbstractInjectParentClass;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule\Source\AbstractInjectParentClass;
 
 final class OverrideParentInject extends AbstractInjectParentClass
 {

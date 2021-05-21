@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectPropertyAssignRule;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\ForbiddenNetteInjectPropertyAssignRule;
+use Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenNetteInjectPropertyAssignRule>
+ * @requires PHP 8.0
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenNetteInjectOverrideRule>
  */
-final class ForbiddenNetteInjectPropertyAssignRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenNetteInjectOverrideRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -27,12 +28,22 @@ final class ForbiddenNetteInjectPropertyAssignRuleTest extends AbstractServiceAw
     {
         yield [
             __DIR__ . '/Fixture/OverrideInjectedVariable.php',
-            [[ForbiddenNetteInjectPropertyAssignRule::ERROR_MESSAGE, 17]],
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 17]],
         ];
 
         yield [
             __DIR__ . '/Fixture/OverrideParentInject.php',
-            [[ForbiddenNetteInjectPropertyAssignRule::ERROR_MESSAGE, 13]],
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 13]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/OverrideParentInjectAttribute.php',
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 13]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/OverrideParentInjectClassMethodAttribute.php',
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 13]],
         ];
 
         yield [__DIR__ . '/Fixture/SkipNonInjectAssign.php', []];
@@ -42,7 +53,7 @@ final class ForbiddenNetteInjectPropertyAssignRuleTest extends AbstractServiceAw
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbiddenNetteInjectPropertyAssignRule::class,
+            ForbiddenNetteInjectOverrideRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

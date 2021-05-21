@@ -3,5 +3,5 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNetteInjectPropertyAssignRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule
         tags: [phpstan.rules.rule]
