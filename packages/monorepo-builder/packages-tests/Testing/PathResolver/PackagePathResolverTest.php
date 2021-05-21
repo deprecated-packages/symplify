@@ -36,5 +36,19 @@ final class PackagePathResolverTest extends AbstractKernelTestCase
         );
 
         $this->assertSame('../../nested_packages/nested', $relativePathToLocalPackage);
+
+        $relativeFolderPathToLocalPackage = $this->packagePathResolver->resolveRelativeFolderPathToLocalPackage(
+            $mainComposerJson,
+            $packageComposerJson
+        );
+
+        $this->assertSame('../../', $relativeFolderPathToLocalPackage);
+
+        $relativeDirectoryToRoot = $this->packagePathResolver->resolveRelativeDirectoryToRoot(
+            $mainComposerJson,
+            $packageComposerJson
+        );
+
+        $this->assertSame('nested_packages/nested', $relativeDirectoryToRoot);
     }
 }
