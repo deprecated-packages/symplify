@@ -47,7 +47,7 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
+            $packageFileInfo,
             [$packageName],
             $mainComposerJson,
             $symlink
