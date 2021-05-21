@@ -13,9 +13,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectPropertyAssignRule\ForbiddenNetteInjectPropertyAssignRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule\ForbiddenNetteInjectOverrideRuleTest
  */
-final class ForbiddenNetteInjectPropertyAssignRule extends AbstractSymplifyRule
+final class ForbiddenNetteInjectOverrideRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -51,8 +51,7 @@ final class ForbiddenNetteInjectPropertyAssignRule extends AbstractSymplifyRule
         }
 
         $propertyFetch = $node->var;
-
-        if (! $this->netteInjectAnalyzer->isInjectPropertyFetch($propertyFetch, $scope)) {
+        if (! $this->netteInjectAnalyzer->isParentInjectPropertyFetch($propertyFetch, $scope)) {
             return [];
         }
 
