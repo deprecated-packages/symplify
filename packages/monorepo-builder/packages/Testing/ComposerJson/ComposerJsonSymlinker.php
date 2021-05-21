@@ -60,7 +60,6 @@ final class ComposerJsonSymlinker
      * - the relative path from the target package to root
      * - the relative path from the root to the local package
      *
-     * @param mixed[] $packageComposerJson
      * @param string[] $packageNames
      * @return mixed[]
      */
