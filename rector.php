@@ -26,6 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
                 'Nette\Application\UI\Template',
+                'Nette\DI\Attributes\Inject',
                 'Nette\Bridges\ApplicationLatte\Template',
                 'Nette\Bridges\ApplicationLatte\DefaultTemplate',
             ],
