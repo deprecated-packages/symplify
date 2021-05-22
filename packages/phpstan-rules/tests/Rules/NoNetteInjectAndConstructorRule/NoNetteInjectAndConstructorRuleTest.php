@@ -10,6 +10,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule;
 
 /**
+ * @requires PHP 8.0
  * @extends AbstractServiceAwareRuleTestCase<NoNetteInjectAndConstructorRule>
  */
 final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRuleTestCase
@@ -30,6 +31,10 @@ final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRule
 
         yield [__DIR__ . '/Fixture/InjectMethodAndConstructor.php', [
             [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 7],
+        ]];
+
+        yield [__DIR__ . '/Fixture/InjectAttributePropertyAndConstructor.php', [
+            [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 9],
         ]];
 
         yield [__DIR__ . '/Fixture/InjectPropertyAndConstructor.php', [
