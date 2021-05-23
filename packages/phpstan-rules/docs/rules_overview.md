@@ -1,4 +1,4 @@
-# 148 Rules Overview
+# 150 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1598,6 +1598,54 @@ foreach ($fileErrors as $fileError) {
 
 <br>
 
+## ForbiddenNetteInjectOverrideRule
+
+Assign to already injected property is not allowed
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule`](../src/Rules/ForbiddenNetteInjectOverrideRule.php)
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+    public function __construct(AnotherType $anotherType)
+    {
+        $this->someType = $anotherType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenNewInMethodRule
 
 "new" in method `"%s->%s()"` is not allowed.
@@ -1839,6 +1887,48 @@ use PhpParser\Node;
 class SomeClass
 {
     public function run(): Node
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenParamTypeRemovalRule
+
+Removing parent param type is forbidden
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule`](../src/Rules/ForbiddenParamTypeRemovalRule.php)
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor($node)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor(Node $node)
     {
     }
 }
@@ -3427,7 +3517,7 @@ class SomeClass extends Presenter
 
 ## NoNetteInjectAndConstructorRule
 
-Use either `__construct()` or injects, not both
+Use either `__construct()` or @inject, not both together
 
 - class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
 
