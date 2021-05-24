@@ -26,7 +26,7 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Getter method must return somethign, not void';
+    public const ERROR_MESSAGE = 'Getter method must return something, not void';
 
     /**
      * @var SimpleNameResolver
