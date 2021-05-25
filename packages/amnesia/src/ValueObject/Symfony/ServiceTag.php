@@ -194,5 +194,4 @@ final class ServiceTag
      * @var string
      */
     public const VALIDATOR_INITIALIZER = 'validator.initializer';
-
 }
