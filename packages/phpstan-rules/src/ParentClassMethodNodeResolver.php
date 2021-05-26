@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules;
 
 use PhpParser\Node;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -14,6 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Parser\Parser;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
+use Symplify\PHPStanRules\Reflection\Parser\ReflectionParser;
 use Throwable;
 
 final class ParentClassMethodNodeResolver
@@ -28,10 +28,16 @@ final class ParentClassMethodNodeResolver
      */
     private $nodeFinder;
 
-    public function __construct(Parser $parser, NodeFinder $nodeFinder)
+    /**
+     * @var ReflectionParser
+     */
+    private $reflectionParser;
+
+    public function __construct(Parser $parser, NodeFinder $nodeFinder, ReflectionParser $reflectionParser)
     {
         $this->parser = $parser;
         $this->nodeFinder = $nodeFinder;
+        $this->reflectionParser = $reflectionParser;
     }
 
     public function resolveParentClassMethod(Scope $scope, string $methodName): ?ClassMethod
@@ -44,24 +50,7 @@ final class ParentClassMethodNodeResolver
             }
 
             $parentMethodReflection = new ReflectionMethod($parentClassReflection->getName(), $methodName);
-            $fileName = $parentMethodReflection->getFileName();
-            if ($fileName === false) {
-                continue;
-            }
-
-            try {
-                $parentClassNodes = $this->parser->parseFile($fileName);
-            } catch (Throwable $throwable) {
-                // not reachable
-                return null;
-            }
-
-            $class = $this->nodeFinder->findFirstInstanceOf($parentClassNodes, Class_::class);
-            if (! $class instanceof Class_) {
-                return null;
-            }
-
-            return $class->getMethod($methodName);
+            return $this->reflectionParser->parseMethodReflectionToClassMethod($parentMethodReflection);
         }
 
         return null;

@@ -21,7 +21,7 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use either __construct() or injects, not both';
+    public const ERROR_MESSAGE = 'Use either __construct() or @inject, not both together';
 
     /**
      * @var NetteInjectAnalyzer
