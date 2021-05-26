@@ -87,7 +87,7 @@ final class ComposerJsonRepositoriesUpdater
         }
 
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
+            $packageFileInfo,
             $packageNames,
             $rootComposerJsonFileInfo,
             $symlink

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Testing\ComposerJson;
 
+use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
@@ -39,31 +40,50 @@ final class ComposerJsonSymlinker
      */
     private $packagePathResolver;
 
-    public function __construct(ComposerJsonProvider $composerJsonProvider, PackagePathResolver $packagePathResolver)
-    {
+    /**
+     * @var JsonFileManager
+     */
+    private $jsonFileManager;
+
+    public function __construct(
+        ComposerJsonProvider $composerJsonProvider,
+        PackagePathResolver $packagePathResolver,
+        JsonFileManager $jsonFileManager
+    ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->packagePathResolver = $packagePathResolver;
+        $this->jsonFileManager = $jsonFileManager;
     }
 
     /**
-     * @param mixed[] $packageComposerJson
+     * The relative to the local package is calculated by appending:
+     * - the relative path from the target package to root
+     * - the relative path from the root to the local package
+     *
      * @param string[] $packageNames
      * @return mixed[]
      */
     public function decoratePackageComposerJsonWithPackageSymlinks(
-        array $packageComposerJson,
+        SmartFileInfo $packageFileInfo,
         array $packageNames,
         SmartFileInfo $mainComposerJsonFileInfo,
         bool $symlink
     ): array {
+        $relativePathFromTargetPackageToRoot = $this->packagePathResolver->resolveRelativeFolderPathToLocalPackage(
+            $mainComposerJsonFileInfo,
+            $packageFileInfo
+        );
+        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
+        
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
             $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName);
 
-            $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
+            $relativeDirectoryFromRootToLocalPackage = $this->packagePathResolver->resolveRelativeDirectoryToRoot(
                 $mainComposerJsonFileInfo,
                 $usedPackageFileInfo
             );
+            $relativePathToLocalPackage = $relativePathFromTargetPackageToRoot . $relativeDirectoryFromRootToLocalPackage;
 
             $repositoriesContent = [
                 self::TYPE => 'path',
