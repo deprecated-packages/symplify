@@ -48,7 +48,7 @@ final class ComposerJsonSymlinker
     public function __construct(
         ComposerJsonProvider $composerJsonProvider,
         PackagePathResolver $packagePathResolver,
-        JsonFileManager $jsonFileManager,
+        JsonFileManager $jsonFileManager
     ) {
         $this->composerJsonProvider = $composerJsonProvider;
         $this->packagePathResolver = $packagePathResolver;
