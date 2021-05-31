@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\SuffixInterfaceRule
         tags: [phpstan.rules.rule]
 

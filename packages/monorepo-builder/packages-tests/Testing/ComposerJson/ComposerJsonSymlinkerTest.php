@@ -47,7 +47,7 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
 
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
+            $packageFileInfo,
             [$packageName],
             $mainComposerJson,
             $symlink
@@ -85,6 +85,13 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             'example/package-one',
             false,
             __DIR__ . '/Fixture/expected_reuse_existing_repository.json',
+        ];
+
+        yield [
+            __DIR__ . '/packages/with-more-depth/package-four/composer.json',
+            'example/package-two',
+            false,
+            __DIR__ . '/Fixture/expected_deeper_path_repository.json',
         ];
     }
 }
