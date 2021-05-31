@@ -37,6 +37,7 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         'is_file',
         'file_exists',
         'in_array',
+        'sys_get_temp_dir',
     ];
 
     /**
