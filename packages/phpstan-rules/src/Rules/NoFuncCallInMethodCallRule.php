@@ -27,7 +27,7 @@ final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir'];
+    private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir', 'realpath'];
 
     /**
      * @return array<class-string<Node>>

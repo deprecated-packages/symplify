@@ -30,6 +30,7 @@ final class NoFuncCallInMethodCallRuleTest extends AbstractServiceAwareRuleTestC
 
         yield [__DIR__ . '/Fixture/SkipGetCwd.php', []];
         yield [__DIR__ . '/Fixture/SkipNamespacedFunction.php', []];
+        yield [__DIR__ . '/Fixture/SkipRealpath.php', []];
     }
 
     protected function getRule(): Rule
