@@ -44,8 +44,6 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
         $packageFileInfo = new SmartFileInfo($packagePath);
 
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
             $packageFileInfo,
             [$packageName],
