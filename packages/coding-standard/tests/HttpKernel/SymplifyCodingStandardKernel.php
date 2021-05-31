@@ -18,12 +18,12 @@ final class SymplifyCodingStandardKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/symplify_coding_standard';
+        return realpath(sys_get_temp_dir()) . '/symplify_coding_standard';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/symplify_coding_standard_log';
+        return realpath(sys_get_temp_dir()) . '/symplify_coding_standard_log';
     }
 
     /**

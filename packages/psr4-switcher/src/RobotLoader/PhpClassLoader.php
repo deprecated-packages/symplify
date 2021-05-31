@@ -16,7 +16,7 @@ final class PhpClassLoader
     {
         $robotLoader = new RobotLoader();
         $robotLoader->addDirectory(...$directories);
-        $robotLoader->setTempDirectory(sys_get_temp_dir() . '/migrify_psr4_switcher');
+        $robotLoader->setTempDirectory(realpath(sys_get_temp_dir()) . '/migrify_psr4_switcher');
         $robotLoader->rebuild();
 
         return $robotLoader->getIndexedClasses();

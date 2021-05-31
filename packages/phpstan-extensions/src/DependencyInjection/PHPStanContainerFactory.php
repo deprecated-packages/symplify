@@ -16,7 +16,7 @@ final class PHPStanContainerFactory
     {
         $containerFactory = new ContainerFactory(getcwd());
         // random for tests cache invalidation in case the container changes
-        $tempDirectory = sys_get_temp_dir() . '/_symplify_phpstan_tests/id_' . random_int(0, 1000);
+        $tempDirectory = realpath(sys_get_temp_dir()) . '/_symplify_phpstan_tests/id_' . random_int(0, 1000);
 
         return $containerFactory->create($tempDirectory, $configs, [], []);
     }

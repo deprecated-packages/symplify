@@ -42,11 +42,11 @@ final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwa
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/console_package_builder';
+        return realpath(sys_get_temp_dir()) . '/console_package_builder';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/console_package_builder_log';
+        return realpath(sys_get_temp_dir()) . '/console_package_builder_log';
     }
 }

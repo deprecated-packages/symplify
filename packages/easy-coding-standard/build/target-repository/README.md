@@ -116,7 +116,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::FILE_EXTENSIONS, ['php', 'phpt']);
 
     // configure cache paths & namespace - useful for Gitlab CI caching, where getcwd() produces always different path
-    // [default: sys_get_temp_dir() . '/_changed_files_detector_tests']
+    // [default: realpath(sys_get_temp_dir()) . '/_changed_files_detector_tests']
     $parameters->set(Option::CACHE_DIRECTORY, '.ecs_cache');
 
     // [default: \Nette\Utils\Strings::webalize(getcwd())']

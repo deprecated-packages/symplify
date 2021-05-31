@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
-    $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir() . '/_changed_files_detector%env(TEST_SUFFIX)%');
+    $parameters->set(Option::CACHE_DIRECTORY, realpath(sys_get_temp_dir()) . '/_changed_files_detector%env(TEST_SUFFIX)%');
     $parameters->set(Option::CACHE_NAMESPACE, Strings::webalize(getcwd()));
     $parameters->set(Option::PATHS, []);
     $parameters->set(Option::SETS, []);

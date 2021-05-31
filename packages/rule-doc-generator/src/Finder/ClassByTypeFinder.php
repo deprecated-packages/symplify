@@ -18,7 +18,7 @@ final class ClassByTypeFinder
     public function findByType(string $workingDirectory, array $directories, string $type): array
     {
         $robotLoader = new RobotLoader();
-        $robotLoader->setTempDirectory(sys_get_temp_dir() . '/robot_loader_temp');
+        $robotLoader->setTempDirectory(realpath(sys_get_temp_dir()) . '/robot_loader_temp');
         $robotLoader->addDirectory(...$directories);
         $robotLoader->ignoreDirs[] = '*tests*';
         $robotLoader->ignoreDirs[] = '*Fixture*';

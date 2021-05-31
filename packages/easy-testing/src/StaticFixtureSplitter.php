@@ -60,7 +60,7 @@ final class StaticFixtureSplitter
             return self::$customTemporaryPath;
         }
 
-        return sys_get_temp_dir() . '/_temp_fixture_easy_testing';
+        return realpath(sys_get_temp_dir()) . '/_temp_fixture_easy_testing';
     }
 
     public static function createTemporaryFileInfo(

@@ -34,12 +34,12 @@ final class TestSymfonyStaticDumperKernel extends Kernel
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/test_symfony_static_dumper_kernel_cache';
+        return realpath(sys_get_temp_dir()) . '/test_symfony_static_dumper_kernel_cache';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/test_symfony_static_dumper_kernel_log';
+        return realpath(sys_get_temp_dir()) . '/test_symfony_static_dumper_kernel_log';
     }
 
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void

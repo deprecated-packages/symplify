@@ -33,7 +33,7 @@ final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
     public function testCheckEmptyKeysAreRemoved(): void
     {
         $sourceJsonPath = __DIR__ . '/Source/symfony-website_skeleton-composer.json';
-        $targetJsonPath = sys_get_temp_dir() . '/composer_json_manipulator_test_schema_validation.json';
+        $targetJsonPath = realpath(sys_get_temp_dir()) . '/composer_json_manipulator_test_schema_validation.json';
 
         $sourceJson = $this->jsonFileManager->loadFromFilePath($sourceJsonPath);
         $this->smartFileSystem->dumpFile($targetJsonPath, $this->jsonFileManager->encodeJsonToFileContent($sourceJson));

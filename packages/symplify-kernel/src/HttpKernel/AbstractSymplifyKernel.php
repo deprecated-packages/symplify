@@ -21,12 +21,12 @@ abstract class AbstractSymplifyKernel extends Kernel implements ExtraConfigAware
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/' . $this->getUniqueKernelHash();
+        return realpath(sys_get_temp_dir()) . '/' . $this->getUniqueKernelHash();
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/' . $this->getUniqueKernelHash() . '_log';
+        return realpath(sys_get_temp_dir()) . '/' . $this->getUniqueKernelHash() . '_log';
     }
 
     /**

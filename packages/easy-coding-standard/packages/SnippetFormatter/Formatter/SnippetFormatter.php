@@ -173,7 +173,7 @@ final class SnippetFormatter
         $key = md5($content);
         $fileName = sprintf('php-code-%s.php', $key);
 
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ecs_temp' . DIRECTORY_SEPARATOR . $fileName;
+        return realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . 'ecs_temp' . DIRECTORY_SEPARATOR . $fileName;
     }
 
     private function removeOpeningTag(string $fileContent): string

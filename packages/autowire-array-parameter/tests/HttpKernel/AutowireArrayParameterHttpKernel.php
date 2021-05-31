@@ -34,12 +34,12 @@ final class AutowireArrayParameterHttpKernel extends Kernel implements ExtraConf
 
     public function getCacheDir(): string
     {
-        return sys_get_temp_dir() . '/autowire_array_parameter_test';
+        return realpath(sys_get_temp_dir()) . '/autowire_array_parameter_test';
     }
 
     public function getLogDir(): string
     {
-        return sys_get_temp_dir() . '/autowire_array_parameter_test_log';
+        return realpath(sys_get_temp_dir()) . '/autowire_array_parameter_test_log';
     }
 
     /**

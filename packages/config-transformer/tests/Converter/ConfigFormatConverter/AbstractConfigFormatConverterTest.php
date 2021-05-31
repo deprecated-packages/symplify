@@ -68,7 +68,7 @@ abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
 
     protected function doTestYamlContentIsLoadable(string $yamlContent): void
     {
-        $localFile = sys_get_temp_dir() . '/_migrify_temporary_yaml/some_file.yaml';
+        $localFile = realpath(sys_get_temp_dir()) . '/_migrify_temporary_yaml/some_file.yaml';
         $this->smartFileSystem->dumpFile($localFile, $yamlContent);
 
         $containerBuilder = new ContainerBuilder();

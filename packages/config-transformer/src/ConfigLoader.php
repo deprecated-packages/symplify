@@ -70,7 +70,7 @@ final class ConfigLoader
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {
             $content = Strings::replace($content, self::PHP_CONST_REGEX, '!php/const ');
             if ($content !== $smartFileInfo->getContents()) {
-                $fileRealPath = sys_get_temp_dir() . '/_migrify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
+                $fileRealPath = realpath(sys_get_temp_dir()) . '/_migrify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
                 $this->smartFileSystem->dumpFile($fileRealPath, $content);
             }
 
