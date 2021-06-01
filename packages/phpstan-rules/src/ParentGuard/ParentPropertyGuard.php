@@ -16,15 +16,9 @@ final class ParentPropertyGuard
      */
     private $simpleNameResolver;
 
-<<<<<<< HEAD
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-=======
     public function __construct(SimpleNameResolver $simpleNameResolverr)
     {
         $this->simpleNameResolver = $simpleNameResolverr;
->>>>>>> 74df55f9b ([PHPStanRules] Improve parent guarded property/class method)
     }
 
     public function isPropertyGuarded(Property $property, Scope $scope): bool

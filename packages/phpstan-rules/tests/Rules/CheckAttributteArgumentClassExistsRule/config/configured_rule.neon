@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            argumentsByAttributes:
+                Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRule\Source\SomeAttribute:
+                    - 'className'
