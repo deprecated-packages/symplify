@@ -2,7 +2,9 @@
 
 [![Downloads total](https://img.shields.io/packagist/dt/symplify/config-transformer.svg?style=flat-square)](https://packagist.org/packages/symplify/config-transformer/stats)
 
-Convert Symfony Config Formats From XML/YAML to PHP
+Convert Symfony Config Formats From XML/YAML to PHP.
+
+Why to PHP? Because YAML > XML and [PHP > YAML](https://tomasvotruba.com/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs/).
 
 ## Install
 
@@ -12,9 +14,7 @@ composer require symplify/config-transformer --dev
 
 <br>
 
-## Convert Config Formats From XML/YAML to PHP
-
-Why? Because YAML beats XML and [PHP beats YAML](https://tomasvotruba.com/blog/2020/07/16/10-cool-features-you-get-after-switching-from-yaml-to-php-configs/).
+## Usage
 
 Provide paths to files/dirs you want to convert:
 
@@ -24,13 +24,15 @@ vendor/bin/config-transformer switch-format config/packages/ecs.yaml app/config
 
 The input file will be deleted automatically.
 
-You can also add `--target-symfony-version`/`-s` to specify, what Symfony features should be used (3.2 is used by default).
+## Configuration
+
+With `--target-symfony-version`/`-s` option you specify, what Symfony features should be used (3.2 is used by default).
 
 ```bash
 vendor/bin/config-transformer switch-format app/config -s 3.3
 ```
 
-*Note: Symfony YAML parse removes all comments, so be sure to go through files and add still-relevant comments manually.*
+*Note: Symfony YAML parser removes all comments, so be sure to go through files and add still-relevant comments manually.*
 
 <br>
 
