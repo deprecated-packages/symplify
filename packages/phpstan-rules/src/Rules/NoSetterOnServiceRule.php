@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ParentGuard\ParentMethodResolver;
+use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -44,7 +44,7 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var ParentMethodResolver
+     * @var \Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
      */
     private $parentMethodResolver;
 

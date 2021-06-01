@@ -18,7 +18,8 @@ services:
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
-    - Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver
+    - Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard
+    - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
@@ -28,7 +29,7 @@ services:
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
     - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
-    - Symplify\PHPStanRules\ParentGuard\ParentMethodResolver
+    - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
 
     - Symplify\PHPStanRules\Printer\NodeComparator
 

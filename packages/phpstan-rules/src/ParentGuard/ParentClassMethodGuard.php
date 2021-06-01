@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver;
 
 final class ParentClassMethodGuard
 {
