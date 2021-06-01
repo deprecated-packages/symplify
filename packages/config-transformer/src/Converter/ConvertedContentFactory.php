@@ -20,7 +20,8 @@ final class ConvertedContentFactory
      */
     private $configFormatConverter;
 
-    public function __construct(SymfonyStyle $symfonyStyle, ConfigFormatConverter $configFormatConverter) {
+    public function __construct(SymfonyStyle $symfonyStyle, ConfigFormatConverter $configFormatConverter)
+    {
         $this->symfonyStyle = $symfonyStyle;
         $this->configFormatConverter = $configFormatConverter;
     }
