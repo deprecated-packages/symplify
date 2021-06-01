@@ -16,9 +16,9 @@ final class ParentPropertyGuard
      */
     private $simpleNameResolver;
 
-    public function __construct(SimpleNameResolver $simpleNameResolverr)
+    public function __construct(SimpleNameResolver $simpleNameResolver)
     {
-        $this->simpleNameResolver = $simpleNameResolverr;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function isPropertyGuarded(Property $property, Scope $scope): bool
