@@ -14,6 +14,7 @@ use PHPStan\Type\BooleanType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Naming\BoolishNameAnalyser;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
+use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -42,14 +43,21 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
      */
     private $returnNodeFinder;
 
+    /**
+     * @var ParentClassMethodGuard
+     */
+    private $parentClassMethodGuard;
+
     public function __construct(
         SimpleNameResolver $simpleNameResolver,
         BoolishNameAnalyser $boolishNameAnalyser,
-        ReturnNodeFinder $returnNodeFinder
+        ReturnNodeFinder $returnNodeFinder,
+        ParentClassMethodGuard $parentClassMethodGuard
     ) {
         $this->simpleNameResolver = $simpleNameResolver;
         $this->boolishNameAnalyser = $boolishNameAnalyser;
         $this->returnNodeFinder = $returnNodeFinder;
+        $this->parentClassMethodGuard = $parentClassMethodGuard;
     }
 
     /**
@@ -111,6 +119,10 @@ CODE_SAMPLE
         /** @var string $classMethodName */
         $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
+        if ($this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope)) {
+            return true;
+        }
+
         $returns = $this->returnNodeFinder->findReturnsWithValues($classMethod);
         // nothing was returned
         if ($returns === []) {
@@ -120,6 +132,7 @@ CODE_SAMPLE
         $methodReflection = $classReflection->getNativeMethod($classMethodName);
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())
             ->getReturnType();
+
         if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
             return true;
         }
