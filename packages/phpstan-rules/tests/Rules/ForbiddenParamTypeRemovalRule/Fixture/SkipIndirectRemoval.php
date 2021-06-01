@@ -11,7 +11,7 @@ final class SkipIndirectRemoval extends PhpFileLoader
     /**
      * @param string|null $type
      */
-    public function load($resource, $type = null)
+    public function load($resource, string $type = null)
     {
     }
 }

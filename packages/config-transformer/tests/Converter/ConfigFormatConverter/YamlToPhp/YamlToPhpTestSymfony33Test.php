@@ -7,7 +7,6 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlT
 use Iterator;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
-use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -27,7 +26,7 @@ final class YamlToPhpTestSymfony33Test extends AbstractConfigFormatConverterTest
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $this->doTestOutput($fixtureFileInfo, Format::YAML, Format::PHP);
+        $this->doTestOutput($fixtureFileInfo);
     }
 
     /**

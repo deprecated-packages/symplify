@@ -74,7 +74,7 @@ final class ComposerJsonSymlinker
             $packageFileInfo
         );
         $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-        
+
         // @see https://getcomposer.org/doc/05-repositories.md#path
         foreach ($packageNames as $packageName) {
             $usedPackageFileInfo = $this->composerJsonProvider->getPackageFileInfoByName($packageName);

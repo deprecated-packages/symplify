@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertedContentFactory
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
     /**
      * @var SymfonyStyle
      */
@@ -26,12 +20,7 @@ final class ConvertedContentFactory
      */
     private $configFormatConverter;
 
-    public function __construct(
-        Configuration $configuration,
-        SymfonyStyle $symfonyStyle,
-        ConfigFormatConverter $configFormatConverter
-    ) {
-        $this->configuration = $configuration;
+    public function __construct(SymfonyStyle $symfonyStyle, ConfigFormatConverter $configFormatConverter) {
         $this->symfonyStyle = $symfonyStyle;
         $this->configFormatConverter = $configFormatConverter;
     }
@@ -48,11 +37,7 @@ final class ConvertedContentFactory
             $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
             $this->symfonyStyle->note($message);
 
-            $convertedContent = $this->configFormatConverter->convert(
-                $fileInfo,
-                $this->configuration->getInputFormat(),
-                $this->configuration->getOutputFormat()
-            );
+            $convertedContent = $this->configFormatConverter->convert($fileInfo);
 
             $convertedContentFromFileInfo[] = new ConvertedContent($convertedContent, $fileInfo);
         }
