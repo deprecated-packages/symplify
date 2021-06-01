@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
-use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -47,22 +46,12 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Converts XML/YAML configs to YAML/PHP format');
+        $this->setDescription('Converts XML/YAML configs to PHP format');
 
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Path to directory with configs'
-        );
-
-        $this->addOption(Option::INPUT_FORMAT, 'i', InputOption::VALUE_REQUIRED, 'Config format to input');
-
-        $this->addOption(
-            Option::OUTPUT_FORMAT,
-            'o',
-            InputOption::VALUE_REQUIRED,
-            'Config format to output',
-            Format::PHP
         );
 
         $this->addOption(
@@ -94,13 +83,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
             $this->smartFileSystem->remove($fileInfos);
         }
 
-        $successMessage = sprintf(
-            'Processed %d file(s) from "%s" to "%s" format',
-            count($fileInfos),
-            $this->configuration->getInputFormat(),
-            $this->configuration->getOutputFormat()
-        );
-
+        $successMessage = sprintf('Processed %d file(s) to "PHP" format', count($fileInfos));
         $this->symfonyStyle->success($successMessage);
 
         return ShellCode::SUCCESS;

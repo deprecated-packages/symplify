@@ -31,11 +31,6 @@ final class ConfigFormatConverter
     private $dumperFactory;
 
     /**
-     * @var ContainerBuilderCleaner
-     */
-    private $containerBuilderCleaner;
-
-    /**
      * @var YamlDumpFormatter
      */
     private $yamlDumpFormatter;
@@ -55,25 +50,30 @@ final class ConfigFormatConverter
      */
     private $xmlImportCollector;
 
+    /**
+     * @var ContainerBuilderCleaner
+     */
+    private $containerBuilderCleaner;
+
     public function __construct(
         ConfigLoader $configLoader,
         DumperFactory $dumperFactory,
-        ContainerBuilderCleaner $containerBuilderCleaner,
         YamlDumpFormatter $yamlDumpFormatter,
         YamlToPhpConverter $yamlToPhpConverter,
         CurrentFilePathProvider $currentFilePathProvider,
-        XmlImportCollector $xmlImportCollector
+        XmlImportCollector $xmlImportCollector,
+        ContainerBuilderCleaner $containerBuilderCleaner
     ) {
         $this->configLoader = $configLoader;
         $this->dumperFactory = $dumperFactory;
-        $this->containerBuilderCleaner = $containerBuilderCleaner;
         $this->yamlDumpFormatter = $yamlDumpFormatter;
         $this->yamlToPhpConverter = $yamlToPhpConverter;
         $this->currentFilePathProvider = $currentFilePathProvider;
         $this->xmlImportCollector = $xmlImportCollector;
+        $this->containerBuilderCleaner = $containerBuilderCleaner;
     }
 
-    public function convert(SmartFileInfo $smartFileInfo, string $inputFormat, string $outputFormat): string
+    public function convert(SmartFileInfo $smartFileInfo): string
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
@@ -82,28 +82,22 @@ final class ConfigFormatConverter
         );
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
-        if ($outputFormat === Format::YAML) {
+
+        if ($smartFileInfo->getSuffix() === Format::YAML) {
+            $dumpedYaml = $containerBuilderAndFileContent->getFileContent();
+            $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
+
+            return $this->yamlToPhpConverter->convert($dumpedYaml);
+        }
+
+        if ($smartFileInfo->getSuffix() === Format::XML) {
             $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
-            return $this->decorateWithCollectedXmlImports($dumpedYaml);
+            $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
+
+            return $this->yamlToPhpConverter->convert($dumpedYaml);
         }
 
-        if ($outputFormat === Format::PHP) {
-            if ($inputFormat === Format::YAML) {
-                $dumpedYaml = $containerBuilderAndFileContent->getFileContent();
-                $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
-
-                return $this->yamlToPhpConverter->convert($dumpedYaml);
-            }
-
-            if ($inputFormat === Format::XML) {
-                $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
-                $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
-
-                return $this->yamlToPhpConverter->convert($dumpedYaml);
-            }
-        }
-
-        $message = sprintf('Converting from "%s" to "%s" it not support yet', $inputFormat, $outputFormat);
+        $message = sprintf('Suffix "%s" is not support yet', $smartFileInfo->getSuffix());
         throw new NotImplementedYetException($message);
     }
 

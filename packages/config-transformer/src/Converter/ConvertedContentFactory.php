@@ -48,11 +48,7 @@ final class ConvertedContentFactory
             $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
             $this->symfonyStyle->note($message);
 
-            $convertedContent = $this->configFormatConverter->convert(
-                $fileInfo,
-                $this->configuration->getInputFormat(),
-                $this->configuration->getOutputFormat()
-            );
+            $convertedContent = $this->configFormatConverter->convert($fileInfo);
 
             $convertedContentFromFileInfo[] = new ConvertedContent($convertedContent, $fileInfo);
         }

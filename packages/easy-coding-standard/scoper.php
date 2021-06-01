@@ -116,7 +116,11 @@ return [
                 return $content;
             }
 
-            return Strings::replace($content, $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#', 'PHPUnit\Framework\TestCase');
+            return Strings::replace(
+                $content,
+                $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                'PHPUnit\Framework\TestCase'
+            );
         },
 
         // add static versions constant values

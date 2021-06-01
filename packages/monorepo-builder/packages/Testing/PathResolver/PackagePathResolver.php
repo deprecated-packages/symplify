@@ -18,8 +18,14 @@ final class PackagePathResolver
         SmartFileInfo $rootComposerFileInfo,
         SmartFileInfo $packageComposerFileInfo
     ): string {
-        $relativeFolderPathToLocalPackage = $this->resolveRelativeFolderPathToLocalPackage($rootComposerFileInfo, $packageComposerFileInfo);
-        $relativeDirectoryToRoot = $this->resolveRelativeDirectoryToRoot($rootComposerFileInfo, $packageComposerFileInfo);
+        $relativeFolderPathToLocalPackage = $this->resolveRelativeFolderPathToLocalPackage(
+            $rootComposerFileInfo,
+            $packageComposerFileInfo
+        );
+        $relativeDirectoryToRoot = $this->resolveRelativeDirectoryToRoot(
+            $rootComposerFileInfo,
+            $packageComposerFileInfo
+        );
 
         return $relativeFolderPathToLocalPackage . $relativeDirectoryToRoot;
     }

@@ -7,7 +7,6 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlT
 use Iterator;
 use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
-use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -28,7 +27,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testRouting(SmartFileInfo $fileInfo): void
     {
-        $this->doTestOutput($fileInfo, Format::YAML, Format::PHP);
+        $this->doTestOutput($fileInfo);
     }
 
     /**
@@ -49,7 +48,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
         require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
-        $this->doTestOutput($fixtureFileInfo, Format::YAML, Format::PHP);
+        $this->doTestOutput($fixtureFileInfo);
     }
 
     /**
@@ -57,7 +56,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testSpecialCaseWithDirectory(SmartFileInfo $fileInfo): void
     {
-        $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/nested', Format::YAML, Format::PHP);
+        $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/nested');
     }
 
     /**
@@ -65,7 +64,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testEcs(SmartFileInfo $fileInfo): void
     {
-        $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/ecs', Format::YAML, Format::PHP);
+        $this->doTestOutputWithExtraDirectory($fileInfo, __DIR__ . '/Fixture/ecs');
     }
 
     /**
@@ -93,7 +92,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Controller');
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Domain');
 
-        $this->doTestOutput($fileInfo, Format::YAML, Format::PHP);
+        $this->doTestOutput($fileInfo);
     }
 
     /**
@@ -120,15 +119,8 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/maker-bundle', '*.yaml');
     }
 
-    private function doTestOutputWithExtraDirectory(
-        SmartFileInfo $fixtureFileInfo,
-        $extraDirectory,
-        string $inputFormat,
-        string $outputFormat
-    ): void {
-        $this->configuration->changeInputFormat($inputFormat);
-        $this->configuration->changeOutputFormat($outputFormat);
-
+    private function doTestOutputWithExtraDirectory(SmartFileInfo $fixtureFileInfo, $extraDirectory): void
+    {
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
@@ -149,12 +141,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
 
-        $this->doTestFileInfo(
-            $inputFileInfo,
-            $inputAndExpected->getExpected(),
-            $fixtureFileInfo,
-            $inputFormat,
-            $outputFormat
-        );
+        $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo);
     }
 }

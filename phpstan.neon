@@ -553,6 +553,14 @@ parameters:
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/scoper.php
 
+        # Symfony 5.3 news
+        -
+            message: '#Removing parent param type is forbidden#'
+            path: *FileLoader.php
+
+        -
+            message: '#Method parameters must be compatible with its parent#'
+            path: *FileLoader.php
 
         -
             message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
