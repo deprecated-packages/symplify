@@ -4,30 +4,34 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Caching\Journal;
 
-class TagManager
+final class TagManager
 {
-    /** @var DataContainer */
-    private $journal;
+    /**
+     * @var DataContainer
+     */
+    private $dataContainer;
 
-    public function __construct(DataContainer $container)
+    public function __construct(DataContainer $dataContainer)
     {
-        $this->journal = $container;
+        $this->dataContainer = $dataContainer;
     }
 
     public function deleteTagsForKey(string $key): void
     {
-        if (isset($this->journal->tagsByKey[$key])) {
-            $currentTags = $this->journal->tagsByKey[$key];
-            unset($this->journal->tagsByKey[$key]);
+        if (isset($this->dataContainer->tagsByKey[$key])) {
+            $currentTags = $this->dataContainer->tagsByKey[$key];
+            unset($this->dataContainer->tagsByKey[$key]);
         } else {
             $currentTags = [];
         }
 
         foreach ($currentTags as $tag) {
-            if (isset($this->journal->keysByTag[$tag])) {
-                $this->journal->keysByTag[$tag] = array_filter(
-                    $this->journal->keysByTag[$tag],
-                    static function ($itemKey) use ($key) { return $itemKey !== $key; }
+            if (isset($this->dataContainer->keysByTag[$tag])) {
+                $this->dataContainer->keysByTag[$tag] = array_filter(
+                    $this->dataContainer->keysByTag[$tag],
+                    static function ($itemKey) use ($key): bool {
+                        return $itemKey !== $key;
+                    }
                 );
             }
         }
@@ -35,27 +39,25 @@ class TagManager
 
     public function addTagsForKey(string $key, array $tags): void
     {
-        $this->journal->tagsByKey[$key] = $tags;
+        $this->dataContainer->tagsByKey[$key] = $tags;
 
         foreach ($tags as $tag) {
-            if (!isset($this->journal->keysByTag[$tag])) {
-                $this->journal->keysByTag[$tag] = [];
+            if (! isset($this->dataContainer->keysByTag[$tag])) {
+                $this->dataContainer->keysByTag[$tag] = [];
             }
 
-            $this->journal->keysByTag[$tag][] = $key;
+            $this->dataContainer->keysByTag[$tag][] = $key;
         }
     }
 
     /**
-     * @param array $tags
-     *
      * @return mixed[]
      */
-    public function getKeysByTags($tags): array
+    public function getKeysByTags(array $tags): array
     {
         $keys = [];
         foreach ($tags as $tag) {
-            $keys = array_merge($keys, $this->journal->keysByTag[$tag] ?? []);
+            $keys = array_merge($keys, $this->dataContainer->keysByTag[$tag] ?? []);
         }
 
         return $keys;
