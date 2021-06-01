@@ -44,7 +44,7 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
     private $simpleNameResolver;
 
     /**
-     * @var \Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
+     * @var ParentMethodResolver
      */
     private $parentMethodResolver;
 
