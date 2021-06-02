@@ -25,6 +25,9 @@ final class ForbiddenAttributteArgumentRuleTest extends AbstractServiceAwareRule
         $this->analyse([$filePath], $expectedErrorsWithLines);
     }
 
+    /**
+     * @return Iterator<string[]|array<int, array<int[]|string[]>>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeClassWithAttributeArgumentMissingClass.php', [
