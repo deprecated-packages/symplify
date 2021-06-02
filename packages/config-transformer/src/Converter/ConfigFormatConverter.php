@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Dumper\YamlDumper;
 use Symfony\Component\Yaml\Yaml;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
 use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
-use Symplify\ConfigTransformer\DumperFactory;
-use Symplify\ConfigTransformer\DumperFomatter\YamlDumpFormatter;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
@@ -24,16 +23,6 @@ final class ConfigFormatConverter
      * @var ConfigLoader
      */
     private $configLoader;
-
-    /**
-     * @var DumperFactory
-     */
-    private $dumperFactory;
-
-    /**
-     * @var YamlDumpFormatter
-     */
-    private $yamlDumpFormatter;
 
     /**
      * @var YamlToPhpConverter
@@ -57,16 +46,12 @@ final class ConfigFormatConverter
 
     public function __construct(
         ConfigLoader $configLoader,
-        DumperFactory $dumperFactory,
-        YamlDumpFormatter $yamlDumpFormatter,
         YamlToPhpConverter $yamlToPhpConverter,
         CurrentFilePathProvider $currentFilePathProvider,
         XmlImportCollector $xmlImportCollector,
         ContainerBuilderCleaner $containerBuilderCleaner
     ) {
         $this->configLoader = $configLoader;
-        $this->dumperFactory = $dumperFactory;
-        $this->yamlDumpFormatter = $yamlDumpFormatter;
         $this->yamlToPhpConverter = $yamlToPhpConverter;
         $this->currentFilePathProvider = $currentFilePathProvider;
         $this->xmlImportCollector = $xmlImportCollector;
@@ -103,7 +88,7 @@ final class ConfigFormatConverter
 
     private function dumpContainerBuilderToYaml(ContainerBuilder $containerBuilder): string
     {
-        $yamlDumper = $this->dumperFactory->createFromContainerBuilderAndOutputFormat($containerBuilder, Format::YAML);
+        $yamlDumper = new YamlDumper($containerBuilder);
         $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
         $content = $yamlDumper->dump();
@@ -111,7 +96,7 @@ final class ConfigFormatConverter
             throw new ShouldNotHappenException();
         }
 
-        return $this->yamlDumpFormatter->format($content);
+        return $content;
     }
 
     private function decorateWithCollectedXmlImports(string $dumpedYaml): string

@@ -570,3 +570,12 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/src/Application/VersionResolver.php
+
+        -
+            message: '#Nested foreach with empty statement is not allowed#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+
+
+        -
+            message: '#Class cognitive complexity is 29, keep it under 25#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
