@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
 use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverserFactory;
+use Symplify\StaticDetector\Console\StaticDetectorConsoleApplication;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -32,4 +35,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ParameterProvider::class)
         ->args([service(ContainerInterface::class)]);
+
+    $services->alias(Application::class, StaticDetectorConsoleApplication::class);
+    $services->set(CommandNaming::class);
 };
