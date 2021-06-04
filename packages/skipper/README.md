@@ -95,7 +95,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ### 3. Use `Skipper` service in Your Project
 
-You have 3 way to decide, if the *somethign* should be skipped:
+You have 3 way to decide, if the *something* should be skipped:
 
 - the element
 - the file info

@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer;
+use Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -26,9 +27,15 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
      */
     private $protectedAnalyzer;
 
-    public function __construct(ProtectedAnalyzer $protectedAnalyzer)
+    /**
+     * @var ParentPropertyGuard
+     */
+    private $parentPropertyGuard;
+
+    public function __construct(ProtectedAnalyzer $protectedAnalyzer, ParentPropertyGuard $parentPropertyGuard)
     {
         $this->protectedAnalyzer = $protectedAnalyzer;
+        $this->parentPropertyGuard = $parentPropertyGuard;
     }
 
     /**
@@ -46,6 +53,10 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if (! $node->isProtected()) {
+            return [];
+        }
+
+        if ($this->parentPropertyGuard->isPropertyGuarded($node, $scope)) {
             return [];
         }
 

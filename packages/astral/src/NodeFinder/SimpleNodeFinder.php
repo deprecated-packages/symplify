@@ -38,6 +38,21 @@ final class SimpleNodeFinder
     }
 
     /**
+     * @template T of Node
+     * @param array<class-string<T>> $nodeClasses
+     */
+    public function hasByTypes(Node $node, array $nodeClasses): bool
+    {
+        foreach ($nodeClasses as $nodeClass) {
+            if ($this->findByType($node, $nodeClass)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @see https://phpstan.org/blog/generics-in-php-using-phpdocs for template
      *
      * @template T of Node

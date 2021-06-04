@@ -40,7 +40,7 @@ final class ConfigFileDumper
     {
         $originalFilePathWithoutSuffix = $convertedContent->getOriginalFilePathWithoutSuffix();
 
-        $newFileRealPath = $originalFilePathWithoutSuffix . '.' . $this->configuration->getOutputFormat();
+        $newFileRealPath = $originalFilePathWithoutSuffix . '.php';
 
         $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFileRealPath);
 

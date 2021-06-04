@@ -21,7 +21,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".';
+    public const ERROR_MESSAGE = 'Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".';
 
     /**
      * @see https://regex101.com/r/3jsBnt/1

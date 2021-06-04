@@ -25,6 +25,7 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipParentContract.php', []];
         yield [__DIR__ . '/Fixture/SkipClassWithEmptyReturn.php', []];
         yield [__DIR__ . '/Fixture/SkipClassThatImplementsInterface.php', []];
         yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
