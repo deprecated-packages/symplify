@@ -58,8 +58,8 @@ jobs:
                     package-directory: 'packages/${{ matrix.package }}'
                     split-repository-organization: 'symplify'
                     split-repository-name: '${{ matrix.package }}'
-                    user-name: "kaizen-ci"
-                    user-email: "info@kaizen-ci.org"
+                    user-name: "Tomas Votruba"
+                    user-email: "tomas.vot@gmail.com"
                     branch: "main"
 
             # with tag
@@ -76,6 +76,6 @@ jobs:
                     package-directory: 'packages/${{ matrix.package }}'
                     split-repository-organization: 'symplify'
                     split-repository-name: '${{ matrix.package }}'
-                    user-name: "kaizen-ci"
-                    user-email: "info@kaizen-ci.org"
+                    user-name: "Tomas Votruba"
+                    user-email: "tomas.vot@gmail.com"
                     branch: "main"
