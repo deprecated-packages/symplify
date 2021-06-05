@@ -35,7 +35,7 @@ final class ParameterMergingPhpFileLoader extends PhpFileLoader
      *
      * @param string|null $type
      */
-    public function load($resource, $type = null): void
+    public function load($resource, string $type = null)
     {
         // get old parameters
         $parameterBag = $this->container->getParameterBag();
