@@ -120,6 +120,10 @@ final class AutoloadIncluder
 
     public function loadIfNotLoadedYet(string $file): void
     {
+        if (! file_exists($file)) {
+            return;
+        }
+
         if (in_array($file, $this->alreadyLoadedAutoloadFiles, true)) {
             return;
         }
