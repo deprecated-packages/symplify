@@ -47,13 +47,6 @@ CODE_SAMPLE;
         $vendorDir . '/symplify/rule-doc-generator-contracts/src/Contract/DocumentedRuleInterface.php'
     );
 
-    $fileInfos[] = new SplFileInfo(
-        $vendorDir . '/symfony/dependency-injection/Loader/Configurator/AbstractConfigurator.php',
-    );
-    $fileInfos[] = new SplFileInfo(
-        $vendorDir . '/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php'
-    );
-
     foreach ($fileInfos as $fileInfo) {
         $realPath = $fileInfo->getRealPath();
         $filePath = '/vendor/' . Strings::after($realPath, 'vendor/');
