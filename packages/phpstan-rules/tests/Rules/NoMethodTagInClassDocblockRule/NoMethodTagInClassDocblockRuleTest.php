@@ -34,7 +34,7 @@ final class NoMethodTagInClassDocblockRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             NoMethodTagInClassDocblockRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

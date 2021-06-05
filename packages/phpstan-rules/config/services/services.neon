@@ -6,7 +6,6 @@ services:
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
-
     - Symplify\PHPStanRules\Reflection\Parser\ReflectionParser
     - Symplify\PHPStanRules\Reflection\PropertyAnalyzer
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
@@ -46,9 +45,10 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
 
-    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
+    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
+
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeFinder\StatementFinder

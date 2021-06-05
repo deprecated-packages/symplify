@@ -34,9 +34,6 @@ final class RequireAttributeNameRuleTest extends AbstractServiceAwareRuleTestCas
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireAttributeNameRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(RequireAttributeNameRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

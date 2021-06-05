@@ -42,7 +42,7 @@ final class ForbiddenReturnValueOfIncludeOnceRuleTest extends AbstractServiceAwa
     {
         return $this->getRuleFromConfig(
             ForbiddenReturnValueOfIncludeOnceRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

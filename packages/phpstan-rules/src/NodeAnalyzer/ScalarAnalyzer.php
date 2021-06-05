@@ -37,7 +37,7 @@ final class ScalarAnalyzer
         }
 
         if ($expr instanceof Array_) {
-            return count($expr->items) !== 0;
+            return $expr->items !== [];
         }
 
         return false;

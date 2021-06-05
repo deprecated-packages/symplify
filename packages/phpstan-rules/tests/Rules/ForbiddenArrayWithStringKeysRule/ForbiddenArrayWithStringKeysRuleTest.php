@@ -43,7 +43,7 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
     {
         return $this->getRuleFromConfig(
             ForbiddenArrayWithStringKeysRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

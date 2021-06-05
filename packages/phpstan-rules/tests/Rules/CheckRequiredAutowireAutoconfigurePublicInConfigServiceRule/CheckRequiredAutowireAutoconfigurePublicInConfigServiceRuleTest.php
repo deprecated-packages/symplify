@@ -38,7 +38,7 @@ final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest exte
     {
         return $this->getRuleFromConfig(
             CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

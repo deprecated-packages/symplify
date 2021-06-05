@@ -41,9 +41,6 @@ final class NoInjectOnFinalRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoInjectOnFinalRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoInjectOnFinalRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

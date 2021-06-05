@@ -38,7 +38,7 @@ final class NoDynamicPropertyOnStaticCallRuleTest extends AbstractServiceAwareRu
     {
         return $this->getRuleFromConfig(
             NoDynamicPropertyOnStaticCallRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

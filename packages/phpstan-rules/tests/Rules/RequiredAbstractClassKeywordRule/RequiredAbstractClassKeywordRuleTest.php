@@ -38,7 +38,7 @@ final class RequiredAbstractClassKeywordRuleTest extends AbstractServiceAwareRul
     {
         return $this->getRuleFromConfig(
             RequiredAbstractClassKeywordRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -43,7 +43,7 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
     {
         return $this->getRuleFromConfig(
             ForbiddenMethodOrStaticCallInForeachRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -31,9 +31,6 @@ final class NoMagicClosureRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoMagicClosureRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoMagicClosureRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

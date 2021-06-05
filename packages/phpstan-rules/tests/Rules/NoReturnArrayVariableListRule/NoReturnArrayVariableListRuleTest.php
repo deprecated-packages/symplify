@@ -37,7 +37,7 @@ final class NoReturnArrayVariableListRuleTest extends AbstractServiceAwareRuleTe
     {
         return $this->getRuleFromConfig(
             NoReturnArrayVariableListRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }
