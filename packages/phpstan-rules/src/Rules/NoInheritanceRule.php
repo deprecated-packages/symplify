@@ -32,7 +32,6 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
      * @var array<class-string>
      */
     private const DEFAULT_ALLOWED_PARENT_TYPES = [
-<<<<<<< HEAD
         'Symfony\Component\HttpKernel\KernelInterface',
         'Symfony\Component\HttpKernel\Bundle\Bundle',
         'Symfony\Component\Console\Application',
@@ -46,9 +45,6 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'Symfony\Component\Validator\ConstraintValidator',
         'Symfony\Component\Filesystem\Filesystem',
         'Symfony\Component\Security\Core\Authorization\Voter\Voter',
-=======
-        'Symfony\Component\*',
->>>>>>> 92b7785cc (allow to inherit abstract class)
         'Twig\Extension\ExtensionInterface',
         'PhpCsFixer\AbstractFixer',
         'Rector\Core\Rector\AbstractRector',
