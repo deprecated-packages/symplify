@@ -52,7 +52,7 @@ final class GitCommand
     /**
      * @param mixed ...$argsAndOptions
      */
-    public function __construct(string $command = '', ... $argsAndOptions)
+    public function __construct(string $command = '', ...$argsAndOptions)
     {
         $this->command = $command;
 
