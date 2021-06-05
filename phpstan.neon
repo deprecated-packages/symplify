@@ -3,6 +3,7 @@ includes:
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
     - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/config/services/services.neon
 
 services:
     -
