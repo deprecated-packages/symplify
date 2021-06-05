@@ -40,6 +40,8 @@ return [
         'Symplify\CodingStandard\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
+        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+        'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
     ],
     'patchers' => [
         // unprefix polyfill functions
