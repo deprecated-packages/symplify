@@ -28,6 +28,7 @@ $autoloadIncluder->includeCwdVendorAutoloadIfExists();
 $autoloadIncluder->autoloadProjectAutoloaderFile('/../../autoload.php');
 $autoloadIncluder->includeDependencyOrRepositoryVendorAutoloadIfExists();
 $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
+$autoloadIncluder->loadIfNotLoadedYet(__DIR__ . '/../vendor/scoper-autoload.php');
 
 try {
     $input = new ArgvInput();
@@ -117,7 +118,7 @@ final class AutoloadIncluder
         new Tokens();
     }
 
-    private function loadIfNotLoadedYet(string $file): void
+    public function loadIfNotLoadedYet(string $file): void
     {
         if (in_array($file, $this->alreadyLoadedAutoloadFiles, true)) {
             return;
