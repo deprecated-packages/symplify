@@ -41,7 +41,7 @@ final class RequireThisOnParentMethodCallRuleTest extends AbstractServiceAwareRu
     {
         return $this->getRuleFromConfig(
             RequireThisOnParentMethodCallRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

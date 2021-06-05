@@ -34,6 +34,6 @@ final class NoInheritanceRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoInheritanceRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
+        return $this->getRuleFromConfig(NoInheritanceRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

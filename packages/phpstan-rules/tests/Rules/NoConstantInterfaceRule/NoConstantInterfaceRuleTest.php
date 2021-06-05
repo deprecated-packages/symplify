@@ -31,9 +31,6 @@ final class NoConstantInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoConstantInterfaceRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoConstantInterfaceRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

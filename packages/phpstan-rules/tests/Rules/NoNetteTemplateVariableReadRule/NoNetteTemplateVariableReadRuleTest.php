@@ -38,7 +38,7 @@ final class NoNetteTemplateVariableReadRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoNetteTemplateVariableReadRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -43,7 +43,7 @@ final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             ForbiddenProtectedPropertyRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

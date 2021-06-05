@@ -74,7 +74,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
     {
         return $this->getRuleFromConfig(
             CheckConstantExpressionDefinedInConstructOrSetupRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

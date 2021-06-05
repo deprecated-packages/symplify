@@ -38,7 +38,7 @@ final class RequireTemplateInNetteControlRuleTest extends AbstractServiceAwareRu
     {
         return $this->getRuleFromConfig(
             RequireTemplateInNetteControlRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

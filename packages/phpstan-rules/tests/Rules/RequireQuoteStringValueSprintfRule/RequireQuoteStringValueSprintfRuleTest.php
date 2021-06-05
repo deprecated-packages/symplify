@@ -51,7 +51,7 @@ final class RequireQuoteStringValueSprintfRuleTest extends AbstractServiceAwareR
     {
         return $this->getRuleFromConfig(
             RequireQuoteStringValueSprintfRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

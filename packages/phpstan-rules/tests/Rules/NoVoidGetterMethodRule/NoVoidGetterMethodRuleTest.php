@@ -38,9 +38,6 @@ final class NoVoidGetterMethodRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoVoidGetterMethodRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoVoidGetterMethodRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

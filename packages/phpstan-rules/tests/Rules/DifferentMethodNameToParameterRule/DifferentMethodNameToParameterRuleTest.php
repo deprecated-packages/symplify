@@ -33,7 +33,7 @@ final class DifferentMethodNameToParameterRuleTest extends AbstractServiceAwareR
     {
         return $this->getRuleFromConfig(
             DifferentMethodNameToParameterRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

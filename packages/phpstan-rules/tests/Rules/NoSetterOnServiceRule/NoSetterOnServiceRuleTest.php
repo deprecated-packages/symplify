@@ -41,9 +41,6 @@ final class NoSetterOnServiceRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoSetterOnServiceRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoSetterOnServiceRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

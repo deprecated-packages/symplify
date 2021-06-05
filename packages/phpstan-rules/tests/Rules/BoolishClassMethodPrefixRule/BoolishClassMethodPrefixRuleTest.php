@@ -44,7 +44,7 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
     {
         return $this->getRuleFromConfig(
             BoolishClassMethodPrefixRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

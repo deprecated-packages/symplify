@@ -36,9 +36,6 @@ final class MatchingTypeConstantRuleTest extends AbstractServiceAwareRuleTestCas
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            MatchingTypeConstantRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(MatchingTypeConstantRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }
