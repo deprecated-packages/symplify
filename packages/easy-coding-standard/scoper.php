@@ -37,13 +37,8 @@ return [
         'Symplify\CodingStandard\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
-<<<<<<< HEAD
-        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
-        'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
-=======
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
->>>>>>> 8192d9df8 (unprefix)
     ],
     'patchers' => [
         // unprefix polyfill functions
