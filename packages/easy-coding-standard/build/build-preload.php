@@ -46,6 +46,10 @@ CODE_SAMPLE;
     $fileInfos[] = new SplFileInfo(
         $vendorDir . '/symplify/rule-doc-generator-contracts/src/Contract/DocumentedRuleInterface.php'
     );
+
+    $fileInfos[] = new SplFileInfo(
+        $vendorDir . '/symfony/dependency-injection/Loader/Configurator/AbstractConfigurator.php',
+    );
     $fileInfos[] = new SplFileInfo(
         $vendorDir . '/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php'
     );
