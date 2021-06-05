@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\ValueObject\Set;
 final class SetList
 {
     /**
+     * @deprecated
      * @var string
      * @api
      */
