@@ -32,6 +32,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
      * @var array<class-string>
      */
     private const DEFAULT_ALLOWED_PARENT_TYPES = [
+        'MyCLabs\Enum\Enum',
         'Symfony\Component\HttpKernel\KernelInterface',
         'Symfony\Component\HttpKernel\Bundle\Bundle',
         'Symfony\Component\Console\Application',

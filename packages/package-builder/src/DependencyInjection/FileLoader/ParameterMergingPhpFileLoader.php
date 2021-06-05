@@ -32,8 +32,6 @@ final class ParameterMergingPhpFileLoader extends PhpFileLoader
      * Same as parent, just merging parameters instead overriding them
      *
      * @see https://github.com/symplify/symplify/pull/697
-     *
-     * @param string|null $type
      */
     public function load($resource, string $type = null)
     {

@@ -54,7 +54,7 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
 
         $callerType = $scope->getType($node->var);
         $entityManagerObjectType = new ObjectType(EntityManagerInterface::class);
-        if ($entityManagerObjectType->isSuperTypeOf($callerType)->yes() === false) {
+        if (! $entityManagerObjectType->isSuperTypeOf($callerType)->yes()) {
             return [];
         }
 
