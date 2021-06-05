@@ -136,5 +136,14 @@ return [
                 '@release_date@' => $releaseDateTime->format('Y-m-d H:i:s'),
             ]);
         },
+
+        // unprefixed ContainerConfigurator
+        function (string $filePath, string $prefix, string $content): string {
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
+                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+            );
+        },
     ],
 ];
