@@ -49,6 +49,13 @@ final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRule
             __DIR__ . '/Fixture/SkipClassUseTrait2.php',
         ], []];
 
+        yield [[
+            __DIR__ . '/Fixture/SkipStaticFactory.php',
+        ], []];
+        yield [[
+            __DIR__ . '/Fixture/SkipSelfFactory.php',
+        ], []];
+
         $errorMessage = sprintf(
             PreventDuplicateClassMethodRule::ERROR_MESSAGE,
             'sleep',
