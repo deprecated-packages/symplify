@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use JsonSerializable;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
@@ -203,7 +204,7 @@ CODE_SAMPLE
         // allow for array
         if ($this->reflectionProvider->hasClass($className)) {
             $classReflection = $this->reflectionProvider->getClass($className);
-            if ($classReflection->implementsInterface('JsonSerializable')) {
+            if ($classReflection->implementsInterface(JsonSerializable::class)) {
                 return true;
             }
         }
