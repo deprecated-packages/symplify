@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\ParentGuard\ParentElementResolver;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpMethodReflection;
-use ReflectionClass;
 
 final class ParentMethodResolver
 {
@@ -23,12 +22,11 @@ final class ParentMethodResolver
 
         foreach ($parentClassLikeReflections as $parentClassLikeReflection) {
             // this is needed, as PHPStan takes parent @method anontation as real method
-            $nactiveClassReflection = $parentClassLikeReflection->getNativeReflection();
-            if (! $nactiveClassReflection->hasMethod($methodName)) {
+            if (! $parentClassLikeReflection->hasNativeMethod($methodName)) {
                 continue;
             }
 
-            $nativeMethodReflection = $nactiveClassReflection->getMethod($methodName);
+            $nativeMethodReflection = $parentClassLikeReflection->getNativeMethod($methodName);
             if (! $nativeMethodReflection instanceof PhpMethodReflection) {
                 continue;
             }
