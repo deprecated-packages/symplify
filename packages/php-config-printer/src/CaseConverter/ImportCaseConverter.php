@@ -66,9 +66,10 @@ final class ImportCaseConverter implements CaseConverterInterface
                 'type' => null,
                 YamlKey::IGNORE_ERRORS => false,
             ]);
-
             return $this->createImportMethodCall($arguments);
-        } elseif (is_string($values)) {
+        }
+
+        if (is_string($values)) {
             return $this->createImportMethodCall([$values]);
         }
 
