@@ -70,7 +70,7 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
                 return [];
             }
 
-            if ($this->simpleNameResolver->isName($node->name, 'class')) {
+            if ($node->name instanceof Node && $this->simpleNameResolver->isName($node->name, 'class')) {
                 return [];
             }
 

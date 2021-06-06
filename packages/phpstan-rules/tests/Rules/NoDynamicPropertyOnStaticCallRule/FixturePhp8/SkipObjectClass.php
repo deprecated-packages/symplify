@@ -8,8 +8,10 @@ use stdClass;
 
 final class SkipObjectClass
 {
-    public function run(stdClass $stdClass): string
+    private stdClass $foo;
+
+    public function run(): string
     {
-        return $stdClass::class;
+        return $this->foo::class;
     }
 }
