@@ -37,7 +37,7 @@ final class SymfonyConfigFormatFactory
 
         $imports = array_unique($imports);
         foreach ($imports as $import) {
-            $yaml[YamlKey::IMPORTS] = SetList::class . '::' . $import;
+            $yaml[YamlKey::IMPORTS][] = SetList::class . '::' . $import;
         }
 
         if ($excludePathsParameter !== []) {

@@ -18,5 +18,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::PSR_2);
 
     $parameters = $containerConfigurator->parameters();
+
     $parameters->set(Option::SKIP, [CamelCapsMethodNameSniff::class]);
 };
