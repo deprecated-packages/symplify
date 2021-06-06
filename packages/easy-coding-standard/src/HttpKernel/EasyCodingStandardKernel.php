@@ -11,7 +11,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
 use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
 use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
-use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\DeprecationWarningCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
 use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
 use Symplify\Skipper\Bundle\SkipperBundle;
@@ -38,11 +37,6 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         }
 
         return $bundles;
-    }
-
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new DeprecationWarningCompilerPass());
     }
 
     /**

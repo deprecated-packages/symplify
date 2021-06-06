@@ -20,7 +20,7 @@ final class FixerToECSConverter
     /**
      * @var mixed[]
      */
-    private const SETS_PARAMETER = [];
+    private const IMPORTS = [];
 
     /**
      * @var mixed[]
@@ -73,7 +73,7 @@ final class FixerToECSConverter
 
         $yaml = $this->symfonyConfigFormatFactory->createSymfonyConfigFormat(
             $fixerClasses,
-            self::SETS_PARAMETER,
+            self::IMPORTS,
             self::SKIP_PARAMETER,
             $excludePathsParameter,
             $pathsParameter

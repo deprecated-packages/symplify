@@ -33,7 +33,7 @@ includes:
     - vendor/symplify/phpstan-rules/config/services/services.neon
 ```
 
-*Note:* [Rules in subpackages](https://github.com/symplify/symplify/tree/main/packages/phpstan-rules/packages) contain additional service definitions which need to be included, in case you configure these rules: 
+*Note:* [Rules in subpackages](https://github.com/symplify/symplify/tree/main/packages/phpstan-rules/packages) contain additional service definitions which need to be included, in case you configure these rules:
 
 ```yaml
 includes:
