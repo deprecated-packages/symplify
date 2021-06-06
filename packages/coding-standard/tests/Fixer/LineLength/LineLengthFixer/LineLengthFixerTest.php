@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

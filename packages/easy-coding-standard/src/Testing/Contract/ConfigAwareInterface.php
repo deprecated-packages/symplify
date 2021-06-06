@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandardTester\Contract;
+namespace Symplify\EasyCodingStandard\Testing\Contract;
 
 interface ConfigAwareInterface
 {

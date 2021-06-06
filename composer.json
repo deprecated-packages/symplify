@@ -78,7 +78,6 @@
             "Symplify\\ConsoleColorDiff\\": "packages/console-color-diff/src",
             "Symplify\\ConsolePackageBuilder\\": "packages/console-package-builder/src",
             "Symplify\\EasyCI\\": "packages/easy-ci/src",
-            "Symplify\\EasyCodingStandardTester\\": "packages/easy-coding-standard-tester/src",
             "Symplify\\EasyCodingStandard\\": [
                 "packages/easy-coding-standard/packages",
                 "packages/easy-coding-standard/src"
@@ -136,7 +135,6 @@
             "Symplify\\ConsoleColorDiff\\Tests\\": "packages/console-color-diff/tests",
             "Symplify\\ConsolePackageBuilder\\Tests\\": "packages/console-package-builder/tests",
             "Symplify\\EasyCI\\Tests\\": "packages/easy-ci/tests",
-            "Symplify\\EasyCodingStandardTester\\Tests\\": "packages/easy-coding-standard-tester/tests",
             "Symplify\\EasyCodingStandard\\Tests\\": [
                 "packages/easy-coding-standard/packages-tests",
                 "packages/easy-coding-standard/tests"
@@ -184,7 +182,6 @@
         "symplify/console-package-builder": "9.3.20",
         "symplify/easy-ci": "9.3.20",
         "symplify/easy-coding-standard": "9.3.20",
-        "symplify/easy-coding-standard-tester": "9.3.20",
         "symplify/easy-hydrator": "9.3.20",
         "symplify/easy-testing": "9.3.20",
         "symplify/git-wrapper": "9.3.20",

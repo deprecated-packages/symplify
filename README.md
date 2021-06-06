@@ -19,7 +19,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 - [Coding Standard](https://github.com/symplify/coding-standard)
-- [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
 - [Simple PHP Doc Parser](https://github.com/symplify/simple-php-doc-parser)
 
 ## For Symfony

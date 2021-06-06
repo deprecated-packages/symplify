@@ -12,7 +12,6 @@ use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
 use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
 use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
-use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
 use Symplify\Skipper\Bundle\SkipperBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
@@ -24,19 +23,13 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
      */
     public function registerBundles(): iterable
     {
-        $bundles = [
+        return [
             new EasyCodingStandardBundle(),
             new SymplifyCodingStandardBundle(),
             new ConsoleColorDiffBundle(),
             new SymplifyKernelBundle(),
             new SkipperBundle(),
         ];
-
-        if ($this->environment === 'test') {
-            $bundles[] = new PhpConfigPrinterBundle();
-        }
-
-        return $bundles;
     }
 
     /**
