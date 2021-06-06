@@ -1,20 +1,12 @@
-# The Best Way to Test Fixers and Sniffs
-
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/easy-coding-standard-tester.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard-tester/stats)
+# How to Test Fixers and Sniffs
 
 Do you write your own fixer and sniffs? Would you like to test them without having to learn a lot about their internals?
 
 **This package make fixer and sniff testing with 1 single approach super easy**.
 
-## Install
-
-```bash
-composer require symplify/easy-coding-standard-tester --dev
-```
-
 ## Usage
 
-1. Extend `Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase` class
+1. Extend `Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase` class
 
 2. Provide files to `doTestFiles()` method
 
@@ -22,7 +14,7 @@ composer require symplify/easy-coding-standard-tester --dev
 namespace Your\CodingStandard\Tests\Fixer\YourFixer;
 
 use Iterator;
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Your\CondingStandard\Fixer\YourFixer;

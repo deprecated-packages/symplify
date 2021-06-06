@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandardTester\Testing;
+namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\EasyCodingStandardTester\Contract\ConfigAwareInterface;
-use Symplify\EasyCodingStandardTester\Exception\ShouldNotHappenException;
+use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
+use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
