@@ -41,6 +41,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/HttpKernel',
             __DIR__ . '/../src/Exception',
             __DIR__ . '/../src/ValueObject',
+            // for 3rd party tests
+            __DIR__ . '/../src/Testing',
         ]);
 
     $services->set(Terminal::class);
