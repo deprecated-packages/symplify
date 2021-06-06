@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,9 +33,10 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
      */
     private $callableTypeAnalyzer;
 
-    public function __construct(CallableTypeAnalyzer $callableTypeAnalyzer)
+    public function __construct(CallableTypeAnalyzer $callableTypeAnalyzer, SimpleNameResolver $simpleNameResolver)
     {
         $this->callableTypeAnalyzer = $callableTypeAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -60,6 +62,11 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
     {
         if ($node instanceof ClassConstFetch || $node instanceof StaticPropertyFetch) {
             if (! $node->class instanceof Expr) {
+                return [];
+            }
+
+            $name = $this->simpleNameResolver->getName($node->name);
+            if ($name === 'class') {
                 return [];
             }
 

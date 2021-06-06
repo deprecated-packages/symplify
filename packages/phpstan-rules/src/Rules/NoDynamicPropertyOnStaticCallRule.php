@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\UnionType;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,9 +30,10 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
      */
     private $staticCallNodeAnalyzer;
 
-    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer)
+    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer, SimpleNameResolver $simpleNameResolver)
     {
         $this->staticCallNodeAnalyzer = $staticCallNodeAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -53,6 +55,11 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
         }
 
         if ($this->staticCallNodeAnalyzer->isAbstractMethodStaticCall($node, $scope)) {
+            return [];
+        }
+
+        $name = $this->simpleNameResolver->getname($node->name);
+        if ($name === 'class') {
             return [];
         }
 
