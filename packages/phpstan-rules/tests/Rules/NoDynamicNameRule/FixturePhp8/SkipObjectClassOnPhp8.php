@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicNameRule\FixturePhp8;
 
 use stdClass;
 
-final class SkipObjectClass
+final class SkipObjectClassOnPhp8
 {
     public function run(stdClass $stdClass): string
     {
