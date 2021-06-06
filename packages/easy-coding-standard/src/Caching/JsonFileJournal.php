@@ -63,6 +63,7 @@ final class JsonFileJournal implements Journal
 
     /**
      * @param array<string, mixed> $conditions
+     * @return mixed[]|null
      */
     public function clean(array $conditions): ?array
     {
