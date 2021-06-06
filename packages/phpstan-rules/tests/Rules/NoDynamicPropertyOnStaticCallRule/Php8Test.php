@@ -11,8 +11,9 @@ use Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoDynamicPropertyOnStaticCallRule>
+ * @requires PHP 8.0
  */
-final class NoDynamicPropertyOnStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class Php8Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -25,13 +26,7 @@ final class NoDynamicPropertyOnStaticCallRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/DynamicMethodCall.php', [[NoDynamicPropertyOnStaticCallRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/DynamicPropertyCall.php', [[NoDynamicPropertyOnStaticCallRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/SkipNonDynamicPropertyCall.php', []];
-        yield [__DIR__ . '/Fixture/SkipNonDynamicMethodCall.php', []];
-        yield [__DIR__ . '/Fixture/SkipSelfStatic.php', []];
-        yield [__DIR__ . '/Fixture/SkipAbstractClassCall.php', []];
-        yield [__DIR__ . '/Fixture/SkipUnionTypes.php', []];
+        yield [__DIR__ . '/FixturePhp8/SkipObjectClass.php', []];
     }
 
     protected function getRule(): Rule

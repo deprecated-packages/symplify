@@ -38,7 +38,6 @@ final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipCallable.php', []];
         yield [__DIR__ . '/Fixture/SkipNullableClosure.php', []];
         yield [__DIR__ . '/Fixture/SkipForeachVariable.php', []];
-        yield [__DIR__ . '/Fixture/SkipObjectClass.php', []];
     }
 
     protected function getRule(): Rule
