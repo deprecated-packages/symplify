@@ -34,7 +34,7 @@ final class ForbiddenMethodCallOnNewRuleTest extends AbstractServiceAwareRuleTes
     {
         return $this->getRuleFromConfig(
             ForbiddenMethodCallOnNewRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use JsonSerializable;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
@@ -14,12 +15,13 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
-use Symplify\PHPStanRules\ParentGuard\ParentMethodReturnTypeResolver;
+use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -65,16 +67,23 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     private $arrayAnalyzer;
 
+    /**
+     * @var ReflectionProvider
+     */
+    private $reflectionProvider;
+
     public function __construct(
         ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         SimpleNameResolver $simpleNameResolver,
         SimpleNodeFinder $simpleNodeFinder,
-        ArrayAnalyzer $arrayAnalyzer
+        ArrayAnalyzer $arrayAnalyzer,
+        ReflectionProvider $reflectionProvider
     ) {
         $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
         $this->simpleNameResolver = $simpleNameResolver;
         $this->simpleNodeFinder = $simpleNodeFinder;
         $this->arrayAnalyzer = $arrayAnalyzer;
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -182,11 +191,24 @@ CODE_SAMPLE
             return true;
         }
 
-        $shortClassName = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($shortClassName === null) {
+        // skip Symfony bundles.php
+        if (Strings::endsWith($filePath, 'bundles.php')) {
+            return true;
+        }
+
+        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
+        if ($className === null) {
             return false;
         }
 
-        return (bool) Strings::match($shortClassName, self::ARRAY_EXPECTED_CLASS_NAMES_REGEX);
+        // allow for array
+        if ($this->reflectionProvider->hasClass($className)) {
+            $classReflection = $this->reflectionProvider->getClass($className);
+            if ($classReflection->implementsInterface(JsonSerializable::class)) {
+                return true;
+            }
+        }
+
+        return (bool) Strings::match($className, self::ARRAY_EXPECTED_CLASS_NAMES_REGEX);
     }
 }

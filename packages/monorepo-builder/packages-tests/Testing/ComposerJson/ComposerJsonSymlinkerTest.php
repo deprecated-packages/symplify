@@ -6,7 +6,6 @@ namespace Symplify\MonorepoBuilder\Tests\Testing\ComposerJson;
 
 use Iterator;
 use Nette\Utils\Json;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -19,16 +18,10 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
      */
     private $composerJsonSymlinker;
 
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->jsonFileManager = $this->getService(JsonFileManager::class);
         $this->composerJsonSymlinker = $this->getService(ComposerJsonSymlinker::class);
     }
 
@@ -44,10 +37,8 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $mainComposerJson = new SmartFileInfo(__DIR__ . '/composer.json');
         $packageFileInfo = new SmartFileInfo($packagePath);
 
-        $packageComposerJson = $this->jsonFileManager->loadFromFileInfo($packageFileInfo);
-
         $packageComposerJson = $this->composerJsonSymlinker->decoratePackageComposerJsonWithPackageSymlinks(
-            $packageComposerJson,
+            $packageFileInfo,
             [$packageName],
             $mainComposerJson,
             $symlink
@@ -85,6 +76,13 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
             'example/package-one',
             false,
             __DIR__ . '/Fixture/expected_reuse_existing_repository.json',
+        ];
+
+        yield [
+            __DIR__ . '/packages/with-more-depth/package-four/composer.json',
+            'example/package-two',
+            false,
+            __DIR__ . '/Fixture/expected_deeper_path_repository.json',
         ];
     }
 }

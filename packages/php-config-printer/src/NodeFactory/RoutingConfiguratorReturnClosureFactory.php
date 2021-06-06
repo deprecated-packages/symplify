@@ -40,7 +40,7 @@ final class RoutingConfiguratorReturnClosureFactory
     }
 
     /**
-     * @return Node[]
+     * @return mixed[]
      */
     private function createClosureStmts(array $arrayData): array
     {

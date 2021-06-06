@@ -38,6 +38,7 @@ final class ValueObjectInliner
     /**
      * @param object|object[] $object
      * @return InlineServiceConfigurator|InlineServiceConfigurator[]
+     * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
     public static function inline($object)
     {

@@ -11,7 +11,7 @@
         "symfony/console": "^4.4|^5.2",
         "symfony/dependency-injection": "^5.2",
         "symfony/http-kernel": "^4.4|^5.2",
-        "sebastian/diff": "^3.0|^4.0",
+        "sebastian/diff": "^4.0",
         "cweagans/composer-patches": "^1.7",
         "symplify/composer-json-manipulator": "^9.4",
         "symplify/symplify-kernel": "^9.4"

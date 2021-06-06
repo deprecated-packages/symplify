@@ -36,7 +36,7 @@ final class NoSuffixValueObjectClassRuleTest extends AbstractServiceAwareRuleTes
     {
         return $this->getRuleFromConfig(
             NoSuffixValueObjectClassRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

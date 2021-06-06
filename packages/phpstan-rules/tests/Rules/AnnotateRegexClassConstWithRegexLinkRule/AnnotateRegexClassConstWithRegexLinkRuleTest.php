@@ -40,7 +40,7 @@ final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractService
     {
         return $this->getRuleFromConfig(
             AnnotateRegexClassConstWithRegexLinkRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

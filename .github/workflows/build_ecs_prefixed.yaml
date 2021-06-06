@@ -64,6 +64,9 @@ jobs:
             # copy github actoins to repository, so tests run there too
             -   run: cp -R packages/easy-coding-standard/build/target-repository/. ecs-prefixed-downgraded
 
+            # downgrade the bootstrap.php file too
+            -   run: php vendor/bin/rector process ecs-prefixed-downgraded/bootstrap.php --config packages/easy-coding-standard/build/config/config-downgrade.php --ansi
+
             # clone remote repository, so we can push it
             -
                 uses: "actions/checkout@v2"
@@ -73,7 +76,7 @@ jobs:
                     token: ${{ secrets.ACCESS_TOKEN }}
 
             # remove remote files, to avoid piling up dead code in remote repository
-            -   run: rm -rf remote-repository/bin remote-repository/config remote-repository/src remote-repository/packages remote-repository/vendor
+            -   run: rm -rf remote-repository/.github remote-repository/bin remote-repository/config remote-repository/src remote-repository/packages remote-repository/vendor
 
             # copy repository meta files
             -   run: cp -R ecs-prefixed-downgraded/. remote-repository
@@ -82,8 +85,9 @@ jobs:
             -
                 working-directory: remote-repository
                 run: |
-                    git config user.email "tomas.vot@gmail.com"
-                    git config user.name "Tomas Votruba"
+
+                    git config user.email "action@github.com"
+                    git config user.name "GitHub Action"
 
             # 7. commit metadata
             -

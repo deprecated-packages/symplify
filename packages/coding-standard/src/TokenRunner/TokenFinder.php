@@ -66,7 +66,7 @@ final class TokenFinder
     {
         $lastToken = null;
         $rawTokensCount = count($rawTokens);
-        for ($i = $position; $i < $rawTokensCount; ++ $i) {
+        for ($i = $position; $i < $rawTokensCount; ++$i) {
             $token = $rawTokens[$i];
 
             if (is_array($token) && Strings::contains($token[1], PHP_EOL)) {

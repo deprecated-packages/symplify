@@ -7,9 +7,11 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\UnionType;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,13 +27,19 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use non-dynamic property on static calls or class const fetches';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @var StaticCallNodeAnalyzer
      */
     private $staticCallNodeAnalyzer;
 
-    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer)
+    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer, SimpleNameResolver $simpleNameResolver)
     {
         $this->staticCallNodeAnalyzer = $staticCallNodeAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -53,6 +61,10 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
         }
 
         if ($this->staticCallNodeAnalyzer->isAbstractMethodStaticCall($node, $scope)) {
+            return [];
+        }
+
+        if ($node->name instanceof Identifier && $this->simpleNameResolver->isName($node->name, 'class')) {
             return [];
         }
 

@@ -44,7 +44,7 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoModifyAndReturnSelfObjectRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

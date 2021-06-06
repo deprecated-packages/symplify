@@ -108,7 +108,7 @@ CODE_SAMPLE
         ]);
     }
 
-    public function configure(?array $configuration = null): void
+    public function configure(array $configuration): void
     {
         $this->keyword = $configuration[self::KEYWORD] ?? self::DEFAULT_KEYWORD;
     }

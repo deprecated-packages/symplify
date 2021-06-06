@@ -26,6 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
                 'Nette\Application\UI\Template',
+                'Nette\DI\Attributes\Inject',
                 'Nette\Bridges\ApplicationLatte\Template',
                 'Nette\Bridges\ApplicationLatte\DefaultTemplate',
             ],
@@ -75,6 +76,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/templates',
+        __DIR__ . '/packages/easy-coding-standard/build/build-preload.php',
 
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',

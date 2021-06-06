@@ -19,7 +19,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 - [Coding Standard](https://github.com/symplify/coding-standard)
-- [Easy Coding Standard Tester](https://github.com/symplify/easy-coding-standard-tester)
 - [Simple PHP Doc Parser](https://github.com/symplify/simple-php-doc-parser)
 
 ## For Symfony
@@ -39,7 +38,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For CLI App Developers
 
-- [Set Config Resolver](https://github.com/symplify/set-config-resolver)
 - [Console Color Diff](https://github.com/symplify/console-color-diff)
 - [Console Package Builder](https://github.com/symplify/console-package-builder)
 
@@ -57,7 +55,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Astral](https://github.com/symplify/astral)
 - [PHPStan Rules](https://github.com/symplify/phpstan-rules)
 - [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
-- [PHPStan PHP Config](https://github.com/symplify/phpstan-php-config)
 
 ## For CI Keeping you Safe
 

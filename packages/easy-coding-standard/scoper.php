@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Nette\Utils\Strings;
+use Symplify\EasyCodingStandard\Application\VersionResolver;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -36,8 +37,8 @@ return [
         'Symplify\CodingStandard\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
+        // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
-        'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
     ],
     'patchers' => [
         // unprefix polyfill functions
@@ -107,6 +108,42 @@ return [
             }
 
             return $content;
+        },
+
+        // fixes https://github.com/symplify/symplify/issues/3205
+        function (string $filePath, string $prefix, string $content): string {
+            if (! Strings::endsWith($filePath, 'src/Testing/AbstractKernelTestCase.php')) {
+                return $content;
+            }
+
+            return Strings::replace(
+                $content,
+                $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                'PHPUnit\Framework\TestCase'
+            );
+        },
+
+        // add static versions constant values
+        function (string $filePath, string $prefix, string $content): string {
+            if (! Strings::endsWith($filePath, 'src/Application/VersionResolver.php')) {
+                return $content;
+            }
+
+            $releaseDateTime = VersionResolver::resolverReleaseDateTime();
+
+            return strtr($content, [
+                '@package_version@' => VersionResolver::resolvePackageVersion(),
+                '@release_date@' => $releaseDateTime->format('Y-m-d H:i:s'),
+            ]);
+        },
+
+        // unprefixed ContainerConfigurator
+        function (string $filePath, string $prefix, string $content): string {
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
+                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+            );
         },
     ],
 ];

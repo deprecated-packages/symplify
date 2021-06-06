@@ -45,6 +45,9 @@ ls -l $RESULT_DIRECTORY
 note "Dumping Composer Autoload"
 composer dump-autoload --working-dir "$RESULT_DIRECTORY" --ansi --classmap-authoritative --no-dev
 
+# Preload local downgraded files over project ones
+php "$BUILD_DIRECTORY/build/build-preload.php" $RESULT_DIRECTORY
+
 # make bin/ecs runnable without "php"
 chmod 777 "$RESULT_DIRECTORY/bin/ecs"
 chmod 777 "$RESULT_DIRECTORY/bin/ecs.php"

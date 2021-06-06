@@ -10,6 +10,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule;
 
 /**
+ * @requires PHP 8.0
  * @extends AbstractServiceAwareRuleTestCase<NoNetteInjectAndConstructorRule>
  */
 final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRuleTestCase
@@ -32,6 +33,10 @@ final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRule
             [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 7],
         ]];
 
+        yield [__DIR__ . '/Fixture/InjectAttributePropertyAndConstructor.php', [
+            [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 9],
+        ]];
+
         yield [__DIR__ . '/Fixture/InjectPropertyAndConstructor.php', [
             [NoNetteInjectAndConstructorRule::ERROR_MESSAGE, 7],
         ]];
@@ -41,7 +46,7 @@ final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoNetteInjectAndConstructorRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

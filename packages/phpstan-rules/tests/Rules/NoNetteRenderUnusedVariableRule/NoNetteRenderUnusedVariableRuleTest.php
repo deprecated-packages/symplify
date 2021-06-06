@@ -36,7 +36,7 @@ final class NoNetteRenderUnusedVariableRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoNetteRenderUnusedVariableRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -42,6 +42,6 @@ final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoDynamicNameRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
+        return $this->getRuleFromConfig(NoDynamicNameRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

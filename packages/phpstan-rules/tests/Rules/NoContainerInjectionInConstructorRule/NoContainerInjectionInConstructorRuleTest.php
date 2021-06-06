@@ -37,7 +37,7 @@ final class NoContainerInjectionInConstructorRuleTest extends AbstractServiceAwa
     {
         return $this->getRuleFromConfig(
             NoContainerInjectionInConstructorRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

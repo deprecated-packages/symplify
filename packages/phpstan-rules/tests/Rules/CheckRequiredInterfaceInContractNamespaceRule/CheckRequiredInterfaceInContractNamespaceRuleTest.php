@@ -35,7 +35,7 @@ final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractSe
     {
         return $this->getRuleFromConfig(
             CheckRequiredInterfaceInContractNamespaceRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

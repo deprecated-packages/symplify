@@ -37,7 +37,7 @@ final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             RegexSuffixInRegexConstantRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

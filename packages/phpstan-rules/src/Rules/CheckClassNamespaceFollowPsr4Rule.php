@@ -131,7 +131,7 @@ CODE_SAMPLE
 
     private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
     {
-        return Strings::substring($className, 0, - strlen($shortClassName));
+        return Strings::substring($className, 0, -strlen($shortClassName));
     }
 
     private function resolveNamespaceBeforeClass(ClassLike $classLike): ?string

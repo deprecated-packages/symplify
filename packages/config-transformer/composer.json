@@ -33,6 +33,10 @@
             "Symplify\\ConfigTransformer\\Tests\\": "tests"
         }
     },
+    "config": {
+        "sort-packages": true,
+        "platform-check": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

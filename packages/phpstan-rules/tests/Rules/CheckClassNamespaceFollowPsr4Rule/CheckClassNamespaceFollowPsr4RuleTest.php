@@ -49,7 +49,7 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
     {
         return $this->getRuleFromConfig(
             CheckClassNamespaceFollowPsr4Rule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -33,7 +33,7 @@ final class ForbiddenAnonymousClassRuleTest extends AbstractServiceAwareRuleTest
     {
         return $this->getRuleFromConfig(
             ForbiddenAnonymousClassRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

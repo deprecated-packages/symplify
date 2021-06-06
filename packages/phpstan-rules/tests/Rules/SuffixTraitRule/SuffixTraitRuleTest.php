@@ -33,6 +33,6 @@ final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SuffixTraitRule::class, __DIR__ . '/../../../config/symplify-rules.neon');
+        return $this->getRuleFromConfig(SuffixTraitRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

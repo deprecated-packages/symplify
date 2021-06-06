@@ -3,6 +3,7 @@ includes:
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
     - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/config/services/services.neon
 
 services:
     -
@@ -49,7 +50,7 @@ parameters:
 
     parallel:
         # to prevent full thread lagging pc
-        maximumNumberOfProcesses: 7
+        maximumNumberOfProcesses: 15
 
     paths:
         - packages
@@ -57,6 +58,8 @@ parameters:
         - rector.php
 
     excludes_analyse:
+        - packages/easy-coding-standard/build/target-repository/bootstrap.php
+        - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
@@ -151,7 +154,6 @@ parameters:
                 # yaml
                 - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
 
-                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
@@ -245,7 +247,6 @@ parameters:
             paths:
                 - packages/easy-coding-standard/src/Configuration.php # 214
                 - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
-                - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
 
         -
@@ -419,8 +420,6 @@ parameters:
             message: '#Do not inherit from abstract class, better use composition#'
             paths:
                 - packages/git-wrapper/src
-                - packages/set-config-resolver/src/ConfigResolver.php
-                - packages/set-config-resolver/src/SetAwareConfigResolver.php
 
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
@@ -552,3 +551,30 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/scoper.php
+
+        # Symfony 5.3 news
+        -
+            message: '#Removing parent param type is forbidden#'
+            path: *FileLoader.php
+
+        -
+            message: '#Method parameters must be compatible with its parent#'
+            path: *FileLoader.php
+
+        -
+            message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
+            path: packages/easy-coding-standard/build/build-preload.php
+
+        # this class is used by scoper, so better use less external deps
+        -
+            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
+            path: packages/easy-coding-standard/src/Application/VersionResolver.php
+
+        -
+            message: '#Nested foreach with empty statement is not allowed#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+
+
+        -
+            message: '#Class cognitive complexity is 29, keep it under 25#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php

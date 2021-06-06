@@ -37,7 +37,7 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
     {
         return $this->getRuleFromConfig(
             CheckRequiredMethodNamingRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

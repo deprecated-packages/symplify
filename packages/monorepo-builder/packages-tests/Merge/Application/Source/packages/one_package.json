@@ -15,12 +15,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\SetConfigResolver\\": "src"
+            "Symplify\\OnePackage\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\SetConfigResolver\\Tests\\": "tests"
+            "Symplify\\OnePackage\\Tests\\": "tests"
         }
     },
     "extra": {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -47,6 +49,12 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->name, 'getRepository')) {
+            return [];
+        }
+
+        $callerType = $scope->getType($node->var);
+        $entityManagerObjectType = new ObjectType(EntityManagerInterface::class);
+        if (! $entityManagerObjectType->isSuperTypeOf($callerType)->yes()) {
             return [];
         }
 

@@ -5,21 +5,100 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette;
 
 use Nette\Utils\Strings;
-use PhpParser\Node;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
+use PhpParser\NodeFinder;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\Php\PhpPropertyReflection;
+use PHPStan\Reflection\PropertyReflection;
+use ReflectionClass;
+use ReflectionMethod;
+use Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector;
+use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\PHPStanRules\Reflection\Parser\ReflectionParser;
+use Symplify\PHPStanRules\Reflection\PropertyAnalyzer;
 
 final class NetteInjectAnalyzer
 {
     /**
-     * @var BarePhpDocParser
+     * @var string
      */
-    private $barePhpDocParser;
+    private const INJECT = '@inject';
 
-    public function __construct(BarePhpDocParser $barePhpDocParser)
+    /**
+     * @var PropertyAnalyzer
+     */
+    private $propertyAnalyzer;
+
+    /**
+     * @var AnnotationAttributeDetector
+     */
+    private $annotationAttributeDetector;
+
+    /**
+     * @var ReflectionParser
+     */
+    private $reflectionParser;
+
+    /**
+     * @var NodeFinder
+     */
+    private $nodeFinder;
+
+    /**
+     * @var NodeComparator
+     */
+    private $nodeComparator;
+
+    public function __construct(
+        PropertyAnalyzer $propertyAnalyzer,
+        AnnotationAttributeDetector $annotationAttributeDetector,
+        ReflectionParser $reflectionParser,
+        NodeFinder $nodeFinder,
+        NodeComparator $nodeComparator
+    ) {
+        $this->propertyAnalyzer = $propertyAnalyzer;
+        $this->annotationAttributeDetector = $annotationAttributeDetector;
+        $this->reflectionParser = $reflectionParser;
+        $this->nodeFinder = $nodeFinder;
+        $this->nodeComparator = $nodeComparator;
+    }
+
+    public function isParentInjectPropertyFetch(PropertyFetch $propertyFetch, Scope $scope): bool
     {
-        $this->barePhpDocParser = $barePhpDocParser;
+        $propertyReflection = $this->propertyAnalyzer->matchPropertyReflection($propertyFetch, $scope);
+
+        if (! $propertyReflection instanceof PropertyReflection) {
+            return false;
+        }
+
+        if ($this->hasPropertyReflectionInjectAnnotationAttribute($propertyReflection)) {
+            return true;
+        }
+
+        $declaringClassReflection = $propertyReflection->getDeclaringClass();
+
+        $currentClassReflection = $scope->getClassReflection();
+        if (! $currentClassReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        // is defined in another class
+        foreach ($declaringClassReflection->getAncestors() as $ancestorClassReflection) {
+            if ($currentClassReflection->getName() === $ancestorClassReflection->getName()) {
+                continue;
+            }
+
+            $nativeClassReflection = $ancestorClassReflection->getNativeReflection();
+            if ($this->isPropertyInjectedInClassMethod($nativeClassReflection, $propertyFetch)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function isInjectProperty(Property $property): bool
@@ -28,7 +107,11 @@ final class NetteInjectAnalyzer
             return false;
         }
 
-        return $this->hasInjectAnnotation($property);
+        return $this->annotationAttributeDetector->hasNodeAnnotationOrAttribute(
+            $property,
+            self::INJECT,
+            'Nette\DI\Attributes\Inject'
+        );
     }
 
     public function isInjectClassMethod(ClassMethod $classMethod): bool
@@ -42,14 +125,64 @@ final class NetteInjectAnalyzer
             return true;
         }
 
-        return $this->hasInjectAnnotation($classMethod);
+        return $this->annotationAttributeDetector->hasNodeAnnotationOrAttribute(
+            $classMethod,
+            self::INJECT,
+            'Nette\DI\Attributes\Inject'
+        );
     }
 
-    private function hasInjectAnnotation(Node $node): bool
+    private function hasPropertyReflectionInjectAnnotationAttribute(PropertyReflection $propertyReflection): bool
     {
-        $phpDocTagNodes = $this->barePhpDocParser->parseNodeToPhpDocTagNodes($node);
-        foreach ($phpDocTagNodes as $phpDocTagNode) {
-            if ($phpDocTagNode->name === '@inject') {
+        if (! $propertyReflection instanceof PhpPropertyReflection) {
+            return false;
+        }
+
+        $property = $this->reflectionParser->parsePropertyReflectionToProperty(
+            $propertyReflection->getNativeReflection()
+        );
+        if (! $property instanceof Property) {
+            return false;
+        }
+
+        return $this->isInjectProperty($property);
+    }
+
+    private function isPropertyInjectedInClassMethod(
+        ReflectionClass $reflectionClass,
+        PropertyFetch $propertyFetch
+    ): bool {
+        $publicNativeClassMethodReflections = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+        foreach ($publicNativeClassMethodReflections as $nativeMethodReflection) {
+            $classMethod = $this->reflectionParser->parseMethodReflectionToClassMethod($nativeMethodReflection);
+            if (! $classMethod instanceof ClassMethod) {
+                continue;
+            }
+
+            if ($this->isClassMethodInjectingCurrentProperty($classMethod, $propertyFetch)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isClassMethodInjectingCurrentProperty(ClassMethod $classMethod, PropertyFetch $propertyFetch): bool
+    {
+        if (! $this->isInjectClassMethod($classMethod)) {
+            return false;
+        }
+        /** @var Assign[] $assigns */
+        $assigns = $this->nodeFinder->findInstanceOf((array) $classMethod->stmts, Assign::class);
+        foreach ($assigns as $assign) {
+            if (! $assign->var instanceof PropertyFetch) {
+                continue;
+            }
+
+            /** @var PropertyFetch $injectedPropertyFetch */
+            $injectedPropertyFetch = $assign->var;
+
+            if ($this->nodeComparator->areNodesEqual($injectedPropertyFetch, $propertyFetch)) {
                 return true;
             }
         }

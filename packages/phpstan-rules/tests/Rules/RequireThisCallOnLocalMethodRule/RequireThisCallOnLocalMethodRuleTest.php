@@ -34,7 +34,7 @@ final class RequireThisCallOnLocalMethodRuleTest extends AbstractServiceAwareRul
     {
         return $this->getRuleFromConfig(
             RequireThisCallOnLocalMethodRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

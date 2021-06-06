@@ -1,4 +1,4 @@
-# 148 Rules Overview
+# 153 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -58,6 +58,49 @@ class SomeClass
     {
         return $this->age > 100;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckAttributteArgumentClassExistsRule
+
+Class was not found
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule`](../src/Rules/CheckAttributteArgumentClassExistsRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                SomeAttribute:
+                    - firstName
+```
+
+↓
+
+```php
+#[SomeAttribute(firstName: 'MissingClass::class')]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[SomeAttribute(firstName: ExistingClass::class)]
+class SomeClass
+{
 }
 ```
 
@@ -1109,6 +1152,49 @@ foreach (...) {
 
 <br>
 
+## ForbiddenAttributteArgumentRule
+
+Attribute key "%s" cannot be used
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule`](../src/Rules/ForbiddenAttributteArgumentRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                Entity:
+                    - repositoryClass
+```
+
+↓
+
+```php
+#[Entity(repositoryClass: SomeRepository::class)]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[Entity]
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenCallOnTypeRule
 
 Method call or Static Call on %s is not allowed
@@ -1598,6 +1684,54 @@ foreach ($fileErrors as $fileError) {
 
 <br>
 
+## ForbiddenNetteInjectOverrideRule
+
+Assign to already injected property is not allowed
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule`](../src/Rules/ForbiddenNetteInjectOverrideRule.php)
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+    public function __construct(AnotherType $anotherType)
+    {
+        $this->someType = $anotherType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenNewInMethodRule
 
 "new" in method `"%s->%s()"` is not allowed.
@@ -1839,6 +1973,48 @@ use PhpParser\Node;
 class SomeClass
 {
     public function run(): Node
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenParamTypeRemovalRule
+
+Removing parent param type is forbidden
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule`](../src/Rules/ForbiddenParamTypeRemovalRule.php)
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor($node)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor(Node $node)
     {
     }
 }
@@ -3427,7 +3603,7 @@ class SomeClass extends Presenter
 
 ## NoNetteInjectAndConstructorRule
 
-Use either `__construct()` or injects, not both
+Use either `__construct()` or @inject, not both together
 
 - class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
 
@@ -3995,7 +4171,7 @@ final class SomeClass
 
 ## NoSuffixValueObjectClassRule
 
-Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".
+Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".
 
 - class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
 
@@ -4050,6 +4226,38 @@ trait SomeTrait
 class SomeService
 {
     public function run(...)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoVoidGetterMethodRule
+
+Getter method must return something, not void
+
+- class: [`Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule`](../src/Rules/NoVoidGetterMethodRule.php)
+
+```php
+final class SomeClass
+{
+    public function getData(): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function getData(): array
     {
     }
 }

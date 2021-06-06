@@ -36,7 +36,7 @@ final class NoFuncCallInMethodCallRuleTest extends AbstractServiceAwareRuleTestC
     {
         return $this->getRuleFromConfig(
             NoFuncCallInMethodCallRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

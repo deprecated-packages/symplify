@@ -74,7 +74,7 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
             return [];
         }
 
-        if (count($node->params) !== 0) {
+        if ($node->params !== []) {
             return [];
         }
 
