@@ -34,9 +34,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\EasyCodingStandard\\', __DIR__ . '/../src')
         ->exclude([
-            // onyl for "bin/ecs" file, where containre does not exist yet
+            // only for "bin/ecs" file, where container does not exist yet
             __DIR__ . '/../src/Bundle',
             __DIR__ . '/../src/Bootstrap',
+            __DIR__ . '/../src/Caching/JsonFile',
             __DIR__ . '/../src/DependencyInjection',
             __DIR__ . '/../src/HttpKernel',
             __DIR__ . '/../src/Exception',

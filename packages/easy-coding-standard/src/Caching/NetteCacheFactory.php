@@ -6,7 +6,6 @@ namespace Symplify\EasyCodingStandard\Caching;
 
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
-use Nette\Caching\Storages\SQLiteJournal;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -39,8 +38,8 @@ final class NetteCacheFactory
         }
 
         // journal is needed for tags support
-        $sqLiteJournal = new SQLiteJournal($cacheDirectory . '/_tags_journal');
-        $fileStorage = new FileStorage($cacheDirectory, $sqLiteJournal);
+        $journal = new JsonFileJournal($cacheDirectory . '/journal.json');
+        $fileStorage = new FileStorage($cacheDirectory, $journal);
 
         // namespace is unique per project
         $namespace = md5(getcwd());
