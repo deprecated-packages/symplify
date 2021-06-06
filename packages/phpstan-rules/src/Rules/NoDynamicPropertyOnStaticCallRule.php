@@ -26,9 +26,9 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use non-dynamic property on static calls or class const fetches';
 
     /**
-     * @var \Symplify\Astral\Naming\SimpleNameResolver|mixed
+     * @var SimpleNameResolver|mixed
      */
-    public $simpleNameResolver;
+    private $simpleNameResolver;
 
     /**
      * @var StaticCallNodeAnalyzer
