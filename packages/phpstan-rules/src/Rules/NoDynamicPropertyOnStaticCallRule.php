@@ -63,8 +63,7 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $name = $this->simpleNameResolver->getname($node->name);
-        if ($name === 'class') {
+        if ($this->simpleNameResolver->isName($node->name, 'class')) {
             return [];
         }
 
