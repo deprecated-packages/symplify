@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Caching;
 
-use Nette\Caching\Cache;
-use Nette\Caching\Storages\FileStorage;
+use Symplify\EasyCodingStandard\Caching\ValueObject\Storage\FileCacheStorage;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class NetteCacheFactory
+final class CacheFactory
 {
     /**
      * @var ParameterProvider
@@ -37,12 +36,8 @@ final class NetteCacheFactory
             $this->smartFileSystem->mkdir($cacheDirectory);
         }
 
-        // journal is needed for tags support
-        $jsonFileJournal = new JsonFileJournal($cacheDirectory . '/journal.json');
-        $fileStorage = new FileStorage($cacheDirectory, $jsonFileJournal);
+        $fileCacheStorage = new FileCacheStorage($cacheDirectory, $this->smartFileSystem);
 
-        // namespace is unique per project
-        $namespace = md5(getcwd());
-        return new Cache($fileStorage, $namespace);
+        return new Cache($fileCacheStorage);
     }
 }

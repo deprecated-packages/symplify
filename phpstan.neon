@@ -586,3 +586,8 @@ parameters:
         -
             message: '#Removing parent param type is forbidden#'
             path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
+        -
+            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
+            path: packages/easy-coding-standard/packages/Caching/ValueObject/Storage/FileCacheStorage.php
