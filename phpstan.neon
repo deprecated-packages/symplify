@@ -154,7 +154,6 @@ parameters:
                 # yaml
                 - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
 
-                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
@@ -248,7 +247,6 @@ parameters:
             paths:
                 - packages/easy-coding-standard/src/Configuration.php # 214
                 - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
-                - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
 
         -
