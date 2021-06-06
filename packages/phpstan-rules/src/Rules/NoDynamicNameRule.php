@@ -29,6 +29,11 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit names over dynamic ones';
 
     /**
+     * @var \Symplify\Astral\Naming\SimpleNameResolver|mixed
+     */
+    public $simpleNameResolver;
+
+    /**
      * @var CallableTypeAnalyzer
      */
     private $callableTypeAnalyzer;
