@@ -24,6 +24,9 @@ final class Php8Test extends AbstractServiceAwareRuleTestCase
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<string[]|array<int, mixed[]>>
+     */
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/FixturePhp8/SkipObjectClass.php', []];
