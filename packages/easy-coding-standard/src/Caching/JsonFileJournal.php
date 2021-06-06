@@ -61,13 +61,16 @@ final class JsonFileJournal implements Journal
         $this->lockingJsonFileAccessor->writeAndClose($this->dataContainer);
     }
 
+    /**
+     * @param array<string, mixed> $conditions
+     * @return mixed[]|null
+     */
     public function clean(array $conditions): ?array
     {
         $this->dataContainer = $this->lockingJsonFileAccessor->openAndRead();
 
         if (isset($conditions[Cache::ALL])) {
             $this->lockingJsonFileAccessor->writeAndClose(new DataContainer());
-
             return null;
         }
 
@@ -79,12 +82,6 @@ final class JsonFileJournal implements Journal
             $conditions[Cache::TAGS]
         ) : 0) > 0) {
             $keys += $tagManager->getKeysByTags($conditions[Cache::TAGS]);
-        }
-
-        if (isset($conditions[Cache::PRIORITY]) && (is_countable($conditions[Cache::PRIORITY]) ? count(
-            $conditions[Cache::PRIORITY]
-        ) : 0) > 0) {
-            $keys += $priorityManager->getKeysByPriority($conditions[Cache::PRIORITY]);
         }
 
         foreach ($keys as $key) {

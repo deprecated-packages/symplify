@@ -6,9 +6,6 @@
 name: Build Config Transformer Prefixed
 
 on:
-    # only to debug
-    pull_request: null
-
     push:
         branches:
             - main
