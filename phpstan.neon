@@ -50,7 +50,7 @@ parameters:
 
     parallel:
         # to prevent full thread lagging pc
-        maximumNumberOfProcesses: 7
+        maximumNumberOfProcesses: 15
 
     paths:
         - packages

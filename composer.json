@@ -9,6 +9,7 @@
         "composer/semver": "^3.2",
         "composer/xdebug-handler": "^2.0",
         "cweagans/composer-patches": "^1.7",
+        "danielstjules/stringy": "^3.1",
         "friendsofphp/php-cs-fixer": "^3.0",
         "j7mbo/twitter-api-php": "^1.0.6",
         "nette/caching": "^3.1",

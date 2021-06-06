@@ -8,8 +8,10 @@ use Nette\Utils\Strings;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
@@ -53,6 +55,9 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::IMPORTS;
     }
 
+    /**
+     * @param mixed|mixed[] $values
+     */
     public function convertToMethodCall($key, $values): Expression
     {
         if (is_array($values)) {
@@ -61,8 +66,11 @@ final class ImportCaseConverter implements CaseConverterInterface
                 'type' => null,
                 YamlKey::IGNORE_ERRORS => false,
             ]);
-
             return $this->createImportMethodCall($arguments);
+        }
+
+        if (is_string($values)) {
+            return $this->createImportMethodCall([$values]);
         }
 
         throw new NotImplementedYetException();
@@ -82,14 +90,14 @@ final class ImportCaseConverter implements CaseConverterInterface
     }
 
     /**
-     * @param mixed[] $arguments
+     * @param array<int|string, mixed> $arguments
      * @return Arg[]
      */
     private function createArgs(array $arguments): array
     {
         $args = [];
         foreach ($arguments as $name => $value) {
-            if ($this->shouldSkipDefaultValue($name, $value, $arguments)) {
+            if (is_string($name) && $this->shouldSkipDefaultValue($name, $value, $arguments)) {
                 continue;
             }
 
@@ -144,6 +152,11 @@ final class ImportCaseConverter implements CaseConverterInterface
         }
         if ($value === 'not_found') {
             return new String_('not_found');
+        }
+
+        if (is_string($value) && Strings::contains($value, '::')) {
+            [$className, $constantName] = explode('::', $value);
+            return new ClassConstFetch(new FullyQualified($className), $constantName);
         }
 
         $value = $this->replaceImportedFileSuffix($value);

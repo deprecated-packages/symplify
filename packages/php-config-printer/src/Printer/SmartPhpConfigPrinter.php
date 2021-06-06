@@ -6,6 +6,7 @@ namespace Symplify\PhpConfigPrinter\Printer;
 
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\ArrayDecorator\ServiceConfigurationDecorator;
+use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 /**
  * @see \Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\SmartPhpConfigPrinterTest
@@ -52,7 +53,7 @@ final class SmartPhpConfigPrinter
         }
 
         $return = $this->configuratorReturnClosureFactory->createFromYamlArray([
-            'services' => $servicesWithConfigureCalls,
+            YamlKey::SERVICES => $servicesWithConfigureCalls,
         ]);
 
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
