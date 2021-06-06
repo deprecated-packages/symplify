@@ -55,7 +55,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Astral](https://github.com/symplify/astral)
 - [PHPStan Rules](https://github.com/symplify/phpstan-rules)
 - [PHPStan Extensions](https://github.com/symplify/phpstan-extensions)
-- [PHPStan PHP Config](https://github.com/symplify/phpstan-php-config)
 
 ## For CI Keeping you Safe
 
