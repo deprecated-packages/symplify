@@ -39,7 +39,7 @@ final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwar
     {
         return $this->getRuleFromConfig(
             InvokableControllerByRouteNamingRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

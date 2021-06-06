@@ -25,6 +25,7 @@ if (file_exists(__DIR__ . '/../preload.php')) {
 }
 
 $autoloadIncluder->includeCwdVendorAutoloadIfExists();
+$autoloadIncluder->loadIfNotLoadedYet(__DIR__ . '/../vendor/scoper-autoload.php');
 $autoloadIncluder->autoloadProjectAutoloaderFile('/../../autoload.php');
 $autoloadIncluder->includeDependencyOrRepositoryVendorAutoloadIfExists();
 $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
@@ -117,8 +118,12 @@ final class AutoloadIncluder
         new Tokens();
     }
 
-    private function loadIfNotLoadedYet(string $file): void
+    public function loadIfNotLoadedYet(string $file): void
     {
+        if (! file_exists($file)) {
+            return;
+        }
+
         if (in_array($file, $this->alreadyLoadedAutoloadFiles, true)) {
             return;
         }

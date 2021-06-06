@@ -39,7 +39,7 @@ final class Php80Test extends AbstractServiceAwareRuleTestCase
     {
         return $this->getRuleFromConfig(
             RequireInvokableControllerRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

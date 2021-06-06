@@ -37,9 +37,6 @@ final class ConstantMapRuleRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ConstantMapRuleRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(ConstantMapRuleRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

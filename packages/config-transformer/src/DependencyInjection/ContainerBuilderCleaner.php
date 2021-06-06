@@ -124,7 +124,7 @@ final class ContainerBuilderCleaner
 
     private function shouldSkipNameTagInlining(array $tagValues): bool
     {
-        if (count($tagValues) !== 0) {
+        if ($tagValues !== []) {
             return false;
         }
 

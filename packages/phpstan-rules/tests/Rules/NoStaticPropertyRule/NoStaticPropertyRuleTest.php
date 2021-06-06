@@ -46,9 +46,6 @@ final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoStaticPropertyRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoStaticPropertyRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

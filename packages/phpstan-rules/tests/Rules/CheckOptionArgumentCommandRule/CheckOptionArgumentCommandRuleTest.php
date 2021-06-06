@@ -48,7 +48,7 @@ final class CheckOptionArgumentCommandRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             CheckOptionArgumentCommandRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

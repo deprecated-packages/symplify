@@ -37,8 +37,8 @@ return [
         'Symplify\CodingStandard\*',
         'PhpCsFixer\*',
         'PHP_CodeSniffer\*',
+        // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
-        'Symfony\Component\DependencyInjection\Extension\ExtensionInterface',
     ],
     'patchers' => [
         // unprefix polyfill functions
@@ -135,6 +135,15 @@ return [
                 '@package_version@' => VersionResolver::resolvePackageVersion(),
                 '@release_date@' => $releaseDateTime->format('Y-m-d H:i:s'),
             ]);
+        },
+
+        // unprefixed ContainerConfigurator
+        function (string $filePath, string $prefix, string $content): string {
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
+                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+            );
         },
     ],
 ];

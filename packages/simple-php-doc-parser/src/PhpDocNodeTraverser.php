@@ -58,7 +58,7 @@ final class PhpDocNodeTraverser
         $subNodeNames = array_keys(get_object_vars($node));
 
         foreach ($subNodeNames as $subNodeName) {
-            $subNode = & $node->{$subNodeName};
+            $subNode = &$node->{$subNodeName};
 
             if (\is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);

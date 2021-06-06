@@ -36,7 +36,7 @@ final class ForbiddenArrayDestructRuleTest extends AbstractServiceAwareRuleTestC
     {
         return $this->getRuleFromConfig(
             ForbiddenArrayDestructRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -40,7 +40,7 @@ final class NoNetteRenderMissingVariableRuleTest extends AbstractServiceAwareRul
     {
         return $this->getRuleFromConfig(
             NoNetteRenderMissingVariableRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

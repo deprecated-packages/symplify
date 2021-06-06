@@ -40,7 +40,7 @@ final class ForbiddenMultipleClassLikeInOneFileRuleTest extends AbstractServiceA
     {
         return $this->getRuleFromConfig(
             ForbiddenMultipleClassLikeInOneFileRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -1,6 +1,3 @@
-includes:
-    - object-calisthenics-services.neon
-
 services:
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule

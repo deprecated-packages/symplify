@@ -37,7 +37,7 @@ final class Php80Test extends AbstractServiceAwareRuleTestCase
     {
         return $this->getRuleFromConfig(
             NoParentMethodCallOnEmptyStatementInParentMethodRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

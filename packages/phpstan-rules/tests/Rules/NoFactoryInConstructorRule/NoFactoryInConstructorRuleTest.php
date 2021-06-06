@@ -47,7 +47,7 @@ final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestC
     {
         return $this->getRuleFromConfig(
             NoFactoryInConstructorRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

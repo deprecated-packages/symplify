@@ -46,6 +46,9 @@ final class ContainerConfiguratorReturnClosureFactory
         $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
+    /**
+     * @param array<string, mixed[]> $arrayData
+     */
     public function createFromYamlArray(array $arrayData): Return_
     {
         $stmts = $this->createClosureStmts($arrayData);
@@ -64,7 +67,7 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @param mixed[] $yamlData
+     * @param array<string, mixed[]> $yamlData
      * @return Stmt[]
      */
     private function createNodesFromCaseConverters(array $yamlData): array

@@ -1,4 +1,4 @@
-# 151 Rules Overview
+# 153 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -58,6 +58,49 @@ class SomeClass
     {
         return $this->age > 100;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckAttributteArgumentClassExistsRule
+
+Class was not found
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule`](../src/Rules/CheckAttributteArgumentClassExistsRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                SomeAttribute:
+                    - firstName
+```
+
+↓
+
+```php
+#[SomeAttribute(firstName: 'MissingClass::class')]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[SomeAttribute(firstName: ExistingClass::class)]
+class SomeClass
+{
 }
 ```
 
@@ -1102,6 +1145,49 @@ $value = new SmartFileInfo('a.php');
 foreach (...) {
     if ($value) {
     }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenAttributteArgumentRule
+
+Attribute key "%s" cannot be used
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule`](../src/Rules/ForbiddenAttributteArgumentRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                Entity:
+                    - repositoryClass
+```
+
+↓
+
+```php
+#[Entity(repositoryClass: SomeRepository::class)]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[Entity]
+class SomeClass
+{
 }
 ```
 
@@ -4085,7 +4171,7 @@ final class SomeClass
 
 ## NoSuffixValueObjectClassRule
 
-Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".
+Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".
 
 - class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
 

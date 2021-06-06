@@ -40,7 +40,7 @@ final class NoUnusedNetteCreateComponentMethodRuleTest extends AbstractServiceAw
     {
         return $this->getRuleFromConfig(
             NoUnusedNetteCreateComponentMethodRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

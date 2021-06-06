@@ -21,7 +21,8 @@ final class ParentMethodResolver
         $parentClassLikeReflections = array_merge($classReflection->getParents(), $classReflection->getInterfaces());
 
         foreach ($parentClassLikeReflections as $parentClassLikeReflection) {
-            if (! $parentClassLikeReflection->hasMethod($methodName)) {
+            // this is needed, as PHPStan takes parent @method anontation as real method
+            if (! $parentClassLikeReflection->hasNativeMethod($methodName)) {
                 continue;
             }
 

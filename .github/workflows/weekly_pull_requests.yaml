@@ -24,6 +24,8 @@ jobs:
         name: ${{ matrix.actions.name }}
 
         runs-on: ubuntu-latest
+        # don't run this action on forks
+        if: github.event.pull_request.head.repo.full_name == github.repository
 
         steps:
             -

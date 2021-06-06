@@ -37,7 +37,7 @@ final class ForbiddenSpreadOperatorRuleTest extends AbstractServiceAwareRuleTest
     {
         return $this->getRuleFromConfig(
             ForbiddenSpreadOperatorRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

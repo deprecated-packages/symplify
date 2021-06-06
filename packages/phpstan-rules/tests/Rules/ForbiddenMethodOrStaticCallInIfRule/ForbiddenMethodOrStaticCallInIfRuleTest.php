@@ -47,7 +47,7 @@ final class ForbiddenMethodOrStaticCallInIfRuleTest extends AbstractServiceAware
     {
         return $this->getRuleFromConfig(
             ForbiddenMethodOrStaticCallInIfRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

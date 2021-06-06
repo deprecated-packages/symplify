@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Tests\Issues;
 
 use Iterator;
-use Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase;
+use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class InlineArrayTest extends AbstractCheckerTestCase

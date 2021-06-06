@@ -47,7 +47,7 @@ final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             NoDuplicatedShortClassNameRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }
