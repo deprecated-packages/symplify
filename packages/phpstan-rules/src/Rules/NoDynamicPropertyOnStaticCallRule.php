@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\UnionType;
@@ -63,7 +64,7 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($node->name instanceof Node && $this->simpleNameResolver->isName($node->name, 'class')) {
+        if ($node->name instanceof Identifier && $this->simpleNameResolver->isName($node->name, 'class')) {
             return [];
         }
 

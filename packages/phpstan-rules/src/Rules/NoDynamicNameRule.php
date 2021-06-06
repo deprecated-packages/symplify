@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer;
@@ -70,7 +71,7 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
                 return [];
             }
 
-            if ($node->name instanceof Node && $this->simpleNameResolver->isName($node->name, 'class')) {
+            if ($node->name instanceof Identifier && $this->simpleNameResolver->isName($node->name, 'class')) {
                 return [];
             }
 
