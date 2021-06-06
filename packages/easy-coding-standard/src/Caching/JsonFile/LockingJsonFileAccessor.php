@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Caching\JsonFile;
 
+use Nette\Utils\JsonException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symplify\EasyCodingStandard\Caching\Journal\DataContainer;
 
-class LockingJsonFileAccessor
+final class LockingJsonFileAccessor
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $filePath;
 
-    /** @var resource|null */
-    private $fileResource = null;
+    /**
+     * @var resource|null
+     */
+    private $fileResource;
 
     public function __construct(string $filePath)
     {
@@ -31,27 +36,26 @@ class LockingJsonFileAccessor
     }
 
     /**
-     * @return DataContainer
-     * @throws \Nette\Utils\JsonException
+     * @throws JsonException
      */
     public function openAndRead(): DataContainer
     {
         if ($this->fileResource === null) {
             $this->fileResource = fopen($this->filePath, 'r+') ?: null;
             if ($this->fileResource === null) {
-                throw new IOException("Failed to open file '$this->filePath' for reading & writing");
+                throw new IOException(sprintf("Failed to open file '%s' for reading & writing", $this->filePath));
             }
 
             $result = flock($this->fileResource, LOCK_EX | LOCK_NB);
-            if ($result === false) {
-                throw new IOException("Failed to acquire exclusive lock on the file '{$this->filePath}'");
+            if (! $result) {
+                throw new IOException(sprintf("Failed to acquire exclusive lock on the file '%s'", $this->filePath));
             }
         }
 
         $filesize = (int) filesize($this->filePath);
         $rawData = fread($this->fileResource, $filesize);
         if ($rawData === false) {
-            throw new IOException("Could not read contents from the file '{$this->filePath}'");
+            throw new IOException(sprintf("Could not read contents from the file '%s'", $this->filePath));
         }
 
         return DataContainer::fromJson($rawData);
@@ -60,40 +64,45 @@ class LockingJsonFileAccessor
     public function writeAndClose(DataContainer $dataContainer): void
     {
         if ($this->fileResource === null) {
-            throw new IOException("Trying to write file without first reading it");
+            throw new IOException('Trying to write file without first reading it');
         }
 
         $rawData = $dataContainer->toJson();
 
         $byteLength = mb_strlen($rawData, '8bit');
         $result = ftruncate($this->fileResource, $byteLength);
-        if ($result === false) {
-            throw new IOException("Could not truncate the contents of file '$this->filePath' before writing new data to it");
+        if (! $result) {
+            throw new IOException(
+                sprintf("Could not truncate the contents of file '%s' before writing new data to it", $this->filePath)
+            );
         }
 
         $result = fseek($this->fileResource, 0);
         if ($result === -1) {
-            throw new IOException("Could set the pointer to the beginning of the file '$this->filePath'");
+            throw new IOException(sprintf(
+                "Could set the pointer to the beginning of the file '%s'",
+                $this->filePath
+            ));
         }
 
         $result = fwrite($this->fileResource, $rawData);
         if ($result === false) {
-            throw new IOException("Could not write contents into file '$this->filePath'");
+            throw new IOException(sprintf("Could not write contents into file '%s'", $this->filePath));
         }
 
         $result = flock($this->fileResource, LOCK_UN);
-        if ($result === false) {
-            throw new IOException("Failed to release lock on file '{$this->filePath}'");
+        if (! $result) {
+            throw new IOException(sprintf("Failed to release lock on file '%s'", $this->filePath));
         }
 
         $result = fflush($this->fileResource);
-        if ($result === false) {
-            throw new IOException("Failed to flush written data to file '{$this->filePath}'");
+        if (! $result) {
+            throw new IOException(sprintf("Failed to flush written data to file '%s'", $this->filePath));
         }
 
         $result = fclose($this->fileResource);
-        if ($result === false) {
-            throw new IOException("Failed to close file '{$this->filePath}'");
+        if (! $result) {
+            throw new IOException(sprintf("Failed to close file '%s'", $this->filePath));
         }
 
         $this->fileResource = null;

@@ -1,0 +1,11 @@
+{
+    "name": "symplify/config-transformer",
+    "description": "Prefixed version of Symfony YAML/XML to PHP/YAML config converter",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1"
+    },
+    "bin": [
+        "bin/config-transformer"
+    ]
+}

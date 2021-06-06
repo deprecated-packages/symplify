@@ -6,42 +6,65 @@ namespace Symplify\EasyCodingStandard\Caching\Journal;
 
 use Nette\Utils\Json;
 
-class DataContainer
+final class DataContainer
 {
-    /** @var mixed[] */
+    /**
+     * @var string
+     */
+    private const TAGS = 'tags';
+
+    /**
+     * @var string
+     */
+    private const BY_KEY = 'by-key';
+
+    /**
+     * @var string
+     */
+    private const PRIORITIES = 'priorities';
+
+    /**
+     * @var mixed[]
+     */
     public $tagsByKey = [];
 
-    /** @var array[] */
+    /**
+     * @var array[]
+     */
     public $keysByTag = [];
 
-    /** @var int[] */
+    /**
+     * @var int[]
+     */
     public $prioritiesByKey = [];
 
-    /** @var array[] */
+    /**
+     * @var array[]
+     */
     public $keysByPriority = [];
 
     public static function fromJson(string $jsonString): self
     {
         $data = Json::decode($jsonString, Json::FORCE_ARRAY);
 
-        $instance = new self();
-        $instance->tagsByKey = $data['tags']['by-key'];
-        $instance->keysByTag = $data['tags']['by-tag'];
-        $instance->prioritiesByKey = $data['priorities']['by-key'];
-        $instance->keysByPriority = $data['priorities']['by-priority'];
+        $self = new self();
+        $self->tagsByKey = $data[self::TAGS][self::BY_KEY];
+        $self->keysByTag = $data[self::TAGS]['by-tag'];
+        $self->prioritiesByKey = $data[self::PRIORITIES][self::BY_KEY];
+        $self->keysByPriority = $data[self::PRIORITIES]['by-priority'];
 
-        return $instance;
+        return $self;
     }
 
     public function toJson(): string
     {
         return Json::encode([
-            'tags' => [
-                'by-key' => $this->tagsByKey,
+            self::TAGS => [
+                self::BY_KEY => $this->tagsByKey,
                 'by-tag' => $this->keysByTag,
             ],
-            'priorities' => [
-                'by-key' => $this->prioritiesByKey,
+            self::PRIORITIES => [
+                self::BY_KEY => $this->prioritiesByKey,
                 'by-priority' => $this->keysByPriority,
             ],
         ]);

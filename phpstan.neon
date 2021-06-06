@@ -58,6 +58,8 @@ parameters:
         - rector.php
 
     excludes_analyse:
+        - */scoper.php
+
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
@@ -163,9 +165,6 @@ parameters:
         -
             message: '#Use value object over return of values#'
             paths:
-                # php scoper config array
-                - */scoper.inc.php
-
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 - packages/config-transformer/src/Configuration/Configuration.php
@@ -578,3 +577,12 @@ parameters:
         -
             message: '#Class cognitive complexity is 29, keep it under 25#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+
+        # symfony 5.3 news
+        -
+            message: '#Method parameters must be compatible with its parent#'
+            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        -
+            message: '#Removing parent param type is forbidden#'
+            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php

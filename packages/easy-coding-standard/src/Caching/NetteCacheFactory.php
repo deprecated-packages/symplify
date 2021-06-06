@@ -38,8 +38,8 @@ final class NetteCacheFactory
         }
 
         // journal is needed for tags support
-        $journal = new JsonFileJournal($cacheDirectory . '/journal.json');
-        $fileStorage = new FileStorage($cacheDirectory, $journal);
+        $jsonFileJournal = new JsonFileJournal($cacheDirectory . '/journal.json');
+        $fileStorage = new FileStorage($cacheDirectory, $jsonFileJournal);
 
         // namespace is unique per project
         $namespace = md5(getcwd());
