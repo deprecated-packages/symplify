@@ -59,6 +59,7 @@ parameters:
 
     excludes_analyse:
         - */scoper.php
+        - *scoper.inc.php
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
@@ -589,3 +590,13 @@ parameters:
 
         # reoslve later
         - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            paths:
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+
+        -
+            message: '#Parameter "(.*?)" cannot be nullable#'
+            paths:
+                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer
