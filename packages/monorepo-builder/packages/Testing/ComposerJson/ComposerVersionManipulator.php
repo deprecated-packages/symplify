@@ -32,7 +32,7 @@ final class ComposerVersionManipulator
      * @param string[] $usedPackageNames
      * @return mixed[]
      */
-    public function setAsteriskVersionForUsedPackages(array $packageComposerJson, array $usedPackageNames): array
+    public function decorateAsteriskVersionForUsedPackages(array $packageComposerJson, array $usedPackageNames): array
     {
         foreach ([ComposerJsonSection::REQUIRE, ComposerJsonSection::REQUIRE_DEV] as $section) {
             foreach ($usedPackageNames as $usedPackageName) {

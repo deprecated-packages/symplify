@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
@@ -17,14 +17,20 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoVoidGetterMethodRule\NoVoidGetterMethodRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoReturnSetterMethodRule\NoReturnSetterMethodRuleTest
  */
-final class NoVoidGetterMethodRule extends AbstractSymplifyRule
+final class NoReturnSetterMethodRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Getter method must return something, not void';
+    public const ERROR_MESSAGE = 'Setter method cannot return anything, only set value';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/IIvg8L/1
+     */
+    private const SETTER_START_REGEX = '#^set[A-Z]#';
 
     /**
      * @var SimpleNameResolver
@@ -65,11 +71,20 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->simpleNameResolver->isName($node, 'get*')) {
+        $classMethodName = $this->simpleNameResolver->getName($node);
+        if ($classMethodName === null) {
             return [];
         }
 
-        if (! $this->isVoidReturnClassMethod($node)) {
+        if ($classMethodName === 'setUp') {
+            return [];
+        }
+
+        if (! Strings::match($classMethodName, self::SETTER_START_REGEX)) {
+            return [];
+        }
+
+        if (! $this->hasReturnReturnFunctionLike($node)) {
             return [];
         }
 
@@ -83,8 +98,11 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    public function getData(): void
+    private $name;
+
+    public function setName(string $name)
     {
+        return 1000;
     }
 }
 CODE_SAMPLE
@@ -92,8 +110,11 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    public function getData(): array
+    private $name;
+
+    public function setName(string $name): void
     {
+        $this->name = $name;
     }
 }
 CODE_SAMPLE
@@ -101,27 +122,16 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isVoidReturnClassMethod(ClassMethod $classMethod): bool
+    private function hasReturnReturnFunctionLike(ClassMethod $classMethod): bool
     {
-        if ($this->hasClassMethodVoidReturnType($classMethod)) {
-            return true;
+        /** @var Return_[] $returns */
+        $returns = $this->simpleNodeFinder->findByType($classMethod, Return_::class);
+        foreach ($returns as $return) {
+            if ($return->expr !== null) {
+                return true;
+            }
         }
 
-        return ! $this->simpleNodeFinder->hasByTypes($classMethod, [
-            Return_::class,
-            Yield_::class,
-            // possibly unneded contract override
-            Throw_::class,
-            Node\Stmt\Throw_::class,
-        ]);
-    }
-
-    private function hasClassMethodVoidReturnType(ClassMethod $classMethod): bool
-    {
-        if ($classMethod->returnType === null) {
-            return false;
-        }
-
-        return $this->simpleNameResolver->isName($classMethod->returnType, 'void');
+        return $this->simpleNodeFinder->hasByTypes($classMethod, [Yield_::class]);
     }
 }
