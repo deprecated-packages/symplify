@@ -29,7 +29,7 @@ final class Php8Test extends AbstractServiceAwareRuleTestCase
      */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/FixturePhp8/SkipObjectClass.php', []];
+        yield [__DIR__ . '/FixturePhp8/SkipObjectClassOnPhp8.php', []];
     }
 
     protected function getRule(): Rule

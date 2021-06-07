@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\ChangedFilesDetector;
+namespace Symplify\EasyCodingStandard\Caching;
 
-use Nette\Caching\Cache;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -15,12 +14,12 @@ final class ChangedFilesDetector
     /**
      * @var string
      */
-    private const CHANGED_FILES_CACHE_TAG = 'changed_files';
+    private const CONFIGURATION_HASH_KEY = 'configuration_hash';
 
     /**
      * @var string
      */
-    private const CONFIGURATION_HASH_KEY = 'configuration_hash';
+    private const FILE_HASH = 'file_hash';
 
     /**
      * @var FileHashComputer
@@ -49,17 +48,14 @@ final class ChangedFilesDetector
     public function addFileInfo(SmartFileInfo $smartFileInfo): void
     {
         $cacheKey = $this->fileInfoToKey($smartFileInfo);
-
         $currentValue = $this->fileHashComputer->compute($smartFileInfo->getRealPath());
-        $this->cache->save($cacheKey, $currentValue, [
-            Cache::TAGS => [self::CHANGED_FILES_CACHE_TAG],
-        ]);
+        $this->cache->save($cacheKey, self::FILE_HASH, $currentValue);
     }
 
     public function invalidateFileInfo(SmartFileInfo $smartFileInfo): void
     {
         $cacheKey = $this->fileInfoToKey($smartFileInfo);
-        $this->cache->remove($cacheKey);
+        $this->cache->clean($cacheKey);
     }
 
     public function hasFileInfoChanged(SmartFileInfo $smartFileInfo): bool
@@ -67,7 +63,7 @@ final class ChangedFilesDetector
         $newFileHash = $this->fileHashComputer->compute($smartFileInfo->getRealPath());
 
         $cacheKey = $this->fileInfoToKey($smartFileInfo);
-        $cachedValue = $this->cache->load($cacheKey);
+        $cachedValue = $this->cache->load($cacheKey, self::FILE_HASH);
 
         return $newFileHash !== $cachedValue;
     }
@@ -75,9 +71,7 @@ final class ChangedFilesDetector
     public function clearCache(): void
     {
         // clear cache only for changed files group
-        $this->cache->clean([
-            Cache::TAGS => [self::CHANGED_FILES_CACHE_TAG],
-        ]);
+        $this->cache->clear();
     }
 
     /**
@@ -100,7 +94,7 @@ final class ChangedFilesDetector
     private function storeConfigurationDataHash(string $configurationHash): void
     {
         $this->invalidateCacheIfConfigurationChanged($configurationHash);
-        $this->cache->save(self::CONFIGURATION_HASH_KEY, $configurationHash);
+        $this->cache->save(self::CONFIGURATION_HASH_KEY, self::FILE_HASH, $configurationHash);
     }
 
     private function fileInfoToKey(SmartFileInfo $smartFileInfo): string
@@ -110,7 +104,7 @@ final class ChangedFilesDetector
 
     private function invalidateCacheIfConfigurationChanged(string $configurationHash): void
     {
-        $cachedValue = $this->cache->load(self::CONFIGURATION_HASH_KEY);
+        $cachedValue = $this->cache->load(self::CONFIGURATION_HASH_KEY, self::FILE_HASH);
         if ($configurationHash === $cachedValue) {
             return;
         }

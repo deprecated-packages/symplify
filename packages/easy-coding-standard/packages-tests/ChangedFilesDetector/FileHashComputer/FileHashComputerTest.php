@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\ChangedFilesDetector\FileHashComputer;
 
-use Symplify\EasyCodingStandard\ChangedFilesDetector\FileHashComputer;
+use Symplify\EasyCodingStandard\Caching\FileHashComputer;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;

@@ -17,30 +17,29 @@ use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Source\Alre
 final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
+     * @param string[] $filePaths
      * @dataProvider provideData()
      * @param array<string|int> $expectedErrorMessagesWithLines
      */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
+    public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void
     {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
+        $this->analyse($filePaths, $expectedErrorMessagesWithLines);
     }
 
     /**
-     * @return Iterator<array<string|int[]|string[]>>
+     * @return Iterator<int, mixed[]>
      */
     public function provideData(): Iterator
     {
-        // make sure both files are loaded
-        require __DIR__ . '/Fixture/AlreadyExistingShortName.php';
-        require __DIR__ . '/Source/AlreadyExistingShortName.php';
-
         $errorMessage = sprintf(
             NoDuplicatedShortClassNameRule::ERROR_MESSAGE,
             'AlreadyExistingShortName',
             implode('", "', [SecondAlreadyExistingShortName::class, AlreadyExistingShortName::class])
         );
 
-        yield [__DIR__ . '/Fixture/AlreadyExistingShortName.php', [[$errorMessage, 7]]];
+        yield [
+            [__DIR__ . '/Fixture/AlreadyExistingShortName.php', __DIR__ . '/Source/AlreadyExistingShortName.php'],
+            [[$errorMessage, 7]], ];
     }
 
     protected function getRule(): Rule

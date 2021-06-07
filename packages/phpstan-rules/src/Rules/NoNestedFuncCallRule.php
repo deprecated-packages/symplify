@@ -33,6 +33,7 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         'get_class',
         'implode',
         'strlen',
+        'substr',
         'getcwd',
         'is_file',
         'file_exists',

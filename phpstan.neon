@@ -140,8 +140,6 @@ parameters:
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
-        - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
-
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
@@ -533,15 +531,12 @@ parameters:
         # depends on jean85 version
         - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'
 
-        - '#Class with base "PathResolver" name is already used in "Symplify\\PHPStanRules\\NodeAnalyzer\\PathResolver", "Symplify\\VendorPatches\\FileSystem\\PathResolver"\. Use unique name to make classes easy to recognize#'
-
         -
             message: '#Do not use setter on a service#'
             path: packages/easy-coding-standard/src/Configuration/Configuration.php
 
         # only reported on CI
         - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but (.*?)#'
-        - '#Parameter \#2 \$servicesConfigurator of static method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inlineArgumentObject\(\) expects (.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator, Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator given#'
 
         -
             message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
@@ -586,3 +581,11 @@ parameters:
         -
             message: '#Removing parent param type is forbidden#'
             path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
+        -
+            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
+            path: packages/easy-coding-standard/packages/Caching/ValueObject/Storage/FileCacheStorage.php
+
+        # reoslve later
+        - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
