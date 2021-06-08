@@ -116,6 +116,7 @@
     },
     "autoload-dev": {
         "classmap": [
+            "packages/phpstan-rules/stubs",
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
