@@ -40,7 +40,10 @@
             "Symplify\\PHPStanRules\\Tests\\": "tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "extra": {
         "branch-alias": {
