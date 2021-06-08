@@ -1,0 +1,27 @@
+name: Fixer Test
+
+on:
+    pull_request: null
+    push:
+        branches:
+            - main
+
+jobs:
+    fixer_test:
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '7.3'
+                    coverage: none
+
+            -   uses: "ramsey/composer-install@v1"
+
+            -   run: composer require phpunit/phpunit
+
+            -   run: composer require symplify/easy-testing
+
+            -   run: composer require symplify/smart-file-system
+
+            -   run: vendor/bin/phpunit tests
