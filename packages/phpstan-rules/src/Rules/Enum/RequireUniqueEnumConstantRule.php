@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
+use MyCLabs\Enum\Enum;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -48,11 +50,11 @@ final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        if (! $classReflection->isSubclassOf('MyCLabs\Enum\Enum')) {
+        if (! $classReflection->isSubclassOf(Enum::class)) {
             return [];
         }
 
@@ -126,8 +128,8 @@ CODE_SAMPLE
     private function resolveClassConstantValues(ClassLike $classLike, Scope $scope): array
     {
         $constantValues = [];
-        foreach ($classLike->getConstants() as $constant) {
-            foreach ($constant->consts as $const) {
+        foreach ($classLike->getConstants() as $classConst) {
+            foreach ($classConst->consts as $const) {
                 $constantValues[] = $this->nodeValueResolver->resolve($const->value, $scope->getFile());
             }
         }

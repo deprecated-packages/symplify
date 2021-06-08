@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MyCLabs\Enum;
 
-if (class_exists('MyCLabs\Enum\Enum')) {
+if (class_exists(\MyCLabs\Enum\Enum::class)) {
     return;
 }
 
