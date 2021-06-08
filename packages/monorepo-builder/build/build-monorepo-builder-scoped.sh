@@ -45,8 +45,8 @@ ls -l $RESULT_DIRECTORY
 note "Dumping Composer Autoload"
 composer dump-autoload --working-dir "$RESULT_DIRECTORY" --ansi --classmap-authoritative --no-dev
 
-# make bin/config-transformer runnable without "php"
-chmod 777 "$RESULT_DIRECTORY/bin/config-transformer"
-chmod 777 "$RESULT_DIRECTORY/bin/config-transformer.php"
+# make bin/monorepo-builder runnable without "php"
+chmod 777 "$RESULT_DIRECTORY/bin/monorepo-builder"
+chmod 777 "$RESULT_DIRECTORY/bin/monorepo-builder.php"
 
 note "Finished"
