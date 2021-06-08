@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules\Enum;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -49,8 +50,8 @@ final class ForbiddenClassConstRule extends AbstractSymplifyRule implements Conf
      */
     public function process(Node $node, Scope $scope): array
     {
-        $class = $node->getOriginalNode();
-        if ($class->getConstants() === []) {
+        $classLike = $node->getOriginalNode();
+        if ($classLike->getConstants() === []) {
             return [];
         }
 
@@ -100,7 +101,7 @@ CODE_SAMPLE
     private function isInClassTypes(Scope $scope, array $classTypes): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
