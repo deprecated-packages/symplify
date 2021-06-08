@@ -19,7 +19,7 @@ final class FixerTest extends AbstractCheckerTestCase
      */
     public function provideData(): iterable
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixtures', '*.txt');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixtures', '*.php.inc');
     }
 
     public function provideConfig(): string
