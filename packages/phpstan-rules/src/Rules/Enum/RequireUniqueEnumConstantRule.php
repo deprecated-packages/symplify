@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
-use MyCLabs\Enum\Enum;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,9 +29,15 @@ final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
      */
     private $nodeValueResolver;
 
-    public function __construct(NodeValueResolver $nodeValueResolver)
+    /**
+     * @var EnumAnalyzer
+     */
+    private $enumAnalyzer;
+
+    public function __construct(NodeValueResolver $nodeValueResolver, EnumAnalyzer $enumAnalyzer)
     {
         $this->nodeValueResolver = $nodeValueResolver;
+        $this->enumAnalyzer = $enumAnalyzer;
     }
 
     /**
@@ -49,12 +54,7 @@ final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        if (! $classReflection->isSubclassOf(Enum::class)) {
+        if (! $this->enumAnalyzer->detect($scope, $node->getOriginalNode())) {
             return [];
         }
 
