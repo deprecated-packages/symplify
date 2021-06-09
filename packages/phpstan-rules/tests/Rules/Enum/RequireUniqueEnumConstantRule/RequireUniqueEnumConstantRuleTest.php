@@ -27,6 +27,7 @@ final class RequireUniqueEnumConstantRuleTest extends AbstractServiceAwareRuleTe
     {
         $expectedErrorMessage = sprintf(RequireUniqueEnumConstantRule::ERROR_MESSAGE, 'yes');
         yield [__DIR__ . '/Fixture/InvalidEnum.php', [[$expectedErrorMessage, 8]]];
+        yield [__DIR__ . '/Fixture/InvalidAnnotationEnum.php', [[$expectedErrorMessage, 8]]];
 
         yield [__DIR__ . '/Fixture/SkipValidEnum.php', []];
     }
