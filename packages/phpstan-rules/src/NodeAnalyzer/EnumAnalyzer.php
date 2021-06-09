@@ -24,18 +24,20 @@ final class EnumAnalyzer
         $this->simplePhpDocParser = $simplePhpDocParser;
     }
 
-    public function detect(Scope $scope, ClassLike $class): bool
+    public function detect(Scope $scope, ClassLike $classLike): bool
     {
-        if (! $class instanceof Class_) {
+        if (! $classLike instanceof Class_) {
             return false;
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(Enum::class)) {
-            return true;
+        if (! $classReflection instanceof ClassReflection) {
+            return $this->hasEnumAnnotation($classLike);
         }
-
-        return $this->hasEnumAnnotation($class);
+        if (! $classReflection->isSubclassOf(Enum::class)) {
+            return $this->hasEnumAnnotation($classLike);
+        }
+        return true;
     }
 
     private function hasEnumAnnotation(Class_ $class): bool
@@ -45,7 +47,7 @@ final class EnumAnalyzer
             return false;
         }
 
-        $simplePhpDoc = $this->simplePhpDocParser->parseDocBlock($docComment->getText());
-        return (bool) $simplePhpDoc->getTagsByName('@enum');
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docComment->getText());
+        return (bool) $simplePhpDocNode->getTagsByName('@enum');
     }
 }
