@@ -2,7 +2,6 @@ includes:
     - name-resolver-services.neon
 
 services:
-    - Symplify\SimplePhpDocParser\SimplePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
 
     - PhpParser\NodeFinder

@@ -1688,7 +1688,7 @@ foreach ($fileErrors as $fileError) {
 
 Assign to already injected property is not allowed
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule`](../src/Rules/ForbiddenNetteInjectOverrideRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule`](../src/Rules/ForbiddenNetteInjectOverrideRule.php)
 
 ```php
 abstract class AbstractParent

@@ -103,7 +103,11 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
+        class: Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 
     -

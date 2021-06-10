@@ -5,23 +5,23 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use MyCLabs\Enum\Enum;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\SimplePhpDocParser\SimplePhpDocParser;
+use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
 
 final class EnumAnalyzer
 {
     /**
-     * @var SimplePhpDocParser
+     * @var BarePhpDocParser
      */
-    private $simplePhpDocParser;
+    private $barePhpDocParser;
 
-    public function __construct(SimplePhpDocParser $simplePhpDocParser)
+    public function __construct(BarePhpDocParser $barePhpDocParser)
     {
-        $this->simplePhpDocParser = $simplePhpDocParser;
+        $this->barePhpDocParser = $barePhpDocParser;
     }
 
     public function detect(Scope $scope, ClassLike $classLike): bool
@@ -42,12 +42,11 @@ final class EnumAnalyzer
 
     private function hasEnumAnnotation(Class_ $class): bool
     {
-        $docComment = $class->getDocComment();
-        if (! $docComment instanceof Doc) {
+        $phpPhpDocNode = $this->barePhpDocParser->parseNode($class);
+        if (! $phpPhpDocNode instanceof PhpDocNode) {
             return false;
         }
 
-        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docComment->getText());
-        return (bool) $simplePhpDocNode->getTagsByName('@enum');
+        return (bool) $phpPhpDocNode->getTagsByName('@enum');
     }
 }
