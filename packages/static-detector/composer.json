@@ -11,9 +11,9 @@
         "symfony/console": "^4.4|^5.2",
         "nikic/php-parser": "4.10.5",
         "symfony/http-kernel": "^4.4|^5.2",
-        "symplify/symplify-kernel": "^9.4",
-        "symplify/astral": "^9.4",
-        "symplify/package-builder": "^9.4"
+        "symplify/symplify-kernel": "^9.3.21",
+        "symplify/astral": "^9.3.21",
+        "symplify/package-builder": "^9.3.21"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
