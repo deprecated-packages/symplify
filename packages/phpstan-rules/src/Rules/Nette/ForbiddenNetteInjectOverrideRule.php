@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Nette;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule\ForbiddenNetteInjectOverrideRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Nette\ForbiddenNetteInjectOverrideRule\ForbiddenNetteInjectOverrideRuleTest
  */
 final class ForbiddenNetteInjectOverrideRule extends AbstractSymplifyRule
 {

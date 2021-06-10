@@ -123,7 +123,12 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        if (! is_a($className, 'Nette\Application\UI\Presenter', true)) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return true;
+        }
+
+        if (! $classReflection->isSubclassOf('Nette\Application\UI\Presenter')) {
             return true;
         }
 

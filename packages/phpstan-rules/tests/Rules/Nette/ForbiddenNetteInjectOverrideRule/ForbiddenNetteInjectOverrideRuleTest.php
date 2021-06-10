@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNetteInjectOverrideRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Nette\ForbiddenNetteInjectOverrideRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule;
+use Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule;
 
 /**
  * @requires PHP 8.0
