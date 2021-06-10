@@ -18,14 +18,14 @@
         "symfony/process": "^4.4|^5.2",
         "symfony/dependency-injection": "^5.2",
         "symfony/finder": "^4.4|^5.2",
-        "symplify/coding-standard": "^9.3.22",
-        "symplify/package-builder": "^9.3.22",
-        "symplify/symplify-kernel": "^9.3.22",
-        "symplify/smart-file-system": "^9.3.22",
-        "symplify/autowire-array-parameter": "^9.3.22",
-        "symplify/skipper": "^9.3.22",
-        "symplify/console-color-diff": "^9.3.22",
-        "symplify/easy-testing": "^9.3.22"
+        "symplify/coding-standard": "^9.4",
+        "symplify/package-builder": "^9.4",
+        "symplify/symplify-kernel": "^9.4",
+        "symplify/smart-file-system": "^9.4",
+        "symplify/autowire-array-parameter": "^9.4",
+        "symplify/skipper": "^9.4",
+        "symplify/console-color-diff": "^9.4",
+        "symplify/easy-testing": "^9.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
