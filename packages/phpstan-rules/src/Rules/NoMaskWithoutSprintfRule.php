@@ -56,8 +56,10 @@ final class NoMaskWithoutSprintfRule extends AbstractSymplifyRule
         if (in_array($stringKind, [String_::KIND_NOWDOC, String_::KIND_HEREDOC], true)) {
             return [];
         }
-
-        if (! str_contains($node->value, '%s') || $node->value === '%s') {
+        if (! str_contains($node->value, '%s')) {
+            return [];
+        }
+        if ($node->value === '%s') {
             return [];
         }
 
@@ -101,7 +103,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipParentType(\PhpParser\Node $node): bool
+    private function shouldSkipParentType(Node $node): bool
     {
         if ($node instanceof Const_) {
             return true;
@@ -110,11 +112,6 @@ CODE_SAMPLE
         if ($node instanceof Concat) {
             return true;
         }
-
-        if ($node instanceof ArrayItem) {
-            return true;
-        }
-
-        return false;
+        return $node instanceof ArrayItem;
     }
 }

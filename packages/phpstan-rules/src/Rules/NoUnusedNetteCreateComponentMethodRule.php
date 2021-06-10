@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -128,7 +129,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        if (! $classReflection->isSubclassOf('Nette\Application\UI\Presenter')) {
+        if (! $classReflection->isSubclassOf(Presenter::class)) {
             return true;
         }
 
