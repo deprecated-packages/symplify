@@ -1,5 +1,5 @@
 includes:
-    - ../../../../config/services/services.neon
+    - ../../../../../config/services/services.neon
 
 services:
     -

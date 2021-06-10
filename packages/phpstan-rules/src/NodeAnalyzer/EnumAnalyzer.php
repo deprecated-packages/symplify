@@ -8,6 +8,7 @@ use MyCLabs\Enum\Enum;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
 
@@ -42,7 +43,7 @@ final class EnumAnalyzer
     private function hasEnumAnnotation(Class_ $class): bool
     {
         $phpPhpDocNode = $this->barePhpDocParser->parseNode($class);
-        if ($phpPhpDocNode === null) {
+        if (! $phpPhpDocNode instanceof PhpDocNode) {
             return false;
         }
 
