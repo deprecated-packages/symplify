@@ -94,7 +94,7 @@ final class ServiceAndValueObjectHaveSameStartsRule extends AbstractSymplifyRule
                 continue;
             }
 
-            $expectedValueObjectShortClass = Strings::substring($shortClass, 0, - Strings::length($classSuffix));
+            $expectedValueObjectShortClass = Strings::substring($shortClass, 0, -Strings::length($classSuffix));
             if ($expectedValueObjectShortClass === $valueObjectShortClass) {
                 return [];
             }

@@ -111,14 +111,14 @@ final class ComposerJsonSection
 
     /**
      * @var string
-     * @see https://getcomposer.org/doc/articles/scripts.md#custom-descriptions-
      */
-    public const SCRIPTS_DESCRIPTIONS = 'scripts-descriptions';
+    public const PROVIDES = 'provides';
 
     /**
      * @var string
+     * @see https://getcomposer.org/doc/articles/scripts.md#custom-descriptions-
      */
-    public const PROVIDES = 'provides';
+    public const SCRIPTS_DESCRIPTIONS = 'scripts-descriptions';
 
     /**
      * @var string

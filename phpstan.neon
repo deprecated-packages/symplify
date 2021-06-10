@@ -3,6 +3,7 @@ includes:
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
     - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/config/services/services.neon
 
 services:
     -
@@ -49,7 +50,7 @@ parameters:
 
     parallel:
         # to prevent full thread lagging pc
-        maximumNumberOfProcesses: 7
+        maximumNumberOfProcesses: 15
 
     paths:
         - packages
@@ -57,6 +58,9 @@ parameters:
         - rector.php
 
     excludes_analyse:
+        - */scoper.php
+        - *scoper.inc.php
+
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
@@ -137,8 +141,6 @@ parameters:
         # the Filesystem method is only iterable way
         - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
-        - '#Parameter \#1 \$path of function pathinfo expects string, string\|false\|null given#'
-
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
@@ -153,7 +155,6 @@ parameters:
                 # yaml
                 - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
 
-                - packages/phpstan-php-config/src/CaseConverter/ServicesConverter.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
@@ -163,9 +164,6 @@ parameters:
         -
             message: '#Use value object over return of values#'
             paths:
-                # php scoper config array
-                - */scoper.inc.php
-
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 - packages/config-transformer/src/Configuration/Configuration.php
@@ -247,7 +245,6 @@ parameters:
             paths:
                 - packages/easy-coding-standard/src/Configuration.php # 214
                 - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
-                - packages/phpstan-php-config/src/Command/ConvertCommand.php # 70
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
 
         -
@@ -535,15 +532,12 @@ parameters:
         # depends on jean85 version
         - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'
 
-        - '#Class with base "PathResolver" name is already used in "Symplify\\PHPStanRules\\NodeAnalyzer\\PathResolver", "Symplify\\VendorPatches\\FileSystem\\PathResolver"\. Use unique name to make classes easy to recognize#'
-
         -
             message: '#Do not use setter on a service#'
             path: packages/easy-coding-standard/src/Configuration/Configuration.php
 
         # only reported on CI
         - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but (.*?)#'
-        - '#Parameter \#2 \$servicesConfigurator of static method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inlineArgumentObject\(\) expects (.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator, Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServicesConfigurator given#'
 
         -
             message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
@@ -553,7 +547,56 @@ parameters:
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/scoper.php
 
+        # Symfony 5.3 news
+        -
+            message: '#Removing parent param type is forbidden#'
+            path: *FileLoader.php
+
+        -
+            message: '#Method parameters must be compatible with its parent#'
+            path: *FileLoader.php
 
         -
             message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
             path: packages/easy-coding-standard/build/build-preload.php
+
+        # this class is used by scoper, so better use less external deps
+        -
+            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
+            path: packages/easy-coding-standard/src/Application/VersionResolver.php
+
+        -
+            message: '#Nested foreach with empty statement is not allowed#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+
+
+        -
+            message: '#Class cognitive complexity is 29, keep it under 25#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+
+        # symfony 5.3 news
+        -
+            message: '#Method parameters must be compatible with its parent#'
+            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        -
+            message: '#Removing parent param type is forbidden#'
+            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
+        -
+            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
+            path: packages/easy-coding-standard/packages/Caching/ValueObject/Storage/FileCacheStorage.php
+
+        # reoslve later
+        - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
+
+        -
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            paths:
+                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+
+        -
+            message: '#Parameter "(.*?)" cannot be nullable#'
+            paths:
+                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer

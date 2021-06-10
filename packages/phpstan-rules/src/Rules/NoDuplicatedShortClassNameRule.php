@@ -37,7 +37,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
     ];
 
     /**
-     * @var string[][]
+     * @var array<string, string[]>
      */
     private $declaredClassesByShortName = [];
 
@@ -74,9 +74,19 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
             return [];
         }
 
-        $this->prepareDeclaredClassesByShortName();
+        $className = $this->simpleNameResolver->getName($node);
+        if ($className === null) {
+            return [];
+        }
 
         $shortClassName = $this->simpleNameResolver->resolveShortName($className);
+
+        // make sure classes are unique
+        $existingClassesByShortClassName = $this->declaredClassesByShortName[$shortClassName] ?? [];
+        $existingClassesByShortClassName[] = $className;
+        $existingClassesByShortClassName = array_unique($existingClassesByShortClassName);
+
+        $this->declaredClassesByShortName[$shortClassName] = $existingClassesByShortClassName;
 
         $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
         if (count($classesByShortName) <= 1) {
@@ -122,34 +132,15 @@ CODE_SAMPLE
         ]);
     }
 
-    private function prepareDeclaredClassesByShortName(): void
-    {
-        // is defined?
-        if ($this->declaredClassesByShortName !== []) {
-            return;
-        }
-
-        $fullyQualifiedClassNames = get_declared_classes();
-        foreach ($fullyQualifiedClassNames as $fullyQualifiedClassName) {
-            if (! Strings::contains($fullyQualifiedClassName, '\\')) {
-                continue;
-            }
-
-            $shortClassName = Strings::after($fullyQualifiedClassName, '\\', -1);
-
-            $this->declaredClassesByShortName[$shortClassName][] = $fullyQualifiedClassName;
-        }
-
-        ksort($this->declaredClassesByShortName);
-    }
-
     private function isAllowedClass(string $name): bool
     {
         // is allowed
         foreach (self::ALLOWED_CLASS_NAMES as $allowedClassName) {
-            if (Strings::match($name, $allowedClassName)) {
-                return true;
+            if (! Strings::match($name, $allowedClassName)) {
+                continue;
             }
+
+            return true;
         }
 
         return false;

@@ -34,9 +34,6 @@ final class ValidNetteInjectRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ValidNetteInjectRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(ValidNetteInjectRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

@@ -37,7 +37,7 @@ final class NoNetteDoubleTemplateAssignRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoNetteDoubleTemplateAssignRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

@@ -45,7 +45,7 @@ final class NoNetteArrayAccessInControlRuleTest extends AbstractServiceAwareRule
     {
         return $this->getRuleFromConfig(
             NoNetteArrayAccessInControlRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

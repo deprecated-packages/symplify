@@ -35,7 +35,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstrac
     {
         return $this->getRuleFromConfig(
             ForbiddenTestsNamespaceOutsideTestsDirectoryRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

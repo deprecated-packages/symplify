@@ -47,7 +47,7 @@ final class CheckParentChildMethodParameterTypeCompatibleRuleTest extends Abstra
     {
         return $this->getRuleFromConfig(
             CheckParentChildMethodParameterTypeCompatibleRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

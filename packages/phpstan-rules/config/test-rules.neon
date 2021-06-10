@@ -17,4 +17,4 @@ services:
         arguments:
             classesRequiringDataProvider:
                 - '*RuleTest'
-                - Symplify\EasyCodingStandardTester\Testing\AbstractCheckerTestCase
+                - Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase

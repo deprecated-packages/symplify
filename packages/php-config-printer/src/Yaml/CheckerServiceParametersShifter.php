@@ -91,6 +91,7 @@ final class CheckerServiceParametersShifter
         if (! is_array($configuration[self::SERVICES_KEY])) {
             return $configuration;
         }
+
         $configuration[self::SERVICES_KEY] = $this->processServices($configuration[self::SERVICES_KEY]);
 
         return $configuration;

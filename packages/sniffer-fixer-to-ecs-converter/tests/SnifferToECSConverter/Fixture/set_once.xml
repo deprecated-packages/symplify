@@ -18,9 +18,9 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+    $containerConfigurator->import(SetList::PSR_2);
 
-    $parameters->set(Option::SETS, [SetList::PSR_2]);
+    $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [CamelCapsMethodNameSniff::class]);
 };

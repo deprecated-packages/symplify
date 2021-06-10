@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer;
 
-use Nette\Utils\Strings;
+use Stringy\Stringy;
 use Symplify\RuleDocGenerator\Category\CategoryResolver;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\CodeSamplePrinter;
 use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
@@ -122,12 +122,11 @@ final class RuleDefinitionsPrinter
         $lines[] = '## Categories';
 
         foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
-            $lines[] = sprintf(
-                '- [%s](#%s) (%d)',
-                $category,
-                Strings::webalize($category),
-                count($ruleDefinitions)
-            );
+            $categoryStringy = new Stringy($category);
+            $categoryLink = $categoryStringy->toLowerCase()
+                ->dasherize();
+
+            $lines[] = sprintf('- [%s](#%s) (%d)', $category, $categoryLink, count($ruleDefinitions));
         }
 
         $lines[] = '<br>';

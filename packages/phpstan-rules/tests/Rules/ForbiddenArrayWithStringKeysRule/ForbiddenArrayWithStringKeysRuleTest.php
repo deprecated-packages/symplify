@@ -28,6 +28,7 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
         yield [__DIR__ . '/Fixture/ArrayWithStrings.php', [[ForbiddenArrayWithStringKeysRule::ERROR_MESSAGE, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipYamlRelated.php', []];
+        yield [__DIR__ . '/Fixture/SkipJsonSerializable.php', []];
         yield [__DIR__ . '/Fixture/SkipArrayRequiredParentContract.php', []];
         yield [__DIR__ . '/Fixture/SkipDataInTest.php', []];
         yield [__DIR__ . '/Fixture/SkipDataInTestCase.php', []];
@@ -43,7 +44,7 @@ final class ForbiddenArrayWithStringKeysRuleTest extends AbstractServiceAwareRul
     {
         return $this->getRuleFromConfig(
             ForbiddenArrayWithStringKeysRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

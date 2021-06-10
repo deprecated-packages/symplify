@@ -1,0 +1,5 @@
+{
+    "require": {
+        "symplify/package-builder": "^9.2"
+    }
+}

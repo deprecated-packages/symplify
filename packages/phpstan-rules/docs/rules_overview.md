@@ -1,4 +1,4 @@
-# 148 Rules Overview
+# 158 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -58,6 +58,49 @@ class SomeClass
     {
         return $this->age > 100;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckAttributteArgumentClassExistsRule
+
+Class was not found
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule`](../src/Rules/CheckAttributteArgumentClassExistsRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                SomeAttribute:
+                    - firstName
+```
+
+↓
+
+```php
+#[SomeAttribute(firstName: 'MissingClass::class')]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[SomeAttribute(firstName: ExistingClass::class)]
+class SomeClass
+{
 }
 ```
 
@@ -420,7 +463,7 @@ class SomeClass
 
 SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead
 
-- class: [`Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/Symfony/CheckUnneededSymfonyStyleUsageRule.php)
 
 ```php
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -1109,6 +1152,49 @@ foreach (...) {
 
 <br>
 
+## ForbiddenAttributteArgumentRule
+
+Attribute key "%s" cannot be used
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule`](../src/Rules/ForbiddenAttributteArgumentRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            $argumentsByAttributes:
+                Entity:
+                    - repositoryClass
+```
+
+↓
+
+```php
+#[Entity(repositoryClass: SomeRepository::class)]
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+#[Entity]
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenCallOnTypeRule
 
 Method call or Static Call on %s is not allowed
@@ -1174,6 +1260,56 @@ class SomeClass
     {
         $this->specificService->call();
     }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenClassConstRule
+
+Constants in this class are not allowed, move them to custom Enum class instead
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule`](../src/Rules/Enum/ForbiddenClassConstRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classTypes:
+                - AbstractEntity
+```
+
+↓
+
+```php
+final class Product extends AbstractEntity
+{
+    public const TYPE_HIDDEN = 0;
+
+    public const TYPE_VISIBLE = 1;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Product extends AbstractEntity
+{
+}
+
+class ProductVisibility extends Enum
+{
+    public const HIDDEN = 0;
+
+    public const VISIBLE = 1;
 }
 ```
 
@@ -1598,6 +1734,54 @@ foreach ($fileErrors as $fileError) {
 
 <br>
 
+## ForbiddenNetteInjectOverrideRule
+
+Assign to already injected property is not allowed
+
+- class: [`Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule`](../src/Rules/Nette/ForbiddenNetteInjectOverrideRule.php)
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+    public function __construct(AnotherType $anotherType)
+    {
+        $this->someType = $anotherType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+abstract class AbstractParent
+{
+    /**
+     * @inject
+     * @var SomeType
+     */
+    protected $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenNewInMethodRule
 
 "new" in method `"%s->%s()"` is not allowed.
@@ -1839,6 +2023,48 @@ use PhpParser\Node;
 class SomeClass
 {
     public function run(): Node
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenParamTypeRemovalRule
+
+Removing parent param type is forbidden
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule`](../src/Rules/ForbiddenParamTypeRemovalRule.php)
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor($node)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+interface RectorInterface
+{
+    public function refactor(Node $node);
+}
+
+final class SomeRector implements RectorInterface
+{
+    public function refactor(Node $node)
     {
     }
 }
@@ -3170,6 +3396,28 @@ final class HelpfulName
 
 <br>
 
+## NoMaskWithoutSprintfRule
+
+Missing `sprintf()` function for a mask
+
+- class: [`Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule`](../src/Rules/NoMaskWithoutSprintfRule.php)
+
+```php
+return 'Hey %s';
+```
+
+:x:
+
+<br>
+
+```php
+return sprintf('Hey %s', 'Matthias');
+```
+
+:+1:
+
+<br>
+
 ## NoMethodTagInClassDocblockRule
 
 Do not use `@method` tag in class docblock
@@ -3427,7 +3675,7 @@ class SomeClass extends Presenter
 
 ## NoNetteInjectAndConstructorRule
 
-Use either `__construct()` or injects, not both
+Use either `__construct()` or @inject, not both together
 
 - class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
 
@@ -3860,6 +4108,44 @@ final class ReturnVariables
 
 <br>
 
+## NoReturnSetterMethodRule
+
+Setter method cannot return anything, only set value
+
+- class: [`Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule`](../src/Rules/NoReturnSetterMethodRule.php)
+
+```php
+final class SomeClass
+{
+    private $name;
+
+    public function setName(string $name)
+    {
+        return 1000;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private $name;
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoSetterClassMethodRule
 
 Setter `"%s()"` is not allowed. Use constructor injection or behavior name instead, e.g. `"changeName()"`
@@ -3995,7 +4281,7 @@ final class SomeClass
 
 ## NoSuffixValueObjectClassRule
 
-Value Object class name "%s" must be withotu "ValueObject" suffix. The correct class name is "%s".
+Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".
 
 - class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
 
@@ -4050,6 +4336,38 @@ trait SomeTrait
 class SomeService
 {
     public function run(...)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoVoidGetterMethodRule
+
+Getter method must return something, not void
+
+- class: [`Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule`](../src/Rules/NoVoidGetterMethodRule.php)
+
+```php
+final class SomeClass
+{
+    public function getData(): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function getData(): array
     {
     }
 }
@@ -4709,7 +5027,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4725,7 +5043,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }
@@ -5040,6 +5358,48 @@ class AnotherClass
     public function run(SomeClass $someClass)
     {
         $someClass->call(self::OPTION_NAME);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNativeArraySymfonyRenderCallRule
+
+Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
+
+- class: [`Symplify\PHPStanRules\Rules\Symfony\RequireNativeArraySymfonyRenderCallRule`](../src/Rules/Symfony/RequireNativeArraySymfonyRenderCallRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        $parameters['name'] = 'John';
+        $parameters['name'] = 'Doe';
+        return $this->render('...', $parameters);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        return $this->render('...', [
+            'name' => 'John',
+        ]);
     }
 }
 ```
@@ -5456,6 +5816,42 @@ class SomeClass extends SomeParentClass
     {
         $tihs->run();
     }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireUniqueEnumConstantRule
+
+Enum constants "%s" are duplicated. Make them unique instead
+
+- class: [`Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule`](../src/Rules/Enum/RequireUniqueEnumConstantRule.php)
+
+```php
+use MyCLabs\Enum\Enum;
+
+class SomeClass extends Enum
+{
+    private const YES = 'yes';
+
+    private const NO = 'yes';
+}
+```
+
+:x:
+
+<br>
+
+```php
+use MyCLabs\Enum\Enum;
+
+class SomeClass extends Enum
+{
+    private const YES = 'yes';
+
+    private const NO = 'no';
 }
 ```
 

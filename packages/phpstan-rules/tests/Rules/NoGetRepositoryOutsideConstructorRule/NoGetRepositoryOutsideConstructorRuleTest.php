@@ -25,12 +25,13 @@ final class NoGetRepositoryOutsideConstructorRuleTest extends AbstractServiceAwa
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipNonDoctrineRepository.php', []];
         yield [__DIR__ . '/Fixture/SkipTwoTestRepository.php', []];
         yield [__DIR__ . '/Fixture/SkipTestCase.php', []];
 
         yield [
             __DIR__ . '/Fixture/OneTestRepository.php',
-            [[NoGetRepositoryOutsideConstructorRule::ERROR_MESSAGE, 25]],
+            [[NoGetRepositoryOutsideConstructorRule::ERROR_MESSAGE, 23]],
         ];
     }
 
@@ -38,7 +39,7 @@ final class NoGetRepositoryOutsideConstructorRuleTest extends AbstractServiceAwa
     {
         return $this->getRuleFromConfig(
             NoGetRepositoryOutsideConstructorRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

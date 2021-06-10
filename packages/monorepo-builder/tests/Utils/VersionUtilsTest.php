@@ -19,7 +19,6 @@ final class VersionUtilsTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
-
         $this->versionUtils = $this->getService(VersionUtils::class);
     }
 

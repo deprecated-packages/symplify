@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
-use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
@@ -46,6 +46,9 @@ final class ContainerConfiguratorReturnClosureFactory
         $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
+    /**
+     * @param array<string, mixed[]> $arrayData
+     */
     public function createFromYamlArray(array $arrayData): Return_
     {
         $stmts = $this->createClosureStmts($arrayData);
@@ -55,7 +58,7 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @return Node[]
+     * @return Stmt[]
      */
     private function createClosureStmts(array $yamlData): array
     {
@@ -64,8 +67,8 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @param mixed[] $yamlData
-     * @return Node[]
+     * @param array<string, mixed[]> $yamlData
+     * @return Stmt[]
      */
     private function createNodesFromCaseConverters(array $yamlData): array
     {

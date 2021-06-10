@@ -32,9 +32,6 @@ final class NoNullablePropertyRuleTest extends AbstractServiceAwareRuleTestCase
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoNullablePropertyRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
-        );
+        return $this->getRuleFromConfig(NoNullablePropertyRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

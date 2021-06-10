@@ -41,7 +41,7 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
     {
         return $this->getRuleFromConfig(
             RequireStringRegexMatchKeyRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

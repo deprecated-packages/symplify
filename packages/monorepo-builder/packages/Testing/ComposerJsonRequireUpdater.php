@@ -66,7 +66,7 @@ final class ComposerJsonRequireUpdater
             return;
         }
 
-        $packageComposerJson = $this->composerVersionManipulator->setAsteriskVersionForUsedPackages(
+        $packageComposerJson = $this->composerVersionManipulator->decorateAsteriskVersionForUsedPackages(
             $packageComposerJson,
             $usedPackageNames
         );

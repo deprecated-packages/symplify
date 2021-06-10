@@ -12,7 +12,9 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\StaticPropertyFetch;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,13 +30,19 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit names over dynamic ones';
 
     /**
+     * @var SimpleNameResolver
+     */
+    private $simpleNameResolver;
+
+    /**
      * @var CallableTypeAnalyzer
      */
     private $callableTypeAnalyzer;
 
-    public function __construct(CallableTypeAnalyzer $callableTypeAnalyzer)
+    public function __construct(CallableTypeAnalyzer $callableTypeAnalyzer, SimpleNameResolver $simpleNameResolver)
     {
         $this->callableTypeAnalyzer = $callableTypeAnalyzer;
+        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -60,6 +68,10 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
     {
         if ($node instanceof ClassConstFetch || $node instanceof StaticPropertyFetch) {
             if (! $node->class instanceof Expr) {
+                return [];
+            }
+
+            if ($node->name instanceof Identifier && $this->simpleNameResolver->isName($node->name, 'class')) {
                 return [];
             }
 

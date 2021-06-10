@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console;
 
 use Composer\XdebugHandler\XdebugHandler;
-use Nette\Utils\Strings;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\Application\VersionResolver;
 use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -24,9 +24,7 @@ final class EasyCodingStandardConsoleApplication extends Application
      */
     public function __construct(array $commands)
     {
-        $version = $this->resolveEasyCodingStandardVersion();
-
-        parent::__construct('EasyCodingStandard', $version);
+        parent::__construct('EasyCodingStandard', VersionResolver::PACKAGE_VERSION);
 
         // @see https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming/
         $commandNaming = new CommandNaming();
@@ -97,32 +95,5 @@ final class EasyCodingStandardConsoleApplication extends Application
             InputOption::VALUE_NONE,
             'Run in debug mode (alias for "-vvv")'
         ));
-    }
-
-    private function resolveEasyCodingStandardVersion(): string
-    {
-        // load packages' scoped installed versions class
-        if (file_exists(__DIR__ . '/../../vendor/composer/InstalledVersions.php')) {
-            require_once __DIR__ . '/../../vendor/composer/InstalledVersions.php';
-        }
-
-        $installedRawData = \Composer\InstalledVersions::getRawData();
-        $ecsPackageData = isset($installedRawData['versions']['symplify/easy-coding-standard']) ? $installedRawData['versions']['symplify/easy-coding-standard'] : null;
-        if ($ecsPackageData === null) {
-            return 'Unknown';
-        }
-        if (isset($ecsPackageData['replaced'])) {
-            return 'replaced@' . $ecsPackageData['replaced'][0];
-        }
-
-        if ($ecsPackageData['version'] === 'dev-main') {
-            if ($ecsPackageData['reference'] !== null) {
-                return 'dev-main@' . Strings::substring($ecsPackageData['reference'], 0, 7);
-            }
-
-            return $ecsPackageData['aliases'][0] ?? 'dev-main';
-        }
-
-        return $ecsPackageData['version'];
     }
 }

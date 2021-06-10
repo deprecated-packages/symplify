@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ChangedFilesDetector\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

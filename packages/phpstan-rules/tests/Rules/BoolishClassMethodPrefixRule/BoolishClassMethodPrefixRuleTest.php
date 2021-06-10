@@ -25,6 +25,7 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipParentContract.php', []];
         yield [__DIR__ . '/Fixture/SkipClassWithEmptyReturn.php', []];
         yield [__DIR__ . '/Fixture/SkipClassThatImplementsInterface.php', []];
         yield [__DIR__ . '/Fixture/SkipRequiredByInterface.php', []];
@@ -43,7 +44,7 @@ final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTes
     {
         return $this->getRuleFromConfig(
             BoolishClassMethodPrefixRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

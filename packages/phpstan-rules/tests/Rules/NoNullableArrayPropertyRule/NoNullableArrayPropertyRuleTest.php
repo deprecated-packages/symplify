@@ -37,7 +37,7 @@ final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTest
     {
         return $this->getRuleFromConfig(
             NoNullableArrayPropertyRule::class,
-            __DIR__ . '/../../../config/symplify-rules.neon'
+            __DIR__ . '/config/configured_rule.neon'
         );
     }
 }

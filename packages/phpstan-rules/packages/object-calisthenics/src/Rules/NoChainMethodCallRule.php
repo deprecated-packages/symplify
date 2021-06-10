@@ -55,6 +55,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         Version::class,
         RouteCollection::class,
         TrinaryLogic::class,
+        'Stringy\Stringy',
         // also trinary logic ↓
         PassedByReference::class,
         DateTimeInterface::class,

@@ -12,7 +12,7 @@ final class SymfonyConfigFormatFactory
 {
     /**
      * @param string[] $sniffClasses
-     * @param string[] $setsParameter
+     * @param string[] $imports
      * @param array<string|int, mixed> $skipParameter
      * @param string[] $excludePathsParameter
      * @param string[] $pathsParameter
@@ -20,7 +20,7 @@ final class SymfonyConfigFormatFactory
      */
     public function createSymfonyConfigFormat(
         array $sniffClasses,
-        array $setsParameter,
+        array $imports,
         array $skipParameter,
         array $excludePathsParameter,
         array $pathsParameter
@@ -35,9 +35,9 @@ final class SymfonyConfigFormatFactory
             $yaml[YamlKey::PARAMETERS][Option::class . '::PATHS'] = $pathsParameter;
         }
 
-        $setsParameter = array_unique($setsParameter);
-        foreach ($setsParameter as $set) {
-            $yaml[YamlKey::PARAMETERS][Option::class . '::SETS'][] = SetList::class . '::' . $set;
+        $imports = array_unique($imports);
+        foreach ($imports as $import) {
+            $yaml[YamlKey::IMPORTS][] = SetList::class . '::' . $import;
         }
 
         if ($excludePathsParameter !== []) {

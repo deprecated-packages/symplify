@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\PHPStanRules\Tests\Rules\NoMaskWithoutSprintfRule\Fixture;
+
+final class NoSprintf
+{
+    public function run()
+    {
+        return 'Hey %s';
+    }
+}
