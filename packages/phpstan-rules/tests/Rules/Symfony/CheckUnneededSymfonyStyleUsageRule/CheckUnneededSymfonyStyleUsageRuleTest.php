@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckUnneededSymfonyStyleUsageRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule;
+use Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckUnneededSymfonyStyleUsageRule>

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckUnneededSymfonyStyleUsageRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule\Fixture;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class SkipUseMethodCallFromSymfonyStyleAllowedMethodCall
+class SkipTitleUsedSymfonyStyle
 {
     private $symfonyStyle;
 
@@ -17,6 +17,7 @@ class SkipUseMethodCallFromSymfonyStyleAllowedMethodCall
 
     public function run()
     {
-        $this->symfonyStyle->success('test');
+        $this->symfonyStyle->title('Welcome');
+        $this->symfonyStyle->newline();
     }
 }
