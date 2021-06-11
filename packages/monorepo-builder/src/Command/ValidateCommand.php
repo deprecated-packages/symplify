@@ -61,6 +61,7 @@ final class ValidateCommand extends AbstractSymplifyCommand
         $conflictingPackageVersions = $this->versionValidator->findConflictingPackageVersionsInFileInfos(
             $this->composerJsonProvider->getRootAndPackageFileInfos()
         );
+
         if ($conflictingPackageVersions === []) {
             $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
 

@@ -119,4 +119,10 @@ final class Option
      * @var string
      */
     public const EXCLUDE_PACKAGE = 'exclude-package';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const EXCLUDE_PACKAGE_VERSION_CONFLICTS = 'exclude_package_version_conflicts';
 }

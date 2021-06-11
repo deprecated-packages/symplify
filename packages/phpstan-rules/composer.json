@@ -23,7 +23,7 @@
         "symplify/phpstan-extensions": "^9.4",
         "symplify/rule-doc-generator": "^9.4",
         "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^4.4|^5.2"
+        "symfony/framework-bundle": "^4.4|^5.3"
     },
     "autoload": {
         "psr-4": {
