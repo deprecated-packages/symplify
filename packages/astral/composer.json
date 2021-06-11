@@ -5,9 +5,9 @@
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.2",
-        "symfony/dependency-injection": "^5.2",
+        "symfony/dependency-injection": "^5.3",
         "symplify/autowire-array-parameter": "^9.4",
-        "symfony/http-kernel": "^4.4|^5.2",
+        "symfony/http-kernel": "^4.4|^5.3",
         "nikic/php-parser": "4.10.5",
         "symplify/package-builder": "^9.4"
     },
