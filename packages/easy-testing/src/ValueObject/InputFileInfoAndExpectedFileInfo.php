@@ -8,20 +8,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class InputFileInfoAndExpectedFileInfo
 {
-    /**
-     * @var SmartFileInfo
-     */
-    private $inputFileInfo;
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $expectedFileInfo;
-
-    public function __construct(SmartFileInfo $inputFileInfo, SmartFileInfo $expectedFileInfo)
-    {
-        $this->inputFileInfo = $inputFileInfo;
-        $this->expectedFileInfo = $expectedFileInfo;
+    public function __construct(
+        private SmartFileInfo $inputFileInfo,
+        private SmartFileInfo $expectedFileInfo
+    ) {
     }
 
     public function getInputFileInfo(): SmartFileInfo

@@ -9,22 +9,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class InputFileInfoAndExpected
 {
     /**
-     * @var SmartFileInfo
-     */
-    private $inputFileInfo;
-
-    /**
-     * @var mixed
-     */
-    private $expected;
-
-    /**
      * @param mixed $expected
      */
-    public function __construct(SmartFileInfo $inputFileInfo, $expected)
-    {
-        $this->inputFileInfo = $inputFileInfo;
-        $this->expected = $expected;
+    public function __construct(
+        private SmartFileInfo $inputFileInfo,
+        private $expected
+    ) {
     }
 
     public function getInputFileContent(): string
