@@ -13,7 +13,6 @@ use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
 use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
-use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\FullyQualifyingPhpDocNodeVisitor;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 

@@ -3,7 +3,7 @@ includes:
 
 services:
     - Symplify\PHPStanRules\Reflection\ClassReflectionResolver
-    - Symplify\SimplePhpDocParser\PhpDocNodeVisitor\FullyQualifyingPhpDocNodeVisitor
+    - Symplify\PHPStanRules\PhpDoc\FullyQualifyingPhpDocNodeVisitor
     - Symplify\SimplePhpDocParser\SimplePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
 
