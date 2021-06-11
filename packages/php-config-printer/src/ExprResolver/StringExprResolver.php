@@ -12,7 +12,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
-use Rector\NodeTypeResolver\Node\AttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;

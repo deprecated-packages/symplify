@@ -13,8 +13,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PhpConfigPrinter\ValueObject\AttributeKey;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -63,7 +62,7 @@ final class NoMaskWithoutSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent === null) {
             return [];
         }
@@ -76,7 +75,7 @@ final class NoMaskWithoutSprintfRule extends AbstractSymplifyRule
             return [self::ERROR_MESSAGE];
         }
 
-        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        $parentParent = $parent->getAttribute(AttributeKey::PARENT);
         if (! $parentParent instanceof FuncCall) {
             return [self::ERROR_MESSAGE];
         }

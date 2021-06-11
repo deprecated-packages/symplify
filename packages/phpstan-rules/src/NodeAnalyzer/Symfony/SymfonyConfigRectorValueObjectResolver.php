@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class SymfonyConfigRectorValueObjectResolver
@@ -39,9 +39,9 @@ final class SymfonyConfigRectorValueObjectResolver
 
     public function resolveFromSetMethodCall(MethodCall $methodCall): ?string
     {
-        $parent = $methodCall->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $methodCall->getAttribute(AttributeKey::PARENT);
         while (! $parent instanceof Expression) {
-            $parent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $parent->getAttribute(AttributeKey::PARENT);
         }
 
         $inlineStaticCall = $this->nodeFinder->findFirst($parent, function (Node $node): bool {

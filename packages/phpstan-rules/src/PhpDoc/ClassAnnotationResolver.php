@@ -4,35 +4,80 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\PhpDoc;
 
-use Nette\Utils\Reflection;
-use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\ReflectionProvider;
+use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
+use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
+use Symplify\SimplePhpDocParser\SimplePhpDocParser;
+use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class ClassAnnotationResolver
 {
     /**
-     * @var string
+     * @var SimplePhpDocParser
      */
-    private const SHORT_NAME_PART = 'short_name';
+    private $simplePhpDocParser;
 
     /**
-     * @var string
-     * @see https://regex101.com/r/x0Qo4x/1
+     * @var FullyQualifyingPhpDocNodeVisitor
      */
-    private const SHORT_ANNOTATION_CLASS_REGEX = '#\@(?<' . self::SHORT_NAME_PART . '>[A-Z]\w+)#';
+    private $fullyQualifyingPhpDocNodeVisitor;
 
     /**
-     * @var ReflectionProvider
+     * @var ClassReflectionResolver
      */
-    private $reflectionProvider;
+    private $classReflectionResolver;
 
-    public function __construct(ReflectionProvider $reflectionProvider)
+    public function __construct(
+        SimplePhpDocParser $simplePhpDocParser,
+        FullyQualifyingPhpDocNodeVisitor $fullyQualifyingPhpDocNodeVisitor,
+        ClassReflectionResolver $classReflectionResolver
+    ) {
+        $this->simplePhpDocParser = $simplePhpDocParser;
+        $this->fullyQualifyingPhpDocNodeVisitor = $fullyQualifyingPhpDocNodeVisitor;
+        $this->classReflectionResolver = $classReflectionResolver;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function resolveClassReferences(Node $node, Scope $scope): array
     {
-        $this->reflectionProvider = $reflectionProvider;
+        $docComment = $node->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return [];
+        }
+
+        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        $refrencedClasses = [];
+
+        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
+        foreach ($phpDocNode->children as $docChildNode) {
+            if (! $docChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if (! $docChildNode->value instanceof GenericTagValueNode) {
+                continue;
+            }
+
+            $genericTagValueNode = $docChildNode->value;
+            $refrencedClasses = array_merge(
+                $refrencedClasses,
+                $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASSES)
+            );
+        }
+
+        return $refrencedClasses;
     }
 
     /**
@@ -45,35 +90,33 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
+        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
         if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        $matches = Strings::matchAll($docComment->getText(), self::SHORT_ANNOTATION_CLASS_REGEX);
-        return $this->resolveShortNamesToFullyQualified($matches, $classReflection->getName());
+        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
+
+        $classAnnotations = [];
+        foreach ($phpDocNode->getTags() as $phpDocTagNode) {
+            $classAnnotations[] = $phpDocTagNode->name;
+        }
+
+        return $classAnnotations;
     }
 
-    /**
-     * @param mixed[] $matches
-     * @return string[]
-     */
-    private function resolveShortNamesToFullyQualified(array $matches, string $className): array
-    {
-        if (! class_exists($className)) {
-            return [];
-        }
+    private function parseTextToPhpDocNodeWithFullyQualifiedNames(
+        string $docBlock,
+        ClassReflection $classReflection
+    ): SimplePhpDocNode {
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
 
-        $classReflection = $this->reflectionProvider->getClass($className);
+        $phpDocNodeTraverser = new PhpDocNodeTraverser();
+        $this->fullyQualifyingPhpDocNodeVisitor->configureClassName($classReflection->getName());
 
-        $fullyQualifiedAnnotationNames = [];
-        foreach ($matches as $match) {
-            $fullyQualifiedAnnotationNames[] = Reflection::expandClassName(
-                $match[self::SHORT_NAME_PART],
-                $classReflection->getNativeReflection()
-            );
-        }
+        $phpDocNodeTraverser->addPhpDocNodeVisitor($this->fullyQualifyingPhpDocNodeVisitor);
+        $phpDocNodeTraverser->traverse($simplePhpDocNode);
 
-        return $fullyQualifiedAnnotationNames;
+        return $simplePhpDocNode;
     }
 }

@@ -15,9 +15,9 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -81,7 +81,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Node) {
             return [];
         }
@@ -160,7 +160,7 @@ CODE_SAMPLE
 
     private function isNotInsideClassMethodDirectly(Node $node): bool
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         return ! $parent instanceof ClassMethod;
     }
 
