@@ -12,36 +12,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SingleFileProcessor
 {
-    /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
-     * @var ChangedFilesDetector
-     */
-    private $changedFilesDetector;
-
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var FileProcessorCollector
-     */
-    private $fileProcessorCollector;
-
     public function __construct(
-        Skipper $skipper,
-        ChangedFilesDetector $changedFilesDetector,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        FileProcessorCollector $fileProcessorCollector
+        private Skipper $skipper,
+        private ChangedFilesDetector $changedFilesDetector,
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private FileProcessorCollector $fileProcessorCollector
     ) {
-        $this->skipper = $skipper;
-        $this->changedFilesDetector = $changedFilesDetector;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->fileProcessorCollector = $fileProcessorCollector;
     }
 
     public function processFileInfo(SmartFileInfo $smartFileInfo): void

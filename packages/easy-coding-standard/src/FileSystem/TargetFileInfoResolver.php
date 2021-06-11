@@ -9,14 +9,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class TargetFileInfoResolver
 {
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    public function __construct(CurrentParentFileInfoProvider $currentParentFileInfoProvider)
-    {
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
+    public function __construct(
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider
+    ) {
     }
 
     /**

@@ -19,7 +19,7 @@ final class ErrorAndDiffResult
     /**
      * @var SystemError[]
      */
-    private $systemErrors = [];
+    private array $systemErrors = [];
 
     /**
      * @param CodingStandardError[] $codingStandardErrors

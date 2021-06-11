@@ -25,14 +25,9 @@ final class JsonOutputFormatter implements OutputFormatterInterface
      */
     private const FILES = 'files';
 
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    public function __construct(EasyCodingStandardStyle $easyCodingStandardStyle)
-    {
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
+    public function __construct(
+        private EasyCodingStandardStyle $easyCodingStandardStyle
+    ) {
     }
 
     public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int

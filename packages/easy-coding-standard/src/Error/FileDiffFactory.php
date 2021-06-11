@@ -10,14 +10,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileDiffFactory
 {
-    /**
-     * @var ColorConsoleDiffFormatter
-     */
-    private $colorConsoleDiffFormatter;
-
-    public function __construct(ColorConsoleDiffFormatter $colorConsoleDiffFormatter)
-    {
-        $this->colorConsoleDiffFormatter = $colorConsoleDiffFormatter;
+    public function __construct(
+        private ColorConsoleDiffFormatter $colorConsoleDiffFormatter
+    ) {
     }
 
     /**

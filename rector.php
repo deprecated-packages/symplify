@@ -16,6 +16,24 @@ use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(SetList::CODE_QUALITY);
+    $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
+    $containerConfigurator->import(SetList::DEAD_CODE);
+    $containerConfigurator->import(SetList::CODING_STYLE);
+    $containerConfigurator->import(SetList::PHP_54);
+    $containerConfigurator->import(SetList::PHP_55);
+    $containerConfigurator->import(SetList::PHP_56);
+    $containerConfigurator->import(SetList::PHP_70);
+    $containerConfigurator->import(SetList::PHP_71);
+    $containerConfigurator->import(SetList::PHP_72);
+    $containerConfigurator->import(SetList::PHP_73);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION);
+    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
+    $containerConfigurator->import(SetList::NAMING);
+    $containerConfigurator->import(SetList::PRIVATIZATION);
+    $containerConfigurator->import(SetList::EARLY_RETURN);
+    $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
+
     $services = $containerConfigurator->services();
 
     $services->set(StringClassNameToClassConstantRector::class)
@@ -43,24 +61,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
     $parameters->set(Option::AUTOLOAD_PATHS, [__DIR__ . '/tests/bootstrap.php', __DIR__ . '/ecs.php']);
-
-    $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
-    $containerConfigurator->import(SetList::DEAD_CODE);
-    $containerConfigurator->import(SetList::CODING_STYLE);
-    $containerConfigurator->import(SetList::PHP_54);
-    $containerConfigurator->import(SetList::PHP_55);
-    $containerConfigurator->import(SetList::PHP_56);
-    $containerConfigurator->import(SetList::PHP_70);
-    $containerConfigurator->import(SetList::PHP_71);
-    $containerConfigurator->import(SetList::PHP_72);
-    $containerConfigurator->import(SetList::PHP_73);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
-    $containerConfigurator->import(SetList::NAMING);
-    $containerConfigurator->import(SetList::PRIVATIZATION);
-    $containerConfigurator->import(SetList::EARLY_RETURN);
-    $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
     $parameters->set(Option::ENABLE_CACHE, true);

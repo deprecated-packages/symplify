@@ -21,24 +21,12 @@ final class SourceFinder
      */
     private $fileExtensions = [];
 
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
-     * @var GitDiffProvider
-     */
-    private $gitDiffProvider;
-
     public function __construct(
-        FinderSanitizer $finderSanitizer,
+        private FinderSanitizer $finderSanitizer,
         ParameterProvider $parameterProvider,
-        GitDiffProvider $gitDiffProvider
+        private GitDiffProvider $gitDiffProvider
     ) {
-        $this->finderSanitizer = $finderSanitizer;
         $this->fileExtensions = $parameterProvider->provideArrayParameter(Option::FILE_EXTENSIONS);
-        $this->gitDiffProvider = $gitDiffProvider;
     }
 
     /**

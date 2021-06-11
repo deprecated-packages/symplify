@@ -10,20 +10,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertedContentFactory
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ConfigFormatConverter
-     */
-    private $configFormatConverter;
-
-    public function __construct(SymfonyStyle $symfonyStyle, ConfigFormatConverter $configFormatConverter)
-    {
-        $this->symfonyStyle = $symfonyStyle;
-        $this->configFormatConverter = $configFormatConverter;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle,
+        private ConfigFormatConverter $configFormatConverter
+    ) {
     }
 
     /**

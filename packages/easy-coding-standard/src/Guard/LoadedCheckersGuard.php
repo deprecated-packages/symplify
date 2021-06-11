@@ -9,22 +9,10 @@ use Symplify\EasyCodingStandard\Bootstrap\NoCheckersLoaderReporter;
 
 final class LoadedCheckersGuard
 {
-    /**
-     * @var FileProcessorCollector
-     */
-    private $fileProcessorCollector;
-
-    /**
-     * @var NoCheckersLoaderReporter
-     */
-    private $noCheckersLoaderReporter;
-
     public function __construct(
-        FileProcessorCollector $fileProcessorCollector,
-        NoCheckersLoaderReporter $noCheckersLoaderReporter
+        private FileProcessorCollector $fileProcessorCollector,
+        private NoCheckersLoaderReporter $noCheckersLoaderReporter
     ) {
-        $this->fileProcessorCollector = $fileProcessorCollector;
-        $this->noCheckersLoaderReporter = $noCheckersLoaderReporter;
     }
 
     public function areSomeCheckerRegistered(): bool

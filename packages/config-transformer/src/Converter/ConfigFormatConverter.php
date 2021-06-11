@@ -19,43 +19,13 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ConfigFormatConverter
 {
-    /**
-     * @var ConfigLoader
-     */
-    private $configLoader;
-
-    /**
-     * @var YamlToPhpConverter
-     */
-    private $yamlToPhpConverter;
-
-    /**
-     * @var CurrentFilePathProvider
-     */
-    private $currentFilePathProvider;
-
-    /**
-     * @var XmlImportCollector
-     */
-    private $xmlImportCollector;
-
-    /**
-     * @var ContainerBuilderCleaner
-     */
-    private $containerBuilderCleaner;
-
     public function __construct(
-        ConfigLoader $configLoader,
-        YamlToPhpConverter $yamlToPhpConverter,
-        CurrentFilePathProvider $currentFilePathProvider,
-        XmlImportCollector $xmlImportCollector,
-        ContainerBuilderCleaner $containerBuilderCleaner
+        private ConfigLoader $configLoader,
+        private YamlToPhpConverter $yamlToPhpConverter,
+        private CurrentFilePathProvider $currentFilePathProvider,
+        private XmlImportCollector $xmlImportCollector,
+        private ContainerBuilderCleaner $containerBuilderCleaner
     ) {
-        $this->configLoader = $configLoader;
-        $this->yamlToPhpConverter = $yamlToPhpConverter;
-        $this->currentFilePathProvider = $currentFilePathProvider;
-        $this->xmlImportCollector = $xmlImportCollector;
-        $this->containerBuilderCleaner = $containerBuilderCleaner;
     }
 
     public function convert(SmartFileInfo $smartFileInfo): string

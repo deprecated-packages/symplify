@@ -21,20 +21,10 @@ final class ChangedFilesDetector
      */
     private const FILE_HASH = 'file_hash';
 
-    /**
-     * @var FileHashComputer
-     */
-    private $fileHashComputer;
-
-    /**
-     * @var Cache
-     */
-    private $cache;
-
-    public function __construct(FileHashComputer $fileHashComputer, Cache $cache)
-    {
-        $this->fileHashComputer = $fileHashComputer;
-        $this->cache = $cache;
+    public function __construct(
+        private FileHashComputer $fileHashComputer,
+        private Cache $cache
+    ) {
     }
 
     /**

@@ -8,20 +8,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConvertedContent
 {
-    /**
-     * @var string
-     */
-    private $convertedContent;
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $originalFileInfo;
-
-    public function __construct(string $convertedContent, SmartFileInfo $originalFileInfo)
-    {
-        $this->convertedContent = $convertedContent;
-        $this->originalFileInfo = $originalFileInfo;
+    public function __construct(
+        private string $convertedContent,
+        private SmartFileInfo $originalFileInfo
+    ) {
     }
 
     public function getConvertedContent(): string
