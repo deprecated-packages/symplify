@@ -10,7 +10,7 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Latte\LatteStaticCallAnalyzer\ForbiddenVariableConstantOrCallAnalyzer
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\ForbiddenVariableConstantOrCallAnalyzer\ForbiddenVariableConstantOrCallAnalyzerTest
  */
 final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInterface
 {
@@ -21,9 +21,16 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInte
 
     /**
      * @var string
+     */
+    private const CONSTANT_OR_METHOD_PART_KEY = 'constant_or_method';
+
+    /**
+     * @var string
      * @see https://regex101.com/r/mDzFKI/4
      */
-    private const ON_VARIABLE_CALL_REGEX = '#(?<' . self::VARIABLE_PART_KEY . '>\$[\w\\\\]+)::#m';
+    private const ON_VARIABLE_CALL_REGEX = '#(?<'
+        . self::VARIABLE_PART_KEY . '>\$[\w]+)::'
+        . '(?<' . self::CONSTANT_OR_METHOD_PART_KEY . '>[\w+])#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
@@ -46,14 +53,13 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInte
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
         $matches = Strings::matchAll($fileInfo->getContents(), self::ON_VARIABLE_CALL_REGEX);
-        dump($matches);
-        die;
 
         $latteErrors = [];
         foreach ($matches as $match) {
             $errorMessage = sprintf(
-                'On variable "%s::%s()" call/constant fetch is not allowed',
-                $match[self::VARIABLE_PART_KEY]
+                'On variable "%s::%s" call/constant fetch is not allowed',
+                $match[self::VARIABLE_PART_KEY],
+                $match[self::CONSTANT_OR_METHOD_PART_KEY],
             );
 
             $latteErrors[] = new LatteError($errorMessage, $fileInfo);

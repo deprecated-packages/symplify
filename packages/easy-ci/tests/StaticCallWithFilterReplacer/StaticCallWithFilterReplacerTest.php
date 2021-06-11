@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class StaticCallWithFilterReplacerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var StaticCallWithFilterReplacer
-     */
-    private $staticCallWithFilterReplacer;
+    private StaticCallWithFilterReplacer $staticCallWithFilterReplacer;
 
     protected function setUp(): void
     {

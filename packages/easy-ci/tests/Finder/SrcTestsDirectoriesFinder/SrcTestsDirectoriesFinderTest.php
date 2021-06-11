@@ -11,10 +11,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SrcTestsDirectoriesFinderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SrcTestsDirectoriesFinder
-     */
-    private $srcTestsDirectoriesFinder;
+    private SrcTestsDirectoriesFinder $srcTestsDirectoriesFinder;
 
     protected function setUp(): void
     {

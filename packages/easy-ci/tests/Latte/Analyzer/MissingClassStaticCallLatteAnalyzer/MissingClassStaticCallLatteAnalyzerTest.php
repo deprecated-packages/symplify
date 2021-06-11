@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer;
+namespace Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassStaticCallLatteAnalyzer;
 
 use Iterator;
 use Symplify\EasyCI\HttpKernel\EasyCIKernel;
@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MissingClassStaticCallLatteAnalyzerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var MissingClassStaticCallLatteAnalyzer
-     */
-    private $missingClassStaticCallLatteAnalyzer;
+    private MissingClassStaticCallLatteAnalyzer $missingClassStaticCallLatteAnalyzer;
 
     protected function setUp(): void
     {

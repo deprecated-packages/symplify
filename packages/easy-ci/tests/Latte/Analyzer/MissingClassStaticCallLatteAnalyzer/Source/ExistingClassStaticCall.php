@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer\Source;
+namespace Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassStaticCallLatteAnalyzer\Source;
 
 final class ExistingClassStaticCall
 {

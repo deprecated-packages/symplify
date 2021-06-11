@@ -10,7 +10,7 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassConstantLatteAnalyzer\MissingClassConstantLatteAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassConstantLatteAnalyzer\MissingClassConstantLatteAnalyzerTest
  */
 final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
 {

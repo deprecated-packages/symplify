@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\Latte\LattePersistence\Source;
 
-use Symplify\EasyCI\Tests\LattePersistence\Source\SomeStaticClass;
-
 final class PlusFilterProvider
 {
     /**

@@ -11,7 +11,7 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
+final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
 {
     private StaticCallLatteAnalyzer $staticCallLatteAnalyzer;
 
@@ -40,12 +40,12 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/simple_static_call.latte'),
             1,
-            'Method "Project\MailHelper::getUnsubscribeHash()" was not found',
+            'Static call "Project\MailHelper::getUnsubscribeHash()" should not be used in template, move to filter provider instead',
         ];
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/on_variable_static_call.latte'),
             1,
-            'Method "$mailHelper::getUnsubscribeHash()" was not found',
+            'Static call "$mailHelper::getUnsubscribeHash()" should not be used in template, move to filter provider instead',
         ];
     }
 }

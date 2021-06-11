@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class NonExistingClassExtractorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var NonExistingClassExtractor
-     */
-    private $nonExistingClassExtractor;
+    private NonExistingClassExtractor $nonExistingClassExtractor;
 
     protected function setUp(): void
     {

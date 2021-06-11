@@ -11,7 +11,7 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Latte\LatteStaticCallAnalyzer\LatteStaticCallAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\LatteStaticCallAnalyzer\StaticCallLatteAnalyzerTest
  */
 final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {

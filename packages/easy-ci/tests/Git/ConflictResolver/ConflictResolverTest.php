@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConflictResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ConflictResolver
-     */
-    private $conflictResolver;
+    private ConflictResolver $conflictResolver;
 
     protected function setUp(): void
     {
