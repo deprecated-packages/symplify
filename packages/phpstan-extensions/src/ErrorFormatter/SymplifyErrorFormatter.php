@@ -38,18 +38,13 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private $symfonyStyle;
 
     /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    /**
      * @var Output
      */
     private $output;
 
-    public function __construct(Terminal $terminal)
-    {
-        $this->terminal = $terminal;
+    public function __construct(
+        private Terminal $terminal
+    ) {
     }
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
