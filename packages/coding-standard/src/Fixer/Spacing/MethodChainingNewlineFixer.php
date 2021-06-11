@@ -28,29 +28,11 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
      */
     private const ERROR_MESSAGE = 'Each chain method call must be on own line';
 
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    /**
-     * @var ChainMethodCallAnalyzer
-     */
-    private $chainMethodCallAnalyzer;
-
     public function __construct(
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        BlockFinder $blockFinder,
-        ChainMethodCallAnalyzer $chainMethodCallAnalyzer
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private BlockFinder $blockFinder,
+        private ChainMethodCallAnalyzer $chainMethodCallAnalyzer
     ) {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->blockFinder = $blockFinder;
-        $this->chainMethodCallAnalyzer = $chainMethodCallAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface

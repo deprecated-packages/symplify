@@ -11,19 +11,13 @@ use PhpCsFixer\Tokenizer\Tokens;
 final class DocblockRelatedParamNamesResolver
 {
     /**
-     * @var FunctionsAnalyzer
-     */
-    private $functionsAnalyzer;
-
-    /**
      * @var Token[]
      */
     private $functionTokens = [];
 
-    public function __construct(FunctionsAnalyzer $functionsAnalyzer)
-    {
-        $this->functionsAnalyzer = $functionsAnalyzer;
-
+    public function __construct(
+        private FunctionsAnalyzer $functionsAnalyzer
+    ) {
         $this->functionTokens[] = new Token([T_FUNCTION, 'function']);
 
         // only in PHP 7.4+

@@ -6,20 +6,10 @@ namespace Symplify\CodingStandard\ValueObject;
 
 final class StartAndEnd
 {
-    /**
-     * @var int
-     */
-    private $start;
-
-    /**
-     * @var int
-     */
-    private $end;
-
-    public function __construct(int $start, int $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
+    public function __construct(
+        private int $start,
+        private int $end
+    ) {
     }
 
     public function getStart(): int

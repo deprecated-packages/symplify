@@ -30,29 +30,11 @@ final class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer imple
      */
     private const ERROR_MESSAGE = 'Indexed PHP array opener [ and closer ] must be on own line';
 
-    /**
-     * @var ArrayBlockInfoFinder
-     */
-    private $arrayBlockInfoFinder;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
     public function __construct(
-        ArrayBlockInfoFinder $arrayBlockInfoFinder,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        ArrayAnalyzer $arrayAnalyzer
+        private ArrayBlockInfoFinder $arrayBlockInfoFinder,
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private ArrayAnalyzer $arrayAnalyzer
     ) {
-        $this->arrayBlockInfoFinder = $arrayBlockInfoFinder;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface

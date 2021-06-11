@@ -11,20 +11,10 @@ use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\IndentDetector;
 
 final class IndentResolver
 {
-    /**
-     * @var IndentDetector
-     */
-    private $indentDetector;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    public function __construct(IndentDetector $indentDetector, WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
-        $this->indentDetector = $indentDetector;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
+    public function __construct(
+        private IndentDetector $indentDetector,
+        private WhitespacesFixerConfig $whitespacesFixerConfig
+    ) {
     }
 
     /**

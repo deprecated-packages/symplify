@@ -31,22 +31,10 @@ final class NewlineServiceDefinitionConfigFixer extends AbstractSymplifyFixer im
      */
     private const FLUENT_METHOD_NAMES = ['call', 'property', 'args', 'arg'];
 
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var SymfonyClosureAnalyzer
-     */
-    private $symfonyClosureAnalyzer;
-
     public function __construct(
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        SymfonyClosureAnalyzer $symfonyClosureAnalyzer
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private SymfonyClosureAnalyzer $symfonyClosureAnalyzer
     ) {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->symfonyClosureAnalyzer = $symfonyClosureAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface

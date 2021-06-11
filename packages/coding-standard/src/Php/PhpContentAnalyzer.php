@@ -19,14 +19,9 @@ final class PhpContentAnalyzer
      */
     private const END_SEMI_COLON_TYPES = [T_INCLUDE, T_EMPTY, T_USE];
 
-    /**
-     * @var TokenFinder
-     */
-    private $tokenFinder;
-
-    public function __construct(TokenFinder $tokenFinder)
-    {
-        $this->tokenFinder = $tokenFinder;
+    public function __construct(
+        private TokenFinder $tokenFinder
+    ) {
     }
 
     public function isPhpContent(string $content): bool

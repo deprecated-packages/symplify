@@ -29,21 +29,15 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer impleme
     private const ERROR_MESSAGE = 'Strict type declaration has to be followed by empty line';
 
     /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
      * Generates: "declare(strict_types=1);"
      *
      * @var Token[]
      */
     private $declareStrictTypeTokens = [];
 
-    public function __construct(WhitespacesFixerConfig $whitespacesFixerConfig)
-    {
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-
+    public function __construct(
+        private WhitespacesFixerConfig $whitespacesFixerConfig
+    ) {
         $this->declareStrictTypeTokens = [
             new Token([T_DECLARE, 'declare']),
             new Token('('),
