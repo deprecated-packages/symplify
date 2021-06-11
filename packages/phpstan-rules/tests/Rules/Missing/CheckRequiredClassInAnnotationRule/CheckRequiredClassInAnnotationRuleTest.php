@@ -30,8 +30,10 @@ final class CheckRequiredClassInAnnotationRuleTest extends AbstractServiceAwareR
             'Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\Fixture\Blemc'
         );
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotation.php', [[$errorMessage, 12]]];
+        yield [__DIR__ . '/Fixture/NonExistingClassAnnotationInConstantFetch.php', [[$errorMessage, 12]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingClassAnnotation.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingClassAnnotationWithConstant.php', []];
     }
 
     protected function getRule(): Rule
