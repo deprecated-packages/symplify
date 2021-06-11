@@ -18,20 +18,10 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
      */
     public const NAME = 'console';
 
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(EasyCodingStandardStyle $easyCodingStandardStyle, Configuration $configuration)
-    {
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->configuration = $configuration;
+    public function __construct(
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private Configuration $configuration
+    ) {
     }
 
     public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int

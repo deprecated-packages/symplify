@@ -9,14 +9,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class TwigAnalyzer
 {
-    /**
-     * @var RenderMethodTemplateExtractor
-     */
-    private $renderMethodTemplateExtractor;
-
-    public function __construct(RenderMethodTemplateExtractor $renderMethodTemplateExtractor)
-    {
-        $this->renderMethodTemplateExtractor = $renderMethodTemplateExtractor;
+    public function __construct(
+        private RenderMethodTemplateExtractor $renderMethodTemplateExtractor
+    ) {
     }
 
     /**

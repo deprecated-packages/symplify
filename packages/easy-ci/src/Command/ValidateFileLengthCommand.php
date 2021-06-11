@@ -16,32 +16,12 @@ use Symplify\PackageBuilder\ValueObject\Option;
 
 final class ValidateFileLengthCommand extends Command
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ProjectFilesFinder
-     */
-    private $projectFilesFinder;
-
-    /**
-     * @var TooLongFilesResolver
-     */
-    private $tooLongFilesResolver;
-
     public function __construct(
-        ProjectFilesFinder $projectFilesFinder,
-        SymfonyStyle $symfonyStyle,
-        TooLongFilesResolver $tooLongFilesResolver
+        private ProjectFilesFinder $projectFilesFinder,
+        private SymfonyStyle $symfonyStyle,
+        private TooLongFilesResolver $tooLongFilesResolver
     ) {
-        $this->symfonyStyle = $symfonyStyle;
-
         parent::__construct();
-
-        $this->projectFilesFinder = $projectFilesFinder;
-        $this->tooLongFilesResolver = $tooLongFilesResolver;
     }
 
     protected function configure(): void

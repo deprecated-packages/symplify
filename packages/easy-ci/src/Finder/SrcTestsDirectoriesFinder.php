@@ -29,14 +29,9 @@ final class SrcTestsDirectoriesFinder
      */
     private const TESTS_ONLY_REGEX = '#\btests\b#';
 
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    public function __construct(FinderSanitizer $finderSanitizer)
-    {
-        $this->finderSanitizer = $finderSanitizer;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer
+    ) {
     }
 
     /**

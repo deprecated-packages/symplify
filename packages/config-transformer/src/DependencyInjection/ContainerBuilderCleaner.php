@@ -21,20 +21,10 @@ final class ContainerBuilderCleaner
      */
     private const ANONYMOUS_CLASS_REGEX = '#^[\d]+\_[\w]{64}$#';
 
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    public function __construct(PrivatesAccessor $privatesAccessor, Configuration $configuration)
-    {
-        $this->privatesAccessor = $privatesAccessor;
-        $this->configuration = $configuration;
+    public function __construct(
+        private PrivatesAccessor $privatesAccessor,
+        private Configuration $configuration
+    ) {
     }
 
     public function cleanContainerBuilder(ContainerBuilder $containerBuilder): void

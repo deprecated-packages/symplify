@@ -11,20 +11,10 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class CacheFactory
 {
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(ParameterProvider $parameterProvider, SmartFileSystem $smartFileSystem)
-    {
-        $this->parameterProvider = $parameterProvider;
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private ParameterProvider $parameterProvider,
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     public function create(): Cache

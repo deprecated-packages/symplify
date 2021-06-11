@@ -28,8 +28,8 @@ final class MissingClassesLatteAnalyzerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $inputFileInfo, int $expectedErrorCount): void
     {
-        $result = $this->missingClassesLatteAnalyzer->analyze([$inputFileInfo]);
-        $this->assertCount($expectedErrorCount, $result);
+        $latteErrors = $this->missingClassesLatteAnalyzer->analyze([$inputFileInfo]);
+        $this->assertCount($expectedErrorCount, $latteErrors);
     }
 
     /**

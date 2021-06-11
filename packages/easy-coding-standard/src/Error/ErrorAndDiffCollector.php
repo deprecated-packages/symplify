@@ -32,36 +32,12 @@ final class ErrorAndDiffCollector
      */
     private $fileDiffs = [];
 
-    /**
-     * @var ChangedFilesDetector
-     */
-    private $changedFilesDetector;
-
-    /**
-     * @var FileDiffFactory
-     */
-    private $fileDiffFactory;
-
-    /**
-     * @var ErrorFactory
-     */
-    private $errorFactory;
-
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
     public function __construct(
-        ChangedFilesDetector $changedFilesDetector,
-        FileDiffFactory $fileDiffFactory,
-        ErrorFactory $errorFactory,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider
+        private ChangedFilesDetector $changedFilesDetector,
+        private FileDiffFactory $fileDiffFactory,
+        private ErrorFactory $errorFactory,
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider
     ) {
-        $this->changedFilesDetector = $changedFilesDetector;
-        $this->fileDiffFactory = $fileDiffFactory;
-        $this->errorFactory = $errorFactory;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
     }
 
     /**
@@ -141,7 +117,7 @@ final class ErrorAndDiffCollector
     private function ensureIsFixerOrChecker(string $sourceClass): void
     {
         // remove dot suffix of "."
-        if (Strings::contains($sourceClass, '.')) {
+        if (\str_contains($sourceClass, '.')) {
             $sourceClass = (string) Strings::before($sourceClass, '.', 1);
         }
 

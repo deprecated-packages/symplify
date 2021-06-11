@@ -13,29 +13,11 @@ use Symplify\ConfigTransformer\Naming\UniqueNaming;
 
 final class IdAwareXmlFileLoaderFactory
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var UniqueNaming
-     */
-    private $uniqueNaming;
-
-    /**
-     * @var XmlImportCollector
-     */
-    private $xmlImportCollector;
-
     public function __construct(
-        Configuration $configuration,
-        UniqueNaming $uniqueNaming,
-        XmlImportCollector $xmlImportCollector
+        private Configuration $configuration,
+        private UniqueNaming $uniqueNaming,
+        private XmlImportCollector $xmlImportCollector
     ) {
-        $this->configuration = $configuration;
-        $this->uniqueNaming = $uniqueNaming;
-        $this->xmlImportCollector = $xmlImportCollector;
     }
 
     public function createFromContainerBuilder(ContainerBuilder $containerBuilder): IdAwareXmlFileLoader

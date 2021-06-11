@@ -55,75 +55,21 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $fixers = [];
 
     /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var FileToTokensParser
-     */
-    private $fileToTokensParser;
-
-    /**
-     * @var DifferInterface
-     */
-    private $differ;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
-     * @var TargetFileInfoResolver
-     */
-    private $targetFileInfoResolver;
-
-    /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        Configuration $configuration,
-        FileToTokensParser $fileToTokensParser,
-        Skipper $skipper,
-        DifferInterface $differ,
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        SmartFileSystem $smartFileSystem,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider,
-        TargetFileInfoResolver $targetFileInfoResolver,
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private Configuration $configuration,
+        private FileToTokensParser $fileToTokensParser,
+        private Skipper $skipper,
+        private DifferInterface $differ,
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private SmartFileSystem $smartFileSystem,
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider,
+        private TargetFileInfoResolver $targetFileInfoResolver,
         array $fixers = []
     ) {
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->skipper = $skipper;
-        $this->configuration = $configuration;
-        $this->fileToTokensParser = $fileToTokensParser;
-        $this->differ = $differ;
         $this->fixers = $this->sortFixers($fixers);
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
-        $this->targetFileInfoResolver = $targetFileInfoResolver;
     }
 
     /**
@@ -196,7 +142,7 @@ final class FixerFileProcessor implements FileProcessorInterface
 
         // show current fixer in --debug / -vvv
         if ($this->easyCodingStandardStyle->isDebug()) {
-            $this->easyCodingStandardStyle->writeln('     [fixer] ' . get_class($fixer));
+            $this->easyCodingStandardStyle->writeln('     [fixer] ' . $fixer::class);
         }
 
         try {
@@ -205,7 +151,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             throw new FixerFailedException(sprintf(
                 'Fixing of "%s" file by "%s" failed: %s in file %s on line %d',
                 $smartFileInfo->getRelativeFilePath(),
-                get_class($fixer),
+                $fixer::class,
                 $throwable->getMessage(),
                 $throwable->getFile(),
                 $throwable->getLine()
@@ -219,7 +165,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $tokens->clearEmptyTokens();
         $tokens->clearChanged();
 
-        $this->appliedFixers[] = get_class($fixer);
+        $this->appliedFixers[] = $fixer::class;
     }
 
     /**
