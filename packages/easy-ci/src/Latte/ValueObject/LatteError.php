@@ -18,4 +18,9 @@ final class LatteError
     {
         return $this->errorMessage;
     }
+
+    public function getRelativeFilePath(): string
+    {
+        return $this->smartFileInfo->getRelativeFilePath();
+    }
 }

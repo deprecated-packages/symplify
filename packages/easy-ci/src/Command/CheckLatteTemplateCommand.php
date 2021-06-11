@@ -38,17 +38,19 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $errors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
-        if ($errors === []) {
+        $latteErrors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
+        if ($latteErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return ShellCode::SUCCESS;
         }
 
-        foreach ($errors as $error) {
-            $this->symfonyStyle->note($error);
+        foreach ($latteErrors as $latteError) {
+            $this->symfonyStyle->writeln($latteError->getRelativeFilePath());
+            $this->symfonyStyle->writeln(' * ' . $latteError->getErrorMessage());
+            $this->symfonyStyle->newLine();
         }
 
-        $errorMassage = sprintf('%d errors found', count($errors));
+        $errorMassage = sprintf('%d errors found', count($latteErrors));
         $this->symfonyStyle->error($errorMassage);
 
         return ShellCode::ERROR;

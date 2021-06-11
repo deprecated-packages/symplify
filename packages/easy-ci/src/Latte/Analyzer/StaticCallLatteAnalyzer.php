@@ -39,13 +39,13 @@ final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
      */
     public function analyze(array $fileInfos): array
     {
-        $classMethodNames = [];
+        $latteErrors = [];
         foreach ($fileInfos as $fileInfo) {
-            $fileClassMethodNames = $this->analyzeFileInfo($fileInfo);
-            $classMethodNames = array_merge($classMethodNames, $fileClassMethodNames);
+            $currentLatteErrors = $this->analyzeFileInfo($fileInfo);
+            $latteErrors = array_merge($latteErrors, $currentLatteErrors);
         }
 
-        return $classMethodNames;
+        return $latteErrors;
     }
 
     /**
@@ -58,6 +58,16 @@ final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
 
         $latteErrors = [];
         foreach ($matches as $match) {
+
+            // @todo this is very smart! - include it in error message
+//        $this->symfonyStyle->writeln('Template call located at: ' . $classMethodName->getLatteFilePath());
+//
+//        if (! $classMethodName->isOnVariableStaticCall()) {
+//            $this->symfonyStyle->writeln('Method located at: ' . $classMethodName->getFileLine());
+//        }
+
+
+
             $errorMessage = sprintf(
                 'Method "%s::%s()" was not found',
                 $match[self::CLASS_NAME_PART],

@@ -22,13 +22,15 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
     /**
      * @var string
      */
-    private const METHOD_KEY_PART = 'class';
+    private const METHOD_KEY_PART = 'method';
 
     /**
      * @see https://regex101.com/r/Wrfff2/8
      * @var string
      */
-    private const CLASS_STATIC_CALL_REGEX = '#\b(?<' . self::CLASS_KEY_PART . '>[A-Z][\w\\\\]+)::(?< ' . self::METHOD_KEY_PART . '>\w+)\(#m';
+    private const CLASS_STATIC_CALL_REGEX = '#\b(?<' .
+        self::CLASS_KEY_PART . '>[A-Z][\w\\\\]+)::(?<' .
+        self::METHOD_KEY_PART . '>\w+)\(#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
@@ -45,16 +47,14 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
             }
 
             foreach ($matches as $foundMatch) {
-                if (method_exists($foundMatch[self::CLASS_KEY_PART], $foundMatch[self::METHOD_KEY_PART])) {
+                $className = $foundMatch[self::CLASS_KEY_PART];
+                $methodName = $foundMatch[self::METHOD_KEY_PART];
+
+                if (method_exists($className, $methodName)) {
                     continue;
                 }
 
-                $errorMessage = sprintf(
-                    'Method "%s::%s()" was not found.',
-                    $foundMatch['class'],
-                    $foundMatch['method']
-                );
-
+                $errorMessage = sprintf('Method "%s::%s()" was not found.', $className, $methodName);
                 $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
