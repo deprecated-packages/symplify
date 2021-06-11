@@ -4,34 +4,33 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Latte\Analyzer;
 
-use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
 use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Latte\Analyzer\LatteStaticCallAnalyzer\StaticCallLatteAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\ForbiddenVariableConstantOrCallAnalyzer\ForbiddenVariableConstantOrCallAnalyzerTest
  */
-final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
+final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInterface
 {
     /**
      * @var string
      */
-    private const CLASS_NAME_PART = 'class';
+    private const VARIABLE_PART_KEY = 'variable';
 
     /**
      * @var string
      */
-    private const METHOD_NAME_PART = 'method';
+    private const CONSTANT_OR_METHOD_PART_KEY = 'constant_or_method';
 
     /**
      * @var string
      * @see https://regex101.com/r/mDzFKI/4
      */
-    private const STATIC_CALL_REGEX = '#(?<' .
-        self::CLASS_NAME_PART . '>(\$|\b[A-Z])[\w\\\\]+)::(?<' .
-        self::METHOD_NAME_PART . '>[\w]+)\((.*?)?\)#m';
+    private const ON_VARIABLE_CALL_REGEX = '#(?<'
+        . self::VARIABLE_PART_KEY . '>\$[\w]+)::'
+        . '(?<' . self::CONSTANT_OR_METHOD_PART_KEY . '>[\w+])#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
@@ -53,31 +52,19 @@ final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
      */
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
-        $matches = Strings::matchAll($fileInfo->getContents(), self::STATIC_CALL_REGEX);
-        $matches = $this->filterOutAllowedStaticClasses($matches);
+        $matches = Strings::matchAll($fileInfo->getContents(), self::ON_VARIABLE_CALL_REGEX);
 
         $latteErrors = [];
         foreach ($matches as $match) {
             $errorMessage = sprintf(
-                'Static call "%s::%s()" should not be used in template, move to filter provider instead',
-                $match[self::CLASS_NAME_PART],
-                $match[self::METHOD_NAME_PART]
+                'On variable "%s::%s" call/constant fetch is not allowed',
+                $match[self::VARIABLE_PART_KEY],
+                $match[self::CONSTANT_OR_METHOD_PART_KEY],
             );
 
             $latteErrors[] = new LatteError($errorMessage, $fileInfo);
         }
 
         return $latteErrors;
-    }
-
-    /**
-     * @param string[][] $matches
-     * @return string[][]
-     */
-    private function filterOutAllowedStaticClasses(array $matches): array
-    {
-        return array_filter($matches, static function (array $match): bool {
-            return ! in_array($match[self::CLASS_NAME_PART], [Strings::class, DateTime::class], true);
-        });
     }
 }
