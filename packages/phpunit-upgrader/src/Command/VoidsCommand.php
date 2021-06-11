@@ -15,16 +15,10 @@ use Symplify\PHPUnitUpgrader\ValueObject\Option;
 
 final class VoidsCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var VoidPHPUnitUpgrader
-     */
-    private $voidPHPUnitUpgrader;
-
-    public function __construct(VoidPHPUnitUpgrader $voidPHPUnitUpgrader)
-    {
+    public function __construct(
+        private VoidPHPUnitUpgrader $voidPHPUnitUpgrader
+    ) {
         parent::__construct();
-
-        $this->voidPHPUnitUpgrader = $voidPHPUnitUpgrader;
     }
 
     protected function configure(): void

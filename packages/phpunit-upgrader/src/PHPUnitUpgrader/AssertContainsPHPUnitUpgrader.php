@@ -11,22 +11,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsPHPUnitUpgrader
 {
-    /**
-     * @var AssertContainsInfoDecorator
-     */
-    private $assertContainsInfoDecorator;
-
-    /**
-     * @var ReportingFileDumper
-     */
-    private $reportingFileDumper;
-
     public function __construct(
-        AssertContainsInfoDecorator $assertContainsInfoDecorator,
-        ReportingFileDumper $reportingFileDumper
+        private AssertContainsInfoDecorator $assertContainsInfoDecorator,
+        private ReportingFileDumper $reportingFileDumper
     ) {
-        $this->assertContainsInfoDecorator = $assertContainsInfoDecorator;
-        $this->reportingFileDumper = $reportingFileDumper;
     }
 
     /**
