@@ -14,14 +14,9 @@ final class SkippedClassAndCodesResolver
      */
     private $skippedClassAndCodes = [];
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
+    public function __construct(
+        private ParameterProvider $parameterProvider
+    ) {
     }
 
     /**
