@@ -9,14 +9,9 @@ use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 final class GenerateCommandReporter
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle
+    ) {
     }
 
     public function reportIdenticalNewAndOldFile(OldAndNewFileInfo $oldAndNewFileInfo): void
