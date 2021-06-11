@@ -13,13 +13,14 @@ final class Psr4PathValidator
         ClassNamespaceAndDirectory $classNamespaceAndDirectory,
         string $file
     ): bool {
-        /** @var array<int, string> $paths */
-        $paths = explode($classNamespaceAndDirectory->getSingleDirectory(), $file);
-        if (count($paths) === 1) {
+        $singleDirectory = $classNamespaceAndDirectory->getSingleDirectory();
+        $splitPaths = Strings::split($file, '#\/' . preg_quote($singleDirectory, '#') . '\/#');
+
+        if (count($splitPaths) === 1) {
             return false;
         }
 
-        $directoryInNamespacedRoot = dirname($paths[1]);
+        $directoryInNamespacedRoot = dirname($splitPaths[1]);
         $directoryInNamespacedRoot = $this->normalizePath($directoryInNamespacedRoot);
 
         $namespaceSuffixByDirectoryClass = ltrim($directoryInNamespacedRoot, '\\');
