@@ -18,8 +18,6 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @todo make generics AnnotationTraverser like php-cs-fixer has
- *
  * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\CheckRequiredClassInAnnotationRuleTest
  */
 final class CheckRequiredClassInAnnotationRule extends AbstractSymplifyRule

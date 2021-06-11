@@ -24,7 +24,7 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
      * @var string
      * @see https://regex101.com/r/2OYung/1
      */
-    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::class#';
+    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<reference>class|[A-Za-z_]+)#';
 
     /**
      * @var string
