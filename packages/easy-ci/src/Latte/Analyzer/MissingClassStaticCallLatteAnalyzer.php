@@ -5,29 +5,40 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Webmozart\Assert\Assert;
 
 /**
  * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer\MissingClassStaticCallLatteAnalyzerTest
  */
-final class MissingClassStaticCallLatteAnalyzer
+final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {
+    /**
+     * @var string
+     */
+    private const CLASS_KEY_PART = 'class';
+
+    /**
+     * @var string
+     */
+    private const METHOD_KEY_PART = 'method';
+
     /**
      * @see https://regex101.com/r/Wrfff2/8
      * @var string
      */
-    private const CLASS_STATIC_CALL_REGEX = '#\b(?<class>[A-Z][\w\\\\]+)::(?<method>\w+)\(#m';
+    private const CLASS_STATIC_CALL_REGEX = '#\b(?<' .
+        self::CLASS_KEY_PART . '>[A-Z][\w\\\\]+)::(?<' .
+        self::METHOD_KEY_PART . '>\w+)\(#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return string[]
+     * @return LatteError[]
      */
     public function analyze(array $fileInfos): array
     {
-        Assert::allIsAOf($fileInfos, SmartFileInfo::class);
-
-        $errors = [];
+        $latteErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
             $matches = Strings::matchAll($fileInfo->getContents(), self::CLASS_STATIC_CALL_REGEX);
@@ -36,21 +47,18 @@ final class MissingClassStaticCallLatteAnalyzer
             }
 
             foreach ($matches as $foundMatch) {
-                if (method_exists($foundMatch['class'], $foundMatch['method'])) {
+                $className = $foundMatch[self::CLASS_KEY_PART];
+                $methodName = $foundMatch[self::METHOD_KEY_PART];
+
+                if (method_exists($className, $methodName)) {
                     continue;
                 }
 
-                $error = sprintf(
-                    'Method "%s::%s()" was not be found in "%s"',
-                    $foundMatch['class'],
-                    $foundMatch['method'],
-                    $fileInfo->getRelativeFilePathFromCwd()
-                );
-
-                $errors[] = $error;
+                $errorMessage = sprintf('Method "%s::%s()" was not found.', $className, $methodName);
+                $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
 
-        return $errors;
+        return $latteErrors;
     }
 }

@@ -7,23 +7,17 @@ namespace Symplify\EasyCI\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\EasyCI\Latte\Analyzer\LatteAnalyzer;
+use Symplify\EasyCI\Latte\LatteProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var LatteAnalyzer
-     */
-    private $latteAnalyzer;
-
-    public function __construct(LatteAnalyzer $latteAnalyzer)
-    {
+    public function __construct(
+        private LatteProcessor $latteProcessor
+    ) {
         parent::__construct();
-
-        $this->latteAnalyzer = $latteAnalyzer;
     }
 
     protected function configure(): void
@@ -44,17 +38,19 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $errors = $this->latteAnalyzer->analyzeFileInfos($latteFileInfos);
-        if ($errors === []) {
+        $latteErrors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
+        if ($latteErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return ShellCode::SUCCESS;
         }
 
-        foreach ($errors as $error) {
-            $this->symfonyStyle->note($error);
+        foreach ($latteErrors as $latteError) {
+            $this->symfonyStyle->writeln($latteError->getRelativeFilePath());
+            $this->symfonyStyle->writeln(' * ' . $latteError->getErrorMessage());
+            $this->symfonyStyle->newLine();
         }
 
-        $errorMassage = sprintf('%d errors found', count($errors));
+        $errorMassage = sprintf('%d errors found', count($latteErrors));
         $this->symfonyStyle->error($errorMassage);
 
         return ShellCode::ERROR;

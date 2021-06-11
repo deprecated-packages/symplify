@@ -13,20 +13,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class NonExistingClassExtractor
 {
-    /**
-     * @var ClassExtractor
-     */
-    private $classExtractor;
-
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
-    public function __construct(ClassExtractor $classExtractor, ClassLikeExistenceChecker $classLikeExistenceChecker)
-    {
-        $this->classExtractor = $classExtractor;
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    public function __construct(
+        private ClassExtractor $classExtractor,
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
+    ) {
     }
 
     /**

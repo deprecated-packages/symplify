@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassConstantLatteAnalyzer\MissingClassConstantLatteAnalyzerTest
  */
-final class MissingClassConstantLatteAnalyzer
+final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
 {
     /**
      * @see https://regex101.com/r/Wrfff2/9
@@ -25,11 +27,11 @@ final class MissingClassConstantLatteAnalyzer
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return string[]
+     * @return LatteError[]
      */
     public function analyze(array $fileInfos): array
     {
-        $errors = [];
+        $latteErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
             $matches = Strings::matchAll($fileInfo->getContents(), self::CLASS_CONSTANT_REGEX);
@@ -43,14 +45,11 @@ final class MissingClassConstantLatteAnalyzer
                     continue;
                 }
 
-                $errors[] = sprintf(
-                    'Class constant "%s" was not found in "%s"',
-                    $classConstantName,
-                    $fileInfo->getRelativeFilePathFromCwd()
-                );
+                $errorMessage = sprintf('Class constant "%s" not found', $classConstantName);
+                $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
 
-        return $errors;
+        return $latteErrors;
     }
 }

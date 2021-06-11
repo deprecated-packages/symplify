@@ -138,21 +138,9 @@ final class SomeController
 
 <br>
 
-### 6. Extract Static Calls from Latte Templates to FilterProvider
+### 6. Avoid Static Calls in Latte Templates and use FilterProvider Instead
 
-Do you have a static call in your template? It's a hidden filter. Let's decouple it so we can use DI and services as in the rest of project:
-
-```bash
-vendor/bin/easy-ci extract-latte-static-call-to-filter templates
-```
-
-But that's just a dry run... how to apply changes?
-
-```bash
-vendor/bin/easy-ci extract-latte-static-call-to-filter templates --fix
-```
-
-What happens? The static call will be replaced by a Latte filter:
+Static calls in Latte templates [are a code smell](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters). Make your code more decoupled and use a Latte filter instead:
 
 ```diff
  # any latte file
@@ -160,7 +148,7 @@ What happens? The static call will be replaced by a Latte filter:
 +{$value|someStaticMethod}
 ```
 
-The filter will be provided
+Filter provider can look like this:
 
 ```php
 use App\Contract\Latte\FilterProviderInterface;
@@ -168,8 +156,6 @@ use App\SomeClass;
 
 final class SomeMethodFilterProvider implements FilterProviderInterface
 {
-    public const FILTER_NAME = 'someMethod';
-
     public function __invoke(string $name): int
     {
         return SomeClass::someStaticMethod($name);
@@ -177,14 +163,10 @@ final class SomeMethodFilterProvider implements FilterProviderInterface
 
     public function getName(): string
     {
-        return self::FILTER_NAME;
+        return 'someMethod';
     }
 }
 ```
-
-The file will be generated into `/generated` directory. Just rename namespaces and copy it to your workflow.
-
-Do you want to know more about **clean Latte filters**? Read [How to Get Rid of Magic, Static and Chaos from Latte Filters](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters/)
 
 <br>
 

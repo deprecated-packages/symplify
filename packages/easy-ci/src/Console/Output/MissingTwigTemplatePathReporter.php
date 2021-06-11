@@ -9,14 +9,9 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class MissingTwigTemplatePathReporter
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle
+    ) {
     }
 
     /**

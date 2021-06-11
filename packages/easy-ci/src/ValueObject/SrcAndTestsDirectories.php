@@ -9,23 +9,13 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class SrcAndTestsDirectories
 {
     /**
-     * @var SmartFileInfo[]
-     */
-    private $srcDirectories = [];
-
-    /**
-     * @var SmartFileInfo[]
-     */
-    private $testsDirectories = [];
-
-    /**
      * @param SmartFileInfo[] $srcDirectories
      * @param SmartFileInfo[] $testsDirectories
      */
-    public function __construct(array $srcDirectories, array $testsDirectories)
-    {
-        $this->srcDirectories = $srcDirectories;
-        $this->testsDirectories = $testsDirectories;
+    public function __construct(
+        private array $srcDirectories,
+        private array $testsDirectories
+    ) {
     }
 
     /**

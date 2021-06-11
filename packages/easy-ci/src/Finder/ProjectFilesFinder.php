@@ -9,14 +9,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ProjectFilesFinder
 {
-    /**
-     * @var SmartFinder
-     */
-    private $smartFinder;
-
-    public function __construct(SmartFinder $smartFinder)
-    {
-        $this->smartFinder = $smartFinder;
+    public function __construct(
+        private SmartFinder $smartFinder
+    ) {
     }
 
     /**

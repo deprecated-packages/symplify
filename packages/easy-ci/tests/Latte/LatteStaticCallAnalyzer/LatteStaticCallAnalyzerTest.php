@@ -6,22 +6,22 @@ namespace Symplify\EasyCI\Tests\Latte\LatteStaticCallAnalyzer;
 
 use Iterator;
 use Symplify\EasyCI\HttpKernel\EasyCIKernel;
-use Symplify\EasyCI\Latte\LatteStaticCallAnalyzer;
-use Symplify\EasyCI\ValueObject\ClassMethodName;
+use Symplify\EasyCI\Latte\Analyzer\StaticCallLatteAnalyzer;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
 {
     /**
-     * @var LatteStaticCallAnalyzer
+     * @var StaticCallLatteAnalyzer
      */
-    private $latteStaticCallAnalyzer;
+    private $staticCallLatteAnalyzer;
 
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->latteStaticCallAnalyzer = $this->getService(LatteStaticCallAnalyzer::class);
+        $this->staticCallLatteAnalyzer = $this->getService(StaticCallLatteAnalyzer::class);
     }
 
     /**
@@ -29,14 +29,13 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fileInfo, int $expectedClassMethodCount, string $expectedClassMethodName): void
     {
-        $classMethodNames = $this->latteStaticCallAnalyzer->analyzeFileInfos([$fileInfo]);
+        $latteErrors = $this->staticCallLatteAnalyzer->analyze([$fileInfo]);
+        $this->assertCount($expectedClassMethodCount, $latteErrors);
 
-        $this->assertCount($expectedClassMethodCount, $classMethodNames);
+        $latteError = $latteErrors[0];
+        $this->assertInstanceOf(LatteError::class, $latteError);
 
-        $classMethodName = $classMethodNames[0];
-        $this->assertInstanceOf(ClassMethodName::class, $classMethodName);
-
-        $this->assertSame($expectedClassMethodName, $classMethodName->getClassMethodName());
+        $this->assertSame($expectedClassMethodName, $latteError->getErrorMessage());
     }
 
     public function provideData(): Iterator
@@ -44,12 +43,12 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/simple_static_call.latte'),
             1,
-            'Project\MailHelper::getUnsubscribeHash',
+            'Method "Project\MailHelper::getUnsubscribeHash()" was not found',
         ];
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/on_variable_static_call.latte'),
             1,
-            '$mailHelper::getUnsubscribeHash',
+            'Method "$mailHelper::getUnsubscribeHash()" was not found',
         ];
     }
 }

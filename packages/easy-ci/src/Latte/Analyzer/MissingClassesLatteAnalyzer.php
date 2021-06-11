@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassesLatteAnalyzer\MissingClassesLatteAnalyzerTest
  */
-final class MissingClassesLatteAnalyzer
+final class MissingClassesLatteAnalyzer implements LatteAnalyzerInterface
 {
     /**
      * @see https://regex101.com/r/Wrfff2/7
@@ -25,19 +27,14 @@ final class MissingClassesLatteAnalyzer
      */
     private const VARTYPE_INSTANCEOF_CLASS_REGEX = '#(vartype|varType|instanceof|instanceOf)\s+(\\\\)?(?<class>[A-Z][\w\\\\]+)#ms';
 
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
-    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
-    {
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    public function __construct(
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
+    ) {
     }
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return string[]
+     * @return LatteError[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -61,11 +58,7 @@ final class MissingClassesLatteAnalyzer
                     continue;
                 }
 
-                $errors[] = sprintf(
-                    'Class "%s" was not found in "%s"',
-                    $class,
-                    $fileInfo->getRelativeFilePathFromCwd()
-                );
+                $errors[] = new LatteError(sprintf('Class "%s" not found', $class), $fileInfo,);
             }
         }
 
