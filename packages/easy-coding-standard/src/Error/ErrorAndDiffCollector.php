@@ -117,7 +117,7 @@ final class ErrorAndDiffCollector
     private function ensureIsFixerOrChecker(string $sourceClass): void
     {
         // remove dot suffix of "."
-        if (Strings::contains($sourceClass, '.')) {
+        if (\str_contains($sourceClass, '.')) {
             $sourceClass = (string) Strings::before($sourceClass, '.', 1);
         }
 

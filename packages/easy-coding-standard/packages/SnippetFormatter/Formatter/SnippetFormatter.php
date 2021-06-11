@@ -70,7 +70,7 @@ final class SnippetFormatter
         $this->currentParentFileInfoProvider->setParentFileInfo($fileInfo);
 
         return Strings::replace($fileInfo->getContents(), $snippetRegex, function ($match) use ($kind): string {
-            if (Strings::contains($match[self::CONTENT], '-----')) {
+            if (\str_contains($match[self::CONTENT], '-----')) {
                 // do nothing
                 return $match[self::OPENING] . $match[self::CONTENT] . $match[self::CLOSING];
             }
@@ -100,7 +100,7 @@ final class SnippetFormatter
         $content = $this->isPhp73OrAbove ? $content : trim($content);
         $temporaryFilePath = $this->createTemporaryFilePath($content);
 
-        if (! Strings::startsWith($this->isPhp73OrAbove ? trim($content) : $content, '<?php')) {
+        if (! \str_starts_with($this->isPhp73OrAbove ? trim($content) : $content, '<?php')) {
             $content = '<?php' . PHP_EOL . $content;
         }
 
@@ -114,7 +114,7 @@ final class SnippetFormatter
             $this->sniffFileProcessor->processFile($temporaryFileInfo);
 
             $fileContent = $temporaryFileInfo->getContents();
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // Skipped parsed error when processing php temporaryFile
         } finally {
             // remove temporary temporaryFile

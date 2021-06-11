@@ -25,7 +25,7 @@ final class CheckerListReporter
         }
 
         $checkerNames = array_map(function ($checker): string {
-            return get_class($checker);
+            return $checker::class;
         }, $checkers);
 
         $sectionMessage = sprintf('%d checker%s from %s:', count($checkers), count($checkers) === 1 ? '' : 's', $type);
