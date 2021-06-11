@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\Tests\LattePersistence;
+namespace Symplify\EasyCI\Tests\Latte\LattePersistence;
 
 use Iterator;
 use Latte\Engine;
 use Nette\Bridges\ApplicationLatte\UIMacros;
 use PHPUnit\Framework\TestCase;
-use Symplify\EasyCI\Tests\LattePersistence\Source\PlusFilterProvider;
-use Symplify\EasyCI\Tests\LattePersistence\Source\SomePresenter;
+use Symplify\EasyCI\Tests\Latte\LattePersistence\Source\PlusFilterProvider;
+use Symplify\EasyCI\Tests\Latte\LattePersistence\Source\SomePresenter;
 
 /**
  * This is a meta test for @see \Symplify\EasyCI\StaticCallWithFilterReplacer To verify that the filter behaves the same
@@ -17,10 +17,7 @@ use Symplify\EasyCI\Tests\LattePersistence\Source\SomePresenter;
  */
 final class LatteFilterPersistenceTest extends TestCase
 {
-    /**
-     * @var Engine
-     */
-    private $latteEngine;
+    private Engine $latteEngine;
 
     protected function setUp(): void
     {

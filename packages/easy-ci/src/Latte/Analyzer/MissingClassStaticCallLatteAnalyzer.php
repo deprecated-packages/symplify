@@ -54,7 +54,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
                     continue;
                 }
 
-                $errorMessage = sprintf('Method "%s::%s()" was not found.', $className, $methodName);
+                $errorMessage = sprintf('Method "%s::%s()" not found', $className, $methodName);
                 $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
