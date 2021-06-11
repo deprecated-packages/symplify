@@ -25,8 +25,8 @@ final class MissingClassConstantLatteAnalyzerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $inputFileInfo, int $expectedErrorCount): void
     {
-        $fileInfosWithMissingClassConstantErrors = $this->missingClassConstantLatteAnalyzer->analyze([$inputFileInfo]);
-        $this->assertCount($expectedErrorCount, $fileInfosWithMissingClassConstantErrors);
+        $latteErrors = $this->missingClassConstantLatteAnalyzer->analyze([$inputFileInfo]);
+        $this->assertCount($expectedErrorCount, $latteErrors);
     }
 
     /**
