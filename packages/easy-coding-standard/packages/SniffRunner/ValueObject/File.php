@@ -36,11 +36,6 @@ final class File extends BaseFile
     public $tokenizerType = 'PHP';
 
     /**
-     * @var Fixer
-     */
-    public $fixer;
-
-    /**
      * @var string|null
      */
     private $activeSniffClass;
@@ -56,26 +51,6 @@ final class File extends BaseFile
     private $tokenListeners = [];
 
     /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
-     * @var AppliedCheckersCollector
-     */
-    private $appliedCheckersCollector;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
      * @var SmartFileInfo
      */
     private $fileInfo;
@@ -84,19 +59,18 @@ final class File extends BaseFile
         string $path,
         string $content,
         Fixer $fixer,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        Skipper $skipper,
-        AppliedCheckersCollector $appliedCheckersCollector,
-        EasyCodingStandardStyle $easyCodingStandardStyle
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private Skipper $skipper,
+        private AppliedCheckersCollector $appliedCheckersCollector,
+        private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->path = $path;
         $this->content = $content;
+
+        // this property cannot be promoted as defined in constructor
         $this->fixer = $fixer;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
 
         $this->eolChar = Common::detectLineEndings($content);
-        $this->skipper = $skipper;
-        $this->appliedCheckersCollector = $appliedCheckersCollector;
 
         // compat
         if (! defined('PHP_CODESNIFFER_CBF')) {
@@ -108,7 +82,6 @@ final class File extends BaseFile
         $this->config->tabWidth = 4;
         $this->config->annotations = false;
         $this->config->encoding = 'UTF-8';
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
     /**
@@ -252,7 +225,7 @@ final class File extends BaseFile
     private function reportActiveSniffClass(Sniff $sniff): void
     {
         // used in other places later
-        $this->activeSniffClass = get_class($sniff);
+        $this->activeSniffClass = $sniff::class;
 
         if (! $this->easyCodingStandardStyle->isDebug()) {
             return;

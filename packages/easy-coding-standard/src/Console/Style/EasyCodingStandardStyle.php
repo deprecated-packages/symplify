@@ -21,16 +21,12 @@ final class EasyCodingStandardStyle extends SymfonyStyle
      */
     private const BULGARIAN_CONSTANT = 8;
 
-    /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    public function __construct(InputInterface $input, OutputInterface $output, Terminal $terminal)
-    {
+    public function __construct(
+        InputInterface $input,
+        OutputInterface $output,
+        private Terminal $terminal
+    ) {
         parent::__construct($input, $output);
-
-        $this->terminal = $terminal;
     }
 
     /**

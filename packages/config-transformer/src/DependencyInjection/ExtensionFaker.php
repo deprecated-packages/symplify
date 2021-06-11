@@ -15,14 +15,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
  */
 final class ExtensionFaker
 {
-    /**
-     * @var YamlKey
-     */
-    private $yamlKey;
-
-    public function __construct(YamlKey $yamlKey)
-    {
-        $this->yamlKey = $yamlKey;
+    public function __construct(
+        private YamlKey $yamlKey
+    ) {
     }
 
     public function fakeInContainerBuilder(ContainerBuilder $containerBuilder, string $yamlContent): void

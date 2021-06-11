@@ -20,15 +20,9 @@ final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
      */
     private const COMPOSER_JSON_FILE_PATH = 'composer_json_file_path';
 
-    /**
-     * @var SupportedPhpVersionResolver
-     */
-    private $supportedPhpVersionResolver;
-
-    public function __construct(SupportedPhpVersionResolver $supportedPhpVersionResolver)
-    {
-        $this->supportedPhpVersionResolver = $supportedPhpVersionResolver;
-
+    public function __construct(
+        private SupportedPhpVersionResolver $supportedPhpVersionResolver
+    ) {
         parent::__construct();
     }
 

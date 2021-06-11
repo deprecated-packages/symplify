@@ -11,26 +11,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ClassMethodName
 {
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var string
-     */
-    private $method;
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $latteFileInfo;
-
-    public function __construct(string $class, string $method, SmartFileInfo $latteFileInfo)
-    {
-        $this->class = $class;
-        $this->method = $method;
-        $this->latteFileInfo = $latteFileInfo;
+    public function __construct(
+        private string $class,
+        private string $method,
+        private SmartFileInfo $latteFileInfo
+    ) {
     }
 
     public function getClassMethodName(): string

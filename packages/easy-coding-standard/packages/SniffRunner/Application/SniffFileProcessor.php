@@ -34,73 +34,24 @@ final class SniffFileProcessor implements FileProcessorInterface
     private $tokenListeners = [];
 
     /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
-     * @var FileFactory
-     */
-    private $fileFactory;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var DifferInterface
-     */
-    private $differ;
-
-    /**
-     * @var AppliedCheckersCollector
-     */
-    private $appliedCheckersCollector;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var TargetFileInfoResolver
-     */
-    private $targetFileInfoResolver;
-
-    /**
      * @param Sniff[] $sniffs
      */
     public function __construct(
-        Fixer $fixer,
-        FileFactory $fileFactory,
-        Configuration $configuration,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        DifferInterface $differ,
-        AppliedCheckersCollector $appliedCheckersCollector,
-        SmartFileSystem $smartFileSystem,
-        TargetFileInfoResolver $targetFileInfoResolver,
+        private Fixer $fixer,
+        private FileFactory $fileFactory,
+        private Configuration $configuration,
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private DifferInterface $differ,
+        private AppliedCheckersCollector $appliedCheckersCollector,
+        private SmartFileSystem $smartFileSystem,
+        private TargetFileInfoResolver $targetFileInfoResolver,
         array $sniffs = []
     ) {
-        $this->fixer = $fixer;
-        $this->fileFactory = $fileFactory;
-        $this->configuration = $configuration;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->differ = $differ;
-        $this->appliedCheckersCollector = $appliedCheckersCollector;
-
         $this->addCompatibilityLayer();
 
         foreach ($sniffs as $sniff) {
             $this->addSniff($sniff);
         }
-        $this->smartFileSystem = $smartFileSystem;
-        $this->targetFileInfoResolver = $targetFileInfoResolver;
     }
 
     public function addSniff(Sniff $sniff): void

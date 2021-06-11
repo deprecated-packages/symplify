@@ -13,50 +13,14 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
 {
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var SourceFinder
-     */
-    private $sourceFinder;
-
-    /**
-     * @var ChangedFilesDetector
-     */
-    private $changedFilesDetector;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var FileFilter
-     */
-    private $fileFilter;
-
-    /**
-     * @var SingleFileProcessor
-     */
-    private $singleFileProcessor;
-
     public function __construct(
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        SourceFinder $sourceFinder,
-        ChangedFilesDetector $changedFilesDetector,
-        Configuration $configuration,
-        FileFilter $fileFilter,
-        SingleFileProcessor $singleFileProcessor
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private SourceFinder $sourceFinder,
+        private ChangedFilesDetector $changedFilesDetector,
+        private Configuration $configuration,
+        private FileFilter $fileFilter,
+        private SingleFileProcessor $singleFileProcessor
     ) {
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->sourceFinder = $sourceFinder;
-        $this->changedFilesDetector = $changedFilesDetector;
-        $this->configuration = $configuration;
-        $this->fileFilter = $fileFilter;
-        $this->singleFileProcessor = $singleFileProcessor;
     }
 
     public function run(): int

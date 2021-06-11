@@ -8,32 +8,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CodingStandardError
 {
-    /**
-     * @var int
-     */
-    private $line;
-
-    /**
-     * @var string
-     */
-    private $message;
-
-    /**
-     * @var string
-     */
-    private $checkerClass;
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $fileInfo;
-
-    public function __construct(int $line, string $message, string $checkerClass, SmartFileInfo $fileInfo)
-    {
-        $this->line = $line;
-        $this->message = $message;
-        $this->checkerClass = $checkerClass;
-        $this->fileInfo = $fileInfo;
+    public function __construct(
+        private int $line,
+        private string $message,
+        private string $checkerClass,
+        private SmartFileInfo $fileInfo
+    ) {
     }
 
     public function getLine(): int

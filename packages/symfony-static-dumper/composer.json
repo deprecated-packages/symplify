@@ -5,14 +5,14 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=7.3",
-        "symfony/console": "^4.4|^5.2",
-        "symfony/filesystem": "^4.4|^5.2",
-        "symfony/finder": "^4.4|^5.2",
-        "symfony/http-foundation": "^4.4|^5.2",
-        "symfony/http-kernel": "^4.4|^5.2",
-        "symfony/config": "^4.4|^5.2",
-        "symfony/dependency-injection": "^5.2",
-        "symfony/routing": "^4.4|^5.2",
+        "symfony/console": "^4.4|^5.3",
+        "symfony/filesystem": "^4.4|^5.3",
+        "symfony/finder": "^4.4|^5.3",
+        "symfony/http-foundation": "^4.4|^5.3",
+        "symfony/http-kernel": "^4.4|^5.3",
+        "symfony/config": "^4.4|^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/routing": "^4.4|^5.3",
         "symplify/autowire-array-parameter": "^9.4",
         "symplify/package-builder": "^9.4",
         "symplify/symplify-kernel": "^9.4",
@@ -24,8 +24,8 @@
         "doctrine/cache": "^1.10",
         "phpstan/phpstan": "^0.12.88",
         "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^4.4|^5.2",
-        "symfony/twig-bundle": "^4.4|^5.2"
+        "symfony/framework-bundle": "^4.4|^5.3",
+        "symfony/twig-bundle": "^4.4|^5.3"
     },
     "autoload": {
         "psr-4": {

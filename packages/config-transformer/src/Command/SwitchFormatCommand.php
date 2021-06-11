@@ -17,31 +17,12 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class SwitchFormatCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var ConfigFileDumper
-     */
-    private $configFileDumper;
-
-    /**
-     * @var ConvertedContentFactory
-     */
-    private $convertedContentFactory;
-
     public function __construct(
-        Configuration $configuration,
-        ConfigFileDumper $configFileDumper,
-        ConvertedContentFactory $convertedContentFactory
+        private Configuration $configuration,
+        private ConfigFileDumper $configFileDumper,
+        private ConvertedContentFactory $convertedContentFactory
     ) {
         parent::__construct();
-
-        $this->configuration = $configuration;
-        $this->configFileDumper = $configFileDumper;
-        $this->convertedContentFactory = $convertedContentFactory;
     }
 
     protected function configure(): void

@@ -19,15 +19,10 @@ final class EasyCodingStandardStyleFactory
      */
     private $privatesCaller;
 
-    /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    public function __construct(Terminal $terminal)
-    {
+    public function __construct(
+        private Terminal $terminal
+    ) {
         $this->privatesCaller = new PrivatesCaller();
-        $this->terminal = $terminal;
     }
 
     public function create(): EasyCodingStandardStyle

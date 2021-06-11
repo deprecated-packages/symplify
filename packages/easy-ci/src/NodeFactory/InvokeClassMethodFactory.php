@@ -16,14 +16,9 @@ use Symplify\EasyCI\ValueObject\ClassMethodName;
 
 final class InvokeClassMethodFactory
 {
-    /**
-     * @var ReflectionMethodToClassMethodParser
-     */
-    private $reflectionMethodToClassMethodParser;
-
-    public function __construct(ReflectionMethodToClassMethodParser $reflectionMethodToClassMethodParser)
-    {
-        $this->reflectionMethodToClassMethodParser = $reflectionMethodToClassMethodParser;
+    public function __construct(
+        private ReflectionMethodToClassMethodParser $reflectionMethodToClassMethodParser
+    ) {
     }
 
     public function create(ClassMethodName $classMethodName): ClassMethod

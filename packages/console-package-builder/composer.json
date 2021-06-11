@@ -4,12 +4,12 @@
     "license": "MIT",
     "require": {
         "php": ">=7.3",
-        "symfony/dependency-injection": "^5.2",
-        "symfony/console": "^4.4|^5.2",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/console": "^4.4|^5.3",
         "symplify/symplify-kernel": "^9.4"
     },
     "require-dev": {
-        "symfony/http-kernel": "^4.4|^5.2",
+        "symfony/http-kernel": "^4.4|^5.3",
         "symplify/package-builder": "^9.4",
         "phpunit/phpunit": "^9.5"
     },
