@@ -11,22 +11,12 @@ namespace Symplify\EasyCodingStandard\Caching\ValueObject;
 final class CacheItem
 {
     /**
-     * @var string
-     */
-    private $variableKey;
-
-    /**
-     * @var mixed
-     */
-    private $data;
-
-    /**
      * @param mixed $data
      */
-    public function __construct(string $variableKey, $data)
-    {
-        $this->variableKey = $variableKey;
-        $this->data = $data;
+    public function __construct(
+        private string $variableKey,
+        private $data
+    ) {
     }
 
     /**

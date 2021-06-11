@@ -16,20 +16,10 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  */
 final class FileCacheStorage
 {
-    /**
-     * @var string
-     */
-    private $directory;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(string $directory, SmartFileSystem $smartFileSystem)
-    {
-        $this->directory = $directory;
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private string $directory,
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     /**

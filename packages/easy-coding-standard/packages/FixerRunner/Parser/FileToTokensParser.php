@@ -9,14 +9,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class FileToTokensParser
 {
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SmartFileSystem $smartFileSystem)
-    {
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     public function parseFromFilePath(string $filePath): Tokens
