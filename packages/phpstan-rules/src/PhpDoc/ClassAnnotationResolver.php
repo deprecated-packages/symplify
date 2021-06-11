@@ -58,7 +58,7 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $refrencedClasses = [];
+        $referencedClasses = [];
 
         $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
         foreach ($phpDocNode->children as $docChildNode) {
@@ -71,13 +71,13 @@ final class ClassAnnotationResolver
             }
 
             $genericTagValueNode = $docChildNode->value;
-            $refrencedClasses = array_merge(
-                $refrencedClasses,
+            $referencedClasses = array_merge(
+                $referencedClasses,
                 $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASSES)
             );
         }
 
-        return $refrencedClasses;
+        return $referencedClasses;
     }
 
     /**
