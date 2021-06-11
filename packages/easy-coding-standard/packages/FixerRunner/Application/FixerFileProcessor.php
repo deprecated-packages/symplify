@@ -142,7 +142,7 @@ final class FixerFileProcessor implements FileProcessorInterface
 
         // show current fixer in --debug / -vvv
         if ($this->easyCodingStandardStyle->isDebug()) {
-            $this->easyCodingStandardStyle->writeln('     [fixer] ' . get_class($fixer));
+            $this->easyCodingStandardStyle->writeln('     [fixer] ' . $fixer::class);
         }
 
         try {
@@ -151,7 +151,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             throw new FixerFailedException(sprintf(
                 'Fixing of "%s" file by "%s" failed: %s in file %s on line %d',
                 $smartFileInfo->getRelativeFilePath(),
-                get_class($fixer),
+                $fixer::class,
                 $throwable->getMessage(),
                 $throwable->getFile(),
                 $throwable->getLine()
@@ -165,7 +165,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $tokens->clearEmptyTokens();
         $tokens->clearChanged();
 
-        $this->appliedFixers[] = get_class($fixer);
+        $this->appliedFixers[] = $fixer::class;
     }
 
     /**

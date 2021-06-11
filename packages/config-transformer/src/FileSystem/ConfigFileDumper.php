@@ -11,29 +11,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ConfigFileDumper
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
     public function __construct(
-        Configuration $configuration,
-        SymfonyStyle $symfonyStyle,
-        SmartFileSystem $smartFileSystem
+        private Configuration $configuration,
+        private SymfonyStyle $symfonyStyle,
+        private SmartFileSystem $smartFileSystem
     ) {
-        $this->configuration = $configuration;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function dumpFile(ConvertedContent $convertedContent): void

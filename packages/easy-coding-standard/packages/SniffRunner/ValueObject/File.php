@@ -225,7 +225,7 @@ final class File extends BaseFile
     private function reportActiveSniffClass(Sniff $sniff): void
     {
         // used in other places later
-        $this->activeSniffClass = get_class($sniff);
+        $this->activeSniffClass = $sniff::class;
 
         if (! $this->easyCodingStandardStyle->isDebug()) {
             return;

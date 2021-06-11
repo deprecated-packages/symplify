@@ -57,8 +57,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ],
         ]]);
 
-    $services->set(\Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
-
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
@@ -68,7 +66,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::ENABLE_CACHE, true);
 
     $parameters->set(Option::PROJECT_TYPE, ProjectType::OPEN_SOURCE);
-    $parameters->set(Option::PHP_VERSION_FEATURES, \Rector\Core\ValueObject\PhpVersion::PHP_80);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.php',
