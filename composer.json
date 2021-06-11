@@ -3,7 +3,7 @@
     "description": "Repository for Symplify packages development.",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=7.3",
         "ext-dom": "*",
         "ext-simplexml": "*",
         "composer/semver": "^3.2",
