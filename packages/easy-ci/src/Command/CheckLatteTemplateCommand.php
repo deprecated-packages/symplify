@@ -14,16 +14,10 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var LatteProcessor
-     */
-    private $latteAnalyzer;
-
-    public function __construct(LatteProcessor $latteAnalyzer)
-    {
+    public function __construct(
+        private LatteProcessor $latteProcessor
+    ) {
         parent::__construct();
-
-        $this->latteAnalyzer = $latteAnalyzer;
     }
 
     protected function configure(): void
@@ -44,7 +38,7 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $errors = $this->latteAnalyzer->analyzeFileInfos($latteFileInfos);
+        $errors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
         if ($errors === []) {
             $this->symfonyStyle->success('No errors found');
             return ShellCode::SUCCESS;

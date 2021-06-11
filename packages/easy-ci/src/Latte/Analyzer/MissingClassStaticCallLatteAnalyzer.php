@@ -15,10 +15,20 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {
     /**
+     * @var string
+     */
+    private const CLASS_KEY_PART = 'class';
+
+    /**
+     * @var string
+     */
+    private const METHOD_KEY_PART = 'class';
+
+    /**
      * @see https://regex101.com/r/Wrfff2/8
      * @var string
      */
-    private const CLASS_STATIC_CALL_REGEX = '#\b(?<class>[A-Z][\w\\\\]+)::(?<method>\w+)\(#m';
+    private const CLASS_STATIC_CALL_REGEX = '#\b(?<' . self::CLASS_KEY_PART . '>[A-Z][\w\\\\]+)::(?< ' . self::METHOD_KEY_PART . '>\w+)\(#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
@@ -26,7 +36,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
      */
     public function analyze(array $fileInfos): array
     {
-        $errors = [];
+        $latteErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
             $matches = Strings::matchAll($fileInfo->getContents(), self::CLASS_STATIC_CALL_REGEX);
@@ -35,21 +45,20 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
             }
 
             foreach ($matches as $foundMatch) {
-                if (method_exists($foundMatch['class'], $foundMatch['method'])) {
+                if (method_exists($foundMatch[self::CLASS_KEY_PART], $foundMatch[self::METHOD_KEY_PART])) {
                     continue;
                 }
 
-                $error = sprintf(
-                    'Method "%s::%s()" was not found. "%s"',
+                $errorMessage = sprintf(
+                    'Method "%s::%s()" was not found.',
                     $foundMatch['class'],
-                    $foundMatch['method'],
-                    $fileInfo->getRelativeFilePathFromCwd()
+                    $foundMatch['method']
                 );
 
-                $errors[] = $error;
+                $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
 
-        return $errors;
+        return $latteErrors;
     }
 }

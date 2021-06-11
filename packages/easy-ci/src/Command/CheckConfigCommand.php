@@ -18,34 +18,15 @@ use Symplify\SmartFileSystem\Finder\SmartFinder;
 
 final class CheckConfigCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var NonExistingClassExtractor
-     */
-    private $nonExistingClassExtractor;
-
-    /**
-     * @var NonExistingClassConstantExtractor
-     */
-    private $nonExistingClassConstantExtractor;
-
-    /**
-     * @var NonExistingElementsReporter
-     */
-    private $nonExistingElementsReporter;
-
     public function __construct(
         SmartFinder $smartFinder,
-        NonExistingClassExtractor $nonExistingClassExtractor,
-        NonExistingClassConstantExtractor $nonExistingClassConstantExtractor,
-        NonExistingElementsReporter $nonExistingElementsReporter
+        private NonExistingClassExtractor $nonExistingClassExtractor,
+        private NonExistingClassConstantExtractor $nonExistingClassConstantExtractor,
+        private NonExistingElementsReporter $nonExistingElementsReporter
     ) {
         $this->smartFinder = $smartFinder;
-        $this->nonExistingClassExtractor = $nonExistingClassExtractor;
-        $this->nonExistingClassConstantExtractor = $nonExistingClassConstantExtractor;
 
         parent::__construct();
-
-        $this->nonExistingElementsReporter = $nonExistingElementsReporter;
     }
 
     protected function configure(): void

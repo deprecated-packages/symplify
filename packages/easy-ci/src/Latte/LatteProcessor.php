@@ -11,16 +11,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class LatteProcessor
 {
     /**
-     * @var LatteAnalyzerInterface[]
-     */
-    private $latteAnalyzers = [];
-
-    /**
      * @param LatteAnalyzerInterface[] $latteAnalyzers
      */
-    public function __construct(array $latteAnalyzers)
-    {
-        $this->latteAnalyzers = $latteAnalyzers;
+    public function __construct(
+        private array $latteAnalyzers
+    ) {
     }
 
     /**

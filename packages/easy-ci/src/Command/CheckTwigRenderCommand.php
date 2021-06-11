@@ -16,39 +16,13 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 
 final class CheckTwigRenderCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var TemplatePathsResolver
-     */
-    private $templatePathsResolver;
-
-    /**
-     * @var RenderMethodTemplateExtractor
-     */
-    private $renderMethodTemplateExtractor;
-
-    /**
-     * @var TwigAnalyzer
-     */
-    private $twigAnalyzer;
-
-    /**
-     * @var MissingTwigTemplatePathReporter
-     */
-    private $missingTwigTemplatePathReporter;
-
     public function __construct(
-        TemplatePathsResolver $possibleTemplatePathsResolver,
-        RenderMethodTemplateExtractor $renderMethodTemplateExtractor,
-        TwigAnalyzer $twigAnalyzer,
-        MissingTwigTemplatePathReporter $missingTwigTemplatePathReporter
+        private TemplatePathsResolver $templatePathsResolver,
+        private RenderMethodTemplateExtractor $renderMethodTemplateExtractor,
+        private TwigAnalyzer $twigAnalyzer,
+        private MissingTwigTemplatePathReporter $missingTwigTemplatePathReporter
     ) {
-        $this->templatePathsResolver = $possibleTemplatePathsResolver;
-        $this->renderMethodTemplateExtractor = $renderMethodTemplateExtractor;
-
         parent::__construct();
-
-        $this->twigAnalyzer = $twigAnalyzer;
-        $this->missingTwigTemplatePathReporter = $missingTwigTemplatePathReporter;
     }
 
     protected function configure(): void

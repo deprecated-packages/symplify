@@ -71,8 +71,8 @@ final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
     }
 
     /**
-     * @param string[] $matches
-     * @return string[]
+     * @param string[][] $matches
+     * @return string[][]
      */
     private function filterOutAllowedStaticClasses(array $matches): array
     {

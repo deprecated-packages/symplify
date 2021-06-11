@@ -6,7 +6,6 @@ namespace Symplify\EasyCI\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Console\Output\StaticClassMethodNamesReporter;
 use Symplify\EasyCI\Latte\Analyzer\StaticCallLatteAnalyzer;
@@ -17,30 +16,11 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var StaticCallLatteAnalyzer
-     */
-    private $latteStaticCallAnalyzer;
-
-    /**
-     * @var LatteFilterManager
-     */
-    private $latteFilterManager;
-
-    /**
-     * @var StaticClassMethodNamesReporter
-     */
-    private $staticClassMethodNamesReporter;
-
     public function __construct(
-        StaticCallLatteAnalyzer $latteStaticCallAnalyzer,
-        LatteFilterManager $latteFilterManager,
-        StaticClassMethodNamesReporter $staticClassMethodNamesReporter
+        private StaticCallLatteAnalyzer $staticCallLatteAnalyzer,
+        private LatteFilterManager $latteFilterManager,
+        private StaticClassMethodNamesReporter $staticClassMethodNamesReporter
     ) {
-        $this->latteStaticCallAnalyzer = $latteStaticCallAnalyzer;
-        $this->latteFilterManager = $latteFilterManager;
-        $this->staticClassMethodNamesReporter = $staticClassMethodNamesReporter;
-
         parent::__construct();
     }
 
@@ -51,15 +31,10 @@ final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyComman
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'One one or more directories or files to process'
         );
+
+        // @todo add descripton to latte analyzers!
         $this->setDescription(
             'Analyzing latte templates for static calls that should be Latte Filters and extracting them'
-        );
-
-        $this->addOption(
-            Option::FIX,
-            null,
-            InputOption::VALUE_NONE,
-            'Generate *FilterProvider and replace static calls in templates with filters'
         );
     }
 
@@ -68,19 +43,22 @@ final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyComman
         $directories = (array) $input->getArgument(Option::SOURCES);
         $latteFileInfos = $this->smartFinder->find($directories, '*.latte');
 
-        $fileMessage = sprintf('Extracting filters from "%d" files', count($latteFileInfos));
-        $this->symfonyStyle->title($fileMessage);
-
-        $classMethodNames = $this->latteStaticCallAnalyzer->analyze($latteFileInfos);
+        $classMethodNames = $this->staticCallLatteAnalyzer->analyze($latteFileInfos);
         if ($classMethodNames === []) {
             $this->symfonyStyle->success('No static calls found in templates. Good job!');
             return ShellCode::SUCCESS;
         }
 
-        $isFix = (bool) $input->getOption(Option::FIX);
+        // @todo this is very smart!
+        $this->symfonyStyle->writeln('Template call located at: ' . $classMethodName->getLatteFilePath());
 
-        $this->staticClassMethodNamesReporter->reportClassMethodNames($classMethodNames);
-        $this->latteFilterManager->manageClassMethodNames($latteFileInfos, $classMethodNames, $isFix);
+        if (! $classMethodName->isOnVariableStaticCall()) {
+            $this->symfonyStyle->writeln('Method located at: ' . $classMethodName->getFileLine());
+        }
+
+        $this->symfonyStyle->error(
+            'We found some static calls in your templates. Do you want to extract them to latte filter provider? Just re-run command with `--fix` option'
+        );
 
         return ShellCode::ERROR;
     }

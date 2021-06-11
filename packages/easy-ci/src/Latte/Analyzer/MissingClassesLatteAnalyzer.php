@@ -27,14 +27,9 @@ final class MissingClassesLatteAnalyzer implements LatteAnalyzerInterface
      */
     private const VARTYPE_INSTANCEOF_CLASS_REGEX = '#(vartype|varType|instanceof|instanceOf)\s+(\\\\)?(?<class>[A-Z][\w\\\\]+)#ms';
 
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
-    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
-    {
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    public function __construct(
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
+    ) {
     }
 
     /**

@@ -35,29 +35,11 @@ final class LatteFilterProviderFactory
      */
     private const NAMESPACE_NAME = 'App\Latte\FilterProvider';
 
-    /**
-     * @var Standard
-     */
-    private $printerStandard;
-
-    /**
-     * @var InvokeClassMethodFactory
-     */
-    private $invokeClassMethodFactory;
-
-    /**
-     * @var GetNameClassMethodFactory
-     */
-    private $getNameClassMethodFactory;
-
     public function __construct(
-        Standard $printerStandard,
-        InvokeClassMethodFactory $invokeClassMethodFactory,
-        GetNameClassMethodFactory $getNameClassMethodFactory
+        private Standard $printerStandard,
+        private InvokeClassMethodFactory $invokeClassMethodFactory,
+        private GetNameClassMethodFactory $getNameClassMethodFactory
     ) {
-        $this->printerStandard = $printerStandard;
-        $this->invokeClassMethodFactory = $invokeClassMethodFactory;
-        $this->getNameClassMethodFactory = $getNameClassMethodFactory;
     }
 
     public function createFromClassMethodName(ClassMethodName $classMethodName): string

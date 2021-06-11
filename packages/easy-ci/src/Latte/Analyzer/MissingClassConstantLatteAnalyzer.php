@@ -31,7 +31,7 @@ final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
      */
     public function analyze(array $fileInfos): array
     {
-        $errors = [];
+        $latteErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
             $matches = Strings::matchAll($fileInfo->getContents(), self::CLASS_CONSTANT_REGEX);
@@ -45,14 +45,11 @@ final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
                     continue;
                 }
 
-                $errors[] = sprintf(
-                    'Class constant "%s" was not found in "%s"',
-                    $classConstantName,
-                    $fileInfo->getRelativeFilePathFromCwd()
-                );
+                $errorMessage = sprintf('Class constant "%s" not found', $classConstantName);
+                $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
 
-        return $errors;
+        return $latteErrors;
     }
 }

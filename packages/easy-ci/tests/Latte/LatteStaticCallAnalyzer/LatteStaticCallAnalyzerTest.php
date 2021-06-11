@@ -16,12 +16,12 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
     /**
      * @var StaticCallLatteAnalyzer
      */
-    private $latteStaticCallAnalyzer;
+    private $staticCallLatteAnalyzer;
 
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->latteStaticCallAnalyzer = $this->getService(StaticCallLatteAnalyzer::class);
+        $this->staticCallLatteAnalyzer = $this->getService(StaticCallLatteAnalyzer::class);
     }
 
     /**
@@ -29,7 +29,7 @@ final class LatteStaticCallAnalyzerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fileInfo, int $expectedClassMethodCount, string $expectedClassMethodName): void
     {
-        $latteErrors = $this->latteStaticCallAnalyzer->analyze([$fileInfo]);
+        $latteErrors = $this->staticCallLatteAnalyzer->analyze([$fileInfo]);
         $this->assertCount($expectedClassMethodCount, $latteErrors);
 
         $latteError = $latteErrors[0];

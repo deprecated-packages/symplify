@@ -14,26 +14,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ReflectionMethodToClassMethodParser
 {
-    /**
-     * @var Parser
-     */
-    private $phpParser;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(Parser $phpParser, NodeFinder $nodeFinder, SmartFileSystem $smartFileSystem)
-    {
-        $this->phpParser = $phpParser;
-        $this->nodeFinder = $nodeFinder;
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private Parser $phpParser,
+        private NodeFinder $nodeFinder,
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     public function parse(ReflectionMethod $reflectionMethod): ClassMethod
