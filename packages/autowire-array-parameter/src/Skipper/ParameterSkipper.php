@@ -28,11 +28,6 @@ final class ParameterSkipper
     ];
 
     /**
-     * @var ParameterTypeResolver
-     */
-    private $parameterTypeResolver;
-
-    /**
      * @var string[]
      */
     private $excludedFatalClasses = [];
@@ -40,9 +35,10 @@ final class ParameterSkipper
     /**
      * @param string[] $excludedFatalClasses
      */
-    public function __construct(ParameterTypeResolver $parameterTypeResolver, array $excludedFatalClasses)
-    {
-        $this->parameterTypeResolver = $parameterTypeResolver;
+    public function __construct(
+        private ParameterTypeResolver $parameterTypeResolver,
+        array $excludedFatalClasses
+    ) {
         $this->excludedFatalClasses = array_merge(self::DEFAULT_EXCLUDED_FATAL_CLASSES, $excludedFatalClasses);
     }
 
