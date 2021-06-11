@@ -10,29 +10,11 @@ use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 
 final class ProcessedFileReporter
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var OutputFormatterCollector
-     */
-    private $outputFormatterCollector;
-
-    /**
-     * @var ErrorAndDiffResultFactory
-     */
-    private $errorAndDiffResultFactory;
-
     public function __construct(
-        Configuration $configuration,
-        OutputFormatterCollector $outputFormatterCollector,
-        ErrorAndDiffResultFactory $errorAndDiffResultFactory
+        private Configuration $configuration,
+        private OutputFormatterCollector $outputFormatterCollector,
+        private ErrorAndDiffResultFactory $errorAndDiffResultFactory
     ) {
-        $this->configuration = $configuration;
-        $this->outputFormatterCollector = $outputFormatterCollector;
-        $this->errorAndDiffResultFactory = $errorAndDiffResultFactory;
     }
 
     public function report(int $processedFileCount): int

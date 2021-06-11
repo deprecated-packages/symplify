@@ -55,75 +55,21 @@ final class FixerFileProcessor implements FileProcessorInterface
     private $fixers = [];
 
     /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var FileToTokensParser
-     */
-    private $fileToTokensParser;
-
-    /**
-     * @var DifferInterface
-     */
-    private $differ;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
-     * @var TargetFileInfoResolver
-     */
-    private $targetFileInfoResolver;
-
-    /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        Configuration $configuration,
-        FileToTokensParser $fileToTokensParser,
-        Skipper $skipper,
-        DifferInterface $differ,
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        SmartFileSystem $smartFileSystem,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider,
-        TargetFileInfoResolver $targetFileInfoResolver,
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private Configuration $configuration,
+        private FileToTokensParser $fileToTokensParser,
+        private Skipper $skipper,
+        private DifferInterface $differ,
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private SmartFileSystem $smartFileSystem,
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider,
+        private TargetFileInfoResolver $targetFileInfoResolver,
         array $fixers = []
     ) {
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->skipper = $skipper;
-        $this->configuration = $configuration;
-        $this->fileToTokensParser = $fileToTokensParser;
-        $this->differ = $differ;
         $this->fixers = $this->sortFixers($fixers);
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
-        $this->targetFileInfoResolver = $targetFileInfoResolver;
     }
 
     /**

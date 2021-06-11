@@ -17,43 +17,13 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class FileFactory
 {
-    /**
-     * @var Fixer
-     */
-    private $fixer;
-
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    /**
-     * @var Skipper
-     */
-    private $skipper;
-
-    /**
-     * @var AppliedCheckersCollector
-     */
-    private $appliedCheckersCollector;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
     public function __construct(
-        Fixer $fixer,
-        ErrorAndDiffCollector $errorAndDiffCollector,
-        Skipper $skipper,
-        AppliedCheckersCollector $appliedCheckersCollector,
-        EasyCodingStandardStyle $easyCodingStandardStyle
+        private Fixer $fixer,
+        private ErrorAndDiffCollector $errorAndDiffCollector,
+        private Skipper $skipper,
+        private AppliedCheckersCollector $appliedCheckersCollector,
+        private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
-        $this->fixer = $fixer;
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
-        $this->skipper = $skipper;
-        $this->appliedCheckersCollector = $appliedCheckersCollector;
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
     }
 
     public function createFromFileInfo(SmartFileInfo $smartFileInfo): File

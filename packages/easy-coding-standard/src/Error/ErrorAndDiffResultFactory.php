@@ -8,14 +8,9 @@ use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 
 final class ErrorAndDiffResultFactory
 {
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
-
-    public function __construct(ErrorAndDiffCollector $errorAndDiffCollector)
-    {
-        $this->errorAndDiffCollector = $errorAndDiffCollector;
+    public function __construct(
+        private ErrorAndDiffCollector $errorAndDiffCollector
+    ) {
     }
 
     public function create(): ErrorAndDiffResult

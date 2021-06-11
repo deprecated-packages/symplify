@@ -52,40 +52,16 @@ final class SnippetFormatter
     private const CLOSING = 'closing';
 
     /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
-
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
-
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
      * @var bool
      */
     private $isPhp73OrAbove = false;
 
     public function __construct(
-        SmartFileSystem $smartFileSystem,
-        FixerFileProcessor $fixerFileProcessor,
-        SniffFileProcessor $sniffFileProcessor,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider
+        private SmartFileSystem $smartFileSystem,
+        private FixerFileProcessor $fixerFileProcessor,
+        private SniffFileProcessor $sniffFileProcessor,
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider
     ) {
-        $this->smartFileSystem = $smartFileSystem;
-        $this->fixerFileProcessor = $fixerFileProcessor;
-        $this->sniffFileProcessor = $sniffFileProcessor;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
         $this->isPhp73OrAbove = PHP_VERSION_ID >= 70300;
     }
 
