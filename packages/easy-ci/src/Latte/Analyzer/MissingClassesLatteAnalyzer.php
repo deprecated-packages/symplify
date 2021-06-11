@@ -11,7 +11,7 @@ use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassesLatteAnalyzer\MissingClassesLatteAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassesLatteAnalyzer\MissingClassesLatteAnalyzerTest
  */
 final class MissingClassesLatteAnalyzer implements LatteAnalyzerInterface
 {

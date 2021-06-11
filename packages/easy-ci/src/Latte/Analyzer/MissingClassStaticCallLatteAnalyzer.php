@@ -10,7 +10,7 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer\MissingClassStaticCallLatteAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassStaticCallLatteAnalyzer\MissingClassStaticCallLatteAnalyzerTest
  */
 final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {
@@ -54,7 +54,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
                     continue;
                 }
 
-                $errorMessage = sprintf('Method "%s::%s()" was not found.', $className, $methodName);
+                $errorMessage = sprintf('Method "%s::%s()" not found', $className, $methodName);
                 $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }

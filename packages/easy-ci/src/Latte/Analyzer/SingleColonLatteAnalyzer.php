@@ -10,15 +10,15 @@ use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @see \Symplify\EasyCI\Tests\Latte\Analyzer\MissingClassConstantLatteAnalyzer\MissingClassConstantLatteAnalyzerTest
+ * @see \Symplify\EasyCI\Tests\Latte\Analyzer\SingleColonLatteAnalyzer\SingleColonLatteAnalyzerTest
  */
-final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
+final class SingleColonLatteAnalyzer implements LatteAnalyzerInterface
 {
     /**
      * @see https://regex101.com/r/Wrfff2/9
      * @var string
      */
-    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+::[A-Z_]+)\b#m';
+    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+:[A-Za-z_]+)\b#m';
 
     /**
      * @var string
