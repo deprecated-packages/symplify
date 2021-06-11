@@ -16,14 +16,10 @@ final class SourcesPresenceValidator
      */
     private $packageDirectories = [];
 
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    public function __construct(ComposerJsonProvider $composerJsonProvider, ParameterProvider $parameterProvider)
-    {
-        $this->composerJsonProvider = $composerJsonProvider;
+    public function __construct(
+        private ComposerJsonProvider $composerJsonProvider,
+        ParameterProvider $parameterProvider
+    ) {
         $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
     }
 

@@ -9,14 +9,9 @@ use Symplify\MonorepoBuilder\Utils\VersionUtils;
 
 final class ExpectedAliasResolver
 {
-    /**
-     * @var VersionUtils
-     */
-    private $versionUtils;
-
-    public function __construct(VersionUtils $versionUtils)
-    {
-        $this->versionUtils = $versionUtils;
+    public function __construct(
+        private VersionUtils $versionUtils
+    ) {
     }
 
     public function resolve(): string

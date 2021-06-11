@@ -8,14 +8,9 @@ use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 
 final class MostRecentTagResolver
 {
-    /**
-     * @var ProcessRunner
-     */
-    private $processRunner;
-
-    public function __construct(ProcessRunner $processRunner)
-    {
-        $this->processRunner = $processRunner;
+    public function __construct(
+        private ProcessRunner $processRunner
+    ) {
     }
 
     /**

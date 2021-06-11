@@ -22,45 +22,14 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ReleaseCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var ReleaseWorkerProvider
-     */
-    private $releaseWorkerProvider;
-
-    /**
-     * @var SourcesPresenceValidator
-     */
-    private $sourcesPresenceValidator;
-
-    /**
-     * @var StageResolver
-     */
-    private $stageResolver;
-
-    /**
-     * @var VersionResolver
-     */
-    private $versionResolver;
-
-    /**
-     * @var ReleaseWorkerReporter
-     */
-    private $releaseWorkerReporter;
-
     public function __construct(
-        ReleaseWorkerProvider $releaseWorkerProvider,
-        SourcesPresenceValidator $sourcesPresenceValidator,
-        StageResolver $stageResolver,
-        VersionResolver $versionResolver,
-        ReleaseWorkerReporter $releaseWorkerReporter
+        private ReleaseWorkerProvider $releaseWorkerProvider,
+        private SourcesPresenceValidator $sourcesPresenceValidator,
+        private StageResolver $stageResolver,
+        private VersionResolver $versionResolver,
+        private ReleaseWorkerReporter $releaseWorkerReporter
     ) {
         parent::__construct();
-
-        $this->releaseWorkerProvider = $releaseWorkerProvider;
-        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
-        $this->stageResolver = $stageResolver;
-        $this->versionResolver = $versionResolver;
-        $this->releaseWorkerReporter = $releaseWorkerReporter;
     }
 
     protected function configure(): void

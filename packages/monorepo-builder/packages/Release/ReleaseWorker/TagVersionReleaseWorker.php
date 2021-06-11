@@ -14,18 +14,14 @@ use Throwable;
 final class TagVersionReleaseWorker implements ReleaseWorkerInterface
 {
     /**
-     * @var ProcessRunner
-     */
-    private $processRunner;
-
-    /**
      * @var string
      */
     private $branchName;
 
-    public function __construct(ProcessRunner $processRunner, ParameterProvider $parameterProvider)
-    {
-        $this->processRunner = $processRunner;
+    public function __construct(
+        private ProcessRunner $processRunner,
+        ParameterProvider $parameterProvider
+    ) {
         $this->branchName = $parameterProvider->provideStringParameter(Option::DEFAULT_BRANCH_NAME);
     }
 
