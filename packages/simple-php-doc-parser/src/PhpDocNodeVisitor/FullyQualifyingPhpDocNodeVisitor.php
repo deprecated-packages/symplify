@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\PhpDoc;
+namespace Symplify\SimplePhpDocParser\PhpDocNodeVisitor;
 
 use Nette\Utils\Reflection;
 use Nette\Utils\Strings;
@@ -11,7 +11,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
 
 final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
