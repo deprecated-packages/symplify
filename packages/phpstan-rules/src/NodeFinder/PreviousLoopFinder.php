@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class PreviousLoopFinder
 {
@@ -33,9 +33,9 @@ final class PreviousLoopFinder
      */
     public function isUsedInPreviousLoop(array $variables, Node $desiredNode): bool
     {
-        $previous = $desiredNode->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        $previous = $desiredNode->getAttribute(AttributeKey::PREVIOUS);
         if (! $previous instanceof Node) {
-            $parent = $desiredNode->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $desiredNode->getAttribute(AttributeKey::PARENT);
             if (! $parent instanceof Node) {
                 return false;
             }

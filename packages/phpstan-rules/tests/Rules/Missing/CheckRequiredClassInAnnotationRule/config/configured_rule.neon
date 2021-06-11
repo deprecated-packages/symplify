@@ -1,0 +1,8 @@
+includes:
+    - ../../../../../config/symplify-rules.neon
+    - ../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Missing\CheckRequiredClassInAnnotationRule
+        tags: [phpstan.rules.rule]

@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -36,7 +36,7 @@ final class NoMagicClosureRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Expression) {
             return [];
         }

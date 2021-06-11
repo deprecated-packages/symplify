@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -136,7 +136,7 @@ CODE_SAMPLE
 
     private function findDataProviderClassMethod(ClassMethod $classMethod, string $methodName): ?ClassMethod
     {
-        $class = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
+        $class = $classMethod->getAttribute(AttributeKey::PARENT);
         if (! $class instanceof Class_) {
             return null;
         }

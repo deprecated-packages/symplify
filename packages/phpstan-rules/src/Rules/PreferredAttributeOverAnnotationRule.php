@@ -63,10 +63,10 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
             return [];
         }
 
-        $matchedAnnotatoins = array_intersect($classAnnotations, $this->annotations);
+        $matchedAnnotations = array_intersect($classAnnotations, $this->annotations);
 
         $errorsMessages = [];
-        foreach ($matchedAnnotatoins as $matchedAnnotation) {
+        foreach ($matchedAnnotations as $matchedAnnotation) {
             $errorsMessages[] = sprintf(self::ERROR_MESSAGE, $matchedAnnotation);
         }
 

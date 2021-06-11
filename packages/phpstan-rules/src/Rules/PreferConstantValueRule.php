@@ -11,8 +11,8 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use ReflectionClass;
 use ReflectionClassConstant;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -60,7 +60,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public function process(Node $node, Scope $scope): array
     {
         $value = $node->value;
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof Const_) {
             return [];
         }

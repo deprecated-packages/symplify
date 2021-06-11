@@ -2,17 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\ValueObject;
+namespace Symplify\Astral\ValueObject;
 
-final class PHPStanAttributeKey
+final class AttributeKey
 {
     /**
-     * Do not change, part of internal PHPStan naming
+     * Convention key name in php-parser and PHPStan for parent node
      *
-     * @api
      * @var string
      */
     public const PARENT = 'parent';
+
+    /**
+     * Used in php-paser, do not change
+     *
+     * @var string
+     */
+    public const KIND = 'kind';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const REFERENCED_CLASSES = 'referenced_classes';
 
     /**
      * Do not change, part of internal PHPStan naming
@@ -37,4 +49,11 @@ final class PHPStanAttributeKey
      * @var string
      */
     public const STATEMENT_DEPTH = 'statementDepth';
+
+    /**
+     * Used by php-parser, do not change
+     *
+     * @var string
+     */
+    public const COMMENTS = 'comments';
 }

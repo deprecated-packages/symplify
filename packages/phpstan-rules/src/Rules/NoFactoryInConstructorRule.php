@@ -15,10 +15,10 @@ use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -90,7 +90,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         }
 
         // just assign
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof ArrayDimFetch) {
             return [];
         }

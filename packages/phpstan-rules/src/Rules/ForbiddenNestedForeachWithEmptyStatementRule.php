@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -99,7 +99,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
+        $foreachVariable = $foreach->expr->getAttribute(AttributeKey::NEXT);
         if (! $foreachVariable instanceof Variable) {
             return false;
         }

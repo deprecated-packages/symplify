@@ -67,15 +67,15 @@ final class SomeClass
         $docBlock = '/** @param int $name */';
 
         /** @var PhpDocNode $phpDocNode */
-        $phpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
 
         // param extras
 
         /** @var TypeNode $nameParamType */
-        $nameParamType = $phpDocNode->getParamType('name');
+        $nameParamType = $simplePhpDocNode->getParamType('name');
 
         /** @var ParamTagValueNode $nameParamTagValueNode */
-        $nameParamTagValueNode = $phpDocNode->getParam('name');
+        $nameParamTagValueNode = $simplePhpDocNode->getParam('name');
     }
 }
 ```
