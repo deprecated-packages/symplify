@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Webmozart\Assert\Assert;
 
 /**
  * @see \Symplify\EasyCI\Tests\Analyzer\MissingClassStaticCallLatteAnalyzer\MissingClassStaticCallLatteAnalyzerTest
  */
-final class MissingClassStaticCallLatteAnalyzer
+final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {
     /**
      * @see https://regex101.com/r/Wrfff2/8
@@ -21,12 +22,10 @@ final class MissingClassStaticCallLatteAnalyzer
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return string[]
+     * @return LatteError[]
      */
     public function analyze(array $fileInfos): array
     {
-        Assert::allIsAOf($fileInfos, SmartFileInfo::class);
-
         $errors = [];
 
         foreach ($fileInfos as $fileInfo) {
@@ -41,7 +40,7 @@ final class MissingClassStaticCallLatteAnalyzer
                 }
 
                 $error = sprintf(
-                    'Method "%s::%s()" was not be found in "%s"',
+                    'Method "%s::%s()" was not found. "%s"',
                     $foundMatch['class'],
                     $foundMatch['method'],
                     $fileInfo->getRelativeFilePathFromCwd()

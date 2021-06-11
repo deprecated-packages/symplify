@@ -9,8 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Console\Output\StaticClassMethodNamesReporter;
-use Symplify\EasyCI\Latte\LatteFilterManager;
-use Symplify\EasyCI\Latte\LatteStaticCallAnalyzer;
+use Symplify\EasyCI\Latte\Analyzer\StaticCallLatteAnalyzer;
+use Symplify\EasyCI\Latte\LatteFilter\LatteFilterManager;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -18,7 +18,7 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var LatteStaticCallAnalyzer
+     * @var StaticCallLatteAnalyzer
      */
     private $latteStaticCallAnalyzer;
 
@@ -33,7 +33,7 @@ final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyComman
     private $staticClassMethodNamesReporter;
 
     public function __construct(
-        LatteStaticCallAnalyzer $latteStaticCallAnalyzer,
+        StaticCallLatteAnalyzer $latteStaticCallAnalyzer,
         LatteFilterManager $latteFilterManager,
         StaticClassMethodNamesReporter $staticClassMethodNamesReporter
     ) {
@@ -71,7 +71,7 @@ final class ExtractLatteStaticCallToFilterCommand extends AbstractSymplifyComman
         $fileMessage = sprintf('Extracting filters from "%d" files', count($latteFileInfos));
         $this->symfonyStyle->title($fileMessage);
 
-        $classMethodNames = $this->latteStaticCallAnalyzer->analyzeFileInfos($latteFileInfos);
+        $classMethodNames = $this->latteStaticCallAnalyzer->analyze($latteFileInfos);
         if ($classMethodNames === []) {
             $this->symfonyStyle->success('No static calls found in templates. Good job!');
             return ShellCode::SUCCESS;

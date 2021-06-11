@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\Latte;
+namespace Symplify\EasyCI\Latte\LatteFilter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\StaticCallWithFilterReplacer;

@@ -2,29 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\Latte;
+namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
-use Symplify\EasyCI\ValueObject\ClassMethodName;
+use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
+use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCI\Tests\Latte\LatteStaticCallAnalyzer\LatteStaticCallAnalyzerTest
  */
-final class LatteStaticCallAnalyzer
+final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
 {
+    /**
+     * @var string
+     */
+    private const CLASS_NAME_PART = 'class';
+
+    /**
+     * @var string
+     */
+    private const METHOD_NAME_PART = 'method';
+
     /**
      * @var string
      * @see https://regex101.com/r/mDzFKI/4
      */
-    private const STATIC_CALL_REGEX = '#(?<class>(\$|\b[A-Z])[\w\\\\]+)::(?<method>[\w]+)\((.*?)?\)#m';
+    private const STATIC_CALL_REGEX = '#(?<' .
+        self::CLASS_NAME_PART . '>(\$|\b[A-Z])[\w\\\\]+)::(?<' .
+        self::METHOD_NAME_PART . '>[\w]+)\((.*?)?\)#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return ClassMethodName[]
+     * @return LatteError[]
      */
-    public function analyzeFileInfos(array $fileInfos): array
+    public function analyze(array $fileInfos): array
     {
         $classMethodNames = [];
         foreach ($fileInfos as $fileInfo) {
@@ -36,29 +49,35 @@ final class LatteStaticCallAnalyzer
     }
 
     /**
-     * @return ClassMethodName[]
+     * @return LatteError[]
      */
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
         $matches = Strings::matchAll($fileInfo->getContents(), self::STATIC_CALL_REGEX);
         $matches = $this->filterOutAllowedStaticClasses($matches);
 
-        $classMethodNames = [];
+        $latteErrors = [];
         foreach ($matches as $match) {
-            $classMethodNames[] = new ClassMethodName($match['class'], $match['method'], $fileInfo);
+            $errorMessage = sprintf(
+                'Method "%s::%s()" was not found',
+                $match[self::CLASS_NAME_PART],
+                $match[self::METHOD_NAME_PART]
+            );
+
+            $latteErrors[] = new LatteError($errorMessage, $fileInfo);
         }
 
-        return $classMethodNames;
+        return $latteErrors;
     }
 
     /**
-     * @param mixed[] $matches
-     * @return mixed[]
+     * @param string[] $matches
+     * @return string[]
      */
     private function filterOutAllowedStaticClasses(array $matches): array
     {
         return array_filter($matches, static function (array $match): bool {
-            return ! in_array($match['class'], [Strings::class, DateTime::class], true);
+            return ! in_array($match[self::CLASS_NAME_PART], [Strings::class, DateTime::class], true);
         });
     }
 }

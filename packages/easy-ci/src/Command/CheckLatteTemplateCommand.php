@@ -7,7 +7,7 @@ namespace Symplify\EasyCI\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\EasyCI\Latte\Analyzer\LatteAnalyzer;
+use Symplify\EasyCI\Latte\LatteProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -15,11 +15,11 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
     /**
-     * @var LatteAnalyzer
+     * @var LatteProcessor
      */
     private $latteAnalyzer;
 
-    public function __construct(LatteAnalyzer $latteAnalyzer)
+    public function __construct(LatteProcessor $latteAnalyzer)
     {
         parent::__construct();
 
