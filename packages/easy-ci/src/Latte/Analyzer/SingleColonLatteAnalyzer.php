@@ -18,7 +18,13 @@ final class SingleColonLatteAnalyzer implements LatteAnalyzerInterface
      * @see https://regex101.com/r/Wrfff2/9
      * @var string
      */
-    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+:[A-Za-z_]+)\b#m';
+    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+:[A-Z_]+)\b#m';
+
+    /**
+     * @see https://regex101.com/r/Wrfff2/9
+     * @var string
+     */
+    private const CALL_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+:[A-Za-z_]+)\((.*?)?\)#m';
 
     /**
      * @var string
@@ -39,13 +45,22 @@ final class SingleColonLatteAnalyzer implements LatteAnalyzerInterface
                 continue;
             }
 
-            foreach ($matches as $foundMatch) {
-                $classConstantName = $foundMatch[self::CLASS_CONSTANT_NAME_PART];
-                if (defined($classConstantName)) {
-                    continue;
-                }
+            foreach ($matches as $match) {
+                $classConstantName = $match[self::CLASS_CONSTANT_NAME_PART];
+                $errorMessage = sprintf('Single colon used in "%s" not found', $classConstantName);
+                $latteErrors[] = new LatteError($errorMessage, $fileInfo);
+            }
+        }
 
-                $errorMessage = sprintf('Class constant "%s" not found', $classConstantName);
+        foreach ($fileInfos as $fileInfo) {
+            $matches = Strings::matchAll($fileInfo->getContents(), self::CALL_REGEX);
+            if ($matches === []) {
+                continue;
+            }
+
+            foreach ($matches as $match) {
+                $classConstantName = $match[self::CLASS_CONSTANT_NAME_PART];
+                $errorMessage = sprintf('Single colon used in "%s" not found', $classConstantName);
                 $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
         }
