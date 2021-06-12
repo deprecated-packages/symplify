@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
@@ -111,6 +112,11 @@ CODE_SAMPLE
         if ($node instanceof Concat) {
             return true;
         }
+
+        if ($node instanceof BinaryOp) {
+            return true;
+        }
+
         return $node instanceof ArrayItem;
     }
 }
