@@ -11,10 +11,7 @@ use Symplify\Psr4Switcher\Utils\SymplifyStrings;
 
 final class SymplifyStringsTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SymplifyStrings
-     */
-    private $symplifyStrings;
+    private SymplifyStrings $symplifyStrings;
 
     protected function setUp(): void
     {

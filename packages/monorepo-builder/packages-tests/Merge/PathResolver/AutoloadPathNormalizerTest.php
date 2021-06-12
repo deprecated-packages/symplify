@@ -10,10 +10,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AutoloadPathNormalizerTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var AutoloadPathNormalizer
-     */
-    private $autoloadPathNormalizer;
+    private AutoloadPathNormalizer $autoloadPathNormalizer;
 
     protected function setUp(): void
     {

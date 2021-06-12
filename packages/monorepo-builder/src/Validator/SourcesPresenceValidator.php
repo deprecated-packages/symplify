@@ -14,7 +14,7 @@ final class SourcesPresenceValidator
     /**
      * @var string[]
      */
-    private $packageDirectories = [];
+    private array $packageDirectories = [];
 
     public function __construct(
         private ComposerJsonProvider $composerJsonProvider,

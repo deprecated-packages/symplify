@@ -16,15 +16,9 @@ use Symplify\SnifferFixerToECSConverter\HttpKernel\SnifferFixerToECSKernel;
 
 final class FixerToECSConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var FixerToECSConverter
-     */
-    private $fixerToECSConverter;
+    private FixerToECSConverter $fixerToECSConverter;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

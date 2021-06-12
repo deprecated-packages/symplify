@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SetUpTearDownVoidFileInfoDecoratorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SetUpTearDownVoidFileInfoDecorator
-     */
-    private $setUpTearDownVoidFileInfoDecorator;
+    private SetUpTearDownVoidFileInfoDecorator $setUpTearDownVoidFileInfoDecorator;
 
     protected function setUp(): void
     {

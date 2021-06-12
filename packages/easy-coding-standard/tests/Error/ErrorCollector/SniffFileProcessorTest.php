@@ -13,15 +13,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SniffFileProcessorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
+    private SniffFileProcessor $sniffFileProcessor;
 
-    /**
-     * @var ErrorAndDiffResultFactory
-     */
-    private $errorAndDiffResultFactory;
+    private ErrorAndDiffResultFactory $errorAndDiffResultFactory;
 
     protected function setUp(): void
     {

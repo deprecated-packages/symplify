@@ -47,20 +47,11 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
         'Symfony\Component\HttpKernel\KernelInterface',
     ];
 
-    /**
-     * @var DefinitionFinder
-     */
-    private $definitionFinder;
+    private DefinitionFinder $definitionFinder;
 
-    /**
-     * @var ParameterTypeResolver
-     */
-    private $parameterTypeResolver;
+    private ParameterTypeResolver $parameterTypeResolver;
 
-    /**
-     * @var ParameterSkipper
-     */
-    private $parameterSkipper;
+    private ParameterSkipper $parameterSkipper;
 
     /**
      * @param string[] $excludedFatalClasses

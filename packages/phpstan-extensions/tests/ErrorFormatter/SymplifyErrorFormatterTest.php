@@ -19,10 +19,7 @@ final class SymplifyErrorFormatterTest extends TestCase
      */
     private $symplifyErrorFormatter;
 
-    /**
-     * @var DummyOutput
-     */
-    private $dummyOutput;
+    private DummyOutput $dummyOutput;
 
     protected function setUp(): void
     {

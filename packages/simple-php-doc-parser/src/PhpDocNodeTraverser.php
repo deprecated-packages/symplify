@@ -19,7 +19,7 @@ final class PhpDocNodeTraverser
     /**
      * @var PhpDocNodeVisitorInterface[]
      */
-    private $phpDocNodeVisitors = [];
+    private array $phpDocNodeVisitors = [];
 
     public function addPhpDocNodeVisitor(PhpDocNodeVisitorInterface $phpDocNodeVisitor): void
     {

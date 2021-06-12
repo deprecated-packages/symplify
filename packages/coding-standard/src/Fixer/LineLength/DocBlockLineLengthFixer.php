@@ -52,10 +52,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
      */
     private const DEFAULT_LINE_LENGHT = 120;
 
-    /**
-     * @var int
-     */
-    private $lineLength = self::DEFAULT_LINE_LENGHT;
+    private int $lineLength = self::DEFAULT_LINE_LENGHT;
 
     public function __construct(
         private DocBlockLinesFactory $docBlockLinesFactory
@@ -204,9 +201,7 @@ CODE_SAMPLE
             }
         }
 
-        return array_map(function (array $lines): string {
-            return implode(' ', $lines);
-        }, $paragraphLines);
+        return array_map(fn (array $lines): string => implode(' ', $lines), $paragraphLines);
     }
 
     /**

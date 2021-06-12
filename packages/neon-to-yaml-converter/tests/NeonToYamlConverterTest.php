@@ -15,15 +15,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class NeonToYamlConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var NeonToYamlConverter
-     */
-    private $neonToYamlConverter;
+    private NeonToYamlConverter $neonToYamlConverter;
 
-    /**
-     * @var ArrayParameterCollector
-     */
-    private $arrayParameterCollector;
+    private ArrayParameterCollector $arrayParameterCollector;
 
     protected function setUp(): void
     {

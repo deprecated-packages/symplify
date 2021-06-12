@@ -12,7 +12,7 @@ final class SkippedClassAndCodesResolver
     /**
      * @var array<string, string[]|null>
      */
-    private $skippedClassAndCodes = [];
+    private array $skippedClassAndCodes = [];
 
     public function __construct(
         private ParameterProvider $parameterProvider

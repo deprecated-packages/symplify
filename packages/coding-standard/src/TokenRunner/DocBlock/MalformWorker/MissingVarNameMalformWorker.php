@@ -31,11 +31,11 @@ final class MissingVarNameMalformWorker implements MalformWorkerInterface
             return $docContent;
         }
 
-        return Strings::replace($docContent, self::VAR_WITHOUT_NAME_REGEX, function (array $match) use (
-            $nextVariableToken
-        ): string {
-            return $match['open'] . $match['type'] . ' ' . $nextVariableToken->getContent() . $match['close'];
-        });
+        return Strings::replace(
+            $docContent,
+            self::VAR_WITHOUT_NAME_REGEX,
+            fn (array $match): string => $match['open'] . $match['type'] . ' ' . $nextVariableToken->getContent() . $match['close']
+        );
     }
 
     /**

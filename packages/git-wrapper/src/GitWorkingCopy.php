@@ -30,10 +30,8 @@ final class GitWorkingCopy
      *
      * If the variable is null, the a rudimentary check will be performed to see if the directory looks like it is a
      * working copy.
-     *
-     * @var bool|null
      */
-    private $cloned;
+    private ?bool $cloned = null;
 
     public function __construct(
         /**

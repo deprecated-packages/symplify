@@ -73,10 +73,7 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
      */
     private const METHODS = 'methods';
 
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
+    private StringFormatConverter $stringFormatConverter;
 
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory

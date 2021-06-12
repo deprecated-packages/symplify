@@ -15,10 +15,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FinderSanitizerTest extends TestCase
 {
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
+    private FinderSanitizer $finderSanitizer;
 
     protected function setUp(): void
     {

@@ -10,10 +10,7 @@ use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticD
 
 final class RoutesProviderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var RoutesProvider
-     */
-    private $routesProvider;
+    private RoutesProvider $routesProvider;
 
     protected function setUp(): void
     {

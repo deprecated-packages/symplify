@@ -14,10 +14,7 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
  */
 final class VersionUtils
 {
-    /**
-     * @var string
-     */
-    private $packageAliasFormat;
+    private string $packageAliasFormat;
 
     public function __construct(
         ParameterProvider $parameterProvider,

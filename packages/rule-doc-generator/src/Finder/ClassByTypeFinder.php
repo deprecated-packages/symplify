@@ -46,9 +46,7 @@ final class ClassByTypeFinder
 
         usort(
             $desiredClasses,
-            function (RuleClassWithFilePath $left, RuleClassWithFilePath $right): int {
-                return $left->getClass() <=> $right->getClass();
-            }
+            fn (RuleClassWithFilePath $left, RuleClassWithFilePath $right): int => $left->getClass() <=> $right->getClass()
         );
 
         return $desiredClasses;

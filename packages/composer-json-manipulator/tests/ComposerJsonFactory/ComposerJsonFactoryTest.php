@@ -17,15 +17,9 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
      */
     private const FULL_COMPOSER_JSON_FILE_PATH = __DIR__ . '/Source/full_composer.json';
 
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
+    private ComposerJsonFactory $composerJsonFactory;
 
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
+    private JsonFileManager $jsonFileManager;
 
     protected function setUp(): void
     {

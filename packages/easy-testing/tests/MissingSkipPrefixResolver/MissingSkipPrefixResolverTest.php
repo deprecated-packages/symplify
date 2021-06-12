@@ -11,15 +11,9 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class MissingSkipPrefixResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var MissplacedSkipPrefixResolver
-     */
-    private $missplacedSkipPrefixResolver;
+    private MissplacedSkipPrefixResolver $missplacedSkipPrefixResolver;
 
-    /**
-     * @var FixtureFinder
-     */
-    private $fixtureFinder;
+    private FixtureFinder $fixtureFinder;
 
     protected function setUp(): void
     {

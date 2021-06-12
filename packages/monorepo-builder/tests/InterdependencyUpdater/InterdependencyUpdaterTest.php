@@ -12,15 +12,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class InterdependencyUpdaterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var DependencyUpdater
-     */
-    private $dependencyUpdater;
+    private DependencyUpdater $dependencyUpdater;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

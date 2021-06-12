@@ -15,10 +15,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsInfoDecoratorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var AssertContainsInfoDecorator
-     */
-    private $assertContainsInfoDecorator;
+    private AssertContainsInfoDecorator $assertContainsInfoDecorator;
 
     protected function setUp(): void
     {

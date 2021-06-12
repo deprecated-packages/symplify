@@ -16,10 +16,7 @@ use Symplify\GitWrapper\ValueObject\Regex;
  */
 final class GitTags implements IteratorAggregate
 {
-    /**
-     * @var GitWorkingCopy
-     */
-    private $gitWorkingCopy;
+    private GitWorkingCopy $gitWorkingCopy;
 
     public function __construct(GitWorkingCopy $gitWorkingCopy)
     {
@@ -40,9 +37,7 @@ final class GitTags implements IteratorAggregate
 
         $tags = Strings::split(rtrim($output), Regex::NEWLINE_REGEX);
 
-        return array_map(function (string $branch): string {
-            return $this->trimTags($branch);
-        }, $tags);
+        return array_map(fn (string $branch): string => $this->trimTags($branch), $tags);
     }
 
     /**

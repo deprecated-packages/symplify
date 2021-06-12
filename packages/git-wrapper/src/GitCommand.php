@@ -12,35 +12,29 @@ final class GitCommand
     /**
      * Path to the directory containing the working copy. If this variable is set, then the process will change into
      * this directory while the Git command is being run.
-     *
-     * @var string|null
      */
-    private $directory;
+    private ?string $directory = null;
 
     /**
      * Whether command execution should be bypassed.
-     *
-     * @var bool
      */
-    private $isBypassed = false;
+    private bool $isBypassed = false;
 
     /**
      * Whether to execute the raw command without escaping it. This is useful for executing arbitrary commands, e.g.
      * "status -s". If this is true, any options and arguments are ignored.
-     *
-     * @var bool
      */
-    private $executeRaw = false;
+    private bool $executeRaw = false;
 
     /**
      * @var mixed[]
      */
-    private $options = [];
+    private array $options = [];
 
     /**
      * @var mixed[]
      */
-    private $args = [];
+    private array $args = [];
 
     /**
      * @param mixed ...$argsAndOptions

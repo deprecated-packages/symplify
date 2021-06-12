@@ -13,10 +13,7 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class PushNextDevReleaseWorker implements ReleaseWorkerInterface
 {
-    /**
-     * @var string
-     */
-    private $branchName;
+    private string $branchName;
 
     public function __construct(
         private ProcessRunner $processRunner,

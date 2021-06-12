@@ -13,10 +13,7 @@ use Throwable;
 
 final class TagVersionReleaseWorker implements ReleaseWorkerInterface
 {
-    /**
-     * @var string
-     */
-    private $branchName;
+    private string $branchName;
 
     public function __construct(
         private ProcessRunner $processRunner,

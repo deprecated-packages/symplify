@@ -122,9 +122,10 @@ CODE_SAMPLE
      */
     private function revalidateExprAssignInsideLoop(array $assigns, Node $node): array
     {
-        $loop = $this->nodeFinder->findFirst($node->stmts, function (Node $node): bool {
-            return $this->typeChecker->isInstanceOf($node, self::LOOP_NODE_TYPES);
-        });
+        $loop = $this->nodeFinder->findFirst(
+            $node->stmts,
+            fn (Node $node): bool => $this->typeChecker->isInstanceOf($node, self::LOOP_NODE_TYPES)
+        );
 
         if (! $loop instanceof Node) {
             return [self::ERROR_MESSAGE];

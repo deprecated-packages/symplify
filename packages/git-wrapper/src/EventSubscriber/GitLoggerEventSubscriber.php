@@ -26,7 +26,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      *
      * @var string[]
      */
-    private $logLevelMappings = [
+    private array $logLevelMappings = [
         GitPrepareEvent::class => LogLevel::INFO,
         GitOutputEvent::class => LogLevel::DEBUG,
         GitSuccessEvent::class => LogLevel::INFO,

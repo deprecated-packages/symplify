@@ -21,7 +21,7 @@ final class FixerClassProvider
     /**
      * @var string[]
      */
-    private $fixerClasses = [];
+    private array $fixerClasses = [];
 
     /**
      * @return string[]

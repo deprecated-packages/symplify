@@ -11,10 +11,7 @@ use Symplify\PackageBuilder\Tests\Reflection\Source\SomeClassWithPrivateMethods;
 
 final class PrivatesCallerTest extends TestCase
 {
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
     protected function setUp(): void
     {

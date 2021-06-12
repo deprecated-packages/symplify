@@ -13,15 +13,9 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SortComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ComposerJson
-     */
-    private $composerJson;
+    private ComposerJson $composerJson;
 
-    /**
-     * @var SortComposerJsonDecorator
-     */
-    private $sortComposerJsonDecorator;
+    private SortComposerJsonDecorator $sortComposerJsonDecorator;
 
     protected function setUp(): void
     {

@@ -101,8 +101,6 @@ final class SrcTestsDirectoriesFinder
      */
     private function filterExistingDirectories(array $directories): array
     {
-        return array_filter($directories, function (string $directory): bool {
-            return file_exists($directory);
-        });
+        return array_filter($directories, fn (string $directory): bool => file_exists($directory));
     }
 }

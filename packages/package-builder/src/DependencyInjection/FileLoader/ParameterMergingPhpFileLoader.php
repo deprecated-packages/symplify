@@ -16,10 +16,7 @@ use Symplify\PackageBuilder\Yaml\ParametersMerger;
  */
 final class ParameterMergingPhpFileLoader extends PhpFileLoader
 {
-    /**
-     * @var ParametersMerger
-     */
-    private $parametersMerger;
+    private ParametersMerger $parametersMerger;
 
     public function __construct(ContainerBuilder $containerBuilder, FileLocatorInterface $fileLocator)
     {

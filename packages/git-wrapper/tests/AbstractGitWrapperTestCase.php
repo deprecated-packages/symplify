@@ -41,20 +41,14 @@ abstract class AbstractGitWrapperTestCase extends TestCase
      */
     private const GIT_VERSION_REGEX = '#^git version [.0-9]+#';
 
-    /**
-     * @var SmartFileSystem
-     */
-    protected $smartFileSystem;
+    protected SmartFileSystem $smartFileSystem;
 
-    /**
-     * @var GitWrapper
-     */
-    protected $gitWrapper;
+    protected GitWrapper $gitWrapper;
 
     protected function setUp(): void
     {
         $this->smartFileSystem = new SmartFileSystem();
-        $this->gitWrapper = new GitWrapper();
+        $this->gitWrapper = new GitWrapper('git');
     }
 
     protected function registerAndReturnEventSubscriber(): TestEventSubscriber

@@ -10,10 +10,7 @@ use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 
 final class YamlToPhpConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var YamlToPhpConverter
-     */
-    private $yamlToPhpConverter;
+    private YamlToPhpConverter $yamlToPhpConverter;
 
     protected function setUp(): void
     {

@@ -177,11 +177,7 @@ final class NeonToYamlConverter
         // @see https://symfony.com/blog/new-in-symfony-3-3-a-simpler-way-to-get-the-project-root-directory
         // %appDir% → %kernel.project_dir%/app
         $content = Strings::replace($content, self::APP_DIR_REGEX, '%kernel.project_dir%/app');
-
-        // %wwwDir% → %kernel.project_dir%/public
         $content = Strings::replace($content, self::WWW_DIR_REGEX, '%kernel.project_dir%/public');
-
-        // %kernel.project_dir%/app/..% → %kernel.project_dir%
         return Strings::replace($content, self::KERNEL_PROJECT_REGEX, '%kernel.project_dir%');
     }
 

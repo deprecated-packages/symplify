@@ -12,7 +12,7 @@ final class TypeCastersCollector
     /**
      * @var TypeCasterInterface[]
      */
-    private $typeCasters = [];
+    private array $typeCasters = [];
 
     /**
      * @param TypeCasterInterface[] $typeCasters
@@ -47,9 +47,7 @@ final class TypeCastersCollector
     {
         usort(
             $typeCasters,
-            static function (TypeCasterInterface $firstTypeCaster, TypeCasterInterface $secondTypeCaster): int {
-                return $firstTypeCaster->getPriority() <=> $secondTypeCaster->getPriority();
-            }
+            static fn (TypeCasterInterface $firstTypeCaster, TypeCasterInterface $secondTypeCaster): int => $firstTypeCaster->getPriority() <=> $secondTypeCaster->getPriority()
         );
 
         return $typeCasters;

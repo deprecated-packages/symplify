@@ -12,10 +12,7 @@ use Symplify\PHPStanRules\Naming\ClassToSuffixResolver;
 
 final class ClassToSuffixResolverTest extends TestCase
 {
-    /**
-     * @var ClassToSuffixResolver
-     */
-    private $classToSuffixResolver;
+    private ClassToSuffixResolver $classToSuffixResolver;
 
     protected function setUp(): void
     {

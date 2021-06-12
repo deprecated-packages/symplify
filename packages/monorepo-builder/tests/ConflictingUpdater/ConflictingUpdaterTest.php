@@ -13,15 +13,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ConflictingUpdaterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ConflictingUpdater
-     */
-    private $conflictingUpdater;
+    private ConflictingUpdater $conflictingUpdater;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

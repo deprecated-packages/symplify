@@ -7,9 +7,9 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
-use Rector\Core\ValueObject\ProjectType;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
@@ -36,7 +36,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
-    $services->set(\Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
+    // PHP 8+
+    $services->set(\Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector::class);
+    $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
+    $services->set(\Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector::class);
+    $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
+    $services->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
@@ -67,8 +72,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
     $parameters->set(Option::ENABLE_CACHE, true);
 
-    $parameters->set(Option::PROJECT_TYPE, ProjectType::OPEN_SOURCE);
-
     $parameters->set(Option::SKIP, [
         '*/scoper.php',
         '*/vendor/*',
@@ -79,6 +82,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/templates',
         __DIR__ . '/packages/easy-coding-standard/build/build-preload.php',
+
+        // fix in dev-main
+        \Rector\Privatization\Rector\Property\PrivatizeLocalPropertyToPrivatePropertyRector::class => [
+            __DIR__ . '/packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php',
+        ],
 
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',

@@ -10,10 +10,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 
 final class ChainMethodCallAnalyzer
 {
-    /**
-     * @var int
-     */
-    private $bracketNesting = 0;
+    private int $bracketNesting = 0;
 
     public function __construct(
         private NewlineAnalyzer $newlineAnalyzer

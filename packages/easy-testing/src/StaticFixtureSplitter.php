@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class StaticFixtureSplitter
 {
-    /**
-     * @var string|null
-     */
-    public static $customTemporaryPath;
+    public static ?string $customTemporaryPath = null;
 
     public static function splitFileInfoToInputAndExpected(SmartFileInfo $smartFileInfo): InputAndExpected
     {

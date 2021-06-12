@@ -68,12 +68,12 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     /**
      * @var array<class-string>
      */
-    private $allowedParentTypes = [];
+    private array $allowedParentTypes = [];
 
     /**
      * @var array<class-string>
      */
-    private $allowedDirectParentTypes = [];
+    private array $allowedDirectParentTypes = [];
 
     /**
      * @param array<class-string> $allowedParentTypes

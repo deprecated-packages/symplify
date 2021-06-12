@@ -19,7 +19,7 @@ final class SourceFinder
     /**
      * @var string[]
      */
-    private $fileExtensions = [];
+    private array $fileExtensions = [];
 
     public function __construct(
         private FinderSanitizer $finderSanitizer,
@@ -98,9 +98,10 @@ final class SourceFinder
 
         $gitDiffFiles = $this->gitDiffProvider->provide();
 
-        $fileInfos = array_filter($fileInfos, function ($splFile) use ($gitDiffFiles): bool {
-            return in_array($splFile->getRealPath(), $gitDiffFiles, true);
-        });
+        $fileInfos = array_filter(
+            $fileInfos,
+            fn ($splFile): bool => in_array($splFile->getRealPath(), $gitDiffFiles, true)
+        );
 
         return array_values($fileInfos);
     }

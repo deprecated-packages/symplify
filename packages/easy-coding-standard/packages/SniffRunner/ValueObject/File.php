@@ -48,12 +48,9 @@ final class File extends BaseFile
     /**
      * @var Sniff[][]
      */
-    private $tokenListeners = [];
+    private array $tokenListeners = [];
 
-    /**
-     * @var SmartFileInfo
-     */
-    private $fileInfo;
+    private ?SmartFileInfo $fileInfo = null;
 
     public function __construct(
         string $path,

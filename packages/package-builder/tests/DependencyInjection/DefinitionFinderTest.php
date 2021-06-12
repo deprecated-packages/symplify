@@ -12,15 +12,9 @@ use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFo
 
 final class DefinitionFinderTest extends TestCase
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
+    private ContainerBuilder $containerBuilder;
 
-    /**
-     * @var DefinitionFinder
-     */
-    private $definitionFinder;
+    private DefinitionFinder $definitionFinder;
 
     protected function setUp(): void
     {

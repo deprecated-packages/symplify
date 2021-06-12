@@ -82,13 +82,7 @@ final class LoopsCaseConverter implements CaseConverterInterface
          */
         $content = Strings::replace($content, self::FOREACH_OPEN_REGEX, '{% for $2 in $1 %}');
         $content = Strings::replace($content, self::FOREACH_CLOSE_REGEX, '{% endfor %}');
-
-        // {first}...{/first} =>
-        // {% if loop.first %}...{% endif %}
         $content = Strings::replace($content, self::FIRST_WRAPPED_REGEX, '{% if loop.first %}$1{% endif %}');
-
-        // {last}...{/last} =>
-        // {% if loop.last %}...{% endif %}
         $content = Strings::replace($content, self::LAST_WRAPPED_REGEX, '{% if loop.last %}$1{% endif %}');
 
         // {sep}, {/sep} => {% if loop.last == false %}, {% endif %}

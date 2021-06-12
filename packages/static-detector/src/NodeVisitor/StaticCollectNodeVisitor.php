@@ -23,10 +23,7 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
      */
     private const ALLOWED_METHOD_NAMES = ['getSubscribedEvents'];
 
-    /**
-     * @var ClassLike|null
-     */
-    private $currentClassLike;
+    private ?ClassLike $currentClassLike = null;
 
     public function __construct(
         private StaticNodeCollector $staticNodeCollector,

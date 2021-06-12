@@ -13,21 +13,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ComposerJsonFactory
-     */
-    protected $composerJsonFactory;
+    protected ComposerJsonFactory $composerJsonFactory;
 
-    /**
-     * @var TrioFixtureSplitter
-     */
-    protected $trioFixtureSplitter;
+    protected TrioFixtureSplitter $trioFixtureSplitter;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
-        $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
 
+        $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
         $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
 

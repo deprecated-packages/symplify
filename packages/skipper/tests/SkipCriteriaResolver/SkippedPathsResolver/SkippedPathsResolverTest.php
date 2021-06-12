@@ -10,10 +10,7 @@ use Symplify\Skipper\SkipCriteriaResolver\SkippedPathsResolver;
 
 final class SkippedPathsResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SkippedPathsResolver
-     */
-    private $skippedPathsResolver;
+    private SkippedPathsResolver $skippedPathsResolver;
 
     protected function setUp(): void
     {

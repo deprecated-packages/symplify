@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteToTwigConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var LatteToTwigConverter
-     */
-    private $latteToTwigConverter;
+    private LatteToTwigConverter $latteToTwigConverter;
 
     protected function setUp(): void
     {

@@ -73,9 +73,7 @@ final class KeywordHighlighter
             $words[$key] = Strings::replace(
                 '`' . $word . '`',
                 self::COMMA_SPLIT_REGEX,
-                function (array $match): string {
-                    return $match['call'] . $match['quote'] . $match['comma'];
-                }
+                fn (array $match): string => $match['call'] . $match['quote'] . $match['comma']
             );
         }
 

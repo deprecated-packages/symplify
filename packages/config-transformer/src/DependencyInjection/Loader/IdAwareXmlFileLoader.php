@@ -30,15 +30,9 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
      */
     private const ID = 'id';
 
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
-    /**
-     * @var int
-     */
-    private $count;
+    private ?int $count = null;
 
     public function __construct(
         ContainerBuilder $containerBuilder,

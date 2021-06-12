@@ -13,7 +13,7 @@ final class ParameterTypeResolver
     /**
      * @var array<string, string>
      */
-    private $resolvedParameterTypesCached = [];
+    private array $resolvedParameterTypesCached = [];
 
     public function __construct(
         private ParamTypeDocBlockResolver $paramTypeDocBlockResolver
