@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner;
 use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use PhpToken;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class TokenFinder
@@ -24,18 +25,17 @@ final class TokenFinder
     }
 
     /**
-     * @param mixed[] $tokens
-     * @return mixed[]|string|null
+     * @param PhpToken[] $tokens
      */
-    public function getNextMeaninfulToken(array $tokens, int $position)
+    public function getNextMeaninfulToken(array $tokens, int $position): PhpToken | null
     {
         $tokens = $this->getNextMeaninfulTokens($tokens, $position, 1);
         return $tokens[0] ?? null;
     }
 
     /**
-     * @param mixed[] $tokens
-     * @return mixed[]
+     * @param PhpToken[] $tokens
+     * @return PhpToken[]
      */
     public function getNextMeaninfulTokens(array $tokens, int $position, int $count): array
     {
@@ -43,7 +43,7 @@ final class TokenFinder
         $tokensCount = count($tokens);
         for ($i = $position; $i < $tokensCount; ++$i) {
             $token = $tokens[$i];
-            if ($token[0] === T_WHITESPACE) {
+            if ($token->is(T_WHITESPACE)) {
                 continue;
             }
 
@@ -58,16 +58,15 @@ final class TokenFinder
     }
 
     /**
-     * @param mixed[] $rawTokens
+     * @param PhpToken[] $rawTokens
      */
-    public function getSameRowLastToken(array $rawTokens, int $position): array | string
+    public function getSameRowLastToken(array $rawTokens, int $position): ?PhpToken
     {
         $lastToken = null;
         $rawTokensCount = count($rawTokens);
         for ($i = $position; $i < $rawTokensCount; ++$i) {
             $token = $rawTokens[$i];
-
-            if (is_array($token) && Strings::contains($token[1], PHP_EOL)) {
+            if (Strings::contains($token->text, PHP_EOL)) {
                 break;
             }
 
