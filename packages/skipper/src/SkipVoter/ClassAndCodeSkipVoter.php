@@ -20,9 +20,6 @@ final class ClassAndCodeSkipVoter implements SkipVoterInterface
     ) {
     }
 
-    /**
-     * @param string|object $element
-     */
     public function match(string | object $element): bool
     {
         if (! is_string($element)) {
@@ -34,6 +31,10 @@ final class ClassAndCodeSkipVoter implements SkipVoterInterface
 
     public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
+        if (is_object($element)) {
+            return false;
+        }
+
         $skippedClassAndCodes = $this->skippedClassAndCodesResolver->resolve();
         if (! array_key_exists($element, $skippedClassAndCodes)) {
             return false;

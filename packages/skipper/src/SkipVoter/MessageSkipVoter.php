@@ -31,6 +31,10 @@ final class MessageSkipVoter implements SkipVoterInterface
 
     public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
+        if (is_object($element)) {
+            return false;
+        }
+
         $skippedMessages = $this->skippedMessagesResolver->resolve();
         if (! array_key_exists($element, $skippedMessages)) {
             return false;

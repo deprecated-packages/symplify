@@ -520,7 +520,7 @@ final class ComposerJson
     /**
      * @param string|string[]|null $license
      */
-    public function setLicense(string | array $license): void
+    public function setLicense(string | array | null $license): void
     {
         $this->license = $license;
     }
