@@ -485,7 +485,7 @@ final class ComposerJson
         $this->homepage = $homepage;
     }
 
-    public function getHomepage(): string
+    public function getHomepage(): ?string
     {
         return $this->homepage;
     }

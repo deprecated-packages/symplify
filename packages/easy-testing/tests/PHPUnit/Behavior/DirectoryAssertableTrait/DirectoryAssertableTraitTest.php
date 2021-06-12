@@ -7,7 +7,6 @@ namespace Symplify\EasyTesting\Tests\PHPUnit\Behavior\DirectoryAssertableTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\PHPUnit\Behavior\DirectoryAssertableTrait;
-use Throwable;
 
 final class DirectoryAssertableTraitTest extends TestCase
 {
@@ -20,11 +19,8 @@ final class DirectoryAssertableTraitTest extends TestCase
 
     public function testFail(): void
     {
-        try {
-            $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/third_directory');
-        } catch (Throwable $throwable) {
-        } finally {
-            $this->assertInstanceOf(ExpectationFailedException::class, $throwable);
-        }
+        $this->expectException(ExpectationFailedException::class);
+
+        $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/third_directory');
     }
 }

@@ -40,7 +40,7 @@ final class SymplifyStrings
                 }
 
                 if ($this->lastSlashPosition !== null) {
-                    return substr($first, -$this->lastSlashPosition);
+                    return substr($first, -(int) $this->lastSlashPosition);
                 }
 
                 return substr($first, -$i);

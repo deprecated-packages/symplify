@@ -11,6 +11,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
 use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
@@ -70,6 +71,10 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 
     private function processPhpDocTagNode(PhpDocTagNode $phpDocTagNode): void
     {
+        if ($this->className === null) {
+            throw new ShouldNotHappenException();
+        }
+
         $shortClassName = trim($phpDocTagNode->name, '@');
 
         // lowercased, probably non class annotation
@@ -85,6 +90,10 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 
     private function processGenericTagValueNode(GenericTagValueNode $genericTagValueNode): void
     {
+        if ($this->className === null) {
+            throw new ShouldNotHappenException();
+        }
+
         $matches = Strings::matchAll($genericTagValueNode->value, self::PARTIAL_CLASS_REFERENCE_REGEX);
 
         $resolveFullyQualifiedNames = [];

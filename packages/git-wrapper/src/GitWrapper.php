@@ -29,7 +29,7 @@ final class GitWrapper
     /**
      * Path to the Git binary.
      */
-    private ?string $gitBinary = null;
+    private string $gitBinary;
 
     /**
      * The timeout of the Git command in seconds.
@@ -57,7 +57,7 @@ final class GitWrapper
             }
         }
 
-        $this->setGitBinary($gitBinary);
+        $this->gitBinary = $gitBinary;
 
         $this->eventDispatcher = new EventDispatcher();
     }

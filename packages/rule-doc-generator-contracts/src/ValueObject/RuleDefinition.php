@@ -73,6 +73,10 @@ final class RuleDefinition
 
     public function getRuleShortClass(): string
     {
+        if ($this->ruleClass === null) {
+            throw new ShouldNotHappenException();
+        }
+
         return (string) Strings::after($this->ruleClass, '\\', -1);
     }
 

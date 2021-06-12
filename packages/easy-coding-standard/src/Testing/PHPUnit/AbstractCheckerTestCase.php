@@ -26,13 +26,13 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
         __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
     ];
 
-    private ?FixerFileProcessor $fixerFileProcessor = null;
+    private FixerFileProcessor $fixerFileProcessor;
 
-    private ?SniffFileProcessor $sniffFileProcessor = null;
+    private SniffFileProcessor $sniffFileProcessor;
 
-    private ?ErrorAndDiffCollector $errorAndDiffCollector = null;
+    private ErrorAndDiffCollector $errorAndDiffCollector;
 
-    private ?ErrorAndDiffResultFactory $errorAndDiffResultFactory = null;
+    private ErrorAndDiffResultFactory $errorAndDiffResultFactory;
 
     protected function setUp(): void
     {

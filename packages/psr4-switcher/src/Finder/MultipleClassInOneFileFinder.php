@@ -26,6 +26,6 @@ final class MultipleClassInOneFileFinder
             $classesByFile[$file][] = $class;
         }
 
-        return array_filter($classesByFile, fn ($classes): bool => count($classes) >= 2);
+        return array_filter($classesByFile, fn (array $classes): bool => count($classes) >= 2);
     }
 }

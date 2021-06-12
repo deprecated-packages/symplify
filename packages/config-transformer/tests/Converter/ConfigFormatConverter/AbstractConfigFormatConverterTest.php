@@ -15,11 +15,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
 {
-    protected ?ConfigFormatConverter $configFormatConverter;
+    protected ConfigFormatConverter $configFormatConverter;
 
-    protected ?Configuration $configuration;
+    protected Configuration $configuration;
 
-    protected ?SmartFileSystem $smartFileSystem;
+    protected SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {
