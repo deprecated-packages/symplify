@@ -1049,7 +1049,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### cs
 - [#2319] Fixes [#2214] : add PrefferedMethodCallOverFuncCallRule, Thanks to [@samsonasik]
 - [#2375] Fixes [#2329] Add TooDeepNewClassNestingRule, Thanks to [@samsonasik]
-- [#2341] Fixes [#2328] Add ForbiddenAssignInIfRule, Thanks to [@samsonasik]
+- [#2341] Fixes [#2328] Add ForbiddenMethodOrStaticCallInForeachRule, Thanks to [@samsonasik]
 
 ### Changed
 

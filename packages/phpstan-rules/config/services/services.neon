@@ -68,7 +68,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
@@ -81,7 +80,6 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\VariableUsageAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
 
     - Symplify\SmartFileSystem\Finder\FinderSanitizer

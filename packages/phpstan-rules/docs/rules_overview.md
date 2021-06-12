@@ -1,4 +1,4 @@
-# 159 Rules Overview
+# 156 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1127,63 +1127,6 @@ final class SomeClass
 
 <br>
 
-## ForbiddenAssignInIfRule
-
-Assignment inside if is not allowed. Extract condition to extra variable on line above
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`](../src/Rules/ForbiddenAssignInIfRule.php)
-
-```php
-if ($isRandom = mt_rand()) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$isRandom = mt_rand();
-if ($isRandom) {
-    // ...
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenAssignInLoopRule
-
-Assign in loop is not allowed.
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`](../src/Rules/ForbiddenAssignInLoopRule.php)
-
-```php
-foreach (...) {
-    $value = new SmartFileInfo('a.php');
-    if ($value) {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-$value = new SmartFileInfo('a.php');
-foreach (...) {
-    if ($value) {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenAttributteArgumentRule
 
 Attribute key "%s" cannot be used
@@ -1385,6 +1328,33 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ]),
         ]]);
 };
+```
+
+:+1:
+
+<br>
+
+## ForbiddenComplexForeachIfExprRule
+
+foreach(...), `while()`, `for()` or if(...) cannot contains a complex expression. Extract it to a new variable assign on line before
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule`](../src/Rules/Complexity/ForbiddenComplexForeachIfExprRule.php)
+
+```php
+foreach ($this->getData($arg) as $key => $item) {
+    // ...
+}
+```
+
+:x:
+
+<br>
+
+```php
+$data = $this->getData($arg);
+foreach ($arg as $key => $item) {
+    // ...
+}
 ```
 
 :+1:
@@ -1603,62 +1573,6 @@ class SomeClass
 
 <br>
 
-## ForbiddenMethodOrStaticCallInForeachRule
-
-Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
-
-```php
-foreach ($this->getData($arg) as $key => $item) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$data = $this->getData($arg);
-foreach ($arg as $key => $item) {
-    // ...
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenMethodOrStaticCallInForeachRule
-
-Method nor static call in `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
-
-```php
-$someObject = new SomeClass();
-if ($someObject->getData($arg) === []) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$someObject = new SomeClass();
-$dataFirstArg = $someObject->getData($arg);
-if ($dataFirstArg === []) {
-    // ...
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenMultipleClassLikeInOneFileRule
 
 Multiple class/interface/trait is not allowed in single file
@@ -1708,7 +1622,7 @@ final class SomeClass extends TestCase
 {
     public function test()
     {
-        $this->assetSame('oooo', $this->someMethodCall());
+        $this->assertSame('oooo', $this->someMethodCall());
     }
 }
 ```
@@ -1725,7 +1639,7 @@ final class SomeClass extends TestCase
     public function test()
     {
         $result = $this->someMethodCall();
-        $this->assetSame('oooo', $result);
+        $this->assertSame('oooo', $result);
     }
 }
 ```

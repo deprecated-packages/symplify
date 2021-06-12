@@ -119,10 +119,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
         tags: [phpstan.rules.rule]
 
@@ -147,7 +143,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
+        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
         tags: [phpstan.rules.rule]
 
     -
@@ -172,10 +168,6 @@ services:
 
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule
         tags: [phpstan.rules.rule]
 
     -
