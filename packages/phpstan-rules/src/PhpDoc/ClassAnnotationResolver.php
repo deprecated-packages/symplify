@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\PhpDoc;
 
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
-use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
 use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
-use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
-use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
-use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class ClassAnnotationResolver
 {
@@ -25,97 +19,23 @@ final class ClassAnnotationResolver
     private $simplePhpDocParser;
 
     /**
-     * @var ClassReferencePhpDocNodeVisitor
-     */
-    private $fullyQualifyingPhpDocNodeVisitor;
-
-    /**
      * @var ClassReflectionResolver
      */
     private $classReflectionResolver;
 
+    /**
+     * @var ClassReferencePhpDocNodeTraverser
+     */
+    private $classReferencePhpDocNodeTraverser;
+
     public function __construct(
         SimplePhpDocParser $simplePhpDocParser,
-        ClassReferencePhpDocNodeVisitor $fullyQualifyingPhpDocNodeVisitor,
-        ClassReflectionResolver $classReflectionResolver
+        ClassReflectionResolver $classReflectionResolver,
+        ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
     ) {
         $this->simplePhpDocParser = $simplePhpDocParser;
-        $this->fullyQualifyingPhpDocNodeVisitor = $fullyQualifyingPhpDocNodeVisitor;
         $this->classReflectionResolver = $classReflectionResolver;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function resolveClassReferences(Node $node, Scope $scope): array
-    {
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return [];
-        }
-
-        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        $referencedClasses = [];
-
-        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
-        foreach ($phpDocNode->children as $docChildNode) {
-            if (! $docChildNode instanceof PhpDocTagNode) {
-                continue;
-            }
-
-            if (! $docChildNode->value instanceof GenericTagValueNode) {
-                continue;
-            }
-
-            $genericTagValueNode = $docChildNode->value;
-            $referencedClasses = array_merge(
-                $referencedClasses,
-                $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASSES)
-            );
-        }
-
-        return $referencedClasses;
-    }
-
-    /**
-     * @return ClassConstantReference[]
-     */
-    public function resolveClassConstantReferences(Node $node, Scope $scope): array
-    {
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return [];
-        }
-
-        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        $referencedClassConstants = [];
-
-        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
-        foreach ($phpDocNode->children as $docChildNode) {
-            if (! $docChildNode instanceof PhpDocTagNode) {
-                continue;
-            }
-
-            if (! $docChildNode->value instanceof GenericTagValueNode) {
-                continue;
-            }
-
-            $genericTagValueNode = $docChildNode->value;
-            $referencedClassConstants = array_merge(
-                $referencedClassConstants,
-                $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS)
-            );
-        }
-
-        return $referencedClassConstants;
+        $this->classReferencePhpDocNodeTraverser = $classReferencePhpDocNodeTraverser;
     }
 
     /**
@@ -123,8 +43,8 @@ final class ClassAnnotationResolver
      */
     public function resolveClassAnnotations(Node $node, Scope $scope): array
     {
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
+        $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
+        if ($simplePhpDocNode === null) {
             return [];
         }
 
@@ -133,31 +53,13 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
+        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($simplePhpDocNode, $classReflection);
 
         $classAnnotations = [];
-        foreach ($phpDocNode->getTags() as $phpDocTagNode) {
+        foreach ($simplePhpDocNode->getTags() as $phpDocTagNode) {
             $classAnnotations[] = $phpDocTagNode->name;
         }
 
         return $classAnnotations;
-    }
-
-    /**
-     * @deprecated
-     */
-    private function parseTextToPhpDocNodeWithFullyQualifiedNames(
-        string $docBlock,
-        ClassReflection $classReflection
-    ): SimplePhpDocNode {
-        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
-
-        $phpDocNodeTraverser = new PhpDocNodeTraverser();
-        $this->fullyQualifyingPhpDocNodeVisitor->configureClassName($classReflection->getName());
-
-        $phpDocNodeTraverser->addPhpDocNodeVisitor($this->fullyQualifyingPhpDocNodeVisitor);
-        $phpDocNodeTraverser->traverse($simplePhpDocNode);
-
-        return $simplePhpDocNode;
     }
 }
