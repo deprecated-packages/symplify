@@ -99,7 +99,6 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $errorMessages = [];
         $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($phpDocNode, $classReflection);
 
         foreach ($phpDocNode->getTags() as $phpDocTagNode) {
@@ -113,8 +112,7 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
             $classConstantsErrorMessages = $this->collectClassConstantsErrorMessages($genericTagValueNode);
             $methodCallsErrorMessages = $this->collectMethodCallsErrorMessages($genericTagValueNode);
 
-            $errorMessages = array_merge($classErrorMessages, $classConstantsErrorMessages, $methodCallsErrorMessages);
-            return $errorMessages;
+            return array_merge($classErrorMessages, $classConstantsErrorMessages, $methodCallsErrorMessages);
         }
 
         return [];

@@ -24,14 +24,12 @@ final class ClassReferencePhpDocNodeTraverser
     public function decoratePhpDocNode(
         SimplePhpDocNode $simplePhpDocNode,
         ClassReflection $classReflection
-    ): SimplePhpDocNode {
+    ): void {
         $phpDocNodeTraverser = new PhpDocNodeTraverser();
 
         $this->classReferencePhpDocNodeVisitor->configureClassName($classReflection->getName());
         $phpDocNodeTraverser->addPhpDocNodeVisitor($this->classReferencePhpDocNodeVisitor);
 
         $phpDocNodeTraverser->traverse($simplePhpDocNode);
-
-        return $simplePhpDocNode;
     }
 }
