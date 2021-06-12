@@ -40,5 +40,7 @@ final class MissingClassConstantLatteAnalyzerTest extends AbstractKernelTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/existing_constant.twig'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/inside_foreach.twig'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_var_type.latte'), 0];
+
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/existing_constant_with_number.twig'), 0];
     }
 }

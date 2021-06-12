@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\PhpDoc;
 
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
 use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
@@ -44,7 +45,7 @@ final class ClassAnnotationResolver
     public function resolveClassAnnotations(Node $node, Scope $scope): array
     {
         $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
-        if ($simplePhpDocNode === null) {
+        if (! $simplePhpDocNode instanceof PhpDocNode) {
             return [];
         }
 
