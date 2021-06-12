@@ -6,20 +6,10 @@ namespace Symplify\PHPStanRules\ValueObject;
 
 final class ScalarAndNonScalarCounter
 {
-    /**
-     * @var int
-     */
-    private $scalarCount;
-
-    /**
-     * @var int
-     */
-    private $nonScalarCount;
-
-    public function __construct(int $scalarCount, int $nonScalarCount)
-    {
-        $this->scalarCount = $scalarCount;
-        $this->nonScalarCount = $nonScalarCount;
+    public function __construct(
+        private int $scalarCount,
+        private int $nonScalarCount
+    ) {
     }
 
     public function getScalarCount(): int

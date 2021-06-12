@@ -11,14 +11,9 @@ use PhpParser\Node\Name\FullyQualified;
 
 final class ServiceReferenceExprResolver
 {
-    /**
-     * @var StringExprResolver
-     */
-    private $stringExprResolver;
-
-    public function __construct(StringExprResolver $stringExprResolver)
-    {
-        $this->stringExprResolver = $stringExprResolver;
+    public function __construct(
+        private StringExprResolver $stringExprResolver
+    ) {
     }
 
     public function resolveServiceReferenceExpr(

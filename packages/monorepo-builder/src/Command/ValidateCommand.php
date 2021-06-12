@@ -15,38 +15,13 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ValidateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var VersionValidator
-     */
-    private $versionValidator;
-
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var ConflictingPackageVersionsReporter
-     */
-    private $conflictingPackageVersionsReporter;
-
-    /**
-     * @var SourcesPresenceValidator
-     */
-    private $sourcesPresenceValidator;
-
     public function __construct(
-        ComposerJsonProvider $composerJsonProvider,
-        VersionValidator $versionValidator,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
-        SourcesPresenceValidator $sourcesPresenceValidator
+        private ComposerJsonProvider $composerJsonProvider,
+        private VersionValidator $versionValidator,
+        private ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter,
+        private SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
-
-        $this->versionValidator = $versionValidator;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
-        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void

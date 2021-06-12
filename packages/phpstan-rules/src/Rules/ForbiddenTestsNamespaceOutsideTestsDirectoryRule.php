@@ -28,20 +28,10 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
      */
     private const DESCRIPTION = '"Tests" namespace can be only in "/tests" directory';
 
-    /**
-     * @var DirectoryChecker
-     */
-    private $directoryChecker;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(DirectoryChecker $directoryChecker, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->directoryChecker = $directoryChecker;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private DirectoryChecker $directoryChecker,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

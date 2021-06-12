@@ -15,7 +15,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class ReflectionMethodToClassMethodParser
 {
     public function __construct(
-        private Parser $phpParser,
+        private Parser $parser,
         private NodeFinder $nodeFinder,
         private SmartFileSystem $smartFileSystem
     ) {
@@ -31,7 +31,7 @@ final class ReflectionMethodToClassMethodParser
         }
 
         $reflectionMethodFileContent = $this->smartFileSystem->readFile($fileName);
-        $nodes = $this->phpParser->parse($reflectionMethodFileContent);
+        $nodes = $this->parser->parse($reflectionMethodFileContent);
         if ($nodes === [] || $nodes === null) {
             throw new ShouldNotHappenException();
         }

@@ -29,14 +29,9 @@ final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends 
      */
     private const REQUIRED_METHODS = ['autowire', 'autoconfigure', 'public'];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

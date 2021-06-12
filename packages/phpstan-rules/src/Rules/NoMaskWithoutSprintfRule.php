@@ -27,14 +27,9 @@ final class NoMaskWithoutSprintfRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Missing sprintf() function for a mask';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

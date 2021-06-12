@@ -29,14 +29,9 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
      */
     private const ALLOWED_TYPES = ['Symfony\Component\Finder\Finder', 'DateTime', 'Nette\Utils\DateTime'];
 
-    /**
-     * @var ContainsTypeAnalyser
-     */
-    private $containsTypeAnalyser;
-
-    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser)
-    {
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
+    public function __construct(
+        private ContainsTypeAnalyser $containsTypeAnalyser
+    ) {
     }
 
     /**

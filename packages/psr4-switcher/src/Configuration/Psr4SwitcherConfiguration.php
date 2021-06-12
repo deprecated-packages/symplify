@@ -17,18 +17,13 @@ final class Psr4SwitcherConfiguration
     private $source = [];
 
     /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
-    /**
      * @var string
      */
     private $composerJsonPath;
 
-    public function __construct(FileSystemGuard $fileSystemGuard)
-    {
-        $this->fileSystemGuard = $fileSystemGuard;
+    public function __construct(
+        private FileSystemGuard $fileSystemGuard
+    ) {
     }
 
     /**

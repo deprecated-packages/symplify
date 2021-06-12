@@ -22,14 +22,9 @@ final class CommentedContentResolver
      */
     public const EMPTY_TOKENS = [T_WHITESPACE, T_STRING, T_ENCAPSED_AND_WHITESPACE, T_COMMENT];
 
-    /**
-     * @var LineResolver
-     */
-    private $lineResolver;
-
-    public function __construct(LineResolver $lineResolver)
-    {
-        $this->lineResolver = $lineResolver;
+    public function __construct(
+        private LineResolver $lineResolver
+    ) {
     }
 
     /**

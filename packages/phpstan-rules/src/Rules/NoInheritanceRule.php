@@ -66,16 +66,6 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
     private const DEFAULT_ALLOWED_DIRECT_PARENT_TYPES = ['PhpParser\NodeVisitorAbstract'];
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
      * @var array<class-string>
      */
     private $allowedParentTypes = [];
@@ -90,13 +80,11 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
      * @param array<class-string> $allowedDirectParentTypes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
+        private SimpleNameResolver $simpleNameResolver,
+        private TypeChecker $typeChecker,
         array $allowedParentTypes = [],
         array $allowedDirectParentTypes = []
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->typeChecker = $typeChecker;
         $this->allowedParentTypes = array_merge(self::DEFAULT_ALLOWED_PARENT_TYPES, $allowedParentTypes);
         $this->allowedDirectParentTypes = array_merge(
             self::DEFAULT_ALLOWED_DIRECT_PARENT_TYPES,

@@ -51,14 +51,9 @@ final class ComplexityAffectingNodeFinder
         Ternary::class,
     ];
 
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    public function __construct(TypeChecker $typeChecker)
-    {
-        $this->typeChecker = $typeChecker;
+    public function __construct(
+        private TypeChecker $typeChecker
+    ) {
     }
 
     public function isIncrementingNode(Node $node): bool

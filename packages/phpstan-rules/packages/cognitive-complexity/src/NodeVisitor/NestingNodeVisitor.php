@@ -44,29 +44,11 @@ final class NestingNodeVisitor extends NodeVisitorAbstract
      */
     private $previousNestingLevel = 0;
 
-    /**
-     * @var CognitiveComplexityDataCollector
-     */
-    private $cognitiveComplexityDataCollector;
-
-    /**
-     * @var ComplexityAffectingNodeFinder
-     */
-    private $complexityAffectingNodeFinder;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
     public function __construct(
-        CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
-        ComplexityAffectingNodeFinder $complexityAffectingNodeFinder,
-        TypeChecker $typeChecker
+        private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
+        private ComplexityAffectingNodeFinder $complexityAffectingNodeFinder,
+        private TypeChecker $typeChecker
     ) {
-        $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
-        $this->complexityAffectingNodeFinder = $complexityAffectingNodeFinder;
-        $this->typeChecker = $typeChecker;
     }
 
     public function reset(): void

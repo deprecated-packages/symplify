@@ -13,16 +13,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class CodeSamplePrinter
 {
     /**
-     * @var RuleCodeSamplePrinterInterface[]
-     */
-    private $ruleCodeSamplePrinters = [];
-
-    /**
      * @param RuleCodeSamplePrinterInterface[] $ruleCodeSamplePrinters
      */
-    public function __construct(array $ruleCodeSamplePrinters)
-    {
-        $this->ruleCodeSamplePrinters = $ruleCodeSamplePrinters;
+    public function __construct(
+        private array $ruleCodeSamplePrinters
+    ) {
     }
 
     /**

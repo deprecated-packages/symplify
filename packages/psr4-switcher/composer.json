@@ -6,7 +6,7 @@
         "bin/psr4-switcher"
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "nette/utils": "^3.2",
         "nette/robot-loader": "^3.3",
         "symfony/dependency-injection": "^5.3",

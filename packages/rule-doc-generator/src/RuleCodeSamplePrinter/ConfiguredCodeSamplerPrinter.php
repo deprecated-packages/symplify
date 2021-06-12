@@ -12,29 +12,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class ConfiguredCodeSamplerPrinter
 {
-    /**
-     * @var SmartPhpConfigPrinter
-     */
-    private $smartPhpConfigPrinter;
-
-    /**
-     * @var MarkdownCodeWrapper
-     */
-    private $markdownCodeWrapper;
-
-    /**
-     * @var DiffCodeSamplePrinter
-     */
-    private $diffCodeSamplePrinter;
-
     public function __construct(
-        SmartPhpConfigPrinter $smartPhpConfigPrinter,
-        MarkdownCodeWrapper $markdownCodeWrapper,
-        DiffCodeSamplePrinter $diffCodeSamplePrinter
+        private SmartPhpConfigPrinter $smartPhpConfigPrinter,
+        private MarkdownCodeWrapper $markdownCodeWrapper,
+        private DiffCodeSamplePrinter $diffCodeSamplePrinter
     ) {
-        $this->smartPhpConfigPrinter = $smartPhpConfigPrinter;
-        $this->markdownCodeWrapper = $markdownCodeWrapper;
-        $this->diffCodeSamplePrinter = $diffCodeSamplePrinter;
     }
 
     /**

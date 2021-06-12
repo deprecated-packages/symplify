@@ -16,14 +16,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class EmptyLineNodeDecorator
 {
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

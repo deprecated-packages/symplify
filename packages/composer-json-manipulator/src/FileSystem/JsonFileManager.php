@@ -18,33 +18,15 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class JsonFileManager
 {
     /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var JsonCleaner
-     */
-    private $jsonCleaner;
-
-    /**
-     * @var JsonInliner
-     */
-    private $jsonInliner;
-
-    /**
      * @var mixed[]
      */
     private $cachedJSONFiles = [];
 
     public function __construct(
-        SmartFileSystem $smartFileSystem,
-        JsonCleaner $jsonCleaner,
-        JsonInliner $jsonInliner
+        private SmartFileSystem $smartFileSystem,
+        private JsonCleaner $jsonCleaner,
+        private JsonInliner $jsonInliner
     ) {
-        $this->smartFileSystem = $smartFileSystem;
-        $this->jsonCleaner = $jsonCleaner;
-        $this->jsonInliner = $jsonInliner;
     }
 
     /**

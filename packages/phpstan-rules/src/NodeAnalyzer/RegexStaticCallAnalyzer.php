@@ -19,14 +19,9 @@ final class RegexStaticCallAnalyzer
      */
     private const NETTE_UTILS_STRINGS_CLASS = 'Nette\Utils\Strings';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function isRegexStaticCall(StaticCall $staticCall): bool

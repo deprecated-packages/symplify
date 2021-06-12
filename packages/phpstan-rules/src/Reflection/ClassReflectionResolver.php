@@ -13,20 +13,10 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class ClassReflectionResolver
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     public function resolve(Scope $scope, Node $node): ?ClassReflection

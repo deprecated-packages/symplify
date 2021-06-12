@@ -15,14 +15,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ServicesDefaultsCaseConverter implements CaseConverterInterface
 {
-    /**
-     * @var AutoBindNodeFactory
-     */
-    private $autoBindNodeFactory;
-
-    public function __construct(AutoBindNodeFactory $autoBindNodeFactory)
-    {
-        $this->autoBindNodeFactory = $autoBindNodeFactory;
+    public function __construct(
+        private AutoBindNodeFactory $autoBindNodeFactory
+    ) {
     }
 
     public function convertToMethodCall($key, $values): Expression

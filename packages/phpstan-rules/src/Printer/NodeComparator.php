@@ -12,14 +12,9 @@ use Symplify\Astral\ValueObject\AttributeKey;
 
 final class NodeComparator
 {
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    public function __construct(Standard $standard)
-    {
-        $this->standard = $standard;
+    public function __construct(
+        private Standard $standard
+    ) {
     }
 
     public function areNodesEqual(Node $firstNode, Node $secondNode): bool

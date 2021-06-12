@@ -18,23 +18,10 @@ use Symplify\SnifferFixerToECSConverter\SnifferToECSConverter;
 
 final class ConvertCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SnifferToECSConverter
-     */
-    private $snifferToECSConverter;
-
-    /**
-     * @var FixerToECSConverter
-     */
-    private $fixerToECSConverter;
-
     public function __construct(
-        SnifferToECSConverter $snifferToECSConverter,
-        FixerToECSConverter $fixerToECSConverter
+        private SnifferToECSConverter $snifferToECSConverter,
+        private FixerToECSConverter $fixerToECSConverter
     ) {
-        $this->snifferToECSConverter = $snifferToECSConverter;
-        $this->fixerToECSConverter = $fixerToECSConverter;
-
         parent::__construct();
     }
 

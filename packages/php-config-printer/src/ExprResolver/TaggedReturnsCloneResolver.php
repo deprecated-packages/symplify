@@ -11,22 +11,10 @@ use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
 
 final class TaggedReturnsCloneResolver
 {
-    /**
-     * @var ServiceReferenceExprResolver
-     */
-    private $serviceReferenceExprResolver;
-
-    /**
-     * @var SymfonyFunctionNameProvider
-     */
-    private $symfonyFunctionNameProvider;
-
     public function __construct(
-        SymfonyFunctionNameProvider $symfonyFunctionNameProvider,
-        ServiceReferenceExprResolver $serviceReferenceExprResolver
+        private SymfonyFunctionNameProvider $symfonyFunctionNameProvider,
+        private ServiceReferenceExprResolver $serviceReferenceExprResolver
     ) {
-        $this->serviceReferenceExprResolver = $serviceReferenceExprResolver;
-        $this->symfonyFunctionNameProvider = $symfonyFunctionNameProvider;
     }
 
     public function resolve(TaggedValue $taggedValue): Array_

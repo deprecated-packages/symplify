@@ -13,20 +13,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class SmartFinder
 {
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
-     * @var FileSystemFilter
-     */
-    private $fileSystemFilter;
-
-    public function __construct(FinderSanitizer $finderSanitizer, FileSystemFilter $fileSystemFilter)
-    {
-        $this->finderSanitizer = $finderSanitizer;
-        $this->fileSystemFilter = $fileSystemFilter;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer,
+        private FileSystemFilter $fileSystemFilter
+    ) {
     }
 
     /**

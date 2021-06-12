@@ -11,14 +11,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class PHPCodeSnifferRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
-    /**
-     * @var BadGoodCodeSamplePrinter
-     */
-    private $badGoodCodeSamplePrinter;
-
-    public function __construct(BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter)
-    {
-        $this->badGoodCodeSamplePrinter = $badGoodCodeSamplePrinter;
+    public function __construct(
+        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
+    ) {
     }
 
     public function isMatch(string $class): bool

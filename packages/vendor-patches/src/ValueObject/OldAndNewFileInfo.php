@@ -8,26 +8,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class OldAndNewFileInfo
 {
-    /**
-     * @var SmartFileInfo
-     */
-    private $oldFileInfo;
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $newFileInfo;
-
-    /**
-     * @var string
-     */
-    private $packageName;
-
-    public function __construct(SmartFileInfo $oldFileInfo, SmartFileInfo $newFileInfo, string $packageName)
-    {
-        $this->oldFileInfo = $oldFileInfo;
-        $this->newFileInfo = $newFileInfo;
-        $this->packageName = $packageName;
+    public function __construct(
+        private SmartFileInfo $oldFileInfo,
+        private SmartFileInfo $newFileInfo,
+        private string $packageName
+    ) {
     }
 
     public function getOldFileInfo(): SmartFileInfo

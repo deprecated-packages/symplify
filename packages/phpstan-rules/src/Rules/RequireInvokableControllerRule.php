@@ -22,14 +22,9 @@ final class RequireInvokableControllerRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use invokable controller with __invoke() method instead of named action method';
 
-    /**
-     * @var SymfonyControllerAnalyzer
-     */
-    private $symfonyControllerAnalyzer;
-
-    public function __construct(SymfonyControllerAnalyzer $symfonyControllerAnalyzer)
-    {
-        $this->symfonyControllerAnalyzer = $symfonyControllerAnalyzer;
+    public function __construct(
+        private SymfonyControllerAnalyzer $symfonyControllerAnalyzer
+    ) {
     }
 
     /**

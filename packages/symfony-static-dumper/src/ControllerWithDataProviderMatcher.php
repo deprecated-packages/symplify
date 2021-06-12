@@ -11,22 +11,12 @@ use Symplify\SymfonyStaticDumper\Routing\ControllerMatcher;
 final class ControllerWithDataProviderMatcher
 {
     /**
-     * @var ControllerWithDataProviderInterface[]
-     */
-    private $controllerWithDataProviders = [];
-
-    /**
-     * @var ControllerMatcher
-     */
-    private $controllerMatcher;
-
-    /**
      * @param ControllerWithDataProviderInterface[] $controllerWithDataProviders
      */
-    public function __construct(ControllerMatcher $controllerMatcher, array $controllerWithDataProviders)
-    {
-        $this->controllerMatcher = $controllerMatcher;
-        $this->controllerWithDataProviders = $controllerWithDataProviders;
+    public function __construct(
+        private ControllerMatcher $controllerMatcher,
+        private array $controllerWithDataProviders
+    ) {
     }
 
     public function matchRoute(Route $route): ?ControllerWithDataProviderInterface

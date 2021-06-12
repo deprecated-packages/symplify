@@ -28,14 +28,9 @@ final class StaticNodeCollector
      */
     private $staticCalls = [];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function addStaticClassMethod(ClassMethod $classMethod, ClassLike $classLike): void

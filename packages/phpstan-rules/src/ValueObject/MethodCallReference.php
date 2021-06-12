@@ -6,20 +6,10 @@ namespace Symplify\PHPStanRules\ValueObject;
 
 final class MethodCallReference
 {
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var string
-     */
-    private $methodName;
-
-    public function __construct(string $class, string $methodName)
-    {
-        $this->class = $class;
-        $this->methodName = $methodName;
+    public function __construct(
+        private string $class,
+        private string $methodName
+    ) {
     }
 
     public function getClass(): string

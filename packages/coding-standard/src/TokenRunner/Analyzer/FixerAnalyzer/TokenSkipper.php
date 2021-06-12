@@ -13,14 +13,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class TokenSkipper
 {
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    public function __construct(BlockFinder $blockFinder)
-    {
-        $this->blockFinder = $blockFinder;
+    public function __construct(
+        private BlockFinder $blockFinder
+    ) {
     }
 
     /**

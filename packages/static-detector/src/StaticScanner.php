@@ -15,36 +15,12 @@ use Symplify\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
  */
 final class StaticScanner
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
-
-    /**
-     * @var StaticCollectNodeTraverser
-     */
-    private $staticCollectNodeTraverser;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var CurrentFileInfoProvider
-     */
-    private $currentFileInfoProvider;
-
     public function __construct(
-        StaticCollectNodeTraverser $staticCollectNodeTraverser,
-        Parser $parser,
-        SymfonyStyle $symfonyStyle,
-        CurrentFileInfoProvider $currentFileInfoProvider
+        private StaticCollectNodeTraverser $staticCollectNodeTraverser,
+        private Parser $parser,
+        private SymfonyStyle $symfonyStyle,
+        private CurrentFileInfoProvider $currentFileInfoProvider
     ) {
-        $this->parser = $parser;
-        $this->staticCollectNodeTraverser = $staticCollectNodeTraverser;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->currentFileInfoProvider = $currentFileInfoProvider;
     }
 
     /**

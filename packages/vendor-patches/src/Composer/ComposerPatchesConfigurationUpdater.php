@@ -9,20 +9,10 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 
 final class ComposerPatchesConfigurationUpdater
 {
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(ComposerJsonFactory $composerJsonFactory, JsonFileManager $jsonFileManager)
-    {
-        $this->composerJsonFactory = $composerJsonFactory;
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private ComposerJsonFactory $composerJsonFactory,
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     /**

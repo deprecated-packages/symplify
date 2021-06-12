@@ -14,29 +14,11 @@ use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 
 final class ClassAnnotationResolver
 {
-    /**
-     * @var SimplePhpDocParser
-     */
-    private $simplePhpDocParser;
-
-    /**
-     * @var ClassReflectionResolver
-     */
-    private $classReflectionResolver;
-
-    /**
-     * @var ClassReferencePhpDocNodeTraverser
-     */
-    private $classReferencePhpDocNodeTraverser;
-
     public function __construct(
-        SimplePhpDocParser $simplePhpDocParser,
-        ClassReflectionResolver $classReflectionResolver,
-        ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
+        private SimplePhpDocParser $simplePhpDocParser,
+        private ClassReflectionResolver $classReflectionResolver,
+        private ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
     ) {
-        $this->simplePhpDocParser = $simplePhpDocParser;
-        $this->classReflectionResolver = $classReflectionResolver;
-        $this->classReferencePhpDocNodeTraverser = $classReferencePhpDocNodeTraverser;
     }
 
     /**

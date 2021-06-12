@@ -27,29 +27,17 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     /**
      * @var array<string, string>
      */
-    private $forbiddenTypes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
+    private array $forbiddenTypes = [];
 
     /**
      * @param array<string, string> $forbiddenTypes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
         array $forbiddenTypes = []
     ) {
         $this->forbiddenTypes = $forbiddenTypes;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**

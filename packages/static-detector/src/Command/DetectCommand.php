@@ -17,37 +17,12 @@ use Symplify\StaticDetector\ValueObject\Option;
 
 final class DetectCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var StaticScanner
-     */
-    private $staticScanner;
-
-    /**
-     * @var StaticNodeCollector
-     */
-    private $staticNodeCollector;
-
-    /**
-     * @var StaticReportReporter
-     */
-    private $staticReportReporter;
-
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
     public function __construct(
-        StaticScanner $staticScanner,
-        StaticNodeCollector $staticNodeCollector,
-        StaticReportReporter $staticReportReporter,
-        ParameterProvider $parameterProvider
+        private StaticScanner $staticScanner,
+        private StaticNodeCollector $staticNodeCollector,
+        private StaticReportReporter $staticReportReporter,
+        private ParameterProvider $parameterProvider
     ) {
-        $this->staticScanner = $staticScanner;
-        $this->staticNodeCollector = $staticNodeCollector;
-        $this->staticReportReporter = $staticReportReporter;
-        $this->parameterProvider = $parameterProvider;
-
         parent::__construct();
     }
 

@@ -29,22 +29,12 @@ final class RequireConstantInAttributeArgumentRule extends AbstractSymplifyRule 
     public const ERROR_MESSAGE = 'Argument "%s" must be a constant';
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var array<string, string[]>
-     */
-    private $attributeWithNames = [];
-
-    /**
      * @param array<string, string[]> $attributeWithNames
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $attributeWithNames)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->attributeWithNames = $attributeWithNames;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private array $attributeWithNames
+    ) {
     }
 
     /**

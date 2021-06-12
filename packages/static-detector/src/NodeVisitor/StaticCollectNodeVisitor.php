@@ -24,40 +24,16 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
     private const ALLOWED_METHOD_NAMES = ['getSubscribedEvents'];
 
     /**
-     * @var StaticNodeCollector
-     */
-    private $staticNodeCollector;
-
-    /**
      * @var ClassLike|null
      */
     private $currentClassLike;
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var StringsFilter
-     */
-    private $stringsFilter;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        StaticNodeCollector $staticNodeCollector,
-        ParameterProvider $parameterProvider,
-        StringsFilter $stringsFilter,
-        SimpleNameResolver $simpleNameResolver
+        private StaticNodeCollector $staticNodeCollector,
+        private ParameterProvider $parameterProvider,
+        private StringsFilter $stringsFilter,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->staticNodeCollector = $staticNodeCollector;
-        $this->parameterProvider = $parameterProvider;
-        $this->stringsFilter = $stringsFilter;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function enterNode(Node $node)

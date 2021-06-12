@@ -29,20 +29,10 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use explicit names over dynamic ones';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var CallableTypeAnalyzer
-     */
-    private $callableTypeAnalyzer;
-
-    public function __construct(CallableTypeAnalyzer $callableTypeAnalyzer, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->callableTypeAnalyzer = $callableTypeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private CallableTypeAnalyzer $callableTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

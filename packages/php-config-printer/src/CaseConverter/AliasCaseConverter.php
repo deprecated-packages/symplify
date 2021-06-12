@@ -35,36 +35,12 @@ final class AliasCaseConverter implements CaseConverterInterface
      */
     private const NAMED_ALIAS_REGEX = '#\w+\s+\$\w+#';
 
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var ServiceOptionNodeFactory
-     */
-    private $serviceOptionNodeFactory;
-
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
     public function __construct(
-        CommonNodeFactory $commonNodeFactory,
-        ArgsNodeFactory $argsNodeFactory,
-        ServiceOptionNodeFactory $serviceOptionNodeFactory,
-        ClassLikeExistenceChecker $classLikeExistenceChecker
+        private CommonNodeFactory $commonNodeFactory,
+        private ArgsNodeFactory $argsNodeFactory,
+        private ServiceOptionNodeFactory $serviceOptionNodeFactory,
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     public function convertToMethodCall($key, $values): Expression

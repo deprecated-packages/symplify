@@ -24,16 +24,11 @@ final class ForbiddenClassConstRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Constants in this class are not allowed, move them to custom Enum class instead';
 
     /**
-     * @var class-string[]
-     */
-    private $classTypes = [];
-
-    /**
      * @param array<class-string> $classTypes
      */
-    public function __construct(array $classTypes)
-    {
-        $this->classTypes = $classTypes;
+    public function __construct(
+        private array $classTypes
+    ) {
     }
 
     /**

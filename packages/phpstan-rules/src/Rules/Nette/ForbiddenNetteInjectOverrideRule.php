@@ -23,14 +23,9 @@ final class ForbiddenNetteInjectOverrideRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Assign to already injected property is not allowed';
 
-    /**
-     * @var NetteInjectAnalyzer
-     */
-    private $netteInjectAnalyzer;
-
-    public function __construct(NetteInjectAnalyzer $netteInjectAnalyzer)
-    {
-        $this->netteInjectAnalyzer = $netteInjectAnalyzer;
+    public function __construct(
+        private NetteInjectAnalyzer $netteInjectAnalyzer
+    ) {
     }
 
     /**

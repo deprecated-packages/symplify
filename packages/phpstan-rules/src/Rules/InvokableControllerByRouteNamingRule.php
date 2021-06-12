@@ -34,29 +34,11 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
      */
     private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
 
-    /**
-     * @var SymfonyControllerAnalyzer
-     */
-    private $symfonyControllerAnalyzer;
-
-    /**
-     * @var AttributeFinder
-     */
-    private $attributeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SymfonyControllerAnalyzer $symfonyControllerAnalyzer,
-        AttributeFinder $attributeFinder,
-        SimpleNameResolver $simpleNameResolver
+        private SymfonyControllerAnalyzer $symfonyControllerAnalyzer,
+        private AttributeFinder $attributeFinder,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->symfonyControllerAnalyzer = $symfonyControllerAnalyzer;
-        $this->attributeFinder = $attributeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

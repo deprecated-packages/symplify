@@ -14,14 +14,9 @@ use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 
 final class SingleServicePhpNodeFactory
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory
+    ) {
     }
 
     /**

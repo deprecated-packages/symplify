@@ -20,29 +20,11 @@ final class ServicesPhpNodeFactory
      */
     private const EXCLUDE = 'exclude';
 
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var AutoBindNodeFactory
-     */
-    private $autoBindNodeFactory;
-
     public function __construct(
-        CommonNodeFactory $commonNodeFactory,
-        ArgsNodeFactory $argsNodeFactory,
-        AutoBindNodeFactory $autoBindNodeFactory
+        private CommonNodeFactory $commonNodeFactory,
+        private ArgsNodeFactory $argsNodeFactory,
+        private AutoBindNodeFactory $autoBindNodeFactory
     ) {
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->autoBindNodeFactory = $autoBindNodeFactory;
     }
 
     public function createResource(string $serviceKey, array $serviceValues): Expression

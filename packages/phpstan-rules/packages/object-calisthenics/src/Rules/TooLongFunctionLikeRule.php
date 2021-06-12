@@ -24,14 +24,9 @@ final class TooLongFunctionLikeRule extends AbstractSymplifyRule implements Conf
      */
     public const ERROR_MESSAGE = '%s has %d lines, it is too long. Shorted it under %d lines';
 
-    /**
-     * @var int
-     */
-    private $maxFunctionLikeLength;
-
-    public function __construct(int $maxFunctionLikeLength = 20)
-    {
-        $this->maxFunctionLikeLength = $maxFunctionLikeLength;
+    public function __construct(
+        private int $maxFunctionLikeLength = 20
+    ) {
     }
 
     /**

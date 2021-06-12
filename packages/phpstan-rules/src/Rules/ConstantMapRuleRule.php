@@ -24,29 +24,11 @@ final class ConstantMapRuleRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Static constant map should be extracted from this method';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var ConditionCounter
-     */
-    private $conditionCounter;
-
-    /**
-     * @var IfReturnAnalyzer
-     */
-    private $ifReturnAnalyzer;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        ConditionCounter $conditionCounter,
-        IfReturnAnalyzer $ifReturnAnalyzer
+        private NodeFinder $nodeFinder,
+        private ConditionCounter $conditionCounter,
+        private IfReturnAnalyzer $ifReturnAnalyzer
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->conditionCounter = $conditionCounter;
-        $this->ifReturnAnalyzer = $ifReturnAnalyzer;
     }
 
     /**

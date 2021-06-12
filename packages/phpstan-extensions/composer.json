@@ -4,7 +4,7 @@
     "description": "Pre-escaped error messages in 'symplify' error format, container aware test case and other useful extensions for PHPStan",
     "license": "MIT",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "phpstan/phpstan": "^0.12.88",
         "symplify/package-builder": "^9.4",
         "symplify/smart-file-system": "^9.4",

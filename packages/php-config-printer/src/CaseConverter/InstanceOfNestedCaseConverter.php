@@ -16,22 +16,10 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class InstanceOfNestedCaseConverter
 {
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var ServiceOptionNodeFactory
-     */
-    private $serviceOptionNodeFactory;
-
     public function __construct(
-        CommonNodeFactory $commonNodeFactory,
-        ServiceOptionNodeFactory $serviceOptionNodeFactory
+        private CommonNodeFactory $commonNodeFactory,
+        private ServiceOptionNodeFactory $serviceOptionNodeFactory
     ) {
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
     }
 
     public function convertToMethodCall($key, $values): Expression

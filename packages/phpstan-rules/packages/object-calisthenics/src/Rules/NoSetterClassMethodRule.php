@@ -35,7 +35,7 @@ final class NoSetterClassMethodRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private $allowedSetterClasses = [];
+    private array $allowedSetterClasses = [];
 
     /**
      * @param string[] $allowedSetterClasses

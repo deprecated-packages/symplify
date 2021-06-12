@@ -15,16 +15,11 @@ final class CategoryResolver
     private const CATEGORY_UNKNOWN = 'unknown';
 
     /**
-     * @var CategoryInfererInterface[]
-     */
-    private $categoryInferers = [];
-
-    /**
      * @param CategoryInfererInterface[] $categoryInferers
      */
-    public function __construct(array $categoryInferers)
-    {
-        $this->categoryInferers = $categoryInferers;
+    public function __construct(
+        private array $categoryInferers
+    ) {
     }
 
     public function resolve(RuleDefinition $ruleDefinition): string

@@ -21,14 +21,9 @@ final class ArrayParameterCollector
      */
     private $parametersToReplace = [];
 
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
-
-    public function __construct(StringFormatConverter $stringFormatConverter)
-    {
-        $this->stringFormatConverter = $stringFormatConverter;
+    public function __construct(
+        private StringFormatConverter $stringFormatConverter
+    ) {
     }
 
     /**

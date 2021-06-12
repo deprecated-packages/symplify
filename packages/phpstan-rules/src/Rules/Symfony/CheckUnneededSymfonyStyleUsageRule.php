@@ -33,22 +33,10 @@ final class CheckUnneededSymfonyStyleUsageRule extends AbstractSymplifyRule
      */
     private const SIMPLE_CONSOLE_OUTPUT_METHODS = ['newline', 'write', 'writeln'];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ClassMethodsNodeAnalyzer
-     */
-    private $classMethodsNodeAnalyzer;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ClassMethodsNodeAnalyzer $classMethodsNodeAnalyzer
+        private SimpleNameResolver $simpleNameResolver,
+        private ClassMethodsNodeAnalyzer $classMethodsNodeAnalyzer
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->classMethodsNodeAnalyzer = $classMethodsNodeAnalyzer;
     }
 
     /**

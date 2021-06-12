@@ -11,14 +11,9 @@ use Symplify\StaticDetector\ValueObject\StaticDetectorAttributeKey;
 
 final class FilePathNodeVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var CurrentFileInfoProvider
-     */
-    private $currentFileInfoProvider;
-
-    public function __construct(CurrentFileInfoProvider $currentFileInfoProvider)
-    {
-        $this->currentFileInfoProvider = $currentFileInfoProvider;
+    public function __construct(
+        private CurrentFileInfoProvider $currentFileInfoProvider
+    ) {
     }
 
     public function enterNode(Node $node)

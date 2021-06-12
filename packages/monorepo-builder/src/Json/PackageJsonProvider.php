@@ -8,14 +8,9 @@ use Symplify\MonorepoBuilder\Package\PackageProvider;
 
 final class PackageJsonProvider
 {
-    /**
-     * @var PackageProvider
-     */
-    private $packageProvider;
-
-    public function __construct(PackageProvider $packageProvider)
-    {
-        $this->packageProvider = $packageProvider;
+    public function __construct(
+        private PackageProvider $packageProvider
+    ) {
     }
 
     /**

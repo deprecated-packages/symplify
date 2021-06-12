@@ -28,20 +28,10 @@ final class ExcessivePublicCountRule extends AbstractSymplifyRule implements Con
      */
     public const ERROR_MESSAGE = 'Too many public elements on class - %d. Narrow it down under %d';
 
-    /**
-     * @var int
-     */
-    private $maxPublicClassElementCount;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, int $maxPublicClassElementCount = 10)
-    {
-        $this->maxPublicClassElementCount = $maxPublicClassElementCount;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private int $maxPublicClassElementCount = 10
+    ) {
     }
 
     /**

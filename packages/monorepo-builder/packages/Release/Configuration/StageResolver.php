@@ -11,14 +11,9 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 
 final class StageResolver
 {
-    /**
-     * @var ReleaseGuard
-     */
-    private $releaseGuard;
-
-    public function __construct(ReleaseGuard $releaseGuard)
-    {
-        $this->releaseGuard = $releaseGuard;
+    public function __construct(
+        private ReleaseGuard $releaseGuard
+    ) {
     }
 
     public function resolveFromInput(InputInterface $input): string

@@ -29,14 +29,9 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
      */
     private const CALL_CLASS_TYPES = [MethodCall::class, StaticCall::class];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

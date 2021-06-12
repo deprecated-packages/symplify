@@ -16,16 +16,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var AssertContainsPHPUnitUpgrader
-     */
-    private $assertContainsPHPUnitUpgrader;
-
-    public function __construct(AssertContainsPHPUnitUpgrader $assertContainsPHPUnitUpgrader)
-    {
+    public function __construct(
+        private AssertContainsPHPUnitUpgrader $assertContainsPHPUnitUpgrader
+    ) {
         parent::__construct();
-
-        $this->assertContainsPHPUnitUpgrader = $assertContainsPHPUnitUpgrader;
     }
 
     protected function configure(): void

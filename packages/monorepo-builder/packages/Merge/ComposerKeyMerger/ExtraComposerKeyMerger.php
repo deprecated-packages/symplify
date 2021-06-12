@@ -15,14 +15,9 @@ final class ExtraComposerKeyMerger implements ComposerKeyMergerInterface
      */
     private const PHPSTAN = 'phpstan';
 
-    /**
-     * @var ParametersMerger
-     */
-    private $parametersMerger;
-
-    public function __construct(ParametersMerger $parametersMerger)
-    {
-        $this->parametersMerger = $parametersMerger;
+    public function __construct(
+        private ParametersMerger $parametersMerger
+    ) {
     }
 
     public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void

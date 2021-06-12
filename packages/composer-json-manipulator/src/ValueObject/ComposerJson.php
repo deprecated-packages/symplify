@@ -518,9 +518,9 @@ final class ComposerJson
     }
 
     /**
-     * @param string|array $license
+     * @param string|string[]|null $license
      */
-    public function setLicense($license): void
+    public function setLicense(string | array | null $license): void
     {
         $this->license = $license;
     }
@@ -842,10 +842,7 @@ final class ComposerJson
         return $packages;
     }
 
-    /**
-     * @return int|string|bool
-     */
-    private function findPosition(string $key, array $items)
+    private function findPosition(string $key, array $items): int | string | bool
     {
         return array_search($key, $items, true);
     }

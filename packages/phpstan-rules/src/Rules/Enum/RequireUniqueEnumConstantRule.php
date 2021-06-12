@@ -24,20 +24,10 @@ final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Enum constants "%s" are duplicated. Make them unique instead';
 
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var EnumAnalyzer
-     */
-    private $enumAnalyzer;
-
-    public function __construct(NodeValueResolver $nodeValueResolver, EnumAnalyzer $enumAnalyzer)
-    {
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->enumAnalyzer = $enumAnalyzer;
+    public function __construct(
+        private NodeValueResolver $nodeValueResolver,
+        private EnumAnalyzer $enumAnalyzer
+    ) {
     }
 
     /**

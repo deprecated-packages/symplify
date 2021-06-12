@@ -39,14 +39,9 @@ final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
      */
     private const TESTS_DIRECTORY_REGEX = '#\/Tests\/#i';
 
-    /**
-     * @var ParentMethodAnalyser
-     */
-    private $parentMethodAnalyser;
-
-    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
-    {
-        $this->parentMethodAnalyser = $parentMethodAnalyser;
+    public function __construct(
+        private ParentMethodAnalyser $parentMethodAnalyser
+    ) {
     }
 
     /**

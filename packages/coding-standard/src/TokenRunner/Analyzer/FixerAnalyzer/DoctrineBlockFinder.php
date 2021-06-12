@@ -23,19 +23,13 @@ final class DoctrineBlockFinder
      */
     private $docBlockEdgeDefinitions = [];
 
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    public function __construct(BlockFinder $blockFinder)
-    {
+    public function __construct(
+        private BlockFinder $blockFinder
+    ) {
         $this->docBlockEdgeDefinitions = [
             new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_CURLY_BRACE, '{', '}'),
             new DocBlockEdgeDefinition(PhpTokens::BLOCK_TYPE_PARENTHESIS_BRACE, '(', ')'),
         ];
-
-        $this->blockFinder = $blockFinder;
     }
 
     /**

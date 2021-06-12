@@ -23,31 +23,12 @@ final class ConvertCommand extends AbstractSymplifyCommand
      */
     private const NEON_SUFFIX_REGEX = '#\.neon$#';
 
-    /**
-     * @var NeonToYamlConverter
-     */
-    private $neonToYamlConverter;
-
-    /**
-     * @var NeonAndYamlFinder
-     */
-    private $neonAndYamlFinder;
-
-    /**
-     * @var ArrayParameterCollector
-     */
-    private $arrayParameterCollector;
-
     public function __construct(
-        NeonToYamlConverter $neonToYamlConverter,
-        NeonAndYamlFinder $neonAndYamlFinder,
-        ArrayParameterCollector $arrayParameterCollector
+        private NeonToYamlConverter $neonToYamlConverter,
+        private NeonAndYamlFinder $neonAndYamlFinder,
+        private ArrayParameterCollector $arrayParameterCollector
     ) {
         parent::__construct();
-
-        $this->neonToYamlConverter = $neonToYamlConverter;
-        $this->neonAndYamlFinder = $neonAndYamlFinder;
-        $this->arrayParameterCollector = $arrayParameterCollector;
     }
 
     protected function configure(): void

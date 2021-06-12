@@ -31,30 +31,24 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     /**
      * @var array<class-string, mixed[]>
      */
-    private $requiredLocalConstantInMethodCall = [];
+    private array $requiredLocalConstantInMethodCall = [];
 
     /**
      * @var array<class-string, mixed[]>
      */
-    private $requiredExternalConstantInMethodCall = [];
-
-    /**
-     * @var PositionMatcher
-     */
-    private $positionMatcher;
+    private array $requiredExternalConstantInMethodCall = [];
 
     /**
      * @param array<class-string, mixed[]> $requiredLocalConstantInMethodCall
      * @param array<class-string, mixed[]> $requiredExternalConstantInMethodCall
      */
     public function __construct(
-        PositionMatcher $positionMatcher,
+        private PositionMatcher $positionMatcher,
         array $requiredLocalConstantInMethodCall = [],
         array $requiredExternalConstantInMethodCall = []
     ) {
         $this->requiredLocalConstantInMethodCall = $requiredLocalConstantInMethodCall;
         $this->requiredExternalConstantInMethodCall = $requiredExternalConstantInMethodCall;
-        $this->positionMatcher = $positionMatcher;
     }
 
     /**

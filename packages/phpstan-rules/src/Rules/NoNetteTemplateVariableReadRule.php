@@ -26,20 +26,10 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Avoid $this->template->variable for read access, as it can be defined anywhere. Use local $variable instead';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NetteTypeAnalyzer
-     */
-    private $netteTypeAnalyzer;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
+    ) {
     }
 
     /**

@@ -40,7 +40,7 @@ final class ValueObjectInliner
      * @return InlineServiceConfigurator|InlineServiceConfigurator[]
      * @noRector \Rector\TypeDeclaration\Rector\ClassMethod\AddArrayReturnDocTypeRector
      */
-    public static function inline($object)
+    public static function inline(object | array $object): InlineServiceConfigurator | array
     {
         if (is_object($object)) {
             return self::inlineSingle($object);

@@ -25,36 +25,12 @@ final class PreviouslyUsedAnalyzer
      */
     private const IF_AND_LOOP_NODE_TYPES = [If_::class, Do_::class, For_::class, Foreach_::class, While_::class];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var PreviousLoopFinder
-     */
-    private $previousLoopFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        PreviousLoopFinder $previousLoopFinder,
-        SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $simpleNodeFinder
+        private NodeFinder $nodeFinder,
+        private PreviousLoopFinder $previousLoopFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->previousLoopFinder = $previousLoopFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**

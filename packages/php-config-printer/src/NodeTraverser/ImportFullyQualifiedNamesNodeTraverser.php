@@ -15,22 +15,10 @@ use Symplify\PhpConfigPrinter\NodeVisitor\ImportFullyQualifiedNamesNodeVisitor;
 
 final class ImportFullyQualifiedNamesNodeTraverser
 {
-    /**
-     * @var ImportFullyQualifiedNamesNodeVisitor
-     */
-    private $importFullyQualifiedNamesNodeVisitor;
-
-    /**
-     * @var BuilderFactory
-     */
-    private $builderFactory;
-
     public function __construct(
-        ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
-        BuilderFactory $builderFactory
+        private ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
+        private BuilderFactory $builderFactory
     ) {
-        $this->importFullyQualifiedNamesNodeVisitor = $importFullyQualifiedNamesNodeVisitor;
-        $this->builderFactory = $builderFactory;
     }
 
     /**

@@ -12,14 +12,9 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 final class ObjectTypeAnalyzer
 {
-    /**
-     * @var TypeUnwrapper
-     */
-    private $typeUnwrapper;
-
-    public function __construct(TypeUnwrapper $typeUnwrapper)
-    {
-        $this->typeUnwrapper = $typeUnwrapper;
+    public function __construct(
+        private TypeUnwrapper $typeUnwrapper
+    ) {
     }
 
     /**

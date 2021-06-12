@@ -28,19 +28,15 @@ final class ForbiddenCallOnTypeRule extends AbstractSymplifyRule implements Conf
     /**
      * @var array<string, string>
      */
-    private $types = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $types = [];
 
     /**
      * @param array<string, string> $types
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $types = [])
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $types = []
+    ) {
         $this->types = $types;
     }
 

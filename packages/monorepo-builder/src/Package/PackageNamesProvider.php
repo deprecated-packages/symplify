@@ -15,20 +15,10 @@ final class PackageNamesProvider
      */
     private $names = [];
 
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(ComposerJsonProvider $composerJsonProvider, JsonFileManager $jsonFileManager)
-    {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private ComposerJsonProvider $composerJsonProvider,
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     /**

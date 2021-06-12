@@ -15,29 +15,11 @@ use Symplify\VendorPatches\FileSystem\PathResolver;
  */
 final class PackageNameResolver
 {
-    /**
-     * @var JsonFileSystem
-     */
-    private $jsonFileSystem;
-
-    /**
-     * @var PathResolver
-     */
-    private $pathResolver;
-
-    /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
     public function __construct(
-        JsonFileSystem $jsonFileSystem,
-        PathResolver $pathResolver,
-        FileSystemGuard $fileSystemGuard
+        private JsonFileSystem $jsonFileSystem,
+        private PathResolver $pathResolver,
+        private FileSystemGuard $fileSystemGuard
     ) {
-        $this->jsonFileSystem = $jsonFileSystem;
-        $this->pathResolver = $pathResolver;
-        $this->fileSystemGuard = $fileSystemGuard;
     }
 
     public function resolveFromFileInfo(SmartFileInfo $vendorFile): string

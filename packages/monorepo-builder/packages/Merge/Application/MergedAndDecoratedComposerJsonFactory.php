@@ -15,22 +15,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class MergedAndDecoratedComposerJsonFactory
 {
     /**
-     * @var ComposerJsonDecoratorInterface[]
-     */
-    private $composerJsonDecorators = [];
-
-    /**
-     * @var ComposerJsonMerger
-     */
-    private $composerJsonMerger;
-
-    /**
      * @param ComposerJsonDecoratorInterface[] $composerJsonDecorators
      */
-    public function __construct(ComposerJsonMerger $composerJsonMerger, array $composerJsonDecorators)
-    {
-        $this->composerJsonMerger = $composerJsonMerger;
-        $this->composerJsonDecorators = $composerJsonDecorators;
+    public function __construct(
+        private ComposerJsonMerger $composerJsonMerger,
+        private array $composerJsonDecorators
+    ) {
     }
 
     /**

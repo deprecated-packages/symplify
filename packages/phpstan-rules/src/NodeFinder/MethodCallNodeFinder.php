@@ -14,36 +14,12 @@ use Symplify\PHPStanRules\Printer\NodeComparator;
 
 final class MethodCallNodeFinder
 {
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SimpleNodeFinder $simpleNodeFinder,
-        NodeFinder $nodeFinder,
-        NodeComparator $nodeComparator,
-        SimpleNameResolver $simpleNameResolver
+        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
+        private NodeComparator $nodeComparator,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->nodeFinder = $nodeFinder;
-        $this->nodeComparator = $nodeComparator;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

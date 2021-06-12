@@ -28,14 +28,9 @@ final class LatteVariableNamesResolver
      */
     private const NAME_PART = 'name';
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SmartFileSystem $smartFileSystem)
-    {
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     /**

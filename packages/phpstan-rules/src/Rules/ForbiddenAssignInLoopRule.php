@@ -36,36 +36,12 @@ final class ForbiddenAssignInLoopRule extends AbstractSymplifyRule
      */
     private const LOOP_NODE_TYPES = [Do_::class, For_::class, Foreach_::class, While_::class];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var PreviouslyUsedAnalyzer
-     */
-    private $previouslyUsedAnalyzer;
-
-    /**
-     * @var VariableUsageAnalyzer
-     */
-    private $variableUsageAnalyzer;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        PreviouslyUsedAnalyzer $previouslyUsedAnalyzer,
-        VariableUsageAnalyzer $variableUsageAnalyzer,
-        TypeChecker $typeChecker
+        private NodeFinder $nodeFinder,
+        private PreviouslyUsedAnalyzer $previouslyUsedAnalyzer,
+        private VariableUsageAnalyzer $variableUsageAnalyzer,
+        private TypeChecker $typeChecker
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->previouslyUsedAnalyzer = $previouslyUsedAnalyzer;
-        $this->variableUsageAnalyzer = $variableUsageAnalyzer;
-        $this->typeChecker = $typeChecker;
     }
 
     /**

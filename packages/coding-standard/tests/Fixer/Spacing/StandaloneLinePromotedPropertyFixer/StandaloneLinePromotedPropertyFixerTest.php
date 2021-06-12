@@ -9,9 +9,6 @@ use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-/**
- * @requires PHP 8.0
- */
 final class StandaloneLinePromotedPropertyFixerTest extends AbstractCheckerTestCase
 {
     /**

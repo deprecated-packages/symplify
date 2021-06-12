@@ -6,20 +6,10 @@ namespace Symplify\Psr4Switcher\ValueObject;
 
 final class Psr4NamespaceToPath
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var string
-     */
-    private $path;
-
-    public function __construct(string $namespace, string $path)
-    {
-        $this->namespace = $namespace;
-        $this->path = $path;
+    public function __construct(
+        private string $namespace,
+        private string $path
+    ) {
     }
 
     /**

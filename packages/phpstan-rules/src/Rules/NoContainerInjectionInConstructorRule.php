@@ -24,20 +24,10 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Instead of container injection, use specific service';
 
-    /**
-     * @var ContainsTypeAnalyser
-     */
-    private $containsTypeAnalyser;
-
-    /**
-     * @var MethodNodeAnalyser
-     */
-    private $methodNodeAnalyser;
-
-    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser, MethodNodeAnalyser $methodNodeAnalyser)
-    {
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
-        $this->methodNodeAnalyser = $methodNodeAnalyser;
+    public function __construct(
+        private ContainsTypeAnalyser $containsTypeAnalyser,
+        private MethodNodeAnalyser $methodNodeAnalyser
+    ) {
     }
 
     /**

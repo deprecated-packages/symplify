@@ -31,36 +31,12 @@ final class CheckParentChildMethodParameterTypeCompatibleRule extends AbstractSy
      */
     public const ERROR_MESSAGE = 'Method parameters must be compatible with its parent';
 
-    /**
-     * @var ParentMethodAnalyser
-     */
-    private $parentMethodAnalyser;
-
-    /**
-     * @var ParentClassMethodNodeResolver
-     */
-    private $parentClassMethodNodeResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        ParentMethodAnalyser $parentMethodAnalyser,
-        ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
-        SimpleNodeFinder $simpleNodeFinder,
-        SimpleNameResolver $simpleNameResolver
+        private ParentMethodAnalyser $parentMethodAnalyser,
+        private ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->parentMethodAnalyser = $parentMethodAnalyser;
-        $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

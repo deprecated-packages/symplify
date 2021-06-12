@@ -27,38 +27,14 @@ final class RequireClassTypeInClassMethodByTypeRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = "Method '%s()' can return only class types of '%s'";
 
     /**
-     * @var array<string, array<string, string>>
-     */
-    private $requiredTypeInMethodByClass = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var ConstantTypeAnalyzer
-     */
-    private $constantTypeAnalyzer;
-
-    /**
      * @param array<string, array<string, string>> $requiredTypeInMethodByClass
      */
     public function __construct(
-        array $requiredTypeInMethodByClass,
-        SimpleNameResolver $simpleNameResolver,
-        NodeFinder $nodeFinder,
-        ConstantTypeAnalyzer $constantTypeAnalyzer
+        private array $requiredTypeInMethodByClass,
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder,
+        private ConstantTypeAnalyzer $constantTypeAnalyzer
     ) {
-        $this->requiredTypeInMethodByClass = $requiredTypeInMethodByClass;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
-        $this->constantTypeAnalyzer = $constantTypeAnalyzer;
     }
 
     /**

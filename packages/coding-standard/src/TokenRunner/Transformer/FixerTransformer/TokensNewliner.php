@@ -16,43 +16,13 @@ use Symplify\CodingStandard\TokenRunner\Whitespace\IndentResolver;
 
 final class TokensNewliner
 {
-    /**
-     * @var LineLengthCloserTransformer
-     */
-    private $lineLengthCloserTransformer;
-
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
-    /**
-     * @var LineLengthOpenerTransformer
-     */
-    private $lineLengthOpenerTransformer;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var IndentResolver
-     */
-    private $indentResolver;
-
     public function __construct(
-        LineLengthCloserTransformer $lineLengthCloserTransformer,
-        TokenSkipper $tokenSkipper,
-        LineLengthOpenerTransformer $lineLengthOpenerTransformer,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        IndentResolver $indentResolver
+        private LineLengthCloserTransformer $lineLengthCloserTransformer,
+        private TokenSkipper $tokenSkipper,
+        private LineLengthOpenerTransformer $lineLengthOpenerTransformer,
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private IndentResolver $indentResolver
     ) {
-        $this->lineLengthCloserTransformer = $lineLengthCloserTransformer;
-        $this->tokenSkipper = $tokenSkipper;
-        $this->lineLengthOpenerTransformer = $lineLengthOpenerTransformer;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->indentResolver = $indentResolver;
     }
 
     /**

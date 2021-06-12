@@ -19,22 +19,10 @@ final class ServiceConverterWorker
      */
     private const SETUP = 'setup';
 
-    /**
-     * @var EntityConverterWorker
-     */
-    private $entityConverterWorker;
-
-    /**
-     * @var StringNamedServiceConverterWorker
-     */
-    private $stringNamedServiceConverterWorker;
-
     public function __construct(
-        EntityConverterWorker $entityConverterWorker,
-        StringNamedServiceConverterWorker $stringNamedServiceConverterWorker
+        private EntityConverterWorker $entityConverterWorker,
+        private StringNamedServiceConverterWorker $stringNamedServiceConverterWorker
     ) {
-        $this->entityConverterWorker = $entityConverterWorker;
-        $this->stringNamedServiceConverterWorker = $stringNamedServiceConverterWorker;
     }
 
     /**

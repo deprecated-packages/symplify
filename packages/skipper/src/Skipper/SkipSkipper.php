@@ -12,21 +12,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class SkipSkipper
 {
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
-
-    public function __construct(FileInfoMatcher $fileInfoMatcher)
-    {
-        $this->fileInfoMatcher = $fileInfoMatcher;
+    public function __construct(
+        private FileInfoMatcher $fileInfoMatcher
+    ) {
     }
 
     /**
-     * @param object|string $checker
      * @param array<string, string[]|null> $skippedClasses
      */
-    public function doesMatchSkip($checker, SmartFileInfo $smartFileInfo, array $skippedClasses): bool
+    public function doesMatchSkip(object | string $checker, SmartFileInfo $smartFileInfo, array $skippedClasses): bool
     {
         foreach ($skippedClasses as $skippedClass => $skippedFiles) {
             if (! is_a($checker, $skippedClass, true)) {

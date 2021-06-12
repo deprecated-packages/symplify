@@ -9,14 +9,9 @@ use Symplify\StaticDetector\ValueObject\StaticReport;
 
 final class StaticReportReporter
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle
+    ) {
     }
 
     public function reportStaticClassMethods(StaticReport $staticReport): void

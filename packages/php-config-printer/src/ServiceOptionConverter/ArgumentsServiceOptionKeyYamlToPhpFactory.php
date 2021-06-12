@@ -12,20 +12,10 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
 final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var ServiceOptionAnalyzer
-     */
-    private $serviceOptionAnalyzer;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory, ServiceOptionAnalyzer $serviceOptionAnalyzer)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->serviceOptionAnalyzer = $serviceOptionAnalyzer;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory,
+        private ServiceOptionAnalyzer $serviceOptionAnalyzer
+    ) {
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall

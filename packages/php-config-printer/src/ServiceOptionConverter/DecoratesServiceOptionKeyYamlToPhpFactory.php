@@ -29,29 +29,11 @@ final class DecoratesServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
      */
     private const DECORATION_PRIORITY = 'decoration_priority';
 
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var YamlArgumentSorter
-     */
-    private $yamlArgumentSorter;
-
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
     public function __construct(
-        ArgsNodeFactory $argsNodeFactory,
-        YamlArgumentSorter $yamlArgumentSorter,
-        CommonNodeFactory $commonNodeFactory
+        private ArgsNodeFactory $argsNodeFactory,
+        private YamlArgumentSorter $yamlArgumentSorter,
+        private CommonNodeFactory $commonNodeFactory
     ) {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->yamlArgumentSorter = $yamlArgumentSorter;
-        $this->commonNodeFactory = $commonNodeFactory;
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall

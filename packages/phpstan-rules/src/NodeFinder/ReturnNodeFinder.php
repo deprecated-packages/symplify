@@ -13,14 +13,9 @@ use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 
 final class ReturnNodeFinder
 {
-    /**
-     * @var SimpleCallableNodeTraverser
-     */
-    private $simpleCallableNodeTraverser;
-
-    public function __construct(SimpleCallableNodeTraverser $simpleCallableNodeTraverser)
-    {
-        $this->simpleCallableNodeTraverser = $simpleCallableNodeTraverser;
+    public function __construct(
+        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser
+    ) {
     }
 
     /**

@@ -31,36 +31,12 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public const ERROR_MESSAGE = 'Move constant expression to __construct(), setUp() method or constant';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var StatementFinder
-     */
-    private $statementFinder;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeValueResolver $nodeValueResolver,
-        SimpleNodeFinder $simpleNodeFinder,
-        StatementFinder $statementFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeValueResolver $nodeValueResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private StatementFinder $statementFinder
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->statementFinder = $statementFinder;
     }
 
     /**

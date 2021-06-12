@@ -29,14 +29,9 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
      */
     private const VALUE_OBJECT_SUFFIX_REGEX = '#ValueObject$#';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

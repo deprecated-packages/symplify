@@ -17,53 +17,15 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class MergeCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
-     * @var MergedAndDecoratedComposerJsonFactory
-     */
-    private $mergedAndDecoratedComposerJsonFactory;
-
-    /**
-     * @var SourcesPresenceValidator
-     */
-    private $sourcesPresenceValidator;
-
-    /**
-     * @var ConflictingVersionsGuard
-     */
-    private $conflictingVersionsGuard;
-
     public function __construct(
-        ComposerJsonProvider $composerJsonProvider,
-        ComposerJsonFactory $composerJsonFactory,
-        JsonFileManager $jsonFileManager,
-        MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory,
-        SourcesPresenceValidator $sourcesPresenceValidator,
-        ConflictingVersionsGuard $conflictingVersionsGuard
+        private ComposerJsonProvider $composerJsonProvider,
+        private ComposerJsonFactory $composerJsonFactory,
+        private JsonFileManager $jsonFileManager,
+        private MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory,
+        private SourcesPresenceValidator $sourcesPresenceValidator,
+        private ConflictingVersionsGuard $conflictingVersionsGuard
     ) {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->composerJsonFactory = $composerJsonFactory;
-        $this->jsonFileManager = $jsonFileManager;
-        $this->mergedAndDecoratedComposerJsonFactory = $mergedAndDecoratedComposerJsonFactory;
-
         parent::__construct();
-
-        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
-        $this->conflictingVersionsGuard = $conflictingVersionsGuard;
     }
 
     protected function configure(): void

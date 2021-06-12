@@ -46,16 +46,11 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
     private const TYPE_ANNOTATION_REGEX = '#@(param|return|var)#';
 
     /**
-     * @var MalformWorkerInterface[]
-     */
-    private $malformWorkers = [];
-
-    /**
      * @param MalformWorkerInterface[] $malformWorkers
      */
-    public function __construct(array $malformWorkers)
-    {
-        $this->malformWorkers = $malformWorkers;
+    public function __construct(
+        private array $malformWorkers
+    ) {
     }
 
     public function getDefinition(): FixerDefinitionInterface

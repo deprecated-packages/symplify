@@ -31,10 +31,7 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
 
-    /**
-     * @param mixed[]|SmartFileInfo|string $source
-     */
-    protected function createComposerJson($source): ComposerJson
+    protected function createComposerJson(array | SmartFileInfo | string $source): ComposerJson
     {
         if (is_string($source) && ! file_exists($source)) {
             return $this->composerJsonFactory->createFromString($source);
@@ -51,11 +48,10 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
         return $this->composerJsonFactory->createFromFilePath($source);
     }
 
-    /**
-     * @param string|ComposerJson $firstComposerJson
-     */
-    protected function assertComposerJsonEquals($firstComposerJson, ComposerJson $secondComposerJson): void
-    {
+    protected function assertComposerJsonEquals(
+        string | ComposerJson $firstComposerJson,
+        ComposerJson $secondComposerJson
+    ): void {
         if (is_string($firstComposerJson)) {
             $firstComposerJson = $this->createComposerJson($firstComposerJson);
         }

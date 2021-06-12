@@ -14,31 +14,12 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class PackageAliasCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
-
-    /**
-     * @var DevMasterAliasUpdater
-     */
-    private $devMasterAliasUpdater;
-
-    /**
-     * @var ExpectedAliasResolver
-     */
-    private $expectedAliasResolver;
-
     public function __construct(
-        PackageComposerFinder $packageComposerFinder,
-        DevMasterAliasUpdater $devMasterAliasUpdater,
-        ExpectedAliasResolver $expectedAliasResolver
+        private PackageComposerFinder $packageComposerFinder,
+        private DevMasterAliasUpdater $devMasterAliasUpdater,
+        private ExpectedAliasResolver $expectedAliasResolver
     ) {
         parent::__construct();
-
-        $this->packageComposerFinder = $packageComposerFinder;
-        $this->devMasterAliasUpdater = $devMasterAliasUpdater;
-        $this->expectedAliasResolver = $expectedAliasResolver;
     }
 
     protected function configure(): void

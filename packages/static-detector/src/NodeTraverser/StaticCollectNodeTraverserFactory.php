@@ -10,22 +10,10 @@ use Symplify\StaticDetector\NodeVisitor\StaticCollectNodeVisitor;
 
 final class StaticCollectNodeTraverserFactory
 {
-    /**
-     * @var StaticCollectNodeVisitor
-     */
-    private $staticCollectNodeVisitor;
-
-    /**
-     * @var FilePathNodeVisitor
-     */
-    private $filePathNodeVisitor;
-
     public function __construct(
-        StaticCollectNodeVisitor $staticCollectNodeVisitor,
-        FilePathNodeVisitor $filePathNodeVisitor
+        private StaticCollectNodeVisitor $staticCollectNodeVisitor,
+        private FilePathNodeVisitor $filePathNodeVisitor
     ) {
-        $this->staticCollectNodeVisitor = $staticCollectNodeVisitor;
-        $this->filePathNodeVisitor = $filePathNodeVisitor;
     }
 
     public function create(): StaticCollectNodeTraverser

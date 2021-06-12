@@ -26,20 +26,16 @@ final class PreferredStaticCallOverFuncCallRule extends AbstractSymplifyRule imp
     /**
      * @var array<string, string[]>
      */
-    private $funcCallToPreferredStaticCalls = [];
-
-    /**
-     * @var FuncCallMatcher
-     */
-    private $funcCallMatcher;
+    private array $funcCallToPreferredStaticCalls = [];
 
     /**
      * @param array<string, string[]> $funcCallToPreferredStaticCalls
      */
-    public function __construct(FuncCallMatcher $funcCallMatcher, array $funcCallToPreferredStaticCalls = [])
-    {
+    public function __construct(
+        private FuncCallMatcher $funcCallMatcher,
+        array $funcCallToPreferredStaticCalls = []
+    ) {
         $this->funcCallToPreferredStaticCalls = $funcCallToPreferredStaticCalls;
-        $this->funcCallMatcher = $funcCallMatcher;
     }
 
     /**

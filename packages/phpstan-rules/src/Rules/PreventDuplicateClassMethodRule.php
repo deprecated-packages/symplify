@@ -40,40 +40,16 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @var array<array<string, string>>
      */
     private $classMethodContent = [];
 
-    /**
-     * @var DuplicatedClassMethodPrinter
-     */
-    private $duplicatedClassMethodPrinter;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
-     * @var int
-     */
-    private $minimumLineCount;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
-        TypeChecker $typeChecker,
-        int $minimumLineCount = 3
+        private SimpleNameResolver $simpleNameResolver,
+        private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
+        private TypeChecker $typeChecker,
+        private int $minimumLineCount = 3
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->duplicatedClassMethodPrinter = $duplicatedClassMethodPrinter;
-        $this->typeChecker = $typeChecker;
-        $this->minimumLineCount = $minimumLineCount;
     }
 
     /**

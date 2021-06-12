@@ -11,14 +11,9 @@ use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class ClassReferencePhpDocNodeTraverser
 {
-    /**
-     * @var ClassReferencePhpDocNodeVisitor
-     */
-    private $classReferencePhpDocNodeVisitor;
-
-    public function __construct(ClassReferencePhpDocNodeVisitor $classReferencePhpDocNodeVisitor)
-    {
-        $this->classReferencePhpDocNodeVisitor = $classReferencePhpDocNodeVisitor;
+    public function __construct(
+        private ClassReferencePhpDocNodeVisitor $classReferencePhpDocNodeVisitor
+    ) {
     }
 
     public function decoratePhpDocNode(

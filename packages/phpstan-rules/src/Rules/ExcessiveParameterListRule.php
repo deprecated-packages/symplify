@@ -25,14 +25,9 @@ final class ExcessiveParameterListRule extends AbstractSymplifyRule implements C
      */
     public const ERROR_MESSAGE = 'Method "%s()" is using too many parameters - %d. Make it under %d';
 
-    /**
-     * @var int
-     */
-    private $maxParameterCount;
-
-    public function __construct(int $maxParameterCount = 10)
-    {
-        $this->maxParameterCount = $maxParameterCount;
+    public function __construct(
+        private int $maxParameterCount = 10
+    ) {
     }
 
     /**

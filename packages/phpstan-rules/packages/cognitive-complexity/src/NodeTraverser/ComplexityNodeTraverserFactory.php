@@ -10,22 +10,10 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 
 final class ComplexityNodeTraverserFactory
 {
-    /**
-     * @var NestingNodeVisitor
-     */
-    private $nestingNodeVisitor;
-
-    /**
-     * @var ComplexityNodeVisitor
-     */
-    private $complexityNodeVisitor;
-
     public function __construct(
-        NestingNodeVisitor $nestingNodeVisitor,
-        ComplexityNodeVisitor $complexityNodeVisitor
+        private NestingNodeVisitor $nestingNodeVisitor,
+        private ComplexityNodeVisitor $complexityNodeVisitor
     ) {
-        $this->nestingNodeVisitor = $nestingNodeVisitor;
-        $this->complexityNodeVisitor = $complexityNodeVisitor;
     }
 
     public function create(): NodeTraverser

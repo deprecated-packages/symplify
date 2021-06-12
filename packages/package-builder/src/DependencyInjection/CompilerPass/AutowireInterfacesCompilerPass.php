@@ -10,16 +10,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 final class AutowireInterfacesCompilerPass implements CompilerPassInterface
 {
     /**
-     * @var string[]
-     */
-    private $typesToAutowire = [];
-
-    /**
      * @param string[] $typesToAutowire
      */
-    public function __construct(array $typesToAutowire)
-    {
-        $this->typesToAutowire = $typesToAutowire;
+    public function __construct(
+        private array $typesToAutowire
+    ) {
     }
 
     public function process(ContainerBuilder $containerBuilder): void

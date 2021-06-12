@@ -27,14 +27,9 @@ final class NoBinaryOpCallCompareRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Do not compare call directly, use a variable assign';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

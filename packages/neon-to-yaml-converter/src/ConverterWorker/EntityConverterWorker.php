@@ -32,10 +32,9 @@ final class EntityConverterWorker
     }
 
     /**
-     * @param int|string $name
      * @return mixed[]
      */
-    private function convertServiceEntity(array $servicesData, $name, Entity $entity): array
+    private function convertServiceEntity(array $servicesData, int | string $name, Entity $entity): array
     {
         $class = $entity->value;
 
