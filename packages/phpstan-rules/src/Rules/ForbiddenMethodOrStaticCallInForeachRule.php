@@ -67,6 +67,11 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     {
         $expr = $node instanceof Foreach_ ? $node->expr : $node->cond;
 
+        $assigns = $this->nodeFinder->findInstanceOf($expr, Expr\Assign::class);
+        if ($assigns !== []) {
+            return [self::ERROR_MESSAGE];
+        }
+
         foreach (self::CALL_CLASS_TYPES as $expressionClassType) {
             /** @var MethodCall[]|StaticCall[] $calls */
             $calls = $this->nodeFinder->findInstanceOf($expr, $expressionClassType);

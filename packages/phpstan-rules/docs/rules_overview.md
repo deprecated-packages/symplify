@@ -1,4 +1,4 @@
-# 159 Rules Overview
+# 157 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1127,33 +1127,6 @@ final class SomeClass
 
 <br>
 
-## ForbiddenAssignInIfRule
-
-Assignment inside if is not allowed. Extract condition to extra variable on line above
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule`](../src/Rules/ForbiddenAssignInIfRule.php)
-
-```php
-if ($isRandom = mt_rand()) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$isRandom = mt_rand();
-if ($isRandom) {
-    // ...
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenAssignInLoopRule
 
 Assign in loop is not allowed.
@@ -1605,7 +1578,7 @@ class SomeClass
 
 ## ForbiddenMethodOrStaticCallInForeachRule
 
-Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before
+Method nor static call in `foreach()`, `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
 
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
 
@@ -1622,35 +1595,6 @@ foreach ($this->getData($arg) as $key => $item) {
 ```php
 $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
-    // ...
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenMethodOrStaticCallInForeachRule
-
-Method nor static call in `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
-
-```php
-$someObject = new SomeClass();
-if ($someObject->getData($arg) === []) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$someObject = new SomeClass();
-$dataFirstArg = $someObject->getData($arg);
-if ($dataFirstArg === []) {
     // ...
 }
 ```
@@ -1708,7 +1652,7 @@ final class SomeClass extends TestCase
 {
     public function test()
     {
-        $this->assetSame('oooo', $this->someMethodCall());
+        $this->assertSame('oooo', $this->someMethodCall());
     }
 }
 ```
@@ -1725,7 +1669,7 @@ final class SomeClass extends TestCase
     public function test()
     {
         $result = $this->someMethodCall();
-        $this->assetSame('oooo', $result);
+        $this->assertSame('oooo', $result);
     }
 }
 ```

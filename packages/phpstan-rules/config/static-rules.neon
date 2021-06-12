@@ -119,10 +119,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
         tags: [phpstan.rules.rule]
 
