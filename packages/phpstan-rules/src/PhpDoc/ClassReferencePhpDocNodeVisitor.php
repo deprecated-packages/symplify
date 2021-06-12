@@ -117,7 +117,7 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
             }
 
             // method call
-            if (Strings::contains($referencePart, '(')) {
+            if (\str_contains($referencePart, '(')) {
                 $referencePart = trim($referencePart, '()');
                 $referencedMethodCalls[] = new MethodCallReference($resolveFullyQualifiedName, $referencePart);
                 continue;

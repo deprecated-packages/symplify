@@ -53,7 +53,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
         }
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
-            if (! Strings::startsWith($phpDocTagNode->name, self::INJECT_ANNOTATION)) {
+            if (! \str_starts_with($phpDocTagNode->name, self::INJECT_ANNOTATION)) {
                 continue;
             }
 

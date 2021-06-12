@@ -116,7 +116,7 @@ CODE_SAMPLE
             }
 
             $expectedSuffix = $this->classToSuffixResolver->resolveFromClass($parentClass);
-            if (Strings::endsWith($className, $expectedSuffix)) {
+            if (\str_ends_with($className, $expectedSuffix)) {
                 return [];
             }
 

@@ -98,7 +98,7 @@ CODE_SAMPLE
 
     private function shouldSkipMethodName(string $methodName, MethodCall $methodCall): bool
     {
-        if (! Strings::startsWith($methodName, 'assert')) {
+        if (! \str_starts_with($methodName, 'assert')) {
             return true;
         }
 

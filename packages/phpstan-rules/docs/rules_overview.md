@@ -1630,11 +1630,11 @@ foreach ($arg as $key => $item) {
 
 <br>
 
-## ForbiddenMethodOrStaticCallInIfRule
+## ForbiddenMethodOrStaticCallInForeachRule
 
 Method nor static call in `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule`](../src/Rules/ForbiddenMethodOrStaticCallInIfRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
 
 ```php
 $someObject = new SomeClass();

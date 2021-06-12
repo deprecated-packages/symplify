@@ -151,7 +151,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
         tags: [phpstan.rules.rule]
 
     -

@@ -163,7 +163,7 @@ CODE_SAMPLE
 
         // in tests, there should be no nested test, that would be run by PHPUnit
         if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
-            return ! Strings::endsWith($className, 'Test');
+            return ! \str_ends_with($className, 'Test');
         }
 
         return ! is_a($className, RuleTestCase::class, true);
@@ -183,7 +183,7 @@ CODE_SAMPLE
      */
     private function processSkippedFile(string $shortFileName): array
     {
-        if (Strings::startsWith($shortFileName, 'Skip')) {
+        if (\str_starts_with($shortFileName, 'Skip')) {
             return [];
         }
 
@@ -195,7 +195,7 @@ CODE_SAMPLE
      */
     private function processMatchingFile(string $shortFileName): array
     {
-        if (! Strings::startsWith($shortFileName, 'Skip')) {
+        if (! \str_starts_with($shortFileName, 'Skip')) {
             return [];
         }
 

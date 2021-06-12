@@ -39,7 +39,7 @@ final class SymfonyControllerAnalyzer
             return false;
         }
 
-        return Strings::contains($docComment->getText(), '@Route');
+        return \str_contains($docComment->getText(), '@Route');
     }
 
     public function isInControllerClass(Scope $scope): bool

@@ -54,7 +54,7 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
     public function process(Node $node, Scope $scope): array
     {
         $methodName = (string) $node->name;
-        if (! Strings::startsWith($methodName, 'test')) {
+        if (! \str_starts_with($methodName, 'test')) {
             return [];
         }
 

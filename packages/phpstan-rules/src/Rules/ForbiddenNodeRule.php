@@ -111,7 +111,7 @@ CODE_SAMPLE
         }
 
         foreach ($node->getComments() as $comment) {
-            if (Strings::contains($comment->getText(), 'intention')) {
+            if (\str_contains($comment->getText(), 'intention')) {
                 return true;
             }
         }

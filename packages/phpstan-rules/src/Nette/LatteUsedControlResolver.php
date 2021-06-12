@@ -103,7 +103,7 @@ final class LatteUsedControlResolver
             return null;
         }
 
-        if (Strings::endsWith($shortClassName, 'Presenter')) {
+        if (\str_ends_with($shortClassName, 'Presenter')) {
             return Strings::substring($shortClassName, 0, -Strings::length('Presenter'));
         }
 

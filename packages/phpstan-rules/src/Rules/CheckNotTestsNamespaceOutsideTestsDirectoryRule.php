@@ -46,7 +46,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
             return [];
         }
 
-        if (! Strings::endsWith($scope->getFile(), 'Test.php')) {
+        if (! \str_ends_with($scope->getFile(), 'Test.php')) {
             return [];
         }
 

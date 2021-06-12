@@ -43,7 +43,7 @@ final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
 
         $injectMethodCount = 0;
         foreach ($classMethodNames as $classMethodName) {
-            if (Strings::startsWith($classMethodName, 'inject')) {
+            if (\str_starts_with($classMethodName, 'inject')) {
                 ++$injectMethodCount;
             }
         }

@@ -78,7 +78,7 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         }
 
         // array, unable to resolve?
-        if (Strings::endsWith($type, '[]')) {
+        if (\str_ends_with($type, '[]')) {
             return [];
         }
 

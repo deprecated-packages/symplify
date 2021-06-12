@@ -103,7 +103,7 @@ CODE_SAMPLE
         }
 
         $constantName = (string) $expr->name;
-        if (Strings::endsWith($constantName, '_REGEX')) {
+        if (\str_ends_with($constantName, '_REGEX')) {
             return [];
         }
 

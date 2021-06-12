@@ -195,6 +195,6 @@ CODE_SAMPLE
             return true;
         }
 
-        return Strings::endsWith($className, 'Test');
+        return \str_ends_with($className, 'Test');
     }
 }

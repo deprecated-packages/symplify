@@ -124,7 +124,7 @@ CODE_SAMPLE
 
         if ($classStmt instanceof ClassMethod) {
             $methodName = (string) $classStmt->name;
-            return Strings::startsWith($methodName, '__');
+            return \str_starts_with($methodName, '__');
         }
 
         return false;

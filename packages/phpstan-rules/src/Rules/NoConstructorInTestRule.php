@@ -51,7 +51,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! Strings::endsWith($className, 'Test')) {
+        if (! \str_ends_with($className, 'Test')) {
             return [];
         }
 

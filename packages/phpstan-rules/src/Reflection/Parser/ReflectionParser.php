@@ -56,7 +56,7 @@ final class ReflectionParser
 
         try {
             $nodes = $this->parser->parseFile($fileName);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // not reachable
             return null;
         }

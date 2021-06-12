@@ -37,7 +37,7 @@ final class SuffixTraitRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $traitName = (string) $node->name;
-        if (Strings::endsWith($traitName, 'Trait')) {
+        if (\str_ends_with($traitName, 'Trait')) {
             if ($node instanceof Trait_) {
                 return [];
             }

@@ -58,7 +58,7 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
         }
 
         // fast way to detect native exceptions
-        if (Strings::contains($className, '\\')) {
+        if (\str_contains($className, '\\')) {
             return [];
         }
 

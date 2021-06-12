@@ -52,7 +52,7 @@ final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
 
             $funcCallName = $this->resolveFuncCallName($arg);
 
-            if (Strings::contains($funcCallName, '\\')) {
+            if (\str_contains($funcCallName, '\\')) {
                 continue;
             }
 

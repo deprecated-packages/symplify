@@ -140,7 +140,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $name = Strings::endsWith($shortClassName, 'Controller')
+        $name = \str_ends_with($shortClassName, 'Controller')
             ? substr($shortClassName, 0, -10)
             : $shortClassName;
 

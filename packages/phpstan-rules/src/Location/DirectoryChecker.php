@@ -28,7 +28,7 @@ final class DirectoryChecker
         $normalized = $this->normalizePath($directoryName);
         $directoryName = rtrim($normalized, '\/');
 
-        return Strings::contains($scope->getFile(), DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR);
+        return \str_contains($scope->getFile(), DIRECTORY_SEPARATOR . $directoryName . DIRECTORY_SEPARATOR);
     }
 
     private function normalizePath(string $directoryName): string

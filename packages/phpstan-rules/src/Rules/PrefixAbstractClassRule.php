@@ -54,7 +54,7 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
         }
 
         $shortClassName = (string) $node->name;
-        if (Strings::startsWith($shortClassName, 'Abstract')) {
+        if (\str_starts_with($shortClassName, 'Abstract')) {
             return [];
         }
 

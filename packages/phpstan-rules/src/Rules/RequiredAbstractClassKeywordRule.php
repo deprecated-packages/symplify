@@ -50,7 +50,7 @@ final class RequiredAbstractClassKeywordRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! Strings::startsWith($shortClassName, 'Abstract')) {
+        if (! \str_starts_with($shortClassName, 'Abstract')) {
             return [];
         }
 

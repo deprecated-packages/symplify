@@ -36,7 +36,7 @@ final class SuffixInterfaceRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (Strings::endsWith((string) $node->name, 'Interface')) {
+        if (\str_ends_with((string) $node->name, 'Interface')) {
             if (! $node instanceof Interface_) {
                 return [self::ERROR_MESSAGE];
             }

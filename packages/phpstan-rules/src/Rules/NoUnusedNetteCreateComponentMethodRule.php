@@ -91,7 +91,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return null;
         }
 
-        if (! Strings::startsWith($classMethodName, self::CREATE_COMPONENT)) {
+        if (! \str_starts_with($classMethodName, self::CREATE_COMPONENT)) {
             return null;
         }
 

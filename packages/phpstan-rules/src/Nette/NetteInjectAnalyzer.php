@@ -91,7 +91,7 @@ final class NetteInjectAnalyzer
         }
 
         $methodName = $classMethod->name->toString();
-        if (Strings::startsWith($methodName, 'inject')) {
+        if (\str_starts_with($methodName, 'inject')) {
             return true;
         }
 
