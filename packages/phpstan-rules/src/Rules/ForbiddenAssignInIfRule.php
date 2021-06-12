@@ -41,7 +41,7 @@ final class ForbiddenAssignInIfRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->isHaveAssignmentInside($node)) {
+        if (! $this->hasAssignmentInside($node)) {
             return [];
         }
 
@@ -68,8 +68,8 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isHaveAssignmentInside(If_ $if): bool
+    private function hasAssignmentInside(If_ $if): bool
     {
-        return (bool) $this->nodeFinder->findFirst($if->cond, fn (Node $node): bool => $node instanceof Assign);
+        return (bool) $this->nodeFinder->findInstanceOf($if->cond, Assign::class);
     }
 }
