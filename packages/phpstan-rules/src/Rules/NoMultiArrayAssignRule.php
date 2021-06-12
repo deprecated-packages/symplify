@@ -10,8 +10,8 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -121,12 +121,12 @@ CODE_SAMPLE
 
     private function matchParentArrayDimFetch(Assign $assign): ?Expr
     {
-        $parent = $assign->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $assign->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Expression) {
             return null;
         }
 
-        $previous = $parent->getAttribute(PHPStanAttributeKey::PREVIOUS);
+        $previous = $parent->getAttribute(AttributeKey::PREVIOUS);
         if (! $previous instanceof Expression) {
             return null;
         }

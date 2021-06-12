@@ -1,0 +1,11 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classTypes:
+                - Symplify\PHPStanRules\Tests\Rules\Enum\ForbiddenClassConstRule\Source\AbstractEntity
+
+includes:
+    - ../../../../../config/symplify-rules.neon
+    - ../../../../../config/services/services.neon

@@ -38,17 +38,22 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    // A. standalone rule
+
+    // A. full sets
+    $containerConfigurator->import(SetList::PSR_12);
+
+    // B. standalone rule
     $services = $containerConfigurator->services();
     $services->set(ArraySyntaxFixer::class)
         ->call('configure', [[
             'syntax' => 'short',
         ]]);
-
-    // B. full sets
-    $containerConfigurator->import(SetList::PSR_12);
 };
 ```
+
+#### Full sets before standalone rules
+It is highly recommended doing the full sets configuration (A) first and then the standalone rules (B).
+The reason for this is that some settings are configured in the full sets too, and will therefore overwrite your standalone rules, if not configured first.
 
 ### 2. Run in CLI
 

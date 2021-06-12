@@ -11,14 +11,9 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckCommand extends AbstractCheckCommand
 {
-    /**
-     * @var ProcessedFileReporter
-     */
-    private $processedFileReporter;
-
-    public function __construct(ProcessedFileReporter $processedFileReporter)
-    {
-        $this->processedFileReporter = $processedFileReporter;
+    public function __construct(
+        private ProcessedFileReporter $processedFileReporter
+    ) {
         parent::__construct();
     }
 

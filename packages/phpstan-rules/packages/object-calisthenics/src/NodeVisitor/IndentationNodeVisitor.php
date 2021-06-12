@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ObjectCalisthenics\Marker\IndentationMarker;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 
 final class IndentationNodeVisitor extends NodeVisitorAbstract
 {
@@ -23,7 +23,7 @@ final class IndentationNodeVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        $statementDepth = $node->getAttribute(PHPStanAttributeKey::STATEMENT_DEPTH);
+        $statementDepth = $node->getAttribute(AttributeKey::STATEMENT_DEPTH);
         if (! is_int($statementDepth)) {
             return null;
         }

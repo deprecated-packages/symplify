@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Throw_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -100,7 +100,7 @@ CODE_SAMPLE
         $objectNews = [];
 
         foreach ($nestedNews as $nestedNew) {
-            $parent = $nestedNew->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $nestedNew->getAttribute(AttributeKey::PARENT);
             if ($parent instanceof Throw_) {
                 continue;
             }

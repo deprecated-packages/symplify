@@ -1,0 +1,7 @@
+includes:
+    - ../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule
+        tags: [phpstan.rules.rule]

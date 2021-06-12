@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -129,7 +129,7 @@ CODE_SAMPLE
 
     private function shouldSkip(PropertyFetch $propertyFetch): bool
     {
-        $parent = $propertyFetch->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $propertyFetch->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof BinaryOp) {
             return true;
         }

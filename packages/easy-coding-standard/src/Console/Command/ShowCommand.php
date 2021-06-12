@@ -16,45 +16,14 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ShowCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
-
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
-
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    private $easyCodingStandardStyle;
-
-    /**
-     * @var CheckerListReporter
-     */
-    private $checkerListReporter;
-
-    /**
-     * @var LoadedCheckersGuard
-     */
-    private $loadedCheckersGuard;
-
     public function __construct(
-        SniffFileProcessor $sniffFileProcessor,
-        FixerFileProcessor $fixerFileProcessor,
-        EasyCodingStandardStyle $easyCodingStandardStyle,
-        CheckerListReporter $checkerListReporter,
-        LoadedCheckersGuard $loadedCheckersGuard
+        private SniffFileProcessor $sniffFileProcessor,
+        private FixerFileProcessor $fixerFileProcessor,
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private CheckerListReporter $checkerListReporter,
+        private LoadedCheckersGuard $loadedCheckersGuard
     ) {
         parent::__construct();
-
-        $this->sniffFileProcessor = $sniffFileProcessor;
-        $this->fixerFileProcessor = $fixerFileProcessor;
-        $this->easyCodingStandardStyle = $easyCodingStandardStyle;
-        $this->checkerListReporter = $checkerListReporter;
-        $this->loadedCheckersGuard = $loadedCheckersGuard;
     }
 
     protected function configure(): void

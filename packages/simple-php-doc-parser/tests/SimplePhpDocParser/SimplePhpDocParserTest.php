@@ -27,10 +27,10 @@ final class SimplePhpDocParserTest extends AbstractKernelTestCase
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/var_int.txt');
 
-        $phpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
-        $this->assertInstanceOf(SimplePhpDocNode::class, $phpDocNode);
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
+        $this->assertInstanceOf(SimplePhpDocNode::class, $simplePhpDocNode);
 
-        $varTagValues = $phpDocNode->getVarTagValues();
+        $varTagValues = $simplePhpDocNode->getVarTagValues();
         $this->assertCount(1, $varTagValues);
     }
 
@@ -38,12 +38,12 @@ final class SimplePhpDocParserTest extends AbstractKernelTestCase
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/param_string_name.txt');
 
-        $phpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
-        $this->assertInstanceOf(SimplePhpDocNode::class, $phpDocNode);
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
+        $this->assertInstanceOf(SimplePhpDocNode::class, $simplePhpDocNode);
 
         // DX friendly
-        $paramType = $phpDocNode->getParamType('name');
-        $withDollarParamType = $phpDocNode->getParamType('$name');
+        $paramType = $simplePhpDocNode->getParamType('name');
+        $withDollarParamType = $simplePhpDocNode->getParamType('$name');
 
         $this->assertSame($paramType, $withDollarParamType);
     }

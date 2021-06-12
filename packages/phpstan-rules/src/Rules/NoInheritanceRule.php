@@ -33,6 +33,7 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
      */
     private const DEFAULT_ALLOWED_PARENT_TYPES = [
         'MyCLabs\Enum\Enum',
+        'Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor',
         'Symfony\Component\HttpKernel\KernelInterface',
         'Symfony\Component\HttpKernel\Bundle\Bundle',
         'Symfony\Component\Console\Application',

@@ -8,43 +8,10 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    provide_php_versions_json:
-        runs-on: ubuntu-latest
-
-        steps:
-            # git clone + use PHP + composer install
-            -   uses: actions/checkout@v2
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 7.4
-
-            -   uses: "ramsey/composer-install@v1"
-
-            -
-                # to see the output
-                run: packages/easy-ci/bin/easy-ci php-versions-json
-
-            # here we create the json, we need the "id:" so we can use it in "outputs" bellow
-
-            -
-                id: output_data
-                run: echo "::set-output name=matrix::$(packages/easy-ci/bin/easy-ci php-versions-json)"
-
-        # here, we save the result of this 1st phase to the "outputs"
-        outputs:
-            matrix: ${{ steps.output_data.outputs.matrix }}
-
     unit_tests:
-        needs: provide_php_versions_json
-
         runs-on: ubuntu-latest
 
-        strategy:
-            fail-fast: false
-            matrix:
-                php: ${{ fromJson(needs.provide_php_versions_json.outputs.matrix) }}
-
-        name: PHP ${{ matrix.php }} tests
+        name: PHP 8.0 tests
 
         steps:
             -   uses: actions/checkout@v2
@@ -52,7 +19,7 @@ jobs:
             # see https://github.com/shivammathur/setup-php
             -   uses: shivammathur/setup-php@v2
                 with:
-                    php-version: ${{ matrix.php }}
+                    php-version: 8.0
                     coverage: none
 
             # composer install cache - https://github.com/ramsey/composer-install

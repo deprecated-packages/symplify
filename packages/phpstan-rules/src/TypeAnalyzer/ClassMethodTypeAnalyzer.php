@@ -34,7 +34,7 @@ final class ClassMethodTypeAnalyzer
             return false;
         }
 
-        if (is_a($classReflection->getName(), $classType, true)) {
+        if ($classReflection->isSubclassOf($classType)) {
             return true;
         }
 

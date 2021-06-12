@@ -11,20 +11,16 @@ final class NonExistingClassConstantsInFile
     /**
      * @var string[]
      */
-    private $nonExistingClassConstants = [];
-
-    /**
-     * @var SmartFileInfo
-     */
-    private $fileInfo;
+    private array $nonExistingClassConstants = [];
 
     /**
      * @param string[] $nonExistingClassConstants
      */
-    public function __construct(array $nonExistingClassConstants, SmartFileInfo $fileInfo)
-    {
+    public function __construct(
+        array $nonExistingClassConstants,
+        private SmartFileInfo $fileInfo
+    ) {
         $this->nonExistingClassConstants = $nonExistingClassConstants;
-        $this->fileInfo = $fileInfo;
     }
 
     /**

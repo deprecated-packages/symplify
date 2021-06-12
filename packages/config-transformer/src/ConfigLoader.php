@@ -30,29 +30,11 @@ final class ConfigLoader
      */
     private const PHP_CONST_REGEX = '#\!php\/const\:( )?#';
 
-    /**
-     * @var IdAwareXmlFileLoaderFactory
-     */
-    private $idAwareXmlFileLoaderFactory;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var ExtensionFaker
-     */
-    private $extensionFaker;
-
     public function __construct(
-        IdAwareXmlFileLoaderFactory $idAwareXmlFileLoaderFactory,
-        SmartFileSystem $smartFileSystem,
-        ExtensionFaker $extensionFaker
+        private IdAwareXmlFileLoaderFactory $idAwareXmlFileLoaderFactory,
+        private SmartFileSystem $smartFileSystem,
+        private ExtensionFaker $extensionFaker
     ) {
-        $this->idAwareXmlFileLoaderFactory = $idAwareXmlFileLoaderFactory;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->extensionFaker = $extensionFaker;
     }
 
     public function createAndLoadContainerBuilderFromFileInfo(

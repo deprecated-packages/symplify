@@ -1,4 +1,4 @@
-# 153 Rules Overview
+# 159 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -304,6 +304,38 @@ class SomeClass extends ParentClass
 
 <br>
 
+## CheckReferencedClassInAnnotationRule
+
+Class "%s" used in annotation is missing
+
+- class: [`Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule`](../src/Rules/Missing/CheckReferencedClassInAnnotationRule.php)
+
+```php
+/**
+ * @SomeAnnotation(value=MissingClass::class)
+ */
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @SomeAnnotation(value=ExistingClass::class)
+ */
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule
 
 `autowire()`, `autoconfigure()`, and `public()` are required in config service
@@ -463,7 +495,7 @@ class SomeClass
 
 SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead
 
-- class: [`Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/CheckUnneededSymfonyStyleUsageRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/Symfony/CheckUnneededSymfonyStyleUsageRule.php)
 
 ```php
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -1267,6 +1299,56 @@ class SomeClass
 
 <br>
 
+## ForbiddenClassConstRule
+
+Constants in this class are not allowed, move them to custom Enum class instead
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule`](../src/Rules/Enum/ForbiddenClassConstRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classTypes:
+                - AbstractEntity
+```
+
+↓
+
+```php
+final class Product extends AbstractEntity
+{
+    public const TYPE_HIDDEN = 0;
+
+    public const TYPE_VISIBLE = 1;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Product extends AbstractEntity
+{
+}
+
+class ProductVisibility extends Enum
+{
+    public const HIDDEN = 0;
+
+    public const VISIBLE = 1;
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenComplexArrayConfigInSetRule
 
 For complex configuration use value object over array
@@ -1688,7 +1770,7 @@ foreach ($fileErrors as $fileError) {
 
 Assign to already injected property is not allowed
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNetteInjectOverrideRule`](../src/Rules/ForbiddenNetteInjectOverrideRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule`](../src/Rules/Nette/ForbiddenNetteInjectOverrideRule.php)
 
 ```php
 abstract class AbstractParent
@@ -3346,6 +3428,28 @@ final class HelpfulName
 
 <br>
 
+## NoMaskWithoutSprintfRule
+
+Missing `sprintf()` function for a mask
+
+- class: [`Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule`](../src/Rules/NoMaskWithoutSprintfRule.php)
+
+```php
+return 'Hey %s';
+```
+
+:x:
+
+<br>
+
+```php
+return sprintf('Hey %s', 'Matthias');
+```
+
+:+1:
+
+<br>
+
 ## NoMethodTagInClassDocblockRule
 
 Do not use `@method` tag in class docblock
@@ -4028,6 +4132,44 @@ final class ReturnVariables
     public function run($value, $value2): ValueObject
     {
         return new ValueObject($value, $value2);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoReturnSetterMethodRule
+
+Setter method cannot return anything, only set value
+
+- class: [`Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule`](../src/Rules/NoReturnSetterMethodRule.php)
+
+```php
+final class SomeClass
+{
+    private $name;
+
+    public function setName(string $name)
+    {
+        return 1000;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private $name;
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 }
 ```
@@ -4917,7 +5059,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4933,7 +5075,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }
@@ -5248,6 +5390,48 @@ class AnotherClass
     public function run(SomeClass $someClass)
     {
         $someClass->call(self::OPTION_NAME);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNativeArraySymfonyRenderCallRule
+
+Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
+
+- class: [`Symplify\PHPStanRules\Rules\Symfony\RequireNativeArraySymfonyRenderCallRule`](../src/Rules/Symfony/RequireNativeArraySymfonyRenderCallRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        $parameters['name'] = 'John';
+        $parameters['name'] = 'Doe';
+        return $this->render('...', $parameters);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        return $this->render('...', [
+            'name' => 'John',
+        ]);
     }
 }
 ```
@@ -5664,6 +5848,42 @@ class SomeClass extends SomeParentClass
     {
         $tihs->run();
     }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireUniqueEnumConstantRule
+
+Enum constants "%s" are duplicated. Make them unique instead
+
+- class: [`Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule`](../src/Rules/Enum/RequireUniqueEnumConstantRule.php)
+
+```php
+use MyCLabs\Enum\Enum;
+
+class SomeClass extends Enum
+{
+    private const YES = 'yes';
+
+    private const NO = 'yes';
+}
+```
+
+:x:
+
+<br>
+
+```php
+use MyCLabs\Enum\Enum;
+
+class SomeClass extends Enum
+{
+    private const YES = 'yes';
+
+    private const NO = 'no';
 }
 ```
 

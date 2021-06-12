@@ -15,50 +15,14 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class SnippetFormatterApplication
 {
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var SnippetReporter
-     */
-    private $snippetReporter;
-
-    /**
-     * @var SnippetFormatter
-     */
-    private $snippetFormatter;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ProcessedFileReporter
-     */
-    private $processedFileReporter;
-
     public function __construct(
-        Configuration $configuration,
-        SnippetReporter $snippetReporter,
-        SnippetFormatter $snippetFormatter,
-        SmartFileSystem $smartFileSystem,
-        SymfonyStyle $symfonyStyle,
-        ProcessedFileReporter $processedFileReporter
+        private Configuration $configuration,
+        private SnippetReporter $snippetReporter,
+        private SnippetFormatter $snippetFormatter,
+        private SmartFileSystem $smartFileSystem,
+        private SymfonyStyle $symfonyStyle,
+        private ProcessedFileReporter $processedFileReporter
     ) {
-        $this->configuration = $configuration;
-        $this->snippetReporter = $snippetReporter;
-        $this->snippetFormatter = $snippetFormatter;
-        $this->smartFileSystem = $smartFileSystem;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->processedFileReporter = $processedFileReporter;
     }
 
     /**

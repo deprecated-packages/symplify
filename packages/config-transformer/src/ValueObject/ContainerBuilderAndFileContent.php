@@ -8,20 +8,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class ContainerBuilderAndFileContent
 {
-    /**
-     * @var ContainerBuilder
-     */
-    private $containerBuilder;
-
-    /**
-     * @var string
-     */
-    private $fileContent;
-
-    public function __construct(ContainerBuilder $containerBuilder, string $fileContent)
-    {
-        $this->containerBuilder = $containerBuilder;
-        $this->fileContent = $fileContent;
+    public function __construct(
+        private ContainerBuilder $containerBuilder,
+        private string $fileContent
+    ) {
     }
 
     public function getContainerBuilder(): ContainerBuilder

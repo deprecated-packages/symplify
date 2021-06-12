@@ -9,7 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -44,7 +44,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     public function process(Node $node, Scope $scope): array
     {
         /** @var Namespace_|null $namespace */
-        $namespace = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $namespace = $node->getAttribute(AttributeKey::PARENT);
         if (! $namespace instanceof Namespace_) {
             return [];
         }

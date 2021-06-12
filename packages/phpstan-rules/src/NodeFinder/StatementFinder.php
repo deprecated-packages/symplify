@@ -9,7 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class StatementFinder
 {
@@ -33,8 +33,8 @@ final class StatementFinder
     {
         $var = $assign->var;
         $varClass = get_class($var);
-        $next = $node->getAttribute(PHPStanAttributeKey::NEXT);
-        $parentOfParentAssignment = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $next = $node->getAttribute(AttributeKey::NEXT);
+        $parentOfParentAssignment = $node->getAttribute(AttributeKey::PARENT);
 
         while ($next) {
             $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
@@ -42,7 +42,7 @@ final class StatementFinder
                 return true;
             }
 
-            $next = $next->getAttribute(PHPStanAttributeKey::NEXT);
+            $next = $next->getAttribute(AttributeKey::NEXT);
         }
 
         return false;
@@ -54,8 +54,8 @@ final class StatementFinder
     private function hasSameVar(array $nodes, Node $parentOfParentAssignNode, Expr $varExpr): bool
     {
         foreach ($nodes as $node) {
-            $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
-            $parentOfParentNode = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $node->getAttribute(AttributeKey::PARENT);
+            $parentOfParentNode = $parent->getAttribute(AttributeKey::PARENT);
 
             if (! $this->simpleNameResolver->areNamesEqual($node, $varExpr)) {
                 continue;

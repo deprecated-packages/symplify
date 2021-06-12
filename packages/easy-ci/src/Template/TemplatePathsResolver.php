@@ -23,14 +23,9 @@ final class TemplatePathsResolver
      */
     private const BUNDLE_NAME_REGEX = '#\/(?<bundle_name>[\w]+)Bundle\.php$#';
 
-    /**
-     * @var SmartFinder
-     */
-    private $smartFinder;
-
-    public function __construct(SmartFinder $smartFinder)
-    {
-        $this->smartFinder = $smartFinder;
+    public function __construct(
+        private SmartFinder $smartFinder
+    ) {
     }
 
     /**

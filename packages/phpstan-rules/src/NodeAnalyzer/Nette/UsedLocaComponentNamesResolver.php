@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class UsedLocaComponentNamesResolver
 {
@@ -37,7 +37,7 @@ final class UsedLocaComponentNamesResolver
      */
     public function resolveFromClassMethod(ClassMethod $classMethod): array
     {
-        $parent = $classMethod->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $classMethod->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Class_) {
             return [];
         }

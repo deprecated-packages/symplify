@@ -17,29 +17,11 @@ use Symplify\EasyCI\ValueObject\PhpVersionList;
  */
 final class SupportedPhpVersionResolver
 {
-    /**
-     * @var VersionParser
-     */
-    private $versionParser;
-
-    /**
-     * @var Semver
-     */
-    private $semver;
-
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
     public function __construct(
-        VersionParser $versionParser,
-        Semver $semver,
-        ComposerJsonFactory $composerJsonFactory
+        private VersionParser $versionParser,
+        private Semver $semver,
+        private ComposerJsonFactory $composerJsonFactory
     ) {
-        $this->versionParser = $versionParser;
-        $this->semver = $semver;
-        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     /**

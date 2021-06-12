@@ -5,7 +5,7 @@
     "require": {
         "php": ">=7.3",
         "nette/utils": "^3.2",
-        "symfony/dependency-injection": "^5.2",
+        "symfony/dependency-injection": "^5.3",
         "symplify/package-builder": "^9.4"
     },
     "require-dev": {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\SimplePhpDocParser;
 
+use PhpParser\Comment\Doc;
+use PhpParser\Node;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TokenIterator;
@@ -28,6 +30,16 @@ final class SimplePhpDocParser
     {
         $this->phpDocParser = $phpDocParser;
         $this->lexer = $lexer;
+    }
+
+    public function parseNode(Node $node): ?SimplePhpDocNode
+    {
+        $docComment = $node->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return null;
+        }
+
+        return $this->parseDocBlock($docComment->getText());
     }
 
     public function parseDocBlock(string $docBlock): SimplePhpDocNode

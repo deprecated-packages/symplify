@@ -12,10 +12,10 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -138,7 +138,7 @@ CODE_SAMPLE
             $argName = (string) $argIdentifier;
 
             if ($argName === 'name') {
-                $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
+                $next = $argIdentifier->getAttribute(AttributeKey::NEXT);
                 if ($next instanceof String_) {
                     return $this->validateName($scope, $next->value);
                 }

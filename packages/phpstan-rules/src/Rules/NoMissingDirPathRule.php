@@ -12,8 +12,8 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -62,12 +62,12 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Concat) {
             return [];
         }
 
-        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        $parentParent = $parent->getAttribute(AttributeKey::PARENT);
         if ($parentParent instanceof Concat) {
             return [];
         }

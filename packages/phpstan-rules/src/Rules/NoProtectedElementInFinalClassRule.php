@@ -13,9 +13,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -75,7 +75,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Class_) {
             return [];
         }

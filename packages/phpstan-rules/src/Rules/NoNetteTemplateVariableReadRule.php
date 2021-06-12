@@ -11,8 +11,8 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Unset_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -64,7 +64,7 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof Assign && $parent->var === $node) {
             return [];
         }
