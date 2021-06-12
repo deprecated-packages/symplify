@@ -19,7 +19,7 @@ final class FunctionCallNameMatcher
     {
         try {
             $blockStart = $tokens->findBlockStart(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $position);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // not a block start
             return null;
         }

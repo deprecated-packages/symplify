@@ -160,7 +160,7 @@ final class NeonToYamlConverter
     private function convertIncludes(array $data): array
     {
         foreach ($data as $key => $value) {
-            if (! Strings::contains($value, 'vendor')) {
+            if (! \str_contains($value, 'vendor')) {
                 $value = Strings::replace($value, self::NEON_SUFFIX_REGEX, '.yaml');
             }
 

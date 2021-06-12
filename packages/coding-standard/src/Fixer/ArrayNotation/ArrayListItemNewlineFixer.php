@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -109,7 +108,7 @@ CODE_SAMPLE
                     return;
                 }
 
-                if (Strings::contains($nextToken->getContent(), "\n")) {
+                if (\str_contains($nextToken->getContent(), "\n")) {
                     return;
                 }
 

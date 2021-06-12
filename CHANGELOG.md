@@ -815,7 +815,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 - [#2538] Init a new package
 
 #### PHPStanRules
-- [#2513] Make ForbiddenMethodOrStaticCallInIfRule skip trinary logic
+- [#2513] Make ForbiddenMethodOrStaticCallInForeachRule skip trinary logic
 - [#2505] Allow parsing parent classes from phar
 - [#2503] Skip spready in RobotLoader addDirectory
 - [#2500] Make ClassLikeCognitiveComplexityRule configurable by class type

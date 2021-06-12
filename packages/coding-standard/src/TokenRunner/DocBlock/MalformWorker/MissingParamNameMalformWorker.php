@@ -115,7 +115,7 @@ final class MissingParamNameMalformWorker implements MalformWorkerInterface
 
     private function shouldSkipLine(Line $line): bool
     {
-        if (! Strings::contains($line->getContent(), self::PARAM_ANNOTATOIN_START_REGEX)) {
+        if (! \str_contains($line->getContent(), self::PARAM_ANNOTATOIN_START_REGEX)) {
             return true;
         }
 

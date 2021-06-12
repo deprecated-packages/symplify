@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony;
 
-use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Annotation;
 
 use Doctrine\Common\Annotations\DocLexer;
-use Nette\Utils\Strings;
 use PhpCsFixer\AbstractDoctrineAnnotationFixer;
 use PhpCsFixer\Doctrine\Annotation\Token;
 use PhpCsFixer\Doctrine\Annotation\Tokens;
@@ -123,7 +122,7 @@ CODE_SAMPLE
     private function isDocOpener(Token $token): bool
     {
         if ($token->isType(DocLexer::T_NONE)) {
-            return Strings::contains($token->getContent(), '*');
+            return \str_contains($token->getContent(), '*');
         }
 
         return false;
@@ -177,7 +176,7 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! Strings::startsWith($nextToken->getContent(), 'ORM')) {
+        if (! \str_starts_with($nextToken->getContent(), 'ORM')) {
             return true;
         }
 

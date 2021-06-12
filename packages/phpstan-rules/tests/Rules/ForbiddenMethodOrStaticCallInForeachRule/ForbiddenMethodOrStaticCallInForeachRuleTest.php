@@ -41,7 +41,6 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
         yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
         yield [__DIR__ . '/Fixture/SkipWithoutMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipWithMethodCallWithoutParameter.php', []];
-        yield [__DIR__ . '/Fixture/SkipWithMethodCallWithParameterFromThis.php', []];
         yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsMatchCall.php', []];
         yield [__DIR__ . '/Fixture/SkipMethodCallWithBooleanReturn.php', []];
 

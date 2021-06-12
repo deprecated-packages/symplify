@@ -9,7 +9,11 @@ use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
+use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+use Rector\Php74\Rector\Property\TypedPropertyRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\Php80\Rector\ClassMethod\OptionalParametersAfterRequiredRector;
+use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
@@ -27,6 +31,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::PHP_71);
     $containerConfigurator->import(SetList::PHP_72);
     $containerConfigurator->import(SetList::PHP_73);
+    $containerConfigurator->import(SetList::PHP_74);
+    $containerConfigurator->import(SetList::PHP_80);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
     $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
     $containerConfigurator->import(SetList::NAMING);
@@ -37,11 +43,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     // PHP 8+
-    $services->set(\Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector::class);
+    $services->set(ClosureToArrowFunctionRector::class);
     $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
-    $services->set(\Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector::class);
+    $services->set(ChangeSwitchToMatchRector::class);
     $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
-    $services->set(\Rector\Php74\Rector\Property\TypedPropertyRector::class);
+    $services->set(TypedPropertyRector::class);
 
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
@@ -99,6 +105,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // buggy with parent interface contract
         ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
+
+        OptionalParametersAfterRequiredRector::class => [
+            // @todo fix in Rector variadics are optional parameter
+            __DIR__ . '/packages/git-wrapper',
+        ],
 
         __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
 

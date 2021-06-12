@@ -45,7 +45,7 @@ final class PathNormalizer
         $path = str_replace('\\', '/', $path);
         $path = Strings::replace($path, self::TWO_AND_MORE_SLASHES_REGEX, '/');
 
-        $pathRoot = strpos($path, '/') === 0 ? $directorySeparator : '';
+        $pathRoot = str_starts_with($path, '/') ? $directorySeparator : '';
         $pathParts = explode('/', trim($path, '/'));
 
         $normalizedPathParts = $this->normalizePathParts($pathParts, $scheme);
@@ -78,7 +78,7 @@ final class PathNormalizer
                 continue;
             }
 
-            if (! Strings::endsWith($removedPart, '.phar')) {
+            if (! \str_ends_with($removedPart, '.phar')) {
                 continue;
             }
 

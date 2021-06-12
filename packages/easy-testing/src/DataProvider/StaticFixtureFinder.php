@@ -69,7 +69,7 @@ final class StaticFixtureFinder
             try {
                 $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
                 yield [$smartFileInfo];
-            } catch (FileNotFoundException $fileNotFoundException) {
+            } catch (FileNotFoundException) {
             }
         }
     }
@@ -84,7 +84,7 @@ final class StaticFixtureFinder
             try {
                 $smartFileInfo = new SmartFileInfo($fileInfo->getRealPath());
                 yield $fileInfo->getRelativePathname() => [$smartFileInfo];
-            } catch (FileNotFoundException $e) {
+            } catch (FileNotFoundException) {
             }
         }
     }

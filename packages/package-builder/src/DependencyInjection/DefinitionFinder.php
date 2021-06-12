@@ -66,7 +66,7 @@ final class DefinitionFinder
     {
         try {
             return class_exists($class);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             return false;
         }
     }

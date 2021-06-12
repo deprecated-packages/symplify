@@ -15,6 +15,10 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\TrinaryLogic;
+use PHPStan\Type\BooleanType;
+use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -61,20 +65,11 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
      */
     public function process(Node $node, Scope $scope): array
     {
+        $expr = $node instanceof Foreach_ ? $node->expr : $node->cond;
+
         foreach (self::CALL_CLASS_TYPES as $expressionClassType) {
             /** @var MethodCall[]|StaticCall[] $calls */
-            $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClassType);
-            if (! $this->hasCallArgs($calls)) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
-        }
-
-        if ($node instanceof If_ | $node instanceof ElseIf_) {
-            /** @var MethodCall[]|StaticCall[] $calls */
-            $calls = $this->findCallsInIfCond($node->cond);
-
+            $calls = $this->nodeFinder->findInstanceOf($expr, $expressionClassType);
             foreach ($calls as $call) {
                 if ($this->shouldSkipCall($call, $scope)) {
                     continue;
@@ -107,24 +102,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param MethodCall[]|StaticCall[] $calls
-     */
-    private function hasCallArgs(array $calls): bool
-    {
-        foreach ($calls as $call) {
-            if ($call->args !== []) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param MethodCall|StaticCall $expr
-     */
-    private function shouldSkipCall(Expr $expr, Scope $scope): bool
+    private function shouldSkipCall(MethodCall | StaticCall $expr, Scope $scope): bool
     {
         if ($expr->args === []) {
             return true;
@@ -135,7 +113,6 @@ CODE_SAMPLE
         }
 
         $callType = $scope->getType($expr);
-
         if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callType, self::ALLOWED_CLASS_TYPES)) {
             return true;
         }
@@ -143,10 +120,7 @@ CODE_SAMPLE
         return $callType instanceof BooleanType;
     }
 
-    /**
-     * @param StaticCall|MethodCall $node
-     */
-    private function resolveCalleeType(Scope $scope, Node $node): Type
+    private function resolveCalleeType(Scope $scope, StaticCall | MethodCall $node): Type
     {
         if ($node instanceof StaticCall) {
             $className = $this->simpleNameResolver->getName($node->class);
@@ -160,34 +134,13 @@ CODE_SAMPLE
         return $scope->getType($node->var);
     }
 
-    /**
-     * @param StaticCall|MethodCall $node
-     */
-    private function isAllowedCallerType(Scope $scope, Node $node): bool
+    private function isAllowedCallerType(Scope $scope, StaticCall | MethodCall $node): bool
     {
-        $type = $this->resolveCalleeType($scope, $node);
-        if ($type instanceof ThisType) {
-            return true;
-        }
-
         if (! $node instanceof StaticCall) {
             return false;
         }
 
+        $type = $this->resolveCalleeType($scope, $node);
         return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($type, self::ALLOWED_CLASS_TYPES);
-    }
-
-    /**
-     * @return array<StaticCall|MethodCall>
-     */
-    private function findCallsInIfCond(Expr $expr): array
-    {
-        /** @var StaticCall[] $staticCalls */
-        $staticCalls = $this->nodeFinder->findInstanceOf($expr, StaticCall::class);
-
-        /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->nodeFinder->findInstanceOf($expr, MethodCall::class);
-
-        return array_merge($staticCalls, $methodCalls);
     }
 }

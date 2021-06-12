@@ -57,7 +57,7 @@ final class StringExprResolver
             return $this->resolveClassType($skipClassesToConstantReference, $value);
         }
 
-        if (Strings::startsWith($value, '@=')) {
+        if (\str_starts_with($value, '@=')) {
             $value = ltrim($value, '@=');
             $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
             $args = [new Arg($expr)];
@@ -66,7 +66,7 @@ final class StringExprResolver
         }
 
         // is service reference
-        if (Strings::startsWith($value, '@') && ! $this->isFilePath($value)) {
+        if (\str_starts_with($value, '@') && ! $this->isFilePath($value)) {
             $refOrServiceFunctionName = $this->symfonyFunctionNameProvider->provideRefOrService();
             return $this->resolveServiceReferenceExpr($value, $skipServiceReference, $refOrServiceFunctionName);
         }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenAnalyzer;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -45,6 +44,6 @@ final class NewlineAnalyzer
             return false;
         }
 
-        return Strings::contains($currentToken->getContent(), "\n");
+        return \str_contains($currentToken->getContent(), "\n");
     }
 }

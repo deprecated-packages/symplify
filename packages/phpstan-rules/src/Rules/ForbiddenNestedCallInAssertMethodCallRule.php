@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeFinder;
@@ -75,7 +74,7 @@ final class SomeClass extends TestCase
 {
     public function test()
     {
-        $this->assetSame('oooo', $this->someMethodCall());
+        $this->assertSame('oooo', $this->someMethodCall());
     }
 }
 CODE_SAMPLE
@@ -88,7 +87,7 @@ final class SomeClass extends TestCase
     public function test()
     {
         $result = $this->someMethodCall();
-        $this->assetSame('oooo', $result);
+        $this->assertSame('oooo', $result);
     }
 }
 CODE_SAMPLE

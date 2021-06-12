@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -143,7 +142,7 @@ CODE_SAMPLE
         }
 
         // already whitespace
-        if (Strings::contains($previousCloserToken->getContent(), "\n")) {
+        if (\str_contains($previousCloserToken->getContent(), "\n")) {
             return;
         }
 
@@ -163,7 +162,7 @@ CODE_SAMPLE
         }
 
         // already is whitespace
-        if (Strings::contains($nextToken->getContent(), "\n")) {
+        if (\str_contains($nextToken->getContent(), "\n")) {
             return;
         }
 
