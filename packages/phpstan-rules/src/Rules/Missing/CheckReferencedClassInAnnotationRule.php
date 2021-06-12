@@ -171,7 +171,8 @@ CODE_SAMPLE
 
             $errorMessages[] = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
         }
-        return [$class, $classReflection, $errorMessages];
+
+        return $errorMessages;
     }
 
     /**
