@@ -150,7 +150,7 @@ CODE_SAMPLE
         $trimmedTokenContent = trim($tokenContent);
 
         $spaceEnd = '';
-        if (PHP_VERSION_ID >= 70300 && $tokenContent !== $trimmedTokenContent) {
+        if ($tokenContent !== $trimmedTokenContent) {
             $spaceEnd = substr($tokenContent, 0, strlen($tokenContent) - strlen($trimmedTokenContent));
         }
 

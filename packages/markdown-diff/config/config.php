@@ -31,7 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$outputBuilder', service('markdownDiffOutputBuilder'));
 
     $services->set(MarkdownDiffer::class)
-        ->arg('$markdownDiffer', service('markdownDiffer'));
+        ->arg('$differ', service('markdownDiffer'));
 
     $services->set(PrivatesAccessor::class);
 };

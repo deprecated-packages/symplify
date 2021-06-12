@@ -145,8 +145,6 @@ parameters:
 
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
-        - '#Cannot call method getSetFileInfo\(\) on Symplify\\SetConfigResolver\\ValueObject\\Set\|null#'
-        - '#Cannot call method getRealPath\(\) on Symplify\\SmartFileSystem\\SmartFileInfo\|null#'
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
         -
@@ -189,7 +187,6 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             paths:
-                - packages/easy-coding-standard/src/Configuration.php # 146
                 - packages/git-wrapper/src/GitWorkingCopy.php
 
         -
@@ -206,7 +203,6 @@ parameters:
             message: '#Instead of container injection, use specific service#'
             paths:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
-                 - packages/symfony-static-dumper/src/HttpFoundation/ControllerContentResolver.php # 37
 
         -
             message: '#The path "/\.\./\.\./\.\./\.\./friendsofphp/php\-cs\-fixer/src" was not found#'
@@ -216,8 +212,6 @@ parameters:
         -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
-                - packages/easy-coding-standard/src/Set/EasyCodingStandardSetProvider.php # 23
-                - packages/set-config-resolver/src/Bootstrap/InvalidSetReporter.php # 22
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
@@ -237,20 +231,17 @@ parameters:
         -
             message: '#SymfonyStyle service is not needed for only newline and text echo\. Use PHP_EOL and concatenation instead#'
             paths:
-                - packages/console-color-diff/src/Console/Output/ConsoleDiffer.php # 11
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
 
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             paths:
-                - packages/easy-coding-standard/src/Configuration.php # 214
                 - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
                 - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
 
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
-                - packages/easy-ci/src/Latte/LatteFilterManager.php # 88
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         # nesting
@@ -260,14 +251,11 @@ parameters:
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
 
-        - '#Parameter \#1 \$type of method PhpParser\\Builder\\FunctionLike\:\:setReturnType\(\) expects PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|string, PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType given#'
         - '#Cannot cast array<string\>\|bool\|string\|null to string#'
 
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
-
-        - '#Parameter \#5 \$default of method Symfony\\Component\\Console\\Command\\Command\:\:addOption\(\) expects array<string\>\|bool\|int\|string\|null, float given#'
 
         # skipped tests
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
@@ -345,12 +333,6 @@ parameters:
             path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
         -
-            message: '#Do not use scalar or array as constructor parameter\. Use "Symplify\\PackageBuilder\\Parameter\\ParameterProvider" service instead#'
-            paths:
-                # manually created value objects mostly
-                - packages/git-wrapper/src/*
-
-        -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 # manually created value objects mostly
@@ -408,9 +390,6 @@ parameters:
 
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
-        # will be resolved soon
-        - '#Parameter "mainConfigFileInfo" cannot be nullable#'
-
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
         - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
@@ -460,19 +439,6 @@ parameters:
 
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
-        # not found on purpose
-        - '#Instantiated class Isolated\\Symfony\\Component\\Finder\\Finder not found#'
-
-        -
-            message: '#Use value object over return of values#'
-            paths:
-                - packages/easy-coding-standard/scoper.php
-
-        -
-            message: '#Class cognitive complexity is \d+, keep it under 25#'
-            paths:
-                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
-
         # node traverser magic
         -
             message: '#Use explicit return value over magic &reference#'
@@ -495,11 +461,6 @@ parameters:
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
-            message: '#Do not inherit from abstract class, better use composition#'
-            paths:
-                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/*PhpDocNodeVisitor.php
-
-        -
             message: '#Parameter "docContent" cannot be nullable#'
             paths:
                  - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
@@ -510,34 +471,11 @@ parameters:
             paths:
                 - packages/easy-hydrator/src/TypeCaster/ArrayTypeCaster.php
 
-        # bad design
-        -
-            message: '#Use dependency injection instead of dependency juggling#'
-            paths:
-                - packages/git-wrapper/src/Process/GitProcess.php
-                - packages/easy-coding-standard/packages/SniffRunner/Application/SniffFileProcessor.php
-
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
-
-        # generics parent - resolve later
-        - '#Method Symplify\\GitWrapper\\GitBranches\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue#'
 
         # some bug
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\ForbiddenNodeRule\\ForbiddenNodeRuleTest\:\:getRule\(\) return type with generic class Symplify\\PHPStanRules\\Rules\\ForbiddenNodeRule does not specify its types\: T#'
 
-
-        # only on CI
-        - '#Class with base "Regex" name is already used in "MongoDB\\BSON\\Regex", "Symplify\\PHPStanRules\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
-
-        # depends on jean85 version
-        - '#Caught class Jean85\\Exception\\ReplacedPackageException not found#'
-
-        -
-            message: '#Do not use setter on a service#'
-            path: packages/easy-coding-standard/src/Configuration/Configuration.php
-
-        # only reported on CI
-        - '#Method Symplify\\SymfonyPhpConfig\\ValueObjectInliner\:\:inline\(\) should return array<(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator\>\|(.*?)\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\InlineServiceConfigurator but (.*?)#'
 
         -
             message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
@@ -550,10 +488,6 @@ parameters:
         # Symfony 5.3 news
         -
             message: '#Removing parent param type is forbidden#'
-            path: *FileLoader.php
-
-        -
-            message: '#Method parameters must be compatible with its parent#'
             path: *FileLoader.php
 
         -
@@ -571,7 +505,7 @@ parameters:
 
 
         -
-            message: '#Class cognitive complexity is 29, keep it under 25#'
+            message: '#Class cognitive complexity is \d+, keep it under 25#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
         # symfony 5.3 news
@@ -579,24 +513,16 @@ parameters:
             message: '#Method parameters must be compatible with its parent#'
             path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
 
-        -
-            message: '#Removing parent param type is forbidden#'
-            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
-
         - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
-        -
-            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
-            path: packages/easy-coding-standard/packages/Caching/ValueObject/Storage/FileCacheStorage.php
 
         # reoslve later
         - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
 
         -
+            message: '#Do not use setter on a service#'
+            path: 'packages/easy-coding-standard/src/Configuration/Configuration.php'
+
+        -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
-
-        -
-            message: '#Parameter "(.*?)" cannot be nullable#'
-            paths:
-                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer
