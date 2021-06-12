@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\Missing\CheckRequiredClassInAnnotationRule;
-use Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\Source\ExistingClass;
+use Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule;
+use Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRule\Source\ExistingClass;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckRequiredClassInAnnotationRule>
+ * @extends AbstractServiceAwareRuleTestCase<CheckReferencedClassInAnnotationRule>
  */
-final class CheckRequiredClassInAnnotationRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckReferencedClassInAnnotationRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -27,27 +27,29 @@ final class CheckRequiredClassInAnnotationRuleTest extends AbstractServiceAwareR
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(
-            CheckRequiredClassInAnnotationRule::ERROR_MESSAGE,
-            'Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\Fixture\Blemc'
+            CheckReferencedClassInAnnotationRule::ERROR_MESSAGE,
+            'Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRule\Fixture\Blemc'
         );
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotation.php', [[$errorMessage, 12]]];
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotationInConstantFetch.php', [[$errorMessage, 12]]];
 
+        yield [__DIR__ . '/Fixture/SkipSeeAnnotation.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingClassAnnotation.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingClassAnnotationWithConstant.php', []];
+
+        // check constants
         $errorMessage = sprintf(
-            CheckRequiredClassInAnnotationRule::CONSTANT_ERROR_MESSAGE,
+            CheckReferencedClassInAnnotationRule::CONSTANT_ERROR_MESSAGE,
             'NOT_HERE',
             ExistingClass::class
         );
         yield [__DIR__ . '/Fixture/ExistingClassAnnotationButMissingConstant.php', [[$errorMessage, 13]]];
-
-        yield [__DIR__ . '/Fixture/SkipExistingClassAnnotation.php', []];
-        yield [__DIR__ . '/Fixture/SkipExistingClassAnnotationWithConstant.php', []];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckRequiredClassInAnnotationRule::class,
+            CheckReferencedClassInAnnotationRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

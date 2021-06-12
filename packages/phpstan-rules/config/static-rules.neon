@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
         tags: [phpstan.rules.rule]
 

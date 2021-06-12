@@ -18,9 +18,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\CheckRequiredClassInAnnotationRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRule\CheckReferencedClassInAnnotationRuleTest
  */
-final class CheckRequiredClassInAnnotationRule extends AbstractSymplifyRule
+final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -101,6 +101,10 @@ final class CheckRequiredClassInAnnotationRule extends AbstractSymplifyRule
 
             $constant = $classConstantReference->getConstant();
             if ($classReflection->hasConstant($constant)) {
+                continue;
+            }
+
+            if ($classReflection->hasMethod($constant)) {
                 continue;
             }
 
