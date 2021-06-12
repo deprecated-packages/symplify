@@ -28,6 +28,7 @@ final class NoMaskWithoutSprintfRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipWithSprintf.php', []];
         yield [__DIR__ . '/Fixture/SkipOnConstant.php', []];
         yield [__DIR__ . '/Fixture/SkipHerenowdoc.php', []];
+        yield [__DIR__ . '/Fixture/SkipIdentical.php', []];
 
         yield [__DIR__ . '/Fixture/NoSprintf.php', [[NoMaskWithoutSprintfRule::ERROR_MESSAGE, 11]]];
     }
