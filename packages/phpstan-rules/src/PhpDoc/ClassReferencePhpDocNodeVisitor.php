@@ -12,9 +12,10 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
+use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
 
-final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
+final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
     /**
      * @var string
@@ -30,7 +31,7 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
      * @var string
      * @see https://regex101.com/r/2OYung/1
      */
-    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_]+)#';
+    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_\((.*?)?\)]+)#';
 
     /**
      * @var string
@@ -79,6 +80,11 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
     {
         $shortClassName = trim($phpDocTagNode->name, '@');
 
+        // lowercased, probably non class annotation
+        if (strtolower($shortClassName) === $shortClassName) {
+            return;
+        }
+
         $resolvedFullyQualifiedName = $this->resolveShortNamesToFullyQualified($shortClassName, $this->className);
         if ($resolvedFullyQualifiedName) {
             $phpDocTagNode->name = $resolvedFullyQualifiedName;
@@ -88,8 +94,10 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
     private function processGenericTagValueNode(GenericTagValueNode $genericTagValueNode): void
     {
         $matches = Strings::matchAll($genericTagValueNode->value, self::PARTIAL_CLASS_REFERENCE_REGEX);
+
         $resolveFullyQualifiedNames = [];
-        $referencedConstants = [];
+        $referencedClassConstants = [];
+        $referencedMethodCalls = [];
 
         foreach ($matches as $match) {
             $resolveFullyQualifiedName = $this->resolveShortNamesToFullyQualified(
@@ -101,17 +109,27 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
                 continue;
             }
 
-            if ($match[self::REFERENCE_PART] !== 'class') {
-                $referencedConstants[] = new ClassConstantReference(
-                    $resolveFullyQualifiedName,
-                    $match[self::REFERENCE_PART]
-                );
+            $referencePart = $match[self::REFERENCE_PART];
+            if ($referencePart === 'class') {
+                $resolveFullyQualifiedNames[] = $resolveFullyQualifiedName;
+                continue;
             }
 
-            $resolveFullyQualifiedNames[] = $resolveFullyQualifiedName;
+            // method call
+            if (Strings::contains($referencePart, '(')) {
+                $referencedMethodCalls[] = new MethodCallReference($resolveFullyQualifiedName, $referencePart);
+                continue;
+            }
+
+            // constant reference
+            $referencedClassConstants[] = new ClassConstantReference(
+                $resolveFullyQualifiedName,
+                $match[self::REFERENCE_PART]
+            );
         }
 
         $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_CLASSES, $resolveFullyQualifiedNames);
-        $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS, $referencedConstants);
+        $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS, $referencedClassConstants);
+        $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_METHOD_CALLS, $referencedMethodCalls);
     }
 }

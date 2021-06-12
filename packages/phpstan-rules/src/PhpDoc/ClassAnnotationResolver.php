@@ -25,7 +25,7 @@ final class ClassAnnotationResolver
     private $simplePhpDocParser;
 
     /**
-     * @var FullyQualifyingPhpDocNodeVisitor
+     * @var ClassReferencePhpDocNodeVisitor
      */
     private $fullyQualifyingPhpDocNodeVisitor;
 
@@ -36,7 +36,7 @@ final class ClassAnnotationResolver
 
     public function __construct(
         SimplePhpDocParser $simplePhpDocParser,
-        FullyQualifyingPhpDocNodeVisitor $fullyQualifyingPhpDocNodeVisitor,
+        ClassReferencePhpDocNodeVisitor $fullyQualifyingPhpDocNodeVisitor,
         ClassReflectionResolver $classReflectionResolver
     ) {
         $this->simplePhpDocParser = $simplePhpDocParser;
@@ -143,6 +143,9 @@ final class ClassAnnotationResolver
         return $classAnnotations;
     }
 
+    /**
+     * @deprecated
+     */
     private function parseTextToPhpDocNodeWithFullyQualifiedNames(
         string $docBlock,
         ClassReflection $classReflection

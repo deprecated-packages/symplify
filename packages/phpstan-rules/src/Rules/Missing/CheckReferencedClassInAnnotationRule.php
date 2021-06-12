@@ -9,13 +9,20 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
-use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
+use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
+use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
+use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRule\CheckReferencedClassInAnnotationRuleTest
@@ -33,28 +40,42 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
     public const CONSTANT_ERROR_MESSAGE = 'Constant "%s" not found on "%s" class';
 
     /**
-     * @var BarePhpDocParser
+     * @var string
      */
-    private $barePhpDocParser;
-
-    /**
-     * @var ClassAnnotationResolver
-     */
-    private $classAnnotationResolver;
+    public const METHOD_ERROR_MESSAGE = 'Method "%s" not found on "%s" class';
 
     /**
      * @var ReflectionProvider
      */
     private $reflectionProvider;
 
+    /**
+     * @var ClassReflectionResolver
+     */
+    private $classReflectionResolver;
+
+    /**
+     * @var ClassReferencePhpDocNodeTraverser
+     */
+    private $classReferencePhpDocNodeTraverser;
+
+    /**
+     * @var SimplePhpDocParser
+     */
+    private $simplePhpDocParser;
+
     public function __construct(
-        BarePhpDocParser $barePhpDocParser,
+        SimplePhpDocParser $simplePhpDocParser,
         ClassAnnotationResolver $classAnnotationResolver,
-        ReflectionProvider $reflectionProvider
+        ReflectionProvider $reflectionProvider,
+        ClassReflectionResolver $classReflectionResolver,
+        ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
     ) {
-        $this->barePhpDocParser = $barePhpDocParser;
         $this->classAnnotationResolver = $classAnnotationResolver;
         $this->reflectionProvider = $reflectionProvider;
+        $this->classReflectionResolver = $classReflectionResolver;
+        $this->classReferencePhpDocNodeTraverser = $classReferencePhpDocNodeTraverser;
+        $this->simplePhpDocParser = $simplePhpDocParser;
     }
 
     /**
@@ -71,47 +92,35 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $phpDocNode = $this->barePhpDocParser->parseNode($node);
+        $phpDocNode = $this->simplePhpDocParser->parseNode($node);
         if (! $phpDocNode instanceof PhpDocNode) {
             return [];
         }
 
-        // foreach with configureaiton
-        $classReferences = $this->classAnnotationResolver->resolveClassReferences($node, $scope);
+        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
 
         $errorMessages = [];
-        foreach ($classReferences as $classReference) {
-            if ($this->reflectionProvider->hasClass($classReference)) {
+        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($phpDocNode, $classReflection);
+
+        foreach ($phpDocNode->getTags() as $phpDocTagNode) {
+            if (! $phpDocTagNode->value instanceof GenericTagValueNode) {
                 continue;
             }
 
-            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $classReference);
+            $genericTagValueNode = $phpDocTagNode->value;
+
+            $classErrorMessages = $this->collectClassErrorMessages($genericTagValueNode);
+            $classConstantsErrorMessages = $this->collectClassConstantsErrorMessages($genericTagValueNode);
+            $methodCallsErrorMessages = $this->collectMethodCallsErrorMessages($genericTagValueNode);
+
+            $errorMessages = array_merge($classErrorMessages, $classConstantsErrorMessages, $methodCallsErrorMessages);
+            return $errorMessages;
         }
 
-        // foreach with configureaiton
-        $classConstantReferences = $this->classAnnotationResolver->resolveClassConstantReferences($node, $scope);
-
-        foreach ($classConstantReferences as $classConstantReference) {
-            $class = $classConstantReference->getClass();
-            if (! $this->reflectionProvider->hasClass($class)) {
-                continue;
-            }
-
-            $classReflection = $this->reflectionProvider->getClass($class);
-
-            $constant = $classConstantReference->getConstant();
-            if ($classReflection->hasConstant($constant)) {
-                continue;
-            }
-
-            if ($classReflection->hasMethod($constant)) {
-                continue;
-            }
-
-            $errorMessages[] = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
-        }
-
-        return $errorMessages;
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -137,5 +146,76 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function collectClassConstantsErrorMessages(GenericTagValueNode $genericTagValueNode): array
+    {
+        $errorMessages = [];
+
+        /** @var ClassConstantReference[] $referencedClassConstants */
+        $referencedClassConstants = $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS);
+        foreach ($referencedClassConstants as $referencedClassConstant) {
+            $class = $referencedClassConstant->getClass();
+            if (! $this->reflectionProvider->hasClass($class)) {
+                continue;
+            }
+
+            $classReflection = $this->reflectionProvider->getClass($class);
+            $constant = $referencedClassConstant->getConstant();
+            if ($classReflection->hasConstant($constant)) {
+                continue;
+            }
+
+            $errorMessages[] = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
+        }
+        return [$class, $classReflection, $errorMessages];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function collectMethodCallsErrorMessages(GenericTagValueNode $genericTagValueNode): array
+    {
+        $errorMessages = [];
+
+        /** @var MethodCallReference[] $referencedMethodCalls */
+        $referencedMethodCalls = $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_METHOD_CALLS);
+        foreach ($referencedMethodCalls as $referencedMethodCall) {
+            $class = $referencedMethodCall->getClass();
+            if (! $this->reflectionProvider->hasClass($class)) {
+                continue;
+            }
+
+            $classReflection = $this->reflectionProvider->getClass($class);
+            $method = $referencedMethodCall->getMethodName();
+            if ($classReflection->hasMethod($method)) {
+                continue;
+            }
+
+            $errorMessages[] = sprintf(self::METHOD_ERROR_MESSAGE, $method, $class);
+        }
+        return $errorMessages;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function collectClassErrorMessages(GenericTagValueNode $genericTagValueNode): array
+    {
+        $errorMessages = [];
+
+        $referencedClasses = $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASSES);
+        foreach ($referencedClasses as $referencedClass) {
+            if ($this->reflectionProvider->hasClass($referencedClass)) {
+                continue;
+            }
+
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $referencedClass);
+        }
+
+        return $errorMessages;
     }
 }
