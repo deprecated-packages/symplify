@@ -69,10 +69,7 @@ final class CheckerServiceParametersShifter
         'bind',
     ];
 
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
+    private StringFormatConverter $stringFormatConverter;
 
     public function __construct()
     {

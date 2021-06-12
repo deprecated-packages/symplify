@@ -14,10 +14,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ParameterTypeRecognizerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ParameterTypeRecognizer
-     */
-    private $parameterTypeRecognizer;
+    private ParameterTypeRecognizer $parameterTypeRecognizer;
 
     protected function setUp(): void
     {

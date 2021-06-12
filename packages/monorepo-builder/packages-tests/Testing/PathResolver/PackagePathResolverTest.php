@@ -11,10 +11,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PackagePathResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PackagePathResolver
-     */
-    private $packagePathResolver;
+    private PackagePathResolver $packagePathResolver;
 
     protected function setUp(): void
     {

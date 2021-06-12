@@ -24,8 +24,6 @@ final class DuplicatedClassMethodPrinter
     public function printClassMethod(ClassMethod $classMethod): string
     {
         $content = $this->standard->prettyPrint((array) $classMethod->stmts);
-        return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
-            return '$a';
-        });
+        return Strings::replace($content, self::VARIABLE_REGEX, fn (array $match): string => '$a');
     }
 }

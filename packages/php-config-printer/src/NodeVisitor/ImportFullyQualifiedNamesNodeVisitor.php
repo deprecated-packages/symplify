@@ -41,8 +41,6 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
         }
 
         $fullyQualifiedName = $node->toString();
-
-        // namespace-less class name
         if (Strings::startsWith($fullyQualifiedName, '\\')) {
             $fullyQualifiedName = ltrim($fullyQualifiedName, '\\');
         }

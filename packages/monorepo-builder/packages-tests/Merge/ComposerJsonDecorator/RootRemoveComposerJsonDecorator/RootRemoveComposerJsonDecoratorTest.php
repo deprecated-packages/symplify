@@ -13,10 +13,7 @@ use Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\AbstractComposerJ
  */
 final class RootRemoveComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var ComposerJsonMerger
-     */
-    private $composerJsonMerger;
+    private ComposerJsonMerger $composerJsonMerger;
 
     protected function setUp(): void
     {

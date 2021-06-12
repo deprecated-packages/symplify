@@ -13,10 +13,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ComposerJsonSymlinker
-     */
-    private $composerJsonSymlinker;
+    private ComposerJsonSymlinker $composerJsonSymlinker;
 
     protected function setUp(): void
     {

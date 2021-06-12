@@ -64,9 +64,10 @@ final class PreviouslyUsedAnalyzer
     private function isInAssign(array $variables, Assign $assign): bool
     {
         foreach ($variables as $variable) {
-            $isInAssign = (bool) $this->nodeFinder->findFirst($assign, function (Node $node) use ($variable): bool {
-                return $this->simpleNameResolver->areNamesEqual($node, $variable);
-            });
+            $isInAssign = (bool) $this->nodeFinder->findFirst(
+                $assign,
+                fn (Node $node): bool => $this->simpleNameResolver->areNamesEqual($node, $variable)
+            );
             if ($isInAssign) {
                 return true;
             }

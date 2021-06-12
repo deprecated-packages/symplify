@@ -43,7 +43,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     /**
      * @var string[]
      */
-    private $parentClasses = [];
+    private array $parentClasses = [];
 
     /**
      * @param string[] $parentClasses

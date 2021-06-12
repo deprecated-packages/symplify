@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Service\ResetInterface;
@@ -24,20 +23,14 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  */
 abstract class AbstractKernelTestCase extends TestCase
 {
-    /**
-     * @var KernelInterface
-     */
-    protected static $kernel;
+    protected static ?KernelInterface $kernel = null;
 
-    /**
-     * @var ContainerInterface|Container
-     */
-    protected static $container;
+    protected static ?ContainerInterface $container = null;
 
     /**
      * @var array<string, KernelInterface>
      */
-    private static $kernelsByHash = [];
+    private static array $kernelsByHash = [];
 
     /**
      * @param class-string<KernelInterface> $kernelClass
@@ -88,13 +81,19 @@ abstract class AbstractKernelTestCase extends TestCase
      * @param class-string<T> $type
      * @return T
      */
-    protected function getService(string $type): ?object
+    protected function getService(string $type): object
     {
         if (self::$container === null) {
             throw new ShouldNotHappenException('First, crewate container with booKernel(KernelClass::class)');
         }
 
-        return self::$container->get($type);
+        $service = self::$container->get($type);
+        if ($service === null) {
+            $errorMessage = sprintf('Services "%s" was not found', $type);
+            throw new \Symplify\Astral\Exception\ShouldNotHappenException($errorMessage);
+        }
+
+        return $service;
     }
 
     protected function bootKernel(string $kernelClass): void

@@ -6,10 +6,7 @@ namespace Symplify\PhpConfigPrinter\Provider;
 
 final class CurrentFilePathProvider
 {
-    /**
-     * @var string|null
-     */
-    private $filePath;
+    private ?string $filePath = null;
 
     public function setFilePath(string $yamlFilePath): void
     {

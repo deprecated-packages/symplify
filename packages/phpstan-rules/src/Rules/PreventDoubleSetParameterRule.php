@@ -26,7 +26,7 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
     /**
      * @var array<string, string[]>
      */
-    private $setParametersNamesByFile = [];
+    private array $setParametersNamesByFile = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

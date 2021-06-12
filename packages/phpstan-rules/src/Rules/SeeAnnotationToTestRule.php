@@ -37,10 +37,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
      */
     private array $requiredSeeTypes = [];
 
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
+    private PrivatesAccessor $privatesAccessor;
 
     /**
      * @param string[] $requiredSeeTypes

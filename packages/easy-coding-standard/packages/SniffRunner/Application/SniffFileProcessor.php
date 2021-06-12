@@ -31,7 +31,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     /**
      * @var Sniff[][]
      */
-    private $tokenListeners = [];
+    private array $tokenListeners = [];
 
     /**
      * @param Sniff[] $sniffs

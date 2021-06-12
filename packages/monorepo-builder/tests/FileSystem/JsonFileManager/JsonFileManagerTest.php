@@ -12,15 +12,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class JsonFileManagerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
+    private JsonFileManager $jsonFileManager;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

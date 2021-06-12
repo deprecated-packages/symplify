@@ -13,15 +13,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 abstract class AbstractMergeTestCase extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var ComposerJsonMerger
-     */
-    private $composerJsonMerger;
+    private ?ComposerJsonMerger $composerJsonMerger = null;
 
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
+    private ?FinderSanitizer $finderSanitizer = null;
 
     protected function setUp(): void
     {

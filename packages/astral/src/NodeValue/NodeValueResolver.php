@@ -29,24 +29,16 @@ use Symplify\PackageBuilder\Php\TypeChecker;
  */
 final class NodeValueResolver
 {
-    /**
-     * @var ConstExprEvaluator
-     */
-    private $constExprEvaluator;
+    private ConstExprEvaluator $constExprEvaluator;
 
-    /**
-     * @var string
-     */
-    private $currentFilePath;
+    private ?string $currentFilePath = null;
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private TypeChecker $typeChecker,
         private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
-            return $this->resolveByNode($expr);
-        });
+        $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
     }
 
     /**

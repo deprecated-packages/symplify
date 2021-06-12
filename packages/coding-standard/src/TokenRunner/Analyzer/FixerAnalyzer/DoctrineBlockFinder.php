@@ -21,7 +21,7 @@ final class DoctrineBlockFinder
     /**
      * @var DocBlockEdgeDefinition[]
      */
-    private $docBlockEdgeDefinitions = [];
+    private array $docBlockEdgeDefinitions = [];
 
     public function __construct(
         private BlockFinder $blockFinder

@@ -14,10 +14,7 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class EasyCodingStandardStyleFactory
 {
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
     public function __construct(
         private Terminal $terminal

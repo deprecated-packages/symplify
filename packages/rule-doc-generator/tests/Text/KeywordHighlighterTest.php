@@ -11,10 +11,7 @@ use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
 
 final class KeywordHighlighterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var KeywordHighlighter
-     */
-    private $keywordHighlighter;
+    private KeywordHighlighter $keywordHighlighter;
 
     protected function setUp(): void
     {

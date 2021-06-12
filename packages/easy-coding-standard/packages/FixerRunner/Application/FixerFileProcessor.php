@@ -47,7 +47,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     /**
      * @var class-string[]
      */
-    private $appliedFixers = [];
+    private array $appliedFixers = [];
 
     /**
      * @var FixerInterface[]
@@ -124,9 +124,10 @@ final class FixerFileProcessor implements FileProcessorInterface
      */
     private function sortFixers(array $fixers): array
     {
-        usort($fixers, function (FixerInterface $firstFixer, FixerInterface $secondFixer): int {
-            return $secondFixer->getPriority() <=> $firstFixer->getPriority();
-        });
+        usort(
+            $fixers,
+            fn (FixerInterface $firstFixer, FixerInterface $secondFixer): int => $secondFixer->getPriority() <=> $firstFixer->getPriority()
+        );
 
         return $fixers;
     }

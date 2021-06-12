@@ -32,15 +32,9 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private const FILE_WITH_TRAIT_CONTEXT_REGEX = '#(?<file>.*?)(\s+\(in context.*?)?$#';
 
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
+    private ?SymfonyStyle $symfonyStyle = null;
 
-    /**
-     * @var Output
-     */
-    private $output;
+    private ?Output $output = null;
 
     public function __construct(
         private Terminal $terminal

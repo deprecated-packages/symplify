@@ -12,10 +12,7 @@ use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 final class PatchDifferTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PatchDiffer
-     */
-    private $patchDiffer;
+    private PatchDiffer $patchDiffer;
 
     protected function setUp(): void
     {

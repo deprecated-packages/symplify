@@ -28,17 +28,13 @@ final class GitWrapper
 {
     /**
      * Path to the Git binary.
-     *
-     * @var string
      */
-    private $gitBinary;
+    private ?string $gitBinary = null;
 
     /**
      * The timeout of the Git command in seconds.
-     *
-     * @var int
      */
-    private $timeout = 60;
+    private int $timeout = 60;
 
     /**
      * Environment variables defined in the scope of the Git command.
@@ -47,15 +43,9 @@ final class GitWrapper
      */
     private $env = [];
 
-    /**
-     * @var EventSubscriberInterface
-     */
-    private $outputEventSubscriber;
+    private ?StreamOutputEventSubscriber $outputEventSubscriber = null;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface | EventDispatcher $eventDispatcher;
 
     public function __construct(?string $gitBinary = null)
     {

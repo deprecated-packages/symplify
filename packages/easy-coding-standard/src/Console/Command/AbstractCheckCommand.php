@@ -16,25 +16,13 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 
 abstract class AbstractCheckCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var Configuration
-     */
-    protected $configuration;
+    protected Configuration $configuration;
 
-    /**
-     * @var EasyCodingStandardStyle
-     */
-    protected $easyCodingStandardStyle;
+    protected EasyCodingStandardStyle $easyCodingStandardStyle;
 
-    /**
-     * @var EasyCodingStandardApplication
-     */
-    protected $easyCodingStandardApplication;
+    protected EasyCodingStandardApplication $easyCodingStandardApplication;
 
-    /**
-     * @var LoadedCheckersGuard
-     */
-    protected $loadedCheckersGuard;
+    protected LoadedCheckersGuard $loadedCheckersGuard;
 
     /**
      * @required

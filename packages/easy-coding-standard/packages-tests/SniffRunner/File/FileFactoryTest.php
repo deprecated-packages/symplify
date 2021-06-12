@@ -14,10 +14,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileFactoryTest extends AbstractKernelTestCase
 {
-    /**
-     * @var FileFactory
-     */
-    private $fileFactory;
+    private FileFactory $fileFactory;
 
     protected function setUp(): void
     {

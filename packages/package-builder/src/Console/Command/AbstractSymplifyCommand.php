@@ -14,25 +14,13 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 abstract class AbstractSymplifyCommand extends Command
 {
-    /**
-     * @var SymfonyStyle
-     */
-    protected $symfonyStyle;
+    protected SymfonyStyle $symfonyStyle;
 
-    /**
-     * @var SmartFileSystem
-     */
-    protected $smartFileSystem;
+    protected SmartFileSystem $smartFileSystem;
 
-    /**
-     * @var SmartFinder
-     */
-    protected $smartFinder;
+    protected SmartFinder $smartFinder;
 
-    /**
-     * @var FileSystemGuard
-     */
-    protected $fileSystemGuard;
+    protected FileSystemGuard $fileSystemGuard;
 
     public function __construct()
     {

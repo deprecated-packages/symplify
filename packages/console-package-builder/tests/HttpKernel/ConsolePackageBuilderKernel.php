@@ -15,7 +15,7 @@ final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwa
     /**
      * @var string[]
      */
-    private $configs = [];
+    private array $configs = [];
 
     /**
      * @return BundleInterface[]

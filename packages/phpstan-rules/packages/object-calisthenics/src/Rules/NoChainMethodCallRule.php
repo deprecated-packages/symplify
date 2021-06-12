@@ -68,7 +68,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     /**
      * @var class-string[]
      */
-    private $allowedChainTypes = [];
+    private array $allowedChainTypes = [];
 
     /**
      * @param class-string[] $allowedChainTypes

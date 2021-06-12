@@ -12,15 +12,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 
 final class RuleDefinition
 {
-    /**
-     * @var string
-     */
-    private $ruleClass;
+    private ?string $ruleClass = null;
 
-    /**
-     * @var string
-     */
-    private $ruleFilePath;
+    private ?string $ruleFilePath = null;
 
     /**
      * @var CodeSampleInterface[]

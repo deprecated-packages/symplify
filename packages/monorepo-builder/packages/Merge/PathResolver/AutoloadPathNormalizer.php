@@ -58,9 +58,10 @@ final class AutoloadPathNormalizer
 
         foreach ($autoloadSubsection as $key => $value) {
             if (is_array($value)) {
-                $autoloadSubsection[$key] = array_map(function ($path) use ($packageRelativeDirectory): string {
-                    return $this->relativizeSinglePath($packageRelativeDirectory, $path);
-                }, $value);
+                $autoloadSubsection[$key] = array_map(
+                    fn ($path): string => $this->relativizeSinglePath($packageRelativeDirectory, $path),
+                    $value
+                );
             } else {
                 $autoloadSubsection[$key] = $this->relativizeSinglePath($packageRelativeDirectory, $value);
             }

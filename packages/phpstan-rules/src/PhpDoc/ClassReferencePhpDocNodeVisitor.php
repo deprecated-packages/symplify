@@ -33,10 +33,7 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
      */
     private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_]+(\((.*?)?\))?)#';
 
-    /**
-     * @var string
-     */
-    private $className;
+    private ?string $className = null;
 
     public function __construct(
         private ReflectionProvider $reflectionProvider

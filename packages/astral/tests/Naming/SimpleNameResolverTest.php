@@ -13,10 +13,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SimpleNameResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private SimpleNameResolver $simpleNameResolver;
 
     protected function setUp(): void
     {

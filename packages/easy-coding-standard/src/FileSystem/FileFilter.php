@@ -20,8 +20,9 @@ final class FileFilter
      */
     public function filterOnlyChangedFiles(array $fileInfos): array
     {
-        return array_filter($fileInfos, function (SmartFileInfo $smartFileInfo): bool {
-            return $this->changedFilesDetector->hasFileInfoChanged($smartFileInfo);
-        });
+        return array_filter(
+            $fileInfos,
+            fn (SmartFileInfo $smartFileInfo): bool => $this->changedFilesDetector->hasFileInfoChanged($smartFileInfo)
+        );
     }
 }

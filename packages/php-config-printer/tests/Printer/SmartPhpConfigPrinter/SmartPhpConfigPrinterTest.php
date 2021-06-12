@@ -19,10 +19,7 @@ use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ValueOb
 
 final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SmartPhpConfigPrinter
-     */
-    private $smartPhpConfigPrinter;
+    private SmartPhpConfigPrinter $smartPhpConfigPrinter;
 
     protected function setUp(): void
     {

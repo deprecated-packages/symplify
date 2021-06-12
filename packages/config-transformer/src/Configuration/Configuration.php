@@ -16,15 +16,9 @@ final class Configuration implements SymfonyVersionFeatureGuardInterface
      */
     private $source = [];
 
-    /**
-     * @var float
-     */
-    private $targetSymfonyVersion;
+    private ?float $targetSymfonyVersion = null;
 
-    /**
-     * @var bool
-     */
-    private $isDryRun = false;
+    private bool $isDryRun = false;
 
     public function populateFromInput(InputInterface $input): void
     {

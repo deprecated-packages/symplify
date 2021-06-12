@@ -9,7 +9,7 @@ final class UniqueNaming
     /**
      * @var array<string, int>
      */
-    private $existingNames = [];
+    private array $existingNames = [];
 
     public function uniquateName(string $name): string
     {

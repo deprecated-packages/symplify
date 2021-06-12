@@ -11,10 +11,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class VersionUtilsTest extends AbstractKernelTestCase
 {
-    /**
-     * @var VersionUtils
-     */
-    private $versionUtils;
+    private VersionUtils $versionUtils;
 
     protected function setUp(): void
     {

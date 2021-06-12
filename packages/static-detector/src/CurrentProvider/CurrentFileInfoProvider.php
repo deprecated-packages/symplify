@@ -8,10 +8,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CurrentFileInfoProvider
 {
-    /**
-     * @var SmartFileInfo
-     */
-    private $smartFileInfo;
+    private SmartFileInfo $smartFileInfo;
 
     public function setCurrentFileInfo(SmartFileInfo $smartFileInfo): void
     {

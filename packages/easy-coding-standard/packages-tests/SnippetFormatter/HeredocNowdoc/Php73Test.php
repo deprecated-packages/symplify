@@ -20,10 +20,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class Php73Test extends AbstractKernelTestCase
 {
-    /**
-     * @var SnippetFormatter
-     */
-    private $snippetFormatter;
+    private SnippetFormatter $snippetFormatter;
 
     protected function setUp(): void
     {

@@ -40,10 +40,7 @@ final class ColorConsoleDiffFormatter
      */
     private const NEWLINES_REGEX = "#\n\r|\n#";
 
-    /**
-     * @var string
-     */
-    private $template;
+    private string $template;
 
     public function __construct()
     {

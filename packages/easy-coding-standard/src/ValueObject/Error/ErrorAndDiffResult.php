@@ -75,13 +75,11 @@ final class ErrorAndDiffResult
     {
         usort(
             $errorMessages,
-            static function (
-                CodingStandardError $firstCodingStandardError,
-                CodingStandardError $secondCodingStandardError
-            ): int {
-                return [$firstCodingStandardError->getRelativeFilePathFromCwd(), $firstCodingStandardError->getLine()]
-                <=> [$secondCodingStandardError->getRelativeFilePathFromCwd(), $secondCodingStandardError->getLine()];
-            }
+            static fn (CodingStandardError $firstCodingStandardError, CodingStandardError $secondCodingStandardError): int => [
+                $firstCodingStandardError->getRelativeFilePathFromCwd(),
+                $firstCodingStandardError->getLine(),
+            ]
+            <=> [$secondCodingStandardError->getRelativeFilePathFromCwd(), $secondCodingStandardError->getLine()]
         );
 
         return $errorMessages;
@@ -93,9 +91,10 @@ final class ErrorAndDiffResult
      */
     private function sortByFilePath(array $fileDiffs): array
     {
-        uasort($fileDiffs, static function (FileDiff $firstFileDiff, FileDiff $secondFileDiff): int {
-            return $firstFileDiff->getRelativeFilePathFromCwd() <=> $secondFileDiff->getRelativeFilePathFromCwd();
-        });
+        uasort(
+            $fileDiffs,
+            static fn (FileDiff $firstFileDiff, FileDiff $secondFileDiff): int => $firstFileDiff->getRelativeFilePathFromCwd() <=> $secondFileDiff->getRelativeFilePathFromCwd()
+        );
 
         return $fileDiffs;
     }

@@ -10,10 +10,7 @@ use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
 
 final class PathNormalizerTest extends TestCase
 {
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
+    private PathNormalizer $pathNormalizer;
 
     protected function setUp(): void
     {

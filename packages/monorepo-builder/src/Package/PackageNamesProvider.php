@@ -13,7 +13,7 @@ final class PackageNamesProvider
     /**
      * @var string[]
      */
-    private $names = [];
+    private array $names = [];
 
     public function __construct(
         private ComposerJsonProvider $composerJsonProvider,

@@ -11,10 +11,7 @@ use Nette\Utils\Strings;
  */
 final class SymplifyStrings
 {
-    /**
-     * @var int|null
-     */
-    private $lastSlashPosition;
+    private ?int $lastSlashPosition = null;
 
     /**
      * Same as ↓, just for the suffix

@@ -17,10 +17,7 @@ use Symplify\SimplePhpDocParser\ValueObject\PhpDocAttributeKey;
 
 final class ParentConnectingPhpDocNodeVisitorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PhpDocNodeTraverser
-     */
-    private $phpDocNodeTraverser;
+    private PhpDocNodeTraverser $phpDocNodeTraverser;
 
     protected function setUp(): void
     {

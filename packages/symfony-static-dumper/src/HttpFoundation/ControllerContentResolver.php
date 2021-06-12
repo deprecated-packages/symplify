@@ -65,9 +65,11 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
-        $defaultParams = array_filter($route->getDefaults(), static function (string $key): bool {
-            return ! Strings::startsWith($key, '_');
-        }, ARRAY_FILTER_USE_KEY);
+        $defaultParams = array_filter(
+            $route->getDefaults(),
+            static fn (string $key): bool => ! Strings::startsWith($key, '_'),
+            ARRAY_FILTER_USE_KEY
+        );
 
         $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
         $defaultParamsValues = array_values($defaultParams);

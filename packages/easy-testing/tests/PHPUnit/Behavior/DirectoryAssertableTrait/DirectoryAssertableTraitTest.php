@@ -20,8 +20,6 @@ final class DirectoryAssertableTraitTest extends TestCase
 
     public function testFail(): void
     {
-        $throwable = null;
-
         try {
             $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/third_directory');
         } catch (Throwable $throwable) {

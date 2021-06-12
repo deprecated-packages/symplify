@@ -34,9 +34,10 @@ final class PreviousLoopFinder
         }
 
         foreach ($variables as $variable) {
-            $isInPrevious = (bool) $this->nodeFinder->findFirst($previous, function (Node $node) use ($variable): bool {
-                return $this->simpleNameResolver->areNamesEqual($node, $variable);
-            });
+            $isInPrevious = (bool) $this->nodeFinder->findFirst(
+                $previous,
+                fn (Node $node): bool => $this->simpleNameResolver->areNamesEqual($node, $variable)
+            );
 
             if ($isInPrevious) {
                 return true;

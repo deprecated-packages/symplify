@@ -17,10 +17,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class IndentationTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
+    private PrivatesAccessor $privatesAccessor;
 
     protected function setUp(): void
     {

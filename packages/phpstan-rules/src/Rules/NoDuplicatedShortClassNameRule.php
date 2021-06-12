@@ -39,7 +39,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
     /**
      * @var array<string, string[]>
      */
-    private $declaredClassesByShortName = [];
+    private array $declaredClassesByShortName = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver

@@ -11,10 +11,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class AssertContainsFileLineExtractorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var AssertContainsFileLineExtractor
-     */
-    private $assertContainsFileLineExtractor;
+    private AssertContainsFileLineExtractor $assertContainsFileLineExtractor;
 
     protected function setUp(): void
     {

@@ -11,10 +11,7 @@ use Symplify\Skipper\HttpKernel\SkipperKernel;
 
 final class PathNormalizerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
+    private PathNormalizer $pathNormalizer;
 
     protected function setUp(): void
     {

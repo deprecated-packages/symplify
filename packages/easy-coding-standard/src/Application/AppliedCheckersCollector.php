@@ -12,7 +12,7 @@ final class AppliedCheckersCollector
     /**
      * @var array<string, class-string[]>
      */
-    private $appliedCheckersByFile = [];
+    private array $appliedCheckersByFile = [];
 
     public function addFileInfoAndChecker(SmartFileInfo $smartFileInfo, string $checker): void
     {
