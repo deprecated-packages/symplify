@@ -41,24 +41,24 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
-        $consoleStyle = $output->getStyle();
+        $outputStyle = $output->getStyle();
         $this->output = $output;
 
         if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
-            $consoleStyle->success('No errors');
+            $outputStyle->success('No errors');
             return ShellCode::SUCCESS;
         }
 
-        $this->reportErrors($analysisResult, $consoleStyle);
+        $this->reportErrors($analysisResult, $outputStyle);
 
         $notFileSpecificErrors = $analysisResult->getNotFileSpecificErrors();
         foreach ($notFileSpecificErrors as $notFileSpecificError) {
-            $consoleStyle->warning($notFileSpecificError);
+            $outputStyle->warning($notFileSpecificError);
         }
 
         $warnings = $analysisResult->getWarnings();
         foreach ($warnings as $warning) {
-            $consoleStyle->warning($warning);
+            $outputStyle->warning($warning);
         }
 
         return ShellCode::ERROR;

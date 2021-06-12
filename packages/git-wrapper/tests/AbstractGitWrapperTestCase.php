@@ -48,7 +48,7 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     protected function setUp(): void
     {
         $this->smartFileSystem = new SmartFileSystem();
-        $this->gitWrapper = new GitWrapper();
+        $this->gitWrapper = new GitWrapper('git');
     }
 
     protected function registerAndReturnEventSubscriber(): TestEventSubscriber
