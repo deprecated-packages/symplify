@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
@@ -52,7 +51,7 @@ final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
 
             $funcCallName = $this->resolveFuncCallName($arg);
 
-            if (Strings::contains($funcCallName, '\\')) {
+            if (\str_contains($funcCallName, '\\')) {
                 continue;
             }
 

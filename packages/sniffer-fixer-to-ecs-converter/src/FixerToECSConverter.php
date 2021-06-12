@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SnifferFixerToECSConverter;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Config;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
@@ -63,7 +62,7 @@ final class FixerToECSConverter
         $fixerShortClassName = $this->resolveFixerShortClassName($ruleName);
 
         foreach ($this->fixerClassProvider->provide() as $coreFixerClass) {
-            if (Strings::endsWith($coreFixerClass, '\\' . $fixerShortClassName)) {
+            if (\str_ends_with($coreFixerClass, '\\' . $fixerShortClassName)) {
                 return $coreFixerClass;
             }
         }

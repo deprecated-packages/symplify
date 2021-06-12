@@ -37,6 +37,22 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
             __DIR__ . '/Fixture/WithStaticCallWithParameter.php',
             [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],
         ];
+
+        yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithoutMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipWithMethodCallWithoutParameter.php', []];
+        yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsMatchCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipMethodCallWithBooleanReturn.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipIfWithBoolean.php', []];
+        yield [__DIR__ . '/Fixture/SkipIfWithBooleanFromExternalClass.php', []];
+
+        yield [
+            __DIR__ . '/Fixture/WithMethodCallWithParameterNotFromThis.php', [
+                [ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 17],
+                [ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 19],
+            ],
+        ];
     }
 
     protected function getRule(): Rule

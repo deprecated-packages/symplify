@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\Testing;
 
-use Nette\Utils\Strings;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
@@ -28,7 +27,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
      */
     protected function getRuleFromConfig(string $ruleClass, string $config): Rule
     {
-        if (Strings::contains($config, '\\') && file_exists($ruleClass)) {
+        if (\str_contains($config, '\\') && file_exists($ruleClass)) {
             $message = sprintf('Swapped arguments in "%s()" method', __METHOD__);
             throw new SwappedArgumentsException($message);
         }

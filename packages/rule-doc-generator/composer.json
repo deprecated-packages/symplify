@@ -8,8 +8,8 @@
     "require": {
         "php": ">=8.0",
         "symfony/dependency-injection": "^5.3",
-        "symfony/console": "^4.4|^5.3",
-        "nette/robot-loader": "^3.3",
+        "symfony/console": "^5.3",
+        "nette/robot-loader": "^3.4",
         "symplify/symplify-kernel": "^9.4",
         "symplify/rule-doc-generator-contracts": "^9.4",
         "symplify/markdown-diff": "^9.4",

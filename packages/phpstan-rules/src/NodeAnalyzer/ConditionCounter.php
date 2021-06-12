@@ -27,9 +27,9 @@ final class ConditionCounter
 
         foreach ($conds as $cond) {
             if ($this->scalarAnalyzer->isScalar($cond)) {
-                $scalarConditionTypes[] = get_class($cond);
+                $scalarConditionTypes[] = $cond::class;
             } else {
-                $nonScalarConditionTypes[] = get_class($cond);
+                $nonScalarConditionTypes[] = $cond::class;
             }
         }
 

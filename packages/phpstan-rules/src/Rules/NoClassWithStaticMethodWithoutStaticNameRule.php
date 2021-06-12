@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Class_;
@@ -70,7 +69,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         }
 
         // already has "Static" in the name
-        if (Strings::contains($shortClassName, 'Static')) {
+        if (\str_contains($shortClassName, 'Static')) {
             return [];
         }
 

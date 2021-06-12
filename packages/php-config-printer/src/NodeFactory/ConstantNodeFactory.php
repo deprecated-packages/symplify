@@ -30,7 +30,7 @@ final class ConstantNodeFactory
      */
     public function createConstantIfValue(string $value): ?Expr
     {
-        if (Strings::contains($value, '::')) {
+        if (\str_contains($value, '::')) {
             [$class, $constant] = explode('::', $value);
 
             // not uppercase → probably not a constant

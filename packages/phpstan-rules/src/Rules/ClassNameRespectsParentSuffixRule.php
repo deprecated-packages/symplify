@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -116,7 +115,7 @@ CODE_SAMPLE
             }
 
             $expectedSuffix = $this->classToSuffixResolver->resolveFromClass($parentClass);
-            if (Strings::endsWith($className, $expectedSuffix)) {
+            if (\str_ends_with($className, $expectedSuffix)) {
                 return [];
             }
 

@@ -22,7 +22,7 @@ final class ReleaseWorkerReporter
         }
 
         // show debug data on -v/--verbose/--debug
-        $this->symfonyStyle->writeln('class: ' . get_class($releaseWorker));
+        $this->symfonyStyle->writeln('class: ' . $releaseWorker::class);
         if ($releaseWorker instanceof StageAwareInterface) {
             $this->symfonyStyle->writeln('stage: ' . $releaseWorker->getStage());
         }

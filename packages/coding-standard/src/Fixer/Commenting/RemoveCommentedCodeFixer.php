@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -64,7 +63,7 @@ final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements Do
                 continue;
             }
 
-            if (! Strings::startsWith($token->getContent(), '//')) {
+            if (! \str_starts_with($token->getContent(), '//')) {
                 continue;
             }
 
@@ -126,7 +125,7 @@ CODE_SAMPLE
             return $realStart - 1;
         }
 
-        if (Strings::endsWith($preStartToken->getContent(), '    ')) {
+        if (\str_ends_with($preStartToken->getContent(), '    ')) {
             return $realStart - 1;
         }
 

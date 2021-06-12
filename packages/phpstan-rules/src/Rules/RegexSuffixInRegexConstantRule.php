@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -103,7 +102,7 @@ CODE_SAMPLE
         }
 
         $constantName = (string) $expr->name;
-        if (Strings::endsWith($constantName, '_REGEX')) {
+        if (\str_ends_with($constantName, '_REGEX')) {
             return [];
         }
 

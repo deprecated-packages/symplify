@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -93,7 +92,7 @@ final class TokensNewliner
         }
 
         $tokenContent = $tokens[$nextPosition]->getContent();
-        return Strings::contains($tokenContent, $this->whitespacesFixerConfig->getLineEnding());
+        return \str_contains($tokenContent, $this->whitespacesFixerConfig->getLineEnding());
     }
 
     /**

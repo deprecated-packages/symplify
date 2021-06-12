@@ -144,7 +144,7 @@ final class ImportCaseConverter implements CaseConverterInterface
             return new String_('not_found');
         }
 
-        if (is_string($value) && Strings::contains($value, '::')) {
+        if (is_string($value) && \str_contains($value, '::')) {
             [$className, $constantName] = explode('::', $value);
             return new ClassConstFetch(new FullyQualified($className), $constantName);
         }

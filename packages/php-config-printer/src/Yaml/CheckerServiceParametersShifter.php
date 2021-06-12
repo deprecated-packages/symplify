@@ -113,11 +113,11 @@ final class CheckerServiceParametersShifter
                 continue;
             }
 
-            if (Strings::endsWith($serviceName, 'Fixer')) {
+            if (\str_ends_with($serviceName, 'Fixer')) {
                 $services = $this->processFixer($services, $serviceName, $serviceDefinition);
             }
 
-            if (Strings::endsWith($serviceName, 'Sniff')) {
+            if (\str_ends_with($serviceName, 'Sniff')) {
                 $services = $this->processSniff($services, $serviceName, $serviceDefinition);
             }
 
@@ -130,11 +130,11 @@ final class CheckerServiceParametersShifter
 
     private function isCheckerClass(string $checker): bool
     {
-        if (Strings::endsWith($checker, 'Fixer')) {
+        if (\str_ends_with($checker, 'Fixer')) {
             return true;
         }
 
-        return Strings::endsWith($checker, 'Sniff');
+        return \str_ends_with($checker, 'Sniff');
     }
 
     /**

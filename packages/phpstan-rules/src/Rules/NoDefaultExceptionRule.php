@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Throw_;
@@ -58,7 +57,7 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
         }
 
         // fast way to detect native exceptions
-        if (Strings::contains($className, '\\')) {
+        if (\str_contains($className, '\\')) {
             return [];
         }
 

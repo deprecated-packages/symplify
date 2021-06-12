@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
@@ -43,7 +42,7 @@ final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
 
         $injectMethodCount = 0;
         foreach ($classMethodNames as $classMethodName) {
-            if (Strings::startsWith($classMethodName, 'inject')) {
+            if (\str_starts_with($classMethodName, 'inject')) {
                 ++$injectMethodCount;
             }
         }

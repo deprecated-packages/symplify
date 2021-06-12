@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeVisitor;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
@@ -41,11 +40,11 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
         }
 
         $fullyQualifiedName = $node->toString();
-        if (Strings::startsWith($fullyQualifiedName, '\\')) {
+        if (\str_starts_with($fullyQualifiedName, '\\')) {
             $fullyQualifiedName = ltrim($fullyQualifiedName, '\\');
         }
 
-        if (! Strings::contains($fullyQualifiedName, '\\')) {
+        if (! \str_contains($fullyQualifiedName, '\\')) {
             return new Name($fullyQualifiedName);
         }
 

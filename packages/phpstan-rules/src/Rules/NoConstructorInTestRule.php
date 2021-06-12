@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -51,7 +50,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! Strings::endsWith($className, 'Test')) {
+        if (! \str_ends_with($className, 'Test')) {
             return [];
         }
 

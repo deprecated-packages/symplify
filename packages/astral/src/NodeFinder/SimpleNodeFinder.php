@@ -34,7 +34,8 @@ final class SimpleNodeFinder
     public function hasByTypes(Node $node, array $nodeClasses): bool
     {
         foreach ($nodeClasses as $nodeClass) {
-            if ($this->findByType($node, $nodeClass)) {
+            $foundNodes = $this->findByType($node, $nodeClass);
+            if ($foundNodes !== []) {
                 return true;
             }
         }

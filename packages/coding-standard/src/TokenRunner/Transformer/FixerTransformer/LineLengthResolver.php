@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
@@ -50,7 +49,7 @@ final class LineLengthResolver
         /** @var Token $currentToken */
         $currentToken = $tokens[$position];
 
-        if (Strings::startsWith($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
+        if (\str_starts_with($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 
@@ -99,7 +98,7 @@ final class LineLengthResolver
         /** @var Token $currentToken */
         $currentToken = $tokens[$end];
 
-        while (! Strings::startsWith($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
+        while (! \str_starts_with($currentToken->getContent(), StaticEolConfiguration::getEolChar())) {
             $length += strlen($currentToken->getContent());
             ++$end;
 

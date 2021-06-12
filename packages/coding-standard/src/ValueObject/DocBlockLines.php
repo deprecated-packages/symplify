@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\ValueObject;
 
-use Nette\Utils\Strings;
-
 final class DocBlockLines
 {
     /**
@@ -47,7 +45,7 @@ final class DocBlockLines
     public function hasListDescriptionLines(): bool
     {
         foreach ($this->descriptionLines as $descriptionLine) {
-            if (Strings::startsWith($descriptionLine, '-')) {
+            if (\str_starts_with($descriptionLine, '-')) {
                 return true;
             }
         }

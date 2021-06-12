@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory\Service;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\ServiceOptionAnalyzer\ServiceOptionAnalyzer;
@@ -69,7 +68,7 @@ final class ServiceOptionNodeFactory
     private function shouldSkip(string $key): bool
     {
         // options started by decoration_<option> are used as options of the method decorate().
-        if (Strings::startsWith($key, 'decoration_')) {
+        if (\str_starts_with($key, 'decoration_')) {
             return true;
         }
 

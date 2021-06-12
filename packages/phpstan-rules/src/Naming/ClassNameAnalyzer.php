@@ -20,12 +20,12 @@ final class ClassNameAnalyzer
     public function isFactoryClassOrMethod(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection instanceof ClassReflection && Strings::endsWith($classReflection->getName(), 'Factory')) {
+        if ($classReflection instanceof ClassReflection && \str_ends_with($classReflection->getName(), 'Factory')) {
             return true;
         }
 
         $function = $scope->getFunction();
-        return $function instanceof MethodReflection && Strings::startsWith($function->getName(), 'create');
+        return $function instanceof MethodReflection && \str_starts_with($function->getName(), 'create');
     }
 
     public function isValueObjectClass(Scope $scope): bool

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Tests\Finder\FinderSanitizer;
 
 use Nette\Utils\Finder as NetteFinder;
-use Nette\Utils\Strings;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
@@ -72,13 +71,13 @@ final class FinderSanitizerTest extends TestCase
 
         // order agnostic file check
         $this->assertTrue(
-            (Strings::endsWith($firstSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/FileWithClass.php')
+            (\str_ends_with($firstSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/FileWithClass.php')
             &&
-            Strings::endsWith($secondSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/EmptyFile.php'))
+            \str_ends_with($secondSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/EmptyFile.php'))
             ||
-            (Strings::endsWith($firstSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/EmptyFile.php')
+            (\str_ends_with($firstSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/EmptyFile.php')
             &&
-            Strings::endsWith($secondSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/FileWithClass.php'))
+            \str_ends_with($secondSmartFileInfo->getRelativeFilePath(), 'NestedDirectory/FileWithClass.php'))
         );
     }
 

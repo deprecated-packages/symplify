@@ -4,13 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\Foreach_;
+use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\TrinaryLogic;
+use PHPStan\Type\BooleanType;
+use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -22,15 +32,22 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method nor static call in foreach is not allowed. Extract expression to a new variable assign on line before';
+    public const ERROR_MESSAGE = 'Method nor static call in foreach(), if() or elseif() is not allowed. Extract expression to a new variable assign on line before';
 
     /**
      * @var array<class-string<Expr>>
      */
     private const CALL_CLASS_TYPES = [MethodCall::class, StaticCall::class];
 
+    /**
+     * @var array<class-string>
+     */
+    private const ALLOWED_CLASS_TYPES = [Strings::class, TrinaryLogic::class];
+
     public function __construct(
-        private NodeFinder $nodeFinder
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer,
     ) {
     }
 
@@ -39,23 +56,27 @@ final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRul
      */
     public function getNodeTypes(): array
     {
-        return [Foreach_::class];
+        return [Foreach_::class, If_::class, ElseIf_::class];
     }
 
     /**
-     * @param Foreach_ $node
+     * @param Foreach_|If_|ElseIf_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
+        $expr = $node instanceof Foreach_ ? $node->expr : $node->cond;
+
         foreach (self::CALL_CLASS_TYPES as $expressionClassType) {
             /** @var MethodCall[]|StaticCall[] $calls */
-            $calls = $this->nodeFinder->findInstanceOf($node->expr, $expressionClassType);
-            if (! $this->hasCallArgs($calls)) {
-                continue;
-            }
+            $calls = $this->nodeFinder->findInstanceOf($expr, $expressionClassType);
+            foreach ($calls as $call) {
+                if ($this->shouldSkipCall($call, $scope)) {
+                    continue;
+                }
 
-            return [self::ERROR_MESSAGE];
+                return [self::ERROR_MESSAGE];
+            }
         }
 
         return [];
@@ -81,17 +102,45 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param MethodCall[]|StaticCall[] $calls
-     */
-    private function hasCallArgs(array $calls): bool
+    private function shouldSkipCall(MethodCall | StaticCall $expr, Scope $scope): bool
     {
-        foreach ($calls as $call) {
-            if ($call->args !== []) {
-                return true;
-            }
+        if ($expr->args === []) {
+            return true;
         }
 
-        return false;
+        if ($this->isAllowedCallerType($scope, $expr)) {
+            return true;
+        }
+
+        $callType = $scope->getType($expr);
+        if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callType, self::ALLOWED_CLASS_TYPES)) {
+            return true;
+        }
+
+        return $callType instanceof BooleanType;
+    }
+
+    private function resolveCalleeType(Scope $scope, StaticCall | MethodCall $node): Type
+    {
+        if ($node instanceof StaticCall) {
+            $className = $this->simpleNameResolver->getName($node->class);
+            if ($className === null) {
+                return new MixedType();
+            }
+
+            return new ObjectType($className);
+        }
+
+        return $scope->getType($node->var);
+    }
+
+    private function isAllowedCallerType(Scope $scope, StaticCall | MethodCall $node): bool
+    {
+        if (! $node instanceof StaticCall) {
+            return false;
+        }
+
+        $type = $this->resolveCalleeType($scope, $node);
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($type, self::ALLOWED_CLASS_TYPES);
     }
 }

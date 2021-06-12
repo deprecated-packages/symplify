@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
@@ -111,7 +110,7 @@ CODE_SAMPLE
         }
 
         foreach ($node->getComments() as $comment) {
-            if (Strings::contains($comment->getText(), 'intention')) {
+            if (\str_contains($comment->getText(), 'intention')) {
                 return true;
             }
         }

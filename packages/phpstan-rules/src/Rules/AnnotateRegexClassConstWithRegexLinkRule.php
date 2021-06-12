@@ -128,11 +128,11 @@ CODE_SAMPLE
         }
 
         $docCommentText = $docComment->getText();
-        return Strings::contains($docCommentText, '@see https://regex101.com/r');
+        return \str_contains($docCommentText, '@see https://regex101.com/r');
     }
 
     private function isRegexPatternConstantName(string $constantName): bool
     {
-        return Strings::endsWith($constantName, '_REGEX');
+        return \str_ends_with($constantName, '_REGEX');
     }
 }

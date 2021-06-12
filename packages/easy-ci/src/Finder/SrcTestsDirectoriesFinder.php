@@ -50,9 +50,9 @@ final class SrcTestsDirectoriesFinder
         $testsDirectories = [];
 
         foreach ($fileInfos as $fileInfo) {
-            if ($fileInfo->endsWith('tests') && ! Strings::contains($fileInfo->getRealPath(), 'src')) {
+            if ($fileInfo->endsWith('tests') && ! \str_contains($fileInfo->getRealPath(), 'src')) {
                 $testsDirectories[] = $fileInfo;
-            } elseif ($fileInfo->endsWith('src') && (! Strings::contains(
+            } elseif ($fileInfo->endsWith('src') && (! \str_contains(
                 $fileInfo->getRealPath(),
                 'tests'
             ) || StaticPHPUnitEnvironment::isPHPUnitRun())) {

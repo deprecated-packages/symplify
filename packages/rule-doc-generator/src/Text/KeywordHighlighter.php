@@ -86,10 +86,10 @@ final class KeywordHighlighter
             return true;
         }
         // already in code quotes
-        if (Strings::startsWith($word, '`')) {
+        if (\str_starts_with($word, '`')) {
             return false;
         }
-        if (Strings::endsWith($word, '`')) {
+        if (\str_ends_with($word, '`')) {
             return false;
         }
 
@@ -121,7 +121,7 @@ final class KeywordHighlighter
 
         if ($this->classLikeExistenceChecker->doesClassLikeExist($word)) {
             // not a class
-            if (! Strings::contains($word, '\\')) {
+            if (! \str_contains($word, '\\')) {
                 return in_array($word, [Throwable::class, 'Exception'], true);
             }
 

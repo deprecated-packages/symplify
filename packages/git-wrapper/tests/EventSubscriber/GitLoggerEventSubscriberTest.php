@@ -61,9 +61,12 @@ final class GitLoggerEventSubscriberTest extends AbstractGitWrapperTestCase
         $testLogger = new TestLogger();
         $this->gitWrapper->addLoggerEventSubscriber(new GitLoggerEventSubscriber($testLogger));
 
-        $gitCommand = new GitCommand('status', [
-            's' => true,
-        ]);
+        $gitCommand = new GitCommand(
+            'status',
+            [
+                's' => true,
+            ],
+        );
         $gitCommand->bypass();
 
         $this->gitWrapper->run($gitCommand);

@@ -118,7 +118,7 @@ final class GitWorkingCopy
     {
         try {
             $this->run(CommandName::REV_PARSE, ['@{u}']);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             return false;
         }
 

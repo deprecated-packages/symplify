@@ -132,7 +132,7 @@ CODE_SAMPLE
             return true;
         }
 
-        if (Strings::contains($relativeDirPath, '*')) {
+        if (\str_contains($relativeDirPath, '*')) {
             return true;
         }
 

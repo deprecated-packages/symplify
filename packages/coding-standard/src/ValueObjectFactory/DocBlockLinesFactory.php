@@ -54,8 +54,8 @@ final class DocBlockLinesFactory
         $collectDescriptionLines = true;
 
         foreach ($docBlockLines as $docBlockLine) {
-            if (Strings::startsWith($docBlockLine, '@')
-                || Strings::startsWith($docBlockLine, '{@')) {
+            if (\str_starts_with($docBlockLine, '@')
+                || \str_starts_with($docBlockLine, '{@')) {
                 // The line has a special meaning (it's an annotation, or something like {@inheritdoc})
                 $collectDescriptionLines = false;
             }

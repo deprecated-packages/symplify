@@ -114,11 +114,7 @@ final class ParameterTypeRecognizer
             return null;
         }
 
-        if (method_exists($parameterReflectionType, 'getName')) {
-            return $parameterReflectionType->getName();
-        }
-
-        return (string) $parameterReflectionType;
+        return $parameterReflectionType->getName();
     }
 
     private function findFirstNonNullNodeType(UnionTypeNode $unionTypeNode): ?TypeNode

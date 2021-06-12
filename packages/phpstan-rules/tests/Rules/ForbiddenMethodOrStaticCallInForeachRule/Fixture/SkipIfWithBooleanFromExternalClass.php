@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Fixture;
 
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
-use Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInIfRule\Source\ExternalCaller;
+use Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Source\ExternalCaller;
 
 final class SkipIfWithBooleanFromExternalClass
 {

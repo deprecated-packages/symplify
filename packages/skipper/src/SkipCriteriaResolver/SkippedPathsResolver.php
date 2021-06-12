@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\SkipCriteriaResolver;
 
-use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Skipper\ValueObject\Option;
 use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
@@ -46,7 +45,7 @@ final class SkippedPathsResolver
                 continue;
             }
 
-            if (Strings::contains($value, '*')) {
+            if (\str_contains($value, '*')) {
                 $this->skippedPaths[] = $this->pathNormalizer->normalizePath($value);
                 continue;
             }

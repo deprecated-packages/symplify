@@ -80,7 +80,7 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
         }
 
         foreach ($this->namespaceParts as $namespacePart) {
-            if (! Strings::endsWith($namespace, $namespacePart)) {
+            if (! \str_ends_with($namespace, $namespacePart)) {
                 continue;
             }
 
@@ -88,7 +88,7 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
                 continue;
             }
 
-            if (Strings::endsWith($classLikeName, $namespacePart)) {
+            if (\str_ends_with($classLikeName, $namespacePart)) {
                 continue;
             }
 

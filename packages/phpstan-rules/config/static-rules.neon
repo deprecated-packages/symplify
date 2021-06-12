@@ -151,10 +151,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
         tags: [phpstan.rules.rule]
 

@@ -947,7 +947,7 @@ CODE_SAMPLE;
     {
         try {
             $gitWorkingCopy->run(CommandName::REV_PARSE, [$tag]);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             // Expected result. The tag does not exist.
             return;
         }
@@ -959,7 +959,7 @@ CODE_SAMPLE;
     {
         try {
             $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote/HEAD']);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             // Expected result. The remote master does not exist.
             return;
         }
