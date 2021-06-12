@@ -16,8 +16,6 @@ jobs:
                     php-version: '7.3'
                     coverage: none
 
-            -   uses: "ramsey/composer-install@v1"
-
             -   run: composer require phpunit/phpunit
 
             -   run: composer require symplify/easy-testing
