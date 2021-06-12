@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenComplexForeachIfExprRule\Fixture;
 
-final class SkipAssignBeforeIf
+final class SkipAssignAfterIf
 {
     public function run()
     {
@@ -15,7 +15,7 @@ final class SkipAssignBeforeIf
 
         $a = data();
         if ($a === 1) {
-
+            $a = 2;
         }
     }
 }

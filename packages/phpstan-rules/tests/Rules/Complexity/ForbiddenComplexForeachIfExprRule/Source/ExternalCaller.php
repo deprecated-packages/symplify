@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexForeachIfExprRule\Source;
 
 final class ExternalCaller
 {

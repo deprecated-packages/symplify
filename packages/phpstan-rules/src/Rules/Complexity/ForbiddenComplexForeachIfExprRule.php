@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
@@ -20,19 +20,20 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMethodOrStaticCallInForeachRule\ForbiddenMethodOrStaticCallInForeachRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexForeachIfExprRule\ForbiddenMethodOrStaticCallInForeachRuleTest
  */
-final class ForbiddenMethodOrStaticCallInForeachRule extends AbstractSymplifyRule
+final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method nor static call in foreach(), if() or elseif() is not allowed. Extract expression to a new variable assign on line before';
+    public const ERROR_MESSAGE = 'foreach(...) or if(...) contains a complex expression. Extract it to a new variable assign on line before';
 
     /**
      * @var array<class-string<Expr>>

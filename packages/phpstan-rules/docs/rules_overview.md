@@ -1131,7 +1131,7 @@ final class SomeClass
 
 Assign in loop is not allowed.
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`](../src/Rules/ForbiddenAssignInLoopRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule`](../src/Rules/Complexity/ForbiddenAssignInLoopRule.php)
 
 ```php
 foreach (...) {
@@ -1580,7 +1580,7 @@ class SomeClass
 
 Method nor static call in `foreach()`, `if()` or `elseif()` is not allowed. Extract expression to a new variable assign on line before
 
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/ForbiddenMethodOrStaticCallInForeachRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule`](../src/Rules/Complexity/ForbiddenMethodOrStaticCallInForeachRule.php)
 
 ```php
 foreach ($this->getData($arg) as $key => $item) {
