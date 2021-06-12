@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Php;
 
+use PhpToken;
 use Symplify\CodingStandard\TokenRunner\TokenFinder;
 use Symplify\CodingStandard\Tokens\CommentedContentResolver;
 
@@ -48,7 +49,7 @@ final class PhpContentAnalyzer
             // twig
             if ($rawToken->text === '{') {
                 $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                if ($nextToken === null) {
+                if (! $nextToken instanceof PhpToken) {
                     return false;
                 }
 
@@ -64,7 +65,7 @@ final class PhpContentAnalyzer
 
                 if ($rawToken->is(self::END_SEMI_COLON_TYPES)) {
                     $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
-                    if ($lastLineToken === null) {
+                    if (! $lastLineToken instanceof PhpToken) {
                         return false;
                     }
 
@@ -75,7 +76,7 @@ final class PhpContentAnalyzer
 
                 if ($rawToken->is(T_DEFAULT)) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if ($nextToken === null) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
 
@@ -92,14 +93,14 @@ final class PhpContentAnalyzer
                 if ($rawToken->is(T_NAMESPACE)) {
                     // is namespace part
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if ($nextToken === null) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
                 }
 
                 if ($rawToken->is(T_VARIABLE)) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if ($nextToken === null) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
 
@@ -111,7 +112,7 @@ final class PhpContentAnalyzer
                 if ($rawToken->is(self::STMT_OPENING_TYPES)) {
                     // has expected end?
                     $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
-                    if ($lastLineToken === null) {
+                    if (! $lastLineToken instanceof PhpToken) {
                         return true;
                     }
 
@@ -147,7 +148,7 @@ final class PhpContentAnalyzer
     }
 
     /**
-     * @param \PhpToken[] $tokens
+     * @param PhpToken[] $tokens
      */
     private function isFunctionStart(array $tokens, int $i): bool
     {
@@ -166,7 +167,7 @@ final class PhpContentAnalyzer
     }
 
     /**
-     * @param \PhpToken[] $rawTokens
+     * @param PhpToken[] $rawTokens
      */
     private function hasTwoStringsTokensInRow(int $tokenCount, array $rawTokens): bool
     {
@@ -192,12 +193,12 @@ final class PhpContentAnalyzer
     }
 
     /**
-     * @return \PhpToken[]
+     * @return PhpToken[]
      */
     private function parseCodeToTokens(string $content): array
     {
         $phpContent = '<?php ' . PHP_EOL . $content;
-        $rawTokens = \PhpToken::tokenize($phpContent);
+        $rawTokens = PhpToken::tokenize($phpContent);
 
         return array_slice($rawTokens, 2);
     }
