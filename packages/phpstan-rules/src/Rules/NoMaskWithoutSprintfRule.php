@@ -9,7 +9,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\BinaryOp;
-use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
@@ -106,10 +105,6 @@ CODE_SAMPLE
     private function shouldSkipParentType(Node $node): bool
     {
         if ($node instanceof Const_) {
-            return true;
-        }
-
-        if ($node instanceof Concat) {
             return true;
         }
 
