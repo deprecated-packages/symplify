@@ -59,7 +59,6 @@ final class TokenFinder
 
     /**
      * @param mixed[] $rawTokens
-     * @return mixed[]|string
      */
     public function getSameRowLastToken(array $rawTokens, int $position): array | string
     {

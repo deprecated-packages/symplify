@@ -18,7 +18,6 @@ final class SkipSkipper
     }
 
     /**
-     * @param object|string $checker
      * @param array<string, string[]|null> $skippedClasses
      */
     public function doesMatchSkip(object | string $checker, SmartFileInfo $smartFileInfo, array $skippedClasses): bool

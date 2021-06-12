@@ -14,7 +14,6 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class PrivatesCaller
 {
     /**
-     * @param object|string $object
      * @param mixed[] $arguments
      * @return mixed
      */
@@ -33,7 +32,6 @@ final class PrivatesCaller
     }
 
     /**
-     * @param object|string $object
      * @return mixed
      */
     public function callPrivateMethodWithReference(object | string $object, string $methodName, $argument)

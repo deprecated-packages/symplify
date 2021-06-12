@@ -120,9 +120,6 @@ final class SnifferToECSConverter
         return $serviceConfiguration;
     }
 
-    /**
-     * @return int|string
-     */
     private function resolvePropertyValue(SimpleXMLElement $property): int | string
     {
         $value = (string) $property->attributes()['value'];

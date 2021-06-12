@@ -17,6 +17,9 @@ final class ArrayWrapper
      */
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function __construct(
         private Tokens $tokens,
         private BlockInfo $blockInfo,

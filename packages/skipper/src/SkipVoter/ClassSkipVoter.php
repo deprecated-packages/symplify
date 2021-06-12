@@ -24,9 +24,6 @@ final class ClassSkipVoter implements SkipVoterInterface
     ) {
     }
 
-    /**
-     * @param string|object $element
-     */
     public function match(string | object $element): bool
     {
         if (is_object($element)) {
@@ -36,9 +33,6 @@ final class ClassSkipVoter implements SkipVoterInterface
         return $this->classLikeExistenceChecker->doesClassLikeExist($element);
     }
 
-    /**
-     * @param string|object $element
-     */
     public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
         $only = $this->parameterProvider->provideArrayParameter(Option::ONLY);

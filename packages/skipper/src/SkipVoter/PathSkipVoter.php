@@ -17,17 +17,11 @@ final class PathSkipVoter implements SkipVoterInterface
     ) {
     }
 
-    /**
-     * @param string|object $element
-     */
     public function match(string | object $element): bool
     {
         return true;
     }
 
-    /**
-     * @param string|object $element
-     */
     public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
         $skippedPaths = $this->skippedPathsResolver->resolve();

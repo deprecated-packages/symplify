@@ -18,7 +18,6 @@ final class OnlySkipper
     }
 
     /**
-     * @param object|string $checker
      * @param mixed[] $only
      */
     public function doesMatchOnly(object | string $checker, SmartFileInfo $smartFileInfo, array $only): ?bool

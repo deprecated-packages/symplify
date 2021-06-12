@@ -58,9 +58,6 @@ final class ParameterCaseConverter implements CaseConverterInterface
         return new Expression($methodCall);
     }
 
-    /**
-     * @return Expr|string
-     */
     private function prefixWithDirConstantIfExistingPath(string $value): string | Expr
     {
         $filePath = $this->currentFilePathProvider->getFilePath();

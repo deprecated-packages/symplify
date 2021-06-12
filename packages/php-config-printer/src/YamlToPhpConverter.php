@@ -24,7 +24,7 @@ final class YamlToPhpConverter
     private const ROUTING_KEYS = ['resource', 'prefix', 'path', 'controller'];
 
     public function __construct(
-        private Parser $yamlParser,
+        private Parser $parser,
         private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
         private ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
         private RoutingConfiguratorReturnClosureFactory $routingConfiguratorReturnClosureFactory,
@@ -38,7 +38,7 @@ final class YamlToPhpConverter
         $this->yamlFileContentProvider->setContent($yaml);
 
         /** @var mixed[]|null $yamlArray */
-        $yamlArray = $this->yamlParser->parse($yaml, Yaml::PARSE_CUSTOM_TAGS | Yaml::PARSE_CONSTANT);
+        $yamlArray = $this->parser->parse($yaml, Yaml::PARSE_CUSTOM_TAGS | Yaml::PARSE_CONSTANT);
         if ($yamlArray === null) {
             return '';
         }

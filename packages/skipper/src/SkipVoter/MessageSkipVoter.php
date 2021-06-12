@@ -17,9 +17,6 @@ final class MessageSkipVoter implements SkipVoterInterface
     ) {
     }
 
-    /**
-     * @param string|object $element
-     */
     public function match(string | object $element): bool
     {
         if (is_object($element)) {
