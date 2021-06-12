@@ -1,4 +1,4 @@
-# 158 Rules Overview
+# 159 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -297,6 +297,38 @@ class SomeClass extends ParentClass
     public function run(string $someParameter)
     {
     }
+}
+```
+
+:+1:
+
+<br>
+
+## CheckReferencedClassInAnnotationRule
+
+Class "%s" used in annotation is missing
+
+- class: [`Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule`](../src/Rules/Missing/CheckReferencedClassInAnnotationRule.php)
+
+```php
+/**
+ * @SomeAnnotation(value=MissingClass::class)
+ */
+class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @SomeAnnotation(value=ExistingClass::class)
+ */
+class SomeClass
+{
 }
 ```
 
