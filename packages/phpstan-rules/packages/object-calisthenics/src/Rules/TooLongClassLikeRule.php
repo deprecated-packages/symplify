@@ -24,14 +24,9 @@ final class TooLongClassLikeRule extends AbstractSymplifyRule implements Configu
      */
     public const ERROR_MESSAGE = '%s has %d lines, it is too long. Shorted it under %d lines';
 
-    /**
-     * @var int
-     */
-    private $maxClassLikeLength;
-
-    public function __construct(int $maxClassLikeLength = 300)
-    {
-        $this->maxClassLikeLength = $maxClassLikeLength;
+    public function __construct(
+        private int $maxClassLikeLength = 300
+    ) {
     }
 
     /**

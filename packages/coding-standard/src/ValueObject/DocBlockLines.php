@@ -11,12 +11,12 @@ final class DocBlockLines
     /**
      * @var array<string>
      */
-    private $descriptionLines = [];
+    private array $descriptionLines = [];
 
     /**
      * @var array<string>
      */
-    private $otherLines = [];
+    private array $otherLines = [];
 
     /**
      * @param array<string> $descriptionLines

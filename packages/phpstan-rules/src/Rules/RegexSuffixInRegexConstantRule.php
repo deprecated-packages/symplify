@@ -26,22 +26,10 @@ final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Name your constant with "_REGEX" suffix, instead of "%s"';
 
-    /**
-     * @var RegexFuncCallAnalyzer
-     */
-    private $regexFuncCallAnalyzer;
-
-    /**
-     * @var RegexStaticCallAnalyzer
-     */
-    private $regexStaticCallAnalyzer;
-
     public function __construct(
-        RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
-        RegexStaticCallAnalyzer $regexStaticCallAnalyzer
+        private RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
+        private RegexStaticCallAnalyzer $regexStaticCallAnalyzer
     ) {
-        $this->regexFuncCallAnalyzer = $regexFuncCallAnalyzer;
-        $this->regexStaticCallAnalyzer = $regexStaticCallAnalyzer;
     }
 
     /**

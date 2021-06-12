@@ -23,14 +23,9 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
      */
     private const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

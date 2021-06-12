@@ -14,28 +14,13 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class ClassAndCodeSkipVoter implements SkipVoterInterface
 {
-    /**
-     * @var SkippedClassAndCodesResolver
-     */
-    private $skippedClassAndCodesResolver;
-
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
-
     public function __construct(
-        SkippedClassAndCodesResolver $skippedClassAndCodesResolver,
-        FileInfoMatcher $fileInfoMatcher
+        private SkippedClassAndCodesResolver $skippedClassAndCodesResolver,
+        private FileInfoMatcher $fileInfoMatcher
     ) {
-        $this->skippedClassAndCodesResolver = $skippedClassAndCodesResolver;
-        $this->fileInfoMatcher = $fileInfoMatcher;
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function match($element): bool
+    public function match(string | object $element): bool
     {
         if (! is_string($element)) {
             return false;
@@ -44,11 +29,12 @@ final class ClassAndCodeSkipVoter implements SkipVoterInterface
         return substr_count($element, '.') === 1;
     }
 
-    /**
-     * @param string $element
-     */
-    public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
+        if (is_object($element)) {
+            return false;
+        }
+
         $skippedClassAndCodes = $this->skippedClassAndCodesResolver->resolve();
         if (! array_key_exists($element, $skippedClassAndCodes)) {
             return false;

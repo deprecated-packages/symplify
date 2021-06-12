@@ -49,14 +49,9 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         ConstFetch::class => 'bool',
     ];
 
-    /**
-     * @var BarePhpDocParser
-     */
-    private $barePhpDocParser;
-
-    public function __construct(BarePhpDocParser $barePhpDocParser)
-    {
-        $this->barePhpDocParser = $barePhpDocParser;
+    public function __construct(
+        private BarePhpDocParser $barePhpDocParser
+    ) {
     }
 
     /**

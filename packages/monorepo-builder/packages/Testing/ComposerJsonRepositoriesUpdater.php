@@ -16,50 +16,14 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJsonRepositoriesUpdater
 {
-    /**
-     * @var PackageNamesProvider
-     */
-    private $packageNamesProvider;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ComposerJsonSymlinker
-     */
-    private $composerJsonSymlinker;
-
-    /**
-     * @var UsedPackagesResolver
-     */
-    private $usedPackagesResolver;
-
-    /**
-     * @var ConsoleDiffer
-     */
-    private $consoleDiffer;
-
     public function __construct(
-        PackageNamesProvider $packageNamesProvider,
-        JsonFileManager $jsonFileManager,
-        SymfonyStyle $symfonyStyle,
-        ComposerJsonSymlinker $composerJsonSymlinker,
-        UsedPackagesResolver $usedPackagesResolver,
-        ConsoleDiffer $consoleDiffer
+        private PackageNamesProvider $packageNamesProvider,
+        private JsonFileManager $jsonFileManager,
+        private SymfonyStyle $symfonyStyle,
+        private ComposerJsonSymlinker $composerJsonSymlinker,
+        private UsedPackagesResolver $usedPackagesResolver,
+        private ConsoleDiffer $consoleDiffer
     ) {
-        $this->packageNamesProvider = $packageNamesProvider;
-        $this->jsonFileManager = $jsonFileManager;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->composerJsonSymlinker = $composerJsonSymlinker;
-        $this->usedPackagesResolver = $usedPackagesResolver;
-        $this->consoleDiffer = $consoleDiffer;
     }
 
     public function processPackage(SmartFileInfo $packageFileInfo, ComposerJson $rootComposerJson, bool $symlink): void

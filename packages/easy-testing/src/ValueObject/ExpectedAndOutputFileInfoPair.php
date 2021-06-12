@@ -9,20 +9,10 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ExpectedAndOutputFileInfoPair
 {
-    /**
-     * @var SmartFileInfo
-     */
-    private $expectedFileInfo;
-
-    /**
-     * @var SmartFileInfo|null
-     */
-    private $outputFileInfo;
-
-    public function __construct(SmartFileInfo $expectedFileInfo, ?SmartFileInfo $outputFileInfo)
-    {
-        $this->expectedFileInfo = $expectedFileInfo;
-        $this->outputFileInfo = $outputFileInfo;
+    public function __construct(
+        private SmartFileInfo $expectedFileInfo,
+        private ?SmartFileInfo $outputFileInfo
+    ) {
     }
 
     /**

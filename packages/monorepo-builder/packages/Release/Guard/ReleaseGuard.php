@@ -22,11 +22,6 @@ final class ReleaseGuard
     private $isStageRequired = false;
 
     /**
-     * @var ReleaseWorkerInterface[]
-     */
-    private $releaseWorkers = [];
-
-    /**
      * @var string[]
      */
     private $stages = [];
@@ -37,24 +32,17 @@ final class ReleaseGuard
     private $stagesToAllowExistingTag = [];
 
     /**
-     * @var MostRecentTagResolver
-     */
-    private $mostRecentTagResolver;
-
-    /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
     public function __construct(
         ParameterProvider $parameterProvider,
-        MostRecentTagResolver $mostRecentTagResolver,
-        array $releaseWorkers
+        private MostRecentTagResolver $mostRecentTagResolver,
+        private array $releaseWorkers
     ) {
-        $this->releaseWorkers = $releaseWorkers;
         $this->isStageRequired = $parameterProvider->provideBoolParameter(Option::IS_STAGE_REQUIRED);
         $this->stagesToAllowExistingTag = $parameterProvider->provideArrayParameter(
             Option::STAGES_TO_ALLOW_EXISTING_TAG
         );
-        $this->mostRecentTagResolver = $mostRecentTagResolver;
     }
 
     public function guardRequiredStageOnEmptyStage(): void

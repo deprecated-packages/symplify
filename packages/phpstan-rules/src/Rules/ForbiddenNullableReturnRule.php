@@ -29,46 +29,28 @@ final class ForbiddenNullableReturnRule extends AbstractSymplifyRule implements 
     public const ERROR_MESSAGE = 'Return type "%s" cannot be nullable';
 
     /**
-     * @var SimpleNameResolver
+     * @var class-string[]
      */
-    private $simpleNameResolver;
+    private array $forbiddenTypes = [];
 
     /**
      * @var class-string[]
      */
-    private $forbiddenTypes = [];
-
-    /**
-     * @var class-string[]
-     */
-    private $allowedTypes = [];
-
-    /**
-     * @var ParentClassMethodGuard
-     */
-    private $parentClassMethodGuard;
-
-    /**
-     * @var ForbiddenAllowedTypeAnalyzer
-     */
-    private $forbiddenAllowedTypeAnalyzer;
+    private array $allowedTypes = [];
 
     /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ParentClassMethodGuard $parentClassMethodGuard,
-        ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private ParentClassMethodGuard $parentClassMethodGuard,
+        private ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
-        $this->parentClassMethodGuard = $parentClassMethodGuard;
-        $this->forbiddenAllowedTypeAnalyzer = $forbiddenAllowedTypeAnalyzer;
     }
 
     /**

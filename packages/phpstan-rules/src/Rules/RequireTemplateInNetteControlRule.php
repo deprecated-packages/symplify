@@ -24,29 +24,11 @@ final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Set control template explicitly in $this->template->setFile(...) or $this->template->render(...)';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var NetteTypeAnalyzer
-     */
-    private $netteTypeAnalyzer;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeFinder $nodeFinder,
-        NetteTypeAnalyzer $netteTypeAnalyzer
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
-        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
     }
 
     /**

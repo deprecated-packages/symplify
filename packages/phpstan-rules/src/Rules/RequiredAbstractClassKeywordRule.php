@@ -22,14 +22,9 @@ final class RequiredAbstractClassKeywordRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Class name starting with "Abstract" must have an `abstract` keyword';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

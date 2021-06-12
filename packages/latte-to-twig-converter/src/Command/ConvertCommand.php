@@ -21,15 +21,9 @@ final class ConvertCommand extends AbstractSymplifyCommand
      */
     private const LATTE_SUFFIX_REGEX = '#\.latte$#';
 
-    /**
-     * @var LatteToTwigConverter
-     */
-    private $latteToTwigConverter;
-
-    public function __construct(LatteToTwigConverter $LatteToTwigConverter)
-    {
-        $this->latteToTwigConverter = $LatteToTwigConverter;
-
+    public function __construct(
+        private LatteToTwigConverter $latteToTwigConverter
+    ) {
         parent::__construct();
     }
 

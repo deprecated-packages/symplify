@@ -22,14 +22,9 @@ final class TooManyPropertiesRule extends AbstractSymplifyRule implements Config
      */
     public const ERROR_MESSAGE = 'Class has too many properties %d. Try narrowing it down under %d';
 
-    /**
-     * @var int
-     */
-    private $maxPropertyCount;
-
-    public function __construct(int $maxPropertyCount = 10)
-    {
-        $this->maxPropertyCount = $maxPropertyCount;
+    public function __construct(
+        private int $maxPropertyCount = 10
+    ) {
     }
 
     /**

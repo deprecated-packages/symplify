@@ -12,20 +12,10 @@ use Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder;
 
 final class MethodCallArgValueResolver
 {
-    /**
-     * @var MethodCallNodeFinder
-     */
-    private $methodCallNodeFinder;
-
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    public function __construct(MethodCallNodeFinder $methodCallNodeFinder, NodeValueResolver $nodeValueResolver)
-    {
-        $this->methodCallNodeFinder = $methodCallNodeFinder;
-        $this->nodeValueResolver = $nodeValueResolver;
+    public function __construct(
+        private MethodCallNodeFinder $methodCallNodeFinder,
+        private NodeValueResolver $nodeValueResolver
+    ) {
     }
 
     /**

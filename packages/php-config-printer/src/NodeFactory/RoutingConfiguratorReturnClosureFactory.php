@@ -12,24 +12,12 @@ use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFacto
 final class RoutingConfiguratorReturnClosureFactory
 {
     /**
-     * @var ConfiguratorClosureNodeFactory
-     */
-    private $containerConfiguratorClosureNodeFactory;
-
-    /**
-     * @var RoutingCaseConverterInterface[]
-     */
-    private $routingCaseConverters = [];
-
-    /**
      * @param RoutingCaseConverterInterface[] $routingCaseConverters
      */
     public function __construct(
-        ConfiguratorClosureNodeFactory $containerConfiguratorClosureNodeFactory,
-        array $routingCaseConverters
+        private ConfiguratorClosureNodeFactory $containerConfiguratorClosureNodeFactory,
+        private array $routingCaseConverters
     ) {
-        $this->containerConfiguratorClosureNodeFactory = $containerConfiguratorClosureNodeFactory;
-        $this->routingCaseConverters = $routingCaseConverters;
     }
 
     public function createFromArrayData(array $arrayData): Return_

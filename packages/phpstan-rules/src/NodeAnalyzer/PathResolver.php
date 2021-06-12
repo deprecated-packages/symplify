@@ -10,14 +10,9 @@ use Symplify\Astral\NodeValue\NodeValueResolver;
 
 final class PathResolver
 {
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    public function __construct(NodeValueResolver $nodeValueResolver)
-    {
-        $this->nodeValueResolver = $nodeValueResolver;
+    public function __construct(
+        private NodeValueResolver $nodeValueResolver
+    ) {
     }
 
     public function resolveExistingFilePath(Expr $expr, Scope $scope): ?string

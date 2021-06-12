@@ -30,28 +30,19 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     /**
      * @var class-string<T>[]
      */
-    private $forbiddenNodes = [];
-
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
+    private array $forbiddenNodes = [];
 
     /**
      * @param class-string<T>[] $forbiddenNodes
      */
-    public function __construct(Standard $standard, SimpleNodeFinder $simpleNodeFinder, array $forbiddenNodes = [])
-    {
+    public function __construct(
+        private Standard $standard,
+        private SimpleNodeFinder $simpleNodeFinder,
+        array $forbiddenNodes = []
+    ) {
         Assert::allIsAOf($forbiddenNodes, Node::class);
 
         $this->forbiddenNodes = $forbiddenNodes;
-        $this->standard = $standard;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**

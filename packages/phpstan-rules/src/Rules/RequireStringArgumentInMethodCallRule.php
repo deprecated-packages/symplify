@@ -35,29 +35,17 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     /**
      * @var array<string, array<string, array<int>>>
      */
-    private $stringArgPositionByMethodByType = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
+    private array $stringArgPositionByMethodByType = [];
 
     /**
      * @param array<string, array<string, array<int>>> $stringArgPositionByMethodByType
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer,
         array $stringArgPositionByMethodByType = []
     ) {
         $this->stringArgPositionByMethodByType = $stringArgPositionByMethodByType;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**

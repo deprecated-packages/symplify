@@ -23,21 +23,14 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
      */
     private $outputDirectory;
 
-    /**
-     * @var SymfonyStaticDumperApplication
-     */
-    private $symfonyStaticDumperApplication;
-
     public function __construct(
-        SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
+        private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
         ParameterBagInterface $parameterBag
     ) {
         parent::__construct();
 
         $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
         $this->outputDirectory = getcwd() . '/output';
-
-        $this->symfonyStaticDumperApplication = $symfonyStaticDumperApplication;
     }
 
     protected function configure(): void

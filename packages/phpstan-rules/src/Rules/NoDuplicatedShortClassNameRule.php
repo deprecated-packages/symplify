@@ -41,14 +41,9 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
      */
     private $declaredClassesByShortName = [];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

@@ -15,22 +15,10 @@ use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 final class ServiceConfigurationDecorator
 {
-    /**
-     * @var ConstantNameFromValueResolver
-     */
-    private $constantNameFromValueResolver;
-
-    /**
-     * @var NewValueObjectFactory
-     */
-    private $newValueObjectFactory;
-
     public function __construct(
-        ConstantNameFromValueResolver $constantNameFromValueResolver,
-        NewValueObjectFactory $newValueObjectFactory
+        private ConstantNameFromValueResolver $constantNameFromValueResolver,
+        private NewValueObjectFactory $newValueObjectFactory
     ) {
-        $this->constantNameFromValueResolver = $constantNameFromValueResolver;
-        $this->newValueObjectFactory = $newValueObjectFactory;
     }
 
     /**

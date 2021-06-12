@@ -26,22 +26,18 @@ final class PackageComposerFinder
     private $packageDirectoriesExcludes = [];
 
     /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
      * @var SmartFileInfo[]
      */
     private $cachedPackageComposerFiles = [];
 
-    public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer)
-    {
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        private FinderSanitizer $finderSanitizer
+    ) {
         $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
         $this->packageDirectoriesExcludes = $parameterProvider->provideArrayParameter(
             Option::PACKAGE_DIRECTORIES_EXCLUDES
         );
-        $this->finderSanitizer = $finderSanitizer;
     }
 
     public function getRootPackageComposerFile(): SmartFileInfo

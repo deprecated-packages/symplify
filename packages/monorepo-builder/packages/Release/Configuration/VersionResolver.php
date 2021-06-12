@@ -11,14 +11,9 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 
 final class VersionResolver
 {
-    /**
-     * @var VersionFactory
-     */
-    private $versionFactory;
-
-    public function __construct(VersionFactory $versionFactory)
-    {
-        $this->versionFactory = $versionFactory;
+    public function __construct(
+        private VersionFactory $versionFactory
+    ) {
     }
 
     public function resolveVersion(InputInterface $input, string $stage): Version

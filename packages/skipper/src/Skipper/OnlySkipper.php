@@ -12,21 +12,15 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class OnlySkipper
 {
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
-
-    public function __construct(FileInfoMatcher $fileInfoMatcher)
-    {
-        $this->fileInfoMatcher = $fileInfoMatcher;
+    public function __construct(
+        private FileInfoMatcher $fileInfoMatcher
+    ) {
     }
 
     /**
-     * @param object|string $checker
      * @param mixed[] $only
      */
-    public function doesMatchOnly($checker, SmartFileInfo $smartFileInfo, array $only): ?bool
+    public function doesMatchOnly(object | string $checker, SmartFileInfo $smartFileInfo, array $only): ?bool
     {
         foreach ($only as $onlyClass => $onlyFiles) {
             if (is_int($onlyClass)) {

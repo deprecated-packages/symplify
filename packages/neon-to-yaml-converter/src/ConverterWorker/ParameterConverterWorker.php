@@ -11,14 +11,9 @@ use Symplify\NeonToYamlConverter\ArrayParameterCollector;
  */
 final class ParameterConverterWorker
 {
-    /**
-     * @var ArrayParameterCollector
-     */
-    private $arrayParameterCollector;
-
-    public function __construct(ArrayParameterCollector $arrayParameterCollector)
-    {
-        $this->arrayParameterCollector = $arrayParameterCollector;
+    public function __construct(
+        private ArrayParameterCollector $arrayParameterCollector
+    ) {
     }
 
     /**

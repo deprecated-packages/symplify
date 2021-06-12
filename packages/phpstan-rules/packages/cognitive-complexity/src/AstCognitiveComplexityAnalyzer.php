@@ -17,29 +17,11 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
  */
 final class AstCognitiveComplexityAnalyzer
 {
-    /**
-     * @var CognitiveComplexityDataCollector
-     */
-    private $cognitiveComplexityDataCollector;
-
-    /**
-     * @var NestingNodeVisitor
-     */
-    private $nestingNodeVisitor;
-
-    /**
-     * @var ComplexityNodeTraverserFactory
-     */
-    private $complexityNodeTraverserFactory;
-
     public function __construct(
-        ComplexityNodeTraverserFactory $complexityNodeTraverserFactory,
-        CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
-        NestingNodeVisitor $nestingNodeVisitor
+        private ComplexityNodeTraverserFactory $complexityNodeTraverserFactory,
+        private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
+        private NestingNodeVisitor $nestingNodeVisitor
     ) {
-        $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
-        $this->nestingNodeVisitor = $nestingNodeVisitor;
-        $this->complexityNodeTraverserFactory = $complexityNodeTraverserFactory;
     }
 
     public function analyzeClassLike(ClassLike $classLike): int

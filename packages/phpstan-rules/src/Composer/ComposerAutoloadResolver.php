@@ -15,14 +15,9 @@ final class ComposerAutoloadResolver
      */
     private const COMPOSER_JSON_FILE = './composer.json';
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(SmartFileSystem $smartFileSystem)
-    {
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     /**

@@ -73,29 +73,11 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
      */
     private $inlineShortLines = true;
 
-    /**
-     * @var LineLengthTransformer
-     */
-    private $lineLengthTransformer;
-
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    /**
-     * @var FunctionCallNameMatcher
-     */
-    private $functionCallNameMatcher;
-
     public function __construct(
-        LineLengthTransformer $lineLengthTransformer,
-        BlockFinder $blockFinder,
-        FunctionCallNameMatcher $functionCallNameMatcher
+        private LineLengthTransformer $lineLengthTransformer,
+        private BlockFinder $blockFinder,
+        private FunctionCallNameMatcher $functionCallNameMatcher
     ) {
-        $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->blockFinder = $blockFinder;
-        $this->functionCallNameMatcher = $functionCallNameMatcher;
     }
 
     public function getDefinition(): FixerDefinitionInterface

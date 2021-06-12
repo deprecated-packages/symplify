@@ -35,22 +35,10 @@ final class CheckTypehintCallerTypeRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Parameter %d should use "%s" type as the only type passed to this method';
 
-    /**
-     * @var MethodCallNodeFinder
-     */
-    private $methodCallNodeFinder;
-
-    /**
-     * @var ClassMethodNodeFinder
-     */
-    private $classMethodNodeFinder;
-
     public function __construct(
-        MethodCallNodeFinder $methodCallNodeFinder,
-        ClassMethodNodeFinder $classMethodNodeFinder
+        private MethodCallNodeFinder $methodCallNodeFinder,
+        private ClassMethodNodeFinder $classMethodNodeFinder
     ) {
-        $this->methodCallNodeFinder = $methodCallNodeFinder;
-        $this->classMethodNodeFinder = $classMethodNodeFinder;
     }
 
     /**

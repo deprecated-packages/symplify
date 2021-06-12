@@ -29,14 +29,9 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
      */
     private const METHODS = 'methods';
 
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory
+    ) {
     }
 
     public function match(string $key, $values): bool

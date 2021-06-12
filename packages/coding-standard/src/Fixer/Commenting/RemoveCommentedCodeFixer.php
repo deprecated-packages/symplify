@@ -31,29 +31,11 @@ final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements Do
      */
     private const ERROR_MESSAGE = 'Remove commented code like "// $one = 1000;"';
 
-    /**
-     * @var CommentedContentResolver
-     */
-    private $commentedContentResolver;
-
-    /**
-     * @var PhpContentAnalyzer
-     */
-    private $phpContentAnalyzer;
-
-    /**
-     * @var Decommenter
-     */
-    private $decommenter;
-
     public function __construct(
-        CommentedContentResolver $commentedContentResolver,
-        PhpContentAnalyzer $phpContentAnalyzer,
-        Decommenter $decommenter
+        private CommentedContentResolver $commentedContentResolver,
+        private PhpContentAnalyzer $phpContentAnalyzer,
+        private Decommenter $decommenter
     ) {
-        $this->commentedContentResolver = $commentedContentResolver;
-        $this->phpContentAnalyzer = $phpContentAnalyzer;
-        $this->decommenter = $decommenter;
     }
 
     public function getDefinition(): FixerDefinitionInterface

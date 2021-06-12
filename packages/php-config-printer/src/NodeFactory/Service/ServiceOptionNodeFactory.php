@@ -13,24 +13,12 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 final class ServiceOptionNodeFactory
 {
     /**
-     * @var ServiceOptionsKeyYamlToPhpFactoryInterface[]
-     */
-    private $serviceOptionKeyYamlToPhpFactories = [];
-
-    /**
-     * @var ServiceOptionAnalyzer
-     */
-    private $serviceOptionAnalyzer;
-
-    /**
      * @param ServiceOptionsKeyYamlToPhpFactoryInterface[] $serviceOptionKeyYamlToPhpFactories
      */
     public function __construct(
-        ServiceOptionAnalyzer $serviceOptionAnalyzer,
-        array $serviceOptionKeyYamlToPhpFactories
+        private ServiceOptionAnalyzer $serviceOptionAnalyzer,
+        private array $serviceOptionKeyYamlToPhpFactories
     ) {
-        $this->serviceOptionKeyYamlToPhpFactories = $serviceOptionKeyYamlToPhpFactories;
-        $this->serviceOptionAnalyzer = $serviceOptionAnalyzer;
     }
 
     /**

@@ -15,22 +15,10 @@ final class SkippedClassResolver
      */
     private $skippedClasses = [];
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
     public function __construct(
-        ParameterProvider $parameterProvider,
-        ClassLikeExistenceChecker $classLikeExistenceChecker
+        private ParameterProvider $parameterProvider,
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
-        $this->parameterProvider = $parameterProvider;
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     /**

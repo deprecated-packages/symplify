@@ -13,27 +13,14 @@ use Symplify\GitWrapper\GitWrapper;
  */
 final class GitOutputEvent extends AbstractGitEvent
 {
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var string
-     */
-    private $buffer;
-
     public function __construct(
         GitWrapper $gitWrapper,
         Process $process,
         GitCommand $gitCommand,
-        string $type,
-        string $buffer
+        private string $type,
+        private string $buffer
     ) {
         parent::__construct($gitWrapper, $process, $gitCommand);
-
-        $this->type = $type;
-        $this->buffer = $buffer;
     }
 
     public function getType(): string

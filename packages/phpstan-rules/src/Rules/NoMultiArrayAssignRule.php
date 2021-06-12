@@ -25,14 +25,9 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use value object over multi array assign';
 
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    public function __construct(NodeComparator $nodeComparator)
-    {
-        $this->nodeComparator = $nodeComparator;
+    public function __construct(
+        private NodeComparator $nodeComparator
+    ) {
     }
 
     /**

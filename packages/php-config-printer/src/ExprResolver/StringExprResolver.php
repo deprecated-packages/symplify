@@ -26,29 +26,11 @@ final class StringExprResolver
      */
     private const TWIG_HTML_XML_SUFFIX_REGEX = '#\.(twig|html|xml)$#';
 
-    /**
-     * @var ConstantNodeFactory
-     */
-    private $constantNodeFactory;
-
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var SymfonyFunctionNameProvider
-     */
-    private $symfonyFunctionNameProvider;
-
     public function __construct(
-        ConstantNodeFactory $constantNodeFactory,
-        CommonNodeFactory $commonNodeFactory,
-        SymfonyFunctionNameProvider $symfonyFunctionNameProvider
+        private ConstantNodeFactory $constantNodeFactory,
+        private CommonNodeFactory $commonNodeFactory,
+        private SymfonyFunctionNameProvider $symfonyFunctionNameProvider
     ) {
-        $this->constantNodeFactory = $constantNodeFactory;
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->symfonyFunctionNameProvider = $symfonyFunctionNameProvider;
     }
 
     public function resolve(
@@ -105,10 +87,7 @@ final class StringExprResolver
         return (bool) Strings::match($value, self::TWIG_HTML_XML_SUFFIX_REGEX);
     }
 
-    /**
-     * @return String_|ClassConstFetch
-     */
-    private function resolveClassType(bool $skipClassesToConstantReference, string $value): Expr
+    private function resolveClassType(bool $skipClassesToConstantReference, string $value): String_ | ClassConstFetch
     {
         if ($skipClassesToConstantReference) {
             return new String_($value);

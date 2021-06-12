@@ -9,14 +9,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileInfoMatcher
 {
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
-
-    public function __construct(PathNormalizer $pathNormalizer)
-    {
-        $this->pathNormalizer = $pathNormalizer;
+    public function __construct(
+        private PathNormalizer $pathNormalizer
+    ) {
     }
 
     /**

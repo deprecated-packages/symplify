@@ -13,14 +13,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
 final class BindAutowireAutoconfigureServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    public function __construct(CommonNodeFactory $commonNodeFactory)
-    {
-        $this->commonNodeFactory = $commonNodeFactory;
+    public function __construct(
+        private CommonNodeFactory $commonNodeFactory
+    ) {
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall

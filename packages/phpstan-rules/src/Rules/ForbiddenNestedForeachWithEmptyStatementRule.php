@@ -25,20 +25,10 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
      */
     public const ERROR_MESSAGE = 'Nested foreach with empty statement is not allowed';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

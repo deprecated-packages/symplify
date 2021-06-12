@@ -27,8 +27,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         'prefer-stable' => true,
     ]);
 
-    $parameters->set(Option::EXCLUDE_PACKAGE_VERSION_CONFLICTS, ['php']);
-
     $services = $containerConfigurator->services();
 
     # release workers - in order to execute

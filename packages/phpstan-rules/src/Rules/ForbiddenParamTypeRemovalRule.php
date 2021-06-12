@@ -24,14 +24,9 @@ final class ForbiddenParamTypeRemovalRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Removing parent param type is forbidden';
 
-    /**
-     * @var MethodNodeAnalyser
-     */
-    private $methodNodeAnalyser;
-
-    public function __construct(MethodNodeAnalyser $methodNodeAnalyser)
-    {
-        $this->methodNodeAnalyser = $methodNodeAnalyser;
+    public function __construct(
+        private MethodNodeAnalyser $methodNodeAnalyser
+    ) {
     }
 
     /**

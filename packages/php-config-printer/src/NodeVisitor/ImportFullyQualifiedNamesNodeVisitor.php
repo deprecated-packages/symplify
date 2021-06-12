@@ -14,18 +14,13 @@ use Symplify\PhpConfigPrinter\Naming\ClassNaming;
 final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var ClassNaming
-     */
-    private $classNaming;
-
-    /**
      * @var string[]
      */
     private $nameImports = [];
 
-    public function __construct(ClassNaming $classNaming)
-    {
-        $this->classNaming = $classNaming;
+    public function __construct(
+        private ClassNaming $classNaming
+    ) {
     }
 
     /**

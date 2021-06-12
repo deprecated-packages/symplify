@@ -11,29 +11,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ConflictingVersionsGuard
 {
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var ConflictingPackageVersionsReporter
-     */
-    private $conflictingPackageVersionsReporter;
-
-    /**
-     * @var VersionValidator
-     */
-    private $versionValidator;
-
     public function __construct(
-        VersionValidator $versionValidator,
-        ComposerJsonProvider $composerJsonProvider,
-        ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
+        private VersionValidator $versionValidator,
+        private ComposerJsonProvider $composerJsonProvider,
+        private ConflictingPackageVersionsReporter $conflictingPackageVersionsReporter
     ) {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->conflictingPackageVersionsReporter = $conflictingPackageVersionsReporter;
-        $this->versionValidator = $versionValidator;
     }
 
     public function ensureNoConflictingPackageVersions(): void

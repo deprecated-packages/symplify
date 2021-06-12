@@ -47,43 +47,13 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentMethodReturnTypeResolver
-     */
-    private $parentMethodReturnTypeResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
     public function __construct(
-        ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
-        SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $simpleNodeFinder,
-        ArrayAnalyzer $arrayAnalyzer,
-        ReflectionProvider $reflectionProvider
+        private ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private ArrayAnalyzer $arrayAnalyzer,
+        private ReflectionProvider $reflectionProvider
     ) {
-        $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->arrayAnalyzer = $arrayAnalyzer;
-        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**

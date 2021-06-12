@@ -35,37 +35,18 @@ final class NodeValueResolver
     private $constExprEvaluator;
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
      * @var string
      */
     private $currentFilePath;
 
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
-        SimpleNodeFinder $simpleNodeFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private TypeChecker $typeChecker,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-
         $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
             return $this->resolveByNode($expr);
         });
-        $this->typeChecker = $typeChecker;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**

@@ -30,31 +30,13 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
      */
     private $autoloadPsr4Paths = [];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var Psr4PathValidator
-     */
-    private $psr4PathValidator;
-
-    /**
-     * @var ClassNamespaceMatcher
-     */
-    private $classNamespaceMatcher;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
+        private SimpleNameResolver $simpleNameResolver,
         ComposerAutoloadResolver $composerAutoloadResolver,
-        Psr4PathValidator $psr4PathValidator,
-        ClassNamespaceMatcher $classNamespaceMatcher
+        private Psr4PathValidator $psr4PathValidator,
+        private ClassNamespaceMatcher $classNamespaceMatcher
     ) {
         $this->autoloadPsr4Paths = $composerAutoloadResolver->getPsr4Autoload();
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->psr4PathValidator = $psr4PathValidator;
-        $this->classNamespaceMatcher = $classNamespaceMatcher;
     }
 
     /**

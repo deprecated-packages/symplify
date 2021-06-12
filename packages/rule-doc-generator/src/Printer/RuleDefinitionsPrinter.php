@@ -12,29 +12,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class RuleDefinitionsPrinter
 {
-    /**
-     * @var CodeSamplePrinter
-     */
-    private $codeSamplePrinter;
-
-    /**
-     * @var KeywordHighlighter
-     */
-    private $keywordHighlighter;
-
-    /**
-     * @var CategoryResolver
-     */
-    private $categoryResolver;
-
     public function __construct(
-        CodeSamplePrinter $codeSamplePrinter,
-        KeywordHighlighter $keywordHighlighter,
-        CategoryResolver $categoryResolver
+        private CodeSamplePrinter $codeSamplePrinter,
+        private KeywordHighlighter $keywordHighlighter,
+        private CategoryResolver $categoryResolver
     ) {
-        $this->codeSamplePrinter = $codeSamplePrinter;
-        $this->keywordHighlighter = $keywordHighlighter;
-        $this->categoryResolver = $categoryResolver;
     }
 
     /**

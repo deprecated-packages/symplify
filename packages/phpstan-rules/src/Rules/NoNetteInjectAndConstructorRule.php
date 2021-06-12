@@ -23,14 +23,9 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use either __construct() or @inject, not both together';
 
-    /**
-     * @var NetteInjectAnalyzer
-     */
-    private $netteInjectAnalyzer;
-
-    public function __construct(NetteInjectAnalyzer $netteInjectAnalyzer)
-    {
-        $this->netteInjectAnalyzer = $netteInjectAnalyzer;
+    public function __construct(
+        private NetteInjectAnalyzer $netteInjectAnalyzer
+    ) {
     }
 
     /**

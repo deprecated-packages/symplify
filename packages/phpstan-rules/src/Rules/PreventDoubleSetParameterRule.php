@@ -24,33 +24,15 @@ final class PreventDoubleSetParameterRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Set param value is overriden. Merge it to previous set above';
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SymfonyPhpConfigClosureAnalyzer
-     */
-    private $symfonyPhpConfigClosureAnalyzer;
-
-    /**
      * @var array<string, string[]>
      */
     private $setParametersNamesByFile = [];
 
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
-        NodeValueResolver $nodeValueResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
+        private NodeValueResolver $nodeValueResolver
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->symfonyPhpConfigClosureAnalyzer = $symfonyPhpConfigClosureAnalyzer;
-        $this->nodeValueResolver = $nodeValueResolver;
     }
 
     /**

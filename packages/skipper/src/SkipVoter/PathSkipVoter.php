@@ -11,34 +11,18 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PathSkipVoter implements SkipVoterInterface
 {
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
-
-    /**
-     * @var SkippedPathsResolver
-     */
-    private $skippedPathsResolver;
-
-    public function __construct(FileInfoMatcher $fileInfoMatcher, SkippedPathsResolver $skippedPathsResolver)
-    {
-        $this->fileInfoMatcher = $fileInfoMatcher;
-        $this->skippedPathsResolver = $skippedPathsResolver;
+    public function __construct(
+        private FileInfoMatcher $fileInfoMatcher,
+        private SkippedPathsResolver $skippedPathsResolver
+    ) {
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function match($element): bool
+    public function match(string | object $element): bool
     {
         return true;
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
         $skippedPaths = $this->skippedPathsResolver->resolve();
         return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $skippedPaths);

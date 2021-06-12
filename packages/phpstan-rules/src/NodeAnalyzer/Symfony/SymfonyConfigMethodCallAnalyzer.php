@@ -11,14 +11,9 @@ use Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer;
 
 final class SymfonyConfigMethodCallAnalyzer
 {
-    /**
-     * @var TypeAndNameAnalyzer
-     */
-    private $typeAndNameAnalyzer;
-
-    public function __construct(TypeAndNameAnalyzer $typeAndNameAnalyzer)
-    {
-        $this->typeAndNameAnalyzer = $typeAndNameAnalyzer;
+    public function __construct(
+        private TypeAndNameAnalyzer $typeAndNameAnalyzer
+    ) {
     }
 
     public function isServicesSet(MethodCall $methodCall, Scope $scope): bool

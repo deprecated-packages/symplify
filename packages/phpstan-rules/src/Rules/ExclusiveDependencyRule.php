@@ -28,29 +28,17 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     /**
      * @var array<string, string[]>
      */
-    private $allowedExclusiveDependencyInTypes = [];
-
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $allowedExclusiveDependencyInTypes = [];
 
     /**
      * @param array<string, string[]> $allowedExclusiveDependencyInTypes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        private SimpleNameResolver $simpleNameResolver,
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         array $allowedExclusiveDependencyInTypes = []
     ) {
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
         $this->allowedExclusiveDependencyInTypes = $allowedExclusiveDependencyInTypes;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

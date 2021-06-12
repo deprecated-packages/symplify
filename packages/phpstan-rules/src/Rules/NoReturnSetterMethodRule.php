@@ -32,20 +32,10 @@ final class NoReturnSetterMethodRule extends AbstractSymplifyRule
      */
     private const SETTER_START_REGEX = '#^set[A-Z]#';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $simpleNodeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder
+    ) {
     }
 
     /**

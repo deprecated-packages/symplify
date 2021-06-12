@@ -57,14 +57,9 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
      */
     private $lineLength = self::DEFAULT_LINE_LENGHT;
 
-    /**
-     * @var DocBlockLinesFactory
-     */
-    private $docBlockLinesFactory;
-
-    public function __construct(DocBlockLinesFactory $docBlockLinesFactory)
-    {
-        $this->docBlockLinesFactory = $docBlockLinesFactory;
+    public function __construct(
+        private DocBlockLinesFactory $docBlockLinesFactory
+    ) {
     }
 
     public function getDefinition(): FixerDefinitionInterface

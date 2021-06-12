@@ -7,21 +7,17 @@ namespace Symplify\Psr4Switcher\ValueObject;
 final class Psr4NamespaceToPaths
 {
     /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
      * @var string[]
      */
-    private $paths = [];
+    private array $paths = [];
 
     /**
      * @param string[] $paths
      */
-    public function __construct(string $namespace, array $paths)
-    {
-        $this->namespace = $namespace;
+    public function __construct(
+        private string $namespace,
+        array $paths
+    ) {
         $this->paths = $paths;
     }
 

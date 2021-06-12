@@ -51,18 +51,12 @@ final class SnippetFormatter
      */
     private const CLOSING = 'closing';
 
-    /**
-     * @var bool
-     */
-    private $isPhp73OrAbove = false;
-
     public function __construct(
         private SmartFileSystem $smartFileSystem,
         private FixerFileProcessor $fixerFileProcessor,
         private SniffFileProcessor $sniffFileProcessor,
         private CurrentParentFileInfoProvider $currentParentFileInfoProvider
     ) {
-        $this->isPhp73OrAbove = PHP_VERSION_ID >= 70300;
     }
 
     public function format(SmartFileInfo $fileInfo, string $snippetRegex, string $kind): string
@@ -84,27 +78,20 @@ final class SnippetFormatter
      */
     private function fixContentAndPreserveFormatting(array $match, string $kind): string
     {
-        if ($this->isPhp73OrAbove) {
-            return str_replace(PHP_EOL, '', $match[self::OPENING]) . PHP_EOL
-                . $this->fixContent($match[self::CONTENT], $kind)
-                . str_replace(PHP_EOL, '', $match[self::CLOSING]);
-        }
-
-        return rtrim($match[self::OPENING], PHP_EOL) . PHP_EOL
+        return str_replace(PHP_EOL, '', $match[self::OPENING]) . PHP_EOL
             . $this->fixContent($match[self::CONTENT], $kind)
-            . ltrim($match[self::CLOSING], PHP_EOL);
+            . str_replace(PHP_EOL, '', $match[self::CLOSING]);
     }
 
     private function fixContent(string $content, string $kind): string
     {
-        $content = $this->isPhp73OrAbove ? $content : trim($content);
         $temporaryFilePath = $this->createTemporaryFilePath($content);
 
-        if (! \str_starts_with($this->isPhp73OrAbove ? trim($content) : $content, '<?php')) {
+        if (! \str_starts_with(trim($content), '<?php')) {
             $content = '<?php' . PHP_EOL . $content;
         }
 
-        $fileContent = $this->isPhp73OrAbove ? ltrim($content, PHP_EOL) : $content;
+        $fileContent = ltrim($content, PHP_EOL);
 
         $this->smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
         $temporaryFileInfo = new SmartFileInfo($temporaryFilePath);

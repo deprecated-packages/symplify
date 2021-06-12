@@ -18,20 +18,10 @@ final class SymfonyControllerAnalyzer
      */
     private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var AttributeFinder
-     */
-    private $attributeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, AttributeFinder $attributeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->attributeFinder = $attributeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private AttributeFinder $attributeFinder
+    ) {
     }
 
     public function isActionMethod(ClassMethod $classMethod): bool

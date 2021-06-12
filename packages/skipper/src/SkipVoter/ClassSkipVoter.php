@@ -15,50 +15,16 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassSkipVoter implements SkipVoterInterface
 {
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var SkipSkipper
-     */
-    private $skipSkipper;
-
-    /**
-     * @var OnlySkipper
-     */
-    private $onlySkipper;
-
-    /**
-     * @var SkippedClassResolver
-     */
-    private $skippedClassResolver;
-
     public function __construct(
-        ClassLikeExistenceChecker $classLikeExistenceChecker,
-        ParameterProvider $parameterProvider,
-        SkipSkipper $skipSkipper,
-        OnlySkipper $onlySkipper,
-        SkippedClassResolver $skippedClassResolver
+        private ClassLikeExistenceChecker $classLikeExistenceChecker,
+        private ParameterProvider $parameterProvider,
+        private SkipSkipper $skipSkipper,
+        private OnlySkipper $onlySkipper,
+        private SkippedClassResolver $skippedClassResolver
     ) {
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
-        $this->parameterProvider = $parameterProvider;
-
-        $this->skipSkipper = $skipSkipper;
-        $this->onlySkipper = $onlySkipper;
-        $this->skippedClassResolver = $skippedClassResolver;
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function match($element): bool
+    public function match(string | object $element): bool
     {
         if (is_object($element)) {
             return true;
@@ -67,10 +33,7 @@ final class ClassSkipVoter implements SkipVoterInterface
         return $this->classLikeExistenceChecker->doesClassLikeExist($element);
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
         $only = $this->parameterProvider->provideArrayParameter(Option::ONLY);
 

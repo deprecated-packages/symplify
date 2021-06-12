@@ -12,20 +12,10 @@ use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 final class OldToNewFilesFinder
 {
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
-     * @var PackageNameResolver
-     */
-    private $packageNameResolver;
-
-    public function __construct(FinderSanitizer $finderSanitizer, PackageNameResolver $packageNameResolver)
-    {
-        $this->finderSanitizer = $finderSanitizer;
-        $this->packageNameResolver = $packageNameResolver;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer,
+        private PackageNameResolver $packageNameResolver
+    ) {
     }
 
     /**

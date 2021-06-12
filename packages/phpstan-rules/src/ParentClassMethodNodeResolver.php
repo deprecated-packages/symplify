@@ -18,26 +18,11 @@ use Throwable;
 
 final class ParentClassMethodNodeResolver
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var ReflectionParser
-     */
-    private $reflectionParser;
-
-    public function __construct(Parser $parser, NodeFinder $nodeFinder, ReflectionParser $reflectionParser)
-    {
-        $this->parser = $parser;
-        $this->nodeFinder = $nodeFinder;
-        $this->reflectionParser = $reflectionParser;
+    public function __construct(
+        private Parser $parser,
+        private NodeFinder $nodeFinder,
+        private ReflectionParser $reflectionParser
+    ) {
     }
 
     public function resolveParentClassMethod(Scope $scope, string $methodName): ?ClassMethod

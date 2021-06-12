@@ -11,20 +11,10 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 final class ArrayToValueObjectHydrator
 {
-    /**
-     * @var CacheInterface
-     */
-    private $cache;
-
-    /**
-     * @var ClassConstructorValuesResolver
-     */
-    private $classConstructorValuesResolver;
-
-    public function __construct(CacheInterface $cache, ClassConstructorValuesResolver $classConstructorValuesResolver)
-    {
-        $this->cache = $cache;
-        $this->classConstructorValuesResolver = $classConstructorValuesResolver;
+    public function __construct(
+        private CacheInterface $cache,
+        private ClassConstructorValuesResolver $classConstructorValuesResolver
+    ) {
     }
 
     /**

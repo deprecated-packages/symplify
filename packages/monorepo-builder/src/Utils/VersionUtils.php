@@ -19,21 +19,14 @@ final class VersionUtils
      */
     private $packageAliasFormat;
 
-    /**
-     * @var VersionFactory
-     */
-    private $versionFactory;
-
-    public function __construct(ParameterProvider $parameterProvider, VersionFactory $versionFactory)
-    {
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        private VersionFactory $versionFactory
+    ) {
         $this->packageAliasFormat = $parameterProvider->provideStringParameter(Option::PACKAGE_ALIAS_FORMAT);
-        $this->versionFactory = $versionFactory;
     }
 
-    /**
-     * @param Version|string $version
-     */
-    public function getNextAliasFormat($version): string
+    public function getNextAliasFormat(Version | string $version): string
     {
         $version = $this->normalizeVersion($version);
 
@@ -47,10 +40,7 @@ final class VersionUtils
         );
     }
 
-    /**
-     * @param Version|string $version
-     */
-    public function getRequiredNextFormat($version): string
+    public function getRequiredNextFormat(Version | string $version): string
     {
         $version = $this->normalizeVersion($version);
         $minor = $this->getNextMinorNumber($version);
@@ -58,10 +48,7 @@ final class VersionUtils
         return '^' . $version->getMajor()->getValue() . '.' . $minor;
     }
 
-    /**
-     * @param Version|string $version
-     */
-    public function getRequiredFormat($version): string
+    public function getRequiredFormat(Version | string $version): string
     {
         $version = $this->normalizeVersion($version);
 
@@ -76,10 +63,7 @@ final class VersionUtils
         return $requireVersion;
     }
 
-    /**
-     * @param Version|string $version
-     */
-    private function normalizeVersion($version): Version
+    private function normalizeVersion(Version | string $version): Version
     {
         if (is_string($version)) {
             return $this->versionFactory->create($version);

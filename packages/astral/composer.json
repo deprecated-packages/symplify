@@ -3,7 +3,7 @@
     "description": "Toolking for smart daily work with AST",
     "license": "MIT",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "nette/utils": "^3.2",
         "symfony/dependency-injection": "^5.3",
         "symplify/autowire-array-parameter": "^9.4",

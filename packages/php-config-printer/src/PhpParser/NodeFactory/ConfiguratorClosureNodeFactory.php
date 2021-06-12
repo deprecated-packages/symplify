@@ -67,11 +67,7 @@ final class ConfiguratorClosureNodeFactory
             'static' => true,
         ]);
 
-        // is PHP 7.1? → add "void" return type
-        if (version_compare(PHP_VERSION, '7.1.0') >= 0) {
-            $closure->returnType = new Identifier('void');
-        }
-
+        $closure->returnType = new Identifier('void');
         return $closure;
     }
 

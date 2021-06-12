@@ -21,20 +21,10 @@ final class SymfonyConfigRectorValueObjectResolver
      */
     private const INLINE_CLASS_NAME = ValueObjectInliner::class;
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function resolveFromSetMethodCall(MethodCall $methodCall): ?string

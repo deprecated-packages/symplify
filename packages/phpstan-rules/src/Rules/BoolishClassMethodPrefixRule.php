@@ -28,36 +28,12 @@ final class BoolishClassMethodPrefixRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var BoolishNameAnalyser
-     */
-    private $boolishNameAnalyser;
-
-    /**
-     * @var ReturnNodeFinder
-     */
-    private $returnNodeFinder;
-
-    /**
-     * @var ParentClassMethodGuard
-     */
-    private $parentClassMethodGuard;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        BoolishNameAnalyser $boolishNameAnalyser,
-        ReturnNodeFinder $returnNodeFinder,
-        ParentClassMethodGuard $parentClassMethodGuard
+        private SimpleNameResolver $simpleNameResolver,
+        private BoolishNameAnalyser $boolishNameAnalyser,
+        private ReturnNodeFinder $returnNodeFinder,
+        private ParentClassMethodGuard $parentClassMethodGuard
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->boolishNameAnalyser = $boolishNameAnalyser;
-        $this->returnNodeFinder = $returnNodeFinder;
-        $this->parentClassMethodGuard = $parentClassMethodGuard;
     }
 
     /**

@@ -10,14 +10,9 @@ use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 final class ParameterValueResolver
 {
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
-
-    public function __construct(StringFormatConverter $stringFormatConverter)
-    {
-        $this->stringFormatConverter = $stringFormatConverter;
+    public function __construct(
+        private StringFormatConverter $stringFormatConverter
+    ) {
     }
 
     /**

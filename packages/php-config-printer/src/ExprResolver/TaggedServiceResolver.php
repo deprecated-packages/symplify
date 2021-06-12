@@ -10,14 +10,9 @@ use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 
 final class TaggedServiceResolver
 {
-    /**
-     * @var ServiceReferenceExprResolver
-     */
-    private $serviceReferenceExprResolver;
-
-    public function __construct(ServiceReferenceExprResolver $serviceReferenceExprResolver)
-    {
-        $this->serviceReferenceExprResolver = $serviceReferenceExprResolver;
+    public function __construct(
+        private ServiceReferenceExprResolver $serviceReferenceExprResolver
+    ) {
     }
 
     public function resolve(TaggedValue $taggedValue): Expr

@@ -35,29 +35,11 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
      */
     public const INVERTED_ERROR_MESSAGE = 'File with error cannot start with "Skip" prefix';
 
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeValueResolver $nodeValueResolver,
-        NodeFinder $nodeFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeValueResolver $nodeValueResolver,
+        private NodeFinder $nodeFinder
     ) {
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

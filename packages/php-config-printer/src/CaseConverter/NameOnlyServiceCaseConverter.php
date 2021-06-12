@@ -15,14 +15,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class NameOnlyServiceCaseConverter implements CaseConverterInterface
 {
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    public function __construct(CommonNodeFactory $commonNodeFactory)
-    {
-        $this->commonNodeFactory = $commonNodeFactory;
+    public function __construct(
+        private CommonNodeFactory $commonNodeFactory
+    ) {
     }
 
     public function convertToMethodCall($key, $values): Expression

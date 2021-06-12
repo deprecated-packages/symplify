@@ -20,14 +20,9 @@ final class AssertContainsInfoDecorator
      */
     private const ASSERT_CONTAINS_REGEX = '#assertContains#';
 
-    /**
-     * @var AssertContainsFileLineExtractor
-     */
-    private $assertContainsFileLineExtractor;
-
-    public function __construct(AssertContainsFileLineExtractor $assertContainsFileLineExtractor)
-    {
-        $this->assertContainsFileLineExtractor = $assertContainsFileLineExtractor;
+    public function __construct(
+        private AssertContainsFileLineExtractor $assertContainsFileLineExtractor
+    ) {
     }
 
     public function decorate(FilePathWithContent $filePathWithContent, SmartFileInfo $errorReportFileInfo): string

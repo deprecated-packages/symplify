@@ -10,14 +10,9 @@ use PHPStan\Analyser\Scope;
 
 final class MethodCallArrayResolver
 {
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    public function __construct(ArrayAnalyzer $arrayAnalyzer)
-    {
-        $this->arrayAnalyzer = $arrayAnalyzer;
+    public function __construct(
+        private ArrayAnalyzer $arrayAnalyzer
+    ) {
     }
 
     /**

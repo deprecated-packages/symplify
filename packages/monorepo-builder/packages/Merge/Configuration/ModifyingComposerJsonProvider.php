@@ -11,20 +11,10 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ModifyingComposerJsonProvider
 {
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
-    public function __construct(ComposerJsonFactory $composerJsonFactory, ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
-        $this->composerJsonFactory = $composerJsonFactory;
+    public function __construct(
+        private ComposerJsonFactory $composerJsonFactory,
+        private ParameterProvider $parameterProvider
+    ) {
     }
 
     public function getRemovingComposerJson(): ?ComposerJson

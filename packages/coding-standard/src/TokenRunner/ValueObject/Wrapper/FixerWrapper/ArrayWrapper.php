@@ -18,26 +18,13 @@ final class ArrayWrapper
     private const ARRAY_OPEN_TOKENS = [T_ARRAY, CT::T_ARRAY_SQUARE_BRACE_OPEN];
 
     /**
-     * @var Tokens
+     * @param Tokens<Token> $tokens
      */
-    private $tokens;
-
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
-    /**
-     * @var BlockInfo
-     */
-    private $blockInfo;
-
-    public function __construct(Tokens $tokens, BlockInfo $blockInfo, TokenSkipper $tokenSkipper)
-    {
-        $this->tokens = $tokens;
-        $this->tokenSkipper = $tokenSkipper;
-
-        $this->blockInfo = $blockInfo;
+    public function __construct(
+        private Tokens $tokens,
+        private BlockInfo $blockInfo,
+        private TokenSkipper $tokenSkipper
+    ) {
     }
 
     public function isAssociativeArray(): bool

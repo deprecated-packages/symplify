@@ -38,29 +38,11 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         ValueObjectInliner::class,
     ];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        ArrayStringAndFnMatcher $arrayStringAndFnMatcher
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
     /**

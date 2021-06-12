@@ -26,20 +26,10 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use non-dynamic property on static calls or class const fetches';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var StaticCallNodeAnalyzer
-     */
-    private $staticCallNodeAnalyzer;
-
-    public function __construct(StaticCallNodeAnalyzer $staticCallNodeAnalyzer, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->staticCallNodeAnalyzer = $staticCallNodeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private StaticCallNodeAnalyzer $staticCallNodeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

@@ -3,7 +3,7 @@
     "description": "Relief for your long-term memory",
     "license": "MIT",
     "require": {
-        "php": ">=7.3"
+        "php": ">=8.0"
     },
     "autoload": {
         "psr-4": {

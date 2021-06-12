@@ -22,14 +22,9 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Multiple class/interface/trait is not allowed in single file';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

@@ -15,50 +15,14 @@ use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 
 final class ControllerDumper
 {
-    /**
-     * @var ControllerWithDataProviderMatcher
-     */
-    private $controllerWithDataProviderMatcher;
-
-    /**
-     * @var ControllerContentResolver
-     */
-    private $controllerContentResolver;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var RoutesProvider
-     */
-    private $routesProvider;
-
-    /**
-     * @var FilePathResolver
-     */
-    private $filePathResolver;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
     public function __construct(
-        ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
-        ControllerContentResolver $controllerContentResolver,
-        RoutesProvider $routesProvider,
-        SymfonyStyle $symfonyStyle,
-        FilePathResolver $filePathResolver,
-        SmartFileSystem $smartFileSystem
+        private ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
+        private ControllerContentResolver $controllerContentResolver,
+        private RoutesProvider $routesProvider,
+        private SymfonyStyle $symfonyStyle,
+        private FilePathResolver $filePathResolver,
+        private SmartFileSystem $smartFileSystem
     ) {
-        $this->controllerWithDataProviderMatcher = $controllerWithDataProviderMatcher;
-        $this->controllerContentResolver = $controllerContentResolver;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->routesProvider = $routesProvider;
-        $this->filePathResolver = $filePathResolver;
-        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function dump(string $outputDirectory): void

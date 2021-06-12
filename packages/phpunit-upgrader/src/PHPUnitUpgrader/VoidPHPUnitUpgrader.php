@@ -10,22 +10,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VoidPHPUnitUpgrader
 {
-    /**
-     * @var SetUpTearDownVoidFileInfoDecorator
-     */
-    private $setUpTearDownVoidFileInfoDecorator;
-
-    /**
-     * @var ReportingFileDumper
-     */
-    private $reportingFileDumper;
-
     public function __construct(
-        SetUpTearDownVoidFileInfoDecorator $setUpTearDownVoidFileInfoDecorator,
-        ReportingFileDumper $reportingFileDumper
+        private SetUpTearDownVoidFileInfoDecorator $setUpTearDownVoidFileInfoDecorator,
+        private ReportingFileDumper $reportingFileDumper
     ) {
-        $this->setUpTearDownVoidFileInfoDecorator = $setUpTearDownVoidFileInfoDecorator;
-        $this->reportingFileDumper = $reportingFileDumper;
     }
 
     /**

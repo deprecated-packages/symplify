@@ -4,7 +4,7 @@
     "description": "Set of Symplify rules for PHPStan",
     "license": "MIT",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "nikic/php-parser": "4.10.5",
         "nette/utils": "^3.2",
         "phpstan/phpdoc-parser": "^0.5",

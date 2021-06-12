@@ -21,31 +21,12 @@ final class BumpInterdependencyCommand extends AbstractSymplifyCommand
      */
     private const VERSION_ARGUMENT = 'version';
 
-    /**
-     * @var DependencyUpdater
-     */
-    private $dependencyUpdater;
-
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var SourcesPresenceValidator
-     */
-    private $sourcesPresenceValidator;
-
     public function __construct(
-        DependencyUpdater $dependencyUpdater,
-        ComposerJsonProvider $composerJsonProvider,
-        SourcesPresenceValidator $sourcesPresenceValidator
+        private DependencyUpdater $dependencyUpdater,
+        private ComposerJsonProvider $composerJsonProvider,
+        private SourcesPresenceValidator $sourcesPresenceValidator
     ) {
         parent::__construct();
-
-        $this->dependencyUpdater = $dependencyUpdater;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->sourcesPresenceValidator = $sourcesPresenceValidator;
     }
 
     protected function configure(): void

@@ -57,14 +57,9 @@ final class KeywordHighlighter
      */
     private const COMMA_SPLIT_REGEX = '#(?<call>\w+\(.*\))(\s{0,})(?<comma>,)(?<quote>\`)#';
 
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
-
-    public function __construct(ClassLikeExistenceChecker $classLikeExistenceChecker)
-    {
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
+    public function __construct(
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
+    ) {
     }
 
     public function highlight(string $content): string

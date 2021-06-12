@@ -15,24 +15,14 @@ use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
 final class SkippedPathsResolver
 {
     /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
      * @var string[]
      */
     private $skippedPaths = [];
 
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
-
-    public function __construct(ParameterProvider $parameterProvider, PathNormalizer $pathNormalizer)
-    {
-        $this->parameterProvider = $parameterProvider;
-        $this->pathNormalizer = $pathNormalizer;
+    public function __construct(
+        private ParameterProvider $parameterProvider,
+        private PathNormalizer $pathNormalizer
+    ) {
     }
 
     /**

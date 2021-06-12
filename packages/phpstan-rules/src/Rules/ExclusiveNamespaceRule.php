@@ -38,20 +38,16 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
     /**
      * @var string[]
      */
-    private $namespaceParts = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $namespaceParts = [];
 
     /**
      * @param string[] $namespaceParts
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $namespaceParts = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $namespaceParts = []
+    ) {
         $this->namespaceParts = $namespaceParts;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

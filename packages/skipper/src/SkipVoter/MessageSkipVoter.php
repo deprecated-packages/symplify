@@ -11,28 +11,13 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MessageSkipVoter implements SkipVoterInterface
 {
-    /**
-     * @var SkippedMessagesResolver
-     */
-    private $skippedMessagesResolver;
-
-    /**
-     * @var FileInfoMatcher
-     */
-    private $fileInfoMatcher;
-
     public function __construct(
-        SkippedMessagesResolver $skippedMessagesResolver,
-        FileInfoMatcher $fileInfoMatcher
+        private SkippedMessagesResolver $skippedMessagesResolver,
+        private FileInfoMatcher $fileInfoMatcher
     ) {
-        $this->skippedMessagesResolver = $skippedMessagesResolver;
-        $this->fileInfoMatcher = $fileInfoMatcher;
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function match($element): bool
+    public function match(string | object $element): bool
     {
         if (is_object($element)) {
             return false;
@@ -41,11 +26,12 @@ final class MessageSkipVoter implements SkipVoterInterface
         return substr_count($element, ' ') > 0;
     }
 
-    /**
-     * @param string $element
-     */
-    public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
     {
+        if (is_object($element)) {
+            return false;
+        }
+
         $skippedMessages = $this->skippedMessagesResolver->resolve();
         if (! array_key_exists($element, $skippedMessages)) {
             return false;

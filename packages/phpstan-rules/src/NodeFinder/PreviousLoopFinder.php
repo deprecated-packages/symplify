@@ -12,20 +12,10 @@ use Symplify\Astral\ValueObject\AttributeKey;
 
 final class PreviousLoopFinder
 {
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

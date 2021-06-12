@@ -21,14 +21,9 @@ use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
  */
 final class ParameterTypeRecognizer
 {
-    /**
-     * @var SimplePhpDocParser
-     */
-    private $simplePhpDocParser;
-
-    public function __construct(SimplePhpDocParser $simplePhpDocParser)
-    {
-        $this->simplePhpDocParser = $simplePhpDocParser;
+    public function __construct(
+        private SimplePhpDocParser $simplePhpDocParser
+    ) {
     }
 
     public function isArray(ReflectionParameter $reflectionParameter): bool

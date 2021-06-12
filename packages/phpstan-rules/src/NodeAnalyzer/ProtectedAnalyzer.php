@@ -8,20 +8,10 @@ use PhpParser\Node\Stmt\Property;
 
 final class ProtectedAnalyzer
 {
-    /**
-     * @var DependencyNodeAnalyzer
-     */
-    private $dependencyNodeAnalyzer;
-
-    /**
-     * @var TypeNodeAnalyzer
-     */
-    private $typeNodeAnalyzer;
-
-    public function __construct(DependencyNodeAnalyzer $dependencyNodeAnalyzer, TypeNodeAnalyzer $typeNodeAnalyzer)
-    {
-        $this->dependencyNodeAnalyzer = $dependencyNodeAnalyzer;
-        $this->typeNodeAnalyzer = $typeNodeAnalyzer;
+    public function __construct(
+        private DependencyNodeAnalyzer $dependencyNodeAnalyzer,
+        private TypeNodeAnalyzer $typeNodeAnalyzer
+    ) {
     }
 
     public function isProtectedPropertyOrClassConstAllowed(Property $property): bool

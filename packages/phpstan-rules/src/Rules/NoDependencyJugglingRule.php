@@ -55,29 +55,11 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
         'Symfony\Component\HttpKernel\KernelInterface',
     ];
 
-    /**
-     * @var ConstructorDefinedPropertyNodeAnalyzer
-     */
-    private $constructorDefinedPropertyNodeAnalyzer;
-
-    /**
-     * @var ClassNameAnalyzer
-     */
-    private $classNameAnalyzer;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
-
     public function __construct(
-        ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
-        ClassNameAnalyzer $classNameAnalyzer,
-        ObjectTypeAnalyzer $objectTypeAnalyzer
+        private ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
+        private ClassNameAnalyzer $classNameAnalyzer,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer
     ) {
-        $this->constructorDefinedPropertyNodeAnalyzer = $constructorDefinedPropertyNodeAnalyzer;
-        $this->classNameAnalyzer = $classNameAnalyzer;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**

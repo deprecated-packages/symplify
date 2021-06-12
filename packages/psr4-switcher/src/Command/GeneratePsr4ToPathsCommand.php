@@ -20,44 +20,13 @@ use Symplify\Psr4Switcher\ValueObjectFactory\Psr4NamespaceToPathFactory;
 
 final class GeneratePsr4ToPathsCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var Psr4SwitcherConfiguration
-     */
-    private $psr4SwitcherConfiguration;
-
-    /**
-     * @var PhpClassLoader
-     */
-    private $phpClassLoader;
-
-    /**
-     * @var Psr4NamespaceToPathFactory
-     */
-    private $psr4NamespaceToPathFactory;
-
-    /**
-     * @var Psr4Filter
-     */
-    private $psr4Filter;
-
-    /**
-     * @var JsonAutoloadPrinter
-     */
-    private $jsonAutoloadPrinter;
-
     public function __construct(
-        Psr4SwitcherConfiguration $psr4SwitcherConfiguration,
-        PhpClassLoader $phpClassLoader,
-        Psr4NamespaceToPathFactory $psr4NamespaceToPathFactory,
-        Psr4Filter $psr4Filter,
-        JsonAutoloadPrinter $jsonAutoloadPrinter
+        private Psr4SwitcherConfiguration $psr4SwitcherConfiguration,
+        private PhpClassLoader $phpClassLoader,
+        private Psr4NamespaceToPathFactory $psr4NamespaceToPathFactory,
+        private Psr4Filter $psr4Filter,
+        private JsonAutoloadPrinter $jsonAutoloadPrinter
     ) {
-        $this->phpClassLoader = $phpClassLoader;
-        $this->psr4SwitcherConfiguration = $psr4SwitcherConfiguration;
-        $this->psr4NamespaceToPathFactory = $psr4NamespaceToPathFactory;
-        $this->psr4Filter = $psr4Filter;
-        $this->jsonAutoloadPrinter = $jsonAutoloadPrinter;
-
         parent::__construct();
     }
 

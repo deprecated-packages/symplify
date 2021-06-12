@@ -20,14 +20,9 @@ use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
  */
 final class ConstantNodeFactory
 {
-    /**
-     * @var YamlFileContentProviderInterface
-     */
-    private $yamlFileContentProvider;
-
-    public function __construct(YamlFileContentProviderInterface $yamlFileContentProvider)
-    {
-        $this->yamlFileContentProvider = $yamlFileContentProvider;
+    public function __construct(
+        private YamlFileContentProviderInterface $yamlFileContentProvider
+    ) {
     }
 
     /**

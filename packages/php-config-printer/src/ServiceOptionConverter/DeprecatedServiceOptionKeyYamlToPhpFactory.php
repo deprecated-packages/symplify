@@ -11,14 +11,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
 final class DeprecatedServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory
+    ) {
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall

@@ -15,29 +15,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
-    /**
-     * @var DiffCodeSamplePrinter
-     */
-    private $diffCodeSamplePrinter;
-
-    /**
-     * @var MarkdownCodeWrapper
-     */
-    private $markdownCodeWrapper;
-
-    /**
-     * @var ConfiguredCodeSamplerPrinter
-     */
-    private $configuredCodeSamplerPrinter;
-
     public function __construct(
-        DiffCodeSamplePrinter $diffCodeSamplePrinter,
-        MarkdownCodeWrapper $markdownCodeWrapper,
-        ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
+        private DiffCodeSamplePrinter $diffCodeSamplePrinter,
+        private MarkdownCodeWrapper $markdownCodeWrapper,
+        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
     ) {
-        $this->diffCodeSamplePrinter = $diffCodeSamplePrinter;
-        $this->markdownCodeWrapper = $markdownCodeWrapper;
-        $this->configuredCodeSamplerPrinter = $configuredCodeSamplerPrinter;
     }
 
     public function isMatch(string $class): bool
