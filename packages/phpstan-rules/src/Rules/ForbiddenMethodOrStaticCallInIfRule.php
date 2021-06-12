@@ -39,29 +39,11 @@ final class ForbiddenMethodOrStaticCallInIfRule extends AbstractSymplifyRule
      */
     private const ALLOWED_CLASS_TYPES = [Strings::class, TrinaryLogic::class];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        ObjectTypeAnalyzer $objectTypeAnalyzer
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**

@@ -86,36 +86,12 @@ final class NeonToYamlConverter
      */
     private const RANDOM_DASH_LEFTOVER_REGEX = '#: \|\-#';
 
-    /**
-     * @var ArrayParameterCollector
-     */
-    private $arrayParameterCollector;
-
-    /**
-     * @var YamlOutputFormatter
-     */
-    private $yamlOutputFormatter;
-
-    /**
-     * @var ServiceConverterWorker
-     */
-    private $serviceConverterWorker;
-
-    /**
-     * @var ParameterConverterWorker
-     */
-    private $parameterConverterWorker;
-
     public function __construct(
-        ArrayParameterCollector $arrayParameterCollector,
-        YamlOutputFormatter $yamlOutputFormatter,
-        ServiceConverterWorker $serviceConverterWorker,
-        ParameterConverterWorker $parameterConverterWorker
+        private ArrayParameterCollector $arrayParameterCollector,
+        private YamlOutputFormatter $yamlOutputFormatter,
+        private ServiceConverterWorker $serviceConverterWorker,
+        private ParameterConverterWorker $parameterConverterWorker
     ) {
-        $this->arrayParameterCollector = $arrayParameterCollector;
-        $this->yamlOutputFormatter = $yamlOutputFormatter;
-        $this->serviceConverterWorker = $serviceConverterWorker;
-        $this->parameterConverterWorker = $parameterConverterWorker;
     }
 
     public function convertFileInfo(SmartFileInfo $fileInfo): string

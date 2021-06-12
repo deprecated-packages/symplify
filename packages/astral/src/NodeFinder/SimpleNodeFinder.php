@@ -11,20 +11,10 @@ use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class SimpleNodeFinder
 {
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(TypeChecker $typeChecker, NodeFinder $nodeFinder)
-    {
-        $this->typeChecker = $typeChecker;
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private TypeChecker $typeChecker,
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

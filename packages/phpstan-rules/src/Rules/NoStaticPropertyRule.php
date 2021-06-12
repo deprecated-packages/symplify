@@ -31,14 +31,9 @@ final class NoStaticPropertyRule extends AbstractSymplifyRule
      */
     private const ALLOWED_TYPES = [ContainerInterface::class, Container::class, KernelInterface::class];
 
-    /**
-     * @var ContainsTypeAnalyser
-     */
-    private $containsTypeAnalyser;
-
-    public function __construct(ContainsTypeAnalyser $containsTypeAnalyser)
-    {
-        $this->containsTypeAnalyser = $containsTypeAnalyser;
+    public function __construct(
+        private ContainsTypeAnalyser $containsTypeAnalyser
+    ) {
     }
 
     /**

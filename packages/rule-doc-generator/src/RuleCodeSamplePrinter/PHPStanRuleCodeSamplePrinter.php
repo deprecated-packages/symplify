@@ -14,29 +14,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
-    /**
-     * @var NeonPrinter
-     */
-    private $neonPrinter;
-
-    /**
-     * @var MarkdownCodeWrapper
-     */
-    private $markdownCodeWrapper;
-
-    /**
-     * @var BadGoodCodeSamplePrinter
-     */
-    private $badGoodCodeSamplePrinter;
-
     public function __construct(
-        NeonPrinter $neonPrinter,
-        MarkdownCodeWrapper $markdownCodeWrapper,
-        BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
+        private NeonPrinter $neonPrinter,
+        private MarkdownCodeWrapper $markdownCodeWrapper,
+        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
     ) {
-        $this->neonPrinter = $neonPrinter;
-        $this->markdownCodeWrapper = $markdownCodeWrapper;
-        $this->badGoodCodeSamplePrinter = $badGoodCodeSamplePrinter;
     }
 
     public function isMatch(string $class): bool

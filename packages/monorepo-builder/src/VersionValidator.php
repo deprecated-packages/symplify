@@ -23,29 +23,11 @@ final class VersionValidator
      */
     private const SECTIONS = [ComposerJsonSection::REQUIRE, ComposerJsonSection::REQUIRE_DEV];
 
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
-     * @var ModifyingComposerJsonProvider
-     */
-    private $modifyingComposerJsonProvider;
-
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
     public function __construct(
-        JsonFileManager $jsonFileManager,
-        ModifyingComposerJsonProvider $modifyingComposerJsonProvider,
-        ParameterProvider $parameterProvider
+        private JsonFileManager $jsonFileManager,
+        private ModifyingComposerJsonProvider $modifyingComposerJsonProvider,
+        private ParameterProvider $parameterProvider
     ) {
-        $this->jsonFileManager = $jsonFileManager;
-        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
-        $this->parameterProvider = $parameterProvider;
     }
 
     /**

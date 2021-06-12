@@ -6,20 +6,10 @@ namespace Symplify\PHPUnitUpgrader\ValueObject;
 
 final class FileLine
 {
-    /**
-     * @var string
-     */
-    private $filePath;
-
-    /**
-     * @var int
-     */
-    private $line;
-
-    public function __construct(string $filePath, int $line)
-    {
-        $this->filePath = $filePath;
-        $this->line = $line;
+    public function __construct(
+        private string $filePath,
+        private int $line
+    ) {
     }
 
     public function getFilePath(): string

@@ -15,11 +15,6 @@ final class RuleDefinition
     /**
      * @var string
      */
-    private $description;
-
-    /**
-     * @var string
-     */
     private $ruleClass;
 
     /**
@@ -30,15 +25,15 @@ final class RuleDefinition
     /**
      * @var CodeSampleInterface[]
      */
-    private $codeSamples = [];
+    private array $codeSamples = [];
 
     /**
      * @param CodeSampleInterface[] $codeSamples
      */
-    public function __construct(string $description, array $codeSamples)
-    {
-        $this->description = $description;
-
+    public function __construct(
+        private string $description,
+        array $codeSamples
+    ) {
         if ($codeSamples === []) {
             throw new PoorDocumentationException(
                 'Provide at least one code sample, so people can practically see what the rule does'

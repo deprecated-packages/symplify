@@ -20,36 +20,12 @@ final class SnifferToECSConverter
      */
     private const REF = 'ref';
 
-    /**
-     * @var YamlToPhpConverter
-     */
-    private $yamlToPhpConverter;
-
-    /**
-     * @var SymfonyConfigFormatFactory
-     */
-    private $symfonyConfigFormatFactory;
-
-    /**
-     * @var ClassFromKeyResolver
-     */
-    private $classFromKeyResolver;
-
-    /**
-     * @var SkipParameterCollector
-     */
-    private $skipParameterCollector;
-
     public function __construct(
-        YamlToPhpConverter $yamlToPhpConverter,
-        SymfonyConfigFormatFactory $symfonyConfigFormatFactory,
-        ClassFromKeyResolver $classFromKeyResolver,
-        SkipParameterCollector $skipParameterCollector
+        private YamlToPhpConverter $yamlToPhpConverter,
+        private SymfonyConfigFormatFactory $symfonyConfigFormatFactory,
+        private ClassFromKeyResolver $classFromKeyResolver,
+        private SkipParameterCollector $skipParameterCollector
     ) {
-        $this->yamlToPhpConverter = $yamlToPhpConverter;
-        $this->symfonyConfigFormatFactory = $symfonyConfigFormatFactory;
-        $this->classFromKeyResolver = $classFromKeyResolver;
-        $this->skipParameterCollector = $skipParameterCollector;
     }
 
     public function convertFile(SmartFileInfo $phpcsFileInfo): string
@@ -147,7 +123,7 @@ final class SnifferToECSConverter
     /**
      * @return int|string
      */
-    private function resolvePropertyValue(SimpleXMLElement $property)
+    private function resolvePropertyValue(SimpleXMLElement $property): int | string
     {
         $value = (string) $property->attributes()['value'];
 

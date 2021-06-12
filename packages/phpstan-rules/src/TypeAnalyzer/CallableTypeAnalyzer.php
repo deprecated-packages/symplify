@@ -19,26 +19,11 @@ use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class CallableTypeAnalyzer
 {
-    /**
-     * @var TypeUnwrapper
-     */
-    private $typeUnwrapper;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    public function __construct(TypeUnwrapper $typeUnwrapper, SimpleNodeFinder $simpleNodeFinder, Standard $standard)
-    {
-        $this->typeUnwrapper = $typeUnwrapper;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->standard = $standard;
+    public function __construct(
+        private TypeUnwrapper $typeUnwrapper,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private Standard $standard
+    ) {
     }
 
     public function isClosureOrCallableType(Scope $scope, Expr $expr, Node $node): bool

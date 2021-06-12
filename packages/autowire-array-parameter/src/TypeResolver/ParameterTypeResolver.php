@@ -11,18 +11,13 @@ use Symplify\AutowireArrayParameter\DocBlock\ParamTypeDocBlockResolver;
 final class ParameterTypeResolver
 {
     /**
-     * @var ParamTypeDocBlockResolver
-     */
-    private $paramTypeDocBlockResolver;
-
-    /**
      * @var array<string, string>
      */
     private $resolvedParameterTypesCached = [];
 
-    public function __construct(ParamTypeDocBlockResolver $paramTypeDocBlockResolver)
-    {
-        $this->paramTypeDocBlockResolver = $paramTypeDocBlockResolver;
+    public function __construct(
+        private ParamTypeDocBlockResolver $paramTypeDocBlockResolver
+    ) {
     }
 
     public function resolveParameterType(string $parameterName, ReflectionMethod $reflectionMethod): ?string

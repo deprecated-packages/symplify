@@ -14,14 +14,9 @@ use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
 
 final class EnumAnalyzer
 {
-    /**
-     * @var BarePhpDocParser
-     */
-    private $barePhpDocParser;
-
-    public function __construct(BarePhpDocParser $barePhpDocParser)
-    {
-        $this->barePhpDocParser = $barePhpDocParser;
+    public function __construct(
+        private BarePhpDocParser $barePhpDocParser
+    ) {
     }
 
     public function detect(Scope $scope, ClassLike $classLike): bool

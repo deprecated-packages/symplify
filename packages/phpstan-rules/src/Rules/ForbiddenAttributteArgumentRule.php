@@ -28,31 +28,13 @@ final class ForbiddenAttributteArgumentRule extends AbstractSymplifyRule impleme
     public const ERROR_MESSAGE = 'Attribute key "%s" cannot be used';
 
     /**
-     * @var array<string, string[]>
-     */
-    private $argumentsByAttributes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @param array<string, string[]> $argumentsByAttributes
      */
     public function __construct(
-        array $argumentsByAttributes,
-        SimpleNameResolver $simpleNameResolver,
-        NodeFinder $nodeFinder
+        private array $argumentsByAttributes,
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder
     ) {
-        $this->argumentsByAttributes = $argumentsByAttributes;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
     }
 
     /**

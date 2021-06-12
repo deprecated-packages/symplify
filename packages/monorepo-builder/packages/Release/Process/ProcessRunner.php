@@ -17,20 +17,15 @@ final class ProcessRunner
      */
     private const TIMEOUT = 10 * 60.0;
 
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle
+    ) {
     }
 
     /**
      * @param string|string[] $commandLine
      */
-    public function run($commandLine): string
+    public function run(string | array $commandLine): string
     {
         if ($this->symfonyStyle->isVerbose()) {
             $this->symfonyStyle->note('Running process: ' . $this->normalizeToString($commandLine));
@@ -47,7 +42,7 @@ final class ProcessRunner
     /**
      * @param string|string[] $content
      */
-    private function normalizeToString($content): string
+    private function normalizeToString(string | array $content): string
     {
         if (is_array($content)) {
             return implode(' ', $content);
@@ -59,7 +54,7 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    private function createProcess($commandLine): Process
+    private function createProcess(string | array $commandLine): Process
     {
         // @since Symfony 4.2: https://github.com/symfony/symfony/pull/27821
         if (is_string($commandLine) && method_exists(Process::class, 'fromShellCommandline')) {

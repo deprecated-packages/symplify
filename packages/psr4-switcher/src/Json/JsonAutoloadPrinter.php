@@ -11,14 +11,9 @@ use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPaths;
 
 final class JsonAutoloadPrinter
 {
-    /**
-     * @var Psr4PathNormalizer
-     */
-    private $psr4PathNormalizer;
-
-    public function __construct(Psr4PathNormalizer $psr4PathNormalizer)
-    {
-        $this->psr4PathNormalizer = $psr4PathNormalizer;
+    public function __construct(
+        private Psr4PathNormalizer $psr4PathNormalizer
+    ) {
     }
 
     /**

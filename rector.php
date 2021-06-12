@@ -36,6 +36,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
+    $services->set(\Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector::class);
+
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
             StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [

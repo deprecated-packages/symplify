@@ -33,14 +33,9 @@ final class MissingParamNameMalformWorker implements MalformWorkerInterface
      */
     private const PARAM_WITH_NAME_REGEX = '#@param(.*?)\$[\w]+(.*?)\n#';
 
-    /**
-     * @var DocblockRelatedParamNamesResolver
-     */
-    private $docblockRelatedParamNamesResolver;
-
-    public function __construct(DocblockRelatedParamNamesResolver $docblockRelatedParamNamesResolver)
-    {
-        $this->docblockRelatedParamNamesResolver = $docblockRelatedParamNamesResolver;
+    public function __construct(
+        private DocblockRelatedParamNamesResolver $docblockRelatedParamNamesResolver
+    ) {
     }
 
     /**

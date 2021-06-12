@@ -23,29 +23,11 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Passed "%s" variable that are not used in the template';
 
-    /**
-     * @var TemplateRenderAnalyzer
-     */
-    private $templateRenderAnalyzer;
-
-    /**
-     * @var PathResolver
-     */
-    private $pathResolver;
-
-    /**
-     * @var MissingTemplateRenderVariableResolver
-     */
-    private $missingTemplateRenderVariableResolver;
-
     public function __construct(
-        TemplateRenderAnalyzer $templateRenderAnalyzer,
-        PathResolver $pathResolver,
-        MissingTemplateRenderVariableResolver $missingTemplateRenderVariableResolver
+        private TemplateRenderAnalyzer $templateRenderAnalyzer,
+        private PathResolver $pathResolver,
+        private MissingTemplateRenderVariableResolver $missingTemplateRenderVariableResolver
     ) {
-        $this->templateRenderAnalyzer = $templateRenderAnalyzer;
-        $this->pathResolver = $pathResolver;
-        $this->missingTemplateRenderVariableResolver = $missingTemplateRenderVariableResolver;
     }
 
     /**

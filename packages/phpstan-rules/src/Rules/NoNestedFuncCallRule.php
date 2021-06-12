@@ -40,20 +40,10 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         'in_array',
     ];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

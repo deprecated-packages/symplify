@@ -33,14 +33,9 @@ final class PatchDiffer
      */
     private const START_NEW_REGEX = '#^\+\+\+ New#m';
 
-    /**
-     * @var Differ
-     */
-    private $differ;
-
-    public function __construct(Differ $differ)
-    {
-        $this->differ = $differ;
+    public function __construct(
+        private Differ $differ
+    ) {
     }
 
     public function diff(OldAndNewFileInfo $oldAndNewFileInfo): string

@@ -9,20 +9,10 @@ use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 
 final class ConsoleDiffer
 {
-    /**
-     * @var Differ
-     */
-    private $differ;
-
-    /**
-     * @var ColorConsoleDiffFormatter
-     */
-    private $colorConsoleDiffFormatter;
-
-    public function __construct(Differ $differ, ColorConsoleDiffFormatter $colorConsoleDiffFormatter)
-    {
-        $this->differ = $differ;
-        $this->colorConsoleDiffFormatter = $colorConsoleDiffFormatter;
+    public function __construct(
+        private Differ $differ,
+        private ColorConsoleDiffFormatter $colorConsoleDiffFormatter
+    ) {
     }
 
     public function diff(string $old, string $new): string

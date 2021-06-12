@@ -11,14 +11,9 @@ use Symplify\PHPStanRules\ObjectCalisthenics\Marker\IndentationMarker;
 
 final class IndentationNodeVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var IndentationMarker
-     */
-    private $indentationMarker;
-
-    public function __construct(IndentationMarker $indentationMarker)
-    {
-        $this->indentationMarker = $indentationMarker;
+    public function __construct(
+        private IndentationMarker $indentationMarker
+    ) {
     }
 
     public function enterNode(Node $node)

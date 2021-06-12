@@ -11,10 +11,10 @@ interface SkipVoterInterface
     /**
      * @param string|object $element
      */
-    public function match($element): bool;
+    public function match(string | object $element): bool;
 
     /**
      * @param string|object $element
      */
-    public function shouldSkip($element, SmartFileInfo $smartFileInfo): bool;
+    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool;
 }

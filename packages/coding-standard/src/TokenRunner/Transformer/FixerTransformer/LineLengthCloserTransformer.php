@@ -14,20 +14,10 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 
 final class LineLengthCloserTransformer
 {
-    /**
-     * @var CallAnalyzer
-     */
-    private $callAnalyzer;
-
-    /**
-     * @var TokenFinder
-     */
-    private $tokenFinder;
-
-    public function __construct(CallAnalyzer $callAnalyzer, TokenFinder $tokenFinder)
-    {
-        $this->callAnalyzer = $callAnalyzer;
-        $this->tokenFinder = $tokenFinder;
+    public function __construct(
+        private CallAnalyzer $callAnalyzer,
+        private TokenFinder $tokenFinder
+    ) {
     }
 
     /**

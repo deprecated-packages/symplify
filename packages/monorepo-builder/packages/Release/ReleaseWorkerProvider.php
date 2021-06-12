@@ -16,7 +16,7 @@ final class ReleaseWorkerProvider
     /**
      * @var ReleaseWorkerInterface[]
      */
-    private $releaseWorkers = [];
+    private array $releaseWorkers = [];
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers

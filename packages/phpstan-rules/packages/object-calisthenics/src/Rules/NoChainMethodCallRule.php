@@ -71,17 +71,13 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     private $allowedChainTypes = [];
 
     /**
-     * @var ObjectTypeMatcher
-     */
-    private $objectTypeMatcher;
-
-    /**
      * @param class-string[] $allowedChainTypes
      */
-    public function __construct(ObjectTypeMatcher $objectTypeMatcher, array $allowedChainTypes = [])
-    {
+    public function __construct(
+        private ObjectTypeMatcher $objectTypeMatcher,
+        array $allowedChainTypes = []
+    ) {
         $this->allowedChainTypes = array_merge(self::DEFAULT_ALLOWED_CHAIN_TYPES, $allowedChainTypes);
-        $this->objectTypeMatcher = $objectTypeMatcher;
     }
 
     /**

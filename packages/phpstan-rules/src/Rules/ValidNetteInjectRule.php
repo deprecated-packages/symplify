@@ -28,14 +28,9 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
      */
     private const INJECT_ANNOTATION = '@inject';
 
-    /**
-     * @var BarePhpDocParser
-     */
-    private $barePhpDocParser;
-
-    public function __construct(BarePhpDocParser $barePhpDocParser)
-    {
-        $this->barePhpDocParser = $barePhpDocParser;
+    public function __construct(
+        private BarePhpDocParser $barePhpDocParser
+    ) {
     }
 
     /**

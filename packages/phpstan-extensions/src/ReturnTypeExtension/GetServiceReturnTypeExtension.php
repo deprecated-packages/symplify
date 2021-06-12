@@ -14,14 +14,9 @@ use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 
 final class GetServiceReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    /**
-     * @var ClassConstFetchReturnTypeResolver
-     */
-    private $classConstFetchReturnTypeResolver;
-
-    public function __construct(ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver)
-    {
-        $this->classConstFetchReturnTypeResolver = $classConstFetchReturnTypeResolver;
+    public function __construct(
+        private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver
+    ) {
     }
 
     public function getClass(): string

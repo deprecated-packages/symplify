@@ -24,20 +24,10 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
      */
     public const ERROR_MESSAGE = 'Do not call parent method if no override process';
 
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeComparator $nodeComparator)
-    {
-        $this->nodeComparator = $nodeComparator;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeComparator $nodeComparator
+    ) {
     }
 
     /**

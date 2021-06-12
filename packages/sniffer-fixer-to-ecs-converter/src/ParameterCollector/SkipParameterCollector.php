@@ -14,14 +14,9 @@ final class SkipParameterCollector
      */
     private const REF = 'ref';
 
-    /**
-     * @var ClassFromKeyResolver
-     */
-    private $classFromKeyResolver;
-
-    public function __construct(ClassFromKeyResolver $classFromKeyResolver)
-    {
-        $this->classFromKeyResolver = $classFromKeyResolver;
+    public function __construct(
+        private ClassFromKeyResolver $classFromKeyResolver
+    ) {
     }
 
     /**

@@ -12,10 +12,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class TokenFinder
 {
     /**
-     * @param int|Token $position
      * @param Tokens<Token> $tokens
      */
-    public function getPreviousMeaningfulToken(Tokens $tokens, $position): Token
+    public function getPreviousMeaningfulToken(Tokens $tokens, int | Token $position): Token
     {
         if (is_int($position)) {
             return $this->findPreviousTokenByPosition($tokens, $position);
@@ -62,7 +61,7 @@ final class TokenFinder
      * @param mixed[] $rawTokens
      * @return mixed[]|string
      */
-    public function getSameRowLastToken(array $rawTokens, int $position)
+    public function getSameRowLastToken(array $rawTokens, int $position): array | string
     {
         $lastToken = null;
         $rawTokensCount = count($rawTokens);

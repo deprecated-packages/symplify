@@ -8,14 +8,9 @@ use Symplify\Psr4Switcher\RobotLoader\PhpClassLoader;
 
 final class MultipleClassInOneFileFinder
 {
-    /**
-     * @var PhpClassLoader
-     */
-    private $phpClassLoader;
-
-    public function __construct(PhpClassLoader $phpClassLoader)
-    {
-        $this->phpClassLoader = $phpClassLoader;
+    public function __construct(
+        private PhpClassLoader $phpClassLoader
+    ) {
     }
 
     /**

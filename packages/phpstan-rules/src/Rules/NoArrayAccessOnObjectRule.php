@@ -28,14 +28,9 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
      */
     private const ALLOWED_CLASSES = ['SplFixedArray', 'SimpleXMLElement'];
 
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
-
-    public function __construct(ArrayStringAndFnMatcher $arrayStringAndFnMatcher)
-    {
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
+    public function __construct(
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
+    ) {
     }
 
     /**

@@ -11,14 +11,9 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 final class TokensInliner
 {
-    /**
-     * @var TokenSkipper
-     */
-    private $tokenSkipper;
-
-    public function __construct(TokenSkipper $tokenSkipper)
-    {
-        $this->tokenSkipper = $tokenSkipper;
+    public function __construct(
+        private TokenSkipper $tokenSkipper
+    ) {
     }
 
     /**

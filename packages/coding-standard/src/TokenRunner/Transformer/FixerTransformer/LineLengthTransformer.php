@@ -11,36 +11,12 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 final class LineLengthTransformer
 {
-    /**
-     * @var LineLengthResolver
-     */
-    private $lineLengthResolver;
-
-    /**
-     * @var TokensInliner
-     */
-    private $tokensInliner;
-
-    /**
-     * @var TokensNewliner
-     */
-    private $tokensNewliner;
-
-    /**
-     * @var FirstLineLengthResolver
-     */
-    private $firstLineLengthResolver;
-
     public function __construct(
-        LineLengthResolver $lineLengthResolver,
-        TokensInliner $tokensInliner,
-        FirstLineLengthResolver $firstLineLengthResolver,
-        TokensNewliner $tokensNewliner
+        private LineLengthResolver $lineLengthResolver,
+        private TokensInliner $tokensInliner,
+        private FirstLineLengthResolver $firstLineLengthResolver,
+        private TokensNewliner $tokensNewliner
     ) {
-        $this->lineLengthResolver = $lineLengthResolver;
-        $this->tokensInliner = $tokensInliner;
-        $this->firstLineLengthResolver = $firstLineLengthResolver;
-        $this->tokensNewliner = $tokensNewliner;
     }
 
     /**

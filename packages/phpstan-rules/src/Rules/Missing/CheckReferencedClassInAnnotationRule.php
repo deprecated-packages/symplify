@@ -43,36 +43,12 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
      */
     public const METHOD_ERROR_MESSAGE = 'Method "%s" not found on "%s" class';
 
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
-     * @var ClassReflectionResolver
-     */
-    private $classReflectionResolver;
-
-    /**
-     * @var ClassReferencePhpDocNodeTraverser
-     */
-    private $classReferencePhpDocNodeTraverser;
-
-    /**
-     * @var SimplePhpDocParser
-     */
-    private $simplePhpDocParser;
-
     public function __construct(
-        SimplePhpDocParser $simplePhpDocParser,
-        ReflectionProvider $reflectionProvider,
-        ClassReflectionResolver $classReflectionResolver,
-        ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
+        private SimplePhpDocParser $simplePhpDocParser,
+        private ReflectionProvider $reflectionProvider,
+        private ClassReflectionResolver $classReflectionResolver,
+        private ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
     ) {
-        $this->reflectionProvider = $reflectionProvider;
-        $this->classReflectionResolver = $classReflectionResolver;
-        $this->classReferencePhpDocNodeTraverser = $classReferencePhpDocNodeTraverser;
-        $this->simplePhpDocParser = $simplePhpDocParser;
     }
 
     /**

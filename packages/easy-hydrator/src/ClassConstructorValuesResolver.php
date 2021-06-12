@@ -10,22 +10,10 @@ use Symplify\EasyHydrator\Exception\MissingConstructorException;
 
 final class ClassConstructorValuesResolver
 {
-    /**
-     * @var TypeCastersCollector
-     */
-    private $typeCastersCollector;
-
-    /**
-     * @var ParameterValueResolver
-     */
-    private $parameterValueResolver;
-
     public function __construct(
-        TypeCastersCollector $typeCastersCollector,
-        ParameterValueResolver $parameterValueResolver
+        private TypeCastersCollector $typeCastersCollector,
+        private ParameterValueResolver $parameterValueResolver
     ) {
-        $this->typeCastersCollector = $typeCastersCollector;
-        $this->parameterValueResolver = $parameterValueResolver;
     }
 
     /**

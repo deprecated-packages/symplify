@@ -47,23 +47,10 @@ final class PhpParserPhpConfigPrinter extends Standard
      */
     private const DECLARE_SPACE_STRICT_REGEX = '#declare \(strict#';
 
-    /**
-     * @var ImportFullyQualifiedNamesNodeTraverser
-     */
-    private $importFullyQualifiedNamesNodeTraverser;
-
-    /**
-     * @var EmptyLineNodeDecorator
-     */
-    private $emptyLineNodeDecorator;
-
     public function __construct(
-        ImportFullyQualifiedNamesNodeTraverser $importFullyQualifiedNamesNodeTraverser,
-        EmptyLineNodeDecorator $emptyLineNodeDecorator
+        private ImportFullyQualifiedNamesNodeTraverser $importFullyQualifiedNamesNodeTraverser,
+        private EmptyLineNodeDecorator $emptyLineNodeDecorator
     ) {
-        $this->importFullyQualifiedNamesNodeTraverser = $importFullyQualifiedNamesNodeTraverser;
-        $this->emptyLineNodeDecorator = $emptyLineNodeDecorator;
-
         parent::__construct();
     }
 

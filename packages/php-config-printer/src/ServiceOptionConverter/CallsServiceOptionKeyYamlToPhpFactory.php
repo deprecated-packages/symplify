@@ -11,14 +11,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
 final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @var SingleServicePhpNodeFactory
-     */
-    private $singleServicePhpNodeFactory;
-
-    public function __construct(SingleServicePhpNodeFactory $singleServicePhpNodeFactory)
-    {
-        $this->singleServicePhpNodeFactory = $singleServicePhpNodeFactory;
+    public function __construct(
+        private SingleServicePhpNodeFactory $singleServicePhpNodeFactory
+    ) {
     }
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall

@@ -14,7 +14,7 @@ final class StaticReport
     /**
      * @var StaticClassMethodWithStaticCalls[]
      */
-    private $staticClassMethodsWithStaticCalls = [];
+    private array $staticClassMethodsWithStaticCalls = [];
 
     /**
      * @param StaticClassMethodWithStaticCalls[] $staticClassMethodsWithStaticCalls

@@ -12,14 +12,9 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
  */
 final class CompleteUnifiedDiffOutputBuilderFactory
 {
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
-
-    public function __construct(PrivatesAccessor $privatesAccessor)
-    {
-        $this->privatesAccessor = $privatesAccessor;
+    public function __construct(
+        private PrivatesAccessor $privatesAccessor
+    ) {
     }
 
     /**

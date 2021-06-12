@@ -27,20 +27,16 @@ final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule implement
     /**
      * @var string[]
      */
-    private $forbiddenTypes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $forbiddenTypes = [];
 
     /**
      * @param string[] $forbiddenTypes
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenTypes = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $forbiddenTypes = []
+    ) {
         $this->forbiddenTypes = $forbiddenTypes;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

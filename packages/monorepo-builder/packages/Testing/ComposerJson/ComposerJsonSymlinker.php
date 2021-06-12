@@ -30,29 +30,11 @@ final class ComposerJsonSymlinker
      */
     private const OPTIONS = 'options';
 
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var PackagePathResolver
-     */
-    private $packagePathResolver;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
     public function __construct(
-        ComposerJsonProvider $composerJsonProvider,
-        PackagePathResolver $packagePathResolver,
-        JsonFileManager $jsonFileManager
+        private ComposerJsonProvider $composerJsonProvider,
+        private PackagePathResolver $packagePathResolver,
+        private JsonFileManager $jsonFileManager
     ) {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->packagePathResolver = $packagePathResolver;
-        $this->jsonFileManager = $jsonFileManager;
     }
 
     /**

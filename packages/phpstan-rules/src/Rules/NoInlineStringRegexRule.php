@@ -25,22 +25,10 @@ final class NoInlineStringRegexRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use local named constant instead of inline string for regex to explain meaning by constant name';
 
-    /**
-     * @var RegexFuncCallAnalyzer
-     */
-    private $regexFuncCallAnalyzer;
-
-    /**
-     * @var RegexStaticCallAnalyzer
-     */
-    private $regexStaticCallAnalyzer;
-
     public function __construct(
-        RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
-        RegexStaticCallAnalyzer $regexStaticCallAnalyzer
+        private RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
+        private RegexStaticCallAnalyzer $regexStaticCallAnalyzer
     ) {
-        $this->regexFuncCallAnalyzer = $regexFuncCallAnalyzer;
-        $this->regexStaticCallAnalyzer = $regexStaticCallAnalyzer;
     }
 
     /**

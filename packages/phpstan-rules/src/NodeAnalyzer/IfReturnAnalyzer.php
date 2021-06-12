@@ -9,14 +9,9 @@ use Symplify\PHPStanRules\ValueObject\ScalarAndNonScalarCounter;
 
 final class IfReturnAnalyzer
 {
-    /**
-     * @var ScalarAnalyzer
-     */
-    private $scalarAnalyzer;
-
-    public function __construct(ScalarAnalyzer $scalarAnalyzer)
-    {
-        $this->scalarAnalyzer = $scalarAnalyzer;
+    public function __construct(
+        private ScalarAnalyzer $scalarAnalyzer
+    ) {
     }
 
     /**

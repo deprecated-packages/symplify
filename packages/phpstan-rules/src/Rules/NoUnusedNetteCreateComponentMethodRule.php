@@ -31,29 +31,11 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
      */
     private const CREATE_COMPONENT = 'createComponent';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var UsedLocaComponentNamesResolver
-     */
-    private $usedLocaComponentNamesResolver;
-
-    /**
-     * @var LatteUsedControlResolver
-     */
-    private $latteUsedControlResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        UsedLocaComponentNamesResolver $usedLocaComponentNamesResolver,
-        LatteUsedControlResolver $latteUsedControlResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private UsedLocaComponentNamesResolver $usedLocaComponentNamesResolver,
+        private LatteUsedControlResolver $latteUsedControlResolver
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->usedLocaComponentNamesResolver = $usedLocaComponentNamesResolver;
-        $this->latteUsedControlResolver = $latteUsedControlResolver;
     }
 
     public function getNodeType(): string

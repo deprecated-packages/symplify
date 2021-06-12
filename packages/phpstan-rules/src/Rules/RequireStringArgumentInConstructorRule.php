@@ -31,29 +31,17 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     /**
      * @var array<string, array<int>>
      */
-    private $stringArgPositionsByType = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
+    private array $stringArgPositionsByType = [];
 
     /**
      * @param array<string, array<int>> $stringArgPositionsByType
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer,
         array $stringArgPositionsByType = []
     ) {
         $this->stringArgPositionsByType = $stringArgPositionsByType;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

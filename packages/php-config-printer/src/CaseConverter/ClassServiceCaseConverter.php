@@ -16,22 +16,10 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ClassServiceCaseConverter implements CaseConverterInterface
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var ServiceOptionNodeFactory
-     */
-    private $serviceOptionNodeFactory;
-
     public function __construct(
-        ArgsNodeFactory $argsNodeFactory,
-        ServiceOptionNodeFactory $serviceOptionNodeFactory
+        private ArgsNodeFactory $argsNodeFactory,
+        private ServiceOptionNodeFactory $serviceOptionNodeFactory
     ) {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
     }
 
     public function convertToMethodCall($key, $values): Expression

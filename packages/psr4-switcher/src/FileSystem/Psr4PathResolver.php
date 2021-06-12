@@ -11,7 +11,7 @@ final class Psr4PathResolver
     /**
      * @return string|string[]
      */
-    public function resolvePaths(Psr4NamespaceToPaths $psr4NamespaceToPaths)
+    public function resolvePaths(Psr4NamespaceToPaths $psr4NamespaceToPaths): array | string
     {
         if (count($psr4NamespaceToPaths->getPaths()) > 1) {
             $paths = $psr4NamespaceToPaths->getPaths();

@@ -15,20 +15,10 @@ use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
 
 final class ParentClassMethodGuard
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentMethodResolver
-     */
-    private $parentMethodResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, ParentMethodResolver $parentMethodResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentMethodResolver = $parentMethodResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private ParentMethodResolver $parentMethodResolver
+    ) {
     }
 
     /**

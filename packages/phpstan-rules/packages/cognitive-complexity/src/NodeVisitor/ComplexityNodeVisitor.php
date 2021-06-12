@@ -11,22 +11,10 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNo
 
 final class ComplexityNodeVisitor extends NodeVisitorAbstract
 {
-    /**
-     * @var CognitiveComplexityDataCollector
-     */
-    private $cognitiveComplexityDataCollector;
-
-    /**
-     * @var ComplexityAffectingNodeFinder
-     */
-    private $complexityAffectingNodeFinder;
-
     public function __construct(
-        CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
-        ComplexityAffectingNodeFinder $complexityAffectingNodeFinder
+        private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
+        private ComplexityAffectingNodeFinder $complexityAffectingNodeFinder
     ) {
-        $this->cognitiveComplexityDataCollector = $cognitiveComplexityDataCollector;
-        $this->complexityAffectingNodeFinder = $complexityAffectingNodeFinder;
     }
 
     public function enterNode(Node $node): ?Node

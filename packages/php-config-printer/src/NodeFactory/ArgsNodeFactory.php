@@ -30,29 +30,11 @@ final class ArgsNodeFactory
      */
     private const TAG_RETURNS_CLONE = 'returns_clone';
 
-    /**
-     * @var StringExprResolver
-     */
-    private $stringExprResolver;
-
-    /**
-     * @var TaggedReturnsCloneResolver
-     */
-    private $taggedReturnsCloneResolver;
-
-    /**
-     * @var TaggedServiceResolver
-     */
-    private $taggedServiceResolver;
-
     public function __construct(
-        StringExprResolver $stringExprResolver,
-        TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
-        TaggedServiceResolver $taggedServiceResolver
+        private StringExprResolver $stringExprResolver,
+        private TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
+        private TaggedServiceResolver $taggedServiceResolver
     ) {
-        $this->stringExprResolver = $stringExprResolver;
-        $this->taggedReturnsCloneResolver = $taggedReturnsCloneResolver;
-        $this->taggedServiceResolver = $taggedServiceResolver;
     }
 
     /**

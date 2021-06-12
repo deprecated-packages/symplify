@@ -35,53 +35,29 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     public const ERROR_MESSAGE = 'Parameter "%s" cannot be nullable';
 
     /**
-     * @var SimpleNameResolver
+     * @var class-string[]
      */
-    private $simpleNameResolver;
+    private array $forbiddenTypes = [];
 
     /**
      * @var class-string[]
      */
-    private $forbiddenTypes = [];
-
-    /**
-     * @var class-string[]
-     */
-    private $allowedTypes = [];
-
-    /**
-     * @var NullableTypeResolver
-     */
-    private $nullableTypeResolver;
-
-    /**
-     * @var ParentClassMethodGuard
-     */
-    private $parentClassMethodGuard;
-
-    /**
-     * @var ForbiddenAllowedTypeAnalyzer
-     */
-    private $forbiddenAllowedTypeAnalyzer;
+    private array $allowedTypes = [];
 
     /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NullableTypeResolver $nullableTypeResolver,
-        ParentClassMethodGuard $parentClassMethodGuard,
-        ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private NullableTypeResolver $nullableTypeResolver,
+        private ParentClassMethodGuard $parentClassMethodGuard,
+        private ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
         array $forbiddenTypes = [],
         array $allowedTypes = []
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
         $this->forbiddenTypes = $forbiddenTypes;
         $this->allowedTypes = $allowedTypes;
-        $this->nullableTypeResolver = $nullableTypeResolver;
-        $this->parentClassMethodGuard = $parentClassMethodGuard;
-        $this->forbiddenAllowedTypeAnalyzer = $forbiddenAllowedTypeAnalyzer;
     }
 
     /**

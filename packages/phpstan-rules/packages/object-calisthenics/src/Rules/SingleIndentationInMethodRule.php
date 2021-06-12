@@ -33,29 +33,11 @@ final class SingleIndentationInMethodRule extends AbstractSymplifyRule implement
      */
     private const DEFAULT_DEPTH = 5;
 
-    /**
-     * @var IndentationMarker
-     */
-    private $indentationMarker;
-
-    /**
-     * @var int
-     */
-    private $maxNestingLevel;
-
-    /**
-     * @var IndentationNodeTraverserFactory
-     */
-    private $indentationNodeTraverserFactory;
-
     public function __construct(
-        IndentationMarker $indentationMarker,
-        IndentationNodeTraverserFactory $indentationNodeTraverserFactory,
-        int $maxNestingLevel = 1
+        private IndentationMarker $indentationMarker,
+        private IndentationNodeTraverserFactory $indentationNodeTraverserFactory,
+        private int $maxNestingLevel = 1
     ) {
-        $this->indentationMarker = $indentationMarker;
-        $this->maxNestingLevel = $maxNestingLevel;
-        $this->indentationNodeTraverserFactory = $indentationNodeTraverserFactory;
     }
 
     /**

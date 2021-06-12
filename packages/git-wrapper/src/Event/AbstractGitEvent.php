@@ -14,26 +14,11 @@ use Symplify\GitWrapper\GitWrapper;
  */
 abstract class AbstractGitEvent extends Event
 {
-    /**
-     * @var GitWrapper
-     */
-    protected $gitWrapper;
-
-    /**
-     * @var Process
-     */
-    protected $process;
-
-    /**
-     * @var GitCommand
-     */
-    protected $gitCommand;
-
-    public function __construct(GitWrapper $gitWrapper, Process $process, GitCommand $gitCommand)
-    {
-        $this->gitWrapper = $gitWrapper;
-        $this->process = $process;
-        $this->gitCommand = $gitCommand;
+    public function __construct(
+        protected GitWrapper $gitWrapper,
+        protected Process $process,
+        protected GitCommand $gitCommand
+    ) {
     }
 
     public function getWrapper(): GitWrapper

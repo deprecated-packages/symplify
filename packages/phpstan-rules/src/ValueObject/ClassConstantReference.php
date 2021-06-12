@@ -6,20 +6,10 @@ namespace Symplify\PHPStanRules\ValueObject;
 
 final class ClassConstantReference
 {
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var string
-     */
-    private $constant;
-
-    public function __construct(string $class, string $constant)
-    {
-        $this->class = $class;
-        $this->constant = $constant;
+    public function __construct(
+        private string $class,
+        private string $constant
+    ) {
     }
 
     public function getClass(): string

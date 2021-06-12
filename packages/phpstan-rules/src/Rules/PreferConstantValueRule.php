@@ -30,7 +30,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     /**
      * @var array<string, array<string, string>>
      */
-    private $constantHoldingObjects = [];
+    private array $constantHoldingObjects = [];
 
     /**
      * @var array<string, ReflectionClassConstant[]>

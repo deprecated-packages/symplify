@@ -88,7 +88,7 @@ abstract class AbstractKernelTestCase extends TestCase
      * @param class-string<T> $type
      * @return T
      */
-    protected function getService(string $type): object
+    protected function getService(string $type): ?object
     {
         if (self::$container === null) {
             throw new ShouldNotHappenException('First, crewate container with booKernel(KernelClass::class)');

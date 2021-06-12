@@ -17,30 +17,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var ComposerJsonRequireUpdater
-     */
-    private $composerJsonRequireUpdater;
-
-    /**
-     * @var ComposerJsonRepositoriesUpdater
-     */
-    private $composerJsonRepositoriesUpdater;
-
     public function __construct(
-        ComposerJsonProvider $composerJsonProvider,
-        ComposerJsonRequireUpdater $composerJsonRequireUpdater,
-        ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater
+        private ComposerJsonProvider $composerJsonProvider,
+        private ComposerJsonRequireUpdater $composerJsonRequireUpdater,
+        private ComposerJsonRepositoriesUpdater $composerJsonRepositoriesUpdater
     ) {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->composerJsonRequireUpdater = $composerJsonRequireUpdater;
-        $this->composerJsonRepositoriesUpdater = $composerJsonRepositoriesUpdater;
-
         parent::__construct();
     }
 

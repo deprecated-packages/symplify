@@ -16,29 +16,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ControllerContentResolver
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @var ControllerMatcher
-     */
-    private $controllerMatcher;
-
     public function __construct(
-        ContainerInterface $container,
-        RequestStack $requestStack,
-        ControllerMatcher $controllerMatcher
+        private ContainerInterface $container,
+        private RequestStack $requestStack,
+        private ControllerMatcher $controllerMatcher
     ) {
-        $this->container = $container;
-        $this->requestStack = $requestStack;
-        $this->controllerMatcher = $controllerMatcher;
     }
 
     /**

@@ -30,18 +30,14 @@ final class DevMasterAliasUpdater
     private const COMPOSER_BRANCH_PREFIX = 'dev-';
 
     /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
      * @var string
      */
     private $branchAliasTarget;
 
-    public function __construct(JsonFileManager $jsonFileManager, ParameterProvider $parameterProvider)
-    {
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private JsonFileManager $jsonFileManager,
+        ParameterProvider $parameterProvider
+    ) {
         $this->branchAliasTarget = self::COMPOSER_BRANCH_PREFIX . $parameterProvider->provideStringParameter(
             Option::DEFAULT_BRANCH_NAME
         );

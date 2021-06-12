@@ -16,16 +16,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class GenerateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var DirectoryToMarkdownPrinter
-     */
-    private $directoryToMarkdownPrinter;
-
-    public function __construct(DirectoryToMarkdownPrinter $directoryToMarkdownPrinter)
-    {
+    public function __construct(
+        private DirectoryToMarkdownPrinter $directoryToMarkdownPrinter
+    ) {
         parent::__construct();
-
-        $this->directoryToMarkdownPrinter = $directoryToMarkdownPrinter;
     }
 
     protected function configure(): void

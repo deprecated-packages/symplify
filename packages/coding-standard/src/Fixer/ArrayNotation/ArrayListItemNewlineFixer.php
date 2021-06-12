@@ -30,29 +30,11 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
      */
     private const ERROR_MESSAGE = 'Indexed PHP array item has to have one line per item';
 
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var ArrayBlockInfoFinder
-     */
-    private $arrayBlockInfoFinder;
-
     public function __construct(
-        ArrayAnalyzer $arrayAnalyzer,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        ArrayBlockInfoFinder $arrayBlockInfoFinder
+        private ArrayAnalyzer $arrayAnalyzer,
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private ArrayBlockInfoFinder $arrayBlockInfoFinder
     ) {
-        $this->arrayAnalyzer = $arrayAnalyzer;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->arrayBlockInfoFinder = $arrayBlockInfoFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface

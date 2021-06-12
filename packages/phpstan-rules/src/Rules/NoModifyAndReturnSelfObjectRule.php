@@ -30,50 +30,14 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use void instead of modify and return self object';
 
-    /**
-     * @var ReturnNodeFinder
-     */
-    private $returnNodeFinder;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var AssignAnalyzer
-     */
-    private $assignAnalyzer;
-
-    /**
-     * @var MethodNodeAnalyser
-     */
-    private $methodNodeAnalyser;
-
     public function __construct(
-        ReturnNodeFinder $returnNodeFinder,
-        NodeComparator $nodeComparator,
-        SimpleNodeFinder $simpleNodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        AssignAnalyzer $assignAnalyzer,
-        MethodNodeAnalyser $methodNodeAnalyser
+        private ReturnNodeFinder $returnNodeFinder,
+        private NodeComparator $nodeComparator,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private AssignAnalyzer $assignAnalyzer,
+        private MethodNodeAnalyser $methodNodeAnalyser
     ) {
-        $this->returnNodeFinder = $returnNodeFinder;
-        $this->nodeComparator = $nodeComparator;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->assignAnalyzer = $assignAnalyzer;
-        $this->methodNodeAnalyser = $methodNodeAnalyser;
     }
 
     /**

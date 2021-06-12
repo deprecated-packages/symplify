@@ -22,14 +22,9 @@ final class TooManyMethodsRule extends AbstractSymplifyRule implements Configura
      */
     public const ERROR_MESSAGE = 'Method has too many methods %d. Try narrowing it down under %d';
 
-    /**
-     * @var int
-     */
-    private $maxMethodCount;
-
-    public function __construct(int $maxMethodCount = 15)
-    {
-        $this->maxMethodCount = $maxMethodCount;
+    public function __construct(
+        private int $maxMethodCount = 15
+    ) {
     }
 
     /**

@@ -39,14 +39,9 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
      */
     private const BRACKET_PATH_REGEX = '#\{(.*?)\}#';
 
-    /**
-     * @var FileExistFuncCallAnalyzer
-     */
-    private $fileExistFuncCallAnalyzer;
-
-    public function __construct(FileExistFuncCallAnalyzer $fileExistFuncCallAnalyzer)
-    {
-        $this->fileExistFuncCallAnalyzer = $fileExistFuncCallAnalyzer;
+    public function __construct(
+        private FileExistFuncCallAnalyzer $fileExistFuncCallAnalyzer
+    ) {
     }
 
     /**

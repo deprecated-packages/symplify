@@ -11,18 +11,13 @@ use PhpCsFixer\Tokenizer\Tokens;
 final class ChainMethodCallAnalyzer
 {
     /**
-     * @var NewlineAnalyzer
-     */
-    private $newlineAnalyzer;
-
-    /**
      * @var int
      */
     private $bracketNesting = 0;
 
-    public function __construct(NewlineAnalyzer $newlineAnalyzer)
-    {
-        $this->newlineAnalyzer = $newlineAnalyzer;
+    public function __construct(
+        private NewlineAnalyzer $newlineAnalyzer
+    ) {
     }
 
     /**

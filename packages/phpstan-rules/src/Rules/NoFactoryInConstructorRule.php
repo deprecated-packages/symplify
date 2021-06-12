@@ -49,22 +49,10 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         '*\ValueObject\*',
     ];
 
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
-
-    /**
-     * @var MethodNodeAnalyser
-     */
-    private $methodNodeAnalyser;
-
     public function __construct(
-        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        MethodNodeAnalyser $methodNodeAnalyser
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        private MethodNodeAnalyser $methodNodeAnalyser
     ) {
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
-        $this->methodNodeAnalyser = $methodNodeAnalyser;
     }
 
     /**

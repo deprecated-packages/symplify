@@ -18,13 +18,6 @@ final class GitCommand
     private $directory;
 
     /**
-     * The command being run, e.g. "clone", "commit", etc.
-     *
-     * @var string
-     */
-    private $command = '';
-
-    /**
      * Whether command execution should be bypassed.
      *
      * @var bool
@@ -52,10 +45,13 @@ final class GitCommand
     /**
      * @param mixed ...$argsAndOptions
      */
-    public function __construct(string $command = '', ...$argsAndOptions)
-    {
-        $this->command = $command;
-
+    public function __construct(
+    /**
+     * The command being run, e.g. "clone", "commit", etc.
+     */
+    private string $command = '',
+        ...$argsAndOptions
+    ) {
         foreach ($argsAndOptions as $argOrOption) {
             if (is_array($argOrOption)) {
                 // If item is array, set it as the options
@@ -114,7 +110,7 @@ final class GitCommand
     /**
      * @param mixed[]|string|true $value The option's value, pass true if the options is a flag.
      */
-    public function setOption(string $option, $value): void
+    public function setOption(string $option, array | string | bool $value): void
     {
         $this->options[$option] = $value;
     }
@@ -154,7 +150,7 @@ final class GitCommand
      *
      * @return string|string[]
      */
-    public function getCommandLine()
+    public function getCommandLine(): string | array
     {
         if ($this->executeRaw) {
             return $this->command;

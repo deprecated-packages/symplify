@@ -13,20 +13,10 @@ use Symplify\Astral\ValueObject\AttributeKey;
 
 final class StatementFinder
 {
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     public function isUsedInNextStatement(Assign $assign, Node $node): bool

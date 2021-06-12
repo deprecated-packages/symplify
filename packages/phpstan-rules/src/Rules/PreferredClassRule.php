@@ -33,29 +33,17 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     /**
      * @var string[]
      */
-    private $oldToPrefferedClasses = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentParamTypeGuard
-     */
-    private $parentParamTypeGuard;
+    private array $oldToPrefferedClasses = [];
 
     /**
      * @param string[] $oldToPreferredClasses
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ParentParamTypeGuard $parentParamTypeGuard,
+        private SimpleNameResolver $simpleNameResolver,
+        private ParentParamTypeGuard $parentParamTypeGuard,
         array $oldToPreferredClasses
     ) {
         $this->oldToPrefferedClasses = $oldToPreferredClasses;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentParamTypeGuard = $parentParamTypeGuard;
     }
 
     /**

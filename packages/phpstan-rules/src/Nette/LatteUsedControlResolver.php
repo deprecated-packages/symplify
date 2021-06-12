@@ -30,24 +30,14 @@ final class LatteUsedControlResolver
     private $latteUsedComponentNames = [];
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
      * @var string[]
      */
     private $layoutUsedComponentNames = [];
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, FinderSanitizer $finderSanitizer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->finderSanitizer = $finderSanitizer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private FinderSanitizer $finderSanitizer
+    ) {
     }
 
     /**

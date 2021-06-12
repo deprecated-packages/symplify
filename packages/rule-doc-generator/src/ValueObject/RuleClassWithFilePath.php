@@ -6,20 +6,10 @@ namespace Symplify\RuleDocGenerator\ValueObject;
 
 final class RuleClassWithFilePath
 {
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var string
-     */
-    private $path;
-
-    public function __construct(string $class, string $path)
-    {
-        $this->class = $class;
-        $this->path = $path;
+    public function __construct(
+        private string $class,
+        private string $path
+    ) {
     }
 
     public function getClass(): string

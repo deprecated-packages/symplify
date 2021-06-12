@@ -19,31 +19,13 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class ContainerConfiguratorReturnClosureFactory
 {
     /**
-     * @var ConfiguratorClosureNodeFactory
-     */
-    private $configuratorClosureNodeFactory;
-
-    /**
-     * @var CaseConverterInterface[]
-     */
-    private $caseConverters = [];
-
-    /**
-     * @var ContainerNestedNodesFactory
-     */
-    private $containerNestedNodesFactory;
-
-    /**
      * @param CaseConverterInterface[] $caseConverters
      */
     public function __construct(
-        ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
-        array $caseConverters,
-        ContainerNestedNodesFactory $containerNestedNodesFactory
+        private ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
+        private array $caseConverters,
+        private ContainerNestedNodesFactory $containerNestedNodesFactory
     ) {
-        $this->configuratorClosureNodeFactory = $configuratorClosureNodeFactory;
-        $this->caseConverters = $caseConverters;
-        $this->containerNestedNodesFactory = $containerNestedNodesFactory;
     }
 
     /**
@@ -132,10 +114,9 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @param int|string $nestedKey
      * @param mixed|mixed[] $nestedValues
      */
-    private function resolveExpression(string $key, $nestedKey, $nestedValues): ?Expression
+    private function resolveExpression(string $key, int | string $nestedKey, $nestedValues): ?Expression
     {
         foreach ($this->caseConverters as $caseConverter) {
             if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {

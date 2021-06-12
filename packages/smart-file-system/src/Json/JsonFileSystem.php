@@ -14,20 +14,10 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  */
 final class JsonFileSystem
 {
-    /**
-     * @var FileSystemGuard
-     */
-    private $fileSystemGuard;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(FileSystemGuard $fileSystemGuard, SmartFileSystem $smartFileSystem)
-    {
-        $this->fileSystemGuard = $fileSystemGuard;
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private FileSystemGuard $fileSystemGuard,
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     /**

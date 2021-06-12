@@ -15,14 +15,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class ComposerJsonFactory
 {
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(JsonFileManager $jsonFileManager)
-    {
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     public function createFromString(string $jsonString): ComposerJson

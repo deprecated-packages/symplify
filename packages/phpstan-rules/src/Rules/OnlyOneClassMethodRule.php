@@ -25,20 +25,16 @@ final class OnlyOneClassMethodRule extends AbstractSymplifyRule implements Confi
     /**
      * @var array<string, string[]>
      */
-    private $onlyOneMethodsByType = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $onlyOneMethodsByType = [];
 
     /**
      * @param array<string, string[]> $onlyOneMethodsByType
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $onlyOneMethodsByType = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $onlyOneMethodsByType = []
+    ) {
         $this->onlyOneMethodsByType = $onlyOneMethodsByType;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     public function getRuleDefinition(): RuleDefinition

@@ -7,18 +7,14 @@ namespace Symplify\PHPUnitUpgrader\ValueObject;
 final class FilePathWithContent
 {
     /**
-     * @var string
-     */
-    private $filePath;
-
-    /**
      * @var array<int, string>
      */
     private $contentLines = [];
 
-    public function __construct(string $filePath, string $content)
-    {
-        $this->filePath = $filePath;
+    public function __construct(
+        private string $filePath,
+        string $content
+    ) {
         $this->contentLines = explode(PHP_EOL, $content);
     }
 

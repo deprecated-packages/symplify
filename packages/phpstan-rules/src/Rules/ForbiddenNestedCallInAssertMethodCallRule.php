@@ -23,20 +23,10 @@ final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRu
      */
     public const ERROR_MESSAGE = 'Decouple method call in assert to standalone line to make test core more readable';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NodeFinder $nodeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

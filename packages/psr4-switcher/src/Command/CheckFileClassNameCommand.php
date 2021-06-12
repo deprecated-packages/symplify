@@ -16,15 +16,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CheckFileClassNameCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var PhpClassLoader
-     */
-    private $phpClassLoader;
-
-    public function __construct(PhpClassLoader $phpClassLoader)
-    {
-        $this->phpClassLoader = $phpClassLoader;
-
+    public function __construct(
+        private PhpClassLoader $phpClassLoader
+    ) {
         parent::__construct();
     }
 

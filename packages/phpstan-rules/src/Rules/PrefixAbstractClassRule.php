@@ -23,20 +23,10 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Abstract class name "%s" must be prefixed with "Abstract"';
 
-    /**
-     * @var Broker
-     */
-    private $broker;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(Broker $broker, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->broker = $broker;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private Broker $broker,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

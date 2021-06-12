@@ -29,36 +29,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
-    /**
-     * @var ParentMethodAnalyser
-     */
-    private $parentMethodAnalyser;
-
-    /**
-     * @var ClassMethodTypeAnalyzer
-     */
-    private $classMethodTypeAnalyzer;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
     public function __construct(
-        ParentMethodAnalyser $parentMethodAnalyser,
-        ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
-        SimpleNameResolver $simpleNameResolver,
-        ReflectionProvider $reflectionProvider
+        private ParentMethodAnalyser $parentMethodAnalyser,
+        private ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionProvider $reflectionProvider
     ) {
-        $this->parentMethodAnalyser = $parentMethodAnalyser;
-        $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**

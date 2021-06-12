@@ -38,22 +38,10 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule imp
      */
     public const ERROR_MESSAGE = 'Cognitive complexity for "%s" is %d, keep it under %d';
 
-    /**
-     * @var int
-     */
-    private $maxMethodCognitiveComplexity;
-
-    /**
-     * @var AstCognitiveComplexityAnalyzer
-     */
-    private $astCognitiveComplexityAnalyzer;
-
     public function __construct(
-        AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
-        int $maxMethodCognitiveComplexity = 8
+        private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
+        private int $maxMethodCognitiveComplexity = 8
     ) {
-        $this->maxMethodCognitiveComplexity = $maxMethodCognitiveComplexity;
-        $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
     }
 
     /**

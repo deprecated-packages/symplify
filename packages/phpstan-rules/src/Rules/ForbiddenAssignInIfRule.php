@@ -22,14 +22,9 @@ final class ForbiddenAssignInIfRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Assignment inside if is not allowed. Extract condition to extra variable on line above';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(NodeFinder $nodeFinder)
-    {
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     /**

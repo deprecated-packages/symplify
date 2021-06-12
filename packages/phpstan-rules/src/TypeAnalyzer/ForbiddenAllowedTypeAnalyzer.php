@@ -8,14 +8,9 @@ use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class ForbiddenAllowedTypeAnalyzer
 {
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    public function __construct(TypeChecker $typeChecker)
-    {
-        $this->typeChecker = $typeChecker;
+    public function __construct(
+        private TypeChecker $typeChecker
+    ) {
     }
 
     /**

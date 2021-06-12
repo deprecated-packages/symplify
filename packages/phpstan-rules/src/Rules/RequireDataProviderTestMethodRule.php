@@ -27,22 +27,16 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
     /**
      * @var string[]
      */
-    private $classesRequiringDataProvider = [];
-
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
+    private array $classesRequiringDataProvider = [];
 
     /**
      * @param string[] $classesRequiringDataProvider
      */
     public function __construct(
-        ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         array $classesRequiringDataProvider = []
     ) {
         $this->classesRequiringDataProvider = $classesRequiringDataProvider;
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
     /**

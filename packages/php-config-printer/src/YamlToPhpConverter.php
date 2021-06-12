@@ -23,50 +23,14 @@ final class YamlToPhpConverter
      */
     private const ROUTING_KEYS = ['resource', 'prefix', 'path', 'controller'];
 
-    /**
-     * @var Parser
-     */
-    private $yamlParser;
-
-    /**
-     * @var PhpParserPhpConfigPrinter
-     */
-    private $phpParserPhpConfigPrinter;
-
-    /**
-     * @var ContainerConfiguratorReturnClosureFactory
-     */
-    private $containerConfiguratorReturnClosureFactory;
-
-    /**
-     * @var YamlFileContentProviderInterface
-     */
-    private $yamlFileContentProvider;
-
-    /**
-     * @var CheckerServiceParametersShifter
-     */
-    private $checkerServiceParametersShifter;
-
-    /**
-     * @var RoutingConfiguratorReturnClosureFactory
-     */
-    private $routingConfiguratorReturnClosureFactory;
-
     public function __construct(
-        Parser $yamlParser,
-        PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
-        ContainerConfiguratorReturnClosureFactory $returnClosureNodesFactory,
-        RoutingConfiguratorReturnClosureFactory $routingConfiguratorReturnClosureFactory,
-        YamlFileContentProviderInterface $yamlFileContentProvider,
-        CheckerServiceParametersShifter $checkerServiceParametersShifter
+        private Parser $yamlParser,
+        private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
+        private ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
+        private RoutingConfiguratorReturnClosureFactory $routingConfiguratorReturnClosureFactory,
+        private YamlFileContentProviderInterface $yamlFileContentProvider,
+        private CheckerServiceParametersShifter $checkerServiceParametersShifter
     ) {
-        $this->yamlParser = $yamlParser;
-        $this->phpParserPhpConfigPrinter = $phpParserPhpConfigPrinter;
-        $this->containerConfiguratorReturnClosureFactory = $returnClosureNodesFactory;
-        $this->yamlFileContentProvider = $yamlFileContentProvider;
-        $this->checkerServiceParametersShifter = $checkerServiceParametersShifter;
-        $this->routingConfiguratorReturnClosureFactory = $routingConfiguratorReturnClosureFactory;
     }
 
     public function convert(string $yaml): string

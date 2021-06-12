@@ -15,23 +15,10 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var MissplacedSkipPrefixResolver
-     */
-    private $missplacedSkipPrefixResolver;
-
-    /**
-     * @var FixtureFinder
-     */
-    private $fixtureFinder;
-
     public function __construct(
-        MissplacedSkipPrefixResolver $missplacedSkipPrefixResolver,
-        FixtureFinder $fixtureFinder
+        private MissplacedSkipPrefixResolver $missplacedSkipPrefixResolver,
+        private FixtureFinder $fixtureFinder
     ) {
-        $this->missplacedSkipPrefixResolver = $missplacedSkipPrefixResolver;
-        $this->fixtureFinder = $fixtureFinder;
-
         parent::__construct();
     }
 

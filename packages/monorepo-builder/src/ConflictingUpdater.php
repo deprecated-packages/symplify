@@ -14,22 +14,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class ConflictingUpdater
 {
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
-    /**
-     * @var ComposerJsonPrinter
-     */
-    private $composerJsonPrinter;
-
     public function __construct(
-        ComposerJsonFactory $composerJsonFactory,
-        ComposerJsonPrinter $composerJsonPrinter
+        private ComposerJsonFactory $composerJsonFactory,
+        private ComposerJsonPrinter $composerJsonPrinter
     ) {
-        $this->composerJsonFactory = $composerJsonFactory;
-        $this->composerJsonPrinter = $composerJsonPrinter;
     }
 
     /**

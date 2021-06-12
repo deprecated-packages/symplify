@@ -13,20 +13,10 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class AnnotationAttributeDetector
 {
-    /**
-     * @var BarePhpDocParser
-     */
-    private $barePhpDocParser;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(BarePhpDocParser $barePhpDocParser, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->barePhpDocParser = $barePhpDocParser;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private BarePhpDocParser $barePhpDocParser,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

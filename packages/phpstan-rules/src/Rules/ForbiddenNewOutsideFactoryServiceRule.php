@@ -27,20 +27,16 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
     /**
      * @var array<string, string>
      */
-    private $types = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $types = [];
 
     /**
      * @param array<string, string> $types
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $types = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $types = []
+    ) {
         $this->types = $types;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

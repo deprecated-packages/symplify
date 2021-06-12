@@ -16,24 +16,14 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class ExtensionConverter implements CaseConverterInterface
 {
     /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
      * @var string
      */
     private $rootKey;
 
-    /**
-     * @var YamlKey
-     */
-    private $yamlKey;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory, YamlKey $yamlKey)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->yamlKey = $yamlKey;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory,
+        private YamlKey $yamlKey
+    ) {
     }
 
     public function convertToMethodCall($key, $values): Expression

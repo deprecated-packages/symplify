@@ -16,14 +16,9 @@ final class DuplicatedClassMethodPrinter
      */
     private const VARIABLE_REGEX = '#\$\w+[^\s]#';
 
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    public function __construct(Standard $standard)
-    {
-        $this->standard = $standard;
+    public function __construct(
+        private Standard $standard
+    ) {
     }
 
     public function printClassMethod(ClassMethod $classMethod): string
