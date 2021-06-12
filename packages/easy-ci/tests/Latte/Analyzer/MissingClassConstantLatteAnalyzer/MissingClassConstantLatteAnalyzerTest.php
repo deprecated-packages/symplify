@@ -35,8 +35,12 @@ final class MissingClassConstantLatteAnalyzerTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/missing_constant.twig'), 2];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/missing_number_constant.twig'), 1];
+
         yield [new SmartFileInfo(__DIR__ . '/Fixture/existing_constant.twig'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/inside_foreach.twig'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_var_type.latte'), 0];
+
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/existing_constant_with_number.twig'), 0];
     }
 }

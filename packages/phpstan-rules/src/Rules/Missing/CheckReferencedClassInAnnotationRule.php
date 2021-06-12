@@ -89,8 +89,8 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $phpDocNode = $this->simplePhpDocParser->parseNode($node);
-        if (! $phpDocNode instanceof PhpDocNode) {
+        $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
+        if (! $simplePhpDocNode instanceof PhpDocNode) {
             return [];
         }
 
@@ -99,9 +99,9 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
             return [];
         }
 
-        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($phpDocNode, $classReflection);
+        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($simplePhpDocNode, $classReflection);
 
-        foreach ($phpDocNode->getTags() as $phpDocTagNode) {
+        foreach ($simplePhpDocNode->getTags() as $phpDocTagNode) {
             if (! $phpDocTagNode->value instanceof GenericTagValueNode) {
                 continue;
             }

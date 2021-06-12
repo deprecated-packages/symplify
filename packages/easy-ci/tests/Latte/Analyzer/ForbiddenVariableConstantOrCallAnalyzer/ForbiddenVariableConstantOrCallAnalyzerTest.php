@@ -37,5 +37,6 @@ final class ForbiddenVariableConstantOrCallAnalyzerTest extends AbstractKernelTe
         yield [new SmartFileInfo(__DIR__ . '/Fixture/some_file_with_expr.latte'), 2];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/correct_file.latte'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/constant_with_underscore.latte'), 1];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/constant_with_numbers.latte'), 1];
     }
 }

@@ -10,4 +10,9 @@ final class ExistingClass
      * @var string
      */
     public const EXISTING_CONSTANT = 'yes';
+
+    /**
+     * @var int
+     */
+    public const EXISTING_CONSTANT_WITH_100_NUMBER = 100;
 }

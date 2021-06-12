@@ -18,7 +18,7 @@ final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
      * @see https://regex101.com/r/Wrfff2/9
      * @var string
      */
-    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+::[A-Z_]+)\b#m';
+    private const CLASS_CONSTANT_REGEX = '#\b(?<' . self::CLASS_CONSTANT_NAME_PART . '>[A-Z][\w\\\\]+::[A-Z0-9_]+)\b#m';
 
     /**
      * @var string

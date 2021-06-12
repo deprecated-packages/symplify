@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\SimplePhpDocParser;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\PhpDocParser\Parser\PhpDocParser;
@@ -34,7 +35,7 @@ final class SimplePhpDocParser
     public function parseNode(Node $node): ?SimplePhpDocNode
     {
         $docComment = $node->getDocComment();
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return null;
         }
 
