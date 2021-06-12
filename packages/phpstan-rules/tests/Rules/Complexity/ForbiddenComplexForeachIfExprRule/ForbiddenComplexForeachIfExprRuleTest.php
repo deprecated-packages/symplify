@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexForeachIfExprRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenComplexForeachIfExprRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule;
+use Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenMethodOrStaticCallInForeachRule>
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenComplexForeachIfExprRule>
  */
-final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenComplexForeachIfExprRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -31,17 +31,15 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
 
         yield [__DIR__ . '/Fixture/SkipAssignBeforeIf.php', []];
         yield [__DIR__ . '/Fixture/SkipAssignAfterIf.php', []];
-        yield [
-            __DIR__ . '/Fixture/AssignInsideIf.php',
-            [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 12]], ];
+        yield [__DIR__ . '/Fixture/AssignInsideIf.php', [[ForbiddenComplexForeachIfExprRule::ERROR_MESSAGE, 12]]];
 
         yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameter.php',
-            [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],
+            [[ForbiddenComplexForeachIfExprRule::ERROR_MESSAGE, 16]],
         ];
         yield [
             __DIR__ . '/Fixture/WithStaticCallWithParameter.php',
-            [[ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 16]],
+            [[ForbiddenComplexForeachIfExprRule::ERROR_MESSAGE, 16]],
         ];
 
         yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
@@ -55,8 +53,8 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
 
         yield [
             __DIR__ . '/Fixture/WithMethodCallWithParameterNotFromThis.php', [
-                [ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 17],
-                [ForbiddenMethodOrStaticCallInForeachRule::ERROR_MESSAGE, 19],
+                [ForbiddenComplexForeachIfExprRule::ERROR_MESSAGE, 17],
+                [ForbiddenComplexForeachIfExprRule::ERROR_MESSAGE, 19],
             ],
         ];
     }
@@ -64,7 +62,7 @@ final class ForbiddenMethodOrStaticCallInForeachRuleTest extends AbstractService
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            ForbiddenMethodOrStaticCallInForeachRule::class,
+            ForbiddenComplexForeachIfExprRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

@@ -7,11 +7,15 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\ElseIf_;
+use PhpParser\Node\Stmt\For_;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\TrinaryLogic;
@@ -26,14 +30,14 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenComplexForeachIfExprRule\ForbiddenMethodOrStaticCallInForeachRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenComplexForeachIfExprRule\ForbiddenComplexForeachIfExprRuleTest
  */
 final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'foreach(...) or if(...) contains a complex expression. Extract it to a new variable assign on line before';
+    public const ERROR_MESSAGE = 'foreach(...), while(), for() or if(...) cannot contains a complex expression. Extract it to a new variable assign on line before';
 
     /**
      * @var array<class-string<Expr>>
@@ -57,7 +61,7 @@ final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Foreach_::class, If_::class, ElseIf_::class];
+        return [Foreach_::class, If_::class, ElseIf_::class, For_::class, Do_::class, While_::class];
     }
 
     /**
@@ -68,7 +72,7 @@ final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
     {
         $expr = $node instanceof Foreach_ ? $node->expr : $node->cond;
 
-        $assigns = $this->nodeFinder->findInstanceOf($expr, Expr\Assign::class);
+        $assigns = $this->nodeFinder->findInstanceOf($expr, Assign::class);
         if ($assigns !== []) {
             return [self::ERROR_MESSAGE];
         }
@@ -146,7 +150,8 @@ CODE_SAMPLE
             return false;
         }
 
-        $type = $this->resolveCalleeType($scope, $node);
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($type, self::ALLOWED_CLASS_TYPES);
+        $callerType = $this->resolveCalleeType($scope, $node);
+
+        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::ALLOWED_CLASS_TYPES);
     }
 }
