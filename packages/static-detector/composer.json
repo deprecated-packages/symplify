@@ -6,7 +6,7 @@
         "bin/static-detector"
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "symfony/dependency-injection": "^5.3",
         "symfony/console": "^4.4|^5.3",
         "nikic/php-parser": "4.10.5",

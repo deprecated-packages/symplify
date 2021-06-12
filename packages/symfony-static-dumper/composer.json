@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "symfony/console": "^4.4|^5.3",
         "symfony/filesystem": "^4.4|^5.3",
         "symfony/finder": "^4.4|^5.3",

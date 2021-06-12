@@ -6,7 +6,7 @@
         "bin/neon-to-yaml-converter"
     ],
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.0",
         "nette/utils": "^3.2",
         "nette/neon": "^3.2",
         "symfony/http-kernel": "^4.4|^5.3",
