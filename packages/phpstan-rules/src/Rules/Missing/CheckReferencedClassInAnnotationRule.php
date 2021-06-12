@@ -160,6 +160,7 @@ CODE_SAMPLE
         foreach ($referencedClassConstants as $referencedClassConstant) {
             $class = $referencedClassConstant->getClass();
             if (! $this->reflectionProvider->hasClass($class)) {
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $class);
                 continue;
             }
 
@@ -187,6 +188,7 @@ CODE_SAMPLE
         foreach ($referencedMethodCalls as $referencedMethodCall) {
             $class = $referencedMethodCall->getClass();
             if (! $this->reflectionProvider->hasClass($class)) {
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $class);
                 continue;
             }
 

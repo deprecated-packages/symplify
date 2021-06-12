@@ -10,6 +10,6 @@ use Symplify\PHPStanRules\Tests\Rules\Missing\CheckReferencedClassInAnnotationRu
 /**
  * @see \Nette\Utils\Strings::findPrefix()
  */
-final class SkipSeeAnnotation
+final class SkipExistingClassMethod
 {
 }

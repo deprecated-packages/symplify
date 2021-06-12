@@ -33,7 +33,7 @@ final class CheckReferencedClassInAnnotationRuleTest extends AbstractServiceAwar
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotation.php', [[$errorMessage, 12]]];
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotationInConstantFetch.php', [[$errorMessage, 12]]];
 
-        yield [__DIR__ . '/Fixture/SkipSeeAnnotation.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingClassMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingClassAnnotation.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingClassAnnotationWithConstant.php', []];
 
