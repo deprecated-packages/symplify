@@ -11,6 +11,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
 
 final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
@@ -22,9 +23,14 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 
     /**
      * @var string
+     */
+    private const REFERENCE_PART = 'reference';
+
+    /**
+     * @var string
      * @see https://regex101.com/r/2OYung/1
      */
-    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<reference>class|[A-Za-z_]+)#';
+    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_]+)#';
 
     /**
      * @var string
@@ -82,8 +88,8 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
     private function processGenericTagValueNode(GenericTagValueNode $genericTagValueNode): void
     {
         $matches = Strings::matchAll($genericTagValueNode->value, self::PARTIAL_CLASS_REFERENCE_REGEX);
-
         $resolveFullyQualifiedNames = [];
+        $referencedConstants = [];
 
         foreach ($matches as $match) {
             $resolveFullyQualifiedName = $this->resolveShortNamesToFullyQualified(
@@ -95,9 +101,17 @@ final class FullyQualifyingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
                 continue;
             }
 
+            if ($match[self::REFERENCE_PART] !== 'class') {
+                $referencedConstants[] = new ClassConstantReference(
+                    $resolveFullyQualifiedName,
+                    $match[self::REFERENCE_PART]
+                );
+            }
+
             $resolveFullyQualifiedNames[] = $resolveFullyQualifiedName;
         }
 
         $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_CLASSES, $resolveFullyQualifiedNames);
+        $genericTagValueNode->setAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS, $referencedConstants);
     }
 }

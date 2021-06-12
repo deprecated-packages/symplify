@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\Missing\CheckRequiredClassInAnnotationRule;
+use Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotationRule\Source\ExistingClass;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckRequiredClassInAnnotationRule>
@@ -31,6 +32,13 @@ final class CheckRequiredClassInAnnotationRuleTest extends AbstractServiceAwareR
         );
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotation.php', [[$errorMessage, 12]]];
         yield [__DIR__ . '/Fixture/NonExistingClassAnnotationInConstantFetch.php', [[$errorMessage, 12]]];
+
+        $errorMessage = sprintf(
+            CheckRequiredClassInAnnotationRule::CONSTANT_ERROR_MESSAGE,
+            'NOT_HERE',
+            ExistingClass::class
+        );
+        yield [__DIR__ . '/Fixture/ExistingClassAnnotationButMissingConstant.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingClassAnnotation.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingClassAnnotationWithConstant.php', []];

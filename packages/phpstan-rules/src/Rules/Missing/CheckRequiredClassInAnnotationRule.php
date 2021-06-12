@@ -28,6 +28,11 @@ final class CheckRequiredClassInAnnotationRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Class "%s" used in annotation is missing';
 
     /**
+     * @var string
+     */
+    public const CONSTANT_ERROR_MESSAGE = 'Constant "%s" not found on "%s" class';
+
+    /**
      * @var BarePhpDocParser
      */
     private $barePhpDocParser;
@@ -80,6 +85,26 @@ final class CheckRequiredClassInAnnotationRule extends AbstractSymplifyRule
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $classReference);
+            return [$errorMessage];
+        }
+
+        // foreach with configureaiton
+        $classConstantReferences = $this->classAnnotationResolver->resolveClassConstantReferences($node, $scope);
+
+        foreach ($classConstantReferences as $classConstantReference) {
+            $class = $classConstantReference->getClass();
+            if (! $this->reflectionProvider->hasClass($class)) {
+                continue;
+            }
+
+            $classReflection = $this->reflectionProvider->getClass($class);
+
+            $constant = $classConstantReference->getConstant();
+            if ($classReflection->hasConstant($constant)) {
+                continue;
+            }
+
+            $errorMessage = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
             return [$errorMessage];
         }
 

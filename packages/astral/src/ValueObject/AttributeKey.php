@@ -56,4 +56,9 @@ final class AttributeKey
      * @var string
      */
     public const COMMENTS = 'comments';
+
+    /**
+     * @var string
+     */
+    public const REFERENCED_CLASS_CONSTANTS = 'referenced_class_constants';
 }
