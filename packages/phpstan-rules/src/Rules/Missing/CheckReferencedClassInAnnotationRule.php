@@ -79,13 +79,13 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
         // foreach with configureaiton
         $classReferences = $this->classAnnotationResolver->resolveClassReferences($node, $scope);
 
+        $errorMessages = [];
         foreach ($classReferences as $classReference) {
             if ($this->reflectionProvider->hasClass($classReference)) {
                 continue;
             }
 
-            $errorMessage = sprintf(self::ERROR_MESSAGE, $classReference);
-            return [$errorMessage];
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $classReference);
         }
 
         // foreach with configureaiton
@@ -108,11 +108,10 @@ final class CheckReferencedClassInAnnotationRule extends AbstractSymplifyRule
                 continue;
             }
 
-            $errorMessage = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
-            return [$errorMessage];
+            $errorMessages[] = sprintf(self::CONSTANT_ERROR_MESSAGE, $constant, $class);
         }
 
-        return [];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
