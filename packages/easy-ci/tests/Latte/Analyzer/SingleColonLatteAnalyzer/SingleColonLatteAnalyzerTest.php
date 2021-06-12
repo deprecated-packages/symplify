@@ -34,8 +34,11 @@ final class SingleColonLatteAnalyzerTest extends AbstractKernelTestCase
      */
     public function provideData(): Iterator
     {
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_plink.latte'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_simple_text.latte'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_double_colon.latte'), 0];
+
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/single_colon_call_with_arguments.latte'), 1];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/single_colon.latte'), 1];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/single_colon_call.latte'), 1];
     }

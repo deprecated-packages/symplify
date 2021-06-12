@@ -30,7 +30,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInte
      */
     private const ON_VARIABLE_CALL_REGEX = '#(?<'
         . self::VARIABLE_PART_KEY . '>\$[\w]+)::'
-        . '(?<' . self::CONSTANT_OR_METHOD_PART_KEY . '>[\w+])#m';
+        . '(?<' . self::CONSTANT_OR_METHOD_PART_KEY . '>[\w_]+)#m';
 
     /**
      * @param SmartFileInfo[] $fileInfos
