@@ -9,10 +9,7 @@ use Symplify\SmartFileSystem\FileSystemFilter;
 
 final class FileSystemFilterTest extends TestCase
 {
-    /**
-     * @var FileSystemFilter
-     */
-    private $fileSystemFilter;
+    private FileSystemFilter $fileSystemFilter;
 
     protected function setUp(): void
     {

@@ -15,10 +15,7 @@ final class ComposerVersionManipulator
      */
     private const COMPOSER_BRANCH_PREFIX = 'dev-';
 
-    /**
-     * @var string
-     */
-    private $branchAliasTarget;
+    private string $branchAliasTarget;
 
     public function __construct(ParameterProvider $parameterProvider)
     {

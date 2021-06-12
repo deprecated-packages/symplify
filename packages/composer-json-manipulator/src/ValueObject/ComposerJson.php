@@ -26,40 +26,25 @@ final class ComposerJson
      */
     private const PHP = 'php';
 
-    /**
-     * @var string|null
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @var string[]
      */
     private $keywords = [];
 
-    /**
-     * @var string
-     */
-    private $homepage;
+    private ?string $homepage = null;
 
     /**
      * @var string|string[]|null
      */
     private $license;
 
-    /**
-     * @var string|null
-     */
-    private $minimumStability;
+    private ?string $minimumStability = null;
 
-    /**
-     * @var bool|null
-     */
-    private $preferStable;
+    private ?bool $preferStable = null;
 
     /**
      * @var mixed[]
@@ -111,15 +96,9 @@ final class ComposerJson
      */
     private $config = [];
 
-    /**
-     * @var SmartFileInfo|null
-     */
-    private $fileInfo;
+    private ?SmartFileInfo $fileInfo = null;
 
-    /**
-     * @var ComposerPackageSorter
-     */
-    private $composerPackageSorter;
+    private ComposerPackageSorter $composerPackageSorter;
 
     /**
      * @var array<string, string>
@@ -131,10 +110,7 @@ final class ComposerJson
      */
     private $bin = [];
 
-    /**
-     * @var string|null
-     */
-    private $type;
+    private ?string $type = null;
 
     /**
      * @var mixed[]
@@ -146,10 +122,7 @@ final class ComposerJson
      */
     private $scriptsDescriptions = [];
 
-    /**
-     * @var string|null
-     */
-    private $version;
+    private ?string $version = null;
 
     public function __construct()
     {
@@ -512,7 +485,7 @@ final class ComposerJson
         $this->homepage = $homepage;
     }
 
-    public function getHomepage(): string
+    public function getHomepage(): ?string
     {
         return $this->homepage;
     }

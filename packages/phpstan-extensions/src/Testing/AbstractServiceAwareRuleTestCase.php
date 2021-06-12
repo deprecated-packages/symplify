@@ -20,7 +20,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
     /**
      * @var array<string, Container>
      */
-    private static $containersByConfig = [];
+    private static array $containersByConfig = [];
 
     /**
      * @param class-string<TRule> $ruleClass

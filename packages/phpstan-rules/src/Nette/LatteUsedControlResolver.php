@@ -27,12 +27,12 @@ final class LatteUsedControlResolver
     /**
      * @var array<string, string[]>
      */
-    private $latteUsedComponentNames = [];
+    private array $latteUsedComponentNames = [];
 
     /**
      * @var string[]
      */
-    private $layoutUsedComponentNames = [];
+    private array $layoutUsedComponentNames = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

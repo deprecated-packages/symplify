@@ -27,10 +27,7 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
      */
     private const ERROR_MESSAGE = 'Nested object annotations should start on a standalone line';
 
-    /**
-     * @var BlockInfo|null
-     */
-    private $currentBlockInfo;
+    private ?BlockInfo $currentBlockInfo = null;
 
     public function __construct(
         private DoctrineBlockFinder $doctrineBlockFinder

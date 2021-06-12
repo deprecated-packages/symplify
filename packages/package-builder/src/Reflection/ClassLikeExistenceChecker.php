@@ -11,12 +11,12 @@ final class ClassLikeExistenceChecker
     /**
      * @var string[]
      */
-    private $sensitiveExistingClasses = [];
+    private array $sensitiveExistingClasses = [];
 
     /**
      * @var string[]
      */
-    private $sensitiveNonExistingClasses = [];
+    private array $sensitiveNonExistingClasses = [];
 
     public function doesClassLikeExist(string $classLike): bool
     {

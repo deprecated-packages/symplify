@@ -16,15 +16,9 @@ final class FileHashComputerTest extends AbstractKernelTestCase
      */
     private const INCLUDED_CONFIG_FILE = __DIR__ . '/Fixture/another-one.php';
 
-    /**
-     * @var FileHashComputer
-     */
-    private $fileHashComputer;
+    private FileHashComputer $fileHashComputer;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

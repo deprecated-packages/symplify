@@ -10,10 +10,7 @@ use Symplify\AutowireArrayParameter\DocBlock\ParamTypeDocBlockResolver;
 
 final class ParamTypeDocBlockResolverTest extends TestCase
 {
-    /**
-     * @var ParamTypeDocBlockResolver
-     */
-    private $paramTypeDocBlockResolver;
+    private ParamTypeDocBlockResolver $paramTypeDocBlockResolver;
 
     protected function setUp(): void
     {

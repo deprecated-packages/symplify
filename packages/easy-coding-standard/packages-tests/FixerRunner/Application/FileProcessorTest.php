@@ -13,10 +13,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class FileProcessorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
+    private FixerFileProcessor $fixerFileProcessor;
 
     protected function setUp(): void
     {

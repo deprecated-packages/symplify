@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\Finder\SmartFinder;
 
 final class SmartFinderTest extends TestCase
 {
-    /**
-     * @var SmartFinder
-     */
-    private $smartFinder;
+    private SmartFinder $smartFinder;
 
     protected function setUp(): void
     {

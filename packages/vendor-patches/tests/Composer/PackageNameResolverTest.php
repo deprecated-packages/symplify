@@ -11,10 +11,7 @@ use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
 
 final class PackageNameResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PackageNameResolver
-     */
-    private $packageNameResolver;
+    private PackageNameResolver $packageNameResolver;
 
     protected function setUp(): void
     {

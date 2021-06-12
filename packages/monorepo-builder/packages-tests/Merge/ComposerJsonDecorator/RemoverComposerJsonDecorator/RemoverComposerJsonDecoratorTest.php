@@ -32,20 +32,11 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
         ],
     ];
 
-    /**
-     * @var ComposerJson
-     */
-    private $composerJson;
+    private ComposerJson $composerJson;
 
-    /**
-     * @var ComposerJson
-     */
-    private $expectedComposerJson;
+    private ComposerJson $expectedComposerJson;
 
-    /**
-     * @var RemoverComposerJsonDecorator
-     */
-    private $removerComposerJsonDecorator;
+    private RemoverComposerJsonDecorator $removerComposerJsonDecorator;
 
     protected function setUp(): void
     {

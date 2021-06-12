@@ -17,10 +17,7 @@ use Symplify\GitWrapper\ValueObject\Regex;
  */
 final class GitBranches implements IteratorAggregate
 {
-    /**
-     * @var GitWorkingCopy
-     */
-    private $gitWorkingCopy;
+    private GitWorkingCopy $gitWorkingCopy;
 
     public function __construct(GitWorkingCopy $gitWorkingCopy)
     {
@@ -47,9 +44,7 @@ final class GitBranches implements IteratorAggregate
         $output = $this->gitWorkingCopy->branch($options);
         $branches = Strings::split(rtrim($output), Regex::NEWLINE_REGEX);
 
-        return array_map(function (string $branch): string {
-            return $this->trimBranch($branch);
-        }, $branches);
+        return array_map(fn (string $branch): string => $this->trimBranch($branch), $branches);
     }
 
     public function trimBranch(string $branch): string

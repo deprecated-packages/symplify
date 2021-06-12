@@ -51,9 +51,11 @@ final class CommandNaming
 
         $rawCommandName = lcfirst($rawCommandName);
 
-        return Strings::replace($rawCommandName, self::BIG_LETTER_REGEX, function (array $matches): string {
-            return '-' . strtolower($matches[0]);
-        });
+        return Strings::replace(
+            $rawCommandName,
+            self::BIG_LETTER_REGEX,
+            fn (array $matches): string => '-' . strtolower($matches[0])
+        );
     }
 
     private static function resolveShortName(string $class): string

@@ -33,7 +33,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer impleme
      *
      * @var Token[]
      */
-    private $declareStrictTypeTokens = [];
+    private array $declareStrictTypeTokens = [];
 
     public function __construct(
         private WhitespacesFixerConfig $whitespacesFixerConfig

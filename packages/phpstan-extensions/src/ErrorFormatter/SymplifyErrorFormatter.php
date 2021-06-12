@@ -9,7 +9,7 @@ use PHPStan\Analyser\Error;
 use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Command\Output;
-use PHPStan\Command\Symfony\SymfonyStyle;
+use PHPStan\Command\OutputStyle;
 use Symfony\Component\Console\Terminal;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -32,15 +32,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
      */
     private const FILE_WITH_TRAIT_CONTEXT_REGEX = '#(?<file>.*?)(\s+\(in context.*?)?$#';
 
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var Output
-     */
-    private $output;
+    private ?Output $output = null;
 
     public function __construct(
         private Terminal $terminal
@@ -49,45 +41,43 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
     public function formatErrors(AnalysisResult $analysisResult, Output $output): int
     {
-        /** @var SymfonyStyle $consoleStyle */
-        $consoleStyle = $output->getStyle();
+        $outputStyle = $output->getStyle();
         $this->output = $output;
-        $this->symfonyStyle = $consoleStyle;
 
         if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
-            $this->symfonyStyle->success('No errors');
+            $outputStyle->success('No errors');
             return ShellCode::SUCCESS;
         }
 
-        $this->reportErrors($analysisResult);
+        $this->reportErrors($analysisResult, $outputStyle);
 
         $notFileSpecificErrors = $analysisResult->getNotFileSpecificErrors();
         foreach ($notFileSpecificErrors as $notFileSpecificError) {
-            $this->symfonyStyle->warning($notFileSpecificError);
+            $outputStyle->warning($notFileSpecificError);
         }
 
         $warnings = $analysisResult->getWarnings();
         foreach ($warnings as $warning) {
-            $this->symfonyStyle->warning($warning);
+            $outputStyle->warning($warning);
         }
 
         return ShellCode::ERROR;
     }
 
-    private function reportErrors(AnalysisResult $analysisResult): void
+    private function reportErrors(AnalysisResult $analysisResult, OutputStyle $outputStyle): void
     {
         if ($analysisResult->getFileSpecificErrors() === []) {
             return;
         }
 
         foreach ($analysisResult->getFileSpecificErrors() as $error) {
-            $this->printSingleError($error);
+            $this->printSingleError($error, $outputStyle);
         }
 
-        $this->symfonyStyle->newLine();
+        $outputStyle->newLine();
 
         $errorMessage = sprintf('Found %d errors', $analysisResult->getTotalErrorsCount());
-        $this->symfonyStyle->error($errorMessage);
+        $outputStyle->error($errorMessage);
     }
 
     private function separator(): void
@@ -120,7 +110,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->output->writeLineFormatted(' ' . $separator);
     }
 
-    private function printSingleError(Error $error): void
+    private function printSingleError(Error $error, OutputStyle $outputStyle): void
     {
         $this->separator();
 
@@ -135,6 +125,6 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $this->writeln($itemMessage);
 
         $this->separator();
-        $this->symfonyStyle->newLine();
+        $outputStyle->newLine();
     }
 }

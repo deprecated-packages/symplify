@@ -30,10 +30,7 @@ final class GitCommits implements IteratorAggregate
         'Body: %b',
     ];
 
-    /**
-     * @var GitWorkingCopy
-     */
-    private $gitWorkingCopy;
+    private GitWorkingCopy $gitWorkingCopy;
 
     public function __construct(GitWorkingCopy $gitWorkingCopy)
     {
@@ -93,9 +90,10 @@ final class GitCommits implements IteratorAggregate
             ]
         );
 
-        return array_map(function (string $commit): string {
-            return $this->parseCommit($commit);
-        }, Strings::split(trim($output), Regex::NEWLINE_REGEX));
+        return array_map(
+            fn (string $commit): string => $this->parseCommit($commit),
+            Strings::split(trim($output), Regex::NEWLINE_REGEX)
+        );
     }
 
     public function get(string $hash): GitCommit

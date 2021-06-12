@@ -526,3 +526,20 @@ parameters:
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+
+        - '#Use required typed property over of nullable property#'
+
+        -
+            message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
+            path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
+
+        - '#Parameter \#1 \$container of method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest\:\:getIndentationTypeFixerFromContainer\(\) expects Psr\\Container\\ContainerInterface, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given#'
+
+        # the value is already set
+        -
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
+
+        -
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php

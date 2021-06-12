@@ -16,7 +16,7 @@ final class LatteToTwigConverter
     /**
      * @var CaseConverterInterface[]
      */
-    private $caseConverters = [];
+    private array $caseConverters = [];
 
     /**
      * @param CaseConverterInterface[] $caseConverters

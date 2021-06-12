@@ -13,7 +13,7 @@ final class DocblockRelatedParamNamesResolver
     /**
      * @var Token[]
      */
-    private $functionTokens = [];
+    private array $functionTokens = [];
 
     public function __construct(
         private FunctionsAnalyzer $functionsAnalyzer

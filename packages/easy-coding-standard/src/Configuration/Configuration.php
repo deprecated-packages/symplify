@@ -13,25 +13,13 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class Configuration
 {
-    /**
-     * @var bool
-     */
-    private $isFixer = false;
+    private bool $isFixer = false;
 
-    /**
-     * @var bool
-     */
-    private $shouldClearCache = false;
+    private bool $shouldClearCache = false;
 
-    /**
-     * @var bool
-     */
-    private $showProgressBar = true;
+    private bool $showProgressBar = true;
 
-    /**
-     * @var bool
-     */
-    private $showErrorTable = true;
+    private bool $showErrorTable = true;
 
     /**
      * @var string[]
@@ -48,10 +36,7 @@ final class Configuration
      */
     private $outputFormat = ConsoleOutputFormatter::NAME;
 
-    /**
-     * @var bool
-     */
-    private $doesMatchGitDiff = false;
+    private bool $doesMatchGitDiff = false;
 
     public function __construct(ParameterProvider $parameterProvider)
     {

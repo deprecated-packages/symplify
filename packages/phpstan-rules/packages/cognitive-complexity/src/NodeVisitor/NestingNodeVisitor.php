@@ -34,15 +34,9 @@ final class NestingNodeVisitor extends NodeVisitorAbstract
         Ternary::class,
     ];
 
-    /**
-     * @var int
-     */
-    private $measuredNestingLevel = 1;
+    private int $measuredNestingLevel = 1;
 
-    /**
-     * @var int
-     */
-    private $previousNestingLevel = 0;
+    private int $previousNestingLevel = 0;
 
     public function __construct(
         private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,

@@ -10,10 +10,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MergedAndDecoratedComposerJsonFactoryTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var MergedAndDecoratedComposerJsonFactory
-     */
-    private $mergedAndDecoratedComposerJsonFactory;
+    private MergedAndDecoratedComposerJsonFactory $mergedAndDecoratedComposerJsonFactory;
 
     protected function setUp(): void
     {

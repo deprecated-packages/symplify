@@ -8,10 +8,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class CurrentParentFileInfoProvider
 {
-    /**
-     * @var SmartFileInfo|null
-     */
-    private $smartFileInfo;
+    private ?SmartFileInfo $smartFileInfo = null;
 
     public function setParentFileInfo(SmartFileInfo $smartFileInfo): void
     {

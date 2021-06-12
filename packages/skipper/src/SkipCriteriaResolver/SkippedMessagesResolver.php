@@ -12,7 +12,7 @@ final class SkippedMessagesResolver
     /**
      * @var array<string, string[]|null>
      */
-    private $skippedMessages = [];
+    private array $skippedMessages = [];
 
     public function __construct(
         private ParameterProvider $parameterProvider

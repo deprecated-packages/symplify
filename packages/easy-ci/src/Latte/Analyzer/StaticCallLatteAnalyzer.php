@@ -76,8 +76,12 @@ final class StaticCallLatteAnalyzer implements LatteAnalyzerInterface
      */
     private function filterOutAllowedStaticClasses(array $matches): array
     {
-        return array_filter($matches, static function (array $match): bool {
-            return ! in_array($match[self::CLASS_NAME_PART], [Strings::class, DateTime::class], true);
-        });
+        return array_filter(
+            $matches,
+            static fn (array $match): bool => ! in_array($match[self::CLASS_NAME_PART], [
+                Strings::class,
+                DateTime::class,
+            ], true)
+        );
     }
 }

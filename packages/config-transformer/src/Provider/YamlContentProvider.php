@@ -9,10 +9,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class YamlContentProvider implements YamlFileContentProviderInterface
 {
-    /**
-     * @var string|null
-     */
-    private $yamlContent;
+    private ?string $yamlContent = null;
 
     public function setContent(string $yamlContent): void
     {

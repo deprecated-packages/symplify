@@ -48,15 +48,9 @@ CODE_SAMPLE;
      */
     private const ADD_ME_REGEX = '#A\\s+add\\.me#s';
 
-    /**
-     * @var string
-     */
-    private $currentUserName;
+    private string $currentUserName;
 
-    /**
-     * @var string
-     */
-    private $currentUserEmail;
+    private string $currentUserEmail;
 
     /**
      * Creates and initializes the local repository used for testing.

@@ -13,10 +13,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class FixerServiceRegistrationTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
+    private PrivatesAccessor $privatesAccessor;
 
     protected function setUp(): void
     {

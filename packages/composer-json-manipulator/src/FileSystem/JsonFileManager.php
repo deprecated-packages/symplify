@@ -20,7 +20,7 @@ final class JsonFileManager
     /**
      * @var mixed[]
      */
-    private $cachedJSONFiles = [];
+    private array $cachedJSONFiles = [];
 
     public function __construct(
         private SmartFileSystem $smartFileSystem,

@@ -12,15 +12,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FixerFileProcessorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
+    private ErrorAndDiffCollector $errorAndDiffCollector;
 
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
+    private FixerFileProcessor $fixerFileProcessor;
 
     protected function setUp(): void
     {

@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 final class StringFormatConverterTest extends TestCase
 {
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
+    private StringFormatConverter $stringFormatConverter;
 
     protected function setUp(): void
     {

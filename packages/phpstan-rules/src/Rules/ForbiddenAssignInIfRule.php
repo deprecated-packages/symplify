@@ -70,8 +70,6 @@ CODE_SAMPLE
 
     private function isHaveAssignmentInside(If_ $if): bool
     {
-        return (bool) $this->nodeFinder->findFirst($if->cond, function (Node $node): bool {
-            return $node instanceof Assign;
-        });
+        return (bool) $this->nodeFinder->findFirst($if->cond, fn (Node $node): bool => $node instanceof Assign);
     }
 }

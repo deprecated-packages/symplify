@@ -28,7 +28,7 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     /**
      * @var array<string, string|string[]>
      */
-    private $autoloadPsr4Paths = [];
+    private array $autoloadPsr4Paths = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

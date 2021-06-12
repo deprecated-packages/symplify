@@ -47,10 +47,7 @@ final class StandardizeHereNowDocKeywordFixer extends AbstractSymplifyFixer impl
      */
     private const START_HEREDOC_NOWDOC_NAME_REGEX = '#(<<<(\')?)(?<name>.*?)((\')?\s)#';
 
-    /**
-     * @var string
-     */
-    private $keyword = self::DEFAULT_KEYWORD;
+    private string $keyword = self::DEFAULT_KEYWORD;
 
     public function getDefinition(): FixerDefinitionInterface
     {

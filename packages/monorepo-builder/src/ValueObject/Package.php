@@ -8,10 +8,7 @@ use Nette\Utils\Strings;
 
 final class Package
 {
-    /**
-     * @var string
-     */
-    private $shortName;
+    private string $shortName;
 
     public function __construct(
         string $name,

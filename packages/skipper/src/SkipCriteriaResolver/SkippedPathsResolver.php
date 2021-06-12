@@ -17,7 +17,7 @@ final class SkippedPathsResolver
     /**
      * @var string[]
      */
-    private $skippedPaths = [];
+    private array $skippedPaths = [];
 
     public function __construct(
         private ParameterProvider $parameterProvider,

@@ -11,10 +11,7 @@ use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticD
 
 final class AssetsCopierTest extends AbstractKernelTestCase
 {
-    /**
-     * @var AssetsCopier
-     */
-    private $assetsCopier;
+    private AssetsCopier $assetsCopier;
 
     protected function setUp(): void
     {

@@ -13,15 +13,9 @@ use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var string
-     */
-    private $publicDirectory;
+    private string $publicDirectory;
 
-    /**
-     * @var string
-     */
-    private $outputDirectory;
+    private string $outputDirectory;
 
     public function __construct(
         private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,

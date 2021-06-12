@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SimplePhpDocParserTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SimplePhpDocParser
-     */
-    private $simplePhpDocParser;
+    private SimplePhpDocParser $simplePhpDocParser;
 
     protected function setUp(): void
     {

@@ -42,7 +42,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     /**
      * @var array<array<string, string>>
      */
-    private $classMethodContent = [];
+    private array $classMethodContent = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

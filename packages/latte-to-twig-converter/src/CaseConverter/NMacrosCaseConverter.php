@@ -51,72 +51,64 @@ final class NMacrosCaseConverter implements CaseConverterInterface
         $content = Strings::replace(
             $content,
             $this->createPattern('if'),
-            function (array $match): string {
-                return sprintf(
-                    '{if %s}%s%s%s%s%s%s{/if}',
-                    $match[self::EXPRESSION],
-                    PHP_EOL,
-                    $match[self::OPEN_TAG_START],
-                    $match[self::OPEN_TAG_END],
-                    $match[self::INNER],
-                    $match[self::CLOSE_TAG],
-                    PHP_EOL
-                );
-            }
+            fn (array $match): string => sprintf(
+                '{if %s}%s%s%s%s%s%s{/if}',
+                $match[self::EXPRESSION],
+                PHP_EOL,
+                $match[self::OPEN_TAG_START],
+                $match[self::OPEN_TAG_END],
+                $match[self::INNER],
+                $match[self::CLOSE_TAG],
+                PHP_EOL
+            )
         );
 
         // n:ifset
         $content = Strings::replace(
             $content,
             $this->createPattern('ifset'),
-            function (array $match): string {
-                return sprintf(
-                    '{ifset %s}%s%s%s%s%s%s{/ifset}',
-                    $match[self::EXPRESSION],
-                    PHP_EOL,
-                    $match[self::OPEN_TAG_START],
-                    $match[self::OPEN_TAG_END],
-                    $match[self::INNER],
-                    $match[self::CLOSE_TAG],
-                    PHP_EOL
-                );
-            }
+            fn (array $match): string => sprintf(
+                '{ifset %s}%s%s%s%s%s%s{/ifset}',
+                $match[self::EXPRESSION],
+                PHP_EOL,
+                $match[self::OPEN_TAG_START],
+                $match[self::OPEN_TAG_END],
+                $match[self::INNER],
+                $match[self::CLOSE_TAG],
+                PHP_EOL
+            )
         );
 
         // n:foreach
         $content = Strings::replace(
             $content,
             $this->createPattern('foreach'),
-            function (array $match): string {
-                return sprintf(
-                    '{foreach %s}%s%s%s%s%s%s{/foreach}',
-                    $match[self::EXPRESSION],
-                    PHP_EOL,
-                    $match[self::OPEN_TAG_START],
-                    $match[self::OPEN_TAG_END],
-                    $match[self::INNER],
-                    $match[self::CLOSE_TAG],
-                    PHP_EOL
-                );
-            }
+            fn (array $match): string => sprintf(
+                '{foreach %s}%s%s%s%s%s%s{/foreach}',
+                $match[self::EXPRESSION],
+                PHP_EOL,
+                $match[self::OPEN_TAG_START],
+                $match[self::OPEN_TAG_END],
+                $match[self::INNER],
+                $match[self::CLOSE_TAG],
+                PHP_EOL
+            )
         );
 
         // n:inner-foreach
         return Strings::replace(
             $content,
             $this->createPattern('inner-foreach'),
-            function (array $match): string {
-                return sprintf(
-                    '%s%s%s{foreach %s}%s{/foreach}%s%s',
-                    $match[self::OPEN_TAG_START],
-                    $match[self::OPEN_TAG_END],
-                    PHP_EOL,
-                    $match[self::EXPRESSION],
-                    $match[self::INNER],
-                    PHP_EOL,
-                    $match[self::CLOSE_TAG]
-                );
-            }
+            fn (array $match): string => sprintf(
+                '%s%s%s{foreach %s}%s{/foreach}%s%s',
+                $match[self::OPEN_TAG_START],
+                $match[self::OPEN_TAG_END],
+                PHP_EOL,
+                $match[self::EXPRESSION],
+                $match[self::INNER],
+                PHP_EOL,
+                $match[self::CLOSE_TAG]
+            )
         );
     }
 

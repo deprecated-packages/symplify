@@ -6,10 +6,7 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\Marker;
 
 final class IndentationMarker
 {
-    /**
-     * @var int
-     */
-    private $indentation = 0;
+    private int $indentation = 0;
 
     public function reset(): void
     {

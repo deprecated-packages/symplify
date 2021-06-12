@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ReleaseWorkerProvider
-     */
-    private $releaseWorkerProvider;
+    private ReleaseWorkerProvider $releaseWorkerProvider;
 
     protected function setUp(): void
     {

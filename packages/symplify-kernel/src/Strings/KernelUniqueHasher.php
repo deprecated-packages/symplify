@@ -10,10 +10,7 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class KernelUniqueHasher
 {
-    /**
-     * @var StringsConverter
-     */
-    private $stringsConverter;
+    private StringsConverter $stringsConverter;
 
     public function __construct()
     {

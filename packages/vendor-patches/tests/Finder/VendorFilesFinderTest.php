@@ -10,10 +10,7 @@ use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
 
 final class VendorFilesFinderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var OldToNewFilesFinder
-     */
-    private $oldToNewFilesFinder;
+    private OldToNewFilesFinder $oldToNewFilesFinder;
 
     protected function setUp(): void
     {

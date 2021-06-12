@@ -15,20 +15,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class JsonOutputFormatterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var JsonOutputFormatter
-     */
-    private $jsonOutputFormatter;
+    private JsonOutputFormatter $jsonOutputFormatter;
 
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
+    private ErrorAndDiffCollector $errorAndDiffCollector;
 
-    /**
-     * @var ErrorAndDiffResultFactory
-     */
-    private $errorAndDiffResultFactory;
+    private ErrorAndDiffResultFactory $errorAndDiffResultFactory;
 
     protected function setUp(): void
     {

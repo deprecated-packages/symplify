@@ -12,20 +12,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class MultipleFileTest extends AbstractKernelTestCase
 {
-    /**
-     * @var NeonToYamlConverter
-     */
-    private $neonToYamlConverter;
+    private NeonToYamlConverter $neonToYamlConverter;
 
-    /**
-     * @var SmartFileInfo
-     */
-    private $parametersFileInfo;
+    private SmartFileInfo $parametersFileInfo;
 
-    /**
-     * @var SmartFileInfo
-     */
-    private $servicesFileInfo;
+    private SmartFileInfo $servicesFileInfo;
 
     protected function setUp(): void
     {

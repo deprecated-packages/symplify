@@ -49,9 +49,10 @@ final class ObjectTypeCaster implements TypeCasterInterface
             return $this->createObject($className, $value, $classConstructorValuesResolver);
         }
 
-        return array_map(function ($objectData) use ($className, $classConstructorValuesResolver) {
-            return $this->createObject($className, $objectData, $classConstructorValuesResolver);
-        }, $value);
+        return array_map(
+            fn ($objectData) => $this->createObject($className, $objectData, $classConstructorValuesResolver),
+            $value
+        );
     }
 
     public function getPriority(): int

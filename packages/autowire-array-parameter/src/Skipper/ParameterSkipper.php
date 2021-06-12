@@ -30,7 +30,7 @@ final class ParameterSkipper
     /**
      * @var string[]
      */
-    private $excludedFatalClasses = [];
+    private array $excludedFatalClasses = [];
 
     /**
      * @param string[] $excludedFatalClasses

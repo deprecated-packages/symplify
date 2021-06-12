@@ -16,15 +16,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileTest extends AbstractKernelTestCase
 {
-    /**
-     * @var File
-     */
-    private $file;
+    private File $file;
 
-    /**
-     * @var ErrorAndDiffCollector
-     */
-    private $errorAndDiffCollector;
+    private ErrorAndDiffCollector $errorAndDiffCollector;
 
     protected function setUp(): void
     {

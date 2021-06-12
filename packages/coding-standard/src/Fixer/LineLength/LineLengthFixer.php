@@ -58,20 +58,11 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
      */
     private const DEFAULT_LINE_LENGHT = 120;
 
-    /**
-     * @var int
-     */
-    private $lineLength = self::DEFAULT_LINE_LENGHT;
+    private int $lineLength = self::DEFAULT_LINE_LENGHT;
 
-    /**
-     * @var bool
-     */
-    private $breakLongLines = true;
+    private bool $breakLongLines = true;
 
-    /**
-     * @var bool
-     */
-    private $inlineShortLines = true;
+    private bool $inlineShortLines = true;
 
     public function __construct(
         private LineLengthTransformer $lineLengthTransformer,

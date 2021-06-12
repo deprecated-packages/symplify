@@ -13,15 +13,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VersionValidatorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var VersionValidator
-     */
-    private $versionValidator;
+    private VersionValidator $versionValidator;
 
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
+    private FinderSanitizer $finderSanitizer;
 
     protected function setUp(): void
     {

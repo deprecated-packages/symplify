@@ -15,10 +15,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ExtensionConverter implements CaseConverterInterface
 {
-    /**
-     * @var string
-     */
-    private $rootKey;
+    private ?string $rootKey = null;
 
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory,
