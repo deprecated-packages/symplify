@@ -6,4 +6,5 @@ namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckRequiredClassInAnnotati
 
 final class ExistingClass
 {
+    public const SOME = 'awe';
 }

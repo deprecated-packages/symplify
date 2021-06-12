@@ -12,6 +12,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
+use Symplify\PHPStanRules\ValueObject\ClassConstantReference;
 use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
@@ -78,6 +79,43 @@ final class ClassAnnotationResolver
         }
 
         return $referencedClasses;
+    }
+
+    /**
+     * @return ClassConstantReference[]
+     */
+    public function resolveClassConstantReferences(Node $node, Scope $scope): array
+    {
+        $docComment = $node->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return [];
+        }
+
+        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        $referencedClassConstants = [];
+
+        $phpDocNode = $this->parseTextToPhpDocNodeWithFullyQualifiedNames($docComment->getText(), $classReflection);
+        foreach ($phpDocNode->children as $docChildNode) {
+            if (! $docChildNode instanceof PhpDocTagNode) {
+                continue;
+            }
+
+            if (! $docChildNode->value instanceof GenericTagValueNode) {
+                continue;
+            }
+
+            $genericTagValueNode = $docChildNode->value;
+            $referencedClassConstants = array_merge(
+                $referencedClassConstants,
+                $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASS_CONSTANTS)
+            );
+        }
+
+        return $referencedClassConstants;
     }
 
     /**
