@@ -3,6 +3,9 @@
 /* @var int $variable */
 $variable = 5;
 
+/* @phpstan-var list<array{0: string}> $variable */
+$variable = array(array('hello'));
+
 /** @var $variable int */
 $variable = 5;
 
@@ -16,6 +19,11 @@ $variable = 5;
  */
 $variable = 5;
 
+/*
+ * @phpstan-var $variable int
+ */
+$variable = 5;
+
 ?>
 -----
 <?php
@@ -23,13 +31,19 @@ $variable = 5;
 /** @var int $variable */
 $variable = 5;
 
+/** @phpstan-var list<array{0: string}> $variable */
+$variable = array(array('hello'));
+
+/** @var int $variable */
+$variable = 5;
+
 /** @var int $variable */
 $variable = 5;
 
 /** @var int $variable */
 $variable = 5;
 
-/** @var int $variable */
+/** @phpstan-var int $variable */
 $variable = 5;
 
 ?>
