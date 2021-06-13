@@ -20,9 +20,9 @@ final class SuperfluousVarNameMalformWorker implements MalformWorkerInterface
 
     /**
      * @var string
-     * @see https://regex101.com/r/8LCnOl/1
+     * @see https://regex101.com/r/6XuSGV/1
      */
-    private const VAR_VARIABLE_NAME_REGEX = '#(?<tag>@var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
+    private const VAR_VARIABLE_NAME_REGEX = '#(?<tag>@(?:psalm-|phpstan-)?var)(?<type>\s+[|\\\\\w]+)?(\s+)(?<propertyName>\$[\w]+)#';
 
     /**
      * @param Tokens<Token> $tokens
