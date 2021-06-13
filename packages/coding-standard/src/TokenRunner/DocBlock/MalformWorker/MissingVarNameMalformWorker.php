@@ -13,9 +13,9 @@ final class MissingVarNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
-     * @see https://regex101.com/r/QtWnWv/3
+     * @see https://regex101.com/r/s1UkZs/1
      */
-    private const VAR_WITHOUT_NAME_REGEX = '#^(?<open>\/\*\* @var )(?<type>[\\\\\w\|]+)(?<close>\s+\*\/)$#';
+    private const VAR_WITHOUT_NAME_REGEX = '#^(?<open>\/\*\* @(?:psalm-|phpstan-)?var )(?<type>[\\\\\w\|-|]+)(?<close>\s+\*\/)$#';
 
     /**
      * @param Tokens<Token> $tokens
