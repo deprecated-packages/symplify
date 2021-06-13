@@ -19,6 +19,11 @@ $variable = 5;
  */
 $variable = 5;
 
+/*
+ * @phpstan-var $variable int
+ */
+$variable = 5;
+
 ?>
 -----
 <?php
@@ -36,6 +41,9 @@ $variable = 5;
 $variable = 5;
 
 /** @var int $variable */
+$variable = 5;
+
+/** @phpstan-var int $variable */
 $variable = 5;
 
 ?>

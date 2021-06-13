@@ -16,7 +16,7 @@ final class InlineVariableDocBlockMalformWorker implements MalformWorkerInterfac
      * @var string
      * @see https://regex101.com/r/GkyV1C/1
      */
-    private const SINGLE_ASTERISK_START_REGEX = '#^/\*\s+\*(\s+@var)#';
+    private const SINGLE_ASTERISK_START_REGEX = '#^/\*\s+\*(\s+@(?:psalm-|phpstan-)?var)#';
 
     /**
      * @var string
