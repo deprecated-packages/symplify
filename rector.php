@@ -89,11 +89,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/monorepo-builder/templates',
         __DIR__ . '/packages/easy-coding-standard/build/build-preload.php',
 
-        // fix in dev-main
-        \Rector\Privatization\Rector\Property\PrivatizeLocalPropertyToPrivatePropertyRector::class => [
-            __DIR__ . '/packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php',
-        ],
-
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
 
