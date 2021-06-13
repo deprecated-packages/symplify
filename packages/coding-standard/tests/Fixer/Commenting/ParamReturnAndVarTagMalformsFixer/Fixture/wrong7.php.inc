@@ -8,6 +8,13 @@ function function1(): int
 }
 
 /**
+ * @phpstan-return int $value
+ */
+function function1(): int
+{
+}
+
+/**
  * @return int $value This is the value
  */
 function function2(): int
@@ -48,6 +55,13 @@ function returnValuesDescription()
 
 /**
  * @return int
+ */
+function function1(): int
+{
+}
+
+/**
+ * @phpstan-return int
  */
 function function1(): int
 {
