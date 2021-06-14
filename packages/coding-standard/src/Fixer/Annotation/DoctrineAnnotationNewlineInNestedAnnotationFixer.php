@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Annotation;
 
 use Doctrine\Common\Annotations\DocLexer;
-use Nette\Utils\Strings;
 use PhpCsFixer\AbstractDoctrineAnnotationFixer;
 use PhpCsFixer\Doctrine\Annotation\Token;
 use PhpCsFixer\Doctrine\Annotation\Tokens;
@@ -27,20 +26,11 @@ final class DoctrineAnnotationNewlineInNestedAnnotationFixer extends AbstractDoc
      */
     private const ERROR_MESSAGE = 'Nested object annotations should start on a standalone line';
 
-    /**
-     * @var DoctrineBlockFinder
-     */
-    private $doctrineBlockFinder;
+    private ?BlockInfo $currentBlockInfo = null;
 
-    /**
-     * @var BlockInfo|null
-     */
-    private $currentBlockInfo;
-
-    public function __construct(DoctrineBlockFinder $doctrineBlockFinder)
-    {
-        $this->doctrineBlockFinder = $doctrineBlockFinder;
-
+    public function __construct(
+        private DoctrineBlockFinder $doctrineBlockFinder
+    ) {
         parent::__construct();
     }
 
@@ -132,7 +122,7 @@ CODE_SAMPLE
     private function isDocOpener(Token $token): bool
     {
         if ($token->isType(DocLexer::T_NONE)) {
-            return Strings::contains($token->getContent(), '*');
+            return \str_contains($token->getContent(), '*');
         }
 
         return false;
@@ -186,7 +176,7 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! Strings::startsWith($nextToken->getContent(), 'ORM')) {
+        if (! \str_starts_with($nextToken->getContent(), 'ORM')) {
             return true;
         }
 

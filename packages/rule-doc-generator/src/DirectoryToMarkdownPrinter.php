@@ -15,36 +15,12 @@ use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
  */
 final class DirectoryToMarkdownPrinter
 {
-    /**
-     * @var ClassByTypeFinder
-     */
-    private $classByTypeFinder;
-
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var RuleDefinitionsResolver
-     */
-    private $ruleDefinitionsResolver;
-
-    /**
-     * @var RuleDefinitionsPrinter
-     */
-    private $ruleDefinitionsPrinter;
-
     public function __construct(
-        ClassByTypeFinder $classByTypeFinder,
-        SymfonyStyle $symfonyStyle,
-        RuleDefinitionsResolver $ruleDefinitionsResolver,
-        RuleDefinitionsPrinter $ruleDefinitionsPrinter
+        private ClassByTypeFinder $classByTypeFinder,
+        private SymfonyStyle $symfonyStyle,
+        private RuleDefinitionsResolver $ruleDefinitionsResolver,
+        private RuleDefinitionsPrinter $ruleDefinitionsPrinter
     ) {
-        $this->classByTypeFinder = $classByTypeFinder;
-        $this->symfonyStyle = $symfonyStyle;
-        $this->ruleDefinitionsResolver = $ruleDefinitionsResolver;
-        $this->ruleDefinitionsPrinter = $ruleDefinitionsPrinter;
     }
 
     /**
@@ -63,9 +39,7 @@ final class DirectoryToMarkdownPrinter
         $this->symfonyStyle->note($message);
 
         $classes = array_map(
-            function (RuleClassWithFilePath $rule): string {
-                return $rule->getClass();
-            },
+            fn (RuleClassWithFilePath $rule): string => $rule->getClass(),
             $documentedRuleClasses
         );
 

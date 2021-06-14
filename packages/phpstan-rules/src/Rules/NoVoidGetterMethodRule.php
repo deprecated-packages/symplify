@@ -26,20 +26,10 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Getter method must return something, not void';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $simpleNodeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder
+    ) {
     }
 
     /**

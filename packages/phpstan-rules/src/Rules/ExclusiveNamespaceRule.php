@@ -38,20 +38,16 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
     /**
      * @var string[]
      */
-    private $namespaceParts = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $namespaceParts = [];
 
     /**
      * @param string[] $namespaceParts
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $namespaceParts = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $namespaceParts = []
+    ) {
         $this->namespaceParts = $namespaceParts;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -84,7 +80,7 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
         }
 
         foreach ($this->namespaceParts as $namespacePart) {
-            if (! Strings::endsWith($namespace, $namespacePart)) {
+            if (! \str_ends_with($namespace, $namespacePart)) {
                 continue;
             }
 
@@ -92,7 +88,7 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
                 continue;
             }
 
-            if (Strings::endsWith($classLikeName, $namespacePart)) {
+            if (\str_ends_with($classLikeName, $namespacePart)) {
                 continue;
             }
 

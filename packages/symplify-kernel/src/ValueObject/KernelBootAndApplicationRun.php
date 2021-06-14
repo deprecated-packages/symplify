@@ -24,7 +24,7 @@ final class KernelBootAndApplicationRun
     /**
      * @var string[]|SmartFileInfo[]
      */
-    private $extraConfigs = [];
+    private array $extraConfigs = [];
 
     /**
      * @param class-string $kernelClass

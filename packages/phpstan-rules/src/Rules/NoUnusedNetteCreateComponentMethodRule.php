@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -30,29 +31,11 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
      */
     private const CREATE_COMPONENT = 'createComponent';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var UsedLocaComponentNamesResolver
-     */
-    private $usedLocaComponentNamesResolver;
-
-    /**
-     * @var LatteUsedControlResolver
-     */
-    private $latteUsedControlResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        UsedLocaComponentNamesResolver $usedLocaComponentNamesResolver,
-        LatteUsedControlResolver $latteUsedControlResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private UsedLocaComponentNamesResolver $usedLocaComponentNamesResolver,
+        private LatteUsedControlResolver $latteUsedControlResolver
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->usedLocaComponentNamesResolver = $usedLocaComponentNamesResolver;
-        $this->latteUsedControlResolver = $latteUsedControlResolver;
     }
 
     public function getNodeType(): string
@@ -108,7 +91,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return null;
         }
 
-        if (! Strings::startsWith($classMethodName, self::CREATE_COMPONENT)) {
+        if (! \str_starts_with($classMethodName, self::CREATE_COMPONENT)) {
             return null;
         }
 
@@ -123,7 +106,12 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return true;
         }
 
-        if (! is_a($className, 'Nette\Application\UI\Presenter', true)) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return true;
+        }
+
+        if (! $classReflection->isSubclassOf(Presenter::class)) {
             return true;
         }
 

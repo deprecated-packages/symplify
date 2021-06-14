@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class PackageComposerFinderTest extends AbstractKernelTestCase
 {
-    /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
+    private PackageComposerFinder $packageComposerFinder;
 
     protected function setUp(): void
     {

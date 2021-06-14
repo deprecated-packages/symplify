@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
@@ -26,22 +25,10 @@ final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Name your constant with "_REGEX" suffix, instead of "%s"';
 
-    /**
-     * @var RegexFuncCallAnalyzer
-     */
-    private $regexFuncCallAnalyzer;
-
-    /**
-     * @var RegexStaticCallAnalyzer
-     */
-    private $regexStaticCallAnalyzer;
-
     public function __construct(
-        RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
-        RegexStaticCallAnalyzer $regexStaticCallAnalyzer
+        private RegexFuncCallAnalyzer $regexFuncCallAnalyzer,
+        private RegexStaticCallAnalyzer $regexStaticCallAnalyzer
     ) {
-        $this->regexFuncCallAnalyzer = $regexFuncCallAnalyzer;
-        $this->regexStaticCallAnalyzer = $regexStaticCallAnalyzer;
     }
 
     /**
@@ -115,7 +102,7 @@ CODE_SAMPLE
         }
 
         $constantName = (string) $expr->name;
-        if (Strings::endsWith($constantName, '_REGEX')) {
+        if (\str_ends_with($constantName, '_REGEX')) {
             return [];
         }
 

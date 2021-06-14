@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SymfonyStaticDumper\HttpFoundation;
 
-use Nette\Utils\Strings;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,29 +15,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ControllerContentResolver
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    /**
-     * @var ControllerMatcher
-     */
-    private $controllerMatcher;
-
     public function __construct(
-        ContainerInterface $container,
-        RequestStack $requestStack,
-        ControllerMatcher $controllerMatcher
+        private ContainerInterface $container,
+        private RequestStack $requestStack,
+        private ControllerMatcher $controllerMatcher
     ) {
-        $this->container = $container;
-        $this->requestStack = $requestStack;
-        $this->controllerMatcher = $controllerMatcher;
     }
 
     /**
@@ -83,12 +64,15 @@ final class ControllerContentResolver
 
         $this->fakeRequest($routeName);
 
-        $defaultParams = array_filter($route->getDefaults(), static function (string $key): bool {
-            return ! Strings::startsWith($key, '_');
-        }, ARRAY_FILTER_USE_KEY);
+        $defaultParams = array_filter(
+            $route->getDefaults(),
+            static fn (string $key): bool => ! \str_starts_with($key, '_'),
+            ARRAY_FILTER_USE_KEY
+        );
 
         $reflectionMethod = new ReflectionMethod($controller, $controllerCallable->getMethod());
         $defaultParamsValues = array_values($defaultParams);
+
         /** @var Response $response */
         $response = $reflectionMethod->invokeArgs($controller, $defaultParamsValues);
 

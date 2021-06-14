@@ -16,15 +16,9 @@ final class JsonFileSystemTest extends TestCase
      */
     private const TEMPORARY_FILE_PATH = __DIR__ . '/temppath.json';
 
-    /**
-     * @var JsonFileSystem
-     */
-    private $jsonFileSystem;
+    private JsonFileSystem $jsonFileSystem;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

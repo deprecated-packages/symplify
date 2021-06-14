@@ -13,24 +13,12 @@ final class SkippedClassResolver
     /**
      * @var array<string, string[]|null>
      */
-    private $skippedClasses = [];
-
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
-     * @var ClassLikeExistenceChecker
-     */
-    private $classLikeExistenceChecker;
+    private array $skippedClasses = [];
 
     public function __construct(
-        ParameterProvider $parameterProvider,
-        ClassLikeExistenceChecker $classLikeExistenceChecker
+        private ParameterProvider $parameterProvider,
+        private ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
-        $this->parameterProvider = $parameterProvider;
-        $this->classLikeExistenceChecker = $classLikeExistenceChecker;
     }
 
     /**

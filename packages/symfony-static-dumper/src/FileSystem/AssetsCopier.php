@@ -14,20 +14,10 @@ use Symplify\SmartFileSystem\SmartFileSystem;
  */
 final class AssetsCopier
 {
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    public function __construct(FinderSanitizer $finderSanitizer, SmartFileSystem $smartFileSystem)
-    {
-        $this->finderSanitizer = $finderSanitizer;
-        $this->smartFileSystem = $smartFileSystem;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer,
+        private SmartFileSystem $smartFileSystem
+    ) {
     }
 
     public function copyAssets(string $publicDirectory, string $outputDirectory): void

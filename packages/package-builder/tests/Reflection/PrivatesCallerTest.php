@@ -11,10 +11,7 @@ use Symplify\PackageBuilder\Tests\Reflection\Source\SomeClassWithPrivateMethods;
 
 final class PrivatesCallerTest extends TestCase
 {
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
     protected function setUp(): void
     {
@@ -25,8 +22,12 @@ final class PrivatesCallerTest extends TestCase
      * @dataProvider provideData()
      * @param mixed[]|int[] $arguments
      */
-    public function test($object, string $methodName, array $arguments, int $expectedResult): void
-    {
+    public function test(
+        string | SomeClassWithPrivateMethods $object,
+        string $methodName,
+        array $arguments,
+        int $expectedResult
+    ): void {
         $result = $this->privatesCaller->callPrivateMethod($object, $methodName, $arguments);
         $this->assertSame($expectedResult, $result);
     }

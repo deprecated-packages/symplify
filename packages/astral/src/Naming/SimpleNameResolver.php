@@ -26,22 +26,14 @@ final class SimpleNameResolver
     private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
-     * @var NodeNameResolverInterface[]
-     */
-    private $nodeNameResolvers = [];
-
-    /**
      * @param NodeNameResolverInterface[] $nodeNameResolvers
      */
-    public function __construct(array $nodeNameResolvers)
-    {
-        $this->nodeNameResolvers = $nodeNameResolvers;
+    public function __construct(
+        private array $nodeNameResolvers
+    ) {
     }
 
-    /**
-     * @param Node|string $node
-     */
-    public function getName($node): ?string
+    public function getName(Node | string $node): ?string
     {
         if (is_string($node)) {
             return $node;
@@ -85,17 +77,14 @@ final class SimpleNameResolver
         return false;
     }
 
-    /**
-     * @param string|Node $node
-     */
-    public function isName($node, string $desiredName): bool
+    public function isName(string | Node $node, string $desiredName): bool
     {
         $name = $this->getName($node);
         if ($name === null) {
             return false;
         }
 
-        if (Strings::contains($desiredName, '*')) {
+        if (\str_contains($desiredName, '*')) {
             return fnmatch($desiredName, $name);
         }
 
@@ -168,7 +157,7 @@ final class SimpleNameResolver
 
     public function resolveShortName(string $className): string
     {
-        if (! Strings::contains($className, '\\')) {
+        if (! \str_contains($className, '\\')) {
             return $className;
         }
 

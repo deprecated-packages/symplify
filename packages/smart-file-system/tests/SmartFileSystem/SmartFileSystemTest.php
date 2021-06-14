@@ -10,10 +10,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class SmartFileSystemTest extends TestCase
 {
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

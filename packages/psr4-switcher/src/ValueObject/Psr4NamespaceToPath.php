@@ -4,22 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\Psr4Switcher\ValueObject;
 
-final class Psr4NamespaceToPath
+use Stringable;
+
+final class Psr4NamespaceToPath implements Stringable
 {
-    /**
-     * @var string
-     */
-    private $namespace;
-
-    /**
-     * @var string
-     */
-    private $path;
-
-    public function __construct(string $namespace, string $path)
-    {
-        $this->namespace = $namespace;
-        $this->path = $path;
+    public function __construct(
+        private string $namespace,
+        private string $path
+    ) {
     }
 
     /**

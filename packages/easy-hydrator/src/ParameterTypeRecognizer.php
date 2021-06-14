@@ -21,14 +21,9 @@ use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
  */
 final class ParameterTypeRecognizer
 {
-    /**
-     * @var SimplePhpDocParser
-     */
-    private $simplePhpDocParser;
-
-    public function __construct(SimplePhpDocParser $simplePhpDocParser)
-    {
-        $this->simplePhpDocParser = $simplePhpDocParser;
+    public function __construct(
+        private SimplePhpDocParser $simplePhpDocParser
+    ) {
     }
 
     public function isArray(ReflectionParameter $reflectionParameter): bool
@@ -119,11 +114,7 @@ final class ParameterTypeRecognizer
             return null;
         }
 
-        if (method_exists($parameterReflectionType, 'getName')) {
-            return $parameterReflectionType->getName();
-        }
-
-        return (string) $parameterReflectionType;
+        return $parameterReflectionType->getName();
     }
 
     private function findFirstNonNullNodeType(UnionTypeNode $unionTypeNode): ?TypeNode

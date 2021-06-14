@@ -27,27 +27,17 @@ final class LatteUsedControlResolver
     /**
      * @var array<string, string[]>
      */
-    private $latteUsedComponentNames = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
+    private array $latteUsedComponentNames = [];
 
     /**
      * @var string[]
      */
-    private $layoutUsedComponentNames = [];
+    private array $layoutUsedComponentNames = [];
 
-    public function __construct(SimpleNameResolver $simpleNameResolver, FinderSanitizer $finderSanitizer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->finderSanitizer = $finderSanitizer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private FinderSanitizer $finderSanitizer
+    ) {
     }
 
     /**
@@ -113,7 +103,7 @@ final class LatteUsedControlResolver
             return null;
         }
 
-        if (Strings::endsWith($shortClassName, 'Presenter')) {
+        if (\str_ends_with($shortClassName, 'Presenter')) {
             return Strings::substring($shortClassName, 0, -Strings::length('Presenter'));
         }
 

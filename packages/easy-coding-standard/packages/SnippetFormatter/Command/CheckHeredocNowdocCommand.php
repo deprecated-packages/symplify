@@ -13,15 +13,9 @@ use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckHeredocNowdocCommand extends AbstractCheckCommand
 {
-    /**
-     * @var SnippetFormatterApplication
-     */
-    private $snippetFormatterApplication;
-
-    public function __construct(SnippetFormatterApplication $snippetFormatterApplication)
-    {
-        $this->snippetFormatterApplication = $snippetFormatterApplication;
-
+    public function __construct(
+        private SnippetFormatterApplication $snippetFormatterApplication
+    ) {
         parent::__construct();
     }
 

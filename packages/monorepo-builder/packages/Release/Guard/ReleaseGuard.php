@@ -16,45 +16,30 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class ReleaseGuard
 {
-    /**
-     * @var bool
-     */
-    private $isStageRequired = false;
-
-    /**
-     * @var ReleaseWorkerInterface[]
-     */
-    private $releaseWorkers = [];
+    private bool $isStageRequired = false;
 
     /**
      * @var string[]
      */
-    private $stages = [];
+    private array $stages = [];
 
     /**
      * @var string[]
      */
-    private $stagesToAllowExistingTag = [];
-
-    /**
-     * @var MostRecentTagResolver
-     */
-    private $mostRecentTagResolver;
+    private array $stagesToAllowExistingTag = [];
 
     /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
     public function __construct(
         ParameterProvider $parameterProvider,
-        MostRecentTagResolver $mostRecentTagResolver,
-        array $releaseWorkers
+        private MostRecentTagResolver $mostRecentTagResolver,
+        private array $releaseWorkers
     ) {
-        $this->releaseWorkers = $releaseWorkers;
         $this->isStageRequired = $parameterProvider->provideBoolParameter(Option::IS_STAGE_REQUIRED);
         $this->stagesToAllowExistingTag = $parameterProvider->provideArrayParameter(
             Option::STAGES_TO_ALLOW_EXISTING_TAG
         );
-        $this->mostRecentTagResolver = $mostRecentTagResolver;
     }
 
     public function guardRequiredStageOnEmptyStage(): void

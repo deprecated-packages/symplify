@@ -16,14 +16,9 @@ final class JsonInliner
      */
     private const SPACE_REGEX = '#\s+#';
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
+    public function __construct(
+        private ParameterProvider $parameterProvider
+    ) {
     }
 
     public function inlineSections(string $jsonContent): string

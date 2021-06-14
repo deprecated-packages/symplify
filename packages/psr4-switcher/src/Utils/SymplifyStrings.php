@@ -11,10 +11,7 @@ use Nette\Utils\Strings;
  */
 final class SymplifyStrings
 {
-    /**
-     * @var int|null
-     */
-    private $lastSlashPosition;
+    private ?int $lastSlashPosition = null;
 
     /**
      * Same as ↓, just for the suffix
@@ -43,7 +40,7 @@ final class SymplifyStrings
                 }
 
                 if ($this->lastSlashPosition !== null) {
-                    return substr($first, -$this->lastSlashPosition);
+                    return substr($first, -(int) $this->lastSlashPosition);
                 }
 
                 return substr($first, -$i);

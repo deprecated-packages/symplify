@@ -13,15 +13,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FixerTest extends AbstractKernelTestCase
 {
-    /**
-     * @var Fixer
-     */
-    private $fixer;
+    private Fixer $fixer;
 
-    /**
-     * @var File
-     */
-    private $file;
+    private File $file;
 
     protected function setUp(): void
     {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -23,14 +22,9 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to setUp() method';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -56,7 +50,7 @@ final class NoConstructorInTestRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! Strings::endsWith($className, 'Test')) {
+        if (! \str_ends_with($className, 'Test')) {
             return [];
         }
 

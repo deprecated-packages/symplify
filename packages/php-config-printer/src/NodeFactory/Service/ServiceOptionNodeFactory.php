@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory\Service;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\ServiceOptionAnalyzer\ServiceOptionAnalyzer;
@@ -13,24 +12,12 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 final class ServiceOptionNodeFactory
 {
     /**
-     * @var ServiceOptionsKeyYamlToPhpFactoryInterface[]
-     */
-    private $serviceOptionKeyYamlToPhpFactories = [];
-
-    /**
-     * @var ServiceOptionAnalyzer
-     */
-    private $serviceOptionAnalyzer;
-
-    /**
      * @param ServiceOptionsKeyYamlToPhpFactoryInterface[] $serviceOptionKeyYamlToPhpFactories
      */
     public function __construct(
-        ServiceOptionAnalyzer $serviceOptionAnalyzer,
-        array $serviceOptionKeyYamlToPhpFactories
+        private ServiceOptionAnalyzer $serviceOptionAnalyzer,
+        private array $serviceOptionKeyYamlToPhpFactories
     ) {
-        $this->serviceOptionKeyYamlToPhpFactories = $serviceOptionKeyYamlToPhpFactories;
-        $this->serviceOptionAnalyzer = $serviceOptionAnalyzer;
     }
 
     /**
@@ -81,7 +68,7 @@ final class ServiceOptionNodeFactory
     private function shouldSkip(string $key): bool
     {
         // options started by decoration_<option> are used as options of the method decorate().
-        if (Strings::startsWith($key, 'decoration_')) {
+        if (\str_starts_with($key, 'decoration_')) {
             return true;
         }
 

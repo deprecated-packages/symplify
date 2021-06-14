@@ -20,6 +20,7 @@ use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
 use PhpParser\Node\Stmt\ClassLike;
 use ReflectionClassConstant;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\Php\TypeChecker;
@@ -29,43 +30,16 @@ use Symplify\PackageBuilder\Php\TypeChecker;
  */
 final class NodeValueResolver
 {
-    /**
-     * @var ConstExprEvaluator
-     */
-    private $constExprEvaluator;
+    private ConstExprEvaluator $constExprEvaluator;
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
-     * @var string
-     */
-    private $currentFilePath;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
+    private ?string $currentFilePath = null;
 
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
-        SimpleNodeFinder $simpleNodeFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private TypeChecker $typeChecker,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-
-        $this->constExprEvaluator = new ConstExprEvaluator(function (Expr $expr) {
-            return $this->resolveByNode($expr);
-        });
-        $this->typeChecker = $typeChecker;
-        $this->simpleNodeFinder = $simpleNodeFinder;
+        $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
     }
 
     /**
@@ -77,7 +51,7 @@ final class NodeValueResolver
 
         try {
             return $this->constExprEvaluator->evaluateDirectly($expr);
-        } catch (ConstExprEvaluationException $constExprEvaluationException) {
+        } catch (ConstExprEvaluationException) {
             return null;
         }
     }
@@ -116,6 +90,10 @@ final class NodeValueResolver
 
     private function resolveMagicConst(MagicConst $magicConst): ?string
     {
+        if ($this->currentFilePath === null) {
+            throw new ShouldNotHappenException();
+        }
+
         if ($magicConst instanceof Dir) {
             return dirname($this->currentFilePath);
         }
@@ -145,6 +123,10 @@ final class NodeValueResolver
      */
     private function resolveByNode(Expr $expr)
     {
+        if ($this->currentFilePath === null) {
+            throw new ShouldNotHappenException();
+        }
+
         if ($expr instanceof MagicConst) {
             return $this->resolveMagicConst($expr);
         }

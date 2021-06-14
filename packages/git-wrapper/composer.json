@@ -4,9 +4,9 @@
     "license": "MIT",
     "keywords": ["git", "git wrapper", "cli"],
     "require": {
-        "php": ">=7.3",
-        "symfony/process": "^4.4|^5.2",
-        "symfony/event-dispatcher": "^4.4|^5.2",
+        "php": ">=8.0",
+        "symfony/process": "^5.3",
+        "symfony/event-dispatcher": "^5.3",
         "nette/utils": "^3.2"
     },
     "require-dev": {

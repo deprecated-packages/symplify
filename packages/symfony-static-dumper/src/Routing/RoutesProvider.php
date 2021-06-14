@@ -19,14 +19,9 @@ final class RoutesProvider
      */
     private const PARAMETERS_IN_ROUTE_REGEX = '#\{(.*?)\}#sm';
 
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    public function __construct(RouterInterface $router)
-    {
-        $this->router = $router;
+    public function __construct(
+        private RouterInterface $router
+    ) {
     }
 
     /**
@@ -43,9 +38,7 @@ final class RoutesProvider
      */
     public function provideRoutesWithoutArguments(): array
     {
-        return array_filter($this->provide(), function (Route $route): bool {
-            return ! $this->hasRouteParameters($route);
-        });
+        return array_filter($this->provide(), fn (Route $route): bool => ! $this->hasRouteParameters($route));
     }
 
     /**
@@ -53,9 +46,7 @@ final class RoutesProvider
      */
     public function provideRoutesWithParameters(): array
     {
-        return array_filter($this->provide(), function (Route $route): bool {
-            return $this->hasRouteParameters($route);
-        });
+        return array_filter($this->provide(), fn (Route $route): bool => $this->hasRouteParameters($route));
     }
 
     private function hasRouteParameters(Route $route): bool

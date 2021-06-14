@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder;
 
-use Nette\Utils\Strings;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DependencyUpdater
 {
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(JsonFileManager $jsonFileManager)
-    {
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     /**
@@ -113,7 +107,7 @@ final class DependencyUpdater
         string $packageName,
         string $packageVersion
     ): bool {
-        if (! Strings::startsWith($packageName, $vendor)) {
+        if (! \str_starts_with($packageName, $vendor)) {
             return true;
         }
 

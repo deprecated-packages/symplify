@@ -33,29 +33,11 @@ final class NoSetterOnServiceRule extends AbstractSymplifyRule
      */
     private const NOT_A_SERVICE_NAMESPACE_REGEX = '#\bEntity|Event|ValueObject|Collector|Provider|Kernel\b#';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentMethodResolver
-     */
-    private $parentMethodResolver;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        ParentMethodResolver $parentMethodResolver
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private ParentMethodResolver $parentMethodResolver
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentMethodResolver = $parentMethodResolver;
     }
 
     /**

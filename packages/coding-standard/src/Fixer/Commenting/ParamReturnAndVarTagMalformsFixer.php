@@ -41,21 +41,16 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
 
     /**
      * @var string
-     * @see https://regex101.com/r/8iqNuR/1
+     * @see https://regex101.com/r/Nlxkd9/1
      */
-    private const TYPE_ANNOTATION_REGEX = '#@(param|return|var)#';
-
-    /**
-     * @var MalformWorkerInterface[]
-     */
-    private $malformWorkers = [];
+    private const TYPE_ANNOTATION_REGEX = '#@(psalm-|phpstan-)?(param|return|var)#';
 
     /**
      * @param MalformWorkerInterface[] $malformWorkers
      */
-    public function __construct(array $malformWorkers)
-    {
-        $this->malformWorkers = $malformWorkers;
+    public function __construct(
+        private array $malformWorkers
+    ) {
     }
 
     public function getDefinition(): FixerDefinitionInterface

@@ -12,29 +12,11 @@ use Symplify\MonorepoBuilder\Utils\VersionUtils;
 
 final class UpdateBranchAliasReleaseWorker implements ReleaseWorkerInterface
 {
-    /**
-     * @var DevMasterAliasUpdater
-     */
-    private $devMasterAliasUpdater;
-
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var VersionUtils
-     */
-    private $versionUtils;
-
     public function __construct(
-        DevMasterAliasUpdater $devMasterAliasUpdater,
-        ComposerJsonProvider $composerJsonProvider,
-        VersionUtils $versionUtils
+        private DevMasterAliasUpdater $devMasterAliasUpdater,
+        private ComposerJsonProvider $composerJsonProvider,
+        private VersionUtils $versionUtils
     ) {
-        $this->devMasterAliasUpdater = $devMasterAliasUpdater;
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->versionUtils = $versionUtils;
     }
 
     public function work(Version $version): void

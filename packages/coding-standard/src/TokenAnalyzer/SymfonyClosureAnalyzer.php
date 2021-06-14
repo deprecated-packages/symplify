@@ -12,7 +12,7 @@ final class SymfonyClosureAnalyzer
     /**
      * @var Token[]
      */
-    private $symfonyClosureContainerConfiguratorFunctionTokens = [];
+    private array $symfonyClosureContainerConfiguratorFunctionTokens = [];
 
     public function __construct()
     {

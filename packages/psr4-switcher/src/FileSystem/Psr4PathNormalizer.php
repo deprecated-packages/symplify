@@ -8,14 +8,9 @@ use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPaths;
 
 final class Psr4PathNormalizer
 {
-    /**
-     * @var Psr4PathResolver
-     */
-    private $psr4PathResolver;
-
-    public function __construct(Psr4PathResolver $psr4PathResolver)
-    {
-        $this->psr4PathResolver = $psr4PathResolver;
+    public function __construct(
+        private Psr4PathResolver $psr4PathResolver
+    ) {
     }
 
     /**

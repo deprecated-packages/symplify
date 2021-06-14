@@ -30,45 +30,15 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractSymplifyRule 
     public const ERROR_MESSAGE = 'Class was not found';
 
     /**
-     * @var array<string, string[]>
-     */
-    private $argumentsByAttributes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
      * @param array<string, string[]> $argumentsByAttributes
      */
     public function __construct(
-        array $argumentsByAttributes,
-        SimpleNameResolver $simpleNameResolver,
-        NodeValueResolver $nodeValueResolver,
-        ReflectionProvider $reflectionProvider,
-        NodeFinder $nodeFinder
+        private array $argumentsByAttributes,
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeValueResolver $nodeValueResolver,
+        private ReflectionProvider $reflectionProvider,
+        private NodeFinder $nodeFinder
     ) {
-        $this->argumentsByAttributes = $argumentsByAttributes;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->reflectionProvider = $reflectionProvider;
-        $this->nodeFinder = $nodeFinder;
     }
 
     /**

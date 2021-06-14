@@ -8,20 +8,10 @@ use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
 final class SortedParameterMerger
 {
-    /**
-     * @var ParametersMerger
-     */
-    private $parametersMerger;
-
-    /**
-     * @var ArraySorter
-     */
-    private $arraySorter;
-
-    public function __construct(ParametersMerger $parametersMerger, ArraySorter $arraySorter)
-    {
-        $this->parametersMerger = $parametersMerger;
-        $this->arraySorter = $arraySorter;
+    public function __construct(
+        private ParametersMerger $parametersMerger,
+        private ArraySorter $arraySorter
+    ) {
     }
 
     /**

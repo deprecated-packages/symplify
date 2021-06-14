@@ -30,29 +30,11 @@ final class StandaloneLineInMultilineArrayFixer extends AbstractSymplifyFixer im
      */
     private const ERROR_MESSAGE = 'Indexed arrays must have 1 item per line';
 
-    /**
-     * @var ArrayWrapperFactory
-     */
-    private $arrayWrapperFactory;
-
-    /**
-     * @var TokensNewliner
-     */
-    private $tokensNewliner;
-
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
     public function __construct(
-        ArrayWrapperFactory $arrayWrapperFactory,
-        TokensNewliner $tokensNewliner,
-        BlockFinder $blockFinder
+        private ArrayWrapperFactory $arrayWrapperFactory,
+        private TokensNewliner $tokensNewliner,
+        private BlockFinder $blockFinder
     ) {
-        $this->arrayWrapperFactory = $arrayWrapperFactory;
-        $this->tokensNewliner = $tokensNewliner;
-        $this->blockFinder = $blockFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface

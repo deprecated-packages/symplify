@@ -33,45 +33,24 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Class "%s" is missing @see annotation with test case class reference';
 
     /**
-     * @var FileTypeMapper
-     */
-    private $fileTypeMapper;
-
-    /**
-     * @var Broker
-     */
-    private $broker;
-
-    /**
      * @var string[]
      */
-    private $requiredSeeTypes = [];
+    private array $requiredSeeTypes = [];
 
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private PrivatesAccessor $privatesAccessor;
 
     /**
      * @param string[] $requiredSeeTypes
      */
     public function __construct(
-        Broker $broker,
-        SimpleNameResolver $simpleNameResolver,
-        FileTypeMapper $fileTypeMapper,
+        private Broker $broker,
+        private SimpleNameResolver $simpleNameResolver,
+        private FileTypeMapper $fileTypeMapper,
         array $requiredSeeTypes = []
     ) {
-        $this->fileTypeMapper = $fileTypeMapper;
-        $this->broker = $broker;
         $this->requiredSeeTypes = $requiredSeeTypes;
 
         $this->privatesAccessor = new PrivatesAccessor();
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

@@ -18,30 +18,26 @@ final class PackageComposerFinder
     /**
      * @var string[]
      */
-    private $packageDirectories = [];
+    private array $packageDirectories = [];
 
     /**
      * @var string[]
      */
-    private $packageDirectoriesExcludes = [];
-
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
+    private array $packageDirectoriesExcludes = [];
 
     /**
      * @var SmartFileInfo[]
      */
-    private $cachedPackageComposerFiles = [];
+    private array $cachedPackageComposerFiles = [];
 
-    public function __construct(ParameterProvider $parameterProvider, FinderSanitizer $finderSanitizer)
-    {
+    public function __construct(
+        ParameterProvider $parameterProvider,
+        private FinderSanitizer $finderSanitizer
+    ) {
         $this->packageDirectories = $parameterProvider->provideArrayParameter(Option::PACKAGE_DIRECTORIES);
         $this->packageDirectoriesExcludes = $parameterProvider->provideArrayParameter(
             Option::PACKAGE_DIRECTORIES_EXCLUDES
         );
-        $this->finderSanitizer = $finderSanitizer;
     }
 
     public function getRootPackageComposerFile(): SmartFileInfo

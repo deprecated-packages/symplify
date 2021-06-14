@@ -20,36 +20,12 @@ use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class ConstructorDefinedPropertyNodeAnalyzer
 {
-    /**
-     * @var PhpClassReflectionExtension
-     */
-    private $phpClassReflectionExtension;
-
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
     public function __construct(
-        PhpClassReflectionExtension $phpClassReflectionExtension,
-        PrivatesCaller $privatesCaller,
-        SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $simpleNodeFinder
+        private PhpClassReflectionExtension $phpClassReflectionExtension,
+        private PrivatesCaller $privatesCaller,
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->phpClassReflectionExtension = $phpClassReflectionExtension;
-        $this->privatesCaller = $privatesCaller;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     public function isLocalPropertyDefinedInConstructor(PropertyFetch $propertyFetch, Scope $scope): bool

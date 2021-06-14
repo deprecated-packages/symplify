@@ -21,20 +21,10 @@ final class NetteTypeAnalyzer
         'Nette\Bridges\ApplicationLatte\DefaultTemplate',
     ];
 
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(ObjectTypeAnalyzer $objectTypeAnalyzer, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function isTemplateType(Expr $expr, Scope $scope): bool

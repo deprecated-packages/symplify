@@ -20,14 +20,9 @@ use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
  */
 final class ConstantNodeFactory
 {
-    /**
-     * @var YamlFileContentProviderInterface
-     */
-    private $yamlFileContentProvider;
-
-    public function __construct(YamlFileContentProviderInterface $yamlFileContentProvider)
-    {
-        $this->yamlFileContentProvider = $yamlFileContentProvider;
+    public function __construct(
+        private YamlFileContentProviderInterface $yamlFileContentProvider
+    ) {
     }
 
     /**
@@ -35,7 +30,7 @@ final class ConstantNodeFactory
      */
     public function createConstantIfValue(string $value): ?Expr
     {
-        if (Strings::contains($value, '::')) {
+        if (\str_contains($value, '::')) {
             [$class, $constant] = explode('::', $value);
 
             // not uppercase → probably not a constant

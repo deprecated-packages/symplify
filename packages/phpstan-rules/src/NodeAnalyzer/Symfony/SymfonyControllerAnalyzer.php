@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony;
 
-use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -18,20 +17,10 @@ final class SymfonyControllerAnalyzer
      */
     private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var AttributeFinder
-     */
-    private $attributeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, AttributeFinder $attributeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->attributeFinder = $attributeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private AttributeFinder $attributeFinder
+    ) {
     }
 
     public function isActionMethod(ClassMethod $classMethod): bool
@@ -49,7 +38,7 @@ final class SymfonyControllerAnalyzer
             return false;
         }
 
-        return Strings::contains($docComment->getText(), '@Route');
+        return \str_contains($docComment->getText(), '@Route');
     }
 
     public function isInControllerClass(Scope $scope): bool

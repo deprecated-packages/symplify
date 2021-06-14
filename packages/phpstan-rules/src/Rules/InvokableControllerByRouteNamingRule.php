@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
@@ -12,10 +11,10 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -34,29 +33,11 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
      */
     private const ROUTE_ATTRIBUTE = 'Symfony\Component\Routing\Annotation\Route';
 
-    /**
-     * @var SymfonyControllerAnalyzer
-     */
-    private $symfonyControllerAnalyzer;
-
-    /**
-     * @var AttributeFinder
-     */
-    private $attributeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SymfonyControllerAnalyzer $symfonyControllerAnalyzer,
-        AttributeFinder $attributeFinder,
-        SimpleNameResolver $simpleNameResolver
+        private SymfonyControllerAnalyzer $symfonyControllerAnalyzer,
+        private AttributeFinder $attributeFinder,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->symfonyControllerAnalyzer = $symfonyControllerAnalyzer;
-        $this->attributeFinder = $attributeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -138,7 +119,7 @@ CODE_SAMPLE
             $argName = (string) $argIdentifier;
 
             if ($argName === 'name') {
-                $next = $argIdentifier->getAttribute(PHPStanAttributeKey::NEXT);
+                $next = $argIdentifier->getAttribute(AttributeKey::NEXT);
                 if ($next instanceof String_) {
                     return $this->validateName($scope, $next->value);
                 }
@@ -158,7 +139,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $name = Strings::endsWith($shortClassName, 'Controller')
+        $name = \str_ends_with($shortClassName, 'Controller')
             ? substr($shortClassName, 0, -10)
             : $shortClassName;
 

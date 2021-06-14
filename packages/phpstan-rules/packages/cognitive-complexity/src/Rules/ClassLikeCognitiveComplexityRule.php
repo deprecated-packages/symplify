@@ -29,38 +29,20 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     public const ERROR_MESSAGE = '%s cognitive complexity is %d, keep it under %d';
 
     /**
-     * @var int
-     */
-    private $maxClassCognitiveComplexity;
-
-    /**
-     * @var AstCognitiveComplexityAnalyzer
-     */
-    private $astCognitiveComplexityAnalyzer;
-
-    /**
      * @var array<string, int>
      */
-    private $limitsByTypes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $limitsByTypes = [];
 
     /**
      * @param array<string, int> $limitsByTypes
      */
     public function __construct(
-        AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
-        SimpleNameResolver $simpleNameResolver,
-        int $maxClassCognitiveComplexity = 50,
+        private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private int $maxClassCognitiveComplexity = 50,
         array $limitsByTypes = []
     ) {
-        $this->maxClassCognitiveComplexity = $maxClassCognitiveComplexity;
-        $this->astCognitiveComplexityAnalyzer = $astCognitiveComplexityAnalyzer;
         $this->limitsByTypes = $limitsByTypes;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

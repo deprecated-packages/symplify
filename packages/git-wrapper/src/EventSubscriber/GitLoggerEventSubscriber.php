@@ -26,7 +26,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      *
      * @var string[]
      */
-    private $logLevelMappings = [
+    private array $logLevelMappings = [
         GitPrepareEvent::class => LogLevel::INFO,
         GitOutputEvent::class => LogLevel::DEBUG,
         GitSuccessEvent::class => LogLevel::INFO,
@@ -34,14 +34,9 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
         GitBypassEvent::class => LogLevel::INFO,
     ];
 
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
+    public function __construct(
+        private LoggerInterface $logger
+    ) {
     }
 
     /**
@@ -90,7 +85,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = []): void
     {
-        $gitEventClass = get_class($gitEvent);
+        $gitEventClass = $gitEvent::class;
         $method = $this->getLogLevelMapping($gitEventClass);
 
         $process = $gitEvent->getProcess();

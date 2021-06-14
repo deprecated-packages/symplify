@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -29,14 +29,9 @@ final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends 
      */
     private const REQUIRED_METHODS = ['autowire', 'autoconfigure', 'public'];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -124,7 +119,7 @@ CODE_SAMPLE
                 $methodCalls[] = $methodCallName;
             }
 
-            $methodCall = $methodCall->getAttribute(PHPStanAttributeKey::PARENT);
+            $methodCall = $methodCall->getAttribute(AttributeKey::PARENT);
         }
 
         return $methodCalls;

@@ -19,10 +19,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
  */
 final class MarkdownSnippetFormatterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SnippetFormatter
-     */
-    private $snippetFormatter;
+    private SnippetFormatter $snippetFormatter;
 
     protected function setUp(): void
     {

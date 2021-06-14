@@ -16,7 +16,7 @@ final class AutowireArrayParameterHttpKernel extends Kernel implements ExtraConf
     /**
      * @var string[]
      */
-    private $configs = [];
+    private array $configs = [];
 
     public function __construct()
     {

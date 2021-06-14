@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -15,14 +14,9 @@ use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 
 final class FirstLineLengthResolver
 {
-    /**
-     * @var LineLengthAndPositionFactory
-     */
-    private $lineLengthAndPositionFactory;
-
-    public function __construct(LineLengthAndPositionFactory $lineLengthAndPositionFactory)
-    {
-        $this->lineLengthAndPositionFactory = $lineLengthAndPositionFactory;
+    public function __construct(
+        private LineLengthAndPositionFactory $lineLengthAndPositionFactory
+    ) {
     }
 
     /**
@@ -88,7 +82,7 @@ final class FirstLineLengthResolver
             throw new TokenNotFoundException($position);
         }
 
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
+        if (\str_starts_with($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 

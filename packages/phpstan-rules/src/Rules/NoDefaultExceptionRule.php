@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Throw_;
@@ -24,14 +23,9 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use custom exceptions instead of native "%s"';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -63,7 +57,7 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
         }
 
         // fast way to detect native exceptions
-        if (Strings::contains($className, '\\')) {
+        if (\str_contains($className, '\\')) {
             return [];
         }
 

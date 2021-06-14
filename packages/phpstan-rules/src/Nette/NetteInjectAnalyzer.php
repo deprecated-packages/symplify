@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -28,43 +27,13 @@ final class NetteInjectAnalyzer
      */
     private const INJECT = '@inject';
 
-    /**
-     * @var PropertyAnalyzer
-     */
-    private $propertyAnalyzer;
-
-    /**
-     * @var AnnotationAttributeDetector
-     */
-    private $annotationAttributeDetector;
-
-    /**
-     * @var ReflectionParser
-     */
-    private $reflectionParser;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var NodeComparator
-     */
-    private $nodeComparator;
-
     public function __construct(
-        PropertyAnalyzer $propertyAnalyzer,
-        AnnotationAttributeDetector $annotationAttributeDetector,
-        ReflectionParser $reflectionParser,
-        NodeFinder $nodeFinder,
-        NodeComparator $nodeComparator
+        private PropertyAnalyzer $propertyAnalyzer,
+        private AnnotationAttributeDetector $annotationAttributeDetector,
+        private ReflectionParser $reflectionParser,
+        private NodeFinder $nodeFinder,
+        private NodeComparator $nodeComparator
     ) {
-        $this->propertyAnalyzer = $propertyAnalyzer;
-        $this->annotationAttributeDetector = $annotationAttributeDetector;
-        $this->reflectionParser = $reflectionParser;
-        $this->nodeFinder = $nodeFinder;
-        $this->nodeComparator = $nodeComparator;
     }
 
     public function isParentInjectPropertyFetch(PropertyFetch $propertyFetch, Scope $scope): bool
@@ -121,7 +90,7 @@ final class NetteInjectAnalyzer
         }
 
         $methodName = $classMethod->name->toString();
-        if (Strings::startsWith($methodName, 'inject')) {
+        if (\str_starts_with($methodName, 'inject')) {
             return true;
         }
 

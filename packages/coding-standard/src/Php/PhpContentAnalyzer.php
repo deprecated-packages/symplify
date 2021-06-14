@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Php;
 
+use PhpToken;
 use Symplify\CodingStandard\TokenRunner\TokenFinder;
 use Symplify\CodingStandard\Tokens\CommentedContentResolver;
 
@@ -19,14 +20,9 @@ final class PhpContentAnalyzer
      */
     private const END_SEMI_COLON_TYPES = [T_INCLUDE, T_EMPTY, T_USE];
 
-    /**
-     * @var TokenFinder
-     */
-    private $tokenFinder;
-
-    public function __construct(TokenFinder $tokenFinder)
-    {
-        $this->tokenFinder = $tokenFinder;
+    public function __construct(
+        private TokenFinder $tokenFinder
+    ) {
     }
 
     public function isPhpContent(string $content): bool
@@ -51,86 +47,85 @@ final class PhpContentAnalyzer
             $rawToken = $rawTokens[$i];
 
             // twig
-            if ($rawToken === '{') {
+            if ($rawToken->text === '{') {
                 $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                if ($nextToken === '%') {
+                if (! $nextToken instanceof PhpToken) {
                     return false;
                 }
-            }
 
-            if (! isset($rawToken[2])) {
-                continue;
+                if ($nextToken->text === '%') {
+                    return false;
+                }
             }
 
             if (! $firstInLineLintedCorrectly) {
-                $tokenKind = $rawToken[0];
-
-                if ($tokenKind === T_CONSTANT_ENCAPSED_STRING) {
+                if ($rawToken->is(T_CONSTANT_ENCAPSED_STRING)) {
                     return false;
                 }
 
-                if (in_array($tokenKind, self::END_SEMI_COLON_TYPES, true)) {
+                if ($rawToken->is(self::END_SEMI_COLON_TYPES)) {
                     $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
-                    if ($lastLineToken !== ';') {
+                    if (! $lastLineToken instanceof PhpToken) {
+                        return false;
+                    }
+
+                    if ($lastLineToken->text !== ';') {
                         return false;
                     }
                 }
 
-                if ($tokenKind === T_DEFAULT) {
+                if ($rawToken->is(T_DEFAULT)) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if (! is_array($nextToken)) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
 
-                    if ($nextToken !== ':') {
+                    if ($nextToken->text !== ':') {
                         return false;
                     }
                 }
 
                 // token id: 311
-                if ($tokenKind === T_STRING) {
+                if ($rawToken->is(T_STRING)) {
                     return false;
                 }
 
-                if ($tokenKind === T_NAMESPACE) {
+                if ($rawToken->is(T_NAMESPACE)) {
                     // is namespace part
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if (! is_array($nextToken)) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
                 }
 
-                if ($tokenKind === T_VARIABLE) {
+                if ($rawToken->is(T_VARIABLE)) {
                     $nextToken = $this->tokenFinder->getNextMeaninfulToken($rawTokens, $i + 1);
-                    if ($nextToken === []) {
-                        return false;
-                    }
-                    if (! is_array($nextToken)) {
+                    if (! $nextToken instanceof PhpToken) {
                         return false;
                     }
 
-                    if ($nextToken[0] === T_STRING) {
+                    if ($nextToken->is(T_STRING)) {
                         return false;
                     }
                 }
 
-                if (in_array($tokenKind, self::STMT_OPENING_TYPES, true)) {
+                if ($rawToken->is(self::STMT_OPENING_TYPES)) {
                     // has expected end?
                     $lastLineToken = $this->tokenFinder->getSameRowLastToken($rawTokens, $i + 1);
-                    if (! is_array($lastLineToken)) {
+                    if (! $lastLineToken instanceof PhpToken) {
                         return true;
                     }
 
-                    return in_array($lastLineToken[0], ['{', ')'], true);
+                    return in_array($lastLineToken->text, ['{', ')'], true);
                 }
 
                 // these cannot be in the start of line
-                if (in_array($tokenKind, [T_LOGICAL_AND, T_LOGICAL_OR, T_LOGICAL_XOR], true)) {
+                if ($rawToken->is([T_LOGICAL_AND, T_LOGICAL_OR, T_LOGICAL_XOR])) {
                     return false;
                 }
             }
 
-            if ($rawToken[0] === T_FUNCTION && ! $this->isFunctionStart($rawTokens, $i)) {
+            if ($rawToken->is(T_FUNCTION) && ! $this->isFunctionStart($rawTokens, $i)) {
                 return false;
             }
 
@@ -139,12 +134,12 @@ final class PhpContentAnalyzer
             }
 
             // is comment content
-            if (in_array($rawToken[0], CommentedContentResolver::EMPTY_TOKENS, true)) {
+            if ($rawToken->is(CommentedContentResolver::EMPTY_TOKENS)) {
                 continue;
             }
 
             // new line comming next → restart string check
-            if ($rawToken[1] === PHP_EOL) {
+            if ($rawToken->text === PHP_EOL) {
                 $firstInLineLintedCorrectly = false;
             }
         }
@@ -153,7 +148,7 @@ final class PhpContentAnalyzer
     }
 
     /**
-     * @param mixed[] $tokens
+     * @param PhpToken[] $tokens
      */
     private function isFunctionStart(array $tokens, int $i): bool
     {
@@ -164,18 +159,21 @@ final class PhpContentAnalyzer
 
         $nameToken = $twoNextTokens[0];
         $openBracketToken = $twoNextTokens[1];
-        if ($nameToken[0] !== T_STRING) {
+        if (! $nameToken->is(T_STRING)) {
             return false;
         }
 
-        return $openBracketToken === '(';
+        return $openBracketToken->text === '(';
     }
 
+    /**
+     * @param PhpToken[] $rawTokens
+     */
     private function hasTwoStringsTokensInRow(int $tokenCount, array $rawTokens): bool
     {
         for ($i = 0; $i < $tokenCount; ++$i) {
             $token = $rawTokens[$i];
-            if ($token[0] !== T_STRING) {
+            if (! $token->is(T_STRING)) {
                 continue;
             }
 
@@ -184,7 +182,7 @@ final class PhpContentAnalyzer
                 continue;
             }
 
-            if ($nextTokens[0][0] !== T_STRING) {
+            if (! $nextTokens[0]->is(T_STRING)) {
                 continue;
             }
 
@@ -195,13 +193,12 @@ final class PhpContentAnalyzer
     }
 
     /**
-     * @noRector
-     * @return string[][]|int[][]|string[]
+     * @return PhpToken[]
      */
     private function parseCodeToTokens(string $content): array
     {
         $phpContent = '<?php ' . PHP_EOL . $content;
-        $rawTokens = token_get_all($phpContent);
+        $rawTokens = PhpToken::tokenize($phpContent);
 
         return array_slice($rawTokens, 2);
     }

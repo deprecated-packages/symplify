@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var ComposerJsonMerger
-     */
-    private $composerJsonMerger;
+    private ComposerJsonMerger $composerJsonMerger;
 
     protected function setUp(): void
     {

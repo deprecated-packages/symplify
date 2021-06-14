@@ -29,14 +29,9 @@ final class SrcTestsDirectoriesFinder
      */
     private const TESTS_ONLY_REGEX = '#\btests\b#';
 
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    public function __construct(FinderSanitizer $finderSanitizer)
-    {
-        $this->finderSanitizer = $finderSanitizer;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer
+    ) {
     }
 
     /**
@@ -55,9 +50,9 @@ final class SrcTestsDirectoriesFinder
         $testsDirectories = [];
 
         foreach ($fileInfos as $fileInfo) {
-            if ($fileInfo->endsWith('tests') && ! Strings::contains($fileInfo->getRealPath(), 'src')) {
+            if ($fileInfo->endsWith('tests') && ! \str_contains($fileInfo->getRealPath(), 'src')) {
                 $testsDirectories[] = $fileInfo;
-            } elseif ($fileInfo->endsWith('src') && (! Strings::contains(
+            } elseif ($fileInfo->endsWith('src') && (! \str_contains(
                 $fileInfo->getRealPath(),
                 'tests'
             ) || StaticPHPUnitEnvironment::isPHPUnitRun())) {
@@ -106,8 +101,6 @@ final class SrcTestsDirectoriesFinder
      */
     private function filterExistingDirectories(array $directories): array
     {
-        return array_filter($directories, function (string $directory): bool {
-            return file_exists($directory);
-        });
+        return array_filter($directories, fn (string $directory): bool => file_exists($directory));
     }
 }

@@ -12,7 +12,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
-use Rector\NodeTypeResolver\Node\AttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
@@ -26,29 +26,11 @@ final class StringExprResolver
      */
     private const TWIG_HTML_XML_SUFFIX_REGEX = '#\.(twig|html|xml)$#';
 
-    /**
-     * @var ConstantNodeFactory
-     */
-    private $constantNodeFactory;
-
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var SymfonyFunctionNameProvider
-     */
-    private $symfonyFunctionNameProvider;
-
     public function __construct(
-        ConstantNodeFactory $constantNodeFactory,
-        CommonNodeFactory $commonNodeFactory,
-        SymfonyFunctionNameProvider $symfonyFunctionNameProvider
+        private ConstantNodeFactory $constantNodeFactory,
+        private CommonNodeFactory $commonNodeFactory,
+        private SymfonyFunctionNameProvider $symfonyFunctionNameProvider
     ) {
-        $this->constantNodeFactory = $constantNodeFactory;
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->symfonyFunctionNameProvider = $symfonyFunctionNameProvider;
     }
 
     public function resolve(
@@ -75,7 +57,7 @@ final class StringExprResolver
             return $this->resolveClassType($skipClassesToConstantReference, $value);
         }
 
-        if (Strings::startsWith($value, '@=')) {
+        if (\str_starts_with($value, '@=')) {
             $value = ltrim($value, '@=');
             $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
             $args = [new Arg($expr)];
@@ -84,7 +66,7 @@ final class StringExprResolver
         }
 
         // is service reference
-        if (Strings::startsWith($value, '@') && ! $this->isFilePath($value)) {
+        if (\str_starts_with($value, '@') && ! $this->isFilePath($value)) {
             $refOrServiceFunctionName = $this->symfonyFunctionNameProvider->provideRefOrService();
             return $this->resolveServiceReferenceExpr($value, $skipServiceReference, $refOrServiceFunctionName);
         }
@@ -105,10 +87,7 @@ final class StringExprResolver
         return (bool) Strings::match($value, self::TWIG_HTML_XML_SUFFIX_REGEX);
     }
 
-    /**
-     * @return String_|ClassConstFetch
-     */
-    private function resolveClassType(bool $skipClassesToConstantReference, string $value): Expr
+    private function resolveClassType(bool $skipClassesToConstantReference, string $value): String_ | ClassConstFetch
     {
         if ($skipClassesToConstantReference) {
             return new String_($value);

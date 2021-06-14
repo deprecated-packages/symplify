@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\CaseConverter;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
@@ -17,20 +16,10 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ConfiguredServiceCaseConverter implements CaseConverterInterface
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var ServiceOptionNodeFactory
-     */
-    private $serviceOptionNodeFactory;
-
-    public function __construct(ArgsNodeFactory $argsNodeFactory, ServiceOptionNodeFactory $serviceOptionNodeFactory)
-    {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->serviceOptionNodeFactory = $serviceOptionNodeFactory;
+    public function __construct(
+        private ArgsNodeFactory $argsNodeFactory,
+        private ServiceOptionNodeFactory $serviceOptionNodeFactory
+    ) {
     }
 
     public function convertToMethodCall($key, $values): Expression
@@ -87,6 +76,6 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
         if (! is_string($values)) {
             return false;
         }
-        return Strings::startsWith($values, '@');
+        return \str_starts_with($values, '@');
     }
 }

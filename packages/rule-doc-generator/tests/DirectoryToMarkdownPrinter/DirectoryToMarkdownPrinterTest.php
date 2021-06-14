@@ -13,10 +13,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var DirectoryToMarkdownPrinter
-     */
-    private $directoryToMarkdownPrinter;
+    private DirectoryToMarkdownPrinter $directoryToMarkdownPrinter;
 
     protected function setUp(): void
     {

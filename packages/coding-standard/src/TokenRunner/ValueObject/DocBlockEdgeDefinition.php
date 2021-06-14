@@ -6,26 +6,11 @@ namespace Symplify\CodingStandard\TokenRunner\ValueObject;
 
 final class DocBlockEdgeDefinition
 {
-    /**
-     * @var int
-     */
-    private $kind;
-
-    /**
-     * @var string
-     */
-    private $startChar;
-
-    /**
-     * @var string
-     */
-    private $endChar;
-
-    public function __construct(int $kind, string $startChar, string $endChar)
-    {
-        $this->kind = $kind;
-        $this->startChar = $startChar;
-        $this->endChar = $endChar;
+    public function __construct(
+        private int $kind,
+        private string $startChar,
+        private string $endChar
+    ) {
     }
 
     public function getKind(): int

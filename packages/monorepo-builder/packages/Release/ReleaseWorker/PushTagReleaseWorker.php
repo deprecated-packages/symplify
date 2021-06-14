@@ -10,14 +10,9 @@ use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 
 final class PushTagReleaseWorker implements ReleaseWorkerInterface
 {
-    /**
-     * @var ProcessRunner
-     */
-    private $processRunner;
-
-    public function __construct(ProcessRunner $processRunner)
-    {
-        $this->processRunner = $processRunner;
+    public function __construct(
+        private ProcessRunner $processRunner
+    ) {
     }
 
     public function work(Version $version): void

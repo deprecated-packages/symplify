@@ -20,20 +20,14 @@ final class GitCommit
      */
     private $author;
 
-    /**
-     * @var DateTimeImmutable
-     */
-    private $authorDate;
+    private DateTimeImmutable $authorDate;
 
     /**
      * @var string
      */
     private $committer;
 
-    /**
-     * @var DateTimeImmutable
-     */
-    private $committerDate;
+    private DateTimeImmutable $committerDate;
 
     /**
      * @var string

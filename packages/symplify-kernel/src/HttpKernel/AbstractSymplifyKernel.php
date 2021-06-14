@@ -17,7 +17,7 @@ abstract class AbstractSymplifyKernel extends Kernel implements ExtraConfigAware
     /**
      * @var string[]
      */
-    private $configs = [];
+    private array $configs = [];
 
     public function getCacheDir(): string
     {

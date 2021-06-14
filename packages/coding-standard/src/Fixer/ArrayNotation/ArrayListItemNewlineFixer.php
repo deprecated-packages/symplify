@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -30,29 +29,11 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
      */
     private const ERROR_MESSAGE = 'Indexed PHP array item has to have one line per item';
 
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var ArrayBlockInfoFinder
-     */
-    private $arrayBlockInfoFinder;
-
     public function __construct(
-        ArrayAnalyzer $arrayAnalyzer,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        ArrayBlockInfoFinder $arrayBlockInfoFinder
+        private ArrayAnalyzer $arrayAnalyzer,
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private ArrayBlockInfoFinder $arrayBlockInfoFinder
     ) {
-        $this->arrayAnalyzer = $arrayAnalyzer;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->arrayBlockInfoFinder = $arrayBlockInfoFinder;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -127,7 +108,7 @@ CODE_SAMPLE
                     return;
                 }
 
-                if (Strings::contains($nextToken->getContent(), "\n")) {
+                if (\str_contains($nextToken->getContent(), "\n")) {
                     return;
                 }
 

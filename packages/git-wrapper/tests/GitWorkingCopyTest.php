@@ -48,15 +48,9 @@ CODE_SAMPLE;
      */
     private const ADD_ME_REGEX = '#A\\s+add\\.me#s';
 
-    /**
-     * @var string
-     */
-    private $currentUserName;
+    private string $currentUserName;
 
-    /**
-     * @var string
-     */
-    private $currentUserEmail;
+    private string $currentUserEmail;
 
     /**
      * Creates and initializes the local repository used for testing.
@@ -953,7 +947,7 @@ CODE_SAMPLE;
     {
         try {
             $gitWorkingCopy->run(CommandName::REV_PARSE, [$tag]);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             // Expected result. The tag does not exist.
             return;
         }
@@ -965,7 +959,7 @@ CODE_SAMPLE;
     {
         try {
             $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote/HEAD']);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             // Expected result. The remote master does not exist.
             return;
         }

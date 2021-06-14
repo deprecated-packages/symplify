@@ -10,14 +10,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ComposerJsonPrinter
 {
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(JsonFileManager $jsonFileManager)
-    {
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     public function printToString(ComposerJson $composerJson): string
@@ -25,10 +20,7 @@ final class ComposerJsonPrinter
         return $this->jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
     }
 
-    /**
-     * @param string|SmartFileInfo $targetFile
-     */
-    public function print(ComposerJson $composerJson, $targetFile): string
+    public function print(ComposerJson $composerJson, string | SmartFileInfo $targetFile): string
     {
         if (is_string($targetFile)) {
             return $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $targetFile);

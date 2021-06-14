@@ -16,20 +16,10 @@ use Throwable;
 
 final class ReflectionParser
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    public function __construct(Parser $parser, NodeFinder $nodeFinder)
-    {
-        $this->parser = $parser;
-        $this->nodeFinder = $nodeFinder;
+    public function __construct(
+        private Parser $parser,
+        private NodeFinder $nodeFinder
+    ) {
     }
 
     public function parseMethodReflectionToClassMethod(ReflectionMethod $reflectionMethod): ?ClassMethod
@@ -66,7 +56,7 @@ final class ReflectionParser
 
         try {
             $nodes = $this->parser->parseFile($fileName);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // not reachable
             return null;
         }

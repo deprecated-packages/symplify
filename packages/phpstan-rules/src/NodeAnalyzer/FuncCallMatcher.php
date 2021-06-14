@@ -11,14 +11,9 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class FuncCallMatcher
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

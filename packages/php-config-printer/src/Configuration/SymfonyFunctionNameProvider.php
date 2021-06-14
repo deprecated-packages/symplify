@@ -10,14 +10,9 @@ use Symplify\PhpConfigPrinter\ValueObject\SymfonyVersionFeature;
 
 final class SymfonyFunctionNameProvider
 {
-    /**
-     * @var SymfonyVersionFeatureGuardInterface
-     */
-    private $symfonyVersionFeatureGuard;
-
-    public function __construct(SymfonyVersionFeatureGuardInterface $symfonyVersionFeatureGuard)
-    {
-        $this->symfonyVersionFeatureGuard = $symfonyVersionFeatureGuard;
+    public function __construct(
+        private SymfonyVersionFeatureGuardInterface $symfonyVersionFeatureGuard
+    ) {
     }
 
     public function provideRefOrService(): string

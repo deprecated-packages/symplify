@@ -30,20 +30,10 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
      */
     private const ERROR_MESSAGE = 'Promoted property should be on standalone line';
 
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    /**
-     * @var TokensNewliner
-     */
-    private $tokensNewliner;
-
-    public function __construct(BlockFinder $blockFinder, TokensNewliner $tokensNewliner)
-    {
-        $this->blockFinder = $blockFinder;
-        $this->tokensNewliner = $tokensNewliner;
+    public function __construct(
+        private BlockFinder $blockFinder,
+        private TokensNewliner $tokensNewliner
+    ) {
     }
 
     /**

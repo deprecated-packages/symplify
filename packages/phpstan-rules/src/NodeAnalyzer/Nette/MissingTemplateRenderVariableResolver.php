@@ -11,22 +11,10 @@ use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
 
 final class MissingTemplateRenderVariableResolver
 {
-    /**
-     * @var LatteVariableNamesResolver
-     */
-    private $latteVariableNamesResolver;
-
-    /**
-     * @var MethodCallArrayResolver
-     */
-    private $methodCallArrayResolver;
-
     public function __construct(
-        LatteVariableNamesResolver $latteVariableNamesResolver,
-        MethodCallArrayResolver $methodCallArrayResolver
+        private LatteVariableNamesResolver $latteVariableNamesResolver,
+        private MethodCallArrayResolver $methodCallArrayResolver
     ) {
-        $this->latteVariableNamesResolver = $latteVariableNamesResolver;
-        $this->methodCallArrayResolver = $methodCallArrayResolver;
     }
 
     /**

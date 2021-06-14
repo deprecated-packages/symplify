@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\NeonToYamlConverter\ConverterWorker;
 
 use Nette\Neon\Entity;
-use Nette\Utils\Strings;
 
 final class EntityConverterWorker
 {
@@ -32,10 +31,9 @@ final class EntityConverterWorker
     }
 
     /**
-     * @param int|string $name
      * @return mixed[]
      */
-    private function convertServiceEntity(array $servicesData, $name, Entity $entity): array
+    private function convertServiceEntity(array $servicesData, int | string $name, Entity $entity): array
     {
         $class = $entity->value;
 
@@ -47,7 +45,7 @@ final class EntityConverterWorker
         // class-named service
         if (is_int($name)) {
             // is namespaced class?
-            if (Strings::contains($serviceData['class'], '\\')) {
+            if (\str_contains($serviceData['class'], '\\')) {
                 unset($serviceData['class']);
             }
 

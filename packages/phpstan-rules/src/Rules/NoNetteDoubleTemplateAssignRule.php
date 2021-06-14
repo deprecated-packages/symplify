@@ -29,29 +29,11 @@ final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Avoid double template variable override of "%s"';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeFinder $nodeFinder,
-        SimpleNodeFinder $simpleNodeFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**

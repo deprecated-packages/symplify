@@ -17,51 +17,14 @@ use Symplify\VendorPatches\PatchFileFactory;
 
 final class GenerateCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var OldToNewFilesFinder
-     */
-    private $oldToNewFilesFinder;
-
-    /**
-     * @var PatchDiffer
-     */
-    private $patchDiffer;
-
-    /**
-     * @var ComposerPatchesConfigurationUpdater
-     */
-    private $composerPatchesConfigurationUpdater;
-
-    /**
-     * @var VendorDirProvider
-     */
-    private $vendorDirProvider;
-
-    /**
-     * @var PatchFileFactory
-     */
-    private $patchFileFactory;
-
-    /**
-     * @var GenerateCommandReporter
-     */
-    private $generateCommandReporter;
-
     public function __construct(
-        OldToNewFilesFinder $oldToNewFilesFinder,
-        PatchDiffer $patchDiffer,
-        ComposerPatchesConfigurationUpdater $composerPatchesConfigurationUpdater,
-        VendorDirProvider $vendorDirProvider,
-        PatchFileFactory $patchFileFactory,
-        GenerateCommandReporter $generateCommandReporter
+        private OldToNewFilesFinder $oldToNewFilesFinder,
+        private PatchDiffer $patchDiffer,
+        private ComposerPatchesConfigurationUpdater $composerPatchesConfigurationUpdater,
+        private VendorDirProvider $vendorDirProvider,
+        private PatchFileFactory $patchFileFactory,
+        private GenerateCommandReporter $generateCommandReporter
     ) {
-        $this->oldToNewFilesFinder = $oldToNewFilesFinder;
-        $this->patchDiffer = $patchDiffer;
-        $this->composerPatchesConfigurationUpdater = $composerPatchesConfigurationUpdater;
-        $this->vendorDirProvider = $vendorDirProvider;
-        $this->patchFileFactory = $patchFileFactory;
-        $this->generateCommandReporter = $generateCommandReporter;
-
         parent::__construct();
     }
 

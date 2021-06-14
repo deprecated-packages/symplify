@@ -22,20 +22,10 @@ final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Avoid using magical unclear array access and use explicit "$this->getComponent()" instead';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NetteTypeAnalyzer
-     */
-    private $netteTypeAnalyzer;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
+    ) {
     }
 
     /**

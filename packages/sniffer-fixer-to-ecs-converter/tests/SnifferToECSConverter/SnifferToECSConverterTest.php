@@ -15,10 +15,7 @@ use Symplify\SnifferFixerToECSConverter\SnifferToECSConverter;
 
 final class SnifferToECSConverterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SnifferToECSConverter
-     */
-    private $snifferToECSConverter;
+    private SnifferToECSConverter $snifferToECSConverter;
 
     protected function setUp(): void
     {

@@ -12,20 +12,10 @@ use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 
 final class ClassMethodNodeFinder
 {
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNodeFinder $simpleNodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function findByMethodCall(MethodCall $methodCall): ?ClassMethod

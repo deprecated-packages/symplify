@@ -9,14 +9,9 @@ use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
 
 final class BadGoodCodeSamplePrinter
 {
-    /**
-     * @var MarkdownCodeWrapper
-     */
-    private $markdownCodeWrapper;
-
-    public function __construct(MarkdownCodeWrapper $markdownCodeWrapper)
-    {
-        $this->markdownCodeWrapper = $markdownCodeWrapper;
+    public function __construct(
+        private MarkdownCodeWrapper $markdownCodeWrapper
+    ) {
     }
 
     /**

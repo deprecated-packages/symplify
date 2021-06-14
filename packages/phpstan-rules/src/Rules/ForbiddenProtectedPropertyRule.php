@@ -22,20 +22,10 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Property with protected modifier is not allowed. Use interface contract method instead';
 
-    /**
-     * @var ProtectedAnalyzer
-     */
-    private $protectedAnalyzer;
-
-    /**
-     * @var ParentPropertyGuard
-     */
-    private $parentPropertyGuard;
-
-    public function __construct(ProtectedAnalyzer $protectedAnalyzer, ParentPropertyGuard $parentPropertyGuard)
-    {
-        $this->protectedAnalyzer = $protectedAnalyzer;
-        $this->parentPropertyGuard = $parentPropertyGuard;
+    public function __construct(
+        private ProtectedAnalyzer $protectedAnalyzer,
+        private ParentPropertyGuard $parentPropertyGuard
+    ) {
     }
 
     /**

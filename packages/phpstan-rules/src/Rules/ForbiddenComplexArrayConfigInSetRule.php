@@ -26,29 +26,11 @@ final class ForbiddenComplexArrayConfigInSetRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'For complex configuration use value object over array';
 
-    /**
-     * @var SymfonyPhpConfigClosureAnalyzer
-     */
-    private $symfonyPhpConfigClosureAnalyzer;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
-        SimpleNodeFinder $simpleNodeFinder,
-        SimpleNameResolver $simpleNameResolver
+        private SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver
     ) {
-        $this->symfonyPhpConfigClosureAnalyzer = $symfonyPhpConfigClosureAnalyzer;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

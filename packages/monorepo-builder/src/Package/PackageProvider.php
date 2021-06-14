@@ -12,20 +12,10 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class PackageProvider
 {
-    /**
-     * @var ComposerJsonProvider
-     */
-    private $composerJsonProvider;
-
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    public function __construct(ComposerJsonProvider $composerJsonProvider, JsonFileManager $jsonFileManager)
-    {
-        $this->composerJsonProvider = $composerJsonProvider;
-        $this->jsonFileManager = $jsonFileManager;
+    public function __construct(
+        private ComposerJsonProvider $composerJsonProvider,
+        private JsonFileManager $jsonFileManager
+    ) {
     }
 
     /**
@@ -41,9 +31,10 @@ final class PackageProvider
             $packages[] = new Package($packageName, $hasTests);
         }
 
-        usort($packages, function (Package $firstPackage, Package $secondPackage): int {
-            return $firstPackage->getShortName() <=> $secondPackage->getShortName();
-        });
+        usort(
+            $packages,
+            fn (Package $firstPackage, Package $secondPackage): int => $firstPackage->getShortName() <=> $secondPackage->getShortName()
+        );
 
         return $packages;
     }

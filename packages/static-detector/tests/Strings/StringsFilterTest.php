@@ -11,10 +11,7 @@ use Symplify\StaticDetector\Strings\StringsFilter;
 
 final class StringsFilterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var StringsFilter
-     */
-    private $stringsFilter;
+    private StringsFilter $stringsFilter;
 
     protected function setUp(): void
     {

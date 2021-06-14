@@ -12,16 +12,11 @@ final class SkippedClassAndCodesResolver
     /**
      * @var array<string, string[]|null>
      */
-    private $skippedClassAndCodes = [];
+    private array $skippedClassAndCodes = [];
 
-    /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->parameterProvider = $parameterProvider;
+    public function __construct(
+        private ParameterProvider $parameterProvider
+    ) {
     }
 
     /**

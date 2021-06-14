@@ -21,14 +21,9 @@ final class RegexFuncCallAnalyzer
         'preg_replace_callback',
     ];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function isRegexFuncCall(FuncCall $funcCall): bool

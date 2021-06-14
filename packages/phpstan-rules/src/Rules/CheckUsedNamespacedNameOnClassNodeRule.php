@@ -14,7 +14,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -28,20 +28,10 @@ final class CheckUsedNamespacedNameOnClassNodeRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use `$class->namespaceName` instead of `$class->name` that only returns short class name';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, SimpleNodeFinder $simpleNodeFinder)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder
+    ) {
     }
 
     /**
@@ -129,7 +119,7 @@ CODE_SAMPLE
 
     private function shouldSkip(PropertyFetch $propertyFetch): bool
     {
-        $parent = $propertyFetch->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $propertyFetch->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof BinaryOp) {
             return true;
         }

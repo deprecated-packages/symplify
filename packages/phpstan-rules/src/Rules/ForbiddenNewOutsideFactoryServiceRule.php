@@ -27,20 +27,16 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
     /**
      * @var array<string, string>
      */
-    private $types = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $types = [];
 
     /**
      * @param array<string, string> $types
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $types = [])
-    {
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $types = []
+    ) {
         $this->types = $types;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -62,7 +58,7 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
             return [];
         }
 
-        if (Strings::endsWith($className, 'Factory')) {
+        if (\str_ends_with($className, 'Factory')) {
             return [];
         }
 
@@ -124,7 +120,7 @@ CODE_SAMPLE
         }
 
         $className = (string) end($fullyQualifiedName->parts);
-        if (! Strings::startsWith($type, '*')) {
+        if (! \str_starts_with($type, '*')) {
             return $className === $type;
         }
 

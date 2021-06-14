@@ -9,6 +9,8 @@ use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\File;
+use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -21,22 +23,11 @@ final class VersionValidator
      */
     private const SECTIONS = [ComposerJsonSection::REQUIRE, ComposerJsonSection::REQUIRE_DEV];
 
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
-     * @var ModifyingComposerJsonProvider
-     */
-    private $modifyingComposerJsonProvider;
-
     public function __construct(
-        JsonFileManager $jsonFileManager,
-        ModifyingComposerJsonProvider $modifyingComposerJsonProvider
+        private JsonFileManager $jsonFileManager,
+        private ModifyingComposerJsonProvider $modifyingComposerJsonProvider,
+        private ParameterProvider $parameterProvider
     ) {
-        $this->jsonFileManager = $jsonFileManager;
-        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
     /**
@@ -103,6 +94,10 @@ final class VersionValidator
                 continue;
             }
 
+            if ($this->isPackageAllowedVersionConflict($packageName)) {
+                continue;
+            }
+
             // sort by versions to make more readable
             asort($filesToVersions);
 
@@ -110,5 +105,14 @@ final class VersionValidator
         }
 
         return $conflictingPackageVersionsPerFile;
+    }
+
+    private function isPackageAllowedVersionConflict(string $packageName): bool
+    {
+        $excludePackageVersionConflicts = $this->parameterProvider->provideArrayParameter(
+            Option::EXCLUDE_PACKAGE_VERSION_CONFLICTS
+        );
+
+        return in_array($packageName, $excludePackageVersionConflicts, true);
     }
 }

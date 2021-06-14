@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -43,29 +42,17 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     /**
      * @var string[]
      */
-    private $parentClasses = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ClassToSuffixResolver
-     */
-    private $classToSuffixResolver;
+    private array $parentClasses = [];
 
     /**
      * @param string[] $parentClasses
      */
     public function __construct(
-        ClassToSuffixResolver $classToSuffixResolver,
-        SimpleNameResolver $simpleNameResolver,
+        private ClassToSuffixResolver $classToSuffixResolver,
+        private SimpleNameResolver $simpleNameResolver,
         array $parentClasses = []
     ) {
         $this->parentClasses = array_merge($parentClasses, self::DEFAULT_PARENT_CLASSES);
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->classToSuffixResolver = $classToSuffixResolver;
     }
 
     /**
@@ -128,7 +115,7 @@ CODE_SAMPLE
             }
 
             $expectedSuffix = $this->classToSuffixResolver->resolveFromClass($parentClass);
-            if (Strings::endsWith($className, $expectedSuffix)) {
+            if (\str_ends_with($className, $expectedSuffix)) {
                 return [];
             }
 

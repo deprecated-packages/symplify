@@ -8,10 +8,7 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class ArgumentAndParameterFactory
 {
-    /**
-     * @var PrivatesAccessor
-     */
-    private $privatesAccessor;
+    private PrivatesAccessor $privatesAccessor;
 
     public function __construct()
     {

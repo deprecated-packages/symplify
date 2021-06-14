@@ -27,7 +27,7 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
     /**
      * @var array<class-string, mixed[]>
      */
-    private $constantArgByNewByType = [];
+    private array $constantArgByNewByType = [];
 
     /**
      * @param array<class-string, mixed[]> $constantArgByNewByType

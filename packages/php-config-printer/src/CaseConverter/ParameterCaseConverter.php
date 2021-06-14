@@ -23,29 +23,11 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
  */
 final class ParameterCaseConverter implements CaseConverterInterface
 {
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var CurrentFilePathProvider
-     */
-    private $currentFilePathProvider;
-
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
     public function __construct(
-        ArgsNodeFactory $argsNodeFactory,
-        CurrentFilePathProvider $currentFilePathProvider,
-        CommonNodeFactory $commonNodeFactory
+        private ArgsNodeFactory $argsNodeFactory,
+        private CurrentFilePathProvider $currentFilePathProvider,
+        private CommonNodeFactory $commonNodeFactory
     ) {
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->currentFilePathProvider = $currentFilePathProvider;
-        $this->commonNodeFactory = $commonNodeFactory;
     }
 
     public function match(string $rootKey, $key, $values): bool
@@ -76,10 +58,7 @@ final class ParameterCaseConverter implements CaseConverterInterface
         return new Expression($methodCall);
     }
 
-    /**
-     * @return Expr|string
-     */
-    private function prefixWithDirConstantIfExistingPath(string $value)
+    private function prefixWithDirConstantIfExistingPath(string $value): string | Expr
     {
         $filePath = $this->currentFilePathProvider->getFilePath();
         if ($filePath === null) {

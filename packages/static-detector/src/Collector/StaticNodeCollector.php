@@ -21,21 +21,16 @@ final class StaticNodeCollector
     /**
      * @var StaticClassMethod[]
      */
-    private $staticClassMethods = [];
+    private array $staticClassMethods = [];
 
     /**
      * @var array<string, array<string, StaticCall[]>>
      */
-    private $staticCalls = [];
+    private array $staticCalls = [];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function addStaticClassMethod(ClassMethod $classMethod, ClassLike $classLike): void

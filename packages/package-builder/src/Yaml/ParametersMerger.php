@@ -19,9 +19,11 @@ final class ParametersMerger
     public function merge($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            return $this->mergeLeftToRightWithCallable($left, $right, function ($leftValue, $rightValue) {
-                return $this->merge($leftValue, $rightValue);
-            });
+            return $this->mergeLeftToRightWithCallable(
+                $left,
+                $right,
+                fn ($leftValue, $rightValue) => $this->merge($leftValue, $rightValue)
+            );
         }
 
         if ($left !== null) {
@@ -45,9 +47,11 @@ final class ParametersMerger
     public function mergeWithCombine($left, $right)
     {
         if (is_array($left) && is_array($right)) {
-            return $this->mergeLeftToRightWithCallable($left, $right, function ($leftValue, $rightValue) {
-                return $this->mergeWithCombine($leftValue, $rightValue);
-            });
+            return $this->mergeLeftToRightWithCallable(
+                $left,
+                $right,
+                fn ($leftValue, $rightValue) => $this->mergeWithCombine($leftValue, $rightValue)
+            );
         }
 
         if ($left === null && is_array($right)) {

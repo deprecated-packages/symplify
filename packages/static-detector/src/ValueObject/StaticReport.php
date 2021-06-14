@@ -6,15 +6,12 @@ namespace Symplify\StaticDetector\ValueObject;
 
 final class StaticReport
 {
-    /**
-     * @var int
-     */
-    private $staticCallsCount;
+    private int $staticCallsCount;
 
     /**
      * @var StaticClassMethodWithStaticCalls[]
      */
-    private $staticClassMethodsWithStaticCalls = [];
+    private array $staticClassMethodsWithStaticCalls = [];
 
     /**
      * @param StaticClassMethodWithStaticCalls[] $staticClassMethodsWithStaticCalls
@@ -29,12 +26,10 @@ final class StaticReport
         $this->staticCallsCount = $staticCallsCount;
 
         // sort from most called, to least called - the latter is easier to remove, so put low-hanging fruit first
-        usort($staticClassMethodsWithStaticCalls, function (
-            StaticClassMethodWithStaticCalls $firstStaticClassMethodWithStaticCalls,
-            StaticClassMethodWithStaticCalls $secondStaticClassMethodWithStaticCalls
-        ): int {
-            return $secondStaticClassMethodWithStaticCalls->getStaticCallsCount() <=> $firstStaticClassMethodWithStaticCalls->getStaticCallsCount();
-        });
+        usort(
+            $staticClassMethodsWithStaticCalls,
+            fn (StaticClassMethodWithStaticCalls $firstStaticClassMethodWithStaticCalls, StaticClassMethodWithStaticCalls $secondStaticClassMethodWithStaticCalls): int => $secondStaticClassMethodWithStaticCalls->getStaticCallsCount() <=> $firstStaticClassMethodWithStaticCalls->getStaticCallsCount()
+        );
 
         $this->staticClassMethodsWithStaticCalls = $staticClassMethodsWithStaticCalls;
     }

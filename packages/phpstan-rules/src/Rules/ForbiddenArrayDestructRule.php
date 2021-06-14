@@ -34,20 +34,10 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
      */
     private const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     /**

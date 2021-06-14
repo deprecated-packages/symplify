@@ -11,8 +11,8 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Unset_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -26,20 +26,10 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Avoid $this->template->variable for read access, as it can be defined anywhere. Use local $variable instead';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NetteTypeAnalyzer
-     */
-    private $netteTypeAnalyzer;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
+    ) {
     }
 
     /**
@@ -64,7 +54,7 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof Assign && $parent->var === $node) {
             return [];
         }

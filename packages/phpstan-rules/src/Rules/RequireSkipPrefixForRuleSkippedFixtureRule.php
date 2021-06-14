@@ -35,29 +35,11 @@ final class RequireSkipPrefixForRuleSkippedFixtureRule extends AbstractSymplifyR
      */
     public const INVERTED_ERROR_MESSAGE = 'File with error cannot start with "Skip" prefix';
 
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeValueResolver $nodeValueResolver,
-        NodeFinder $nodeFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeValueResolver $nodeValueResolver,
+        private NodeFinder $nodeFinder
     ) {
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**
@@ -181,7 +163,7 @@ CODE_SAMPLE
 
         // in tests, there should be no nested test, that would be run by PHPUnit
         if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
-            return ! Strings::endsWith($className, 'Test');
+            return ! \str_ends_with($className, 'Test');
         }
 
         return ! is_a($className, RuleTestCase::class, true);
@@ -201,7 +183,7 @@ CODE_SAMPLE
      */
     private function processSkippedFile(string $shortFileName): array
     {
-        if (Strings::startsWith($shortFileName, 'Skip')) {
+        if (\str_starts_with($shortFileName, 'Skip')) {
             return [];
         }
 
@@ -213,7 +195,7 @@ CODE_SAMPLE
      */
     private function processMatchingFile(string $shortFileName): array
     {
-        if (! Strings::startsWith($shortFileName, 'Skip')) {
+        if (! \str_starts_with($shortFileName, 'Skip')) {
             return [];
         }
 

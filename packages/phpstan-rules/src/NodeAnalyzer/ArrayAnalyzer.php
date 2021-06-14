@@ -12,14 +12,9 @@ use Symplify\Astral\NodeValue\NodeValueResolver;
 
 final class ArrayAnalyzer
 {
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    public function __construct(NodeValueResolver $nodeValueResolver)
-    {
-        $this->nodeValueResolver = $nodeValueResolver;
+    public function __construct(
+        private NodeValueResolver $nodeValueResolver
+    ) {
     }
 
     public function isArrayWithStringKey(Array_ $array): bool

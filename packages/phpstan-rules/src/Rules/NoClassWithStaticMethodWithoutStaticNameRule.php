@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Class_;
@@ -38,29 +37,11 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         ValueObjectInliner::class,
     ];
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ArrayStringAndFnMatcher
-     */
-    private $arrayStringAndFnMatcher;
-
     public function __construct(
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        ArrayStringAndFnMatcher $arrayStringAndFnMatcher
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
     ) {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->arrayStringAndFnMatcher = $arrayStringAndFnMatcher;
     }
 
     /**
@@ -88,7 +69,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
         }
 
         // already has "Static" in the name
-        if (Strings::contains($shortClassName, 'Static')) {
+        if (\str_contains($shortClassName, 'Static')) {
             return [];
         }
 

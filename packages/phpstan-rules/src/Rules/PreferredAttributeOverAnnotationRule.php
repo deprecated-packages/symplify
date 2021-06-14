@@ -26,22 +26,12 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
     public const ERROR_MESSAGE = 'Use attribute instead of "%s" annotation';
 
     /**
-     * @var string[]
-     */
-    private $annotations = [];
-
-    /**
-     * @var ClassAnnotationResolver
-     */
-    private $classAnnotationResolver;
-
-    /**
      * @param string[] $annotations
      */
-    public function __construct(ClassAnnotationResolver $classAnnotationResolver, array $annotations)
-    {
-        $this->annotations = $annotations;
-        $this->classAnnotationResolver = $classAnnotationResolver;
+    public function __construct(
+        private ClassAnnotationResolver $classAnnotationResolver,
+        private array $annotations
+    ) {
     }
 
     /**
@@ -63,10 +53,10 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
             return [];
         }
 
-        $matchedAnnotatoins = array_intersect($classAnnotations, $this->annotations);
+        $matchedAnnotations = array_intersect($classAnnotations, $this->annotations);
 
         $errorsMessages = [];
-        foreach ($matchedAnnotatoins as $matchedAnnotation) {
+        foreach ($matchedAnnotations as $matchedAnnotation) {
             $errorsMessages[] = sprintf(self::ERROR_MESSAGE, $matchedAnnotation);
         }
 

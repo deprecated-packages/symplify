@@ -19,26 +19,14 @@ final class SourceFinder
     /**
      * @var string[]
      */
-    private $fileExtensions = [];
-
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    /**
-     * @var GitDiffProvider
-     */
-    private $gitDiffProvider;
+    private array $fileExtensions = [];
 
     public function __construct(
-        FinderSanitizer $finderSanitizer,
+        private FinderSanitizer $finderSanitizer,
         ParameterProvider $parameterProvider,
-        GitDiffProvider $gitDiffProvider
+        private GitDiffProvider $gitDiffProvider
     ) {
-        $this->finderSanitizer = $finderSanitizer;
         $this->fileExtensions = $parameterProvider->provideArrayParameter(Option::FILE_EXTENSIONS);
-        $this->gitDiffProvider = $gitDiffProvider;
     }
 
     /**
@@ -110,9 +98,10 @@ final class SourceFinder
 
         $gitDiffFiles = $this->gitDiffProvider->provide();
 
-        $fileInfos = array_filter($fileInfos, function ($splFile) use ($gitDiffFiles): bool {
-            return in_array($splFile->getRealPath(), $gitDiffFiles, true);
-        });
+        $fileInfos = array_filter(
+            $fileInfos,
+            fn ($splFile): bool => in_array($splFile->getRealPath(), $gitDiffFiles, true)
+        );
 
         return array_values($fileInfos);
     }

@@ -20,14 +20,9 @@ final class Decommenter
      */
     private const LINE_BREAKER_REGEX = '#[\-=\#\*]{2,}#';
 
-    /**
-     * @var CommentedLineTrimmer
-     */
-    private $commentedLineTrimmer;
-
-    public function __construct(CommentedLineTrimmer $commentedLineTrimmer)
-    {
-        $this->commentedLineTrimmer = $commentedLineTrimmer;
+    public function __construct(
+        private CommentedLineTrimmer $commentedLineTrimmer
+    ) {
     }
 
     public function decoment(string $content): string

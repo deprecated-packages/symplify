@@ -11,14 +11,9 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class ObjectTypeCaster implements TypeCasterInterface
 {
-    /**
-     * @var ParameterTypeRecognizer
-     */
-    private $parameterTypeRecognizer;
-
-    public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
-    {
-        $this->parameterTypeRecognizer = $parameterTypeRecognizer;
+    public function __construct(
+        private ParameterTypeRecognizer $parameterTypeRecognizer
+    ) {
     }
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool
@@ -54,9 +49,10 @@ final class ObjectTypeCaster implements TypeCasterInterface
             return $this->createObject($className, $value, $classConstructorValuesResolver);
         }
 
-        return array_map(function ($objectData) use ($className, $classConstructorValuesResolver) {
-            return $this->createObject($className, $objectData, $classConstructorValuesResolver);
-        }, $value);
+        return array_map(
+            fn ($objectData) => $this->createObject($className, $objectData, $classConstructorValuesResolver),
+            $value
+        );
     }
 
     public function getPriority(): int

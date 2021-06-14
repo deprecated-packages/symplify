@@ -10,14 +10,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FixtureFinder
 {
-    /**
-     * @var FinderSanitizer
-     */
-    private $finderSanitizer;
-
-    public function __construct(FinderSanitizer $finderSanitizer)
-    {
-        $this->finderSanitizer = $finderSanitizer;
+    public function __construct(
+        private FinderSanitizer $finderSanitizer
+    ) {
     }
 
     /**

@@ -8,26 +8,11 @@ use PhpParser\Node\Stmt\ClassMethod;
 
 final class StaticClassMethod
 {
-    /**
-     * @var string
-     */
-    private $class;
-
-    /**
-     * @var string
-     */
-    private $method;
-
-    /**
-     * @var ClassMethod
-     */
-    private $classMethod;
-
-    public function __construct(string $class, string $method, ClassMethod $classMethod)
-    {
-        $this->class = $class;
-        $this->method = $method;
-        $this->classMethod = $classMethod;
+    public function __construct(
+        private string $class,
+        private string $method,
+        private ClassMethod $classMethod
+    ) {
     }
 
     public function getClass(): string

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\SkipCriteriaResolver;
 
-use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\Skipper\ValueObject\Option;
 use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
@@ -15,24 +14,14 @@ use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
 final class SkippedPathsResolver
 {
     /**
-     * @var ParameterProvider
-     */
-    private $parameterProvider;
-
-    /**
      * @var string[]
      */
-    private $skippedPaths = [];
+    private array $skippedPaths = [];
 
-    /**
-     * @var PathNormalizer
-     */
-    private $pathNormalizer;
-
-    public function __construct(ParameterProvider $parameterProvider, PathNormalizer $pathNormalizer)
-    {
-        $this->parameterProvider = $parameterProvider;
-        $this->pathNormalizer = $pathNormalizer;
+    public function __construct(
+        private ParameterProvider $parameterProvider,
+        private PathNormalizer $pathNormalizer
+    ) {
     }
 
     /**
@@ -56,7 +45,7 @@ final class SkippedPathsResolver
                 continue;
             }
 
-            if (Strings::contains($value, '*')) {
+            if (\str_contains($value, '*')) {
                 $this->skippedPaths[] = $this->pathNormalizer->normalizePath($value);
                 continue;
             }

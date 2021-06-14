@@ -24,14 +24,9 @@ final class MarkdownDiffer
      */
     private const SPACE_AND_NEWLINE_REGEX = '#( ){1,}\n#';
 
-    /**
-     * @var Differ
-     */
-    private $markdownDiffer;
-
-    public function __construct(Differ $markdownDiffer)
-    {
-        $this->markdownDiffer = $markdownDiffer;
+    public function __construct(
+        private Differ $differ
+    ) {
     }
 
     public function diff(string $old, string $new): string
@@ -40,7 +35,7 @@ final class MarkdownDiffer
             return '';
         }
 
-        $diff = $this->markdownDiffer->diff($old, $new);
+        $diff = $this->differ->diff($old, $new);
         $diff = $this->clearUnifiedDiffOutputFirstLine($diff);
         $diff = $this->removeTrailingWhitespaces($diff);
 

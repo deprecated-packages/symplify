@@ -27,38 +27,14 @@ final class ServiceAndValueObjectHaveSameStartsRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Value object "%s" should be named "%s" instead to respect used service';
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SymfonyConfigRectorValueObjectResolver
-     */
-    private $symfonyConfigRectorValueObjectResolver;
-
-    /**
-     * @var SymfonyConfigMethodCallAnalyzer
-     */
-    private $symfonyConfigMethodCallAnalyzer;
-
-    /**
-     * @var string[]
-     */
-    private $classSuffixes = [];
-
-    /**
      * @param string[] $classSuffixes
      */
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        SymfonyConfigRectorValueObjectResolver $symfonyConfigRectorValueObjectResolver,
-        SymfonyConfigMethodCallAnalyzer $symfonyConfigMethodCallAnalyzer,
-        array $classSuffixes
+        private SimpleNameResolver $simpleNameResolver,
+        private SymfonyConfigRectorValueObjectResolver $symfonyConfigRectorValueObjectResolver,
+        private SymfonyConfigMethodCallAnalyzer $symfonyConfigMethodCallAnalyzer,
+        private array $classSuffixes
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->symfonyConfigRectorValueObjectResolver = $symfonyConfigRectorValueObjectResolver;
-        $this->symfonyConfigMethodCallAnalyzer = $symfonyConfigMethodCallAnalyzer;
-        $this->classSuffixes = $classSuffixes;
     }
 
     /**
@@ -90,7 +66,7 @@ final class ServiceAndValueObjectHaveSameStartsRule extends AbstractSymplifyRule
         }
 
         foreach ($this->classSuffixes as $classSuffix) {
-            if (! Strings::endsWith($shortClass, $classSuffix)) {
+            if (! \str_ends_with($shortClass, $classSuffix)) {
                 continue;
             }
 

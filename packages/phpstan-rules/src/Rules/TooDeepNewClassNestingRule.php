@@ -9,7 +9,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Throw_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,20 +24,10 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule implements C
      */
     public const ERROR_MESSAGE = 'new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var int
-     */
-    private $maxNewClassNesting;
-
-    public function __construct(NodeFinder $nodeFinder, int $maxNewClassNesting = 3)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->maxNewClassNesting = $maxNewClassNesting;
+    public function __construct(
+        private NodeFinder $nodeFinder,
+        private int $maxNewClassNesting = 3
+    ) {
     }
 
     /**
@@ -100,7 +90,7 @@ CODE_SAMPLE
         $objectNews = [];
 
         foreach ($nestedNews as $nestedNew) {
-            $parent = $nestedNew->getAttribute(PHPStanAttributeKey::PARENT);
+            $parent = $nestedNew->getAttribute(AttributeKey::PARENT);
             if ($parent instanceof Throw_) {
                 continue;
             }

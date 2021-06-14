@@ -11,10 +11,7 @@ use Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\AbstractComposerJ
 
 final class AppenderComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var AppenderComposerJsonDecorator
-     */
-    private $appenderComposerJsonDecorator;
+    private AppenderComposerJsonDecorator $appenderComposerJsonDecorator;
 
     protected function setUp(): void
     {

@@ -15,9 +15,9 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -31,36 +31,12 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
      */
     public const ERROR_MESSAGE = 'Move constant expression to __construct(), setUp() method or constant';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
-
-    /**
-     * @var StatementFinder
-     */
-    private $statementFinder;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        NodeValueResolver $nodeValueResolver,
-        SimpleNodeFinder $simpleNodeFinder,
-        StatementFinder $statementFinder
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeValueResolver $nodeValueResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private StatementFinder $statementFinder
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->nodeValueResolver = $nodeValueResolver;
-        $this->statementFinder = $statementFinder;
     }
 
     /**
@@ -81,7 +57,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
             return [];
         }
 
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Node) {
             return [];
         }
@@ -160,7 +136,7 @@ CODE_SAMPLE
 
     private function isNotInsideClassMethodDirectly(Node $node): bool
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         return ! $parent instanceof ClassMethod;
     }
 

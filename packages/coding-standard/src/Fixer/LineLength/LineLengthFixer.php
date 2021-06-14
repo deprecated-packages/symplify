@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\LineLength;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
@@ -58,44 +57,17 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
      */
     private const DEFAULT_LINE_LENGHT = 120;
 
-    /**
-     * @var int
-     */
-    private $lineLength = self::DEFAULT_LINE_LENGHT;
+    private int $lineLength = self::DEFAULT_LINE_LENGHT;
 
-    /**
-     * @var bool
-     */
-    private $breakLongLines = true;
+    private bool $breakLongLines = true;
 
-    /**
-     * @var bool
-     */
-    private $inlineShortLines = true;
-
-    /**
-     * @var LineLengthTransformer
-     */
-    private $lineLengthTransformer;
-
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    /**
-     * @var FunctionCallNameMatcher
-     */
-    private $functionCallNameMatcher;
+    private bool $inlineShortLines = true;
 
     public function __construct(
-        LineLengthTransformer $lineLengthTransformer,
-        BlockFinder $blockFinder,
-        FunctionCallNameMatcher $functionCallNameMatcher
+        private LineLengthTransformer $lineLengthTransformer,
+        private BlockFinder $blockFinder,
+        private FunctionCallNameMatcher $functionCallNameMatcher
     ) {
-        $this->lineLengthTransformer = $lineLengthTransformer;
-        $this->blockFinder = $blockFinder;
-        $this->functionCallNameMatcher = $functionCallNameMatcher;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -297,6 +269,6 @@ CODE_SAMPLE
             return false;
         }
 
-        return Strings::contains($nextToken->getContent(), '<<<');
+        return \str_contains($nextToken->getContent(), '<<<');
     }
 }

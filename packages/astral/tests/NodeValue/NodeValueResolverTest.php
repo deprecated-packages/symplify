@@ -16,10 +16,7 @@ use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class NodeValueResolverTest extends TestCase
 {
-    /**
-     * @var NodeValueResolver
-     */
-    private $nodeValueResolver;
+    private NodeValueResolver $nodeValueResolver;
 
     protected function setUp(): void
     {

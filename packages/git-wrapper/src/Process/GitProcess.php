@@ -17,21 +17,11 @@ use Symplify\GitWrapper\GitWrapper;
 
 final class GitProcess extends Process
 {
-    /**
-     * @var GitWrapper
-     */
-    private $gitWrapper;
-
-    /**
-     * @var GitCommand
-     */
-    private $gitCommand;
-
-    public function __construct(GitWrapper $gitWrapper, GitCommand $gitCommand, ?string $cwd = null)
-    {
-        $this->gitWrapper = $gitWrapper;
-        $this->gitCommand = $gitCommand;
-
+    public function __construct(
+        private GitWrapper $gitWrapper,
+        private GitCommand $gitCommand,
+        ?string $cwd = null
+    ) {
         // Build the command line options, flags, and arguments.
         $commandLine = $gitCommand->getCommandLine();
         $gitBinary = $gitWrapper->getGitBinary();

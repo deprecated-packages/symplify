@@ -20,10 +20,7 @@ final class PhpDocNodeTraverserTest extends AbstractKernelTestCase
      */
     private const SOME_DESCRIPTION = 'some description';
 
-    /**
-     * @var PhpDocNodeTraverser
-     */
-    private $phpDocNodeTraverser;
+    private PhpDocNodeTraverser $phpDocNodeTraverser;
 
     protected function setUp(): void
     {

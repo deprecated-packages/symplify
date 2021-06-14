@@ -15,10 +15,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SkipperTest extends AbstractKernelTestCase
 {
-    /**
-     * @var Skipper
-     */
-    private $skipper;
+    private Skipper $skipper;
 
     protected function setUp(): void
     {

@@ -41,29 +41,11 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
         PrivatesCaller::class,
     ];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        TypeChecker $typeChecker,
-        ObjectTypeAnalyzer $objectTypeAnalyzer
+        private SimpleNameResolver $simpleNameResolver,
+        private TypeChecker $typeChecker,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->typeChecker = $typeChecker;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**

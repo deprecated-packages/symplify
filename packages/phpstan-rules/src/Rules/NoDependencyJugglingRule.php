@@ -14,10 +14,10 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -55,29 +55,11 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
         'Symfony\Component\HttpKernel\KernelInterface',
     ];
 
-    /**
-     * @var ConstructorDefinedPropertyNodeAnalyzer
-     */
-    private $constructorDefinedPropertyNodeAnalyzer;
-
-    /**
-     * @var ClassNameAnalyzer
-     */
-    private $classNameAnalyzer;
-
-    /**
-     * @var ObjectTypeAnalyzer
-     */
-    private $objectTypeAnalyzer;
-
     public function __construct(
-        ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
-        ClassNameAnalyzer $classNameAnalyzer,
-        ObjectTypeAnalyzer $objectTypeAnalyzer
+        private ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
+        private ClassNameAnalyzer $classNameAnalyzer,
+        private ObjectTypeAnalyzer $objectTypeAnalyzer
     ) {
-        $this->constructorDefinedPropertyNodeAnalyzer = $constructorDefinedPropertyNodeAnalyzer;
-        $this->classNameAnalyzer = $classNameAnalyzer;
-        $this->objectTypeAnalyzer = $objectTypeAnalyzer;
     }
 
     /**
@@ -142,12 +124,12 @@ CODE_SAMPLE
 
     private function shouldSkipPropertyFetch(PropertyFetch $propertyFetch, Scope $scope): bool
     {
-        $parent = $propertyFetch->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $propertyFetch->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Arg) {
             return true;
         }
 
-        $parentParent = $parent->getAttribute(PHPStanAttributeKey::PARENT);
+        $parentParent = $parent->getAttribute(AttributeKey::PARENT);
         if ($this->isAllowedCallerType($scope, $parentParent)) {
             return true;
         }

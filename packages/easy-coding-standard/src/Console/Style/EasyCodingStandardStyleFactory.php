@@ -14,20 +14,12 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 final class EasyCodingStandardStyleFactory
 {
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
-    /**
-     * @var Terminal
-     */
-    private $terminal;
-
-    public function __construct(Terminal $terminal)
-    {
+    public function __construct(
+        private Terminal $terminal
+    ) {
         $this->privatesCaller = new PrivatesCaller();
-        $this->terminal = $terminal;
     }
 
     public function create(): EasyCodingStandardStyle

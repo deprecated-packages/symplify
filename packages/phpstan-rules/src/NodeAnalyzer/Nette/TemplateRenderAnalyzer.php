@@ -10,20 +10,10 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class TemplateRenderAnalyzer
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var NetteTypeAnalyzer
-     */
-    private $netteTypeAnalyzer;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, NetteTypeAnalyzer $netteTypeAnalyzer)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->netteTypeAnalyzer = $netteTypeAnalyzer;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
+    ) {
     }
 
     public function isTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool

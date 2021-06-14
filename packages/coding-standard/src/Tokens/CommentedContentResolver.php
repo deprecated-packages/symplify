@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tokens;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\ValueObject\StartAndEnd;
@@ -22,14 +21,9 @@ final class CommentedContentResolver
      */
     public const EMPTY_TOKENS = [T_WHITESPACE, T_STRING, T_ENCAPSED_AND_WHITESPACE, T_COMMENT];
 
-    /**
-     * @var LineResolver
-     */
-    private $lineResolver;
-
-    public function __construct(LineResolver $lineResolver)
-    {
-        $this->lineResolver = $lineResolver;
+    public function __construct(
+        private LineResolver $lineResolver
+    ) {
     }
 
     /**
@@ -70,7 +64,7 @@ final class CommentedContentResolver
 
             // Trim as much off the comment as possible so we don't, have additional whitespace tokens or comment tokens
             $tokenContent = trim($token->getContent());
-            $hasBlockCommentCloser = Strings::endsWith($tokenContent, '*/');
+            $hasBlockCommentCloser = \str_ends_with($tokenContent, '*/');
 
             if ($hasBlockCommentCloser) {
                 // Closer of a block comment found
@@ -84,7 +78,7 @@ final class CommentedContentResolver
     private function shouldBreak(int $lastLineSeen, int $tokenLine, Token $token): bool
     {
         if ($lastLineSeen + 1 <= $tokenLine
-            && Strings::startsWith($token->getContent(), '/*')
+            && \str_starts_with($token->getContent(), '/*')
         ) {
             // First non-whitespace token on a new line is start of a different style comment.
             return true;
@@ -104,6 +98,6 @@ final class CommentedContentResolver
             return false;
         }
 
-        return ! Strings::startsWith($token->getContent(), '//');
+        return ! \str_starts_with($token->getContent(), '//');
     }
 }

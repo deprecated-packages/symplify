@@ -28,21 +28,17 @@ final class PreferredMethodCallOverIdenticalCompareRule extends AbstractSymplify
     public const ERROR_MESSAGE = 'Use "%s->%s(\'value\')" method call over "%s->%s() === \'value\'" comparison';
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @var array<string, array<string, string>>
      */
-    private $identicalToPreferredMethodCalls = [];
+    private array $identicalToPreferredMethodCalls = [];
 
     /**
      * @param array<string, array<string, string>> $identicalToPreferredMethodCalls
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $identicalToPreferredMethodCalls = [])
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $identicalToPreferredMethodCalls = []
+    ) {
         $this->identicalToPreferredMethodCalls = $identicalToPreferredMethodCalls;
     }
 

@@ -8,20 +8,13 @@ use Nette\Utils\Strings;
 
 final class Package
 {
-    /**
-     * @var string
-     */
-    private $shortName;
+    private string $shortName;
 
-    /**
-     * @var bool
-     */
-    private $hasTests = false;
-
-    public function __construct(string $name, bool $hasTests)
-    {
+    public function __construct(
+        string $name,
+        private bool $hasTests
+    ) {
         $this->shortName = (string) Strings::after($name, '/', -1);
-        $this->hasTests = $hasTests;
     }
 
     public function getShortName(): string

@@ -51,42 +51,12 @@ final class SnippetFormatter
      */
     private const CLOSING = 'closing';
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
-    /**
-     * @var FixerFileProcessor
-     */
-    private $fixerFileProcessor;
-
-    /**
-     * @var SniffFileProcessor
-     */
-    private $sniffFileProcessor;
-
-    /**
-     * @var CurrentParentFileInfoProvider
-     */
-    private $currentParentFileInfoProvider;
-
-    /**
-     * @var bool
-     */
-    private $isPhp73OrAbove = false;
-
     public function __construct(
-        SmartFileSystem $smartFileSystem,
-        FixerFileProcessor $fixerFileProcessor,
-        SniffFileProcessor $sniffFileProcessor,
-        CurrentParentFileInfoProvider $currentParentFileInfoProvider
+        private SmartFileSystem $smartFileSystem,
+        private FixerFileProcessor $fixerFileProcessor,
+        private SniffFileProcessor $sniffFileProcessor,
+        private CurrentParentFileInfoProvider $currentParentFileInfoProvider
     ) {
-        $this->smartFileSystem = $smartFileSystem;
-        $this->fixerFileProcessor = $fixerFileProcessor;
-        $this->sniffFileProcessor = $sniffFileProcessor;
-        $this->currentParentFileInfoProvider = $currentParentFileInfoProvider;
-        $this->isPhp73OrAbove = PHP_VERSION_ID >= 70300;
     }
 
     public function format(SmartFileInfo $fileInfo, string $snippetRegex, string $kind): string
@@ -94,7 +64,7 @@ final class SnippetFormatter
         $this->currentParentFileInfoProvider->setParentFileInfo($fileInfo);
 
         return Strings::replace($fileInfo->getContents(), $snippetRegex, function ($match) use ($kind): string {
-            if (Strings::contains($match[self::CONTENT], '-----')) {
+            if (\str_contains($match[self::CONTENT], '-----')) {
                 // do nothing
                 return $match[self::OPENING] . $match[self::CONTENT] . $match[self::CLOSING];
             }
@@ -108,27 +78,20 @@ final class SnippetFormatter
      */
     private function fixContentAndPreserveFormatting(array $match, string $kind): string
     {
-        if ($this->isPhp73OrAbove) {
-            return str_replace(PHP_EOL, '', $match[self::OPENING]) . PHP_EOL
-                . $this->fixContent($match[self::CONTENT], $kind)
-                . str_replace(PHP_EOL, '', $match[self::CLOSING]);
-        }
-
-        return rtrim($match[self::OPENING], PHP_EOL) . PHP_EOL
+        return str_replace(PHP_EOL, '', $match[self::OPENING]) . PHP_EOL
             . $this->fixContent($match[self::CONTENT], $kind)
-            . ltrim($match[self::CLOSING], PHP_EOL);
+            . str_replace(PHP_EOL, '', $match[self::CLOSING]);
     }
 
     private function fixContent(string $content, string $kind): string
     {
-        $content = $this->isPhp73OrAbove ? $content : trim($content);
         $temporaryFilePath = $this->createTemporaryFilePath($content);
 
-        if (! Strings::startsWith($this->isPhp73OrAbove ? trim($content) : $content, '<?php')) {
+        if (! \str_starts_with(trim($content), '<?php')) {
             $content = '<?php' . PHP_EOL . $content;
         }
 
-        $fileContent = $this->isPhp73OrAbove ? ltrim($content, PHP_EOL) : $content;
+        $fileContent = ltrim($content, PHP_EOL);
 
         $this->smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
         $temporaryFileInfo = new SmartFileInfo($temporaryFilePath);
@@ -138,7 +101,7 @@ final class SnippetFormatter
             $this->sniffFileProcessor->processFile($temporaryFileInfo);
 
             $fileContent = $temporaryFileInfo->getContents();
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // Skipped parsed error when processing php temporaryFile
         } finally {
             // remove temporary temporaryFile

@@ -12,33 +12,22 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 
 final class RuleDefinition
 {
-    /**
-     * @var string
-     */
-    private $description;
+    private ?string $ruleClass = null;
 
-    /**
-     * @var string
-     */
-    private $ruleClass;
-
-    /**
-     * @var string
-     */
-    private $ruleFilePath;
+    private ?string $ruleFilePath = null;
 
     /**
      * @var CodeSampleInterface[]
      */
-    private $codeSamples = [];
+    private array $codeSamples = [];
 
     /**
      * @param CodeSampleInterface[] $codeSamples
      */
-    public function __construct(string $description, array $codeSamples)
-    {
-        $this->description = $description;
-
+    public function __construct(
+        private string $description,
+        array $codeSamples
+    ) {
         if ($codeSamples === []) {
             throw new PoorDocumentationException(
                 'Provide at least one code sample, so people can practically see what the rule does'
@@ -84,6 +73,10 @@ final class RuleDefinition
 
     public function getRuleShortClass(): string
     {
+        if ($this->ruleClass === null) {
+            throw new ShouldNotHappenException();
+        }
+
         return (string) Strings::after($this->ruleClass, '\\', -1);
     }
 

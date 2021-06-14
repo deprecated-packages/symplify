@@ -13,9 +13,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -29,36 +29,12 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
-    /**
-     * @var ParentMethodAnalyser
-     */
-    private $parentMethodAnalyser;
-
-    /**
-     * @var ClassMethodTypeAnalyzer
-     */
-    private $classMethodTypeAnalyzer;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
     public function __construct(
-        ParentMethodAnalyser $parentMethodAnalyser,
-        ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
-        SimpleNameResolver $simpleNameResolver,
-        ReflectionProvider $reflectionProvider
+        private ParentMethodAnalyser $parentMethodAnalyser,
+        private ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionProvider $reflectionProvider
     ) {
-        $this->parentMethodAnalyser = $parentMethodAnalyser;
-        $this->classMethodTypeAnalyzer = $classMethodTypeAnalyzer;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -75,7 +51,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(PHPStanAttributeKey::PARENT);
+        $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Class_) {
             return [];
         }

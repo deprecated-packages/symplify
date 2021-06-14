@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class PossibleTemplatePathsResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var TemplatePathsResolver
-     */
-    private $templatePathsResolver;
+    private TemplatePathsResolver $templatePathsResolver;
 
     protected function setUp(): void
     {

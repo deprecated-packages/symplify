@@ -37,8 +37,8 @@ final class StaticScannerTest extends AbstractKernelTestCase
 
         $staticClassMethodWithStaticCalls = $staticReport->getStaticClassMethodsWithStaticCalls()[0];
 
-        $this->assertStringMatchesFormat(
-            '%s/StaticScanner/Fixture/StaticCallFile.php.inc:9',
+        $this->assertStringEndsWith(
+            'StaticScanner/Fixture/StaticCallFile.php.inc:9',
             $staticClassMethodWithStaticCalls->getStaticCallFileLocationWithLine()
         );
     }

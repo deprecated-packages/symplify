@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\PHPStanAttributeKey;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -25,20 +25,10 @@ final class ForbiddenNestedForeachWithEmptyStatementRule extends AbstractSymplif
      */
     public const ERROR_MESSAGE = 'Nested foreach with empty statement is not allowed';
 
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(NodeFinder $nodeFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -99,7 +89,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $foreachVariable = $foreach->expr->getAttribute(PHPStanAttributeKey::NEXT);
+        $foreachVariable = $foreach->expr->getAttribute(AttributeKey::NEXT);
         if (! $foreachVariable instanceof Variable) {
             return false;
         }

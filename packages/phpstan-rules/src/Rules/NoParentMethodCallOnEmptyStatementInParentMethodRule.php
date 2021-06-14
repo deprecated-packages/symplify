@@ -26,22 +26,10 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
      */
     public const ERROR_MESSAGE = 'Do not call parent method if parent method is empty';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentClassMethodNodeResolver
-     */
-    private $parentClassMethodNodeResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        ParentClassMethodNodeResolver $parentClassMethodNodeResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private ParentClassMethodNodeResolver $parentClassMethodNodeResolver
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->parentClassMethodNodeResolver = $parentClassMethodNodeResolver;
     }
 
     /**

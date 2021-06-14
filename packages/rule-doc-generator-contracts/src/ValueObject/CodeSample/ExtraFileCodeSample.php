@@ -8,16 +8,12 @@ use Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample;
 
 final class ExtraFileCodeSample extends AbstractCodeSample
 {
-    /**
-     * @var string
-     */
-    private $extraFile;
-
-    public function __construct(string $badCode, string $goodCode, string $extraFile)
-    {
+    public function __construct(
+        string $badCode,
+        string $goodCode,
+        private string $extraFile
+    ) {
         parent::__construct($badCode, $goodCode);
-
-        $this->extraFile = $extraFile;
     }
 
     public function getExtraFile(): string

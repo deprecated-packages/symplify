@@ -25,14 +25,9 @@ final class RemoveUselessDefaultCommentFixer extends AbstractSymplifyFixer imple
      */
     private const ERROR_MESSAGE = 'Remove useless PHPStorm-generated @todo comments, redundant "Class XY" or "gets service" comments etc.';
 
-    /**
-     * @var UselessDocBlockCleaner
-     */
-    private $uselessDocBlockCleaner;
-
-    public function __construct(UselessDocBlockCleaner $uselessDocBlockCleaner)
-    {
-        $this->uselessDocBlockCleaner = $uselessDocBlockCleaner;
+    public function __construct(
+        private UselessDocBlockCleaner $uselessDocBlockCleaner
+    ) {
     }
 
     public function getDefinition(): FixerDefinitionInterface

@@ -17,20 +17,10 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class StaticCallNodeAnalyzer
 {
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(ReflectionProvider $reflectionProvider, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->reflectionProvider = $reflectionProvider;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private ReflectionProvider $reflectionProvider,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     public function isAbstractMethodStaticCall(Expr $expr, Scope $scope): bool

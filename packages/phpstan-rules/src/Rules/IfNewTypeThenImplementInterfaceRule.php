@@ -25,31 +25,13 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
     public const ERROR_MESSAGE = 'Class must implement "%s" interface';
 
     /**
-     * @var array<string, string>
-     */
-    private $interfacesByNewTypes = [];
-
-    /**
-     * @var NodeFinder
-     */
-    private $nodeFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @param array<string, string> $interfacesByNewTypes
      */
     public function __construct(
-        NodeFinder $nodeFinder,
-        SimpleNameResolver $simpleNameResolver,
-        array $interfacesByNewTypes
+        private NodeFinder $nodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
+        private array $interfacesByNewTypes
     ) {
-        $this->interfacesByNewTypes = $interfacesByNewTypes;
-        $this->nodeFinder = $nodeFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
@@ -23,14 +22,9 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
      */
     private const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -51,7 +45,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
             return [];
         }
 
-        if (! Strings::endsWith($scope->getFile(), 'Test.php')) {
+        if (! \str_ends_with($scope->getFile(), 'Test.php')) {
             return [];
         }
 

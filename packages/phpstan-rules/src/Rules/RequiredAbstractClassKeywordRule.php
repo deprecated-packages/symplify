@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -22,14 +21,9 @@ final class RequiredAbstractClassKeywordRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Class name starting with "Abstract" must have an `abstract` keyword';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -55,7 +49,7 @@ final class RequiredAbstractClassKeywordRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! Strings::startsWith($shortClassName, 'Abstract')) {
+        if (! \str_starts_with($shortClassName, 'Abstract')) {
             return [];
         }
 

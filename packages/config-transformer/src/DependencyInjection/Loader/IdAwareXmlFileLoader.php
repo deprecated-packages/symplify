@@ -30,44 +30,20 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
      */
     private const ID = 'id';
 
-    /**
-     * @var PrivatesCaller
-     */
-    private $privatesCaller;
+    private PrivatesCaller $privatesCaller;
 
-    /**
-     * @var int
-     */
-    private $count;
-
-    /**
-     * @var Configuration
-     */
-    private $configuration;
-
-    /**
-     * @var UniqueNaming
-     */
-    private $uniqueNaming;
-
-    /**
-     * @var XmlImportCollector
-     */
-    private $xmlImportCollector;
+    private ?int $count = null;
 
     public function __construct(
         ContainerBuilder $containerBuilder,
         FileLocatorInterface $fileLocator,
-        Configuration $configuration,
-        UniqueNaming $uniqueNaming,
-        XmlImportCollector $xmlImportCollector
+        private Configuration $configuration,
+        private UniqueNaming $uniqueNaming,
+        private XmlImportCollector $xmlImportCollector
     ) {
         parent::__construct($containerBuilder, $fileLocator);
 
         $this->privatesCaller = new PrivatesCaller();
-        $this->configuration = $configuration;
-        $this->uniqueNaming = $uniqueNaming;
-        $this->xmlImportCollector = $xmlImportCollector;
     }
 
     public function import(

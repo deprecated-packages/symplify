@@ -14,20 +14,10 @@ use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPath;
  */
 final class Psr4NamespaceToPathFactory
 {
-    /**
-     * @var SymplifyStrings
-     */
-    private $symplifyStrings;
-
-    /**
-     * @var Psr4SwitcherConfiguration
-     */
-    private $psr4SwitcherConfiguration;
-
-    public function __construct(SymplifyStrings $symplifyStrings, Psr4SwitcherConfiguration $psr4SwitcherConfiguration)
-    {
-        $this->symplifyStrings = $symplifyStrings;
-        $this->psr4SwitcherConfiguration = $psr4SwitcherConfiguration;
+    public function __construct(
+        private SymplifyStrings $symplifyStrings,
+        private Psr4SwitcherConfiguration $psr4SwitcherConfiguration
+    ) {
     }
 
     public function createFromClassAndFile(string $class, string $file): ?Psr4NamespaceToPath

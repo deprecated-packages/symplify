@@ -16,7 +16,7 @@ final class LatteToTwigConverter
     /**
      * @var CaseConverterInterface[]
      */
-    private $caseConverters = [];
+    private array $caseConverters = [];
 
     /**
      * @param CaseConverterInterface[] $caseConverters
@@ -50,8 +50,8 @@ final class LatteToTwigConverter
 
         throw new ConfigurationException(sprintf(
             'Duplicate case converter priority: "%s" and "%s"',
-            get_class($caseConverter),
-            get_class($this->caseConverters[$caseConverter->getPriority()])
+            $caseConverter::class,
+            $this->caseConverters[$caseConverter->getPriority()]::class
         ));
     }
 }

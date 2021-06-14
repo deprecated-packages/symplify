@@ -14,15 +14,9 @@ use Symplify\Psr4Switcher\ValueObject\Option;
 
 final class FindMultiClassesCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var MultipleClassInOneFileFinder
-     */
-    private $multipleClassInOneFileFinder;
-
-    public function __construct(MultipleClassInOneFileFinder $multipleClassInOneFileFinder)
-    {
-        $this->multipleClassInOneFileFinder = $multipleClassInOneFileFinder;
-
+    public function __construct(
+        private MultipleClassInOneFileFinder $multipleClassInOneFileFinder
+    ) {
         parent::__construct();
     }
 

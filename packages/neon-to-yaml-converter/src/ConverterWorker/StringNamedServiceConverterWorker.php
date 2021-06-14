@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\NeonToYamlConverter\ConverterWorker;
 
-use Nette\Utils\Strings;
-
 final class StringNamedServiceConverterWorker
 {
     /**
@@ -30,14 +28,14 @@ final class StringNamedServiceConverterWorker
     public function convertSingle(string $service): array
     {
         // probably factory, @see https://symfony.com/doc/current/service_container/factories.html
-        if (Strings::contains($service, '::')) {
+        if (\str_contains($service, '::')) {
             return [
                 'factory' => explode('::', $service),
             ];
             // probably alias, @see https://symfony.com/doc/current/service_container/alias_private.html#aliasing
         }
 
-        if (Strings::startsWith($service, '@')) {
+        if (\str_starts_with($service, '@')) {
             return [
                 'alias' => $service,
             ];

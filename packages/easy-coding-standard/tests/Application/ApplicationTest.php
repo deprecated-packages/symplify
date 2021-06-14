@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ApplicationTest extends AbstractKernelTestCase
 {
-    /**
-     * @var EasyCodingStandardApplication
-     */
-    private $easyCodingStandardApplication;
+    private EasyCodingStandardApplication $easyCodingStandardApplication;
 
     protected function setUp(): void
     {

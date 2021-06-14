@@ -27,19 +27,15 @@ final class ForbiddenMethodCallOnTypeRule extends AbstractSymplifyRule implement
     /**
      * @var array<string, string[]>
      */
-    private $forbiddenMethodNamesByTypes = [];
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private array $forbiddenMethodNamesByTypes = [];
 
     /**
      * @param array<string, string[]> $forbiddenMethodNamesByTypes
      */
-    public function __construct(SimpleNameResolver $simpleNameResolver, array $forbiddenMethodNamesByTypes = [])
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        array $forbiddenMethodNamesByTypes = []
+    ) {
         $this->forbiddenMethodNamesByTypes = $forbiddenMethodNamesByTypes;
     }
 

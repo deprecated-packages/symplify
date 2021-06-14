@@ -29,14 +29,9 @@ final class NoReferenceRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use explicit return value over magic &reference';
 
-    /**
-     * @var ParentMethodAnalyser
-     */
-    private $parentMethodAnalyser;
-
-    public function __construct(ParentMethodAnalyser $parentMethodAnalyser)
-    {
-        $this->parentMethodAnalyser = $parentMethodAnalyser;
+    public function __construct(
+        private ParentMethodAnalyser $parentMethodAnalyser
+    ) {
     }
 
     /**

@@ -10,10 +10,7 @@ use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 
 final class ColorConsoleDiffFormatterTest extends TestCase
 {
-    /**
-     * @var ColorConsoleDiffFormatter
-     */
-    private $colorConsoleDiffFormatter;
+    private ColorConsoleDiffFormatter $colorConsoleDiffFormatter;
 
     protected function setUp(): void
     {

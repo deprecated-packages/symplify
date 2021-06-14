@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Commenting;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -31,29 +30,11 @@ final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements Do
      */
     private const ERROR_MESSAGE = 'Remove commented code like "// $one = 1000;"';
 
-    /**
-     * @var CommentedContentResolver
-     */
-    private $commentedContentResolver;
-
-    /**
-     * @var PhpContentAnalyzer
-     */
-    private $phpContentAnalyzer;
-
-    /**
-     * @var Decommenter
-     */
-    private $decommenter;
-
     public function __construct(
-        CommentedContentResolver $commentedContentResolver,
-        PhpContentAnalyzer $phpContentAnalyzer,
-        Decommenter $decommenter
+        private CommentedContentResolver $commentedContentResolver,
+        private PhpContentAnalyzer $phpContentAnalyzer,
+        private Decommenter $decommenter
     ) {
-        $this->commentedContentResolver = $commentedContentResolver;
-        $this->phpContentAnalyzer = $phpContentAnalyzer;
-        $this->decommenter = $decommenter;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -82,7 +63,7 @@ final class RemoveCommentedCodeFixer extends AbstractSymplifyFixer implements Do
                 continue;
             }
 
-            if (! Strings::startsWith($token->getContent(), '//')) {
+            if (! \str_starts_with($token->getContent(), '//')) {
                 continue;
             }
 
@@ -144,7 +125,7 @@ CODE_SAMPLE
             return $realStart - 1;
         }
 
-        if (Strings::endsWith($preStartToken->getContent(), '    ')) {
+        if (\str_ends_with($preStartToken->getContent(), '    ')) {
             return $realStart - 1;
         }
 

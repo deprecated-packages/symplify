@@ -35,7 +35,7 @@ final class PathNormalizer
             return $path . '*';
         }
 
-        if (Strings::contains($path, '..')) {
+        if (\str_contains($path, '..')) {
             $path = realpath($path);
             if ($path === false) {
                 return '';

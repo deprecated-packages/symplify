@@ -11,10 +11,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ComposerPackageSorterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ComposerPackageSorter
-     */
-    private $composerPackageSorter;
+    private ComposerPackageSorter $composerPackageSorter;
 
     protected function setUp(): void
     {

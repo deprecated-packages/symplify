@@ -11,15 +11,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ChangedFilesDetectorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SmartFileInfo
-     */
-    private $smartFileInfo;
+    private SmartFileInfo $smartFileInfo;
 
-    /**
-     * @var ChangedFilesDetector
-     */
-    private $changedFilesDetector;
+    private ChangedFilesDetector $changedFilesDetector;
 
     protected function setUp(): void
     {

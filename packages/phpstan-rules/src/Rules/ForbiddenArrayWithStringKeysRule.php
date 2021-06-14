@@ -47,43 +47,13 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ParentMethodReturnTypeResolver
-     */
-    private $parentMethodReturnTypeResolver;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
-
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
     public function __construct(
-        ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
-        SimpleNameResolver $simpleNameResolver,
-        SimpleNodeFinder $simpleNodeFinder,
-        ArrayAnalyzer $arrayAnalyzer,
-        ReflectionProvider $reflectionProvider
+        private ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
+        private SimpleNameResolver $simpleNameResolver,
+        private SimpleNodeFinder $simpleNodeFinder,
+        private ArrayAnalyzer $arrayAnalyzer,
+        private ReflectionProvider $reflectionProvider
     ) {
-        $this->parentMethodReturnTypeResolver = $parentMethodReturnTypeResolver;
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->simpleNodeFinder = $simpleNodeFinder;
-        $this->arrayAnalyzer = $arrayAnalyzer;
-        $this->reflectionProvider = $reflectionProvider;
     }
 
     /**
@@ -187,12 +157,12 @@ CODE_SAMPLE
         $filePath = $scope->getFile();
 
         // php-scoper config, it return magic array by design
-        if (Strings::contains($filePath, 'scoper')) {
+        if (\str_contains($filePath, 'scoper')) {
             return true;
         }
 
         // skip Symfony bundles.php
-        if (Strings::endsWith($filePath, 'bundles.php')) {
+        if (\str_ends_with($filePath, 'bundles.php')) {
             return true;
         }
 

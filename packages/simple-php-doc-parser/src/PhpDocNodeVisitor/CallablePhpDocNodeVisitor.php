@@ -13,15 +13,11 @@ final class CallablePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
      */
     private $callable;
 
-    /**
-     * @var string|null
-     */
-    private $docContent;
-
-    public function __construct(callable $callable, ?string $docContent = null)
-    {
+    public function __construct(
+        callable $callable,
+        private ?string $docContent = null
+    ) {
         $this->callable = $callable;
-        $this->docContent = $docContent;
     }
 
     public function enterNode(Node $node): ?Node

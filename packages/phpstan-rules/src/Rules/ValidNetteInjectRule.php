@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -28,14 +27,9 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
      */
     private const INJECT_ANNOTATION = '@inject';
 
-    /**
-     * @var BarePhpDocParser
-     */
-    private $barePhpDocParser;
-
-    public function __construct(BarePhpDocParser $barePhpDocParser)
-    {
-        $this->barePhpDocParser = $barePhpDocParser;
+    public function __construct(
+        private BarePhpDocParser $barePhpDocParser
+    ) {
     }
 
     /**
@@ -58,7 +52,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
         }
 
         foreach ($phpDocTagNodes as $phpDocTagNode) {
-            if (! Strings::startsWith($phpDocTagNode->name, self::INJECT_ANNOTATION)) {
+            if (! \str_starts_with($phpDocTagNode->name, self::INJECT_ANNOTATION)) {
                 continue;
             }
 

@@ -16,21 +16,14 @@ final class DuplicatedClassMethodPrinter
      */
     private const VARIABLE_REGEX = '#\$\w+[^\s]#';
 
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    public function __construct(Standard $standard)
-    {
-        $this->standard = $standard;
+    public function __construct(
+        private Standard $standard
+    ) {
     }
 
     public function printClassMethod(ClassMethod $classMethod): string
     {
         $content = $this->standard->prettyPrint((array) $classMethod->stmts);
-        return Strings::replace($content, self::VARIABLE_REGEX, function (array $match): string {
-            return '$a';
-        });
+        return Strings::replace($content, self::VARIABLE_REGEX, fn (array $match): string => '$a');
     }
 }

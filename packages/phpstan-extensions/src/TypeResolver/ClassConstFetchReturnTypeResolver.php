@@ -16,10 +16,7 @@ use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 
 final class ClassConstFetchReturnTypeResolver
 {
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
+    private SimpleNameResolver $simpleNameResolver;
 
     public function __construct()
     {

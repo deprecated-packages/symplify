@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConflictResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ConflictResolver
-     */
-    private $conflictResolver;
+    private ConflictResolver $conflictResolver;
 
     protected function setUp(): void
     {
@@ -26,17 +23,18 @@ final class ConflictResolverTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(string $filePath, int $expectedConflictCount): void
+    public function test(SmartFileInfo $fileInfo, int $expectedConflictCount): void
     {
-        $fileInfo = new SmartFileInfo($filePath);
-
         $unresolvedConflictCount = $this->conflictResolver->extractFromFileInfo($fileInfo);
         $this->assertSame($expectedConflictCount, $unresolvedConflictCount);
     }
 
+    /**
+     * @return Iterator<int[]|SmartFileInfo[]>
+     */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/some_file.txt', 1];
-        yield [__DIR__ . '/Fixture/correct_file.txt', 0];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/some_file.txt'), 1];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/correct_file.txt'), 0];
     }
 }

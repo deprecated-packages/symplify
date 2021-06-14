@@ -10,10 +10,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class MarkdownDifferTest extends AbstractKernelTestCase
 {
-    /**
-     * @var MarkdownDiffer
-     */
-    private $markdownDiffer;
+    private MarkdownDiffer $markdownDiffer;
 
     protected function setUp(): void
     {

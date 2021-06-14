@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -40,40 +39,16 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
 
     /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
      * @var array<array<string, string>>
      */
-    private $classMethodContent = [];
-
-    /**
-     * @var DuplicatedClassMethodPrinter
-     */
-    private $duplicatedClassMethodPrinter;
-
-    /**
-     * @var TypeChecker
-     */
-    private $typeChecker;
-
-    /**
-     * @var int
-     */
-    private $minimumLineCount;
+    private array $classMethodContent = [];
 
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
-        TypeChecker $typeChecker,
-        int $minimumLineCount = 3
+        private SimpleNameResolver $simpleNameResolver,
+        private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
+        private TypeChecker $typeChecker,
+        private int $minimumLineCount = 3
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->duplicatedClassMethodPrinter = $duplicatedClassMethodPrinter;
-        $this->typeChecker = $typeChecker;
-        $this->minimumLineCount = $minimumLineCount;
     }
 
     /**
@@ -219,6 +194,6 @@ CODE_SAMPLE
             return true;
         }
 
-        return Strings::endsWith($className, 'Test');
+        return \str_ends_with($className, 'Test');
     }
 }

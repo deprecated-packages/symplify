@@ -9,9 +9,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
 
-/**
- * @requires PHP 8.0
- */
 final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 {
     /**
@@ -24,15 +21,9 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
      */
     private const OUTPUT_DIRECTORY = __DIR__ . '/../temp/output';
 
-    /**
-     * @var SymfonyStaticDumperApplication
-     */
-    private $symfonyStaticDumperApplication;
+    private SymfonyStaticDumperApplication $symfonyStaticDumperApplication;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

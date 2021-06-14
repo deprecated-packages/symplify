@@ -12,10 +12,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class DefaultValuesHydratorTest extends AbstractKernelTestCase
 {
-    /**
-     * @var ArrayToValueObjectHydrator
-     */
-    private $arrayToValueObjectHydrator;
+    private ArrayToValueObjectHydrator $arrayToValueObjectHydrator;
 
     protected function setUp(): void
     {

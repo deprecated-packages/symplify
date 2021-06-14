@@ -14,14 +14,9 @@ use Symplify\EasyHydrator\ParameterTypeRecognizer;
 
 final class DateTimeTypeCaster implements TypeCasterInterface
 {
-    /**
-     * @var ParameterTypeRecognizer
-     */
-    private $parameterTypeRecognizer;
-
-    public function __construct(ParameterTypeRecognizer $parameterTypeRecognizer)
-    {
-        $this->parameterTypeRecognizer = $parameterTypeRecognizer;
+    public function __construct(
+        private ParameterTypeRecognizer $parameterTypeRecognizer
+    ) {
     }
 
     public function isSupported(ReflectionParameter $reflectionParameter): bool

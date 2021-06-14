@@ -12,10 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class VersionPropagaterTest extends AbstractComposerJsonDecoratorTest
 {
-    /**
-     * @var VersionPropagator
-     */
-    private $versionPropagator;
+    private VersionPropagator $versionPropagator;
 
     protected function setUp(): void
     {

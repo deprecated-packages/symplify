@@ -12,15 +12,9 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DevMasterAliasUpdaterTest extends AbstractKernelTestCase
 {
-    /**
-     * @var DevMasterAliasUpdater
-     */
-    private $devMasterAliasUpdater;
+    private DevMasterAliasUpdater $devMasterAliasUpdater;
 
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
+    private SmartFileSystem $smartFileSystem;
 
     protected function setUp(): void
     {

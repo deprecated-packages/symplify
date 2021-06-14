@@ -25,20 +25,10 @@ final class RequireAttributeNameRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Attribute must have all names explicitly defined';
 
-    /**
-     * @var AttrFinder
-     */
-    private $attrFinder;
-
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(AttrFinder $attrFinder, SimpleNameResolver $simpleNameResolver)
-    {
-        $this->attrFinder = $attrFinder;
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private AttrFinder $attrFinder,
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**

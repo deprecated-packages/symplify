@@ -25,36 +25,12 @@ final class AutoBindNodeFactory
      */
     public const TYPE_DEFAULTS = 'defaults';
 
-    /**
-     * @var CommonNodeFactory
-     */
-    private $commonNodeFactory;
-
-    /**
-     * @var ArgsNodeFactory
-     */
-    private $argsNodeFactory;
-
-    /**
-     * @var SymfonyVersionFeatureGuardInterface
-     */
-    private $symfonyVersionFeatureGuard;
-
-    /**
-     * @var TagsServiceOptionKeyYamlToPhpFactory
-     */
-    private $tagsServiceOptionKeyYamlToPhpFactory;
-
     public function __construct(
-        CommonNodeFactory $commonNodeFactory,
-        ArgsNodeFactory $argsNodeFactory,
-        SymfonyVersionFeatureGuardInterface $symfonyVersionFeatureGuard,
-        TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
+        private CommonNodeFactory $commonNodeFactory,
+        private ArgsNodeFactory $argsNodeFactory,
+        private SymfonyVersionFeatureGuardInterface $symfonyVersionFeatureGuard,
+        private TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
     ) {
-        $this->commonNodeFactory = $commonNodeFactory;
-        $this->argsNodeFactory = $argsNodeFactory;
-        $this->symfonyVersionFeatureGuard = $symfonyVersionFeatureGuard;
-        $this->tagsServiceOptionKeyYamlToPhpFactory = $tagsServiceOptionKeyYamlToPhpFactory;
     }
 
     /**

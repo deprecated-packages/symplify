@@ -13,29 +13,11 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class ComposerJsonProvider
 {
-    /**
-     * @var JsonFileManager
-     */
-    private $jsonFileManager;
-
-    /**
-     * @var PackageComposerFinder
-     */
-    private $packageComposerFinder;
-
-    /**
-     * @var ComposerJsonFactory
-     */
-    private $composerJsonFactory;
-
     public function __construct(
-        JsonFileManager $jsonFileManager,
-        PackageComposerFinder $packageComposerFinder,
-        ComposerJsonFactory $composerJsonFactory
+        private JsonFileManager $jsonFileManager,
+        private PackageComposerFinder $packageComposerFinder,
+        private ComposerJsonFactory $composerJsonFactory
     ) {
-        $this->jsonFileManager = $jsonFileManager;
-        $this->packageComposerFinder = $packageComposerFinder;
-        $this->composerJsonFactory = $composerJsonFactory;
     }
 
     /**

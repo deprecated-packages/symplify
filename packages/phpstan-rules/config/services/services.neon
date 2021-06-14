@@ -2,6 +2,12 @@ includes:
     - name-resolver-services.neon
 
 services:
+    - Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser
+    - Symplify\PHPStanRules\PhpDoc\ClassReferencePhpDocNodeVisitor
+    - Symplify\PHPStanRules\Reflection\ClassReflectionResolver
+    - Symplify\SimplePhpDocParser\SimplePhpDocParser
+    - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
+
     - PhpParser\NodeFinder
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem
@@ -62,7 +68,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\PreviouslyUsedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
@@ -75,7 +80,6 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\VariableUsageAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
 
     - Symplify\SmartFileSystem\Finder\FinderSanitizer

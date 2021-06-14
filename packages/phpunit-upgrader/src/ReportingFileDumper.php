@@ -11,29 +11,11 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ReportingFileDumper
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    /**
-     * @var ConsoleDiffer
-     */
-    private $consoleDiffer;
-
-    /**
-     * @var SmartFileSystem
-     */
-    private $smartFileSystem;
-
     public function __construct(
-        SymfonyStyle $symfonyStyle,
-        ConsoleDiffer $consoleDiffer,
-        SmartFileSystem $smartFileSystem
+        private SymfonyStyle $symfonyStyle,
+        private ConsoleDiffer $consoleDiffer,
+        private SmartFileSystem $smartFileSystem
     ) {
-        $this->symfonyStyle = $symfonyStyle;
-        $this->consoleDiffer = $consoleDiffer;
-        $this->smartFileSystem = $smartFileSystem;
     }
 
     public function processChangedFileInfo(SmartFileInfo $testFileInfo, string $changedContent): void

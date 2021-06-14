@@ -39,16 +39,11 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
     /**
      * @var array<string, string[]>
      */
-    private $declaredClassesByShortName = [];
+    private array $declaredClassesByShortName = [];
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
     }
 
     /**
@@ -81,7 +76,12 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
 
         $shortClassName = $this->simpleNameResolver->resolveShortName($className);
 
-        $this->declaredClassesByShortName[$shortClassName][] = $className;
+        // make sure classes are unique
+        $existingClassesByShortClassName = $this->declaredClassesByShortName[$shortClassName] ?? [];
+        $existingClassesByShortClassName[] = $className;
+        $existingClassesByShortClassName = array_unique($existingClassesByShortClassName);
+
+        $this->declaredClassesByShortName[$shortClassName] = $existingClassesByShortClassName;
 
         $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
         if (count($classesByShortName) <= 1) {

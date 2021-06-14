@@ -9,14 +9,9 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 
 final class AliasConfigurableExtension extends Extension
 {
-    /**
-     * @var string
-     */
-    private $alias;
-
-    public function __construct(string $alias)
-    {
-        $this->alias = $alias;
+    public function __construct(
+        private string $alias
+    ) {
     }
 
     public function getAlias(): string

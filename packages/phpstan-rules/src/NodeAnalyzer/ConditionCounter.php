@@ -10,14 +10,9 @@ use Symplify\PHPStanRules\ValueObject\ScalarAndNonScalarCounter;
 
 final class ConditionCounter
 {
-    /**
-     * @var ScalarAnalyzer
-     */
-    private $scalarAnalyzer;
-
-    public function __construct(ScalarAnalyzer $scalarAnalyzer)
-    {
-        $this->scalarAnalyzer = $scalarAnalyzer;
+    public function __construct(
+        private ScalarAnalyzer $scalarAnalyzer
+    ) {
     }
 
     /**
@@ -32,9 +27,9 @@ final class ConditionCounter
 
         foreach ($conds as $cond) {
             if ($this->scalarAnalyzer->isScalar($cond)) {
-                $scalarConditionTypes[] = get_class($cond);
+                $scalarConditionTypes[] = $cond::class;
             } else {
-                $nonScalarConditionTypes[] = get_class($cond);
+                $nonScalarConditionTypes[] = $cond::class;
             }
         }
 

@@ -30,29 +30,19 @@ final class GitWorkingCopy
      *
      * If the variable is null, the a rudimentary check will be performed to see if the directory looks like it is a
      * working copy.
-     *
-     * @var bool|null
      */
-    private $cloned;
+    private ?bool $cloned = null;
 
-    /**
-     * Path to the directory containing the working copy.
-     *
-     * @var string
-     */
-    private $directory;
-
-    /**
-     * The GitWrapper object that likely instantiated this class.
-     *
-     * @var GitWrapper
-     */
-    private $gitWrapper;
-
-    public function __construct(GitWrapper $gitWrapper, string $directory)
-    {
-        $this->gitWrapper = $gitWrapper;
-        $this->directory = $directory;
+    public function __construct(
+        /**
+         * The GitWrapper object that likely instantiated this class.
+         */
+        private GitWrapper $gitWrapper,
+        /**
+         * Path to the directory containing the working copy.
+         */
+        private string $directory
+    ) {
     }
 
     public function getWrapper(): GitWrapper
@@ -128,7 +118,7 @@ final class GitWorkingCopy
     {
         try {
             $this->run(CommandName::REV_PARSE, ['@{u}']);
-        } catch (GitException $gitException) {
+        } catch (GitException) {
             return false;
         }
 

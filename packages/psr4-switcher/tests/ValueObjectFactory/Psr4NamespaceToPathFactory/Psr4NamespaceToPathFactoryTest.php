@@ -13,10 +13,7 @@ use Symplify\Psr4Switcher\ValueObjectFactory\Psr4NamespaceToPathFactory;
 
 final class Psr4NamespaceToPathFactoryTest extends AbstractKernelTestCase
 {
-    /**
-     * @var Psr4NamespaceToPathFactory
-     */
-    private $psr4NamespaceToPathFactory;
+    private Psr4NamespaceToPathFactory $psr4NamespaceToPathFactory;
 
     protected function setUp(): void
     {

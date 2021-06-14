@@ -69,10 +69,7 @@ final class CheckerServiceParametersShifter
         'bind',
     ];
 
-    /**
-     * @var StringFormatConverter
-     */
-    private $stringFormatConverter;
+    private StringFormatConverter $stringFormatConverter;
 
     public function __construct()
     {
@@ -116,11 +113,11 @@ final class CheckerServiceParametersShifter
                 continue;
             }
 
-            if (Strings::endsWith($serviceName, 'Fixer')) {
+            if (\str_ends_with($serviceName, 'Fixer')) {
                 $services = $this->processFixer($services, $serviceName, $serviceDefinition);
             }
 
-            if (Strings::endsWith($serviceName, 'Sniff')) {
+            if (\str_ends_with($serviceName, 'Sniff')) {
                 $services = $this->processSniff($services, $serviceName, $serviceDefinition);
             }
 
@@ -133,11 +130,11 @@ final class CheckerServiceParametersShifter
 
     private function isCheckerClass(string $checker): bool
     {
-        if (Strings::endsWith($checker, 'Fixer')) {
+        if (\str_ends_with($checker, 'Fixer')) {
             return true;
         }
 
-        return Strings::endsWith($checker, 'Sniff');
+        return \str_ends_with($checker, 'Sniff');
     }
 
     /**
@@ -199,10 +196,7 @@ final class CheckerServiceParametersShifter
         return $services;
     }
 
-    /**
-     * @param string|int|bool $key
-     */
-    private function isReservedKey($key): bool
+    private function isReservedKey(string | int | bool $key): bool
     {
         if (! is_string($key)) {
             return false;

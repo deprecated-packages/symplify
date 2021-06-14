@@ -12,14 +12,9 @@ use Symplify\CodingStandard\TokenRunner\ValueObject\TokenKinds;
 
 final class ArrayBlockInfoFinder
 {
-    /**
-     * @var BlockFinder
-     */
-    private $blockFinder;
-
-    public function __construct(BlockFinder $blockFinder)
-    {
-        $this->blockFinder = $blockFinder;
+    public function __construct(
+        private BlockFinder $blockFinder
+    ) {
     }
 
     /**

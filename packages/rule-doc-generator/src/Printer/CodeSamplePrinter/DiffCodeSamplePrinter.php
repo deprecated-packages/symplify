@@ -9,14 +9,9 @@ use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 
 final class DiffCodeSamplePrinter
 {
-    /**
-     * @var MarkdownDiffer
-     */
-    private $markdownDiffer;
-
-    public function __construct(MarkdownDiffer $markdownDiffer)
-    {
-        $this->markdownDiffer = $markdownDiffer;
+    public function __construct(
+        private MarkdownDiffer $markdownDiffer
+    ) {
     }
 
     /**

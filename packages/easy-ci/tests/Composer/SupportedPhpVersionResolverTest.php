@@ -13,10 +13,7 @@ use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SupportedPhpVersionResolverTest extends AbstractKernelTestCase
 {
-    /**
-     * @var SupportedPhpVersionResolver
-     */
-    private $supportedPhpVersionResolver;
+    private SupportedPhpVersionResolver $supportedPhpVersionResolver;
 
     protected function setUp(): void
     {

@@ -12,22 +12,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
-    /**
-     * @var DiffCodeSamplePrinter
-     */
-    private $diffCodeSamplePrinter;
-
-    /**
-     * @var ConfiguredCodeSamplerPrinter
-     */
-    private $configuredCodeSamplerPrinter;
-
     public function __construct(
-        DiffCodeSamplePrinter $diffCodeSamplePrinter,
-        ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
+        private DiffCodeSamplePrinter $diffCodeSamplePrinter,
+        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
     ) {
-        $this->diffCodeSamplePrinter = $diffCodeSamplePrinter;
-        $this->configuredCodeSamplerPrinter = $configuredCodeSamplerPrinter;
     }
 
     public function isMatch(string $class): bool

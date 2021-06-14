@@ -1,5 +1,13 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
         tags: [phpstan.rules.rule]
 
@@ -99,15 +107,15 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\CheckUnneededSymfonyStyleUsageRule
+        class: Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule
         tags: [phpstan.rules.rule]
 
     -
         class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInIfRule
         tags: [phpstan.rules.rule]
 
     -
@@ -135,11 +143,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInForeachRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodOrStaticCallInIfRule
+        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
         tags: [phpstan.rules.rule]
 
     -
@@ -164,10 +168,6 @@ services:
 
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAssignInLoopRule
         tags: [phpstan.rules.rule]
 
     -

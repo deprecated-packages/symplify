@@ -26,20 +26,16 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractSymplifyRule imp
     /**
      * @var array<string, string[]>
      */
-    private $funcCallToPreferredMethodCalls = [];
-
-    /**
-     * @var FuncCallMatcher
-     */
-    private $funcCallMatcher;
+    private array $funcCallToPreferredMethodCalls = [];
 
     /**
      * @param array<string, string[]> $funcCallToPreferredMethodCalls
      */
-    public function __construct(FuncCallMatcher $funcCallMatcher, array $funcCallToPreferredMethodCalls = [])
-    {
+    public function __construct(
+        private FuncCallMatcher $funcCallMatcher,
+        array $funcCallToPreferredMethodCalls = []
+    ) {
         $this->funcCallToPreferredMethodCalls = $funcCallToPreferredMethodCalls;
-        $this->funcCallMatcher = $funcCallMatcher;
     }
 
     /**

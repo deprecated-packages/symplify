@@ -8,14 +8,9 @@ use Symplify\Psr4Switcher\RobotLoader\PhpClassLoader;
 
 final class MultipleClassInOneFileFinder
 {
-    /**
-     * @var PhpClassLoader
-     */
-    private $phpClassLoader;
-
-    public function __construct(PhpClassLoader $phpClassLoader)
-    {
-        $this->phpClassLoader = $phpClassLoader;
+    public function __construct(
+        private PhpClassLoader $phpClassLoader
+    ) {
     }
 
     /**
@@ -31,8 +26,6 @@ final class MultipleClassInOneFileFinder
             $classesByFile[$file][] = $class;
         }
 
-        return array_filter($classesByFile, function ($classes): bool {
-            return count($classes) >= 2;
-        });
+        return array_filter($classesByFile, fn (array $classes): bool => count($classes) >= 2);
     }
 }

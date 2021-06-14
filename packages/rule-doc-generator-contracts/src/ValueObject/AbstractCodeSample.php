@@ -9,15 +9,9 @@ use Symplify\RuleDocGenerator\Exception\ShouldNotHappenException;
 
 abstract class AbstractCodeSample implements CodeSampleInterface
 {
-    /**
-     * @var string
-     */
-    private $goodCode;
+    private string $goodCode;
 
-    /**
-     * @var string
-     */
-    private $badCode;
+    private string $badCode;
 
     public function __construct(string $badCode, string $goodCode)
     {

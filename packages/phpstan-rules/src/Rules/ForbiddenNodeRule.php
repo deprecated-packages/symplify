@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
@@ -30,28 +29,19 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     /**
      * @var class-string<T>[]
      */
-    private $forbiddenNodes = [];
-
-    /**
-     * @var Standard
-     */
-    private $standard;
-
-    /**
-     * @var SimpleNodeFinder
-     */
-    private $simpleNodeFinder;
+    private array $forbiddenNodes = [];
 
     /**
      * @param class-string<T>[] $forbiddenNodes
      */
-    public function __construct(Standard $standard, SimpleNodeFinder $simpleNodeFinder, array $forbiddenNodes = [])
-    {
+    public function __construct(
+        private Standard $standard,
+        private SimpleNodeFinder $simpleNodeFinder,
+        array $forbiddenNodes = []
+    ) {
         Assert::allIsAOf($forbiddenNodes, Node::class);
 
         $this->forbiddenNodes = $forbiddenNodes;
-        $this->standard = $standard;
-        $this->simpleNodeFinder = $simpleNodeFinder;
     }
 
     /**
@@ -120,7 +110,7 @@ CODE_SAMPLE
         }
 
         foreach ($node->getComments() as $comment) {
-            if (Strings::contains($comment->getText(), 'intention')) {
+            if (\str_contains($comment->getText(), 'intention')) {
                 return true;
             }
         }

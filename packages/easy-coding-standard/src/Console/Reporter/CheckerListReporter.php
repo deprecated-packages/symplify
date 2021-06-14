@@ -10,14 +10,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CheckerListReporter
 {
-    /**
-     * @var SymfonyStyle
-     */
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
+    public function __construct(
+        private SymfonyStyle $symfonyStyle
+    ) {
     }
 
     /**
@@ -29,9 +24,7 @@ final class CheckerListReporter
             return;
         }
 
-        $checkerNames = array_map(function ($checker): string {
-            return get_class($checker);
-        }, $checkers);
+        $checkerNames = array_map(fn ($checker): string => $checker::class, $checkers);
 
         $sectionMessage = sprintf('%d checker%s from %s:', count($checkers), count($checkers) === 1 ? '' : 's', $type);
         $this->symfonyStyle->section($sectionMessage);

@@ -25,20 +25,10 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'There should be no empty class';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var ReflectionProvider
-     */
-    private $reflectionProvider;
-
-    public function __construct(SimpleNameResolver $simpleNameResolver, ReflectionProvider $reflectionProvider)
-    {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->reflectionProvider = $reflectionProvider;
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionProvider $reflectionProvider
+    ) {
     }
 
     /**

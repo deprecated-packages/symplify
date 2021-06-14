@@ -14,22 +14,10 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
  */
 final class AppenderComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
-    /**
-     * @var ComposerJsonMerger
-     */
-    private $composerJsonMerger;
-
-    /**
-     * @var ModifyingComposerJsonProvider
-     */
-    private $modifyingComposerJsonProvider;
-
     public function __construct(
-        ComposerJsonMerger $composerJsonMerger,
-        ModifyingComposerJsonProvider $modifyingComposerJsonProvider
+        private ComposerJsonMerger $composerJsonMerger,
+        private ModifyingComposerJsonProvider $modifyingComposerJsonProvider
     ) {
-        $this->composerJsonMerger = $composerJsonMerger;
-        $this->modifyingComposerJsonProvider = $modifyingComposerJsonProvider;
     }
 
     public function decorate(ComposerJson $mainComposerJson): void

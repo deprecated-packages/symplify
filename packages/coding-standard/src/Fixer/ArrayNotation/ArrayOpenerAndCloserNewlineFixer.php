@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\ArrayNotation;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
@@ -30,29 +29,11 @@ final class ArrayOpenerAndCloserNewlineFixer extends AbstractSymplifyFixer imple
      */
     private const ERROR_MESSAGE = 'Indexed PHP array opener [ and closer ] must be on own line';
 
-    /**
-     * @var ArrayBlockInfoFinder
-     */
-    private $arrayBlockInfoFinder;
-
-    /**
-     * @var WhitespacesFixerConfig
-     */
-    private $whitespacesFixerConfig;
-
-    /**
-     * @var ArrayAnalyzer
-     */
-    private $arrayAnalyzer;
-
     public function __construct(
-        ArrayBlockInfoFinder $arrayBlockInfoFinder,
-        WhitespacesFixerConfig $whitespacesFixerConfig,
-        ArrayAnalyzer $arrayAnalyzer
+        private ArrayBlockInfoFinder $arrayBlockInfoFinder,
+        private WhitespacesFixerConfig $whitespacesFixerConfig,
+        private ArrayAnalyzer $arrayAnalyzer
     ) {
-        $this->arrayBlockInfoFinder = $arrayBlockInfoFinder;
-        $this->whitespacesFixerConfig = $whitespacesFixerConfig;
-        $this->arrayAnalyzer = $arrayAnalyzer;
     }
 
     public function getDefinition(): FixerDefinitionInterface
@@ -161,7 +142,7 @@ CODE_SAMPLE
         }
 
         // already whitespace
-        if (Strings::contains($previousCloserToken->getContent(), "\n")) {
+        if (\str_contains($previousCloserToken->getContent(), "\n")) {
             return;
         }
 
@@ -181,7 +162,7 @@ CODE_SAMPLE
         }
 
         // already is whitespace
-        if (Strings::contains($nextToken->getContent(), "\n")) {
+        if (\str_contains($nextToken->getContent(), "\n")) {
             return;
         }
 

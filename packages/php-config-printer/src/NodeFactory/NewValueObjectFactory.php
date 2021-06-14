@@ -15,7 +15,7 @@ final class NewValueObjectFactory
 {
     public function create(object $valueObject): New_
     {
-        $valueObjectClass = get_class($valueObject);
+        $valueObjectClass = $valueObject::class;
 
         $propertyValues = $this->resolvePropertyValuesFromValueObject($valueObjectClass, $valueObject);
         $args = $this->createArgs($propertyValues);

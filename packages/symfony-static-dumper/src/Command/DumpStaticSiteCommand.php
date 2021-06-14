@@ -13,31 +13,18 @@ use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 {
-    /**
-     * @var string
-     */
-    private $publicDirectory;
+    private string $publicDirectory;
 
-    /**
-     * @var string
-     */
-    private $outputDirectory;
-
-    /**
-     * @var SymfonyStaticDumperApplication
-     */
-    private $symfonyStaticDumperApplication;
+    private string $outputDirectory;
 
     public function __construct(
-        SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
+        private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
         ParameterBagInterface $parameterBag
     ) {
         parent::__construct();
 
         $this->publicDirectory = $parameterBag->get('kernel.project_dir') . '/public';
         $this->outputDirectory = getcwd() . '/output';
-
-        $this->symfonyStaticDumperApplication = $symfonyStaticDumperApplication;
     }
 
     protected function configure(): void

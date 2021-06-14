@@ -23,22 +23,10 @@ final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Argument and options "%s" got confused';
 
-    /**
-     * @var SimpleNameResolver
-     */
-    private $simpleNameResolver;
-
-    /**
-     * @var MethodCallArgValueResolver
-     */
-    private $methodCallArgValueResolver;
-
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
-        MethodCallArgValueResolver $methodCallArgValueResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private MethodCallArgValueResolver $methodCallArgValueResolver
     ) {
-        $this->simpleNameResolver = $simpleNameResolver;
-        $this->methodCallArgValueResolver = $methodCallArgValueResolver;
     }
 
     /**

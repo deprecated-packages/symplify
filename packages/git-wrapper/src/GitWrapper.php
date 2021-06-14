@@ -7,7 +7,6 @@ namespace Symplify\GitWrapper;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Event\GitOutputEvent;
 use Symplify\GitWrapper\EventSubscriber\GitLoggerEventSubscriber;
 use Symplify\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
@@ -27,18 +26,9 @@ use Symplify\GitWrapper\Strings\GitStrings;
 final class GitWrapper
 {
     /**
-     * Path to the Git binary.
-     *
-     * @var string
-     */
-    private $gitBinary;
-
-    /**
      * The timeout of the Git command in seconds.
-     *
-     * @var int
      */
-    private $timeout = 60;
+    private int $timeout = 60;
 
     /**
      * Environment variables defined in the scope of the Git command.
@@ -47,28 +37,13 @@ final class GitWrapper
      */
     private $env = [];
 
-    /**
-     * @var EventSubscriberInterface
-     */
-    private $outputEventSubscriber;
+    private ?StreamOutputEventSubscriber $outputEventSubscriber = null;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface | EventDispatcher $eventDispatcher;
 
-    public function __construct(?string $gitBinary = null)
-    {
-        if ($gitBinary === null) {
-            $executableFinder = new ExecutableFinder();
-            $gitBinary = $executableFinder->find('git');
-            if ($gitBinary === null) {
-                throw new GitException('Unable to find the Git executable.');
-            }
-        }
-
-        $this->setGitBinary($gitBinary);
-
+    public function __construct(
+        private string $gitBinary
+    ) {
         $this->eventDispatcher = new EventDispatcher();
     }
 
