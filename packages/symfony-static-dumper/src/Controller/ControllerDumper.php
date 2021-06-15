@@ -105,7 +105,7 @@ final class ControllerDumper
 
         $message = sprintf(
             'Dumping data for "%s" data provider and "%s" route',
-            get_class($controllerWithDataProvider),
+            $controllerWithDataProvider::class,
             $routeName
         );
 

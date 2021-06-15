@@ -38,7 +38,7 @@ final class SmartFileInfo extends SplFileInfo
         }
 
         // real path doesn't work in PHAR: https://www.php.net/manual/en/function.realpath.php
-        if (Strings::startsWith($filePath, 'phar://')) {
+        if (\str_starts_with($filePath, 'phar://')) {
             $relativeFilePath = $filePath;
             $relativeDirectoryPath = dirname($filePath);
         } else {
@@ -117,12 +117,13 @@ final class SmartFileInfo extends SplFileInfo
 
     public function endsWith(string $string): bool
     {
-        return Strings::endsWith($this->getNormalizedRealPath(), $string);
+        return \str_ends_with($this->getNormalizedRealPath(), $string);
     }
 
     public function doesFnmatch(string $string): bool
     {
-        if (fnmatch($this->normalizePath($string), $this->getNormalizedRealPath())) {
+        $normalizedPath = $this->normalizePath($string);
+        if (fnmatch($normalizedPath, $this->getNormalizedRealPath())) {
             return true;
         }
 
@@ -143,7 +144,7 @@ final class SmartFileInfo extends SplFileInfo
 
     public function startsWith(string $partialPath): bool
     {
-        return Strings::startsWith($this->getNormalizedRealPath(), $partialPath);
+        return \str_starts_with($this->getNormalizedRealPath(), $partialPath);
     }
 
     private function getNormalizedRealPath(): string

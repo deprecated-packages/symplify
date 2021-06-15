@@ -38,6 +38,7 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         'is_file',
         'file_exists',
         'in_array',
+        'str_starts_with',
     ];
 
     public function __construct(

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use PhpToken;
@@ -66,7 +65,7 @@ final class TokenFinder
         $rawTokensCount = count($rawTokens);
         for ($i = $position; $i < $rawTokensCount; ++$i) {
             $token = $rawTokens[$i];
-            if (Strings::contains($token->text, PHP_EOL)) {
+            if (\str_contains($token->text, PHP_EOL)) {
                 break;
             }
 

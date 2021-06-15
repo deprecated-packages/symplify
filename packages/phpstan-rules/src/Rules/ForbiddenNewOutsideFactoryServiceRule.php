@@ -58,7 +58,7 @@ final class ForbiddenNewOutsideFactoryServiceRule extends AbstractSymplifyRule i
             return [];
         }
 
-        if (Strings::endsWith($className, 'Factory')) {
+        if (\str_ends_with($className, 'Factory')) {
             return [];
         }
 
@@ -120,7 +120,7 @@ CODE_SAMPLE
         }
 
         $className = (string) end($fullyQualifiedName->parts);
-        if (! Strings::startsWith($type, '*')) {
+        if (! \str_starts_with($type, '*')) {
             return $className === $type;
         }
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder;
 
-use Nette\Utils\Strings;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -108,7 +107,7 @@ final class DependencyUpdater
         string $packageName,
         string $packageVersion
     ): bool {
-        if (! Strings::startsWith($packageName, $vendor)) {
+        if (! \str_starts_with($packageName, $vendor)) {
             return true;
         }
 

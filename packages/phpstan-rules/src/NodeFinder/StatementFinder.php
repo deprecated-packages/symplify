@@ -22,7 +22,7 @@ final class StatementFinder
     public function isUsedInNextStatement(Assign $assign, Node $node): bool
     {
         $var = $assign->var;
-        $varClass = get_class($var);
+        $varClass = $var::class;
         $next = $node->getAttribute(AttributeKey::NEXT);
         $parentOfParentAssignment = $node->getAttribute(AttributeKey::PARENT);
 

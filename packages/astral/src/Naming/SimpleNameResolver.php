@@ -84,7 +84,7 @@ final class SimpleNameResolver
             return false;
         }
 
-        if (Strings::contains($desiredName, '*')) {
+        if (\str_contains($desiredName, '*')) {
             return fnmatch($desiredName, $name);
         }
 
@@ -157,7 +157,7 @@ final class SimpleNameResolver
 
     public function resolveShortName(string $className): string
     {
-        if (! Strings::contains($className, '\\')) {
+        if (! \str_contains($className, '\\')) {
             return $className;
         }
 

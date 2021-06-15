@@ -170,7 +170,7 @@ abstract class AbstractKernelTestCase extends TestCase
 
         throw new MissingInterfaceException(sprintf(
             '"%s" is missing an "%s" interface',
-            get_class($kernel),
+            $kernel::class,
             ExtraConfigAwareKernelInterface::class
         ));
     }

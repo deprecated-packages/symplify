@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
@@ -140,7 +139,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $name = Strings::endsWith($shortClassName, 'Controller')
+        $name = \str_ends_with($shortClassName, 'Controller')
             ? substr($shortClassName, 0, -10)
             : $shortClassName;
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\CaseConverter;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
@@ -77,6 +76,6 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
         if (! is_string($values)) {
             return false;
         }
-        return Strings::startsWith($values, '@');
+        return \str_starts_with($values, '@');
     }
 }

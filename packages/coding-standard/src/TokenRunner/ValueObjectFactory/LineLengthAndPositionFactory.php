@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\TokenRunner\ValueObjectFactory;
 
-use Nette\Utils\Strings;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Exception\TokenNotFoundException;
@@ -57,7 +56,7 @@ final class LineLengthAndPositionFactory
             throw new TokenNotFoundException($position);
         }
 
-        if (Strings::startsWith($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
+        if (\str_starts_with($tokens[$position]->getContent(), StaticEolConfiguration::getEolChar())) {
             return true;
         }
 

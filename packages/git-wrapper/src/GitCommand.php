@@ -40,11 +40,9 @@ final class GitCommand
      * @param mixed ...$argsAndOptions
      */
     public function __construct(
-    /**
-     * The command being run, e.g. "clone", "commit", etc.
-     */
-    private string $command = '',
-        ...$argsAndOptions
+        //  The command being run, e.g. "clone", "commit", etc.
+        private string $command = '',
+        ...$argsAndOptions,
     ) {
         foreach ($argsAndOptions as $argOrOption) {
             if (is_array($argOrOption)) {

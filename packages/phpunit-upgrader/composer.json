@@ -8,10 +8,10 @@
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
-        "nette/robot-loader": "^3.3",
+        "nette/robot-loader": "^3.4",
         "symfony/dependency-injection": "^5.3",
-        "symfony/console": "^4.4|^5.3",
-        "symfony/http-kernel": "^4.4|^5.3",
+        "symfony/console": "^5.3",
+        "symfony/http-kernel": "^5.3",
         "symplify/symplify-kernel": "^9.4",
         "symplify/console-color-diff": "^9.4",
         "symplify/package-builder": "^9.4",

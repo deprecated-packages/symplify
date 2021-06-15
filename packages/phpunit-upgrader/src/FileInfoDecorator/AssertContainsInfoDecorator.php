@@ -32,7 +32,7 @@ final class AssertContainsInfoDecorator
         $currentFileLineContents = $filePathWithContent->getContentLines();
 
         foreach ($fileLines as $fileLine) {
-            if (! Strings::endsWith($fileLine->getFilePath(), $filePathWithContent->getFilePath())) {
+            if (! \str_ends_with($fileLine->getFilePath(), $filePathWithContent->getFilePath())) {
                 continue;
             }
 

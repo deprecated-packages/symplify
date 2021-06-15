@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Interface_;
@@ -36,7 +35,7 @@ final class SuffixInterfaceRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (Strings::endsWith((string) $node->name, 'Interface')) {
+        if (\str_ends_with((string) $node->name, 'Interface')) {
             if (! $node instanceof Interface_) {
                 return [self::ERROR_MESSAGE];
             }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\ServiceOptionAnalyzer;
 
-use Nette\Utils\Strings;
-
 final class ServiceOptionAnalyzer
 {
     public function hasNamedArguments(array $data): bool
@@ -15,7 +13,7 @@ final class ServiceOptionAnalyzer
         }
 
         foreach (array_keys($data) as $key) {
-            if (! Strings::startsWith((string) $key, '$')) {
+            if (! \str_starts_with((string) $key, '$')) {
                 return false;
             }
         }

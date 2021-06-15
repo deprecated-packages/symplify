@@ -112,7 +112,7 @@ final class ParentClassMethodNodeResolver
             }
 
             return $this->parser->parseFile($parentClassFileName);
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // not reachable
             return [];
         }

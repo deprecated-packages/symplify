@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ConstFetch;
@@ -78,7 +77,7 @@ final class MatchingTypeConstantRule extends AbstractSymplifyRule
         }
 
         // array, unable to resolve?
-        if (Strings::endsWith($type, '[]')) {
+        if (\str_ends_with($type, '[]')) {
             return [];
         }
 

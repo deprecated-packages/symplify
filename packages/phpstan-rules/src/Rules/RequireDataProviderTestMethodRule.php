@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -54,7 +53,7 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
     public function process(Node $node, Scope $scope): array
     {
         $methodName = (string) $node->name;
-        if (! Strings::startsWith($methodName, 'test')) {
+        if (! \str_starts_with($methodName, 'test')) {
             return [];
         }
 

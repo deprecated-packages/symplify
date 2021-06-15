@@ -10,7 +10,7 @@ final class ClassNaming
 {
     public function getShortName(string $class): string
     {
-        if (Strings::contains($class, '\\')) {
+        if (\str_contains($class, '\\')) {
             return (string) Strings::after($class, '\\', -1);
         }
 

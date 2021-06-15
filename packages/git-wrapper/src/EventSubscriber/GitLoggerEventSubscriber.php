@@ -85,7 +85,7 @@ final class GitLoggerEventSubscriber implements EventSubscriberInterface, Logger
      */
     public function log(AbstractGitEvent $gitEvent, string $message, array $context = []): void
     {
-        $gitEventClass = get_class($gitEvent);
+        $gitEventClass = $gitEvent::class;
         $method = $this->getLogLevelMapping($gitEventClass);
 
         $process = $gitEvent->getProcess();

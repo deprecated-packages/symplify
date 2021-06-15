@@ -66,7 +66,7 @@ final class ServiceAndValueObjectHaveSameStartsRule extends AbstractSymplifyRule
         }
 
         foreach ($this->classSuffixes as $classSuffix) {
-            if (! Strings::endsWith($shortClass, $classSuffix)) {
+            if (! \str_ends_with($shortClass, $classSuffix)) {
                 continue;
             }
 

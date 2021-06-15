@@ -157,12 +157,12 @@ CODE_SAMPLE
         $filePath = $scope->getFile();
 
         // php-scoper config, it return magic array by design
-        if (Strings::contains($filePath, 'scoper')) {
+        if (\str_contains($filePath, 'scoper')) {
             return true;
         }
 
         // skip Symfony bundles.php
-        if (Strings::endsWith($filePath, 'bundles.php')) {
+        if (\str_ends_with($filePath, 'bundles.php')) {
             return true;
         }
 

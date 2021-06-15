@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -195,6 +194,6 @@ CODE_SAMPLE
             return true;
         }
 
-        return Strings::endsWith($className, 'Test');
+        return \str_ends_with($className, 'Test');
     }
 }

@@ -51,7 +51,7 @@ final class NodeValueResolver
 
         try {
             return $this->constExprEvaluator->evaluateDirectly($expr);
-        } catch (ConstExprEvaluationException $constExprEvaluationException) {
+        } catch (ConstExprEvaluationException) {
             return null;
         }
     }

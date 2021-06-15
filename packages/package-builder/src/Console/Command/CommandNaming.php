@@ -25,7 +25,7 @@ final class CommandNaming
      */
     public function resolveFromCommand(Command $command): string
     {
-        $commandClass = get_class($command);
+        $commandClass = $command::class;
         return self::classToName($commandClass);
     }
 
