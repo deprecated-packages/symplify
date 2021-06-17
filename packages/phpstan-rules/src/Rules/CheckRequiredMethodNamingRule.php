@@ -9,6 +9,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -113,10 +114,7 @@ CODE_SAMPLE
         foreach ($classMethod->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
                 $attributeName = $this->simpleNameResolver->getName($attribute->name);
-                return in_array($attributeName, [
-                    'Symfony\Contracts\Service\Attribute\Required',
-                    'Nette\DI\Attributes\Inject',
-                ], true);
+                return in_array($attributeName, [Required::class, 'Nette\DI\Attributes\Inject'], true);
             }
         }
 

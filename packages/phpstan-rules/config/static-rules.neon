@@ -115,10 +115,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule
         tags: [phpstan.rules.rule]
 
