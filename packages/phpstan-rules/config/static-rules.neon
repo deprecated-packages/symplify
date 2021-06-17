@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule
         tags: [phpstan.rules.rule]
 

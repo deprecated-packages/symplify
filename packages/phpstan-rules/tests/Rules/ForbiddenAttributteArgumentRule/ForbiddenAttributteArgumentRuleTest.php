@@ -10,8 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule;
 
 /**
- * @requires PHP 8.0
- *
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenAttributteArgumentRule>
  */
 final class ForbiddenAttributteArgumentRuleTest extends AbstractServiceAwareRuleTestCase

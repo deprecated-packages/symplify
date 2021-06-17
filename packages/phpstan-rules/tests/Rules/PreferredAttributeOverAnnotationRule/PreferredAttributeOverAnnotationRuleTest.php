@@ -16,7 +16,6 @@ use Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule;
 final class PreferredAttributeOverAnnotationRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
-     * @requires PHP 8.0
      * @dataProvider provideData()
      * @param mixed[] $expectedErrorMessagesWithLines
      */
