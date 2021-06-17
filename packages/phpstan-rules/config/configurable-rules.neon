@@ -122,13 +122,6 @@ services:
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenClassMethods:
-                PHPStan\Rules\Rule: ['getRule']
-
-    -
         class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
