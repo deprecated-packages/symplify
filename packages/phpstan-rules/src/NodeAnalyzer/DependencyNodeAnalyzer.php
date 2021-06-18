@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
@@ -21,16 +19,11 @@ use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/gn2P0C/1
-     */
-    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
-
     public function __construct(
         private NodeFinder $nodeFinder,
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder
+        private SimpleNodeFinder $simpleNodeFinder,
+        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer
     ) {
     }
 
@@ -56,7 +49,7 @@ final class DependencyNodeAnalyzer
             return false;
         }
 
-        return $this->isBeeingAssignedInAssigns($property, $assigns);
+        return $this->isBeingAssignedInAssigns($property, $assigns);
     }
 
     public function isInsideClassAndAutowiredMethod(Property $property): bool
@@ -66,32 +59,34 @@ final class DependencyNodeAnalyzer
             return false;
         }
 
-        $shortClassName = (string) $classLike->name;
+        /** @var string $propertyName */
+        $propertyName = $this->simpleNameResolver->getName($property);
 
-        $autowireMethodName = 'autowire' . $shortClassName;
+        /** @var PropertyFetch[] $propertyFetches */
+        $propertyFetches = $this->simpleNodeFinder->findByType($classLike, PropertyFetch::class);
+        foreach ($propertyFetches as $propertyFetch) {
+            if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {
+                continue;
+            }
 
-        $classMethod = $classLike->getMethod($autowireMethodName);
-        if (! $classMethod instanceof ClassMethod) {
-            return false;
+            // is inside autowired class method?
+            $classMethod = $this->simpleNodeFinder->findFirstParentByType($propertyFetch, ClassMethod::class);
+            if (! $classMethod instanceof ClassMethod) {
+                continue;
+            }
+
+            if ($this->autowiredMethodAnalyzer->detect($classMethod)) {
+                return true;
+            }
         }
 
-        if (! $this->hasRequiredAnnotation($classMethod)) {
-            return false;
-        }
-
-        /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($classMethod, Assign::class);
-        if ($assigns === []) {
-            return false;
-        }
-
-        return $this->isBeeingAssignedInAssigns($property, $assigns);
+        return false;
     }
 
     /**
      * @param Assign[] $assigns
      */
-    private function isBeeingAssignedInAssigns(Property $property, array $assigns): bool
+    private function isBeingAssignedInAssigns(Property $property, array $assigns): bool
     {
         foreach ($assigns as $assign) {
             if (! $assign->var instanceof PropertyFetch) {
@@ -132,17 +127,6 @@ final class DependencyNodeAnalyzer
         }
 
         $propertyVariableName = $this->simpleNameResolver->getName($propertyFetch->var);
-
         return $propertyVariableName === 'this';
-    }
-
-    private function hasRequiredAnnotation(ClassMethod $classMethod): bool
-    {
-        $docComment = $classMethod->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return false;
-        }
-
-        return (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX);
     }
 }

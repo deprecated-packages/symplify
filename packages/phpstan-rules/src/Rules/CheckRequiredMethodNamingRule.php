@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -24,14 +22,9 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Autowired/inject method name must respect "autowire/inject" + class name';
 
-    /**
-     * @var string
-     * @see https://regex101.com/r/gn2P0C/1
-     */
-    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@(required|inject)\n?#';
-
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver
+        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer,
+        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -49,7 +42,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->hasRequiredMarker($node)) {
+        if (! $this->autowiredMethodAnalyzer->detect($node)) {
             return [];
         }
 
@@ -102,22 +95,5 @@ CODE_SAMPLE
 
         $requiredMethodNames = ['autowire' . $shortClassName, 'inject' . $shortClassName];
         return in_array($methodName, $requiredMethodNames, true);
-    }
-
-    private function hasRequiredMarker(ClassMethod $classMethod): bool
-    {
-        $docComment = $classMethod->getDocComment();
-        if ($docComment instanceof Doc) {
-            return (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX);
-        }
-
-        foreach ($classMethod->attrGroups as $attrGroup) {
-            foreach ($attrGroup->attrs as $attribute) {
-                $attributeName = $this->simpleNameResolver->getName($attribute->name);
-                return in_array($attributeName, [Required::class, 'Nette\DI\Attributes\Inject'], true);
-            }
-        }
-
-        return false;
     }
 }

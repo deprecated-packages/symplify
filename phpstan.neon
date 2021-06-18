@@ -503,10 +503,6 @@ parameters:
 
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:processFoundFiles\(\)" is 9, keep it under 8#'
 
-        -
-            message: '#Property with protected modifier is not allowed\. Use interface contract method instead#'
-            path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
-
         - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
 
         -
