@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ValidNetteInjectRule\Fixture;
 
-final class InvalidInject
+use Nette\DI\Attributes\Inject;
+
+final class PrivateInjectAttribute
 {
     /**
-     * @injectAth
      * @var SomeType
      */
-    public $netteType;
+    #[Inject]
+    private $netteType;
 }
