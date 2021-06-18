@@ -65,7 +65,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         foreach ($fileDiffs as $fileDiff) {
             $this->easyCodingStandardStyle->newLine(2);
 
-            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', $i, $fileDiff->getRelativeFilePathFromCwd());
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', $i, $fileDiff->getRelativeFilePath());
             $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
 
             ++$i;

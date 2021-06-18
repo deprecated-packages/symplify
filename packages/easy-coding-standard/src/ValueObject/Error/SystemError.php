@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class SystemError implements \JsonSerializable
+final class SystemError implements Serializable
 {
     public function __construct(
         private int $line,
         private string $message,
-        private SmartFileInfo $fileInfo
+        private string $relativeFilePath
     ) {
     }
 
@@ -22,17 +23,26 @@ final class SystemError implements \JsonSerializable
 
     public function getFileWithLine(): string
     {
-        return $this->fileInfo->getRelativeFilePathFromCwd() . ':' . $this->line;
+        return $this->relativeFilePath . ':' . $this->line;
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{Name::MESSAGE: string, Name::RELATIVE_FILE_PATH: string, Name::LINE: int}
      */
     public function jsonSerialize(): array
     {
         return [
-            'message' => $this->message,
-            'file_with_line' => $this->getFileWithLine(),
+            Name::MESSAGE => $this->message,
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
+            Name::LINE => $this->line,
         ];
+    }
+
+    /**
+     * @param array{Name::MESSAGE: $json string, Name::RELATIVE_FILE_PATH: string, Name::LINE: int}
+     */
+    public static function decode(array $json): self
+    {
+        return new self($json[Name::MESSAGE], $json[Name::RELATIVE_FILE_PATH], $json[Name::LINE],);
     }
 }

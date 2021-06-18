@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class CodingStandardError implements \JsonSerializable
+final class CodingStandardError implements Serializable
 {
     public function __construct(
         private int $line,
         private string $message,
         private string $checkerClass,
-        private SmartFileInfo $fileInfo
+        private string $relativeFilePath
     ) {
     }
 
@@ -33,12 +34,12 @@ final class CodingStandardError implements \JsonSerializable
 
     public function getFileWithLine(): string
     {
-        return $this->getRelativeFilePathFromCwd() . ':' . $this->line;
+        return $this->relativeFilePath . ':' . $this->line;
     }
 
-    public function getRelativeFilePathFromCwd(): string
+    public function getRelativeFilePath(): string
     {
-        return $this->fileInfo->getRelativeFilePathFromCwd();
+        return $this->relativeFilePath;
     }
 
     /**
@@ -47,11 +48,23 @@ final class CodingStandardError implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'line' => $this->line,
-            'message' => $this->message,
-            'checker_class' => $this->checkerClass,
-            'file_with_line' => $this->getFileWithLine(),
-            'relative_file_path_from_cwd' => $this->getRelativeFilePathFromCwd(),
+            Name::LINE => $this->line,
+            Name::MESSAGE => $this->message,
+            Name::CHECKER_CLASS => $this->checkerClass,
+            NAME::RELATIVE_FILE_PATH => $this->relativeFilePath,
         ];
+    }
+
+    /**
+     * @param array{line: int, message: string, checker_class: string, relative_file_path: string} $json
+     */
+    public static function decode(array $json): self
+    {
+        return new self(
+            $json[Name::LINE],
+            $json[Name::MESSAGE],
+            $json[Name::CHECKER_CLASS],
+            $json[NAME::RELATIVE_FILE_PATH],
+        );
     }
 }

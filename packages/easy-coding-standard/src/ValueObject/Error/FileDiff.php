@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class FileDiff implements \JsonSerializable
+final class FileDiff implements Serializable
 {
     /**
      * @param string[] $appliedCheckers
      */
     public function __construct(
-        private SmartFileInfo $smartFileInfo,
+        private string $relativeFilePath,
         private string $diff,
         private string $consoleFormattedDiff,
         private array $appliedCheckers
@@ -40,21 +41,34 @@ final class FileDiff implements \JsonSerializable
         return $this->appliedCheckers;
     }
 
-    public function getRelativeFilePathFromCwd(): string
+    public function getRelativeFilePath(): string
     {
-        return $this->smartFileInfo->getRelativeFilePathFromCwd();
+        return $this->relativeFilePath;
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{Name::DIFF: string, Name::DIFF_CONSOLE_FORMATTED: string, Name::APPLIED_CHECKERS: string[], Name::RELATIVE_FILE_PATH: string}
      */
     public function jsonSerialize(): array
     {
         return [
-            'diff' => $this->diff,
-            'diff_console_formatted' => $this->consoleFormattedDiff,
-            'applied_checkers' => $this->getAppliedCheckers(),
-            'relative_file_path_from_cwd' => $this->getRelativeFilePathFromCwd(),
+            Name::DIFF => $this->diff,
+            Name::DIFF_CONSOLE_FORMATTED => $this->consoleFormattedDiff,
+            Name::APPLIED_CHECKERS => $this->getAppliedCheckers(),
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
         ];
+    }
+
+    /**
+     * @param array{Name::DIFF: string, Name::DIFF_CONSOLE_FORMATTED: string, Name::APPLIED_CHECKERS: string[], Name::RELATIVE_FILE_PATH: string} $json
+     */
+    public static function decode(array $json): self
+    {
+        return new self(
+            $json[NAME::DIFF],
+            $json[NAME::DIFF_CONSOLE_FORMATTED],
+            $json[NAME::APPLIED_CHECKERS],
+            $json[NAME::RELATIVE_FILE_PATH],
+        );
     }
 }

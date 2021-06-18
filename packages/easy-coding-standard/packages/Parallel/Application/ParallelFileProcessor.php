@@ -185,7 +185,7 @@ final class ParallelFileProcessor
             $processCommandArray[] = escapeshellarg($projectConfigFile);
         }
 
-        $options = ['paths-file', AnalyseCommand::OPTION_LEVEL, 'autoload-file', 'memory-limit', 'xdebug'];
+        $options = ['paths', 'autoload-file', 'xdebug'];
         foreach ($options as $optionName) {
             /** @var bool|string|null $optionValue */
             $optionValue = $input->getOption($optionName);

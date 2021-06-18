@@ -35,13 +35,12 @@ final class ErrorAndDiffCollector
     public function __construct(
         private ChangedFilesDetector $changedFilesDetector,
         private FileDiffFactory $fileDiffFactory,
-        private ErrorFactory $errorFactory,
         private CurrentParentFileInfoProvider $currentParentFileInfoProvider
     ) {
     }
 
     /**
-     * @param class-string $sourceClass
+     * @param class-string|string $sourceClass
      */
     public function addErrorMessage(SmartFileInfo $fileInfo, int $line, string $message, string $sourceClass): void
     {
@@ -53,14 +52,19 @@ final class ErrorAndDiffCollector
         $this->ensureIsFixerOrChecker($sourceClass);
         $this->changedFilesDetector->invalidateFileInfo($fileInfo);
 
-        $codingStandardError = $this->errorFactory->create($line, $message, $sourceClass, $fileInfo);
+        $codingStandardError = new CodingStandardError(
+            $line,
+            $message,
+            $sourceClass,
+            $fileInfo->getRelativeFilePathFromCwd()
+        );
         $this->codingStandardErrors[] = $codingStandardError;
     }
 
     public function addSystemErrorMessage(SmartFileInfo $smartFileInfo, int $line, string $message): void
     {
         $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
-        $this->systemErrors[] = new SystemError($line, $message, $smartFileInfo);
+        $this->systemErrors[] = new SystemError($line, $message, $smartFileInfo->getRelativeFilePathFromCwd());
     }
 
     /**
@@ -114,11 +118,14 @@ final class ErrorAndDiffCollector
         $this->fileDiffs = [];
     }
 
+    /**
+     * @param class-string|string $sourceClass
+     */
     private function ensureIsFixerOrChecker(string $sourceClass): void
     {
         // remove dot suffix of "."
         if (\str_contains($sourceClass, '.')) {
-            $sourceClass = (string) Strings::before($sourceClass, '.', 1);
+            $sourceClass = (string) Strings::before($sourceClass, '.');
         }
 
         if (is_a($sourceClass, FixerInterface::class, true)) {
@@ -129,7 +136,12 @@ final class ErrorAndDiffCollector
             return;
         }
 
-        $message = sprintf('Source class "%s" must be "%s" or "%s"', $sourceClass, FixerInterface::class, Sniff::class);
+        $message = sprintf(
+            'Source class "%s" must be "%s" or "%s"',
+            $sourceClass,
+            FixerInterface::class,
+            Sniff::class
+        );
         throw new NotSniffNorFixerException($message);
     }
 }

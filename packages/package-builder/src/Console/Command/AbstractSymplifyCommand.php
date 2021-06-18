@@ -7,6 +7,7 @@ namespace Symplify\PackageBuilder\Console\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\PackageBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
@@ -29,9 +30,7 @@ abstract class AbstractSymplifyCommand extends Command
         $this->addOption(Option::CONFIG, 'c', InputOption::VALUE_REQUIRED, 'Path to config file');
     }
 
-    /**
-     * @required
-     */
+    #[Required]
     public function autowireAbstractSymplifyCommand(
         SymfonyStyle $symfonyStyle,
         SmartFileSystem $smartFileSystem,
