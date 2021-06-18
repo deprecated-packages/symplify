@@ -86,6 +86,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         $tokens = $this->fileToTokensParser->parseFromFilePath($smartFileInfo->getRealPath());
 
         $appliedFixers = [];
+
         foreach ($this->fixers as $fixer) {
             if ($this->shouldSkipForMarkdownHeredocCheck($fixer)) {
                 continue;
