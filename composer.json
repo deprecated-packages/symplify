@@ -67,8 +67,7 @@
     },
     "autoload": {
         "files": [
-            "packages/amnesia/src/Functions/env.php",
-            "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
+            "packages/amnesia/src/Functions/env.php"
         ],
         "psr-4": {
             "Symplify\\Amnesia\\": "packages/amnesia/src",
@@ -109,7 +108,6 @@
             "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\SnifferFixerToECSConverter\\": "packages/sniffer-fixer-to-ecs-converter/src",
             "Symplify\\StaticDetector\\": "packages/static-detector/src",
             "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
@@ -163,7 +161,6 @@
             "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\SnifferFixerToECSConverter\\Tests\\": "packages/sniffer-fixer-to-ecs-converter/tests",
             "Symplify\\StaticDetector\\Tests\\": "packages/static-detector/tests",
             "Symplify\\SymfonyPhpConfig\\Tests\\": "packages/symfony-php-config/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
@@ -202,7 +199,6 @@
         "symplify/simple-php-doc-parser": "9.3.26",
         "symplify/skipper": "9.3.26",
         "symplify/smart-file-system": "9.3.26",
-        "symplify/sniffer-fixer-to-ecs-converter": "9.3.26",
         "symplify/static-detector": "9.3.26",
         "symplify/symfony-php-config": "9.3.26",
         "symplify/symfony-static-dumper": "9.3.26",

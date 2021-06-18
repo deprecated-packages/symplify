@@ -146,9 +146,6 @@ parameters:
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
-                # yaml
-                - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
-
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
@@ -201,11 +198,6 @@ parameters:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
 
         -
-            message: '#The path "/\.\./\.\./\.\./\.\./friendsofphp/php\-cs\-fixer/src" was not found#'
-            paths:
-                 - packages/sniffer-fixer-to-ecs-converter/src/RobotLoader/FixerClassProvider.php
-
-        -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
@@ -213,12 +205,6 @@ parameters:
 
         # use rector rule for this
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
-
-        -
-            message: '#Nested foreach with empty statement is not allowed#'
-            paths:
-                # xml nesting
-                - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
 
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
@@ -393,7 +379,6 @@ parameters:
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/bin/ecs.php
-                - packages/sniffer-fixer-to-ecs-converter/tests/FixerToECSConverter/FixerToECSConverterTest.php
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'

@@ -67,7 +67,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Config Transformer](https://github.com/symplify/config-transformer)
 - [Latte to TWIG Converter](https://github.com/symplify/latte-to-twig-converter)
 - [NEON to YAML Converter](https://github.com/symplify/neon-to-yaml-converter)
-- [Sniffer Fixer to ECS Converter](https://github.com/symplify/sniffer-fixer-to-ecs-converter)
 
 ## For Upgrades
 
