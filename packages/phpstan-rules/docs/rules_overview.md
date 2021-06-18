@@ -1,4 +1,4 @@
-# 156 Rules Overview
+# 151 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -69,22 +69,7 @@ class SomeClass
 
 Class was not found
 
-:wrench: **configure it!**
-
 - class: [`Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule`](../src/Rules/CheckAttributteArgumentClassExistsRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            $argumentsByAttributes:
-                SomeAttribute:
-                    - firstName
-```
-
-↓
 
 ```php
 #[SomeAttribute(firstName: 'MissingClass::class')]
@@ -406,7 +391,7 @@ interface ProductRepositoryInterface
 
 ## CheckRequiredMethodNamingRule
 
-Method with "@required" must respect "autowire" + class name `("%s()")`
+Autowired/inject method name must respect "autowire/inject" + class name
 
 - class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](../src/Rules/CheckRequiredMethodNamingRule.php)
 
@@ -483,49 +468,6 @@ class SomeClass
 
     private function isCheck(MethodCall $node)
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckUnneededSymfonyStyleUsageRule
-
-SymfonyStyle service is not needed for only newline and text echo. Use PHP_EOL and concatenation instead
-
-- class: [`Symplify\PHPStanRules\Rules\Symfony\CheckUnneededSymfonyStyleUsageRule`](../src/Rules/Symfony/CheckUnneededSymfonyStyleUsageRule.php)
-
-```php
-use Symfony\Component\Console\Style\SymfonyStyle;
-
-class SomeClass
-{
-    private $symfonyStyle;
-
-    public function __construct(SymfonyStyle $symfonyStyle)
-    {
-        $this->symfonyStyle = $symfonyStyle;
-    }
-
-    public function run()
-    {
-        $this->symfonyStyle->writeln('Hi');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        echo 'Hi' . PHP_EOL;
     }
 }
 ```
@@ -1142,13 +1084,15 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             $argumentsByAttributes:
-                Entity:
+                Doctrine\ORM\Mapping\Entity:
                     - repositoryClass
 ```
 
 ↓
 
 ```php
+use Doctrine\ORM\Mapping\Entity;
+
 #[Entity(repositoryClass: SomeRepository::class)]
 class SomeClass
 {
@@ -1160,6 +1104,8 @@ class SomeClass
 <br>
 
 ```php
+use Doctrine\ORM\Mapping\Entity;
+
 #[Entity]
 class SomeClass
 {
@@ -1721,59 +1667,6 @@ abstract class AbstractParent
 
 final class SomeChild extends AbstractParent
 {
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenNewInMethodRule
-
-"new" in method `"%s->%s()"` is not allowed.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule`](../src/Rules/ForbiddenNewInMethodRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNewInMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenClassMethods:
-                PHPStan\Rules\Rule:
-                    - getRule
-```
-
-↓
-
-```php
-use PHPStan\Rules\Rule;
-
-class SomeRuleTest implements Rule
-{
-    protected function getRule(): Rule
-    {
-        return new SomeRule();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPStan\Rules\Rule;
-
-class SomeRuleTest implements Rule
-{
-    protected function getRule(): Rule
-    {
-        return $this->getService(SomeRule::class);
-    }
 }
 ```
 
@@ -4092,40 +3985,6 @@ final class SomeClass
 
 <br>
 
-## NoSetterClassMethodRule
-
-Setter `"%s()"` is not allowed. Use constructor injection or behavior name instead, e.g. `"changeName()"`
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule`](../packages/object-calisthenics/src/Rules/NoSetterClassMethodRule.php)
-
-```php
-final class SomeClass
-{
-    public function setName(string $name)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function __construct(string $name)
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoSetterOnServiceRule
 
 Do not use setter on a service
@@ -4314,58 +4173,6 @@ final class SomeClass
 final class SomeClass
 {
     public function getData(): array
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## OnlyOneClassMethodRule
-
-Allow only one of methods to be implemented on type
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule`](../src/Rules/OnlyOneClassMethodRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\OnlyOneClassMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            onlyOneMethodsByType:
-                CheckedInterface:
-                    - run
-                    - hide
-```
-
-↓
-
-```php
-class SomeClass implements CheckedInterface
-{
-    public function run()
-    {
-    }
-
-    public function hide()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass implements CheckedInterface
-{
-    public function run()
     {
     }
 }
@@ -4992,63 +4799,6 @@ class SomeController
     #[Route(path: '/path')]
     public function someAction()
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## RequireClassTypeInClassMethodByTypeRule
-
-Required specific class-string types in defined methods
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule`](../src/Rules/RequireClassTypeInClassMethodByTypeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            requiredTypeInMethodByClass:
-                SomeTypeInterface:
-                    someMethod: PhpParser\Node
-```
-
-↓
-
-```php
-class SomeClass implements SomeTypeInterface
-{
-    /**
-     * @return string[]
-     */
-    public function someMethod(): array
-    {
-        return [AnyClass::class];
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PhpParser\Node\Scalar\String_;
-
-class SomeClass implements SomeTypeInterface
-{
-    /**
-     * @return string[]
-     */
-    public function someMethod(): array
-    {
-        return [String_::class];
     }
 }
 ```
@@ -6377,7 +6127,7 @@ final class SomeClass
 
 ## ValidNetteInjectRule
 
-Nette `@inject` annotation must be valid
+Nette `@inject` annotation/#[Inject] must be valid
 
 - class: [`Symplify\PHPStanRules\Rules\ValidNetteInjectRule`](../src/Rules/ValidNetteInjectRule.php)
 
@@ -6385,10 +6135,9 @@ Nette `@inject` annotation must be valid
 class SomeClass
 {
     /**
-     * @injected
-     * @var
+     * @inject
      */
-    public $someDependency;
+    private $someDependency;
 }
 ```
 
@@ -6401,7 +6150,6 @@ class SomeClass
 {
     /**
      * @inject
-     * @var
      */
     public $someDependency;
 }
