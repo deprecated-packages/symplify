@@ -223,12 +223,6 @@ parameters:
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
 
-
-        -
-            message: '#SymfonyStyle service is not needed for only newline and text echo\. Use PHP_EOL and concatenation instead#'
-            paths:
-                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
-
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
             paths:
@@ -277,8 +271,6 @@ parameters:
                 - packages/easy-ci/src/Latte/Analyzer/MissingClassStaticCallLatteAnalyzer.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
-                # PHP 7/8 compact
-                - packages/easy-hydrator/src/ParameterTypeRecognizer.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
@@ -303,11 +295,6 @@ parameters:
 
         # manually constructored for Symfony compiler pass, before DI is created
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
-        -
-            message: '#Assign in loop is not allowed#'
-            paths:
-                - packages/monorepo-builder/packages/Merge/Validation/AutoloadPathValidator.php #30
 
         -
             message: '#\$this as argument is not allowed#'
@@ -373,8 +360,6 @@ parameters:
             message: '#Use explicit names over dynamic ones#'
             paths:
                 - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
-
-        - '#Class with base "Regex" name is already used in "Symplify\\PHPStanRules\\ValueObject\\Regex", "Symplify\\GitWrapper\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
 
         # third party package
         -
@@ -535,11 +520,6 @@ parameters:
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
 
         - '#Parameter \#1 \$container of method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest\:\:getIndentationTypeFixerFromContainer\(\) expects Psr\\Container\\ContainerInterface, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given#'
-
-        # the value is already set
-        -
-            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
-            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
 
         -
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
