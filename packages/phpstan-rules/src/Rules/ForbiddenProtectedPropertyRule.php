@@ -24,7 +24,7 @@ final class ForbiddenProtectedPropertyRule extends AbstractSymplifyRule
 
     public function __construct(
         private ProtectedAnalyzer $protectedAnalyzer,
-        private ParentPropertyGuard $parentPropertyGuard
+        private ParentPropertyGuard $parentPropertyGuard,
     ) {
     }
 
