@@ -507,6 +507,8 @@ parameters:
             message: '#Property with protected modifier is not allowed\. Use interface contract method instead#'
             path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
 
+        - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
+
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php

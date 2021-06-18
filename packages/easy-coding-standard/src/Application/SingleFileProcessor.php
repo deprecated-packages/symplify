@@ -6,7 +6,6 @@ namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
@@ -18,7 +17,6 @@ final class SingleFileProcessor
     public function __construct(
         private Skipper $skipper,
         private ChangedFilesDetector $changedFilesDetector,
-        private ErrorAndDiffCollector $errorAndDiffCollector,
         private FileProcessorCollector $fileProcessorCollector
     ) {
     }
@@ -33,9 +31,6 @@ final class SingleFileProcessor
         }
 
         $errorsAndDiffs = [];
-        // @todo get rid of this service approach and return array of errors/diffs directly
-
-        $this->errorAndDiffCollector->resetCounters();
 
         try {
             $this->changedFilesDetector->addFileInfo($smartFileInfo);
@@ -45,7 +40,13 @@ final class SingleFileProcessor
                     continue;
                 }
 
-                $fileProcessor->processFile($smartFileInfo);
+                $currentErrorsAndFileDiffs = $fileProcessor->processFile($smartFileInfo);
+                if ($currentErrorsAndFileDiffs === []) {
+                    continue;
+                }
+
+                $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
+                $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndFileDiffs);
             }
         } catch (ParseError $parseError) {
             $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
@@ -55,12 +56,6 @@ final class SingleFileProcessor
                 $smartFileInfo->getRelativeFilePathFromCwd()
             );
         }
-
-        $errorsAndDiffs = array_merge(
-            $errorsAndDiffs,
-            $this->errorAndDiffCollector->getErrors(),
-            $this->errorAndDiffCollector->getFileDiffs()
-        );
 
         return $errorsAndDiffs;
     }

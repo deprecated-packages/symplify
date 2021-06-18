@@ -14,6 +14,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
 
     $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir() . '/_changed_files_detector%env(TEST_SUFFIX)%');
+
     $cacheNamespace = str_replace(DIRECTORY_SEPARATOR, '_', getcwd());
     $parameters->set(Option::CACHE_NAMESPACE, $cacheNamespace);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Error;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
@@ -17,7 +18,7 @@ final class FileDiffFactory
     }
 
     /**
-     * @param array<class-string<FixerInterface|\PHP_CodeSniffer\Sniffs\Sniff>|string> $appliedCheckers
+     * @param array<class-string<FixerInterface|Sniff>|string> $appliedCheckers
      */
     public function createFromDiffAndAppliedCheckers(
         SmartFileInfo $smartFileInfo,
@@ -25,6 +26,7 @@ final class FileDiffFactory
         array $appliedCheckers
     ): FileDiff {
         $consoleFormattedDiff = $this->colorConsoleDiffFormatter->format($diff);
+
         return new FileDiff(
             $smartFileInfo->getRelativeFilePathFromCwd(),
             $diff,

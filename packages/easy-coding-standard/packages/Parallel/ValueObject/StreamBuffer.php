@@ -11,14 +11,11 @@ use React\Stream\ReadableStreamInterface;
  */
 final class StreamBuffer
 {
-    /**
-     * @var string
-     */
-    private $buffer = '';
+    private string $buffer = '';
 
-    public function __construct(ReadableStreamInterface $stream)
+    public function __construct(ReadableStreamInterface $readableStream)
     {
-        $stream->on('data', function (string $chunk): void {
+        $readableStream->on('data', function (string $chunk): void {
             $this->buffer .= $chunk;
         });
     }

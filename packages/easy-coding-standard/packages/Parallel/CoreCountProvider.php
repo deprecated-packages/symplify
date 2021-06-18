@@ -17,8 +17,8 @@ final class CoreCountProvider
             // Linux (and potentially Windows with linux sub systems)
             $cpuinfo = file_get_contents('/proc/cpuinfo');
             if ($cpuinfo !== false) {
-                preg_match_all('/^processor/m', $cpuinfo, $matches);
-                return count($matches[0]);
+                preg_match_all('#^processor#m', $cpuinfo, $matches);
+                return is_countable($matches[0]) ? count($matches[0]) : 0;
             }
         }
 

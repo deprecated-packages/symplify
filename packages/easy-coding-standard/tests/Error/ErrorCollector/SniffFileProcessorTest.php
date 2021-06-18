@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
+use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SniffFileProcessorTest extends AbstractKernelTestCase
 {
     private SniffFileProcessor $sniffFileProcessor;
-
-    private ErrorAndDiffResultFactory $errorAndDiffResultFactory;
 
     protected function setUp(): void
     {
@@ -24,7 +23,6 @@ final class SniffFileProcessorTest extends AbstractKernelTestCase
             [__DIR__ . '/SniffRunnerSource/easy-coding-standard.php']
         );
 
-        $this->errorAndDiffResultFactory = $this->getService(ErrorAndDiffResultFactory::class);
         $this->sniffFileProcessor = $this->getService(SniffFileProcessor::class);
 
         $changedFilesDetector = $this->getService(ChangedFilesDetector::class);
@@ -34,11 +32,12 @@ final class SniffFileProcessorTest extends AbstractKernelTestCase
     public function test(): void
     {
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
-        $this->sniffFileProcessor->processFile($smartFileInfo);
+        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($smartFileInfo);
 
-        $errorAndDiffResult = $this->errorAndDiffResultFactory->create();
+        $fileDiffs = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof FileDiff);
+        $this->assertCount(1, $fileDiffs);
 
-        $this->assertSame(0, $errorAndDiffResult->getErrorCount());
-        $this->assertSame(1, $errorAndDiffResult->getFileDiffsCount());
+        $errors = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof CodingStandardError);
+        $this->assertCount(0, $errors);
     }
 }

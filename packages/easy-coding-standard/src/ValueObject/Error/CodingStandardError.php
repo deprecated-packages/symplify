@@ -51,7 +51,7 @@ final class CodingStandardError implements Serializable
             Name::LINE => $this->line,
             Name::MESSAGE => $this->message,
             Name::CHECKER_CLASS => $this->checkerClass,
-            NAME::RELATIVE_FILE_PATH => $this->relativeFilePath,
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
         ];
     }
 
@@ -64,7 +64,7 @@ final class CodingStandardError implements Serializable
             $json[Name::LINE],
             $json[Name::MESSAGE],
             $json[Name::CHECKER_CLASS],
-            $json[NAME::RELATIVE_FILE_PATH],
+            $json[Name::RELATIVE_FILE_PATH],
         );
     }
 }

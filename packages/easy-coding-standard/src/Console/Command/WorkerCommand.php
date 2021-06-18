@@ -17,6 +17,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Throwable;
 
 /**
  * Inspired at https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92
@@ -41,15 +42,13 @@ final class WorkerCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $paths = (array) $input->getArgument(Option::PATHS);
-
         $singleFileProcessor = $this->singleFileProcessor;
 
         $streamSelectLoop = new StreamSelectLoop();
 
         $stdOutEncoder = new Encoder(new WritableResourceStream(STDOUT, $streamSelectLoop));
 
-        $handleError = static function (\Throwable $error) use ($stdOutEncoder): void {
+        $handleError = static function (Throwable $error) use ($stdOutEncoder): void {
             $stdOutEncoder->write([
                 'errors' => [$error->getMessage()],
                 'filesCount' => 0,
@@ -60,8 +59,9 @@ final class WorkerCommand extends AbstractSymplifyCommand
         $stdOutEncoder->on('error', $handleError);
 
         // todo collectErrors (from Analyser)
-        $stdin = new Decoder(new ReadableResourceStream(STDIN, $streamSelectLoop), true);
-        $stdin->on('data', static function (array $json) use ($singleFileProcessor, $stdOutEncoder): void {
+        $decoder = new Decoder(new ReadableResourceStream(STDIN, $streamSelectLoop), true);
+        $decoder->on('data', static function (array $json) use ($singleFileProcessor, $stdOutEncoder): void {
+            $inferrablePropertyTypesFromConstructorHelper = null;
             $action = $json['action'];
             if ($action === 'analyse') {
                 $internalErrorsCount = 0;
@@ -76,8 +76,8 @@ final class WorkerCommand extends AbstractSymplifyCommand
                         foreach ($fileErrors as $fileError) {
                             $errors[] = $fileError;
                         }
-                    } catch (\Throwable $throwable) {
-                        $internalErrorsCount++;
+                    } catch (Throwable $throwable) {
+                        ++$internalErrorsCount;
                         $internalErrorMessage = sprintf('Internal error: %s', $throwable->getMessage());
                         $internalErrorMessage .= 'Run ECS with --debug option';
                         $errors[] = new SystemError($throwable->getLine(), $internalErrorMessage, $filePath);
@@ -86,7 +86,7 @@ final class WorkerCommand extends AbstractSymplifyCommand
 
                 $stdOutEncoder->write([
                     'errors' => $errors,
-                    'filesCount' => count($filePaths),
+                    'filesCount' => is_countable($filePaths) ? count($filePaths) : 0,
                     'hasInferrablePropertyTypesFromConstructor' => $inferrablePropertyTypesFromConstructorHelper->hasInferrablePropertyTypesFromConstructor(),
                     'internalErrorsCount' => $internalErrorsCount,
                 ]);
@@ -94,7 +94,8 @@ final class WorkerCommand extends AbstractSymplifyCommand
                 $stdOutEncoder->end();
             }
         });
-        $stdin->on('error', $handleError);
+        $decoder->on('error', $handleError);
+
         $streamSelectLoop->run();
 
         return 0;

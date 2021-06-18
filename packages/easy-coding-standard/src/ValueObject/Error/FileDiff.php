@@ -65,10 +65,10 @@ final class FileDiff implements Serializable
     public static function decode(array $json): self
     {
         return new self(
-            $json[NAME::RELATIVE_FILE_PATH],
-            $json[NAME::DIFF],
-            $json[NAME::DIFF_CONSOLE_FORMATTED],
-            $json[NAME::APPLIED_CHECKERS],
+            $json[Name::RELATIVE_FILE_PATH],
+            $json[Name::DIFF],
+            $json[Name::DIFF_CONSOLE_FORMATTED],
+            $json[Name::APPLIED_CHECKERS],
         );
     }
 }
