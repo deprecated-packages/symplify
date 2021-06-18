@@ -11,7 +11,6 @@ use Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoDynamicPropertyOnStaticCallRule>
- * @requires PHP 8.0
  */
 final class Php8Test extends AbstractServiceAwareRuleTestCase
 {

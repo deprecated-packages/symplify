@@ -36,14 +36,6 @@ services:
                 PHPStan\Rules\Rule: 16
                 Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
 
-    -
-        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            requiredTypeInMethodByClass:
-                Symplify\PHPStanRules\Contract\ManyNodeRuleInterface:
-                    getNodeTypes: 'PhpParser\Node'
-
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false

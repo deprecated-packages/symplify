@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PackageBuilder\Composer;
 
 use Composer\Autoload\ClassLoader;
-use Nette\Utils\Strings;
 use ReflectionClass;
 
 /**
@@ -18,7 +17,7 @@ final class VendorDirProvider
         $rootFolder = getenv('SystemDrive', true) . DIRECTORY_SEPARATOR;
 
         $path = __DIR__;
-        while (! Strings::endsWith($path, 'vendor') && $path !== $rootFolder) {
+        while (! \str_ends_with($path, 'vendor') && $path !== $rootFolder) {
             $path = dirname($path);
         }
 

@@ -11,7 +11,6 @@ use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoDynamicNameRule>
- * @requires PHP 8.0
  */
 final class Php8Test extends AbstractServiceAwareRuleTestCase
 {

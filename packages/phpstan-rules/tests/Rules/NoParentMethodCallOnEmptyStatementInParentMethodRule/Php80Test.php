@@ -11,8 +11,6 @@ use Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethod
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoParentMethodCallOnEmptyStatementInParentMethodRule>
- *
- * @requires PHP 8.0
  */
 final class Php80Test extends AbstractServiceAwareRuleTestCase
 {

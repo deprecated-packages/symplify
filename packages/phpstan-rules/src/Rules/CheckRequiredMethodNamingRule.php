@@ -9,6 +9,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -21,13 +22,13 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method with "@required" must respect "autowire" + class name ("%s()")';
+    public const ERROR_MESSAGE = 'Autowired/inject method name must respect "autowire/inject" + class name';
 
     /**
      * @var string
      * @see https://regex101.com/r/gn2P0C/1
      */
-    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@required\n?#';
+    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@(required|inject)\n?#';
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver
@@ -48,28 +49,15 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
+        if (! $this->hasRequiredMarker($node)) {
             return [];
         }
 
-        if (! Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
+        if ($this->hasRequiredName((string) $node->name, $scope)) {
             return [];
         }
 
-        $requriedMethodName = $this->resolveRequiredMethodName($scope);
-        if ($requriedMethodName === null) {
-            return [];
-        }
-
-        $currentMethodName = (string) $node->name;
-
-        if ($currentMethodName === $requriedMethodName) {
-            return [];
-        }
-
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $requriedMethodName);
-        return [$errorMessage];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -105,13 +93,31 @@ CODE_SAMPLE
         ]);
     }
 
-    private function resolveRequiredMethodName(Scope $scope): ?string
+    private function hasRequiredName(string $methodName, Scope $scope): bool
     {
         $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
         if ($shortClassName === null) {
-            return null;
+            return true;
         }
 
-        return 'autowire' . $shortClassName;
+        $requiredMethodNames = ['autowire' . $shortClassName, 'inject' . $shortClassName];
+        return in_array($methodName, $requiredMethodNames, true);
+    }
+
+    private function hasRequiredMarker(ClassMethod $classMethod): bool
+    {
+        $docComment = $classMethod->getDocComment();
+        if ($docComment instanceof Doc) {
+            return (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX);
+        }
+
+        foreach ($classMethod->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attribute) {
+                $attributeName = $this->simpleNameResolver->getName($attribute->name);
+                return in_array($attributeName, [Required::class, 'Nette\DI\Attributes\Inject'], true);
+            }
+        }
+
+        return false;
     }
 }
