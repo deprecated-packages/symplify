@@ -134,3 +134,4 @@ services:
         arguments:
             forbiddenTypes:
                 - Symfony\Component\Console\Command\Command
+                - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
