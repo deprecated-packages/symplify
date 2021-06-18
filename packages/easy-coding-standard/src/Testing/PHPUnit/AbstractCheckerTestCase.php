@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
+use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
@@ -30,10 +30,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
 
     private SniffFileProcessor $sniffFileProcessor;
 
-    private ErrorAndDiffCollector $errorAndDiffCollector;
-
-    private ErrorAndDiffResultFactory $errorAndDiffResultFactory;
-
     protected function setUp(): void
     {
         // autoload php code sniffer before Kernel boot
@@ -44,11 +40,6 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
 
         $this->fixerFileProcessor = $this->getService(FixerFileProcessor::class);
         $this->sniffFileProcessor = $this->getService(SniffFileProcessor::class);
-        $this->errorAndDiffCollector = $this->getService(ErrorAndDiffCollector::class);
-        $this->errorAndDiffResultFactory = $this->getService(ErrorAndDiffResultFactory::class);
-
-        // reset error count from previous possibly container cached run
-        $this->errorAndDiffCollector->resetCounters();
     }
 
     protected function doTestFileInfo(SmartFileInfo $fileInfo): void
@@ -71,25 +62,17 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
      */
     protected function doTestCorrectFileInfo(SmartFileInfo $fileInfo): void
     {
-        $this->errorAndDiffCollector->resetCounters();
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($fileInfo);
+            // @todo separate processFile(): array with errors for parallel,
+            // and processFileToString() for tests only
+            $processedFileContent = $this->fixerFileProcessor->processFileToString($fileInfo);
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
 
         if ($this->sniffFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($fileInfo);
-
-            $errorAndDiffResult = $this->errorAndDiffResultFactory->create();
-
-            $failedAssertMessage = sprintf(
-                'There should be no error in "%s" file, but %d errors found.',
-                $errorAndDiffResult->getErrorCount(),
-                $fileInfo->getRealPath()
-            );
-            $this->assertSame(0, $errorAndDiffResult->getErrorCount(), $failedAssertMessage);
+            $processedFileContent = $this->sniffFileProcessor->processFileToString($fileInfo);
 
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }
@@ -98,9 +81,11 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
     protected function doTestFileInfoWithErrorCountOf(SmartFileInfo $wrongFileInfo, int $expectedErrorCount): void
     {
         $this->ensureSomeCheckersAreRegistered();
-        $this->errorAndDiffCollector->resetCounters();
 
-        $this->sniffFileProcessor->processFile($wrongFileInfo);
+        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($wrongFileInfo);
+
+        $errors = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof SystemError || $object
+            instanceof CodingStandardError);
 
         $message = sprintf(
             'There should be %d error(s) in "%s" file, but none found.',
@@ -108,8 +93,9 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
             $wrongFileInfo->getRealPath()
         );
 
-        $errorAndDiffResult = $this->errorAndDiffResultFactory->create();
-        $this->assertSame($expectedErrorCount, $errorAndDiffResult->getErrorCount(), $message);
+        $errorCount = count($errors);
+
+        $this->assertSame($expectedErrorCount, $errorCount, $message);
     }
 
     private function doTestWrongToFixedFile(
@@ -117,20 +103,14 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
         string $fixedFile,
         SmartFileInfo $fixtureFileInfo
     ): void {
-        $processedFileContent = null;
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->fixerFileProcessor->processFile($wrongFileInfo);
-
+            $processedFileContent = $this->fixerFileProcessor->processFileToString($wrongFileInfo);
             $this->assertStringEqualsWithFileLocation($fixedFile, $processedFileContent, $fixtureFileInfo);
-        }
-
-        if ($this->sniffFileProcessor->getCheckers() !== []) {
-            $processedFileContent = $this->sniffFileProcessor->processFile($wrongFileInfo);
-        }
-
-        if ($processedFileContent === null) {
+        } elseif ($this->sniffFileProcessor->getCheckers() !== []) {
+            $processedFileContent = $this->sniffFileProcessor->processFileToString($wrongFileInfo);
+        } else {
             throw new ShouldNotHappenException();
         }
 

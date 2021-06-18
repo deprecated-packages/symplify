@@ -7,7 +7,6 @@ namespace Symplify\EasyCodingStandard\SniffRunner\File;
 use PHP_CodeSniffer\Fixer;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -19,7 +18,6 @@ final class FileFactory
 {
     public function __construct(
         private Fixer $fixer,
-        private ErrorAndDiffCollector $errorAndDiffCollector,
         private Skipper $skipper,
         private AppliedCheckersCollector $appliedCheckersCollector,
         private EasyCodingStandardStyle $easyCodingStandardStyle
@@ -32,7 +30,6 @@ final class FileFactory
             $smartFileInfo->getRelativeFilePath(),
             $smartFileInfo->getContents(),
             $this->fixer,
-            $this->errorAndDiffCollector,
             $this->skipper,
             $this->appliedCheckersCollector,
             $this->easyCodingStandardStyle

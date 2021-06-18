@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\EasyCodingStandard\Application\EasyCodingStandardApplication;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
@@ -24,9 +25,7 @@ abstract class AbstractCheckCommand extends AbstractSymplifyCommand
 
     protected LoadedCheckersGuard $loadedCheckersGuard;
 
-    /**
-     * @required
-     */
+    #[Required]
     public function autowireAbstractCheckCommand(
         Configuration $configuration,
         EasyCodingStandardApplication $easyCodingStandardApplication,

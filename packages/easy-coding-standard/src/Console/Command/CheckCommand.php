@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class CheckCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private ProcessedFileReporter $processedFileReporter
+        private ProcessedFileReporter $processedFileReporter,
     ) {
         parent::__construct();
     }
@@ -38,8 +38,7 @@ final class CheckCommand extends AbstractCheckCommand
             $this->configuration->setSources($this->configuration->getPaths());
         }
 
-        $processedFilesCount = $this->easyCodingStandardApplication->run();
-
-        return $this->processedFileReporter->report($processedFilesCount);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run();
+        return $this->processedFileReporter->report($errorsAndDiffs);
     }
 }

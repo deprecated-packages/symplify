@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class SystemError
+final class SystemError implements Serializable
 {
     public function __construct(
         private int $line,
         private string $message,
-        private SmartFileInfo $fileInfo
+        private string $relativeFilePath
     ) {
     }
 
@@ -22,6 +23,26 @@ final class SystemError
 
     public function getFileWithLine(): string
     {
-        return $this->fileInfo->getRelativeFilePathFromCwd() . ':' . $this->line;
+        return $this->relativeFilePath . ':' . $this->line;
+    }
+
+    /**
+     * @return array{line: int, message: string, relative_file_path: string}
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            Name::LINE => $this->line,
+            Name::MESSAGE => $this->message,
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
+        ];
+    }
+
+    /**
+     * @param array{message: string, relative_file_path: string, line: int} $json
+     */
+    public static function decode(array $json): self
+    {
+        return new self($json[Name::LINE], $json[Name::MESSAGE], $json[Name::RELATIVE_FILE_PATH]);
     }
 }

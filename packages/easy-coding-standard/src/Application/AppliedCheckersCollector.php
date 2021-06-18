@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Application;
 
-use Symplify\EasyCodingStandard\Exception\Application\MissingCheckersForChangedFileException;
-use Symplify\SmartFileSystem\SmartFileInfo;
-
 final class AppliedCheckersCollector
 {
     /**
-     * @var array<string, class-string[]>
+     * @var array<class-string|string>
      */
-    private array $appliedCheckersByFile = [];
+    private array $appliedCheckerClasses = [];
 
-    public function addFileInfoAndChecker(SmartFileInfo $smartFileInfo, string $checker): void
+    /**
+     * @param class-string|string $checkerClass
+     */
+    public function addAppliedCheckerClass(string $checkerClass): void
     {
-        $this->appliedCheckersByFile[$smartFileInfo->getRealPath()][] = $checker;
+        $this->appliedCheckerClasses[] = $checkerClass;
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string|string>
      */
-    public function getAppliedCheckersPerFileInfo(SmartFileInfo $smartFileInfo): array
+    public function getAppliedCheckerClasses(): array
     {
-        $this->ensureFileHasAppliedCheckers($smartFileInfo);
-
-        return $this->appliedCheckersByFile[$smartFileInfo->getRealPath()];
+        return $this->appliedCheckerClasses;
     }
 
-    private function ensureFileHasAppliedCheckers(SmartFileInfo $smartFileInfo): void
+    public function resetAppliedCheckerClasses(): void
     {
-        if (isset($this->appliedCheckersByFile[$smartFileInfo->getRealPath()])) {
-            return;
-        }
-
-        throw new MissingCheckersForChangedFileException(sprintf(
-            'File "%s" was changed, but no responsible checkers were added to "%s".',
-            $smartFileInfo->getRelativePathname(),
-            self::class
-        ));
+        $this->appliedCheckerClasses = [];
     }
 }

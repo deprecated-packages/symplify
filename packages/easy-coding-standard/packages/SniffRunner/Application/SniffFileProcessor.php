@@ -11,10 +11,11 @@ use PhpCsFixer\Differ\DifferInterface;
 use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\Error\FileDiffFactory;
 use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -29,7 +30,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     private $sniffs = [];
 
     /**
-     * @var Sniff[][]
+     * @var array<int|string, Sniff[]>
      */
     private array $tokenListeners = [];
 
@@ -40,11 +41,11 @@ final class SniffFileProcessor implements FileProcessorInterface
         private Fixer $fixer,
         private FileFactory $fileFactory,
         private Configuration $configuration,
-        private ErrorAndDiffCollector $errorAndDiffCollector,
         private DifferInterface $differ,
         private AppliedCheckersCollector $appliedCheckersCollector,
         private SmartFileSystem $smartFileSystem,
         private TargetFileInfoResolver $targetFileInfoResolver,
+        private FileDiffFactory $fileDiffFactory,
         array $sniffs = []
     ) {
         $this->addCompatibilityLayer();
@@ -71,35 +72,53 @@ final class SniffFileProcessor implements FileProcessorInterface
         return $this->sniffs;
     }
 
-    public function processFile(SmartFileInfo $smartFileInfo): string
+    /**
+     * @return array<FileDiff>
+     */
+    public function processFile(SmartFileInfo $smartFileInfo): array
     {
-        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
+        $errorsAndDiffs = [];
+        $this->appliedCheckersCollector->resetAppliedCheckerClasses();
 
+        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
         $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
 
         // add diff
         if ($smartFileInfo->getContents() !== $this->fixer->getContents()) {
             $diff = $this->differ->diff($smartFileInfo->getContents(), $this->fixer->getContents());
 
-            $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
+            $appliedCheckers = $this->appliedCheckersCollector->getAppliedCheckerClasses();
 
-            $this->errorAndDiffCollector->addDiffForFileInfo(
-                $targetFileInfo,
+            $fileDiff = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
+                $smartFileInfo,
                 $diff,
-                $this->appliedCheckersCollector->getAppliedCheckersPerFileInfo($smartFileInfo)
+                $appliedCheckers
             );
+
+            $errorsAndDiffs[] = $fileDiff;
         }
 
-        // 4. save file content (faster without changes check)
         if ($this->configuration->isFixer()) {
             $this->smartFileSystem->dumpFile($file->getFilename(), $this->fixer->getContents());
         }
+
+        return $errorsAndDiffs;
+    }
+
+    /**
+     * For tests or printing contenet
+     */
+    public function processFileToString(SmartFileInfo $smartFileInfo): string
+    {
+        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
+        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
 
         return $this->fixer->getContents();
     }
 
     private function addCompatibilityLayer(): void
     {
+
         if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
             // initalize token with INT type, otherwise php-cs-fixer and php-parser breaks
             if (! defined('T_MATCH')) {

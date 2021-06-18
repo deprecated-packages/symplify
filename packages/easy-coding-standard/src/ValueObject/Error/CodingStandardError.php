@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class CodingStandardError
+final class CodingStandardError implements Serializable
 {
     public function __construct(
         private int $line,
         private string $message,
         private string $checkerClass,
-        private SmartFileInfo $fileInfo
+        private string $relativeFilePath
     ) {
     }
 
@@ -33,11 +34,37 @@ final class CodingStandardError
 
     public function getFileWithLine(): string
     {
-        return $this->getRelativeFilePathFromCwd() . ':' . $this->line;
+        return $this->relativeFilePath . ':' . $this->line;
     }
 
-    public function getRelativeFilePathFromCwd(): string
+    public function getRelativeFilePath(): string
     {
-        return $this->fileInfo->getRelativeFilePathFromCwd();
+        return $this->relativeFilePath;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            Name::LINE => $this->line,
+            Name::MESSAGE => $this->message,
+            Name::CHECKER_CLASS => $this->checkerClass,
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
+        ];
+    }
+
+    /**
+     * @param array{line: int, message: string, checker_class: string, relative_file_path: string} $json
+     */
+    public static function decode(array $json): self
+    {
+        return new self(
+            $json[Name::LINE],
+            $json[Name::MESSAGE],
+            $json[Name::CHECKER_CLASS],
+            $json[Name::RELATIVE_FILE_PATH],
+        );
     }
 }

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class FileDiff
+final class FileDiff implements Serializable
 {
     /**
      * @param string[] $appliedCheckers
      */
     public function __construct(
-        private SmartFileInfo $smartFileInfo,
+        private string $relativeFilePath,
         private string $diff,
         private string $consoleFormattedDiff,
         private array $appliedCheckers
@@ -40,8 +41,34 @@ final class FileDiff
         return $this->appliedCheckers;
     }
 
-    public function getRelativeFilePathFromCwd(): string
+    public function getRelativeFilePath(): string
     {
-        return $this->smartFileInfo->getRelativeFilePathFromCwd();
+        return $this->relativeFilePath;
+    }
+
+    /**
+     * @return array{relative_file_path: string, diff: string, diff_console_formatted: string, applied_checkers: string[]}
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
+            Name::DIFF => $this->diff,
+            Name::DIFF_CONSOLE_FORMATTED => $this->consoleFormattedDiff,
+            Name::APPLIED_CHECKERS => $this->getAppliedCheckers(),
+        ];
+    }
+
+    /**
+     * @param array{relative_file_path: string, diff: string, diff_console_formatted: string, applied_checkers: string[]} $json
+     */
+    public static function decode(array $json): self
+    {
+        return new self(
+            $json[Name::RELATIVE_FILE_PATH],
+            $json[Name::DIFF],
+            $json[Name::DIFF_CONSOLE_FORMATTED],
+            $json[Name::APPLIED_CHECKERS],
+        );
     }
 }

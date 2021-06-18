@@ -53,6 +53,10 @@ parameters:
         - */scoper.php
         - *scoper.inc.php
 
+        # WIP parallel
+        - packages/easy-coding-standard/packages/Parallel
+        - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
@@ -489,12 +493,21 @@ parameters:
         # this class is used by scoper, so better use less external deps
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
-            path: packages/easy-coding-standard/src/Application/VersionResolver.php
+            path: packages/easy-coding-standard/src/Application/Version/VersionResolver.php
 
         -
             message: '#Nested foreach with empty statement is not allowed#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
+        # bug with #[Requried] skip, fix in symplify/phpstan-rules
+
+        - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:processFoundFiles\(\)" is 9, keep it under 8#'
+
+        -
+            message: '#Property with protected modifier is not allowed\. Use interface contract method instead#'
+            path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
+
+        - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
 
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'

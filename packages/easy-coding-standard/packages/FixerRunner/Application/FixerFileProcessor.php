@@ -17,11 +17,12 @@ use Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
+use Symplify\EasyCodingStandard\Error\FileDiffFactory;
 use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -45,20 +46,14 @@ final class FixerFileProcessor implements FileProcessorInterface
     ];
 
     /**
-     * @var class-string[]
-     */
-    private array $appliedFixers = [];
-
-    /**
      * @var FixerInterface[]
      */
-    private $fixers = [];
+    private array $fixers = [];
 
     /**
      * @param FixerInterface[] $fixers
      */
     public function __construct(
-        private ErrorAndDiffCollector $errorAndDiffCollector,
         private Configuration $configuration,
         private FileToTokensParser $fileToTokensParser,
         private Skipper $skipper,
@@ -67,6 +62,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         private SmartFileSystem $smartFileSystem,
         private CurrentParentFileInfoProvider $currentParentFileInfoProvider,
         private TargetFileInfoResolver $targetFileInfoResolver,
+        private FileDiffFactory $fileDiffFactory,
         array $fixers = []
     ) {
         $this->fixers = $this->sortFixers($fixers);
@@ -80,21 +76,74 @@ final class FixerFileProcessor implements FileProcessorInterface
         return $this->fixers;
     }
 
-    public function processFile(SmartFileInfo $smartFileInfo): string
+    /**
+     * @return array<FileDiff>
+     */
+    public function processFile(SmartFileInfo $smartFileInfo): array
     {
+        $errorsAndDiffs = [];
+
         $tokens = $this->fileToTokensParser->parseFromFilePath($smartFileInfo->getRealPath());
 
-        $this->appliedFixers = [];
+        $appliedFixers = [];
+
         foreach ($this->fixers as $fixer) {
             if ($this->shouldSkipForMarkdownHeredocCheck($fixer)) {
                 continue;
             }
 
-            $this->processTokensByFixer($smartFileInfo, $tokens, $fixer);
+            if ($this->processTokensByFixer($smartFileInfo, $tokens, $fixer)) {
+                $appliedFixers[] = $fixer::class;
+            }
+        }
+
+        if ($appliedFixers === []) {
+            return [];
         }
 
         $contents = $smartFileInfo->getContents();
-        if ($this->appliedFixers === []) {
+        $diff = $this->differ->diff($contents, $tokens->generateCode());
+
+        // some fixer with feature overlap can null each other
+        if ($diff === '') {
+            return [];
+        }
+
+        // file has changed
+        $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
+        $errorsAndDiffs[] = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
+            $targetFileInfo,
+            $diff,
+            $appliedFixers
+        );
+
+        $tokenGeneratedCode = $tokens->generateCode();
+        if ($this->configuration->isFixer()) {
+            $this->smartFileSystem->dumpFile($smartFileInfo->getRealPath(), $tokenGeneratedCode);
+        }
+
+        Tokens::clearCache();
+
+        return $errorsAndDiffs;
+    }
+
+    public function processFileToString(SmartFileInfo $smartFileInfo): string
+    {
+        $tokens = $this->fileToTokensParser->parseFromFilePath($smartFileInfo->getRealPath());
+
+        $appliedFixers = [];
+        foreach ($this->fixers as $fixer) {
+            if ($this->shouldSkipForMarkdownHeredocCheck($fixer)) {
+                continue;
+            }
+
+            if ($this->processTokensByFixer($smartFileInfo, $tokens, $fixer)) {
+                $appliedFixers[] = $fixer::class;
+            }
+        }
+
+        $contents = $smartFileInfo->getContents();
+        if ($appliedFixers === []) {
             return $contents;
         }
 
@@ -104,18 +153,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             return $contents;
         }
 
-        // file has changed
-        $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
-        $this->errorAndDiffCollector->addDiffForFileInfo($targetFileInfo, $diff, $this->appliedFixers);
-
-        $tokenGeneratedCode = $tokens->generateCode();
-        if ($this->configuration->isFixer()) {
-            $this->smartFileSystem->dumpFile($smartFileInfo->getRealPath(), $tokenGeneratedCode);
-        }
-
-        Tokens::clearCache();
-
-        return $tokenGeneratedCode;
+        return $tokens->generateCode();
     }
 
     /**
@@ -126,7 +164,8 @@ final class FixerFileProcessor implements FileProcessorInterface
     {
         usort(
             $fixers,
-            fn (FixerInterface $firstFixer, FixerInterface $secondFixer): int => $secondFixer->getPriority() <=> $firstFixer->getPriority()
+            fn (FixerInterface $firstFixer, FixerInterface $secondFixer): int =>
+                $secondFixer->getPriority() <=> $firstFixer->getPriority()
         );
 
         return $fixers;
@@ -134,11 +173,12 @@ final class FixerFileProcessor implements FileProcessorInterface
 
     /**
      * @param Tokens<Token> $tokens
+     * @return bool If fixer applied
      */
-    private function processTokensByFixer(SmartFileInfo $smartFileInfo, Tokens $tokens, FixerInterface $fixer): void
+    private function processTokensByFixer(SmartFileInfo $smartFileInfo, Tokens $tokens, FixerInterface $fixer): bool
     {
         if ($this->shouldSkip($smartFileInfo, $fixer, $tokens)) {
-            return;
+            return false;
         }
 
         // show current fixer in --debug / -vvv
@@ -160,13 +200,13 @@ final class FixerFileProcessor implements FileProcessorInterface
         }
 
         if (! $tokens->isChanged()) {
-            return;
+            return false;
         }
 
-        $tokens->clearEmptyTokens();
         $tokens->clearChanged();
+        $tokens->clearEmptyTokens();
 
-        $this->appliedFixers[] = $fixer::class;
+        return true;
     }
 
     /**

@@ -24,15 +24,13 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult): int
     {
         $this->reportFileDiffs($errorAndDiffResult->getFileDiffs());
 
-        if ($errorAndDiffResult->getErrorCount() === 0 && $errorAndDiffResult->getFileDiffsCount() === 0) {
-            if ($processedFilesCount !== 0) {
-                $this->easyCodingStandardStyle->newLine();
-            }
+        $this->easyCodingStandardStyle->newLine(1);
 
+        if ($errorAndDiffResult->getErrorCount() === 0 && $errorAndDiffResult->getFileDiffsCount() === 0) {
             $this->easyCodingStandardStyle->success('No errors found. Great job - your code is shiny in style!');
 
             return ShellCode::SUCCESS;
@@ -65,7 +63,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         foreach ($fileDiffs as $fileDiff) {
             $this->easyCodingStandardStyle->newLine(2);
 
-            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', $i, $fileDiff->getRelativeFilePathFromCwd());
+            $boldNumberedMessage = sprintf('<options=bold>%d) %s</>', $i, $fileDiff->getRelativeFilePath());
             $this->easyCodingStandardStyle->writeln($boldNumberedMessage);
 
             ++$i;

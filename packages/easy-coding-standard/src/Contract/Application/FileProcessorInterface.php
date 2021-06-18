@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Contract\Application;
 
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 interface FileProcessorInterface
 {
-    public function processFile(SmartFileInfo $smartFileInfo): string;
+    public function processFileToString(SmartFileInfo $smartFileInfo): string;
+
+    /**
+     * @return array<FileDiff>
+     */
+    public function processFile(SmartFileInfo $smartFileInfo): array;
 
     /**
      * @return object[]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Application;
+namespace Symplify\EasyCodingStandard\Application\Version;
 
 use DateTime;
 use Symfony\Component\Process\Process;

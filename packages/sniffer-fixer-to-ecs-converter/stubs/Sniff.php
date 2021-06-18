@@ -13,7 +13,7 @@ if (interface_exists(Sniff::class)) {
 interface Sniff
 {
     /**
-     * @return mixed[]
+     * @return array<int|string>
      */
     public function register();
 

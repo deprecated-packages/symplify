@@ -104,4 +104,14 @@ final class Option
      * @var string
      */
     public const DEBUG = 'debug';
+
+    /**
+     * @var string
+     */
+    public const PARALLEL = 'parallel';
+
+    /**
+     * @var string
+     */
+    public const INTERNAL_ERROR_COUNT_LIMIT = 'internal-error-count-limit';
 }
