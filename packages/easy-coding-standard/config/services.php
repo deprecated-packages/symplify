@@ -9,7 +9,6 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\Bootstrap\NoCheckersLoaderReporter;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyleFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
@@ -60,8 +59,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(WhitespacesFixerConfig::class)
         ->factory([service(WhitespacesFixerConfigFactory::class), 'create']);
-
-    $services->set(NoCheckersLoaderReporter::class);
 
     // code sniffer
     $services->set(Fixer::class);

@@ -27,22 +27,22 @@ final class SystemError implements Serializable
     }
 
     /**
-     * @return array{Name::MESSAGE: string, Name::RELATIVE_FILE_PATH: string, Name::LINE: int}
+     * @return array{line: int, message: string, relative_file_path: string}
      */
     public function jsonSerialize(): array
     {
         return [
+            Name::LINE => $this->line,
             Name::MESSAGE => $this->message,
             Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
-            Name::LINE => $this->line,
         ];
     }
 
     /**
-     * @param array{Name::MESSAGE: $json string, Name::RELATIVE_FILE_PATH: string, Name::LINE: int}
+     * @param array{message: string, relative_file_path: string, line: int} $json
      */
     public static function decode(array $json): self
     {
-        return new self($json[Name::MESSAGE], $json[Name::RELATIVE_FILE_PATH], $json[Name::LINE],);
+        return new self($json[Name::LINE], $json[Name::MESSAGE], $json[Name::RELATIVE_FILE_PATH]);
     }
 }

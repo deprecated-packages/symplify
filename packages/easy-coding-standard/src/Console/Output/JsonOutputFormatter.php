@@ -30,7 +30,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult): int
     {
         $json = $this->createJsonContent($errorAndDiffResult);
         $this->easyCodingStandardStyle->writeln($json);

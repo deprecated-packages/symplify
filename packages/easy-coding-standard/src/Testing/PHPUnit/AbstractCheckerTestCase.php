@@ -75,6 +75,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
         $this->ensureSomeCheckersAreRegistered();
 
         if ($this->fixerFileProcessor->getCheckers() !== []) {
+            // @todo separate processFile(): array with errors for parallel,
+            // and processFileToString() for tests only
             $processedFileContent = $this->fixerFileProcessor->processFile($fileInfo);
             $this->assertStringEqualsWithFileLocation($fileInfo->getRealPath(), $processedFileContent, $fileInfo);
         }

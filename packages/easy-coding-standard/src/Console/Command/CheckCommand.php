@@ -38,8 +38,7 @@ final class CheckCommand extends AbstractCheckCommand
             $this->configuration->setSources($this->configuration->getPaths());
         }
 
-        $processedFilesCount = $this->easyCodingStandardApplication->run();
-
-        return $this->processedFileReporter->report($processedFilesCount);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run();
+        return $this->processedFileReporter->report($errorsAndDiffs);
     }
 }

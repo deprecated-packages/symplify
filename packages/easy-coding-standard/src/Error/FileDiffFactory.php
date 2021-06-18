@@ -17,7 +17,7 @@ final class FileDiffFactory
     }
 
     /**
-     * @param array<class-string<FixerInterface|\PHP_CodeSniffer\Sniffs\Sniff>> $appliedCheckers
+     * @param array<class-string<FixerInterface|\PHP_CodeSniffer\Sniffs\Sniff>|string> $appliedCheckers
      */
     public function createFromDiffAndAppliedCheckers(
         SmartFileInfo $smartFileInfo,

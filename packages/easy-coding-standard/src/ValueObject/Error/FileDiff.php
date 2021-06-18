@@ -47,28 +47,28 @@ final class FileDiff implements Serializable
     }
 
     /**
-     * @return array{Name::DIFF: string, Name::DIFF_CONSOLE_FORMATTED: string, Name::APPLIED_CHECKERS: string[], Name::RELATIVE_FILE_PATH: string}
+     * @return array{relative_file_path: string, diff: string, diff_console_formatted: string, applied_checkers: string[]}
      */
     public function jsonSerialize(): array
     {
         return [
+            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
             Name::DIFF => $this->diff,
             Name::DIFF_CONSOLE_FORMATTED => $this->consoleFormattedDiff,
             Name::APPLIED_CHECKERS => $this->getAppliedCheckers(),
-            Name::RELATIVE_FILE_PATH => $this->relativeFilePath,
         ];
     }
 
     /**
-     * @param array{Name::DIFF: string, Name::DIFF_CONSOLE_FORMATTED: string, Name::APPLIED_CHECKERS: string[], Name::RELATIVE_FILE_PATH: string} $json
+     * @param array{relative_file_path: string, diff: string, diff_console_formatted: string, applied_checkers: string[]} $json
      */
     public static function decode(array $json): self
     {
         return new self(
+            $json[NAME::RELATIVE_FILE_PATH],
             $json[NAME::DIFF],
             $json[NAME::DIFF_CONSOLE_FORMATTED],
             $json[NAME::APPLIED_CHECKERS],
-            $json[NAME::RELATIVE_FILE_PATH],
         );
     }
 }

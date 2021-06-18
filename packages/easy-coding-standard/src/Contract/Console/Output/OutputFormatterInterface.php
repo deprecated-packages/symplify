@@ -8,7 +8,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 
 interface OutputFormatterInterface
 {
-    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int;
+    public function report(ErrorAndDiffResult $errorAndDiffResult): int;
 
     public function getName(): string;
 }

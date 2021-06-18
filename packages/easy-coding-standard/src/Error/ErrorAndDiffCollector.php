@@ -63,7 +63,6 @@ final class ErrorAndDiffCollector
 
     public function addSystemErrorMessage(SmartFileInfo $smartFileInfo, int $line, string $message): void
     {
-        $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
         $this->systemErrors[] = new SystemError($line, $message, $smartFileInfo->getRelativeFilePathFromCwd());
     }
 
@@ -84,7 +83,7 @@ final class ErrorAndDiffCollector
     }
 
     /**
-     * @param class-string[] $appliedCheckers
+     * @param array<class-string<FixerInterface|\PHP_CodeSniffer\Sniffs\Sniff>|string> $appliedCheckers
      */
     public function addDiffForFileInfo(SmartFileInfo $smartFileInfo, string $diff, array $appliedCheckers): void
     {
