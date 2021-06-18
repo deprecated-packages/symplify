@@ -27,13 +27,13 @@ final class AutowiredMethodAnalyzer
     public function detect(ClassMethod | Property $stmt): bool
     {
         $docComment = $stmt->getDocComment();
-        if ($docComment instanceof Doc) {
-            if ((bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
-                return true;
-            }
+        if (! $docComment instanceof Doc) {
+            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
         }
-
-        return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
+        if (! (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
+            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
+        }
+        return true;
     }
 
     /**
