@@ -152,17 +152,7 @@ final class FixerFileProcessor implements FileProcessorInterface
             return $contents;
         }
 
-        // file has changed
-        $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
-
-        $tokenGeneratedCode = $tokens->generateCode();
-        if ($this->configuration->isFixer()) {
-            $this->smartFileSystem->dumpFile($targetFileInfo->getRealPath(), $tokenGeneratedCode);
-        }
-
-        Tokens::clearCache();
-
-        return $tokenGeneratedCode;
+        return $tokens->generateCode();
     }
 
     /**

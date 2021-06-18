@@ -113,14 +113,6 @@ final class SniffFileProcessor implements FileProcessorInterface
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
         $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
 
-        if ($smartFileInfo->getContents() !== $this->fixer->getContents()) {
-            $changedFileContent = $this->fixer->getContents();
-
-            if ($this->configuration->isFixer()) {
-                $this->smartFileSystem->dumpFile($file->getFilename(), $changedFileContent);
-            }
-        }
-
         return $this->fixer->getContents();
     }
 
