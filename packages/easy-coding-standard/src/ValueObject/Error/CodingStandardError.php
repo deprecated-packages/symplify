@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class CodingStandardError
+final class CodingStandardError implements \JsonSerializable
 {
     public function __construct(
         private int $line,
@@ -39,5 +39,19 @@ final class CodingStandardError
     public function getRelativeFilePathFromCwd(): string
     {
         return $this->fileInfo->getRelativeFilePathFromCwd();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'line' => $this->line,
+            'message' => $this->message,
+            'checker_class' => $this->checkerClass,
+            'file_with_line' => $this->getFileWithLine(),
+            'relative_file_path_from_cwd' => $this->getRelativeFilePathFromCwd(),
+        ];
     }
 }

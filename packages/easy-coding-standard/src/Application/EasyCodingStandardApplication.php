@@ -9,6 +9,7 @@ use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
+use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
@@ -19,10 +20,14 @@ final class EasyCodingStandardApplication
         private ChangedFilesDetector $changedFilesDetector,
         private Configuration $configuration,
         private FileFilter $fileFilter,
-        private SingleFileProcessor $singleFileProcessor
+        private SingleFileProcessor $singleFileProcessor,
+        private ParallelFileProcessor $parallelFileProcessor,
     ) {
     }
 
+    /**
+     * @return int Processed file count
+     */
     public function run(): int
     {
         // 1. find files in sources
@@ -41,20 +46,10 @@ final class EasyCodingStandardApplication
         // no files found
         $filesCount = count($files);
         if ($filesCount === 0) {
-            return 0;
+            return $filesCount;
         }
 
-        // 3. start progress bar
-        if ($this->configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
-            $this->easyCodingStandardStyle->progressStart($filesCount);
-
-            // show more data on progres bar
-            if ($this->easyCodingStandardStyle->isVerbose()) {
-                $this->easyCodingStandardStyle->enableDebugProgressBar();
-            }
-        }
-
-        // 4. process found files by each processors
+        // process found files by each processors
         $this->processFoundFiles($files);
 
         return $filesCount;
@@ -65,6 +60,16 @@ final class EasyCodingStandardApplication
      */
     private function processFoundFiles(array $fileInfos): void
     {
+        // 3. start progress bar
+        if ($this->configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
+            $this->easyCodingStandardStyle->progressStart(count($fileInfos));
+
+            // show more data on progres bar
+            if ($this->easyCodingStandardStyle->isVerbose()) {
+                $this->easyCodingStandardStyle->enableDebugProgressBar();
+            }
+        }
+
         foreach ($fileInfos as $fileInfo) {
             if ($this->easyCodingStandardStyle->isDebug()) {
                 $this->easyCodingStandardStyle->writeln(' [file] ' . $fileInfo->getRelativeFilePathFromCwd());
@@ -74,9 +79,11 @@ final class EasyCodingStandardApplication
             if ($this->easyCodingStandardStyle->isDebug()) {
                 continue;
             }
+
             if (! $this->configuration->shouldShowProgressBar()) {
                 continue;
             }
+
             $this->easyCodingStandardStyle->progressAdvance();
         }
     }

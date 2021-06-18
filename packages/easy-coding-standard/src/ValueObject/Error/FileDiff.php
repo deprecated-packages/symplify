@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class FileDiff
+final class FileDiff implements \JsonSerializable
 {
     /**
      * @param string[] $appliedCheckers
@@ -43,5 +43,18 @@ final class FileDiff
     public function getRelativeFilePathFromCwd(): string
     {
         return $this->smartFileInfo->getRelativeFilePathFromCwd();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'diff' => $this->diff,
+            'diff_console_formatted' => $this->consoleFormattedDiff,
+            'applied_checkers' => $this->getAppliedCheckers(),
+            'relative_file_path_from_cwd' => $this->getRelativeFilePathFromCwd(),
+        ];
     }
 }

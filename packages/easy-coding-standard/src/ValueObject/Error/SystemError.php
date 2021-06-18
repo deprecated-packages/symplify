@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class SystemError
+final class SystemError implements \JsonSerializable
 {
     public function __construct(
         private int $line,
@@ -23,5 +23,16 @@ final class SystemError
     public function getFileWithLine(): string
     {
         return $this->fileInfo->getRelativeFilePathFromCwd() . ':' . $this->line;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'message' => $this->message,
+            'file_with_line' => $this->getFileWithLine(),
+        ];
     }
 }

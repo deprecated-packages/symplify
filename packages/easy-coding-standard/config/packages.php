@@ -16,13 +16,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\EasyCodingStandard\\', __DIR__ . '/../packages')
-        ->exclude([
-            '*/Exception/*',
-            '*/ValueObject/*',
-            __DIR__ . '/../packages/SniffRunner/ValueObject/File.php',
-            __DIR__ . '/../packages/Caching/ValueObject/',
-            __DIR__ . '/../packages/Caching/Cache.php',
-        ]);
+        ->exclude([__DIR__ . '/../packages/*/ValueObject/*']);
 
     $services->set(Cache::class)
         ->factory([service(CacheFactory::class), 'create']);

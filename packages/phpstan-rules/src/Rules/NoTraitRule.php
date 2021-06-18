@@ -12,6 +12,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoTraitRule\NoTraitRuleTest
+ * @deprecated Use more generic rule ↓ instead with Trait_ node
+ * @see ForbiddenNodeRule
  */
 final class NoTraitRule extends AbstractSymplifyRule
 {

@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class CheckCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private ProcessedFileReporter $processedFileReporter
+        private ProcessedFileReporter $processedFileReporter,
     ) {
         parent::__construct();
     }
