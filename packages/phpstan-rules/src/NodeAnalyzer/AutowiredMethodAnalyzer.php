@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Property;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
@@ -23,17 +24,29 @@ final class AutowiredMethodAnalyzer
     ) {
     }
 
-    public function detect(ClassMethod $classMethod): bool
+    public function detect(ClassMethod | Property $stmt): bool
     {
-        $docComment = $classMethod->getDocComment();
-        if ($docComment instanceof Doc) {
-            return (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX);
+        $docComment = $stmt->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
         }
+        if (! (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
+            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
+        }
+        return true;
+    }
 
-        foreach ($classMethod->attrGroups as $attrGroup) {
+    /**
+     * @param class-string[] $attributeClasses
+     */
+    private function hasAttributes(ClassMethod | Property $stmt, array $attributeClasses): bool
+    {
+        foreach ($stmt->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
                 $attributeName = $this->simpleNameResolver->getName($attribute->name);
-                return in_array($attributeName, [Required::class, 'Nette\DI\Attributes\Inject'], true);
+                if (in_array($attributeName, $attributeClasses, true)) {
+                    return true;
+                }
             }
         }
 
