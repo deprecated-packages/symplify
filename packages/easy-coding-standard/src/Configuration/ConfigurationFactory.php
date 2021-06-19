@@ -44,19 +44,6 @@ final class ConfigurationFactory
         );
     }
 
-//    /**
-//     * @param string[] $sources
-//     */
-
-    /**
-     * @api
-     * For tests
-     */
-    public function enableFixing(): void
-    {
-        $this->isFixer = true;
-    }
-
     private function canShowProgressBar(InputInterface $input): bool
     {
         $notJsonOutput = $input->getOption(Option::OUTPUT_FORMAT) !== JsonOutputFormatter::NAME;

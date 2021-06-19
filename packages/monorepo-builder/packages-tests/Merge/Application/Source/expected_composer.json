@@ -20,14 +20,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\PHPStanExtensions\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src",
-            "Symplify\\OnePackage\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src"
+            "Symplify\\OnePackage\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src",
+            "Symplify\\PHPStanExtensions\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Symplify\\PHPStanExtensions\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests",
-            "Symplify\\OnePackage\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests"
+            "Symplify\\OnePackage\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests",
+            "Symplify\\PHPStanExtensions\\Tests\\": "packages/monorepo-builder/packages-tests/Merge/Application/Source/packages/tests"
 
         }
     },
@@ -53,7 +53,8 @@
         "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
     },
     "replace": {
-        "symplify/phpstan-extensions": "self.version"
+        "symplify/phpstan-extensions": "self.version",
+        "symplify/set-config-resolver": "self.version"
     },
     "config": {
         "sort-packages": true

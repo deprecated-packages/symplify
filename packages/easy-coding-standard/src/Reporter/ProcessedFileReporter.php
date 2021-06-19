@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Reporter;
 
-use Symplify\EasyCodingStandard\Configuration\ConfigurationFactory;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
@@ -15,7 +14,6 @@ use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 final class ProcessedFileReporter
 {
     public function __construct(
-        private ConfigurationFactory $configuration,
         private OutputFormatterCollector $outputFormatterCollector,
     ) {
     }

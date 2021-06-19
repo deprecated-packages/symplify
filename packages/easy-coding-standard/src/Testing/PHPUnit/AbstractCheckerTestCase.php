@@ -10,6 +10,7 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
@@ -81,7 +82,8 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
     {
         $this->ensureSomeCheckersAreRegistered();
 
-        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($wrongFileInfo);
+        $configuration = new Configuration();
+        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($wrongFileInfo, $configuration);
 
         $errors = $errorsAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
 

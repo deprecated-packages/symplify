@@ -70,7 +70,7 @@ final class SnippetFormatterApplication
         string $kind,
         Configuration $configuration
     ): array {
-        $fixedContent = $this->snippetFormatter->format($phpFileInfo, $snippetPattern, $kind);
+        $fixedContent = $this->snippetFormatter->format($phpFileInfo, $snippetPattern, $kind, $configuration);
 
         $originalContent = $phpFileInfo->getContents();
         if ($phpFileInfo->getContents() === $fixedContent) {

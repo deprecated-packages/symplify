@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\SnippetFormatter\HeredocNowdoc;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Configuration\ConfigurationFactory;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -26,11 +26,6 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
     {
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, [__DIR__ . '/config/array_fixer.php']);
         $this->snippetFormatter = $this->getService(SnippetFormatter::class);
-
-        // enable fixing
-        /** @var ConfigurationFactory $configuration */
-        $configuration = $this->getService(ConfigurationFactory::class);
-        $configuration->enableFixing();
     }
 
     /**
@@ -42,10 +37,13 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
+        $configuratoin = new Configuration(isFixer: true);
+
         $changedContent = $this->snippetFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),
             SnippetPattern::HERENOWDOC_SNIPPET_REGEX,
-            SnippetKind::HERE_NOW_DOC
+            SnippetKind::HERE_NOW_DOC,
+            $configuratoin
         );
 
         $expectedFileContent = $inputAndExpectedFileInfos->getExpectedFileContent();
