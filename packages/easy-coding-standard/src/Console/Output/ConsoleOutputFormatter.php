@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -20,11 +20,10 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,
-        private Configuration $configuration
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
         $this->reportFileDiffs($errorAndDiffResult->getFileDiffs());
 
@@ -38,8 +37,8 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $this->easyCodingStandardStyle->newLine();
 
-        return $this->configuration->isFixer()
-            ? $this->printAfterFixerStatus($errorAndDiffResult)
+        return $configuration->isFixer()
+            ? $this->printAfterFixerStatus($errorAndDiffResult, $configuration)
             : $this->printNoFixerStatus($errorAndDiffResult);
     }
 
@@ -78,9 +77,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         }
     }
 
-    private function printAfterFixerStatus(ErrorAndDiffResult $errorAndDiffResult): int
+    private function printAfterFixerStatus(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
-        if ($this->configuration->shouldShowErrorTable()) {
+        if ($configuration->shouldShowErrorTable()) {
             $this->easyCodingStandardStyle->printErrors($errorAndDiffResult->getErrors());
         }
 
@@ -103,9 +102,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         return ShellCode::ERROR;
     }
 
-    private function printNoFixerStatus(ErrorAndDiffResult $errorAndDiffResult): int
+    private function printNoFixerStatus(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
-        if ($this->configuration->shouldShowErrorTable()) {
+        if ($configuration->shouldShowErrorTable()) {
             $errors = $errorAndDiffResult->getErrors();
             if ($errors !== []) {
                 $this->easyCodingStandardStyle->newLine();

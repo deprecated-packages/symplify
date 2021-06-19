@@ -30,9 +30,9 @@ final class CheckCommand extends AbstractCheckCommand
             return ShellCode::ERROR;
         }
 
-        $this->configuration->resolveFromInput($input);
-        $errorsAndDiffs = $this->easyCodingStandardApplication->run();
+        $configuration = $this->configurationFactory->createFromInput($input);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration);
 
-        return $this->processedFileReporter->report($errorsAndDiffs);
+        return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 }

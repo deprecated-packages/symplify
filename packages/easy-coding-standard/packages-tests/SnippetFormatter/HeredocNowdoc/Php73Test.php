@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\SnippetFormatter\HeredocNowdoc;
 
 use Iterator;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationFactory;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
@@ -27,8 +27,8 @@ final class Php73Test extends AbstractKernelTestCase
         $this->snippetFormatter = $this->getService(SnippetFormatter::class);
 
         // enable fixing
-        /** @var Configuration $configuration */
-        $configuration = $this->getService(Configuration::class);
+        /** @var ConfigurationFactory $configuration */
+        $configuration = $this->getService(ConfigurationFactory::class);
         $configuration->enableFixing();
     }
 

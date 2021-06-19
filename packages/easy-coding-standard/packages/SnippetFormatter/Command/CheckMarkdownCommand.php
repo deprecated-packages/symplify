@@ -33,12 +33,11 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
             return ShellCode::ERROR;
         }
 
-        $this->configuration->resolveFromInput($input);
-        $sources = $this->configuration->getSources();
-        $phpFileInfos = $this->smartFinder->find($sources, '*.php', ['Fixture']);
+        $configuration = $this->configurationFactory->createFromInput($input);
+        $phpFileInfos = $this->smartFinder->find($configuration->getSources(), '*.php', ['Fixture']);
 
         return $this->snippetFormatterApplication->processFileInfosWithSnippetPattern(
-            $this->configuration,
+            $configuration,
             $phpFileInfos,
             SnippetPattern::MARKDOWN_PHP_SNIPPET_REGEX,
             'markdown'

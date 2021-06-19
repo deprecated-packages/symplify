@@ -6,6 +6,7 @@ namespace Symplify\EasyCodingStandard\Application;
 
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -22,7 +23,7 @@ final class SingleFileProcessor
     /**
      * @return array<string, array<FileDiff|CodingStandardError>>
      */
-    public function processFileInfo(SmartFileInfo $smartFileInfo): array
+    public function processFileInfo(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {
         if ($this->skipper->shouldSkipFileInfo($smartFileInfo)) {
             return [];
@@ -37,7 +38,7 @@ final class SingleFileProcessor
                 continue;
             }
 
-            $currentErrorsAndFileDiffs = $fileProcessor->processFile($smartFileInfo);
+            $currentErrorsAndFileDiffs = $fileProcessor->processFile($smartFileInfo, $configuration);
             if ($currentErrorsAndFileDiffs === []) {
                 continue;
             }

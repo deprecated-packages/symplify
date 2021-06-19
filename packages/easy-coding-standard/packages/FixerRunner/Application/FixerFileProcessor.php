@@ -14,7 +14,7 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationFactory;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
@@ -22,6 +22,7 @@ use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
 use Symplify\EasyCodingStandard\FixerRunner\Exception\Application\FixerFailedException;
 use Symplify\EasyCodingStandard\FixerRunner\Parser\FileToTokensParser;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -54,7 +55,6 @@ final class FixerFileProcessor implements FileProcessorInterface
      * @param FixerInterface[] $fixers
      */
     public function __construct(
-        private Configuration $configuration,
         private FileToTokensParser $fileToTokensParser,
         private Skipper $skipper,
         private DifferInterface $differ,
@@ -79,7 +79,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     /**
      * @return array<string, FileDiff[]>
      */
-    public function processFile(SmartFileInfo $smartFileInfo): array
+    public function processFile(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {
         $tokens = $this->fileToTokensParser->parseFromFilePath($smartFileInfo->getRealPath());
 
@@ -118,7 +118,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         );
 
         $tokenGeneratedCode = $tokens->generateCode();
-        if ($this->configuration->isFixer()) {
+        if ($configuration->isFixer()) {
             $this->smartFileSystem->dumpFile($smartFileInfo->getRealPath(), $tokenGeneratedCode);
         }
 

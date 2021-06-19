@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Reporter;
 
-use Symplify\EasyCodingStandard\Configuration\Configuration;
+use Symplify\EasyCodingStandard\Configuration\ConfigurationFactory;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
@@ -14,7 +15,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 final class ProcessedFileReporter
 {
     public function __construct(
-        private Configuration $configuration,
+        private ConfigurationFactory $configuration,
         private OutputFormatterCollector $outputFormatterCollector,
     ) {
     }
@@ -22,9 +23,9 @@ final class ProcessedFileReporter
     /**
      * @param array<string, array<SystemError|FileDiff|CodingStandardError>> $errorsAndDiffs
      */
-    public function report(array $errorsAndDiffs): int
+    public function report(array $errorsAndDiffs, Configuration $configuration): int
     {
-        $outputFormat = $this->configuration->getOutputFormat();
+        $outputFormat = $configuration->getOutputFormat();
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
         /** @var SystemError[] $systemErrors */
@@ -38,6 +39,6 @@ final class ProcessedFileReporter
 
         $errorAndDiffResult = new ErrorAndDiffResult($codingStandardErrors, $fileDiffs, $systemErrors);
 
-        return $outputFormatter->report($errorAndDiffResult);
+        return $outputFormatter->report($errorAndDiffResult, $configuration);
     }
 }

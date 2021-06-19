@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
@@ -110,7 +111,7 @@ final class SnippetFormatter
 
         $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
 
-        if ($kind === 'markdown') {
+        if ($kind === SnippetKind::MARKDOWN) {
             $fileContent = ltrim($fileContent, PHP_EOL);
 
             $fileContent = $this->removeOpeningTagAndStrictTypes($fileContent);
