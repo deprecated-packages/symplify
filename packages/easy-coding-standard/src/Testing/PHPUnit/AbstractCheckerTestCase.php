@@ -6,11 +6,11 @@ namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
-use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
@@ -82,19 +82,18 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
     {
         $this->ensureSomeCheckersAreRegistered();
 
-        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($wrongFileInfo);
+        $configuration = new Configuration();
+        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($wrongFileInfo, $configuration);
 
-        $errors = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof SystemError || $object
-            instanceof CodingStandardError);
+        $errors = $errorsAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
 
         $message = sprintf(
-            'There should be %d error(s) in "%s" file, but none found.',
+            'There should be %d errors in "%s" file, but none found.',
             $expectedErrorCount,
             $wrongFileInfo->getRealPath()
         );
 
         $errorCount = count($errors);
-
         $this->assertSame($expectedErrorCount, $errorCount, $message);
     }
 

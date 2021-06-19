@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\Console\Output;
 use Nette\Utils\Json;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\PackageBuilder\Console\ShellCode;
 
@@ -30,7 +31,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
         $json = $this->createJsonContent($errorAndDiffResult);
         $this->easyCodingStandardStyle->writeln($json);

@@ -7,7 +7,8 @@ namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -31,8 +32,10 @@ final class SniffFileProcessorTest extends AbstractKernelTestCase
 
     public function test(): void
     {
+        $configuration = new Configuration();
+
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
-        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($smartFileInfo);
+        $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($smartFileInfo, $configuration);
 
         /** @var FileDiff[] $fileDiffs */
         $fileDiffs = $errorsAndFileDiffs['file_diffs'] ?? [];

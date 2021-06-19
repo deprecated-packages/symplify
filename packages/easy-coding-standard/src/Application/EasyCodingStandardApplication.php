@@ -6,12 +6,12 @@ namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -22,7 +22,6 @@ final class EasyCodingStandardApplication
         private EasyCodingStandardStyle $easyCodingStandardStyle,
         private SourceFinder $sourceFinder,
         private ChangedFilesDetector $changedFilesDetector,
-        private Configuration $configuration,
         private FileFilter $fileFilter,
         private SingleFileProcessor $singleFileProcessor,
         private ParallelFileProcessor $parallelFileProcessor,
@@ -30,18 +29,15 @@ final class EasyCodingStandardApplication
     }
 
     /**
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
-    public function run(): array
+    public function run(Configuration $configuration): array
     {
         // 1. find files in sources
-        $fileInfos = $this->sourceFinder->find(
-            $this->configuration->getSources(),
-            $this->configuration->doesMatchGitDiff()
-        );
+        $fileInfos = $this->sourceFinder->find($configuration->getSources(), $configuration->doesMatchGitDiff());
 
         // 2. clear cache
-        if ($this->configuration->shouldClearCache()) {
+        if ($configuration->shouldClearCache()) {
             $this->changedFilesDetector->clearCache();
         } else {
             $fileInfos = $this->fileFilter->filterOnlyChangedFiles($fileInfos);
@@ -54,28 +50,29 @@ final class EasyCodingStandardApplication
         }
 
         // process found files by each processors
-        return $this->processFoundFiles($fileInfos);
+        return $this->processFoundFiles($fileInfos, $configuration);
     }
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
-    private function processFoundFiles(array $fileInfos): array
+    private function processFoundFiles(array $fileInfos, Configuration $configuration): array
     {
         $fileInfoCount = count($fileInfos);
 
         // 3. start progress bar
-        $this->outputProgressBarAndDebugInfo($fileInfoCount);
+        $this->outputProgressBarAndDebugInfo($fileInfoCount, $configuration);
 
         $errorsAndDiffs = [];
+
         foreach ($fileInfos as $fileInfo) {
             if ($this->easyCodingStandardStyle->isDebug()) {
                 $this->easyCodingStandardStyle->writeln(' [file] ' . $fileInfo->getRelativeFilePathFromCwd());
             }
 
             try {
-                $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo);
+                $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo, $configuration);
                 if ($currentErrorsAndDiffs !== []) {
                     $this->changedFilesDetector->invalidateFileInfo($fileInfo);
                 }
@@ -94,7 +91,7 @@ final class EasyCodingStandardApplication
                 continue;
             }
 
-            if ($this->configuration->shouldShowProgressBar()) {
+            if ($configuration->shouldShowProgressBar()) {
                 $this->easyCodingStandardStyle->progressAdvance();
             }
         }
@@ -102,9 +99,9 @@ final class EasyCodingStandardApplication
         return $errorsAndDiffs;
     }
 
-    private function outputProgressBarAndDebugInfo(int $fileInfoCount): void
+    private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
     {
-        if ($this->configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
+        if ($configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
             $this->easyCodingStandardStyle->progressStart($fileInfoCount);
 
             // show more data on progress bar

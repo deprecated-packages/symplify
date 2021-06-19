@@ -7,13 +7,11 @@ namespace Symplify\EasyCodingStandard\SnippetFormatter\Application;
 use PhpCsFixer\Differ\DifferInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Reporter\SnippetReporter;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
-use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -21,7 +19,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class SnippetFormatterApplication
 {
     public function __construct(
-        private Configuration $configuration,
         private SnippetReporter $snippetReporter,
         private SnippetFormatter $snippetFormatter,
         private SmartFileSystem $smartFileSystem,
@@ -56,20 +53,24 @@ final class SnippetFormatterApplication
         foreach ($fileInfos as $fileInfo) {
             $errorsAndDiffs = array_merge(
                 $errorsAndDiffs,
-                $this->processFileInfoWithPattern($fileInfo, $snippetPattern, $kind)
+                $this->processFileInfoWithPattern($fileInfo, $snippetPattern, $kind, $configuration)
             );
             $this->symfonyStyle->progressAdvance();
         }
 
-        return $this->processedFileReporter->report($errorsAndDiffs);
+        return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 
     /**
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<FileDiff>>
      */
-    private function processFileInfoWithPattern(SmartFileInfo $phpFileInfo, string $snippetPattern, string $kind): array
-    {
-        $fixedContent = $this->snippetFormatter->format($phpFileInfo, $snippetPattern, $kind);
+    private function processFileInfoWithPattern(
+        SmartFileInfo $phpFileInfo,
+        string $snippetPattern,
+        string $kind,
+        Configuration $configuration
+    ): array {
+        $fixedContent = $this->snippetFormatter->format($phpFileInfo, $snippetPattern, $kind, $configuration);
 
         $originalContent = $phpFileInfo->getContents();
         if ($phpFileInfo->getContents() === $fixedContent) {
@@ -77,7 +78,7 @@ final class SnippetFormatterApplication
             return [];
         }
 
-        if (! $this->configuration->isFixer()) {
+        if (! $configuration->isFixer()) {
             return [];
         }
 
@@ -94,6 +95,8 @@ final class SnippetFormatterApplication
             []
         );
 
-        return [$fileDiff];
+        return [
+            'files_diffs' => [$fileDiff],
+        ];
     }
 }

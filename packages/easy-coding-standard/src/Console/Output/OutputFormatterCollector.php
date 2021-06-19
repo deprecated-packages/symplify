@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use Symplify\EasyCodingStandard\Configuration\Exception\OutputFormatterNotFoundException;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\Exception\Configuration\OutputFormatterNotFoundException;
 
 final class OutputFormatterCollector
 {

@@ -30,14 +30,9 @@ final class CheckCommand extends AbstractCheckCommand
             return ShellCode::ERROR;
         }
 
-        $this->configuration->resolveFromInput($input);
+        $configuration = $this->configurationFactory->createFromInput($input);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration);
 
-        // CLI paths override parameter paths
-        if ($this->configuration->getSources() === []) {
-            $this->configuration->setSources($this->configuration->getPaths());
-        }
-
-        $errorsAndDiffs = $this->easyCodingStandardApplication->run();
-        return $this->processedFileReporter->report($errorsAndDiffs);
+        return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 }

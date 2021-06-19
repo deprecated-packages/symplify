@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -20,11 +20,10 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,
-        private Configuration $configuration
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
         $this->reportFileDiffs($errorAndDiffResult->getFileDiffs());
 
@@ -38,9 +37,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $this->easyCodingStandardStyle->newLine();
 
-        return $this->configuration->isFixer()
-            ? $this->printAfterFixerStatus($errorAndDiffResult)
-            : $this->printNoFixerStatus($errorAndDiffResult);
+        return $configuration->isFixer()
+            ? $this->printAfterFixerStatus($errorAndDiffResult, $configuration)
+            : $this->printNoFixerStatus($errorAndDiffResult, $configuration);
     }
 
     public function getName(): string
@@ -78,9 +77,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         }
     }
 
-    private function printAfterFixerStatus(ErrorAndDiffResult $errorAndDiffResult): int
+    private function printAfterFixerStatus(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
-        if ($this->configuration->shouldShowErrorTable()) {
+        if ($configuration->shouldShowErrorTable()) {
             $this->easyCodingStandardStyle->printErrors($errorAndDiffResult->getErrors());
         }
 
@@ -97,15 +96,16 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $this->printErrorMessageFromErrorCounts(
             $errorAndDiffResult->getErrorCount(),
-            $errorAndDiffResult->getFileDiffsCount()
+            $errorAndDiffResult->getFileDiffsCount(),
+            $configuration
         );
 
         return ShellCode::ERROR;
     }
 
-    private function printNoFixerStatus(ErrorAndDiffResult $errorAndDiffResult): int
+    private function printNoFixerStatus(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
-        if ($this->configuration->shouldShowErrorTable()) {
+        if ($configuration->shouldShowErrorTable()) {
             $errors = $errorAndDiffResult->getErrors();
             if ($errors !== []) {
                 $this->easyCodingStandardStyle->newLine();
@@ -122,14 +122,18 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $this->printErrorMessageFromErrorCounts(
             $errorAndDiffResult->getErrorCount(),
-            $errorAndDiffResult->getFileDiffsCount()
+            $errorAndDiffResult->getFileDiffsCount(),
+            $configuration
         );
 
         return ShellCode::ERROR;
     }
 
-    private function printErrorMessageFromErrorCounts(int $errorCount, int $fileDiffsCount): void
-    {
+    private function printErrorMessageFromErrorCounts(
+        int $errorCount,
+        int $fileDiffsCount,
+        Configuration $configuration
+    ): void {
         if ($errorCount !== 0) {
             $errorMessage = sprintf(
                 'Found %d error%s that need%s to be fixed manually.',
@@ -139,10 +143,12 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             );
             $this->easyCodingStandardStyle->error($errorMessage);
         }
+
         if ($fileDiffsCount === 0) {
             return;
         }
-        if ($this->configuration->isFixer()) {
+
+        if ($configuration->isFixer()) {
             return;
         }
 
@@ -152,6 +158,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             $fileDiffsCount,
             $fileDiffsCount === 1 ? 'error is' : 'errors are'
         );
+
         $this->easyCodingStandardStyle->warning($fixableMessage);
     }
 }

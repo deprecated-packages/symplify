@@ -11,10 +11,10 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Util\Common;
-use Symplify\EasyCodingStandard\Application\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
+use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
