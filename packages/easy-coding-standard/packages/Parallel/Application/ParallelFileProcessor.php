@@ -11,6 +11,7 @@ use React\ChildProcess\Process;
 use React\EventLoop\StreamSelectLoop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\StreamBuffer;
@@ -173,10 +174,10 @@ final class ParallelFileProcessor
         }
 
         return [
-            'errors' => $errors,
+            Bridge::CODING_STANDARD_ERRORS => $errors,
             // @todo
-            'file_diffs' => $fileDiffs ?? [],
-            'system_errors' => $systemErrors,
+            Bridge::FILE_DIFFS => $fileDiffs ?? [],
+            Bridge::SYSTEM_ERRORS => $systemErrors,
         ];
     }
 }

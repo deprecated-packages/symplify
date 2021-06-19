@@ -10,6 +10,7 @@ use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
@@ -75,12 +76,11 @@ final class EasyCodingStandardApplication
                 $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo, $configuration);
                 if ($currentErrorsAndDiffs !== []) {
                     $this->changedFilesDetector->invalidateFileInfo($fileInfo);
+                    $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
                 }
-
-                $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
             } catch (ParseError $parseError) {
                 $this->changedFilesDetector->invalidateFileInfo($fileInfo);
-                $errorsAndDiffs['system_errors'][] = new SystemError(
+                $errorsAndDiffs[Bridge::SYSTEM_ERRORS][] = new SystemError(
                     $parseError->getLine(),
                     $parseError->getMessage(),
                     $fileInfo->getRelativeFilePathFromCwd()
