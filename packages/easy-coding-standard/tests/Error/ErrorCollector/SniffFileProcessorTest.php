@@ -34,10 +34,12 @@ final class SniffFileProcessorTest extends AbstractKernelTestCase
         $smartFileInfo = new SmartFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
         $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($smartFileInfo);
 
-        $fileDiffs = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof FileDiff);
+        /** @var FileDiff[] $fileDiffs */
+        $fileDiffs = $errorsAndFileDiffs['file_diffs'] ?? [];
         $this->assertCount(1, $fileDiffs);
 
-        $errors = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof CodingStandardError);
-        $this->assertCount(0, $errors);
+        /** @var CodingStandardError[] $codingStandardErrors */
+        $codingStandardErrors = $errorsAndFileDiffs['coding_standard_errors'] ?? [];
+        $this->assertCount(0, $codingStandardErrors);
     }
 }

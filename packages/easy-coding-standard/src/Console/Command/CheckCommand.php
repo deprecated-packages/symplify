@@ -20,7 +20,6 @@ final class CheckCommand extends AbstractCheckCommand
     protected function configure(): void
     {
         $this->setDescription('Check coding standard in one or more directories.');
-
         parent::configure();
     }
 

@@ -113,5 +113,10 @@ final class Option
     /**
      * @var string
      */
-    public const INTERNAL_ERROR_COUNT_LIMIT = 'internal-error-count-limit';
+    public const SYSTEM_ERROR_COUNT_LIMIT = 'system-error-count-limit';
+
+    /**
+     * @var string
+     */
+    public const CONFIG = 'config';
 }

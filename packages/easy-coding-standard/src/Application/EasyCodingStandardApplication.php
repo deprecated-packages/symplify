@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Application;
 
+use ParseError;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
@@ -34,7 +35,7 @@ final class EasyCodingStandardApplication
     public function run(): array
     {
         // 1. find files in sources
-        $files = $this->sourceFinder->find(
+        $fileInfos = $this->sourceFinder->find(
             $this->configuration->getSources(),
             $this->configuration->doesMatchGitDiff()
         );
@@ -43,17 +44,17 @@ final class EasyCodingStandardApplication
         if ($this->configuration->shouldClearCache()) {
             $this->changedFilesDetector->clearCache();
         } else {
-            $files = $this->fileFilter->filterOnlyChangedFiles($files);
+            $fileInfos = $this->fileFilter->filterOnlyChangedFiles($fileInfos);
         }
 
         // no files found
-        $filesCount = count($files);
+        $filesCount = count($fileInfos);
         if ($filesCount === 0) {
             return [];
         }
 
         // process found files by each processors
-        return $this->processFoundFiles($files);
+        return $this->processFoundFiles($fileInfos);
     }
 
     /**
@@ -65,14 +66,7 @@ final class EasyCodingStandardApplication
         $fileInfoCount = count($fileInfos);
 
         // 3. start progress bar
-        if ($this->configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
-            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
-
-            // show more data on progres bar
-            if ($this->easyCodingStandardStyle->isVerbose()) {
-                $this->easyCodingStandardStyle->enableDebugProgressBar();
-            }
-        }
+        $this->outputProgressBarAndDebugInfo($fileInfoCount);
 
         $errorsAndDiffs = [];
         foreach ($fileInfos as $fileInfo) {
@@ -80,20 +74,43 @@ final class EasyCodingStandardApplication
                 $this->easyCodingStandardStyle->writeln(' [file] ' . $fileInfo->getRelativeFilePathFromCwd());
             }
 
-            $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo);
+            try {
+                $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo);
+                if ($currentErrorsAndDiffs !== []) {
+                    $this->changedFilesDetector->invalidateFileInfo($fileInfo);
+                }
 
-            $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
+                $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
+            } catch (ParseError $parseError) {
+                $this->changedFilesDetector->invalidateFileInfo($fileInfo);
+                $errorsAndDiffs['system_errors'][] = new SystemError(
+                    $parseError->getLine(),
+                    $parseError->getMessage(),
+                    $fileInfo->getRelativeFilePathFromCwd()
+                );
+            }
+
             if ($this->easyCodingStandardStyle->isDebug()) {
                 continue;
             }
 
-            if (! $this->configuration->shouldShowProgressBar()) {
-                continue;
+            if ($this->configuration->shouldShowProgressBar()) {
+                $this->easyCodingStandardStyle->progressAdvance();
             }
-
-            $this->easyCodingStandardStyle->progressAdvance();
         }
 
         return $errorsAndDiffs;
+    }
+
+    private function outputProgressBarAndDebugInfo(int $fileInfoCount): void
+    {
+        if ($this->configuration->shouldShowProgressBar() && ! $this->easyCodingStandardStyle->isDebug()) {
+            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
+
+            // show more data on progress bar
+            if ($this->easyCodingStandardStyle->isVerbose()) {
+                $this->easyCodingStandardStyle->enableDebugProgressBar();
+            }
+        }
     }
 }

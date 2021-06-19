@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\SniffRunner\File;
 
 use PHP_CodeSniffer\Fixer;
-use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Application\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
 use Symplify\Skipper\Skipper\Skipper;
@@ -19,7 +19,7 @@ final class FileFactory
     public function __construct(
         private Fixer $fixer,
         private Skipper $skipper,
-        private AppliedCheckersCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
     }
@@ -31,7 +31,7 @@ final class FileFactory
             $smartFileInfo->getContents(),
             $this->fixer,
             $this->skipper,
-            $this->appliedCheckersCollector,
+            $this->sniffMetadataCollector,
             $this->easyCodingStandardStyle
         );
     }

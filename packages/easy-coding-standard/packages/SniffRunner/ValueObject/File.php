@@ -11,9 +11,10 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Util\Common;
-use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Application\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
+use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -56,7 +57,7 @@ final class File extends BaseFile
         string $content,
         Fixer $fixer,
         private Skipper $skipper,
-        private AppliedCheckersCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->path = $path;
@@ -128,7 +129,7 @@ final class File extends BaseFile
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
         $fullyQualifiedCode = $this->resolveFullyQualifiedCode($code);
-        $this->appliedCheckersCollector->addAppliedCheckerClass($fullyQualifiedCode);
+        $this->sniffMetadataCollector->addAppliedSniff($fullyQualifiedCode);
 
         return ! $this->shouldSkipError($error, $code, $data);
     }
@@ -187,6 +188,8 @@ final class File extends BaseFile
         }
 
         $message = $data !== [] ? vsprintf($message, $data) : $message;
+        $codingStandardError = new CodingStandardError($line, $message, $sniffClassOrCode, $this->getFilename());
+        $this->sniffMetadataCollector->addCodingStandardError($codingStandardError);
 
         if ($isFixable) {
             return $isFixable;
