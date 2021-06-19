@@ -23,7 +23,7 @@ final class ConfigurationFactory
      */
     public function createFromInput(InputInterface $input): Configuration
     {
-        $sources = $this->resolvePaths($input);
+        $paths = $this->resolvePaths($input);
 
         $isFixer = (bool) $input->getOption(Option::FIX);
         $shouldClearCache = (bool) $input->getOption(Option::CLEAR_CACHE);
@@ -38,7 +38,7 @@ final class ConfigurationFactory
             $shouldClearCache,
             $showProgressBar,
             $showErrorTable,
-            $sources,
+            $paths,
             $outputFormat,
             $doesMatchGitDiff,
         );
@@ -55,16 +55,16 @@ final class ConfigurationFactory
     }
 
     /**
-     * @param string[] $sources
+     * @param string[] $paths
      */
-    private function ensureSourcesExists(array $sources): void
+    private function ensurePathsExists(array $paths): void
     {
-        foreach ($sources as $source) {
-            if (file_exists($source)) {
+        foreach ($paths as $path) {
+            if (file_exists($path)) {
                 continue;
             }
 
-            throw new SourceNotFoundException(sprintf('Source "%s" does not exist.', $source));
+            throw new SourceNotFoundException(sprintf('Source "%s" does not exist.', $path));
         }
     }
 
@@ -75,27 +75,26 @@ final class ConfigurationFactory
     {
         /** @var string[] $paths */
         $paths = (array) $input->getArgument(Option::PATHS);
-        if ($paths !== []) {
-            $sources = $paths;
-        } else {
+        if ($paths === []) {
             // if not paths are provided from CLI, use the config ones
-            $sources = $this->parameterProvider->provideArrayParameter(Option::PATHS);
+            $paths = $this->parameterProvider->provideArrayParameter(Option::PATHS);
         }
 
-        $this->ensureSourcesExists($sources);
-        return $this->normalizeSources($sources);
+        $this->ensurePathsExists($paths);
+
+        return $this->normalizePaths($paths);
     }
 
     /**
-     * @param string[] $sources
+     * @param string[] $paths
      * @return string[]
      */
-    private function normalizeSources(array $sources): array
+    private function normalizePaths(array $paths): array
     {
-        foreach ($sources as $key => $value) {
-            $sources[$key] = rtrim($value, DIRECTORY_SEPARATOR);
+        foreach ($paths as $key => $path) {
+            $paths[$key] = rtrim($path, DIRECTORY_SEPARATOR);
         }
 
-        return $sources;
+        return $paths;
     }
 }
