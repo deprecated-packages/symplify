@@ -184,6 +184,4 @@ final class ParallelFileProcessor
             'hasInferrablePropertyTypesFromConstructor' => $hasInferrablePropertyTypesFromConstructor,
         ];
     }
-
-
 }
