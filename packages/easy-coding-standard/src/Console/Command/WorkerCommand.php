@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
@@ -22,7 +23,7 @@ use Throwable;
 /**
  * Inspired at https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92
  */
-final class WorkerCommand extends AbstractSymplifyCommand
+final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
         private SingleFileProcessor $singleFileProcessor
@@ -33,11 +34,6 @@ final class WorkerCommand extends AbstractSymplifyCommand
     protected function configure(): void
     {
         $this->setDescription('(Internal) Support for parallel process');
-        $this->addArgument(
-            Option::PATHS,
-            InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-            'Paths with source code to run analysis on'
-        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -56,13 +52,14 @@ final class WorkerCommand extends AbstractSymplifyCommand
             ]);
             $stdOutEncoder->end();
         };
-        $stdOutEncoder->on('error', $handleError);
+        $stdOutEncoder->on(ReactEvent::ERROR, $handleError);
 
         // todo collectErrors (from Analyser)
         $decoder = new Decoder(new ReadableResourceStream(STDIN, $streamSelectLoop), true);
-        $decoder->on('data', static function (array $json) use ($singleFileProcessor, $stdOutEncoder): void {
+        $decoder->on(ReactEvent::DATA, static function (array $json) use ($singleFileProcessor, $stdOutEncoder): void {
             $inferrablePropertyTypesFromConstructorHelper = null;
             $action = $json['action'];
+
             if ($action === 'analyse') {
                 $internalErrorsCount = 0;
 
@@ -71,11 +68,11 @@ final class WorkerCommand extends AbstractSymplifyCommand
                 $errors = [];
                 foreach ($filePaths as $filePath) {
                     try {
-                        $singleFileProcessor->processFileInfo(new SmartFileInfo($filePath));
-                        $fileErrors = $fileAnalyser->analyseFile($filePath);
-                        foreach ($fileErrors as $fileError) {
-                            $errors[] = $fileError;
-                        }
+                        $errors = array_merge($errors, $singleFileProcessor->processFileInfo(new SmartFileInfo($filePath)));
+                        //$fileErrors = $fileAnalyser->analyseFile($filePath);
+//                        foreach ($errordsAndFileDiffs as $fileError) {
+//                            $errors[] = $fileError;
+//                        }
                     } catch (Throwable $throwable) {
                         ++$internalErrorsCount;
                         $internalErrorMessage = sprintf('Internal error: %s', $throwable->getMessage());
@@ -94,7 +91,7 @@ final class WorkerCommand extends AbstractSymplifyCommand
                 $stdOutEncoder->end();
             }
         });
-        $decoder->on('error', $handleError);
+        $decoder->on(ReactEvent::ERROR, $handleError);
 
         $streamSelectLoop->run();
 

@@ -34,10 +34,9 @@ final class ProcessedFileReporter
         $fileDiffs = $errorsAndDiffs[Bridge::FILE_DIFFS] ?? [];
 
         /** @var CodingStandardError[] $codingStandardErrors */
-        $codingStandardErrors = $errorsAndDiffs['coding_standard_errors'] ?? [];
+        $codingStandardErrors = $errorsAndDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
 
         $errorAndDiffResult = new ErrorAndDiffResult($codingStandardErrors, $fileDiffs, $systemErrors);
-
         return $outputFormatter->report($errorAndDiffResult, $configuration);
     }
 }

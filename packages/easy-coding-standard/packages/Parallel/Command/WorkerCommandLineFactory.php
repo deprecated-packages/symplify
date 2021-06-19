@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\Parallel\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Console\Command\WorkerCommand;
+use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -46,6 +47,13 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
+            // force json output
+            if ($checkCommandOptionName === Option::OUTPUT_FORMAT) {
+
+                
+                continue;
+            }
+
             /** @var bool|string|null $optionValue */
             $optionValue = $input->getOption($checkCommandOptionName);
             if (is_bool($optionValue)) {
@@ -59,7 +67,7 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
-            $processCommandArray[] = sprintf('--%s', $checkCommandOptionName);
+            $processCommandArray[] = '--' . $checkCommandOptionName;
             $processCommandArray[] = escapeshellarg($optionValue);
         }
 
@@ -68,6 +76,10 @@ final class WorkerCommandLineFactory
         foreach ($paths as $path) {
             $processCommandArray[] = escapeshellarg($path);
         }
+
+        // set json output
+        $processCommandArray[] = '--' . Option::OUTPUT_FORMAT;
+        $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
 
         return implode(' ', $processCommandArray);
     }

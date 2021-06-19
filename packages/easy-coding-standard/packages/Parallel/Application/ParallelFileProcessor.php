@@ -105,6 +105,8 @@ final class ParallelFileProcessor
                 $systemErrorsCountLimit = null;
                 //$streamSelectLoop = null;
 
+                dump($json);die;
+
                 // @todo
                 foreach ($json['errors'] as $jsonError) {
                     if (is_string($jsonError)) {

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
-use PHPStan\Process\CpuCoreCounter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;

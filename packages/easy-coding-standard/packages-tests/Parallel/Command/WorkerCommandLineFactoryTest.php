@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
+use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
+use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
 use Symplify\EasyCodingStandard\ValueObject\Option;
@@ -23,6 +25,7 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
     protected function setUp(): void
     {
         $this->bootKernel(EasyCodingStandardKernel::class);
+
         $this->workerCommandLineFactory = $this->getService(WorkerCommandLineFactory::class);
         $this->checkCommand = $this->getService(CheckCommand::class);
     }
@@ -55,7 +58,17 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
                 Option::PATHS => ['src'],
                 '--' . Option::FIX => true,
             ],
-            "'" . PHP_BINARY . "' 'main_script' '" . $cliInputOptionsAsString . "' worker --fix --output-format 'console' 'src'",
+            "'" . PHP_BINARY . "' 'main_script' '" . $cliInputOptionsAsString . "' worker --fix 'src' --output-format 'json'",
+        ];
+
+        yield [
+            [
+                'command' => 'check',
+                Option::PATHS => ['src'],
+                '--' . Option::FIX => true,
+                '--' . Option::OUTPUT_FORMAT => ConsoleOutputFormatter::NAME,
+            ],
+            "'" . PHP_BINARY . "' 'main_script' '" . $cliInputOptionsAsString . "' worker --fix 'src' --output-format 'json'",
         ];
     }
 
