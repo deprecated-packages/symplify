@@ -31,11 +31,6 @@ final class ParallelFileProcessor
      */
     private const ANALYSE = 'analyse';
 
-    /**
-     * @var string[]
-     */
-    private const OPTIONS = ['paths', 'autoload-file', 'xdebug'];
-
     public function __construct(
         private ParameterProvider $parameterProvider,
     ) {
@@ -108,6 +103,10 @@ final class ParallelFileProcessor
             ): void {
                 $internalErrorsCountLimit = null;
                 $streamSelectLoop = null;
+
+                dump($json);
+                die;
+
                 foreach ($json['errors'] as $jsonError) {
                     if (is_string($jsonError)) {
                         $internalErrors[] = sprintf('Internal error: %s', $jsonError);
@@ -174,6 +173,8 @@ final class ParallelFileProcessor
             );
         }
 
+        dump('_DDD');
+        die;
         return [
             'errors' => array_merge(
                 $ignoredErrorHelperResult->process($errors, $onlyFiles, $reachedInternalErrorsCountLimit),
@@ -184,49 +185,5 @@ final class ParallelFileProcessor
         ];
     }
 
-    private function getWorkerCommand(
-        string $mainScript,
-        ?string $projectConfigFile,
-        InputInterface $input
-    ): string {
-        $args = array_merge([PHP_BINARY, $mainScript], array_slice($_SERVER['argv'], 1));
-        $processCommandArray = [];
-        foreach ($args as $arg) {
-            if (in_array($arg, [self::ANALYSE, 'analyze'], true)) {
-                break;
-            }
 
-            $processCommandArray[] = escapeshellarg($arg);
-        }
-
-        $processCommandArray[] = 'worker';
-        if ($projectConfigFile !== null) {
-            $processCommandArray[] = '--configuration';
-            $processCommandArray[] = escapeshellarg($projectConfigFile);
-        }
-        foreach (self::OPTIONS as $optionName) {
-            /** @var bool|string|null $optionValue */
-            $optionValue = $input->getOption($optionName);
-            if (is_bool($optionValue)) {
-                if ($optionValue) {
-                    $processCommandArray[] = sprintf('--%s', $optionName);
-                }
-                continue;
-            }
-            if ($optionValue === null) {
-                continue;
-            }
-
-            $processCommandArray[] = sprintf('--%s', $optionName);
-            $processCommandArray[] = escapeshellarg($optionValue);
-        }
-
-        /** @var string[] $paths */
-        $paths = $input->getArgument('paths');
-        foreach ($paths as $path) {
-            $processCommandArray[] = escapeshellarg($path);
-        }
-
-        return implode(' ', $processCommandArray);
-    }
 }

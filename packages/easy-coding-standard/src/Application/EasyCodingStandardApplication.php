@@ -34,7 +34,7 @@ final class EasyCodingStandardApplication
     public function run(): array
     {
         // 1. find files in sources
-        $files = $this->sourceFinder->find(
+        $fileInfos = $this->sourceFinder->find(
             $this->configuration->getSources(),
             $this->configuration->doesMatchGitDiff()
         );
@@ -43,17 +43,17 @@ final class EasyCodingStandardApplication
         if ($this->configuration->shouldClearCache()) {
             $this->changedFilesDetector->clearCache();
         } else {
-            $files = $this->fileFilter->filterOnlyChangedFiles($files);
+            $fileInfos = $this->fileFilter->filterOnlyChangedFiles($fileInfos);
         }
 
         // no files found
-        $filesCount = count($files);
+        $filesCount = count($fileInfos);
         if ($filesCount === 0) {
             return [];
         }
 
         // process found files by each processors
-        return $this->processFoundFiles($files);
+        return $this->processFoundFiles($fileInfos);
     }
 
     /**
