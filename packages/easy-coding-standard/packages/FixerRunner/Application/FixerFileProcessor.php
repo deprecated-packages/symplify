@@ -77,7 +77,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return FileDiff[]
+     * @return array<string, FileDiff[]>
      */
     public function processFile(SmartFileInfo $smartFileInfo): array
     {
@@ -124,7 +124,9 @@ final class FixerFileProcessor implements FileProcessorInterface
 
         Tokens::clearCache();
 
-        return $fileDiffs;
+        return [
+            'file_diffs' => $fileDiffs,
+        ];
     }
 
     public function processFileToString(SmartFileInfo $smartFileInfo): string

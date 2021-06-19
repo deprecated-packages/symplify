@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+
 final class ErrorAndDiffResult
 {
     /**

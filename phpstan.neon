@@ -374,7 +374,6 @@ parameters:
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
         # xml magic
-        - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
         -
             message: '#Unreachable statement \- code above always terminates#'
             paths:
@@ -392,7 +391,6 @@ parameters:
             paths:
                 -  packages/phpstan-rules/tests/Rules
 
-        - '#Method Symplify\\EasyCodingStandard\\SniffRunner\\Application\\SniffFileProcessor\:\:processFile\(\) should return array<string, Symplify\\EasyCodingStandard\\ValueObject\\Error\\CodingStandardError\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\> but returns array<string, array<int, array<Symplify\\EasyCodingStandard\\ValueObject\\Error\\CodingStandardError\>\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\>#'
 
         - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
 
@@ -406,6 +404,7 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
+        - '#Method Symplify\\EasyCodingStandard\\SniffRunner\\Application\\SniffFileProcessor\:\:processFile\(\) should return array<string, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\> but returns array<string, array<int, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\>\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\>#'
 
         # node traverser magic
         -
@@ -471,10 +470,6 @@ parameters:
             message: '#Nested foreach with empty statement is not allowed#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
-        # bug with #[Requried] skip, fix in symplify/phpstan-rules
-
-        - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:processFoundFiles\(\)" is 9, keep it under 8#'
-
         - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
 
         -
@@ -511,3 +506,7 @@ parameters:
         -
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
             path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            path: packages/easy-coding-standard/packages/SnippetFormatter/Application/SnippetFormatterApplication.php

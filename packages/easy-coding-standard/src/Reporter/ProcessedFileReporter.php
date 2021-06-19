@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\Reporter;
 
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
@@ -20,7 +20,7 @@ final class ProcessedFileReporter
     }
 
     /**
-     * @param array<string, SystemError|FileDiff|CodingStandardError> $errorsAndDiffs
+     * @param array<string, array<SystemError|FileDiff|CodingStandardError>> $errorsAndDiffs
      */
     public function report(array $errorsAndDiffs): int
     {

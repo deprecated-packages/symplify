@@ -11,9 +11,7 @@ use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Reporter\SnippetReporter;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
-use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -65,7 +63,7 @@ final class SnippetFormatterApplication
     }
 
     /**
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<FileDiff>>
      */
     private function processFileInfoWithPattern(SmartFileInfo $phpFileInfo, string $snippetPattern, string $kind): array
     {
@@ -94,6 +92,8 @@ final class SnippetFormatterApplication
             []
         );
 
-        return [$fileDiff];
+        return [
+            'files_diffs' => [$fileDiff],
+        ];
     }
 }

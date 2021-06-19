@@ -11,7 +11,7 @@ use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
-use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -30,7 +30,7 @@ final class EasyCodingStandardApplication
     }
 
     /**
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
     public function run(): array
     {
@@ -59,7 +59,7 @@ final class EasyCodingStandardApplication
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return array<SystemError|FileDiff|CodingStandardError>
+     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
     private function processFoundFiles(array $fileInfos): array
     {
@@ -69,6 +69,7 @@ final class EasyCodingStandardApplication
         $this->outputProgressBarAndDebugInfo($fileInfoCount);
 
         $errorsAndDiffs = [];
+
         foreach ($fileInfos as $fileInfo) {
             if ($this->easyCodingStandardStyle->isDebug()) {
                 $this->easyCodingStandardStyle->writeln(' [file] ' . $fileInfo->getRelativeFilePathFromCwd());
