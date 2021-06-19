@@ -92,7 +92,6 @@
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
             ],
-            "Symplify\\NeonToYamlConverter\\": "packages/neon-to-yaml-converter/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
@@ -148,7 +147,6 @@
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
             ],
-            "Symplify\\NeonToYamlConverter\\Tests\\": "packages/neon-to-yaml-converter/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
@@ -186,7 +184,6 @@
         "symplify/latte-to-twig-converter": "9.3.26",
         "symplify/markdown-diff": "9.3.26",
         "symplify/monorepo-builder": "9.3.26",
-        "symplify/neon-to-yaml-converter": "9.3.26",
         "symplify/package-builder": "9.3.26",
         "symplify/php-config-printer": "9.3.26",
         "symplify/phpstan-extensions": "9.3.26",
