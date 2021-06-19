@@ -6,8 +6,7 @@ namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
-use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
-use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -30,10 +29,10 @@ final class FixerFileProcessorTest extends AbstractKernelTestCase
         $fileInfo = new SmartFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
         $errorsAndFileDiffs = $this->fixerFileProcessor->processFile($fileInfo);
 
-        $errors = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof CodingStandardError);
+        $errors = $errorsAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
         $this->assertCount(0, $errors);
 
-        $fileDiffs = array_filter($errorsAndFileDiffs, fn (object $object) => $object instanceof FileDiff);
+        $fileDiffs = $errorsAndFileDiffs[Bridge::FILE_DIFFS] ?? [];
         $this->assertCount(1, $fileDiffs);
     }
 }

@@ -31,13 +31,8 @@ final class CheckCommand extends AbstractCheckCommand
         }
 
         $this->configuration->resolveFromInput($input);
-
-        // CLI paths override parameter paths
-        if ($this->configuration->getSources() === []) {
-            $this->configuration->setSources($this->configuration->getPaths());
-        }
-
         $errorsAndDiffs = $this->easyCodingStandardApplication->run();
+
         return $this->processedFileReporter->report($errorsAndDiffs);
     }
 }

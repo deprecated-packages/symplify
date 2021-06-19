@@ -38,9 +38,9 @@ final class Configuration
 
     private bool $doesMatchGitDiff = false;
 
-    public function __construct(ParameterProvider $parameterProvider)
-    {
-        $this->paths = $parameterProvider->provideArrayParameter(Option::PATHS);
+    public function __construct(
+        private ParameterProvider $parameterProvider
+    ) {
     }
 
     /**
@@ -54,7 +54,8 @@ final class Configuration
             $this->setSources($paths);
         } else {
             // if not paths are provided from CLI, use the config ones
-            $this->setSources($this->paths);
+            $pathsParameter = $this->parameterProvider->provideArrayParameter(Option::PATHS);
+            $this->setSources($pathsParameter);
         }
 
         $this->isFixer = (bool) $input->getOption(Option::FIX);
@@ -169,12 +170,6 @@ final class Configuration
     private function setOutputFormat(InputInterface $input): void
     {
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
-
-        // Backwards compatibility with older version
-        if ($outputFormat === 'table') {
-            $this->outputFormat = ConsoleOutputFormatter::NAME;
-        }
-
         $this->outputFormat = $outputFormat;
     }
 }
