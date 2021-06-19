@@ -2,7 +2,12 @@
     <br>
     <img src="/docs/zen.jpg?v=3">
     <br>
+    <br>
+    <br>
     <h1>Symplify - Making Everyday PHP Development Simple</h1>
+    <br>
+    <br>
+    <br>
 </div>
 
 In [this monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/) you'll find PHP packages that help you with:
