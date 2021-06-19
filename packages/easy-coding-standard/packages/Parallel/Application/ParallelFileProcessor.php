@@ -38,7 +38,7 @@ final class ParallelFileProcessor
 
     /**
      * @param Closure(int):void|null $postFileCallback
-     * @return array{errors: (string[]|\PHPStan\Analyser\Error[])}
+     * @return array{FileError}
      */
     public function analyse(
         Schedule $schedule,

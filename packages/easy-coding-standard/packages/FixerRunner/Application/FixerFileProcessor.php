@@ -77,12 +77,10 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return array<FileDiff>
+     * @return FileDiff[]
      */
     public function processFile(SmartFileInfo $smartFileInfo): array
     {
-        $errorsAndDiffs = [];
-
         $tokens = $this->fileToTokensParser->parseFromFilePath($smartFileInfo->getRealPath());
 
         $appliedFixers = [];
@@ -109,9 +107,11 @@ final class FixerFileProcessor implements FileProcessorInterface
             return [];
         }
 
+        $fileDiffs = [];
+
         // file has changed
         $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
-        $errorsAndDiffs[] = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
+        $fileDiffs[] = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
             $targetFileInfo,
             $diff,
             $appliedFixers
@@ -124,7 +124,7 @@ final class FixerFileProcessor implements FileProcessorInterface
 
         Tokens::clearCache();
 
-        return $errorsAndDiffs;
+        return $fileDiffs;
     }
 
     public function processFileToString(SmartFileInfo $smartFileInfo): string

@@ -8,13 +8,14 @@ use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 use PhpCsFixer\Differ\DifferInterface;
-use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
+use Symplify\EasyCodingStandard\Application\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
 use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
+use Symplify\EasyCodingStandard\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -42,7 +43,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         private FileFactory $fileFactory,
         private Configuration $configuration,
         private DifferInterface $differ,
-        private AppliedCheckersCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private SmartFileSystem $smartFileSystem,
         private TargetFileInfoResolver $targetFileInfoResolver,
         private FileDiffFactory $fileDiffFactory,
@@ -73,21 +74,28 @@ final class SniffFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return array<FileDiff>
+     * @return array<string, FileDiff|CodingStandardError>
      */
     public function processFile(SmartFileInfo $smartFileInfo): array
     {
+        $this->sniffMetadataCollector->reset();
+
         $errorsAndDiffs = [];
-        $this->appliedCheckersCollector->resetAppliedCheckerClasses();
 
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
         $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
+
+        // add coding standard errors
+        $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
+        if ($codingStandardErrors !== []) {
+            $errorsAndDiffs['coding_standard_errors'][] = $codingStandardErrors;
+        }
 
         // add diff
         if ($smartFileInfo->getContents() !== $this->fixer->getContents()) {
             $diff = $this->differ->diff($smartFileInfo->getContents(), $this->fixer->getContents());
 
-            $appliedCheckers = $this->appliedCheckersCollector->getAppliedCheckerClasses();
+            $appliedCheckers = $this->sniffMetadataCollector->getAppliedSniffs();
 
             $fileDiff = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
                 $smartFileInfo,
@@ -95,7 +103,7 @@ final class SniffFileProcessor implements FileProcessorInterface
                 $appliedCheckers
             );
 
-            $errorsAndDiffs[] = $fileDiff;
+            $errorsAndDiffs['file_diffs'][] = $fileDiff;
         }
 
         if ($this->configuration->isFixer()) {
@@ -134,7 +142,7 @@ final class SniffFileProcessor implements FileProcessorInterface
      *
      * @see \PHP_CodeSniffer\Fixer::fixFile()
      *
-     * @param Sniff[][] $tokenListeners
+     * @param array<int|string, Sniff[]> $tokenListeners
      */
     private function fixFile(File $file, Fixer $fixer, SmartFileInfo $smartFileInfo, array $tokenListeners): void
     {

@@ -44,13 +44,16 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
     {
         $relativeFilePath = substr(__FILE__, strlen(getcwd()) + 1);
 
+        $cliInputOptions = array_slice($_SERVER['argv'], 1);
+        $cliInputOptionsAsString = implode("' '", $cliInputOptions);
+
         yield [
             [
                 'command' => 'check',
                 Option::PATHS => ['src'],
                 '--' . Option::FIX => true,
             ],
-            "'" . PHP_BINARY . "' 'main_script' '--colors' '" . $relativeFilePath . "' worker --fix --output-format 'console' 'src'",
+            "'" . PHP_BINARY . "' 'main_script' '" . $cliInputOptionsAsString . "' worker --fix --output-format 'console' 'src'",
         ];
     }
 

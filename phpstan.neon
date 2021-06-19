@@ -392,6 +392,8 @@ parameters:
             paths:
                 -  packages/phpstan-rules/tests/Rules
 
+        - '#Method Symplify\\EasyCodingStandard\\SniffRunner\\Application\\SniffFileProcessor\:\:processFile\(\) should return array<string, Symplify\\EasyCodingStandard\\ValueObject\\Error\\CodingStandardError\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\> but returns array<string, array<int, array<Symplify\\EasyCodingStandard\\ValueObject\\Error\\CodingStandardError\>\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\>#'
+
         - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
 
         -

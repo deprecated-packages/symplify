@@ -20,7 +20,7 @@ final class ProcessedFileReporter
     }
 
     /**
-     * @param array<SystemError|FileDiff|CodingStandardError> $errorsAndDiffs
+     * @param array<string, SystemError|FileDiff|CodingStandardError> $errorsAndDiffs
      */
     public function report(array $errorsAndDiffs): int
     {
@@ -28,18 +28,16 @@ final class ProcessedFileReporter
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
         /** @var SystemError[] $systemErrors */
-        $systemErrors = array_filter($errorsAndDiffs, fn (object $object) => $object instanceof SystemError);
+        $systemErrors = $errorsAndDiffs['system_errors'] ?? [];
 
         /** @var FileDiff[] $fileDiffs */
-        $fileDiffs = array_filter($errorsAndDiffs, fn (object $object) => $object instanceof FileDiff);
+        $fileDiffs = $errorsAndDiffs['file_diffs'] ?? [];
 
         /** @var CodingStandardError[] $codingStandardErrors */
-        $codingStandardErrors = array_filter(
-            $errorsAndDiffs,
-            fn (object $object) => $object instanceof CodingStandardError
-        );
+        $codingStandardErrors = $errorsAndDiffs['coding_standard_errors'] ?? [];
 
         $errorAndDiffResult = new ErrorAndDiffResult($codingStandardErrors, $fileDiffs, $systemErrors);
+
         return $outputFormatter->report($errorAndDiffResult);
     }
 }
