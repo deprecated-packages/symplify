@@ -37,13 +37,13 @@ final class HereNowDocSnippetFormatterTest extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
-        $configuratoin = new Configuration(isFixer: true);
+        $configuration = new Configuration(isFixer: true);
 
         $changedContent = $this->snippetFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),
             SnippetPattern::HERENOWDOC_SNIPPET_REGEX,
             SnippetKind::HERE_NOW_DOC,
-            $configuratoin
+            $configuration
         );
 
         $expectedFileContent = $inputAndExpectedFileInfos->getExpectedFileContent();
