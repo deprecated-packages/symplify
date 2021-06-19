@@ -33,6 +33,10 @@ final class ConfigurationFactory
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
+        $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
+
+        $config = $input->getOption(Option::CONFIG);
+
         return new Configuration(
             $isFixer,
             $shouldClearCache,
@@ -41,6 +45,8 @@ final class ConfigurationFactory
             $paths,
             $outputFormat,
             $doesMatchGitDiff,
+            $isParallel,
+            $config
         );
     }
 

@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
+use PHPStan\Process\CpuCoreCounter;
+use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
+use Symplify\EasyCodingStandard\Parallel\Scheduler;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
@@ -25,14 +28,16 @@ final class EasyCodingStandardApplication
         private ChangedFilesDetector $changedFilesDetector,
         private FileFilter $fileFilter,
         private SingleFileProcessor $singleFileProcessor,
+        private Scheduler $scheduler,
         private ParallelFileProcessor $parallelFileProcessor,
+        private \Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider $cpuCoreCountProvider
     ) {
     }
 
     /**
      * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
-    public function run(Configuration $configuration): array
+    public function run(Configuration $configuration, InputInterface $input): array
     {
         // 1. find files in sources
         $fileInfos = $this->sourceFinder->find($configuration->getSources(), $configuration->doesMatchGitDiff());
@@ -49,6 +54,43 @@ final class EasyCodingStandardApplication
         if ($filesCount === 0) {
             return [];
         }
+
+        if ($configuration->isParallel()) {
+            $schedule = $this->scheduler->scheduleWork(
+                $this->cpuCoreCountProvider->provide(),
+                jobSize: 20,
+                files: $fileInfos
+            );
+
+            // path to "ecs" binary file
+            $mainScript = null;
+            if (isset($_SERVER['argv'][0]) && file_exists($_SERVER['argv'][0])) {
+                $mainScript = $_SERVER['argv'][0];
+            }
+
+            if ($mainScript !== null) {
+                $checkFileInfoClosure = function (SmartFileInfo $smartFileInfo, Configuration $configuration) {
+                    return $this->singleFileProcessor->processFileInfo($smartFileInfo, $configuration);
+                };
+
+
+                // mimics see https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92#diff-387b8f04e0db7a06678eb52ce0c0d0aff73e0d7d8fc5df834d0a5fbec198e5daR139
+                $parallelErrorsAndFileDiffs = $this->parallelFileProcessor->analyse(
+                    $schedule,
+                    $mainScript,
+                    $checkFileInfoClosure,
+                    $configuration->getConfig(),
+                    $input
+                );
+
+                dump($mainScript);
+                dump($parallelErrorsAndFileDiffs);
+                dump('__');
+                die;
+            }
+        }
+
+        // fallback to normal process
 
         // process found files by each processors
         return $this->processFoundFiles($fileInfos, $configuration);

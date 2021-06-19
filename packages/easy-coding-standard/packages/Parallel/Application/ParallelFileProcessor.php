@@ -42,7 +42,7 @@ final class ParallelFileProcessor
 
     /**
      * @param Closure(int):void|null $postFileCallback
-     * @return array{FileError}
+     * @return mixed[]
      */
     public function analyse(
         Schedule $schedule,
@@ -72,7 +72,7 @@ final class ParallelFileProcessor
             &$systemErrorsCount,
             &$reachedSystemErrorsCountLimit
         ): void {
-            $streamSelectLoop = null;
+            //$streamSelectLoop = null;
             $systemErrors[] = 'System error: ' . $error->getMessage();
             ++$systemErrorsCount;
             $reachedSystemErrorsCountLimit = true;
@@ -103,7 +103,7 @@ final class ParallelFileProcessor
                 $streamSelectLoop
             ): void {
                 $systemErrorsCountLimit = null;
-                $streamSelectLoop = null;
+                //$streamSelectLoop = null;
 
                 // @todo
                 foreach ($json['errors'] as $jsonError) {
@@ -111,6 +111,7 @@ final class ParallelFileProcessor
                         $systemErrors[] = sprintf('System error: %s', $jsonError);
                         continue;
                     }
+
 
                     $errors[] = Error::decode($jsonError);
                 }
