@@ -1,5 +1,0 @@
-services:
-    PayyouSuperService:
-        arguments:
-            - '%payu.user%'
-            - '%payu.password%'
