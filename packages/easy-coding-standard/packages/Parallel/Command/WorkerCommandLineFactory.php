@@ -15,14 +15,6 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class WorkerCommandLineFactory
 {
-    /**
-     * Duplicated option from "check" command, maybe resolve in standardized way?
-     *
-     * @see CheckCommand::configure()
-     * @var string[]
-     */
-    private const CHECK_COMMAND_OPTIONS = [];
-
     public function __construct(
         private CheckCommand $checkCommand
     ) {
@@ -85,9 +77,10 @@ final class WorkerCommandLineFactory
      */
     private function getCheckCommandOptionNames(): array
     {
-        $checkCommandDefinition = $this->checkCommand->getDefinition();
+        $inputDefinition = $this->checkCommand->getDefinition();
+
         $optionNames = [];
-        foreach ($checkCommandDefinition->getOptions() as $inputOption) {
+        foreach ($inputDefinition->getOptions() as $inputOption) {
             $optionNames[] = $inputOption->getName();
         }
 

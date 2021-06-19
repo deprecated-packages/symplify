@@ -57,7 +57,7 @@ final class File extends BaseFile
         string $content,
         Fixer $fixer,
         private Skipper $skipper,
-        private SniffMetadataCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
         $this->path = $path;
@@ -129,7 +129,7 @@ final class File extends BaseFile
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
         $fullyQualifiedCode = $this->resolveFullyQualifiedCode($code);
-        $this->appliedCheckersCollector->addAppliedSniff($fullyQualifiedCode);
+        $this->sniffMetadataCollector->addAppliedSniff($fullyQualifiedCode);
 
         return ! $this->shouldSkipError($error, $code, $data);
     }
@@ -189,7 +189,7 @@ final class File extends BaseFile
 
         $message = $data !== [] ? vsprintf($message, $data) : $message;
         $codingStandardError = new CodingStandardError($line, $message, $sniffClassOrCode, $this->getFilename());
-        $this->appliedCheckersCollector->addCodingStandardError($codingStandardError);
+        $this->sniffMetadataCollector->addCodingStandardError($codingStandardError);
 
         if ($isFixable) {
             return $isFixable;

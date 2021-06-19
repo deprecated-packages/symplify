@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // parallel
     $parameters->set(Option::PARALLEL, false);
-    $parameters->set(Option::INTERNAL_ERROR_COUNT_LIMIT, 50);
+    $parameters->set(Option::SYSTEM_ERROR_COUNT_LIMIT, 50);
 
     $parameters->set(Option::PATHS, []);
     $parameters->set(Option::FILE_EXTENSIONS, ['php']);

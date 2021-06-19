@@ -19,7 +19,7 @@ final class FileFactory
     public function __construct(
         private Fixer $fixer,
         private Skipper $skipper,
-        private SniffMetadataCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private EasyCodingStandardStyle $easyCodingStandardStyle
     ) {
     }
@@ -31,7 +31,7 @@ final class FileFactory
             $smartFileInfo->getContents(),
             $this->fixer,
             $this->skipper,
-            $this->appliedCheckersCollector,
+            $this->sniffMetadataCollector,
             $this->easyCodingStandardStyle
         );
     }

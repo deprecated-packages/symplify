@@ -29,21 +29,23 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param array<string, mixed> $inputParameters
      */
     public function test(array $inputParameters, string $expectedCommand): void
     {
-        $commandDefinition = $this->prepareCheckCommandDefinition();
-        $arrayInput = new ArrayInput($inputParameters, $commandDefinition);
+        $inputDefinition = $this->prepareCheckCommandDefinition();
+        $arrayInput = new ArrayInput($inputParameters, $inputDefinition);
 
         $workerCommandLine = $this->workerCommandLineFactory->create('main_script', null, $arrayInput);
 
         $this->assertSame($expectedCommand, $workerCommandLine);
     }
 
+    /**
+     * @return Iterator<array<int, array<string, string|string[]|bool>>|string[]>
+     */
     public function provideData(): Iterator
     {
-        $relativeFilePath = substr(__FILE__, strlen(getcwd()) + 1);
-
         $cliInputOptions = array_slice($_SERVER['argv'], 1);
         $cliInputOptionsAsString = implode("' '", $cliInputOptions);
 
@@ -59,15 +61,15 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
 
     private function prepareCheckCommandDefinition(): InputDefinition
     {
-        $commandDefinition = $this->checkCommand->getDefinition();
+        $inputDefinition = $this->checkCommand->getDefinition();
 
         // not sure why, but the 1st argument "command" is missing; this is needed for a command name
-        $arguments = $commandDefinition->getArguments();
+        $arguments = $inputDefinition->getArguments();
         $commandInputArgument = new InputArgument('command', InputArgument::REQUIRED);
         $arguments = array_merge([$commandInputArgument], $arguments);
 
-        $commandDefinition->setArguments($arguments);
+        $inputDefinition->setArguments($arguments);
 
-        return $commandDefinition;
+        return $inputDefinition;
     }
 }
