@@ -64,6 +64,8 @@ final class WorkerCommand extends AbstractCheckCommand
                 $filePaths = $json['files'];
 
                 $errorAndFileDiffs = [];
+                $internalErrors = [];
+
                 foreach ($filePaths as $filePath) {
                     try {
                         $smartFileInfo = new SmartFileInfo($filePath);
@@ -77,14 +79,15 @@ final class WorkerCommand extends AbstractCheckCommand
 
                         $errorMessage = sprintf('Internal error: %s', $throwable->getMessage());
                         $errorMessage .= 'Run ECS with "--debug" option and post report here: https://github.com/symplify/symplify/issues/new';
-                        $errorAndFileDiffs[] = new SystemError($throwable->getLine(), $errorMessage, $filePath);
+                        $internalErrors[] = new SystemError($throwable->getLine(), $errorMessage, $filePath);
                     }
                 }
 
                 $stdOutEncoder->write([
                     'errors' => $errorAndFileDiffs,
                     'files_count' => is_countable($filePaths) ? count($filePaths) : 0,
-                    'internal_errors_count' => $internalErrorsCount,
+                    'system_errors' => $internalErrors,
+                    'system_errors_count' => $internalErrorsCount,
                 ]);
             } elseif ($action === Action::QUIT) {
                 $stdOutEncoder->end();

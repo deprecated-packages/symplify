@@ -163,6 +163,8 @@ final class ParallelFileProcessor
             $processStdInEncoder->write([
                 self::ACTION => Action::CHECK,
                 'files' => $job,
+                'system_errors' => $systemErrors,
+                'system_errors_count' => count($systemErrors),
             ]);
             $childProcesses[] = $childProcess;
         }
@@ -181,6 +183,7 @@ final class ParallelFileProcessor
             // @todo
             Bridge::FILE_DIFFS => $fileDiffs ?? [],
             Bridge::SYSTEM_ERRORS => $systemErrors,
+            'system_errors_count' => count($systemErrors),
         ];
     }
 }

@@ -92,7 +92,8 @@ final class EasyCodingStandardApplication
                     $input
                 );
 
-                dump($parallelErrorsAndFileDiffs);
+                // @todo what exactly should be returned here?
+                return $parallelErrorsAndFileDiffs;
             }
         }
 
