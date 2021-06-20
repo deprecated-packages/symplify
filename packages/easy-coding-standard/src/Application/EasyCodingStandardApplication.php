@@ -75,16 +75,23 @@ final class EasyCodingStandardApplication
             );
 
             // for progress bar
+<<<<<<< HEAD
             $progressStarted = false;
             $postFileCallback = function (int $stepCount) use (&$progressStarted, $filePaths): void {
                 if (! $progressStarted) {
+=======
+            $isProgressBarStarted = false;
+
+            $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths) {
+                if (! $isProgressBarStarted) {
+>>>>>>> d4e72f367 (fix missing limit variable)
                     $fileCount = count($filePaths);
                     $this->symfonyStyle->progressStart($fileCount);
-                    $progressStarted = true;
+                    $isProgressBarStarted = true;
                 }
 
                 $this->symfonyStyle->progressAdvance($stepCount);
-                // running in paraller here → nothing else to do
+                // running in parallel here → nothing else to do
             };
 
             $mainScript = $this->resolveCalledEcsBinary();

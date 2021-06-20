@@ -31,30 +31,33 @@ final class ParallelFileProcessor
      */
     private const ACTION = 'action';
 
+<<<<<<< HEAD
     /**
      * @var string
      */
     private const SYSTEM_ERRORS_COUNT = 'system_errors_count';
+=======
+    private int $systemErrorsCountLimit;
+>>>>>>> d4e72f367 (fix missing limit variable)
 
     public function __construct(
-        private ParameterProvider $parameterProvider,
+        ParameterProvider $parameterProvider,
         private WorkerCommandLineFactory $workerCommandLineFactory
     ) {
+        $this->systemErrorsCountLimit = $parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
     }
 
     /**
-     * @param Closure(int): void|null $postFileCallback Use for prograss bar jump
+     * @param Closure(int): void|null $postFileCallback Used for progress bar jump
      * @return mixed[]
      */
     public function analyse(
         Schedule $schedule,
         string $mainScript,
-        ?Closure $postFileCallback,
+        Closure $postFileCallback,
         ?string $projectConfigFile,
         InputInterface $input
     ): array {
-        $systemErrorsCountLimit = $this->parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
-
         $jobs = array_reverse($schedule->getJobs());
         $streamSelectLoop = new StreamSelectLoop();
 
@@ -108,8 +111,6 @@ final class ParallelFileProcessor
                 &$reachedSystemErrorsCountLimit,
                 $streamSelectLoop
             ): void {
-                $systemErrorsCountLimit = null;
-
                 // @todo encode/codecore?
                 foreach ($json[Bridge::SYSTEM_ERRORS] as $systemErrorJson) {
                     if (is_string($systemErrorJson)) {
@@ -121,12 +122,15 @@ final class ParallelFileProcessor
                 }
 
                 // invoke after the file is processed, e.g. to increase progress bar
-                if ($postFileCallback !== null) {
-                    $postFileCallback($json['files_count']);
-                }
+                $postFileCallback($json['files_count']);
 
+<<<<<<< HEAD
                 $systemErrorsCount += $json[self::SYSTEM_ERRORS_COUNT];
                 if ($systemErrorsCount >= $systemErrorsCountLimit) {
+=======
+                $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
+                if ($systemErrorsCount >= $this->systemErrorsCountLimit) {
+>>>>>>> d4e72f367 (fix missing limit variable)
                     $reachedSystemErrorsCountLimit = true;
                     $streamSelectLoop->stop();
                 }
@@ -185,7 +189,7 @@ final class ParallelFileProcessor
         if ($reachedSystemErrorsCountLimit) {
             $systemErrors[] = sprintf(
                 'Reached system errors count limit of %d, exiting...',
-                $systemErrorsCountLimit
+                $this->systemErrorsCountLimit
             );
         }
 
@@ -194,7 +198,11 @@ final class ParallelFileProcessor
             // @todo
             Bridge::FILE_DIFFS => $fileDiffs ?? [],
             Bridge::SYSTEM_ERRORS => $systemErrors,
+<<<<<<< HEAD
             self::SYSTEM_ERRORS_COUNT => count($systemErrors),
+=======
+            Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
+>>>>>>> d4e72f367 (fix missing limit variable)
         ];
     }
 }
