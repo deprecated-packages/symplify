@@ -46,8 +46,9 @@ final class WorkerCommand extends AbstractCheckCommand
         $stdOutEncoder = new Encoder(new WritableResourceStream(STDOUT, $streamSelectLoop));
 
         $handleErrorCallback = static function (Throwable $throwable) use ($stdOutEncoder): void {
+            $systemErrors = new SystemError($throwable->getLine(), $throwable->getMessage(), $throwable->getFile());
             $stdOutEncoder->write([
-                Bridge::SYSTEM_ERRORS => [$throwable->getMessage()],
+                Bridge::SYSTEM_ERRORS => [$systemErrors],
                 Bridge::FILES_COUNT => 0,
                 Bridge::SYSTEM_ERRORS_COUNT => 1,
             ]);
