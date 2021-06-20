@@ -47,10 +47,8 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
-            // force json output
+            // skip output format
             if ($checkCommandOptionName === Option::OUTPUT_FORMAT) {
-
-                
                 continue;
             }
 
@@ -80,6 +78,10 @@ final class WorkerCommandLineFactory
         // set json output
         $processCommandArray[] = '--' . Option::OUTPUT_FORMAT;
         $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
+
+        // disable colors, breaks json_decode() otherwise
+        // @see https://github.com/symfony/symfony/issues/1238
+        $processCommandArray[] = '--no-ansi';
 
         return implode(' ', $processCommandArray);
     }

@@ -6,11 +6,13 @@ namespace Symplify\EasyCodingStandard\Application;
 
 use ParseError;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
+use Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider;
 use Symplify\EasyCodingStandard\Parallel\Scheduler;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
@@ -29,7 +31,9 @@ final class EasyCodingStandardApplication
         private SingleFileProcessor $singleFileProcessor,
         private Scheduler $scheduler,
         private ParallelFileProcessor $parallelFileProcessor,
-        private \Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider $cpuCoreCountProvider
+        private CpuCoreCountProvider $cpuCoreCountProvider,
+        private SymfonyStyle $symfonyStyle,
+        private \Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer $filePathNormalizer
     ) {
     }
 
@@ -55,37 +59,40 @@ final class EasyCodingStandardApplication
         }
 
         if ($configuration->isParallel()) {
+            // must be a string, otherwise the serialization returns empty arrays
+            $filePaths = $this->filePathNormalizer->resolveFilePathsFromFileInfos($fileInfos);
+
             $schedule = $this->scheduler->scheduleWork(
                 $this->cpuCoreCountProvider->provide(),
                 jobSize: 20,
-                files: $fileInfos
+                files: $filePaths
             );
 
-            // path to "ecs" binary file
-            $mainScript = null;
-            if (isset($_SERVER['argv'][0]) && file_exists($_SERVER['argv'][0])) {
-                $mainScript = $_SERVER['argv'][0];
-            }
+            // for progress bar
+            $progressStarted = false;
+            $postFileCallback = function (int $stepCount) use (&$progressStarted, $filePaths) {
+                if (! $progressStarted) {
+                    $fileCount = count($filePaths);
+                    $this->symfonyStyle->progressStart($fileCount);
+                    $progressStarted = true;
+                }
 
+                $this->symfonyStyle->progressAdvance($stepCount);
+                // running in paraller here → nothing else to do
+            };
+
+            $mainScript = $this->resolveCalledEcsBinary();
             if ($mainScript !== null) {
-                $checkFileInfoClosure = function (SmartFileInfo $smartFileInfo, Configuration $configuration) {
-                    return $this->singleFileProcessor->processFileInfo($smartFileInfo, $configuration);
-                };
-
-
                 // mimics see https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92#diff-387b8f04e0db7a06678eb52ce0c0d0aff73e0d7d8fc5df834d0a5fbec198e5daR139
                 $parallelErrorsAndFileDiffs = $this->parallelFileProcessor->analyse(
                     $schedule,
                     $mainScript,
-                    $checkFileInfoClosure,
+                    $postFileCallback,
                     $configuration->getConfig(),
                     $input
                 );
 
-                dump($mainScript);
                 dump($parallelErrorsAndFileDiffs);
-                dump('__');
-                die;
             }
         }
 
@@ -150,5 +157,18 @@ final class EasyCodingStandardApplication
                 $this->easyCodingStandardStyle->enableDebugProgressBar();
             }
         }
+    }
+
+    /**
+     * Path to called "ecs" binary file, e.g. "vendor/bin/ecs" returns "vendor/bin/ecs" This is needed to re-call the
+     * ecs binary in sub-process in the same location.
+     */
+    private function resolveCalledEcsBinary(): ?string
+    {
+        if (isset($_SERVER['argv'][0]) && file_exists($_SERVER['argv'][0])) {
+            return $_SERVER['argv'][0];
+        }
+
+        return null;
     }
 }

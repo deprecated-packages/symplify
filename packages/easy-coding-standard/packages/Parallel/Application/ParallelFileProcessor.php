@@ -11,10 +11,12 @@ use React\ChildProcess\Process;
 use React\EventLoop\StreamSelectLoop;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Action;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\StreamBuffer;
+use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
@@ -29,11 +31,6 @@ final class ParallelFileProcessor
      */
     private const ACTION = 'action';
 
-    /**
-     * @var string
-     */
-    private const CHECK = 'check';
-
     public function __construct(
         private ParameterProvider $parameterProvider,
         private WorkerCommandLineFactory $workerCommandLineFactory
@@ -41,7 +38,7 @@ final class ParallelFileProcessor
     }
 
     /**
-     * @param Closure(int):void|null $postFileCallback
+     * @param Closure(int): void|null $postFileCallback Use for prograss bar jump
      * @return mixed[]
      */
     public function analyse(
@@ -56,30 +53,30 @@ final class ParallelFileProcessor
         $jobs = array_reverse($schedule->getJobs());
         $streamSelectLoop = new StreamSelectLoop();
 
-        $processes = [];
+        // basic properties setup
+        $childProcesses = [];
         $numberOfProcesses = $schedule->getNumberOfProcesses();
         $errors = [];
         $systemErrors = [];
-
-        $command = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
-
         $systemErrorsCount = 0;
         $reachedSystemErrorsCountLimit = false;
 
-        $handleError = static function (Throwable $error) use (
+        $command = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
+
+        $handleErrorCallable = static function (Throwable $throwable) use (
             $streamSelectLoop,
             &$systemErrors,
             &$systemErrorsCount,
             &$reachedSystemErrorsCountLimit
         ): void {
-            //$streamSelectLoop = null;
-            $systemErrors[] = 'System error: ' . $error->getMessage();
+            $systemErrors[] = new SystemError($throwable->getLine(), $throwable->getMessage(), $throwable->getFile());
             ++$systemErrorsCount;
             $reachedSystemErrorsCountLimit = true;
             $streamSelectLoop->stop();
         };
 
         for ($i = 0; $i < $numberOfProcesses; ++$i) {
+            // nothing else to process, stop now
             if ($jobs === []) {
                 break;
             }
@@ -87,9 +84,13 @@ final class ParallelFileProcessor
             $childProcess = new Process($command);
             $childProcess->start($streamSelectLoop);
 
+            // handlers converting objects to json string
+            // @see https://freesoft.dev/program/64329369#encoder
             $processStdInEncoder = new Encoder($childProcess->stdin);
-            $processStdInEncoder->on(ReactEvent::ERROR, $handleError);
+            $processStdInEncoder->on(ReactEvent::ERROR, $handleErrorCallable);
 
+            // handlers converting string json to array
+            // @see https://freesoft.dev/program/64329369#decoder
             $processStdOutDecoder = new Decoder($childProcess->stdout, true, 512, 0, 4 * 1024 * 1024);
             $processStdOutDecoder->on(ReactEvent::DATA, function (array $json) use (
                 $childProcess,
@@ -103,21 +104,18 @@ final class ParallelFileProcessor
                 $streamSelectLoop
             ): void {
                 $systemErrorsCountLimit = null;
-                //$streamSelectLoop = null;
 
-                dump($json);die;
-
-                // @todo
-                foreach ($json['errors'] as $jsonError) {
-                    if (is_string($jsonError)) {
-                        $systemErrors[] = sprintf('System error: %s', $jsonError);
+                // @todo encode/codecore?
+                foreach ($json[Bridge::SYSTEM_ERRORS] as $systemErrorJson) {
+                    if (is_string($systemErrorJson)) {
+                        $systemErrors[] = sprintf('System error: %s', $systemErrorJson);
                         continue;
                     }
 
-
-                    $errors[] = Error::decode($jsonError);
+                    $errors[] = SystemError::decode($systemErrorJson);
                 }
 
+                // invoke after the file is processed, e.g. to increase progress bar
                 if ($postFileCallback !== null) {
                     $postFileCallback($json['files_count']);
                 }
@@ -128,24 +126,26 @@ final class ParallelFileProcessor
                     $streamSelectLoop->stop();
                 }
 
+                // all jobs are finished → close everything and quite
                 if ($jobs === []) {
                     foreach ($childProcess->pipes as $pipe) {
                         $pipe->close();
                     }
 
                     $processStdInEncoder->write([
-                        self::ACTION => 'quit',
+                        self::ACTION => Action::QUIT,
                     ]);
                     return;
                 }
 
+                // start a new job
                 $job = array_pop($jobs);
                 $processStdInEncoder->write([
-                    self::ACTION => self::CHECK,
+                    self::ACTION => Action::CHECK,
                     'files' => $job,
                 ]);
             });
-            $processStdOutDecoder->on(ReactEvent::ERROR, $handleError);
+            $processStdOutDecoder->on(ReactEvent::ERROR, $handleErrorCallable);
 
             $stdErrStreamBuffer = new StreamBuffer($childProcess->stderr);
             $childProcess->on(ReactEvent::EXIT, static function ($exitCode) use (
@@ -161,10 +161,10 @@ final class ParallelFileProcessor
 
             $job = array_pop($jobs);
             $processStdInEncoder->write([
-                self::ACTION => self::CHECK,
+                self::ACTION => Action::CHECK,
                 'files' => $job,
             ]);
-            $processes[] = $childProcess;
+            $childProcesses[] = $childProcess;
         }
 
         $streamSelectLoop->run();

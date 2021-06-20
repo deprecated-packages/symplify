@@ -36,6 +36,9 @@ final class ConfigurationFactory
         $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
 
         $config = $input->getOption(Option::CONFIG);
+        if ($config !== null) {
+            $config = (string) $config;
+        }
 
         return new Configuration(
             $isFixer,
