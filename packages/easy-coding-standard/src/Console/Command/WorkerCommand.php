@@ -62,7 +62,7 @@ final class WorkerCommand extends AbstractCheckCommand
 
             if ($action === Action::CHECK) {
                 $systemErrorsCount = 0;
-                $filePaths = $json[Bridge::FILES];
+                $filePaths = $json[Bridge::FILES] ?? [];
 
                 $errorAndFileDiffs = [];
                 $systemErrors = [];
@@ -84,9 +84,13 @@ final class WorkerCommand extends AbstractCheckCommand
                     }
                 }
 
+                /**
+                 * this invokes all listeners listening $decoder->on(...) @see ReactEvent::DATA
+                 */
                 $stdOutEncoder->write([
-                    'errors' => $errorAndFileDiffs,
-                    Bridge::FILES_COUNT => is_countable($filePaths) ? count($filePaths) : 0,
+                    Bridge::CODING_STANDARD_ERRORS => $errorAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [],
+                    Bridge::FILE_DIFFS => $errorAndFileDiffs[Bridge::FILE_DIFFS] ?? [],
+                    Bridge::FILES_COUNT => count($filePaths),
                     Bridge::SYSTEM_ERRORS => $systemErrors,
                     Bridge::SYSTEM_ERRORS_COUNT => $systemErrorsCount,
                 ]);

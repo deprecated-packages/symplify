@@ -16,8 +16,11 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\StreamBuffer;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
@@ -62,14 +65,16 @@ final class ParallelFileProcessor
         $streamSelectLoop = new StreamSelectLoop();
 
         // basic properties setup
-        $childProcesses = [];
         $numberOfProcesses = $schedule->getNumberOfProcesses();
-        $errors = [];
+
+        $codingStandardErrors = [];
+        $fileDiffs = [];
+
         $systemErrors = [];
         $systemErrorsCount = 0;
         $reachedSystemErrorsCountLimit = false;
 
-        $command = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
+        $workerCommandLine = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
 
         $handleErrorCallable = static function (Throwable $throwable) use (
             $streamSelectLoop,
@@ -89,7 +94,7 @@ final class ParallelFileProcessor
                 break;
             }
 
-            $childProcess = new Process($command);
+            $childProcess = new Process($workerCommandLine);
             $childProcess->start($streamSelectLoop);
 
             // handlers converting objects to json string
@@ -103,7 +108,8 @@ final class ParallelFileProcessor
             $processStdOutDecoder->on(ReactEvent::DATA, function (array $json) use (
                 $childProcess,
                 &$systemErrors,
-                &$errors,
+                &$codingStandardErrors,
+                &$fileDiffs,
                 &$jobs,
                 $processStdInEncoder,
                 $postFileCallback,
@@ -111,18 +117,17 @@ final class ParallelFileProcessor
                 &$reachedSystemErrorsCountLimit,
                 $streamSelectLoop
             ): void {
-                // @todo encode/codecore?
-                foreach ($json[Bridge::SYSTEM_ERRORS] as $systemErrorJson) {
-                    if (is_string($systemErrorJson)) {
-                        $systemErrors[] = sprintf('System error: %s', $systemErrorJson);
-                        continue;
-                    }
+                // unpack coding standard errors and file diffs from subprocess to objects here
+                foreach ($json[Bridge::CODING_STANDARD_ERRORS] as $codingStandardErrorJson) {
+                    $codingStandardErrors[] = CodingStandardError::decode($codingStandardErrorJson);
+                }
 
-                    $errors[] = SystemError::decode($systemErrorJson);
+                foreach ($json[Bridge::FILE_DIFFS] as $fileDiffsJson) {
+                    $fileDiffs[] = FileDiff::decode($fileDiffsJson);
                 }
 
                 // invoke after the file is processed, e.g. to increase progress bar
-                $postFileCallback($json['files_count']);
+                $postFileCallback($json[Bridge::FILES_COUNT]);
 
 <<<<<<< HEAD
                 $systemErrorsCount += $json[self::SYSTEM_ERRORS_COUNT];
@@ -157,11 +162,12 @@ final class ParallelFileProcessor
             $processStdOutDecoder->on(ReactEvent::ERROR, $handleErrorCallable);
 
             $stdErrStreamBuffer = new StreamBuffer($childProcess->stderr);
+
             $childProcess->on(ReactEvent::EXIT, static function ($exitCode) use (
                 &$systemErrors,
                 $stdErrStreamBuffer
             ): void {
-                if ($exitCode === 0) {
+                if ($exitCode === ShellCode::SUCCESS) {
                     return;
                 }
 
@@ -181,7 +187,6 @@ final class ParallelFileProcessor
                 Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
 >>>>>>> 445777134 (re-use bridge constants)
             ]);
-            $childProcesses[] = $childProcess;
         }
 
         $streamSelectLoop->run();
@@ -194,6 +199,7 @@ final class ParallelFileProcessor
         }
 
         return [
+<<<<<<< HEAD
             Bridge::CODING_STANDARD_ERRORS => $errors,
             // @todo
             Bridge::FILE_DIFFS => $fileDiffs ?? [],
@@ -203,6 +209,10 @@ final class ParallelFileProcessor
 =======
             Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
 >>>>>>> d4e72f367 (fix missing limit variable)
+=======
+            Bridge::CODING_STANDARD_ERRORS => $codingStandardErrors,
+            Bridge::FILE_DIFFS => $fileDiffs,
+>>>>>>> 1210d19e3 (separate file diffs and coding standard eerrors)
         ];
     }
 }

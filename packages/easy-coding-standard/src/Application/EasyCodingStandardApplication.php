@@ -14,7 +14,11 @@ use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
 use Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider;
 use Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer;
+<<<<<<< HEAD
 use Symplify\EasyCodingStandard\Parallel\Scheduler;
+=======
+use Symplify\EasyCodingStandard\Parallel\ScheduleFactory;
+>>>>>>> 1210d19e3 (separate file diffs and coding standard eerrors)
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
@@ -35,7 +39,7 @@ final class EasyCodingStandardApplication
         private ChangedFilesDetector $changedFilesDetector,
         private FileFilter $fileFilter,
         private SingleFileProcessor $singleFileProcessor,
-        private Scheduler $scheduler,
+        private ScheduleFactory $scheduleFactory,
         private ParallelFileProcessor $parallelFileProcessor,
         private CpuCoreCountProvider $cpuCoreCountProvider,
         private SymfonyStyle $symfonyStyle,
@@ -68,7 +72,7 @@ final class EasyCodingStandardApplication
             // must be a string, otherwise the serialization returns empty arrays
             $filePaths = $this->filePathNormalizer->resolveFilePathsFromFileInfos($fileInfos);
 
-            $schedule = $this->scheduler->scheduleWork(
+            $schedule = $this->scheduleFactory->create(
                 $this->cpuCoreCountProvider->provide(),
                 jobSize: 20,
                 files: $filePaths
@@ -97,16 +101,13 @@ final class EasyCodingStandardApplication
             $mainScript = $this->resolveCalledEcsBinary();
             if ($mainScript !== null) {
                 // mimics see https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92#diff-387b8f04e0db7a06678eb52ce0c0d0aff73e0d7d8fc5df834d0a5fbec198e5daR139
-                $parallelErrorsAndFileDiffs = $this->parallelFileProcessor->analyse(
+                return $this->parallelFileProcessor->analyse(
                     $schedule,
                     $mainScript,
                     $postFileCallback,
                     $configuration->getConfig(),
                     $input
                 );
-
-                // @todo what exactly should be returned here?
-                return $parallelErrorsAndFileDiffs;
             }
         }
 
