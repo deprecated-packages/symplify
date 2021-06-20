@@ -11,6 +11,7 @@ use PhpCsFixer\Differ\DifferInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
 use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
@@ -102,7 +103,7 @@ final class SniffFileProcessor implements FileProcessorInterface
                 $appliedCheckers
             );
 
-            $errorsAndDiffs['file_diffs'][] = $fileDiff;
+            $errorsAndDiffs[Bridge::FILE_DIFFS][] = $fileDiff;
         }
 
         if ($configuration->isFixer()) {

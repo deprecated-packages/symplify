@@ -31,7 +31,7 @@ final class CheckCommand extends AbstractCheckCommand
         }
 
         $configuration = $this->configurationFactory->createFromInput($input);
-        $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration, $input);
 
         return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }

@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\Parallel\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Console\Command\WorkerCommand;
+use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
@@ -15,6 +16,11 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class WorkerCommandLineFactory
 {
+    /**
+     * @var string
+     */
+    private const _ = '--';
+
     public function __construct(
         private CheckCommand $checkCommand
     ) {
@@ -35,7 +41,7 @@ final class WorkerCommandLineFactory
 
         $processCommandArray[] = CommandNaming::classToName(WorkerCommand::class);
         if ($projectConfigFile !== null) {
-            $processCommandArray[] = '--' . Option::CONFIG;
+            $processCommandArray[] = self::_ . Option::CONFIG;
             $processCommandArray[] = escapeshellarg($projectConfigFile);
         }
 
@@ -43,6 +49,11 @@ final class WorkerCommandLineFactory
 
         foreach ($checkCommandOptionNames as $checkCommandOptionName) {
             if (! $input->hasOption($checkCommandOptionName)) {
+                continue;
+            }
+
+            // skip output format
+            if ($checkCommandOptionName === Option::OUTPUT_FORMAT) {
                 continue;
             }
 
@@ -59,7 +70,7 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
-            $processCommandArray[] = sprintf('--%s', $checkCommandOptionName);
+            $processCommandArray[] = self::_ . $checkCommandOptionName;
             $processCommandArray[] = escapeshellarg($optionValue);
         }
 
@@ -68,6 +79,14 @@ final class WorkerCommandLineFactory
         foreach ($paths as $path) {
             $processCommandArray[] = escapeshellarg($path);
         }
+
+        // set json output
+        $processCommandArray[] = self::_ . Option::OUTPUT_FORMAT;
+        $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
+
+        // disable colors, breaks json_decode() otherwise
+        // @see https://github.com/symfony/symfony/issues/1238
+        $processCommandArray[] = '--no-ansi';
 
         return implode(' ', $processCommandArray);
     }

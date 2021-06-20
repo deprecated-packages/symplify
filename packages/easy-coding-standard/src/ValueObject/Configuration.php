@@ -19,6 +19,8 @@ final class Configuration
         private array $sources = [],
         private string $outputFormat = ConsoleOutputFormatter::NAME,
         private bool $doesMatchGitDiff = false,
+        private bool $isParallel = false,
+        private ?string $config = null,
     ) {
     }
 
@@ -58,5 +60,15 @@ final class Configuration
     public function doesMatchGitDiff(): bool
     {
         return $this->doesMatchGitDiff;
+    }
+
+    public function isParallel(): bool
+    {
+        return $this->isParallel;
+    }
+
+    public function getConfig(): ?string
+    {
+        return $this->config;
     }
 }

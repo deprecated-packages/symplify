@@ -20,6 +20,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
+    // experimental
+    // $parameters->set(Option::PARALLEL, true);
+
     $parameters->set(Option::PATHS, [
         __DIR__ . '/packages',
         __DIR__ . '/tests',

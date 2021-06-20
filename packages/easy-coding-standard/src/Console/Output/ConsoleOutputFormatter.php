@@ -9,6 +9,7 @@ use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ConsoleOutputFormatter implements OutputFormatterInterface
@@ -95,7 +96,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $errorAndDiffResult->getErrorCount(),
+            $errorAndDiffResult->getCodingStandardErrorCount(),
             $errorAndDiffResult->getFileDiffsCount(),
             $configuration
         );
@@ -116,12 +117,17 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         $systemErrors = $errorAndDiffResult->getSystemErrors();
         foreach ($systemErrors as $systemError) {
             $this->easyCodingStandardStyle->newLine();
-            $this->easyCodingStandardStyle->writeln($systemError->getFileWithLine());
-            $this->easyCodingStandardStyle->warning($systemError->getMessage());
+
+            if ($systemError instanceof SystemError) {
+                $this->easyCodingStandardStyle->writeln($systemError->getFileWithLine());
+                $this->easyCodingStandardStyle->warning($systemError->getMessage());
+            } else {
+                $this->easyCodingStandardStyle->error($systemError);
+            }
         }
 
         $this->printErrorMessageFromErrorCounts(
-            $errorAndDiffResult->getErrorCount(),
+            $errorAndDiffResult->getCodingStandardErrorCount(),
             $errorAndDiffResult->getFileDiffsCount(),
             $configuration
         );
@@ -130,16 +136,16 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
     }
 
     private function printErrorMessageFromErrorCounts(
-        int $errorCount,
+        int $codingStandardErrorCount,
         int $fileDiffsCount,
         Configuration $configuration
     ): void {
-        if ($errorCount !== 0) {
+        if ($codingStandardErrorCount !== 0) {
             $errorMessage = sprintf(
                 'Found %d error%s that need%s to be fixed manually.',
-                $errorCount,
-                $errorCount === 1 ? '' : 's',
-                $errorCount === 1 ? 's' : ''
+                $codingStandardErrorCount,
+                $codingStandardErrorCount === 1 ? '' : 's',
+                $codingStandardErrorCount === 1 ? 's' : ''
             );
             $this->easyCodingStandardStyle->error($errorMessage);
         }
@@ -154,7 +160,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
 
         $fixableMessage = sprintf(
             '%s%d %s fixable! Just add "--fix" to console command and rerun to apply.',
-            $errorCount !== 0 ? 'Good news is that ' : '',
+            $codingStandardErrorCount !== 0 ? 'Good news is that ' : '',
             $fileDiffsCount,
             $fileDiffsCount === 1 ? 'error is' : 'errors are'
         );

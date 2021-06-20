@@ -15,7 +15,7 @@ final class StreamBuffer
 
     public function __construct(ReadableStreamInterface $readableStream)
     {
-        $readableStream->on('data', function (string $chunk): void {
+        $readableStream->on(ReactEvent::DATA, function (string $chunk): void {
             $this->buffer .= $chunk;
         });
     }

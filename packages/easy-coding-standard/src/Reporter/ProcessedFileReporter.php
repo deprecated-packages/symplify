@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Reporter;
 
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
@@ -27,16 +28,15 @@ final class ProcessedFileReporter
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
         /** @var SystemError[] $systemErrors */
-        $systemErrors = $errorsAndDiffs['system_errors'] ?? [];
+        $systemErrors = $errorsAndDiffs[Bridge::SYSTEM_ERRORS] ?? [];
 
         /** @var FileDiff[] $fileDiffs */
-        $fileDiffs = $errorsAndDiffs['file_diffs'] ?? [];
+        $fileDiffs = $errorsAndDiffs[Bridge::FILE_DIFFS] ?? [];
 
         /** @var CodingStandardError[] $codingStandardErrors */
-        $codingStandardErrors = $errorsAndDiffs['coding_standard_errors'] ?? [];
+        $codingStandardErrors = $errorsAndDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
 
         $errorAndDiffResult = new ErrorAndDiffResult($codingStandardErrors, $fileDiffs, $systemErrors);
-
         return $outputFormatter->report($errorAndDiffResult, $configuration);
     }
 }

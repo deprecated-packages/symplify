@@ -510,3 +510,11 @@ parameters:
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             path: packages/easy-coding-standard/packages/SnippetFormatter/Application/SnippetFormatterApplication.php
+
+        -
+            message: '#Parameter "config" cannot be nullable#'
+            path: packages/easy-coding-standard/src/ValueObject/Configuration.php
+
+        -
+            message: '#Cannot cast array<string\>\|bool\|string to string#'
+            path: packages/easy-coding-standard/src/Configuration/ConfigurationFactory.php
