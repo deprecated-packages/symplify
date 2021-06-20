@@ -13,6 +13,7 @@ use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
 use Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider;
+use Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer;
 use Symplify\EasyCodingStandard\Parallel\Scheduler;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
@@ -23,6 +24,11 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
 {
+    /**
+     * @var string
+     */
+    private const ARGV = 'argv';
+
     public function __construct(
         private EasyCodingStandardStyle $easyCodingStandardStyle,
         private SourceFinder $sourceFinder,
@@ -33,7 +39,7 @@ final class EasyCodingStandardApplication
         private ParallelFileProcessor $parallelFileProcessor,
         private CpuCoreCountProvider $cpuCoreCountProvider,
         private SymfonyStyle $symfonyStyle,
-        private \Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer $filePathNormalizer
+        private FilePathNormalizer $filePathNormalizer
     ) {
     }
 
@@ -70,7 +76,7 @@ final class EasyCodingStandardApplication
 
             // for progress bar
             $progressStarted = false;
-            $postFileCallback = function (int $stepCount) use (&$progressStarted, $filePaths) {
+            $postFileCallback = function (int $stepCount) use (&$progressStarted, $filePaths): void {
                 if (! $progressStarted) {
                     $fileCount = count($filePaths);
                     $this->symfonyStyle->progressStart($fileCount);
@@ -166,10 +172,12 @@ final class EasyCodingStandardApplication
      */
     private function resolveCalledEcsBinary(): ?string
     {
-        if (isset($_SERVER['argv'][0]) && file_exists($_SERVER['argv'][0])) {
-            return $_SERVER['argv'][0];
+        if (! isset($_SERVER[self::ARGV][0])) {
+            return null;
         }
-
-        return null;
+        if (! file_exists($_SERVER[self::ARGV][0])) {
+            return null;
+        }
+        return $_SERVER[self::ARGV][0];
     }
 }

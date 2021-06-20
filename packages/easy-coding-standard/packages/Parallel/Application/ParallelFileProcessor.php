@@ -31,6 +31,11 @@ final class ParallelFileProcessor
      */
     private const ACTION = 'action';
 
+    /**
+     * @var string
+     */
+    private const SYSTEM_ERRORS_COUNT = 'system_errors_count';
+
     public function __construct(
         private ParameterProvider $parameterProvider,
         private WorkerCommandLineFactory $workerCommandLineFactory
@@ -120,7 +125,7 @@ final class ParallelFileProcessor
                     $postFileCallback($json['files_count']);
                 }
 
-                $systemErrorsCount += $json['system_errors_count'];
+                $systemErrorsCount += $json[self::SYSTEM_ERRORS_COUNT];
                 if ($systemErrorsCount >= $systemErrorsCountLimit) {
                     $reachedSystemErrorsCountLimit = true;
                     $streamSelectLoop->stop();
@@ -164,7 +169,7 @@ final class ParallelFileProcessor
                 self::ACTION => Action::CHECK,
                 'files' => $job,
                 'system_errors' => $systemErrors,
-                'system_errors_count' => count($systemErrors),
+                self::SYSTEM_ERRORS_COUNT => count($systemErrors),
             ]);
             $childProcesses[] = $childProcess;
         }
@@ -183,7 +188,7 @@ final class ParallelFileProcessor
             // @todo
             Bridge::FILE_DIFFS => $fileDiffs ?? [],
             Bridge::SYSTEM_ERRORS => $systemErrors,
-            'system_errors_count' => count($systemErrors),
+            self::SYSTEM_ERRORS_COUNT => count($systemErrors),
         ];
     }
 }

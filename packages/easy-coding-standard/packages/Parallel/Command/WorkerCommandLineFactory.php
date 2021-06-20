@@ -16,6 +16,11 @@ use Symplify\PackageBuilder\Console\Command\CommandNaming;
  */
 final class WorkerCommandLineFactory
 {
+    /**
+     * @var string
+     */
+    private const _ = '--';
+
     public function __construct(
         private CheckCommand $checkCommand
     ) {
@@ -36,7 +41,7 @@ final class WorkerCommandLineFactory
 
         $processCommandArray[] = CommandNaming::classToName(WorkerCommand::class);
         if ($projectConfigFile !== null) {
-            $processCommandArray[] = '--' . Option::CONFIG;
+            $processCommandArray[] = self::_ . Option::CONFIG;
             $processCommandArray[] = escapeshellarg($projectConfigFile);
         }
 
@@ -65,7 +70,7 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
-            $processCommandArray[] = '--' . $checkCommandOptionName;
+            $processCommandArray[] = self::_ . $checkCommandOptionName;
             $processCommandArray[] = escapeshellarg($optionValue);
         }
 
@@ -76,7 +81,7 @@ final class WorkerCommandLineFactory
         }
 
         // set json output
-        $processCommandArray[] = '--' . Option::OUTPUT_FORMAT;
+        $processCommandArray[] = self::_ . Option::OUTPUT_FORMAT;
         $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
 
         // disable colors, breaks json_decode() otherwise
