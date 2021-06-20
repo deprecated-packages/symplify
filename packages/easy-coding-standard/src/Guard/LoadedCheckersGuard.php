@@ -15,12 +15,6 @@ final class LoadedCheckersGuard
     ) {
     }
 
-    public function areSomeCheckerRegistered(): bool
-    {
-        $checkerCount = $this->getCheckerCount();
-        return $checkerCount !== 0;
-    }
-
     public function report(): void
     {
         $this->symfonyStyle->error('We could not find any sniffs/fixers rules to run');
@@ -42,15 +36,15 @@ final class LoadedCheckersGuard
         $this->symfonyStyle->newLine();
     }
 
-    private function getCheckerCount(): int
+    public function areSomeCheckersRegistered(): bool
     {
-        $checkerCount = 0;
-
         $fileProcessors = $this->fileProcessorCollector->getFileProcessors();
         foreach ($fileProcessors as $fileProcessor) {
-            $checkerCount += count($fileProcessor->getCheckers());
+            if ($fileProcessor->getCheckers()) {
+                return true;
+            }
         }
 
-        return $checkerCount;
+        return false;
     }
 }

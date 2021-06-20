@@ -16,8 +16,11 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\StreamBuffer;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
@@ -31,42 +34,40 @@ final class ParallelFileProcessor
      */
     private const ACTION = 'action';
 
-    /**
-     * @var string
-     */
-    private const SYSTEM_ERRORS_COUNT = 'system_errors_count';
+    private int $systemErrorsCountLimit;
 
     public function __construct(
-        private ParameterProvider $parameterProvider,
+        ParameterProvider $parameterProvider,
         private WorkerCommandLineFactory $workerCommandLineFactory
     ) {
+        $this->systemErrorsCountLimit = $parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
     }
 
     /**
-     * @param Closure(int): void|null $postFileCallback Use for prograss bar jump
+     * @param Closure(int): void|null $postFileCallback Used for progress bar jump
      * @return mixed[]
      */
     public function analyse(
         Schedule $schedule,
         string $mainScript,
-        ?Closure $postFileCallback,
+        Closure $postFileCallback,
         ?string $projectConfigFile,
         InputInterface $input
     ): array {
-        $systemErrorsCountLimit = $this->parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
-
         $jobs = array_reverse($schedule->getJobs());
         $streamSelectLoop = new StreamSelectLoop();
 
         // basic properties setup
-        $childProcesses = [];
         $numberOfProcesses = $schedule->getNumberOfProcesses();
-        $errors = [];
+
+        $codingStandardErrors = [];
+        $fileDiffs = [];
+
         $systemErrors = [];
         $systemErrorsCount = 0;
         $reachedSystemErrorsCountLimit = false;
 
-        $command = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
+        $workerCommandLine = $this->workerCommandLineFactory->create($mainScript, $projectConfigFile, $input);
 
         $handleErrorCallable = static function (Throwable $throwable) use (
             $streamSelectLoop,
@@ -86,7 +87,7 @@ final class ParallelFileProcessor
                 break;
             }
 
-            $childProcess = new Process($command);
+            $childProcess = new Process($workerCommandLine);
             $childProcess->start($streamSelectLoop);
 
             // handlers converting objects to json string
@@ -100,7 +101,8 @@ final class ParallelFileProcessor
             $processStdOutDecoder->on(ReactEvent::DATA, function (array $json) use (
                 $childProcess,
                 &$systemErrors,
-                &$errors,
+                &$codingStandardErrors,
+                &$fileDiffs,
                 &$jobs,
                 $processStdInEncoder,
                 $postFileCallback,
@@ -108,25 +110,20 @@ final class ParallelFileProcessor
                 &$reachedSystemErrorsCountLimit,
                 $streamSelectLoop
             ): void {
-                $systemErrorsCountLimit = null;
+                // unpack coding standard errors and file diffs from subprocess to objects here
+                foreach ($json[Bridge::CODING_STANDARD_ERRORS] as $codingStandardErrorJson) {
+                    $codingStandardErrors[] = CodingStandardError::decode($codingStandardErrorJson);
+                }
 
-                // @todo encode/codecore?
-                foreach ($json[Bridge::SYSTEM_ERRORS] as $systemErrorJson) {
-                    if (is_string($systemErrorJson)) {
-                        $systemErrors[] = sprintf('System error: %s', $systemErrorJson);
-                        continue;
-                    }
-
-                    $errors[] = SystemError::decode($systemErrorJson);
+                foreach ($json[Bridge::FILE_DIFFS] as $fileDiffsJson) {
+                    $fileDiffs[] = FileDiff::decode($fileDiffsJson);
                 }
 
                 // invoke after the file is processed, e.g. to increase progress bar
-                if ($postFileCallback !== null) {
-                    $postFileCallback($json['files_count']);
-                }
+                $postFileCallback($json[Bridge::FILES_COUNT]);
 
-                $systemErrorsCount += $json[self::SYSTEM_ERRORS_COUNT];
-                if ($systemErrorsCount >= $systemErrorsCountLimit) {
+                $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
+                if ($systemErrorsCount >= $this->systemErrorsCountLimit) {
                     $reachedSystemErrorsCountLimit = true;
                     $streamSelectLoop->stop();
                 }
@@ -147,7 +144,7 @@ final class ParallelFileProcessor
                 $job = array_pop($jobs);
                 $processStdInEncoder->write([
                     self::ACTION => Action::CHECK,
-                    'files' => $job,
+                    Bridge::FILES => $job,
                 ]);
             });
             $processStdOutDecoder->on(ReactEvent::ERROR, $handleErrorCallable);
@@ -157,7 +154,7 @@ final class ParallelFileProcessor
                 &$systemErrors,
                 $stdErrStreamBuffer
             ): void {
-                if ($exitCode === 0) {
+                if ($exitCode === ShellCode::SUCCESS) {
                     return;
                 }
 
@@ -167,11 +164,10 @@ final class ParallelFileProcessor
             $job = array_pop($jobs);
             $processStdInEncoder->write([
                 self::ACTION => Action::CHECK,
-                'files' => $job,
-                'system_errors' => $systemErrors,
-                self::SYSTEM_ERRORS_COUNT => count($systemErrors),
+                Bridge::FILES => $job,
+                Bridge::SYSTEM_ERRORS => $systemErrors,
+                Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
             ]);
-            $childProcesses[] = $childProcess;
         }
 
         $streamSelectLoop->run();
@@ -179,16 +175,15 @@ final class ParallelFileProcessor
         if ($reachedSystemErrorsCountLimit) {
             $systemErrors[] = sprintf(
                 'Reached system errors count limit of %d, exiting...',
-                $systemErrorsCountLimit
+                $this->systemErrorsCountLimit
             );
         }
 
         return [
-            Bridge::CODING_STANDARD_ERRORS => $errors,
-            // @todo
-            Bridge::FILE_DIFFS => $fileDiffs ?? [],
+            Bridge::CODING_STANDARD_ERRORS => $codingStandardErrors,
+            Bridge::FILE_DIFFS => $fileDiffs,
             Bridge::SYSTEM_ERRORS => $systemErrors,
-            self::SYSTEM_ERRORS_COUNT => count($systemErrors),
+            Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
         ];
     }
 }

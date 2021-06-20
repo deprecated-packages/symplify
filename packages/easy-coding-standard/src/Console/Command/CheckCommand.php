@@ -25,7 +25,7 @@ final class CheckCommand extends AbstractCheckCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! $this->loadedCheckersGuard->areSomeCheckerRegistered()) {
+        if (! $this->loadedCheckersGuard->areSomeCheckersRegistered()) {
             $this->loadedCheckersGuard->report();
             return ShellCode::ERROR;
         }

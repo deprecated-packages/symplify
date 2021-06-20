@@ -46,6 +46,11 @@ final class SingleFileProcessor
             $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndFileDiffs);
         }
 
+        // invalidate broken file, to analyse in next run too
+        if ($errorsAndDiffs !== []) {
+            $this->changedFilesDetector->invalidateFileInfo($smartFileInfo);
+        }
+
         return $errorsAndDiffs;
     }
 }

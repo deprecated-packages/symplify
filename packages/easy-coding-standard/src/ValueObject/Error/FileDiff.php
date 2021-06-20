@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
 use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
 final class FileDiff implements Serializable
 {
     /**
-     * @param string[] $appliedCheckers
+     * @param array<class-string<Sniff|FixerInterface>|string> $appliedCheckers
      */
     public function __construct(
         private string $relativeFilePath,
@@ -31,7 +33,7 @@ final class FileDiff implements Serializable
     }
 
     /**
-     * @return string[]
+     * @return array<class-string<Sniff|FixerInterface>|string>
      */
     public function getAppliedCheckers(): array
     {
