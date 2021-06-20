@@ -65,7 +65,6 @@ final class AutoloadIncluder
 
     public function includeDependencyOrRepositoryVendorAutoloadIfExists(): void
     {
-
         // ECS' vendor is already loaded
         if (class_exists('\Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel')) {
             return;
@@ -90,6 +89,27 @@ final class AutoloadIncluder
 
     public function includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens(): void
     {
+        // file is autoloaded with classmap in PHAR
+        // without phar, we still need to autoload it
+        # 1. autoload
+        $possibleAutoloadPaths = [
+            // after split package
+            __DIR__ . '/../vendor',
+            // dependency
+            __DIR__ . '/../../..',
+            // monorepo
+            __DIR__ . '/../../../vendor',
+        ];
+
+        foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
+            $possiblePhpCodeSnifferAutoloadPath = $possibleAutoloadPath . '/squizlabs/php_codesniffer/autoload.php';
+            if (! is_file($possiblePhpCodeSnifferAutoloadPath)) {
+                continue;
+            }
+
+            require_once $possiblePhpCodeSnifferAutoloadPath;
+        }
+
         // initalize token with INT type, otherwise php-cs-fixer and php-parser breaks
         if (defined('T_MATCH') === false) {
             define('T_MATCH', 5000);

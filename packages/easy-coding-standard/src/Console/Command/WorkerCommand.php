@@ -27,7 +27,7 @@ use Throwable;
 final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private SingleFileProcessor $singleFileProcessor,
+        private SingleFileProcessor $singleFileProcessor
     ) {
         parent::__construct();
     }
