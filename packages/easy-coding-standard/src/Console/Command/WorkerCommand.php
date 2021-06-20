@@ -16,6 +16,7 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\Action;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
+use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -70,6 +71,8 @@ final class WorkerCommand extends AbstractCheckCommand
                 $systemErrors = [];
 
                 foreach ($filePaths as $filePath) {
+                    throw new ShouldNotHappenException($filePath);
+
                     try {
                         $smartFileInfo = new SmartFileInfo($filePath);
                         $currentErrorsAndFileDiffs = $this->singleFileProcessor->processFileInfo(

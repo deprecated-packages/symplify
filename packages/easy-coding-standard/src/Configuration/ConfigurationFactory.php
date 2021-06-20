@@ -55,6 +55,12 @@ final class ConfigurationFactory
 
     private function canShowProgressBar(InputInterface $input): bool
     {
+        // --debug option shows more
+        $debug = (bool) $input->getOption(Option::DEBUG);
+        if ($debug) {
+            return false;
+        }
+
         $notJsonOutput = $input->getOption(Option::OUTPUT_FORMAT) !== JsonOutputFormatter::NAME;
         if (! $notJsonOutput) {
             return false;
