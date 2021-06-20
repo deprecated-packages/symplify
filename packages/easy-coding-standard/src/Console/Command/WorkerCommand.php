@@ -13,6 +13,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Action;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
@@ -46,8 +48,8 @@ final class WorkerCommand extends AbstractCheckCommand
         $handleErrorCallback = static function (Throwable $throwable) use ($stdOutEncoder): void {
             $stdOutEncoder->write([
                 'errors' => [$throwable->getMessage()],
-                'files_count' => 0,
-                'internal_errors_count' => 1,
+                Bridge::FILES_COUNT => 0,
+                Bridge::SYSTEM_ERRORS_COUNT => 1,
             ]);
             $stdOutEncoder->end();
         };
@@ -56,15 +58,14 @@ final class WorkerCommand extends AbstractCheckCommand
         // collectErrors from file processor
         $decoder = new Decoder(new ReadableResourceStream(STDIN, $streamSelectLoop), true);
         $decoder->on(ReactEvent::DATA, function (array $json) use ($stdOutEncoder, $configuration): void {
-            $action = $json['action'];
+            $action = $json[ReactCommand::ACTION];
 
             if ($action === Action::CHECK) {
-                $internalErrorsCount = 0;
-
-                $filePaths = $json['files'];
+                $systemErrorsCount = 0;
+                $filePaths = $json[Bridge::FILES];
 
                 $errorAndFileDiffs = [];
-                $internalErrors = [];
+                $systemErrors = [];
 
                 foreach ($filePaths as $filePath) {
                     try {
@@ -75,19 +76,19 @@ final class WorkerCommand extends AbstractCheckCommand
                         );
                         $errorAndFileDiffs = array_merge($errorAndFileDiffs, $currentErrorsAndFileDiffs);
                     } catch (Throwable $throwable) {
-                        ++$internalErrorsCount;
+                        ++$systemErrorsCount;
 
-                        $errorMessage = sprintf('Internal error: %s', $throwable->getMessage());
-                        $errorMessage .= 'Run ECS with "--debug" option and post report here: https://github.com/symplify/symplify/issues/new';
-                        $internalErrors[] = new SystemError($throwable->getLine(), $errorMessage, $filePath);
+                        $errorMessage = sprintf('System error: %s', $throwable->getMessage());
+                        $errorMessage .= 'Run ECS with "--debug" option and post the report here: https://github.com/symplify/symplify/issues/new';
+                        $systemErrors[] = new SystemError($throwable->getLine(), $errorMessage, $filePath);
                     }
                 }
 
                 $stdOutEncoder->write([
                     'errors' => $errorAndFileDiffs,
-                    'files_count' => is_countable($filePaths) ? count($filePaths) : 0,
-                    'system_errors' => $internalErrors,
-                    'system_errors_count' => $internalErrorsCount,
+                    Bridge::FILES_COUNT => is_countable($filePaths) ? count($filePaths) : 0,
+                    Bridge::SYSTEM_ERRORS => $systemErrors,
+                    Bridge::SYSTEM_ERRORS_COUNT => $systemErrorsCount,
                 ]);
             } elseif ($action === Action::QUIT) {
                 $stdOutEncoder->end();

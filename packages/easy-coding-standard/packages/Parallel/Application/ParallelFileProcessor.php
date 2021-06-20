@@ -147,7 +147,7 @@ final class ParallelFileProcessor
                 $job = array_pop($jobs);
                 $processStdInEncoder->write([
                     self::ACTION => Action::CHECK,
-                    'files' => $job,
+                    Bridge::FILES => $job,
                 ]);
             });
             $processStdOutDecoder->on(ReactEvent::ERROR, $handleErrorCallable);
@@ -167,9 +167,15 @@ final class ParallelFileProcessor
             $job = array_pop($jobs);
             $processStdInEncoder->write([
                 self::ACTION => Action::CHECK,
+<<<<<<< HEAD
                 'files' => $job,
                 'system_errors' => $systemErrors,
                 self::SYSTEM_ERRORS_COUNT => count($systemErrors),
+=======
+                Bridge::FILES => $job,
+                Bridge::SYSTEM_ERRORS => $systemErrors,
+                Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
+>>>>>>> 445777134 (re-use bridge constants)
             ]);
             $childProcesses[] = $childProcess;
         }
