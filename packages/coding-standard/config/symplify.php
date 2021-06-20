@@ -20,6 +20,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
         ->exclude([__DIR__ . '/../src/Fixer/Annotation']);
-
-    $services->set(PhpdocLineSpanFixer::class);
 };
