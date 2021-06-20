@@ -34,14 +34,7 @@ final class ParallelFileProcessor
      */
     private const ACTION = 'action';
 
-<<<<<<< HEAD
-    /**
-     * @var string
-     */
-    private const SYSTEM_ERRORS_COUNT = 'system_errors_count';
-=======
     private int $systemErrorsCountLimit;
->>>>>>> d4e72f367 (fix missing limit variable)
 
     public function __construct(
         ParameterProvider $parameterProvider,
@@ -129,13 +122,8 @@ final class ParallelFileProcessor
                 // invoke after the file is processed, e.g. to increase progress bar
                 $postFileCallback($json[Bridge::FILES_COUNT]);
 
-<<<<<<< HEAD
-                $systemErrorsCount += $json[self::SYSTEM_ERRORS_COUNT];
-                if ($systemErrorsCount >= $systemErrorsCountLimit) {
-=======
                 $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
                 if ($systemErrorsCount >= $this->systemErrorsCountLimit) {
->>>>>>> d4e72f367 (fix missing limit variable)
                     $reachedSystemErrorsCountLimit = true;
                     $streamSelectLoop->stop();
                 }
@@ -162,7 +150,6 @@ final class ParallelFileProcessor
             $processStdOutDecoder->on(ReactEvent::ERROR, $handleErrorCallable);
 
             $stdErrStreamBuffer = new StreamBuffer($childProcess->stderr);
-
             $childProcess->on(ReactEvent::EXIT, static function ($exitCode) use (
                 &$systemErrors,
                 $stdErrStreamBuffer
@@ -177,15 +164,9 @@ final class ParallelFileProcessor
             $job = array_pop($jobs);
             $processStdInEncoder->write([
                 self::ACTION => Action::CHECK,
-<<<<<<< HEAD
-                'files' => $job,
-                'system_errors' => $systemErrors,
-                self::SYSTEM_ERRORS_COUNT => count($systemErrors),
-=======
                 Bridge::FILES => $job,
                 Bridge::SYSTEM_ERRORS => $systemErrors,
                 Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
->>>>>>> 445777134 (re-use bridge constants)
             ]);
         }
 
@@ -199,20 +180,10 @@ final class ParallelFileProcessor
         }
 
         return [
-<<<<<<< HEAD
-            Bridge::CODING_STANDARD_ERRORS => $errors,
-            // @todo
-            Bridge::FILE_DIFFS => $fileDiffs ?? [],
-            Bridge::SYSTEM_ERRORS => $systemErrors,
-<<<<<<< HEAD
-            self::SYSTEM_ERRORS_COUNT => count($systemErrors),
-=======
-            Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
->>>>>>> d4e72f367 (fix missing limit variable)
-=======
             Bridge::CODING_STANDARD_ERRORS => $codingStandardErrors,
             Bridge::FILE_DIFFS => $fileDiffs,
->>>>>>> 1210d19e3 (separate file diffs and coding standard eerrors)
+            Bridge::SYSTEM_ERRORS => $systemErrors,
+            Bridge::SYSTEM_ERRORS_COUNT => count($systemErrors),
         ];
     }
 }

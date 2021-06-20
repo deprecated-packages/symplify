@@ -14,16 +14,14 @@ use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
 use Symplify\EasyCodingStandard\Parallel\CpuCoreCountProvider;
 use Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer;
-<<<<<<< HEAD
-use Symplify\EasyCodingStandard\Parallel\Scheduler;
-=======
 use Symplify\EasyCodingStandard\Parallel\ScheduleFactory;
->>>>>>> 1210d19e3 (separate file diffs and coding standard eerrors)
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
+use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
@@ -43,7 +41,8 @@ final class EasyCodingStandardApplication
         private ParallelFileProcessor $parallelFileProcessor,
         private CpuCoreCountProvider $cpuCoreCountProvider,
         private SymfonyStyle $symfonyStyle,
-        private FilePathNormalizer $filePathNormalizer
+        private FilePathNormalizer $filePathNormalizer,
+        private ParameterProvider $parameterProvider
     ) {
     }
 
@@ -74,21 +73,15 @@ final class EasyCodingStandardApplication
 
             $schedule = $this->scheduleFactory->create(
                 $this->cpuCoreCountProvider->provide(),
-                jobSize: 20,
-                files: $filePaths
+                $this->parameterProvider->provideIntParameter(Option::PARALLEL_JOB_SIZE),
+                $filePaths
             );
 
             // for progress bar
-<<<<<<< HEAD
-            $progressStarted = false;
-            $postFileCallback = function (int $stepCount) use (&$progressStarted, $filePaths): void {
-                if (! $progressStarted) {
-=======
             $isProgressBarStarted = false;
 
             $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths) {
                 if (! $isProgressBarStarted) {
->>>>>>> d4e72f367 (fix missing limit variable)
                     $fileCount = count($filePaths);
                     $this->symfonyStyle->progressStart($fileCount);
                     $isProgressBarStarted = true;
@@ -110,8 +103,6 @@ final class EasyCodingStandardApplication
                 );
             }
         }
-
-        // fallback to normal process
 
         // process found files by each processors
         return $this->processFoundFiles($fileInfos, $configuration);
@@ -138,7 +129,6 @@ final class EasyCodingStandardApplication
             try {
                 $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo, $configuration);
                 if ($currentErrorsAndDiffs !== []) {
-                    $this->changedFilesDetector->invalidateFileInfo($fileInfo);
                     $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
                 }
             } catch (ParseError $parseError) {

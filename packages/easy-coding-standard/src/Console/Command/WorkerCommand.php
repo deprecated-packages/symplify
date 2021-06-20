@@ -47,7 +47,7 @@ final class WorkerCommand extends AbstractCheckCommand
 
         $handleErrorCallback = static function (Throwable $throwable) use ($stdOutEncoder): void {
             $stdOutEncoder->write([
-                'errors' => [$throwable->getMessage()],
+                Bridge::SYSTEM_ERRORS => [$throwable->getMessage()],
                 Bridge::FILES_COUNT => 0,
                 Bridge::SYSTEM_ERRORS_COUNT => 1,
             ]);
@@ -74,6 +74,7 @@ final class WorkerCommand extends AbstractCheckCommand
                             $smartFileInfo,
                             $configuration
                         );
+
                         $errorAndFileDiffs = array_merge($errorAndFileDiffs, $currentErrorsAndFileDiffs);
                     } catch (Throwable $throwable) {
                         ++$systemErrorsCount;
