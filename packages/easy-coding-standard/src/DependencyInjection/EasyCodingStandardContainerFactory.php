@@ -15,7 +15,7 @@ final class EasyCodingStandardContainerFactory
 {
     public function createFromFromInput(InputInterface $input): ContainerInterface
     {
-        $environment = 'prod' . random_int(1, 100000);
+        $environment = 'easy_coding_standard_version_' . EasyCodingStandardKernel::CONTAINER_VERSION;
         $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
 
         $inputConfigFileInfos = [];
