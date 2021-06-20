@@ -80,7 +80,7 @@ final class EasyCodingStandardApplication
             // for progress bar
             $isProgressBarStarted = false;
 
-            $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths) {
+            $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths): void {
                 if (! $isProgressBarStarted) {
                     $fileCount = count($filePaths);
                     $this->symfonyStyle->progressStart($fileCount);

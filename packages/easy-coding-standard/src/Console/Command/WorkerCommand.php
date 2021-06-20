@@ -62,6 +62,7 @@ final class WorkerCommand extends AbstractCheckCommand
 
             if ($action === Action::CHECK) {
                 $systemErrorsCount = 0;
+                /** @var string[] $filePaths */
                 $filePaths = $json[Bridge::FILES] ?? [];
 
                 $errorAndFileDiffs = [];
