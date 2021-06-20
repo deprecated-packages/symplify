@@ -71,8 +71,6 @@ final class WorkerCommand extends AbstractCheckCommand
                 $systemErrors = [];
 
                 foreach ($filePaths as $filePath) {
-                    throw new ShouldNotHappenException($filePath);
-
                     try {
                         $smartFileInfo = new SmartFileInfo($filePath);
                         $currentErrorsAndFileDiffs = $this->singleFileProcessor->processFileInfo(
