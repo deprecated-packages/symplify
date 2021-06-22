@@ -15,7 +15,6 @@ use Symplify\PHPStanRules\Rules\NoNullablePropertyRule;
 final class NoNullablePropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
-     * @requires PHP 7.4
      * @dataProvider provideData()
      * @param array<int|string> $expectedErrorMessagesWithLines
      */

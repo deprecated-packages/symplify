@@ -4,37 +4,47 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Guard;
 
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCodingStandard\Application\FileProcessorCollector;
-use Symplify\EasyCodingStandard\Bootstrap\NoCheckersLoaderReporter;
 
 final class LoadedCheckersGuard
 {
     public function __construct(
         private FileProcessorCollector $fileProcessorCollector,
-        private NoCheckersLoaderReporter $noCheckersLoaderReporter
+        private SymfonyStyle $symfonyStyle,
     ) {
-    }
-
-    public function areSomeCheckerRegistered(): bool
-    {
-        $checkerCount = $this->getCheckerCount();
-        return $checkerCount !== 0;
     }
 
     public function report(): void
     {
-        $this->noCheckersLoaderReporter->report();
+        $this->symfonyStyle->error('We could not find any sniffs/fixers rules to run');
+
+        $this->symfonyStyle->writeln('You have few options to add them:');
+        $this->symfonyStyle->newLine();
+
+        $this->symfonyStyle->title('Add single rule to "ecs.php"');
+        $this->symfonyStyle->writeln('  $services = $containerConfigurator->services();');
+        $this->symfonyStyle->writeln('  $services->set(...);');
+        $this->symfonyStyle->newLine(2);
+
+        $this->symfonyStyle->title('Add set of rules to "ecs.php"');
+        $this->symfonyStyle->writeln('  $containerConfigurator->import(...);');
+        $this->symfonyStyle->newLine(2);
+
+        $this->symfonyStyle->title('Missing "ecs.php" in your project? Let ECS create it for you');
+        $this->symfonyStyle->writeln('  vendor/bin/ecs init');
+        $this->symfonyStyle->newLine();
     }
 
-    private function getCheckerCount(): int
+    public function areSomeCheckersRegistered(): bool
     {
-        $checkerCount = 0;
-
         $fileProcessors = $this->fileProcessorCollector->getFileProcessors();
         foreach ($fileProcessors as $fileProcessor) {
-            $checkerCount += count($fileProcessor->getCheckers());
+            if ($fileProcessor->getCheckers()) {
+                return true;
+            }
         }
 
-        return $checkerCount;
+        return false;
     }
 }

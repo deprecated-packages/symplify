@@ -6,6 +6,7 @@
         "php": ">=8.0",
         "ext-dom": "*",
         "ext-simplexml": "*",
+        "clue/ndjson-react": "^1.2",
         "composer/semver": "^3.2",
         "composer/xdebug-handler": "^2.0",
         "cweagans/composer-patches": "^1.7",
@@ -20,6 +21,8 @@
         "phar-io/version": "^3.1.0",
         "phpstan/phpdoc-parser": "^0.5",
         "phpstan/phpstan": "^0.12.88",
+        "react/child-process": "^0.6.2",
+        "react/event-loop": "^1.1",
         "sebastian/diff": "^4.0",
         "squizlabs/php_codesniffer": "^3.6",
         "symfony/cache": "^5.3",
@@ -64,8 +67,7 @@
     },
     "autoload": {
         "files": [
-            "packages/amnesia/src/Functions/env.php",
-            "packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php"
+            "packages/amnesia/src/Functions/env.php"
         ],
         "psr-4": {
             "Symplify\\Amnesia\\": "packages/amnesia/src",
@@ -90,7 +92,6 @@
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
             ],
-            "Symplify\\NeonToYamlConverter\\": "packages/neon-to-yaml-converter/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
@@ -106,7 +107,6 @@
             "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\SnifferFixerToECSConverter\\": "packages/sniffer-fixer-to-ecs-converter/src",
             "Symplify\\StaticDetector\\": "packages/static-detector/src",
             "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
@@ -147,7 +147,6 @@
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
             ],
-            "Symplify\\NeonToYamlConverter\\Tests\\": "packages/neon-to-yaml-converter/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
@@ -160,7 +159,6 @@
             "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\SnifferFixerToECSConverter\\Tests\\": "packages/sniffer-fixer-to-ecs-converter/tests",
             "Symplify\\StaticDetector\\Tests\\": "packages/static-detector/tests",
             "Symplify\\SymfonyPhpConfig\\Tests\\": "packages/symfony-php-config/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
@@ -186,7 +184,6 @@
         "symplify/latte-to-twig-converter": "9.3.26",
         "symplify/markdown-diff": "9.3.26",
         "symplify/monorepo-builder": "9.3.26",
-        "symplify/neon-to-yaml-converter": "9.3.26",
         "symplify/package-builder": "9.3.26",
         "symplify/php-config-printer": "9.3.26",
         "symplify/phpstan-extensions": "9.3.26",
@@ -199,7 +196,6 @@
         "symplify/simple-php-doc-parser": "9.3.26",
         "symplify/skipper": "9.3.26",
         "symplify/smart-file-system": "9.3.26",
-        "symplify/sniffer-fixer-to-ecs-converter": "9.3.26",
         "symplify/static-detector": "9.3.26",
         "symplify/symfony-php-config": "9.3.26",
         "symplify/symfony-static-dumper": "9.3.26",

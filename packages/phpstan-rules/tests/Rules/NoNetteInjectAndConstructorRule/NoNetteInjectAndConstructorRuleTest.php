@@ -10,7 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule;
 
 /**
- * @requires PHP 8.0
  * @extends AbstractServiceAwareRuleTestCase<NoNetteInjectAndConstructorRule>
  */
 final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRuleTestCase

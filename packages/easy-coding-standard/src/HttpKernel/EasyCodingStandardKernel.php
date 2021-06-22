@@ -19,6 +19,13 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 {
     /**
+     * To enable Kernel cache that is changed only when new services are needed.
+     *
+     * @var string
+     */
+    public const CONTAINER_VERSION = 'v1';
+
+    /**
      * @return BundleInterface[]
      */
     public function registerBundles(): iterable
@@ -30,6 +37,13 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
             new SymplifyKernelBundle(),
             new SkipperBundle(),
         ];
+    }
+
+    protected function prepareContainer(ContainerBuilder $containerBuilder): void
+    {
+        // works better with workers - see https://github.com/symfony/symfony/pull/32581
+        $containerBuilder->setParameter('container.dumper.inline_factories', true);
+        parent::prepareContainer($containerBuilder);
     }
 
     /**

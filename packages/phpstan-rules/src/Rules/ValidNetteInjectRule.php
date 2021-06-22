@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\PhpDoc\BarePhpDocParser;
+use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,15 +20,10 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Nette @inject annotation must be valid';
-
-    /**
-     * @var string
-     */
-    private const INJECT_ANNOTATION = '@inject';
+    public const ERROR_MESSAGE = 'Nette @inject annotation/#[Inject] must be valid';
 
     public function __construct(
-        private BarePhpDocParser $barePhpDocParser
+        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer
     ) {
     }
 
@@ -46,28 +41,15 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $phpDocTagNodes = $this->barePhpDocParser->parseNodeToPhpDocTagNodes($node);
-        if ($phpDocTagNodes === []) {
+        if (! $this->autowiredMethodAnalyzer->detect($node)) {
             return [];
         }
 
-        foreach ($phpDocTagNodes as $phpDocTagNode) {
-            if (! \str_starts_with($phpDocTagNode->name, self::INJECT_ANNOTATION)) {
-                continue;
-            }
-
-            if (! $node->isPublic()) {
-                return [self::ERROR_MESSAGE];
-            }
-
-            if ($phpDocTagNode->name === self::INJECT_ANNOTATION) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
+        if ($node->isPublic()) {
+            return [];
         }
 
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -78,10 +60,9 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
 class SomeClass
 {
     /**
-     * @injected
-     * @var
+     * @inject
      */
-    public $someDependency;
+    private $someDependency;
 }
 CODE_SAMPLE
                 ,
@@ -90,7 +71,6 @@ class SomeClass
 {
     /**
      * @inject
-     * @var
      */
     public $someDependency;
 }

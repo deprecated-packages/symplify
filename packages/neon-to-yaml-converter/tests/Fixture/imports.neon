@@ -1,7 +1,0 @@
-includes:
-    - packages/EasyCodingStandard/config/psr2.neon
-    - vendor/EasyCodingStandard/config/clean-code.neon
------
-imports:
-    - { resource: packages/EasyCodingStandard/config/psr2.yaml }
-    - { resource: vendor/EasyCodingStandard/config/clean-code.neon }

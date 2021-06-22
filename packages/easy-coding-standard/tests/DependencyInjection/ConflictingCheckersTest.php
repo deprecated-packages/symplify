@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\DependencyInjection;
 
-use Symplify\EasyCodingStandard\Configuration\Exception\ConflictingCheckersLoadedException;
+use Symplify\EasyCodingStandard\Exception\Configuration\ConflictingCheckersLoadedException;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 

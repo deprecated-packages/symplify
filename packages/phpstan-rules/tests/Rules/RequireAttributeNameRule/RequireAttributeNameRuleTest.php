@@ -10,8 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireAttributeNameRule;
 
 /**
- * @requires PHP 8.0
- *
  * @extends AbstractServiceAwareRuleTestCase<RequireAttributeNameRule>
  */
 final class RequireAttributeNameRuleTest extends AbstractServiceAwareRuleTestCase

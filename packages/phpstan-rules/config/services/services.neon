@@ -8,6 +8,8 @@ services:
     - Symplify\SimplePhpDocParser\SimplePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
 
+    - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
+
     - PhpParser\NodeFinder
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem

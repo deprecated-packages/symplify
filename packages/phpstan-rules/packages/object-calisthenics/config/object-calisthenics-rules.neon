@@ -29,10 +29,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoSetterClassMethodRule
-         tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
         tags: [phpstan.rules.rule]
 

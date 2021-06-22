@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Doctrine\ORM\Mapping\Entity;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -77,6 +78,8 @@ final class ForbiddenAttributteArgumentRule extends AbstractSymplifyRule impleme
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping\Entity;
+
 #[Entity(repositoryClass: SomeRepository::class)]
 class SomeClass
 {
@@ -84,6 +87,8 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Doctrine\ORM\Mapping\Entity;
+
 #[Entity]
 class SomeClass
 {
@@ -92,7 +97,7 @@ CODE_SAMPLE
                 ,
                 [
                     '$argumentsByAttributes' => [
-                        'Entity' => ['repositoryClass'],
+                        Entity::class => ['repositoryClass'],
                     ],
                 ]
             ),

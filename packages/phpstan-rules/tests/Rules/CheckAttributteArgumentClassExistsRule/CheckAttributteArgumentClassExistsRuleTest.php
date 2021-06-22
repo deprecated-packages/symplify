@@ -10,8 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule;
 
 /**
- * @requires PHP 8.0
- *
  * @extends AbstractServiceAwareRuleTestCase<CheckAttributteArgumentClassExistsRule>
  */
 final class CheckAttributteArgumentClassExistsRuleTest extends AbstractServiceAwareRuleTestCase

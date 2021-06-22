@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\Console\Output;
 use Nette\Utils\Json;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\PackageBuilder\Console\ShellCode;
 
@@ -30,7 +31,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     ) {
     }
 
-    public function report(ErrorAndDiffResult $errorAndDiffResult, int $processedFilesCount): int
+    public function report(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
     {
         $json = $this->createJsonContent($errorAndDiffResult);
         $this->easyCodingStandardStyle->writeln($json);
@@ -50,9 +51,9 @@ final class JsonOutputFormatter implements OutputFormatterInterface
 
         $codingStandardErrors = $errorAndDiffResult->getErrors();
         foreach ($codingStandardErrors as $codingStandardError) {
-            $errorsArray[self::FILES][$codingStandardError->getRelativeFilePathFromCwd()]['errors'][] = [
+            $errorsArray[self::FILES][$codingStandardError->getRelativeFilePath()]['errors'][] = [
                 'line' => $codingStandardError->getLine(),
-                'file_path' => $codingStandardError->getRelativeFilePathFromCwd(),
+                'file_path' => $codingStandardError->getRelativeFilePath(),
                 'message' => $codingStandardError->getMessage(),
                 'source_class' => $codingStandardError->getCheckerClass(),
             ];
@@ -60,7 +61,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
 
         $fileDiffs = $errorAndDiffResult->getFileDiffs();
         foreach ($fileDiffs as $fileDiff) {
-            $errorsArray[self::FILES][$fileDiff->getRelativeFilePathFromCwd()]['diffs'][] = [
+            $errorsArray[self::FILES][$fileDiff->getRelativeFilePath()]['diffs'][] = [
                 'diff' => $fileDiff->getDiff(),
                 'applied_checkers' => $fileDiff->getAppliedCheckers(),
             ];

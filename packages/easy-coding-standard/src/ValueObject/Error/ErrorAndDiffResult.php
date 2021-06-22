@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+
 final class ErrorAndDiffResult
 {
     /**
@@ -17,16 +19,16 @@ final class ErrorAndDiffResult
     private $fileDiffs = [];
 
     /**
-     * @var SystemError[]
+     * @var array<SystemError|string>
      */
     private array $systemErrors = [];
 
     /**
      * @param CodingStandardError[] $codingStandardErrors
      * @param FileDiff[] $fileDiffs
-     * @param SystemError[] $systemErrors
+     * @param array<SystemError|string> $systemErrors
      */
-    public function __construct(array $codingStandardErrors, array $fileDiffs, array $systemErrors)
+    public function __construct(array $codingStandardErrors = [], array $fileDiffs = [], array $systemErrors = [])
     {
         $this->codingStandardErrors = $this->sortByFileAndLine($codingStandardErrors);
         $this->fileDiffs = $this->sortByFilePath($fileDiffs);
@@ -35,7 +37,12 @@ final class ErrorAndDiffResult
 
     public function getErrorCount(): int
     {
-        return count($this->codingStandardErrors) + count($this->systemErrors);
+        return $this->getCodingStandardErrorCount() + count($this->systemErrors);
+    }
+
+    public function getCodingStandardErrorCount(): int
+    {
+        return count($this->codingStandardErrors);
     }
 
     public function getFileDiffsCount(): int
@@ -52,7 +59,7 @@ final class ErrorAndDiffResult
     }
 
     /**
-     * @return SystemError[]
+     * @return array<SystemError|string>
      */
     public function getSystemErrors(): array
     {
@@ -76,10 +83,10 @@ final class ErrorAndDiffResult
         usort(
             $errorMessages,
             static fn (CodingStandardError $firstCodingStandardError, CodingStandardError $secondCodingStandardError): int => [
-                $firstCodingStandardError->getRelativeFilePathFromCwd(),
+                $firstCodingStandardError->getRelativeFilePath(),
                 $firstCodingStandardError->getLine(),
             ]
-            <=> [$secondCodingStandardError->getRelativeFilePathFromCwd(), $secondCodingStandardError->getLine()]
+            <=> [$secondCodingStandardError->getRelativeFilePath(), $secondCodingStandardError->getLine()]
         );
 
         return $errorMessages;
@@ -93,7 +100,7 @@ final class ErrorAndDiffResult
     {
         uasort(
             $fileDiffs,
-            static fn (FileDiff $firstFileDiff, FileDiff $secondFileDiff): int => $firstFileDiff->getRelativeFilePathFromCwd() <=> $secondFileDiff->getRelativeFilePathFromCwd()
+            static fn (FileDiff $firstFileDiff, FileDiff $secondFileDiff): int => $firstFileDiff->getRelativeFilePath() <=> $secondFileDiff->getRelativeFilePath()
         );
 
         return $fileDiffs;

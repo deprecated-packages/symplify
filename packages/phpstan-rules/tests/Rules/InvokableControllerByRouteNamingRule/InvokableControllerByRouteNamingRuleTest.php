@@ -15,7 +15,6 @@ use Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule;
 final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
-     * @requires PHP 8.0
      * @dataProvider provideData()
      * @param array<int|string> $expectedErrorMessagesWithLines
      */

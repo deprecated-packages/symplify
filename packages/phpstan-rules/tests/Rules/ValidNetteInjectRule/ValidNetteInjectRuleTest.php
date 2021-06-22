@@ -26,10 +26,10 @@ final class ValidNetteInjectRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipCorrectInject.php', []];
+        yield [__DIR__ . '/Fixture/SkipCorrectInjectAttribute.php', []];
 
         yield [__DIR__ . '/Fixture/PrivateInjectMethod.php', [[ValidNetteInjectRule::ERROR_MESSAGE, 12]]];
-        yield [__DIR__ . '/Fixture/PrivateInject.php', [[ValidNetteInjectRule::ERROR_MESSAGE, 13]]];
-        yield [__DIR__ . '/Fixture/InvalidInject.php', [[ValidNetteInjectRule::ERROR_MESSAGE, 13]]];
+        yield [__DIR__ . '/Fixture/PrivateInjectAttribute.php', [[ValidNetteInjectRule::ERROR_MESSAGE, 14]]];
     }
 
     protected function getRule(): Rule
