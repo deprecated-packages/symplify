@@ -19,7 +19,7 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    build_ecs_prefixed:
+    build_phpstan_rules_prefixed:
         runs-on: ubuntu-latest
         steps:
             # make dev build run a bit to avoid collission with tagged build
