@@ -56,14 +56,8 @@ jobs:
             # 3. downgrade
             -   run: sh packages/phpstan-rules/build/downgrade.sh phpstan-rules-build
 
-            # 4. prefix
-            -   run: sh packages/phpstan-rules/build/build-scoped.sh phpstan-rules-build phpstan-rules-prefixed-downgraded
-
             # copy github actions to repository, so tests run there too
             -   run: cp -R packages/phpstan-rules/build/target-repository/. phpstan-rules-prefixed-downgraded
-
-            # downgrade the bootstrap.php file too
-            -   run: php vendor/bin/rector process phpstan-rules-prefixed-downgraded/bootstrap.php --config packages/phpstan-rules/build/config/config-downgrade.php --ansi
 
             # clone remote repository, so we can push it
             -
