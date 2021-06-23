@@ -1,186 +1,110 @@
-# The Easiest Way to Use Any Coding Standard
+# PHPStan Rules
 
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/easy-coding-standard.svg?style=flat-square)](https://packagist.org/packages/symplify/easy-coding-standard/stats)
+[![Downloads](https://img.shields.io/packagist/dt/symplify/phpstan-rules.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-rules/stats)
 
-![ECS-Run](docs/run-and-fix.gif)
+Set of rules for PHPStan used by Symplify projects
 
-## Features
-
-- Use [PHP_CodeSniffer || PHP-CS-Fixer](https://tomasvotruba.com/blog/2017/05/03/combine-power-of-php-code-sniffer-and-php-cs-fixer-in-3-lines/) - anything you like
-- **2nd run under few seconds** with un-changed file cache
-- Skipping files for specific checkers
-- Prepared sets - PSR12, Symfony, Common, Array, Symplify and more...
-- [Prefixed version](https://github.com/symplify/easy-coding-standard-prefixed) in case of conflicts on install
-
-Are you already using another tool?
-
-- [How to Migrate From PHP_CodeSniffer to EasyCodingStandard in 7 Steps](https://tomasvotruba.com/blog/2018/06/04/how-to-migrate-from-php-code-sniffer-to-easy-coding-standard/)
-- [How to Migrate From PHP CS Fixer to EasyCodingStandard in 6 Steps](https://tomasvotruba.com/blog/2018/06/07/how-to-migrate-from-php-cs-fixer-to-easy-coding-standard/)
+- See [Rules Overview](docs/rules_overview.md)
 
 ## Install
 
 ```bash
-composer require symplify/easy-coding-standard --dev
+composer require symplify/phpstan-rules --dev
 ```
 
-## Usage
+## 1. Add Static Rules to `phpstan.neon`
 
-### 1. Create Configuration and Setup Checkers
+Some of rules here require configuration, some not. We recommend to start with rules that do not require any configuration, because there is just one way to use them:
 
-- Create an `ecs.php` in your root directory
-- Add [Sniffs](https://github.com/squizlabs/PHP_CodeSniffer)
-- ...or [Fixers](https://github.com/FriendsOfPHP/PHP-CS-Fixer) you'd love to use
-
-```php
-// ecs.php
-use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    // A. standalone rule
-    $services = $containerConfigurator->services();
-    $services->set(ArraySyntaxFixer::class)
-        ->call('configure', [[
-            'syntax' => 'short',
-        ]]);
-
-    // B. full sets
-    $containerConfigurator->import(SetList::PSR_12);
-};
+```yaml
+# phpstan.neon
+includes:
+    - vendor/symplify/phpstan-rules/config/static-rules.neon
 ```
 
-### 2. Run in CLI
-
-```bash
-# dry
-vendor/bin/ecs check src
-
-# fix
-vendor/bin/ecs check src --fix
-```
-
-## Features
-
-How to load own config?
-
-```bash
-vendor/bin/ecs check src --config another-config.php
-```
+Give it couple of days, before extending.
 
 <br>
 
-## Configuration
+Some rules require extra services. To avoid service duplications, they're in the separate config that you can easily include:
 
-Configuration can be extended with many options. Here is list of them with example values and little description what are they for:
-
-```php
-use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
-    // alternative to CLI arguments, easier to maintain and extend
-    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
-
-    // run single rule only on specific path
-    $parameters->set(Option::ONLY, [
-        ArraySyntaxFixer::class => [__DIR__ . '/src/NewCode'],
-    ]);
-
-    $parameters->set(Option::SKIP, [
-        // skip paths with legacy code
-        __DIR__ . '/packages/*/src/Legacy',
-
-        ArraySyntaxFixer::class => [
-            // path to file (you can copy this from error report)
-            __DIR__ . '/packages/EasyCodingStandard/packages/SniffRunner/src/File/File.php',
-
-            // or multiple files by path to match against "fnmatch()"
-            __DIR__ . '/packages/*/src/Command',
-        ],
-
-        // skip rule completely
-        ArraySyntaxFixer::class,
-
-        // just single one part of the rule?
-        ArraySyntaxFixer::class . '.SomeSingleOption',
-
-        // ignore specific error message
-        'Cognitive complexity for method "addAction" is 13 but has to be less than or equal to 8.',
-    ]);
-
-    // scan other file extendsions; [default: [php]]
-    $parameters->set(Option::FILE_EXTENSIONS, ['php', 'phpt']);
-
-    // configure cache paths & namespace - useful for Gitlab CI caching, where getcwd() produces always different path
-    // [default: sys_get_temp_dir() . '/_changed_files_detector_tests']
-    $parameters->set(Option::CACHE_DIRECTORY, '.ecs_cache');
-
-    // [default: \Nette\Utils\Strings::webalize(getcwd())']
-    $parameters->set(Option::CACHE_NAMESPACE, 'my_project_namespace');
-
-    // indent and tabs/spaces
-    // [default: spaces]
-    $parameters->set(Option::INDENTATION, 'tab');
-
-    // [default: PHP_EOL]; other options: "\n"
-    $parameters->set(Option::LINE_ENDING, "\r\n");
-};
+```yaml
+includes:
+    - vendor/symplify/phpstan-rules/config/services/services.neon
 ```
 
-<br>
+*Note:* [Rules in subpackages](https://github.com/symplify/symplify/tree/main/packages/phpstan-rules/packages) contain additional service definitions which need to be included, in case you configure these rules:
 
-## Coding Standards in Markdown
+```yaml
+includes:
+    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
 
-![ECS-Run](docs/check_markdown.gif)
+services:
 
-<br>
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 10
 
-How to correct PHP snippets in Markdown files?
-
-```bash
-vendor/bin/ecs check-markdown README.md
-vendor/bin/ecs check-markdown README.md docs/rules.md
-
-# to fix them, add --fix
-vendor/bin/ecs check-markdown README.md docs/rules.md --fix
 ```
 
-Do you have already paths defined in `ecs.php` config? Drop them from CLI and let ECS use those:
+## 2. Pick from Prepared Sets
 
-```bash
-vendor/bin/ecs check-markdown --fix
+Do you know prepared sets from ECS or Rector? Bunch of rules in single set. We use the same approach here:
+
+```yaml
+includes:
+    - vendor/symplify/phpstan-rules/config/array-rules.neon
+    - vendor/symplify/phpstan-rules/config/code-complexity-rules.neon
+    - vendor/symplify/phpstan-rules/config/doctrine-rules.neon
+    - vendor/symplify/phpstan-rules/config/naming-rules.neon
+    - vendor/symplify/phpstan-rules/config/regex-rules.neon
+    - vendor/symplify/phpstan-rules/config/services-rules.neon
+    - vendor/symplify/phpstan-rules/config/size-rules.neon
+    - vendor/symplify/phpstan-rules/config/forbid-static-rules.neon
+    - vendor/symplify/phpstan-rules/config/string-to-constant-rules.neon
+    - vendor/symplify/phpstan-rules/config/symfony-rules.neon
+    - vendor/symplify/phpstan-rules/config/test-rules.neon
 ```
 
-<br>
+Pick what you need, drop the rest.
 
-## FAQ
+## 3. How we use Configurable Rules
 
-### How can I see all loaded checkers?
+Last but not least, configurable rules with *saints defaults*. That's just polite wording for *opinionated*, like [`AllowedExclusiveDependencyRule`](https://github.com/symplify/phpstan-rules/blob/main/docs/rules_overview.md#allowedexclusivedependencyrule).
 
-```bash
-vendor/bin/ecs show
-vendor/bin/ecs show --config ...
+You might not like them, but maybe you do:
+
+```yaml
+# phpstan.neon
+includes:
+    - vendor/symplify/phpstan-rules/config/configurable-rules.neon
 ```
 
-### How do I clear cache?
+Give it a trial run... so many erros and unclear feedback.... Would you like to **configure them yourself?**
+That's good! We use one rule by another in other projects too, instead of one big import.
 
-```bash
-vendor/bin/ecs check src --clear-cache
+- **Pick one and put it to your `phpstan.neon` manually**.
+- Configure it to your specific needs and re-run PHPStan. It's easier to be responsible, when you're in control.
+
+E.g. `ForbiddenNodeRule`:
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenNodeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenNodes:
+                - PhpParser\Node\Expr\Empty_
+                - PhpParser\Node\Stmt\Switch_
+                - PhpParser\Node\Expr\ErrorSuppress
 ```
 
-### Run on Git Diff Changed Files Only
+You'll find them all in [rules overview](docs/rules_overview.md).
 
-Execution can be limited to changed files using the `process` option `--match-git-diff`:
-
-```bash
-vendor/bin/ecs check src --match-git-diff
-```
-
-This option will filter the files included by the configuration, creating an intersection with the files listed in `git diff`.
+Happy coding!
 
 <br>
 
