@@ -3,7 +3,7 @@
 # inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
 # and from https://github.com/rectorphp/rector/blob/main/.github/workflows/build_scoped_rector.yaml
 
-name: Build phpstan-rules Prefixed
+name: Downgrade phpstan-rules
 
 on:
     push:
