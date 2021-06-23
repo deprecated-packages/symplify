@@ -10,9 +10,5 @@
         "files": [
             "bootstrap.php"
         ]
-    },
-    "conflict": {
-        "squizlabs/php_codesniffer": "<3.6",
-        "friendsofphp/php-cs-fixer": "<3.0"
     }
 }
