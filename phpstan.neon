@@ -518,3 +518,6 @@ parameters:
         -
             message: '#Cannot cast array<string\>\|bool\|string to string#'
             path: packages/easy-coding-standard/src/Configuration/ConfigurationFactory.php
+
+        # array_merge() class-string[]
+        - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'

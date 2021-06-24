@@ -3,6 +3,8 @@ services:
 
     Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass $variable: '@App\Fake\Class'
 
+    doctrine.dbal.read_connection: '@doctrine.dbal.read1_connection'
+
     fake.simple_class_two:
         public: false
         alias: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass
@@ -22,6 +24,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FakeClass::class, 'fake.simple_class');
 
     $services->alias(SecondFakeClass::class . ' $variable', 'App\Fake\Class');
+
+    $services->alias('doctrine.dbal.read_connection', 'doctrine.dbal.read1_connection');
 
     $services->alias('fake.simple_class_two', SecondFakeClass::class)
         ->private()
