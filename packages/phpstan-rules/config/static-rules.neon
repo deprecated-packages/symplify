@@ -1,4 +1,9 @@
 services:
+    # domain
+    -
+        class: Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
         tags: [phpstan.rules.rule]
