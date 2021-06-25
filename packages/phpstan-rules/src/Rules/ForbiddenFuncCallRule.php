@@ -26,7 +26,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
-     * @param string[] $forbiddenFunctions
+     * @param string[]|array<string, string> $forbiddenFunctions
      */
     public function __construct(
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
@@ -55,7 +55,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->forbiddenFunctions)) {
+        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->getForbiddenFunctionsList())) {
             return [];
         }
 
@@ -64,7 +64,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $funcName)];
+        return [$this->formatError($funcName)];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -90,6 +90,59 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    private function formatError(string $funcName): string {
+        foreach($this->forbiddenFunctions as $forbiddenFunction) {
+            if (is_array($forbiddenFunction)) {
+                $forbiddenFuncName = array_key_first($forbiddenFunction);
+
+                if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFuncName])) {
+                    continue;
+                }
+                
+                $configuredErrorMessage = $forbiddenFunction[$forbiddenFuncName];
+                if ($configuredErrorMessage === '') {
+                    continue;
+                }
+
+                return sprintf(self::ERROR_MESSAGE .': '. $configuredErrorMessage, $funcName);
+            }
+        }
+        return sprintf(self::ERROR_MESSAGE, $funcName);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getForbiddenFunctionsList() {
+        $forbidden = [];
+        foreach($this->forbiddenFunctions as $forbiddenFunction) {
+            if (is_string($forbiddenFunction)) {
+                /**
+                 * config-format:
+                 *
+                 * forbiddenFunctions:
+                 * - 'extract'
+                 * - 'dump'
+                 */
+
+                $forbidden[] = $forbiddenFunction;
+            } elseif (is_array($forbiddenFunction)) {
+                /**
+                 * config-format:
+                 *
+                 * forbiddenFunctions:
+                 * - 'extract': 'you shouldn"t use this dynamic things'
+                 * - 'dump': 'seems you missed some debugging function'                 *
+                 */
+
+                $forbidden[] = array_key_first($forbiddenFunction);
+            } else {
+                throw new \RuntimeException('forbiddenFunctions can either be defined as a list of strings, or a string-array keyed by string.');
+            }
+        }
+        return $forbidden;
     }
 
     private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool
