@@ -94,7 +94,7 @@ CODE_SAMPLE
 
     private function formatError(string $funcName): string {
         foreach($this->forbiddenFunctions as $forbiddenFunction) {
-            if (is_array($forbiddenFunction)) {
+            if (is_array($forbiddenFunction) && count(forbiddenFunction) > 0) {
                 $forbiddenFuncName = array_key_first($forbiddenFunction);
 
                 if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFuncName])) {
@@ -128,7 +128,7 @@ CODE_SAMPLE
                  */
 
                 $forbidden[] = $forbiddenFunction;
-            } elseif (is_array($forbiddenFunction)) {
+            } elseif (is_array($forbiddenFunction) && count(forbiddenFunction) > 0) {
                 /**
                  * config-format:
                  *
