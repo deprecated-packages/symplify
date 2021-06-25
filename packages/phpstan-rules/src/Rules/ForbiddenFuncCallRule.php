@@ -139,7 +139,7 @@ CODE_SAMPLE
 
                 $forbidden[] = array_key_first($forbiddenFunction);
             } else {
-                throw new \RuntimeException('forbiddenFunctions can either be defined as a list of strings, or a string-array keyed by string.');
+                throw new \RuntimeException('forbiddenFunctions can either be defined as a list of strings, or a list of string-mappings.');
             }
         }
         return $forbidden;
