@@ -134,7 +134,7 @@ CODE_SAMPLE
                  *
                  * forbiddenFunctions:
                  * - 'extract': 'you shouldn"t use this dynamic things'
-                 * - 'dump': 'seems you missed some debugging function'                 *
+                 * - 'dump': 'seems you missed some debugging function'
                  */
 
                 $forbidden[] = array_key_first($forbiddenFunction);
