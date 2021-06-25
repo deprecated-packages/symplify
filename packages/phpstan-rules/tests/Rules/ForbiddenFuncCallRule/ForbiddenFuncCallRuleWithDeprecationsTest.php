@@ -39,7 +39,7 @@ final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwa
         $errorMessage .= ': we use a proper http client these days';
         yield [__DIR__ . '/Fixture/CurlCall.php', [[$errorMessage, 11]]];
 
-        // custom error defined as null -> just prints the default message
+        // custom error defined as empty-string -> just prints the default message
         $errorMessage = sprintf(ForbiddenFuncCallRule::ERROR_MESSAGE, 'property_exists');
         yield [__DIR__ . '/Fixture/PropertyExists.php', [[$errorMessage, 11]]];
 
