@@ -100,7 +100,7 @@ CODE_SAMPLE
                 if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFuncName])) {
                     continue;
                 }
-                
+
                 $configuredErrorMessage = $forbiddenFunction[$forbiddenFuncName];
                 if ($configuredErrorMessage === '') {
                     continue;
