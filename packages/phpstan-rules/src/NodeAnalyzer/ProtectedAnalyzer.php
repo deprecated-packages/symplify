@@ -11,7 +11,6 @@ final class ProtectedAnalyzer
     public function __construct(
         private DependencyNodeAnalyzer $dependencyNodeAnalyzer,
         private TypeNodeAnalyzer $typeNodeAnalyzer,
-        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer,
     ) {
     }
 
