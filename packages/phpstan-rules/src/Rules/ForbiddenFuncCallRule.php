@@ -55,8 +55,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        $forbiddenFunctions = array_keys($this->getForbiddenFunctionsWithMessages());
-        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $forbiddenFunctions)) {
+        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->getForbiddenFunctionsList())) {
             return [];
         }
 
@@ -126,6 +125,13 @@ CODE_SAMPLE
             return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
         }
         return sprintf(self::ERROR_MESSAGE, $funcName);
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getForbiddenFunctionsList() {
+        return array_keys($this->getForbiddenFunctionsWithMessages());
     }
 
     /**
