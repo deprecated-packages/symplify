@@ -121,8 +121,8 @@ CODE_SAMPLE
      */
     private function getForbiddenFunctionsWithMessages() {
         $forbidden = [];
-        foreach($this->forbiddenFunctions as $forbiddenFunction) {
-            if (is_string($forbiddenFunction)) {
+        foreach($this->forbiddenFunctions as $key => $value) {
+            if (is_int($key)) {
                 /**
                  * config-format:
                  *
@@ -131,8 +131,8 @@ CODE_SAMPLE
                  * - 'dump'
                  */
 
-                $forbidden[$forbiddenFunction] = null;
-            } elseif (is_array($forbiddenFunction) && count($forbiddenFunction) > 0) {
+                $forbidden[$value] = null;
+            } elseif (is_string($key)) {
                 /**
                  * config-format:
                  *
@@ -141,12 +141,10 @@ CODE_SAMPLE
                  * - 'dump': 'seems you missed some debugging function'
                  */
 
-                $funcName = array_key_first($forbiddenFunction);
-
-                if ($forbiddenFunction[$funcName] === '') {
-                    $forbidden[$funcName] = null;
+                if ($value === '') {
+                    $forbidden[$key] = null;
                 } else {
-                    $forbidden[$funcName] = $forbiddenFunction[$funcName];
+                    $forbidden[$key] = $value;
                 }
             }
         }
