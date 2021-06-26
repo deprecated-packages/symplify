@@ -26,7 +26,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
-     * @param string[]|list<array<string, string>> $forbiddenFunctions
+     * @param string[]|array<string, string> $forbiddenFunctions
      */
     public function __construct(
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
