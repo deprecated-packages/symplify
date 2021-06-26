@@ -13,7 +13,7 @@
         "phpunit/phpunit": "^9.5",
         "symplify/smart-file-system": "^9.4",
         "psr/log": "^1.1",
-        "ondram/ci-detector": "^4.0"
+        "ondram/ci-detector": "^4.1"
     },
     "autoload": {
         "psr-4": {
