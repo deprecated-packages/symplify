@@ -93,29 +93,33 @@ CODE_SAMPLE
     }
 
     private function formatError(string $funcName): string {
-        foreach($this->forbiddenFunctions as $forbiddenFunction) {
-            if (is_array($forbiddenFunction) && count($forbiddenFunction) > 0) {
-                $forbiddenFuncName = array_key_first($forbiddenFunction);
-
-                if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFuncName])) {
+        foreach($this->getForbiddenFunctionsWithMessages() as $forbiddenFunction => $additionalMessage) {
+            if ($additionalMessage) {
+                if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFunction])) {
                     continue;
                 }
 
-                $configuredErrorMessage = $forbiddenFunction[$forbiddenFuncName];
-                if ($configuredErrorMessage === '') {
+                if ($additionalMessage === null) {
                     continue;
                 }
 
-                return sprintf(self::ERROR_MESSAGE .': '. $configuredErrorMessage, $funcName);
+                return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
             }
         }
         return sprintf(self::ERROR_MESSAGE, $funcName);
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     private function getForbiddenFunctionsList() {
+        return array_keys($this->getForbiddenFunctionsWithMessages());
+    }
+
+    /**
+     * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
+     */
+    private function getForbiddenFunctionsWithMessages() {
         $forbidden = [];
         foreach($this->forbiddenFunctions as $forbiddenFunction) {
             if (is_string($forbiddenFunction)) {
@@ -127,7 +131,7 @@ CODE_SAMPLE
                  * - 'dump'
                  */
 
-                $forbidden[] = $forbiddenFunction;
+                $forbidden[$forbiddenFunction] = null;
             } elseif (is_array($forbiddenFunction) && count($forbiddenFunction) > 0) {
                 /**
                  * config-format:
@@ -137,7 +141,13 @@ CODE_SAMPLE
                  * - 'dump': 'seems you missed some debugging function'
                  */
 
-                $forbidden[] = array_key_first($forbiddenFunction);
+                $funcName = array_key_first($forbiddenFunction);
+
+                if ($forbiddenFunction[$funcName] === '') {
+                    $forbidden[$funcName] = null;
+                } else {
+                    $forbidden[$funcName] = $forbiddenFunction[$funcName];
+                }
             }
         }
         return $forbidden;
