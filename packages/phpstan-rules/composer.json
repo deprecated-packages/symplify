@@ -8,14 +8,14 @@
         "nikic/php-parser": "4.10.5",
         "nette/utils": "^3.2",
         "phpstan/phpdoc-parser": "^0.5",
-        "phpstan/phpstan": "^0.12.88",
+        "phpstan/phpstan": "^0.12.90",
         "symplify/astral": "^9.4",
         "symplify/composer-json-manipulator": "^9.4",
         "symplify/package-builder": "^9.4",
         "symplify/simple-php-doc-parser": "^9.4",
         "symplify/smart-file-system": "^9.4",
         "symplify/rule-doc-generator-contracts": "^9.4",
-        "webmozart/assert": "^1.9"
+        "webmozart/assert": "^1.10"
     },
     "require-dev": {
         "nette/application": "^3.1",
