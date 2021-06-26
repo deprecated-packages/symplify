@@ -119,10 +119,6 @@ CODE_SAMPLE
                     continue;
                 }
 
-                if ($additionalMessage === null) {
-                    continue;
-                }
-
                 return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
             }
         }
