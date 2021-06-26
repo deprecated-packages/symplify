@@ -55,7 +55,8 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, array_keys($this->getForbiddenFunctionsWithMessages()))) {
+        $forbiddenFunctions = array_keys($this->getForbiddenFunctionsWithMessages());
+        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $forbiddenFunctions)) {
             return [];
         }
 
@@ -114,13 +115,15 @@ CODE_SAMPLE
 
     private function formatError(string $funcName): string {
         foreach($this->getForbiddenFunctionsWithMessages() as $forbiddenFunction => $additionalMessage) {
-            if ($additionalMessage) {
-                if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFunction])) {
-                    continue;
-                }
-
-                return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
+            if (!$additionalMessage) {
+                continue;
             }
+
+            if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFunction])) {
+                continue;
+            }
+
+            return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
         }
         return sprintf(self::ERROR_MESSAGE, $funcName);
     }
