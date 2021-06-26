@@ -93,14 +93,15 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
-    return eval('...');
+    dump('hello world');
+    return true;
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
-    return echo '...';
+    return true;
 }
 CODE_SAMPLE
             ,
