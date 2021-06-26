@@ -89,6 +89,25 @@ CODE_SAMPLE
                     'forbiddenFunctions' => ['eval'],
                 ]
             ),
+            new ConfiguredCodeSample(
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    return eval('...');
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+class SomeClass
+{
+    return echo '...';
+}
+CODE_SAMPLE
+            ,
+                [
+                    'forbiddenFunctions' => ['dump' => 'seems you missed some debugging function'],
+                ]
+            ),
         ]);
     }
 
