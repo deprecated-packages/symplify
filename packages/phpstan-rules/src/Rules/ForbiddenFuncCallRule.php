@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Forbidden\ForbiddenCallable;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -32,7 +33,8 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private array $forbiddenFunctions
+        private array $forbiddenFunctions,
+        private ForbiddenCallable $forbiddenCallable
     ) {
     }
 
@@ -64,7 +66,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        return [$this->formatError($funcName)];
+        return [$this->forbiddenCallable->formatError(self::ERROR_MESSAGE, $funcName)];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -110,21 +112,6 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    private function formatError(string $funcName): string {
-        foreach($this->getForbiddenFunctionsWithMessages() as $forbiddenFunction => $additionalMessage) {
-            if (!$additionalMessage) {
-                continue;
-            }
-
-            if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFunction])) {
-                continue;
-            }
-
-            return sprintf(self::ERROR_MESSAGE .': '. $additionalMessage, $funcName);
-        }
-        return sprintf(self::ERROR_MESSAGE, $funcName);
     }
 
     /**

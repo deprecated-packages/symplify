@@ -91,6 +91,8 @@ services:
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
 
+    - Symplify\PHPStanRules\Forbidden\ForbiddenCallable
+
     # regex
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
