@@ -7,17 +7,20 @@ namespace Symplify\PHPStanRules\Forbidden;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
 final class ForbiddenCallable {
-    /**
-     * @param string[]|array<string, string> $forbiddenFunctions
-     */
-    public function __construct(
-        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        private array $forbiddenFunctions
+   public function __construct(
+        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
    ) {
    }
 
-    public function formatError(string $errorMessage, string $funcName): string {
-        foreach($this->getForbiddenFunctionsWithMessages() as $forbiddenFunction => $additionalMessage) {
+    /**
+     * @param string $errorMessage
+     * @param string $funcName
+     * @return array<string, string|null> $forbiddenFunctions
+     *
+     * @return string
+     */
+    public function formatError(string $errorMessage, string $funcName, array $forbiddenFunctions): string {
+        foreach($forbiddenFunctions as $forbiddenFunction => $additionalMessage) {
             if (!$additionalMessage) {
                 continue;
             }

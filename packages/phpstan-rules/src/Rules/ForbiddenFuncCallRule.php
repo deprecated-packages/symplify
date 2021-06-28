@@ -66,7 +66,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        return [$this->forbiddenCallable->formatError(self::ERROR_MESSAGE, $funcName)];
+        return [$this->forbiddenCallable->formatError(self::ERROR_MESSAGE, $funcName, $this->getForbiddenFunctionsWithMessages())];
     }
 
     public function getRuleDefinition(): RuleDefinition
