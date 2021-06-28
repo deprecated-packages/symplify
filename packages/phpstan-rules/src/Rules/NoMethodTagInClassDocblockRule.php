@@ -9,6 +9,7 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -33,11 +34,11 @@ final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -48,6 +49,16 @@ final class NoMethodTagInClassDocblockRule extends AbstractSymplifyRule
         }
 
         if (! Strings::match($docComment->getText(), self::METHOD_TAG_REGEX)) {
+            return [];
+        }
+
+        // enums are the only exception for annotation
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
+        if ($classReflection->isSubclassOf('MyCLabs\Enum\Enum')) {
             return [];
         }
 
