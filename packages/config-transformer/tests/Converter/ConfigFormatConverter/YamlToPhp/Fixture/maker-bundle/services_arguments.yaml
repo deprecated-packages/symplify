@@ -29,11 +29,11 @@ services:
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();

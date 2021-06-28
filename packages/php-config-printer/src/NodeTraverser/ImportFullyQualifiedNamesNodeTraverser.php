@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeTraverser;
 
-use Nette\Utils\Strings;
 use PhpParser\BuilderFactory;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Nop;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use Symplify\PhpConfigPrinter\NodeVisitor\ImportFullyQualifiedNamesNodeVisitor;
+use Symplify\PhpConfigPrinter\Sorter\FullyQualifiedImportSorter;
+use Symplify\PhpConfigPrinter\ValueObject\FullyQualifiedImport;
+use Symplify\PhpConfigPrinter\ValueObject\ImportType;
 
 final class ImportFullyQualifiedNamesNodeTraverser
 {
     public function __construct(
+        private ParentConnectingVisitor $parentConnectingVisitor,
         private ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
+        private FullyQualifiedImportSorter $importSorter,
         private BuilderFactory $builderFactory
     ) {
     }
@@ -27,68 +32,59 @@ final class ImportFullyQualifiedNamesNodeTraverser
      */
     public function traverseNodes(array $nodes): array
     {
-        $nameImports = $this->collectNameImportsFromNodes($nodes);
-        if ($nameImports === []) {
-            return $nodes;
-        }
+        $this->collectNameImportsFromNodes($nodes);
 
-        return $this->addUseImportsToNamespace($nodes, $nameImports);
+        $imports = array_unique($this->importFullyQualifiedNamesNodeVisitor->getImports());
+
+        return $this->addUseImportsToNamespace($nodes, $imports);
     }
 
     /**
      * @param Node[] $nodes
-     * @param string[] $nameImports
+     * @param FullyQualifiedImport[] $imports
      * @return Node[]
      */
-    private function addUseImportsToNamespace(array $nodes, array $nameImports): array
+    private function addUseImportsToNamespace(array $nodes, array $imports): array
     {
-        if ($nameImports === []) {
+        if ($imports === []) {
             return $nodes;
         }
 
-        sort($nameImports);
+        $imports = $this->importSorter->sortImports($imports);
 
-        $useImports = $this->createUses($nameImports);
-        $useImports[] = new Nop();
+        $useImports = $this->createUses($imports);
 
-        return array_merge($useImports, $nodes);
+        return array_merge($useImports, [new Nop()], $nodes);
     }
 
     /**
      * @param Node[] $nodes
-     * @return string[]
      */
-    private function collectNameImportsFromNodes(array $nodes): array
+    private function collectNameImportsFromNodes(array $nodes): void
     {
         $nodeTraverser = new NodeTraverser();
+        $nodeTraverser->addVisitor($this->parentConnectingVisitor);
         $nodeTraverser->addVisitor($this->importFullyQualifiedNamesNodeVisitor);
         $nodeTraverser->traverse($nodes);
-
-        $nameImports = $this->importFullyQualifiedNamesNodeVisitor->getNameImports();
-        return array_unique($nameImports);
     }
 
     /**
-     * @param string[] $nameImports
+     * @param FullyQualifiedImport[] $imports
      * @return Use_[]
      */
-    private function createUses(array $nameImports): array
+    private function createUses(array $imports): array
     {
         $useImports = [];
-        foreach ($nameImports as $nameImport) {
-            $shortNameImport = Strings::after($nameImport, '\\', -1);
+        foreach ($imports as $import) {
+            $name = new Name($import->getFullyQualified());
 
-            if (function_exists($nameImport) || $shortNameImport === 'ref') {
-                $useBuilder = $this->builderFactory->useFunction(new Name($nameImport));
-                /** @var Use_ $use */
-                $use = $useBuilder->getNode();
-                $useImports[] = $use;
-            } else {
-                $useBuilder = $this->builderFactory->use(new Name($nameImport));
-                /** @var Use_ $use */
-                $use = $useBuilder->getNode();
-                $useImports[] = $use;
-            }
+            $useBuilder = match ($import->getType()) {
+                ImportType::FUNCTION_TYPE => $this->builderFactory->useFunction($name),
+                ImportType::CONSTANT_TYPE => $this->builderFactory->useConst($name),
+                default => $this->builderFactory->use($name),
+            };
+
+            $useImports[] = $useBuilder->getNode();
         }
 
         return $useImports;
