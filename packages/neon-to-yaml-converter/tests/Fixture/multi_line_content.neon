@@ -1,8 +1,0 @@
-perex: '''
-    This is long multiline perex,
-    that takes too much space.
-'''
------
-perex: |
-    This is long multiline perex,
-    that takes too much space.

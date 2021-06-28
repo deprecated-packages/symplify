@@ -61,7 +61,7 @@ jobs:
 
             -   run: chmod 777 ./ecs-prefixed-downgraded/bin/ecs
 
-            # copy github actoins to repository, so tests run there too
+            # copy github actions to repository, so tests run there too
             -   run: cp -R packages/easy-coding-standard/build/target-repository/. ecs-prefixed-downgraded
 
             # downgrade the bootstrap.php file too

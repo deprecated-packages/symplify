@@ -1,9 +1,0 @@
-services:
-    identityStorage: @Entrydo\Infrastructure\Security\FallbackIdentityStorage
-    namedService: Entrydo\Infrastructure\Security\FallbackIdentityStorage
------
-services:
-    identityStorage:
-        alias: '@Entrydo\Infrastructure\Security\FallbackIdentityStorage'
-    namedService:
-        class: Entrydo\Infrastructure\Security\FallbackIdentityStorage

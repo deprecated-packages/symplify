@@ -62,7 +62,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         }
 
         if (is_string($values) && $values[0] === '@') {
-            $args = $this->argsNodeFactory->createFromValues([$values], true);
+            $args = $this->argsNodeFactory->createFromValues([$key, $values], true);
             $methodCall = new MethodCall($servicesVariable, MethodName::ALIAS, $args);
             return new Expression($methodCall);
         }

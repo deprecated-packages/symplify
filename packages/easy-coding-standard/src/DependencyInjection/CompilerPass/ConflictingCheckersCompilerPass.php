@@ -14,7 +14,7 @@ use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\EasyCodingStandard\Configuration\Exception\ConflictingCheckersLoadedException;
+use Symplify\EasyCodingStandard\Exception\Configuration\ConflictingCheckersLoadedException;
 
 final class ConflictingCheckersCompilerPass implements CompilerPassInterface
 {

@@ -8,6 +8,8 @@ use Nette\Utils\Strings;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
@@ -59,31 +61,38 @@ final class SnippetFormatter
     ) {
     }
 
-    public function format(SmartFileInfo $fileInfo, string $snippetRegex, string $kind): string
-    {
+    public function format(
+        SmartFileInfo $fileInfo,
+        string $snippetRegex,
+        string $kind,
+        Configuration $configuration
+    ): string {
         $this->currentParentFileInfoProvider->setParentFileInfo($fileInfo);
 
-        return Strings::replace($fileInfo->getContents(), $snippetRegex, function ($match) use ($kind): string {
+        return Strings::replace($fileInfo->getContents(), $snippetRegex, function ($match) use (
+            $kind,
+            $configuration
+        ): string {
             if (\str_contains($match[self::CONTENT], '-----')) {
                 // do nothing
                 return $match[self::OPENING] . $match[self::CONTENT] . $match[self::CLOSING];
             }
 
-            return $this->fixContentAndPreserveFormatting($match, $kind);
+            return $this->fixContentAndPreserveFormatting($match, $kind, $configuration);
         });
     }
 
     /**
      * @param string[] $match
      */
-    private function fixContentAndPreserveFormatting(array $match, string $kind): string
+    private function fixContentAndPreserveFormatting(array $match, string $kind, Configuration $configuration): string
     {
         return str_replace(PHP_EOL, '', $match[self::OPENING]) . PHP_EOL
-            . $this->fixContent($match[self::CONTENT], $kind)
+            . $this->fixContent($match[self::CONTENT], $kind, $configuration)
             . str_replace(PHP_EOL, '', $match[self::CLOSING]);
     }
 
-    private function fixContent(string $content, string $kind): string
+    private function fixContent(string $content, string $kind, Configuration $configuration): string
     {
         $temporaryFilePath = $this->createTemporaryFilePath($content);
 
@@ -97,8 +106,8 @@ final class SnippetFormatter
         $temporaryFileInfo = new SmartFileInfo($temporaryFilePath);
 
         try {
-            $this->fixerFileProcessor->processFile($temporaryFileInfo);
-            $this->sniffFileProcessor->processFile($temporaryFileInfo);
+            $this->fixerFileProcessor->processFile($temporaryFileInfo, $configuration);
+            $this->sniffFileProcessor->processFile($temporaryFileInfo, $configuration);
 
             $fileContent = $temporaryFileInfo->getContents();
         } catch (Throwable) {
@@ -110,7 +119,7 @@ final class SnippetFormatter
 
         $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
 
-        if ($kind === 'markdown') {
+        if ($kind === SnippetKind::MARKDOWN) {
             $fileContent = ltrim($fileContent, PHP_EOL);
 
             $fileContent = $this->removeOpeningTagAndStrictTypes($fileContent);

@@ -1,0 +1,20 @@
+services:
+    App\Controller\SomeController:
+        bind:
+            $config: '@some.service.config'
+            $endpoint: '@some.service.endpoint'
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('App\Controller\SomeController')
+        ->bind('$config', service('some.service.config'))
+        ->bind('$endpoint', service('some.service.endpoint'));
+};

@@ -46,7 +46,6 @@ final class DelegatingLoaderFactory
             new ParameterMergingPhpFileLoader($containerBuilder, $simpleFileLocator),
         ];
         $loaderResolver = new LoaderResolver($loaders);
-
         return new DelegatingLoader($loaderResolver);
     }
 }

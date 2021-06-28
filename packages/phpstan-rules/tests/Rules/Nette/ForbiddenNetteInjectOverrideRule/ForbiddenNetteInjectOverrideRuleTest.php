@@ -10,7 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule;
 
 /**
- * @requires PHP 8.0
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenNetteInjectOverrideRule>
  */
 final class ForbiddenNetteInjectOverrideRuleTest extends AbstractServiceAwareRuleTestCase

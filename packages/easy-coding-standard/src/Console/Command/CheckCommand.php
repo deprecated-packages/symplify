@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Console\ShellCode;
 final class CheckCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private ProcessedFileReporter $processedFileReporter
+        private ProcessedFileReporter $processedFileReporter,
     ) {
         parent::__construct();
     }
@@ -20,26 +20,19 @@ final class CheckCommand extends AbstractCheckCommand
     protected function configure(): void
     {
         $this->setDescription('Check coding standard in one or more directories.');
-
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! $this->loadedCheckersGuard->areSomeCheckerRegistered()) {
+        if (! $this->loadedCheckersGuard->areSomeCheckersRegistered()) {
             $this->loadedCheckersGuard->report();
             return ShellCode::ERROR;
         }
 
-        $this->configuration->resolveFromInput($input);
+        $configuration = $this->configurationFactory->createFromInput($input);
+        $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration, $input);
 
-        // CLI paths override parameter paths
-        if ($this->configuration->getSources() === []) {
-            $this->configuration->setSources($this->configuration->getPaths());
-        }
-
-        $processedFilesCount = $this->easyCodingStandardApplication->run();
-
-        return $this->processedFileReporter->report($processedFilesCount);
+        return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 }

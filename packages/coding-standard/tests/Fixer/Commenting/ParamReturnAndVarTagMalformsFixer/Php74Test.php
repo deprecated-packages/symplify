@@ -10,7 +10,6 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
- * @requires PHP 7.4
  * @mimic https://github.com/rectorphp/rector/pull/807/files
  */
 final class Php74Test extends AbstractCheckerTestCase

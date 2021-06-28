@@ -1,7 +1,11 @@
 <div align="center">
-    <h1>Symplify</h1>
-    <img src="/docs/symplify.png?v=3">
-    <h2>Making Everyday PHP Development Simple</h2>
+    <br>
+    <img src="/docs/zen.jpg?v=3">
+    <br>
+    <br>
+    <br>
+    <h1>Symplify - Making Everyday PHP Development Simple</h1>
+    <br>
 </div>
 
 In [this monorepo](https://www.tomasvotruba.com/blog/2019/10/28/all-you-always-wanted-to-know-about-monorepo-but-were-afraid-to-ask/) you'll find PHP packages that help you with:
@@ -66,8 +70,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Config Transformer](https://github.com/symplify/config-transformer)
 - [Latte to TWIG Converter](https://github.com/symplify/latte-to-twig-converter)
-- [NEON to YAML Converter](https://github.com/symplify/neon-to-yaml-converter)
-- [Sniffer Fixer to ECS Converter](https://github.com/symplify/sniffer-fixer-to-ecs-converter)
 
 ## For Upgrades
 

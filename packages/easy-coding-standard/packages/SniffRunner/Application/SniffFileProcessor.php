@@ -8,13 +8,15 @@ use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 use PhpCsFixer\Differ\DifferInterface;
-use Symplify\EasyCodingStandard\Application\AppliedCheckersCollector;
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffCollector;
-use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
+use Symplify\EasyCodingStandard\Error\FileDiffFactory;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
+use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -29,7 +31,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     private $sniffs = [];
 
     /**
-     * @var Sniff[][]
+     * @var array<int|string, Sniff[]>
      */
     private array $tokenListeners = [];
 
@@ -39,12 +41,10 @@ final class SniffFileProcessor implements FileProcessorInterface
     public function __construct(
         private Fixer $fixer,
         private FileFactory $fileFactory,
-        private Configuration $configuration,
-        private ErrorAndDiffCollector $errorAndDiffCollector,
         private DifferInterface $differ,
-        private AppliedCheckersCollector $appliedCheckersCollector,
+        private SniffMetadataCollector $sniffMetadataCollector,
         private SmartFileSystem $smartFileSystem,
-        private TargetFileInfoResolver $targetFileInfoResolver,
+        private FileDiffFactory $fileDiffFactory,
         array $sniffs = []
     ) {
         $this->addCompatibilityLayer();
@@ -71,29 +71,53 @@ final class SniffFileProcessor implements FileProcessorInterface
         return $this->sniffs;
     }
 
-    public function processFile(SmartFileInfo $smartFileInfo): string
+    /**
+     * @return array<string, array<FileDiff|CodingStandardError>>
+     */
+    public function processFile(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {
-        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
+        $this->sniffMetadataCollector->reset();
 
+        $errorsAndDiffs = [];
+
+        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
         $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
+
+        // add coding standard errors
+        $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
+        if ($codingStandardErrors !== []) {
+            $errorsAndDiffs['coding_standard_errors'][] = $codingStandardErrors;
+        }
 
         // add diff
         if ($smartFileInfo->getContents() !== $this->fixer->getContents()) {
             $diff = $this->differ->diff($smartFileInfo->getContents(), $this->fixer->getContents());
 
-            $targetFileInfo = $this->targetFileInfoResolver->resolveTargetFileInfo($smartFileInfo);
+            $appliedCheckers = $this->sniffMetadataCollector->getAppliedSniffs();
 
-            $this->errorAndDiffCollector->addDiffForFileInfo(
-                $targetFileInfo,
+            $fileDiff = $this->fileDiffFactory->createFromDiffAndAppliedCheckers(
+                $smartFileInfo,
                 $diff,
-                $this->appliedCheckersCollector->getAppliedCheckersPerFileInfo($smartFileInfo)
+                $appliedCheckers
             );
+
+            $errorsAndDiffs[Bridge::FILE_DIFFS][] = $fileDiff;
         }
 
-        // 4. save file content (faster without changes check)
-        if ($this->configuration->isFixer()) {
+        if ($configuration->isFixer()) {
             $this->smartFileSystem->dumpFile($file->getFilename(), $this->fixer->getContents());
         }
+
+        return $errorsAndDiffs;
+    }
+
+    /**
+     * For tests or printing contenet
+     */
+    public function processFileToString(SmartFileInfo $smartFileInfo): string
+    {
+        $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
+        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
 
         return $this->fixer->getContents();
     }
@@ -116,7 +140,7 @@ final class SniffFileProcessor implements FileProcessorInterface
      *
      * @see \PHP_CodeSniffer\Fixer::fixFile()
      *
-     * @param Sniff[][] $tokenListeners
+     * @param array<int|string, Sniff[]> $tokenListeners
      */
     private function fixFile(File $file, Fixer $fixer, SmartFileInfo $smartFileInfo, array $tokenListeners): void
     {

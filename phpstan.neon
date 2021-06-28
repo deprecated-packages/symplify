@@ -36,14 +36,6 @@ services:
                 PHPStan\Rules\Rule: 16
                 Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
 
-    -
-        class: Symplify\PHPStanRules\Rules\RequireClassTypeInClassMethodByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            requiredTypeInMethodByClass:
-                Symplify\PHPStanRules\Contract\ManyNodeRuleInterface:
-                    getNodeTypes: 'PhpParser\Node'
-
 parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
@@ -60,6 +52,10 @@ parameters:
     excludes_analyse:
         - */scoper.php
         - *scoper.inc.php
+
+        # WIP parallel
+        - packages/easy-coding-standard/packages/Parallel
+        - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
@@ -150,9 +146,6 @@ parameters:
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             paths:
-                # yaml
-                - packages/sniffer-fixer-to-ecs-converter/src/FixerToECSConverter.php
-
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
                 - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
@@ -205,11 +198,6 @@ parameters:
                  - packages/package-builder/src/Parameter/ParameterProvider.php # 26
 
         -
-            message: '#The path "/\.\./\.\./\.\./\.\./friendsofphp/php\-cs\-fixer/src" was not found#'
-            paths:
-                 - packages/sniffer-fixer-to-ecs-converter/src/RobotLoader/FixerClassProvider.php
-
-        -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
             paths:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
@@ -218,20 +206,8 @@ parameters:
         # use rector rule for this
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
 
-        -
-            message: '#Nested foreach with empty statement is not allowed#'
-            paths:
-                # xml nesting
-                - packages/sniffer-fixer-to-ecs-converter/src/SnifferToECSConverter.php
-
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
-
-
-        -
-            message: '#SymfonyStyle service is not needed for only newline and text echo\. Use PHP_EOL and concatenation instead#'
-            paths:
-                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php # 18
 
         -
             message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
@@ -281,8 +257,6 @@ parameters:
                 - packages/easy-ci/src/Latte/Analyzer/MissingClassStaticCallLatteAnalyzer.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
-                # PHP 7/8 compact
-                - packages/easy-hydrator/src/ParameterTypeRecognizer.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
@@ -307,11 +281,6 @@ parameters:
 
         # manually constructored for Symfony compiler pass, before DI is created
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
-        -
-            message: '#Assign in loop is not allowed#'
-            paths:
-                - packages/monorepo-builder/packages/Merge/Validation/AutoloadPathValidator.php #30
 
         -
             message: '#\$this as argument is not allowed#'
@@ -378,8 +347,6 @@ parameters:
             paths:
                 - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
 
-        - '#Class with base "Regex" name is already used in "Symplify\\PHPStanRules\\ValueObject\\Regex", "Symplify\\GitWrapper\\ValueObject\\Regex"\. Use unique name to make classes easy to recognize#'
-
         # third party package
         -
              message: '#Parameter "(.*?)" cannot be nullable#'
@@ -407,12 +374,10 @@ parameters:
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
         # xml magic
-        - '#Offset (.*?) does not exist on SimpleXMLElement\|null#'
         -
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/bin/ecs.php
-                - packages/sniffer-fixer-to-ecs-converter/tests/FixerToECSConverter/FixerToECSConverterTest.php
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'
@@ -426,6 +391,7 @@ parameters:
             paths:
                 -  packages/phpstan-rules/tests/Rules
 
+
         - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
 
         -
@@ -438,6 +404,7 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
+        - '#Method Symplify\\EasyCodingStandard\\SniffRunner\\Application\\SniffFileProcessor\:\:processFile\(\) should return array<string, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\> but returns array<string, array<int, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\>\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\>#'
 
         # node traverser magic
         -
@@ -497,12 +464,13 @@ parameters:
         # this class is used by scoper, so better use less external deps
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
-            path: packages/easy-coding-standard/src/Application/VersionResolver.php
+            path: packages/easy-coding-standard/src/Application/Version/VersionResolver.php
 
         -
             message: '#Nested foreach with empty statement is not allowed#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
+        - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
 
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
@@ -535,11 +503,32 @@ parameters:
 
         - '#Parameter \#1 \$container of method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest\:\:getIndentationTypeFixerFromContainer\(\) expects Psr\\Container\\ContainerInterface, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given#'
 
-        # the value is already set
         -
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
             path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
 
         -
-            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
-            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            path: packages/easy-coding-standard/packages/SnippetFormatter/Application/SnippetFormatterApplication.php
+
+        -
+            message: '#Parameter "config" cannot be nullable#'
+            path: packages/easy-coding-standard/src/ValueObject/Configuration.php
+
+        -
+            message: '#Cannot cast array<string\>\|bool\|string to string#'
+            path: packages/easy-coding-standard/src/Configuration/ConfigurationFactory.php
+
+        # array_merge() class-string[]
+        - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'
+
+        # this can change on downgrade build
+        - "#'@package_version@' and '@package_version@' will always evaluate to false#"
+        -
+            message: '#Else branch is unreachable because previous condition is always true#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+
+        -
+            message: '#Unreachable statement \- code above always terminates#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php

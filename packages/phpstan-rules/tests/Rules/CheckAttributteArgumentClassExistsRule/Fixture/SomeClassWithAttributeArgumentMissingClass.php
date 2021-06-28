@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRu
 
 use Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRule\Source\SomeAttribute;
 
-#[SomeAttribute(className: 'MissingClass')]
+#[SomeAttribute(className: MissingClass::class)]
 final class SomeClassWithAttributeArgumentMissingClass
 {
-
 }
+

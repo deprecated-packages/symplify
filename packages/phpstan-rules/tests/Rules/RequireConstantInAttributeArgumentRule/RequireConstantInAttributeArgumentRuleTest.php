@@ -10,8 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule;
 
 /**
- * @requires PHP 8.0
- *
  * @extends AbstractServiceAwareRuleTestCase<RequireConstantInAttributeArgumentRule>
  */
 final class RequireConstantInAttributeArgumentRuleTest extends AbstractServiceAwareRuleTestCase

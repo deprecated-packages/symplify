@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Exception;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
+use Rector\Core\Rector\AbstractRector;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,7 +33,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     public const ERROR_MESSAGE = 'Class should have suffix "%s" to respect parent type';
 
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private const DEFAULT_PARENT_CLASSES = [
         Command::class,
@@ -37,15 +41,19 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
         AbstractController::class,
         Sniff::class,
         TestCase::class,
+        Exception::class,
+        FixerInterface::class,
+        Rule::class,
+        AbstractRector::class,
     ];
 
     /**
-     * @var string[]
+     * @var class-string[]
      */
     private array $parentClasses = [];
 
     /**
-     * @param string[] $parentClasses
+     * @param class-string[] $parentClasses
      */
     public function __construct(
         private ClassToSuffixResolver $classToSuffixResolver,

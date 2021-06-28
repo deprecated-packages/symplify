@@ -10,8 +10,6 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
 
 /**
- * @requires PHP 8.0
- *
  * @extends AbstractServiceAwareRuleTestCase<TooDeepNewClassNestingRule>
  */
 final class Php8Test extends AbstractServiceAwareRuleTestCase

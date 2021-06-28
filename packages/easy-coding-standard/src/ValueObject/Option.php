@@ -104,4 +104,24 @@ final class Option
      * @var string
      */
     public const DEBUG = 'debug';
+
+    /**
+     * @var string
+     */
+    public const PARALLEL = 'parallel';
+
+    /**
+     * @var string
+     */
+    public const SYSTEM_ERROR_COUNT_LIMIT = 'system-error-count-limit';
+
+    /**
+     * @var string
+     */
+    public const CONFIG = 'config';
+
+    /**
+     * @var string
+     */
+    public const PARALLEL_JOB_SIZE = 'parallel_job_size';
 }

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Nette\Utils\Strings;
-use Symplify\EasyCodingStandard\Application\VersionResolver;
+use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
 
 require __DIR__ . '/vendor/autoload.php';
 

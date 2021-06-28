@@ -4,25 +4,39 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Reporter;
 
-use Symplify\EasyCodingStandard\Configuration\Configuration;
 use Symplify\EasyCodingStandard\Console\Output\OutputFormatterCollector;
-use Symplify\EasyCodingStandard\Error\ErrorAndDiffResultFactory;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
+use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\ValueObject\Configuration;
+use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
+use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 
 final class ProcessedFileReporter
 {
     public function __construct(
-        private Configuration $configuration,
         private OutputFormatterCollector $outputFormatterCollector,
-        private ErrorAndDiffResultFactory $errorAndDiffResultFactory
     ) {
     }
 
-    public function report(int $processedFileCount): int
+    /**
+     * @param array<string, array<SystemError|FileDiff|CodingStandardError>> $errorsAndDiffs
+     */
+    public function report(array $errorsAndDiffs, Configuration $configuration): int
     {
-        $outputFormat = $this->configuration->getOutputFormat();
+        $outputFormat = $configuration->getOutputFormat();
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
-        $errorAndDiffResult = $this->errorAndDiffResultFactory->create();
-        return $outputFormatter->report($errorAndDiffResult, $processedFileCount);
+        /** @var SystemError[] $systemErrors */
+        $systemErrors = $errorsAndDiffs[Bridge::SYSTEM_ERRORS] ?? [];
+
+        /** @var FileDiff[] $fileDiffs */
+        $fileDiffs = $errorsAndDiffs[Bridge::FILE_DIFFS] ?? [];
+
+        /** @var CodingStandardError[] $codingStandardErrors */
+        $codingStandardErrors = $errorsAndDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
+
+        $errorAndDiffResult = new ErrorAndDiffResult($codingStandardErrors, $fileDiffs, $systemErrors);
+        return $outputFormatter->report($errorAndDiffResult, $configuration);
     }
 }

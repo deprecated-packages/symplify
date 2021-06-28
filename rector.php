@@ -106,8 +106,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/git-wrapper',
         ],
 
-        __DIR__ . '/packages/sniffer-fixer-to-ecs-converter/stubs/Sniff.php',
-
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
     ]);
 };
