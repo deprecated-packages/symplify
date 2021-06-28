@@ -23,7 +23,7 @@ final class ServicesPhpNodeFactory
     public function __construct(
         private CommonNodeFactory $commonNodeFactory,
         private ArgsNodeFactory $argsNodeFactory,
-        private AutoBindNodeFactory $autoBindNodeFactory
+        private ServiceOptionNodeFactory $serviceOptionNodeFactory,
     ) {
     }
 
@@ -31,11 +31,7 @@ final class ServicesPhpNodeFactory
     {
         $servicesLoadMethodCall = $this->createServicesLoadMethodCall($serviceKey, $serviceValues);
 
-        $servicesLoadMethodCall = $this->autoBindNodeFactory->createAutoBindCalls(
-            $serviceValues,
-            $servicesLoadMethodCall,
-            AutoBindNodeFactory::TYPE_SERVICE
-        );
+        $servicesLoadMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($serviceValues, $servicesLoadMethodCall);
 
         if (! isset($serviceValues[self::EXCLUDE])) {
             return new Expression($servicesLoadMethodCall);
