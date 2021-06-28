@@ -17,6 +17,7 @@ final class EasyCodingStandardContainerFactory
     public function createFromFromInput(InputInterface $input): ContainerInterface
     {
         $environment = $this->resolveEnvironment();
+
         $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
 
         $inputConfigFileInfos = [];

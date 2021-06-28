@@ -64,6 +64,7 @@ final class EasyCodingStandardApplication
 
         // no files found
         $filesCount = count($fileInfos);
+
         if ($filesCount === 0) {
             return [];
         }
