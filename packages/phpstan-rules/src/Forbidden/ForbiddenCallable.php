@@ -15,7 +15,7 @@ final class ForbiddenCallable {
     /**
      * @param string $errorMessage
      * @param string $funcName
-     * @return array<string, string|null> $forbiddenFunctions
+     * @param array<string, string|null> $forbiddenFunctions
      *
      * @return string
      */
