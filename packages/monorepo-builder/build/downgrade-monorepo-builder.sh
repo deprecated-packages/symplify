@@ -22,7 +22,7 @@ note()
 
 
 # configure - 1st argument, use like
-# sh build/downgrade-config-transformer.sh <directory-to-downgrade>
+# sh build/downgrade-monorepo-builder.sh <directory-to-downgrade>
 BUILD_DIRECTORY=$1
 
 #---------------------------------------------
@@ -37,7 +37,7 @@ export IFS=";"
 note "Downgrading directories\n"
 
 # --working-dir is needed, so "SKIP" parameter is applied in absolute path of nested directory
-php -d memory_limit=-1 vendor/bin/rector process bin src vendor --config packages/config-transformer/build/config/config-downgrade.php --working-dir $BUILD_DIRECTORY --ansi
+php -d memory_limit=-1 vendor/bin/rector process bin src vendor --config packages/monorepo-builder/build/config/config-downgrade.php --working-dir $BUILD_DIRECTORY --ansi
 
 # CONFIRMED: give time to print all the files, before the next process takes over newly printed content
 # avoids bugs like these half of files done, next half waiting https://github.com/rectorphp/rector-src/runs/2565478682

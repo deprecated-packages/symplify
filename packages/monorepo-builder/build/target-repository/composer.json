@@ -1,0 +1,11 @@
+{
+    "name": "symplify/monorepo-builder",
+    "description": "Prefixed version of Not only Composer tools to build a Monorepo.",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1"
+    },
+    "bin": [
+        "bin/monorepo-builder"
+    ]
+}
