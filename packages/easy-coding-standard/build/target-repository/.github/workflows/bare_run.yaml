@@ -21,3 +21,5 @@ jobs:
                     coverage: none
 
             -   run: php bin/ecs list --ansi --debug
+
+            -   run: php bin/ecs init --ansi --debug
