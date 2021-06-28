@@ -21,7 +21,7 @@ final class ImportFullyQualifiedNamesNodeTraverser
     public function __construct(
         private ParentConnectingVisitor $parentConnectingVisitor,
         private ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
-        private FullyQualifiedImportSorter $importSorter,
+        private FullyQualifiedImportSorter $fullyQualifiedImportSorter,
         private BuilderFactory $builderFactory
     ) {
     }
@@ -50,7 +50,7 @@ final class ImportFullyQualifiedNamesNodeTraverser
             return $nodes;
         }
 
-        $imports = $this->importSorter->sortImports($imports);
+        $imports = $this->fullyQualifiedImportSorter->sortImports($imports);
 
         $useImports = $this->createUses($imports);
 
