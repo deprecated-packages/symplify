@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -14,10 +14,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
 
-    $parameters->set(
-        Option::CACHE_DIRECTORY,
-        sys_get_temp_dir() . '/changed_files_detector%env(TEST_SUFFIX)%' . EasyCodingStandardKernel::CONTAINER_VERSION
-    );
+    $cacheDirectory = sys_get_temp_dir() . '/changed_files_detector%env(TEST_SUFFIX)%';
+    if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
+        $cacheDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
+    }
+
+    $parameters->set(Option::CACHE_DIRECTORY, $cacheDirectory);
 
     $cacheNamespace = str_replace(DIRECTORY_SEPARATOR, '_', getcwd());
     $parameters->set(Option::CACHE_NAMESPACE, $cacheNamespace);
