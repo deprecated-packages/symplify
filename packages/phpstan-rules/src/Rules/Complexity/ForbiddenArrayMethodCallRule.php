@@ -39,6 +39,7 @@ final class ForbiddenArrayMethodCallRule extends AbstractSymplifyRule
 
     /**
      * @param Array_ $node
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -47,7 +48,7 @@ final class ForbiddenArrayMethodCallRule extends AbstractSymplifyRule
         }
 
         $classType = $this->resolveFirstArrayItemClassType($node, $scope);
-        if ($classType === null) {
+        if (! $classType instanceof TypeWithClassName) {
             return [];
         }
 
