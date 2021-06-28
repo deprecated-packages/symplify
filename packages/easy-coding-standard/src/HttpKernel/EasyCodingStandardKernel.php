@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
 use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
+use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
 use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
 use Symplify\Skipper\Bundle\SkipperBundle;
@@ -18,13 +19,6 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 {
-    /**
-     * To enable Kernel cache that is changed only when new services are needed.
-     *
-     * @var string
-     */
-    public const CONTAINER_VERSION = 'v1';
-
     /**
      * @return BundleInterface[]
      */
@@ -37,6 +31,29 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
             new SymplifyKernelBundle(),
             new SkipperBundle(),
         ];
+    }
+
+    public function getCacheDir(): string
+    {
+        // the PACKAGE_VERSION constant helps to rebuild cache on new release, but just once
+        $cacheDirectory = sys_get_temp_dir() . '/ecs_' . get_current_user();
+
+        if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
+            $cacheDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
+        }
+
+        return $cacheDirectory;
+    }
+
+    public function getLogDir(): string
+    {
+        $logDirectory = sys_get_temp_dir() . '/ecs_log_' . get_current_user();
+
+        if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
+            $logDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
+        }
+
+        return $logDirectory;
     }
 
     protected function prepareContainer(ContainerBuilder $containerBuilder): void
