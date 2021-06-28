@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\Forbidden\ForbiddenCallable;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -27,7 +28,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
-     * @param string[]|array<string, string> $forbiddenFunctions
+     * @param string[]|array<string, string>|list<array<string, string>> $forbiddenFunctions
      */
     public function __construct(
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
@@ -128,22 +129,41 @@ CODE_SAMPLE
         $forbidden = [];
         foreach($this->forbiddenFunctions as $key => $value) {
             if (is_int($key)) {
-                /**
-                 * config-format:
-                 *
-                 * forbiddenFunctions:
-                 * - 'extract'
-                 * - 'dump'
-                 */
+                if (is_array($value)) {
+                    /**
+                     * config-format:
+                     *
+                     * forbiddenFunctions:
+                     * - 'extract': 'you shouldn"t use this dynamic things'
+                     * - 'dump': 'seems you missed some debugging function'
+                     */
 
-                $forbidden[$value] = null;
+                    $aKey = array_key_first($value);
+                    $aVal = $value[$aKey];
+
+                    if ($aVal === '') {
+                        $forbidden[$aKey] = null;
+                    } else {
+                        $forbidden[$aKey] = $aVal;
+                    }
+                } else {
+                    /**
+                     * config-format:
+                     *
+                     * forbiddenFunctions:
+                     * - 'extract'
+                     * - 'dump'
+                     */
+
+                    $forbidden[$value] = null;
+                }
             } elseif (is_string($key)) {
                 /**
                  * config-format:
                  *
                  * forbiddenFunctions:
-                 * - 'extract': 'you shouldn"t use this dynamic things'
-                 * - 'dump': 'seems you missed some debugging function'
+                 *   'extract': 'you shouldn"t use this dynamic things'
+                 *   'dump': 'seems you missed some debugging function'
                  */
 
                 if ($value === '') {

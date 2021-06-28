@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenFuncCallRule>
  */
-final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
+class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -25,7 +25,7 @@ final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwa
 
     public function provideData(): Iterator
     {
-        // custom messages are defined in configured_rule_with_deprecations.neon
+        // custom messages are defined in the config file
 
         $errorMessage = sprintf(ForbiddenFuncCallRule::ERROR_MESSAGE, 'dump');
         $errorMessage .= ': seems you missed some debugging function';
