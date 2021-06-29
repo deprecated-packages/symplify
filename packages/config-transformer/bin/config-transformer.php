@@ -6,6 +6,8 @@ use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
+    // when using `vendor/bin/config-transformer` from project root that depends on this package
+    getcwd() . '/vendor/autoload.php',
     // after split package
     __DIR__ . '/../vendor/autoload.php',
     // dependency
