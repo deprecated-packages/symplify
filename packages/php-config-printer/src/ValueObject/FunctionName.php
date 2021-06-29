@@ -25,4 +25,14 @@ final class FunctionName
      * @var string
      */
     public const EXPR = 'Symfony\Component\DependencyInjection\Loader\Configurator\expr';
+
+    /**
+     * @var string
+     */
+    public const TAGGED_ITERATOR = 'Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator';
+
+    /**
+     * @var string
+     */
+    public const TAGGED_LOCATOR = 'Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator';
 }
