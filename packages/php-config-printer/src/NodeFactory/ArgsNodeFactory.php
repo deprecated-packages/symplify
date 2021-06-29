@@ -12,11 +12,13 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
+use PhpParser\Node\Name\FullyQualified;
 use Symfony\Component\Yaml\Tag\TaggedValue;
 use Symplify\PhpConfigPrinter\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\ExprResolver\StringExprResolver;
 use Symplify\PhpConfigPrinter\ExprResolver\TaggedReturnsCloneResolver;
 use Symplify\PhpConfigPrinter\ExprResolver\TaggedServiceResolver;
+use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 
 final class ArgsNodeFactory
 {
@@ -148,8 +150,14 @@ final class ArgsNodeFactory
             return $this->taggedServiceResolver->resolve($taggedValue);
         }
 
+        $name = match ($taggedValue->getTag()) {
+            'tagged_iterator' => new FullyQualified(FunctionName::TAGGED_ITERATOR),
+            'tagged_locator' => new FullyQualified(FunctionName::TAGGED_LOCATOR),
+            default => new Name($taggedValue->getTag())
+        };
         $args = $this->createFromValues($taggedValue->getValue());
-        return new FuncCall(new Name($taggedValue->getTag()), $args);
+
+        return new FuncCall($name, $args);
     }
 
     /**
