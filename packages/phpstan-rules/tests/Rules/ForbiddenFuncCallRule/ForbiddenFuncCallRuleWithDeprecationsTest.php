@@ -48,6 +48,9 @@ class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRule
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenFuncCallRule::class, __DIR__ . '/config/configured_rule_with_deprecations.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenFuncCallRule::class,
+            __DIR__ . '/config/configured_rule_with_deprecations.neon'
+        );
     }
 }

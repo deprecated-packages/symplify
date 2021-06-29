@@ -62,7 +62,7 @@ final class ConstantNodeFactory
         return null;
     }
 
-    private function getConstantValueIgnoringDeprecationWarnings(string $constant) : mixed
+    private function getConstantValueIgnoringDeprecationWarnings(string $constant): mixed
     {
         $previousLevel = error_reporting(E_ALL & ~E_DEPRECATED);
 

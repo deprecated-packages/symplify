@@ -10,8 +10,7 @@ use PHPStan\Analyser\Scope;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\Forbidden\ForbiddenCallable;
+use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -35,7 +34,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private ForbiddenCallable $forbiddenCallable
+        private RequiredWithMessageFormatter $errorFormatter
     ) {
     }
 
@@ -67,7 +66,13 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        return [$this->forbiddenCallable->formatError(self::ERROR_MESSAGE, $funcName, $this->getForbiddenFunctionsWithMessages())];
+        return [
+            $this->errorFormatter->formatError(
+                self::ERROR_MESSAGE,
+                $funcName,
+                $this->getForbiddenFunctionsWithMessages()
+            ),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -109,7 +114,9 @@ class SomeClass
 CODE_SAMPLE
             ,
                 [
-                    'forbiddenFunctions' => ['dump' => 'seems you missed some debugging function'],
+                    'forbiddenFunctions' => [
+                        'dump' => 'seems you missed some debugging function',
+                    ],
                 ]
             ),
         ]);
@@ -126,8 +133,9 @@ CODE_SAMPLE
     /**
      * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
      */
-    private function getForbiddenFunctionsWithMessages(): array {
-        return $this->forbiddenCallable->normalizeConfig($this->forbiddenFunctions);
+    private function getForbiddenFunctionsWithMessages(): array
+    {
+        return $this->errorFormatter->normalizeConfig($this->forbiddenFunctions);
     }
 
     private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool

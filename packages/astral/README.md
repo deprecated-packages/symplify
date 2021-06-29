@@ -169,7 +169,7 @@ $classMethod = '...';
 
 $simpleCallableNodeTraverser = new SimpleCallableNodeTraverser();
 $simpleCallableNodeTraverser->traverseNodesWithCallable($classMethod, function (Node $node) {
-    if (!$node instanceof String_) {
+    if (! $node instanceof String_) {
         return null;
     }
 

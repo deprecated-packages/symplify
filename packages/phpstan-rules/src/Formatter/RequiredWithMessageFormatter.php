@@ -2,22 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Forbidden;
+namespace Symplify\PHPStanRules\Formatter;
 
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 
-final class ForbiddenCallable {
-   public function __construct(
+final class RequiredWithMessageFormatter
+{
+    public function __construct(
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
-   ) {
-   }
+    ) {
+    }
 
     /**
      * @param array<string, string|null> $forbiddenFunctions
      */
-    public function formatError(string $errorMessage, string $funcName, array $forbiddenFunctions): string {
-        foreach($forbiddenFunctions as $forbiddenFunction => $additionalMessage) {
-            if (!$additionalMessage) {
+    public function formatError(string $errorMessage, string $funcName, array $forbiddenFunctions): string
+    {
+        foreach ($forbiddenFunctions as $forbiddenFunction => $additionalMessage) {
+            if (! $additionalMessage) {
                 continue;
             }
 
@@ -25,8 +27,9 @@ final class ForbiddenCallable {
                 continue;
             }
 
-            return sprintf($errorMessage .': '. $additionalMessage, $funcName);
+            return sprintf($errorMessage . ': ' . $additionalMessage, $funcName);
         }
+
         return sprintf($errorMessage, $funcName);
     }
 
@@ -37,12 +40,11 @@ final class ForbiddenCallable {
     public function normalizeConfig(array $forbiddenFunctions): array
     {
         $valuesToMessages = [];
-        foreach($forbiddenFunctions as $key => $value) {
+        foreach ($forbiddenFunctions as $key => $value) {
             $funcName = null;
             $additionalMessage = null;
 
             if (is_int($key)) {
-                // - 'value'
                 $funcName = $value;
                 $additionalMessage = null;
             } elseif (is_string($key)) {
