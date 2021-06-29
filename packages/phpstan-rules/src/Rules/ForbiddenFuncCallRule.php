@@ -118,62 +118,15 @@ CODE_SAMPLE
     /**
      * @return list<string>
      */
-    private function getForbiddenFunctionsList() {
+    private function getForbiddenFunctionsList(): array {
         return array_keys($this->getForbiddenFunctionsWithMessages());
     }
 
     /**
      * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
      */
-    private function getForbiddenFunctionsWithMessages() {
-        $forbidden = [];
-        foreach($this->forbiddenFunctions as $key => $value) {
-            if (is_int($key)) {
-                if (is_array($value)) {
-                    /**
-                     * config-format:
-                     *
-                     * forbiddenFunctions:
-                     * - 'extract': 'you shouldn"t use this dynamic things'
-                     * - 'dump': 'seems you missed some debugging function'
-                     */
-
-                    $aKey = array_key_first($value);
-                    $aVal = $value[$aKey];
-
-                    if ($aVal === '') {
-                        $forbidden[$aKey] = null;
-                    } else {
-                        $forbidden[$aKey] = $aVal;
-                    }
-                } else {
-                    /**
-                     * config-format:
-                     *
-                     * forbiddenFunctions:
-                     * - 'extract'
-                     * - 'dump'
-                     */
-
-                    $forbidden[$value] = null;
-                }
-            } elseif (is_string($key)) {
-                /**
-                 * config-format:
-                 *
-                 * forbiddenFunctions:
-                 *   'extract': 'you shouldn"t use this dynamic things'
-                 *   'dump': 'seems you missed some debugging function'
-                 */
-
-                if ($value === '') {
-                    $forbidden[$key] = null;
-                } else {
-                    $forbidden[$key] = $value;
-                }
-            }
-        }
-        return $forbidden;
+    private function getForbiddenFunctionsWithMessages(): array {
+        return $this->forbiddenCallable->normalizeConfig($this->forbiddenFunctions);
     }
 
     private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool
