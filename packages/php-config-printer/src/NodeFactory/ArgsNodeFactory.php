@@ -63,9 +63,14 @@ final class ArgsNodeFactory
     ): array {
         if (is_array($values)) {
             $args = [];
-            foreach ($values as $value) {
+            foreach ($values as $key => $value) {
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
-                $args[] = new Arg($expr);
+
+                if (! is_int($key)) {
+                    $args[] = new Arg($expr, name: new Node\Identifier($key));
+                } else {
+                    $args[] = new Arg($expr);
+                }
             }
 
             return $args;
