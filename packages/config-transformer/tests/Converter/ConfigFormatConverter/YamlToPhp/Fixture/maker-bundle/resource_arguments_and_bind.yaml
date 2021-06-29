@@ -2,6 +2,9 @@ services:
   App\:
     resource: '../src/*'
     exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+    autowire: true
+    autoconfigure: true
+    public: true
     arguments:
         $environment: '%kernel.environment%'
     bind:
@@ -17,6 +20,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->load('App\\', __DIR__ . '/../src/*')
+        ->autowire(true)
+        ->autoconfigure(true)
+        ->public()
         ->arg('$environment', '%kernel.environment%')
         ->bind('$debug', '%kernel.debug%')
         ->exclude([__DIR__ . '/../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}']);
