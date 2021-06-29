@@ -4,66 +4,29 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Formatter;
 
-use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\PHPStanRules\ValueObject\Configuration\RequiredWithMessage;
 
 final class RequiredWithMessageFormatter
 {
-    public function __construct(
-        private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
-    ) {
-    }
-
     /**
-     * @param array<string, string|null> $forbiddenFunctions
+     * @param string[]|array<string|int, string> $configuration
+     * @return RequiredWithMessage[] forbidden values as keys, optional helpful messages as value
      */
-    public function formatError(string $errorMessage, string $funcName, array $forbiddenFunctions): string
+    public function normalizeConfig(array $configuration): array
     {
-        foreach ($forbiddenFunctions as $forbiddenFunction => $additionalMessage) {
-            if (! $additionalMessage) {
-                continue;
-            }
+        $requiredWithMessages = [];
 
-            if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$forbiddenFunction])) {
-                continue;
-            }
-
-            return sprintf($errorMessage . ': ' . $additionalMessage, $funcName);
-        }
-
-        return sprintf($errorMessage, $funcName);
-    }
-
-    /**
-     * @param string[]|array<string|int, string> $forbiddenFunctions
-     * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
-     */
-    public function normalizeConfig(array $forbiddenFunctions): array
-    {
-        $valuesToMessages = [];
-        foreach ($forbiddenFunctions as $key => $value) {
-            $funcName = null;
-            $additionalMessage = null;
-
+        foreach ($configuration as $key => $value) {
             if (is_int($key)) {
-                $funcName = $value;
-                $additionalMessage = null;
+                $requiredWithMessages[] = new RequiredWithMessage($value, null);
             } elseif (is_string($key)) {
-                // 'key': 'value'
-                $funcName = $key;
-                $additionalMessage = $value;
-            }
-
-            if ($funcName === null) {
-                continue;
-            }
-
-            if ($additionalMessage === '') {
-                $valuesToMessages[$funcName] = null;
+                $requiredWithMessages[] = new RequiredWithMessage($key, $value);
             } else {
-                $valuesToMessages[$funcName] = $additionalMessage;
+                throw new ShouldNotHappenException();
             }
         }
 
-        return $valuesToMessages;
+        return $requiredWithMessages;
     }
 }

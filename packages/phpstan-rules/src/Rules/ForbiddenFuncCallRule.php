@@ -34,7 +34,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private RequiredWithMessageFormatter $errorFormatter
+        private RequiredWithMessageFormatter $errorFormatter,
     ) {
     }
 
@@ -57,22 +57,27 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->getForbiddenFunctionsList())) {
-            return [];
+        $requiredWithMessages = $this->errorFormatter->normalizeConfig($this->forbiddenFunctions);
+        foreach ($requiredWithMessages as $requiredWithMessage) {
+            if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$requiredWithMessage->getRequired()])) {
+                continue;
+            }
+
+            // special cases
+            if ($this->shouldAllowSpecialCase($node, $scope, $funcName)) {
+                continue;
+            }
+
+            if ($requiredWithMessage->getMessage() === null) {
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
+            } else {
+                $errorMessage = sprintf(self::ERROR_MESSAGE . ': ' . $requiredWithMessage->getMessage(), $funcName);
+            }
+
+            return [$errorMessage];
         }
 
-        // special cases
-        if ($this->shouldAllowSpecialCase($node, $scope, $funcName)) {
-            return [];
-        }
-
-        return [
-            $this->errorFormatter->formatError(
-                self::ERROR_MESSAGE,
-                $funcName,
-                $this->getForbiddenFunctionsWithMessages()
-            ),
-        ];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -120,22 +125,6 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    /**
-     * @return array<string>
-     */
-    private function getForbiddenFunctionsList(): array
-    {
-        return array_keys($this->getForbiddenFunctionsWithMessages());
-    }
-
-    /**
-     * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
-     */
-    private function getForbiddenFunctionsWithMessages(): array
-    {
-        return $this->errorFormatter->normalizeConfig($this->forbiddenFunctions);
     }
 
     private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool
