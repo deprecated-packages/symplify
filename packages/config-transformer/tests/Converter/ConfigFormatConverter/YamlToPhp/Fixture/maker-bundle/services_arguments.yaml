@@ -9,8 +9,12 @@ services:
       -
         App\FooCommand: '@app.command_handler.foo'
         App\BarCommand: '@app.command_handler.bar'
+
+  Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\MimeTypes:
+    arguments:
       - !tagged_locator { tag: 'app.handler', index_by: 'key' }
       - !tagged_iterator app.handler
+      - !tagged_iterator { tag: app.handler, default_priority_method: getPriority }
 
   Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
     arguments: [!tagged_locator { index_by: 'key', tag: 'app.handler', default_index_method: 'myOwnMethodName' }]
@@ -30,6 +34,7 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\MimeTypes;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
@@ -43,10 +48,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(SecondFakeClass::class . ' $shoutyTransformer', 'App\Util\UppercaseTransformer');
 
     $services->set(FakeClass::class)
-        ->args([ref('string'), ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com'], 456, ['App\FooCommand' => ref('app.command_handler.foo'), 'App\BarCommand' => ref('app.command_handler.bar')], tagged_locator('app.handler', 'key'), tagged_iterator('app.handler')]);
+        ->args([ref('string'), ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com'], 456, ['App\FooCommand' => ref('app.command_handler.foo'), 'App\BarCommand' => ref('app.command_handler.bar')]]);
+
+    $services->set(MimeTypes::class)
+        ->args([tagged_locator(tag: 'app.handler', index_by: 'key'), tagged_iterator('app.handler'), tagged_iterator(tag: 'app.handler', default_priority_method: 'getPriority')]);
 
     $services->set(SecondFakeClass::class)
-        ->args([tagged_locator('key', 'app.handler', 'myOwnMethodName')]);
+        ->args([tagged_locator(index_by: 'key', tag: 'app.handler', default_index_method: 'myOwnMethodName')]);
 
     $services->set(ThirdFakeClass::class)
         ->arg('$fake1', ref('id.fake.service'))

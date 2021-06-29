@@ -33,30 +33,15 @@ final class Psr4PathValidatorTest extends AbstractKernelTestCase
 
     public function provideCorrectData(): Iterator
     {
-        yield [
-            'Symplify\\PHPStanRules\\Tests\\',
-            'packages/phpstan-rules/tests',
-        ];
-        yield [
-            'Symplify\\PHPStanRules\\Tests\\',
-            'packages/phpstan-rules/tests/',
-        ];
+        yield ['Symplify\\PHPStanRules\\Tests\\', 'packages/phpstan-rules/tests'];
+        yield ['Symplify\\PHPStanRules\\Tests\\', 'packages/phpstan-rules/tests/'];
     }
 
     public function provideFailingData(): Iterator
     {
-        yield [
-            'Symplify\\PHPStanRules\\Tests\\',
-            'packages/tests/',
-        ];
-        yield [
-            'Symplify\\PHPStanRules\\Tests\\',
-            'packages/phpstan-rules/',
-        ];
-        yield [
-            'PHPStanRules\\Tests',
-            'packages/tests/',
-        ];
+        yield ['Symplify\\PHPStanRules\\Tests\\', 'packages/tests/'];
+        yield ['Symplify\\PHPStanRules\\Tests\\', 'packages/phpstan-rules/'];
+        yield ['PHPStanRules\\Tests', 'packages/tests/'];
     }
 
     private function isNamespaceAndDirectoryCorrect(string $namespace, string $directory): bool

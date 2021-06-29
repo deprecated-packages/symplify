@@ -36,6 +36,9 @@ final class ForbiddenForeachEmptyMissingArrayRuleTest extends AbstractServiceAwa
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenForeachEmptyMissingArrayRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenForeachEmptyMissingArrayRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
