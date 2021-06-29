@@ -13,11 +13,7 @@ final class ForbiddenCallable {
    }
 
     /**
-     * @param string $errorMessage
-     * @param string $funcName
      * @param array<string, string|null> $forbiddenFunctions
-     *
-     * @return string
      */
     public function formatError(string $errorMessage, string $funcName, array $forbiddenFunctions): string {
         foreach($forbiddenFunctions as $forbiddenFunction => $additionalMessage) {
@@ -35,49 +31,22 @@ final class ForbiddenCallable {
     }
 
     /**
-     * @param string[]|array<string, string>|list<array<string, string>> $forbiddenFunctions
-     *
+     * @param string[]|array<string|int, string> $forbiddenFunctions
      * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
      */
-    public function normalizeConfig($forbiddenFunctions): array {
-        $forbidden = [];
+    public function normalizeConfig(array $forbiddenFunctions): array
+    {
+        $valuesToMessages = [];
         foreach($forbiddenFunctions as $key => $value) {
             $funcName = null;
             $additionalMessage = null;
 
             if (is_int($key)) {
-                if (is_array($value)) {
-                    /**
-                     * config-format:
-                     *
-                     * forbiddenFunctions:
-                     * - 'extract': 'you shouldn"t use this dynamic things'
-                     * - 'dump': 'seems you missed some debugging function'
-                     */
-
-                    $funcName = array_key_first($value);
-                    $additionalMessage = $value[$funcName];
-                } else {
-                    /**
-                     * config-format:
-                     *
-                     * forbiddenFunctions:
-                     * - 'extract'
-                     * - 'dump'
-                     */
-
-                    $funcName = $value;
-                    $additionalMessage = null;
-                }
+                // - 'value'
+                $funcName = $value;
+                $additionalMessage = null;
             } elseif (is_string($key)) {
-                /**
-                 * config-format:
-                 *
-                 * forbiddenFunctions:
-                 *   'extract': 'you shouldn"t use this dynamic things'
-                 *   'dump': 'seems you missed some debugging function'
-                 */
-
+                // 'key': 'value'
                 $funcName = $key;
                 $additionalMessage = $value;
             }
@@ -87,12 +56,12 @@ final class ForbiddenCallable {
             }
 
             if ($additionalMessage === '') {
-                $forbidden[$funcName] = null;
+                $valuesToMessages[$funcName] = null;
             } else {
-                $forbidden[$funcName] = $additionalMessage;
+                $valuesToMessages[$funcName] = $additionalMessage;
             }
         }
 
-        return $forbidden;
+        return $valuesToMessages;
     }
 }

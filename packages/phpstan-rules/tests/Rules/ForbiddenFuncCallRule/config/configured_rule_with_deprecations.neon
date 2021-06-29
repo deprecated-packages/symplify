@@ -10,4 +10,4 @@ services:
                 'extract': 'you shouldn"t use this dynamic things'
                 'dump': 'seems you missed some debugging function'
                 'curl_*': 'we use a proper http client these days'
-                'property_exists': ''
+                - 'property_exists'
