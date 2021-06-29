@@ -97,7 +97,7 @@ $phpDocNode = new PhpDocNode([new PhpDocTagNode('@var', new VarTagValueNode(new 
 
 // A. you can use callable to traverse
 $callable = function (Node $node): Node {
-    if (!$node instanceof VarTagValueNode) {
+    if (! $node instanceof VarTagValueNode) {
         return $node;
     }
 
@@ -113,7 +113,7 @@ final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
     public function enterNode(Node $node): ?Node
     {
-        if (!$node instanceof VarTagValueNode) {
+        if (! $node instanceof VarTagValueNode) {
             return $node;
         }
 

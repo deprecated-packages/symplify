@@ -17,6 +17,8 @@ use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
  * https://github.com/symfony/symfony/blob/ba4d57bb5fc0e9a1b4f63ced66156296dea3687e/src/Symfony/Component/Yaml/Inline.php#L617
  *
  * @see https://github.com/symfony/symfony/pull/18626/files
+ *
+ * @see \Symplify\PhpConfigPrinter\Tests\NodeFactory\ConstantNodeFactoryTest
  */
 final class ConstantNodeFactory
 {
@@ -62,7 +64,7 @@ final class ConstantNodeFactory
         return null;
     }
 
-    private function getConstantValueIgnoringDeprecationWarnings(string $constant) : mixed
+    private function getConstantValueIgnoringDeprecationWarnings(string $constant): mixed
     {
         $previousLevel = error_reporting(E_ALL & ~E_DEPRECATED);
 

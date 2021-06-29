@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenFuncCallRule>
  */
-class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -48,6 +48,9 @@ class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRule
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenFuncCallRule::class, __DIR__ . '/config/configured_rule_with_deprecations.neon');
+        return $this->getRuleFromConfig(
+            ForbiddenFuncCallRule::class,
+            __DIR__ . '/config/configured_rule_with_deprecations.neon'
+        );
     }
 }

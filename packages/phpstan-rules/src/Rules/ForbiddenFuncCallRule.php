@@ -10,8 +10,7 @@ use PHPStan\Analyser\Scope;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\Forbidden\ForbiddenCallable;
+use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
 use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -28,14 +27,14 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Function "%s()" cannot be used/left in the code';
 
     /**
-     * @param string[]|array<string, string>|list<array<string, string>> $forbiddenFunctions
+     * @param string[]|array<string|int, string> $forbiddenFunctions
      */
     public function __construct(
+        private array $forbiddenFunctions,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private array $forbiddenFunctions,
-        private ForbiddenCallable $forbiddenCallable
+        private RequiredWithMessageFormatter $requiredWithMessageFormatter,
     ) {
     }
 
@@ -58,16 +57,27 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        if (! $this->arrayStringAndFnMatcher->isMatch($funcName, $this->getForbiddenFunctionsList())) {
-            return [];
+        $requiredWithMessages = $this->requiredWithMessageFormatter->normalizeConfig($this->forbiddenFunctions);
+        foreach ($requiredWithMessages as $requiredWithMessage) {
+            if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$requiredWithMessage->getRequired()])) {
+                continue;
+            }
+
+            // special cases
+            if ($this->shouldAllowSpecialCase($node, $scope, $funcName)) {
+                continue;
+            }
+
+            if ($requiredWithMessage->getMessage() === null) {
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
+            } else {
+                $errorMessage = sprintf(self::ERROR_MESSAGE . ': ' . $requiredWithMessage->getMessage(), $funcName);
+            }
+
+            return [$errorMessage];
         }
 
-        // special cases
-        if ($this->shouldAllowSpecialCase($node, $scope, $funcName)) {
-            return [];
-        }
-
-        return [$this->forbiddenCallable->formatError(self::ERROR_MESSAGE, $funcName, $this->getForbiddenFunctionsWithMessages())];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -109,24 +119,12 @@ class SomeClass
 CODE_SAMPLE
             ,
                 [
-                    'forbiddenFunctions' => ['dump' => 'seems you missed some debugging function'],
+                    'forbiddenFunctions' => [
+                        'dump' => 'seems you missed some debugging function',
+                    ],
                 ]
             ),
         ]);
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getForbiddenFunctionsList(): array {
-        return array_keys($this->getForbiddenFunctionsWithMessages());
-    }
-
-    /**
-     * @return array<string, string|null> forbidden functions as keys, optional additional messages as values
-     */
-    private function getForbiddenFunctionsWithMessages(): array {
-        return $this->forbiddenCallable->normalizeConfig($this->forbiddenFunctions);
     }
 
     private function shouldAllowSpecialCase(FuncCall $funcCall, Scope $scope, string $functionName): bool

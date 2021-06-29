@@ -178,11 +178,6 @@ parameters:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
         -
-            message: '#Do not use setter on a service#'
-            paths:
-                - packages/git-wrapper/src/GitWorkingCopy.php
-
-        -
             message: '#Do not call parent method if parent method is empty#'
             paths:
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
@@ -487,10 +482,6 @@ parameters:
         - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
 
         -
-            message: '#Do not use setter on a service#'
-            path: 'packages/easy-coding-standard/src/Configuration/Configuration.php'
-
-        -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
@@ -524,11 +515,12 @@ parameters:
 
         # this can change on downgrade build
         - "#'@package_version@' and '@package_version@' will always evaluate to false#"
-        -
-            message: '#Else branch is unreachable because previous condition is always true#'
-            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-
 
         -
             message: '#Unreachable statement \- code above always terminates#'
             path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+        # optional parameter in value object
+        -
+            message: '#Parameter "message" cannot be nullable#'
+            path: packages/*/src/ValueObject/*
