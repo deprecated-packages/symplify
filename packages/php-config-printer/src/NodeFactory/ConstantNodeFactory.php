@@ -44,7 +44,8 @@ final class ConstantNodeFactory
         $definedConstants = get_defined_constants();
 
         foreach (array_keys($definedConstants) as $constantName) {
-            if ($value !== constant($constantName)) {
+            $constantValue = $this->getConstantValueIgnoringDeprecationWarnings($constantName);
+            if ($value !== $constantValue) {
                 continue;
             }
 
@@ -59,5 +60,16 @@ final class ConstantNodeFactory
         }
 
         return null;
+    }
+
+    private function getConstantValueIgnoringDeprecationWarnings(string $constant) : mixed
+    {
+        $previousLevel = error_reporting(E_ALL & ~E_DEPRECATED);
+
+        $value = constant($constant);
+
+        error_reporting($previousLevel);
+
+        return $value;
     }
 }

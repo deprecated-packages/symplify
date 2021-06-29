@@ -22,7 +22,7 @@ composer require symplify/config-transformer --dev
 Provide paths to files/dirs you want to convert:
 
 ```bash
-vendor/bin/config-transformer switch-format config/packages/ecs.yaml app/config
+vendor/bin/config-transformer switch-format config/packages/config-transformer.yaml app/config
 ```
 
 The input file will be deleted automatically.

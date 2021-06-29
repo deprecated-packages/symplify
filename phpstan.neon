@@ -521,3 +521,14 @@ parameters:
 
         # array_merge() class-string[]
         - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'
+
+        # this can change on downgrade build
+        - "#'@package_version@' and '@package_version@' will always evaluate to false#"
+        -
+            message: '#Else branch is unreachable because previous condition is always true#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+
+        -
+            message: '#Unreachable statement \- code above always terminates#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php

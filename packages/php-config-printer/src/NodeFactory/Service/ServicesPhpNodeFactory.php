@@ -31,7 +31,10 @@ final class ServicesPhpNodeFactory
     {
         $servicesLoadMethodCall = $this->createServicesLoadMethodCall($serviceKey, $serviceValues);
 
-        $servicesLoadMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($serviceValues, $servicesLoadMethodCall);
+        $servicesLoadMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes(
+            $serviceValues,
+            $servicesLoadMethodCall
+        );
 
         if (! isset($serviceValues[self::EXCLUDE])) {
             return new Expression($servicesLoadMethodCall);

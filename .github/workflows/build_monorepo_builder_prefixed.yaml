@@ -1,0 +1,117 @@
+# builds the content of https://github.com/symplify/monorepo-builder
+
+# inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
+# and from https://github.com/rectorphp/rector/blob/main/.github/workflows/build_scoped_rector.yaml
+
+name: Build Monorepo Builder Prefixed
+
+on:
+    push:
+        branches:
+            - main
+
+        # see https://github.community/t/how-to-run-github-actions-workflow-only-for-new-tags/16075/10?u=tomasvotruba
+        tags:
+            - '*'
+
+env:
+    # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
+    COMPOSER_ROOT_VERSION: "dev-main"
+
+jobs:
+    build_monorepo_builder_prefixed:
+        runs-on: ubuntu-latest
+        steps:
+            # make dev build run a bit to avoid collission with tagged build
+            -
+                if: "!startsWith(github.ref, 'refs/tags/')"
+                run: sleep 120
+
+            -
+                uses: actions/checkout@v2
+                # this is required for "WyriHaximus/github-action-get-previous-tag" workflow
+                # see https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
+                with:
+                    fetch-depth: 0
+
+            -
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.0
+                    coverage: none
+
+            -   run: composer update --no-progress --ansi
+
+            # 1. install package dependencies
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/monorepo-builder/composer.json --ansi
+
+            -
+                run: composer install --working-dir packages/monorepo-builder --ansi --no-dev
+
+            # 2. prepare build directory
+            -   run: cp -r packages/monorepo-builder/. monorepo-builder-build
+            # remove test files
+            -   run: rm -rf monorepo-builder-build/tests
+
+            # 3. downgrade
+            -   run: sh packages/monorepo-builder/build/downgrade-monorepo-builder.sh monorepo-builder-build
+
+            # 4. prefix
+            -   run: sh packages/monorepo-builder/build/build-monorepo-builder-scoped.sh monorepo-builder-build monorepo-builder-prefixed-downgraded
+
+            -   run: chmod 777 ./monorepo-builder-prefixed-downgraded/bin/monorepo-builder
+
+            # copy github actoins to repository, so tests run there too
+            -   run: cp -R packages/monorepo-builder/build/target-repository/. monorepo-builder-prefixed-downgraded
+
+            # downgrade the bootstrap.php file too
+            -   run: php vendor/bin/rector process monorepo-builder-prefixed-downgraded/bootstrap.php --config packages/monorepo-builder/build/config/config-downgrade.php --ansi
+
+            # clone remote repository, so we can push it
+            -
+                uses: "actions/checkout@v2"
+                with:
+                    repository: symplify/monorepo-builder
+                    path: remote-repository
+                    token: ${{ secrets.ACCESS_TOKEN }}
+
+            # remove remote files, to avoid piling up dead code in remote repository
+            -   run: rm -rf remote-repository/.github remote-repository/bin remote-repository/config remote-repository/src remote-repository/packages remote-repository/vendor
+
+            # copy repository meta files
+            -   run: cp -R monorepo-builder-prefixed-downgraded/. remote-repository
+
+            # setup git
+            -
+                working-directory: remote-repository
+                run: |
+                    git config user.email "action@github.com"
+                    git config user.name "GitHub Action"
+
+            # 7. commit metadata
+            -
+                name: "Get Git log"
+                id: git-log
+                run: echo ::set-output name=log::$(git log ${{ github.event.before }}..${{ github.event.after }} --reverse --pretty='%H %s' | sed -e 's/^/https:\/\/github.com\/symplify\/symplify\/commit\//')
+
+            # 8.A publish it to remote repository without tag
+            -
+                name: "Commit Prefixed - main"
+                working-directory: remote-repository
+                if: "!startsWith(github.ref, 'refs/tags/')"
+                run: |
+                    git add --all
+                    git commit -m "Updated Monorepo Builder to commit ${{ github.event.after }}" -m "${{ steps.git-log.outputs.log }}"
+                    git push --quiet origin main
+
+            # 8.B publish it to remote repository with tag
+            -
+                name: "Commit Prefixed - tag"
+                working-directory: remote-repository
+                if: "startsWith(github.ref, 'refs/tags/')"
+                run: |
+                    git add --all
+                    git commit -m "Monorepo Builder ${GITHUB_REF#refs/tags/}" -m "${{ steps.git-log.outputs.log }}"
+                    git push --quiet origin main
+                    git tag ${GITHUB_REF#refs/tags/} -m "${GITHUB_REF#refs/tags/}"
+                    git push --quiet origin ${GITHUB_REF#refs/tags/}
