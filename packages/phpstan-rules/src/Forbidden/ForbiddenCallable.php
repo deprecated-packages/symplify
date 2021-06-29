@@ -42,6 +42,9 @@ final class ForbiddenCallable {
     public function normalizeConfig($forbiddenFunctions): array {
         $forbidden = [];
         foreach($forbiddenFunctions as $key => $value) {
+            $funcName = null;
+            $additionalMessage = null;
+
             if (is_int($key)) {
                 if (is_array($value)) {
                     /**
@@ -52,14 +55,8 @@ final class ForbiddenCallable {
                      * - 'dump': 'seems you missed some debugging function'
                      */
 
-                    $aKey = array_key_first($value);
-                    $aVal = $value[$aKey];
-
-                    if ($aVal === '') {
-                        $forbidden[$aKey] = null;
-                    } else {
-                        $forbidden[$aKey] = $aVal;
-                    }
+                    $funcName = array_key_first($value);
+                    $additionalMessage = $value[$funcName];
                 } else {
                     /**
                      * config-format:
@@ -69,7 +66,8 @@ final class ForbiddenCallable {
                      * - 'dump'
                      */
 
-                    $forbidden[$value] = null;
+                    $funcName = $value;
+                    $additionalMessage = null;
                 }
             } elseif (is_string($key)) {
                 /**
@@ -80,11 +78,18 @@ final class ForbiddenCallable {
                  *   'dump': 'seems you missed some debugging function'
                  */
 
-                if ($value === '') {
-                    $forbidden[$key] = null;
-                } else {
-                    $forbidden[$key] = $value;
-                }
+                $funcName = $key;
+                $additionalMessage = $value;
+            }
+
+            if ($funcName === null) {
+                continue;
+            }
+
+            if ($additionalMessage === '') {
+                $forbidden[$funcName] = null;
+            } else {
+                $forbidden[$funcName] = $additionalMessage;
             }
         }
 
