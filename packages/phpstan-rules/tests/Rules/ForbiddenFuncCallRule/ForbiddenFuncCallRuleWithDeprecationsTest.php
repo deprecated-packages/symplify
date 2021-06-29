@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenFuncCallRule>
  */
-class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

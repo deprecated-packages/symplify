@@ -34,7 +34,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private RequiredWithMessageFormatter $errorFormatter,
+        private RequiredWithMessageFormatter $requiredWithMessageFormatter,
     ) {
     }
 
@@ -57,7 +57,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
-        $requiredWithMessages = $this->errorFormatter->normalizeConfig($this->forbiddenFunctions);
+        $requiredWithMessages = $this->requiredWithMessageFormatter->normalizeConfig($this->forbiddenFunctions);
         foreach ($requiredWithMessages as $requiredWithMessage) {
             if (! $this->arrayStringAndFnMatcher->isMatch($funcName, [$requiredWithMessage->getRequired()])) {
                 continue;
