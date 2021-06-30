@@ -84,6 +84,10 @@ final class ImportFullyQualifiedNamesNodeTraverser
                 default => $this->builderFactory->use($name),
             };
 
+            if ($import->getAlias() !== '') {
+                $useBuilder = $useBuilder->as($import->getAlias());
+            }
+
             $useImports[] = $useBuilder->getNode();
         }
 

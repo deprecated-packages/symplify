@@ -1,0 +1,20 @@
+services:
+    SimpleBus\CommandBus: ~
+    App\CommandBus: ~
+
+-----
+<?php
+
+declare(strict_types=1);
+
+use App\CommandBus as CommandBus2;
+use SimpleBus\CommandBus;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(CommandBus::class);
+
+    $services->set(CommandBus2::class);
+};

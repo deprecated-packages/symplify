@@ -11,6 +11,7 @@ final class FullyQualifiedImport implements Stringable
     public function __construct(
         private string $type,
         private string $fullyQualified,
+        private string $alias
     ) {
     }
 
@@ -27,5 +28,10 @@ final class FullyQualifiedImport implements Stringable
     public function getFullyQualified(): string
     {
         return $this->fullyQualified;
+    }
+
+    public function getAlias() : string
+    {
+        return $this->alias;
     }
 }

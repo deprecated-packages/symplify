@@ -55,16 +55,22 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
         }
 
         $shortClassName = $this->classNaming->getShortName($fullyQualifiedName);
+        $shortClassNameAlias = $this->getAliasForShortName($shortClassName);
 
-        if ($parent instanceof FuncCall) {
-            $import = new FullyQualifiedImport(ImportType::FUNCTION_TYPE, $fullyQualifiedName);
-        } else {
-            $import = new FullyQualifiedImport(ImportType::CLASS_TYPE, $fullyQualifiedName);
+        $alias = '';
+        if ($shortClassName !== $shortClassNameAlias ) {
+            $alias = $shortClassNameAlias;
         }
 
-        $this->imports[] = $import;
+        if ($parent instanceof FuncCall) {
+            $import = new FullyQualifiedImport(ImportType::FUNCTION_TYPE, $fullyQualifiedName, $alias);
+        } else {
+            $import = new FullyQualifiedImport(ImportType::CLASS_TYPE, $fullyQualifiedName, $alias);
+        }
 
-        return new Name($shortClassName);
+        $this->imports[$shortClassNameAlias] = $import;
+
+        return new Name($shortClassNameAlias);
     }
 
     /**
@@ -73,5 +79,18 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
     public function getImports(): array
     {
         return $this->imports;
+    }
+
+    private function getAliasForShortName(string $shortClassName, int $suffix = 1) : string
+    {
+        if ($suffix > 1) {
+            $shortClassName .= (int) $suffix;
+        }
+
+        if (isset($this->imports[$shortClassName])) {
+            return $this->getAliasForShortName($shortClassName, $suffix + 1);
+        }
+
+        return $shortClassName;
     }
 }
