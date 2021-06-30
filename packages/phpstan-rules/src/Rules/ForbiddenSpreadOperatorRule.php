@@ -89,10 +89,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param Closure|ArrowFunction|ClassMethod|Function_ $node
-     */
-    private function hasVariadicParam(Node $node): bool
+    private function hasVariadicParam(Closure | ArrowFunction | ClassMethod | Function_ $node): bool
     {
         foreach ($node->params as $param) {
             if ($param->variadic) {

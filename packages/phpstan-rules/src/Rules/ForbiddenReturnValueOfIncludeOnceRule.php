@@ -73,10 +73,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param Assign|Return_ $node
-     */
-    private function isIncludeOnceOrRequireOnce(Node $node): bool
+    private function isIncludeOnceOrRequireOnce(Assign | Return_ $node): bool
     {
         if (! $node->expr instanceof Include_) {
             return false;

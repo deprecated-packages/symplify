@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\ParentGuard;
 
 use PhpParser\Node\Expr\Closure;
-use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
@@ -21,10 +20,7 @@ final class ParentClassMethodGuard
     ) {
     }
 
-    /**
-     * @param ClassMethod|Function_|Closure $functionLike
-     */
-    public function isFunctionLikeProtected(FunctionLike $functionLike, Scope $scope): bool
+    public function isFunctionLikeProtected(ClassMethod | Function_ | Closure $functionLike, Scope $scope): bool
     {
         if (! $functionLike instanceof ClassMethod) {
             return false;
