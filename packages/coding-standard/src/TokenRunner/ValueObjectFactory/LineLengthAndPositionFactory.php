@@ -48,7 +48,7 @@ final class LineLengthAndPositionFactory
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {

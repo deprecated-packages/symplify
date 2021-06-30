@@ -20,7 +20,7 @@ final class FirstLineLengthResolver
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     public function resolveFromTokensAndStartPosition(Tokens $tokens, BlockInfo $blockInfo): int
     {
@@ -74,7 +74,7 @@ final class FirstLineLengthResolver
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function isEndOFArgumentsLine(Tokens $tokens, int $position): bool
     {

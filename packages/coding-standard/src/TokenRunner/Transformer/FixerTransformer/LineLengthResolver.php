@@ -12,7 +12,7 @@ use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 final class LineLengthResolver
 {
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     public function getLengthFromStartEnd(Tokens $tokens, BlockInfo $blockInfo): int
     {
@@ -42,7 +42,7 @@ final class LineLengthResolver
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function isNewLineOrOpenTag(Tokens $tokens, int $position): bool
     {
@@ -57,7 +57,7 @@ final class LineLengthResolver
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function getLengthFromFunctionStartToEndOfArguments(BlockInfo $blockInfo, Tokens $tokens): int
     {
@@ -87,7 +87,7 @@ final class LineLengthResolver
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function getLengthFromEndOfArgumentToLineBreak(BlockInfo $blockInfo, Tokens $tokens): int
     {
