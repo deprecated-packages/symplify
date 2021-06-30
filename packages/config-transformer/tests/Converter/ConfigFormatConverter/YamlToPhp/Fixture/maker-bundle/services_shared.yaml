@@ -1,0 +1,25 @@
+services:
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass:
+        shared: false
+
+    Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass:
+        shared: true
+
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(FakeClass::class)
+        ->share(false);
+
+    $services->set(SecondFakeClass::class)
+        ->share();
+};

@@ -23,7 +23,7 @@ jobs:
         runs-on: ubuntu-latest
         # don't run this action on forks
         if: github.event.pull_request.head.repo.full_name == github.repository
-        
+
         steps:
             # make dev build run a bit to avoid collission with tagged build
             -
@@ -66,9 +66,6 @@ jobs:
 
             # copy github actoins to repository, so tests run there too
             -   run: cp -R packages/monorepo-builder/build/target-repository/. monorepo-builder-prefixed-downgraded
-
-            # downgrade the bootstrap.php file too
-            -   run: php vendor/bin/rector process monorepo-builder-prefixed-downgraded/bootstrap.php --config packages/monorepo-builder/build/config/config-downgrade.php --ansi
 
             # clone remote repository, so we can push it
             -
