@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\PhpDoc;
 
-use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -19,11 +18,11 @@ final class AnnotationAttributeDetector
     ) {
     }
 
-    /**
-     * @param ClassMethod|Property $node
-     */
-    public function hasNodeAnnotationOrAttribute(Node $node, string $annotationName, string $attributeClass): bool
-    {
+    public function hasNodeAnnotationOrAttribute(
+        ClassMethod | Property $node,
+        string $annotationName,
+        string $attributeClass
+    ): bool {
         $phpDocTagNodes = $this->barePhpDocParser->parseNodeToPhpDocTagNodes($node);
         if ($this->hasPhpDocTagNodeName($phpDocTagNodes, $annotationName)) {
             return true;
@@ -32,10 +31,7 @@ final class AnnotationAttributeDetector
         return $this->hasAttributeClass($node, $attributeClass);
     }
 
-    /**
-     * @param ClassMethod|Property|Class_ $node
-     */
-    private function hasAttributeClass(Node $node, string $attributeClass): bool
+    private function hasAttributeClass(ClassMethod | Property | Class_ $node, string $attributeClass): bool
     {
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {

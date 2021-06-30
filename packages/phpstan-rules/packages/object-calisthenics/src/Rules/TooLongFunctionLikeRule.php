@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\ObjectCalisthenics\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
@@ -89,10 +88,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param Function_|ClassMethod $functionLike
-     */
-    private function resolveFunctionLikeType(FunctionLike $functionLike): string
+    private function resolveFunctionLikeType(Function_ | ClassMethod $functionLike): string
     {
         if ($functionLike instanceof Function_) {
             return 'Function';

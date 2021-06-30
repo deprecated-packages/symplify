@@ -107,10 +107,7 @@ CODE_SAMPLE
         return $this->typeChecker->isInstanceOf($className, self::ALLOWED_PARENT_CLASSES);
     }
 
-    /**
-     * @param MethodCall|FuncCall|StaticCall $node
-     */
-    private function shouldSkip(Node $node, Scope $scope): bool
+    private function shouldSkip(MethodCall | FuncCall | StaticCall $node, Scope $scope): bool
     {
         if ($node instanceof MethodCall) {
             $callerType = $scope->getType($node->var);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Name\FullyQualified;
@@ -21,10 +20,10 @@ final class AttributeFinder
     ) {
     }
 
-    /**
-     * @param ClassMethod|Property|ClassLike|Param $node
-     */
-    public function findAttribute(Node $node, string $desiredAttributeClass): ?Attribute
+    public function findAttribute(
+        ClassMethod | Property | ClassLike | Param $node,
+        string $desiredAttributeClass
+    ): ?Attribute
     {
         /** @var AttributeGroup $attrGroup */
         foreach ($node->attrGroups as $attrGroup) {

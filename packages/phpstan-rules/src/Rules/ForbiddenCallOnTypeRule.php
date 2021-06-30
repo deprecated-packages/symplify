@@ -124,10 +124,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param MethodCall|StaticCall $node
-     */
-    private function getType(Node $node, Scope $scope): ?string
+    private function getType(MethodCall | StaticCall $node, Scope $scope): ?string
     {
         if ($node instanceof MethodCall) {
             $type = $scope->getType($node->var);

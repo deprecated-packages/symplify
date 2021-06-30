@@ -141,10 +141,7 @@ CODE_SAMPLE
         return $parameterTypes;
     }
 
-    /**
-     * @param Identifier|Name|NullableType|UnionType $node
-     */
-    private function getParamType(Node $node): ?string
+    private function getParamType(Identifier | Name | NullableType | UnionType $node): ?string
     {
         if ($node instanceof NullableType) {
             $node = $node->type;

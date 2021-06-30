@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
@@ -100,5 +101,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // buggy with parent interface contract
         ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
+
+        CallableThisArrayToAnonymousFunctionRector::class => [
+            // not a callable, accidental array
+            __DIR__ . '/packages/phpstan-rules/src/Rules/',
+        ],
     ]);
 };

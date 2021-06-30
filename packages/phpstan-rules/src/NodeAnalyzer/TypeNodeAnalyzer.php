@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\Property;
 
@@ -24,10 +23,7 @@ final class TypeNodeAnalyzer
      */
     private const CONTAINER_REGEX = '#@var\s+(\\\\Psr\\\\Container\\\\)?ContainerInterface|(\\\\Symfony\\\\Component\\\\DependencyInjection\\\\)?Container\n?$#';
 
-    /**
-     * @param Property|ClassConst $node
-     */
-    public function isStaticAndContainerOrKernelType(Node $node): bool
+    public function isStaticAndContainerOrKernelType(Property | ClassConst $node): bool
     {
         if ($node instanceof ClassConst) {
             return false;

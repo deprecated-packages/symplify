@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
@@ -78,10 +77,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param Class_|Trait_ $classLike
-     */
-    private function shouldSkipClassLike(ClassLike $classLike): bool
+    private function shouldSkipClassLike(Class_ | Trait_ $classLike): bool
     {
         $className = $this->simpleNameResolver->getName($classLike);
         if ($className === null) {
@@ -99,10 +95,7 @@ CODE_SAMPLE
         return $this->isFinalClassWithAbstractOrInterfaceParent($classLike);
     }
 
-    /**
-     * @param Class_|Trait_ $classLike
-     */
-    private function isFinalClassWithAbstractOrInterfaceParent(ClassLike $classLike): bool
+    private function isFinalClassWithAbstractOrInterfaceParent(Class_ | Trait_ $classLike): bool
     {
         if (! $classLike instanceof Class_) {
             return false;

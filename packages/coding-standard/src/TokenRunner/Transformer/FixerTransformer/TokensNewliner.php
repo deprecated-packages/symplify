@@ -25,7 +25,7 @@ final class TokensNewliner
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     public function breakItems(BlockInfo $blockInfo, Tokens $tokens, int $kind = LineKind::CALLS): void
     {
@@ -82,7 +82,7 @@ final class TokensNewliner
     /**
      * Has already newline? usually the last line => skip to prevent double spacing
      *
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function isLastItem(Tokens $tokens, int $position): bool
     {
@@ -96,7 +96,7 @@ final class TokensNewliner
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     private function isFollowedByComment(Tokens $tokens, int $i): bool
     {
