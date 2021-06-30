@@ -17,6 +17,7 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
@@ -65,7 +66,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PreferThisOrSelfMethodCallRector::class)
         ->call('configure', [[
             PreferThisOrSelfMethodCallRector::TYPE_TO_PREFERENCE => [
-                TestCase::class => PreferenceSelfThis::PREFER_THIS(),
+                TestCase::class => ValueObjectInliner::inline(PreferenceSelfThis::PREFER_THIS()),
             ],
         ]]);
 
