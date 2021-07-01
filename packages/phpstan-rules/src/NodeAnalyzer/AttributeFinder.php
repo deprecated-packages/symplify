@@ -23,8 +23,7 @@ final class AttributeFinder
     public function findAttribute(
         ClassMethod | Property | ClassLike | Param $node,
         string $desiredAttributeClass
-    ): ?Attribute
-    {
+    ): ?Attribute {
         /** @var AttributeGroup $attrGroup */
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
