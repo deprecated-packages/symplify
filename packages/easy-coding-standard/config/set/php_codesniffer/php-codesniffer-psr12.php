@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs as Generic;
+use PHP_CodeSniffer\Standards\PEAR\Sniffs as PEAR;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs as PSR2;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs as Squiz;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -56,19 +57,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // 4.7 Method and Function Calls
     $services->set(Generic\Functions\FunctionCallArgumentSpacingSniff::class);
     $services->set(PSR2\Methods\FunctionCallSignatureSniff::class);
-    $services->set(PSR2\Methods\FunctionCallSignature\SpaceAfterCloseBracketSniff::class);
-    $services->set(PSR2\Methods\FunctionCallSignature\OpeningIndentSniff::class);
 
     // 5. Control Structures
     $services->set(Squiz\ControlStructures\ControlSignatureSniff::class);
-    $services->set(Squiz\WhiteSpace\ControlStructureSpacing\SpacingAfterOpenSniff::class);
-    $services->set(Squiz\WhiteSpace\ControlStructureSpacing\SpacingBeforeCloseSniff::class);
     $services->set(Squiz\WhiteSpace\ScopeClosingBraceSniff::class);
     $services->set(Squiz\ControlStructures\ForEachLoopDeclarationSniff::class);
     $services->set(Squiz\ControlStructures\ForLoopDeclarationSniff::class)->property('ignoreNewlines', \true);
     $services->set(Squiz\ControlStructures\LowercaseDeclarationSniff::class);
     $services->set(Generic\ControlStructures\InlineControlStructureSniff::class);
-    $services->set(Squiz\ControlStructures\ForEachLoopDeclaration\AsNotLowerSniff::class);
 
     // 5.1 if, elseif, else
     $services->set(PSR2\ControlStructures\ElseIfDeclarationSniff::class);
