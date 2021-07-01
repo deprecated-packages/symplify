@@ -20,7 +20,10 @@ final class CallablePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         $this->callable = $callable;
     }
 
-    public function enterNode(Node $node): ?Node
+    /**
+     * @return int|Node|null
+     */
+    public function enterNode(Node $node)
     {
         $callable = $this->callable;
         return $callable($node, $this->docContent);
