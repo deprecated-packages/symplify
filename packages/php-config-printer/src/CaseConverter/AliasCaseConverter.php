@@ -128,10 +128,14 @@ final class AliasCaseConverter implements CaseConverterInterface
         return new Expression($methodCall);
     }
 
-    private function createFromAlias(string $className, string $key, Variable $servicesVariable): MethodCall
+    private function createFromAlias(string $serviceName, string $key, Variable $servicesVariable): MethodCall
     {
-        $classReference = $this->commonNodeFactory->createClassReference($className);
-        $args = $this->argsNodeFactory->createFromValues([$key, $classReference]);
+        if ($this->classLikeExistenceChecker->doesClassLikeExist($serviceName)) {
+            $classReference = $this->commonNodeFactory->createClassReference($serviceName);
+            $args = $this->argsNodeFactory->createFromValues([$key, $classReference]);
+        } else {
+            $args = $this->argsNodeFactory->createFromValues([$key, $serviceName]);
+        }
 
         return new MethodCall($servicesVariable, MethodName::ALIAS, $args);
     }
