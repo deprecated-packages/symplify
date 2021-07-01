@@ -112,7 +112,6 @@ $phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
 final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
     /**
-     * @param Node $node
      * @return Node|int|null
      */
     public function enterNode(Node $node)
