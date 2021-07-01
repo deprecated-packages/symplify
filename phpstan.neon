@@ -130,8 +130,6 @@ parameters:
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
 
-        # yield iterator
-        - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
 
         # the Filesystem method is only iterable way
@@ -291,6 +289,8 @@ parameters:
             paths:
                  - packages/coding-standard/src/Php/PhpContentAnalyzer.php
                  - packages/git-wrapper/src/GitWorkingCopy.php
+                 # traversing is complex operatoin
+                 - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
@@ -404,10 +404,6 @@ parameters:
         # node traverser magic
         -
             message: '#Use explicit return value over magic &reference#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
-
-        -
-            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 12, keep it under 8#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
@@ -526,5 +522,5 @@ parameters:
             path: packages/*/src/ValueObject/*
 
         -
-            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 10, keep it under \d+#'
+            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
