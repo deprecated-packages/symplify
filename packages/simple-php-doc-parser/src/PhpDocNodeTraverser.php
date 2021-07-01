@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Symplify\SimplePhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
+use Symplify\SimplePhpDocParser\Exception\InvalidTraverseException;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
 
 /**
@@ -40,6 +42,9 @@ final class PhpDocNodeTraverser
         }
 
         $node = $this->traverseNode($node);
+        if (is_int($node)) {
+            throw new InvalidTraverseException();
+        }
 
         foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
             $phpDocNodeVisitor->afterTraverse($node);
@@ -58,9 +63,9 @@ final class PhpDocNodeTraverser
     /**
      * @template TNode of Node
      * @param TNode $node
-     * @return TNode
+     * @return TNode|int
      */
-    private function traverseNode(Node $node): Node
+    private function traverseNode(Node $node): Node | int
     {
         $subNodeNames = array_keys(get_object_vars($node));
 
@@ -74,10 +79,20 @@ final class PhpDocNodeTraverser
                     $return = $phpDocNodeVisitor->enterNode($subNode);
                     if ($return instanceof Node) {
                         $subNode = $return;
+                    } elseif ($return === self::NODE_REMOVE) {
+                        if ($subNode instanceof PhpDocTagValueNode) {
+                            // we have to remove the node above
+                            return self::NODE_REMOVE;
+                        }
+                        $subNode = null;
+                        continue 2;
                     }
                 }
 
                 $subNode = $this->traverseNode($subNode);
+                if (is_int($subNode)) {
+                    throw new InvalidTraverseException();
+                }
 
                 foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
                     $phpDocNodeVisitor->leaveNode($subNode);
@@ -105,12 +120,24 @@ final class PhpDocNodeTraverser
                 if ($return instanceof Node) {
                     $node = $return;
                 } elseif ($return === self::NODE_REMOVE) {
+                    // remove node
                     unset($nodes[$key]);
                     continue 2;
                 }
             }
 
-            $node = $this->traverseNode($node);
+            $return = $this->traverseNode($node);
+            // remove value node
+            if ($return === self::NODE_REMOVE) {
+                unset($nodes[$key]);
+                continue;
+            }
+
+            if (is_int($return)) {
+                throw new InvalidTraverseException();
+            }
+
+            $node = $return;
 
             foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
                 $phpDocNodeVisitor->leaveNode($node);
