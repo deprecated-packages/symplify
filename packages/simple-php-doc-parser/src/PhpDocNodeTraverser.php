@@ -127,12 +127,13 @@ final class PhpDocNodeTraverser
             }
 
             $return = $this->traverseNode($node);
-
             // remove value node
             if ($return === self::NODE_REMOVE) {
                 unset($nodes[$key]);
                 continue;
-            } elseif (is_int($return)) {
+            }
+
+            if (is_int($return)) {
                 throw new InvalidTraverseException();
             }
 
