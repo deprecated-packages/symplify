@@ -524,3 +524,7 @@ parameters:
         -
             message: '#Parameter "message" cannot be nullable#'
             path: packages/*/src/ValueObject/*
+
+        -
+            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 10, keep it under \d+#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php

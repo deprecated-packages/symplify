@@ -17,6 +17,13 @@ use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
 final class PhpDocNodeTraverser
 {
     /**
+     * Return from enterNode() to remove node from the tree
+     *
+     * @var int
+     */
+    public const NODE_REMOVE = 1;
+
+    /**
      * @var PhpDocNodeVisitorInterface[]
      */
     private array $phpDocNodeVisitors = [];
@@ -87,7 +94,7 @@ final class PhpDocNodeTraverser
      */
     private function traverseArray(array $nodes): array
     {
-        foreach ($nodes as &$node) {
+        foreach ($nodes as $key => &$node) {
             // can be string or something else
             if (! $node instanceof Node) {
                 continue;
@@ -97,6 +104,9 @@ final class PhpDocNodeTraverser
                 $return = $phpDocNodeVisitor->enterNode($node);
                 if ($return instanceof Node) {
                     $node = $return;
+                } elseif ($return === self::NODE_REMOVE) {
+                    unset($nodes[$key]);
+                    continue 2;
                 }
             }
 

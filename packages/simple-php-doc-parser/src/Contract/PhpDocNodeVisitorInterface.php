@@ -13,7 +13,10 @@ interface PhpDocNodeVisitorInterface
 {
     public function beforeTraverse(Node $node): void;
 
-    public function enterNode(Node $node): ?Node;
+    /**
+     * @return int|Node|null
+     */
+    public function enterNode(Node $node);
 
     public function leaveNode(Node $node): void;
 
