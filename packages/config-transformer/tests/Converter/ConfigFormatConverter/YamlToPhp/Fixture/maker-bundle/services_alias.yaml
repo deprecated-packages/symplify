@@ -1,4 +1,7 @@
 services:
+    querybus:
+        alias: tactician.commandbus.query
+
     Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass: '@fake.simple_class'
 
     Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass $variable: '@App\Fake\Class'
@@ -20,6 +23,8 @@ use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\Seco
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
+
+    $services->alias('querybus', 'tactician.commandbus.query');
 
     $services->alias(FakeClass::class, 'fake.simple_class');
 

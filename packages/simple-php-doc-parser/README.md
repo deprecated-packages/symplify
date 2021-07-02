@@ -111,7 +111,10 @@ $phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
 // B. or class that extends AbstractPhpDocNodeVisitor
 final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
-    public function enterNode(Node $node): ?Node
+    /**
+     * @return Node|int|null
+     */
+    public function enterNode(Node $node)
     {
         if (! $node instanceof VarTagValueNode) {
             return $node;

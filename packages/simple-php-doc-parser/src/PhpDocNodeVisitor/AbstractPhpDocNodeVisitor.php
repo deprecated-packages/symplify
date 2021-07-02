@@ -16,7 +16,10 @@ abstract class AbstractPhpDocNodeVisitor implements PhpDocNodeVisitorInterface
     {
     }
 
-    public function enterNode(Node $node): ?Node
+    /**
+     * @return int|Node|null
+     */
+    public function enterNode(Node $node)
     {
         return null;
     }

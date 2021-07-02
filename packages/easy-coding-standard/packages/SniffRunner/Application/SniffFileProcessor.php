@@ -10,7 +10,6 @@ use PHP_CodeSniffer\Util\Tokens;
 use PhpCsFixer\Differ\DifferInterface;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
-use Symplify\EasyCodingStandard\FileSystem\TargetFileInfoResolver;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
@@ -45,7 +44,6 @@ final class SniffFileProcessor implements FileProcessorInterface
         private DifferInterface $differ,
         private SniffMetadataCollector $sniffMetadataCollector,
         private SmartFileSystem $smartFileSystem,
-        private TargetFileInfoResolver $targetFileInfoResolver,
         private FileDiffFactory $fileDiffFactory,
         array $sniffs = []
     ) {
@@ -88,7 +86,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         // add coding standard errors
         $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
         if ($codingStandardErrors !== []) {
-            $errorsAndDiffs['coding_standard_errors'][] = $codingStandardErrors;
+            $errorsAndDiffs[Bridge::CODING_STANDARD_ERRORS] = $codingStandardErrors;
         }
 
         // add diff

@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\NodeVisitor;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\PhpConfigPrinter\Naming\ClassNaming;
+use Symplify\PhpConfigPrinter\ValueObject\AttributeKey;
+use Symplify\PhpConfigPrinter\ValueObject\FullyQualifiedImport;
+use Symplify\PhpConfigPrinter\ValueObject\ImportType;
 
 final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var string[]
+     * @var FullyQualifiedImport[]
      */
-    private $nameImports = [];
+    private $imports = [];
 
     public function __construct(
         private ClassNaming $classNaming
@@ -28,7 +32,7 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
      */
     public function beforeTraverse(array $nodes): ?array
     {
-        $this->nameImports = [];
+        $this->imports = [];
 
         return null;
     }
@@ -38,6 +42,8 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
         if (! $node instanceof FullyQualified) {
             return null;
         }
+
+        $parent = $node->getAttribute(AttributeKey::PARENT);
 
         $fullyQualifiedName = $node->toString();
         if (\str_starts_with($fullyQualifiedName, '\\')) {
@@ -50,16 +56,22 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
 
         $shortClassName = $this->classNaming->getShortName($fullyQualifiedName);
 
-        $this->nameImports[] = $fullyQualifiedName;
+        if ($parent instanceof FuncCall) {
+            $import = new FullyQualifiedImport(ImportType::FUNCTION_TYPE, $fullyQualifiedName);
+        } else {
+            $import = new FullyQualifiedImport(ImportType::CLASS_TYPE, $fullyQualifiedName);
+        }
+
+        $this->imports[] = $import;
 
         return new Name($shortClassName);
     }
 
     /**
-     * @return string[]
+     * @return FullyQualifiedImport[]
      */
-    public function getNameImports(): array
+    public function getImports(): array
     {
-        return $this->nameImports;
+        return $this->imports;
     }
 }

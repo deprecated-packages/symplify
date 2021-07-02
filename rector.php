@@ -3,21 +3,22 @@
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
+use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
+use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
-use Rector\CodingStyle\ValueObject\PreferenceSelfThis;
 use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
 use Rector\Php74\Rector\Property\TypedPropertyRector;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
-use Rector\Php80\Rector\ClassMethod\OptionalParametersAfterRequiredRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
@@ -66,7 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PreferThisOrSelfMethodCallRector::class)
         ->call('configure', [[
             PreferThisOrSelfMethodCallRector::TYPE_TO_PREFERENCE => [
-                TestCase::class => PreferenceSelfThis::PREFER_THIS,
+                TestCase::class => ValueObjectInliner::inline(PreferenceSelfThis::PREFER_THIS()),
             ],
         ]]);
 
@@ -76,7 +77,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::AUTOLOAD_PATHS, [__DIR__ . '/tests/bootstrap.php', __DIR__ . '/ecs.php']);
 
     $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
-    $parameters->set(Option::ENABLE_CACHE, true);
 
     $parameters->set(Option::SKIP, [
         '*/scoper.php',
@@ -100,12 +100,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // buggy with parent interface contract
         ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
-
-        OptionalParametersAfterRequiredRector::class => [
-            // @todo fix in Rector variadics are optional parameter
-            __DIR__ . '/packages/git-wrapper',
-        ],
-
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
+
+        CallableThisArrayToAnonymousFunctionRector::class => [
+            // not a callable, accidental array
+            __DIR__ . '/packages/phpstan-rules/src/Rules/',
+        ],
     ]);
 };

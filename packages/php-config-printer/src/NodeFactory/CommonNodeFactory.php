@@ -49,4 +49,9 @@ final class CommonNodeFactory
     {
         return new ConstFetch(new Name('false'));
     }
+
+    public function createTrue(): ConstFetch
+    {
+        return new ConstFetch(new Name('true'));
+    }
 }

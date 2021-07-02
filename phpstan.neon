@@ -130,8 +130,6 @@ parameters:
         # false positive
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
 
-        # yield iterator
-        - '#Parameter \#1 \$files of method Symplify\\SmartFileSystem\\Finder\\FinderSanitizer\:\:sanitize\(\) expects \(iterable<SplFileInfo\|string\>&Nette\\Utils\\Finder\)\|Symfony\\Component\\Finder\\Finder, array<int, SplFileInfo\> given#'
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
 
         # the Filesystem method is only iterable way
@@ -176,11 +174,6 @@ parameters:
             message: '#Do not use trait#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-
-        -
-            message: '#Do not use setter on a service#'
-            paths:
-                - packages/git-wrapper/src/GitWorkingCopy.php
 
         -
             message: '#Do not call parent method if parent method is empty#'
@@ -296,6 +289,8 @@ parameters:
             paths:
                  - packages/coding-standard/src/Php/PhpContentAnalyzer.php
                  - packages/git-wrapper/src/GitWorkingCopy.php
+                 # traversing is complex operatoin
+                 - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
@@ -412,10 +407,6 @@ parameters:
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
-            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 12, keep it under 8#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
-
-        -
             message: '#Use void instead of modify and return self object#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
@@ -487,10 +478,6 @@ parameters:
         - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
 
         -
-            message: '#Do not use setter on a service#'
-            path: 'packages/easy-coding-standard/src/Configuration/Configuration.php'
-
-        -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
@@ -521,3 +508,19 @@ parameters:
 
         # array_merge() class-string[]
         - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'
+
+        # this can change on downgrade build
+        - "#'@package_version@' and '@package_version@' will always evaluate to false#"
+
+        -
+            message: '#Unreachable statement \- code above always terminates#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+        # optional parameter in value object
+        -
+            message: '#Parameter "message" cannot be nullable#'
+            path: packages/*/src/ValueObject/*
+
+        -
+            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
+            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php

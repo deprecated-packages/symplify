@@ -36,6 +36,13 @@ final class BindAutowireAutoconfigureServiceOptionKeyYamlToPhpFactory implements
             return $methodCall;
         }
 
+        if ($yaml === true) {
+            $methodCall = new MethodCall($methodCall, $method);
+            $methodCall->args[] = new Arg($this->commonNodeFactory->createTrue());
+
+            return $methodCall;
+        }
+
         if (! $this->serviceOptionAnalyzer->hasNamedArguments($yaml)) {
             $args = $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml);
             return new MethodCall($methodCall, 'bind', $args);

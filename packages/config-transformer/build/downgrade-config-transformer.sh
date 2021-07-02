@@ -22,7 +22,7 @@ note()
 
 
 # configure - 1st argument, use like
-# sh build/downgrade-ecs.sh <directory-to-downgrade>
+# sh build/downgrade-config-transformer.sh <directory-to-downgrade>
 BUILD_DIRECTORY=$1
 
 #---------------------------------------------

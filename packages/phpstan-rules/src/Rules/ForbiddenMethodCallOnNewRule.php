@@ -75,10 +75,7 @@ CODE_SAMPLE
         ]);
     }
 
-    /**
-     * @param MethodCall|StaticCall $node
-     */
-    private function isMethodCallOnNew(Node $node, Scope $scope): bool
+    private function isMethodCallOnNew(MethodCall | StaticCall $node, Scope $scope): bool
     {
         if (! $node instanceof MethodCall) {
             return false;
@@ -91,10 +88,7 @@ CODE_SAMPLE
         return ! $this->containsTypeAnalyser->containsExprTypes($node->var, $scope, self::ALLOWED_TYPES);
     }
 
-    /**
-     * @param MethodCall|StaticCall $node
-     */
-    private function isStaticCallOnNew(Node $node): bool
+    private function isStaticCallOnNew(MethodCall | StaticCall $node): bool
     {
         if (! $node instanceof StaticCall) {
             return false;

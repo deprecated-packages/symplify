@@ -11,7 +11,6 @@ use PhpParser\NodeFinder;
 use PHPStan\Parser\Parser;
 use ReflectionMethod;
 use ReflectionProperty;
-use Reflector;
 use Throwable;
 
 final class ReflectionParser
@@ -42,10 +41,7 @@ final class ReflectionParser
         return $class->getProperty($reflectionProperty->getName());
     }
 
-    /**
-     * @param ReflectionMethod|ReflectionProperty $reflector
-     */
-    private function parseReflectionToClass(Reflector $reflector): ?Class_
+    private function parseReflectionToClass(\ReflectionMethod | \ReflectionProperty $reflector): ?Class_
     {
         $reflectionClass = $reflector->getDeclaringClass();
 

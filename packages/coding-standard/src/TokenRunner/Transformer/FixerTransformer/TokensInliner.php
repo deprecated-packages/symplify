@@ -17,7 +17,7 @@ final class TokensInliner
     }
 
     /**
-     * @param Tokens|Token[] $tokens
+     * @param Tokens<Token> $tokens
      */
     public function inlineItems(Tokens $tokens, BlockInfo $blockInfo): void
     {

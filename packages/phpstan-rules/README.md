@@ -62,7 +62,7 @@ includes:
     - vendor/symplify/phpstan-rules/config/regex-rules.neon
     - vendor/symplify/phpstan-rules/config/services-rules.neon
     - vendor/symplify/phpstan-rules/config/size-rules.neon
-    - vendor/symplify/phpstan-rules/config/forbid-static-rules.neon
+    - vendor/symplify/phpstan-rules/config/forbidden-static-rules.neon
     - vendor/symplify/phpstan-rules/config/string-to-constant-rules.neon
     - vendor/symplify/phpstan-rules/config/symfony-rules.neon
     - vendor/symplify/phpstan-rules/config/test-rules.neon

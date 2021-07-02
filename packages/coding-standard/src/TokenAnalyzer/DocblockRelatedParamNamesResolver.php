@@ -21,7 +21,9 @@ final class DocblockRelatedParamNamesResolver
         $this->functionTokens[] = new Token([T_FUNCTION, 'function']);
 
         // only in PHP 7.4+
-        $this->functionTokens[] = new Token([T_FN, 'fn']);
+        if ($this->doesFnTokenExist()) {
+            $this->functionTokens[] = new Token([T_FN, 'fn']);
+        }
     }
 
     /**
@@ -39,5 +41,11 @@ final class DocblockRelatedParamNamesResolver
         $functionArgumentAnalyses = $this->functionsAnalyzer->getFunctionArguments($tokens, $functionTokenPosition);
 
         return array_keys($functionArgumentAnalyses);
+    }
+
+    private function doesFnTokenExist(): bool
+    {
+        return PHP_VERSION_ID >= 70400
+            && defined('T_FN');
     }
 }
