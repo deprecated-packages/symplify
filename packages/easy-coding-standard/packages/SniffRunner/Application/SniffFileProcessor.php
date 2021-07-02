@@ -86,7 +86,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         // add coding standard errors
         $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
         if ($codingStandardErrors !== []) {
-            $errorsAndDiffs['coding_standard_errors'][] = $codingStandardErrors;
+            $errorsAndDiffs[Bridge::CODING_STANDARD_ERRORS] = $codingStandardErrors;
         }
 
         // add diff
