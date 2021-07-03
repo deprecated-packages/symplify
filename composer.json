@@ -79,7 +79,10 @@
             "Symplify\\ConfigTransformer\\": "packages/config-transformer/src",
             "Symplify\\ConsoleColorDiff\\": "packages/console-color-diff/src",
             "Symplify\\ConsolePackageBuilder\\": "packages/console-package-builder/src",
-            "Symplify\\EasyCI\\": "packages/easy-ci/src",
+            "Symplify\\EasyCI\\": [
+                "packages/easy-ci/packages",
+                "packages/easy-ci/src"
+            ],
             "Symplify\\EasyCodingStandard\\": [
                 "packages/easy-coding-standard/packages",
                 "packages/easy-coding-standard/src"
@@ -108,7 +111,6 @@
             "Symplify\\SimplePhpDocParser\\": "packages/simple-php-doc-parser/src",
             "Symplify\\Skipper\\": "packages/skipper/src",
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\StaticDetector\\": "packages/static-detector/src",
             "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
@@ -134,7 +136,10 @@
             "Symplify\\ConfigTransformer\\Tests\\": "packages/config-transformer/tests",
             "Symplify\\ConsoleColorDiff\\Tests\\": "packages/console-color-diff/tests",
             "Symplify\\ConsolePackageBuilder\\Tests\\": "packages/console-package-builder/tests",
-            "Symplify\\EasyCI\\Tests\\": "packages/easy-ci/tests",
+            "Symplify\\EasyCI\\Tests\\": [
+                "packages/easy-ci/packages-tests",
+                "packages/easy-ci/tests"
+            ],
             "Symplify\\EasyCodingStandard\\Tests\\": [
                 "packages/easy-coding-standard/packages-tests",
                 "packages/easy-coding-standard/tests"
@@ -160,7 +165,6 @@
             "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\StaticDetector\\Tests\\": "packages/static-detector/tests",
             "Symplify\\SymfonyPhpConfig\\Tests\\": "packages/symfony-php-config/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
@@ -197,7 +201,6 @@
         "symplify/simple-php-doc-parser": "9.4.7",
         "symplify/skipper": "9.4.7",
         "symplify/smart-file-system": "9.4.7",
-        "symplify/static-detector": "9.4.7",
         "symplify/symfony-php-config": "9.4.7",
         "symplify/symfony-static-dumper": "9.4.7",
         "symplify/symplify-kernel": "9.4.7",
