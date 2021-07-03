@@ -11,8 +11,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\EasyCI\StaticDetector\Collector\StaticNodeCollector;
-use Symplify\EasyCI\StaticDetector\Strings\StringsFilter;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class StaticCollectNodeVisitor extends NodeVisitorAbstract
@@ -26,8 +24,6 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
 
     public function __construct(
         private StaticNodeCollector $staticNodeCollector,
-        private ParameterProvider $parameterProvider,
-        private StringsFilter $stringsFilter,
         private SimpleNameResolver $simpleNameResolver
     ) {
     }
