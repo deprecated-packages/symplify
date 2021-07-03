@@ -170,6 +170,14 @@ final class SomeMethodFilterProvider implements FilterProviderInterface
 
 <br>
 
+### 7. Detect Static Calls in Your Code
+
+```bash
+vendor/bin/static-detector detect-static src
+```
+
+<br>
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)

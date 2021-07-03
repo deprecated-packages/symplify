@@ -16,6 +16,8 @@ use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(__DIR__ . '/config-packages.php');
+
     $services = $containerConfigurator->services();
 
     $services->defaults()
