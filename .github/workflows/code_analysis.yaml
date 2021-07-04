@@ -43,7 +43,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi
                             packages/vendor-patches/bin/vendor-patches --ansi
-                            packages/static-detector/bin/static-detector --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest

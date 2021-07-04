@@ -8,10 +8,13 @@
     "require": {
         "php": ">=8.0",
         "composer/xdebug-handler": "^2.0",
+        "clue/ndjson-react": "^1.2",
         "danielstjules/stringy": "^3.1",
         "friendsofphp/php-cs-fixer": "^3.0",
         "nette/utils": "^3.2",
         "squizlabs/php_codesniffer": "^3.6",
+        "react/child-process": "^0.6.2",
+        "react/event-loop": "^1.1",
         "symfony/config": "^5.3",
         "symfony/console": "^5.3",
         "symfony/dependency-injection": "^5.3",
