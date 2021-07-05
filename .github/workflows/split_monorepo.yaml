@@ -28,7 +28,7 @@ jobs:
             # get package json list
             -
                 id: output_data
-                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --exclude-package easy-coding-standard)"
+                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package monorepo-builder --exclude-package config-transformer)"
 
         # this step is needed, so the output gets to the next defined job
         outputs:
