@@ -4,9 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Composer;
 
+use Nette\Utils\Arrays;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\VendorPatches\Tests\Composer\ComposerPatchesConfigurationUpdater\ComposerPatchesConfigurationUpdaterTest
+ */
 final class ComposerPatchesConfigurationUpdater
 {
     public function __construct(
@@ -18,19 +25,33 @@ final class ComposerPatchesConfigurationUpdater
     /**
      * @param mixed[] $composerExtraPatches
      */
-    public function updateComposerJson(array $composerExtraPatches): void
+    public function updateComposerJson(string $composerJsonFilePath, array $composerExtraPatches): ComposerJson
     {
         $extra = [
             'patches' => $composerExtraPatches,
         ];
 
-        $composerJsonFilePath = getcwd() . '/composer.json';
         $composerJson = $this->composerJsonFactory->createFromFilePath($composerJsonFilePath);
 
-        // merge "extra" section
-        $newExtra = array_merge($composerJson->getExtra(), $extra);
+        // merge "extra" section - deep merge is needed, so original patches are included
+        $newExtra = Arrays::mergeTree($composerJson->getExtra(), $extra);
         $composerJson->setExtra($newExtra);
 
-        $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $composerJsonFilePath);
+        return $composerJson;
+    }
+
+    /**
+     * @param mixed[] $composerExtraPatches
+     */
+    public function updateComposerJsonAndPrint(string $composerJsonFilePath, array $composerExtraPatches): void
+    {
+        $composerJson = $this->updateComposerJson($composerJsonFilePath, $composerExtraPatches);
+
+        $fileInfo = $composerJson->getFileInfo();
+        if (! $fileInfo instanceof SmartFileInfo) {
+            throw new ShouldNotHappenException();
+        }
+
+        $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $fileInfo->getRealPath());
     }
 }
