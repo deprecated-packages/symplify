@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Composer;
 
-use Nette\Utils\Arrays;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -18,7 +18,8 @@ final class ComposerPatchesConfigurationUpdater
 {
     public function __construct(
         private ComposerJsonFactory $composerJsonFactory,
-        private JsonFileManager $jsonFileManager
+        private JsonFileManager $jsonFileManager,
+        private ParametersMerger $parametersMerger
     ) {
     }
 
@@ -34,7 +35,8 @@ final class ComposerPatchesConfigurationUpdater
         $composerJson = $this->composerJsonFactory->createFromFilePath($composerJsonFilePath);
 
         // merge "extra" section - deep merge is needed, so original patches are included
-        $newExtra = Arrays::mergeTree($composerJson->getExtra(), $extra);
+
+        $newExtra = $this->parametersMerger->merge($composerJson->getExtra(), $extra);
         $composerJson->setExtra($newExtra);
 
         return $composerJson;

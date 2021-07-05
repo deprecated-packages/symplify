@@ -29,8 +29,8 @@ final class ComposerPatchesConfigurationUpdaterTest extends AbstractKernelTestCa
 
         $this->assertSame([
             'patches' => [
-                'symfony/console' => ['patches/symfony-console-style-symfonystyle-php.patch'],
                 'some_package' => ['some.patch'],
+                'symfony/console' => ['patches/symfony-console-style-symfonystyle-php.patch'],
             ],
         ], $composerJson->getExtra());
     }
