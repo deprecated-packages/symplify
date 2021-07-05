@@ -43,6 +43,9 @@
             "dev-main": "9.5-dev"
         }
     },
+    "config": {
+        "platform-check": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
