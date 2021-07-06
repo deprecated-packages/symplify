@@ -29,6 +29,10 @@ return [
         'vendor/symfony/deprecation-contracts/function.php',
         // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
     ],
+    'whitelist' => [
+        // needed for autoload, that is not prefixed, since it's in bin/* file
+        'Symplify\MonorepoBuilder\*',
+    ],
     'patchers' => [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
