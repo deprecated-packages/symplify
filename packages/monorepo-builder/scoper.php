@@ -102,5 +102,28 @@ return [
 
             return $content;
         },
+
+        // scope symfony configs
+        function (string $filePath, string $prefix, string $content): string {
+            if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {
+                return $content;
+            }
+
+            // fix symfony config load scoping
+            $content = Strings::replace(
+                $content,
+                '#load\(\'Symplify\\\\\\\\(?<package_name>[A-Za-z]+)#',
+                function (array $match) use ($prefix) {
+                    if ($match['package_name'] === 'MonorepoBuilder') {
+                        // skip
+                        return $match[0];
+                    }
+
+                    return 'load(\'' . $prefix . '\Symplify\\' . $match['package_name'];
+                }
+            );
+
+            return $content;
+        },
     ],
 ];
