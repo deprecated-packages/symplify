@@ -32,6 +32,8 @@ return [
     'whitelist' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
         'Symplify\MonorepoBuilder\*',
+        // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
+        'PharIo\Version\Version',
     ],
     'patchers' => [
         // unprefix polyfill functions
