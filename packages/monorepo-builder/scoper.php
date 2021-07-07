@@ -114,8 +114,8 @@ return [
             // unprefix symfony config
             return Strings::replace(
                 $content,
-                '#load\(\''. $prefix . '\\\\Symplify\\\\MonorepoBuilder#',
-                'load(\'' .'Symplify\\MonorepoBuilder',
+                '#load\(\'' . $prefix . '\\\\Symplify\\\\MonorepoBuilder#',
+                'load(\'' . 'Symplify\\MonorepoBuilder',
             );
         },
     ],
