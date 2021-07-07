@@ -49,6 +49,30 @@ return [
             // @see https://github.com/symplify/easy-coding-standard/commit/5c11eca46fbe341ac30d0d5da2c51e1596950299#diff-87ecc51ebcf33f4c2699c08f35403560ad1ea98d22771df83a29d00dc5f53a1cR12
             return Strings::replace($content, '#use Symfony\\\\Polyfill#', 'use ' . $prefix . ' Symfony\Polyfill');
         },
+
+        // scope symfony configs
+        function (string $filePath, string $prefix, string $content): string {
+            if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {
+                return $content;
+            }
+
+            // fix symfony config load scoping, except CodingStandard and EasyCodingStandard
+            $content = Strings::replace(
+                $content,
+                '#load\(\'Symplify\\\\\\\\(?<package_name>[A-Za-z]+)#',
+                function (array $match) use ($prefix) {
+                    if (in_array($match['package_name'], ['CodingStandard', 'EasyCodingStandard'], true)) {
+                        // skip
+                        return $match[0];
+                    }
+
+                    return 'load(\'' . $prefix . '\Symplify\\' . $match['package_name'];
+                }
+            );
+
+            return $content;
+        },
+
         // remove namespace frompoly fill stubs
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
