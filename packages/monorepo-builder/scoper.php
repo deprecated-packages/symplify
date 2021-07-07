@@ -61,29 +61,6 @@ return [
             return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
         },
 
-        // scope symfony configs
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {
-                return $content;
-            }
-
-            // fix symfony config load scoping, except CodingStandard and EasyCodingStandard
-            $content = Strings::replace(
-                $content,
-                '#load\(\'Symplify\\\\\\\\(?<package_name>[A-Za-z]+)#',
-                function (array $match) use ($prefix) {
-                    if (in_array($match['package_name'], ['CodingStandard', 'EasyCodingStandard'], true)) {
-                        // skip
-                        return $match[0];
-                    }
-
-                    return 'load(\'' . $prefix . '\Symplify\\' . $match['package_name'];
-                }
-            );
-
-            return $content;
-        },
-
         // fixes https://github.com/symplify/symplify/issues/3102
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::contains($filePath, 'vendor/')) {
