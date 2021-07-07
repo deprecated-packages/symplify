@@ -33,7 +33,7 @@ return [
         // needed for autoload, that is not prefixed, since it's in bin/* file
         'Symplify\MonorepoBuilder\*',
         // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
-        'PharIo\Version\Version',
+        'PharIo\Version\*',
     ],
     'patchers' => [
         // unprefix polyfill functions
@@ -55,7 +55,7 @@ return [
                 return $content;
             }
 
-            // remove alias to class have origina PHP names - fix in
+            // remove alias to class have original PHP names - fix in
             $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
 
             return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
