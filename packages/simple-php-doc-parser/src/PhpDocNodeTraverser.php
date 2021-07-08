@@ -23,6 +23,8 @@ final class PhpDocNodeTraverser
      *
      * For subsequent visitors enterNode() will still be called on the current node and leaveNode() will also be invoked
      * for the current node.
+     *
+     * @var int
      */
     public const DONT_TRAVERSE_CHILDREN = 1;
 
@@ -30,6 +32,8 @@ final class PhpDocNodeTraverser
      * If NodeVisitor::enterNode() or NodeVisitor::leaveNode() returns STOP_TRAVERSAL, traversal is aborted.
      *
      * The afterTraverse() method will still be invoked.
+     *
+     * @var int
      */
     public const STOP_TRAVERSAL = 2;
 
@@ -38,6 +42,8 @@ final class PhpDocNodeTraverser
      * array.
      *
      * For subsequent visitors leaveNode() will still be invoked for the removed node.
+     *
+     * @var int
      */
     public const NODE_REMOVE = 3;
 
@@ -47,13 +53,15 @@ final class PhpDocNodeTraverser
      *
      * For subsequent visitors enterNode() will not be called as well. leaveNode() will be invoked for visitors that has
      * enterNode() method invoked.
+     *
+     * @var int
      */
     public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = 4;
 
     /**
      * @var bool Whether traversal should be stopped
      */
-    private $stopTraversal = false;
+    private bool $stopTraversal = false;
 
     /**
      * @var PhpDocNodeVisitorInterface[]
