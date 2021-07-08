@@ -19,11 +19,42 @@ use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
 final class PhpDocNodeTraverser
 {
     /**
-     * Return from enterNode() to remove node from the tree
+     * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CHILDREN, child nodes of the current node will not be traversed
+     * for any visitors.
      *
-     * @var int
+     * For subsequent visitors enterNode() will still be called on the current node and leaveNode() will also be invoked
+     * for the current node.
      */
-    public const NODE_REMOVE = 1;
+    public const DONT_TRAVERSE_CHILDREN = 1;
+
+    /**
+     * If NodeVisitor::enterNode() or NodeVisitor::leaveNode() returns STOP_TRAVERSAL, traversal is aborted.
+     *
+     * The afterTraverse() method will still be invoked.
+     */
+    public const STOP_TRAVERSAL = 2;
+
+    /**
+     * If NodeVisitor::leaveNode() returns NODE_REMOVE for a node that occurs in an array, it will be removed from the
+     * array.
+     *
+     * For subsequent visitors leaveNode() will still be invoked for the removed node.
+     */
+    public const NODE_REMOVE = 3;
+
+    /**
+     * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CURRENT_AND_CHILDREN, child nodes of the current node will not
+     * be traversed for any visitors.
+     *
+     * For subsequent visitors enterNode() will not be called as well. leaveNode() will be invoked for visitors that has
+     * enterNode() method invoked.
+     */
+    public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = 4;
+
+    /**
+     * @var bool Whether traversal should be stopped
+     */
+    private $stopTraversal = false;
 
     /**
      * @var PhpDocNodeVisitorInterface[]
@@ -75,27 +106,57 @@ final class PhpDocNodeTraverser
             if (\is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
             } elseif ($subNode instanceof Node) {
-                foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
+                $breakVisitorIndex = null;
+                $traverseChildren = true;
+
+                foreach ($this->phpDocNodeVisitors as $visitorIndex => $phpDocNodeVisitor) {
                     $return = $phpDocNodeVisitor->enterNode($subNode);
-                    if ($return instanceof Node) {
-                        $subNode = $return;
-                    } elseif ($return === self::NODE_REMOVE) {
-                        if ($subNode instanceof PhpDocTagValueNode) {
-                            // we have to remove the node above
-                            return self::NODE_REMOVE;
+
+                    if ($return !== null) {
+                        if ($return instanceof Node) {
+                            $subNode = $return;
+                        } elseif ($return === self::DONT_TRAVERSE_CHILDREN) {
+                            $traverseChildren = false;
+                        } elseif ($return === self::DONT_TRAVERSE_CURRENT_AND_CHILDREN) {
+                            $traverseChildren = false;
+                            $breakVisitorIndex = $visitorIndex;
+                            break;
+                        } elseif ($return === self::STOP_TRAVERSAL) {
+                            $this->stopTraversal = true;
+                        } elseif ($return === self::NODE_REMOVE) {
+                            if ($subNode instanceof PhpDocTagValueNode) {
+                                // we have to remove the node above
+                                return self::NODE_REMOVE;
+                            }
+                            $subNode = null;
+                            continue 2;
+                        } else {
+                            throw new InvalidTraverseException(
+                                'enterNode() returned invalid value of type ' . gettype($return)
+                            );
                         }
-                        $subNode = null;
-                        continue 2;
                     }
                 }
 
-                $subNode = $this->traverseNode($subNode);
-                if (is_int($subNode)) {
-                    throw new InvalidTraverseException();
+                if ($traverseChildren) {
+                    $returnSubNode = $this->traverseNode($subNode);
+
+                    // special return case `int`, when we need to remove parent node
+                    if ($returnSubNode instanceof Node) {
+                        $subNode = $returnSubNode;
+                    }
+
+                    if ($this->stopTraversal) {
+                        break;
+                    }
                 }
 
-                foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
+                foreach ($this->phpDocNodeVisitors as $visitorIndex => $phpDocNodeVisitor) {
                     $phpDocNodeVisitor->leaveNode($subNode);
+
+                    if ($breakVisitorIndex === $visitorIndex) {
+                        break;
+                    }
                 }
             }
         }
@@ -115,32 +176,73 @@ final class PhpDocNodeTraverser
                 continue;
             }
 
-            foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
+            $traverseChildren = true;
+            $breakVisitorIndex = null;
+
+            foreach ($this->phpDocNodeVisitors as $visitorIndex => $phpDocNodeVisitor) {
                 $return = $phpDocNodeVisitor->enterNode($node);
-                if ($return instanceof Node) {
-                    $node = $return;
-                } elseif ($return === self::NODE_REMOVE) {
-                    // remove node
-                    unset($nodes[$key]);
-                    continue 2;
+
+                if ($return !== null) {
+                    if ($return instanceof Node) {
+                        $node = $return;
+                    } elseif ($return === self::DONT_TRAVERSE_CHILDREN) {
+                        $traverseChildren = false;
+                    } elseif ($return === self::DONT_TRAVERSE_CURRENT_AND_CHILDREN) {
+                        $traverseChildren = false;
+                        $breakVisitorIndex = $visitorIndex;
+                        break;
+                    } elseif ($return === self::STOP_TRAVERSAL) {
+                        $this->stopTraversal = true;
+                    } elseif ($return === self::NODE_REMOVE) {
+                        // remove node
+                        unset($nodes[$key]);
+                        continue 2;
+                    } else {
+                        throw new InvalidTraverseException('enterNode() returned invalid value of type ' . gettype(
+                            $return
+                        ));
+                    }
                 }
             }
 
-            $return = $this->traverseNode($node);
-            // remove value node
-            if ($return === self::NODE_REMOVE) {
-                unset($nodes[$key]);
-                continue;
+            // should traverse node childrens properties?
+            if ($traverseChildren) {
+                $returnNode = $this->traverseNode($node);
+                // special return case `int`, when we need to remove parent node
+                if ($returnNode instanceof Node) {
+                    $node = $returnNode;
+                }
+
+                if ($this->stopTraversal) {
+                    break;
+                }
             }
 
-            if (is_int($return)) {
-                throw new InvalidTraverseException();
-            }
+            foreach ($this->phpDocNodeVisitors as $visitorIndex => $phpDocNodeVisitor) {
+                $return = $phpDocNodeVisitor->leaveNode($node);
 
-            $node = $return;
+                if ($return !== null) {
+                    if ($return instanceof Node) {
+                        $node = $return;
+                    } elseif (\is_array($return)) {
+                        $doNodes[] = [$key, $return];
+                        break;
+                    } elseif ($return === self::NODE_REMOVE) {
+                        $doNodes[] = [$key, []];
+                        break;
+                    } elseif ($return === self::STOP_TRAVERSAL) {
+                        $this->stopTraversal = true;
+                        break 2;
+                    } else {
+                        throw new InvalidTraverseException(
+                            'leaveNode() returned invalid value of type ' . gettype($return)
+                        );
+                    }
+                }
 
-            foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
-                $phpDocNodeVisitor->leaveNode($node);
+                if ($breakVisitorIndex === $visitorIndex) {
+                    break;
+                }
             }
         }
 
