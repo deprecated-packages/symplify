@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SimplePhpDocParser;
 
 use PHPStan\PhpDocParser\Ast\Node;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SimplePhpDocParser\Exception\InvalidTraverseException;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
@@ -73,9 +72,6 @@ final class PhpDocNodeTraverser
         }
 
         $node = $this->traverseNode($node);
-        if (is_int($node)) {
-            throw new InvalidTraverseException();
-        }
 
         foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
             $phpDocNodeVisitor->afterTraverse($node);
@@ -94,9 +90,9 @@ final class PhpDocNodeTraverser
     /**
      * @template TNode of Node
      * @param TNode $node
-     * @return TNode|int
+     * @return TNode
      */
-    private function traverseNode(Node $node): Node | int
+    private function traverseNode(Node $node): Node
     {
         $subNodeNames = array_keys(get_object_vars($node));
 
@@ -124,10 +120,6 @@ final class PhpDocNodeTraverser
                         } elseif ($return === self::STOP_TRAVERSAL) {
                             $this->stopTraversal = true;
                         } elseif ($return === self::NODE_REMOVE) {
-                            if ($subNode instanceof PhpDocTagValueNode) {
-                                // we have to remove the node above
-                                return self::NODE_REMOVE;
-                            }
                             $subNode = null;
                             continue 2;
                         } else {
@@ -139,13 +131,7 @@ final class PhpDocNodeTraverser
                 }
 
                 if ($traverseChildren) {
-                    $returnSubNode = $this->traverseNode($subNode);
-
-                    // special return case `int`, when we need to remove parent node
-                    if ($returnSubNode instanceof Node) {
-                        $subNode = $returnSubNode;
-                    }
-
+                    $subNode = $this->traverseNode($subNode);
                     if ($this->stopTraversal) {
                         break;
                     }
@@ -207,12 +193,7 @@ final class PhpDocNodeTraverser
 
             // should traverse node childrens properties?
             if ($traverseChildren) {
-                $returnNode = $this->traverseNode($node);
-                // special return case `int`, when we need to remove parent node
-                if ($returnNode instanceof Node) {
-                    $node = $returnNode;
-                }
-
+                $node = $this->traverseNode($node);
                 if ($this->stopTraversal) {
                     break;
                 }
