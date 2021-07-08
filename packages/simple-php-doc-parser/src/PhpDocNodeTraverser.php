@@ -9,7 +9,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SimplePhpDocParser\Exception\InvalidTraverseException;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
-use Symplify\SimplePhpDocParser\ValueObject\PhpDocAttributeKey;
 
 /**
  * Mimics
