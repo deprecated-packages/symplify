@@ -24,8 +24,12 @@ abstract class AbstractPhpDocNodeVisitor implements PhpDocNodeVisitorInterface
         return null;
     }
 
-    public function leaveNode(Node $node): void
+    /**
+     * @return null|int|\PhpParser\Node|Node[] Replacement node (or special return)
+     */
+    public function leaveNode(Node $node)
     {
+        return null;
     }
 
     public function afterTraverse(Node $node): void
