@@ -9,6 +9,7 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagValueNode;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SimplePhpDocParser\Exception\InvalidTraverseException;
 use Symplify\SimplePhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
+use Symplify\SimplePhpDocParser\ValueObject\PhpDocAttributeKey;
 
 /**
  * Mimics
@@ -73,7 +74,12 @@ final class PhpDocNodeTraverser
             $subNode = &$node->{$subNodeName};
 
             if (\is_array($subNode)) {
+                $originSubNode = $subNode;
                 $subNode = $this->traverseArray($subNode);
+                // everything was removed → reprint array
+                if ($subNode !== $originSubNode) {
+                    $node->setAttribute(PhpDocAttributeKey::ORIG_NODE, null);
+                }
             } elseif ($subNode instanceof Node) {
                 foreach ($this->phpDocNodeVisitors as $phpDocNodeVisitor) {
                     $return = $phpDocNodeVisitor->enterNode($subNode);
