@@ -24,10 +24,7 @@ final class ParentConnectingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         $this->stack = [$node];
     }
 
-    /**
-     * @return int|Node|null
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node
     {
         if ($this->stack !== []) {
             $parentNode = $this->stack[count($this->stack) - 1];
