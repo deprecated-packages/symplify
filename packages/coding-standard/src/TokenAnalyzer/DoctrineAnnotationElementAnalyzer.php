@@ -17,10 +17,13 @@ use PhpCsFixer\Tokenizer\TokensAnalyzer;
  */
 final class DoctrineAnnotationElementAnalyzer
 {
+    /**
+     * @param Tokens<\PhpCsFixer\Tokenizer\Token> $tokens
+     */
     public function detect(Tokens $tokens, int $index): bool
     {
-        $analyzer = new TokensAnalyzer($tokens);
-        $classyElements = $analyzer->getClassyElements();
+        $tokensAnalyzer = new TokensAnalyzer($tokens);
+        $classyElements = $tokensAnalyzer->getClassyElements();
 
         do {
             $index = $tokens->getNextMeaningfulToken($index);
@@ -49,11 +52,11 @@ final class DoctrineAnnotationElementAnalyzer
     /**
      * We look for "(@SomeAnnotation"
      *
-     * @param DoctrineAnnotationTokens<Token> $tokens
+     * @param DoctrineAnnotationTokens<Token> $doctrineAnnotationTokens
      */
     public function isOpeningBracketFollowedByAnnotation(
         Token $token,
-        DoctrineAnnotationTokens $tokens,
+        DoctrineAnnotationTokens $doctrineAnnotationTokens,
         int $braceIndex
     ): bool {
         // should be "("
@@ -62,13 +65,13 @@ final class DoctrineAnnotationElementAnalyzer
             return false;
         }
 
-        $nextTokenIndex = $tokens->getNextMeaningfulToken($braceIndex + 1);
+        $nextTokenIndex = $doctrineAnnotationTokens->getNextMeaningfulToken($braceIndex);
         if ($nextTokenIndex === null) {
             return false;
         }
 
         /** @var Token $nextToken */
-        $nextToken = $tokens[$nextTokenIndex];
+        $nextToken = $doctrineAnnotationTokens[$nextTokenIndex];
 
         // next token must be nested annotation, we don't care otherwise
         return $nextToken->isType(DocLexer::T_AT);

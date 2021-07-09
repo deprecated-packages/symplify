@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\CodingStandard\Fixer\Annotation;
 
 use Doctrine\Common\Annotations\DocLexer;
-use PhpCsFixer\Doctrine\Annotation\Token;
+use PhpCsFixer\Doctrine\Annotation\Token as DoctrineAnnotationToken;
 use PhpCsFixer\Doctrine\Annotation\Tokens as DoctrineAnnotationTokens;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
+use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenAnalyzer\DoctrineAnnotationElementAnalyzer;
 use Symplify\CodingStandard\TokenAnalyzer\DoctrineAnnotationNameResolver;
@@ -39,7 +41,7 @@ final class DoctrineAnnotationNestedBracketsFixer extends AbstractSymplifyFixer 
 
     public function __construct(
         private DoctrineAnnotationElementAnalyzer $doctrineAnnotationElementAnalyzer,
-        private DoctrineAnnotationNameResolver $annotationNameResolver,
+        private DoctrineAnnotationNameResolver $doctrineAnnotationNameResolver,
         private NamespaceUsesAnalyzer $namespaceUsesAnalyzer
     ) {
     }
@@ -90,18 +92,24 @@ CODE_SAMPLE
         $this->annotationClasses = $annotationsClasses;
     }
 
+    /**
+     * @param Tokens<Token> $tokens
+     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_DOC_COMMENT);
     }
 
-    public function fix(\SplFileInfo $fileInfo, Tokens $tokens): void
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $useDeclarations = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
 
         // fetch indexes one time, this is safe as we never add or remove a token during fixing
 
-        /** @var \PhpCsFixer\Tokenizer\Token[] $docCommentTokens */
+        /** @var Token[] $docCommentTokens */
         $docCommentTokens = $tokens->findGivenKind(T_DOC_COMMENT);
         foreach ($docCommentTokens as $index => $docCommentToken) {
             if (! $this->doctrineAnnotationElementAnalyzer->detect($tokens, $index)) {
@@ -111,22 +119,26 @@ CODE_SAMPLE
             $doctrineAnnotationTokens = DoctrineAnnotationTokens::createFromDocComment($docCommentToken, []);
             $this->fixAnnotations($doctrineAnnotationTokens, $useDeclarations);
 
-            $tokens[$index] = new \PhpCsFixer\Tokenizer\Token([T_DOC_COMMENT, $doctrineAnnotationTokens->getCode()]);
+            $tokens[$index] = new Token([T_DOC_COMMENT, $doctrineAnnotationTokens->getCode()]);
         }
     }
 
     /**
-     * @param DoctrineAnnotationTokens<Token> $tokens
+     * @param DoctrineAnnotationTokens<DoctrineAnnotationToken> $doctrineAnnotationTokens
      */
-    private function fixAnnotations(DoctrineAnnotationTokens $tokens, $useDeclarations): void
+    private function fixAnnotations(DoctrineAnnotationTokens $doctrineAnnotationTokens, $useDeclarations): void
     {
-        foreach ($tokens as $index => $token) {
-            $isAtToken = $tokens[$index]->isType(DocLexer::T_AT);
+        foreach ($doctrineAnnotationTokens as $index => $token) {
+            $isAtToken = $doctrineAnnotationTokens[$index]->isType(DocLexer::T_AT);
             if (! $isAtToken) {
                 continue;
             }
 
-            $annotationName = $this->annotationNameResolver->resolveName($tokens, $index, $useDeclarations);
+            $annotationName = $this->doctrineAnnotationNameResolver->resolveName(
+                $doctrineAnnotationTokens,
+                $index,
+                $useDeclarations
+            );
             if ($annotationName === null) {
                 continue;
             }
@@ -135,31 +147,37 @@ CODE_SAMPLE
                 continue;
             }
 
-            $closingBraceIndex = $tokens->getAnnotationEnd($index);
+            $closingBraceIndex = $doctrineAnnotationTokens->getAnnotationEnd($index);
             if ($closingBraceIndex === null) {
                 continue;
             }
 
-            $braceIndex = $tokens->getNextMeaningfulToken($index + 1);
+            $braceIndex = $doctrineAnnotationTokens->getNextMeaningfulToken($index + 1);
             if ($braceIndex === null) {
                 continue;
             }
 
-            /** @var Token $braceToken */
-            $braceToken = $tokens[$braceIndex];
+            /** @var DoctrineAnnotationToken $braceToken */
+            $braceToken = $doctrineAnnotationTokens[$braceIndex];
             if (! $this->doctrineAnnotationElementAnalyzer->isOpeningBracketFollowedByAnnotation(
                 $braceToken,
-                $tokens,
+                $doctrineAnnotationTokens,
                 $braceIndex
             )) {
                 continue;
             }
 
             // add closing brace
-            $tokens->insertAt($closingBraceIndex, new Token(DocLexer::T_OPEN_CURLY_BRACES, '}'));
+            $doctrineAnnotationTokens->insertAt(
+                $closingBraceIndex,
+                new DoctrineAnnotationToken(DocLexer::T_OPEN_CURLY_BRACES, '}')
+            );
 
             // add opening brace
-            $tokens->insertAt($braceIndex + 1, new Token(DocLexer::T_OPEN_CURLY_BRACES, '{'));
+            $doctrineAnnotationTokens->insertAt(
+                $braceIndex + 1,
+                new DoctrineAnnotationToken(DocLexer::T_OPEN_CURLY_BRACES, '{')
+            );
         }
     }
 }

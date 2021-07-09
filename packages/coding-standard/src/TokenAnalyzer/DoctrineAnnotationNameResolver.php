@@ -30,16 +30,16 @@ final class DoctrineAnnotationNameResolver
             $annotationShortName .= $currentToken->getContent();
         }
 
-        if ($annotationShortName) {
-            foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
-                if ($namespaceUseAnalysis->getShortName() === $annotationShortName) {
-                    return $namespaceUseAnalysis->getFullName();
-                }
-            }
-
-            return $annotationShortName;
+        if ($annotationShortName === '') {
+            return null;
         }
 
-        return null;
+        foreach ($namespaceUseAnalyses as $namespaceUseAnalysis) {
+            if ($namespaceUseAnalysis->getShortName() === $annotationShortName) {
+                return $namespaceUseAnalysis->getFullName();
+            }
+        }
+
+        return $annotationShortName;
     }
 }
