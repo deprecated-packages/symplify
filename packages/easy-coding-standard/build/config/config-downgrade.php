@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
+use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\DowngradePhp80\Rector\Class_\DowngradeAttributeToAnnotationRector;
 use Rector\DowngradePhp80\ValueObject\DowngradeAttributeToAnnotation;
 use Rector\Set\ValueObject\DowngradeSetList;
@@ -20,6 +21,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // $containerConfigurator->import(DowngradeSetList::PHP_70);
 
     $services = $containerConfigurator->services();
+
+    $services->set(DowngradeParameterTypeWideningRector::class)
+        ->call('configure', [[
+            DowngradeParameterTypeWideningRector::SAFE_TYPES => [
+                'PHP_CodeSniffer\Sniffs\Sniff',
+                \PhpCsFixer\Fixer\FixerInterface::class,
+            ],
+        ]]);
+
     $services->set(DowngradeAttributeToAnnotationRector::class)
         ->call('configure', [[
             DowngradeAttributeToAnnotationRector::ATTRIBUTE_TO_ANNOTATION => ValueObjectInliner::inline([
