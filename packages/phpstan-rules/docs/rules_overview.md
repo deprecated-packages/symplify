@@ -1,4 +1,4 @@
-# 150 Rules Overview
+# 152 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1032,6 +1032,30 @@ final class SomeClass
 
 <br>
 
+## ForbiddenArrayMethodCallRule
+
+Array method calls [$this, "method"] are not allowed. Use explicit method instead to help PhpStorm, PHPStan and Rector understand your code
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule`](../src/Rules/Complexity/ForbiddenArrayMethodCallRule.php)
+
+```php
+usort($items, [$this, 'method']);
+```
+
+:x:
+
+<br>
+
+```php
+usort($items, function (array $apples) {
+    return $this->method($apples);
+};
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenArrayWithStringKeysRule
 
 Array with keys is not allowed. Use value object to pass data instead
@@ -1440,6 +1464,41 @@ class SomeClass
 class SomeClass
 {
     return echo '...';
+}
+```
+
+:+1:
+
+<br>
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenFunctions:
+                dump: seems you missed some debugging function
+```
+
+↓
+
+```php
+class SomeClass
+{
+    dump('hello world');
+    return true;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    return true;
 }
 ```
 
@@ -4589,7 +4648,7 @@ services:
         class: Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
         tags: [phpstan.rules.rule]
         arguments:
-            minimumLineCount: 1
+            minimumLineCount: 3
 ```
 
 ↓
@@ -4908,6 +4967,38 @@ class SomeRectorTestCase extends RectorTestCase
     {
         // ...
     }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireExceptionNamespaceRule
+
+`Exception` must be located in "Exception" namespace
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule`](../src/Rules/Domain/RequireExceptionNamespaceRule.php)
+
+```php
+// app/Controller/SomeException.php
+namespace App\Controller;
+
+final class SomeException extends Exception
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+// app/Exception/SomeException.php
+namespace App\Exception;
+
+final class SomeException extends Exception
+{
 }
 ```
 
