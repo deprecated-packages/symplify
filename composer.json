@@ -56,7 +56,7 @@
         "ondram/ci-detector": "^4.1",
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
-        "rector/rector": "dev-main#ecda10a",
+        "rector/rector": "dev-main#54dcc7b",
         "symfony/doctrine-bridge": "^5.3",
         "symfony/framework-bundle": "^5.3",
         "symfony/security-bundle": "^5.3",

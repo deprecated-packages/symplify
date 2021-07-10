@@ -19,7 +19,8 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see https://softwareengineering.stackexchange.com/a/394288/148956
+ * @deprecated This rule is seriously buggy. Don't use it. We're working on a better replacement
+ * @see https://github.com/symplify/symplify/issues/3395
  *
  * @see \Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer\RemoveCommentedCodeFixerTest
  */

@@ -524,3 +524,6 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+
+        # wrong php-cs-fixer doc types
+        - '#Parameter \#1 \$type of method PhpCsFixer\\Doctrine\\Annotation\\Tokens\:\:getNextTokenOfType\(\) expects array<string\>\|string, int given#'
