@@ -7,10 +7,10 @@ use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRecto
 use Rector\DowngradePhp80\Rector\Class_\DowngradeAttributeToAnnotationRector;
 use Rector\DowngradePhp80\ValueObject\DowngradeAttributeToAnnotation;
 use Rector\Set\ValueObject\DowngradeSetList;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\SymfonyPhpConfig\ValueObjectInliner;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeSetList::PHP_80);
@@ -38,11 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 \PhpParser\PrettyPrinterAbstract::class,
             ],
             DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
-                ContainerInterface::class => [
-                    'setParameter',
-                    'getParameter',
-                    'hasParameter',
-                ],
+                ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
             ],
         ]]);
 
