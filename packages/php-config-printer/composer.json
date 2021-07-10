@@ -8,11 +8,11 @@
         "nikic/php-parser": "^4.11",
         "symfony/http-kernel": "^5.3",
         "symfony/yaml": "^5.3",
-        "symplify/astral": "^9.5",
-        "symplify/symplify-kernel": "^9.5"
+        "symplify/astral": "^9.4.19",
+        "symplify/symplify-kernel": "^9.4.19"
     },
     "require-dev": {
-        "symplify/easy-testing": "^9.5",
+        "symplify/easy-testing": "^9.4.19",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
