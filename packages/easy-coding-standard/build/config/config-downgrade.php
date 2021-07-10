@@ -2,14 +2,24 @@
 
 declare(strict_types=1);
 
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
+use PhpParser\Parser;
+use PhpParser\PrettyPrinterAbstract;
 use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\DowngradePhp80\Rector\Class_\DowngradeAttributeToAnnotationRector;
 use Rector\DowngradePhp80\ValueObject\DowngradeAttributeToAnnotation;
 use Rector\Set\ValueObject\DowngradeSetList;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\Service\Attribute\Required;
+use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
+use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
+use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -26,16 +36,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->call('configure', [[
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
-                'PHP_CodeSniffer\Sniffs\Sniff',
-                \PhpCsFixer\Fixer\FixerInterface::class,
-                \Symfony\Component\Console\Output\OutputInterface::class,
-                \Symfony\Component\Console\Style\StyleInterface::class,
-                \Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface::class,
+                Sniff::class,
+                FixerInterface::class,
+                OutputInterface::class,
+                StyleInterface::class,
+                PhpDocNodeVisitorInterface::class,
                 // phpstan
-                \PhpParser\Parser::class,
-                \Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface::class,
-                \Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface::class,
-                \PhpParser\PrettyPrinterAbstract::class,
+                Parser::class,
+                RuleCodeSamplePrinterInterface::class,
+                CategoryInfererInterface::class,
+                PrettyPrinterAbstract::class,
             ],
             DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
                 ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
