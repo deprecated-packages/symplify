@@ -27,6 +27,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
                 'PHP_CodeSniffer\Sniffs\Sniff',
                 \PhpCsFixer\Fixer\FixerInterface::class,
+                \Symfony\Component\Console\Output\OutputInterface::class,
+                \Symfony\Component\Console\Style\StyleInterface::class,
+                \Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface::class,
+                // phpstan
+                \PhpParser\Parser::class,
+                \Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface::class,
+                \Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface::class,
+                \PhpParser\PrettyPrinterAbstract::class,
             ],
         ]]);
 
