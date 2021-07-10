@@ -13,7 +13,6 @@ use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
-use Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
@@ -43,7 +42,6 @@ final class FixerFileProcessor implements FileProcessorInterface
         SingleBlankLineBeforeNamespaceFixer::class,
         BlankLineAfterOpeningTagFixer::class,
         SingleBlankLineAtEofFixer::class,
-        RemoveCommentedCodeFixer::class,
     ];
 
     /**
