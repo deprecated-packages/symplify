@@ -527,3 +527,13 @@ parameters:
 
         # wrong php-cs-fixer doc types
         - '#Parameter \#1 \$type of method PhpCsFixer\\Doctrine\\Annotation\\Tokens\:\:getNextTokenOfType\(\) expects array<string\>\|string, int given#'
+
+        # config for rector.php
+        -
+            message: '#For complex configuration use value object over array#'
+            path: packages/easy-coding-standard/build/config/config-downgrade.php
+
+        # command cast of string
+        -
+            message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
+            path: packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
