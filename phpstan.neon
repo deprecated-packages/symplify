@@ -531,7 +531,7 @@ parameters:
         # config for rector.php
         -
             message: '#For complex configuration use value object over array#'
-            path: packages/easy-coding-standard/build/config/config-downgrade.php
+            path: packages/*/build/config/config-downgrade.php
 
         # command cast of string
         -
