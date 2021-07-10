@@ -112,10 +112,6 @@ CODE_SAMPLE
         /** @var Token[] $docCommentTokens */
         $docCommentTokens = $tokens->findGivenKind(T_DOC_COMMENT);
         foreach ($docCommentTokens as $index => $docCommentToken) {
-            if (! $this->doctrineAnnotationElementAnalyzer->detect($tokens, $index)) {
-                continue;
-            }
-
             $doctrineAnnotationTokens = DoctrineAnnotationTokens::createFromDocComment($docCommentToken, []);
             $this->fixAnnotations($doctrineAnnotationTokens, $useDeclarations);
 
