@@ -36,11 +36,10 @@ final class Psr4NamespaceToPathFactory
             $uniqueNamespace = $this->symplifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
         }
 
-        $commonFilePathPrefix = Strings::findPrefix(
-            [$uniqueFilePath, $this->psr4SwitcherConfiguration->getComposerJsonPath()]
-        );
-
         $uniqueNamespace = rtrim($uniqueNamespace, '\\');
+
+        $composerJsonPath = $this->psr4SwitcherConfiguration->getComposerJsonPath();
+        $commonFilePathPrefix = Strings::findPrefix([$uniqueFilePath, $composerJsonPath]);
 
         $relativeDirectory = $this->symplifyStrings->subtractFromLeft($uniqueFilePath, $commonFilePathPrefix);
 

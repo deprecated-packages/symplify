@@ -2,9 +2,17 @@
 
 declare(strict_types=1);
 
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
+use PhpParser\Parser;
+use PhpParser\PrettyPrinterAbstract;
 use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\Set\ValueObject\DowngradeSetList;
+
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\StyleInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -17,20 +25,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->call('configure', [[
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
-                'PHP_CodeSniffer\Sniffs\Sniff',
-                \PhpCsFixer\Fixer\FixerInterface::class,
-                \Symfony\Component\Console\Output\OutputInterface::class,
-                \Symfony\Component\Console\Style\StyleInterface::class,
+                Sniff::class,
+                FixerInterface::class,
+                OutputInterface::class,
+                StyleInterface::class,
                 // phpstan
-                \PhpParser\Parser::class,
-                \PhpParser\PrettyPrinterAbstract::class,
+                Parser::class,
+                PrettyPrinterAbstract::class,
             ],
             DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
-                \Symfony\Component\DependencyInjection\ContainerInterface::class => [
-                    'setParameter',
-                    'getParameter',
-                    'hasParameter',
-                ],
+                ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
             ],
         ]]);
 
