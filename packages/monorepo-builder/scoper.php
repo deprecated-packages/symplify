@@ -30,6 +30,8 @@ return [
         // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
     ],
     'whitelist' => [
+        // part of public interface of configs.php
+        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         // needed for autoload, that is not prefixed, since it's in bin/* file
         'Symplify\MonorepoBuilder\*',
         // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
