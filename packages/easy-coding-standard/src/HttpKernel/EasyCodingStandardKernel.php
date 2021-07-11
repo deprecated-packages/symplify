@@ -18,6 +18,9 @@ use Symplify\Skipper\Bundle\SkipperBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
+/**
+ * @see \Symplify\EasyCodingStandard\Tests\HttpKernel\EasyCodingStandardKernelTest
+ */
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 {
     /**

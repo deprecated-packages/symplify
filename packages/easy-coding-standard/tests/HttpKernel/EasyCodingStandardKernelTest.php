@@ -12,22 +12,22 @@ final class EasyCodingStandardKernelTest extends TestCase
 {
     public function testCacheDirIsConsistentAcrossCalls(): void
     {
-        $kernel = new EasyCodingStandardKernel('foo', false);
+        $easyCodingStandardKernel = new EasyCodingStandardKernel('foo', false);
 
-        $this->assertSame($kernel->getCacheDir(), $kernel->getCacheDir());
+        $this->assertSame($easyCodingStandardKernel->getCacheDir(), $easyCodingStandardKernel->getCacheDir());
     }
 
     public function testPurgesCacheDirOnBoot(): void
     {
-        $kernel = new EasyCodingStandardKernel('foo', false);
+        $easyCodingStandardKernel = new EasyCodingStandardKernel('foo', false);
 
-        $dummyFile = $kernel->getCacheDir() . '/dummy';
+        $dummyFile = $easyCodingStandardKernel->getCacheDir() . '/dummy';
         FileSystem::write($dummyFile, '');
 
         $this->assertFileExists($dummyFile);
-        $kernel->boot();
+        $easyCodingStandardKernel->boot();
         $this->assertFileDoesNotExist($dummyFile);
 
-        FileSystem::delete($kernel->getCacheDir());
+        FileSystem::delete($easyCodingStandardKernel->getCacheDir());
     }
 }
