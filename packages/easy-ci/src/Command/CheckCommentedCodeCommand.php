@@ -72,7 +72,8 @@ final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
 
         foreach ($commentedLinesByFilePaths as $filePath => $commentedLines) {
             foreach ($commentedLines as $commentedLine) {
-                $this->symfonyStyle->writeln(' * ' . $filePath . ':' . $commentedLine);
+                $messageLine = ' * ' . $filePath . ':' . $commentedLine;
+                $this->symfonyStyle->writeln($messageLine);
             }
         }
 
