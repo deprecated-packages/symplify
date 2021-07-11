@@ -66,7 +66,7 @@ final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
         }
 
         if ($commentedLinesByFilePaths === []) {
-            $this->symfonyStyle->success('No comments found');
+            $this->symfonyStyle->success('No commented code found');
             return ShellCode::SUCCESS;
         }
 
