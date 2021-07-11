@@ -36,10 +36,7 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 
     public function getCacheDir(): string
     {
-        $cacheDir = sys_get_temp_dir() . '/ecs_' . get_current_user() . '_' . random_int(0, 100000);
-        FileSystem::createDir($cacheDir);
-
-        return $cacheDir;
+        return sys_get_temp_dir() . '/ecs_' . get_current_user();
     }
 
     public function getLogDir(): string
@@ -51,6 +48,17 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         }
 
         return $logDirectory;
+    }
+
+    public function boot(): void
+    {
+        $cacheDir = $this->getCacheDir();
+
+        // Rebuild the container on each run
+        FileSystem::delete($cacheDir);
+        FileSystem::createDir($cacheDir);
+
+        parent::boot();
     }
 
     protected function prepareContainer(ContainerBuilder $containerBuilder): void
