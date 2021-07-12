@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\Commenting\RemoveCommentedCodeFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class RemoveCommentedCodeFixerTest extends AbstractCheckerTestCase
+final class DoctrineAnnotationNestedBracketsFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()

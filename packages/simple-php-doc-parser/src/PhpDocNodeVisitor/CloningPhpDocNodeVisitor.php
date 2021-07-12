@@ -13,10 +13,7 @@ use Symplify\SimplePhpDocParser\ValueObject\PhpDocAttributeKey;
  */
 final class CloningPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
-    /**
-     * @return int|Node|null
-     */
-    public function enterNode(Node $origNode)
+    public function enterNode(Node $origNode): Node
     {
         $node = clone $origNode;
         $node->setAttribute(PhpDocAttributeKey::ORIG_NODE, $origNode);

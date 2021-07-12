@@ -1,4 +1,4 @@
-# 16 Rules Overview
+# 15 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -80,24 +80,39 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## DoctrineAnnotationNewlineInNestedAnnotationFixer
+## DoctrineAnnotationNestedBracketsFixer
 
-Nested object annotations should start on a standalone line
+Adds nested curly brackets to defined annotations, see https://github.com/doctrine/annotations/issues/418
 
-- class: [`Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNewlineInNestedAnnotationFixer`](../src/Fixer/Annotation/DoctrineAnnotationNewlineInNestedAnnotationFixer.php)
+:wrench: **configure it!**
+
+- class: [`Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer`](../src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php)
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set(DoctrineAnnotationNestedBracketsFixer::class)
+        ->call('configure', [[
+            DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation'],
+        ]]);
+};
+```
+
+↓
 
 ```diff
- use Doctrine\ORM\Mapping as ORM;
-
  /**
-- * @ORM\Table(name="user", indexes={@ORM\Index(name="user_id", columns={"another_id"})})
-+ * @ORM\Table(name="user", indexes={
-+ * @ORM\Index(name="user_id", columns={"another_id"})
-+ * })
-  */
- class SomeEntity
- {
- }
+-* @MainAnnotation(
++* @MainAnnotation({
+ *     @NestedAnnotation(),
+ *     @NestedAnnotation(),
+-* )
++* })
+ */
 ```
 
 <br>
@@ -194,20 +209,6 @@ Fixes @param, @return, `@var` and inline `@var` annotations broken formats
  function getPerson($name)
  {
  }
-```
-
-<br>
-
-## RemoveCommentedCodeFixer
-
-Remove commented code like "// `$one` = 1000;"
-
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveCommentedCodeFixer`](../src/Fixer/Commenting/RemoveCommentedCodeFixer.php)
-
-```diff
--// $one = 1;
--// $two = 2;
--// $three = 3;
 ```
 
 <br>

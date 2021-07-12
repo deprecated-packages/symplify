@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -24,6 +25,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/ValueObject',
         ]);
 
+    $services->set(NamespaceUsesAnalyzer::class);
     $services->set(FunctionsAnalyzer::class);
     $services->set(PrivatesAccessor::class);
 
