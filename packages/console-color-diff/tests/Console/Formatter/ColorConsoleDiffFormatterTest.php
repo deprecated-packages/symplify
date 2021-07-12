@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConsoleColorDiff\Tests\Console\Formatter;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
 use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 
@@ -31,5 +32,10 @@ final class ColorConsoleDiffFormatterTest extends TestCase
     {
         yield ['...', __DIR__ . '/Source/expected/expected.txt'];
         yield ["-old\n+new", __DIR__ . '/Source/expected/expected_old_new.txt'];
+
+        yield [
+            FileSystem::read(__DIR__ . '/Fixture/with_full_diff_by_phpunit.diff'),
+            __DIR__ . '/Fixture/expected_with_full_diff_by_phpunit.diff',
+        ];
     }
 }
