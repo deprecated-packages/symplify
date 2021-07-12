@@ -39,7 +39,7 @@ final class ControllerContentResolver
 
         $locale = $route->getDefault('_locale');
         $translator = $this->container->get('translator');
-        $translator->setLocale($locale);
+        if($locale) $translator->setLocale($locale);
         $this->fakeRequest($routeName);
 
         if (! is_array($values)) {
@@ -67,7 +67,7 @@ final class ControllerContentResolver
 
         $locale = $route->getDefault('_locale');
         $translator = $this->container->get('translator');
-        $translator->setLocale($locale);
+        if($locale) $translator->setLocale($locale);
         $this->fakeRequest($routeName);
 
         $defaultParams = array_filter(
