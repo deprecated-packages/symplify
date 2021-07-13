@@ -7,6 +7,9 @@ namespace Symplify\PHPStanRules\Composer;
 use Nette\Utils\Strings;
 use Symplify\PHPStanRules\ValueObject\ClassNamespaceAndDirectory;
 
+/**
+ * @see \Symplify\PHPStanRules\Tests\Composer\Psr4PathValidatorTest
+ */
 final class Psr4PathValidator
 {
     public function isClassNamespaceCorrect(

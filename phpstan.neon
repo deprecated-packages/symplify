@@ -291,6 +291,7 @@ parameters:
                  - packages/git-wrapper/src/GitWorkingCopy.php
                  # traversing is complex operatoin
                  - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
         -
             message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
@@ -537,3 +538,5 @@ parameters:
         -
             message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
             path: packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
+
+        - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ArgsNodeFactory\:\:createFromValues\(\)" is 13, keep it under 8#'
