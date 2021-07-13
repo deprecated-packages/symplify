@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\BinaryOp\Coalesce;
+use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Analyser\Scope;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,7 +27,7 @@ final class ForbiddenForeachEmptyMissingArrayRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Node\Stmt\Foreach_::class];
+        return [Foreach_::class];
     }
 
     /**
@@ -34,7 +36,7 @@ final class ForbiddenForeachEmptyMissingArrayRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->expr instanceof  Node\Expr\BinaryOp\Coalesce) {
+        if (! $node->expr instanceof  Coalesce) {
             return [];
         }
 
