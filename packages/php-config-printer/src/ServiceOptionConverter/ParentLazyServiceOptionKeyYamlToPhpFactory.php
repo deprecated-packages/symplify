@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
-final class ParentServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
+final class ParentLazyServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
@@ -23,6 +23,6 @@ final class ParentServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyY
 
     public function isMatch($key, $values): bool
     {
-        return $key === YamlKey::PARENT;
+        return in_array($key, [YamlKey::PARENT, YamlKey::LAZY], true);
     }
 }
