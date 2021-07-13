@@ -1,0 +1,22 @@
+services:
+    service1:
+        class: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass
+
+    service2:
+        parent: service1
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeClass;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->set('service1', FakeClass::class);
+
+    $services->set('service2')
+        ->parent('service1');
+};
