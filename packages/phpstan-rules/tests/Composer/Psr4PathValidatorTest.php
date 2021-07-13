@@ -5,12 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Composer;
 
 use Iterator;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\Composer\Psr4PathValidator;
 use Symplify\PHPStanRules\ValueObject\ClassNamespaceAndDirectory;
 
-final class Psr4PathValidatorTest extends AbstractKernelTestCase
+final class Psr4PathValidatorTest extends TestCase
 {
+    private Psr4PathValidator $psr4PathValidator;
+
+    protected function setUp(): void
+    {
+        $this->psr4PathValidator = new Psr4PathValidator();
+    }
+
     /**
      * @dataProvider provideCorrectData()
      */
@@ -31,6 +38,9 @@ final class Psr4PathValidatorTest extends AbstractKernelTestCase
         $this->assertFalse($isClassNamespaceCorrect);
     }
 
+    /**
+     * @return Iterator<string[]>
+     */
     public function provideCorrectData(): Iterator
     {
         yield ['Symplify\\PHPStanRules\\Tests\\', 'packages/phpstan-rules/tests'];
@@ -46,14 +56,12 @@ final class Psr4PathValidatorTest extends AbstractKernelTestCase
 
     private function isNamespaceAndDirectoryCorrect(string $namespace, string $directory): bool
     {
-        $validator = new Psr4PathValidator();
-
         $classNamespaceAndDirectory = new ClassNamespaceAndDirectory(
             $namespace,
             $directory,
             sprintf('%sComposer\\', $namespace)
         );
 
-        return $validator->isClassNamespaceCorrect($classNamespaceAndDirectory, __FILE__);
+        return $this->psr4PathValidator->isClassNamespaceCorrect($classNamespaceAndDirectory, __FILE__);
     }
 }
