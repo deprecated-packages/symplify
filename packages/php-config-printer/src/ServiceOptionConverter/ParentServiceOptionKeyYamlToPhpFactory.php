@@ -12,10 +12,6 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ParentServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    public function __construct()
-    {
-    }
-
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
         $method = $key;
