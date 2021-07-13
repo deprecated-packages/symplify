@@ -66,7 +66,7 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
                 continue;
             }
 
-            $name = $this->resolveNameFromNode($node);
+            $name = $this->standard->prettyPrint([$node]);
             $errorMessage = sprintf(self::ERROR_MESSAGE, $name);
 
             return [$errorMessage];
@@ -92,11 +92,6 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    private function resolveNameFromNode(Node $node): string
-    {
-        return $this->standard->prettyPrint([$node]);
     }
 
     private function hasIntentionallyDocComment(Node $node): bool

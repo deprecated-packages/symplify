@@ -59,7 +59,12 @@ final class AutoBindNodeFactory
             }
 
             if ($key === YamlKey::TAGS) {
-                $methodCall = $this->createTagsMethodCall($methodCall, $value);
+                $methodCall = $this->tagsServiceOptionKeyYamlToPhpFactory->decorateServiceMethodCall(
+                    null,
+                    $value,
+                    [],
+                    $methodCall
+                );
             }
         }
 
@@ -125,10 +130,5 @@ final class AutoBindNodeFactory
 
         $args = [new Arg($this->commonNodeFactory->createFalse())];
         return new MethodCall($methodCall, 'public', $args);
-    }
-
-    private function createTagsMethodCall(MethodCall $methodCall, $value): MethodCall
-    {
-        return $this->tagsServiceOptionKeyYamlToPhpFactory->decorateServiceMethodCall(null, $value, [], $methodCall);
     }
 }

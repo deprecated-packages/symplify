@@ -2,6 +2,7 @@ includes:
     - name-resolver-services.neon
 
 services:
+    - Symplify\PHPStanRules\PhpDoc\PhpDocResolver
     - Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser
     - Symplify\PHPStanRules\PhpDoc\ClassReferencePhpDocNodeVisitor
     - Symplify\PHPStanRules\Reflection\ClassReflectionResolver

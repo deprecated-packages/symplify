@@ -25,7 +25,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class "%s" with static method must have "Static" in its name it explicit';
+    public const ERROR_MESSAGE = 'Class has a static method must so must contains "Static" in its name';
 
     /**
      * @var array<class-string>
@@ -73,17 +73,11 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
             return [];
         }
 
-        $className = $this->simpleNameResolver->getName($node);
-        if ($className === null) {
+        if ($this->shouldSkipClassName($node)) {
             return [];
         }
 
-        if ($this->shouldSkipClassName($className)) {
-            return [];
-        }
-
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $className);
-        return [$errorMessage];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -130,9 +124,14 @@ CODE_SAMPLE
         return false;
     }
 
-    private function shouldSkipClassName(string $classShortName): bool
+    private function shouldSkipClassName(Class_ $class): bool
     {
-        return $this->arrayStringAndFnMatcher->isMatchWithIsA($classShortName, self::ALLOWED_CLASS_TYPES);
+        $className = $this->simpleNameResolver->getName($class);
+        if ($className === null) {
+            return true;
+        }
+
+        return $this->arrayStringAndFnMatcher->isMatchWithIsA($className, self::ALLOWED_CLASS_TYPES);
     }
 
     private function isStaticConstructorOfValueObject(ClassMethod $classMethod): bool

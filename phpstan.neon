@@ -540,3 +540,7 @@ parameters:
             path: packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
 
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ArgsNodeFactory\:\:createFromValues\(\)" is 13, keep it under 8#'
+
+        -
+            message: '#Method "isSymfonyMicroKernelRequired\(\)" only calling another method call and has no added value\. Use the inlined call instead#'
+            path: packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php

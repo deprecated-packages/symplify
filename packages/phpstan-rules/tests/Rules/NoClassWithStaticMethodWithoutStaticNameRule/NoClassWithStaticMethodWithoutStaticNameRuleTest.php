@@ -8,7 +8,6 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
-use Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\Fixture\ClassWithMethod;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoClassWithStaticMethodWithoutStaticNameRule>
@@ -26,7 +25,7 @@ final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends AbstractSer
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(NoClassWithStaticMethodWithoutStaticNameRule::ERROR_MESSAGE, ClassWithMethod::class);
+        $errorMessage = NoClassWithStaticMethodWithoutStaticNameRule::ERROR_MESSAGE;
         yield [__DIR__ . '/Fixture/ClassWithMethod.php', [[$errorMessage, 7]]];
 
         yield [__DIR__ . '/Fixture/SkipEventSubscriber.php', []];
