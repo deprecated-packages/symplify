@@ -10,7 +10,7 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenCallOnTypeRule>
+ * @extends AbstractServiceAwareRuleTestCase<ForbiddenForeachEmptyMissingArrayRule>
  */
 final class ForbiddenForeachEmptyMissingArrayRuleTest extends AbstractServiceAwareRuleTestCase
 {
