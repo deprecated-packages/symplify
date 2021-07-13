@@ -13,7 +13,7 @@ final class Psr4PathValidator
         ClassNamespaceAndDirectory $classNamespaceAndDirectory,
         string $file
     ): bool {
-        $singleDirectory = $classNamespaceAndDirectory->getSingleDirectory();
+        $singleDirectory = rtrim($classNamespaceAndDirectory->getSingleDirectory(), '/');
         $splitPaths = Strings::split($file, '#\/' . preg_quote($singleDirectory, '#') . '\/#');
 
         if (count($splitPaths) === 1) {
