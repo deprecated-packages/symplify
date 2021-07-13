@@ -72,11 +72,7 @@ final class ComposerJsonProvider
 
     public function getRootComposerJson(): ComposerJson
     {
-        return $this->composerJsonFactory->createFromFileInfo($this->getRootFileInfo());
-    }
-
-    private function getRootFileInfo(): SmartFileInfo
-    {
-        return $this->packageComposerFinder->getRootPackageComposerFile();
+        $rootFileInfo = $this->packageComposerFinder->getRootPackageComposerFile();
+        return $this->composerJsonFactory->createFromFileInfo($rootFileInfo);
     }
 }

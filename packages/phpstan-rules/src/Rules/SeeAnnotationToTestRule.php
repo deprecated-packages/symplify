@@ -14,10 +14,10 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Type\FileTypeMapper;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanRules\PhpDoc\PhpDocResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -45,7 +45,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     public function __construct(
         private Broker $broker,
         private SimpleNameResolver $simpleNameResolver,
-        private FileTypeMapper $fileTypeMapper,
+        private PhpDocResolver $phpDocResolver,
         array $requiredSeeTypes = []
     ) {
         $this->requiredSeeTypes = $requiredSeeTypes;
@@ -82,7 +82,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
             return [$errorMessage];
         }
 
-        $resolvedPhpDocBlock = $this->resolvePhpDoc($scope, $classReflection, $docComment);
+        $resolvedPhpDocBlock = $this->phpDocResolver->resolve($scope, $classReflection, $docComment);
 
         // skip deprectaed
         $deprecatedTags = $resolvedPhpDocBlock->getDeprecatedTag();
@@ -151,17 +151,6 @@ CODE_SAMPLE
         }
 
         return $this->broker->getClass($className);
-    }
-
-    private function resolvePhpDoc(Scope $scope, ClassReflection $classReflection, Doc $doc): ResolvedPhpDocBlock
-    {
-        return $this->fileTypeMapper->getResolvedPhpDoc(
-            $scope->getFile(),
-            $classReflection->getName(),
-            null,
-            null,
-            $doc->getText()
-        );
     }
 
     /**
