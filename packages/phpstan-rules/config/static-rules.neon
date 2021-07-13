@@ -225,5 +225,5 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenForeachEmptyMissingArrayRule
+        class: Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
         tags: [phpstan.rules.rule]
