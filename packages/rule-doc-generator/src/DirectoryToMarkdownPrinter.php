@@ -46,9 +46,11 @@ final class DirectoryToMarkdownPrinter
         $this->symfonyStyle->listing($classes);
 
         // 2. create rule definition collection
+        $this->symfonyStyle->note('Resolving rule definitions');
         $ruleDefinitions = $this->ruleDefinitionsResolver->resolveFromClassNames($documentedRuleClasses);
 
         // 3. print rule definitions to markdown lines
+        $this->symfonyStyle->note('Printing rule definitions');
         $markdownLines = $this->ruleDefinitionsPrinter->print($ruleDefinitions, $shouldCategorize);
 
         $fileContent = '';
