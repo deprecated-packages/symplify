@@ -53,7 +53,8 @@ final class NewValueObjectFactory
         $args = [];
         foreach ($propertyValues as $propertyValue) {
             if (is_object($propertyValue)) {
-                $args[] = new Arg($resolvedNestedObject = $this->create($propertyValue));
+                $nestedValueObject = $this->create($propertyValue);
+                $args[] = new Arg($nestedValueObject);
             } elseif (is_array($propertyValue)) {
                 $args[] = new Arg(new Array_($this->createArgs($propertyValue)));
             } else {
