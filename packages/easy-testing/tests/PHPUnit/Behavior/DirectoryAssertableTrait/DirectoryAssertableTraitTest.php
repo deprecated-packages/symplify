@@ -23,4 +23,11 @@ final class DirectoryAssertableTraitTest extends TestCase
 
         $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/third_directory');
     }
+
+    public function testItFailsWithExtraFilesInOutputDirectory(): void
+    {
+        $this->expectException(ExpectationFailedException::class);
+
+        $this->assertDirectoryEquals(__DIR__ . '/Fixture/first_directory', __DIR__ . '/Fixture/fourth_directory');
+    }
 }
