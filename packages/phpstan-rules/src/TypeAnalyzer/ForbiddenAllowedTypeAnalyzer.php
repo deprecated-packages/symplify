@@ -19,7 +19,7 @@ final class ForbiddenAllowedTypeAnalyzer
      */
     public function shouldSkip(string $mainType, array $forbiddenTypes, array $allowedTypes): bool
     {
-        if ($this->isAllowedType($mainType, $allowedTypes)) {
+        if ($this->typeChecker->isInstanceOf($mainType, $allowedTypes)) {
             return true;
         }
 
@@ -36,13 +36,5 @@ final class ForbiddenAllowedTypeAnalyzer
         }
 
         return $this->typeChecker->isInstanceOf($typeName, $forbiddenTypes);
-    }
-
-    /**
-     * @param class-string[] $allowedTypes
-     */
-    private function isAllowedType(string $typeName, array $allowedTypes): bool
-    {
-        return $this->typeChecker->isInstanceOf($typeName, $allowedTypes);
     }
 }

@@ -24,10 +24,7 @@ final class ParentConnectingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         $this->stack = [$node];
     }
 
-    /**
-     * @return int|Node|null
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node
     {
         if ($this->stack !== []) {
             $parentNode = $this->stack[count($this->stack) - 1];
@@ -39,8 +36,12 @@ final class ParentConnectingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         return $node;
     }
 
-    public function leaveNode(Node $node): void
+    /**
+     * @return null|int|\PhpParser\Node|Node[] Replacement node (or special return
+     */
+    public function leaveNode(Node $node)
     {
         array_pop($this->stack);
+        return null;
     }
 }

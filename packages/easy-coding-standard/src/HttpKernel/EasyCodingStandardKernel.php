@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\HttpKernel;
 
+use Nette\Utils\FileSystem;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -17,6 +18,9 @@ use Symplify\Skipper\Bundle\SkipperBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
+/**
+ * @see \Symplify\EasyCodingStandard\Tests\HttpKernel\EasyCodingStandardKernelTest
+ */
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 {
     /**
@@ -35,14 +39,7 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 
     public function getCacheDir(): string
     {
-        // the PACKAGE_VERSION constant helps to rebuild cache on new release, but just once
-        $cacheDirectory = sys_get_temp_dir() . '/ecs_' . get_current_user();
-
-        if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
-            $cacheDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
-        }
-
-        return $cacheDirectory;
+        return sys_get_temp_dir() . '/ecs_' . get_current_user();
     }
 
     public function getLogDir(): string
@@ -54,6 +51,17 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         }
 
         return $logDirectory;
+    }
+
+    public function boot(): void
+    {
+        $cacheDir = $this->getCacheDir();
+
+        // Rebuild the container on each run
+        FileSystem::delete($cacheDir);
+        FileSystem::createDir($cacheDir);
+
+        parent::boot();
     }
 
     protected function prepareContainer(ContainerBuilder $containerBuilder): void

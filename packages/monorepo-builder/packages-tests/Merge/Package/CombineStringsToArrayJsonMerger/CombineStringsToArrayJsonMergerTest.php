@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Merge\Package\CombineStringsToArrayJsonMerger;
 
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Tests\Merge\Package\AbstractMergeTestCase;
 
 final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
@@ -15,13 +14,8 @@ final class CombineStringsToArrayJsonMergerTest extends AbstractMergeTestCase
             $this->markTestSkipped('Already tested on monorepo');
         }
 
-        $expectedComposerJson = $this->getExpectedComposerJson();
+        $expectedComposerJson = $this->createComposerJson(__DIR__ . '/Source/expected.json');
 
         $this->doTestDirectoryMergeToFile(__DIR__ . '/../SourceIdenticalNamespaces', $expectedComposerJson);
-    }
-
-    private function getExpectedComposerJson(): ComposerJson
-    {
-        return $this->createComposerJson(__DIR__ . '/Source/expected.json');
     }
 }

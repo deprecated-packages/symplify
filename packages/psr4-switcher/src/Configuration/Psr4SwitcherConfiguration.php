@@ -16,10 +16,7 @@ final class Psr4SwitcherConfiguration
      */
     private $source = [];
 
-    /**
-     * @var string
-     */
-    private $composerJsonPath;
+    private ?string $composerJsonPath = null;
 
     public function __construct(
         private FileSystemGuard $fileSystemGuard
@@ -57,6 +54,10 @@ final class Psr4SwitcherConfiguration
 
     public function getComposerJsonPath(): string
     {
+        if ($this->composerJsonPath === null) {
+            throw new ConfigurationException();
+        }
+
         return $this->composerJsonPath;
     }
 }

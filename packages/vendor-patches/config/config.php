@@ -8,6 +8,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\Json\JsonFileSystem;
 use Symplify\VendorPatches\Console\VendorPatchesConsoleApplication;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -38,4 +39,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->alias(Application::class, VendorPatchesConsoleApplication::class);
     $services->set(CommandNaming::class);
+
+    $services->set(ParametersMerger::class);
 };

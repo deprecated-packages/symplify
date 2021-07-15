@@ -21,8 +21,6 @@ env:
 jobs:
     build_monorepo_builder_prefixed:
         runs-on: ubuntu-latest
-        # don't run this action on forks
-        if: github.event.pull_request.head.repo.full_name == github.repository
 
         steps:
             # make dev build run a bit to avoid collission with tagged build

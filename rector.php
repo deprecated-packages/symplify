@@ -98,6 +98,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // many false postivies
         RenameForeachValueVariableToMatchExprVariableRector::class,
 
+        // buggy on array access object
+        \Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class => [
+            __DIR__ . '/packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php',
+        ],
+
         // buggy with parent interface contract
         ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],

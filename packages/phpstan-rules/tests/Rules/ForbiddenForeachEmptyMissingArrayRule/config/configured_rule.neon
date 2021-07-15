@@ -1,0 +1,4 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
+        tags: [phpstan.rules.rule]

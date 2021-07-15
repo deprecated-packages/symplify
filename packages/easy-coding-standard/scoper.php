@@ -91,7 +91,7 @@ return [
 
         // fixes https://github.com/symplify/symplify/issues/3102
         function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::contains($filePath, 'vendor/')) {
+            if (! str_contains($filePath, 'vendor/')) {
                 return $content;
             }
 
@@ -112,7 +112,7 @@ return [
 
         // fixes https://github.com/symplify/symplify/issues/3205
         function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::endsWith($filePath, 'src/Testing/AbstractKernelTestCase.php')) {
+            if (! str_ends_with($filePath, 'src/Testing/AbstractKernelTestCase.php')) {
                 return $content;
             }
 
@@ -125,7 +125,7 @@ return [
 
         // add static versions constant values
         function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::endsWith($filePath, 'src/Application/VersionResolver.php')) {
+            if (! str_ends_with($filePath, 'src/Application/Version/VersionResolver.php')) {
                 return $content;
             }
 

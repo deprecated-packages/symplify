@@ -11,6 +11,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use Symfony\Component\Yaml\Tag\TaggedValue;
@@ -32,11 +33,14 @@ final class ArgsNodeFactory
      */
     private const TAG_RETURNS_CLONE = 'returns_clone';
 
+    private bool $isPhpNamedArguments = false;
+
     public function __construct(
         private StringExprResolver $stringExprResolver,
         private TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
         private TaggedServiceResolver $taggedServiceResolver
     ) {
+        $this->isPhpNamedArguments = PHP_VERSION_ID >= 80000;
     }
 
     /**
@@ -65,9 +69,14 @@ final class ArgsNodeFactory
     ): array {
         if (is_array($values)) {
             $args = [];
-            foreach ($values as $value) {
+            foreach ($values as $key => $value) {
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
-                $args[] = new Arg($expr);
+
+                if (! is_int($key) && $this->isPhpNamedArguments) {
+                    $args[] = new Arg($expr, name: new Identifier($key));
+                } else {
+                    $args[] = new Arg($expr);
+                }
             }
 
             return $args;
@@ -155,6 +164,7 @@ final class ArgsNodeFactory
             'tagged_locator' => new FullyQualified(FunctionName::TAGGED_LOCATOR),
             default => new Name($taggedValue->getTag())
         };
+
         $args = $this->createFromValues($taggedValue->getValue());
 
         return new FuncCall($name, $args);

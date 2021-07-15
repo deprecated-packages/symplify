@@ -33,6 +33,10 @@ jobs:
                         run: composer validate
 
                     -
+                        name: Commented Code
+                        run: packages/easy-ci/bin/easy-ci check-commented-code packages/easy-coding-standard --line-limit 5 --ansi
+
+                    -
                         name: Binary File Run
                         run: |
                             # test run bin files
@@ -43,7 +47,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi
                             packages/vendor-patches/bin/vendor-patches --ansi
-                            packages/static-detector/bin/static-detector --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest

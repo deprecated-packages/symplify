@@ -24,10 +24,9 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     }
 
     /**
-     * @param string $file
      * @return mixed[]
      */
-    protected function loadFile($file): array
+    protected function loadFile(string $file): array
     {
         /** @var mixed[]|null $configuration */
         $configuration = parent::loadFile($file);

@@ -68,7 +68,6 @@ services:
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
                 # smart file system
                 'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
-                'Nette\Utils\FileSystem': 'Symplify\SmartFileSystem\SmartFileSystem'
                 'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
     -

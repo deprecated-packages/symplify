@@ -223,3 +223,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\RequireAttributeNameRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
+        tags: [phpstan.rules.rule]

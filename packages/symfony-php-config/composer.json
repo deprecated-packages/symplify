@@ -4,14 +4,14 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0",
-        "symfony/dependency-injection": "^5.3",
+        "symfony/dependency-injection": "^5.3.x-dev",
         "symplify/symplify-kernel": "^9.5",
         "symplify/package-builder": "^9.5"
     },
     "require-dev": {
         "symfony/http-kernel": "^5.3",
         "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^0.12.90"
+        "phpstan/phpstan": "^0.12.91"
     },
     "autoload": {
         "psr-4": {

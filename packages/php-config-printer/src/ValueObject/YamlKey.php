@@ -87,6 +87,16 @@ final class YamlKey
     public const CLASS_KEY = 'class';
 
     /**
+     * @var string
+     */
+    public const PARENT = 'parent';
+
+    /**
+     * @var string
+     */
+    public const LAZY = 'lazy';
+
+    /**
      * @return string[]
      */
     public function provideRootKeys(): array

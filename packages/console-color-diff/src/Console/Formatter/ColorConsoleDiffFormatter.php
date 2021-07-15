@@ -62,6 +62,16 @@ final class ColorConsoleDiffFormatter
 
         $escapedDiffLines = Strings::split($escapedDiff, self::NEWLINES_REGEX);
 
+        // remove description of added + remove; obvious on diffs
+        foreach ($escapedDiffLines as $key => $escapedDiffLine) {
+            if ($escapedDiffLine === '--- Original') {
+                unset($escapedDiffLines[$key]);
+            }
+            if ($escapedDiffLine === '+++ New') {
+                unset($escapedDiffLines[$key]);
+            }
+        }
+
         $coloredLines = array_map(function (string $string): string {
             $string = $this->makePlusLinesGreen($string);
             $string = $this->makeMinusLinesRed($string);

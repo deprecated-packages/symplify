@@ -122,6 +122,9 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
         }
     }
 
+    /**
+     * @param array<string, int> $configuration
+     */
     public function configure(array $configuration): void
     {
         $this->lineLength = $configuration[self::LINE_LENGTH] ?? self::DEFAULT_LINE_LENGHT;

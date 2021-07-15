@@ -46,10 +46,7 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         $this->className = $className;
     }
 
-    /**
-     * @return int|Node|null
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node
     {
         if ($node instanceof PhpDocTagNode) {
             $this->processPhpDocTagNode($node);

@@ -42,7 +42,7 @@ final class DoctrineBlockFinder
         /** @var Token $token */
         $token = $tokens[$position];
 
-        $blockType = $this->getBlockTypeByToken($token);
+        $blockType = $this->blockFinder->getBlockTypeByContent($token->getContent());
 
         if (in_array($token->getContent(), self::START_EDGES, true)) {
             $blockStart = $position;
@@ -53,11 +53,6 @@ final class DoctrineBlockFinder
         }
 
         return new BlockInfo($blockStart, $blockEnd);
-    }
-
-    private function getBlockTypeByToken(Token $token): int
-    {
-        return $this->blockFinder->getBlockTypeByContent($token->getContent());
     }
 
     /**

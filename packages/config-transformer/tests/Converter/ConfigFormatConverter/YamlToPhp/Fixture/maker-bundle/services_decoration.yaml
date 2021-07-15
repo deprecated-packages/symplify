@@ -29,8 +29,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->decorate('App\Mailer');
 
     $services->set(SecondFakeClass::class)
-        ->decorate('App\Mailer', 'App\DecoratingMailer.wooz', 5, ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
+        ->decorate('App\Mailer', decoration_inner_name: 'App\DecoratingMailer.wooz', decoration_priority: 5, decoration_on_invalid: ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
 
     $services->set(ThirdFakeClass::class)
-        ->decorate('App\Mailer', null, 0, ContainerInterface::IGNORE_ON_INVALID_REFERENCE);
+        ->decorate('App\Mailer', decoration_inner_name: null, decoration_priority: 0, decoration_on_invalid: ContainerInterface::IGNORE_ON_INVALID_REFERENCE);
 };
