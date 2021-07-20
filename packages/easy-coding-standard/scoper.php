@@ -110,19 +110,6 @@ return [
             return $content;
         },
 
-        // fixes https://github.com/symplify/symplify/issues/3205
-        function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, 'src/Testing/AbstractKernelTestCase.php')) {
-                return $content;
-            }
-
-            return Strings::replace(
-                $content,
-                $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
-                'PHPUnit\Framework\TestCase'
-            );
-        },
-
         // add static versions constant values
         function (string $filePath, string $prefix, string $content): string {
             if (! str_ends_with($filePath, 'src/Application/Version/VersionResolver.php')) {
