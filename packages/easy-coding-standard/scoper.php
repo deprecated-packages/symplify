@@ -122,18 +122,6 @@ return [
                 'PHPUnit\Framework\TestCase'
             );
         },
-        
-        function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, 'src/Testing/PHPUnit/AbstractCheckerTestCase.php')) {
-                return $content;
-            }
-
-            return Strings::replace(
-                $content,
-                $prefix . '\\\\Symplify\\\\PackageBuilder\\\\Testing\\\\AbstractKernelTestCase#',
-                'Symplify\PackageBuilder\Testing\AbstractKernelTestCase'
-            );
-        },
 
         // add static versions constant values
         function (string $filePath, string $prefix, string $content): string {
