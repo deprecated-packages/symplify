@@ -58,7 +58,7 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
         if ($classMethod->isAbstract()) {
             return [];
         }
-        
+
         if (! $this->simpleNameResolver->isName($classMethod, 'get*')) {
             return [];
         }
