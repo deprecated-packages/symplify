@@ -41,10 +41,10 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
     }
 
     /**
-     * @param ClassMethod $classMethod
+     * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $classMethod, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
@@ -55,15 +55,15 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($classMethod->isAbstract()) {
+        if ($node->isAbstract()) {
             return [];
         }
 
-        if (! $this->simpleNameResolver->isName($classMethod, 'get*')) {
+        if (! $this->simpleNameResolver->isName($node, 'get*')) {
             return [];
         }
 
-        if (! $this->isVoidReturnClassMethod($classMethod)) {
+        if (! $this->isVoidReturnClassMethod($node)) {
             return [];
         }
 
