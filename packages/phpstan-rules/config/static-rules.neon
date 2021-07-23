@@ -1,4 +1,9 @@
 services:
+    # explicit
+    -
+        class: Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule
+        tags: [phpstan.rules.rule]
+
     # domain
     -
         class: Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule

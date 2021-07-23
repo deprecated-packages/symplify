@@ -85,7 +85,7 @@ CODE_SAMPLE
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         foreach ($tokens as $index => $token) {
             if (! $token->isGivenKind(TokenKinds::ARRAY_OPEN_TOKENS)) {

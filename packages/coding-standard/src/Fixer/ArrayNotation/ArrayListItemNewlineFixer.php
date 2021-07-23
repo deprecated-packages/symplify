@@ -61,7 +61,7 @@ final class ArrayListItemNewlineFixer extends AbstractSymplifyFixer implements D
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $arrayBlockInfos = $this->arrayBlockInfoFinder->findArrayOpenerBlockInfos($tokens);
         foreach ($arrayBlockInfos as $arrayBlockInfo) {
