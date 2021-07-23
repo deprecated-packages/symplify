@@ -194,4 +194,9 @@ final class ServiceTag
      * @var string
      */
     public const VALIDATOR_INITIALIZER = 'validator.initializer';
+
+    /**
+     * @var string
+     */
+    public const KNP_MENU_MENU_BUILDER = 'knp_menu.menu_builder';
 }
