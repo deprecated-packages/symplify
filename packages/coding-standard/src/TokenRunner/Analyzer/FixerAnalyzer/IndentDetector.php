@@ -28,7 +28,7 @@ final class IndentDetector
 
             $lastNewlinePos = strrpos($token->getContent(), "\n");
 
-            if ($token->isWhitespace() && !$this->containsOnlySpaces($token->getContent())) {
+            if ($token->isWhitespace() && ! $this->containsOnlySpaces($token->getContent())) {
                 return substr_count($token->getContent(), $indent, (int) $lastNewlinePos);
             }
             if ($lastNewlinePos !== false) {
@@ -41,6 +41,6 @@ final class IndentDetector
 
     private function containsOnlySpaces(string $tokenContent): bool
     {
-        return '' === trim($tokenContent, ' ');
+        return trim($tokenContent, ' ') === '';
     }
 }
