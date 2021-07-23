@@ -31,7 +31,7 @@ final class SameNamedParamFamilyRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Arguments names conflicts with parent class method "%s". This will break named arguments';
+    public const ERROR_MESSAGE = 'Arguments names conflicts with parent class method: %s. This will break named arguments';
 
     public function __construct(
         private ParentMethodResolver $parentMethodResolver,
@@ -114,7 +114,19 @@ CODE_SAMPLE
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $conflictingParamNamesStrings = [];
+        foreach ($conflictingParamNames as $conflictingParamName) {
+            $conflictingParamNamesStrings[] = sprintf(
+                '"$%s" should be "$%s"',
+                $conflictingParamName->getCurrentName(),
+                $conflictingParamName->getParentName()
+            );
+        }
+
+        $conflictingParamNamesString = implode(', ', $conflictingParamNamesStrings);
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $conflictingParamNamesString);
+        return [$errorMessage];
     }
 
     /**
