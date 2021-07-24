@@ -8,6 +8,7 @@ use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Core\Configuration\Option;
+use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
@@ -110,6 +111,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         CallableThisArrayToAnonymousFunctionRector::class => [
             // not a callable, accidental array
             __DIR__ . '/packages/phpstan-rules/src/Rules/',
+        ],
+
+        // protected param rename to create miss-matching param names with parent class method
+        // @see https://github.com/symplify/symplify/pull/3429 - paths must be relative, so child process in specific directory skips it
+        RenameParamToMatchTypeRector::class => [
+            'src/Php/Type/NativeFunctionDynamicFunctionReturnTypeExtension.php',
+            'src/Printer/PhpParserPhpConfigPrinter.php',
+            'src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
         ],
     ]);
 };
