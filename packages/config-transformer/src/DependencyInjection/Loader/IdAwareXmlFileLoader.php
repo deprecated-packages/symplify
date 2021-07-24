@@ -84,7 +84,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         }
     }
 
-    private function processAnonymousServices(DOMDocument $xml, string $file, \DOMNode $root = null): void
+    private function processAnonymousServices(DOMDocument $xml, string $file): void
     {
         $this->count = 0;
         $definitions = [];

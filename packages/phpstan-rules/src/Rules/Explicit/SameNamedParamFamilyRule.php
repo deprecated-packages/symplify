@@ -16,8 +16,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Naming\MissMatchingParamResolver;
 use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\ValueObject\MissMatchingParamName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -33,7 +35,8 @@ final class SameNamedParamFamilyRule extends AbstractSymplifyRule
 
     public function __construct(
         private ParentMethodResolver $parentMethodResolver,
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private MissMatchingParamResolver $missMatchingParamResolver
     ) {
     }
 
@@ -70,7 +73,6 @@ final class SomeClass implements SomeInterface
 }
 CODE_SAMPLE
             ),
-
         ]);
     }
 
@@ -100,40 +102,42 @@ CODE_SAMPLE
         $currentParamNames = $this->resolveClassMethodParamNames($node);
         $parentParamNames = $this->resolveMethodReflectionParamNames($phpMethodReflection);
 
-        $conflictingParamNames = $this->resolveConflictingParamNames($currentParamNames, $parentParamNames);
+        $conflictingParamNames = $this->missMatchingParamResolver->resolve($currentParamNames, $parentParamNames);
+
+        $conflictingParamNames = $this->filterOutContainerBuilderMissMatch(
+            $conflictingParamNames,
+            $phpMethodReflection
+        );
 
         // everything is the same
         if ($conflictingParamNames === []) {
             return [];
         }
 
-        if (! $this->isContainerBuilderMissmatch($conflictingParamNames, $phpMethodReflection)) {
-            return [self::ERROR_MESSAGE];
-        }
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     /**
-     * @param string[] $conflictingParamNames
+     * @param MissMatchingParamName[] $missMatchingParamNames
+     * @return MissMatchingParamName[]
      */
-    private function isContainerBuilderMissmatch(
-        array $conflictingParamNames,
+    private function filterOutContainerBuilderMissMatch(
+        array $missMatchingParamNames,
         PhpMethodReflection $phpMethodReflection
-    ): bool {
-        if ($conflictingParamNames !== ['containerBuilder']) {
-            return false;
+    ): array {
+        $filteredMissMatchingParamNames = [];
+
+        foreach ($missMatchingParamNames as $conflictingParamName) {
+            if ($conflictingParamName->getCurrentName() === 'containerBuilder' && $this->isContainerBuilderSymfonyMissMatch(
+                $phpMethodReflection
+            )) {
+                continue;
+            }
+
+            $filteredMissMatchingParamNames[] = $conflictingParamName;
         }
 
-        $parentClassReflection = $phpMethodReflection->getDeclaringClass();
-        // the Container vs ContainerBuilder missmatch
-        return in_array($parentClassReflection->getName(), [
-            ExtensionInterface::class,
-            ConfigurationExtensionInterface::class,
-            Bundle::class,
-            BundleInterface::class,
-            Kernel::class,
-            CompilerPassInterface::class,
-        ], true);
+        return $filteredMissMatchingParamNames;
     }
 
     /**
@@ -185,16 +189,17 @@ CODE_SAMPLE
         return count($classReflection->getAncestors()) === 1;
     }
 
-    /**
-     * @param string[] $currentParamNames
-     * @param string[] $parentParamNames
-     * @return string[]
-     */
-    private function resolveConflictingParamNames(array $currentParamNames, array $parentParamNames): array
+    private function isContainerBuilderSymfonyMissMatch(PhpMethodReflection $phpMethodReflection): bool
     {
-        $conflictingParamNames = array_diff($currentParamNames, $parentParamNames);
-
-        // reset index keys
-        return array_values($conflictingParamNames);
+        $parentClassReflection = $phpMethodReflection->getDeclaringClass();
+        // the Container vs ContainerBuilder missmatch
+        return in_array($parentClassReflection->getName(), [
+            ExtensionInterface::class,
+            ConfigurationExtensionInterface::class,
+            Bundle::class,
+            BundleInterface::class,
+            Kernel::class,
+            CompilerPassInterface::class,
+        ], true);
     }
 }
