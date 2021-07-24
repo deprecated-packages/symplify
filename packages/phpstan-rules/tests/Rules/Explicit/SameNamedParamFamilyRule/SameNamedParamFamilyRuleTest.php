@@ -28,9 +28,11 @@ final class SameNamedParamFamilyRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipSomeClassWithoutParents.php', []];
         yield [__DIR__ . '/Fixture/SkipWithCompatibleParent.php', []];
         yield [__DIR__ . '/Fixture/SkipContainerBuilderMissmatch.php', []];
+
         yield [__DIR__ . '/Fixture/SkipParentExtraNullableParam.php', []];
 
-        yield [__DIR__ . '/Fixture/ClassWithDifferentParent.php', [[SameNamedParamFamilyRule::ERROR_MESSAGE, 11]]];
+        $errorMessage = sprintf(SameNamedParamFamilyRule::ERROR_MESSAGE, '"$copy" should be "$original"');
+        yield [__DIR__ . '/Fixture/ClassWithDifferentParent.php', [[$errorMessage, 11]]];
     }
 
     protected function getRule(): Rule
