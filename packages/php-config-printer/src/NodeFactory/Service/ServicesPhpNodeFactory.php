@@ -31,13 +31,13 @@ final class ServicesPhpNodeFactory
     {
         $servicesLoadMethodCall = $this->createServicesLoadMethodCall($serviceKey, $serviceValues);
 
-        $servicesLoadMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes(
+        $decoratedMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes(
             $serviceValues,
             $servicesLoadMethodCall
         );
 
         if (! isset($serviceValues[self::EXCLUDE])) {
-            return new Expression($servicesLoadMethodCall);
+            return new Expression($decoratedMethodCall);
         }
 
         $exclude = $serviceValues[self::EXCLUDE];
@@ -51,7 +51,7 @@ final class ServicesPhpNodeFactory
         }
 
         $args = $this->argsNodeFactory->createFromValues([$excludeValue]);
-        $excludeMethodCall = new MethodCall($servicesLoadMethodCall, self::EXCLUDE, $args);
+        $excludeMethodCall = new MethodCall($decoratedMethodCall, self::EXCLUDE, $args);
 
         return new Expression($excludeMethodCall);
     }

@@ -25,13 +25,15 @@ final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipPositionNames.php', []];
+        yield [__DIR__ . '/Fixture/SkipFunctionCall.php', []];
         yield [__DIR__ . '/Fixture/SkipInitialization.php', []];
         yield [__DIR__ . '/Fixture/SkipInIf.php', []];
         yield [__DIR__ . '/Fixture/SkipInWhileOrFor.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentVariableNames.php', []];
         yield [__DIR__ . '/Fixture/SkipTestCase.php', []];
 
-        $errorMessage = sprintf(ForbiddenSameNamedAssignRule::ERROR_MESSAGE, 'first');
+        $errorMessage = sprintf(ForbiddenSameNamedAssignRule::ERROR_MESSAGE, '$first');
         yield [__DIR__ . '/Fixture/SameVariableNames.php', [[$errorMessage, 9]]];
     }
 

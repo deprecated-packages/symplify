@@ -71,8 +71,8 @@ final class SmartFileSystem extends Filesystem
     private function getLastError(): string
     {
         $message = error_get_last()['message'] ?? '';
-        $message = ini_get('html_errors') ? $this->htmlToText($message) : $message;
+        $htmlMessage = ini_get('html_errors') ? $this->htmlToText($message) : $message;
 
-        return Strings::replace($message, self::BEFORE_COLLON_REGEX, '');
+        return Strings::replace($htmlMessage, self::BEFORE_COLLON_REGEX, '');
     }
 }

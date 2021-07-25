@@ -69,17 +69,10 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
             return [];
         }
 
-        $className = $this->simpleNameResolver->getName($node);
-        if ($className === null) {
-            return [];
-        }
-
         $shortClassName = $this->simpleNameResolver->resolveShortName($className);
 
         // make sure classes are unique
-        $existingClassesByShortClassName = $this->declaredClassesByShortName[$shortClassName] ?? [];
-        $existingClassesByShortClassName[] = $className;
-        $existingClassesByShortClassName = array_unique($existingClassesByShortClassName);
+        $existingClassesByShortClassName = $this->resolveExistingClassesByShortClassName($shortClassName, $className);
 
         $this->declaredClassesByShortName[$shortClassName] = $existingClassesByShortClassName;
 
@@ -139,5 +132,16 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveExistingClassesByShortClassName(string $shortClassName, string $className): array
+    {
+        $existingClassesByShortClassName = $this->declaredClassesByShortName[$shortClassName] ?? [];
+        $existingClassesByShortClassName[] = $className;
+
+        return array_unique($existingClassesByShortClassName);
     }
 }

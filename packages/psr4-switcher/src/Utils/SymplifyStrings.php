@@ -22,32 +22,30 @@ final class SymplifyStrings
      */
     public function findSharedSlashedSuffix(array $strings): string
     {
-        /** @var string $first */
-        $first = array_shift($strings);
-        $first = $this->normalizePath($first);
+        $firstPart = $this->resolveFirstPart($strings);
 
         $this->lastSlashPosition = null;
 
-        for ($i = 0; $i < strlen($first); ++$i) {
+        for ($i = 0; $i < strlen($firstPart); ++$i) {
             foreach ($strings as $string) {
                 $string = $this->normalizePath($string);
 
                 $sBackPosition = strlen($string) - $i - 1;
-                $firstBackPosition = strlen($first) - $i - 1;
+                $firstBackPosition = strlen($firstPart) - $i - 1;
 
-                if ($this->shouldIncludeChar($string, $sBackPosition, $first, $firstBackPosition, $i)) {
+                if ($this->shouldIncludeChar($string, $sBackPosition, $firstPart, $firstBackPosition, $i)) {
                     continue;
                 }
 
                 if ($this->lastSlashPosition !== null) {
-                    return substr($first, -(int) $this->lastSlashPosition);
+                    return substr($firstPart, -(int) $this->lastSlashPosition);
                 }
 
-                return substr($first, -$i);
+                return substr($firstPart, -$i);
             }
         }
 
-        return $first;
+        return $firstPart;
     }
 
     public function subtractFromRight(string $mainString, string $stringToSubtract): string
@@ -85,5 +83,16 @@ final class SymplifyStrings
         }
 
         return true;
+    }
+
+    /**
+     * @param string[] $strings
+     */
+    private function resolveFirstPart(array $strings): string
+    {
+        /** @var string $first */
+        $first = array_shift($strings);
+
+        return $this->normalizePath($first);
     }
 }
