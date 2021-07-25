@@ -109,25 +109,22 @@ final class SnippetFormatter
             $this->fixerFileProcessor->processFile($temporaryFileInfo, $configuration);
             $this->sniffFileProcessor->processFile($temporaryFileInfo, $configuration);
 
-            $fileContent = $temporaryFileInfo->getContents();
+            $changedFileContent = $temporaryFileInfo->getContents();
         } catch (Throwable) {
             // Skipped parsed error when processing php temporaryFile
+            $changedFileContent = $fileContent;
         } finally {
             // remove temporary temporaryFile
             $this->smartFileSystem->remove($temporaryFilePath);
         }
 
-        $fileContent = rtrim($fileContent, PHP_EOL) . PHP_EOL;
+        $changedFileContent = rtrim($changedFileContent, PHP_EOL) . PHP_EOL;
 
         if ($kind === SnippetKind::MARKDOWN) {
-            $fileContent = ltrim($fileContent, PHP_EOL);
-
-            $fileContent = $this->removeOpeningTagAndStrictTypes($fileContent);
-
-            return ltrim($fileContent);
+            return $this->resolveMarkdownFileContent($changedFileContent);
         }
 
-        return Strings::replace($fileContent, self::OPENING_TAG_HERENOWDOC_REGEX, '$1');
+        return Strings::replace($changedFileContent, self::OPENING_TAG_HERENOWDOC_REGEX, '$1');
     }
 
     /**
@@ -151,5 +148,13 @@ final class SnippetFormatter
     private function removeOpeningTag(string $fileContent): string
     {
         return Strings::replace($fileContent, self::OPENING_TAG_REGEX, '$1');
+    }
+
+    private function resolveMarkdownFileContent(string $fileContent): string
+    {
+        $fileContent = ltrim($fileContent, PHP_EOL);
+        $fileContent = $this->removeOpeningTagAndStrictTypes($fileContent);
+
+        return ltrim($fileContent);
     }
 }

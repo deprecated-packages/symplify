@@ -2,6 +2,7 @@ includes:
     - name-resolver-services.neon
 
 services:
+    - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
     - Symplify\PHPStanRules\Naming\MissMatchingParamResolver
     - Symplify\PHPStanRules\PhpDoc\PhpDocResolver
     - Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser

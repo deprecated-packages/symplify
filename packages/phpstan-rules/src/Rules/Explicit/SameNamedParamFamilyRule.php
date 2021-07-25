@@ -104,28 +104,19 @@ CODE_SAMPLE
 
         $conflictingParamNames = $this->missMatchingParamResolver->resolve($currentParamNames, $parentParamNames);
 
-        $conflictingParamNames = $this->filterOutContainerBuilderMissMatch(
+        $filteredConflictingParamNames = $this->filterOutContainerBuilderMissMatch(
             $conflictingParamNames,
             $phpMethodReflection
         );
 
         // everything is the same
-        if ($conflictingParamNames === []) {
+        if ($filteredConflictingParamNames === []) {
             return [];
         }
 
-        $conflictingParamNamesStrings = [];
-        foreach ($conflictingParamNames as $conflictingParamName) {
-            $conflictingParamNamesStrings[] = sprintf(
-                '"$%s" should be "$%s"',
-                $conflictingParamName->getCurrentName(),
-                $conflictingParamName->getParentName()
-            );
-        }
-
-        $conflictingParamNamesString = implode(', ', $conflictingParamNamesStrings);
-
+        $conflictingParamNamesString = $this->createConflictingParamNamesString($filteredConflictingParamNames);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $conflictingParamNamesString);
+
         return [$errorMessage];
     }
 
@@ -213,5 +204,23 @@ CODE_SAMPLE
             Kernel::class,
             CompilerPassInterface::class,
         ], true);
+    }
+
+    /**
+     * @param MissMatchingParamName[] $filteredConflictingParamNames
+     */
+    private function createConflictingParamNamesString(array $filteredConflictingParamNames): string
+    {
+        $conflictingParamNamesStrings = [];
+
+        foreach ($filteredConflictingParamNames as $conflictingParamName) {
+            $conflictingParamNamesStrings[] = sprintf(
+                '"$%s" should be "$%s"',
+                $conflictingParamName->getCurrentName(),
+                $conflictingParamName->getParentName()
+            );
+        }
+
+        return implode(', ', $conflictingParamNamesStrings);
     }
 }

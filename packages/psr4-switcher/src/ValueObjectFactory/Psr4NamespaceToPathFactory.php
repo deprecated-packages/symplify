@@ -25,6 +25,7 @@ final class Psr4NamespaceToPathFactory
         $sharedSuffix = $this->symplifyStrings->findSharedSlashedSuffix([$class . '.php', $file]);
 
         $uniqueFilePath = $this->symplifyStrings->subtractFromRight($file, $sharedSuffix);
+
         $uniqueNamespace = $this->symplifyStrings->subtractFromRight($class . '.php', $sharedSuffix);
 
         // fallback for identical namespace + file directory

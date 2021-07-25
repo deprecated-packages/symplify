@@ -43,14 +43,14 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
         }
 
         $excludedPackages = (array) $input->getOption(Option::EXCLUDE_PACKAGE);
-        $packagePaths = array_diff($packagePaths, $excludedPackages);
+        $allowedPackagePaths = array_diff($packagePaths, $excludedPackages);
 
         // re-index from 0
-        $packagePaths = array_values($packagePaths);
+        $allowedPackagePaths = array_values($allowedPackagePaths);
 
         // must be without spaces, otherwise it breaks GitHub Actions json
-        $json = Json::encode($packagePaths);
-        $this->symfonyStyle->writeln($json);
+        $json = Json::encode($allowedPackagePaths);
+        echo $json;
 
         return ShellCode::SUCCESS;
     }

@@ -25,12 +25,12 @@ final class ClassServiceCaseConverter implements CaseConverterInterface
     public function convertToMethodCall($key, $values): Expression
     {
         $args = $this->argsNodeFactory->createFromValues([$key, $values[YamlKey::CLASS_KEY]]);
-        $setMethodCall = new MethodCall(new Variable(VariableName::SERVICES), MethodName::SET, $args);
+        $methodCall = new MethodCall(new Variable(VariableName::SERVICES), MethodName::SET, $args);
 
         unset($values[YamlKey::CLASS_KEY]);
 
-        $setMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($values, $setMethodCall);
-        return new Expression($setMethodCall);
+        $decoratedMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($values, $methodCall);
+        return new Expression($decoratedMethodCall);
     }
 
     public function match(string $rootKey, $key, $values): bool
