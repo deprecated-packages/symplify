@@ -154,6 +154,10 @@ services:
 
     # comlexity
     -
+        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
         tags: [phpstan.rules.rule]
 
