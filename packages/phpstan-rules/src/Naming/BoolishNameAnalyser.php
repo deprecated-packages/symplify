@@ -35,6 +35,9 @@ final class BoolishNameAnalyser
         'detect',
         # array access
         'offsetExists',
+        'equals',
+        'match',
+        'matches',
     ];
 
     public function isBoolish(string $methodName): bool
