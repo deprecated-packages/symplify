@@ -103,7 +103,7 @@ CODE_SAMPLE
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
+    public function fix(SplFileInfo $file, Tokens $tokens): void
     {
         $useDeclarations = $this->namespaceUsesAnalyzer->getDeclarationsFromTokens($tokens);
 

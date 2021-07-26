@@ -30,12 +30,13 @@ final class InstanceOfNestedCaseConverter
         $args = [new Arg($classConstFetch)];
 
         $instanceofMethodCall = new MethodCall($servicesVariable, MethodName::INSTANCEOF, $args);
-        $instanceofMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes(
+
+        $decoreatedInstanceofMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes(
             $values,
             $instanceofMethodCall
         );
 
-        return new Expression($instanceofMethodCall);
+        return new Expression($decoreatedInstanceofMethodCall);
     }
 
     public function isMatch(string $rootKey, $subKey): bool

@@ -41,20 +41,20 @@ final class ClassExtractor
         $classNames = [];
         $fileContent = $this->getFileContent($fileInfo);
 
-        $matches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
+        $classNameMatches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
 
-        foreach ($matches as $match) {
-            if (isset($match[self::NEXT_CHAR]) && ($match[self::NEXT_CHAR] === '\\' || $match[self::NEXT_CHAR] === '\\:')) {
+        foreach ($classNameMatches as $classNameMatch) {
+            if (isset($classNameMatch[self::NEXT_CHAR]) && ($classNameMatch[self::NEXT_CHAR] === '\\' || $classNameMatch[self::NEXT_CHAR] === '\\:')) {
                 // is Symfony autodiscovery → skip
                 continue;
             }
 
-            $classNames[] = $this->extractClassName($fileInfo, $match);
+            $classNames[] = $this->extractClassName($fileInfo, $classNameMatch);
         }
 
-        $matches = Strings::matchAll($fileContent, self::STATIC_CALL_CLASS_REGEX);
-        foreach ($matches as $match) {
-            $classNames[] = $this->extractClassName($fileInfo, $match);
+        $staticCallsMatches = Strings::matchAll($fileContent, self::STATIC_CALL_CLASS_REGEX);
+        foreach ($staticCallsMatches as $staticCallsMatch) {
+            $classNames[] = $this->extractClassName($fileInfo, $staticCallsMatch);
         }
 
         return $classNames;

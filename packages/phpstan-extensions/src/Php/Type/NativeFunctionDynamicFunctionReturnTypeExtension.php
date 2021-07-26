@@ -21,7 +21,7 @@ final class NativeFunctionDynamicFunctionReturnTypeExtension implements DynamicF
 
     public function getTypeFromFunctionCall(
         FunctionReflection $functionReflection,
-        FuncCall $funcCall,
+        FuncCall $functionCall,
         Scope $scope
     ): Type {
         if ($functionReflection->getName() === 'tmpfile') {

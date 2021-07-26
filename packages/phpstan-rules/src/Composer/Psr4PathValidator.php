@@ -24,9 +24,9 @@ final class Psr4PathValidator
         }
 
         $directoryInNamespacedRoot = dirname($splitPaths[1]);
-        $directoryInNamespacedRoot = $this->normalizePath($directoryInNamespacedRoot);
+        $normalizedDirectoryInNamespacedRoot = $this->normalizePath($directoryInNamespacedRoot);
 
-        $namespaceSuffixByDirectoryClass = ltrim($directoryInNamespacedRoot, '\\');
+        $namespaceSuffixByDirectoryClass = ltrim($normalizedDirectoryInNamespacedRoot, '\\');
 
         // @todo put into value object
         $namespaceSuffixByNamespaceBeforeClass = rtrim(

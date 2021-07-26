@@ -28,6 +28,7 @@ final class NoVoidGetterMethodRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeGetterVoid.php', [[NoVoidGetterMethodRule::ERROR_MESSAGE, 9]]];
         yield [__DIR__ . '/Fixture/SomeGetterWithNoReturn.php', [[NoVoidGetterMethodRule::ERROR_MESSAGE, 9]]];
 
+        yield [__DIR__ . '/Fixture/SkipAbstractGetter.php', []];
         yield [__DIR__ . '/Fixture/SkipIfElseReturn.php', []];
         yield [__DIR__ . '/Fixture/SkipGetterWithReturn.php', []];
         yield [__DIR__ . '/Fixture/SkipSetter.php', []];

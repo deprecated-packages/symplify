@@ -55,6 +55,10 @@ final class NoVoidGetterMethodRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($node->isAbstract()) {
+            return [];
+        }
+
         if (! $this->simpleNameResolver->isName($node, 'get*')) {
             return [];
         }

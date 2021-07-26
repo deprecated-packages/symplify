@@ -23,8 +23,7 @@ final class FilePathResolver
 
     public function resolveFilePath(Route $route, string $outputDirectory): string
     {
-        $routePath = $route->getPath();
-        $routePath = ltrim($routePath, '/');
+        $routePath = ltrim($route->getPath(), '/');
 
         if ($routePath === '') {
             $routePath = 'index.html';

@@ -63,7 +63,6 @@ final class ComplexityAffectingNodeFinder
             return true;
         }
 
-        // B1. goto LABEL, break LABEL, continue LABEL
         if ($node instanceof Ternary) {
             return true;
         }

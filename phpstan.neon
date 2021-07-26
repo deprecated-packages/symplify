@@ -544,3 +544,5 @@ parameters:
         -
             message: '#Method "isSymfonyMicroKernelRequired\(\)" only calling another method call and has no added value\. Use the inlined call instead#'
             path: packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php
+
+        - '#Call to an undefined method MyCLabs\\Enum\\Enum\:\:getKey\(\)#'

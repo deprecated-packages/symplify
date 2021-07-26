@@ -29,17 +29,17 @@ final class CallableTypeAnalyzer
     public function isClosureOrCallableType(Scope $scope, Expr $expr, Node $node): bool
     {
         $nameStaticType = $scope->getType($expr);
-        $nameStaticType = $this->typeUnwrapper->unwrapNullableType($nameStaticType);
+        $unwrappedNameStaticType = $this->typeUnwrapper->unwrapNullableType($nameStaticType);
 
-        if ($nameStaticType instanceof CallableType) {
+        if ($unwrappedNameStaticType instanceof CallableType) {
             return true;
         }
 
-        if ($nameStaticType instanceof ObjectType && $nameStaticType->getClassName() === Closure::class) {
+        if ($unwrappedNameStaticType instanceof ObjectType && $unwrappedNameStaticType->getClassName() === Closure::class) {
             return true;
         }
 
-        if ($this->isInvokableObjectType($nameStaticType)) {
+        if ($this->isInvokableObjectType($unwrappedNameStaticType)) {
             return true;
         }
 

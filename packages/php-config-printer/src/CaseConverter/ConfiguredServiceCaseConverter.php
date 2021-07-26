@@ -33,9 +33,8 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
         $args = $this->argsNodeFactory->createFromValues($valuesForArgs);
         $methodCall = new MethodCall(new Variable(VariableName::SERVICES), MethodName::SET, $args);
 
-        $methodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($values, $methodCall);
-
-        return new Expression($methodCall);
+        $decoratedMethodCall = $this->serviceOptionNodeFactory->convertServiceOptionsToNodes($values, $methodCall);
+        return new Expression($decoratedMethodCall);
     }
 
     public function match(string $rootKey, $key, $values): bool

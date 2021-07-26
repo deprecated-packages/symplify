@@ -58,11 +58,11 @@ final class StaticReportReporter
             return;
         }
 
-        $message = sprintf('* %d static methods', $staticReport->getStaticClassMethodCount());
-        $this->symfonyStyle->writeln($message);
+        $staticMethodsMessage = sprintf('* %d static methods', $staticReport->getStaticClassMethodCount());
+        $this->symfonyStyle->writeln($staticMethodsMessage);
 
-        $message = sprintf('* %d static calls', $staticReport->getStaticCallsCount());
-        $this->symfonyStyle->writeln($message);
+        $staticCallsMessage = sprintf('* %d static calls', $staticReport->getStaticCallsCount());
+        $this->symfonyStyle->writeln($staticCallsMessage);
 
         $this->symfonyStyle->newLine();
     }

@@ -47,8 +47,8 @@ final class PatchDiffer
 
         $patchedFileRelativePath = $this->resolveFileInfoPathRelativeFilePath($newFileInfo);
 
-        $diff = Strings::replace($diff, self::START_ORIGINAL_REGEX, '--- /dev/null');
-        return Strings::replace($diff, self::START_NEW_REGEX, '+++ ' . $patchedFileRelativePath);
+        $clearedDiff = Strings::replace($diff, self::START_ORIGINAL_REGEX, '--- /dev/null');
+        return Strings::replace($clearedDiff, self::START_NEW_REGEX, '+++ ' . $patchedFileRelativePath);
     }
 
     private function resolveFileInfoPathRelativeFilePath(SmartFileInfo $beforeFileInfo): string
