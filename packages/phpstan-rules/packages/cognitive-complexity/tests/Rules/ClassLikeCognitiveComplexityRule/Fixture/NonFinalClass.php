@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\Fixture;
 
-class NonFinalClass // +10 (non-final class)
+use Symfony\Component\Console\Command\Command;
+
+class NonFinalClass extends Command // +10 (non-final class) +25 (extending another class)
 {
     public function someFunction($var)
     {
