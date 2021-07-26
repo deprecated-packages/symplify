@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
+use PHPStan\Type\ClosureType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -32,6 +33,10 @@ final class CallableTypeAnalyzer
         $unwrappedNameStaticType = $this->typeUnwrapper->unwrapNullableType($nameStaticType);
 
         if ($unwrappedNameStaticType instanceof CallableType) {
+            return true;
+        }
+
+        if ($unwrappedNameStaticType instanceof ClosureType) {
             return true;
         }
 
