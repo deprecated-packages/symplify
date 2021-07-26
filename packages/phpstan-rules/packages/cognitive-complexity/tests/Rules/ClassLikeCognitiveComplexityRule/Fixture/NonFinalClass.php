@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\Fixture;
 
-use Symfony\Component\Console\Command\Command;
-
-final class SimpleCommand
+class SimpleCommand // +10 (non-final class)
 {
     public function someFunction($var)
     {
