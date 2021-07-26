@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicNameRule\Fixture;
 
-use Closure;
-
-final class SkipIIFE
+final class SkipImmediatelyInvokedFunctionExpression
 {
     public function run(string $value)
     {
