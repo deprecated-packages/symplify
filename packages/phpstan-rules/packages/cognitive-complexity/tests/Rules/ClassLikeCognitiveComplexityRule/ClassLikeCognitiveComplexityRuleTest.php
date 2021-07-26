@@ -25,7 +25,7 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
 
     public function provideDataForTest(): Iterator
     {
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 79, 50);
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 54, 50);
         yield [__DIR__ . '/Fixture/ClassWithManyComplexMethods.php', [[$errorMessage, 7]]];
 
         $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 34, 5);
@@ -33,9 +33,6 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
 
         $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 44, 5);
         yield [__DIR__ . '/Fixture/NonFinalClass.php', [[$errorMessage, 9]]];
-
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 34, 5);
-        yield [__DIR__ . '/Fixture/ExtendingClass.php', [[$errorMessage, 9]]];
     }
 
     protected function getRule(): Rule

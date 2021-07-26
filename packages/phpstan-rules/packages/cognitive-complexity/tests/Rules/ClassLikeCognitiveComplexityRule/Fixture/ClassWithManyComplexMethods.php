@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\Fixture;
 
-use Symfony\Component\Console\Command\Command;
-
-final class ClassWithManyComplexMethods extends Command // +25 (extending another class)
+final class ClassWithManyComplexMethods
 {
     public function someFunction($var)
     {
