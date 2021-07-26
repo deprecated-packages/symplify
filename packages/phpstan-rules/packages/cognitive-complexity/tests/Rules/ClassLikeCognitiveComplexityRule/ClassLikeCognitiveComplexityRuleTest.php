@@ -34,7 +34,7 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
         $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 19, 5);
         yield [__DIR__ . '/Fixture/NonFinalClass.php', [[$errorMessage, 9]]];
 
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 24, 5);
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 34, 5);
         yield [__DIR__ . '/Fixture/ExtendingClass.php', [[$errorMessage, 9]]];
     }
 
