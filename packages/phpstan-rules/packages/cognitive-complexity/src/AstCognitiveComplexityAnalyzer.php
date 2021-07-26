@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity;
 
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
-use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
 use Symplify\PHPStanRules\CognitiveComplexity\NodeTraverser\ComplexityNodeTraverserFactory;
 use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
