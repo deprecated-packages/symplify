@@ -43,17 +43,26 @@ final class CompositionOverInheritanceAnalyzer {
         }
 
         // classes using traits are more complex
+        $totalCognitiveComplexity += $this->analyzeTraitUses($classLike);
+
+        return $totalCognitiveComplexity;
+    }
+
+    private function analyzeTraitUses(Class_ $classLike): int
+    {
+        $traitComplexity = 0;
+
         if ($classLike->stmts) {
-            foreach($classLike->stmts as $stmt) {
+            foreach ($classLike->stmts as $stmt) {
                 // trait-use can only appear as the very first statement in a class
                 if ($stmt instanceof TraitUse) {
-                    $totalCognitiveComplexity += count($stmt->traits) * self::TRAIT_SCORE;
+                    $traitComplexity += count($stmt->traits) * self::TRAIT_SCORE;
                 } else {
                     break;
                 }
             }
         }
 
-        return $totalCognitiveComplexity;
+        return $traitComplexity;
     }
 }
