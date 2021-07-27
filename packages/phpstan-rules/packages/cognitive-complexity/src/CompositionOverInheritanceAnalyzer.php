@@ -23,9 +23,7 @@ final class CompositionOverInheritanceAnalyzer {
 
     public function analyzeClassLike(ClassLike $classLike): int
     {
-        $totalCognitiveComplexity = 0;
-
-        $totalCognitiveComplexity += $this->astCognitiveComplexityAnalyzer->analyzeClassLike($classLike);
+        $totalCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($classLike);
 
         // traits don't define isFinal()
         if (!$classLike instanceof Class_) {
