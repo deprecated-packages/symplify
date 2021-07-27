@@ -13,6 +13,8 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 
 /**
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer\AstCognitiveComplexityAnalyzerTest
+ *
+ * implements the concept described in https://www.sonarsource.com/resources/white-papers/cognitive-complexity/
  */
 final class AstCognitiveComplexityAnalyzer
 {
