@@ -42,6 +42,7 @@ final class CompositionOverInheritanceAnalyzer {
             $totalCognitiveComplexity += self::INHERITANCE_CLASS_SCORE;
         }
 
+        // classes using traits are more complex
         if ($classLike->stmts) {
             foreach($classLike->stmts as $stmt) {
                 // trait-use can only appear as the very first statement in a class
