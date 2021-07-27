@@ -44,10 +44,6 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
         $functionLike = $this->parseFileToFirstFunctionLike($inputAndExpected->getInput());
-        if ($functionLike === null) {
-            throw new ShouldNotHappenException();
-        }
-
         $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
 
         $this->assertSame((int) $inputAndExpected->getExpected(), $cognitiveComplexity);
@@ -66,7 +62,7 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
     /**
      * @return ClassMethod|Function_
      */
-    private function parseFileToFirstFunctionLike(string $fileContent): ?Node
+    private function parseFileToFirstFunctionLike(string $fileContent): Node
     {
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::ONLY_PHP7);
@@ -79,7 +75,7 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         );
 
         if (!$firstFunctionlike instanceof ClassMethod && !$firstFunctionlike instanceof Function_) {
-            throw new \Symplify\PHPStanRules\Exception\ShouldNotHappenException();
+            throw new ShouldNotHappenException();
         }
 
         return $firstFunctionlike;

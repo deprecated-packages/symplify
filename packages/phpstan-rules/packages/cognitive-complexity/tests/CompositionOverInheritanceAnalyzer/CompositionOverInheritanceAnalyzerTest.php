@@ -46,10 +46,6 @@ final class CompositionOverInheritanceAnalyzerTest extends TestCase
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
         $classLike = $this->parseFileToFirstClass($inputAndExpected->getInput());
-        if ($classLike === null) {
-            throw new ShouldNotHappenException();
-        }
-
         $cognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($classLike);
 
         $this->assertSame((int) $inputAndExpected->getExpected(), $cognitiveComplexity);
@@ -65,10 +61,7 @@ final class CompositionOverInheritanceAnalyzerTest extends TestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source');
     }
 
-    /**
-     * @return Class_
-     */
-    private function parseFileToFirstClass(string $fileContent): ?Node
+    private function parseFileToFirstClass(string $fileContent): Class_
     {
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::ONLY_PHP7);
@@ -81,7 +74,7 @@ final class CompositionOverInheritanceAnalyzerTest extends TestCase
         );
 
         if (!$firstClass instanceof Class_) {
-            throw new \Symplify\PHPStanRules\Exception\ShouldNotHappenException();
+            throw new ShouldNotHappenException();
         }
 
         return $firstClass;
