@@ -16,9 +16,6 @@ use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
  */
 final class AstCognitiveComplexityAnalyzer
 {
-    private const NON_FINAL_CLASS_SCORE = 10;
-    private const INHERITANCE_CLASS_SCORE = 25;
-
     public function __construct(
         private ComplexityNodeTraverserFactory $complexityNodeTraverserFactory,
         private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
@@ -31,16 +28,6 @@ final class AstCognitiveComplexityAnalyzer
         $totalCognitiveComplexity = 0;
         foreach ($classLike->getMethods() as $classMethod) {
             $totalCognitiveComplexity += $this->analyzeFunctionLike($classMethod);
-        }
-
-        // non final classes are more complex
-        if (!$classLike->isFinal()) {
-            $totalCognitiveComplexity += self::NON_FINAL_CLASS_SCORE;
-        }
-
-        // classes extending from another are more complex
-        if ($classLike->extends !== null) {
-            $totalCognitiveComplexity += self::INHERITANCE_CLASS_SCORE;
         }
 
         return $totalCognitiveComplexity;
