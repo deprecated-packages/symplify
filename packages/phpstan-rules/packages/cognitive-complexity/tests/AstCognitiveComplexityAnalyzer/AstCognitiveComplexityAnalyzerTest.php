@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexity
 
 use Iterator;
 use PhpParser\Node;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
@@ -72,9 +73,15 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         $nodes = $parser->parse($fileContent);
 
         $nodeFinder = new NodeFinder();
-        return $nodeFinder->findFirst(
+        $firstFunctionlike =  $nodeFinder->findFirst(
             (array) $nodes,
             fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
         );
+
+        if (!$firstFunctionlike instanceof ClassMethod && !$firstFunctionlike instanceof Function_) {
+            throw new \Symplify\PHPStanRules\Exception\ShouldNotHappenException();
+        }
+
+        return $firstFunctionlike;
     }
 }

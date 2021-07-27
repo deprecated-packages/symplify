@@ -75,9 +75,15 @@ final class CompositionOverInheritanceAnalyzerTest extends TestCase
         $nodes = $parser->parse($fileContent);
 
         $nodeFinder = new NodeFinder();
-        return $nodeFinder->findFirst(
+        $firstClass = $nodeFinder->findFirst(
             (array) $nodes,
             fn (Node $node): bool => $node instanceof Class_
         );
+
+        if (!$firstClass instanceof Class_) {
+            throw new \Symplify\PHPStanRules\Exception\ShouldNotHappenException();
+        }
+
+        return $firstClass;
     }
 }
