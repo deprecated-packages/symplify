@@ -67,8 +67,8 @@ final class StaticFixtureSplitter
     ): SmartFileInfo {
         $temporaryFilePath = self::createTemporaryPathWithPrefix($fixtureSmartFileInfo, $prefix);
 
-        $smartFileSystem = new SmartFileSystem();
-        $smartFileSystem->dumpFile($temporaryFilePath, $fileContent);
+        /** @phpstan-ignore-next-line we don't use SmartFileSystem->dump() for performance reasons */
+        file_put_contents($temporaryFilePath, $fileContent);
 
         return new SmartFileInfo($temporaryFilePath);
     }
