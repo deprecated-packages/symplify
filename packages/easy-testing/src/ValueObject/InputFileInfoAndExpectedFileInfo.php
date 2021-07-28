@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\ValueObject;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class InputFileInfoAndExpectedFileInfo
 {
     public function __construct(
-        private SmartFileInfo $inputFileInfo,
-        private SmartFileInfo $expectedFileInfo
+        private SplFileInfo $inputFileInfo,
+        private SplFileInfo $expectedFileInfo
     ) {
     }
 
-    public function getInputFileInfo(): SmartFileInfo
+    public function getInputFileInfo(): SplFileInfo
     {
         return $this->inputFileInfo;
     }
 
-    public function getExpectedFileInfo(): SmartFileInfo
+    public function getExpectedFileInfo(): SplFileInfo
     {
         return $this->expectedFileInfo;
     }
