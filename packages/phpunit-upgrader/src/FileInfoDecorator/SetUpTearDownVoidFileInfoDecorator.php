@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPUnitUpgrader\FileInfoDecorator;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -18,7 +19,7 @@ final class SetUpTearDownVoidFileInfoDecorator
      */
     private const VOID_LESS_REGEX = '#(?<method>setUp|tearDown)\(\)\n#i';
 
-    public function decorate(SmartFileInfo $fileInfo): string
+    public function decorate(SplFileInfo $fileInfo): string
     {
         return Strings::replace($fileInfo->getContents(), self::VOID_LESS_REGEX, "$1(): void\n");
     }
