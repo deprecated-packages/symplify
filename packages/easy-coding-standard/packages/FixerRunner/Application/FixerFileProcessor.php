@@ -13,6 +13,7 @@ use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCodingStandard\Error\FileDiffFactory;
@@ -175,7 +176,7 @@ final class FixerFileProcessor implements FileProcessorInterface
      * @param Tokens<Token> $tokens
      * @return bool If fixer applied
      */
-    private function processTokensByFixer(SmartFileInfo $smartFileInfo, Tokens $tokens, FixerInterface $fixer): bool
+    private function processTokensByFixer(SplFileInfo $smartFileInfo, Tokens $tokens, FixerInterface $fixer): bool
     {
         if ($this->shouldSkip($smartFileInfo, $fixer, $tokens)) {
             return false;
@@ -212,7 +213,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     /**
      * @param Tokens<Token> $tokens
      */
-    private function shouldSkip(SmartFileInfo $smartFileInfo, FixerInterface $fixer, Tokens $tokens): bool
+    private function shouldSkip(SplFileInfo $smartFileInfo, FixerInterface $fixer, Tokens $tokens): bool
     {
         if ($this->skipper->shouldSkipElementAndFileInfo($fixer, $smartFileInfo)) {
             return true;

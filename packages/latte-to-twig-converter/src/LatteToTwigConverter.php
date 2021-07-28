@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\LatteToTwigConverter;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\LatteToTwigConverter\Contract\CaseConverter\CaseConverterInterface;
 use Symplify\LatteToTwigConverter\Exception\ConfigurationException;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -31,7 +32,7 @@ final class LatteToTwigConverter
         krsort($this->caseConverters);
     }
 
-    public function convertFile(SmartFileInfo $fileInfo): string
+    public function convertFile(SplFileInfo $fileInfo): string
     {
         $content = $fileInfo->getContents();
 

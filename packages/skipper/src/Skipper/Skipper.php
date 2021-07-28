@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\Skipper;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -36,7 +37,7 @@ final class Skipper
         return $this->shouldSkipElementAndFileInfo(self::FILE_ELEMENT, $smartFileInfo);
     }
 
-    public function shouldSkipElementAndFileInfo(string | object $element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkipElementAndFileInfo(string | object $element, SplFileInfo $smartFileInfo): bool
     {
         foreach ($this->skipVoters as $skipVoter) {
             if ($skipVoter->match($element)) {
