@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyTesting;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyTesting\ValueObject\InputAndExpected;
 use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpected;
 use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpectedFileInfo;
@@ -64,7 +65,7 @@ final class StaticFixtureSplitter
         SmartFileInfo $fixtureSmartFileInfo,
         string $prefix,
         string $fileContent
-    ): SmartFileInfo {
+    ): SplFileInfo {
         $temporaryFilePath = self::createTemporaryPathWithPrefix($fixtureSmartFileInfo, $prefix);
 
         $smartFileSystem = new SmartFileSystem();
