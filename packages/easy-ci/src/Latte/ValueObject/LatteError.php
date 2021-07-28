@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Latte\ValueObject;
 
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 final class LatteError
 {
     public function __construct(
         private string $errorMessage,
-        private SmartFileInfo $smartFileInfo
+        private SplFileInfo $smartFileInfo
     ) {
     }
 
@@ -21,6 +21,6 @@ final class LatteError
 
     public function getRelativeFilePath(): string
     {
-        return $this->smartFileInfo->getRelativeFilePath();
+        return $this->smartFileInfo->getRelativePathname();
     }
 }

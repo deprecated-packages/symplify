@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\Analyzer;
 
 use Nette\Utils\Strings;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCI\Latte\Contract\LatteAnalyzerInterface;
 use Symplify\EasyCI\Latte\ValueObject\LatteError;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -33,7 +34,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
         self::METHOD_KEY_PART . '>\w+)\(#m';
 
     /**
-     * @param SmartFileInfo[] $fileInfos
+     * @param SplFileInfo[] $fileInfos
      * @return LatteError[]
      */
     public function analyze(array $fileInfos): array
