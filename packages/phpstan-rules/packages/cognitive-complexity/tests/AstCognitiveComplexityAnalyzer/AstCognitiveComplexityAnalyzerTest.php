@@ -58,9 +58,6 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source');
     }
 
-    /**
-     * @return ClassMethod|Function_
-     */
     private function parseFileToFirstFunctionLike(string $fileContent): ClassMethod | Function_
     {
         $parserFactory = new ParserFactory();
@@ -79,6 +76,5 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
             return $firstFunctionlike;
         }
         throw new ShouldNotHappenException();
-        return $firstFunctionlike;
     }
 }
