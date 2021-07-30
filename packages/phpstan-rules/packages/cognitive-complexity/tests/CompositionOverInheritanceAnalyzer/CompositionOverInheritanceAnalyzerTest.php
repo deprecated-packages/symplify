@@ -7,16 +7,12 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\CompositionOverInherit
 use Iterator;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -68,12 +64,9 @@ final class CompositionOverInheritanceAnalyzerTest extends TestCase
         $nodes = $parser->parse($fileContent);
 
         $nodeFinder = new NodeFinder();
-        $firstClass = $nodeFinder->findFirst(
-            (array) $nodes,
-            fn (Node $node): bool => $node instanceof Class_
-        );
+        $firstClass = $nodeFinder->findFirst((array) $nodes, fn (Node $node): bool => $node instanceof Class_);
 
-        if (!$firstClass instanceof Class_) {
+        if (! $firstClass instanceof Class_) {
             throw new ShouldNotHappenException();
         }
 
