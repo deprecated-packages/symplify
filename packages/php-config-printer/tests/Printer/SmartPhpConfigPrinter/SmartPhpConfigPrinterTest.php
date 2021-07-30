@@ -67,6 +67,15 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
 
         yield [[
             SecondClass::class => [
+                'some_key' => [
+                    'inside_key' => new Simple('Paul'),
+                    'inside_key2' => new Simple('Paul 2'),
+                ],
+            ],
+        ], __DIR__ . '/Fixture/expected_value_objects_file2.php.inc'];
+
+        yield [[
+            SecondClass::class => [
                 'some_key' => [new ClassWithType(new StringType())],
             ],
         ], __DIR__ . '/Fixture/expected_value_nested_objects.php.inc'];

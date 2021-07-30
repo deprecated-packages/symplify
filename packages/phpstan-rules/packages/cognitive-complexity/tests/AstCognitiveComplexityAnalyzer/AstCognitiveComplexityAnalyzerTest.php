@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexity
 
 use Iterator;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\NodeFinder;
@@ -59,25 +58,23 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source');
     }
 
-    /**
-     * @return ClassMethod|Function_
-     */
-    private function parseFileToFirstFunctionLike(string $fileContent): Node
+    private function parseFileToFirstFunctionLike(string $fileContent): ClassMethod | Function_
     {
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::ONLY_PHP7);
         $nodes = $parser->parse($fileContent);
 
         $nodeFinder = new NodeFinder();
-        $firstFunctionlike =  $nodeFinder->findFirst(
+        $firstFunctionlike = $nodeFinder->findFirst(
             (array) $nodes,
             fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
         );
-
-        if (!$firstFunctionlike instanceof ClassMethod && !$firstFunctionlike instanceof Function_) {
-            throw new ShouldNotHappenException();
+        if ($firstFunctionlike instanceof ClassMethod) {
+            return $firstFunctionlike;
         }
-
-        return $firstFunctionlike;
+        if ($firstFunctionlike instanceof Function_) {
+            return $firstFunctionlike;
+        }
+        throw new ShouldNotHappenException();
     }
 }
