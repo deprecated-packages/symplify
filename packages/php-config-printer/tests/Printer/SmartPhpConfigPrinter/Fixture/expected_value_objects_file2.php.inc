@@ -11,5 +11,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SecondClass::class)
-        ->call('configure', [['some_key' => ['inside_key' => ValueObjectInliner::inline(new Simple('Paul'))]]]);
+        ->call('configure', [['some_key' => ['inside_key' => ValueObjectInliner::inline(new Simple('Paul')), 'inside_key2' => ValueObjectInliner::inline(new Simple('Paul 2'))]]]);
 };
