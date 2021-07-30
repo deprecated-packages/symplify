@@ -35,7 +35,12 @@ final class ServiceConfigurationDecorator
 
         foreach ($configuration as $key => $value) {
             if ($this->isArrayOfObjects($value)) {
-                $configuration[$key] = $this->decorateValueObjects($value);
+                $currentKey          = key($value);
+                if (! is_string($currentKey)) {
+                    $configuration[$key] = $this->decorateValueObjects($value);
+                } else {
+                    $configuration[$key] = [$currentKey => $this->decorateValueObject(current($value))];
+                }
             } elseif (is_object($value)) {
                 $configuration[$key] = $this->decorateValueObject($value);
             }
