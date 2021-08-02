@@ -47,6 +47,7 @@ jobs:
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi
                             packages/vendor-patches/bin/vendor-patches --ansi
+                            packages/phpunit-upgrader/bin/phpunit-upgrader --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
