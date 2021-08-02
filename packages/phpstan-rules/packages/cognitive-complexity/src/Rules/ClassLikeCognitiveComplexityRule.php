@@ -12,6 +12,7 @@ use PHPStan\Analyser\Scope;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -38,9 +39,11 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
      */
     public function __construct(
         private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
+        private CompositionOverInheritanceAnalyzer $compositionOverInheritanceAnalyzer,
         private SimpleNameResolver $simpleNameResolver,
         private int $maxClassCognitiveComplexity = 50,
-        array $limitsByTypes = []
+        array $limitsByTypes = [],
+        private bool $scoreCompositionOverInheritance = false,
     ) {
         $this->limitsByTypes = $limitsByTypes;
     }
@@ -59,7 +62,11 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
      */
     public function process(Node $node, Scope $scope): array
     {
-        $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($node);
+        if ($this->scoreCompositionOverInheritance) {
+            $measuredCognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($node);
+        } else {
+            $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($node);
+        }
 
         $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($node);
         if ($measuredCognitiveComplexity <= $allowedCognitiveComplexity) {
@@ -119,6 +126,7 @@ CODE_SAMPLE
                 ,
                 [
                     'maxClassCognitiveComplexity' => 10,
+                    'scoreCompositionOverInheritance' => true,
                 ]
             ),
                 new ConfiguredCodeSample(

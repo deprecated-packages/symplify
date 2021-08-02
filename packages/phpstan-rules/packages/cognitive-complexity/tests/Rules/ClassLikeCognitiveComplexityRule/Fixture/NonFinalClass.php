@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCogniti
 
 use Symfony\Component\Console\Command\Command;
 
-final class SimpleCommand extends Command // +25 (extending another class)
+class NonFinalClass extends Command // +10 (non-final class) +25 (extending another class)
 {
     public function someFunction($var)
     {

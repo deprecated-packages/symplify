@@ -2,37 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\AstCognitiveComplexityAnalyzer;
+namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\CompositionOverInheritanceAnalyzer;
 
 use Iterator;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PhpParser\ParserFactory;
 use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-final class AstCognitiveComplexityAnalyzerTest extends TestCase
+final class CompositionOverInheritanceAnalyzerTest extends TestCase
 {
     /**
-     * @var AstCognitiveComplexityAnalyzer
+     * @var CompositionOverInheritanceAnalyzer
      */
-    private $astCognitiveComplexityAnalyzer;
+    private $compositionOverInheritanceAnalyzer;
 
     protected function setUp(): void
     {
         $phpstanContainerFactory = new ContainerFactory(getcwd());
 
-        $tempFile = sys_get_temp_dir() . '/_symplify_cogntive_complexity_test';
+        $tempFile = sys_get_temp_dir() . '/_symplify_cogntive_complexity_composition_test';
         $container = $phpstanContainerFactory->create($tempFile, [__DIR__ . '/config/configured_service.neon'], []);
 
-        $this->astCognitiveComplexityAnalyzer = $container->getByType(AstCognitiveComplexityAnalyzer::class);
+        $this->compositionOverInheritanceAnalyzer = $container->getByType(CompositionOverInheritanceAnalyzer::class);
     }
 
     /**
@@ -42,8 +41,8 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
     {
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fixtureFileInfo);
 
-        $functionLike = $this->parseFileToFirstFunctionLike($inputAndExpected->getInput());
-        $cognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($functionLike);
+        $classLike = $this->parseFileToFirstClass($inputAndExpected->getInput());
+        $cognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($classLike);
 
         $this->assertSame((int) $inputAndExpected->getExpected(), $cognitiveComplexity);
     }
@@ -58,23 +57,19 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Source');
     }
 
-    private function parseFileToFirstFunctionLike(string $fileContent): ClassMethod | Function_
+    private function parseFileToFirstClass(string $fileContent): Class_
     {
         $parserFactory = new ParserFactory();
         $parser = $parserFactory->create(ParserFactory::ONLY_PHP7);
         $nodes = $parser->parse($fileContent);
 
         $nodeFinder = new NodeFinder();
-        $firstFunctionlike = $nodeFinder->findFirst(
-            (array) $nodes,
-            fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
-        );
-        if ($firstFunctionlike instanceof ClassMethod) {
-            return $firstFunctionlike;
+        $firstClass = $nodeFinder->findFirst((array) $nodes, fn (Node $node): bool => $node instanceof Class_);
+
+        if (! $firstClass instanceof Class_) {
+            throw new ShouldNotHappenException();
         }
-        if ($firstFunctionlike instanceof Function_) {
-            return $firstFunctionlike;
-        }
-        throw new ShouldNotHappenException();
+
+        return $firstClass;
     }
 }

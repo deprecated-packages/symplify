@@ -35,9 +35,29 @@ final class ServiceConfigurationDecorator
 
         foreach ($configuration as $key => $value) {
             if ($this->isArrayOfObjects($value)) {
-                $configuration[$key] = $this->decorateValueObjects($value);
+                $configuration = $this->configureArrayOfObjects($configuration, $value, $key);
             } elseif (is_object($value)) {
                 $configuration[$key] = $this->decorateValueObject($value);
+            }
+        }
+
+        return $configuration;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function configureArrayOfObjects(array $configuration, array $value, $key): array
+    {
+        foreach ($value as $keyValue => $singleValue) {
+            if (is_string($keyValue)) {
+                $configuration[$key] = array_merge($configuration[$key], [
+                    $keyValue => $this->decorateValueObject($singleValue),
+                ]);
+            }
+
+            if (is_numeric($keyValue)) {
+                $configuration[$key] = $this->decorateValueObjects([$singleValue]);
             }
         }
 

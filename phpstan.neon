@@ -107,11 +107,6 @@ parameters:
         - tests/bootstrap.php
 
     ignoreErrors:
-        # command argument value type conversion - known string
-        -
-            message: '#Cannot cast array<string>\|string\|null to string#'
-            path: '*packages/*Command.php'
-
         # invalid 3rd party-code
         - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
 
@@ -131,9 +126,6 @@ parameters:
         - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
 
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-
-        # the Filesystem method is only iterable way
-        - '#Method Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\AstCognitiveComplexityAnalyzer\\AstCognitiveComplexityAnalyzerTest\:\:parseFileToFistFunctionLike\(\) should return (.*?) but returns PhpParser\\Node\|null#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
 
@@ -203,12 +195,6 @@ parameters:
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
 
         -
-            message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
-            paths:
-                - packages/monorepo-builder/packages/Release/Configuration/StageResolver.php # 26
-                - packages/rule-doc-generator/src/Command/GenerateCommand.php # 54
-
-        -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
@@ -219,12 +205,6 @@ parameters:
         -
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
             path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
-
-        - '#Cannot cast array<string\>\|bool\|string\|null to string#'
-
-        -
-            message: '#Cannot cast array<string\>\|bool\|string\|null to string#'
-            path: 'packages/psr4-switcher/src/Configuration/Psr4SwitcherConfiguration.php'
 
         # skipped tests
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
@@ -287,15 +267,10 @@ parameters:
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
-                 - packages/coding-standard/src/Php/PhpContentAnalyzer.php
                  - packages/git-wrapper/src/GitWorkingCopy.php
                  # traversing is complex operatoin
                  - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
-
-        -
-            message: '#Cognitive complexity for "Symplify\\CodingStandard\\Php\\PhpContentAnalyzer\:\:isPhpContent\(\)" is \d+, keep it under 8#'
-            path: packages/coding-standard/src/Php/PhpContentAnalyzer.php
 
         -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
@@ -400,7 +375,6 @@ parameters:
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
 
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
-        - '#Method Symplify\\EasyCodingStandard\\SniffRunner\\Application\\SniffFileProcessor\:\:processFile\(\) should return array<string, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\> but returns array<string, array<int, array<Symplify\\EasyCodingStandard\\SniffRunner\\ValueObject\\Error\\CodingStandardError\>\|Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff\>\>#'
 
         # node traverser magic
         -
@@ -502,10 +476,6 @@ parameters:
         -
             message: '#Parameter "config" cannot be nullable#'
             path: packages/easy-coding-standard/src/ValueObject/Configuration.php
-
-        -
-            message: '#Cannot cast array<string\>\|bool\|string to string#'
-            path: packages/easy-coding-standard/src/Configuration/ConfigurationFactory.php
 
         # array_merge() class-string[]
         - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'
