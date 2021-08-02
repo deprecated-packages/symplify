@@ -10,7 +10,7 @@
         "clue/ndjson-react": "^1.2",
         "composer/xdebug-handler": "^2.0",
         "danielstjules/stringy": "^3.1",
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.0.1",
         "nette/utils": "^3.2",
         "react/child-process": "^0.6.3",
         "react/event-loop": "^1.2",

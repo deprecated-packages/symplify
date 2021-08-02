@@ -220,7 +220,7 @@ $a . $b;
 
 // Single pipe try/catch operator
 try {
-} catch (Exception | Error $a) {
+} catch (Exception|Error $a) {
 }
 
 /** Closures */
