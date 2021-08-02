@@ -11,7 +11,7 @@
         "composer/xdebug-handler": "^2.0",
         "cweagans/composer-patches": "^1.7",
         "danielstjules/stringy": "^3.1",
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.0.1",
         "j7mbo/twitter-api-php": "^1.0.6",
         "nette/di": "^3.0",
         "nette/neon": "^3.2",
