@@ -213,6 +213,11 @@ services:
         class: Symplify\PHPStanRules\Rules\NoEmptyClassRule
         tags: [phpstan.rules.rule]
 
+    # naming
+    -
+        class: Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
         tags: [phpstan.rules.rule]
