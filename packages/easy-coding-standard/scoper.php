@@ -56,16 +56,16 @@ return [
             return Strings::replace($content, '#use Symfony\\\\Polyfill#', 'use ' . $prefix . ' Symfony\Polyfill');
         },
         // remove namespace frompoly fill stubs
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
-                return $content;
-            }
-
-            // remove alias to class have origina PHP names - fix in
-            $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
-
-            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-        },
+//        function (string $filePath, string $prefix, string $content): string {
+//            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
+//                return $content;
+//            }
+//
+//            // remove alias to class have origina PHP names - fix in
+//            $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
+//
+//            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
+//        },
 
         // scope symfony configs
         function (string $filePath, string $prefix, string $content): string {
