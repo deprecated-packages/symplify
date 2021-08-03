@@ -34,6 +34,7 @@ final class NoDependencyJugglingRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipNodeVisitor.php', []];
         yield [__DIR__ . '/Fixture/SkipFactory.php', []];
         yield [__DIR__ . '/Fixture/SkipFactoryMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipScalar.php', []];
         yield [__DIR__ . '/Fixture/SkipArray.php', []];
         yield [__DIR__ . '/Fixture/SkipKernel.php', []];
         yield [__DIR__ . '/Fixture/SkipNewAssign.php', []];
