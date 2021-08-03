@@ -44,17 +44,17 @@ return [
     'patchers' => [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
-                return $content;
-            }
-
-            $content = Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-
-            // add missing use statements prefixes
-            // @see https://github.com/symplify/easy-coding-standard/commit/5c11eca46fbe341ac30d0d5da2c51e1596950299#diff-87ecc51ebcf33f4c2699c08f35403560ad1ea98d22771df83a29d00dc5f53a1cR12
-            return Strings::replace($content, '#use Symfony\\\\Polyfill#', 'use ' . $prefix . ' Symfony\Polyfill');
-        },
+//        function (string $filePath, string $prefix, string $content): string {
+//            if (! Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
+//                return $content;
+//            }
+//
+//            $content = Strings::replace($content, '#namespace ' . $prefix . ';#', '');
+//
+//            // add missing use statements prefixes
+//            // @see https://github.com/symplify/easy-coding-standard/commit/5c11eca46fbe341ac30d0d5da2c51e1596950299#diff-87ecc51ebcf33f4c2699c08f35403560ad1ea98d22771df83a29d00dc5f53a1cR12
+//            return Strings::replace($content, '#use Symfony\\\\Polyfill#', 'use ' . $prefix . ' Symfony\Polyfill');
+//        },
         // remove namespace frompoly fill stubs
 //        function (string $filePath, string $prefix, string $content): string {
 //            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
