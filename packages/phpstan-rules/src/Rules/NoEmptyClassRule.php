@@ -47,8 +47,8 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentNode = $node->getOriginalNode();
-        if ($currentNode->stmts !== []) {
+        $classLike = $node->getOriginalNode();
+        if ($classLike->stmts !== []) {
             return [];
         }
 
@@ -57,7 +57,7 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->shouldSkipClassLike($currentNode)) {
+        if ($this->shouldSkipClassLike($classLike)) {
             return [];
         }
 
