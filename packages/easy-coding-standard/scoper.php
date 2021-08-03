@@ -39,6 +39,7 @@ return [
         'PHP_CodeSniffer\*',
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+        'Symplify\SmartFileSystem\SmartFileInfo'
     ],
     'patchers' => [
         // unprefix polyfill functions
