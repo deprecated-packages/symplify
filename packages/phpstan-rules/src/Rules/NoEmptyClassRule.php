@@ -6,8 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -35,20 +37,26 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class, Trait_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_|Trait_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->stmts !== []) {
+        $currentNode = $node->getOriginalNode();
+        if ($currentNode->stmts !== []) {
             return [];
         }
 
-        if ($this->shouldSkipClassLike($node)) {
+        // skip attribute
+        if ($this->isAttributeClass($scope)) {
+            return [];
+        }
+
+        if ($this->shouldSkipClassLike($currentNode)) {
             return [];
         }
 
@@ -77,8 +85,12 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipClassLike(Class_ | Trait_ $classLike): bool
+    private function shouldSkipClassLike(ClassLike $classLike): bool
     {
+        if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
+            return true;
+        }
+
         $className = $this->simpleNameResolver->getName($classLike);
         if ($className === null) {
             return true;
@@ -119,5 +131,15 @@ CODE_SAMPLE
 
         $parentClassReflection = $this->reflectionProvider->getClass($parentClass);
         return $parentClassReflection->isAbstract();
+    }
+
+    private function isAttributeClass(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return false;
+        }
+
+        return $classReflection->isAttributeClass();
     }
 }

@@ -25,6 +25,7 @@ final class NoEmptyClassRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAttribute.php', []];
         yield [__DIR__ . '/Fixture/SkipMarkerInterface.php', []];
         yield [__DIR__ . '/Fixture/SkipException.php', []];
         yield [__DIR__ . '/Fixture/SkipWithCommentInterface.php', []];
