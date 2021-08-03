@@ -516,3 +516,6 @@ parameters:
             path: packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php
 
         - '#Call to an undefined method MyCLabs\\Enum\\Enum\:\:getKey\(\)#'
+
+        - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Traverser\\ArrayBlockInfoFinder\:\:reverseTokens\(\) should return array<PhpCsFixer\\Tokenizer\\Token\> but returns array<int, PhpCsFixer\\Tokenizer\\Token\|null\>#'

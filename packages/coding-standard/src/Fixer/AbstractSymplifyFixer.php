@@ -32,8 +32,8 @@ abstract class AbstractSymplifyFixer implements FixerInterface
     }
 
     /**
-     * @return Token[]
      * @param Tokens<Token> $tokens
+     * @return Token[]|null[]
      */
     protected function reverseTokens(Tokens $tokens): array
     {

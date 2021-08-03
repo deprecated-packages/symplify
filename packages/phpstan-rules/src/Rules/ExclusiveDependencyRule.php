@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\ValueObject\MethodName;
@@ -135,6 +136,14 @@ CODE_SAMPLE
     ): bool {
         if (! $this->arrayStringAndFnMatcher->isMatch($paramType, [$dependencyType])) {
             return true;
+        }
+
+        // instancef of but with static reflection
+        $classObjectType = new ObjectType($className);
+        foreach ($allowedTypes as $allowedType) {
+            if ($classObjectType->isInstanceOf($allowedType)->yes()) {
+                return true;
+            }
         }
 
         return $this->arrayStringAndFnMatcher->isMatch($className, $allowedTypes);

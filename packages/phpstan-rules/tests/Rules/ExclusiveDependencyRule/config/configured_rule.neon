@@ -8,4 +8,5 @@ services:
         arguments:
             allowedExclusiveDependencyInTypes:
                 Doctrine\ORM\EntityManager:
+                    - Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\AllowedEventSubscriber
                     - *Repository
