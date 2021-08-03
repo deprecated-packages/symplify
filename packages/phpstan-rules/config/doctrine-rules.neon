@@ -5,8 +5,12 @@ services:
         arguments:
             allowedExclusiveDependencyInTypes:
                 # "EntityManager" dependency can be used only in "*Repository" class
-                'Doctrine\ORM\EntityManager': ['*Repository']
-                'Doctrine\ORM\EntityManagerInterface': ['*Repository']
+                'Doctrine\ORM\EntityManager':
+                    - '*Repository'
+                    - 'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface'
+                'Doctrine\ORM\EntityManagerInterface':
+                    - '*Repository'
+                    - 'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface'
 
     -
         class: Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule
