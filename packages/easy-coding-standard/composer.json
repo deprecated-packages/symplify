@@ -29,9 +29,7 @@
         "symplify/skipper": "^9.5",
         "symplify/smart-file-system": "^9.5",
         "symplify/symplify-kernel": "^9.5",
-        "webmozart/assert": "^1.10"
-    },
-    "require-dev": {
+        "webmozart/assert": "^1.10",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
