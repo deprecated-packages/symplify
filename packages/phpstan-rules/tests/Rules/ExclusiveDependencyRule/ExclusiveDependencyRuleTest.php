@@ -9,6 +9,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ExclusiveDependencyRule;
+use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\AllowedEventSubscriber;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ExclusiveDependencyRule>
@@ -31,11 +32,16 @@ final class ExclusiveDependencyRuleTest extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipNotSpecified.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeRepository.php', []];
+        yield [__DIR__ . '/Fixture/SkipAllowedEventSubscriber.php', []];
 
-        $errorMessage = sprintf(ExclusiveDependencyRule::ERROR_MESSAGE, EntityManager::class, '*Repository');
+        $errorMessage = sprintf(
+            ExclusiveDependencyRule::ERROR_MESSAGE,
+            EntityManager::class,
+            implode('", "', [AllowedEventSubscriber::class, '*Repository'])
+        );
 
         yield [__DIR__ . '/Fixture/SomeController.php', [[$errorMessage, 9]]];
-        yield [__DIR__ . '/Fixture/WarnController.php', [[$errorMessage, 16]]];
+//        yield [__DIR__ . '/Fixture/WarnController.php', [[$errorMessage, 16]]];
     }
 
     protected function getRule(): Rule

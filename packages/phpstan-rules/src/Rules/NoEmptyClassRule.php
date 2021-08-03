@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -46,8 +47,8 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $currentNode = $node->getOriginalNode();
-        if ($currentNode->stmts !== []) {
+        $classLike = $node->getOriginalNode();
+        if ($classLike->stmts !== []) {
             return [];
         }
 
@@ -56,7 +57,7 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->shouldSkipClassLike($currentNode)) {
+        if ($this->shouldSkipClassLike($classLike)) {
             return [];
         }
 
@@ -136,7 +137,7 @@ CODE_SAMPLE
     private function isAttributeClass(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
