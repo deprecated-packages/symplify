@@ -47,8 +47,8 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteAnalyzerInterfac
             }
 
             foreach ($matches as $foundMatch) {
-                $className = $foundMatch[self::CLASS_KEY_PART];
-                $methodName = $foundMatch[self::METHOD_KEY_PART];
+                $className = (string) $foundMatch[self::CLASS_KEY_PART];
+                $methodName = (string) $foundMatch[self::METHOD_KEY_PART];
 
                 if (method_exists($className, $methodName)) {
                     continue;

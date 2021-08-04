@@ -181,12 +181,15 @@ CODE_SAMPLE
     {
         $errorMessages = [];
 
+        /** @var string[] $referencedClasses */
         $referencedClasses = $genericTagValueNode->getAttribute(AttributeKey::REFERENCED_CLASSES);
+
         foreach ($referencedClasses as $referencedClass) {
             if ($this->reflectionProvider->hasClass($referencedClass)) {
                 continue;
             }
 
+            /** @var string $referencedClass */
             $errorMessages[] = sprintf(self::ERROR_MESSAGE, $referencedClass);
         }
 

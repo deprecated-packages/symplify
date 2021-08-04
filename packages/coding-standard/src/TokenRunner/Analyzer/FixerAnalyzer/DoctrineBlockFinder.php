@@ -71,7 +71,7 @@ final class DoctrineBlockFinder
             return $this->resolveDocBlockEdgeByType($docBlockEdgeDefinition, $searchIndex, $tokens, $findEnd);
         }
 
-        $message = sprintf('Invalid param type: "%s".', $type);
+        $message = sprintf('Invalid param type: "%d".', $type);
         throw new EdgeFindingException($message);
     }
 

@@ -40,7 +40,7 @@ final class MissingClassConstantLatteAnalyzer implements LatteAnalyzerInterface
             }
 
             foreach ($matches as $foundMatch) {
-                $classConstantName = $foundMatch[self::CLASS_CONSTANT_NAME_PART];
+                $classConstantName = (string) $foundMatch[self::CLASS_CONSTANT_NAME_PART];
                 if (defined($classConstantName)) {
                     continue;
                 }
