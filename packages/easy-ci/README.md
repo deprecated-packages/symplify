@@ -173,7 +173,7 @@ final class SomeMethodFilterProvider implements FilterProviderInterface
 ### 7. Detect Static Calls in Your Code
 
 ```bash
-vendor/bin/static-detector detect-static src
+vendor/bin/easy-ci detect-static src
 ```
 
 <br>
