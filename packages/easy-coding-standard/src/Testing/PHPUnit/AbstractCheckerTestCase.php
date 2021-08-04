@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
@@ -12,11 +14,10 @@ use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements ConfigAwareInterface
+abstract class AbstractCheckerTestCase extends TestCase implements ConfigAwareInterface
 {
     /**
      * @var string[]
@@ -36,10 +37,10 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
         $this->autoloadCodeSniffer();
 
         $configs = $this->getValidatedConfigs();
-        $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, $configs);
+        $container = $this->bootContainerWithConfigs($configs);
 
-        $this->fixerFileProcessor = $this->getService(FixerFileProcessor::class);
-        $this->sniffFileProcessor = $this->getService(SniffFileProcessor::class);
+        $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
+        $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
     }
 
     protected function doTestFileInfo(SmartFileInfo $fileInfo): void
@@ -159,5 +160,24 @@ abstract class AbstractCheckerTestCase extends AbstractKernelTestCase implements
         $fileSystemGuard->ensureFileExists($config, static::class);
 
         return [$config];
+    }
+
+    /**
+     * @param string[] $configs
+     */
+    private function bootContainerWithConfigs(array $configs): ContainerInterface
+    {
+        $configsHash = '';
+        foreach ($configs as $config) {
+            $configsHash .= md5_file($config);
+        }
+
+        $configsHash = md5($configsHash);
+
+        $easyCodingStandardKernel = new EasyCodingStandardKernel('test_' . $configsHash, true);
+        $easyCodingStandardKernel->setConfigs($configs);
+        $easyCodingStandardKernel->boot();
+
+        return $easyCodingStandardKernel->getContainer();
     }
 }
