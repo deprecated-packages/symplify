@@ -122,6 +122,11 @@ final class ComposerJson
      */
     private $scriptsDescriptions = [];
 
+    /**
+     * @var array<string, string>
+     */
+    private $suggest = [];
+
     private ?string $version = null;
 
     public function __construct()
@@ -411,6 +416,7 @@ final class ComposerJson
             ComposerJsonSection::BIN => $this->bin,
             ComposerJsonSection::SCRIPTS => $this->scripts,
             ComposerJsonSection::SCRIPTS_DESCRIPTIONS => $this->scriptsDescriptions,
+            ComposerJsonSection::SUGGEST => $this->suggest,
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
             ComposerJsonSection::CONFLICT => $this->conflicts,
@@ -664,6 +670,14 @@ final class ComposerJson
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function getSuggest(): array
+    {
+        return $this->suggest;
+    }
+
+    /**
      * @return string[]
      */
     public function getAllClassmaps(): array
@@ -720,6 +734,14 @@ final class ComposerJson
     public function setScriptsDescriptions(array $scriptsDescriptions): void
     {
         $this->scriptsDescriptions = $scriptsDescriptions;
+    }
+
+    /**
+     * @param array<string, string> $suggest
+     */
+    public function setSuggest(array $suggest): void
+    {
+        $this->suggest = $suggest;
     }
 
     /**
