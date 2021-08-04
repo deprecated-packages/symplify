@@ -59,6 +59,9 @@ final class JsonFileManager
         $jsonString = $this->encodeJsonToFileContent($json);
         $this->smartFileSystem->dumpFile($smartFileInfo->getPathname(), $jsonString);
 
+        $realPath = $smartFileInfo->getRealPath();
+        unset($this->cachedJSONFiles[$realPath]);
+
         return $jsonString;
     }
 
