@@ -19,13 +19,7 @@ final class MostRecentTagResolver
     public function resolve(string $gitDirectory): ?string
     {
         $command = ['git', 'tag', '-l', '--sort=committerdate'];
-
-        if (getcwd() !== $gitDirectory) {
-            $command[] = '--git-dir';
-            $command[] = $gitDirectory;
-        }
-
-        $tagList = $this->parseTags($this->processRunner->run($command));
+        $tagList = $this->parseTags($this->processRunner->run($command, $gitDirectory));
 
         /** @var string $theMostRecentTag */
         $theMostRecentTag = (string) array_pop($tagList);
@@ -46,8 +40,8 @@ final class MostRecentTagResolver
 
         // Remove all "\r" chars in case the CLI env like the Windows OS.
         // Otherwise (ConEmu, git bash, mingw cli, e.g.), leave as is.
-        $normalizedTags = str_replace("\r", '', $tags);
+        $tags = str_replace("\r", '', $tags);
 
-        return explode("\n", $normalizedTags);
+        return explode("\n", $tags);
     }
 }
