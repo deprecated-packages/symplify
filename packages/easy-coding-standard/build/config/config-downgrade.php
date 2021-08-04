@@ -27,9 +27,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeSetList::PHP_74);
     $containerConfigurator->import(DowngradeSetList::PHP_73);
     $containerConfigurator->import(DowngradeSetList::PHP_72);
-    $containerConfigurator->import(DowngradeSetList::PHP_71);
-    // currently breaks - https://github.com/symplify/easy-coding-standard/runs/2603926642
-    // $containerConfigurator->import(DowngradeSetList::PHP_70);
 
     $services = $containerConfigurator->services();
 
