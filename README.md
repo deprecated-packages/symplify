@@ -67,7 +67,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For Syntax Transformation
 
 - [Config Transformer](https://github.com/symplify/config-transformer)
-- [Latte to TWIG Converter](https://github.com/symplify/latte-to-twig-converter)
 
 ## For Upgrades
 

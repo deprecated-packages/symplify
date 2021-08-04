@@ -216,11 +216,6 @@ parameters:
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
         -
-            message: '#"%s" in sprintf\(\) format must be quoted#'
-            paths:
-                - packages/latte-to-twig-converter/src/CaseConverter/LoopsCaseConverter.php
-
-        -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
             paths:
                 - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
@@ -523,4 +518,3 @@ parameters:
         -
             message: '#Parameter "cwd" cannot be nullable#'
             path: packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
-            

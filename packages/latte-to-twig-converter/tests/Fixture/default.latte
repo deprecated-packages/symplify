@@ -1,5 +1,0 @@
-{default $showReadingTime = true}
-{default $showCommentsCount = $post['showCommentsCount'] ?? true}
------
-{% if showReadingTime is not defined %}{% set showReadingTime = true %}{% endif %}
-{% if showCommentsCount is not defined %}{% set showCommentsCount = post.showCommentsCount ?? true %}{% endif %}
