@@ -119,7 +119,7 @@ return [
 
             return Strings::replace(
                 $content,
-                $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                $prefix . '\\PHPUnit\\Framework\\TestCase#',
                 'PHPUnit\Framework\TestCase'
             );
         },
