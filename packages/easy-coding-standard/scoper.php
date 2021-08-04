@@ -119,8 +119,8 @@ return [
 
             return Strings::replace(
                 $content,
-                $prefix . '\\PHPUnit\\Framework\\TestCase#',
-                'PHPUnit\Framework\TestCase'
+                'use ' . $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                'use PHPUnit\Framework\TestCase'
             );
         },
 
