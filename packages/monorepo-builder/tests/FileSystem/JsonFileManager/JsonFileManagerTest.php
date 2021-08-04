@@ -47,6 +47,33 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
         $this->assertSame($expectedJson, $loadedJsonFromFileInfo);
     }
 
+    public function testPrint(): void
+    {
+        $createdJson = [
+            'key' => 'value',
+        ];
+        $this->jsonFileManager->printJsonToFileInfo(
+            $createdJson,
+            new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
+        );
+        $loadedJsonFromFileInfo = $this->jsonFileManager->loadFromFileInfo(
+            new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
+        );
+        $this->assertSame($createdJson, $loadedJsonFromFileInfo);
+
+        $updatedJson = [
+            'key' => 'updatedValue',
+        ];
+        $this->jsonFileManager->printJsonToFileInfo(
+            $updatedJson,
+            new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
+        );
+        $loadedJsonFromFileInfo = $this->jsonFileManager->loadFromFileInfo(
+            new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
+        );
+        $this->assertSame($updatedJson, $loadedJsonFromFileInfo);
+    }
+
     public function testEncodeArrayToString(): void
     {
         $jsonContent = $this->jsonFileManager->encodeJsonToFileContent([
