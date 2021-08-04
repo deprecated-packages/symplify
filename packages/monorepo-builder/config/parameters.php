@@ -47,7 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ComposerJsonSection::REPLACE,
         ComposerJsonSection::SCRIPTS,
         ComposerJsonSection::SCRIPTS_DESCRIPTIONS,
-        ComposerJsonSection::SUGGESTS,
+        ComposerJsonSection::SUGGEST,
         ComposerJsonSection::CONFIG,
         ComposerJsonSection::MINIMUM_STABILITY,
         ComposerJsonSection::PREFER_STABLE,
