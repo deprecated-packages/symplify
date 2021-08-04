@@ -48,6 +48,7 @@ jobs:
                             packages/easy-testing/bin/easy-testing --ansi
                             packages/vendor-patches/bin/vendor-patches --ansi
                             packages/phpunit-upgrader/bin/phpunit-upgrader --ansi
+                            packages/psr4-switcher/bin/psr4-switcher --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest
