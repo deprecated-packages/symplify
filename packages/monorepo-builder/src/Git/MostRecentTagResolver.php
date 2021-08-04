@@ -19,13 +19,7 @@ final class MostRecentTagResolver
     public function resolve(string $gitDirectory): ?string
     {
         $command = ['git', 'tag', '-l', '--sort=committerdate'];
-
-        if (getcwd() !== $gitDirectory) {
-            $command[] = '--git-dir';
-            $command[] = $gitDirectory;
-        }
-
-        $tagList = $this->parseTags($this->processRunner->run($command));
+        $tagList = $this->parseTags($this->processRunner->run($command, $gitDirectory));
 
         /** @var string $theMostRecentTag */
         $theMostRecentTag = (string) array_pop($tagList);

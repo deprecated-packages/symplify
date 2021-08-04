@@ -519,3 +519,8 @@ parameters:
 
         - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Traverser\\ArrayBlockInfoFinder\:\:reverseTokens\(\) should return array<PhpCsFixer\\Tokenizer\\Token\> but returns array<int, PhpCsFixer\\Tokenizer\\Token\|null\>#'
+
+        -
+            message: '#Parameter "cwd" cannot be nullable#'
+            path: packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
+            
