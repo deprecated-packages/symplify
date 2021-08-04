@@ -54,7 +54,7 @@ final class ProcessRunner
     /**
      * @param string|string[] $commandLine
      */
-    private function createProcess(string | array $commandLine, ?string $cwd = null): Process
+    private function createProcess(string | array $commandLine, ?string $cwd): Process
     {
         // @since Symfony 4.2: https://github.com/symfony/symfony/pull/27821
         if (is_string($commandLine) && method_exists(Process::class, 'fromShellCommandline')) {
