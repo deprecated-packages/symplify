@@ -34,7 +34,7 @@ jobs:
 
                     -
                         name: Commented Code
-                        run: packages/easy-ci/bin/easy-ci check-commented-code packages/easy-coding-standard --line-limit 5 --ansi
+                        run: packages/easy-ci/bin/easy-ci check-commented-code packages --line-limit 5 --ansi
 
                     -
                         name: Binary File Run
