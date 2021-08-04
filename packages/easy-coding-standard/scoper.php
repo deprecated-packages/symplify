@@ -113,7 +113,7 @@ return [
 
         // fixes https://github.com/symplify/symplify/issues/3205
         function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, 'src/Testing/AbstractKernelTestCase.php')) {
+            if (! str_ends_with($filePath, 'src/Testing/PHPUnit/AbstractCheckerTestCase.php')) {
                 return $content;
             }
 
