@@ -25,12 +25,12 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
     public const ERROR_MESSAGE = 'New expression argument on position %d must use constant over value';
 
     /**
-     * @var array<class-string, mixed[]>
+     * @var array<class-string, int[]>
      */
     private array $constantArgByNewByType = [];
 
     /**
-     * @param array<class-string, mixed[]> $constantArgByNewByType
+     * @param array<class-string, int[]> $constantArgByNewByType
      */
     public function __construct(array $constantArgByNewByType = [])
     {

@@ -29,7 +29,7 @@ final class WhitespacesFixerConfigFactory
 
     private function resolveIndentation(): string
     {
-        $indentation = $this->parameterProvider->provideParameter('indentation');
+        $indentation = $this->parameterProvider->provideStringParameter('indentation');
         if ($this->isOneTab($indentation)) {
             return Spacing::ONE_TAB;
         }

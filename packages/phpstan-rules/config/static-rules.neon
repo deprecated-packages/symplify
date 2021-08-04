@@ -1,4 +1,8 @@
 services:
+    -
+        class: Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
+        tags: [phpstan.rules.rule]
+
     # explicit
     -
         class: Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule

@@ -46,7 +46,7 @@ final class SingleColonLatteAnalyzer implements LatteAnalyzerInterface
             }
 
             foreach ($matches as $match) {
-                $classConstantName = $match[self::CLASS_CONSTANT_NAME_PART];
+                $classConstantName = (string) $match[self::CLASS_CONSTANT_NAME_PART];
                 $errorMessage = sprintf('Single colon used in "%s" not found', $classConstantName);
                 $latteErrors[] = new LatteError($errorMessage, $fileInfo);
             }
@@ -58,6 +58,7 @@ final class SingleColonLatteAnalyzer implements LatteAnalyzerInterface
                 continue;
             }
 
+            /** @var array<array<string, string>> $matches */
             foreach ($matches as $match) {
                 $classConstantName = $match[self::CLASS_CONSTANT_NAME_PART];
                 $errorMessage = sprintf('Single colon used in "%s" not found', $classConstantName);

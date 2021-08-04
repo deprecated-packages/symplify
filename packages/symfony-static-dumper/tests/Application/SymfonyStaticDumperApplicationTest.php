@@ -112,7 +112,7 @@ final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
             foreach ([1, 2] as $param) {
                 $this->assertFileEquals(
                     self::EXPECTED_DIRECTORY . '/two-params/' . $type . $param . '.html',
-                    self::OUTPUT_DIRECTORY . sprintf('/%s/%s/index.html', $type, $param)
+                    self::OUTPUT_DIRECTORY . sprintf('/%s/%d/index.html', $type, $param)
                 );
             }
         }

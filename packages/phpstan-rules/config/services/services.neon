@@ -2,6 +2,8 @@ includes:
     - name-resolver-services.neon
 
 services:
+    - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
     - Symplify\PHPStanRules\Naming\MissMatchingParamResolver
     - Symplify\PHPStanRules\PhpDoc\PhpDocResolver

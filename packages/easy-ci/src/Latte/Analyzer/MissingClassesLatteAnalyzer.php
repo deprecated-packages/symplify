@@ -53,7 +53,7 @@ final class MissingClassesLatteAnalyzer implements LatteAnalyzerInterface
             }
 
             foreach ($matches as $foundClassesMatch) {
-                $class = $foundClassesMatch['class'];
+                $class = (string) $foundClassesMatch['class'];
                 if ($this->classLikeExistenceChecker->doesClassLikeExist($class)) {
                     continue;
                 }

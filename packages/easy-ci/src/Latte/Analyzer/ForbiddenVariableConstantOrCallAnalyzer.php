@@ -58,8 +58,8 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteAnalyzerInte
         foreach ($matches as $match) {
             $errorMessage = sprintf(
                 'On variable "%s::%s" call/constant fetch is not allowed',
-                $match[self::VARIABLE_PART_KEY],
-                $match[self::CONSTANT_OR_METHOD_PART_KEY],
+                (string) $match[self::VARIABLE_PART_KEY],
+                (string) $match[self::CONSTANT_OR_METHOD_PART_KEY],
             );
 
             $latteErrors[] = new LatteError($errorMessage, $fileInfo);
