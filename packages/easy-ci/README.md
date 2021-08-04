@@ -178,6 +178,25 @@ vendor/bin/static-detector detect-static src
 
 <br>
 
+### 8. Detect Commented Code
+
+Have you ever forgot commented code in your code?
+
+```php
+//      foreach ($matches as $match) {
+//           $content = str_replace($match[0], $match[2], $content);
+//      }
+```
+
+Clutter no more! Add `check-commented-code` command to your CI and don't worry about it:
+
+```bash
+vendor/bin/easy-ci check-commented-code <directory>
+vendor/bin/easy-ci check-commented-code packages --line-limit 5
+```
+
+<br>
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
