@@ -12,6 +12,20 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class JsonFileManagerTest extends AbstractKernelTestCase
 {
+    /**
+     * @var array<string, string>
+     */
+    private const CREATED_JSON = [
+        'key' => 'value',
+    ];
+
+    /**
+     * @var array<string, string>
+     */
+    private const UPDATED_JSON = [
+        'key' => 'updatedValue',
+    ];
+
     private JsonFileManager $jsonFileManager;
 
     private SmartFileSystem $smartFileSystem;
@@ -49,29 +63,22 @@ final class JsonFileManagerTest extends AbstractKernelTestCase
 
     public function testPrint(): void
     {
-        $createdJson = [
-            'key' => 'value',
-        ];
         $this->jsonFileManager->printJsonToFileInfo(
-            $createdJson,
+            self::CREATED_JSON,
             new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
         );
         $loadedJsonFromFileInfo = $this->jsonFileManager->loadFromFileInfo(
             new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
         );
-        $this->assertSame($createdJson, $loadedJsonFromFileInfo);
-
-        $updatedJson = [
-            'key' => 'updatedValue',
-        ];
+        $this->assertSame(self::CREATED_JSON, $loadedJsonFromFileInfo);
         $this->jsonFileManager->printJsonToFileInfo(
-            $updatedJson,
+            self::UPDATED_JSON,
             new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
         );
         $loadedJsonFromFileInfo = $this->jsonFileManager->loadFromFileInfo(
             new SmartFileInfo(__DIR__ . '/Source/dynamic.json')
         );
-        $this->assertSame($updatedJson, $loadedJsonFromFileInfo);
+        $this->assertSame(self::UPDATED_JSON, $loadedJsonFromFileInfo);
     }
 
     public function testEncodeArrayToString(): void
