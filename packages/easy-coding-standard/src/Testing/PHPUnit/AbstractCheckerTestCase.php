@@ -17,6 +17,12 @@ use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+// needed for scoped version to load unprefixed classes; does not have any effect inside the class
+$scoperAutoloadFilePath = __DIR__ . '/../../../vendor/scoper-autoload.php';
+if (file_exists($scoperAutoloadFilePath)) {
+    require_once $scoperAutoloadFilePath;
+}
+
 abstract class AbstractCheckerTestCase extends TestCase implements ConfigAwareInterface
 {
     /**
