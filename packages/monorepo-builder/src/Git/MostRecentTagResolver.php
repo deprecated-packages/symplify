@@ -8,6 +8,11 @@ use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 
 final class MostRecentTagResolver
 {
+    /**
+     * @var string[]
+     */
+    private const COMMAND = ['git', 'tag', '-l', '--sort=committerdate'];
+
     public function __construct(
         private ProcessRunner $processRunner
     ) {
@@ -18,8 +23,7 @@ final class MostRecentTagResolver
      */
     public function resolve(string $gitDirectory): ?string
     {
-        $command = ['git', 'tag', '-l', '--sort=committerdate'];
-        $tagList = $this->parseTags($this->processRunner->run($command, $gitDirectory));
+        $tagList = $this->parseTags($this->processRunner->run(self::COMMAND, $gitDirectory));
 
         /** @var string $theMostRecentTag */
         $theMostRecentTag = (string) array_pop($tagList);
