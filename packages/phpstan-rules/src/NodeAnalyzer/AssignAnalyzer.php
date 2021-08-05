@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
@@ -84,13 +89,14 @@ final class AssignAnalyzer
     private function shouldSkipAssign(Assign $assign): bool
     {
         // skip initializations
-        if ($assign->expr instanceof Array_ && $assign->expr->items === []) {
+        if ($this->isInitializationExpr($assign->expr)) {
             return true;
         }
 
         $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes($assign, [
             For_::class, Foreach_::class, While_::class, If_::class, Do_::class, TryCatch::class,
         ]);
+
         return $parentScopeNode !== null;
     }
 
@@ -119,5 +125,22 @@ final class AssignAnalyzer
         }
 
         return false;
+    }
+
+    private function isInitializationExpr(Expr $expr): bool
+    {
+        if ($expr instanceof Array_ && $expr->items === []) {
+            return true;
+        }
+
+        if ($expr instanceof ConstFetch && $this->simpleNameResolver->isNames($expr, ['true', 'false', 'null'])) {
+            return true;
+        }
+
+        if ($expr instanceof String_ && $expr->value === '') {
+            return true;
+        }
+
+        return $expr instanceof LNumber && $expr->value === 0;
     }
 }

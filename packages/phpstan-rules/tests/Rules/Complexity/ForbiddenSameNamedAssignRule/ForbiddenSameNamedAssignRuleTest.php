@@ -28,6 +28,7 @@ final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/SkipPositionNames.php', []];
         yield [__DIR__ . '/Fixture/SkipFunctionCall.php', []];
         yield [__DIR__ . '/Fixture/SkipInitialization.php', []];
+        yield [__DIR__ . '/Fixture/SkipInitializationWithNull.php', []];
         yield [__DIR__ . '/Fixture/SkipInIf.php', []];
         yield [__DIR__ . '/Fixture/SkipInWhileOrFor.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentVariableNames.php', []];
