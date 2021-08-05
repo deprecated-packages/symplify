@@ -1,4 +1,4 @@
-name: Fixer Test
+name: AbstractCheckerTestCaseTest
 
 on:
     pull_request: null
@@ -22,5 +22,5 @@ jobs:
             -   run: composer require symplify/easy-coding-standard
                 working-directory: ./tests
 
-            -   run: vendor/bin/phpunit FixerTest.php
+            -   run: vendor/bin/phpunit AbstractCheckerTestCaseTest.php
                 working-directory: ./tests
