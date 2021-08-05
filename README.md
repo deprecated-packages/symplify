@@ -39,6 +39,7 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Rule Doc Generator](https://github.com/symplify/rule-doc-generator)
 - [Skipper](https://github.com/symplify/skipper)
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
+- [Config Transformer](https://github.com/symplify/config-transformer)
 
 ## For CLI App Developers
 
@@ -63,10 +64,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For CI Keeping you Safe
 
 - [Easy CI](https://github.com/symplify/easy-ci)
-
-## For Syntax Transformation
-
-- [Config Transformer](https://github.com/symplify/config-transformer)
 
 ## For Upgrades
 
