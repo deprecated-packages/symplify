@@ -7,8 +7,8 @@
     ],
     "require": {
         "php": ">=8.0",
-        "symfony/dependency-injection": "^5.3.x-dev",
-        "symfony/console": "^5.3.x-dev",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/console": "^5.3",
         "nette/robot-loader": "^3.4",
         "symplify/symplify-kernel": "^9.5",
         "symplify/rule-doc-generator-contracts": "^9.5",
@@ -21,7 +21,7 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^0.12.91",
-        "friendsofphp/php-cs-fixer": "^3.0.1"
+        "friendsofphp/php-cs-fixer": "^3.0.2"
     },
     "autoload": {
         "psr-4": {
