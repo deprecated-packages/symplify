@@ -12,6 +12,7 @@ services:
     - Symplify\PHPStanRules\Reflection\ClassReflectionResolver
     - Symplify\SimplePhpDocParser\SimplePhpDocParser
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
+    - Symplify\SimplePhpDocParser\PhpDocNodeTraverser
 
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
 
