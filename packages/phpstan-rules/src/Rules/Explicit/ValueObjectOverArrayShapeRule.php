@@ -89,7 +89,7 @@ CODE_SAMPLE
     public function process(Node $node, Scope $scope): array
     {
         $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
-        if ($simplePhpDocNode === null) {
+        if (! $simplePhpDocNode instanceof SimplePhpDocNode) {
             return [];
         }
 
@@ -97,8 +97,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
-        if ($classReflection instanceof ClassReflection && $classReflection->implementsInterface('Serializable')) {
+        if ($this->isSerializableObject($scope)) {
             return [];
         }
 
@@ -121,5 +120,19 @@ CODE_SAMPLE
         });
 
         return $hasArrayShapeNode;
+    }
+
+    private function isSerializableObject(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        if ($classReflection->implementsInterface('Serializable')) {
+            return true;
+        }
+
+        return $classReflection->implementsInterface('JsonSerializable');
     }
 }
