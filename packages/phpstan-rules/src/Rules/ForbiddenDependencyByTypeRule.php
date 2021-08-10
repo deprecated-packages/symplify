@@ -86,8 +86,9 @@ final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule implement
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        private EntityManager $entityManager
+    ) {
         // ...
     }
 }
@@ -96,8 +97,9 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 class SomeClass
 {
-    public function __construct(ProductRepository $productRepository)
-    {
+    public function __construct(
+        private ProductRepository $productRepository
+    ) {
         // ...
     }
 }

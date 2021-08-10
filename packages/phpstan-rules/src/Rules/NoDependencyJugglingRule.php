@@ -101,9 +101,9 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-public function __construct($service)
-{
-    $this->service = $service;
+public function __construct(
+    private $service
+) {
 }
 
 public function run($someObject)

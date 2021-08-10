@@ -86,31 +86,21 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
         return new RuleDefinition('Dependency of specific type can be used only in specific class types', [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-class CheckboxController
+final class CheckboxController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class CheckboxRepository
+final class CheckboxRepository
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 }
 CODE_SAMPLE
