@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+use JsonSerializable;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
+use Serializable;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -129,10 +131,10 @@ CODE_SAMPLE
             return false;
         }
 
-        if ($classReflection->implementsInterface('Serializable')) {
+        if ($classReflection->implementsInterface(Serializable::class)) {
             return true;
         }
 
-        return $classReflection->implementsInterface('JsonSerializable');
+        return $classReflection->implementsInterface(JsonSerializable::class);
     }
 }
