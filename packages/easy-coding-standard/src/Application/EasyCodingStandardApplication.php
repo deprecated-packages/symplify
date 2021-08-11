@@ -23,6 +23,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
@@ -43,7 +44,8 @@ final class EasyCodingStandardApplication
         private CpuCoreCountProvider $cpuCoreCountProvider,
         private SymfonyStyle $symfonyStyle,
         private FilePathNormalizer $filePathNormalizer,
-        private ParameterProvider $parameterProvider
+        private ParameterProvider $parameterProvider,
+        private ParametersMerger $parametersMerger
     ) {
     }
 
@@ -133,7 +135,7 @@ final class EasyCodingStandardApplication
             try {
                 $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo, $configuration);
                 if ($currentErrorsAndDiffs !== []) {
-                    $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
+                    $errorsAndDiffs = $this->parametersMerger->merge($errorsAndDiffs, $currentErrorsAndDiffs);
                 }
             } catch (ParseError $parseError) {
                 $this->changedFilesDetector->invalidateFileInfo($fileInfo);

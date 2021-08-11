@@ -18,6 +18,7 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Throwable;
 
@@ -27,7 +28,8 @@ use Throwable;
 final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private SingleFileProcessor $singleFileProcessor
+        private SingleFileProcessor $singleFileProcessor,
+        private ParametersMerger $parametersMerger
     ) {
         parent::__construct();
     }
@@ -77,7 +79,10 @@ final class WorkerCommand extends AbstractCheckCommand
                             $configuration
                         );
 
-                        $errorAndFileDiffs = array_merge($errorAndFileDiffs, $currentErrorsAndFileDiffs);
+                        $errorAndFileDiffs = $this->parametersMerger->merge(
+                            $errorAndFileDiffs,
+                            $currentErrorsAndFileDiffs
+                        );
                     } catch (Throwable $throwable) {
                         ++$systemErrorsCount;
 
