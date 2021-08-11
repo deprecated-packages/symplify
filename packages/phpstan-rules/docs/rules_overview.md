@@ -1,4 +1,4 @@
-# 160 Rules Overview
+# 159 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1846,61 +1846,6 @@ abstract class AbstractParent
 
 final class SomeChild extends AbstractParent
 {
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenNewOutsideFactoryServiceRule
-
-"new" outside factory is not allowed for object type "%s"
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule`](../src/Rules/ForbiddenNewOutsideFactoryServiceRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNewOutsideFactoryServiceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            types:
-                - AnotherObject
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function process()
-    {
-        $anotherObject = new AnotherObject();
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function __construt(AnotherObjectFactory $anotherObjectFactory)
-    {
-        $this->anotherObjectFactory = $anotherObjectFactory;
-    }
-
-    public function process()
-    {
-        $anotherObject = $this->anotherObjectFactory = $anotherObjectFactory->create();
-        // ...
-    }
 }
 ```
 
