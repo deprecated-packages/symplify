@@ -4060,7 +4060,7 @@ Instead of protected element in final class use private element or contract meth
 ```php
 final class SomeClass
 {
-    private function run()
+    protected function run()
     {
     }
 }
@@ -4289,7 +4289,7 @@ final class SomeClass
 
 ## NoSuffixValueObjectClassRule
 
-Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".
+Value Object class name "%s" must be without "ValueObject" suffix.
 
 - class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
 
@@ -4640,7 +4640,7 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    private function setUp()
+    protected function setUp()
     {
         $this->obj = new stdClass();
     }
