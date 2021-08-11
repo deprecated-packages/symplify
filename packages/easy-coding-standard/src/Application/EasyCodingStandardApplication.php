@@ -116,7 +116,6 @@ final class EasyCodingStandardApplication
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     *
      * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
     private function processFoundFiles(array $fileInfos, Configuration $configuration): array
@@ -151,7 +150,6 @@ final class EasyCodingStandardApplication
                 $this->easyCodingStandardStyle->progressAdvance();
             }
         }
-
         return $errorsAndDiffs;
     }
 
