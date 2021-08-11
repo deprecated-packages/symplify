@@ -78,14 +78,9 @@ use Symfony\Component\DependencyInjection\Container;
 
 class SomeClass
 {
-    /**
-     * @var Container
-     */
-    private $some;
-
-    public function __construct(Container $some)
-    {
-        $this->some = $some;
+    public function __construct(
+        private Container $some
+    ) {
     }
 
     public function call()
@@ -100,14 +95,9 @@ use Other\SpecificService;
 
 class SomeClass
 {
-    /**
-     * @var SpecificService
-     */
-    private $specificService;
-
-    public function __construct(SpecificService $specificService)
-    {
-        $this->specificService = $specificService;
+    public function __construct(
+        private SpecificService $specificService
+    ) {
     }
 
     public function call()

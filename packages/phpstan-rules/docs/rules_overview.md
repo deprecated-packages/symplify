@@ -1,4 +1,4 @@
-# 152 Rules Overview
+# 160 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -429,6 +429,28 @@ final class SomeClass
 
 <br>
 
+## CheckSprinfMatchingTypesRule
+
+`sprintf()` call mask types does not match provided arguments types
+
+- class: [`Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule`](../src/Rules/Missing/CheckSprinfMatchingTypesRule.php)
+
+```php
+echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
+```
+
+:x:
+
+<br>
+
+```php
+echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
+```
+
+:+1:
+
+<br>
+
 ## CheckTypehintCallerTypeRule
 
 Parameter %d should use "%s" type as the only type passed to this method
@@ -529,6 +551,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 10
+            scoreCompositionOverInheritance: true
 ```
 
 ↓
@@ -769,6 +792,40 @@ class SomeClass
 
 <br>
 
+## DifferentMethodNameToReturnTypeRule
+
+Method name should be different to its return type, in a verb form
+
+- class: [`Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule`](../src/Rules/Naming/DifferentMethodNameToReturnTypeRule.php)
+
+```php
+class SomeClass
+{
+    public function apple(): Apple
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function getApple(): Apple
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## ExcessiveParameterListRule
 
 Method `"%s()"` is using too many parameters - %d. Make it under %d
@@ -888,16 +945,11 @@ services:
 ↓
 
 ```php
-class CheckboxController
+final class CheckboxController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 }
 ```
@@ -907,16 +959,11 @@ class CheckboxController
 <br>
 
 ```php
-class CheckboxRepository
+final class CheckboxRepository
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-
-    public function __construct(EntityManagerInterface $entityManager)
-    {
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {
     }
 }
 ```
@@ -1165,14 +1212,9 @@ use Symfony\Component\DependencyInjection\Container;
 
 class SomeClass
 {
-    /**
-     * @var Container
-     */
-    private $some;
-
-    public function __construct(Container $some)
-    {
-        $this->some = $some;
+    public function __construct(
+        private Container $some
+    ) {
     }
 
     public function call()
@@ -1191,14 +1233,9 @@ use Other\SpecificService;
 
 class SomeClass
 {
-    /**
-     * @var SpecificService
-     */
-    private $specificService;
-
-    public function __construct(SpecificService $specificService)
-    {
-        $this->specificService = $specificService;
+    public function __construct(
+        private SpecificService $specificService
+    ) {
     }
 
     public function call()
@@ -1404,8 +1441,9 @@ services:
 ```php
 class SomeClass
 {
-    public function __construct(EntityManager $entityManager)
-    {
+    public function __construct(
+        private EntityManager $entityManager
+    ) {
         // ...
     }
 }
@@ -1418,9 +1456,52 @@ class SomeClass
 ```php
 class SomeClass
 {
-    public function __construct(ProductRepository $productRepository)
-    {
+    public function __construct(
+        private ProductRepository $productRepository
+    ) {
         // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenForeachEmptyMissingArrayRule
+
+Foreach over empty missing array is not allowed. Use isset check early instead.
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule`](../src/Rules/ForbiddenForeachEmptyMissingArrayRule.php)
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        foreach ($data ?? [] as $value) {
+            // ...
+        }
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+        if (! isset($data)) {
+            return;
+        }
+
+        foreach ($data as $value) {
+            // ...
+        }
     }
 }
 ```
@@ -1499,6 +1580,45 @@ class SomeClass
 class SomeClass
 {
     return true;
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenInlineClassMethodRule
+
+Method `"%s()"` only calling another method call and has no added value. Use the inlined call instead
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule`](../src/Rules/Complexity/ForbiddenInlineClassMethodRule.php)
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return $this->away();
+    }
+
+    private function away()
+    {
+        return mt_rand(0, 100);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        return mt_rand(0, 100);
+    }
 }
 ```
 
@@ -2100,6 +2220,30 @@ class SomeClass
 
 <br>
 
+## ForbiddenSameNamedAssignRule
+
+Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule`](../src/Rules/Complexity/ForbiddenSameNamedAssignRule.php)
+
+```php
+$value = 1000;
+$value = 2000;
+```
+
+:x:
+
+<br>
+
+```php
+$value = 1000;
+$anotherValue = 2000;
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenSpreadOperatorRule
 
 Spread operator is not allowed.
@@ -2592,7 +2736,7 @@ $fluentClass->one()
 
 ## NoClassWithStaticMethodWithoutStaticNameRule
 
-Class "%s" with static method must have "Static" in its name it explicit
+Class has a static method must so must contains "Static" in its name
 
 - class: [`Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
 
@@ -2785,9 +2929,9 @@ Use dependency injection instead of dependency juggling
 - class: [`Symplify\PHPStanRules\Rules\NoDependencyJugglingRule`](../src/Rules/NoDependencyJugglingRule.php)
 
 ```php
-public function __construct($service)
-{
-    $this->service = $service;
+public function __construct(
+    private $service
+) {
 }
 
 public function run($someObject)
@@ -4815,6 +4959,40 @@ class SomeController
 
 <br>
 
+## RequireAttributeNamespaceRule
+
+Attribute must be located in "Attribute" namespace
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule`](../src/Rules/Domain/RequireAttributeNamespaceRule.php)
+
+```php
+// app/Entity/SomeAttribute.php
+namespace App\Controller;
+
+#[\Attribute]
+final class SomeAttribute
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+// app/Attribute/SomeAttribute.php
+namespace App\Controller;
+
+#[\Attribute]
+final class SomeAttribute
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## RequireConstantInAttributeArgumentRule
 
 Argument "%s" must be a constant
@@ -5621,6 +5799,48 @@ abstract class AbstractClass
 
 <br>
 
+## SameNamedParamFamilyRule
+
+Arguments names conflicts with parent class method: %s. This will break named arguments
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule`](../src/Rules/Explicit/SameNamedParamFamilyRule.php)
+
+```php
+interface SomeInterface
+{
+    public function run($value);
+}
+
+final class SomeClass implements SomeInterface
+{
+    public function run($differentValue)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+interface SomeInterface
+{
+    public function run($value);
+}
+
+final class SomeClass implements SomeInterface
+{
+    public function run($value)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## SeeAnnotationToTestRule
 
 Class "%s" is missing `@see` annotation with test case class reference
@@ -6192,6 +6412,55 @@ class SomeClass
      * @inject
      */
     public $someDependency;
+}
+```
+
+:+1:
+
+<br>
+
+## ValueObjectOverArrayShapeRule
+
+Instead of array shape, use value object with specific types in constructor and getters
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule`](../src/Rules/Explicit/ValueObjectOverArrayShapeRule.php)
+
+```php
+/**
+ * @return array{line: int}
+ */
+function createConfiguration()
+{
+    return [
+        'line' => 100,
+    ];
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @return array{line: int}
+ */
+function createConfiguration()
+{
+    return new Configuration(100);
+}
+
+final class Configuration
+{
+    public function __construct(
+        private int $line
+    ) {
+    }
+
+    public function getLine(): int
+    {
+        return $this->line;
+    }
 }
 ```
 

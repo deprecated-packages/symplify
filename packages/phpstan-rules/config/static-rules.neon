@@ -8,6 +8,10 @@ services:
         class: Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule
         tags: [phpstan.rules.rule]
 
+    -
+        class: Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
+        tags: [phpstan.rules.rule]
+
     # domain
     -
         class: Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
