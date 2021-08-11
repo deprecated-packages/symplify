@@ -1,9 +1,0 @@
-includes:
-    - ../../../../config/services/services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPublicClassElementCount: 5
