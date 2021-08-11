@@ -23,6 +23,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class EasyCodingStandardApplication
@@ -43,7 +44,8 @@ final class EasyCodingStandardApplication
         private CpuCoreCountProvider $cpuCoreCountProvider,
         private SymfonyStyle $symfonyStyle,
         private FilePathNormalizer $filePathNormalizer,
-        private ParameterProvider $parameterProvider
+        private ParameterProvider $parameterProvider,
+        private ParametersMerger $parametersMerger
     ) {
     }
 
@@ -83,7 +85,7 @@ final class EasyCodingStandardApplication
             $isProgressBarStarted = false;
 
             $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths): void {
-                if (! $isProgressBarStarted) {
+                if (!$isProgressBarStarted) {
                     $fileCount = count($filePaths);
                     $this->symfonyStyle->progressStart($fileCount);
                     $isProgressBarStarted = true;
@@ -112,8 +114,21 @@ final class EasyCodingStandardApplication
         return $this->processFoundFiles($fileInfos, $configuration);
     }
 
+    private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
+    {
+        if ($configuration->shouldShowProgressBar()) {
+            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
+
+            // show more data on progress bar
+            if ($this->easyCodingStandardStyle->isVerbose()) {
+                $this->easyCodingStandardStyle->enableDebugProgressBar();
+            }
+        }
+    }
+
     /**
      * @param SmartFileInfo[] $fileInfos
+     *
      * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
      */
     private function processFoundFiles(array $fileInfos, Configuration $configuration): array
@@ -133,7 +148,7 @@ final class EasyCodingStandardApplication
             try {
                 $currentErrorsAndDiffs = $this->singleFileProcessor->processFileInfo($fileInfo, $configuration);
                 if ($currentErrorsAndDiffs !== []) {
-                    $errorsAndDiffs = array_merge($errorsAndDiffs, $currentErrorsAndDiffs);
+                    $errorsAndDiffs = $this->parametersMerger->merge($errorsAndDiffs, $currentErrorsAndDiffs);
                 }
             } catch (ParseError $parseError) {
                 $this->changedFilesDetector->invalidateFileInfo($fileInfo);
@@ -152,30 +167,19 @@ final class EasyCodingStandardApplication
         return $errorsAndDiffs;
     }
 
-    private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
-    {
-        if ($configuration->shouldShowProgressBar()) {
-            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
-
-            // show more data on progress bar
-            if ($this->easyCodingStandardStyle->isVerbose()) {
-                $this->easyCodingStandardStyle->enableDebugProgressBar();
-            }
-        }
-    }
-
     /**
      * Path to called "ecs" binary file, e.g. "vendor/bin/ecs" returns "vendor/bin/ecs" This is needed to re-call the
      * ecs binary in sub-process in the same location.
      */
     private function resolveCalledEcsBinary(): ?string
     {
-        if (! isset($_SERVER[self::ARGV][0])) {
+        if (!isset($_SERVER[self::ARGV][0])) {
             return null;
         }
-        if (! file_exists($_SERVER[self::ARGV][0])) {
+        if (!file_exists($_SERVER[self::ARGV][0])) {
             return null;
         }
+
         return $_SERVER[self::ARGV][0];
     }
 }

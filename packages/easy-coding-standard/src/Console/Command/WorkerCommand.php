@@ -27,7 +27,8 @@ use Throwable;
 final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private SingleFileProcessor $singleFileProcessor
+        private SingleFileProcessor $singleFileProcessor,
+        private ParametersMerger $parametersMerger
     ) {
         parent::__construct();
     }
@@ -77,7 +78,10 @@ final class WorkerCommand extends AbstractCheckCommand
                             $configuration
                         );
 
-                        $errorAndFileDiffs = array_merge($errorAndFileDiffs, $currentErrorsAndFileDiffs);
+                        $errorAndFileDiffs = $this->parametersMerger->merge(
+                            $errorAndFileDiffs,
+                            $currentErrorsAndFileDiffs
+                        );
                     } catch (Throwable $throwable) {
                         ++$systemErrorsCount;
 

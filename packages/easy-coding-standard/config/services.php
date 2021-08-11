@@ -14,6 +14,7 @@ use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyleFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\FixerRunner\WhitespacesFixerConfigFactory;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemFilter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
@@ -53,6 +54,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(SymfonyStyleFactory::class);
     $services->set(SymfonyStyle::class)
         ->factory([service(SymfonyStyleFactory::class), 'create']);
+
+    $services->set(ParametersMerger::class);
 
     $services->set(EasyCodingStandardStyle::class)
         ->factory([service(EasyCodingStandardStyleFactory::class), 'create']);
