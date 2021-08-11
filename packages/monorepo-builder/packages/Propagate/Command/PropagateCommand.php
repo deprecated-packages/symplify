@@ -11,7 +11,6 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Propagate\VersionPropagator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PropagateCommand extends AbstractSymplifyCommand
@@ -60,6 +59,6 @@ final class PropagateCommand extends AbstractSymplifyCommand
 
         $this->symfonyStyle->success('Propagation was successful');
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

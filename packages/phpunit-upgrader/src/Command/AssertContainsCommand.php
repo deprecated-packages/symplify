@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\AssertContainsPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -54,6 +53,6 @@ final class AssertContainsCommand extends AbstractSymplifyCommand
 
         $this->symfonyStyle->success('assertContains() was converted to assertStringContainsString() where needed');
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

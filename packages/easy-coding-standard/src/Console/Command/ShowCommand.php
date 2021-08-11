@@ -12,7 +12,6 @@ use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\Guard\LoadedCheckersGuard;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ShowCommand extends AbstractSymplifyCommand
 {
@@ -35,7 +34,7 @@ final class ShowCommand extends AbstractSymplifyCommand
     {
         if (! $this->loadedCheckersGuard->areSomeCheckersRegistered()) {
             $this->loadedCheckersGuard->report();
-            return ShellCode::ERROR;
+            return self::FAILURE;
         }
 
         $totalCheckerCount = count($this->sniffFileProcessor->getCheckers())
@@ -51,6 +50,6 @@ final class ShowCommand extends AbstractSymplifyCommand
         );
         $this->easyCodingStandardStyle->success($successMessage);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

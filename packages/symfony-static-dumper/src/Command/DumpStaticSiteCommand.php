@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
@@ -40,6 +39,6 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

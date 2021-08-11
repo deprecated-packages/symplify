@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\Finder\ProjectFilesFinder;
 use Symplify\EasyCI\Resolver\TooLongFilesResolver;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\ValueObject\Option;
 
 final class ValidateFileLengthCommand extends Command
@@ -42,7 +41,7 @@ final class ValidateFileLengthCommand extends Command
             $message = sprintf('Checked %d files - all fit max file length', count($fileInfos));
             $this->symfonyStyle->success($message);
 
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($tooLongFileInfos as $tooLongFileInfo) {
@@ -56,6 +55,6 @@ final class ValidateFileLengthCommand extends Command
             $this->symfonyStyle->warning($message);
         }
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

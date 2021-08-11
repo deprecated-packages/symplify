@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Psr4Switcher\Configuration\Psr4SwitcherConfiguration;
 use Symplify\Psr4Switcher\Json\JsonAutoloadPrinter;
 use Symplify\Psr4Switcher\Psr4Filter;
@@ -67,6 +66,6 @@ final class GeneratePsr4ToPathsCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->warning($message);
         }
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

@@ -7,7 +7,6 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckCommand extends AbstractCheckCommand
 {
@@ -27,7 +26,7 @@ final class CheckCommand extends AbstractCheckCommand
     {
         if (! $this->loadedCheckersGuard->areSomeCheckersRegistered()) {
             $this->loadedCheckersGuard->report();
-            return ShellCode::ERROR;
+            return self::FAILURE;
         }
 
         $configuration = $this->configurationFactory->createFromInput($input);

@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class InitCommand extends AbstractSymplifyCommand
 {
@@ -37,6 +36,6 @@ final class InitCommand extends AbstractSymplifyCommand
         );
         $this->symfonyStyle->note($message);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

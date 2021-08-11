@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Comments\CommentedCodeAnalyzer;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
 {
@@ -67,7 +66,7 @@ final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
 
         if ($commentedLinesByFilePaths === []) {
             $this->symfonyStyle->success('No commented code found');
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($commentedLinesByFilePaths as $filePath => $commentedLines) {
@@ -78,6 +77,6 @@ final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
         }
 
         $this->symfonyStyle->error('Errors found');
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

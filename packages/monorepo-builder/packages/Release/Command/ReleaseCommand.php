@@ -18,7 +18,6 @@ use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ReleaseCommand extends AbstractSymplifyCommand
 {
@@ -67,7 +66,7 @@ final class ReleaseCommand extends AbstractSymplifyCommand
             );
             $this->symfonyStyle->error($errorMessage);
 
-            return ShellCode::ERROR;
+            return self::FAILURE;
         }
 
         $totalWorkerCount = count($activeReleaseWorkers);
@@ -99,6 +98,6 @@ final class ReleaseCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->success($finishedMessage);
         }
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

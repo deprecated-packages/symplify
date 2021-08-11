@@ -13,7 +13,6 @@ use Symplify\MonorepoBuilder\Merge\Application\MergedAndDecoratedComposerJsonFac
 use Symplify\MonorepoBuilder\Merge\Guard\ConflictingVersionsGuard;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class MergeCommand extends AbstractSymplifyCommand
 {
@@ -51,6 +50,6 @@ final class MergeCommand extends AbstractSymplifyCommand
         $this->jsonFileManager->printComposerJsonToFilePath($mainComposerJson, $mainComposerJsonFilePath);
         $this->symfonyStyle->success('Main "composer.json" was updated.');
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

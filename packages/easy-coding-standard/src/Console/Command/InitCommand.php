@@ -7,7 +7,6 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class InitCommand extends AbstractSymplifyCommand
 {
@@ -27,6 +26,6 @@ final class InitCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->warning('The "ecs.php" configuration file already exists');
         }
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

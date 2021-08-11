@@ -11,7 +11,6 @@ use Symplify\EasyTesting\Finder\FixtureFinder;
 use Symplify\EasyTesting\MissplacedSkipPrefixResolver;
 use Symplify\EasyTesting\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
 {
@@ -38,7 +37,7 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
         if ($missplacedFixtureFileInfos === []) {
             $message = sprintf('All %d fixture files have valid names', count($fixtureFileInfos));
             $this->symfonyStyle->success($message);
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($missplacedFixtureFileInfos['incorrect_skips'] as $missplacedFixtureFileInfo) {
@@ -63,12 +62,12 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
         if ($countError === 0) {
             $message = sprintf('All %d fixture files have valid names', count($fixtureFileInfos));
             $this->symfonyStyle->success($message);
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         $errorMessage = sprintf('Found %d test file fixtures with wrong prefix', $countError);
         $this->symfonyStyle->error($errorMessage);
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

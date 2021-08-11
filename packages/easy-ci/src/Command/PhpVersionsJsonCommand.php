@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Composer\SupportedPhpVersionResolver;
 use Symplify\EasyCI\Exception\ShouldNotHappenException;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 {
@@ -58,6 +57,6 @@ final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
         $jsonContent = Json::encode($supportedPhpVersions);
         $this->symfonyStyle->writeln($jsonContent);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

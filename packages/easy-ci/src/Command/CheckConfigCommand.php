@@ -12,7 +12,6 @@ use Symplify\EasyCI\ContentAnalyzer\NonExistingClassExtractor;
 use Symplify\EasyCI\Reporter\NonExistingElementsReporter;
 use Symplify\EasyCI\ValueObject\ConfigFileSuffixes;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\ValueObject\Option;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 
@@ -57,7 +56,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
 
         if ($nonExistingClassConstantsByFile === [] && $nonExistingClassesByFile === []) {
             $this->symfonyStyle->success('All classes and class constants exists');
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         $this->nonExistingElementsReporter->reportNonExistingElements(
@@ -65,6 +64,6 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
             $nonExistingClassConstantsByFile
         );
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

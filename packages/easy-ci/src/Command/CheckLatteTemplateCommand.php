@@ -10,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Latte\LatteProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
@@ -41,7 +40,7 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $latteErrors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
         if ($latteErrors === []) {
             $this->symfonyStyle->success('No errors found');
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($latteErrors as $latteError) {
@@ -53,6 +52,6 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $errorMassage = sprintf('%d errors found', count($latteErrors));
         $this->symfonyStyle->error($errorMassage);
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

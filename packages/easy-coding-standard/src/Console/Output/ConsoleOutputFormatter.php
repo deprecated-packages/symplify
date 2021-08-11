@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Output;
 
+use Symfony\Component\Console\Command\Command;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ConsoleOutputFormatter implements OutputFormatterInterface
 {
@@ -33,7 +33,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
         if ($errorAndDiffResult->getErrorCount() === 0 && $errorAndDiffResult->getFileDiffsCount() === 0) {
             $this->easyCodingStandardStyle->success('No errors found. Great job - your code is shiny in style!');
 
-            return ShellCode::SUCCESS;
+            return Command::SUCCESS;
         }
 
         $this->easyCodingStandardStyle->newLine();
@@ -92,7 +92,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             );
             $this->easyCodingStandardStyle->success($successMessage);
 
-            return ShellCode::SUCCESS;
+            return Command::SUCCESS;
         }
 
         $this->printErrorMessageFromErrorCounts(
@@ -101,7 +101,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             $configuration
         );
 
-        return ShellCode::ERROR;
+        return Command::FAILURE;
     }
 
     private function printNoFixerStatus(ErrorAndDiffResult $errorAndDiffResult, Configuration $configuration): int
@@ -132,7 +132,7 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             $configuration
         );
 
-        return ShellCode::ERROR;
+        return Command::FAILURE;
     }
 
     private function printErrorMessageFromErrorCounts(
