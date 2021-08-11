@@ -1,4 +1,4 @@
-# 159 Rules Overview
+# 157 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -826,100 +826,6 @@ class SomeClass
 
 <br>
 
-## ExcessiveParameterListRule
-
-Method `"%s()"` is using too many parameters - %d. Make it under %d
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ExcessiveParameterListRule`](../src/Rules/ExcessiveParameterListRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ExcessiveParameterListRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxParameterCount: 2
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function __construct($one, $two, $three)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function __construct($one, $two)
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## ExcessivePublicCountRule
-
-Too many public elements on class - %d. Narrow it down under %d
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ExcessivePublicCountRule`](../src/Rules/ExcessivePublicCountRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ExcessivePublicCountRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPublicClassElementCount: 2
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public $one;
-
-    public $two;
-
-    public $three;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public $one;
-
-    public $two;
-}
-```
-
-:+1:
-
-<br>
-
 ## ExclusiveDependencyRule
 
 Dependency of specific type can be used only in specific class types
@@ -1154,7 +1060,7 @@ services:
         class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
         tags: [phpstan.rules.rule]
         arguments:
-            $argumentsByAttributes:
+            argumentsByAttributes:
                 Doctrine\ORM\Mapping\Entity:
                     - repositoryClass
 ```
