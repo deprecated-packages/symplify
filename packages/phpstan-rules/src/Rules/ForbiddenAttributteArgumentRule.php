@@ -96,7 +96,7 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 [
-                    '$argumentsByAttributes' => [
+                    'argumentsByAttributes' => [
                         Entity::class => ['repositoryClass'],
                     ],
                 ]
