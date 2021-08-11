@@ -18,6 +18,7 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\PackageBuilder\Console\ShellCode;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Throwable;
 
