@@ -11,7 +11,6 @@ use Symplify\MonorepoBuilder\Validator\ConflictingPackageVersionsReporter;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\VersionValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class ValidateCommand extends AbstractSymplifyCommand
 {
@@ -40,11 +39,11 @@ final class ValidateCommand extends AbstractSymplifyCommand
         if ($conflictingPackageVersions === []) {
             $this->symfonyStyle->success('All packages "composer.json" files use same package versions.');
 
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         $this->conflictingPackageVersionsReporter->report($conflictingPackageVersions);
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

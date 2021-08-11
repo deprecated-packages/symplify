@@ -5,10 +5,10 @@ declare(strict_types=1);
 // decoupled in own "*.php" file, so ECS, Rector and PHPStan works out of the box here
 
 use PHP_CodeSniffer\Util\Tokens;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symplify\EasyCodingStandard\Console\EasyCodingStandardConsoleApplication;
 use Symplify\EasyCodingStandard\DependencyInjection\EasyCodingStandardContainerFactory;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 
 // performance boost
@@ -38,7 +38,7 @@ try {
     $symfonyStyleFactory = new SymfonyStyleFactory();
     $symfonyStyle = $symfonyStyleFactory->create();
     $symfonyStyle->error($throwable->getMessage());
-    exit(ShellCode::ERROR);
+    exit(Command::FAILURE);
 }
 
 $application = $container->get(EasyCodingStandardConsoleApplication::class);

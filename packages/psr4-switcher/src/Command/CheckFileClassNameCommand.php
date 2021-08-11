@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Psr4Switcher\RobotLoader\PhpClassLoader;
 use Symplify\Psr4Switcher\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -49,7 +48,7 @@ final class CheckFileClassNameCommand extends AbstractSymplifyCommand
 
         if ($missMatchingClassNamesByFiles === []) {
             $this->symfonyStyle->success('All classes match their short file name');
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($missMatchingClassNamesByFiles as $file => $class) {
@@ -63,6 +62,6 @@ final class CheckFileClassNameCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->warning($message);
         }
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

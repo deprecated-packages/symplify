@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Console\Output;
 
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class MissingTwigTemplatePathReporter
 {
@@ -21,7 +21,7 @@ final class MissingTwigTemplatePathReporter
     {
         if ($errorMessages === []) {
             $this->symfonyStyle->success('All templates exists');
-            return ShellCode::SUCCESS;
+            return Command::SUCCESS;
         }
 
         foreach ($errorMessages as $errorMessage) {
@@ -31,6 +31,6 @@ final class MissingTwigTemplatePathReporter
         $missingTemplatesMessage = sprintf('Found %d missing templates', count($errorMessages));
         $this->symfonyStyle->error($missingTemplatesMessage);
 
-        return ShellCode::ERROR;
+        return Command::FAILURE;
     }
 }

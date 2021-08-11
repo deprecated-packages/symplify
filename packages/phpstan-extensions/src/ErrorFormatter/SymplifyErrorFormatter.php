@@ -10,8 +10,8 @@ use PHPStan\Command\AnalysisResult;
 use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Command\Output;
 use PHPStan\Command\OutputStyle;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Terminal;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -46,7 +46,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
 
         if ($analysisResult->getTotalErrorsCount() === 0 && $analysisResult->getWarnings() === []) {
             $outputStyle->success('No errors');
-            return ShellCode::SUCCESS;
+            return Command::SUCCESS;
         }
 
         $this->reportErrors($analysisResult, $outputStyle);
@@ -61,7 +61,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             $outputStyle->warning($warning);
         }
 
-        return ShellCode::ERROR;
+        return Command::FAILURE;
     }
 
     private function reportErrors(AnalysisResult $analysisResult, OutputStyle $outputStyle): void

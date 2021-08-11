@@ -12,7 +12,6 @@ use Symplify\MonorepoBuilder\Testing\ComposerJsonRepositoriesUpdater;
 use Symplify\MonorepoBuilder\Testing\ComposerJsonRequireUpdater;
 use Symplify\MonorepoBuilder\Testing\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
@@ -54,6 +53,6 @@ final class LocalizeComposerPathsCommand extends AbstractSymplifyCommand
         );
         $this->symfonyStyle->success($message);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

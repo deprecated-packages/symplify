@@ -10,7 +10,6 @@ use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
 use Symplify\EasyCodingStandard\SnippetFormatter\Application\SnippetFormatterApplication;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class CheckMarkdownCommand extends AbstractCheckCommand
 {
@@ -31,7 +30,7 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
     {
         if (! $this->loadedCheckersGuard->areSomeCheckersRegistered()) {
             $this->loadedCheckersGuard->report();
-            return ShellCode::ERROR;
+            return self::FAILURE;
         }
 
         $configuration = $this->configurationFactory->createFromInput($input);

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\SymplifyKernel\ValueObject;
 
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -44,7 +44,7 @@ final class KernelBootAndApplicationRun
             $symfonyStyleFactory = new SymfonyStyleFactory();
             $symfonyStyle = $symfonyStyleFactory->create();
             $symfonyStyle->error($throwable->getMessage());
-            exit(ShellCode::ERROR);
+            exit(Command::FAILURE);
         }
     }
 

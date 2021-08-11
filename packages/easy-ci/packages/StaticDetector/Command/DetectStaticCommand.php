@@ -12,7 +12,6 @@ use Symplify\EasyCI\StaticDetector\Output\StaticReportReporter;
 use Symplify\EasyCI\StaticDetector\StaticScanner;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class DetectStaticCommand extends AbstractSymplifyCommand
 {
@@ -47,6 +46,6 @@ final class DetectStaticCommand extends AbstractSymplifyCommand
         $this->staticReportReporter->reportStaticClassMethods($staticReport);
         $this->staticReportReporter->reportTotalNumbers($staticReport);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

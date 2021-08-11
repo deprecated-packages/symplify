@@ -9,6 +9,7 @@ use Clue\React\NDJson\Decoder;
 use Clue\React\NDJson\Encoder;
 use React\ChildProcess\Process;
 use React\EventLoop\StreamSelectLoop;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Action;
@@ -20,7 +21,6 @@ use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardErro
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
@@ -154,7 +154,7 @@ final class ParallelFileProcessor
                 &$systemErrors,
                 $stdErrStreamBuffer
             ): void {
-                if ($exitCode === ShellCode::SUCCESS) {
+                if ($exitCode === Command::SUCCESS) {
                     return;
                 }
 

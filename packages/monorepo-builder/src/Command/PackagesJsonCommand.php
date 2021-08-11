@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\Json\PackageJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class PackagesJsonCommand extends AbstractSymplifyCommand
 {
@@ -52,6 +51,6 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
         $json = Json::encode($allowedPackagePaths);
         echo $json;
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

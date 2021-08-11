@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console\Output;
 
 use Nette\Utils\Json;
+use Symfony\Component\Console\Command\Command;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Console\Output\JsonOutputFormatterTest
@@ -37,7 +37,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         $this->easyCodingStandardStyle->writeln($json);
 
         $errorCount = $errorAndDiffResult->getErrorCount();
-        return $errorCount === 0 ? ShellCode::SUCCESS : ShellCode::ERROR;
+        return $errorCount === 0 ? Command::SUCCESS : Command::FAILURE;
     }
 
     public function getName(): string

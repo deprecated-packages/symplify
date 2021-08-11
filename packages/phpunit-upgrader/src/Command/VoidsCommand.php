@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PHPUnitUpgrader\PHPUnitUpgrader\VoidPHPUnitUpgrader;
 use Symplify\PHPUnitUpgrader\ValueObject\Option;
 
@@ -38,6 +37,6 @@ final class VoidsCommand extends AbstractSymplifyCommand
 
         $this->symfonyStyle->success('void is at in all setUp()/tearDown() methods now');
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

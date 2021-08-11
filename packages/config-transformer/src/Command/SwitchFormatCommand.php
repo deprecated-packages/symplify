@@ -13,7 +13,6 @@ use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 
 final class SwitchFormatCommand extends AbstractSymplifyCommand
 {
@@ -67,6 +66,6 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $successMessage = sprintf('Processed %d file(s) to "PHP" format', count($fileInfos));
         $this->symfonyStyle->success($successMessage);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }

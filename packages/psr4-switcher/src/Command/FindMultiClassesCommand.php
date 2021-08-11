@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\Psr4Switcher\Finder\MultipleClassInOneFileFinder;
 use Symplify\Psr4Switcher\ValueObject\Option;
 
@@ -39,7 +38,7 @@ final class FindMultiClassesCommand extends AbstractSymplifyCommand
         if ($multipleClassesByFile === []) {
             $this->symfonyStyle->success('No files with 2+ classes found');
 
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($multipleClassesByFile as $file => $classes) {
@@ -48,6 +47,6 @@ final class FindMultiClassesCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->listing($classes);
         }
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

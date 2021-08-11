@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Git\ConflictResolver;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\PackageBuilder\ValueObject\Option;
 
 final class CheckConflictsCommand extends AbstractSymplifyCommand
@@ -38,7 +37,7 @@ final class CheckConflictsCommand extends AbstractSymplifyCommand
             $message = sprintf('No conflicts found in %d files', count($fileInfos));
             $this->symfonyStyle->success($message);
 
-            return ShellCode::SUCCESS;
+            return self::SUCCESS;
         }
 
         foreach ($conflictsCountByFilePath as $file => $conflictCount) {
@@ -46,6 +45,6 @@ final class CheckConflictsCommand extends AbstractSymplifyCommand
             $this->symfonyStyle->error($message);
         }
 
-        return ShellCode::ERROR;
+        return self::FAILURE;
     }
 }

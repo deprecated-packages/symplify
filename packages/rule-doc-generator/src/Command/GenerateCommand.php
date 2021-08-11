@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\ShellCode;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -67,6 +66,6 @@ final class GenerateCommand extends AbstractSymplifyCommand
         $message = sprintf('File "%s" was created', $outputFileInfo->getRelativeFilePathFromCwd());
         $this->symfonyStyle->success($message);
 
-        return ShellCode::SUCCESS;
+        return self::SUCCESS;
     }
 }
