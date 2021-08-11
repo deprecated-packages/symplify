@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\FixerRunner\Application;
 
 use PhpCsFixer\Differ\DifferInterface;
+use PhpCsFixer\Fixer\ClassNotation\ProtectedToPrivateFixer;
 use PhpCsFixer\Fixer\FixerInterface;
 use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer;
@@ -42,6 +43,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         SingleBlankLineBeforeNamespaceFixer::class,
         BlankLineAfterOpeningTagFixer::class,
         SingleBlankLineAtEofFixer::class,
+        ProtectedToPrivateFixer::class,
     ];
 
     /**
