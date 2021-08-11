@@ -21,7 +21,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Value Object class name "%s" must be without "ValueObject" suffix. The correct class name is "%s".';
+    public const ERROR_MESSAGE = 'Value Object class name "%s" must be without "ValueObject" suffix.';
 
     /**
      * @see https://regex101.com/r/3jsBnt/1
@@ -62,8 +62,7 @@ final class NoSuffixValueObjectClassRule extends AbstractSymplifyRule
         }
 
         $shortClassName = (string) $node->name;
-        $expectedShortClassName = Strings::replace($shortClassName, self::VALUE_OBJECT_SUFFIX_REGEX, '');
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName, $expectedShortClassName);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName);
 
         return [$errorMessage];
     }

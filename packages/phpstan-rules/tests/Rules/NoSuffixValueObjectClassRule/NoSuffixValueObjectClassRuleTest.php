@@ -28,7 +28,7 @@ final class NoSuffixValueObjectClassRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/SkipNoValueObjectInNamespace.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/SkipValueObjectWithoutValueObjectSuffix.php', []];
 
-        $errorMessage = sprintf(NoSuffixValueObjectClassRule::ERROR_MESSAGE, 'MoneyValueObject', 'Money');
+        $errorMessage = sprintf(NoSuffixValueObjectClassRule::ERROR_MESSAGE, 'MoneyValueObject');
         yield [__DIR__ . '/Fixture/ValueObject/MoneyValueObject.php', [[$errorMessage, 7]]];
     }
 
