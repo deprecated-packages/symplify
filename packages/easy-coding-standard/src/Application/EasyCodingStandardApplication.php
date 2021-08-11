@@ -150,6 +150,7 @@ final class EasyCodingStandardApplication
                 $this->easyCodingStandardStyle->progressAdvance();
             }
         }
+
         return $errorsAndDiffs;
     }
 
