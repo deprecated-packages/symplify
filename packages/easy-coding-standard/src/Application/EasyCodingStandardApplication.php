@@ -114,18 +114,6 @@ final class EasyCodingStandardApplication
         return $this->processFoundFiles($fileInfos, $configuration);
     }
 
-    private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
-    {
-        if ($configuration->shouldShowProgressBar()) {
-            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
-
-            // show more data on progress bar
-            if ($this->easyCodingStandardStyle->isVerbose()) {
-                $this->easyCodingStandardStyle->enableDebugProgressBar();
-            }
-        }
-    }
-
     /**
      * @param SmartFileInfo[] $fileInfos
      *
@@ -167,16 +155,28 @@ final class EasyCodingStandardApplication
         return $errorsAndDiffs;
     }
 
+    private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
+    {
+        if ($configuration->shouldShowProgressBar()) {
+            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
+
+            // show more data on progress bar
+            if ($this->easyCodingStandardStyle->isVerbose()) {
+                $this->easyCodingStandardStyle->enableDebugProgressBar();
+            }
+        }
+    }
+
     /**
      * Path to called "ecs" binary file, e.g. "vendor/bin/ecs" returns "vendor/bin/ecs" This is needed to re-call the
      * ecs binary in sub-process in the same location.
      */
     private function resolveCalledEcsBinary(): ?string
     {
-        if (!isset($_SERVER[self::ARGV][0])) {
+        if (! isset($_SERVER[self::ARGV][0])) {
             return null;
         }
-        if (!file_exists($_SERVER[self::ARGV][0])) {
+        if (! file_exists($_SERVER[self::ARGV][0])) {
             return null;
         }
 
