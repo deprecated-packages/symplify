@@ -50,7 +50,7 @@ jobs:
                 run: |
                     echo "REPOSITORY_NAME=${{ matrix.package }}" >> $GITHUB_ENV
             -   name: Set the repository name (for original packages)
-                if: ${{ contains(matrix.package, 'monorepo-builder') }}
+                if: ${{ matrix.package == 'monorepo-builder' }}
                 run: |
                     echo "REPOSITORY_NAME=${{ matrix.package }}-original" >> $GITHUB_ENV
 
