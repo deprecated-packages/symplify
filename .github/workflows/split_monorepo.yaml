@@ -46,10 +46,11 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
-            -   name: Set the repository name (always)
+            -   name: Set the repository name
                 run: |
                     echo "REPOSITORY_NAME=${{ matrix.package }}" >> $GITHUB_ENV
-            -   name: Set the repository name (for original packages)
+
+            -   name: Override the repository name (for original packages)
                 if: ${{ matrix.package == 'monorepo-builder' }}
                 run: |
                     echo "REPOSITORY_NAME=${{ matrix.package }}-original" >> $GITHUB_ENV
