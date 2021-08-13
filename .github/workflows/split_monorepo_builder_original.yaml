@@ -1,0 +1,49 @@
+name: Split Monorepo Builder Original
+
+on:
+    push:
+        branches:
+            - original
+
+jobs:
+    split_monorepo:
+        env:
+            PACKAGE: monorepo-builder
+            ORGANIZATION: leoloso
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v2
+
+            # no tag
+            -
+                if: "!startsWith(github.ref, 'refs/tags/')"
+                # Uses an action in the root directory
+                name: Monorepo Split of ${{ env.PACKAGE }}
+                uses: symplify/github-action-monorepo-split@2.0
+                env:
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    package-directory: 'packages/${{ env.PACKAGE }}'
+                    split-repository-organization: '${{ env.ORGANIZATION }}'
+                    split-repository-name: '${{ env.PACKAGE }}'
+                    user-name: "GitHub Action"
+                    user-email: "action@github.com"
+                    branch: "main"
+
+            # with tag
+            -
+                if: "startsWith(github.ref, 'refs/tags/')"
+                # Uses an action in the root directory
+                name: Monorepo Tagged Split of ${{ env.PACKAGE }}
+                uses: symplify/github-action-monorepo-split@2.0
+                env:
+                    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                with:
+                    tag: ${GITHUB_REF#refs/tags/}
+
+                    package-directory: 'packages/${{ env.PACKAGE }}'
+                    split-repository-organization: '${{ env.ORGANIZATION }}'
+                    split-repository-name: '${{ env.PACKAGE }}'
+                    user-name: "GitHub Action"
+                    user-email: "action@github.com"
+                    branch: "main"
