@@ -6,19 +6,6 @@ services:
             minimumLineCount: 4
 
     -
-        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedDirectParentTypes:
-                 - Symplify\CodingStandard\Fixer\AbstractSymplifyFixer
-                 - Symplify\PHPStanRules\Rules\AbstractSymplifyRule
-            allowedParentTypes:
-                 - Symplify\RuleDocGenerator\Contract\CodeSampleInterface
-                 - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
-                 - Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase
-                 - Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample
-
-    -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
         tags: [phpstan.rules.rule]
         arguments:

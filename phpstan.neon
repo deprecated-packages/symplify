@@ -122,9 +122,6 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        # false positive
-        - '#Cannot assign offset \(int\|string\) to PhpCsFixer\\Tokenizer\\Tokens#'
-
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
 
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
@@ -326,11 +323,6 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
         - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
-        -
-            message: '#Do not inherit from abstract class, better use composition#'
-            paths:
-                - packages/git-wrapper/src
-
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
 
@@ -518,3 +510,15 @@ parameters:
         -
             message: '#Parameter "cwd" cannot be nullable#'
             path: packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
+
+        -
+            message: '#Instead of abstract class, use specific service with composition#'
+            paths:
+                 - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
+                 - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
+                 - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
+                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
+                 - packages/git-wrapper/src/Event/AbstractGitEvent.php
+                 - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
+                 - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
+
