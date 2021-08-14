@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
         tags: [phpstan.rules.rule]
 

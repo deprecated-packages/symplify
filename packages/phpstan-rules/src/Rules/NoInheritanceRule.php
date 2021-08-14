@@ -9,13 +9,16 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * It's faster
+ * @deprecated Often depends on 3rd party vendor packages, that offer helper abstract classes.
+ * Use @see NoAbstractRule instead
  *
  * @see https://twitter.com/nicolasgrekas/status/1357743051905654786
  *
@@ -92,6 +95,16 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
             self::DEFAULT_ALLOWED_DIRECT_PARENT_TYPES,
             $allowedDirectParentTypes
         );
+
+        if (! StaticPHPUnitEnvironment::isPHPUnitRun()) {
+            $errorMessage = sprintf(
+                '[Deprecated] This rule is rather academic and does not relate ot complexity. Use
+ "%s" instead',
+                NoAbstractRule::class
+            );
+            trigger_error($errorMessage);
+            sleep(3);
+        }
     }
 
     /**
