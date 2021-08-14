@@ -7,7 +7,8 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleError;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,7 +21,7 @@ final class NoAbstractRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.';
+    public const ERROR_MESSAGE = 'Instead of abstract class, use specific service with composition';
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -58,16 +59,30 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_ $node
-     * @return string[]|RuleError[]
+     * @param InClassNode $node
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->isAbstract()) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
+            return [];
+        }
+
+        if (! $classLike->isAbstract()) {
+            return [];
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        if ($classReflection->isSubclassOf(\PHPUnit\Framework\TestCase::class)) {
             return [];
         }
 

@@ -9,7 +9,7 @@ final class TypeChecker
     /**
      * @param array<class-string> $types
      */
-    public function isInstanceOf($object, array $types): bool
+    public function isInstanceOf(object | string $object, array $types): bool
     {
         foreach ($types as $type) {
             if (is_a($object, $type, true)) {

@@ -9,8 +9,14 @@ use Symplify\RuleDocGenerator\Exception\ShouldNotHappenException;
 
 abstract class AbstractCodeSample implements CodeSampleInterface
 {
+    /**
+     * @var non-empty-string
+     */
     private string $goodCode;
 
+    /**
+     * @var non-empty-string
+     */
     private string $badCode;
 
     public function __construct(string $badCode, string $goodCode)
@@ -20,6 +26,10 @@ abstract class AbstractCodeSample implements CodeSampleInterface
 
         if ($badCode === '') {
             throw new ShouldNotHappenException('Bad sample good code cannot be empty');
+        }
+
+        if ($goodCode === '') {
+            throw new ShouldNotHappenException('Good sample good code cannot be empty');
         }
 
         if ($goodCode === $badCode) {
