@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
+use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -82,7 +83,7 @@ CODE_SAMPLE
             return [];
         }
 
-        if ($classReflection->isSubclassOf(\PHPUnit\Framework\TestCase::class)) {
+        if ($classReflection->isSubclassOf(TestCase::class)) {
             return [];
         }
 
