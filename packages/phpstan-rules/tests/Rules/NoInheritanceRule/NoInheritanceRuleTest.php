@@ -10,6 +10,9 @@ use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoInheritanceRule;
 
 /**
+ * @deprecated Often depends on 3rd party vendor packages, that offer helper abstract classes.
+ * Use @see NoAbstractRule instead
+ *
  * @extends AbstractServiceAwareRuleTestCase<NoInheritanceRule>
  */
 final class NoInheritanceRuleTest extends AbstractServiceAwareRuleTestCase

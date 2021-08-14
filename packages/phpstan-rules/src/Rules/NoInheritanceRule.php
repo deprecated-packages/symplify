@@ -58,6 +58,8 @@ final class NoInheritanceRule extends AbstractSymplifyRule implements Configurab
         'PHPUnit\Framework\TestCase',
         'SplFileInfo',
         'Throwable',
+        'Zenstruck\Foundry\ModelFactory',
+        'Doctrine\DBAL\Types\Type',
     ];
 
     /**
