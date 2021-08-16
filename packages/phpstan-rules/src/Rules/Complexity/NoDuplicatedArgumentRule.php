@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,8 +27,8 @@ final class NoDuplicatedArgumentRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'This call has duplicate argument';
 
     public function __construct(
-        private NodeValueResolver $nodeValueResolver,
-        private ReflectionProvider $reflectionProvider
+        private ReflectionProvider $reflectionProvider,
+        private ScalarValueResolver $scalarValueResolver
     ) {
     }
 
@@ -50,15 +50,7 @@ final class NoDuplicatedArgumentRule extends AbstractSymplifyRule
             return [];
         }
 
-        $resolveValues = $this->resolvedValues($node, $scope->getFile());
-
-        // filter out false/true values
-        $resolvedValuesWithoutBool = \array_filter($resolveValues, fn ($value) => ! $this->shouldSkipValue($value));
-        if ($resolvedValuesWithoutBool === []) {
-            return [];
-        }
-
-        $countValues = $this->countValues($resolvedValuesWithoutBool);
+        $countValues = $this->scalarValueResolver->resolveValuesCountFromArgs($node->args, $scope);
 
         // each of kind
         if ($countValues === []) {
@@ -89,26 +81,6 @@ CODE_SAMPLE
         );
     }
 
-    /**
-     * @return mixed[]
-     */
-    private function resolvedValues(MethodCall|StaticCall|FuncCall $expr, string $filePath): array
-    {
-        $passedValues = [];
-        foreach ($expr->args as $arg) {
-            $resolvedValue = $this->nodeValueResolver->resolve($arg->value, $filePath);
-
-            // unwrap single array item
-            if (\is_array($resolvedValue) && \count($resolvedValue) === 1) {
-                $resolvedValue = \array_pop($resolvedValue);
-            }
-
-            $passedValues[] = $resolvedValue;
-        }
-
-        return $passedValues;
-    }
-
     private function shouldSkip(StaticCall|MethodCall|FuncCall $expr, Scope $scope): bool
     {
         if (\count($expr->args) < 2) {
@@ -130,42 +102,5 @@ CODE_SAMPLE
         }
 
         return false;
-    }
-
-    private function shouldSkipValue(mixed $value): bool
-    {
-        // value could not be resolved
-        if ($value === null) {
-            return true;
-        }
-
-        if (is_array($value)) {
-            return true;
-        }
-
-        // simple values, probably boolean markers or type constants
-        if (\in_array($value, [0, 1], true)) {
-            return true;
-        }
-
-        return \is_bool($value);
-    }
-
-    /**
-     * @param mixed[] $values
-     * @return mixed[]
-     */
-    private function countValues(array $values): array
-    {
-        if ($values === []) {
-            return [];
-        }
-
-        // the array_count_values ignores "null", so we have to translate it to string here
-        $values = array_filter($values, function (mixed $value) {
-            return is_numeric($value) || is_string($value);
-        });
-
-        return \array_count_values($values);
     }
 }

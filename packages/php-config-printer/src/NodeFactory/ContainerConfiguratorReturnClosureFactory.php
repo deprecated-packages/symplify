@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
-use Symplify\PhpConfigPrinter\ValueObject\MethodName;
+use Symplify\PhpConfigPrinter\ValueObject\VariableMethodName;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
@@ -87,12 +87,12 @@ final class ContainerConfiguratorReturnClosureFactory
         return $nodes;
     }
 
-    private function createInitializeAssign(string $variableName, string $methodName): Expression
+    private function createInitializeAssign(string $variableMethodName): Expression
     {
-        $servicesVariable = new Variable($variableName);
+        $servicesVariable = new Variable($variableMethodName);
         $containerConfiguratorVariable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
 
-        $assign = new Assign($servicesVariable, new MethodCall($containerConfiguratorVariable, $methodName));
+        $assign = new Assign($servicesVariable, new MethodCall($containerConfiguratorVariable, $variableMethodName));
 
         return new Expression($assign);
     }
@@ -103,11 +103,13 @@ final class ContainerConfiguratorReturnClosureFactory
     private function createInitializeNode(string $key, array $nodes): array
     {
         if ($key === YamlKey::SERVICES) {
-            $nodes[] = $this->createInitializeAssign(VariableName::SERVICES, MethodName::SERVICES);
+            $nodes[] = $this->createInitializeAssign(VariableMethodName::SERVICES);
+            return $nodes;
         }
 
         if ($key === YamlKey::PARAMETERS) {
-            $nodes[] = $this->createInitializeAssign(VariableName::PARAMETERS, MethodName::PARAMETERS);
+            $nodes[] = $this->createInitializeAssign(VariableMethodName::PARAMETERS);
+            return $nodes;
         }
 
         return $nodes;
