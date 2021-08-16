@@ -17,7 +17,6 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 
@@ -51,7 +50,12 @@ final class ConfiguratorClosureNodeFactory
     private function createRoutingConfiguratorParam(): Param
     {
         $containerConfiguratorVariable = new Variable(VariableName::ROUTING_CONFIGURATOR);
-        return new Param($containerConfiguratorVariable, null, new FullyQualified(RoutingConfigurator::class));
+
+        // @note must be string to avoid prefixing class
+        $classNameFullyQualified = new FullyQualified(
+            'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator'
+        );
+        return new Param($containerConfiguratorVariable, null, $classNameFullyQualified);
     }
 
     /**
