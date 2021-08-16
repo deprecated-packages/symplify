@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
+use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class EntityClassDetector
 {
@@ -32,14 +33,12 @@ final class EntityClassDetector
         }
 
         $simplePhpDocNode = $this->simplePhpDocParser->parseNode($class);
-        if ($simplePhpDocNode === null) {
+        if (! $simplePhpDocNode instanceof SimplePhpDocNode) {
             return false;
         }
 
-        $hasEntityTag = (bool) $simplePhpDocNode->getTagsByName('@Entity')
+        return (bool) $simplePhpDocNode->getTagsByName('@Entity')
             ?? $simplePhpDocNode->getTagsByName('@ORM\Entity')
             ?? $simplePhpDocNode->getTagsByName('@' . Entity::class);
-
-        return $hasEntityTag;
     }
 }
