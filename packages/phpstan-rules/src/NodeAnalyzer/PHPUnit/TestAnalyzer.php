@@ -19,11 +19,12 @@ final class TestAnalyzer
         if (! $classReflection instanceof ClassReflection) {
             return false;
         }
-
-        if ($node instanceof ClassMethod && ! $node->isPublic()) {
-            return false;
+        if (! $node instanceof ClassMethod) {
+            return $classReflection->isSubclassOf(TestCase::class);
         }
-
-        return $classReflection->isSubclassOf(TestCase::class);
+        if ($node->isPublic()) {
+            return $classReflection->isSubclassOf(TestCase::class);
+        }
+        return false;
     }
 }
