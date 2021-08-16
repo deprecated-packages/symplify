@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,7 +27,8 @@ final class NoMirrorAssertRule extends AbstractSymplifyRule
 
     public function __construct(
         private TestAnalyzer $testAnalyzer,
-        private Standard $standard
+        private Standard $standard,
+        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -77,12 +79,17 @@ CODE_SAMPLE
     public function process(Node $node, Scope $scope): array
     {
         // allow in test case methods, possibly to compare reults
-        if (! $this->testAnalyzer->isTestClassMethod($scope, $node)) {
+        if (! $this->testAnalyzer->isInTestClassMethod($scope, $node)) {
             return [];
         }
 
-        // compare 1st and 2nd value resolver
+        // compare 1st and 2nd value
         if (count($node->args) < 2) {
+            return [];
+        }
+
+        // only "assert*" methods
+        if (! $this->simpleNameResolver->isName($node->name, 'assert*')) {
             return [];
         }
 
