@@ -2431,6 +2431,44 @@ interface RunnableInterface
 
 <br>
 
+## NoAbstractRule
+
+Instead of abstract class, use specific service with composition
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule`](../src/Rules/Complexity/NoAbstractRule.php)
+
+```php
+final class NormalHelper extends AbstractHelper
+{
+}
+
+abstract class AbstractHelper
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class NormalHelper
+{
+    public function __construct(
+        private SpecificHelper $specificHelper
+    ) {
+    }
+}
+
+final class SpecificHelper
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## NoArrayAccessOnObjectRule
 
 Use explicit methods over array access on object
@@ -3078,59 +3116,6 @@ final class SomeRepository
     public function __construct(EntityManager $entityManager): void
     {
         $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoInheritanceRule
-
-Do not inherit from abstract class, better use composition
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\NoInheritanceRule`](../src/Rules/NoInheritanceRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\NoInheritanceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedParentTypes:
-                - AnotherParent
-```
-
-↓
-
-```php
-class SomeClass extends AbstratcClass
-{
-    public function run()
-    {
-        $this->parentMethod();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private function __construct(
-        private $dependency Dependency
-    ) {
-    }
-
-    public function run()
-    {
-        $this->dependency->otherMethod();
     }
 }
 ```
