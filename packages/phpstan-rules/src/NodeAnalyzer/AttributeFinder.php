@@ -40,8 +40,8 @@ final class AttributeFinder
         return null;
     }
 
-    public function hasAttribute(ClassMethod $classMethod, string $desiredAttributeClass): bool
+    public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
     {
-        return (bool) $this->findAttribute($classMethod, $desiredAttributeClass);
+        return (bool) $this->findAttribute($node, $desiredAttributeClass);
     }
 }
