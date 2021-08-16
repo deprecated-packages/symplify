@@ -1,4 +1,4 @@
-# 157 Rules Overview
+# 159 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2844,6 +2844,28 @@ public function run($someObject)
 
 <br>
 
+## NoDuplicatedArgumentRule
+
+This call has duplicate argument
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule`](../src/Rules/Complexity/NoDuplicatedArgumentRule.php)
+
+```php
+function run($one, $one);
+```
+
+:x:
+
+<br>
+
+```php
+function run($one, $two);
+```
+
+:+1:
+
+<br>
+
 ## NoDuplicatedShortClassNameRule
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
@@ -3325,6 +3347,45 @@ class SomeClass
     public function getExplicitValue()
     {
         return 'explicit';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoMirrorAssertRule
+
+The assert is tautology that compares to itself. Fix it to different values
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule`](../src/Rules/Complexity/NoMirrorAssertRule.php)
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class AssertMirror extends TestCase
+{
+    public function test()
+    {
+        $this->assertSame(1, 1);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class AssertMirror extends TestCase
+{
+    public function test()
+    {
+        $value = 200;
+        $this->assertSame(1, $value);
     }
 }
 ```
