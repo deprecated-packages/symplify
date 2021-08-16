@@ -19,7 +19,7 @@ final class ScalarValueResolver
      * @param Arg[] $args
      * @return mixed[]
      */
-    public function resolveValuesCountFromArgs(array $args, Scope $scope)
+    public function resolveValuesCountFromArgs(array $args, Scope $scope): array
     {
         $resolveValues = $this->resolvedValues($args, $scope->getFile());
 
@@ -64,9 +64,7 @@ final class ScalarValueResolver
         }
 
         // the array_count_values ignores "null", so we have to translate it to string here
-        $values = array_filter($values, function (mixed $value) {
-            return $this->isFilterableValue($value);
-        });
+        $values = array_filter($values, fn (mixed $value) => $this->isFilterableValue($value));
 
         return \array_count_values($values);
     }
