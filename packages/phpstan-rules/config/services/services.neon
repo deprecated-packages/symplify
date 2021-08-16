@@ -2,6 +2,9 @@ includes:
     - name-resolver-services.neon
 
 services:
+    # doctrine
+    - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
+
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer

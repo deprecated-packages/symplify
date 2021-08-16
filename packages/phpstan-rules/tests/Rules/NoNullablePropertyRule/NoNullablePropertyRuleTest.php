@@ -26,6 +26,8 @@ final class NoNullablePropertyRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNoType.php', []];
+        yield [__DIR__ . '/Fixture/SkipDoctrineNullableProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipDoctrineAnnotationNullableProperty.php', []];
         yield [__DIR__ . '/Fixture/NullableProperty.php', [[NoNullablePropertyRule::ERROR_MESSAGE, 11]]];
     }
 

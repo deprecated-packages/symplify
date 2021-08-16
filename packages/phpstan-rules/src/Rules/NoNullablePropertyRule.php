@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -20,6 +21,11 @@ final class NoNullablePropertyRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'Use required typed property over of nullable property';
+
+    public function __construct(
+        private EntityClassDetector $entityClassDetector
+    ) {
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -35,6 +41,10 @@ final class NoNullablePropertyRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->entityClassDetector->isInsideDoctrineEntity($node)) {
+            return [];
+        }
+
         if (! $node->type instanceof NullableType) {
             return [];
         }
