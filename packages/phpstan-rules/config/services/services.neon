@@ -5,6 +5,8 @@ services:
     # doctrine
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
 
+    - Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver
+
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
