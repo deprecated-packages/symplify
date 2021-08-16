@@ -27,6 +27,7 @@ final class NoMirrorAssertRuleTest extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipDifferentAssert.php', []];
         yield [__DIR__ . '/Fixture/SkipNoTestCase.php', []];
+        yield [__DIR__ . '/Fixture/SkipNonAssertMirror.php', []];
 
         yield [__DIR__ . '/Fixture/AssertMirror.php', [[NoMirrorAssertRule::ERROR_MESSAGE, 13]]];
     }
