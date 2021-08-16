@@ -14,7 +14,10 @@ final class EasyCodingStandardKernelTest extends TestCase
     {
         $easyCodingStandardKernel = new EasyCodingStandardKernel('foo', false);
 
-        $this->assertSame($easyCodingStandardKernel->getCacheDir(), $easyCodingStandardKernel->getCacheDir());
+        $firstCacheDir = $easyCodingStandardKernel->getCacheDir();
+        $secondCacheDir = $easyCodingStandardKernel->getCacheDir();
+
+        $this->assertSame($firstCacheDir, $secondCacheDir);
     }
 
     public function testPurgesCacheDirOnBoot(): void
