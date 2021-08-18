@@ -26,11 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\EasyCI\\', __DIR__ . '/../src')
-        ->exclude([
-            __DIR__ . '/../src/HttpKernel',
-            __DIR__ . '/../src/ValueObject',
-            __DIR__ . '/../src/Latte/ValueObject',
-        ]);
+        ->exclude([__DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
 
     // console
     $services->set(CommandNaming::class);

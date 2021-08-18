@@ -7,14 +7,14 @@ namespace Symplify\EasyCI\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\EasyCI\Latte\LatteTemplateProcessor;
+use Symplify\EasyCI\Twig\TwigTemplateProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 
-final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
+final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private LatteTemplateProcessor $latteTemplateProcessor
+        private TwigTemplateProcessor $twigTemplateProcessor
     ) {
         parent::__construct();
     }
@@ -34,22 +34,22 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $sources = (array) $input->getArgument(Option::SOURCES);
         $latteFileInfos = $this->smartFinder->find($sources, '*.latte');
 
-        $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
+        $message = sprintf('Analysing %d *.twig files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $TemplateErrors = $this->latteTemplateProcessor->analyzeFileInfos($latteFileInfos);
-        if ($TemplateErrors === []) {
+        $templateErrors = $this->twigTemplateProcessor->analyzeFileInfos($latteFileInfos);
+        if ($templateErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return self::SUCCESS;
         }
 
-        foreach ($TemplateErrors as $TemplateError) {
-            $this->symfonyStyle->writeln($TemplateError->getRelativeFilePath());
-            $this->symfonyStyle->writeln(' * ' . $TemplateError->getErrorMessage());
+        foreach ($templateErrors as $templateError) {
+            $this->symfonyStyle->writeln($templateError->getRelativeFilePath());
+            $this->symfonyStyle->writeln(' * ' . $templateError->getErrorMessage());
             $this->symfonyStyle->newLine();
         }
 
-        $errorMassage = sprintf('%d errors found', count($TemplateErrors));
+        $errorMassage = sprintf('%d errors found', count($templateErrors));
         $this->symfonyStyle->error($errorMassage);
 
         return self::FAILURE;
