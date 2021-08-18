@@ -98,6 +98,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // many false postivies
         RenameForeachValueVariableToMatchExprVariableRector::class,
+        StringClassNameToClassConstantRector::class => [
+            // for prefixed version skip
+            __DIR__ . '/packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php',
+        ],
 
         // buggy on array access object
         \Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class => [
