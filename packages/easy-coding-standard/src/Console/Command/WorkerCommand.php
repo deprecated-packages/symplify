@@ -27,7 +27,7 @@ use Throwable;
 final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private SingleFileProcessor $singleFileProcessor,
+        private SingleFileProcessor $singleFileTemplateProcessor,
         private ParametersMerger $parametersMerger
     ) {
         parent::__construct();
@@ -73,7 +73,7 @@ final class WorkerCommand extends AbstractCheckCommand
                 foreach ($filePaths as $filePath) {
                     try {
                         $smartFileInfo = new SmartFileInfo($filePath);
-                        $currentErrorsAndFileDiffs = $this->singleFileProcessor->processFileInfo(
+                        $currentErrorsAndFileDiffs = $this->singleFileTemplateProcessor->processFileInfo(
                             $smartFileInfo,
                             $configuration
                         );

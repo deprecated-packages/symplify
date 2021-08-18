@@ -40,9 +40,6 @@ parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
 
-    # see https://phpstan.org/user-guide/output-format#opening-file-in-an-editor
-    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
-
     parallel:
         # to prevent full thread lagging pc
         maximumNumberOfProcesses: 15
@@ -222,7 +219,7 @@ parameters:
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
-                - packages/easy-ci/src/Latte/Analyzer/MissingClassStaticCallLatteAnalyzer.php
+                - packages/easy-ci/src/Latte/LatteTemplateAnalyzer/MissingClassStaticCallLatteAnalyzer.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
 
