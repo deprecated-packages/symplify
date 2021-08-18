@@ -40,6 +40,9 @@ parameters:
     level: max
     reportUnmatchedIgnoredErrors: false
 
+    # see https://phpstan.org/user-guide/output-format#opening-file-in-an-editor
+    editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+
     parallel:
         # to prevent full thread lagging pc
         maximumNumberOfProcesses: 15
