@@ -14,7 +14,7 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private LatteTemplateProcessor $latteProcessor
+        private LatteTemplateProcessor $latteTemplateProcessor
     ) {
         parent::__construct();
     }
@@ -37,7 +37,7 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $TemplateErrors = $this->latteProcessor->analyzeFileInfos($latteFileInfos);
+        $TemplateErrors = $this->latteTemplateProcessor->analyzeFileInfos($latteFileInfos);
         if ($TemplateErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return self::SUCCESS;

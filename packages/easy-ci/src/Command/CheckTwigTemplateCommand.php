@@ -14,7 +14,7 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private TwigTemplateProcessor $twigProcessor
+        private TwigTemplateProcessor $twigTemplateProcessor
     ) {
         parent::__construct();
     }
@@ -37,7 +37,7 @@ final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.twig files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $templateErrors = $this->twigProcessor->analyzeFileInfos($latteFileInfos);
+        $templateErrors = $this->twigTemplateProcessor->analyzeFileInfos($latteFileInfos);
         if ($templateErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return self::SUCCESS;
