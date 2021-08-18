@@ -37,7 +37,7 @@ final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'foreach(...), while(), for() or if(...) cannot contains a complex expression. Extract it to a new variable assign on line before';
+    public const ERROR_MESSAGE = 'foreach(), while(), for() or if() cannot contain a complex expression. Extract it to a new variable on a line before';
 
     /**
      * @var array<class-string<Expr>>
