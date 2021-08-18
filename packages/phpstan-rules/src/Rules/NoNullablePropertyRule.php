@@ -20,7 +20,7 @@ final class NoNullablePropertyRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use required typed property over of nullable property';
+    public const ERROR_MESSAGE = 'Use required typed property instead of nullable property';
 
     public function __construct(
         private EntityClassDetector $entityClassDetector
