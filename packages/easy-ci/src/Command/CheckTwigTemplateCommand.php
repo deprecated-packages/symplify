@@ -32,12 +32,12 @@ final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sources = (array) $input->getArgument(Option::SOURCES);
-        $latteFileInfos = $this->smartFinder->find($sources, '*.latte');
+        $twigFileInfos = $this->smartFinder->find($sources, '*.twig');
 
-        $message = sprintf('Analysing %d *.twig files', count($latteFileInfos));
+        $message = sprintf('Analysing %d *.twig files', count($twigFileInfos));
         $this->symfonyStyle->note($message);
 
-        $templateErrors = $this->twigTemplateProcessor->analyzeFileInfos($latteFileInfos);
+        $templateErrors = $this->twigTemplateProcessor->analyzeFileInfos($twigFileInfos);
         if ($templateErrors === []) {
             $this->symfonyStyle->success('No errors found');
             return self::SUCCESS;
