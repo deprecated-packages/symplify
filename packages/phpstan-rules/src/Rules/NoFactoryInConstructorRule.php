@@ -43,7 +43,7 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     ];
 
     /**
-     * @var class-string[]
+     * @var array<class-string<Exception>>
      */
     private const ALLOWED_PARENT_TYPES = [Exception::class];
 
