@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\MethodCall;
@@ -40,6 +41,11 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
         ParameterBagInterface::class,
         EntityManagerInterface::class,
     ];
+
+    /**
+     * @var array<class-string<Exception>>
+     */
+    private const ALLOWED_PARENT_TYPES = [Exception::class];
 
     /**
      * @var string[]
@@ -144,6 +150,12 @@ CODE_SAMPLE
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
             return false;
+        }
+
+        foreach (self::ALLOWED_PARENT_TYPES as $allowedParentType) {
+            if ($classReflection->isSubclassOf($allowedParentType)) {
+                return true;
+            }
         }
 
         $className = $classReflection->getName();
