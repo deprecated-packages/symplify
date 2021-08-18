@@ -16,7 +16,7 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class ShowCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private SniffFileProcessor $sniffFileTemplateProcessor,
+        private SniffFileProcessor $sniffFileProcessor,
         private FixerFileProcessor $fixerFileProcessor,
         private EasyCodingStandardStyle $easyCodingStandardStyle,
         private CheckerListReporter $checkerListReporter,
@@ -37,10 +37,10 @@ final class ShowCommand extends AbstractSymplifyCommand
             return self::FAILURE;
         }
 
-        $totalCheckerCount = count($this->sniffFileTemplateProcessor->getCheckers())
+        $totalCheckerCount = count($this->sniffFileProcessor->getCheckers())
             + count($this->fixerFileProcessor->getCheckers());
 
-        $this->checkerListReporter->report($this->sniffFileTemplateProcessor->getCheckers(), 'PHP_CodeSniffer');
+        $this->checkerListReporter->report($this->sniffFileProcessor->getCheckers(), 'PHP_CodeSniffer');
         $this->checkerListReporter->report($this->fixerFileProcessor->getCheckers(), 'PHP-CS-Fixer');
 
         $successMessage = sprintf(

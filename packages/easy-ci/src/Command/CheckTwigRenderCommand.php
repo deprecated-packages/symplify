@@ -17,7 +17,7 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckTwigRenderCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private TemplatePathsResolver $templatePathsResolver,
+        private TemplatePathsResolver $pathsResolver,
         private RenderMethodTemplateExtractor $renderMethodTemplateExtractor,
         private TwigAnalyzer $twigAnalyzer,
         private MissingTwigTemplatePathReporter $missingTwigTemplatePathReporter
@@ -47,7 +47,7 @@ final class CheckTwigRenderCommand extends AbstractSymplifyCommand
         $controllerFileInfos = $this->smartFinder->find($sources, '#Controller\.php$#');
         $stats[] = sprintf('%d controllers', count($controllerFileInfos));
 
-        $allowedTemplatePaths = $this->templatePathsResolver->resolveFromDirectories($sources);
+        $allowedTemplatePaths = $this->pathsResolver->resolveFromDirectories($sources);
         $stats[] = sprintf('%d twig paths', count($allowedTemplatePaths));
 
         $usedTemplatePaths = $this->renderMethodTemplateExtractor->extractFromFileInfos($controllerFileInfos);
