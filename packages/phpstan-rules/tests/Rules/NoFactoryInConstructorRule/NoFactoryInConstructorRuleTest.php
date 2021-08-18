@@ -26,6 +26,7 @@ final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestC
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/ValueObject/Skip.php', []];
+        yield [__DIR__ . '/Fixture/SkipException.php', []];
         yield [__DIR__ . '/Fixture/SkipEntityRepositoryFactory.php', []];
         yield [__DIR__ . '/Fixture/SkipArrayDimAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipWithConstructorWithoutFactory.php', []];
