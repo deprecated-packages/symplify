@@ -8,7 +8,6 @@ use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File as BaseFile;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Util\Common;
@@ -30,7 +29,7 @@ final class File extends BaseFile
      * @var array<class-string<Sniff>>
      */
     private const REPORT_WARNINGS_SNIFFS = [
-        AssignmentInConditionSniff::class,
+        '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
         PropertyDeclarationSniff::class,
         MethodDeclarationSniff::class,
     ];
