@@ -28,7 +28,11 @@ final class File extends BaseFile
      *
      * @var array<class-string<Sniff>>
      */
-    private const REPORT_WARNINGS_SNIFFS = [PropertyDeclarationSniff::class, MethodDeclarationSniff::class];
+    private const REPORT_WARNINGS_SNIFFS = [
+        '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
+        PropertyDeclarationSniff::class,
+        MethodDeclarationSniff::class,
+    ];
 
     /**
      * @var string
