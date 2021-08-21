@@ -26,7 +26,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private MissingLatteTemplateRenderVariableResolver $missingTemplateRenderVariableResolver
+        private MissingLatteTemplateRenderVariableResolver $missingLatteTemplateRenderVariableResolver
     ) {
     }
 
@@ -59,7 +59,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $missingVariableNames = $this->missingTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
+        $missingVariableNames = $this->missingLatteTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
             $node,
             $resolvedTemplateFilePath,
             $scope
