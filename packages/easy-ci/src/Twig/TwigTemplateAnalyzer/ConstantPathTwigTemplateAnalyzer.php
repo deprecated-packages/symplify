@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Twig\TwigTemplateAnalyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCI\ValueObject\LinedTemplateError;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -19,7 +20,7 @@ final class ConstantPathTwigTemplateAnalyzer implements TwigTemplateAnalyzerInte
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
+     * @return TemplateErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {

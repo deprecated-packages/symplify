@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\LatteTemplateAnalyzer;
 
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\ValueObject\TemplateError;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -34,7 +35,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteTemplateAnal
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
+     * @return TemplateErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -48,7 +49,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteTemplateAnal
     }
 
     /**
-     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
+     * @return TemplateErrorInterface[]
      */
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
