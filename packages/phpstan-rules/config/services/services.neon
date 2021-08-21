@@ -114,6 +114,9 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer
+    # twig
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\TwigVariableNamesResolver
 
     # nette
     - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
@@ -121,6 +124,7 @@ services:
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\MissingTemplateRenderVariableResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer
+    # latte
+    - Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver

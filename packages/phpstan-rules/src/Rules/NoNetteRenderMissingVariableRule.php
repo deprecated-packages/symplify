@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\MissingTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,7 +26,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private MissingTemplateRenderVariableResolver $missingTemplateRenderVariableResolver
+        private MissingLatteTemplateRenderVariableResolver $missingTemplateRenderVariableResolver
     ) {
     }
 
@@ -44,7 +44,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
             return [];
         }
 

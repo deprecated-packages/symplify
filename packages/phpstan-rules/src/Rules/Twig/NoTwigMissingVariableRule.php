@@ -2,31 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Twig;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoNetteRenderUnusedVariableRule\NoNetteRenderUnusedVariableRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Twig\NoTwigMissingVariableRule\NoTwigMissingVariableRuleTest
  */
-final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
+final class NoTwigMissingVariableRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Missing "%s" variable that are not passed to the template';
+    public const ERROR_MESSAGE = 'Passed "%s" variable that are not used in the template';
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private UnusedTemplateRenderVariableResolver $unusedTemplateRenderVariableResolver
+        private MissingTwigTemplateRenderVariableResolver $missingTwigTemplateRenderVariableResolver
     ) {
     }
 
@@ -44,11 +45,11 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isSymfonyTemplateRenderMethodCall($node, $scope)) {
             return [];
         }
 
-        if (count($node->args) < 2) {
+        if (count($node->args) < 1) {
             return [];
         }
 
@@ -59,19 +60,18 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedVariableNames = $this->unusedTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
+        $missingVariableNames = $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
             $node,
             $resolvedTemplateFilePath,
             $scope
         );
 
-        if ($unusedVariableNames === []) {
+        if ($missingVariableNames === []) {
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", ', $unusedVariableNames);
+        $unusedPassedVariablesString = implode('", "', $missingVariableNames);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
-
         return [$errorMessage];
     }
 
@@ -80,25 +80,27 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Control;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class SomeControl extends Control
+final class SomeController extends AbstractController
 {
-    public function render()
+    public function __invoke()
     {
-        $this->template->render(__DIR__ . '/some_file.latte');
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'non_existing_variable' => 'value'
+        ]);
     }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Control;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class SomeControl extends Control
+final class SomeController extends AbstractController
 {
-    public function render()
+    public function __invoke()
     {
-        $this->template->render(__DIR__ . '/some_file.latte', [
+        return $this->render(__DIR__ . '/some_file.twig', [
             'existing_variable' => 'value'
         ]);
     }

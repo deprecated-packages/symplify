@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer\Nette;
+namespace Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Nette\LatteVariableNamesResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
 
-final class MissingTemplateRenderVariableResolver
+final class MissingLatteTemplateRenderVariableResolver
 {
     public function __construct(
         private LatteVariableNamesResolver $latteVariableNamesResolver,

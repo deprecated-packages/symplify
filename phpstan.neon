@@ -522,3 +522,7 @@ parameters:
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
+
+        # temporary ignored before dynamic analysis
+        - '#Content of method "resolveFromFile\(\)" is duplicated with method "resolveFromFile\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Symfony\\Twig\\TwigVariableNamesResolver" class\. Use unique content or service instead#'
+        - '#Content of method "resolveNameMatchesByPattern\(\)" is duplicated with method "resolveNameMatchesByPattern\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Symfony\\Twig\\TwigVariableNamesResolver" class\. Use unique content or service instead#'
