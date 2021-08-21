@@ -34,7 +34,7 @@ final class MissingClassesLatteAnalyzer implements LatteTemplateAnalyzerInterfac
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateError[]
+     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {

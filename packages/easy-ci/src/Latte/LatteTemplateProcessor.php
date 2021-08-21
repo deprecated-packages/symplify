@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte;
 
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\TemplateError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class LatteTemplateProcessor
@@ -20,7 +19,7 @@ final class LatteTemplateProcessor
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateError[]
+     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
      */
     public function analyzeFileInfos(array $fileInfos): array
     {

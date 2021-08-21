@@ -35,7 +35,7 @@ final class StaticCallLatteAnalyzer implements LatteTemplateAnalyzerInterface
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateError[]
+     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -49,7 +49,7 @@ final class StaticCallLatteAnalyzer implements LatteTemplateAnalyzerInterface
     }
 
     /**
-     * @return TemplateError[]
+     * @return \Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface[]
      */
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
