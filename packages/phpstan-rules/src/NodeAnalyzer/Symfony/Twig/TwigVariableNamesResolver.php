@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig;
 
 use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Twig\Loader\ArrayLoader;
+use Twig\Source;
 
 final class TwigVariableNamesResolver
 {
@@ -40,6 +42,11 @@ final class TwigVariableNamesResolver
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
         $variableNames = $this->resolveNameMatchesByPattern($fileContent, self::VARIABLE_NAME_REGEX);
+
+        $temporaryLoader = new ArrayLoader([$filePath => $template]);
+        $this->twig->setLoader($temporaryLoader);
+        $nodeTree = $this->twig->parse($this->twig->tokenize(new Source($template, $file)));
+
 
         $templateMadeVariableNames = $this->resolveNameMatchesByPattern(
             $fileContent,

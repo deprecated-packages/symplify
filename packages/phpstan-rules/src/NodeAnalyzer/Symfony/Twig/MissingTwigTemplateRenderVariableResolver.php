@@ -26,6 +26,10 @@ final class MissingTwigTemplateRenderVariableResolver
     ): array {
         $templateUsedVariableNames = $this->twigVariableNamesResolver->resolveFromFile($templateFilePath);
 
+        dump($templateUsedVariableNames);
+        die;
+
+
         $availableVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition(
             $methodCall,
             $scope,
