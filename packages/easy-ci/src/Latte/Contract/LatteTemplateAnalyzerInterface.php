@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Latte\Contract;
 
-use Symplify\EasyCI\ValueObject\TemplateError;
+use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 interface LatteTemplateAnalyzerInterface
 {
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateError[]
+     * @return TemplateErrorInterface[]
      */
     public function analyze(array $fileInfos): array;
 }
