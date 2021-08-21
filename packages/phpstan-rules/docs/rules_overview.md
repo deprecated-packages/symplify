@@ -1,4 +1,4 @@
-# 159 Rules Overview
+# 160 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1249,7 +1249,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 ## ForbiddenComplexForeachIfExprRule
 
-foreach(...), `while()`, `for()` or if(...) cannot contains a complex expression. Extract it to a new variable assign on line before
+`foreach()`, `while()`, `for()` or `if()` cannot contain a complex expression. Extract it to a new variable on a line before
 
 - class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule`](../src/Rules/Complexity/ForbiddenComplexForeachIfExprRule.php)
 
@@ -4242,6 +4242,48 @@ class SomeService
 {
     public function run(...)
     {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoTwigMissingVariableRule
+
+Passed "%s" variable that are not used in the template
+
+- class: [`Symplify\PHPStanRules\Rules\Twig\NoTwigMissingVariableRule`](../src/Rules/Twig/NoTwigMissingVariableRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'non_existing_variable' => 'value',
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'existing_variable' => 'value',
+        ]);
     }
 }
 ```

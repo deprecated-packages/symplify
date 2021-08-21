@@ -1,4 +1,9 @@
 services:
+    # twig
+    -
+        class: Symplify\PHPStanRules\Rules\Twig\NoTwigMissingVariableRule
+        tags: [phpstan.rules.rule]
+
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
         tags: [phpstan.rules.rule]

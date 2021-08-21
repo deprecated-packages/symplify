@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Twig;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoNetteRenderMissingVariableRule\NoNetteRenderMissingVariableRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Twig\NoTwigMissingVariableRule\NoTwigMissingVariableRuleTest
  */
-final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
+final class NoTwigMissingVariableRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -26,7 +27,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private MissingLatteTemplateRenderVariableResolver $missingLatteTemplateRenderVariableResolver
+        private MissingTwigTemplateRenderVariableResolver $missingTwigTemplateRenderVariableResolver
     ) {
     }
 
@@ -44,7 +45,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isSymfonyTemplateRenderMethodCall($node, $scope)) {
             return [];
         }
 
@@ -59,7 +60,7 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $missingVariableNames = $this->missingLatteTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
+        $missingVariableNames = $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
             $node,
             $resolvedTemplateFilePath,
             $scope
@@ -79,13 +80,13 @@ final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Control;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class SomeControl extends Control
+final class SomeController extends AbstractController
 {
-    public function render()
+    public function __invoke()
     {
-        $this->template->render(__DIR__ . '/some_file.latte', [
+        return $this->render(__DIR__ . '/some_file.twig', [
             'non_existing_variable' => 'value'
         ]);
     }
@@ -93,13 +94,13 @@ final class SomeControl extends Control
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Control;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class SomeControl extends Control
+final class SomeController extends AbstractController
 {
-    public function render()
+    public function __invoke()
     {
-        $this->template->render(__DIR__ . '/some_file.latte', [
+        return $this->render(__DIR__ . '/some_file.twig', [
             'existing_variable' => 'value'
         ]);
     }

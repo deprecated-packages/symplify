@@ -44,7 +44,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
             return [];
         }
 
