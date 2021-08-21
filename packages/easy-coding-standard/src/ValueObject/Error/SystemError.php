@@ -39,7 +39,7 @@ final class SystemError implements Serializable
     }
 
     /**
-     * @param array{message: string, relative_file_path: string, line: int} $json
+     * @param array{line: int, message: string, relative_file_path: string} $json
      */
     public static function decode(array $json): self
     {

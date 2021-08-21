@@ -4,32 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig;
 
-use Nette\Utils\Strings;
+use Symplify\PHPStanRules\Twig\NodeVisitor\VariableCollectingNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Twig\Environment;
 use Twig\Loader\ArrayLoader;
+use Twig\NodeTraverser;
 use Twig\Source;
 
 final class TwigVariableNamesResolver
 {
-    /**
-     * @see https://regex101.com/r/jf2v0i/1
-     * @var string
-     */
-    private const VARIABLE_NAME_REGEX = '#{{\s+(?<' . self::NAME_PART . '>[\w_]+)\s+}}#';
-
-    /**
-     * E.g. foreached single variable - https://twig.symfony.com/doc/2.x/tags/for.html
-     *
-     * @see https://regex101.com/r/zx9iXU/1
-     * @var string
-     */
-    private const TEMPLATE_MADE_NAME_REGEX = '#for\s+(?<' . self::NAME_PART . '>\w+)\s+in\s+\w+#';
-
-    /**
-     * @var string
-     */
-    private const NAME_PART = 'name';
-
     public function __construct(
         private SmartFileSystem $smartFileSystem
     ) {
@@ -41,33 +24,21 @@ final class TwigVariableNamesResolver
     public function resolveFromFile(string $filePath): array
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
-        $variableNames = $this->resolveNameMatchesByPattern($fileContent, self::VARIABLE_NAME_REGEX);
 
-        $temporaryLoader = new ArrayLoader([$filePath => $template]);
-        $this->twig->setLoader($temporaryLoader);
-        $nodeTree = $this->twig->parse($this->twig->tokenize(new Source($template, $file)));
+        $arrayLoader = new ArrayLoader([
+            $filePath => $fileContent,
+        ]);
 
+        $environment = new Environment($arrayLoader);
+        $tokenStream = $environment->tokenize(new Source($fileContent, $filePath));
 
-        $templateMadeVariableNames = $this->resolveNameMatchesByPattern(
-            $fileContent,
-            self::TEMPLATE_MADE_NAME_REGEX
-        );
+        $moduleNode = $environment->parse($tokenStream);
 
-        return array_diff($variableNames, $templateMadeVariableNames);
-    }
+        $variableCollectingNodeVisitor = new VariableCollectingNodeVisitor();
+        $twigNodeTraverser = new NodeTraverser($environment, [$variableCollectingNodeVisitor]);
 
-    /**
-     * @return string[]
-     */
-    private function resolveNameMatchesByPattern(string $fileContent, string $regex): array
-    {
-        $names = [];
+        $twigNodeTraverser->traverse($moduleNode);
 
-        $matches = Strings::matchAll($fileContent, $regex);
-        foreach ($matches as $match) {
-            $names[] = $match[self::NAME_PART];
-        }
-
-        return $names;
+        return $variableCollectingNodeVisitor->getVariableNames();
     }
 }
