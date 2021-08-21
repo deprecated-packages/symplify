@@ -109,4 +109,9 @@ final class ColumnType
      * @var string
      */
     public const OBJECT = 'object';
+
+    /**
+     * @var string
+     */
+    public const UUID = 'uuid';
 }
