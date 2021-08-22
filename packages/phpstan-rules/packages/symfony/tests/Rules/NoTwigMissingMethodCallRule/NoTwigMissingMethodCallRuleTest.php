@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingVariableRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule;
+use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoTwigMissingVariableRule>
+ * @extends AbstractServiceAwareRuleTestCase<NoTwigMissingMethodCallRule>
  */
-final class NoTwigMissingVariableRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,14 +26,17 @@ final class NoTwigMissingVariableRuleTest extends AbstractServiceAwareRuleTestCa
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [
-            [sprintf(NoTwigMissingVariableRule::ERROR_MESSAGE, 'missing_variable'), 14],
+            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', 'nonExistingMethod'), 17],
         ]];
 
-        yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoTwigMissingVariableRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            NoTwigMissingMethodCallRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
