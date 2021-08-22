@@ -7,8 +7,8 @@ namespace Symplify\PHPStanRules\Rules\Nette;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedNetteTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -27,7 +27,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private UnusedNetteTemplateRenderVariableResolver $unusedTemplateRenderVariableResolver
+        private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver
     ) {
     }
 
@@ -60,7 +60,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedVariableNames = $this->unusedTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
+        $unusedVariableNames = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
             $node,
             $resolvedTemplateFilePath,
             $scope

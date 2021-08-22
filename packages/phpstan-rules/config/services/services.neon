@@ -1,7 +1,7 @@
 includes:
     - name-resolver-services.neon
-    - ../../../packages/symfony/config/symfony-services.neon
-    - ../../../packages/nette/config/nette-services.neon
+    - ../../packages/symfony/config/symfony-services.neon
+    - ../../packages/nette/config/nette-services.neon
 
 services:
     # doctrine

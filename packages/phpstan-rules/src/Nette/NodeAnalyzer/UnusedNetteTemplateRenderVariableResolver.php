@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer\Nette;
+namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

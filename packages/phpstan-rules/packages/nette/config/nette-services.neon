@@ -1,11 +1,11 @@
 services:
-    - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
-    - Symplify\PHPStanRules\Nette\LatteUsedControlResolver
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer
+    - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocaComponentNamesResolver
+    - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
 
     # latte
+    - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
+    - Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
+    - Symplify\PHPStanRules\Nette\LatteUsedControlResolver

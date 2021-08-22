@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules\Twig;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer;
