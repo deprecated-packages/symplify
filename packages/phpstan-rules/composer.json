@@ -43,7 +43,9 @@
         "psr-4": {
             "Symplify\\PHPStanRules\\Tests\\": "tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
-            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests"
+            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests",
+            "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/nette/tests",
+            "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/symfony/tests"
         },
         "classmap": [
             "stubs"
