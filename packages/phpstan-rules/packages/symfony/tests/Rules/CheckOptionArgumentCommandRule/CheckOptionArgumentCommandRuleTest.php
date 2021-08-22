@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule;
+use Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckOptionArgumentCommandRule>
