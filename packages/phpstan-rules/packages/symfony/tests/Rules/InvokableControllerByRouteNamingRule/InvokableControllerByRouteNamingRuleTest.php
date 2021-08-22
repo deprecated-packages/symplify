@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\InvokableControllerByRouteNamingRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\InvokableControllerByRouteNamingRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule;
+use Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<InvokableControllerByRouteNamingRule>

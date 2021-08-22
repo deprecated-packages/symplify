@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckSymfonyConfigDefaultsRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
+use Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule>
+ * @extends AbstractServiceAwareRuleTestCase<CheckSymfonyConfigDefaultsRule>
  */
-final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckSymfonyConfigDefaultsRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,14 +30,14 @@ final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest exte
 
         yield [
             __DIR__ . '/Fixture/ConfigServiceMissingMethodCall.php',
-            [[CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule::ERROR_MESSAGE, 9]],
+            [[CheckSymfonyConfigDefaultsRule::ERROR_MESSAGE, 9]],
         ];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule::class,
+            CheckSymfonyConfigDefaultsRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }
