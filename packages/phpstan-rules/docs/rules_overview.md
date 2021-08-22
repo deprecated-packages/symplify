@@ -1,4 +1,4 @@
-# 160 Rules Overview
+# 161 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3701,7 +3701,7 @@ final class SomeControl extends Control
 
 Missing "%s" variable that are not passed to the template
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule`](../src/Rules/NoNetteRenderUnusedVariableRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule`](../packages/nette/src/Rules/NoNetteRenderUnusedVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -4210,6 +4210,48 @@ class Some
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoSymfonyRenderUnusedVariableRule
+
+Passed "%s" variable that are not used in the template
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoSymfonyRenderUnusedVariableRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'non_existing_variable' => 'value',
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'existing_variable' => 'value',
+        ]);
     }
 }
 ```
@@ -5127,7 +5169,7 @@ final class SomeException extends Exception
 
 Use invokable controller with `__invoke()` method instead of named action method
 
-- class: [`Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`](../src/Rules/RequireInvokableControllerRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/symfony/src/Rules/RequireInvokableControllerRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -5223,7 +5265,7 @@ class AnotherClass
 
 Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
 
-- class: [`Symplify\PHPStanRules\Rules\Symfony\RequireNativeArraySymfonyRenderCallRule`](../src/Rules/Symfony/RequireNativeArraySymfonyRenderCallRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/symfony/src/Rules/RequireNativeArraySymfonyRenderCallRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

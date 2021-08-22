@@ -33,7 +33,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private UsedLocalComponentNamesResolver $usedLocaComponentNamesResolver,
+        private UsedLocalComponentNamesResolver $usedLocalComponentNamesResolver,
         private LatteUsedControlResolver $latteUsedControlResolver
     ) {
     }
@@ -63,7 +63,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
             return [];
         }
 
-        $localUsedControlMethodNames = $this->usedLocaComponentNamesResolver->resolveFromClassMethod($node);
+        $localUsedControlMethodNames = $this->usedLocalComponentNamesResolver->resolveFromClassMethod($node);
         if (in_array($controlName, $localUsedControlMethodNames, true)) {
             return [];
         }
