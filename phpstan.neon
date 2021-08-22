@@ -527,3 +527,12 @@ parameters:
         # buggy since new Phpstan
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
+
+        # @todo resolve later
+        -
+            message: '#Use value object over return of values#'
+            path: packages/phpstan-rules/packages/symfony/src/Twig/TwigNodeVisitor/MissingMethodCallNodeVisitor.php
+
+        -
+            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
+            path: packages/phpstan-rules/packages/symfony/src/TypeAnalyzer/TemplateVariableTypesResolver.php

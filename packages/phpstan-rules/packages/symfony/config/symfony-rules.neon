@@ -1,0 +1,32 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule
+        tags: [phpstan.rules.rule]
