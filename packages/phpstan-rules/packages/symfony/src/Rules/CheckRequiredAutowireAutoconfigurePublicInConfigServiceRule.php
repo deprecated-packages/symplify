@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -11,11 +11,12 @@ use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest
+ * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest
  */
 final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends AbstractSymplifyRule
 {

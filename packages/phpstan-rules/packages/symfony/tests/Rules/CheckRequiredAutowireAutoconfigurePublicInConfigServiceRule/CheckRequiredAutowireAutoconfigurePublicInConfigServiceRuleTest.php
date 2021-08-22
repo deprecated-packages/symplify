@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
+use Symplify\PHPStanRules\Symfony\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule>
