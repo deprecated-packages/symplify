@@ -17,8 +17,8 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
     private $variableNames = [];
 
     /**
-     * @param Node<\Twig\Node\Node> $node
-     * @return Node<\Twig\Node\Node>
+     * @param Node<Node> $node
+     * @return Node<Node>
      */
     public function enterNode(Node $node, Environment $environment): Node
     {

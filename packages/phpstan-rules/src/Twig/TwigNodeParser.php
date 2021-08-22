@@ -8,6 +8,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\ModuleNode;
+use Twig\Node\Node;
 use Twig\Source;
 
 final class TwigNodeParser
@@ -18,7 +19,7 @@ final class TwigNodeParser
     }
 
     /**
-     * @return ModuleNode<\Twig\Node\Node>
+     * @return ModuleNode<Node>
      */
     public function parseFilePath(string $filePath): ModuleNode
     {
