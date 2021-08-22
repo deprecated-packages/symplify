@@ -5,7 +5,7 @@ services:
 
     # twig
     -
-        class: Symplify\PHPStanRules\Rules\Twig\NoTwigMissingVariableRule
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
         tags: [phpstan.rules.rule]
 
     -
