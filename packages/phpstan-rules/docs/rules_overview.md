@@ -3539,7 +3539,7 @@ class SomeClass
 
 Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule`](../src/Rules/NoNetteArrayAccessInControlRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteArrayAccessInControlRule`](../src/Rules/Nette/NoNetteArrayAccessInControlRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3577,7 +3577,7 @@ class SomeClass extends Presenter
 
 Avoid double template variable override of "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule`](../src/Rules/NoNetteDoubleTemplateAssignRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteDoubleTemplateAssignRule`](../src/Rules/Nette/NoNetteDoubleTemplateAssignRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3616,7 +3616,7 @@ class SomeClass extends Presenter
 
 Use either `__construct()` or @inject, not both together
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteInjectAndConstructorRule`](../src/Rules/Nette/NoNetteInjectAndConstructorRule.php)
 
 ```php
 class SomeClass
@@ -3659,7 +3659,7 @@ class SomeClass
 
 Passed "%s" variable that are not used in the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule`](../src/Rules/NoNetteRenderMissingVariableRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteRenderMissingVariableRule`](../src/Rules/Nette/NoNetteRenderMissingVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3701,7 +3701,7 @@ final class SomeControl extends Control
 
 Missing "%s" variable that are not passed to the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule`](../src/Rules/NoNetteRenderUnusedVariableRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteRenderUnusedVariableRule`](../src/Rules/NoNetteRenderUnusedVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3741,7 +3741,7 @@ final class SomeControl extends Control
 
 Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule`](../src/Rules/NoNetteTemplateVariableReadRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Nette\NoNetteTemplateVariableReadRule`](../src/Rules/Nette/NoNetteTemplateVariableReadRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
