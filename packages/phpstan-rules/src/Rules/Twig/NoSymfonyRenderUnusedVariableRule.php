@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,7 +27,7 @@ final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private MissingTwigTemplateRenderVariableResolver $missingTwigTemplateRenderVariableResolver
+        private UnusedTwigTemplateVariableAnalyzer $unusedTwigTemplateVariableAnalyzer
     ) {
     }
 
@@ -60,18 +60,19 @@ final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $missingVariableNames = $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
+        $unusedVariableNames = $this->unusedTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
             $node,
             $resolvedTemplateFilePath,
             $scope
         );
 
-        if ($missingVariableNames === []) {
+        if ($unusedVariableNames === []) {
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", "', $missingVariableNames);
+        $unusedPassedVariablesString = implode('", ', $unusedVariableNames);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
+
         return [$errorMessage];
     }
 

@@ -31,7 +31,9 @@
         "psr-4": {
             "Symplify\\PHPStanRules\\": "src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src"
+            "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src",
+            "Symplify\\PHPStanRules\\Symfony\\": "packages/symfony/src",
+            "Symplify\\PHPStanRules\\Nette\\": "packages/nette/src"
         }
     },
     "autoload-dev": {

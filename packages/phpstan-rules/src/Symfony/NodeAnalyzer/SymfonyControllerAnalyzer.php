@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony;
+namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;

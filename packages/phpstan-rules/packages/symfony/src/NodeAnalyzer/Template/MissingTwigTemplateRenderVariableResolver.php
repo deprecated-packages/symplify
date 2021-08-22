@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig;
+namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

@@ -1,5 +1,7 @@
 includes:
     - name-resolver-services.neon
+    - ../../../packages/symfony/config/symfony-services.neon
+    - ../../../packages/nette/config/nette-services.neon
 
 services:
     # doctrine
@@ -108,6 +110,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
+<<<<<<< HEAD
 
     # symfony
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
@@ -129,3 +132,5 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer
     # latte
     - Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver
+=======
+>>>>>>> 66b49d528 (move services to symfony packages)

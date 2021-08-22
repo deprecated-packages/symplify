@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedNetteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -27,7 +27,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private UnusedTemplateRenderVariableResolver $unusedTemplateRenderVariableResolver
+        private UnusedNetteTemplateRenderVariableResolver $unusedTemplateRenderVariableResolver
     ) {
     }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig;
+namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 
 use Symplify\PHPStanRules\Twig\NodeVisitor\VariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\Twig\TwigNodeParser;
