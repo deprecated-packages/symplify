@@ -1,0 +1,51 @@
+services:
+    # templates
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
+        tags: [phpstan.rules.rule]
+
+    # components
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoUnusedNetteCreateComponentMethodRule
+        tags: [phpstan.rules.rule]
+
+    # inject
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
+        tags: [phpstan.rules.rule]

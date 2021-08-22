@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireTemplateInNetteControlRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\RequireTemplateInNetteControlRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

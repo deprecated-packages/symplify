@@ -14,7 +14,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\ValidNetteInjectRule\ValidNetteInjectRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\ValidNetteInjectRule\ValidNetteInjectRuleTest
  */
 final class ValidNetteInjectRule extends AbstractSymplifyRule
 {

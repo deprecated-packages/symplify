@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireTemplateInNetteControlRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\RequireTemplateInNetteControlRule\Fixture;
 
 use Nette\Application\UI\Control;
 

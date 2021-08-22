@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\ValidNetteInjectRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\ValidNetteInjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

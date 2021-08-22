@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\RequireTemplateInNetteControlRule\RequireTemplateInNetteControlRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\RequireTemplateInNetteControlRule\RequireTemplateInNetteControlRuleTest
  */
 final class RequireTemplateInNetteControlRule extends AbstractSymplifyRule
 {
