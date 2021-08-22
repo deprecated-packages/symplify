@@ -1,4 +1,4 @@
-# 160 Rules Overview
+# 161 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1715,7 +1715,7 @@ foreach ($fileErrors as $fileError) {
 
 Assign to already injected property is not allowed
 
-- class: [`Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule`](../src/Rules/Nette/ForbiddenNetteInjectOverrideRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/nette/src/Rules/ForbiddenNetteInjectOverrideRule.php)
 
 ```php
 abstract class AbstractParent
@@ -3539,7 +3539,7 @@ class SomeClass
 
 Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule`](../src/Rules/NoNetteArrayAccessInControlRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule`](../packages/nette/src/Rules/NoNetteArrayAccessInControlRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3577,7 +3577,7 @@ class SomeClass extends Presenter
 
 Avoid double template variable override of "%s"
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule`](../src/Rules/NoNetteDoubleTemplateAssignRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule`](../packages/nette/src/Rules/NoNetteDoubleTemplateAssignRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -3616,7 +3616,7 @@ class SomeClass extends Presenter
 
 Use either `__construct()` or @inject, not both together
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule`](../src/Rules/NoNetteInjectAndConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule`](../packages/nette/src/Rules/NoNetteInjectAndConstructorRule.php)
 
 ```php
 class SomeClass
@@ -3659,7 +3659,7 @@ class SomeClass
 
 Passed "%s" variable that are not used in the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule`](../src/Rules/NoNetteRenderMissingVariableRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule`](../packages/nette/src/Rules/NoNetteRenderMissingVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3701,7 +3701,7 @@ final class SomeControl extends Control
 
 Missing "%s" variable that are not passed to the template
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule`](../src/Rules/NoNetteRenderUnusedVariableRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule`](../packages/nette/src/Rules/NoNetteRenderUnusedVariableRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -3741,7 +3741,7 @@ final class SomeControl extends Control
 
 Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
 
-- class: [`Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule`](../src/Rules/NoNetteTemplateVariableReadRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/nette/src/Rules/NoNetteTemplateVariableReadRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -4210,6 +4210,48 @@ class Some
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoSymfonyRenderUnusedVariableRule
+
+Passed "%s" variable that are not used in the template
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoSymfonyRenderUnusedVariableRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'non_existing_variable' => 'value',
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'existing_variable' => 'value',
+        ]);
     }
 }
 ```
@@ -5127,7 +5169,7 @@ final class SomeException extends Exception
 
 Use invokable controller with `__invoke()` method instead of named action method
 
-- class: [`Symplify\PHPStanRules\Rules\RequireInvokableControllerRule`](../src/Rules/RequireInvokableControllerRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/symfony/src/Rules/RequireInvokableControllerRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -5223,7 +5265,7 @@ class AnotherClass
 
 Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
 
-- class: [`Symplify\PHPStanRules\Rules\Symfony\RequireNativeArraySymfonyRenderCallRule`](../src/Rules/Symfony/RequireNativeArraySymfonyRenderCallRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/symfony/src/Rules/RequireNativeArraySymfonyRenderCallRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

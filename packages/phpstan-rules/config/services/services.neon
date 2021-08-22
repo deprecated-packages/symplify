@@ -1,5 +1,7 @@
 includes:
     - name-resolver-services.neon
+    - ../../packages/symfony/config/symfony-services.neon
+    - ../../packages/nette/config/nette-services.neon
 
 services:
     # doctrine
@@ -108,24 +110,3 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
-
-    # symfony
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigRectorValueObjectResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyConfigMethodCallAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyPhpConfigClosureAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\SymfonyControllerAnalyzer
-    # twig
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\TwigVariableNamesResolver
-    - Symplify\PHPStanRules\Twig\TwigNodeParser
-
-    # nette
-    - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
-    - Symplify\PHPStanRules\Nette\LatteUsedControlResolver
-    - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UsedLocaComponentNamesResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\TemplateRenderAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\UnusedTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\NetteTypeAnalyzer
-    # latte
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver

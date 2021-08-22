@@ -1,11 +1,11 @@
 services:
     # templates
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteTemplateVariableReadRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteRenderUnusedVariableRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
         tags: [phpstan.rules.rule]
 
     -
@@ -13,16 +13,16 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteRenderMissingVariableRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteDoubleTemplateAssignRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
         tags: [phpstan.rules.rule]
 
     # components
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteArrayAccessInControlRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
         tags: [phpstan.rules.rule]
 
     -
@@ -31,7 +31,7 @@ services:
 
     # inject
     -
-        class: Symplify\PHPStanRules\Rules\Nette\ForbiddenNetteInjectOverrideRule
+        class: Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
         tags: [phpstan.rules.rule]
 
     -
@@ -39,7 +39,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoNetteInjectAndConstructorRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
         tags: [phpstan.rules.rule]
 
     -

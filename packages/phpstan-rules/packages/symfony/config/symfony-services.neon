@@ -1,0 +1,11 @@
+services:
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigRectorValueObjectResolver
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigMethodCallAnalyzer
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
+    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
+
+    # twig
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\TwigVariableNamesResolver
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer
