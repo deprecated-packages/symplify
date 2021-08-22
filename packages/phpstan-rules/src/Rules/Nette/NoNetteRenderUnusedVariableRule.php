@@ -13,7 +13,6 @@ use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use function Symplify\PHPStanRules\Rules\count;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteRenderUnusedVariableRule\NoNetteRenderUnusedVariableRuleTest
