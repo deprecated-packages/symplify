@@ -117,6 +117,7 @@ services:
     # twig
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\MissingTwigTemplateRenderVariableResolver
     - Symplify\PHPStanRules\NodeAnalyzer\Symfony\Twig\TwigVariableNamesResolver
+    - Symplify\PHPStanRules\Twig\TwigNodeParser
 
     # nette
     - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
