@@ -11,16 +11,11 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
-use Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor\MissingMethodCallNodeVisitor;
-use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
-use Twig\Node\ModuleNode;
-use Twig\NodeTraverser;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\NoTwigMissingMethodCallRuleTest
@@ -36,7 +31,7 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
         private TwigNodeParser $twigNodeParser,
-        private TemplateVariableTypesResolver $templateVariableTypesResolver
+        private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer
     ) {
     }
 
@@ -76,7 +71,7 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
 
         $moduleNode = $this->twigNodeParser->parseFilePath($templateFilePath);
 
-        $variableNamesToMissingMethodNames = $this->resolveVariablesToMissingMethodsNames(
+        $variableNamesToMissingMethodNames = $this->twigMissingMethodCallAnalyzer->resolveFromArrayAndModuleNode(
             $secondArgValue,
             $scope,
             $moduleNode
@@ -127,27 +122,13 @@ CODE_SAMPLE
     }
 
     /**
-     * @param ModuleNode<\Twig\Node\Node> $moduleNode
-     * @return VariableAndMissingMethodName[]
-     */
-    private function resolveVariablesToMissingMethodsNames(Array_ $array, Scope $scope, ModuleNode $moduleNode): array
-    {
-        $variableAndTypes = $this->templateVariableTypesResolver->resolveArray($array, $scope);
-        $missingMethodCallNodeVisitor = new MissingMethodCallNodeVisitor($variableAndTypes);
-
-        $twigNodeTraverser = new NodeTraverser(new Environment(new ArrayLoader()), [$missingMethodCallNodeVisitor]);
-        $twigNodeTraverser->traverse($moduleNode);
-
-        return $missingMethodCallNodeVisitor->getVariableAndMissingMethodNames();
-    }
-
-    /**
      * @param VariableAndMissingMethodName[] $variableNamesToMissingMethodNames
      * @return string[]
      */
     private function createErrorMessages(array $variableNamesToMissingMethodNames): array
     {
         $errorMessages = [];
+
         foreach ($variableNamesToMissingMethodNames as $variableAndMissingMethodName) {
             $errorMessages[] = sprintf(
                 self::ERROR_MESSAGE,

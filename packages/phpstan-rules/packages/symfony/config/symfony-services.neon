@@ -3,10 +3,15 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
+    - Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer
+
+    # twig ast
     - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
+    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory
 
     # twig
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\TwigVariableNamesResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer
     - Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver
+    - Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer
