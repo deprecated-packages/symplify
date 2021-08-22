@@ -522,7 +522,10 @@ parameters:
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
-
-        # temporary ignored before dynamic analysis
-        - '#Content of method "resolveFromFile\(\)" is duplicated with method "resolveFromFile\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Symfony\\Twig\\TwigVariableNamesResolver" class\. Use unique content or service instead#'
-        - '#Content of method "resolveNameMatchesByPattern\(\)" is duplicated with method "resolveNameMatchesByPattern\(\)" in "Symplify\\PHPStanRules\\NodeAnalyzer\\Symfony\\Twig\\TwigVariableNamesResolver" class\. Use unique content or service instead#'
+        # not sure iterable
+        - '#Method Symplify\\PHPStanRules\\Twig\\NodeVisitor\\VariableCollectingNodeVisitor\:\:(.*?)\(\) return type has no value type specified in iterable type Twig\\Node\\Node#'
+        - '#Method Symplify\\PHPStanRules\\Twig\\NodeVisitor\\VariableCollectingNodeVisitor\:\:(.*?)\(\) has parameter \$node with no value type specified in iterable type Twig\\Node\\Node#'
+        - '#Arguments names conflicts with parent class method\: "\$environment" should be "\$env"\. This will break named arguments#'
+        # buggy since new Phpstan
+        - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
+        - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
