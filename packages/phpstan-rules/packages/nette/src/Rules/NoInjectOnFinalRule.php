@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Nette\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
@@ -10,6 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

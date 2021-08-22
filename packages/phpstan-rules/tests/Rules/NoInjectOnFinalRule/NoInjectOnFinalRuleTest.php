@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\NoInjectOnFinalRule;
+use Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoInjectOnFinalRule>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -11,6 +11,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireTemplateInNetteControlRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule;
+use Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireTemplateInNetteControlRule>

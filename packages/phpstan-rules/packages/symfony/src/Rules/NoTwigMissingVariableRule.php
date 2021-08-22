@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules\Twig;
+namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Twig\NoTwigMissingVariableRule\NoTwigMissingVariableRuleTest
+ * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingVariableRule\NoTwigMissingVariableRuleTest
  */
 final class NoTwigMissingVariableRule extends AbstractSymplifyRule
 {
