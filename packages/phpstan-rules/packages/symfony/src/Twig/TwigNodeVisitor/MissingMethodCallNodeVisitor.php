@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor;
 
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Twig\Environment;
 use Twig\Node\Expression\ConstantExpression;
@@ -20,7 +21,7 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
     private array $variableNamesToMissingMethodNames = [];
 
     /**
-     * @param array<string, \PHPStan\Type\Type> $variableNamesToTypes
+     * @param array<string, Type> $variableNamesToTypes
      */
     public function __construct(
         private array $variableNamesToTypes
@@ -31,7 +32,7 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
      * @param Node<Node> $node
      * @return Node<Node>
      */
-    public function enterNode(Node $node, Environment $env): Node
+    public function enterNode(Node $node, Environment $environment): Node
     {
         if (! $node instanceof GetAttrExpression) {
             return $node;
