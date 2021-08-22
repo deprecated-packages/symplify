@@ -4222,7 +4222,7 @@ class Some
 
 Passed "%s" variable that are not used in the template
 
-- class: [`Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoSymfonyRenderUnusedVariableRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoTwigRenderUnusedVariableRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoSymfonyRenderUnusedVariableRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule;
+use Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoSymfonyRenderUnusedVariableRule>
+ * @extends AbstractServiceAwareRuleTestCase<NoTwigRenderUnusedVariableRule>
  */
-final class NoSymfonyRenderUnusedVariableRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoTwigRenderUnusedVariableRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -26,7 +26,11 @@ final class NoSymfonyRenderUnusedVariableRuleTest extends AbstractServiceAwareRu
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/RenderWithUnusedVariable.php', [
-            [sprintf(NoSymfonyRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 14],
+            [sprintf(NoTwigRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 14],
+        ]];
+
+        yield [__DIR__ . '/Fixture/RenderBareTwigWithUnusedVariable.php', [
+            [sprintf(NoTwigRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 13],
         ]];
 
         yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];
@@ -35,7 +39,7 @@ final class NoSymfonyRenderUnusedVariableRuleTest extends AbstractServiceAwareRu
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            NoSymfonyRenderUnusedVariableRule::class,
+            NoTwigRenderUnusedVariableRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }

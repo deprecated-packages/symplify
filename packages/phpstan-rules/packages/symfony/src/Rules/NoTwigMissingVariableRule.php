@@ -45,7 +45,7 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isSymfonyTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isSymfonyControllerRenderMethodCall($node, $scope)) {
             return [];
         }
 

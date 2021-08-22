@@ -15,9 +15,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoSymfonyRenderUnusedVariableRule\NoSymfonyRenderUnusedVariableRuleTest
+ * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRule\NoTwigRenderUnusedVariableRuleTest
  */
-final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
+final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
 {
     /**
      * @var string
@@ -45,7 +45,7 @@ final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isSymfonyTemplateRenderMethodCall($node, $scope)) {
+        if (! $this->templateRenderAnalyzer->isTwigRenderMethodCall($node, $scope)) {
             return [];
         }
 
@@ -81,31 +81,17 @@ final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value'
-        ]);
-    }
-}
+$environment = new Twig\Environment();
+$environment->render(__DIR__ . '/some_file.twig', [
+    'non_existing_variable' => 'value'
+]);
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value'
-        ]);
-    }
-}
+$environment = new Twig\Environment();
+$environment->render(__DIR__ . '/some_file.twig', [
+    'existing_variable' => 'value'
+]);
 CODE_SAMPLE
             ),
         ]);
