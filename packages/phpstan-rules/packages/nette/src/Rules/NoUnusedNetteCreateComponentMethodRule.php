@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Nette\Rules;
 
 use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
@@ -16,7 +16,7 @@ use Symplify\PHPStanRules\Nette\LatteUsedControlResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
  * @implements Rule<ClassMethod>
  */
 final class NoUnusedNetteCreateComponentMethodRule implements Rule

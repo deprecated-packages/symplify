@@ -9,7 +9,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule
+        class: Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
         tags: [phpstan.rules.rule]
 
     -
@@ -26,7 +26,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoUnusedNetteCreateComponentMethodRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoUnusedNetteCreateComponentMethodRule
         tags: [phpstan.rules.rule]
 
     # inject
@@ -35,7 +35,7 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoInjectOnFinalRule
+        class: Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
         tags: [phpstan.rules.rule]
 
     -
@@ -43,9 +43,9 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ValidNetteInjectRule
+        class: Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule
+        class: Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
         tags: [phpstan.rules.rule]

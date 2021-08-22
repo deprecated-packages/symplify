@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\ValidNetteInjectRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\ValidNetteInjectRule;
+use Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ValidNetteInjectRule>

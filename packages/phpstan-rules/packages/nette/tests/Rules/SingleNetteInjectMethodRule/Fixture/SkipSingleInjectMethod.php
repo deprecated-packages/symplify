@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\SingleNetteInjectMethodRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\SingleNetteInjectMethodRule\Fixture;
 
 final class SkipSingleInjectMethod
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\SingleNetteInjectMethodRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\SingleNetteInjectMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule;
+use Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<SingleNetteInjectMethodRule>

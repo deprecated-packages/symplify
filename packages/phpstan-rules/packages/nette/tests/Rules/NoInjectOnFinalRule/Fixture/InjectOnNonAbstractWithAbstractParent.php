@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule\Fixture;
 
-use Symplify\PHPStanRules\Tests\Rules\NoInjectOnFinalRule\Source\SomeType;
+use Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule\Source\SomeType;
 
 final class InjectOnNonAbstractWithAbstractParent extends SkipAbstractClass
 {
