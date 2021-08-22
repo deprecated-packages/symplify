@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
-use Symplify\PHPStanRules\Symfony\TwigNodeVisitor\VariableCollectingNodeVisitor;
+use Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor\VariableCollectingNodeVisitor;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\NodeTraverser;
