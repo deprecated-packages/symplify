@@ -26,7 +26,7 @@ final class NoSymfonyRenderUnusedVariableRuleTest extends AbstractServiceAwareRu
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/RenderWithUnusedVariable.php', [
-            [sprintf(NoSymfonyRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 13],
+            [sprintf(NoSymfonyRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 14],
         ]];
 
         yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];

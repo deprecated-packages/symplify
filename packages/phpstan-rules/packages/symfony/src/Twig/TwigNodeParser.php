@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Twig;
+namespace Symplify\PHPStanRules\Symfony\Twig;
 
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Twig\Environment;

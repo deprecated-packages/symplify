@@ -13,7 +13,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\LatteUsedControlResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocaComponentNamesResolver;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
@@ -33,7 +33,7 @@ final class NoUnusedNetteCreateComponentMethodRule implements Rule
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private UsedLocaComponentNamesResolver $usedLocaComponentNamesResolver,
+        private UsedLocalComponentNamesResolver $usedLocaComponentNamesResolver,
         private LatteUsedControlResolver $latteUsedControlResolver
     ) {
     }

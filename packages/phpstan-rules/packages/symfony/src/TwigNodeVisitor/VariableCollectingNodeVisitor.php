@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Twig\NodeVisitor;
+namespace Symplify\PHPStanRules\Symfony\TwigNodeVisitor;
 
 use Twig\Environment;
 use Twig\Node\Expression\NameExpression;

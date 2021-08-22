@@ -14,7 +14,7 @@ use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 
-final class UsedLocaComponentNamesResolver
+final class UsedLocalComponentNamesResolver
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

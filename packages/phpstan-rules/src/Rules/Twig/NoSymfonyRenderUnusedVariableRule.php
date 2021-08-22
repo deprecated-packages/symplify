@@ -60,7 +60,7 @@ final class NoSymfonyRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedVariableNames = $this->unusedTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
+        $unusedVariableNames = $this->unusedTwigTemplateVariableAnalyzer->resolveMethodCallAndTemplate(
             $node,
             $resolvedTemplateFilePath,
             $scope
