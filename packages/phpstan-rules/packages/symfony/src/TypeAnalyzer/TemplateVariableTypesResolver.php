@@ -7,8 +7,8 @@ namespace Symplify\PHPStanRules\Symfony\TypeAnalyzer;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\Type;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 
 final class TemplateVariableTypesResolver
 {
@@ -18,7 +18,7 @@ final class TemplateVariableTypesResolver
     }
 
     /**
-     * @return array<string, Type>
+     * @return VariableAndType[]
      */
     public function resolveArray(Array_ $array, Scope $scope): array
     {
@@ -38,7 +38,8 @@ final class TemplateVariableTypesResolver
                 continue;
             }
 
-            $variableNamesToTypes[$keyName] = $scope->getType($arrayItem->value);
+            $variableType = $scope->getType($arrayItem->value);
+            $variableNamesToTypes[] = new VariableAndType($keyName, $variableType);
         }
 
         return $variableNamesToTypes;

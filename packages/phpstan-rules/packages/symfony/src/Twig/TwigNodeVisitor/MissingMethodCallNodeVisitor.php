@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor;
 
-use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
+use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 use Twig\Environment;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\GetAttrExpression;
@@ -16,15 +17,15 @@ use Twig\NodeVisitor\NodeVisitorInterface;
 final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
 {
     /**
-     * @var array<string, string[]>
+     * @var VariableAndMissingMethodName[]
      */
-    private array $variableNamesToMissingMethodNames = [];
+    private array $variableAndMissingMethodNames = [];
 
     /**
-     * @param array<string, Type> $variableNamesToTypes
+     * @param VariableAndType[] $variableAndTypes
      */
     public function __construct(
-        private array $variableNamesToTypes
+        private array $variableAndTypes
     ) {
     }
 
@@ -47,11 +48,8 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        if (! isset($this->variableNamesToTypes[$variableName])) {
-            return $node;
-        }
+        $variableType = $this->matchVariableType($variableName);
 
-        $variableType = $this->variableNamesToTypes[$variableName];
         // @todo add support for iterable variable
         if (! $variableType instanceof TypeWithClassName) {
             return $node;
@@ -68,7 +66,7 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        $this->variableNamesToMissingMethodNames[$variableName][] = $methodName;
+        $this->variableAndMissingMethodNames[] = new VariableAndMissingMethodName($variableName, $methodName);
 
         return $node;
     }
@@ -88,11 +86,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
     }
 
     /**
-     * @return array<string, string[]>
+     * @return VariableAndMissingMethodName[]
      */
-    public function getVariableNamesToMissingMethodNames(): array
+    public function getVariableAndMissingMethodNames(): array
     {
-        return $this->variableNamesToMissingMethodNames;
+        return $this->variableAndMissingMethodNames;
     }
 
     /**
@@ -163,5 +161,16 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
         }
 
         return false;
+    }
+
+    private function matchVariableType(string $variableName): \PHPStan\Type\Type|null
+    {
+        foreach ($this->variableAndTypes as $variableAndType) {
+            if ($variableAndType->getVariable() === $variableName) {
+                return $variableAndType->getType();
+            }
+        }
+
+        return null;
     }
 }
