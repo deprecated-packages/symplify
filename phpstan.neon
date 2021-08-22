@@ -523,8 +523,6 @@ parameters:
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
         # not sure iterable
-        - '#Method Symplify\\PHPStanRules\\Twig\\NodeVisitor\\VariableCollectingNodeVisitor\:\:(.*?)\(\) return type has no value type specified in iterable type Twig\\Node\\Node#'
-        - '#Method Symplify\\PHPStanRules\\Twig\\NodeVisitor\\VariableCollectingNodeVisitor\:\:(.*?)\(\) has parameter \$node with no value type specified in iterable type Twig\\Node\\Node#'
         - '#Arguments names conflicts with parent class method\: "\$environment" should be "\$env"\. This will break named arguments#'
         # buggy since new Phpstan
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'

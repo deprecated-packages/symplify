@@ -16,6 +16,10 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
      */
     private $variableNames = [];
 
+    /**
+     * @param Node<Node> $node
+     * @return Node<Node>
+     */
     public function enterNode(Node $node, Environment $environment): Node
     {
         if (! $node instanceof NameExpression) {
@@ -26,6 +30,10 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
         return $node;
     }
 
+    /**
+     * @param Node<Node> $node
+     * @return Node<Node>|null
+     */
     public function leaveNode(Node $node, Environment $environment): ?Node
     {
         return $node;
