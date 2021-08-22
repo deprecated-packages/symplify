@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteRenderMissingVariableRule\NoNetteRenderMissingVariableRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderMissingVariableRule\NoNetteRenderMissingVariableRuleTest
  */
 final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
 {

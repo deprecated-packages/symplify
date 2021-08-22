@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule\Fixture;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireInvokableControllerRule\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class SkipInvokableController extends AbstractController
+final class MissnamedController extends AbstractController
 {
     /**
      * @Route()
      */
-    public function __invoke()
+    public function run()
     {
     }
 }

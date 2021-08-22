@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteRenderUnusedVariableRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderUnusedVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteTemplateVariableReadRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRule\Fixture;
 
 final class SkipNoControl
 {

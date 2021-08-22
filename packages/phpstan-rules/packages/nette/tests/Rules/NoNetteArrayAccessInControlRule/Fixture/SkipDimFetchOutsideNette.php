@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteArrayAccessInControlRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteArrayAccessInControlRule\Fixture;
 
 final class SkipDimFetchOutsideNette
 {

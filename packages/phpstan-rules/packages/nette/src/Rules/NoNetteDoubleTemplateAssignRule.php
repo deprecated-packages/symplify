@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteDoubleTemplateAssignRule\NoNetteDoubleTemplateAssignRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteDoubleTemplateAssignRule\NoNetteDoubleTemplateAssignRuleTest
  */
 final class NoNetteDoubleTemplateAssignRule extends AbstractSymplifyRule
 {

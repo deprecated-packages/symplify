@@ -18,7 +18,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteTemplateVariableReadRule\NoNetteTemplateVariableReadRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRule\NoNetteTemplateVariableReadRuleTest
  */
 final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
 {

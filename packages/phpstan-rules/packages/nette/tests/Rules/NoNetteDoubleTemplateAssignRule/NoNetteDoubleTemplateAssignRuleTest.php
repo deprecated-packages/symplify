@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteDoubleTemplateAssignRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteDoubleTemplateAssignRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteTemplateVariableReadRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

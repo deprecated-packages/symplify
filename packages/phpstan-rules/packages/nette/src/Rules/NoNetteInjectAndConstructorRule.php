@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteInjectAndConstructorRule\NoNetteInjectAndConstructorRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteInjectAndConstructorRule\NoNetteInjectAndConstructorRuleTest
  */
 final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
 {

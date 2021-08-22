@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteInjectAndConstructorRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteInjectAndConstructorRule\Fixture;
 
 final class InjectPropertyAndConstructor
 {

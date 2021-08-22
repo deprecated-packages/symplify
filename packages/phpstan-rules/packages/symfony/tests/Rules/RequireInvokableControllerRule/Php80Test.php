@@ -2,33 +2,36 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireInvokableControllerRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireInvokableControllerRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\RequireInvokableControllerRule;
+use Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireInvokableControllerRule>
  */
-final class RequireInvokableControllerRuleTest extends AbstractServiceAwareRuleTestCase
+final class Php80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param array<string|int> $expectedErrorMessagesWithLines
+     * @param array<int|string> $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
         $this->analyse([$filePath], $expectedErrorMessagesWithLines);
     }
 
+    /**
+     * @return Iterator<array<string|int[]|string[]>>
+     */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipInvokableController.php', []];
-        yield [__DIR__ . '/Fixture/SkipRandomPublicMethodController.php', []];
-
-        yield [__DIR__ . '/Fixture/MissnamedController.php', [[RequireInvokableControllerRule::ERROR_MESSAGE, 15]]];
+        yield [
+            __DIR__ . '/Fixture/MissnamedRouteAttributeController.php',
+            [[RequireInvokableControllerRule::ERROR_MESSAGE, 12]],
+        ];
     }
 
     protected function getRule(): Rule

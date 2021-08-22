@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteRenderMissingVariableRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderMissingVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

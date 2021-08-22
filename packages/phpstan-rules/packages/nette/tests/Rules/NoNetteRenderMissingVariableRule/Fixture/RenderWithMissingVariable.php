@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteRenderMissingVariableRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderMissingVariableRule\Fixture;
 
 use Nette\Application\UI\Control;
 

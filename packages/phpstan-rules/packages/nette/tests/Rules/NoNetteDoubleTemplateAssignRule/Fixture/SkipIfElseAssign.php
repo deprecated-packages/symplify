@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Nette\NoNetteDoubleTemplateAssignRule\Fixture;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteDoubleTemplateAssignRule\Fixture;
 
 use Nette\Application\UI\Presenter;
 
