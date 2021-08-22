@@ -27,6 +27,11 @@ final class NetteInjectAnalyzer
      */
     private const INJECT = '@inject';
 
+    /**
+     * @var string
+     */
+    private const INJECT_ATTRIBUTE_CLASS = 'Nette\DI\Attributes\Inject';
+
     public function __construct(
         private PropertyAnalyzer $propertyAnalyzer,
         private AnnotationAttributeDetector $annotationAttributeDetector,
@@ -79,7 +84,7 @@ final class NetteInjectAnalyzer
         return $this->annotationAttributeDetector->hasNodeAnnotationOrAttribute(
             $property,
             self::INJECT,
-            'Nette\DI\Attributes\Inject'
+            self::INJECT_ATTRIBUTE_CLASS
         );
     }
 
@@ -97,7 +102,7 @@ final class NetteInjectAnalyzer
         return $this->annotationAttributeDetector->hasNodeAnnotationOrAttribute(
             $classMethod,
             self::INJECT,
-            'Nette\DI\Attributes\Inject'
+            self::INJECT_ATTRIBUTE_CLASS
         );
     }
 
