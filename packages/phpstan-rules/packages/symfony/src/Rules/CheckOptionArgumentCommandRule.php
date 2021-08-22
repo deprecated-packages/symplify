@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
+ * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\CheckOptionArgumentCommandRule\CheckOptionArgumentCommandRuleTest
  */
 final class CheckOptionArgumentCommandRule extends AbstractSymplifyRule
 {

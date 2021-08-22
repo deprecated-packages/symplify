@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\CheckOptionArgumentCommandRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckOptionArgumentCommandRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;

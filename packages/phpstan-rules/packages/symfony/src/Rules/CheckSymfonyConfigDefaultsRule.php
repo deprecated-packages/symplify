@@ -16,9 +16,9 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRuleTest
+ * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\CheckSymfonyConfigDefaultsRule\CheckSymfonyConfigDefaultsRuleTest
  */
-final class CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule extends AbstractSymplifyRule
+final class CheckSymfonyConfigDefaultsRule extends AbstractSymplifyRule
 {
     /**
      * @var string

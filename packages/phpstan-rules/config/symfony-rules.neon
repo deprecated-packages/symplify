@@ -45,7 +45,7 @@ services:
                     - name
 
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule
+        class: Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule
         tags: [phpstan.rules.rule]
 
     -

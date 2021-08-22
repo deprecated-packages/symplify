@@ -203,7 +203,7 @@ class SomeTest
 
 Argument and options "%s" got confused
 
-- class: [`Symplify\PHPStanRules\Rules\CheckOptionArgumentCommandRule`](../src/Rules/CheckOptionArgumentCommandRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule`](../packages/symfony/src/Rules/CheckOptionArgumentCommandRule.php)
 
 ```php
 class SomeClass extends Command
@@ -321,44 +321,6 @@ class SomeClass
 
 <br>
 
-## CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule
-
-`autowire()`, `autoconfigure()`, and `public()` are required in config service
-
-- class: [`Symplify\PHPStanRules\Rules\CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule`](../src/Rules/CheckRequiredAutowireAutoconfigurePublicInConfigServiceRule.php)
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public();
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public()
-        ->autowire()
-        ->autoconfigure();
-};
-```
-
-:+1:
-
-<br>
-
 ## CheckRequiredInterfaceInContractNamespaceRule
 
 Interface must be located in "Contract" namespace
@@ -445,6 +407,44 @@ echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
 
 ```php
 echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
+```
+
+:+1:
+
+<br>
+
+## CheckSymfonyConfigDefaultsRule
+
+`autowire()`, `autoconfigure()`, and `public()` are required in config service
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule`](../packages/symfony/src/Rules/CheckSymfonyConfigDefaultsRule.php)
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->public();
+};
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $services = $containerConfigurator->services();
+
+    $services->defaults()
+        ->public()
+        ->autowire()
+        ->autoconfigure();
+};
 ```
 
 :+1:
@@ -2331,7 +2331,7 @@ class SomeRule implements ConfiguredRuleInterface
 
 Use controller class name based on route name instead
 
-- class: [`Symplify\PHPStanRules\Rules\InvokableControllerByRouteNamingRule`](../src/Rules/InvokableControllerByRouteNamingRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule`](../packages/symfony/src/Rules/InvokableControllerByRouteNamingRule.php)
 
 ```php
 use Symfony\Component\Routing\Annotation\Route;
@@ -3150,7 +3150,7 @@ final class SomeRepository
 
 Use constructor on final classes, instead of property injection
 
-- class: [`Symplify\PHPStanRules\Rules\NoInjectOnFinalRule`](../src/Rules/NoInjectOnFinalRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/nette/src/Rules/NoInjectOnFinalRule.php)
 
 ```php
 final class SomePresenter
@@ -4296,7 +4296,7 @@ class SomeService
 
 Passed "%s" variable that are not used in the template
 
-- class: [`Symplify\PHPStanRules\Rules\Twig\NoTwigMissingVariableRule`](../src/Rules/Twig/NoTwigMissingVariableRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule`](../packages/symfony/src/Rules/NoTwigMissingVariableRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -5595,7 +5595,7 @@ class SomeClass
 
 Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
 
-- class: [`Symplify\PHPStanRules\Rules\RequireTemplateInNetteControlRule`](../src/Rules/RequireTemplateInNetteControlRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/nette/src/Rules/RequireTemplateInNetteControlRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -5968,7 +5968,7 @@ function someFunction()
 
 Use single inject*() class method per class
 
-- class: [`Symplify\PHPStanRules\Rules\SingleNetteInjectMethodRule`](../src/Rules/SingleNetteInjectMethodRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/nette/src/Rules/SingleNetteInjectMethodRule.php)
 
 ```php
 class SomeClass
@@ -6370,7 +6370,7 @@ final class SomeClass
 
 Nette `@inject` annotation/#[Inject] must be valid
 
-- class: [`Symplify\PHPStanRules\Rules\ValidNetteInjectRule`](../src/Rules/ValidNetteInjectRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/nette/src/Rules/ValidNetteInjectRule.php)
 
 ```php
 class SomeClass
