@@ -1,13 +1,8 @@
+# for BC
+includes:
+    - ../packages/symfony/config/symfony-rules.neon
+
 services:
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
-        tags: [phpstan.rules.rule]
-
-    # twig
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
-        tags: [phpstan.rules.rule]
-
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
         tags: [phpstan.rules.rule]
@@ -17,23 +12,7 @@ services:
                     - repositoryClass
 
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
         tags: [phpstan.rules.rule]
 
     -
@@ -43,10 +22,6 @@ services:
             attributeWithNames:
                 Symfony\Component\Routing\Annotation\Route:
                     - name
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule
-        tags: [phpstan.rules.rule]
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
