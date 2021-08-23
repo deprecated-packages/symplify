@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
+use Symfony\Component\Finder\Finder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 
 final class PathResolver
@@ -24,10 +25,34 @@ final class PathResolver
             return null;
         }
 
-        if (! file_exists($resolvedTemplateFilePath)) {
+        if (file_exists($resolvedTemplateFilePath)) {
+            return $resolvedTemplateFilePath;
+        }
+
+        return $this->findCandidateInTemplatesDirectory($resolvedTemplateFilePath);
+    }
+
+    /**
+     * Helps with mapping of short name to FQN template name; Make configurable via rule constructor?
+     */
+    private function findCandidateInTemplatesDirectory(string $resolvedTemplateFilePath): string|null
+    {
+        $symfonyTemplatesDirectory = getcwd() . '/templates';
+        if (! file_exists($symfonyTemplatesDirectory)) {
             return null;
         }
 
-        return $resolvedTemplateFilePath;
+        $finder = new Finder();
+        $finder->in($symfonyTemplatesDirectory)
+            ->files()
+            ->name('*.twig');
+
+        foreach ($finder->getIterator() as $fileInfo) {
+            if (str_ends_with($fileInfo->getRealPath(), $resolvedTemplateFilePath)) {
+                return $fileInfo->getRealPath();
+            }
+        }
+
+        return null;
     }
 }
