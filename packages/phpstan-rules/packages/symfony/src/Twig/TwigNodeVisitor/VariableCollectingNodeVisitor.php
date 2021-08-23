@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor;
 
 use Twig\Environment;
 use Twig\Node\Expression\NameExpression;
+use Twig\Node\ForNode;
 use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
@@ -17,11 +18,22 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
     private $variableNames = [];
 
     /**
+     * @var string[]
+     */
+    private $generatedVariableNames = [];
+
+    /**
      * @param Node<Node> $node
      * @return Node<Node>
      */
     public function enterNode(Node $node, Environment $environment): Node
     {
+        if ($node instanceof ForNode) {
+            $this->generatedVariableNames[] = $this->getNodeName($node, 'key_target');
+            $this->generatedVariableNames[] = $this->getNodeName($node, 'value_target');
+            return $node;
+        }
+
         if (! $node instanceof NameExpression) {
             return $node;
         }
@@ -49,6 +61,15 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
      */
     public function getVariableNames(): array
     {
-        return $this->variableNames;
+        return array_diff($this->variableNames, $this->generatedVariableNames);
+    }
+
+    /**
+     * @param Node<Node> $node
+     */
+    private function getNodeName(Node $node, string $nodeKey): string
+    {
+        $keyNode = $node->getNode($nodeKey);
+        return $keyNode->getAttribute('name');
     }
 }
