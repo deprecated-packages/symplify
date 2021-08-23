@@ -518,3 +518,6 @@ parameters:
         # buggy since new Phpstan
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
+
+        # buggy on paseed variables
+        - '#Passed "_key", "some_type" variable that are not used in the template#'

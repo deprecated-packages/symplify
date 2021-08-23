@@ -12,10 +12,12 @@ final class SomeForeachMissingVariableController extends AbstractController
 {
     public function __invoke(): Response
     {
+        $templateFilePath = __DIR__ . '/../Source/non_existing_method_foreach.twig';
+
         $someVariable = new SomeType();
         $someTypes = [$someVariable];
 
-        return $this->render(__DIR__ . '/../Source/non_existing_method_foreach.twig', [
+        return $this->render($templateFilePath, [
             'some_types' => $someTypes
         ]);
     }
