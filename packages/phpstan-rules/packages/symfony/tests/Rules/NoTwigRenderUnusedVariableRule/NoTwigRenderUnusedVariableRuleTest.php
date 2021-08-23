@@ -34,6 +34,7 @@ final class NoTwigRenderUnusedVariableRuleTest extends AbstractServiceAwareRuleT
         ]];
 
         yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipForeachUsedVariable.php', []];
     }
 
     protected function getRule(): Rule
