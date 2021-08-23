@@ -42,6 +42,10 @@ final class TemplateRenderAnalyzer
             return false;
         }
 
+        if (! $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'renderView'])) {
+            return false;
+        }
+
         return $methodCallReturnType->isInstanceOf(Response::class)->yes();
     }
 

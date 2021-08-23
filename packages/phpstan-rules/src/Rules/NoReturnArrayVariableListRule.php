@@ -109,11 +109,16 @@ CODE_SAMPLE
             return true;
         }
 
-        if (str_contains($scope->getNamespace(), 'Enum')) {
+        $namespace = $scope->getNamespace();
+        if ($namespace === null) {
             return true;
         }
 
-        if (str_contains($scope->getNamespace(), 'ValueObject')) {
+        if (str_contains($namespace, 'Enum')) {
+            return true;
+        }
+
+        if (str_contains($namespace, 'ValueObject')) {
             return true;
         }
 
