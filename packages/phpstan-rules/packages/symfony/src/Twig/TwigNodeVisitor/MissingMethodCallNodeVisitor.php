@@ -4,27 +4,45 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor;
 
+use PHPStan\Type\ArrayType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
+use Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer;
+use Symplify\PHPStanRules\Symfony\ValueObject\ForeachVariable;
+use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
+use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 use Twig\Environment;
+use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\GetAttrExpression;
 use Twig\Node\Expression\NameExpression;
+use Twig\Node\ForNode;
 use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
 final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
 {
     /**
-     * @var array<string, string[]>
+     * @var string
      */
-    private array $variableNamesToMissingMethodNames = [];
+    private const NAME = 'name';
 
     /**
-     * @param array<string, Type> $variableNamesToTypes
+     * @var ForeachVariable[]
+     */
+    private array $foreachVariables = [];
+
+    /**
+     * @var VariableAndMissingMethodName[]
+     */
+    private array $variableAndMissingMethodNames = [];
+
+    /**
+     * @param VariableAndType[] $variableAndTypes
      */
     public function __construct(
-        private array $variableNamesToTypes
+        private array $variableAndTypes,
+        private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer
     ) {
     }
 
@@ -34,6 +52,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
      */
     public function enterNode(Node $node, Environment $environment): Node
     {
+        if ($node instanceof ForNode) {
+            $this->collectForeachVariable($node);
+            return $node;
+        }
+
         if (! $node instanceof GetAttrExpression) {
             return $node;
         }
@@ -47,12 +70,7 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        if (! isset($this->variableNamesToTypes[$variableName])) {
-            return $node;
-        }
-
-        $variableType = $this->variableNamesToTypes[$variableName];
-        // @todo add support for iterable variable
+        $variableType = $this->matchVariableType($variableName);
         if (! $variableType instanceof TypeWithClassName) {
             return $node;
         }
@@ -63,12 +81,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        $possibleGetterMethodNames = $this->createPossibleMethodNames($methodName);
-        if ($this->hasObjectTypeAnyMethod($possibleGetterMethodNames, $variableType)) {
+        if ($this->objectTypeMethodAnalyzer->hasObjectTypeMagicGetter($variableType, $methodName)) {
             return $node;
         }
 
-        $this->variableNamesToMissingMethodNames[$variableName][] = $methodName;
+        $this->variableAndMissingMethodNames[] = new VariableAndMissingMethodName($variableName, $methodName);
 
         return $node;
     }
@@ -88,24 +105,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
     }
 
     /**
-     * @return array<string, string[]>
+     * @return VariableAndMissingMethodName[]
      */
-    public function getVariableNamesToMissingMethodNames(): array
+    public function getVariableAndMissingMethodNames(): array
     {
-        return $this->variableNamesToMissingMethodNames;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function createPossibleMethodNames(string $methodName): array
-    {
-        return [
-            $methodName,
-            'get' . ucfirst($methodName),
-            'has' . ucfirst($methodName),
-            'is' . ucfirst($methodName),
-        ];
+        return $this->variableAndMissingMethodNames;
     }
 
     /**
@@ -118,11 +122,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return null;
         }
 
-        if (! $variableNode->hasAttribute('name')) {
+        if (! $variableNode->hasAttribute(self::NAME)) {
             return null;
         }
 
-        $variableName = $variableNode->getAttribute('name');
+        $variableName = $variableNode->getAttribute(self::NAME);
         if (! is_string($variableName)) {
             return null;
         }
@@ -147,21 +151,44 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
         return $attributeName->getAttribute('value');
     }
 
-    /**
-     * @param string[] $possibleGetterMethodNames
-     */
-    private function hasObjectTypeAnyMethod(
-        array $possibleGetterMethodNames,
-        TypeWithClassName $typeWithClassName
-    ): bool {
-        foreach ($possibleGetterMethodNames as $possibleGetterMethodName) {
-            if (! $typeWithClassName->hasMethod($possibleGetterMethodName)->yes()) {
+    private function matchVariableType(string $variableName): Type|null
+    {
+        foreach ($this->variableAndTypes as $variableAndType) {
+            if ($variableAndType->getVariable() === $variableName) {
+                return $variableAndType->getType();
+            }
+        }
+
+        foreach ($this->foreachVariables as $foreachVariable) {
+            if ($foreachVariable->getItemName() !== $variableName) {
                 continue;
             }
 
-            return true;
+            $arrayType = $this->matchVariableType($foreachVariable->getArrayName());
+            if ($arrayType instanceof ArrayType) {
+                return $arrayType->getItemType();
+            }
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * @param ForNode<Node> $forNode
+     */
+    private function collectForeachVariable(ForNode $forNode): void
+    {
+        // 1. iterated node
+        $nameExpression = $forNode->getNode('seq');
+        $arrayItemName = $nameExpression->getAttribute(self::NAME);
+
+        // 2. assigned node
+        $assignNameExpression = $forNode->getNode('value_target');
+        if (! $assignNameExpression instanceof AssignNameExpression) {
+            return;
+        }
+
+        $basicArrayName = $assignNameExpression->getAttribute(self::NAME);
+        $this->foreachVariables[] = new ForeachVariable($arrayItemName, $basicArrayName);
     }
 }
