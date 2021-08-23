@@ -9,19 +9,19 @@ use Symfony\Component\Routing\RequestContext;
 
 final class DummyUrlGenerator implements UrlGeneratorInterface
 {
-    private RequestContext $context;
+    private RequestContext $requestContext;
 
-    public function setContext(RequestContext $context): void
+    public function setContext(RequestContext $requestContext): void
     {
-        $this->context = $context;
+        $this->requestContext = $requestContext;
     }
 
     public function getContext(): RequestContext
     {
-        return $this->context;
+        return $this->requestContext;
     }
 
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         return 'some_dummy_url';
     }

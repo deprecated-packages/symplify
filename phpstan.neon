@@ -518,3 +518,5 @@ parameters:
         # buggy since new Phpstan
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
+        # invalid symfony API
+        - '#Arguments names conflicts with parent class method\: "\$requestContext" should be "\$context"\. This will break named arguments#'

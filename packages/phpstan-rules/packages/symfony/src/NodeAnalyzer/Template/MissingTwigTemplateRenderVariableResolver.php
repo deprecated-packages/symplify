@@ -32,6 +32,9 @@ final class MissingTwigTemplateRenderVariableResolver
             1
         );
 
+        // default variables
+        $availableVariableNames[] = 'app';
+
         $missingVariableNames = array_diff($templateUsedVariableNames, $availableVariableNames);
         return array_unique($missingVariableNames);
     }
