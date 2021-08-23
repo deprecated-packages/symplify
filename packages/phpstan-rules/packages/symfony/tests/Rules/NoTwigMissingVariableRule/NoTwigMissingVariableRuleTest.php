@@ -30,6 +30,7 @@ final class NoTwigMissingVariableRuleTest extends AbstractServiceAwareRuleTestCa
         ]];
 
         yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipForeachVariable.php', []];
     }
 
     protected function getRule(): Rule
