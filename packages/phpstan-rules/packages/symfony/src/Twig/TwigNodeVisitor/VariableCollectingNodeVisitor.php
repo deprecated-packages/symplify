@@ -15,12 +15,12 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
     /**
      * @var string[]
      */
-    private $variableNames = [];
+    private array $variableNames = [];
 
     /**
      * @var string[]
      */
-    private $generatedVariableNames = [];
+    private array $generatedVariableNames = [];
 
     /**
      * @param Node<Node> $node
