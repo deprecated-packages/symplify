@@ -19,6 +19,11 @@ use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
 use PhpParser\Node\Stmt\ClassLike;
+use PHPStan\Analyser\Scope;
+use PHPStan\Type\Constant\ConstantBooleanType;
+use PHPStan\Type\Constant\ConstantFloatType;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
 use ReflectionClassConstant;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -40,6 +45,38 @@ final class NodeValueResolver
         private SimpleNodeFinder $simpleNodeFinder
     ) {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
+    }
+
+    /**
+     * @return array|bool|float|int|mixed|string|null
+     */
+    public function resolveWithScope(Expr $expr, Scope $scope)
+    {
+        $this->currentFilePath = $scope->getFile();
+
+        try {
+            return $this->constExprEvaluator->evaluateDirectly($expr);
+        } catch (ConstExprEvaluationException) {
+        }
+
+        $exprType = $scope->getType($expr);
+        if ($exprType instanceof ConstantStringType) {
+            return $exprType->getValue();
+        }
+
+        if ($exprType instanceof ConstantIntegerType) {
+            return $exprType->getValue();
+        }
+
+        if ($exprType instanceof ConstantBooleanType) {
+            return $exprType->getValue();
+        }
+
+        if ($exprType instanceof ConstantFloatType) {
+            return $exprType->getValue();
+        }
+
+        return null;
     }
 
     /**

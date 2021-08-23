@@ -145,6 +145,7 @@ parameters:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 - packages/config-transformer/src/Configuration/Configuration.php
+                - packages/phpstan-rules/packages/symfony/src/ObjectTypeMethodAnalyzer.php
 
         -
              message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -321,7 +322,6 @@ parameters:
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
-        - '#Property Symplify\\PHPStanRules\\Rules\\NoInheritanceRule\:\:\$allowedParentTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
         - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
@@ -360,8 +360,6 @@ parameters:
         # known types
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
-
-        - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         # node traverser magic
         -
@@ -464,15 +462,8 @@ parameters:
             message: '#Parameter "config" cannot be nullable#'
             path: packages/easy-coding-standard/src/ValueObject/Configuration.php
 
-        # array_merge() class-string[]
-        - '#Property Symplify\\PHPStanRules\\Rules\\ClassNameRespectsParentSuffixRule\:\:\$parentClasses \(array<class\-string\>\) does not accept array<string\>#'
-
         # this can change on downgrade build
         - "#'@package_version@' and '@package_version@' will always evaluate to false#"
-
-        -
-            message: '#Unreachable statement \- code above always terminates#'
-            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
 
         # optional parameter in value object
         -
@@ -528,11 +519,5 @@ parameters:
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
 
-        # @todo resolve later
-        -
-            message: '#Use value object over return of values#'
-            path: packages/phpstan-rules/packages/symfony/src/Twig/TwigNodeVisitor/MissingMethodCallNodeVisitor.php
-
-        -
-            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
-            path: packages/phpstan-rules/packages/symfony/src/TypeAnalyzer/TemplateVariableTypesResolver.php
+        # buggy on paseed variables
+        - '#Passed "_key", "some_type" variable that are not used in the template#'

@@ -17,7 +17,8 @@ final class PathResolver
 
     public function resolveExistingFilePath(Expr $expr, Scope $scope): ?string
     {
-        $resolvedTemplateFilePath = $this->nodeValueResolver->resolve($expr, $scope->getFile());
+        $resolvedTemplateFilePath = $this->nodeValueResolver->resolveWithScope($expr, $scope);
+
         // file could not be found, nothing we can do
         if (! is_string($resolvedTemplateFilePath)) {
             return null;
