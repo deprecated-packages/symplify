@@ -27,6 +27,7 @@ final class NoReturnArrayVariableListRuleTest extends AbstractServiceAwareRuleTe
     {
         yield [__DIR__ . '/Fixture/ReturnVariables.php', [[NoReturnArrayVariableListRule::ERROR_MESSAGE, 11]]];
 
+        yield [__DIR__ . '/Fixture/Enum/SkipEnum.php', []];
         yield [__DIR__ . '/Fixture/SkipReturnOne.php', []];
         yield [__DIR__ . '/Fixture/SkipNews.php', []];
         yield [__DIR__ . '/Fixture/ValueObject/SkipValueObject.php', []];
