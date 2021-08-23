@@ -1093,68 +1093,6 @@ class SomeClass
 
 <br>
 
-## ForbiddenCallOnTypeRule
-
-Method call or Static Call on %s is not allowed
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule`](../src/Rules/ForbiddenCallOnTypeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenCallOnTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - Symfony\Component\DependencyInjection\Container
-```
-
-↓
-
-```php
-use Symfony\Component\DependencyInjection\Container;
-
-class SomeClass
-{
-    public function __construct(
-        private Container $some
-    ) {
-    }
-
-    public function call()
-    {
-        $this->some->call();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Other\SpecificService;
-
-class SomeClass
-{
-    public function __construct(
-        private SpecificService $specificService
-    ) {
-    }
-
-    public function call()
-    {
-        $this->specificService->call();
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenClassConstRule
 
 Constants in this class are not allowed, move them to custom Enum class instead
@@ -4218,48 +4156,6 @@ class Some
 
 <br>
 
-## NoSymfonyRenderUnusedVariableRule
-
-Passed "%s" variable that are not used in the template
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\NoSymfonyRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoTwigRenderUnusedVariableRule.php)
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value',
-        ]);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value',
-        ]);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoTraitRule
 
 Do not use trait, extract to a service and dependency injection instead
@@ -4286,6 +4182,54 @@ class SomeService
     {
     }
 }
+```
+
+:+1:
+
+<br>
+
+## NoTwigMissingMethodCallRule
+
+Variable "%s" does not have `"%s()"` method
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule`](../packages/symfony/src/Rules/NoTwigMissingMethodCallRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'some' => new SomeObject()
+        ]);
+    }
+}
+
+// some_file.twig
+{{ some.non_existing_method }}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+final class SomeController extends AbstractController
+{
+    public function __invoke()
+    {
+        return $this->render(__DIR__ . '/some_file.twig', [
+            'some' => new SomeObject()
+        ]);
+    }
+}
+
+// some_file.twig
+{{ some.existing_method }}
 ```
 
 :+1:
@@ -4328,6 +4272,34 @@ final class SomeController extends AbstractController
         ]);
     }
 }
+```
+
+:+1:
+
+<br>
+
+## NoTwigRenderUnusedVariableRule
+
+Passed "%s" variable that are not used in the template
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoTwigRenderUnusedVariableRule.php)
+
+```php
+$environment = new Twig\Environment();
+$environment->render(__DIR__ . '/some_file.twig', [
+    'non_existing_variable' => 'value',
+]);
+```
+
+:x:
+
+<br>
+
+```php
+$environment = new Twig\Environment();
+$environment->render(__DIR__ . '/some_file.twig', [
+    'existing_variable' => 'value',
+]);
 ```
 
 :+1:
