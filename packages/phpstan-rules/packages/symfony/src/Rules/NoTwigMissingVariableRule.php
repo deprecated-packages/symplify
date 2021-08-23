@@ -22,7 +22,7 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Passed "%s" variable that are not used in the template';
+    public const ERROR_MESSAGE = 'Variable "%s" is used in template but missing in render() method';
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
@@ -70,9 +70,12 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", "', $missingVariableNames);
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
-        return [$errorMessage];
+        $errorMessages = [];
+        foreach ($missingVariableNames as $missingVariableName) {
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $missingVariableName);
+        }
+
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
