@@ -28,9 +28,9 @@ final class TwigNodeParser
             $filePath => $fileContent,
         ]);
 
-        $environment = new TolerantTwigEnvironment($arrayLoader);
-        $tokenStream = $environment->tokenize(new Source($fileContent, $filePath));
+        $tolerantTwigEnvironment = new TolerantTwigEnvironment($arrayLoader);
+        $tokenStream = $tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
 
-        return $environment->parse($tokenStream);
+        return $tolerantTwigEnvironment->parse($tokenStream);
     }
 }
