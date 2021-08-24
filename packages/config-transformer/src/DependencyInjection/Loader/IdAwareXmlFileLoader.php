@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\DependencyInjection\Loader;
 
+use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
+use InvalidArgumentException;
 use Nette\Utils\Strings;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Config\Util\Exception\XmlParsingException;
+use Symfony\Component\Config\Util\XmlUtils;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -60,24 +64,33 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     {
         $path = $this->locator->locate($resource);
 
-        $xml = $this->privatesCaller->callPrivateMethod($this, 'parseFileToDOM', [$path]);
+        if (! is_string($path)) {
+            throw new XmlParsingException();
+        }
+
+        // mostly mimics parseFileToDOM(), just without validation, that often breaks due to missing extension
+        $domDocument = $this->parseFileToDOMWithoutValidation($path);
+
         $this->container->fileExists($path);
 
-        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$xml, $path]);
-        $this->processAnonymousServices($xml, $path);
+        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$domDocument, $path]);
+        $this->processAnonymousServices($domDocument, $path);
 
         // imports
-        $this->privatesCaller->callPrivateMethod($this, 'parseImports', [$xml, $path]);
+        $this->privatesCaller->callPrivateMethod($this, 'parseImports', [$domDocument, $path]);
 
         // parameters
-        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$xml, $path]);
+        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
         // extensions
-        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$xml]);
+        $doctrineExtension = new DoctrineExtension();
+        $this->container->registerExtension($doctrineExtension);
+
+        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$domDocument]);
 
         // services
         try {
-            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', [$xml, $path, $defaults]);
+            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', [$domDocument, $path, $defaults]);
         } finally {
             $this->instanceof = [];
             $this->registerAliasesForSinglyImplementedInterfaces();
@@ -200,5 +213,20 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
 
         $hashedFileName = hash('sha256', $file);
         return sprintf('%d_%s', ++$this->count, $hashedFileName);
+    }
+
+    private function parseFileToDOMWithoutValidation(string $path): DOMDocument
+    {
+        try {
+            return XmlUtils::loadFile($path);
+        } catch (InvalidArgumentException $invalidArgumentException) {
+            $errorMessage = sprintf('Unable to parse file "%s": %s', $path, $invalidArgumentException->getMessage());
+
+            throw new XmlParsingException(
+                $errorMessage,
+                $invalidArgumentException->getCode(),
+                $invalidArgumentException
+            );
+        }
     }
 }
