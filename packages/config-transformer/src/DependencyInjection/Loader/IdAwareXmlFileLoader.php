@@ -10,6 +10,7 @@ use DOMElement;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
+use InvalidArgumentException;
 use Nette\Utils\Strings;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Util\Exception\XmlParsingException;
@@ -68,28 +69,28 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         }
 
         // mostly mimics parseFileToDOM(), just without validation, that often breaks due to missing extension
-        $xml = $this->parseFileToDOMWithoutValidation($path);
+        $domDocument = $this->parseFileToDOMWithoutValidation($path);
 
         $this->container->fileExists($path);
 
-        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$xml, $path]);
-        $this->processAnonymousServices($xml, $path);
+        $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$domDocument, $path]);
+        $this->processAnonymousServices($domDocument, $path);
 
         // imports
-        $this->privatesCaller->callPrivateMethod($this, 'parseImports', [$xml, $path]);
+        $this->privatesCaller->callPrivateMethod($this, 'parseImports', [$domDocument, $path]);
 
         // parameters
-        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$xml, $path]);
+        $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
         // extensions
         $doctrineExtension = new DoctrineExtension();
         $this->container->registerExtension($doctrineExtension);
 
-        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$xml]);
+        $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$domDocument]);
 
         // services
         try {
-            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', [$xml, $path, $defaults]);
+            $this->privatesCaller->callPrivateMethod($this, 'parseDefinitions', [$domDocument, $path, $defaults]);
         } finally {
             $this->instanceof = [];
             $this->registerAliasesForSinglyImplementedInterfaces();
@@ -218,8 +219,9 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     {
         try {
             return XmlUtils::loadFile($path);
-        } catch (\InvalidArgumentException $invalidArgumentException) {
+        } catch (InvalidArgumentException $invalidArgumentException) {
             $errorMessage = sprintf('Unable to parse file "%s": %s', $path, $invalidArgumentException->getMessage());
+
             throw new XmlParsingException(
                 $errorMessage,
                 $invalidArgumentException->getCode(),

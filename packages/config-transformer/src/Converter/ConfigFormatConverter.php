@@ -13,6 +13,7 @@ use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -26,7 +27,8 @@ final class ConfigFormatConverter
         private CurrentFilePathProvider $currentFilePathProvider,
         private XmlImportCollector $xmlImportCollector,
         private ContainerBuilderCleaner $containerBuilderCleaner,
-        private PrivatesAccessor $privatesAccessor
+        private PrivatesAccessor $privatesAccessor,
+        private ParametersMerger $parametersMerger
     ) {
     }
 
@@ -70,8 +72,17 @@ final class ConfigFormatConverter
         }
 
         // 2. append extension yaml too
-        $extensionsYaml = $this->privatesAccessor->getPrivateProperty($containerBuilder, 'extensionConfigs');
-        $extensionsContent = $this->dumpYaml($extensionsYaml);
+        $extensionsConfigs = $this->privatesAccessor->getPrivateProperty($containerBuilder, 'extensionConfigs');
+        foreach ($extensionsConfigs as $namespace => $configs) {
+            $mergedConfig = [];
+            foreach ($configs as $config) {
+                $mergedConfig = $this->parametersMerger->merge($mergedConfig, $config);
+            }
+
+            $extensionsConfigs[$namespace] = $mergedConfig;
+        }
+
+        $extensionsContent = $this->dumpYaml($extensionsConfigs);
 
         return $content . PHP_EOL . $extensionsContent;
     }
