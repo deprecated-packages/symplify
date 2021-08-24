@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\Twig;
 
-use Symfony\Bridge\Twig\Extension\FormExtension;
-use Symfony\Bridge\Twig\Extension\RoutingExtension;
-use Symplify\PHPStanRules\Symfony\Twig\DummyService\DummyUrlGenerator;
 use Symplify\SmartFileSystem\SmartFileSystem;
-use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
@@ -32,13 +28,9 @@ final class TwigNodeParser
             $filePath => $fileContent,
         ]);
 
-        $environment = new Environment($arrayLoader);
-        // basic extensions, to allow parsing templates - possibly re-use from the project itself
-        $environment->addExtension(new FormExtension());
-        $environment->addExtension(new RoutingExtension(new DummyUrlGenerator()));
+        $tolerantTwigEnvironment = new TolerantTwigEnvironment($arrayLoader);
+        $tokenStream = $tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
 
-        $tokenStream = $environment->tokenize(new Source($fileContent, $filePath));
-
-        return $environment->parse($tokenStream);
+        return $tolerantTwigEnvironment->parse($tokenStream);
     }
 }

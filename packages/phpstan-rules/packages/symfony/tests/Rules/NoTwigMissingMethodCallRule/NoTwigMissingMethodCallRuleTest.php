@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeType;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoTwigMissingMethodCallRule>
@@ -26,12 +27,18 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [
-            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', 'nonExistingMethod'), 17],
+            [
+                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', SomeType::class, 'nonExistingMethod'),
+                17,
+            ],
         ]];
 
         $errorMessages = [
-            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', 'nonExistingMethod'), 20],
-            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', 'blabla'), 20],
+            [
+                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', SomeType::class, 'nonExistingMethod'),
+                20,
+            ],
+            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', SomeType::class, 'blabla'), 20],
         ];
         yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', $errorMessages];
 

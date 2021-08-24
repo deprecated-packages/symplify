@@ -85,7 +85,12 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        $this->variableAndMissingMethodNames[] = new VariableAndMissingMethodName($variableName, $methodName);
+        $variableTypeClassName = $variableType->getClassName();
+        $this->variableAndMissingMethodNames[] = new VariableAndMissingMethodName(
+            $variableName,
+            $variableTypeClassName,
+            $methodName
+        );
 
         return $node;
     }
