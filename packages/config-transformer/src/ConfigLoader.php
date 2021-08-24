@@ -43,7 +43,6 @@ final class ConfigLoader
         $containerBuilder = new ContainerBuilder();
 
         $delegatingLoader = $this->createLoaderBySuffix($containerBuilder, $smartFileInfo->getSuffix());
-
         $fileRealPath = $smartFileInfo->getRealPath();
 
         // correct old syntax of tags so we can parse it

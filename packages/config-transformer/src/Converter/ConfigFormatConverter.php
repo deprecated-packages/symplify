@@ -12,6 +12,7 @@ use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
 use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -24,7 +25,8 @@ final class ConfigFormatConverter
         private YamlToPhpConverter $yamlToPhpConverter,
         private CurrentFilePathProvider $currentFilePathProvider,
         private XmlImportCollector $xmlImportCollector,
-        private ContainerBuilderCleaner $containerBuilderCleaner
+        private ContainerBuilderCleaner $containerBuilderCleaner,
+        private PrivatesAccessor $privatesAccessor
     ) {
     }
 
@@ -61,12 +63,17 @@ final class ConfigFormatConverter
         $yamlDumper = new YamlDumper($containerBuilder);
         $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
+        // 1. services and parameters
         $content = $yamlDumper->dump();
         if (! is_string($content)) {
             throw new ShouldNotHappenException();
         }
 
-        return $content;
+        // 2. append extension yaml too
+        $extensionsYaml = $this->privatesAccessor->getPrivateProperty($containerBuilder, 'extensionConfigs');
+        $extensionsContent = $this->dumpYaml($extensionsYaml);
+
+        return $content . PHP_EOL . $extensionsContent;
     }
 
     private function decorateWithCollectedXmlImports(string $dumpedYaml): string
@@ -78,6 +85,18 @@ final class ConfigFormatConverter
 
         $yamlArray = Yaml::parse($dumpedYaml, Yaml::PARSE_CUSTOM_TAGS);
         $yamlArray['imports'] = array_merge($yamlArray['imports'] ?? [], $collectedXmlImports);
+
+        return $this->dumpYaml($yamlArray);
+    }
+
+    /**
+     * @param array<string, mixed> $yamlArray
+     */
+    private function dumpYaml(array $yamlArray): string
+    {
+        if ($yamlArray === []) {
+            return '';
+        }
 
         return Yaml::dump($yamlArray, 10, 4, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
