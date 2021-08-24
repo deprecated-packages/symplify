@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\ValueObject;
 
-use PHPStan\Type\TypeWithClassName;
-
 final class VariableAndMissingMethodName
 {
     public function __construct(
