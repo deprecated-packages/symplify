@@ -4,21 +4,29 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\ValueObject;
 
+use PHPStan\Type\TypeWithClassName;
+
 final class VariableAndMissingMethodName
 {
     public function __construct(
-        private string $variable,
+        private string $variableName,
+        private string $variableTypeClassName,
         private string $methodName
     ) {
     }
 
-    public function getVariable(): string
+    public function getVariableName(): string
     {
-        return $this->variable;
+        return $this->variableName;
     }
 
     public function getMethodName(): string
     {
         return $this->methodName;
+    }
+
+    public function getVariableTypeClassName(): string
+    {
+        return $this->variableTypeClassName;
     }
 }

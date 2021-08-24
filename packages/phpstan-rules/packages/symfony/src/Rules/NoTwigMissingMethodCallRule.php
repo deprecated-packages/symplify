@@ -25,7 +25,7 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Variable "%s" does not have "%s()" method';
+    public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
@@ -133,7 +133,8 @@ CODE_SAMPLE
         foreach ($variableNamesToMissingMethodNames as $variableAndMissingMethodName) {
             $errorMessages[] = sprintf(
                 self::ERROR_MESSAGE,
-                $variableAndMissingMethodName->getVariable(),
+                $variableAndMissingMethodName->getVariableName(),
+                $variableAndMissingMethodName->getVariableTypeClassName(),
                 $variableAndMissingMethodName->getMethodName()
             );
         }
