@@ -10,6 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
 use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -32,12 +33,13 @@ final class ConfigFormatConverter
     ) {
     }
 
-    public function convert(SmartFileInfo $smartFileInfo): string
+    public function convert(SmartFileInfo $smartFileInfo, Configuration $configuration): string
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
         $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo(
-            $smartFileInfo
+            $smartFileInfo,
+            $configuration
         );
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
@@ -50,7 +52,7 @@ final class ConfigFormatConverter
         }
 
         if ($smartFileInfo->getSuffix() === Format::XML) {
-            $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
+            $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder, $configuration);
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
             return $this->yamlToPhpConverter->convert($dumpedYaml);
@@ -60,10 +62,12 @@ final class ConfigFormatConverter
         throw new NotImplementedYetException($message);
     }
 
-    private function dumpContainerBuilderToYaml(ContainerBuilder $containerBuilder): string
-    {
+    private function dumpContainerBuilderToYaml(
+        ContainerBuilder $containerBuilder,
+        Configuration $configuration
+    ): string {
         $yamlDumper = new YamlDumper($containerBuilder);
-        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
+        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder, $configuration);
 
         // 1. services and parameters
         $content = $yamlDumper->dump();

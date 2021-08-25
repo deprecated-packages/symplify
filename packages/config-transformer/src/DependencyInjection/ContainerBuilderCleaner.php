@@ -9,7 +9,7 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\ConfigTransformer\Configuration\Configuration;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\SymfonyVersionFeature;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
@@ -23,18 +23,17 @@ final class ContainerBuilderCleaner
 
     public function __construct(
         private PrivatesAccessor $privatesAccessor,
-        private Configuration $configuration
     ) {
     }
 
-    public function cleanContainerBuilder(ContainerBuilder $containerBuilder): void
+    public function cleanContainerBuilder(ContainerBuilder $containerBuilder, Configuration $configuration): void
     {
         $this->removeExplicitPrivate($containerBuilder);
         $this->removeSymfonyInternalServices($containerBuilder);
         $this->removeTemporaryAnonymousIds($containerBuilder);
 
         foreach ($containerBuilder->getDefinitions() as $definition) {
-            $this->resolvePolyfillForNameTag($definition);
+            $this->resolvePolyfillForNameTag($definition, $configuration);
         }
     }
 
@@ -82,7 +81,7 @@ final class ContainerBuilderCleaner
         return (bool) Strings::match($name, self::ANONYMOUS_CLASS_REGEX);
     }
 
-    private function resolvePolyfillForNameTag(Definition $definition): void
+    private function resolvePolyfillForNameTag(Definition $definition, Configuration $configuration): void
     {
         if ($definition->getTags() === []) {
             return;
@@ -92,7 +91,7 @@ final class ContainerBuilderCleaner
         foreach ($definition->getTags() as $name => $value) {
             /** @var mixed[] $tagValues */
             $tagValues = $value[0];
-            if ($this->shouldSkipNameTagInlining($tagValues)) {
+            if ($this->shouldSkipNameTagInlining($tagValues, $configuration)) {
                 continue;
             }
 
@@ -112,12 +111,15 @@ final class ContainerBuilderCleaner
         $definition->setTags($tags);
     }
 
-    private function shouldSkipNameTagInlining(array $tagValues): bool
+    /**
+     * @param array<string, mixed> $tagValues
+     */
+    private function shouldSkipNameTagInlining(array $tagValues, Configuration $configuration): bool
     {
         if ($tagValues !== []) {
             return false;
         }
 
-        return $this->configuration->isAtLeastSymfonyVersion(SymfonyVersionFeature::TAGS_WITHOUT_NAME);
+        return $configuration->isAtLeastSymfonyVersion(SymfonyVersionFeature::TAGS_WITHOUT_NAME);
     }
 }

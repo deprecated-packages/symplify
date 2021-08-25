@@ -5,29 +5,21 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp;
 
 use Iterator;
-use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        /** @var Configuration $configuration */
-        $configuration = $this->getService(Configuration::class);
-        $configuration->changeSymfonyVersion(3.4);
-    }
-
     /**
      * @dataProvider provideDataForRouting()
      */
     public function testRouting(SmartFileInfo $fileInfo): void
     {
-        $this->doTestOutput($fileInfo);
+        $configuration = new Configuration([], 3.4, true);
+        $this->doTestOutput($fileInfo, $configuration);
     }
 
     /**
@@ -48,7 +40,8 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
         require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
-        $this->doTestOutput($fixtureFileInfo);
+        $configuration = new Configuration([], 5.4, true);
+        $this->doTestOutput($fixtureFileInfo, $configuration);
     }
 
     /**
@@ -93,7 +86,8 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Controller');
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Domain');
 
-        $this->doTestOutput($fileInfo);
+        $configuration = new Configuration([], 5.4, true);
+        $this->doTestOutput($fileInfo, $configuration);
     }
 
     /**
@@ -150,6 +144,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
 
-        $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo);
+        $configuration = new Configuration([], 5.4, true);
+        $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo, $configuration);
     }
 }

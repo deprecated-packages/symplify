@@ -6,6 +6,7 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\XmlTo
 
 use Iterator;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -21,7 +22,8 @@ final class XmlToPhpTest extends AbstractConfigFormatConverterTest
             sys_get_temp_dir() . '/_temp_fixture_easy_testing/some.xml'
         );
 
-        $this->doTestOutput($fixtureFileInfo);
+        $configuration = new Configuration([], 5.4, true);
+        $this->doTestOutput($fixtureFileInfo, $configuration);
     }
 
     /**

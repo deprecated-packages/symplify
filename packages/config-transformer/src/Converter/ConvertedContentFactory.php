@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -20,7 +21,7 @@ final class ConvertedContentFactory
      * @param SmartFileInfo[] $fileInfos
      * @return ConvertedContent[]
      */
-    public function createFromFileInfos(array $fileInfos): array
+    public function createFromFileInfos(array $fileInfos, Configuration $configuration): array
     {
         $convertedContentFromFileInfo = [];
 
@@ -28,7 +29,7 @@ final class ConvertedContentFactory
             $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
             $this->symfonyStyle->note($message);
 
-            $convertedContent = $this->configFormatConverter->convert($fileInfo);
+            $convertedContent = $this->configFormatConverter->convert($fileInfo, $configuration);
 
             $convertedContentFromFileInfo[] = new ConvertedContent($convertedContent, $fileInfo);
         }

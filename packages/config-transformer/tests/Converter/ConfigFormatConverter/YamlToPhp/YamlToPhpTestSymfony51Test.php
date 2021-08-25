@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp;
 
 use Iterator;
-use Symplify\ConfigTransformer\Configuration\Configuration;
+use Symplify\ConfigTransformer\Configuration\ConfigurationFactory;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class YamlToPhpTestSymfony51Test extends AbstractConfigFormatConverterTest
 {
+    private ConfigurationFactory $configurationFactory;
+
     protected function setUp(): void
     {
         parent::setUp();
-
-        /** @var Configuration $configuration */
-        $configuration = $this->getService(Configuration::class);
-        $configuration->changeSymfonyVersion(5.1);
+        $this->configurationFactory = $this->getService(ConfigurationFactory::class);
     }
 
     /**
@@ -26,7 +26,9 @@ final class YamlToPhpTestSymfony51Test extends AbstractConfigFormatConverterTest
      */
     public function test(SmartFileInfo $fixtureFileInfo): void
     {
-        $this->doTestOutput($fixtureFileInfo);
+        $configuration = new Configuration([], 5.1, false);
+
+        $this->doTestOutput($fixtureFileInfo, $configuration);
     }
 
     /**

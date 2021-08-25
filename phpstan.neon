@@ -520,3 +520,8 @@ parameters:
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
         # invalid symfony API
         - '#Arguments names conflicts with parent class method\: "\$requestContext" should be "\$context"\. This will break named arguments#'
+
+        # strict api : maybe allow ~1 private method
+        -
+            message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
+            path: packages/config-transformer/src/Command/SwitchFormatCommand.php

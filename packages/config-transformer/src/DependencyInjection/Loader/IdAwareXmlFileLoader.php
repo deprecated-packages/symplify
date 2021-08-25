@@ -19,8 +19,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
-use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Naming\UniqueNaming;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\SymfonyVersionFeature;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
@@ -82,7 +82,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         // parameters
         $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
-        // extensions
+        // faking extensions
         $doctrineExtension = new DoctrineExtension();
         $this->container->registerExtension($doctrineExtension);
 

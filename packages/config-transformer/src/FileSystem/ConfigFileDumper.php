@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\FileSystem;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\ConfigTransformer\Configuration\Configuration;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
