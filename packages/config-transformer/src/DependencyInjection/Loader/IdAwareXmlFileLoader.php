@@ -80,11 +80,11 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
         // faking extensions
-        $aliasConfigurableExtension = new AliasAndNamespaceConfigurableExtension(
+        $aliasAndNamespaceConfigurableExtension = new AliasAndNamespaceConfigurableExtension(
             'doctrine',
             'http://symfony.com/schema/dic/doctrine'
         );
-        $this->container->registerExtension($aliasConfigurableExtension);
+        $this->container->registerExtension($aliasAndNamespaceConfigurableExtension);
 
         $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$domDocument]);
 
