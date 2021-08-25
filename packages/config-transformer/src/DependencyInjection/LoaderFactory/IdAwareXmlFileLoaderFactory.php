@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\IdAwareXmlFileLoader;
 use Symplify\ConfigTransformer\Naming\UniqueNaming;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 
 final class IdAwareXmlFileLoaderFactory
 {
@@ -19,14 +18,11 @@ final class IdAwareXmlFileLoaderFactory
     ) {
     }
 
-    public function createFromContainerBuilder(
-        ContainerBuilder $containerBuilder,
-        Configuration $configuration
-    ): IdAwareXmlFileLoader {
+    public function createFromContainerBuilder(ContainerBuilder $containerBuilder): IdAwareXmlFileLoader
+    {
         return new IdAwareXmlFileLoader(
             $containerBuilder,
             new FileLocator(),
-            $configuration,
             $this->uniqueNaming,
             $this->xmlImportCollector
         );

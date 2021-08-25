@@ -12,13 +12,12 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class ConfigFileDumper
 {
     public function __construct(
-        private Configuration $configuration,
         private SymfonyStyle $symfonyStyle,
         private SmartFileSystem $smartFileSystem
     ) {
     }
 
-    public function dumpFile(ConvertedContent $convertedContent): void
+    public function dumpFile(ConvertedContent $convertedContent, Configuration $configuration): void
     {
         $originalFilePathWithoutSuffix = $convertedContent->getOriginalFilePathWithoutSuffix();
 
@@ -26,7 +25,7 @@ final class ConfigFileDumper
 
         $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFileRealPath);
 
-        if ($this->configuration->isDryRun()) {
+        if ($configuration->isDryRun()) {
             $message = sprintf('File "%s" would be dumped (is --dry-run)', $relativeFilePath);
             $this->symfonyStyle->note($message);
             return;

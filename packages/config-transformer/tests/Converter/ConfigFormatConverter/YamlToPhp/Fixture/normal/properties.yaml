@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -23,5 +23,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->property('absoluteLineLimit', 120);
 
     $services->set('app.newsletter_manager', 'App\Mail\NewsletterManager')
-        ->property('mailer', ref('mailer'));
+        ->property('mailer', service('mailer'));
 };

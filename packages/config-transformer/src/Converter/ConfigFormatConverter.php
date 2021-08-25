@@ -52,7 +52,7 @@ final class ConfigFormatConverter
         }
 
         if ($smartFileInfo->getSuffix() === Format::XML) {
-            $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder, $configuration);
+            $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
             return $this->yamlToPhpConverter->convert($dumpedYaml);
@@ -62,12 +62,10 @@ final class ConfigFormatConverter
         throw new NotImplementedYetException($message);
     }
 
-    private function dumpContainerBuilderToYaml(
-        ContainerBuilder $containerBuilder,
-        Configuration $configuration
-    ): string {
+    private function dumpContainerBuilderToYaml(ContainerBuilder $containerBuilder): string
+    {
         $yamlDumper = new YamlDumper($containerBuilder);
-        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder, $configuration);
+        $this->containerBuilderCleaner->cleanContainerBuilder($containerBuilder);
 
         // 1. services and parameters
         $content = $yamlDumper->dump();

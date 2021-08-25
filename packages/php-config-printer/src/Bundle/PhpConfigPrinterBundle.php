@@ -7,10 +7,8 @@ namespace Symplify\PhpConfigPrinter\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 use Symplify\PhpConfigPrinter\DependencyInjection\Extension\PhpConfigPrinterExtension;
-use Symplify\PhpConfigPrinter\Dummy\DummySymfonyVersionFeatureGuard;
 use Symplify\PhpConfigPrinter\Dummy\DummyYamlFileContentProvider;
 
 /**
@@ -38,15 +36,6 @@ final class PhpConfigPrinterBundle extends Bundle
             $containerBuilder->autowire(DummyYamlFileContentProvider::class)
                 ->setPublic(true);
             $containerBuilder->setAlias(YamlFileContentProviderInterface::class, DummyYamlFileContentProvider::class);
-        }
-
-        if (! $containerBuilder->has(SymfonyVersionFeatureGuardInterface::class)) {
-            $containerBuilder->autowire(DummySymfonyVersionFeatureGuard::class)
-                ->setPublic(true);
-            $containerBuilder->setAlias(
-                SymfonyVersionFeatureGuardInterface::class,
-                DummySymfonyVersionFeatureGuard::class
-            );
         }
     }
 }

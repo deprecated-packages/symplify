@@ -13,7 +13,6 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
@@ -28,8 +27,7 @@ final class StringExprResolver
 
     public function __construct(
         private ConstantNodeFactory $constantNodeFactory,
-        private CommonNodeFactory $commonNodeFactory,
-        private SymfonyFunctionNameProvider $symfonyFunctionNameProvider
+        private CommonNodeFactory $commonNodeFactory
     ) {
     }
 
@@ -67,8 +65,7 @@ final class StringExprResolver
 
         // is service reference
         if (\str_starts_with($value, '@') && ! $this->isFilePath($value)) {
-            $refOrServiceFunctionName = $this->symfonyFunctionNameProvider->provideRefOrService();
-            return $this->resolveServiceReferenceExpr($value, $skipServiceReference, $refOrServiceFunctionName);
+            return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
         }
 
         return BuilderHelpers::normalizeValue($value);

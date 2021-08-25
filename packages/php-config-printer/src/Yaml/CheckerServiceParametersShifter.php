@@ -85,6 +85,7 @@ final class CheckerServiceParametersShifter
         if (! isset($configuration[self::SERVICES_KEY])) {
             return $configuration;
         }
+
         if (! is_array($configuration[self::SERVICES_KEY])) {
             return $configuration;
         }

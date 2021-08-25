@@ -9,11 +9,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Console\ConfigTransfomerConsoleApplication;
 use Symplify\ConfigTransformer\Provider\YamlContentProvider;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
-use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 use Symplify\SmartFileSystem\FileSystemFilter;
 
@@ -44,7 +42,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Parser::class);
     $services->set(FileSystemFilter::class);
 
-    $services->alias(SymfonyVersionFeatureGuardInterface::class, Configuration::class);
     $services->alias(YamlFileContentProviderInterface::class, YamlContentProvider::class);
 
     $services->set(ClassLikeExistenceChecker::class);

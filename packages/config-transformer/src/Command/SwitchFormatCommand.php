@@ -58,7 +58,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos, $configuration);
 
         foreach ($convertedContents as $convertedContent) {
-            $this->configFileDumper->dumpFile($convertedContent);
+            $this->configFileDumper->dumpFile($convertedContent, $configuration);
         }
 
         $this->removeFileInfos($configuration, $fileInfos);

@@ -38,7 +38,7 @@ use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\Mime
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\ThirdFakeClass;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\ref;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
@@ -48,7 +48,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(SecondFakeClass::class . ' $shoutyTransformer', 'App\Util\UppercaseTransformer');
 
     $services->set(FakeClass::class)
-        ->args([ref('string'), ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com'], 456, ['App\FooCommand' => ref('app.command_handler.foo'), 'App\BarCommand' => ref('app.command_handler.bar')]]);
+        ->args([service('string'), ['isaevsgdbfhhnth', 1234561456545, 'jean@vgbsetgil.com'], 456, ['App\FooCommand' => service('app.command_handler.foo'), 'App\BarCommand' => service('app.command_handler.bar')]]);
 
     $services->set(MimeTypes::class)
         ->args([tagged_locator(tag: 'app.handler', index_by: 'key'), tagged_iterator('app.handler'), tagged_iterator(tag: 'app.handler', default_priority_method: 'getPriority')]);
@@ -57,7 +57,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args([tagged_locator(index_by: 'key', tag: 'app.handler', default_index_method: 'myOwnMethodName')]);
 
     $services->set(ThirdFakeClass::class)
-        ->arg('$fake1', ref('id.fake.service'))
+        ->arg('$fake1', service('id.fake.service'))
         ->arg('$fake2', ['fake_argument', 123, 'jean@mail.com']);
 
     $services->set('site_update_manager.normal_users', ThirdFakeClass::class)

@@ -71,10 +71,7 @@ final class ConfigLoader
         string $suffix
     ): DelegatingLoader {
         if ($suffix === Format::XML) {
-            $idAwareXmlFileLoader = $this->idAwareXmlFileLoaderFactory->createFromContainerBuilder(
-                $containerBuilder,
-                $configuration
-            );
+            $idAwareXmlFileLoader = $this->idAwareXmlFileLoaderFactory->createFromContainerBuilder($containerBuilder);
             return $this->wrapToDelegatingLoader($idAwareXmlFileLoader, $containerBuilder);
         }
 

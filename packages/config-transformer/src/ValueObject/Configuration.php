@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\ValueObject;
 
-//use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
-
-final class Configuration // implements SymfonyVersionFeatureGuardInterface
+final class Configuration
 {
     /**
      * @param string[] $sources
