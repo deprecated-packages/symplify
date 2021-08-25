@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\DependencyInjection\Loader;
 
-use Doctrine\Bundle\DoctrineBundle\DependencyInjection\DoctrineExtension;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
@@ -20,6 +19,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
 use Symplify\ConfigTransformer\Naming\UniqueNaming;
+use Symplify\ConfigTransformer\ValueObject\DependencyInjection\Extension\AliasAndNamespaceConfigurableExtension;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
@@ -80,8 +80,11 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
         // faking extensions
-        $doctrineExtension = new DoctrineExtension();
-        $this->container->registerExtension($doctrineExtension);
+        $aliasConfigurableExtension = new AliasAndNamespaceConfigurableExtension(
+            'doctrine',
+            'http://symfony.com/schema/dic/doctrine'
+        );
+        $this->container->registerExtension($aliasConfigurableExtension);
 
         $this->privatesCaller->callPrivateMethod($this, 'loadFromExtensions', [$domDocument]);
 

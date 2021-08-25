@@ -6,7 +6,7 @@ namespace Symplify\ConfigTransformer\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\ConfigTransformer\DependencyInjection\Extension\AliasConfigurableExtension;
+use Symplify\ConfigTransformer\ValueObject\DependencyInjection\Extension\AliasConfigurableExtension;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 /**

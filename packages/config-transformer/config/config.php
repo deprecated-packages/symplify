@@ -28,8 +28,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/HttpKernel',
             __DIR__ . '/../src/DependencyInjection/Loader',
             __DIR__ . '/../src/ValueObject',
-            // configurable class for faking extensions
-            __DIR__ . '/../src/DependencyInjection/Extension/AliasConfigurableExtension.php',
         ]);
 
     // console
