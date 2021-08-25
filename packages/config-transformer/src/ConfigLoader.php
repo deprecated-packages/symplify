@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\CheckerTolerantYamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ContainerBuilderAndFileContent;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
@@ -38,11 +39,12 @@ final class ConfigLoader
     }
 
     public function createAndLoadContainerBuilderFromFileInfo(
-        SmartFileInfo $smartFileInfo
+        SmartFileInfo $smartFileInfo,
+        Configuration $configuration
     ): ContainerBuilderAndFileContent {
         $containerBuilder = new ContainerBuilder();
 
-        $delegatingLoader = $this->createLoaderBySuffix($containerBuilder, $smartFileInfo->getSuffix());
+        $delegatingLoader = $this->createLoaderBySuffix($containerBuilder, $configuration, $smartFileInfo->getSuffix());
         $fileRealPath = $smartFileInfo->getRealPath();
 
         // correct old syntax of tags so we can parse it
@@ -63,8 +65,11 @@ final class ConfigLoader
         return new ContainerBuilderAndFileContent($containerBuilder, $content);
     }
 
-    private function createLoaderBySuffix(ContainerBuilder $containerBuilder, string $suffix): DelegatingLoader
-    {
+    private function createLoaderBySuffix(
+        ContainerBuilder $containerBuilder,
+        Configuration $configuration,
+        string $suffix
+    ): DelegatingLoader {
         if ($suffix === Format::XML) {
             $idAwareXmlFileLoader = $this->idAwareXmlFileLoaderFactory->createFromContainerBuilder($containerBuilder);
             return $this->wrapToDelegatingLoader($idAwareXmlFileLoader, $containerBuilder);

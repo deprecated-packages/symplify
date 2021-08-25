@@ -19,9 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
-use Symplify\ConfigTransformer\Configuration\Configuration;
 use Symplify\ConfigTransformer\Naming\UniqueNaming;
-use Symplify\ConfigTransformer\ValueObject\SymfonyVersionFeature;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
@@ -41,7 +39,6 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     public function __construct(
         ContainerBuilder $containerBuilder,
         FileLocatorInterface $fileLocator,
-        private Configuration $configuration,
         private UniqueNaming $uniqueNaming,
         private XmlImportCollector $xmlImportCollector
     ) {
@@ -82,7 +79,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         // parameters
         $this->privatesCaller->callPrivateMethod($this, 'parseParameters', [$domDocument, $path]);
 
-        // extensions
+        // faking extensions
         $doctrineExtension = new DoctrineExtension();
         $this->container->registerExtension($doctrineExtension);
 
@@ -204,10 +201,6 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     {
         $className = $domElement->getAttribute('class');
         if ($hasNamedServices) {
-            return $this->createServiceNameFromClass($className);
-        }
-
-        if (! $this->configuration->isAtLeastSymfonyVersion(SymfonyVersionFeature::SERVICE_WITHOUT_NAME)) {
             return $this->createServiceNameFromClass($className);
         }
 

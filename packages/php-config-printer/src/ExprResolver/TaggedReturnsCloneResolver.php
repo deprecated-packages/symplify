@@ -7,12 +7,11 @@ namespace Symplify\PhpConfigPrinter\ExprResolver;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use Symfony\Component\Yaml\Tag\TaggedValue;
-use Symplify\PhpConfigPrinter\Configuration\SymfonyFunctionNameProvider;
+use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 
 final class TaggedReturnsCloneResolver
 {
     public function __construct(
-        private SymfonyFunctionNameProvider $symfonyFunctionNameProvider,
         private ServiceReferenceExprResolver $serviceReferenceExprResolver
     ) {
     }
@@ -20,11 +19,11 @@ final class TaggedReturnsCloneResolver
     public function resolve(TaggedValue $taggedValue): Array_
     {
         $serviceName = $taggedValue->getValue()[0];
-        $functionName = $this->symfonyFunctionNameProvider->provideRefOrService();
+
         $funcCall = $this->serviceReferenceExprResolver->resolveServiceReferenceExpr(
             $serviceName,
             false,
-            $functionName
+            FunctionName::SERVICE
         );
 
         return new Array_([new ArrayItem($funcCall)]);

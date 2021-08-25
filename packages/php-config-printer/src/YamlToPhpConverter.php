@@ -58,6 +58,9 @@ final class YamlToPhpConverter
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
     }
 
+    /**
+     * @param array<string, mixed> $yaml
+     */
     private function isRouteYaml(array $yaml): bool
     {
         foreach ($yaml as $value) {

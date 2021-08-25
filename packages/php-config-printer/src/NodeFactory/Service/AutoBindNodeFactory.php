@@ -6,11 +6,9 @@ namespace Symplify\PhpConfigPrinter\NodeFactory\Service;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
-use Symplify\PhpConfigPrinter\Contract\SymfonyVersionFeatureGuardInterface;
 use Symplify\PhpConfigPrinter\Converter\ServiceOptionsKeyYamlToPhpFactory\TagsServiceOptionKeyYamlToPhpFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
-use Symplify\PhpConfigPrinter\ValueObject\SymfonyVersionFeature;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class AutoBindNodeFactory
@@ -28,7 +26,6 @@ final class AutoBindNodeFactory
     public function __construct(
         private CommonNodeFactory $commonNodeFactory,
         private ArgsNodeFactory $argsNodeFactory,
-        private SymfonyVersionFeatureGuardInterface $symfonyVersionFeatureGuard,
         private TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
     ) {
     }
@@ -119,13 +116,7 @@ final class AutoBindNodeFactory
 
         // default value
         if ($type === self::TYPE_DEFAULTS) {
-            if ($this->symfonyVersionFeatureGuard->isAtLeastSymfonyVersion(
-                SymfonyVersionFeature::PRIVATE_SERVICES_BY_DEFAULT
-            )) {
-                return $methodCall;
-            }
-
-            return new MethodCall($methodCall, 'private');
+            return $methodCall;
         }
 
         $args = [new Arg($this->commonNodeFactory->createFalse())];

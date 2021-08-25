@@ -9,8 +9,6 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symplify\ConfigTransformer\Configuration\Configuration;
-use Symplify\ConfigTransformer\ValueObject\SymfonyVersionFeature;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class ContainerBuilderCleaner
@@ -23,7 +21,6 @@ final class ContainerBuilderCleaner
 
     public function __construct(
         private PrivatesAccessor $privatesAccessor,
-        private Configuration $configuration
     ) {
     }
 
@@ -112,12 +109,11 @@ final class ContainerBuilderCleaner
         $definition->setTags($tags);
     }
 
+    /**
+     * @param array<string, mixed> $tagValues
+     */
     private function shouldSkipNameTagInlining(array $tagValues): bool
     {
-        if ($tagValues !== []) {
-            return false;
-        }
-
-        return $this->configuration->isAtLeastSymfonyVersion(SymfonyVersionFeature::TAGS_WITHOUT_NAME);
+        return $tagValues === [];
     }
 }

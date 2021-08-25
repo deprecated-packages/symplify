@@ -19,11 +19,6 @@ final class FunctionName
     /**
      * @var string
      */
-    public const REF = 'Symfony\Component\DependencyInjection\Loader\Configurator\ref';
-
-    /**
-     * @var string
-     */
     public const EXPR = 'Symfony\Component\DependencyInjection\Loader\Configurator\expr';
 
     /**

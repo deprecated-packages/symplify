@@ -10,6 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symplify\ConfigTransformer\Collector\XmlImportCollector;
 use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
+use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\Format;
 use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -32,12 +33,13 @@ final class ConfigFormatConverter
     ) {
     }
 
-    public function convert(SmartFileInfo $smartFileInfo): string
+    public function convert(SmartFileInfo $smartFileInfo, Configuration $configuration): string
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
         $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo(
-            $smartFileInfo
+            $smartFileInfo,
+            $configuration
         );
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
