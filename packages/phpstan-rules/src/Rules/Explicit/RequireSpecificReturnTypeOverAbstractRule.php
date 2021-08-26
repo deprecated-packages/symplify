@@ -28,7 +28,7 @@ final class RequireSpecificReturnTypeOverAbstractRule extends AbstractSymplifyRu
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Provide specific return type over abstract one';
+    public const ERROR_MESSAGE = 'Provide more specific return type "%s" over abstract one';
 
     public function __construct(
         private ReturnNodeFinder $returnNodeFinder,
@@ -125,7 +125,9 @@ CODE_SAMPLE
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        /** @var TypeWithClassName $returnExprType */
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $returnExprType->getClassName());
+        return [$errorMessage];
     }
 
     private function shouldSkipReturnObjectType(ObjectType $objectType): bool

@@ -28,7 +28,10 @@ final class RequireSpecificReturnTypeOverAbstractRuleTest extends AbstractServic
         yield [__DIR__ . '/Fixture/SkipSpecificReturnType.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeContract.php', []];
 
-        $errorMessage = RequireSpecificReturnTypeOverAbstractRule::ERROR_MESSAGE;
+        $errorMessage = sprintf(
+            RequireSpecificReturnTypeOverAbstractRule::ERROR_MESSAGE,
+            \Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule\Source\SpecificControl::class
+        );
         yield [__DIR__ . '/Fixture/SomeAbstractReturnType.php', [[$errorMessage, 12]]];
     }
 
