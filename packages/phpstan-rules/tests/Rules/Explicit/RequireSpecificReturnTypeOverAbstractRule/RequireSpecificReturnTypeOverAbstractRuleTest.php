@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule;
+use Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule\Source\SpecificControl;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireSpecificReturnTypeOverAbstractRule>
@@ -28,10 +29,7 @@ final class RequireSpecificReturnTypeOverAbstractRuleTest extends AbstractServic
         yield [__DIR__ . '/Fixture/SkipSpecificReturnType.php', []];
         yield [__DIR__ . '/Fixture/SkipSomeContract.php', []];
 
-        $errorMessage = sprintf(
-            RequireSpecificReturnTypeOverAbstractRule::ERROR_MESSAGE,
-            \Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule\Source\SpecificControl::class
-        );
+        $errorMessage = sprintf(RequireSpecificReturnTypeOverAbstractRule::ERROR_MESSAGE, SpecificControl::class);
         yield [__DIR__ . '/Fixture/SomeAbstractReturnType.php', [[$errorMessage, 12]]];
     }
 
