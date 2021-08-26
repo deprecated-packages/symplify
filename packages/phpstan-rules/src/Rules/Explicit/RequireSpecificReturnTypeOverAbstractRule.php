@@ -111,7 +111,7 @@ CODE_SAMPLE
         }
 
         $returnExprType = $scope->getType($returnExpr);
-        if (! $returnExprType instanceof TypeWithClassName) {
+        if ($this->shouldSkipReturnExprType($returnExprType)) {
             return [];
         }
 
@@ -121,11 +121,6 @@ CODE_SAMPLE
 
         // is subtype?
         if (! $returnObjectType->isSuperTypeOf($returnExprType)->yes()) {
-            return [];
-        }
-
-        $returnExprClassReflection = $returnExprType->getClassReflection();
-        if ($returnExprClassReflection->isAnonymous()) {
             return [];
         }
 
@@ -151,5 +146,19 @@ CODE_SAMPLE
         }
 
         return ! $classReflection->isClass();
+    }
+
+    private function shouldSkipReturnExprType(\PHPStan\Type\Type $type): bool
+    {
+        if (! $type instanceof TypeWithClassName) {
+            return true;
+        }
+
+        $classReflection = $type->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return true;
+        }
+
+        return $classReflection->isAnonymous();
     }
 }
