@@ -6,6 +6,6 @@ services:
     # latte
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\Nette\Latte\MissingLatteTemplateRenderVariableResolver
+    - Symplify\PHPStanRules\Nette\Latte\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver

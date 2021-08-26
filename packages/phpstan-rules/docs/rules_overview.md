@@ -1,4 +1,4 @@
-# 161 Rules Overview
+# 162 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4190,7 +4190,7 @@ class SomeService
 
 ## NoTwigMissingMethodCallRule
 
-Variable "%s" does not have `"%s()"` method
+Variable "%s" of type "%s" does not have `"%s()"` method
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule`](../packages/symfony/src/Rules/NoTwigMissingMethodCallRule.php)
 
@@ -4238,7 +4238,7 @@ final class SomeController extends AbstractController
 
 ## NoTwigMissingVariableRule
 
-Passed "%s" variable that are not used in the template
+Variable "%s" is used in template but missing in `render()` method
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule`](../packages/symfony/src/Rules/NoTwigMissingVariableRule.php)
 
@@ -5409,6 +5409,48 @@ final class SomeRuleTest extends RuleTestCase
     {
         return new SomeRule());
     }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireSpecificReturnTypeOverAbstractRule
+
+Provide specific return type over abstract one
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule`](../src/Rules/Explicit/RequireSpecificReturnTypeOverAbstractRule.php)
+
+```php
+class IssueControlFactory
+{
+    public function create(): Control
+    {
+        return new IssueControl();
+    }
+}
+
+class IssueControl extends Control
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+class IssueControlFactory
+{
+    public function create(): IssueControl
+    {
+        return new IssueControl();
+    }
+}
+
+class IssueControl extends Control
+{
 }
 ```
 

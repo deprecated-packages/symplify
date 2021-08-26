@@ -9,7 +9,6 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
 
 final class SimpleCallableNodeTraverser
@@ -35,7 +34,7 @@ final class SimpleCallableNodeTraverser
         $nodeTraverser->traverse($nodes);
     }
 
-    private function createNodeVisitor(callable $callable): NodeVisitor
+    private function createNodeVisitor(callable $callable): NodeVisitorAbstract
     {
         return new class($callable) extends NodeVisitorAbstract {
             /**
