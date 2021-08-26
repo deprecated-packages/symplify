@@ -11,6 +11,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
@@ -148,7 +149,7 @@ CODE_SAMPLE
         return ! $classReflection->isClass();
     }
 
-    private function shouldSkipReturnExprType(\PHPStan\Type\Type $type): bool
+    private function shouldSkipReturnExprType(Type $type): bool
     {
         if (! $type instanceof TypeWithClassName) {
             return true;
