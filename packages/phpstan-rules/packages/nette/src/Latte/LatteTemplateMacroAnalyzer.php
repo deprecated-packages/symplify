@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Latte;
 
 use Latte\Parser;
-use Nette\Utils\FileSystem;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteTemplateMacroAnalyzer
 {
     public function __construct(
-        private Parser $latteParser
+        private Parser $latteParser,
+        private SmartFileSystem $smartFileSystem
     ) {
     }
 
     public function hasMacro(string $templateFilePath, string $macroName): bool
     {
-        $fileContents = FileSystem::read($templateFilePath);
+        $fileContents = $this->smartFileSystem->readFile($templateFilePath);
 
         $latteTokens = $this->latteParser->parse($fileContents);
         foreach ($latteTokens as $latteToken) {
