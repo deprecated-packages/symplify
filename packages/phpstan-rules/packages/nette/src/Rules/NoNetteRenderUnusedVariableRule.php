@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
@@ -22,12 +23,13 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Missing "%s" variable that are not passed to the template';
+    public const ERROR_MESSAGE = 'Extra variables "%s" are passed to the template but never used there';
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver
+        private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver,
+        private LatteTemplateMacroAnalyzer $latteTemplateMacroAnalyzer
     ) {
     }
 
@@ -57,6 +59,11 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
 
         $resolvedTemplateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
         if ($resolvedTemplateFilePath === null) {
+            return [];
+        }
+
+        // nothing we can do, nested templates
+        if ($this->latteTemplateMacroAnalyzer->hasMacro($resolvedTemplateFilePath, 'include')) {
             return [];
         }
 
