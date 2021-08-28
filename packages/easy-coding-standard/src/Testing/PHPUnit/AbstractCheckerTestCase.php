@@ -33,6 +33,8 @@ abstract class AbstractCheckerTestCase extends TestCase implements ConfigAwareIn
         __DIR__ . '/../../../../vendor/squizlabs/php_codesniffer/autoload.php',
     ];
 
+    public ContainerInterface $container;
+
     private FixerFileProcessor $fixerFileProcessor;
 
     private SniffFileProcessor $sniffFileProcessor;
