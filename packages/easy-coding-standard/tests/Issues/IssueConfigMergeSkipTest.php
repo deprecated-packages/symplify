@@ -20,12 +20,14 @@ final class IssueConfigMergeSkipTest extends AbstractCheckerTestCase
         $this->doTestFileInfo($fileInfo);
 
         $parameterBag = $this->container->getParameterBag();
+        $skip = $parameterBag->get(Option::SKIP);
+
         $this->assertEquals(
             [
                 'PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition' => null,
                 'PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer',
             ],
-            $parameterBag->get(Option::SKIP)
+            $skip
         );
     }
 
