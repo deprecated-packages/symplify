@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\Issues;
 
 use Iterator;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -22,10 +22,10 @@ final class IssueConfigMergeSkipTest extends AbstractCheckerTestCase
         $parameterBag = $this->container->getParameterBag();
         $skip = $parameterBag->get(Option::SKIP);
 
-        $this->assertEquals(
+        $this->assertSame(
             [
                 'PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition' => null,
-                'PhpCsFixer\Fixer\ReturnNotation\ReturnAssignmentFixer',
+                ReturnAssignmentFixer::class,
             ],
             $skip
         );
