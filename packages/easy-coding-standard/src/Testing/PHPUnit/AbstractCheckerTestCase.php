@@ -44,6 +44,7 @@ abstract class AbstractCheckerTestCase extends TestCase implements ConfigAwareIn
 
         $configs = $this->getValidatedConfigs();
         $container = $this->bootContainerWithConfigs($configs);
+        $this->container = $container;
 
         $this->fixerFileProcessor = $container->get(FixerFileProcessor::class);
         $this->sniffFileProcessor = $container->get(SniffFileProcessor::class);
