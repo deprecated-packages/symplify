@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\TypeWithClassName;
+use PHPUnit\Framework\TestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -138,16 +140,16 @@ CODE_SAMPLE
 
     private function shouldSkip(MethodCall $methodCall, Scope $scope): bool
     {
-        if (count($methodCall->args) === 0) {
+        if ($methodCall->args === []) {
             return true;
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return true;
         }
 
         // skip tests
-        return $classReflection->isSubclassOf('PHPUnit\Framework\TestCase');
+        return $classReflection->isSubclassOf(TestCase::class);
     }
 }
