@@ -110,3 +110,5 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
+
+    - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
