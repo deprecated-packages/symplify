@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 163 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -820,6 +820,30 @@ class SomeClass
         // ...
     }
 }
+```
+
+:+1:
+
+<br>
+
+## EnumSpotterRule
+
+The string value "%s" is repeated %d times. Refactor to enum to avoid typos and make clear allowed values
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule`](../src/Rules/Domain/EnumSpotterRule.php)
+
+```php
+$this->addFlash('info', 'Some message');
+$this->addFlash('info', 'Another message');
+```
+
+:x:
+
+<br>
+
+```php
+$this->addFlash(FlashType::INFO, 'Some message');
+$this->addFlash(FlashType::INFO, 'Another message');
 ```
 
 :+1:
@@ -3637,7 +3661,7 @@ final class SomeControl extends Control
 
 ## NoNetteRenderUnusedVariableRule
 
-Missing "%s" variable that are not passed to the template
+Extra variables "%s" are passed to the template but never used there
 
 - class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule`](../packages/nette/src/Rules/NoNetteRenderUnusedVariableRule.php)
 
@@ -5418,7 +5442,7 @@ final class SomeRuleTest extends RuleTestCase
 
 ## RequireSpecificReturnTypeOverAbstractRule
 
-Provide specific return type over abstract one
+Provide more specific return type "%s" over abstract one
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule`](../src/Rules/Explicit/RequireSpecificReturnTypeOverAbstractRule.php)
 
