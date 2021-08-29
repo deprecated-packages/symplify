@@ -27,6 +27,11 @@ final class EnumSpotterRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'The string value "%s" is repeated %d times. Refactor to enum to avoid typos and make clear allowed values';
 
     /**
+     * @var string[]
+     */
+    private const ALLOWED_STRING_VALUES = ['this', 'config.php'];
+
+    /**
      * @var array<string, string[]>
      */
     private array $stringValuesByUniqueId = [];
@@ -118,6 +123,11 @@ CODE_SAMPLE
 
             // values with spaces will not be enums probably
             if (str_contains($argumentStringValue, ' ')) {
+                continue;
+            }
+
+            // skipped names
+            if (in_array($argumentStringValue, self::ALLOWED_STRING_VALUES, true)) {
                 continue;
             }
 

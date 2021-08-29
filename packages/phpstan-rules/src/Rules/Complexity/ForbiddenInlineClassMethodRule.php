@@ -44,7 +44,7 @@ final class ForbiddenInlineClassMethodRule extends AbstractSymplifyRule
 
     /**
      * @param InClassNode $node
-     * @return string[]|RuleError[]
+     * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {
