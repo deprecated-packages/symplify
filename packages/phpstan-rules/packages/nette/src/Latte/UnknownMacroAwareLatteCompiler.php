@@ -79,7 +79,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     private function fakeAttrMacro(string $name): void
     {
         // avoid override native n:macro
-        if (in_array($name, $this->nativeMacrosNames)) {
+        if (in_array($name, $this->nativeMacrosNames, true)) {
             return;
         }
 
