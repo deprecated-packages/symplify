@@ -42,6 +42,11 @@ final class ScalarValueResolver
         foreach ($args as $arg) {
             $resolvedValue = $this->nodeValueResolver->resolve($arg->value, $filePath);
 
+            // skip simple values
+            if ($resolvedValue === '') {
+                continue;
+            }
+
             // unwrap single array item
             if (\is_array($resolvedValue) && \count($resolvedValue) === 1) {
                 $resolvedValue = \array_pop($resolvedValue);

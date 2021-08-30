@@ -29,8 +29,10 @@ final class NoNetteRenderUnusedVariableRuleTest extends AbstractServiceAwareRule
             [sprintf(NoNetteRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 13],
         ]];
 
+        yield [__DIR__ . '/Fixture/SkipVariableInIf.php', []];
         yield [__DIR__ . '/Fixture/SkipIncludeVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipUsedVariable.php', []];
+        yield [__DIR__ . '/Fixture/SkipUsedInInlineMacro.php', []];
     }
 
     protected function getRule(): Rule
