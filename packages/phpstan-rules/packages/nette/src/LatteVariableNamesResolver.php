@@ -9,22 +9,16 @@ use Latte\Macros\BlockMacros;
 use Latte\Macros\CoreMacros;
 use Latte\Parser;
 use Latte\Runtime\Defaults;
-use Latte\Token;
 use Nette\Bridges\ApplicationLatte\UIMacros;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\ParentConnectingVisitor;
+use PhpParser\ParserFactory;
+use Symplify\PHPStanRules\Nette\PhpNodeVisitor\LatteVariableCollectingNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
 {
-    /**
-     * @var string
-     */
-    private const TOKEN_TYPE_MACRO_TAG = 'macroTag';
-
-    /**
-     * @var string
-     */
-    private const TOKEN_TYPE_HTML_ATTRIBUTE = 'htmlAttributeBegin';
-
     private Compiler $latteCompiler;
 
     public function __construct(
@@ -36,9 +30,10 @@ final class LatteVariableNamesResolver
         BlockMacros::install($this->latteCompiler);
         UIMacros::install($this->latteCompiler);
 
-        $defaults = new Defaults();
-        $this->latteCompiler->setFunctions(array_keys($defaults->getFunctions()));
-        // @todo filters?
+        $runtimeDefaults = new Defaults();
+
+        $functionNames = array_keys($runtimeDefaults->getFunctions());
+        $this->latteCompiler->setFunctions($functionNames);
     }
 
     /**
@@ -46,87 +41,36 @@ final class LatteVariableNamesResolver
      */
     public function resolveFromFile(string $filePath): array
     {
-        $latteFileContent = $this->smartFileSystem->readFile($filePath);
-        $latteTokens = $this->latteParser->parse($latteFileContent);
+        $fileContent = $this->smartFileSystem->readFile($filePath);
+        $latteTokens = $this->latteParser->parse($fileContent);
 
-        $macros = $this->latteCompiler->getMacros();
-        $macrosNames = array_keys($macros);
+        // collect used variable from PHP
+        $compiledPhp = $this->latteCompiler->compile($latteTokens, 'DummyTemplateClass');
 
-        $variableNames = [];
-        foreach ($latteTokens as $latteToken) {
-            if ($this->shouldSkipLatteToken($latteToken)) {
-                continue;
-            }
-
-            // @todo macro is not supported - what then?
-//            if (! in_array($latteToken->name, $macrosNames, true)) {
-//                continue;
-//            }
-
-            if ($latteToken->type === self::TOKEN_TYPE_MACRO_TAG) {
-                $currentVariableNames = $this->resolveVariableNamesFromMacro($latteToken, $variableNames);
-                $variableNames = array_merge($variableNames, $currentVariableNames);
-                continue;
-            }
-
-            dump($latteToken);
+        $phpNodes = $this->parsePhpContentToPhpNodes($compiledPhp);
+        if ($phpNodes === null) {
+            return [];
         }
 
-        return $variableNames;
-    }
+        $phpNodeTraverser = new NodeTraverser();
+        $phpNodeTraverser->addVisitor(new ParentConnectingVisitor());
+        $phpNodeTraverser->traverse($phpNodes);
 
-    private function shouldSkipLatteToken(Token $latteToken): bool
-    {
-        // e.g. {if ...}
-        if ($latteToken->type === self::TOKEN_TYPE_MACRO_TAG) {
-            // skip closing tags
-            if ($latteToken->closing) {
-                return true;
-            }
+        $latteVariableCollectingNodeVisitor = new LatteVariableCollectingNodeVisitor();
+        $phpNodeTraverser->addVisitor($latteVariableCollectingNodeVisitor);
+        $phpNodeTraverser->traverse($phpNodes);
 
-            return false;
-        }
-
-        // e.g. n:if
-        return $latteToken->type !== self::TOKEN_TYPE_HTML_ATTRIBUTE;
+        return $latteVariableCollectingNodeVisitor->getUsedVariableNames();
     }
 
     /**
-     * @return string[]
+     * @return \PhpParser\Node[]|null
      */
-    private function resolveVariableNamesFromMacro(Token $latteToken): array
+    private function parsePhpContentToPhpNodes(string $compiledPhp): ?array
     {
-        $variableNames = [];
+        $parserFactory = new ParserFactory();
+        $phpParser = $parserFactory->create(ParserFactory::PREFER_PHP7);
 
-        $macroNode = $this->latteCompiler->openMacro(
-            $latteToken->name,
-            $latteToken->value,
-            $latteToken->modifiers
-        );
-
-        foreach ($macroNode->tokenizer->tokens as $macroToken) {
-            // skip macro values that generate new local-only values
-            if ($macroNode->name === 'foreach') {
-                if ($macroToken[0] === 'as') {
-                    break;
-                }
-            }
-
-            if (! str_starts_with($macroToken[0], '$')) {
-                continue;
-            }
-
-            $variableName = ltrim($macroToken[0], '$');
-            $variableNames[] = $variableName;
-        }
-
-        /**
-         * mimics internal Compiler behavior - @see \Latte\Compiler::processMacroTag()
-         */
-        if ($latteToken->empty) {
-            $this->latteCompiler->closeMacro($latteToken->name, '', '');
-        }
-
-        return $variableNames;
+        return $phpParser->parse($compiledPhp);
     }
 }
