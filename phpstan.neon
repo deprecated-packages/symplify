@@ -525,3 +525,5 @@ parameters:
         -
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
             path: packages/config-transformer/src/Command/SwitchFormatCommand.php
+
+        - '#Property Symplify\\PHPStanRules\\Nette\\Latte\\UnknownMacroAwareLatteCompiler\:\:\$macrosNames \(array<string\>\) does not accept array<int, int\|string\>#'

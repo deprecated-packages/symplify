@@ -54,15 +54,11 @@ final class LatteVariableCollectingNodeVisitor extends NodeVisitorAbstract
      */
     private function isGeneratedVariable(Variable $variable): bool
     {
-        $parentNode = $variable->getAttribute(AttributeKey::PARENT);
-        if (! $parentNode instanceof Foreach_) {
+        $parent = $variable->getAttribute(AttributeKey::PARENT);
+        if (! $parent instanceof Foreach_) {
             return false;
         }
 
-        if ($parentNode->keyVar === $variable) {
-            return true;
-        }
-
-        return $parentNode->valueVar === $variable;
+        return in_array($variable, [$parent->keyVar, $parent->valueVar, true], true);
     }
 }

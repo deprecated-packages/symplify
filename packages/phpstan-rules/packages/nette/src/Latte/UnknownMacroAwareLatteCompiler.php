@@ -16,8 +16,14 @@ use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
 {
-    public function __construct()
-    {
+    /**
+     * @var string[]
+     */
+    private array $macrosNames = [];
+
+    public function __construct(
+        private PrivatesAccessor $privatesAccessor,
+    ) {
         // make sure basic macros are installed
         CoreMacros::install($this);
         BlockMacros::install($this);
@@ -26,29 +32,59 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $runtimeDefaults = new Defaults();
         $functionNames = array_keys($runtimeDefaults->getFunctions());
         $this->setFunctions($functionNames);
+
+        $macros = $this->privatesAccessor->getPrivateProperty($this, 'macros');
+        $this->macrosNames = array_keys($macros);
     }
 
     public function expandMacro(string $name, string $args, string $modifiers = '', string $nPrefix = null): MacroNode
     {
-        $privatesAccessor = new PrivatesAccessor();
-        $macros = $privatesAccessor->getPrivateProperty($this, 'macros');
-
         // missing macro!
-        if (! isset($macros[$name])) {
+        if (! $this->isMacroRegistered($name)) {
             $this->fakeMacro($name);
         }
 
         return parent::expandMacro($name, $args, $modifiers, $nPrefix);
     }
 
+    /**
+     * Generates code for macro <tag n:attr> to the output.
+     *
+     * @internal
+     */
+    public function writeAttrsMacro(string $html): void
+    {
+        $htmlNode = $this->privatesAccessor->getPrivateProperty($this, 'htmlNode');
+
+        // all collected n:attributes with nodes
+        $attrs = $htmlNode->macroAttrs;
+
+        foreach ($attrs as $macroName => $macroContent) {
+            $this->fakeAttrMacro($macroName);
+        }
+
+        parent::writeAttrsMacro($html);
+    }
+
     private function fakeMacro(string $name): void
     {
-        // fake it :)
         $fakeMacroSet = new MacroSet($this);
-        // renger args at least
+
         $fakeMacroSet->addMacro(
             $name,
             fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter)
+        );
+    }
+
+    private function fakeAttrMacro(string $name): void
+    {
+        $fakeMacroSet = new MacroSet($this);
+
+        $fakeMacroSet->addMacro(
+            $name,
+            null,
+            null,
+            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter),
         );
     }
 
@@ -61,5 +97,10 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
         // show parameters to allow php-parser to discover those variables
         return $phpWriter->write('echo %node.args;');
+    }
+
+    private function isMacroRegistered(string $name): bool
+    {
+        return in_array($name, $this->macrosNames, true);
     }
 }
