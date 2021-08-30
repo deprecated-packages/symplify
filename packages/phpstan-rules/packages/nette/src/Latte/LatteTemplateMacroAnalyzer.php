@@ -20,7 +20,6 @@ final class LatteTemplateMacroAnalyzer
     public function hasMacros(string $templateFilePath, array $macroNames): bool
     {
         $fileContents = $this->smartFileSystem->readFile($templateFilePath);
-
         $macroRegex = '#{(' . implode('|', $macroNames) . ')\b#';
 
         $matches = Strings::match($fileContents, $macroRegex);
