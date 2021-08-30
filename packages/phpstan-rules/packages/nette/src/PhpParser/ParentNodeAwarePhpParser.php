@@ -17,6 +17,9 @@ final class ParentNodeAwarePhpParser
     public function parsePhpContent(string $phpContent): array|null
     {
         $phpNodes = $this->parsePhpContentToPhpNodes($phpContent);
+        if ($phpNodes === null) {
+            return null;
+        }
 
         $phpNodeTraverser = new NodeTraverser();
         $phpNodeTraverser->addVisitor(new ParentConnectingVisitor());
