@@ -19,7 +19,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     /**
      * @var string[]
      */
-    private array $macrosNames = [];
+    private array $nativeMacrosNames = [];
 
     public function __construct(
         private PrivatesAccessor $privatesAccessor,
@@ -34,7 +34,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $this->setFunctions($functionNames);
 
         $macros = $this->privatesAccessor->getPrivateProperty($this, 'macros');
-        $this->macrosNames = array_keys($macros);
+        $this->nativeMacrosNames = array_keys($macros);
     }
 
     public function expandMacro(string $name, string $args, string $modifiers = '', string $nPrefix = null): MacroNode
@@ -78,6 +78,11 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
     private function fakeAttrMacro(string $name): void
     {
+        // avoid override native n:macro
+        if (in_array($name, $this->nativeMacrosNames)) {
+            return;
+        }
+
         $fakeMacroSet = new MacroSet($this);
 
         $fakeMacroSet->addMacro(
@@ -112,6 +117,6 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
     private function isMacroRegistered(string $name): bool
     {
-        return in_array($name, $this->macrosNames, true);
+        return in_array($name, $this->nativeMacrosNames, true);
     }
 }
