@@ -128,7 +128,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ClassAttributesSeparationFixer::class)
         ->call('configure', [[
             'elements' => [
-                'method' => ClassAttributesSeparationFixer::SPACING_ONE,
+                'method' => 'one',
             ],
         ]]);
     $services->set(ClassDefinitionFixer::class)

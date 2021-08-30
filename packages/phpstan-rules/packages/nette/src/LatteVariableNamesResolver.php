@@ -7,20 +7,19 @@ namespace Symplify\PHPStanRules\Nette;
 use Latte\Compiler;
 use Latte\Macros\CoreMacros;
 use Latte\Parser;
+use Latte\Token;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/suXCQF/1
-     */
-    private const VARIABLE_NAME_FOREACH_REGEX = '#\$(?<variable_name>[\w_]+)#';
+    private Compiler $latteCompiler;
 
     public function __construct(
         private Parser $latteParser,
         private SmartFileSystem $smartFileSystem
     ) {
+        $this->latteCompiler = new Compiler();
+        CoreMacros::install($this->latteCompiler);
     }
 
     /**
@@ -31,22 +30,22 @@ final class LatteVariableNamesResolver
         $latteFileContent = $this->smartFileSystem->readFile($filePath);
         $latteTokens = $this->latteParser->parse($latteFileContent);
 
-        $latteCompiler = new Compiler();
-        CoreMacros::install($latteCompiler);
-
         $variableNames = [];
         foreach ($latteTokens as $latteToken) {
-            if ($latteToken->type !== 'macroTag') {
+            if ($this->shouldSkipLatteToken($latteToken)) {
                 continue;
             }
 
-            if ($latteToken->closing) {
-                // skip closing tags
-                continue;
-            }
+            $macroNode = $this->latteCompiler->openMacro($latteToken->name, $latteToken->value, $latteToken->modifiers);
 
-            $macroNode = $latteCompiler->expandMacro($latteToken->name, $latteToken->value);
             foreach ($macroNode->tokenizer->tokens as $macroToken) {
+                // skip macro values that generate new local-only values
+                if ($macroNode->name === 'foreach') {
+                    if ($macroToken[0] === 'as') {
+                        break;
+                    }
+                }
+
                 if (! str_starts_with($macroToken[0], '$')) {
                     continue;
                 }
@@ -54,8 +53,25 @@ final class LatteVariableNamesResolver
                 $variableName = ltrim($macroToken[0], '$');
                 $variableNames[] = $variableName;
             }
+
+            /**
+             * mimics internal Compiler behavior - @see \Latte\Compiler::processMacroTag()
+             */
+            if ($latteToken->empty) {
+                $this->latteCompiler->closeMacro($latteToken->name, '', '');
+            }
         }
 
         return $variableNames;
+    }
+
+    private function shouldSkipLatteToken(Token $latteToken): bool
+    {
+        if ($latteToken->type !== 'macroTag') {
+            return true;
+        }
+
+        // skip closing tags
+        return $latteToken->closing;
     }
 }
