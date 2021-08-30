@@ -10,12 +10,9 @@ use Latte\Macros\CoreMacros;
 use Latte\Parser;
 use Latte\Runtime\Defaults;
 use Nette\Bridges\ApplicationLatte\UIMacros;
-use PhpParser\Node;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\ParentConnectingVisitor;
-use PhpParser\ParserFactory;
 use Symplify\PHPStanRules\Nette\PhpNodeVisitor\LatteVariableCollectingNodeVisitor;
+use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
@@ -24,7 +21,8 @@ final class LatteVariableNamesResolver
 
     public function __construct(
         private Parser $latteParser,
-        private SmartFileSystem $smartFileSystem
+        private SmartFileSystem $smartFileSystem,
+        private ParentNodeAwarePhpParser $parentNodeAwarePhpParser
     ) {
         $this->latteCompiler = new Compiler();
         CoreMacros::install($this->latteCompiler);
@@ -48,30 +46,16 @@ final class LatteVariableNamesResolver
         // collect used variable from PHP
         $compiledPhp = $this->latteCompiler->compile($latteTokens, 'DummyTemplateClass');
 
-        $phpNodes = $this->parsePhpContentToPhpNodes($compiledPhp);
+        $phpNodes = $this->parentNodeAwarePhpParser->parsePhpContent($compiledPhp);
         if ($phpNodes === null) {
             return [];
         }
 
-        $phpNodeTraverser = new NodeTraverser();
-        $phpNodeTraverser->addVisitor(new ParentConnectingVisitor());
-        $phpNodeTraverser->traverse($phpNodes);
-
         $latteVariableCollectingNodeVisitor = new LatteVariableCollectingNodeVisitor();
+        $phpNodeTraverser = new NodeTraverser();
         $phpNodeTraverser->addVisitor($latteVariableCollectingNodeVisitor);
         $phpNodeTraverser->traverse($phpNodes);
 
         return $latteVariableCollectingNodeVisitor->getUsedVariableNames();
-    }
-
-    /**
-     * @return Node[]|null
-     */
-    private function parsePhpContentToPhpNodes(string $compiledPhp): ?array
-    {
-        $parserFactory = new ParserFactory();
-        $phpParser = $parserFactory->create(ParserFactory::PREFER_PHP7);
-
-        return $phpParser->parse($compiledPhp);
     }
 }
