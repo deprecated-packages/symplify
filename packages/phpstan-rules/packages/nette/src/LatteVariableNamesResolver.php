@@ -10,6 +10,7 @@ use Latte\Macros\CoreMacros;
 use Latte\Parser;
 use Latte\Runtime\Defaults;
 use Nette\Bridges\ApplicationLatte\UIMacros;
+use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
@@ -64,7 +65,7 @@ final class LatteVariableNamesResolver
     }
 
     /**
-     * @return \PhpParser\Node[]|null
+     * @return Node[]|null
      */
     private function parsePhpContentToPhpNodes(string $compiledPhp): ?array
     {
