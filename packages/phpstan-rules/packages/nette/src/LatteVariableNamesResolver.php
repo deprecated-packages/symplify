@@ -15,6 +15,16 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
 {
+    /**
+     * @var string
+     */
+    private const TOKEN_TYPE_MACRO_TAG = 'macroTag';
+
+    /**
+     * @var string
+     */
+    private const TOKEN_TYPE_HTML_ATTRIBUTE = 'htmlAttributeBegin';
+
     private Compiler $latteCompiler;
 
     public function __construct(
@@ -53,30 +63,13 @@ final class LatteVariableNamesResolver
 //                continue;
 //            }
 
-            $macroNode = $this->latteCompiler->openMacro($latteToken->name, $latteToken->value, $latteToken->modifiers);
-
-            foreach ($macroNode->tokenizer->tokens as $macroToken) {
-                // skip macro values that generate new local-only values
-                if ($macroNode->name === 'foreach') {
-                    if ($macroToken[0] === 'as') {
-                        break;
-                    }
-                }
-
-                if (! str_starts_with($macroToken[0], '$')) {
-                    continue;
-                }
-
-                $variableName = ltrim($macroToken[0], '$');
-                $variableNames[] = $variableName;
+            if ($latteToken->type === self::TOKEN_TYPE_MACRO_TAG) {
+                $currentVariableNames = $this->resolveVariableNamesFromMacro($latteToken, $variableNames);
+                $variableNames = array_merge($variableNames, $currentVariableNames);
+                continue;
             }
 
-            /**
-             * mimics internal Compiler behavior - @see \Latte\Compiler::processMacroTag()
-             */
-            if ($latteToken->empty) {
-                $this->latteCompiler->closeMacro($latteToken->name, '', '');
-            }
+            dump($latteToken);
         }
 
         return $variableNames;
@@ -84,11 +77,56 @@ final class LatteVariableNamesResolver
 
     private function shouldSkipLatteToken(Token $latteToken): bool
     {
-        if ($latteToken->type !== 'macroTag') {
-            return true;
+        // e.g. {if ...}
+        if ($latteToken->type === self::TOKEN_TYPE_MACRO_TAG) {
+            // skip closing tags
+            if ($latteToken->closing) {
+                return true;
+            }
+
+            return false;
         }
 
-        // skip closing tags
-        return $latteToken->closing;
+        // e.g. n:if
+        return $latteToken->type !== self::TOKEN_TYPE_HTML_ATTRIBUTE;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveVariableNamesFromMacro(Token $latteToken): array
+    {
+        $variableNames = [];
+
+        $macroNode = $this->latteCompiler->openMacro(
+            $latteToken->name,
+            $latteToken->value,
+            $latteToken->modifiers
+        );
+
+        foreach ($macroNode->tokenizer->tokens as $macroToken) {
+            // skip macro values that generate new local-only values
+            if ($macroNode->name === 'foreach') {
+                if ($macroToken[0] === 'as') {
+                    break;
+                }
+            }
+
+            if (! str_starts_with($macroToken[0], '$')) {
+                continue;
+            }
+
+            $variableName = ltrim($macroToken[0], '$');
+            $variableNames[] = $variableName;
+        }
+
+        /**
+         * mimics internal Compiler behavior - @see \Latte\Compiler::processMacroTag()
+         */
+        if ($latteToken->empty) {
+            $this->latteCompiler->closeMacro($latteToken->name, '', '');
+        }
+
+        return $variableNames;
     }
 }
