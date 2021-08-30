@@ -84,7 +84,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
             $name,
             null,
             null,
-            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter),
+            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyAttrMacro($macroNode, $phpWriter),
         );
     }
 
@@ -97,6 +97,17 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
         // show parameters to allow php-parser to discover those variables
         return $phpWriter->write('echo %node.args;');
+    }
+
+    private function dummyAttrMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
+    {
+        // nothing to render
+        if ($macroNode->args === '') {
+            return '';
+        }
+
+        // show parameters to allow php-parser to discover those variables
+        return $phpWriter->write('echo %node.array');
     }
 
     private function isMacroRegistered(string $name): bool
