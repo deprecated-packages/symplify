@@ -62,8 +62,8 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        // nothing we can do, nested templates
-        if ($this->latteTemplateMacroAnalyzer->hasMacro($resolvedTemplateFilePath, 'include')) {
+        // nothing we can do, nested templates - @todo possibly improve for included/excluded files with known paths
+        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
             return [];
         }
 

@@ -4,32 +4,26 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Latte;
 
-use Latte\Parser;
+use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteTemplateMacroAnalyzer
 {
     public function __construct(
-        private Parser $latteParser,
         private SmartFileSystem $smartFileSystem
     ) {
     }
 
-    public function hasMacro(string $templateFilePath, string $macroName): bool
+    /**
+     * @param string[] $macroNames
+     */
+    public function hasMacros(string $templateFilePath, array $macroNames): bool
     {
         $fileContents = $this->smartFileSystem->readFile($templateFilePath);
 
-        $latteTokens = $this->latteParser->parse($fileContents);
-        foreach ($latteTokens as $latteToken) {
-            if ($latteToken->type !== 'macroTag') {
-                continue;
-            }
+        $macroRegex = '#{(' . implode('|', $macroNames) . ')\b#';
 
-            if ($latteToken->name === $macroName) {
-                return true;
-            }
-        }
-
-        return false;
+        $matches = Strings::match($fileContents, $macroRegex);
+        return $matches !== null;
     }
 }
