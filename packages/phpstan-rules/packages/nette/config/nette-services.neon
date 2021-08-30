@@ -1,4 +1,7 @@
 services:
+    # php-parser
+    - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
+
     # latte
     - Latte\Parser
     - Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer
