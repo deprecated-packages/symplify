@@ -4,6 +4,7 @@ services:
 
     # latte
     - Latte\Parser
+    - Symplify\PHPStanRules\Nette\Latte\UnknownMacroAwareLatteCompiler
     - Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
