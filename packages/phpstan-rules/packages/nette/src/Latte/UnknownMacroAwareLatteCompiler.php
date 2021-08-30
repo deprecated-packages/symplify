@@ -12,6 +12,7 @@ use Latte\Macros\MacroSet;
 use Latte\PhpWriter;
 use Latte\Runtime\Defaults;
 use Nette\Bridges\ApplicationLatte\UIMacros;
+use Nette\Bridges\FormsLatte\FormMacros;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
@@ -27,7 +28,14 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         // make sure basic macros are installed
         CoreMacros::install($this);
         BlockMacros::install($this);
-        UIMacros::install($this);
+
+        if (class_exists('Nette\Bridges\ApplicationLatte\UIMacros')) {
+            UIMacros::install($this);
+        }
+
+        if (class_exists('Nette\Bridges\FormsLatte\FormMacros')) {
+            FormMacros::install($this);
+        }
 
         $runtimeDefaults = new Defaults();
         $functionNames = array_keys($runtimeDefaults->getFunctions());
