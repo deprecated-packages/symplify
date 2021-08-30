@@ -17,7 +17,7 @@ final class LatteVariableNamesResolver
         private Parser $latteParser,
         private SmartFileSystem $smartFileSystem,
         private ParentNodeAwarePhpParser $parentNodeAwarePhpParser,
-        private UnknownMacroAwareLatteCompiler $unknownMacroAwareCompiler,
+        private UnknownMacroAwareLatteCompiler $unknownMacroAwareLatteCompiler,
     ) {
     }
 
@@ -30,7 +30,7 @@ final class LatteVariableNamesResolver
         $latteTokens = $this->latteParser->parse($fileContent);
 
         // collect used variable from PHP
-        $compiledPhp = $this->unknownMacroAwareCompiler->compile($latteTokens, 'DummyTemplateClass');
+        $compiledPhp = $this->unknownMacroAwareLatteCompiler->compile($latteTokens, 'DummyTemplateClass');
 
         $phpNodes = $this->parentNodeAwarePhpParser->parsePhpContent($compiledPhp);
         if ($phpNodes === null) {

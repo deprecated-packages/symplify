@@ -46,9 +46,10 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         // fake it :)
         $fakeMacroSet = new MacroSet($this);
         // renger args at least
-        $fakeMacroSet->addMacro($name, function (MacroNode $macroNode, PhpWriter $phpWriter): string {
-            return $this->dummyMacro($macroNode, $phpWriter);
-        });
+        $fakeMacroSet->addMacro(
+            $name,
+            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter)
+        );
     }
 
     private function dummyMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
