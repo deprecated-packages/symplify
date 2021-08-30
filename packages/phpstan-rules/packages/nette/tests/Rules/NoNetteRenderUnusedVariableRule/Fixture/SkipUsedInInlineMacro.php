@@ -6,13 +6,12 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderUnusedVariableRul
 
 use Nette\Application\UI\Control;
 
-final class SkipVariableInIf extends Control
+final class SkipUsedInInlineMacro extends Control
 {
     public function render()
     {
-        $this->template->render(__DIR__ . '/../Source/variable_with_if.latte', [
-            'value' => 1000,
-            'another_value' => 10000
+        $this->template->render(__DIR__ . '/../Source/used_in_inline_macro.latte', [
+            'value' => 'some_value'
         ]);
     }
 }

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette;
 
 use Latte\Compiler;
+use Latte\Macros\BlockMacros;
 use Latte\Macros\CoreMacros;
 use Latte\Parser;
+use Latte\Runtime\Defaults;
 use Latte\Token;
+use Nette\Bridges\ApplicationLatte\UIMacros;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
@@ -20,6 +23,12 @@ final class LatteVariableNamesResolver
     ) {
         $this->latteCompiler = new Compiler();
         CoreMacros::install($this->latteCompiler);
+        BlockMacros::install($this->latteCompiler);
+        UIMacros::install($this->latteCompiler);
+
+        $defaults = new Defaults();
+        $this->latteCompiler->setFunctions(array_keys($defaults->getFunctions()));
+        // @todo filters?
     }
 
     /**
@@ -30,11 +39,19 @@ final class LatteVariableNamesResolver
         $latteFileContent = $this->smartFileSystem->readFile($filePath);
         $latteTokens = $this->latteParser->parse($latteFileContent);
 
+        $macros = $this->latteCompiler->getMacros();
+        $macrosNames = array_keys($macros);
+
         $variableNames = [];
         foreach ($latteTokens as $latteToken) {
             if ($this->shouldSkipLatteToken($latteToken)) {
                 continue;
             }
+
+            // @todo macro is not supported - what then?
+//            if (! in_array($latteToken->name, $macrosNames, true)) {
+//                continue;
+//            }
 
             $macroNode = $this->latteCompiler->openMacro($latteToken->name, $latteToken->value, $latteToken->modifiers);
 
