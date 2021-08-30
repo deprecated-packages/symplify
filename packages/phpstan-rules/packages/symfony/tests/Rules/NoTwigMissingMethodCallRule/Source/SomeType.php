@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\
 
 final class SomeType
 {
+    public $some_property;
+
     public function getExistingMethod()
     {
     }
