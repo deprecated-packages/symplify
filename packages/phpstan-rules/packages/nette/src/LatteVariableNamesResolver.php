@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette;
 
+use Latte\Compiler;
+use Latte\Macros\CoreMacros;
 use Latte\Parser;
-use Nette\Utils\Strings;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
@@ -30,21 +31,27 @@ final class LatteVariableNamesResolver
         $latteFileContent = $this->smartFileSystem->readFile($filePath);
         $latteTokens = $this->latteParser->parse($latteFileContent);
 
+        $latteCompiler = new Compiler();
+        CoreMacros::install($latteCompiler);
+
         $variableNames = [];
         foreach ($latteTokens as $latteToken) {
             if ($latteToken->type !== 'macroTag') {
                 continue;
             }
 
-            if ($latteToken->name === 'foreach') {
-                $match = Strings::match($latteToken->value, self::VARIABLE_NAME_FOREACH_REGEX);
-                if (! isset($match['variable_name'])) {
+            if ($latteToken->closing) {
+                // skip closing tags
+                continue;
+            }
+
+            $macroNode = $latteCompiler->expandMacro($latteToken->name, $latteToken->value);
+            foreach ($macroNode->tokenizer->tokens as $macroToken) {
+                if (! str_starts_with($macroToken[0], '$')) {
                     continue;
                 }
 
-                $variableNames[] = (string) $match['variable_name'];
-            } else {
-                $variableName = ltrim($latteToken->value, '$');
+                $variableName = ltrim($macroToken[0], '$');
                 $variableNames[] = $variableName;
             }
         }
