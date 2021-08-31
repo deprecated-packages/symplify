@@ -27,6 +27,7 @@ final class LatteVariableNamesResolver
     public function resolveFromFile(string $filePath): array
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
+
         $latteTokens = $this->latteParser->parse($fileContent);
 
         // collect used variable from PHP

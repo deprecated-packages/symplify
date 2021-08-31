@@ -9,13 +9,13 @@ use Latte\Compiler;
 use Latte\MacroNode;
 use Latte\Macros\BlockMacros;
 use Latte\Macros\CoreMacros;
-use Latte\Macros\MacroSet;
-use Latte\PhpWriter;
 use Latte\Runtime\Defaults;
+use Latte\Token;
 use Nette\Bridges\ApplicationLatte\UIMacros;
 use Nette\Bridges\FormsLatte\FormMacros;
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanRules\Nette\Latte\Macros\LatteMacroFaker;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
 {
@@ -37,6 +37,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
     public function __construct(
         private PrivatesAccessor $privatesAccessor,
+        private LatteMacroFaker $latteMacroFaker,
     ) {
         // make sure basic macros are installed
         CoreMacros::install($this);
@@ -58,22 +59,25 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $this->nativeMacrosNames = array_keys($macros);
     }
 
+    /**
+     * @override
+     */
     public function expandMacro(string $name, string $args, string $modifiers = '', string $nPrefix = null): MacroNode
     {
         // missing macro!
-        if (! $this->isMacroRegistered($name)) {
-            $this->fakeMacro($name);
+        if (! in_array($name, $this->nativeMacrosNames, true)) {
+            $this->latteMacroFaker->fakeMacro($this, $name, $this->endRequiringMacroNames);
         }
 
         return parent::expandMacro($name, $args, $modifiers, $nPrefix);
     }
 
     /**
-     * @param \Latte\Token[] $tokens
+     * @param Token[] $tokens
      */
     public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = false): string
     {
-        // @todo compile loop counter
+        // @todo compile loop counter?
 
         try {
             return parent::compile($tokens, $className, $className, $strictMode);
@@ -85,8 +89,9 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
                 throw $compileException;
             }
 
-            // mark the dual macro tag and re-try
+            // mark the dual macro tag and re-try compiling
             $this->endRequiringMacroNames[] = $match['macro_name'];
+
             return $this->compile($tokens, $className, $comment, $strictMode);
         }
     }
@@ -95,6 +100,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
      * Generates code for macro <tag n:attr> to the output.
      *
      * @internal
+     * @override
      */
     public function writeAttrsMacro(string $html): void
     {
@@ -104,86 +110,9 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $attrs = $htmlNode->macroAttrs;
 
         foreach ($attrs as $macroName => $macroContent) {
-            $this->fakeAttrMacro($macroName);
+            $this->latteMacroFaker->fakeAttrMacro($this, $this->nativeMacrosNames, $macroName);
         }
 
         parent::writeAttrsMacro($html);
-    }
-
-    private function fakeMacro(string $name): void
-    {
-        $fakeMacroSet = new MacroSet($this);
-
-        if (in_array($name, $this->endRequiringMacroNames, true)) {
-            $fakeMacroSet->addMacro(
-                $name,
-                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyEndingMacro(
-                    $macroNode,
-                    $phpWriter
-                ),
-                // faking close macro
-                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => ''
-            );
-        } else {
-            $fakeMacroSet->addMacro(
-                $name,
-                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter),
-            );
-        }
-    }
-
-    private function fakeAttrMacro(string $name): void
-    {
-        // avoid override native n:macro
-        if (in_array($name, $this->nativeMacrosNames, true)) {
-            return;
-        }
-
-        $fakeMacroSet = new MacroSet($this);
-
-        $fakeMacroSet->addMacro(
-            $name,
-            null,
-            null,
-            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyAttrMacro($macroNode, $phpWriter),
-        );
-    }
-
-    private function dummyMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-    {
-        // nothing to render
-        if ($macroNode->args === '') {
-            return '';
-        }
-
-        // show parameters to allow php-parser to discover those variables
-        return $phpWriter->write('echo %node.args;');
-    }
-
-    private function dummyEndingMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-    {
-        // nothing to render
-        if ($macroNode->args === '') {
-            return '';
-        }
-
-        // show parameters to allow php-parser to discover those variables
-        return $phpWriter->write('$temporary = %node.array;');
-    }
-
-    private function dummyAttrMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-    {
-        // nothing to render
-        if ($macroNode->args === '') {
-            return '';
-        }
-
-        // show parameters to allow php-parser to discover those variables
-        return $phpWriter->write('echo %node.array');
-    }
-
-    private function isMacroRegistered(string $name): bool
-    {
-        return in_array($name, $this->nativeMacrosNames, true);
     }
 }

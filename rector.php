@@ -7,6 +7,7 @@ use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
+use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Core\Configuration\Option;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
@@ -62,6 +63,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Nette\DI\Attributes\Inject',
                 'Nette\Bridges\ApplicationLatte\Template',
                 'Nette\Bridges\ApplicationLatte\DefaultTemplate',
+                'Nette\Bridges\ApplicationLatte\UIMacros',
+                'Nette\Bridges\FormsLatte\FormMacros',
             ],
         ]]);
 
@@ -101,6 +104,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         StringClassNameToClassConstantRector::class => [
             // for prefixed version skip
             __DIR__ . '/packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php',
+        ],
+
+        // on purpose Latte macro magic
+        SymplifyQuoteEscapeRector::class => [
+            __DIR__ . '/packages/phpstan-rules/packages/nette/src/Latte/Macros/LatteMacroFaker.php',
         ],
 
         // buggy on array access object
