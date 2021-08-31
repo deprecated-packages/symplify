@@ -45,15 +45,6 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
         ];
         yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', $errorMessages];
 
-        $errorMessages = [
-            [
-                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_array_access_type', SomeArrayAccesType::class, 'nonExistingMethod'),
-                18,
-            ],
-            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_array_access_type', SomeArrayAccesType::class, 'blabla'), 18],
-        ];
-        yield [__DIR__ . '/Fixture/SomeMissingItemsInArrayAccessController.php', $errorMessages];
-
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
