@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Rector\CodeQuality\Rector\Array_\CallableThisArrayToAnonymousFunctionRector;
+use Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
@@ -112,7 +113,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         // buggy on array access object
-        \Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class => [
+        UnusedForeachValueToArrayKeysRector::class => [
             __DIR__ . '/packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php',
         ],
 
