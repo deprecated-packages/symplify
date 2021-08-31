@@ -33,8 +33,6 @@ final class LatteVariableNamesResolver
         // collect used variable from PHP
         $compiledPhp = $this->unknownMacroAwareLatteCompiler->compile($latteTokens, 'DummyTemplateClass');
 
-//        dump($compiledPhp);die;
-
         $phpNodes = $this->parentNodeAwarePhpParser->parsePhpContent($compiledPhp);
         if ($phpNodes === null) {
             return [];
