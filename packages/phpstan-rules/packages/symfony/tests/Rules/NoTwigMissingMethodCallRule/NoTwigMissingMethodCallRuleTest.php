@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeIteratorType;
 use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeType;
 
 /**
@@ -42,8 +43,18 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
         ];
         yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', $errorMessages];
 
+        $errorMessages = [
+            [
+                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_iterator_type', SomeIteratorType::class, 'nonExistingMethod'),
+                20,
+            ],
+            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_iterator_type', SomeIteratorType::class, 'blabla'), 20],
+        ];
+        yield [__DIR__ . '/Fixture/SomeMissingItemsInTraversableController.php', $errorMessages];
+
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingTraversableItems.php', []];
     }
 
     protected function getRule(): Rule
