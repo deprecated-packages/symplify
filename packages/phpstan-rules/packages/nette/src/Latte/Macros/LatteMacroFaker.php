@@ -25,6 +25,7 @@ final class LatteMacroFaker
                     $macroNode,
                     $phpWriter
                 ),
+
                 // faking close macro
                 fn (MacroNode $macroNode, PhpWriter $phpWriter): string => ''
             );
@@ -74,11 +75,7 @@ final class LatteMacroFaker
         // show parameters to allow php-parser to discover those variables
         // inspiration @see https://github.com/nette/latte/blob/7943f0693a7632ae41e844446f17035e1e3ddb52/src/Latte/Macros/CoreMacros.php#L557-L567
 
-        $argumentsArray = explode(' ', $macroNode->args);
-        // keep only variables
-        $variablesArray = array_filter($argumentsArray, fn (string $value): bool => str_starts_with($value, '$'));
-
-        $variablesString = implode(' ', $variablesArray);
+        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode, ' ');
 
         // no variables?
         if ($variablesString === '') {
@@ -91,12 +88,30 @@ final class LatteMacroFaker
 
     private function dummyMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
     {
+        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode, ',');
+
         // nothing to render
-        if ($macroNode->args === '') {
+        if ($variablesString === '') {
             return '';
         }
 
         // show parameters to allow php-parser to discover those variables
-        return $phpWriter->write('echo %node.args;');
+        return $phpWriter->write('echo ' . $variablesString . ';');
+    }
+
+    /**
+     * @param non-empty-string $separator
+     */
+    private function resolveMacroArgsToVariableOnlyString(MacroNode $macroNode, string $separator): string
+    {
+        $argumentsArray = explode($separator, $macroNode->args);
+
+        // remove empty values
+        $argumentsArray = array_values($argumentsArray);
+
+        // keep only variables
+        $variablesArray = array_filter($argumentsArray, fn (string $value): bool => str_starts_with($value, '$'));
+
+        return implode($separator, $variablesArray);
     }
 }
