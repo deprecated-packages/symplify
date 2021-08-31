@@ -9,8 +9,6 @@ use Latte\Compiler;
 use Latte\MacroNode;
 use Latte\Macros\BlockMacros;
 use Latte\Macros\CoreMacros;
-//use Latte\Macros\MacroSet;
-//use Latte\PhpWriter;
 use Latte\Runtime\Defaults;
 use Latte\Token;
 use Nette\Bridges\ApplicationLatte\UIMacros;
@@ -61,6 +59,9 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $this->nativeMacrosNames = array_keys($macros);
     }
 
+    /**
+     * @override
+     */
     public function expandMacro(string $name, string $args, string $modifiers = '', string $nPrefix = null): MacroNode
     {
         // missing macro!
@@ -99,6 +100,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
      * Generates code for macro <tag n:attr> to the output.
      *
      * @internal
+     * @override
      */
     public function writeAttrsMacro(string $html): void
     {
@@ -113,97 +115,4 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
         parent::writeAttrsMacro($html);
     }
-
-//    private function fakeMacro(string $name): void
-//    {
-//        $fakeMacroSet = new MacroSet($this);
-//
-//        if (in_array($name, $this->endRequiringMacroNames, true)) {
-//            $fakeMacroSet->addMacro(
-//                $name,
-//                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyEndingMacro(
-//                    $macroNode,
-//                    $phpWriter
-//                ),
-//                // faking close macro
-//                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => ''
-//            );
-//        } else {
-//            $fakeMacroSet->addMacro(
-//                $name,
-//                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter),
-//            );
-//        }
-//    }
-
-//    private function fakeAttrMacro(string $name): void
-//    {
-//        // avoid override native n:macro
-//        if (in_array($name, $this->nativeMacrosNames, true)) {
-//            return;
-//        }
-//
-//        $fakeMacroSet = new MacroSet($this);
-//
-//        $fakeMacroSet->addMacro(
-//            $name,
-//            null,
-//            null,
-//            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyAttrMacro($macroNode, $phpWriter),
-//        );
-//    }
-
-//    private function dummyMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-//    {
-//        // nothing to render
-//        if ($macroNode->args === '') {
-//            return '';
-//        }
-//
-//        // show parameters to allow php-parser to discover those variables
-//        return $phpWriter->write('echo %node.args;');
-//    }
-
-//    private function dummyEndingMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-//    {
-//        // nothing to render
-//        if ($macroNode->args === '') {
-//            return '';
-//        }
-//
-//        // show parameters to allow php-parser to discover those variables
-//        return $phpWriter->write('$temporary = %node.array;');
-//    }
-
-//    private function dummyAttrMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
-//    {
-//        // nothing to render
-//        if ($macroNode->args === '') {
-//            return $macroNode->name;
-//        }
-//
-//        // show parameters to allow php-parser to discover those variables
-//        // inspiration @see https://github.com/nette/latte/blob/7943f0693a7632ae41e844446f17035e1e3ddb52/src/Latte/Macros/CoreMacros.php#L557-L567
-//
-//        $argumentsArray = explode(' ', $macroNode->args);
-//        // keep only variables
-//        $variablesArray = array_filter($argumentsArray, function (string $value) {
-//            return str_starts_with($value, '$');
-//        });
-//
-//        $variablesString = implode(' ', $variablesArray);
-//
-//        // no variables?
-//        if ($variablesString === '') {
-//            return '';
-//        }
-//
-//        // render only variables, so php-parser can pick them up as used
-//        return $phpWriter->write('echo \'' . $macroNode->name . '="\' . ' . $variablesString . ' . \' " \'');
-//    }
-
-//    private function isMacroRegistered(string $name): bool
-//    {
-//        return in_array($name, $this->nativeMacrosNames, true);
-//    }
 }

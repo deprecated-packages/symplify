@@ -76,9 +76,7 @@ final class LatteMacroFaker
 
         $argumentsArray = explode(' ', $macroNode->args);
         // keep only variables
-        $variablesArray = array_filter($argumentsArray, function (string $value) {
-            return str_starts_with($value, '$');
-        });
+        $variablesArray = array_filter($argumentsArray, fn (string $value): bool => str_starts_with($value, '$'));
 
         $variablesString = implode(' ', $variablesArray);
 
