@@ -8,7 +8,9 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
-use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeIteratorType;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Fixture\SkipExistingArrayAccessItems;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Fixture\SomeMissingItemsInArrayAccessController;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeArrayAccesType;
 use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeType;
 
 /**
@@ -45,16 +47,16 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
 
         $errorMessages = [
             [
-                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_iterator_type', SomeIteratorType::class, 'nonExistingMethod'),
-                20,
+                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_array_access_type', SomeArrayAccesType::class, 'nonExistingMethod'),
+                18,
             ],
-            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_iterator_type', SomeIteratorType::class, 'blabla'), 20],
+            [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_array_access_type', SomeArrayAccesType::class, 'blabla'), 18],
         ];
-        yield [__DIR__ . '/Fixture/SomeMissingItemsInTraversableController.php', $errorMessages];
+        yield [__DIR__ . '/Fixture/SomeMissingItemsInArrayAccessController.php', $errorMessages];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
-        yield [__DIR__ . '/Fixture/SkipExistingTraversableItems.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
     }
 
     protected function getRule(): Rule
