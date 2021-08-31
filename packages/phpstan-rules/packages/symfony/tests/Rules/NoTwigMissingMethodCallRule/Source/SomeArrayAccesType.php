@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source;
 
-final class SomeIteratorType implements  \ArrayAccess, \IteratorAggregate, \Countable
+final class SomeArrayAccesType implements  \ArrayAccess, \IteratorAggregate, \Countable
 {
-    public $parent;
-
     public $children = [
         'some_child' => true,
     ];
-
-    public function __construct(self $parent = null)
-    {
-        $this->parent = $parent;
-    }
 
     #[\ReturnTypeWillChange]
     public function offsetGet($name)
