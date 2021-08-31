@@ -73,7 +73,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
      */
     public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = false): string
     {
-        // @todo compile loop counter
+        // @todo compile loop counter?
 
         try {
             return parent::compile($tokens, $className, $className, $strictMode);
@@ -85,8 +85,9 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
                 throw $compileException;
             }
 
-            // mark the dual macro tag and re-try
+            // mark the dual macro tag and re-try compiling
             $this->endRequiringMacroNames[] = $match['macro_name'];
+
             return $this->compile($tokens, $className, $comment, $strictMode);
         }
     }
@@ -175,11 +176,27 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     {
         // nothing to render
         if ($macroNode->args === '') {
-            return '';
+            return $macroNode->name;
         }
 
         // show parameters to allow php-parser to discover those variables
-        return $phpWriter->write('echo %node.array');
+        // inspiration @see https://github.com/nette/latte/blob/7943f0693a7632ae41e844446f17035e1e3ddb52/src/Latte/Macros/CoreMacros.php#L557-L567
+
+        $argumentsArray = explode(' ', $macroNode->args);
+        // keep only variables
+        $variablesArray = array_filter($argumentsArray, function (string $value) {
+            return str_starts_with($value, '$');
+        });
+
+        $variablesString = implode(' ', $variablesArray);
+
+        // no variables?
+        if ($variablesString === '') {
+            return '';
+        }
+
+        // render only variables, so php-parser can pick them up as used
+        return $phpWriter->write('echo \'' . $macroNode->name . '="\' . ' . $variablesString . ' . \' " \'');
     }
 
     private function isMacroRegistered(string $name): bool
