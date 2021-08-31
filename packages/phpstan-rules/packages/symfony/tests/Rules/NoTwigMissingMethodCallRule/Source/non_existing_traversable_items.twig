@@ -1,0 +1,8 @@
+{% for some_child in some_iterator_type %}
+    {{ some_child.nonExistingMethod }}
+
+    {{ some_child.blabla }}
+
+    {{ some_child.existingMethod }}
+    {{ some_child.parent }}
+{% endfor %}
