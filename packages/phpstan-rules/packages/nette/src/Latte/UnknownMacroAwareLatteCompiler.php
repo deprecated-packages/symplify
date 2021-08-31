@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Latte;
 
+use Latte\CompileException;
 use Latte\Compiler;
 use Latte\MacroNode;
 use Latte\Macros\BlockMacros;
@@ -13,14 +14,26 @@ use Latte\PhpWriter;
 use Latte\Runtime\Defaults;
 use Nette\Bridges\ApplicationLatte\UIMacros;
 use Nette\Bridges\FormsLatte\FormMacros;
+use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
 {
     /**
+     * @var string
+     * @see https://regex101.com/r/bjXNkN/1
+     */
+    private const MISSING_MACRO_REGEX = '#^Unexpected {\/(?<macro_name>\w+)}#';
+
+    /**
      * @var string[]
      */
     private array $nativeMacrosNames = [];
+
+    /**
+     * @var string[]
+     */
+    private array $endRequiringMacroNames = [];
 
     public function __construct(
         private PrivatesAccessor $privatesAccessor,
@@ -56,6 +69,29 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     }
 
     /**
+     * @param \Latte\Token[] $tokens
+     */
+    public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = false): string
+    {
+        // @todo compile loop counter
+
+        try {
+            return parent::compile($tokens, $className, $className, $strictMode);
+        } catch (CompileException $compileException) {
+            // potential pair macro detection
+            $match = Strings::match($compileException->getMessage(), self::MISSING_MACRO_REGEX);
+            // nothing found, just fail
+            if (! isset($match['macro_name'])) {
+                throw $compileException;
+            }
+
+            // mark the dual macro tag and re-try
+            $this->endRequiringMacroNames[] = $match['macro_name'];
+            return $this->compile($tokens, $className, $comment, $strictMode);
+        }
+    }
+
+    /**
      * Generates code for macro <tag n:attr> to the output.
      *
      * @internal
@@ -78,10 +114,22 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     {
         $fakeMacroSet = new MacroSet($this);
 
-        $fakeMacroSet->addMacro(
-            $name,
-            fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter)
-        );
+        if (in_array($name, $this->endRequiringMacroNames, true)) {
+            $fakeMacroSet->addMacro(
+                $name,
+                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyEndingMacro(
+                    $macroNode,
+                    $phpWriter
+                ),
+                // faking close macro
+                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => ''
+            );
+        } else {
+            $fakeMacroSet->addMacro(
+                $name,
+                fn (MacroNode $macroNode, PhpWriter $phpWriter): string => $this->dummyMacro($macroNode, $phpWriter),
+            );
+        }
     }
 
     private function fakeAttrMacro(string $name): void
@@ -110,6 +158,17 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
         // show parameters to allow php-parser to discover those variables
         return $phpWriter->write('echo %node.args;');
+    }
+
+    private function dummyEndingMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
+    {
+        // nothing to render
+        if ($macroNode->args === '') {
+            return '';
+        }
+
+        // show parameters to allow php-parser to discover those variables
+        return $phpWriter->write('$temporary = %node.array;');
     }
 
     private function dummyAttrMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
