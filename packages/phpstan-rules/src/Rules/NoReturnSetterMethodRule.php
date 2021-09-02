@@ -90,7 +90,7 @@ final class SomeClass
 {
     private $name;
 
-    public function setName(string $name)
+    public function setName(string $name): int
     {
         return 1000;
     }

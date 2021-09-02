@@ -43,7 +43,7 @@ final class RequireSpecificReturnTypeOverAbstractRule extends AbstractSymplifyRu
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-class IssueControlFactory
+final class IssueControlFactory
 {
     public function create(): Control
     {
@@ -51,13 +51,13 @@ class IssueControlFactory
     }
 }
 
-class IssueControl extends Control
+final class IssueControl extends Control
 {
 }
 CODE_SAMPLE
              ,
                 <<<'CODE_SAMPLE'
-class IssueControlFactory
+final class IssueControlFactory
 {
     public function create(): IssueControl
     {
@@ -65,7 +65,7 @@ class IssueControlFactory
     }
 }
 
-class IssueControl extends Control
+final class IssueControl extends Control
 {
 }
 CODE_SAMPLE

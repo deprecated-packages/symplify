@@ -92,23 +92,11 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    public function run()
-    {
-        return __DIR__ . '/missing_location.txt';
-    }
-}
+$filePath = __DIR__ . '/missing_location.txt';
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    public function run()
-    {
-        return __DIR__ . '/existing_location.txt';
-    }
-}
+$filePath = __DIR__ . '/existing_location.txt';
 CODE_SAMPLE
             ),
         ]);

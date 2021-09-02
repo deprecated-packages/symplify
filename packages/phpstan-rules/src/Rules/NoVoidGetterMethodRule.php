@@ -79,6 +79,7 @@ final class SomeClass
 {
     public function getData(): void
     {
+        // ...
     }
 }
 CODE_SAMPLE
@@ -88,6 +89,7 @@ final class SomeClass
 {
     public function getData(): array
     {
+        // ...
     }
 }
 CODE_SAMPLE

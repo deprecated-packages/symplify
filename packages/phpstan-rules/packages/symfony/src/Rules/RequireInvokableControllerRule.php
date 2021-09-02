@@ -68,9 +68,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeController extends AbstractController
 {
-    /**
-     * @Route()
-     */
+    #[Route()]
     public function someMethod()
     {
     }
@@ -83,9 +81,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeController extends AbstractController
 {
-    /**
-     * @Route()
-     */
+    #[Route()]
     public function __invoke()
     {
     }

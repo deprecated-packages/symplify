@@ -84,24 +84,12 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    public function run()
-    {
-        return array_filter(array_map($callback, $items));
-    }
-}
+$filteredValues = array_filter(array_map($callback, $items));
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    public function run()
-    {
-        $mappedItems = array_map($callback, $items);
-        return array_filter($mappedItems);
-    }
-}
+$mappedItems = array_map($callback, $items);
+$filteredValues = array_filter($mappedItems);
 CODE_SAMPLE
             ),
         ]);

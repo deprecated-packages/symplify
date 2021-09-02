@@ -38,7 +38,7 @@ CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 // app/Attribute/SomeAttribute.php
-namespace App\Controller;
+namespace App\Attribute;
 
 #[\Attribute]
 final class SomeAttribute

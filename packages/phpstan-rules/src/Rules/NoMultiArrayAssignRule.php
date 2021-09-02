@@ -66,26 +66,14 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-final class SomeClass
-{
-    public function run()
-    {
-        $values = [];
-        $values['person']['name'] = 'Tom';
-        $values['person']['surname'] = 'Dev';
-    }
-}
+$values = [];
+$values['person']['name'] = 'Tom';
+$values['person']['surname'] = 'Dev';
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-final class SomeClass
-{
-    public function run()
-    {
-        $values = [];
-        $values[] = new Person('Tom', 'Dev');
-    }
-}
+$values = [];
+$values[] = new Person('Tom', 'Dev');
 CODE_SAMPLE
             ),
         ]);
