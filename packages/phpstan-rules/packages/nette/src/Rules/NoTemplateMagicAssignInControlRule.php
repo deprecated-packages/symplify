@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
+use Nette\Application\UI\Control;
+use Nette\Application\UI\Presenter;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -46,16 +49,16 @@ final class NoTemplateMagicAssignInControlRule extends AbstractSymplifyRule
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
         // check only controls
-        if ($classReflection->isSubclassOf('Nette\Application\UI\Presenter')) {
+        if ($classReflection->isSubclassOf(Presenter::class)) {
             return [];
         }
 
-        if (! $classReflection->isSubclassOf('Nette\Application\UI\Control')) {
+        if (! $classReflection->isSubclassOf(Control::class)) {
             return [];
         }
 
