@@ -144,7 +144,6 @@ parameters:
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
-                - packages/config-transformer/src/Configuration/Configuration.php
                 - packages/phpstan-rules/packages/symfony/src/ObjectTypeMethodAnalyzer.php
 
         -
@@ -247,6 +246,15 @@ parameters:
 
         # manually constructored for Symfony compiler pass, before DI is created
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
+
+        # false positive - changes on release
+        -
+            message: '#Unreachable statement \- code above always terminates#'
+            paths:
+                - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+        # false positive - lost type on array-merge
+        - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         -
             message: '#\$this as argument is not allowed#'
@@ -518,8 +526,6 @@ parameters:
         # buggy since new Phpstan
         - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
         - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
-        # invalid symfony API
-        - '#Arguments names conflicts with parent class method\: "\$requestContext" should be "\$context"\. This will break named arguments#'
 
         # strict api : maybe allow ~1 private method
         -
