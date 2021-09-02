@@ -1,4 +1,4 @@
-# 163 Rules Overview
+# 164 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4172,6 +4172,48 @@ class Some
     public function __construct(string $name)
     {
         $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoTemplateMagicAssignInControlRule
+
+Instead of magic template assign use `render()` param and explicit variable
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule`](../packages/nette/src/Rules/NoTemplateMagicAssignInControlRule.php)
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->value = 1000;
+
+        $this->template->render(__DIR__ . '/some_file.latte');
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Control;
+
+final class SomeControl extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_file.latte', [
+            'value' => 1000,
+        ]);
     }
 }
 ```
