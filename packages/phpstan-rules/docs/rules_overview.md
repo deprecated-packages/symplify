@@ -1,4 +1,4 @@
-# 164 Rules Overview
+# 159 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3363,13 +3363,7 @@ The path "%s" was not found
 - class: [`Symplify\PHPStanRules\Rules\NoMissingDirPathRule`](../src/Rules/NoMissingDirPathRule.php)
 
 ```php
-class SomeClass
-{
-    public function run()
-    {
-        return __DIR__ . '/missing_location.txt';
-    }
-}
+$filePath = __DIR__ . '/missing_location.txt';
 ```
 
 :x:
@@ -3377,13 +3371,7 @@ class SomeClass
 <br>
 
 ```php
-class SomeClass
-{
-    public function run()
-    {
-        return __DIR__ . '/existing_location.txt';
-    }
-}
+$filePath = __DIR__ . '/existing_location.txt';
 ```
 
 :+1:
@@ -3432,15 +3420,9 @@ Use value object over multi array assign
 - class: [`Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`](../src/Rules/NoMultiArrayAssignRule.php)
 
 ```php
-final class SomeClass
-{
-    public function run()
-    {
-        $values = [];
-        $values['person']['name'] = 'Tom';
-        $values['person']['surname'] = 'Dev';
-    }
-}
+$values = [];
+$values['person']['name'] = 'Tom';
+$values['person']['surname'] = 'Dev';
 ```
 
 :x:
@@ -3448,14 +3430,8 @@ final class SomeClass
 <br>
 
 ```php
-final class SomeClass
-{
-    public function run()
-    {
-        $values = [];
-        $values[] = new Person('Tom', 'Dev');
-    }
-}
+$values = [];
+$values[] = new Person('Tom', 'Dev');
 ```
 
 :+1:
@@ -3469,13 +3445,7 @@ Use separate function calls with readable variable names
 - class: [`Symplify\PHPStanRules\Rules\NoNestedFuncCallRule`](../src/Rules/NoNestedFuncCallRule.php)
 
 ```php
-class SomeClass
-{
-    public function run()
-    {
-        return array_filter(array_map($callback, $items));
-    }
-}
+$filteredValues = array_filter(array_map($callback, $items));
 ```
 
 :x:
@@ -3483,14 +3453,8 @@ class SomeClass
 <br>
 
 ```php
-class SomeClass
-{
-    public function run()
-    {
-        $mappedItems = array_map($callback, $items);
-        return array_filter($mappedItems);
-    }
-}
+$mappedItems = array_map($callback, $items);
+$filteredValues = array_filter($mappedItems);
 ```
 
 :+1:
@@ -3689,7 +3653,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value',
+            'never_used_in_template' => 'value',
         ]);
     }
 }
@@ -4020,7 +3984,7 @@ final class SomeClass
 {
     private $name;
 
-    public function setName(string $name)
+    public function setName(string $name): int
     {
         return 1000;
     }
@@ -4353,7 +4317,7 @@ Passed "%s" variable that are not used in the template
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'non_existing_variable' => 'value',
+    'used_variable' => 'value',
 ]);
 ```
 
@@ -4364,7 +4328,7 @@ $environment->render(__DIR__ . '/some_file.twig', [
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'existing_variable' => 'value',
+    'unused_variable' => 'value',
 ]);
 ```
 
@@ -4383,6 +4347,7 @@ final class SomeClass
 {
     public function getData(): void
     {
+        // ...
     }
 }
 ```
@@ -4396,6 +4361,7 @@ final class SomeClass
 {
     public function getData(): array
     {
+        // ...
     }
 }
 ```
@@ -5000,7 +4966,7 @@ final class SomeAttribute
 
 ```php
 // app/Attribute/SomeAttribute.php
-namespace App\Controller;
+namespace App\Attribute;
 
 #[\Attribute]
 final class SomeAttribute
@@ -5215,9 +5181,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeController extends AbstractController
 {
-    /**
-     * @Route()
-     */
+    #[Route()]
     public function someMethod()
     {
     }
@@ -5234,9 +5198,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeController extends AbstractController
 {
-    /**
-     * @Route()
-     */
+    #[Route()]
     public function __invoke()
     {
     }
@@ -5489,7 +5451,7 @@ Provide more specific return type "%s" over abstract one
 - class: [`Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule`](../src/Rules/Explicit/RequireSpecificReturnTypeOverAbstractRule.php)
 
 ```php
-class IssueControlFactory
+final class IssueControlFactory
 {
     public function create(): Control
     {
@@ -5497,7 +5459,7 @@ class IssueControlFactory
     }
 }
 
-class IssueControl extends Control
+final class IssueControl extends Control
 {
 }
 ```
@@ -5507,7 +5469,7 @@ class IssueControl extends Control
 <br>
 
 ```php
-class IssueControlFactory
+final class IssueControlFactory
 {
     public function create(): IssueControl
     {
@@ -5515,7 +5477,7 @@ class IssueControlFactory
     }
 }
 
-class IssueControl extends Control
+final class IssueControl extends Control
 {
 }
 ```
@@ -5995,55 +5957,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## SingleIndentationInMethodRule
-
-Do not indent more than %dx in class methods
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule`](../packages/object-calisthenics/src/Rules/SingleIndentationInMethodRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\SingleIndentationInMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxNestingLevel:
-                - 2
-```
-
-↓
-
-```php
-function someFunction()
-{
-    if (...) {
-        if (...) {
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-function someFunction()
-{
-    if (! ...) {
-    }
-
-    if (!...) {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## SingleNetteInjectMethodRule
 
 Use single inject*() class method per class
@@ -6179,102 +6092,6 @@ $someObject = new A($firstObject);
 
 <br>
 
-## TooLongClassLikeRule
-
-%s has %d lines, it is too long. Shorted it under %d lines
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule`](../packages/object-calisthenics/src/Rules/TooLongClassLikeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongClassLikeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxClassLikeLength: 3
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function someMethod()
-    {
-        if (...) {
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function someMethod()
-    {
-        return (...) ? 1 : 2;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## TooLongFunctionLikeRule
-
-%s has %d lines, it is too long. Shorted it under %d lines
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule`](../packages/object-calisthenics/src/Rules/TooLongFunctionLikeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooLongFunctionLikeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxFunctionLikeLength: 3
-```
-
-↓
-
-```php
-function some()
-{
-    if (...) {
-        return 1;
-    } else {
-        return 2;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-function some()
-{
-    return (...) ? 1 : 2;
-}
-```
-
-:+1:
-
-<br>
-
 ## TooLongVariableRule
 
 Variable "$%s" is too long with %d chars. Narrow it under %d chars
@@ -6315,102 +6132,6 @@ class SomeClass
     {
         return $shortName;
     }
-}
-```
-
-:+1:
-
-<br>
-
-## TooManyMethodsRule
-
-Method has too many methods %d. Try narrowing it down under %d
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule`](../packages/object-calisthenics/src/Rules/TooManyMethodsRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyMethodsRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCount: 1
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function firstMethod()
-    {
-    }
-
-    public function secondMethod()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function firstMethod()
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## TooManyPropertiesRule
-
-Class has too many properties %d. Try narrowing it down under %d
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule`](../packages/object-calisthenics/src/Rules/TooManyPropertiesRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\TooManyPropertiesRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxPropertyCount: 2
-```
-
-↓
-
-```php
-class SomeClass
-{
-    private $some;
-
-    private $another;
-
-    private $third;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $some;
-
-    private $another;
 }
 ```
 
