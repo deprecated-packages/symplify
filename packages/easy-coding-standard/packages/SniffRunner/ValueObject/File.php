@@ -8,6 +8,7 @@ use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File as BaseFile;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Util\Common;
@@ -24,14 +25,14 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class File extends BaseFile
 {
     /**
-     * Explicit list for classes that use only warnings. ECS only knows only errors, so this one promotes them to error.
+     * Explicit list for classes that use only warnings. ECS only reports errors, so this one promotes them to error.
      *
      * @var array<class-string<Sniff>>
      */
-    private const REPORT_WARNINGS_SNIFFS = [
-        '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
+    private array $reportWarnings = [
+        AssignmentInConditionSniff::class,
         PropertyDeclarationSniff::class,
-        MethodDeclarationSniff::class,
+        MethodDeclarationSniff::class
     ];
 
     /**
@@ -247,12 +248,17 @@ final class File extends BaseFile
 
     private function isSniffClassWarningAllowed(string $sniffClass): bool
     {
-        foreach (self::REPORT_WARNINGS_SNIFFS as $reportWarningsSniff) {
+        foreach ($this->reportWarnings as $reportWarningsSniff) {
             if (is_a($sniffClass, $reportWarningsSniff, true)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function appendReportWarnings(array $reportWarnings): void
+    {
+        $this->reportWarnings = array_merge($this->reportWarnings, $reportWarnings);
     }
 }
