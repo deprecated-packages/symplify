@@ -86,11 +86,12 @@ final class SomeControl extends Control
 {
     public function render()
     {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'non_existing_variable' => 'value'
-        ]);
+        $this->template->render(__DIR__ . '/some_file.latte');
     }
 }
+
+// some_file.latte
+{$usedValue}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
@@ -101,10 +102,13 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value'
+            'usedValue' => 'value'
         ]);
     }
 }
+
+// some_file.latte
+{$usedValue}
 CODE_SAMPLE
             ),
         ]);
