@@ -31,7 +31,7 @@ final class SniffFileProcessorReportWarningTest extends AbstractKernelTestCase
         $changedFilesDetector->clearCache();
     }
 
-    /** @return array<array{int, Configuration}> */
+    /** @return mixed[][] */
     public function provider(): array
     {
         return [
