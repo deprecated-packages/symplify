@@ -1,4 +1,3 @@
 includes:
     - ../../../../../../config/services/services.neon
     - ../../../../../../packages/object-calisthenics/config/object-calisthenics-rules.neon
-    - ../../../../../../packages/object-calisthenics/config/object-calisthenics-services.neon
