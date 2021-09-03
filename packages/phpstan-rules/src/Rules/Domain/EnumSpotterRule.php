@@ -34,6 +34,11 @@ final class EnumSpotterRule extends AbstractSymplifyRule
     private const ALLOWED_STRING_VALUES = ['this', 'config.php'];
 
     /**
+     * @var int
+     */
+    private const MIN_STRING_LENGTH = 3;
+
+    /**
      * @var array<string, string[]>
      */
     private array $stringValuesByUniqueId = [];
@@ -90,7 +95,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $this->collectArgStringValues($node, $callerType, $methodName);
+        $this->collectArgStringValues($node, $callerType, $methodName, self::MIN_STRING_LENGTH);
 
         $duplicatedStringArg = $this->duplicatedStringArgValueResolver->resolve(
             $this->stringValuesByUniqueId,
@@ -114,7 +119,8 @@ CODE_SAMPLE
     private function collectArgStringValues(
         MethodCall $methodCall,
         TypeWithClassName $typeWithClassName,
-        string $methodName
+        string $methodName,
+        int $minLength
     ): void {
         foreach ($methodCall->args as $position => $arg) {
             if (! $arg->value instanceof String_) {
@@ -125,6 +131,10 @@ CODE_SAMPLE
 
             // values with spaces will not be enums probably
             if (str_contains($argumentStringValue, ' ')) {
+                continue;
+            }
+
+            if (strlen($argumentStringValue) < $minLength) {
                 continue;
             }
 

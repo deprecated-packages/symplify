@@ -31,6 +31,7 @@ final class EnumSpotterRuleTest extends AbstractServiceAwareRuleTestCase
         yield [[__DIR__ . '/Fixture/FirstUse.php', __DIR__ . '/Fixture/SecondUse.php'], [[$errorMessage, 13]]];
 
         yield [[__DIR__ . '/Fixture/SkipFirstUseInTest.php', __DIR__ . '/Fixture/SkipSecondUseInTest.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipShortValues.php'], []];
         yield [[__DIR__ . '/Fixture/SkipNotRepeatedUse.php'], []];
     }
 
