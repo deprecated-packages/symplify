@@ -173,6 +173,7 @@ parameters:
            message: '#Use explicit return value over magic &reference#'
            paths:
                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
+               - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
             message: '#Instead of container injection, use specific service#'
@@ -368,11 +369,6 @@ parameters:
         # known types
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstParentByType\(\) should return T of PhpParser\\Node\|null but returns class\-string<T of PhpParser\\Node\>\|T of PhpParser\\Node#'
-
-        # node traverser magic
-        -
-            message: '#Use explicit return value over magic &reference#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
         -
             message: '#Use void instead of modify and return self object#'

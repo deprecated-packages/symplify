@@ -67,7 +67,7 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    private array $property;
+    private array $property = [];
 }
 CODE_SAMPLE
             ),

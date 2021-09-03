@@ -953,8 +953,7 @@ Anonymous class is not allowed.
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](../src/Rules/ForbiddenAnonymousClassRule.php)
 
 ```php
-new class() {
-};
+new class {};
 ```
 
 :x:
@@ -964,9 +963,10 @@ new class() {
 ```php
 class SomeClass
 {
+
 }
 
-new SomeClass();
+new SomeClass;
 ```
 
 :+1:
@@ -1016,7 +1016,7 @@ Array method calls [$this, "method"] are not allowed. Use explicit method instea
 - class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule`](../src/Rules/Complexity/ForbiddenArrayMethodCallRule.php)
 
 ```php
-usort($items, [$this, 'method']);
+usort($items, [$this, "method"]);
 ```
 
 :x:
@@ -2065,7 +2065,7 @@ Spread operator is not allowed.
 
 ```php
 $args = [$firstValue, $secondValue];
-$message = sprintf('%s', ...$args);
+$message =  sprintf('%s', ...$args);
 ```
 
 :x:
@@ -2073,7 +2073,7 @@ $message = sprintf('%s', ...$args);
 <br>
 
 ```php
-$message = sprintf('%s', $firstValue, $secondValue);
+$message =  sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -2560,12 +2560,10 @@ services:
 ↓
 
 ```php
-$this->runThis()
-    ->runThat();
+$this->runThis()->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :x:
@@ -2577,8 +2575,7 @@ $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :+1:
@@ -2672,7 +2669,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    protected function setUp()
+    public function setUp()
     {
         // ...
     }
@@ -3193,7 +3190,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if (isset($object)) {
@@ -3214,7 +3211,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if ($object !== null) {
@@ -3594,11 +3591,12 @@ final class SomeControl extends Control
 {
     public function render()
     {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'non_existing_variable' => 'value',
-        ]);
+        $this->template->render(__DIR__ . '/some_file.latte');
     }
 }
+
+// some_file.latte
+{$usedValue}
 ```
 
 :x:
@@ -3613,10 +3611,13 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'existing_variable' => 'value',
+            'usedValue' => 'value'
         ]);
     }
 }
+
+// some_file.latte
+{$usedValue}
 ```
 
 :+1:
@@ -3653,7 +3654,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value',
+            'never_used_in_template' => 'value'
         ]);
     }
 }
@@ -3723,7 +3724,7 @@ final class SomeClass
 ```php
 final class SomeClass
 {
-    private array $property;
+    private array $property = [];
 }
 ```
 
@@ -4176,7 +4177,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000,
+            'value' => 1000
         ]);
     }
 }
@@ -4280,7 +4281,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value',
+            'non_existing_variable' => 'value'
         ]);
     }
 }
@@ -4298,7 +4299,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value',
+            'existing_variable' => 'value'
         ]);
     }
 }
@@ -4317,7 +4318,7 @@ Passed "%s" variable that are not used in the template
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value',
+    'used_variable' => 'value'
 ]);
 ```
 
@@ -4328,7 +4329,7 @@ $environment->render(__DIR__ . '/some_file.twig', [
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value',
+    'unused_variable' => 'value'
 ]);
 ```
 
@@ -4627,7 +4628,7 @@ final class UseRawDataForTestDataProviderTest
 
     protected function setUp()
     {
-        $this->obj = new stdClass();
+        $this->obj = new stdClass;
     }
 
     public function provideFoo()
@@ -4917,7 +4918,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -4933,7 +4934,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
@@ -5149,6 +5150,7 @@ namespace App\Controller;
 
 final class SomeException extends Exception
 {
+
 }
 ```
 
@@ -5293,7 +5295,7 @@ class SomeController extends AbstractController
     public function default()
     {
         return $this->render('...', [
-            'name' => 'John',
+            'name' => 'John'
         ]);
     }
 }
@@ -5934,7 +5936,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[new Another()]]);
+        ->call('configure', [[
+            new Another()
+        ]]);
 };
 ```
 
@@ -5949,7 +5953,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[new Some()]]);
+        ->call('configure', [[
+            new Some()
+        ]]);
 };
 ```
 
@@ -5993,7 +5999,10 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(Type $type, AnotherType $anotherType) {
+    public function injectSomeClass(
+        Type $type,
+        AnotherType $anotherType
+    ) {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
@@ -6076,7 +6085,11 @@ services:
 ↓
 
 ```php
-$someObject = new A(new B(new C()));
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
 ```
 
 :x:
@@ -6213,9 +6226,7 @@ Instead of array shape, use value object with specific types in constructor and 
  */
 function createConfiguration()
 {
-    return [
-        'line' => 100,
-    ];
+    return ['line' => 100];
 }
 ```
 
