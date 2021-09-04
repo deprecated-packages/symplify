@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\LatteTemplateAnalyzer;
 
 use Nette\Utils\Strings;
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\TemplateError;
+use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -35,7 +35,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteTemplateAnal
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -49,7 +49,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteTemplateAnal
     }
 
     /**
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     private function analyzeFileInfo(SmartFileInfo $fileInfo): array
     {
@@ -63,7 +63,7 @@ final class ForbiddenVariableConstantOrCallAnalyzer implements LatteTemplateAnal
                 (string) $match[self::CONSTANT_OR_METHOD_PART_KEY],
             );
 
-            $templateErrors[] = new TemplateError($errorMessage, $fileInfo);
+            $templateErrors[] = new FileError($errorMessage, $fileInfo);
         }
 
         return $templateErrors;

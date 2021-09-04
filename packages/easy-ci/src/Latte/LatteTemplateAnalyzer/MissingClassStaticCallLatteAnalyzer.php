@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Latte\LatteTemplateAnalyzer;
 
 use Nette\Utils\Strings;
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\TemplateError;
+use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -35,7 +35,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteTemplateAnalyzer
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -56,7 +56,7 @@ final class MissingClassStaticCallLatteAnalyzer implements LatteTemplateAnalyzer
                 }
 
                 $errorMessage = sprintf('Method "%s::%s()" not found', $className, $methodName);
-                $templateErrors[] = new TemplateError($errorMessage, $fileInfo);
+                $templateErrors[] = new FileError($errorMessage, $fileInfo);
             }
         }
 

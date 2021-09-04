@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Contract\ValueObject;
 
-interface TemplateErrorInterface
+interface FileErrorInterface
 {
     public function getErrorMessage(): string;
 

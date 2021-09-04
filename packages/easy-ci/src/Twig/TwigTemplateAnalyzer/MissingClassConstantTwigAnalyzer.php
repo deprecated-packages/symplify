@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Twig\TwigTemplateAnalyzer;
 
 use Nette\Utils\Strings;
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\TemplateError;
+use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -28,7 +28,7 @@ final class MissingClassConstantTwigAnalyzer implements TwigTemplateAnalyzerInte
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -49,7 +49,7 @@ final class MissingClassConstantTwigAnalyzer implements TwigTemplateAnalyzerInte
                 }
 
                 $errorMessage = sprintf('Class constant "%s" not found', $classConstantName);
-                $templateErrors[] = new TemplateError($errorMessage, $fileInfo);
+                $templateErrors[] = new FileError($errorMessage, $fileInfo);
             }
         }
 
