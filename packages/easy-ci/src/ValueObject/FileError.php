@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ValueObject;
 
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class LinedTemplateError implements TemplateErrorInterface
+final class FileError implements FileErrorInterface
 {
     public function __construct(
         private string $errorMessage,
-        private SmartFileInfo $smartFileInfo,
-        private int $line
+        private SmartFileInfo $smartFileInfo
     ) {
     }
 
@@ -23,7 +22,6 @@ final class LinedTemplateError implements TemplateErrorInterface
 
     public function getRelativeFilePath(): string
     {
-        $relativeFilePath = $this->smartFileInfo->getRelativeFilePath();
-        return $relativeFilePath . ':' . $this->line;
+        return $this->smartFileInfo->getRelativeFilePath();
     }
 }
