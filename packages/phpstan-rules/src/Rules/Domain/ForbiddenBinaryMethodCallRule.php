@@ -12,13 +12,14 @@ use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Domain\ForbiddenBinaryMethodCallRule\ForbiddenBinaryMethodCallRuleTest
  */
-final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule
+final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -26,7 +27,7 @@ final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'This call cannot be used in binary compare. Use direct method instead';
 
     /**
-     * @param array<class-string, $simpleNameResolver string[]>
+     * @param array<class-string, string[]> $typesToMethods
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
