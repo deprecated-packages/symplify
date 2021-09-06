@@ -16,7 +16,7 @@ use Symplify\PackageBuilder\ValueObject\Option;
 final class CheckConfigCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private ClassAndConstantExistanceFileProcessor $configFileProcessor,
+        private ClassAndConstantExistanceFileProcessor $classAndConstantExistanceFileProcessor,
         private FileErrorsReporter $fileErrorsReporter
     ) {
         parent::__construct();
@@ -45,7 +45,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
         );
         $this->symfonyStyle->note($message);
 
-        $fileErrors = $this->configFileProcessor->analyzeFileInfos($fileInfos);
+        $fileErrors = $this->classAndConstantExistanceFileProcessor->analyzeFileInfos($fileInfos);
         return $this->fileErrorsReporter->report($fileErrors);
     }
 }

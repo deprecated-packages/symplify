@@ -61,7 +61,7 @@ final class NonExistingClassConfigFileAnalyzer implements ConfigFileAnalyzerInte
 
     /**
      * @param string[] $classes
-     * @return class-string[]
+     * @return string[]
      */
     private function filterNonExistingClasses(array $classes): array
     {
