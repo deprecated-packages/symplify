@@ -1,0 +1,11 @@
+includes:
+    - ../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            typesToMethods:
+                Symplify\PHPStanRules\Tests\Rules\Domain\ForbiddenBinaryMethodCallRule\Source\SomeAbstractSearch:
+                    - 'getId'
