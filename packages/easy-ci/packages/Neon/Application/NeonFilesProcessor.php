@@ -102,6 +102,12 @@ final class NeonFilesProcessor implements FileProcessorInterface
                     continue;
                 }
 
+                // @see https://github.com/nette/di/blob/0ab4d4f67979a38fa06bf4c4f9cd81a98cc6ccba/tests/DI/Compiler.functions.phpt#L36-L40
+                // skip functions
+                if (in_array($itemNeon->value, ['not', 'string', 'int', 'float', 'bool'], true)) {
+                    continue;
+                }
+
                 $errorMessage = $this->createErrorMessageFromNeonEntity($itemNeon);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
             }
