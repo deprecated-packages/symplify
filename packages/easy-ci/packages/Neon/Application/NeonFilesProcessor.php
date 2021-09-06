@@ -7,11 +7,12 @@ namespace Symplify\EasyCI\Neon\Application;
 use Nette\Neon\Entity;
 use Nette\Neon\Neon;
 use Nette\Utils\Arrays;
+use Symplify\EasyCI\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
-final class NeonFilesProcessor
+final class NeonFilesProcessor implements FileProcessorInterface
 {
     public function __construct(
         private SmartFileSystem $smartFileSystem
