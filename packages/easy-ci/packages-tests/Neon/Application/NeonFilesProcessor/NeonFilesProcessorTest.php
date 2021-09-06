@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\Neon\Application\NeonFilesProcessor;
 
+use Iterator;
 use Symplify\EasyCI\HttpKernel\EasyCIKernel;
 use Symplify\EasyCI\Neon\Application\NeonFilesProcessor;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -28,7 +29,10 @@ final class NeonFilesProcessorTest extends AbstractKernelTestCase
         $this->assertCount($expectedErrorFileCount, $fileErrors);
     }
 
-    public function provideData(): \Iterator
+    /**
+     * @return Iterator<int[]|SmartFileInfo[]>
+     */
+    public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/complex_neon.neon'), 1];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/simple_neon.neon'), 0];
