@@ -12,8 +12,16 @@ use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\EasyCI\Tests\Neon\Application\NeonFilesProcessor\NeonFilesProcessorTest
+ */
 final class NeonFilesProcessor implements FileProcessorInterface
 {
+    /**
+     * @var string
+     */
+    private const SERVICES_KEY = 'services';
+
     public function __construct(
         private SmartFileSystem $smartFileSystem
     ) {
@@ -23,7 +31,7 @@ final class NeonFilesProcessor implements FileProcessorInterface
      * @param SmartFileInfo[] $fileInfos
      * @return FileError[]
      */
-    public function analyzeFileInfos(array $fileInfos): array
+    public function processFileInfos(array $fileInfos): array
     {
         $fileErrors = [];
 
@@ -31,8 +39,14 @@ final class NeonFilesProcessor implements FileProcessorInterface
             $fileContent = $this->smartFileSystem->readFile($fileInfo->getRealPath());
             $neon = Neon::decode($fileContent);
 
-            // 1. detect complex neon entities
-            $flatNeon = Arrays::flatten($neon);
+            // 1. we only take care about services
+            $servicesNeon = $neon[self::SERVICES_KEY] ?? null;
+            if ($servicesNeon === null) {
+                continue;
+            }
+
+            // 2. detect complex neon entities
+            $flatNeon = Arrays::flatten($servicesNeon);
             foreach ($flatNeon as $itemNeon) {
                 if (! $itemNeon instanceof Entity) {
                     continue;

@@ -45,7 +45,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
         );
         $this->symfonyStyle->note($message);
 
-        $fileErrors = $this->classAndConstantExistanceFileProcessor->analyzeFileInfos($fileInfos);
+        $fileErrors = $this->classAndConstantExistanceFileProcessor->processFileInfos($fileInfos);
         return $this->fileErrorsReporter->report($fileErrors);
     }
 }

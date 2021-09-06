@@ -1,0 +1,2 @@
+services:
+    - Service(@param)
