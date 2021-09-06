@@ -45,6 +45,7 @@ final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule implement
 
     /**
      * @param MethodCall $node
+     * @return mixed[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -71,7 +72,7 @@ final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule implement
         return [];
     }
 
-    public function getRuleDefinition(): \Symplify\RuleDocGenerator\ValueObject\RuleDefinition
+    public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
             self::ERROR_MESSAGE,

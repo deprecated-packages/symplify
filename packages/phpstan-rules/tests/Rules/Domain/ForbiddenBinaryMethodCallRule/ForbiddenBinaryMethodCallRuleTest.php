@@ -16,6 +16,7 @@ final class ForbiddenBinaryMethodCallRuleTest extends AbstractServiceAwareRuleTe
 {
     /**
      * @dataProvider provideData()
+     * @param array<int, array<int|string>>|mixed[] $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

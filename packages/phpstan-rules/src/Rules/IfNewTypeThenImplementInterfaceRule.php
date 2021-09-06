@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -60,7 +61,7 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
