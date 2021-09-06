@@ -332,13 +332,13 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
 
-        # needed as `humbug/php-scoper` provides `Isolated\Symfony\Component\Finder\Finder`
-        - '#Method Symplify\\EasyCI\\ContentAnalyzer\\ClassExtractor\:\:extractClassName\(\) should return class\-string but returns string#'
-
         # some phpstan bug
         - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
+
+        # reoslve later
+        - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
 
         # xml magic
         -
@@ -438,9 +438,6 @@ parameters:
 
         - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
 
-        # reoslve later
-        - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
-
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
@@ -519,9 +516,6 @@ parameters:
 
         # not sure iterable
         - '#Arguments names conflicts with parent class method\: "\$environment" should be "\$env"\. This will break named arguments#'
-        # buggy since new Phpstan
-        - '#Method Symplify\\EasyCodingStandard\\ValueObject\\Error\\(.*?)\:\:jsonSerialize\(\) should return (.*?) but returns (.*?)&nonEmpty#'
-        - '#Parameter (.*?) of class Symplify\\EasyCodingStandard\\(.*?)ValueObject\\(.*?) constructor expects (.*?), (.*?) given#'
 
         # strict api : maybe allow ~1 private method
         -
@@ -529,3 +523,5 @@ parameters:
             path: packages/config-transformer/src/Command/SwitchFormatCommand.php
 
         - '#Property Symplify\\PHPStanRules\\Nette\\Latte\\UnknownMacroAwareLatteCompiler\:\:\$nativeMacrosNames \(array<string\>\) does not accept array<int, int\|string\>#'
+
+        - '#Method Symplify\\EasyCI\\Config\\ConfigFileAnalyzer\\NonExistingClassConfigFileAnalyzer\:\:filterNonExistingClasses\(\) should return array<class\-string\> but returns array<string\>#'

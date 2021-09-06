@@ -1,0 +1,3 @@
+services:
+    -
+        class: Symplify\EasyCI\Tests\Config\ConfigFileAnalyzer\NonExistingClassConfigFileAnalyzer\Source\With__Underscore__1234
