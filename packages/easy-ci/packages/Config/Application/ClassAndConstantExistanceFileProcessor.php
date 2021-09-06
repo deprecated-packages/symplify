@@ -23,7 +23,7 @@ final class ClassAndConstantExistanceFileProcessor implements FileProcessorInter
      * @param SmartFileInfo[] $fileInfos
      * @return FileErrorInterface[]
      */
-    public function analyzeFileInfos(array $fileInfos): array
+    public function processFileInfos(array $fileInfos): array
     {
         $fileErrors = [];
 

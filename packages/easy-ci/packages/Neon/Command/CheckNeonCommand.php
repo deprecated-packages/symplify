@@ -39,7 +39,7 @@ final class CheckNeonCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.neon files', count($neonFileInfos));
         $this->symfonyStyle->note($message);
 
-        $fileErrors = $this->neonFilesProcessor->analyzeFileInfos($neonFileInfos);
+        $fileErrors = $this->neonFilesProcessor->processFileInfos($neonFileInfos);
 
         return $this->fileErrorsReporter->report($fileErrors);
     }

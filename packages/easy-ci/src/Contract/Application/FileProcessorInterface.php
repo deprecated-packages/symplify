@@ -13,5 +13,5 @@ interface FileProcessorInterface
      * @param SmartFileInfo[] $fileInfos
      * @return FileError[]
      */
-    public function analyzeFileInfos(array $fileInfos): array;
+    public function processFileInfos(array $fileInfos): array;
 }
