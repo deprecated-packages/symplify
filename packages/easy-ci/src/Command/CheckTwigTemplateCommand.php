@@ -7,6 +7,7 @@ namespace Symplify\EasyCI\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Twig\TwigTemplateProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
@@ -14,7 +15,8 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private TwigTemplateProcessor $twigTemplateProcessor
+        private TwigTemplateProcessor $twigTemplateProcessor,
+        private FileErrorsReporter $fileErrorsReporter
     ) {
         parent::__construct();
     }
@@ -37,21 +39,8 @@ final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.twig files', count($twigFileInfos));
         $this->symfonyStyle->note($message);
 
-        $templateErrors = $this->twigTemplateProcessor->analyzeFileInfos($twigFileInfos);
-        if ($templateErrors === []) {
-            $this->symfonyStyle->success('No errors found');
-            return self::SUCCESS;
-        }
+        $fileErrors = $this->twigTemplateProcessor->analyzeFileInfos($twigFileInfos);
 
-        foreach ($templateErrors as $templateError) {
-            $this->symfonyStyle->writeln($templateError->getRelativeFilePath());
-            $this->symfonyStyle->writeln(' * ' . $templateError->getErrorMessage());
-            $this->symfonyStyle->newLine();
-        }
-
-        $errorMassage = sprintf('%d errors found', count($templateErrors));
-        $this->symfonyStyle->error($errorMassage);
-
-        return self::FAILURE;
+        return $this->fileErrorsReporter->report($fileErrors);
     }
 }

@@ -7,6 +7,7 @@ namespace Symplify\EasyCI\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Latte\LatteTemplateProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
@@ -14,7 +15,8 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private LatteTemplateProcessor $latteTemplateProcessor
+        private LatteTemplateProcessor $latteTemplateProcessor,
+        private FileErrorsReporter $fileErrorsReporter
     ) {
         parent::__construct();
     }
@@ -37,21 +39,8 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
         $message = sprintf('Analysing %d *.latte files', count($latteFileInfos));
         $this->symfonyStyle->note($message);
 
-        $TemplateErrors = $this->latteTemplateProcessor->analyzeFileInfos($latteFileInfos);
-        if ($TemplateErrors === []) {
-            $this->symfonyStyle->success('No errors found');
-            return self::SUCCESS;
-        }
+        $fileErrors = $this->latteTemplateProcessor->analyzeFileInfos($latteFileInfos);
 
-        foreach ($TemplateErrors as $TemplateError) {
-            $this->symfonyStyle->writeln($TemplateError->getRelativeFilePath());
-            $this->symfonyStyle->writeln(' * ' . $TemplateError->getErrorMessage());
-            $this->symfonyStyle->newLine();
-        }
-
-        $errorMassage = sprintf('%d errors found', count($TemplateErrors));
-        $this->symfonyStyle->error($errorMassage);
-
-        return self::FAILURE;
+        return $this->fileErrorsReporter->report($fileErrors);
     }
 }

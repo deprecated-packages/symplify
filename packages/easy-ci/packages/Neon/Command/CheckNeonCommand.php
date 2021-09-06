@@ -7,6 +7,7 @@ namespace Symplify\EasyCI\Neon\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Neon\Application\NeonFilesProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
@@ -14,7 +15,8 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class CheckNeonCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private NeonFilesProcessor $neonFilesProcessor
+        private NeonFilesProcessor $neonFilesProcessor,
+        private FileErrorsReporter $fileErrorsReporter
     ) {
         parent::__construct();
     }
@@ -38,20 +40,7 @@ final class CheckNeonCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->note($message);
 
         $fileErrors = $this->neonFilesProcessor->analyzeFileInfos($neonFileInfos);
-        if ($fileErrors === []) {
-            $this->symfonyStyle->success('No errors found');
-            return self::SUCCESS;
-        }
 
-        foreach ($fileErrors as $fileError) {
-            $this->symfonyStyle->writeln($fileError->getRelativeFilePath());
-            $this->symfonyStyle->writeln(' * ' . $fileError->getErrorMessage());
-            $this->symfonyStyle->newLine();
-        }
-
-        $errorMassage = sprintf('%d errors found', count($fileErrors));
-        $this->symfonyStyle->error($errorMassage);
-
-        return self::FAILURE;
+        return $this->fileErrorsReporter->report($fileErrors);
     }
 }
