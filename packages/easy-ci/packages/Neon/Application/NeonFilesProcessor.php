@@ -92,6 +92,11 @@ final class NeonFilesProcessor implements FileProcessorInterface
                 continue;
             }
 
+            // 0. skip empty values
+            if ($singleService === null) {
+                continue;
+            }
+
             // 1. the "setup" has allowed entities
             $singleService = $this->removeSetupKey($singleService);
 
