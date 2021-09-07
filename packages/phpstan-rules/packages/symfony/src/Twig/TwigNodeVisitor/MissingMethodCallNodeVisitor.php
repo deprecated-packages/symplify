@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor;
 
 use PHPStan\Type\ArrayType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer;
@@ -86,6 +87,11 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
         }
 
         if ($variableType->hasProperty($methodName)->yes()) {
+            return $node;
+        }
+
+        $arrayAccessType = new ObjectType('ArrayAccess');
+        if ($arrayAccessType->isSuperTypeOf($variableType)->yes()) {
             return $node;
         }
 
