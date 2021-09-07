@@ -103,16 +103,11 @@ final class NeonFilesProcessor implements FileProcessorInterface
             // 2. detect complex neon entities
             $flatNeon = Arrays::flatten($singleService, true);
             foreach ($flatNeon as $itemNeon) {
-                if (! $itemNeon instanceof Entity) {
+                if ($this->shouldSkip($itemNeon)) {
                     continue;
                 }
 
-                // @see https://github.com/nette/di/blob/0ab4d4f67979a38fa06bf4c4f9cd81a98cc6ccba/tests/DI/Compiler.functions.phpt#L36-L40
-                // skip functions
-                if (in_array($itemNeon->value, ['not', 'string', 'int', 'float', 'bool'], true)) {
-                    continue;
-                }
-
+                /** @var Entity $itemNeon */
                 $errorMessage = $this->createErrorMessageFromNeonEntity($itemNeon);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
             }
@@ -132,5 +127,16 @@ final class NeonFilesProcessor implements FileProcessorInterface
         }
 
         return $singleService;
+    }
+
+    private function shouldSkip(mixed $itemNeon): bool
+    {
+        if (! $itemNeon instanceof Entity) {
+            return true;
+        }
+
+        // @see https://github.com/nette/di/blob/0ab4d4f67979a38fa06bf4c4f9cd81a98cc6ccba/tests/DI/Compiler.functions.phpt#L36-L40
+        // skip functions
+        return in_array($itemNeon->value, ['not', 'string', 'int', 'float', 'bool'], true);
     }
 }
