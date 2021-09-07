@@ -92,8 +92,8 @@ final class NeonFilesProcessor implements FileProcessorInterface
                 continue;
             }
 
-            // 0. skip empty values
-            if ($singleService === null) {
+            // 0. skip empty or aliaseses
+            if (! is_array($singleService)) {
                 continue;
             }
 
