@@ -10,7 +10,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\Constant\ConstantStringType;
-use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -38,7 +37,8 @@ final class CheckSprinfMatchingTypesRule extends AbstractSymplifyRule
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private SprintfSpecifierTypeResolver $sprintfSpecifierTypeResolver,
-        private MatchingTypeAnalyzer $matchingTypeAnalyzer
+        private MatchingTypeAnalyzer $matchingTypeAnalyzer,
+        private \Symplify\PHPStanRules\TypeResolver\ArgTypeResolver $argTypeResolver,
     ) {
     }
 
@@ -67,7 +67,7 @@ final class CheckSprinfMatchingTypesRule extends AbstractSymplifyRule
 
         $specifiersMatches = $this->resolveSpecifierMatches($formatArgType);
 
-        $argTypes = $this->resolveArgTypesWithoutFirst($node, $scope);
+        $argTypes = $this->argTypeResolver->resolveArgTypesWithoutFirst($node, $scope);
         $expectedTypesByPosition = $this->sprintfSpecifierTypeResolver->resolveFromSpecifiers($specifiersMatches);
 
         // miss-matching count, handled by native PHPStan rule
@@ -115,21 +115,5 @@ CODE_SAMPLE
 
         $allMatches = Strings::matchAll($value, $pattern);
         return Arrays::flatten($allMatches);
-    }
-
-    /**
-     * @return Type[]
-     */
-    private function resolveArgTypesWithoutFirst(FuncCall $funcCall, Scope $scope): array
-    {
-        $args = $funcCall->args;
-        unset($args[0]);
-
-        $argTypes = [];
-        foreach ($args as $arg) {
-            $argTypes[] = $scope->getType($arg->value);
-        }
-
-        return $argTypes;
     }
 }
