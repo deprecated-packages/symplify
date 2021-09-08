@@ -1,6 +1,8 @@
 services:
     # php-parser
     - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
+    - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
+    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
 
     # latte
     - Latte\Parser

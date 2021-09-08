@@ -1,0 +1,7 @@
+includes:
+    - ../../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
+        tags: [phpstan.rules.rule]
