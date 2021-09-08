@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Twig\TwigTemplateAnalyzer;
 
 use Nette\Utils\Strings;
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\LinedTemplateError;
+use Symplify\EasyCI\ValueObject\LineAwareFileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConstantPathTwigTemplateAnalyzer implements TwigTemplateAnalyzerInterface
@@ -20,7 +20,7 @@ final class ConstantPathTwigTemplateAnalyzer implements TwigTemplateAnalyzerInte
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     public function analyze(array $fileInfos): array
     {
@@ -35,7 +35,7 @@ final class ConstantPathTwigTemplateAnalyzer implements TwigTemplateAnalyzerInte
                 );
                 $line = $this->resolveLineNumber($fileInfo, $match);
 
-                $templateErrors[] = new LinedTemplateError($errorMessage, $fileInfo, $line);
+                $templateErrors[] = new LineAwareFileError($errorMessage, $fileInfo, $line);
             }
         }
 

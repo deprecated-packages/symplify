@@ -7,7 +7,7 @@ namespace Symplify\EasyCI\Tests\Latte\LatteTemplateAnalyzer\LatteStaticCallAnaly
 use Iterator;
 use Symplify\EasyCI\HttpKernel\EasyCIKernel;
 use Symplify\EasyCI\Latte\LatteTemplateAnalyzer\StaticCallLatteAnalyzer;
-use Symplify\EasyCI\ValueObject\TemplateError;
+use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -30,7 +30,7 @@ final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
         $this->assertCount($expectedClassMethodCount, $templateErrors);
 
         $TemplateError = $templateErrors[0];
-        $this->assertInstanceOf(TemplateError::class, $TemplateError);
+        $this->assertInstanceOf(FileError::class, $TemplateError);
 
         $this->assertSame($expectedClassMethodName, $TemplateError->getErrorMessage());
     }

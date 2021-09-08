@@ -30,9 +30,9 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 
     /**
      * @var string
-     * @see https://regex101.com/r/2OYung/1
+     * @see https://regex101.com/r/jPevTN/1
      */
-    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_]+(\((.*?)?\))?)#';
+    private const PARTIAL_CLASS_REFERENCE_REGEX = '#(?<' . self::CLASS_SNIPPET_PART . '>[A-Za-z_\\\\0-9]+)::(?<' . self::REFERENCE_PART . '>class|[A-Za-z_0-9]+(\((.*?)?\))?)#';
 
     private ?string $className = null;
 
@@ -66,6 +66,7 @@ final class ClassReferencePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
         }
 
         $classReflection = $this->reflectionProvider->getClass($className);
+
         return Reflection::expandClassName($currentName, $classReflection->getNativeReflection());
     }
 

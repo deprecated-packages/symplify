@@ -8,6 +8,9 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Fixture\SkipExistingArrayAccessItems;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Fixture\SomeMissingItemsInArrayAccessController;
+use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeArrayAccesType;
 use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeType;
 
 /**
@@ -44,6 +47,7 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
 
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
+        yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
     }
 
     protected function getRule(): Rule

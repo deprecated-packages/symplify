@@ -9,6 +9,8 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -39,26 +41,31 @@ final class IfNewTypeThenImplementInterfaceRule extends AbstractSymplifyRule imp
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $expectedInterface = $this->resolveExpectedInterface($node);
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
+            return [];
+        }
+
+        $expectedInterface = $this->resolveExpectedInterface($classLike);
         if ($expectedInterface === null) {
             return [];
         }
 
-        $className = $this->simpleNameResolver->getName($node);
-        if ($className === null) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        if (is_a($className, $expectedInterface, true)) {
+        if ($classReflection->implementsInterface($expectedInterface)) {
             return [];
         }
 

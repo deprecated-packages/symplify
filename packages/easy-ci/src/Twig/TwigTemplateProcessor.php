@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Twig;
 
-use Symplify\EasyCI\Contract\ValueObject\TemplateErrorInterface;
+use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -20,7 +20,7 @@ final class TwigTemplateProcessor
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return TemplateErrorInterface[]
+     * @return FileErrorInterface[]
      */
     public function analyzeFileInfos(array $fileInfos): array
     {
