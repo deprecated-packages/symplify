@@ -14,6 +14,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer;
+use Symplify\PHPStanRules\TypeResolver\ArgTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -38,7 +39,7 @@ final class CheckSprinfMatchingTypesRule extends AbstractSymplifyRule
         private SimpleNameResolver $simpleNameResolver,
         private SprintfSpecifierTypeResolver $sprintfSpecifierTypeResolver,
         private MatchingTypeAnalyzer $matchingTypeAnalyzer,
-        private \Symplify\PHPStanRules\TypeResolver\ArgTypeResolver $argTypeResolver,
+        private ArgTypeResolver $argTypeResolver,
     ) {
     }
 

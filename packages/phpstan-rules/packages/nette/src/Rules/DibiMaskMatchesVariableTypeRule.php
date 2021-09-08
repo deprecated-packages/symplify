@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
+use Dibi\Connection;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
@@ -14,9 +15,11 @@ use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\TypeResolver\ArgTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -32,7 +35,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
 
     /**
      * @see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
-     * @var array<string, class-string<\PHPStan\Type\Type>>
+     * @var array<string, class-string<Type>>
      */
     private const MASK_TO_EXPECTED_TYPE = [
         '%v' => ArrayType::class,
@@ -56,7 +59,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private QueryMasksResolver $queryMasksResolver,
-        private \Symplify\PHPStanRules\TypeResolver\ArgTypeResolver $argTypeResolver,
+        private ArgTypeResolver $argTypeResolver,
     ) {
     }
 
@@ -100,35 +103,25 @@ CODE_SAMPLE
     {
         $callerType = $scope->getType($methodCall->var);
 
-        $dibiConnectionObjectType = new ObjectType('Dibi\Connection');
+        $dibiConnectionObjectType = new ObjectType(Connection::class);
         if (! $callerType->isSuperTypeOf($dibiConnectionObjectType)->yes()) {
             return false;
         }
-
         // check direct caller with string masks
-        if (! $this->simpleNameResolver->isNames($methodCall->name, ['query'])) {
-            return false;
-        }
-
-        return true;
+        return $this->simpleNameResolver->isNames($methodCall->name, ['query']);
     }
 
     private function doesMaskMatchType(
         string $queryMask,
         string $mask,
-        \PHPStan\Type\Type $argumentType,
+        Type $argumentType,
         mixed $expectedType
     ): bool {
         if ($queryMask !== $mask) {
             return true;
         }
-
         // is matches => good!
-        if (is_a($argumentType, $expectedType, true)) {
-            return true;
-        }
-
-        return false;
+        return is_a($argumentType, $expectedType, true);
     }
 
     /**
@@ -157,7 +150,7 @@ CODE_SAMPLE
                     continue;
                 }
 
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $queryMask, get_class($argumentType), $expectedType);
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedType);
                 $errorMessages[] = $errorMessage;
             }
         }

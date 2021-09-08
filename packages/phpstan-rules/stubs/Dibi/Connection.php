@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dibi;
 
-if (class_exists('Dibi\Connection')) {
+if (class_exists(\Dibi\Connection::class)) {
     return;
 }
 
