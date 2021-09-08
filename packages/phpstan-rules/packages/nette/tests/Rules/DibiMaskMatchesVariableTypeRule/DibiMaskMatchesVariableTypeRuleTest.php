@@ -35,7 +35,21 @@ final class DibiMaskMatchesVariableTypeRuleTest extends AbstractServiceAwareRule
         );
         yield [__DIR__ . '/Fixture/InvalidType.php', [[$errorMessage, 13]]];
 
+        $errorMessage = sprintf(
+            DibiMaskMatchesVariableTypeRule::ERROR_MESSAGE,
+            '%in',
+            ConstantStringType::class,
+            ArrayType::class
+        );
+        yield [__DIR__ . '/Fixture/InvalidAssignType.php', [[$errorMessage, 12]]];
+
+        yield [__DIR__ . '/Fixture/InvalidArray.php', [[$errorMessage, 12]]];
+
+        yield [__DIR__ . '/Fixture/SkipValidAssignType.php', []];
+        yield [__DIR__ . '/Fixture/SkipValidArray.php', []];
         yield [__DIR__ . '/Fixture/SkipMatchingType.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipMaskNonDibi.php', []];
     }
 
     protected function getRule(): Rule

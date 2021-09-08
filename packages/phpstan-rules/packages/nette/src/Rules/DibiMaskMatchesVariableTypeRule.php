@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
-use Dibi\Connection;
 use PhpParser\Node;
+use PhpParser\Node\Expr\ArrayDimFetch;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -37,7 +38,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
      * @see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
      * @var array<string, class-string<Type>>
      */
-    private const MASK_TO_EXPECTED_TYPE = [
+    private const MASK_TO_EXPECTED_TYPE_CLASS = [
         '%v' => ArrayType::class,
         '%and' => ArrayType::class,
         '%or' => ArrayType::class,
@@ -68,11 +69,11 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Assign::class, MethodCall::class];
+        return [Assign::class, MethodCall::class, ArrayItem::class];
     }
 
     /**
-     * @param Assign|MethodCall $node
+     * @param Assign|MethodCall|ArrayItem $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -81,7 +82,11 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
             return $this->processMethodCall($node, $scope);
         }
 
-        return [];
+        if ($node instanceof ArrayItem) {
+            return $this->processArrayItem($node, $scope);
+        }
+
+        return $this->processAssign($node, $scope);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -103,25 +108,13 @@ CODE_SAMPLE
     {
         $callerType = $scope->getType($methodCall->var);
 
-        $dibiConnectionObjectType = new ObjectType(Connection::class);
+        $dibiConnectionObjectType = new ObjectType('Dibi\Connection');
         if (! $callerType->isSuperTypeOf($dibiConnectionObjectType)->yes()) {
             return false;
         }
+
         // check direct caller with string masks
         return $this->simpleNameResolver->isNames($methodCall->name, ['query']);
-    }
-
-    private function doesMaskMatchType(
-        string $queryMask,
-        string $mask,
-        Type $argumentType,
-        mixed $expectedType
-    ): bool {
-        if ($queryMask !== $mask) {
-            return true;
-        }
-        // is matches => good!
-        return is_a($argumentType, $expectedType, true);
     }
 
     /**
@@ -145,16 +138,78 @@ CODE_SAMPLE
         foreach ($argumentTypes as $key => $argumentType) {
             $queryMask = $queryMasks[$key];
 
-            foreach (self::MASK_TO_EXPECTED_TYPE as $mask => $expectedType) {
-                if ($this->doesMaskMatchType($queryMask, $mask, $argumentType, $expectedType)) {
-                    continue;
-                }
-
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedType);
-                $errorMessages[] = $errorMessage;
+            $errorMessage = $this->matchErrorMessageIfHappens($queryMask, $argumentType);
+            if ($errorMessage === null) {
+                continue;
             }
+
+            $errorMessages[] = $errorMessage;
         }
 
         return $errorMessages;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processArrayItem(ArrayItem $arrayItem, Scope $scope): array
+    {
+        $mask = $this->queryMasksResolver->resolveSingleQueryMask($arrayItem->key, $scope);
+        if ($mask === null) {
+            return [];
+        }
+
+        $valueType = $scope->getType($arrayItem->value);
+
+        $errorMessage = $this->matchErrorMessageIfHappens($mask, $valueType);
+        if ($errorMessage === null) {
+            return [];
+        }
+
+        return [$errorMessage];
+    }
+
+    private function matchErrorMessageIfHappens(string $queryMask, Type $argumentType): ?string
+    {
+        $expectedTypeClass = self::MASK_TO_EXPECTED_TYPE_CLASS[$queryMask] ?? null;
+
+        // nothing to verify
+        if ($expectedTypeClass === null) {
+            return null;
+        }
+
+        // is it correct? skip
+        if (is_a($argumentType, $expectedTypeClass, true)) {
+            return null;
+        }
+
+        // create error message
+        return sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedTypeClass);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processAssign(Assign $assign, Scope $scope): array
+    {
+        if (! $assign->var instanceof ArrayDimFetch) {
+            return [];
+        }
+
+        $arrayDimFetch = $assign->var;
+
+        $queryMask = $this->queryMasksResolver->resolveSingleQueryMask($arrayDimFetch->dim, $scope);
+        if ($queryMask === null) {
+            return [];
+        }
+
+        $exprType = $scope->getType($assign->expr);
+
+        $errorMessage = $this->matchErrorMessageIfHappens($queryMask, $exprType);
+        if ($errorMessage === null) {
+            return [];
+        }
+
+        return [$errorMessage];
     }
 }
