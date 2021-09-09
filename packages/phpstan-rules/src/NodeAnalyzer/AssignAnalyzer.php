@@ -5,13 +5,9 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use Nette\Utils\Strings;
-use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\LNumber;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\For_;
@@ -26,7 +22,8 @@ final class AssignAnalyzer
 {
     public function __construct(
         private SimpleNodeFinder $simpleNodeFinder,
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private InitializedExprAnalyzer $initializedExprAnalyzer
     ) {
     }
 
@@ -46,6 +43,27 @@ final class AssignAnalyzer
         }
 
         return false;
+    }
+
+    /**
+     * @param Assign[] $assigns
+     * @return array<string, Assign[]>
+     */
+    public function resolveExclusivelyNewAssignsByVariableNames(array $assigns): array
+    {
+        $assignsByVariableNames = $this->resolveAssignsByVariableNames($assigns, []);
+
+        $exclusiveNewAssignsByVariableNames = [];
+        foreach ($assignsByVariableNames as $variableName => $assigns) {
+            $exclusivelyNewAssigns = array_filter($assigns, fn (Assign $assign): bool => $assign->expr instanceof New_);
+            if ($exclusivelyNewAssigns === []) {
+                continue;
+            }
+
+            $exclusiveNewAssignsByVariableNames[$variableName] = $exclusivelyNewAssigns;
+        }
+
+        return $exclusiveNewAssignsByVariableNames;
     }
 
     /**
@@ -88,7 +106,7 @@ final class AssignAnalyzer
     private function shouldSkipAssign(Assign $assign): bool
     {
         // skip initializations
-        if ($this->isInitializationExpr($assign->expr)) {
+        if ($this->initializedExprAnalyzer->isInitializationExpr($assign->expr)) {
             return true;
         }
 
@@ -124,22 +142,5 @@ final class AssignAnalyzer
         }
 
         return false;
-    }
-
-    private function isInitializationExpr(Expr $expr): bool
-    {
-        if ($expr instanceof Array_ && $expr->items === []) {
-            return true;
-        }
-
-        if ($expr instanceof ConstFetch && $this->simpleNameResolver->isNames($expr, ['true', 'false', 'null'])) {
-            return true;
-        }
-
-        if ($expr instanceof String_ && $expr->value === '') {
-            return true;
-        }
-
-        return $expr instanceof LNumber && $expr->value === 0;
     }
 }

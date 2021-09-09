@@ -8,6 +8,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
 
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\InitializedExprAnalyzer
 
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
