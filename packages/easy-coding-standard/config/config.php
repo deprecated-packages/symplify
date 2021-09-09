@@ -33,7 +33,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PATHS, []);
     $parameters->set(Option::FILE_EXTENSIONS, ['php']);
 
-    $parameters->set(Option::REPORT_WARNINGS, []);
-
     $parameters->set('env(TEST_SUFFIX)', '');
 };
