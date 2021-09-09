@@ -1,4 +1,4 @@
-# 159 Rules Overview
+# 162 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -758,6 +758,30 @@ class SomeClass
 
 <br>
 
+## DibiMaskMatchesVariableTypeRule
+
+Modifier "%s" is not matching passed variable type "%s". The "%s" type is expected - see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule`](../packages/nette/src/Rules/DibiMaskMatchesVariableTypeRule.php)
+
+```php
+$database->query('INSERT INTO table %v', 'string');
+```
+
+:x:
+
+<br>
+
+```php
+$database->query('INSERT INTO table %v', [
+    'name' => 'Matthias',
+]);
+```
+
+:+1:
+
+<br>
+
 ## DifferentMethodNameToParameterRule
 
 Method name should be different to its parameter name, in a verb form
@@ -953,7 +977,8 @@ Anonymous class is not allowed.
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](../src/Rules/ForbiddenAnonymousClassRule.php)
 
 ```php
-new class {};
+new class() {
+};
 ```
 
 :x:
@@ -963,10 +988,9 @@ new class {};
 ```php
 class SomeClass
 {
-
 }
 
-new SomeClass;
+new SomeClass();
 ```
 
 :+1:
@@ -1016,7 +1040,7 @@ Array method calls [$this, "method"] are not allowed. Use explicit method instea
 - class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule`](../src/Rules/Complexity/ForbiddenArrayMethodCallRule.php)
 
 ```php
-usort($items, [$this, "method"]);
+usort($items, [$this, 'method']);
 ```
 
 :x:
@@ -1110,6 +1134,48 @@ use Doctrine\ORM\Mapping\Entity;
 #[Entity]
 class SomeClass
 {
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenBinaryMethodCallRule
+
+This call cannot be used in binary compare. Use direct method instead
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule`](../src/Rules/Domain/ForbiddenBinaryMethodCallRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            SomeType:
+                - getId
+```
+
+↓
+
+```php
+$someType = new SomeType();
+if ($someType->getId() !== null) {
+    return $someType->getId();
+}
+```
+
+:x:
+
+<br>
+
+```php
+$someType = new SomeType();
+if ($someType->hasId()) {
+    return $someType->getId();
 }
 ```
 
@@ -1573,6 +1639,7 @@ Multiple class/interface/trait is not allowed in single file
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule`](../src/Rules/ForbiddenMultipleClassLikeInOneFileRule.php)
 
 ```php
+// src/SomeClass.php
 class SomeClass
 {
 }
@@ -1587,12 +1654,12 @@ interface SomeInterface
 <br>
 
 ```php
-// SomeClass.php
+// src/SomeClass.php
 class SomeClass
 {
 }
 
-// SomeInterface.php
+// src/SomeInterface.php
 interface SomeInterface
 {
 }
@@ -2057,6 +2124,34 @@ $anotherValue = 2000;
 
 <br>
 
+## ForbiddenSameNamedNewInstanceRule
+
+New objects with "%s" name are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule`](../src/Rules/Complexity/ForbiddenSameNamedNewInstanceRule.php)
+
+```php
+$product = new Product();
+$product = new Product();
+
+$this->productRepository->save($product);
+```
+
+:x:
+
+<br>
+
+```php
+$firstProduct = new Product();
+$secondProduct = new Product();
+
+$this->productRepository->save($firstProduct);
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenSpreadOperatorRule
 
 Spread operator is not allowed.
@@ -2065,7 +2160,7 @@ Spread operator is not allowed.
 
 ```php
 $args = [$firstValue, $secondValue];
-$message =  sprintf('%s', ...$args);
+$message = sprintf('%s', ...$args);
 ```
 
 :x:
@@ -2073,7 +2168,7 @@ $message =  sprintf('%s', ...$args);
 <br>
 
 ```php
-$message =  sprintf('%s', $firstValue, $secondValue);
+$message = sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -2560,10 +2655,12 @@ services:
 ↓
 
 ```php
-$this->runThis()->runThat();
+$this->runThis()
+    ->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
+$fluentClass->one()
+    ->two();
 ```
 
 :x:
@@ -2575,7 +2672,8 @@ $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
+$fluentClass->one()
+    ->two();
 ```
 
 :+1:
@@ -2669,7 +2767,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    public function setUp()
+    protected function setUp()
     {
         // ...
     }
@@ -3190,7 +3288,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if (isset($object)) {
@@ -3211,7 +3309,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new SomeClass();
+            $object = new self();
         }
 
         if ($object !== null) {
@@ -3654,7 +3752,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value'
+            'never_used_in_template' => 'value',
         ]);
     }
 }
@@ -4177,7 +4275,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000
+            'value' => 1000,
         ]);
     }
 }
@@ -4281,7 +4379,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value'
+            'non_existing_variable' => 'value',
         ]);
     }
 }
@@ -4299,7 +4397,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value'
+            'existing_variable' => 'value',
         ]);
     }
 }
@@ -4318,7 +4416,7 @@ Passed "%s" variable that are not used in the template
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value'
+    'used_variable' => 'value',
 ]);
 ```
 
@@ -4329,7 +4427,7 @@ $environment->render(__DIR__ . '/some_file.twig', [
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value'
+    'unused_variable' => 'value',
 ]);
 ```
 
@@ -4628,7 +4726,7 @@ final class UseRawDataForTestDataProviderTest
 
     protected function setUp()
     {
-        $this->obj = new stdClass;
+        $this->obj = new stdClass();
     }
 
     public function provideFoo()
@@ -4918,7 +5016,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route("/path")]
+    #[Route('/path')]
     public function someAction()
     {
     }
@@ -4934,7 +5032,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: "/path")]
+    #[Route(path: '/path')]
     public function someAction()
     {
     }
@@ -5150,7 +5248,6 @@ namespace App\Controller;
 
 final class SomeException extends Exception
 {
-
 }
 ```
 
@@ -5295,7 +5392,7 @@ class SomeController extends AbstractController
     public function default()
     {
         return $this->render('...', [
-            'name' => 'John'
+            'name' => 'John',
         ]);
     }
 }
@@ -5936,9 +6033,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[
-            new Another()
-        ]]);
+        ->call('configure', [[new Another()]]);
 };
 ```
 
@@ -5953,9 +6048,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(SomeRector::class)
-        ->call('configure', [[
-            new Some()
-        ]]);
+        ->call('configure', [[new Some()]]);
 };
 ```
 
@@ -5999,10 +6092,7 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(
-        Type $type,
-        AnotherType $anotherType
-    ) {
+    public function injectSomeClass(Type $type, AnotherType $anotherType) {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
@@ -6085,11 +6175,7 @@ services:
 ↓
 
 ```php
-$someObject = new A(
-    new B(
-        new C()
-    )
-);
+$someObject = new A(new B(new C()));
 ```
 
 :x:
@@ -6226,7 +6312,9 @@ Instead of array shape, use value object with specific types in constructor and 
  */
 function createConfiguration()
 {
-    return ['line' => 100];
+    return [
+        'line' => 100,
+    ];
 }
 ```
 
