@@ -58,6 +58,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [
                 'Error',
                 'Exception',
+                'Dibi\Connection',
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
                 'Nette\Application\UI\Template',
