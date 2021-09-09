@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer\PHPUnit;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
@@ -20,14 +19,14 @@ final class TestAnalyzer
     ) {
     }
 
-    public function isTestClassMethod(Scope $scope, MethodCall | ClassMethod | Function_ $node): bool
+    public function isTestClassMethod(Scope $scope, FunctionLike $functionLike): bool
     {
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
-        return $this->isPublicClassMethod($node, $classReflection);
+        return $this->isPublicClassMethod($functionLike, $classReflection);
     }
 
     public function isInTestClassMethod(Scope $scope, Node $node): bool
@@ -40,13 +39,13 @@ final class TestAnalyzer
         return $this->isTestClassMethod($scope, $classMethod);
     }
 
-    private function isPublicClassMethod(ClassMethod|Function_|MethodCall $node, ClassReflection $classReflection): bool
+    private function isPublicClassMethod(FunctionLike $functionLike, ClassReflection $classReflection): bool
     {
-        if (! $node instanceof ClassMethod) {
+        if (! $functionLike instanceof ClassMethod) {
             return false;
         }
 
-        if (! $node->isPublic()) {
+        if (! $functionLike->isPublic()) {
             return false;
         }
 
