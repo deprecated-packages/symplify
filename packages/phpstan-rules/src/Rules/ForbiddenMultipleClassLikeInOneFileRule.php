@@ -65,6 +65,7 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+// src/SomeClass.php
 class SomeClass
 {
 }
@@ -75,12 +76,12 @@ interface SomeInterface
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-// SomeClass.php
+// src/SomeClass.php
 class SomeClass
 {
 }
 
-// SomeInterface.php
+// src/SomeInterface.php
 interface SomeInterface
 {
 }
