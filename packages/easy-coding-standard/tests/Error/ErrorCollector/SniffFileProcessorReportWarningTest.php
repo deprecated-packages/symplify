@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
-use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\ForLoopShouldBeWhileLoopSniff;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\Tests\Error\ErrorCollector\SniffRunnerSource\WarnOnPrintFakeSniff;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -36,14 +36,14 @@ final class SniffFileProcessorReportWarningTest extends AbstractKernelTestCase
     {
         return [
             'no report' => [0, new Configuration()],
-            'report is set up' => [1, new Configuration(reportWarnings: [ForLoopShouldBeWhileLoopSniff::class])],
+            'report is set up' => [1, new Configuration(reportWarnings: [WarnOnPrintFakeSniff::class])],
         ];
     }
 
     /** @dataProvider provider */
     public function test(int $expectedErrorCount, Configuration $configuration): void
     {
-        $smartFileInfo = new SmartFileInfo(__DIR__ . '/SniffRunnerSource/CodeWithWarningSniff.php.inc');
+        $smartFileInfo = new SmartFileInfo(__DIR__ . '/SniffRunnerSource/warn-on-print-code.inc');
         $errorsAndFileDiffs = $this->sniffFileProcessor->processFile($smartFileInfo, $configuration);
 
         /** @var FileDiff[] $fileDiffs */
