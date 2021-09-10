@@ -30,12 +30,19 @@ final class File extends BaseFile
      *
      * @var array<class-string<Sniff>>
      */
-    private array $reportWarnings = [
+    private const REPORT_WARNINGS_SNIFFS = [
         AssignmentInConditionSniff::class,
         PropertyDeclarationSniff::class,
         MethodDeclarationSniff::class,
         ForLoopShouldBeWhileLoopSniff::class,
     ];
+
+    /**
+     * Additional list for sniff classes to report warnings as errors.
+     *
+     * @var array<class-string<Sniff>>
+     */
+    private array $reportWarnings = [];
 
     /**
      * @var string
@@ -250,7 +257,8 @@ final class File extends BaseFile
 
     private function isSniffClassWarningAllowed(string $sniffClass): bool
     {
-        foreach ($this->reportWarnings as $reportWarningsSniff) {
+        $reportWarningsSniffClasses = array_merge(self::REPORT_WARNINGS_SNIFFS, $this->reportWarnings);
+        foreach ($reportWarningsSniffClasses as $reportWarningsSniff) {
             if (is_a($sniffClass, $reportWarningsSniff, true)) {
                 return true;
             }
@@ -259,8 +267,8 @@ final class File extends BaseFile
         return false;
     }
 
-    public function appendReportWarnings(array $reportWarnings): void
+    public function setReportWarnings(array $reportWarnings): void
     {
-        $this->reportWarnings = array_merge($this->reportWarnings, $reportWarnings);
+        $this->reportWarnings = $reportWarnings;
     }
 }
