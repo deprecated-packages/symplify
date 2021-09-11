@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Stmt\Unset_;
+use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use PHPStan\Rules\Registry;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer;
 use Symplify\PHPStanRules\Nette\Latte\LatteToPhpCompiler;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
@@ -18,6 +19,7 @@ use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\NoLatteMissingMethodCallRuleTest
@@ -29,13 +31,30 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
+    private Registry $registry;
+
+    /**
+     * @inspired at https://github.com/efabrica-team/phpstan-latte/blob/main/src/Rule/ControlLatteRule.php#L56
+     *
+     * @param Rule[] $rules
+     */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
+        array $rules,
+        private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
         private LatteTemplateMacroAnalyzer $latteTemplateMacroAnalyzer,
-        private LatteToPhpCompiler $latteToPhpCompiler
+        private LatteToPhpCompiler $latteToPhpCompiler,
+        private SmartFileSystem $smartFileSystem
     ) {
+        // get missing method + missing property etc. rule
+        foreach ($rules as $rule) {
+            // dump(get_class($rule));
+        }
+
+//        die;
+
+        $this->registry = new Registry($rules); // HACK for prevent circular reference...
     }
 
     /**
@@ -48,7 +67,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
 
     /**
      * @param MethodCall $node
-     * @return string[]
+     * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -75,11 +94,20 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
 
         $phpContent = $this->latteToPhpCompiler->compileFilePath($resolvedTemplateFilePath);
 
-        dump($phpContent);
-        dump('___@todo');
-        die;
+        $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
+        $this->smartFileSystem->dumpFile($tmpFilePath, $phpContent);
 
-        return [self::ERROR_MESSAGE];
+        $result = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+
+        $errors = [];
+        foreach ($result->getErrors() as $error) {
+            $errors[] = RuleErrorBuilder::message($error->getMessage())
+                ->file($resolvedTemplateFilePath)
+                ->line((int) $error->getLine())
+                ->build();
+        }
+
+        return $errors;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -112,32 +140,4 @@ CODE_SAMPLE
             ),
         ]);
     }
-
-//    private function isThisPropertyFetch(Expr $expr, string $propertyName): bool
-//    {
-//        if (! $expr instanceof PropertyFetch) {
-//            return false;
-//        }
-//
-//        if (! $this->simpleNameResolver->isName($expr->var, 'this')) {
-//            return false;
-//        }
-//
-//        return $this->simpleNameResolver->isName($expr->name, $propertyName);
-//    }
-//
-//    private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
-//    {
-//        if ($parentNode instanceof Unset_) {
-//            return true;
-//        }
-//
-//        // flashes are allowed
-//        if ($this->simpleNameResolver->isNames($propertyFetch->name, ['flashes'])) {
-//            return true;
-//        }
-//
-//        // payload ajax juggling
-//        // is: $this->payload->xyz = $this->template->xyz
-//        return $this->isPayloadAjaxJuggling($parentNode);
 }

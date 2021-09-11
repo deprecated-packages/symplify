@@ -63,6 +63,8 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         QueryBuilder::class,
         Query::class,
         'Stringy\Stringy',
+        // phpstan
+        \PHPStan\Rules\RuleErrorBuilder::class,
     ];
 
     /**

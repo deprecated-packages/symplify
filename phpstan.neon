@@ -525,3 +525,4 @@ parameters:
         - '#Property Symplify\\PHPStanRules\\Nette\\Latte\\UnknownMacroAwareLatteCompiler\:\:\$nativeMacrosNames \(array<string\>\) does not accept array<int, int\|string\>#'
 
         - '#Method Symplify\\EasyCI\\Config\\ConfigFileAnalyzer\\NonExistingClassConfigFileAnalyzer\:\:filterNonExistingClasses\(\) should return array<class\-string\> but returns array<string\>#'
+

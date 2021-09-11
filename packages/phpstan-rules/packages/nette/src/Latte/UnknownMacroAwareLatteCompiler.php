@@ -106,7 +106,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         parent::writeAttrsMacro($html);
     }
 
-    private function installDefaultMacros(Compiler $compiler): void
+    private function installDefaultMacros(self $compiler): void
     {
         // make sure basic macros are installed
         CoreMacros::install($compiler);
