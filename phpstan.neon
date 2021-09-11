@@ -524,5 +524,5 @@ parameters:
 
         - '#Property Symplify\\PHPStanRules\\Nette\\Latte\\UnknownMacroAwareLatteCompiler\:\:\$nativeMacrosNames \(array<string\>\) does not accept array<int, int\|string\>#'
 
-        - '#Method Symplify\\EasyCI\\Config\\ConfigFileAnalyzer\\NonExistingClassConfigFileAnalyzer\:\:filterNonExistingClasses\(\) should return array<class\-string\> but returns array<string\>#'
-
+        # confusing generics
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\NoLatteMissingMethodCallRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'

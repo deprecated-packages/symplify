@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
+use PHPStan\Analyser\FileAnalyserResult;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Methods\CallMethodsRule;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer;
-use Symplify\PHPStanRules\Nette\Latte\LatteToPhpCompiler;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
+use Symplify\PHPStanRules\Nette\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -43,18 +46,22 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private LatteTemplateMacroAnalyzer $latteTemplateMacroAnalyzer,
-        private LatteToPhpCompiler $latteToPhpCompiler,
-        private SmartFileSystem $smartFileSystem
+        private SmartFileSystem $smartFileSystem,
+        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator
     ) {
+        // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
+        $activeRules = [];
         foreach ($rules as $rule) {
-            // dump(get_class($rule));
+            if (! $rule instanceof CallMethodsRule) {
+                continue;
+            }
+
+            $activeRules[] = $rule;
         }
 
-//        die;
-
-        $this->registry = new Registry($rules); // HACK for prevent circular reference...
+        // HACK for prevent circular reference...
+        $this->registry = new Registry($activeRules);
     }
 
     /**
@@ -87,27 +94,35 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        // nothing we can do - nested templates - @todo possibly improve for included/excluded files with known paths
-        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
+        // use try/catch approach
+//        // nothing we can do - nested templates - @todo possibly improve for included/excluded files with known paths
+//        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
+//            return [];
+//        }
+
+        $secondArgValue = $node->args[1]->value;
+        if (! $secondArgValue instanceof Array_) {
             return [];
         }
 
-        $phpContent = $this->latteToPhpCompiler->compileFilePath($resolvedTemplateFilePath);
+        $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
+            $resolvedTemplateFilePath,
+            $secondArgValue,
+            $scope
+        );
+
+        $phpContent = $phpFileContentsWithLineMap->getPhpFileContents();
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
+
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpContent);
+        $this->smartFileSystem->dumpFile(getcwd() . '/file_dump.php', $phpContent);
 
-        $result = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+        $result = $this->fileAnalyser->analyseFile($tmpFilePath, [[
+            $tmpFilePath => true,
+        ]], $this->registry, null);
 
-        $errors = [];
-        foreach ($result->getErrors() as $error) {
-            $errors[] = RuleErrorBuilder::message($error->getMessage())
-                ->file($resolvedTemplateFilePath)
-                ->line((int) $error->getLine())
-                ->build();
-        }
-
-        return $errors;
+        return $this->createErrors($result, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -115,9 +130,9 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Presenter;
+use Nette\Application\UI\Control;
 
-class SomeClass extends Presenter
+class SomeClass extends Control
 {
     public function render()
     {
@@ -127,9 +142,9 @@ class SomeClass extends Presenter
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use Nette\Application\UI\Presenter;
+use Nette\Application\UI\Control;
 
-class SomeClass extends Presenter
+class SomeClass extends Control
 {
     public function render()
     {
@@ -139,5 +154,31 @@ class SomeClass extends Presenter
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    /**
+     * @return RuleError[]
+     */
+    private function createErrors(
+        FileAnalyserResult $fileAnalyserResult,
+        string $resolvedTemplateFilePath,
+        PhpFileContentsWithLineMap $phpFileContentsWithLineMap
+    ): array {
+        $ruleErrors = [];
+
+        dump($phpFileContentsWithLineMap->getPhpToTemplateLines());
+
+        foreach ($fileAnalyserResult->getErrors() as $error) {
+            dump((int) $error->getLine());
+
+            $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
+                ->file($resolvedTemplateFilePath)
+                ->line((int) $error->getLine())
+                ->build();
+        }
+
+        die;
+
+        return $ruleErrors;
     }
 }

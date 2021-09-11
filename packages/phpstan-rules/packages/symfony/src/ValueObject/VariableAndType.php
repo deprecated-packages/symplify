@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\ValueObject;
 
 use PHPStan\Type\Type;
+use PHPStan\Type\VerbosityLevel;
 
 final class VariableAndType
 {
@@ -22,5 +23,10 @@ final class VariableAndType
     public function getType(): Type
     {
         return $this->type;
+    }
+
+    public function getTypeAsString(): string
+    {
+        return $this->type->describe(VerbosityLevel::typeOnly());
     }
 }

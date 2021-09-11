@@ -6,5 +6,8 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\S
 
 final class SomeTypeWithMethods
 {
-
+    public function getName()
+    {
+        return 'one';
+    }
 }

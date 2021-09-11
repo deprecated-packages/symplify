@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoLatteMissingMethodCallRule;
+use Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\Source\SomeTypeWithMethods;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoLatteMissingMethodCallRule>
@@ -25,10 +26,11 @@ final class NoLatteMissingMethodCallRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
-        yield [
-            __DIR__ . '/Fixture/SomeMissingMethodCall.php', [[NoLatteMissingMethodCallRule::ERROR_MESSAGE, 17]], ];
+        $errorMessage = sprintf('Call to an undefined method %s::missingMethod().', SomeTypeWithMethods::class);
 
-        // yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
+        yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 1]]];
+
+        yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
     }
 
     protected function getRule(): Rule
