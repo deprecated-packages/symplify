@@ -36,6 +36,8 @@ return [
         'Symplify\MonorepoBuilder\*',
         // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
         'PharIo\Version\*',
+        // needed by the monorepo-builder command (avoid failing with a "class not found" error)
+        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
     ],
     'patchers' => [
         // unprefix polyfill functions
