@@ -3,6 +3,7 @@ services:
     - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
+    - Symplify\PHPStanRules\Nette\Latte\LatteToPhpCompiler
 
     # latte
     - Latte\Parser

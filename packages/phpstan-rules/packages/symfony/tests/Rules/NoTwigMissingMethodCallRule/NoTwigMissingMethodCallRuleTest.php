@@ -11,7 +11,7 @@ use Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule;
 use Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\Source\SomeType;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoTwigMissingMethodCallRule>
+ * @extends AbstractServiceAwareRuleTestCase<NoLatteMissingMethodCallRule>
  */
 final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
