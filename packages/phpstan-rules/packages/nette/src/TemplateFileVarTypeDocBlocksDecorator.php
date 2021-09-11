@@ -11,6 +11,7 @@ use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\Nette\Latte\LatteToPhpCompiler;
 use Symplify\PHPStanRules\Nette\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
@@ -41,6 +42,9 @@ final class TemplateFileVarTypeDocBlocksDecorator
         $phpLexer = new Lexer();
         $parser = $this->createParserFromLexer($phpLexer);
         $phpNodes = $parser->parse($phpContent);
+        if ($phpNodes === null) {
+            throw new ShouldNotHappenException();
+        }
 
         $nodeTraverser->addVisitor(new AppendExtractedVarTypesNodeVisitor($variablesAndTypes));
         $nodeTraverser->traverse($phpNodes);

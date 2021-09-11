@@ -9,6 +9,12 @@ use Nette\Utils\Strings;
 final class PhpToLatteLineNumbersResolver
 {
     /**
+     * @var string
+     * @see https://regex101.com/r/Qb4cuo/1
+     */
+    private const COMMENTED_LINE_NUMBER_REGEX = '#^\/\* line (?<number>\d+) \*\/$#';
+
+    /**
      * @param array<int, mixed> $tokens
      * @return array<int, int>
      */
@@ -22,7 +28,7 @@ final class PhpToLatteLineNumbersResolver
                 continue;
             }
 
-            $lineMatch = Strings::match($token[1], '#^\/\* line (?<number>\d+) \*\/$#');
+            $lineMatch = Strings::match($token[1], self::COMMENTED_LINE_NUMBER_REGEX);
             if (! isset($lineMatch['number'])) {
                 continue;
             }

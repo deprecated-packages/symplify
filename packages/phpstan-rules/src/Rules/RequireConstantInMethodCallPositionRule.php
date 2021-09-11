@@ -13,6 +13,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
+use SomeType;
 use Symplify\PHPStanRules\Matcher\PositionMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -116,7 +117,7 @@ CODE_SAMPLE
                 ,
                 [
                     'requiredLocalConstantInMethodCall' => [
-                        'SomeType' => [
+                        SomeType::class => [
                             'someMethod' => [0],
                         ],
                     ],

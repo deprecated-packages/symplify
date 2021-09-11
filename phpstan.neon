@@ -526,3 +526,13 @@ parameters:
 
         # confusing generics
         - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\NoLatteMissingMethodCallRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+        - '#Constant Symplify\\PHPStanRules\\Nette\\Rules\\NoLatteMissingMethodCallRule\:\:EXCLUDED_RULES with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\NoLatteMissingMethodCallRule\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\NoLatteMissingMethodCallRule\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+
+        - '#Cannot call method render\(\) on Nette\\Application\\UI\\Template\|stdClass#'
+
+        # docs lines
+        -
+            message: '#"%s" in sprintf\(\) format must be quoted#'
+            path:  packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/AppendExtractedVarTypesNodeVisitor.php

@@ -65,8 +65,6 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $node->getTypo();
-
         $secondArgValue = $node->args[1]->value;
         if (! $secondArgValue instanceof Array_) {
             return [];

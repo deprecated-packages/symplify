@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\FileAnalyserResult;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Methods\CallMethodsRule;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -23,9 +22,12 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Throwable;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\NoLatteMissingMethodCallRuleTest
+ *
+ * @inspired at https://github.com/efabrica-team/phpstan-latte/blob/main/src/Rule/ControlLatteRule.php#L56
  */
 final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
 {
@@ -34,11 +36,14 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
+    /**
+     * @var array<class-string<Rule>>
+     */
+    private const EXCLUDED_RULES = [\Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule::class];
+
     private Registry $registry;
 
     /**
-     * @inspired at https://github.com/efabrica-team/phpstan-latte/blob/main/src/Rule/ControlLatteRule.php#L56
-     *
      * @param Rule[] $rules
      */
     public function __construct(
@@ -51,14 +56,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
     ) {
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
-        $activeRules = [];
-        foreach ($rules as $rule) {
-            if (! $rule instanceof CallMethodsRule) {
-                continue;
-            }
-
-            $activeRules[] = $rule;
-        }
+        $activeRules = $this->filterActiveRules($rules);
 
         // HACK for prevent circular reference...
         $this->registry = new Registry($activeRules);
@@ -94,35 +92,30 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        // use try/catch approach
-//        // nothing we can do - nested templates - @todo possibly improve for included/excluded files with known paths
-//        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
-//            return [];
-//        }
-
         $secondArgValue = $node->args[1]->value;
         if (! $secondArgValue instanceof Array_) {
             return [];
         }
 
-        $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
-            $resolvedTemplateFilePath,
-            $secondArgValue,
-            $scope
-        );
+        try {
+            $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
+                $resolvedTemplateFilePath,
+                $secondArgValue,
+                $scope
+            );
+        } catch (Throwable) {
+            // missing include/layout template or something else went wrong → we cannot analyse template here
+            return [];
+        }
 
-        $phpContent = $phpFileContentsWithLineMap->getPhpFileContents();
+        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
+        $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        $this->smartFileSystem->dumpFile($tmpFilePath, $phpContent);
-        $this->smartFileSystem->dumpFile(getcwd() . '/file_dump.php', $phpContent);
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
-        $result = $this->fileAnalyser->analyseFile($tmpFilePath, [[
-            $tmpFilePath => true,
-        ]], $this->registry, null);
-
-        return $this->createErrors($result, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
+        return $this->createErrors($fileAnalyserResult, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -180,5 +173,25 @@ CODE_SAMPLE
         }
 
         return $ruleErrors;
+    }
+
+    /**
+     * @param Rule[] $rules
+     * @return Rule[]
+     */
+    private function filterActiveRules(array $rules): array
+    {
+        $activeRules = [];
+
+        foreach ($rules as $rule) {
+            foreach (self::EXCLUDED_RULES as $excludedRule) {
+                if (is_a($rule, $excludedRule, true)) {
+                    continue 2;
+                }
+            }
+
+            $activeRules[] = $rule;
+        }
+        return $activeRules;
     }
 }

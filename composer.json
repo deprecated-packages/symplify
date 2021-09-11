@@ -122,7 +122,8 @@
     "autoload-dev": {
         "classmap": [
             "packages/phpstan-rules/stubs",
-            "packages/rule-doc-generator/stubs"
+            "packages/rule-doc-generator/stubs",
+            "latte-test"
         ],
         "files": [
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
