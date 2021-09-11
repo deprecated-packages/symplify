@@ -39,17 +39,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         private PrivatesAccessor $privatesAccessor,
         private LatteMacroFaker $latteMacroFaker,
     ) {
-        // make sure basic macros are installed
-        CoreMacros::install($this);
-        BlockMacros::install($this);
-
-        if (class_exists('Nette\Bridges\ApplicationLatte\UIMacros')) {
-            UIMacros::install($this);
-        }
-
-        if (class_exists('Nette\Bridges\FormsLatte\FormMacros')) {
-            FormMacros::install($this);
-        }
+        $this->installDefaultMacros($this);
 
         $runtimeDefaults = new Defaults();
         $functionNames = array_keys($runtimeDefaults->getFunctions());
@@ -114,5 +104,20 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         }
 
         parent::writeAttrsMacro($html);
+    }
+
+    private function installDefaultMacros(self $compiler): void
+    {
+        // make sure basic macros are installed
+        CoreMacros::install($compiler);
+        BlockMacros::install($compiler);
+
+        if (class_exists('Nette\Bridges\ApplicationLatte\UIMacros')) {
+            UIMacros::install($compiler);
+        }
+
+        if (class_exists('Nette\Bridges\FormsLatte\FormMacros')) {
+            FormMacros::install($compiler);
+        }
     }
 }

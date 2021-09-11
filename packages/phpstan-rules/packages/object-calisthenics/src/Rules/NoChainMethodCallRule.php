@@ -13,6 +13,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\TrinaryLogic;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
@@ -63,6 +64,8 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         QueryBuilder::class,
         Query::class,
         'Stringy\Stringy',
+        // phpstan
+        RuleErrorBuilder::class,
     ];
 
     /**

@@ -1,6 +1,10 @@
 services:
     # templates
     -
+        class: Symplify\PHPStanRules\Nette\Rules\NoLatteMissingMethodCallRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule
         tags: [phpstan.rules.rule]
 
