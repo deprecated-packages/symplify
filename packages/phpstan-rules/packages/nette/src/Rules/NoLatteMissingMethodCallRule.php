@@ -19,6 +19,7 @@ use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Nette\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -39,7 +40,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
     /**
      * @var array<class-string<Rule>>
      */
-    private const EXCLUDED_RULES = [\Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule::class];
+    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class];
 
     private Registry $registry;
 
