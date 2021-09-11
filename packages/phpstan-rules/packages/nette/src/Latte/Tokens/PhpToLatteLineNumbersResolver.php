@@ -29,7 +29,7 @@ final class PhpToLatteLineNumbersResolver
 
             $phpLineNumber = $this->resolveLineNumberFromTokensOnPosition($tokens, $position);
             // correct the line number by number of added var types
-            $phpLineNumber += $variablesAndTypesCount;
+            $phpLineNumber += $variablesAndTypesCount - 1;
             $latteLineNumber = (int) $lineMatch['number'];
 
             $phpLinesToLatteLines[$phpLineNumber] = $latteLineNumber;

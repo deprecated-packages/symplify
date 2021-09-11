@@ -166,18 +166,18 @@ CODE_SAMPLE
     ): array {
         $ruleErrors = [];
 
-        dump($phpFileContentsWithLineMap->getPhpToTemplateLines());
+        $phpToTemplateLines = $phpFileContentsWithLineMap->getPhpToTemplateLines();
 
         foreach ($fileAnalyserResult->getErrors() as $error) {
-            dump((int) $error->getLine());
+            // correct error PHP line number to Latte line number
+            $errorLine = (int) $error->getLine();
+            $errorLine = $phpToTemplateLines[$errorLine] ?? $errorLine;
 
             $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
                 ->file($resolvedTemplateFilePath)
-                ->line((int) $error->getLine())
+                ->line($errorLine)
                 ->build();
         }
-
-        die;
 
         return $ruleErrors;
     }
