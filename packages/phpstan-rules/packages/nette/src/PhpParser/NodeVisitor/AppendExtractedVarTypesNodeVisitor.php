@@ -36,24 +36,26 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $prependVarTypesDocBlocks = '';
+        $docNodes = [];
         foreach ($this->variablesAndTypes as $variableAndType) {
-            $prependVarTypesDocBlocks .= sprintf(
+            $prependVarTypesDocBlocks = sprintf(
                 '/** @var %s $%s */',
                 $variableAndType->getTypeAsString(),
                 $variableAndType->getVariable()
             );
-        }
 
-        // doc types node
-        $docNop = new Nop();
-        $docNop->setDocComment(new Doc($prependVarTypesDocBlocks));
+            // doc types node
+            $docNop = new Nop();
+            $docNop->setDocComment(new Doc($prependVarTypesDocBlocks));
+
+            $docNodes[] = $docNop;
+        }
 
         // must be AFTER extract(), otherwise the variable does not exists
         $firstNode = array_shift($node->stmts);
 
         /** @var Node\Stmt[] $classMethodStmts */
-        $classMethodStmts = array_merge([$firstNode], [$docNop], $node->stmts);
+        $classMethodStmts = array_merge([$firstNode], $docNodes, $node->stmts);
 
         $node->stmts = $classMethodStmts;
         return $node;

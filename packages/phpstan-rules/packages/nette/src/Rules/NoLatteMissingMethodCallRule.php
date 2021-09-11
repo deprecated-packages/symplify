@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
@@ -19,6 +20,7 @@ use Symplify\PHPStanRules\Nette\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
+use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -39,7 +41,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
     /**
      * @var array<class-string<Rule>>
      */
-    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class];
+    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
     private Registry $registry;
 
@@ -103,7 +105,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
                 $secondArgValue,
                 $scope
             );
-        } catch (Throwable) {
+        } catch (Throwable $throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
             return [];
         }
@@ -112,19 +114,14 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
-
-        $this->smartFileSystem->dumpFile(getcwd() . '/some-file.php', $phpFileContents);
+        // $this->smartFileSystem->dumpFile(getcwd() . '/some-file.php', $phpFileContents);
 
         // to include generated class
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [
-            [
-                $tmpFilePath => true,
-            ],
-        ], $this->registry, null);
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
-        $errors = array_filter($fileAnalyserResult->getErrors(), function (\PHPStan\Analyser\Error $error) {
-            return ! str_contains($error->getMessage(), 'DummyTemplateClass');
+        $errors = array_filter($fileAnalyserResult->getErrors(), function (Error $error) {
+            return $this->shouldKeep($error);
         });
 
         return $this->createErrors($errors, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
@@ -205,5 +202,14 @@ CODE_SAMPLE
             $activeRules[] = $rule;
         }
         return $activeRules;
+    }
+
+    private function shouldKeep(Error $error): bool
+    {
+        if (str_contains($error->getMessage(), 'DummyTemplateClass')) {
+            return false;
+        }
+
+        return ! str_contains($error->getMessage(), 'Access to an undefined property Latte\Runtime\FilterExecutor::');
     }
 }

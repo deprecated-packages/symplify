@@ -9,7 +9,8 @@ final class SomeControl extends Control
     public function render(): void
     {
         $this->template->render(__DIR__ . '/some_control.latte', [
-            'someVariable' => new SomeType()
+            'someVariable' => new SomeType(),
+            'dateTime' => new \Nette\Utils\DateTime('now')
         ]);
     }
 }

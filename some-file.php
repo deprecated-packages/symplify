@@ -8,6 +8,8 @@ final class DummyTemplateClass extends Latte\Runtime\Template
     {
         extract($this->params);
         /** @var Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\Source\SomeTypeWithMethods $someType */
+        /** @var string $basePath */
+        /** @var Nette\Security\User $user */
         echo LR\Filters::escapeHtmlText($someType->getName());
         echo "\n";
         return get_defined_vars();
