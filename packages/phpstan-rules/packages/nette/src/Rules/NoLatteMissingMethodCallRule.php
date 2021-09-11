@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
-use PHPStan\Analyser\FileAnalyserResult;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
@@ -53,7 +52,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
         private SmartFileSystem $smartFileSystem,
-        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator
+        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
     ) {
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -114,9 +113,21 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+        $this->smartFileSystem->dumpFile(getcwd() . '/some-file.php', $phpFileContents);
 
-        return $this->createErrors($fileAnalyserResult, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
+        // to include generated class
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [
+            [
+                $tmpFilePath => true,
+            ],
+        ], $this->registry, null);
+
+        // remove errors related to just created class, that cannot be autoloaded
+        $errors = array_filter($fileAnalyserResult->getErrors(), function (\PHPStan\Analyser\Error $error) {
+            return ! str_contains($error->getMessage(), 'DummyTemplateClass');
+        });
+
+        return $this->createErrors($errors, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -154,7 +165,7 @@ CODE_SAMPLE
      * @return RuleError[]
      */
     private function createErrors(
-        FileAnalyserResult $fileAnalyserResult,
+        array $errors,
         string $resolvedTemplateFilePath,
         PhpFileContentsWithLineMap $phpFileContentsWithLineMap
     ): array {
@@ -162,7 +173,7 @@ CODE_SAMPLE
 
         $phpToTemplateLines = $phpFileContentsWithLineMap->getPhpToTemplateLines();
 
-        foreach ($fileAnalyserResult->getErrors() as $error) {
+        foreach ($errors as $error) {
             // correct error PHP line number to Latte line number
             $errorLine = (int) $error->getLine();
             $errorLine = $phpToTemplateLines[$errorLine] ?? $errorLine;
