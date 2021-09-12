@@ -11,6 +11,13 @@ use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
 
 final class MissingLatteTemplateRenderVariableResolver
 {
+    /**
+     * Variables passed by default to every template
+     *
+     * @var string[]
+     */
+    private const DEFAULT_VARIABLE_NAMES = ['basePath', 'user'];
+
     public function __construct(
         private LatteVariableNamesResolver $latteVariableNamesResolver,
         private MethodCallArrayResolver $methodCallArrayResolver
@@ -28,7 +35,11 @@ final class MissingLatteTemplateRenderVariableResolver
         $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFile($templateFilePath);
         $availableVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition($methodCall, $scope, 1);
 
-        $missingVariableNames = array_diff($templateUsedVariableNames, $availableVariableNames);
+        $missingVariableNames = array_diff(
+            $templateUsedVariableNames,
+            $availableVariableNames,
+            self::DEFAULT_VARIABLE_NAMES
+        );
         return array_unique($missingVariableNames);
     }
 }

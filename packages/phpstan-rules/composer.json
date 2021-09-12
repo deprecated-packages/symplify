@@ -34,6 +34,7 @@
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/symfony/src",
+            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\": "packages/latte-phpstan-printer/src",
             "Symplify\\PHPStanRules\\Nette\\": "packages/nette/src"
         }
     },
@@ -46,7 +47,8 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests",
             "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/nette/tests",
-            "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/symfony/tests"
+            "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/symfony/tests",
+            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\Tests\\": "packages/latte-phpstan-printer/tests"
         },
         "classmap": [
             "stubs"

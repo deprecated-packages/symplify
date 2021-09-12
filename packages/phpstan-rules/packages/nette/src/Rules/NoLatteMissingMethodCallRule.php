@@ -7,19 +7,21 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
-use PHPStan\Analyser\FileAnalyserResult;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
-use Symplify\PHPStanRules\Nette\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
+use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -38,9 +40,9 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
     /**
-     * @var array<class-string<Rule>>
+     * @var array<class-string<DocumentedRuleInterface>>
      */
-    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class];
+    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
     private Registry $registry;
 
@@ -53,7 +55,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
         private SmartFileSystem $smartFileSystem,
-        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator
+        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
     ) {
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -113,10 +115,15 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
+        // $this->smartFileSystem->dumpFile(getcwd() . '/some-file.php', $phpFileContents);
 
+        // to include generated class
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
-        return $this->createErrors($fileAnalyserResult, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
+        // remove errors related to just created class, that cannot be autoloaded
+        $errors = array_filter($fileAnalyserResult->getErrors(), fn (Error $error): bool => $this->shouldKeep($error));
+
+        return $this->createErrors($errors, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -154,7 +161,7 @@ CODE_SAMPLE
      * @return RuleError[]
      */
     private function createErrors(
-        FileAnalyserResult $fileAnalyserResult,
+        array $errors,
         string $resolvedTemplateFilePath,
         PhpFileContentsWithLineMap $phpFileContentsWithLineMap
     ): array {
@@ -162,7 +169,7 @@ CODE_SAMPLE
 
         $phpToTemplateLines = $phpFileContentsWithLineMap->getPhpToTemplateLines();
 
-        foreach ($fileAnalyserResult->getErrors() as $error) {
+        foreach ($errors as $error) {
             // correct error PHP line number to Latte line number
             $errorLine = (int) $error->getLine();
             $errorLine = $phpToTemplateLines[$errorLine] ?? $errorLine;
@@ -194,5 +201,14 @@ CODE_SAMPLE
             $activeRules[] = $rule;
         }
         return $activeRules;
+    }
+
+    private function shouldKeep(Error $error): bool
+    {
+        if (str_contains($error->getMessage(), 'DummyTemplateClass')) {
+            return false;
+        }
+
+        return ! str_contains($error->getMessage(), 'Access to an undefined property Latte\Runtime\FilterExecutor::');
     }
 }

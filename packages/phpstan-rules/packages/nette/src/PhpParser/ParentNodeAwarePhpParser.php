@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\PhpParser;
 
-use PhpParser\Node;
+use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use PhpParser\ParserFactory;
@@ -12,13 +12,13 @@ use PhpParser\ParserFactory;
 final class ParentNodeAwarePhpParser
 {
     /**
-     * @return Node[]|null
+     * @return Stmt[]
      */
-    public function parsePhpContent(string $phpContent): array|null
+    public function parsePhpContent(string $phpContent): array
     {
         $phpNodes = $this->parsePhpContentToPhpNodes($phpContent);
         if ($phpNodes === null) {
-            return null;
+            return [];
         }
 
         $phpNodeTraverser = new NodeTraverser();
@@ -29,7 +29,7 @@ final class ParentNodeAwarePhpParser
     }
 
     /**
-     * @return Node[]|null
+     * @return Stmt[]|null
      */
     private function parsePhpContentToPhpNodes(string $compiledPhp): ?array
     {

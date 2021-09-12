@@ -67,6 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Nette\Bridges\ApplicationLatte\DefaultTemplate',
                 'Nette\Bridges\ApplicationLatte\UIMacros',
                 'Nette\Bridges\FormsLatte\FormMacros',
+                'Nette\Security\User',
             ],
         ]]);
 
@@ -110,7 +111,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // on purpose Latte macro magic
         SymplifyQuoteEscapeRector::class => [
-            __DIR__ . '/packages/phpstan-rules/packages/nette/src/Latte/Macros/LatteMacroFaker.php',
+            __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/src/Latte/Macros/LatteMacroFaker.php',
         ],
 
         // buggy on array access object
