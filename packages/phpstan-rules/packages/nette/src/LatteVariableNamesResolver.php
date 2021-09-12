@@ -31,20 +31,27 @@ final class LatteVariableNamesResolver
         $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath);
 
         // resolve parent layout variables
-        $parentUsedVariableNames = $this->resolveParentLayoutUsedVariableNames($templateFilePath, $phpNodes);
+        // 1. current template
+        $templateFilePaths = [$templateFilePath];
 
-        // resolve included templates
-        dump($templateFilePath);
+        // 2. parent layout
+        $parentLayoutFileName = $this->resolveParentFileNameFromPhpNodes($templateFilePath, $phpNodes);
+        if ($parentLayoutFileName !== null) {
+            $templateFilePaths[] = $parentLayoutFileName;
+        }
 
-        $templateIncludesNameNodeVisitor = $this->templateIncludesNameNodeVisitor;
-        $templateIncludesNameNodeVisitor->setTemplateFilePath($templateFilePath);
+        // 3. included templates
+        $includedTemplateFilePaths = $this->resolveIncludedTemplateFilePaths($templateFilePath, $phpNodes);
+        $templateFilePaths = array_merge($templateFilePaths, $includedTemplateFilePaths);
 
-        dump($phpNodes);
-        die;
+        $usedVariableNames = [];
+        foreach ($templateFilePaths as $templateFilePath) {
+            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath);
+            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
+            $usedVariableNames = array_merge($usedVariableNames, $currentUsedVariableNames);
+        }
 
-        $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
-
-        return array_merge($parentUsedVariableNames, $currentUsedVariableNames);
+        return $usedVariableNames;
     }
 
     /**
@@ -75,26 +82,27 @@ final class LatteVariableNamesResolver
     }
 
     /**
-     * @param Stmt[] $phpNodes
-     * @return string[]
-     */
-    private function resolveParentLayoutUsedVariableNames(string $templateFilePath, array $phpNodes): array
-    {
-        $parentLayoutFileName = $this->resolveParentFileNameFromPhpNodes($templateFilePath, $phpNodes);
-        if ($parentLayoutFileName === null) {
-            return [];
-        }
-
-        $parentLayoutPhpNodes = $this->parseTemplateFileNameToPhpNodes($parentLayoutFileName);
-        return $this->resolveUsedVariableNamesFromPhpNodes($parentLayoutPhpNodes);
-    }
-
-    /**
      * @return Stmt[]
      */
     private function parseTemplateFileNameToPhpNodes(string $templateFilePath): array
     {
         $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath);
         return $this->parentNodeAwarePhpParser->parsePhpContent($parentLayoutCompiledPhp);
+    }
+
+    /**
+     * @param Stmt[] $phpNodes
+     * @return string[]
+     */
+    private function resolveIncludedTemplateFilePaths(string $templateFilePath, array $phpNodes): array
+    {
+        // resolve included templates
+        $this->templateIncludesNameNodeVisitor->setTemplateFilePath($templateFilePath);
+
+        $nodeTraverser = new NodeTraverser();
+        $nodeTraverser->addVisitor($this->templateIncludesNameNodeVisitor);
+        $nodeTraverser->traverse($phpNodes);
+
+        return $this->templateIncludesNameNodeVisitor->getIncludedTemplateFilePaths();
     }
 }

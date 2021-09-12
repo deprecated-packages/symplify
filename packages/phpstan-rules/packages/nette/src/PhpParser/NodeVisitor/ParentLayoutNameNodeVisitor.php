@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -24,6 +25,18 @@ final class ParentLayoutNameNodeVisitor extends NodeVisitorAbstract
         private NodeValueResolver $nodeValueResolver,
         private SimpleNameResolver $simpleNameResolver,
     ) {
+    }
+
+    /**
+     * @param Stmt[] $nodes
+     * @return Stmt[]
+     */
+    public function beforeTraverse(array $nodes): array
+    {
+        // reset to avoid template file in next analysed file
+        $this->parentLayoutFileName = null;
+
+        return $nodes;
     }
 
     public function setTemplateFilePath(string $templateFilePath): void

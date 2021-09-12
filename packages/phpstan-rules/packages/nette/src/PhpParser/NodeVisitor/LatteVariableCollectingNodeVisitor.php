@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\ValueObject\AttributeKey;
@@ -22,6 +23,18 @@ final class LatteVariableCollectingNodeVisitor extends NodeVisitorAbstract
      * @var string[]
      */
     private $userVariableNames = [];
+
+    /**
+     * @param Stmt[] $nodes
+     * @return Stmt[]
+     */
+    public function beforeTraverse(array $nodes): array
+    {
+        // reset to avoid used variable name in next analysed file
+        $this->userVariableNames = [];
+
+        return $nodes;
+    }
 
     public function enterNode(Node $node): Node|null
     {

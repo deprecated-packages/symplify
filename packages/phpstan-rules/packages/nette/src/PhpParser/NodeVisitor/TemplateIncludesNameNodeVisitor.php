@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt;
-use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
@@ -24,16 +21,16 @@ final class TemplateIncludesNameNodeVisitor extends NodeVisitorAbstract
 
     private string $templateFilePath = '';
 
-    public function setTemplateFilePath(string $templateFilePath): void
-    {
-        $this->templateFilePath = $templateFilePath;
-    }
-
     public function __construct(
         private SmartFileSystem $smartFileSystem,
         private NodeValueResolver $nodeValueResolver,
         private SimpleNameResolver $simpleNameResolver,
     ) {
+    }
+
+    public function setTemplateFilePath(string $templateFilePath): void
+    {
+        $this->templateFilePath = $templateFilePath;
     }
 
     public function enterNode(Node $node): null|int
@@ -43,21 +40,22 @@ final class TemplateIncludesNameNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $parentLayoutTemplate = $this->matchIncludedTemplateName($node);
-        if ($parentLayoutTemplate === null) {
+        $includedTemplateName = $this->matchIncludedTemplateName($node);
+
+        if ($includedTemplateName === null) {
             return null;
         }
 
         // find and analyse?
         $currentFileRealPath = realpath($this->templateFilePath);
-        $layoutTemplateFilePath = dirname($currentFileRealPath) . '/' . $parentLayoutTemplate;
+        $includedTemplateFilePath = dirname($currentFileRealPath) . '/' . $includedTemplateName;
 
-        if (! $this->smartFileSystem->exists($layoutTemplateFilePath)) {
+        if (! $this->smartFileSystem->exists($includedTemplateFilePath)) {
             return null;
         }
 
-        $this->parentLayoutFileName = $layoutTemplateFilePath;
-        return NodeTraverser::STOP_TRAVERSAL;
+        $this->includedTemplateFilePaths[] = $includedTemplateFilePath;
+        return null;
     }
 
     /**

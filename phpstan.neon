@@ -291,6 +291,8 @@ parameters:
             paths:
                 # manually created value objects mostly
                 - packages/git-wrapper/src/*
+                # workaround for node visitor
+                - packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/TemplateIncludesNameNodeVisitor.php
 
         -
             message: '#Spread operator is not allowed#'
