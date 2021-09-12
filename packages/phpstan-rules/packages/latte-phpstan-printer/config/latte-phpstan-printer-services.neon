@@ -9,4 +9,5 @@ services:
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker
 
     # php traversing
-    - Symplify\PHPStanRules\Nette\PhpNodeVisitor\LatteVariableCollectingNodeVisitor
+    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\LatteVariableCollectingNodeVisitor
+    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor

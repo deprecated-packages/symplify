@@ -55,19 +55,14 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
 
         $firstArgValue = $node->args[0]->value;
 
-        $resolvedTemplateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
-        if ($resolvedTemplateFilePath === null) {
+        $templateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
+        if ($templateFilePath === null) {
             return [];
         }
 
-        // nothing we can do - nested templates - @todo possibly improve for included/excluded files with known paths
-//        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
-//            return [];
-//        }
-
         $unusedVariableNames = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
             $node,
-            $resolvedTemplateFilePath,
+            $templateFilePath,
             $scope
         );
 

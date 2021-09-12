@@ -8,6 +8,9 @@ use Latte\Parser;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\LatteToPhpCompilerTest
+ */
 final class LatteToPhpCompiler
 {
     public function __construct(
@@ -17,11 +20,17 @@ final class LatteToPhpCompiler
     ) {
     }
 
-    public function compileFilePath(string $filePath): string
+    public function compileContent(string $templateFileContent): string
     {
-        $fileContent = $this->smartFileSystem->readFile($filePath);
-        $latteTokens = $this->latteParser->parse($fileContent);
+        $latteTokens = $this->latteParser->parse($templateFileContent);
 
         return $this->unknownMacroAwareLatteCompiler->compile($latteTokens, 'DummyTemplateClass');
+    }
+
+    public function compileFilePath(string $templateFilePath): string
+    {
+        $templateFileContent = $this->smartFileSystem->readFile($templateFilePath);
+
+        return $this->compileContent($templateFileContent);
     }
 }

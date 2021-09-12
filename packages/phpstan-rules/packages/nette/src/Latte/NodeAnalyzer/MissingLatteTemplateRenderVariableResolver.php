@@ -14,7 +14,7 @@ final class MissingLatteTemplateRenderVariableResolver
     /**
      * Variables passed by default to every template
      *
-     * @var string
+     * @var string[]
      */
     private const DEFAULT_VARIABLE_NAMES = ['basePath', 'user'];
 

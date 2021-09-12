@@ -21,6 +21,7 @@ use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -39,7 +40,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
     /**
-     * @var array<class-string<Rule>>
+     * @var array<class-string<DocumentedRuleInterface>>
      */
     private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
@@ -105,7 +106,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
                 $secondArgValue,
                 $scope
             );
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
             return [];
         }
@@ -120,9 +121,7 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
-        $errors = array_filter($fileAnalyserResult->getErrors(), function (Error $error) {
-            return $this->shouldKeep($error);
-        });
+        $errors = array_filter($fileAnalyserResult->getErrors(), fn (Error $error): bool => $this->shouldKeep($error));
 
         return $this->createErrors($errors, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
     }

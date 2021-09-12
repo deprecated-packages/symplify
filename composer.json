@@ -159,6 +159,7 @@
             ],
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
+            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\Tests\\": "packages/phpstan-rules/packages/latte-phpstan-printer/tests",
             "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/phpstan-rules/packages/nette/tests",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/phpstan-rules/packages/symfony/tests",

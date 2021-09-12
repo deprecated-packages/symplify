@@ -15,7 +15,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ParentLayoutNameNodeVisitor extends NodeVisitorAbstract
 {
-    private string $currentFilePath = '';
+    private string $templateFilePath = '';
 
     private string|null $parentLayoutFileName = null;
 
@@ -26,9 +26,9 @@ final class ParentLayoutNameNodeVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    public function setCurrentFilePath(string $currentFilePath): void
+    public function setTemplateFilePath(string $templateFilePath): void
     {
-        $this->currentFilePath = $currentFilePath;
+        $this->templateFilePath = $templateFilePath;
     }
 
     public function enterNode(Node $node): null|int
@@ -43,7 +43,7 @@ final class ParentLayoutNameNodeVisitor extends NodeVisitorAbstract
         }
 
         // find and analyse?
-        $currentFileRealPath = realpath($this->currentFilePath);
+        $currentFileRealPath = realpath($this->templateFilePath);
         $layoutTemplateFilePath = dirname($currentFileRealPath) . '/' . $parentLayoutTemplate;
 
         if (! $this->smartFileSystem->exists($layoutTemplateFilePath)) {
@@ -74,6 +74,6 @@ final class ParentLayoutNameNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        return $this->nodeValueResolver->resolve($assign->expr, $this->currentFilePath);
+        return $this->nodeValueResolver->resolve($assign->expr, $this->templateFilePath);
     }
 }

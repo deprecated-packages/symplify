@@ -67,6 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Nette\Bridges\ApplicationLatte\DefaultTemplate',
                 'Nette\Bridges\ApplicationLatte\UIMacros',
                 'Nette\Bridges\FormsLatte\FormMacros',
+                'Nette\Security\User',
             ],
         ]]);
 
