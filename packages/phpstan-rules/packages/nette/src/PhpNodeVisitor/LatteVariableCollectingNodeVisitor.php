@@ -16,6 +16,11 @@ final class LatteVariableCollectingNodeVisitor extends NodeVisitorAbstract
     /**
      * @var string[]
      */
+    private const DEFAULT_VARIABLE_NAMES = ['this', 'iterations', 'ʟ_l', 'ʟ_v'];
+
+    /**
+     * @var string[]
+     */
     private $userVariableNames = [];
 
     public function enterNode(Node $node): Node|null
@@ -33,7 +38,7 @@ final class LatteVariableCollectingNodeVisitor extends NodeVisitorAbstract
         }
 
         // system one → skip
-        if (in_array($node->name, ['this', 'iterations', 'ʟ_l', 'ʟ_v'], true)) {
+        if (in_array($node->name, self::DEFAULT_VARIABLE_NAMES, true)) {
             return null;
         }
 

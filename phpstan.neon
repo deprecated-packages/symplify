@@ -536,3 +536,7 @@ parameters:
         -
             message: '#"%s" in sprintf\(\) format must be quoted#'
             path:  packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/AppendExtractedVarTypesNodeVisitor.php
+
+        -
+            message: '#Do not use setter on a service#'
+            path: packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/ParentLayoutNameNodeVisitor.php

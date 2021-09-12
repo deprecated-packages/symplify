@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter;
 
 use Latte\Parser;
+use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteToPhpCompiler

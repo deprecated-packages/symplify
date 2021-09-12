@@ -1,17 +1,13 @@
+includes:
+    - ../../../packages/latte-phpstan-printer/config/latte-phpstan-printer-services.neon
+
 services:
     # php-parser
     - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
+    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\ParentLayoutNameNodeVisitor
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
-    - Symplify\PHPStanRules\Nette\Latte\LatteToPhpCompiler
     - Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator
-    - Symplify\PHPStanRules\Nette\Latte\Tokens\PhpToLatteLineNumbersResolver
-
-    # latte
-    - Latte\Parser
-    - Symplify\PHPStanRules\Nette\Latte\Macros\LatteMacroFaker
-    - Symplify\PHPStanRules\Nette\Latte\UnknownMacroAwareLatteCompiler
-    - Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver

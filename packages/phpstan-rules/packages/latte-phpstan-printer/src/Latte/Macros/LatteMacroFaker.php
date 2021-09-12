@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte\Macros;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros;
 
 use Latte\Compiler;
 use Latte\MacroNode;

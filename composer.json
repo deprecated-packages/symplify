@@ -100,6 +100,7 @@
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
+            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\": "packages/phpstan-rules/packages/latte-phpstan-printer/src",
             "Symplify\\PHPStanRules\\Nette\\": "packages/phpstan-rules/packages/nette/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/symfony/src",
@@ -122,9 +123,9 @@
     },
     "autoload-dev": {
         "classmap": [
+            "latte-test",
             "packages/phpstan-rules/stubs",
-            "packages/rule-doc-generator/stubs",
-            "latte-test"
+            "packages/rule-doc-generator/stubs"
         ],
         "files": [
             "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",

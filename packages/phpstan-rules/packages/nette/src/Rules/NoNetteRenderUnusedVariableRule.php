@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\Latte\LatteTemplateMacroAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
@@ -29,7 +28,6 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
         private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver,
-        private LatteTemplateMacroAnalyzer $latteTemplateMacroAnalyzer
     ) {
     }
 
@@ -63,9 +61,9 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
         }
 
         // nothing we can do - nested templates - @todo possibly improve for included/excluded files with known paths
-        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
-            return [];
-        }
+//        if ($this->latteTemplateMacroAnalyzer->hasMacros($resolvedTemplateFilePath, ['include', 'extends'])) {
+//            return [];
+//        }
 
         $unusedVariableNames = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
             $node,

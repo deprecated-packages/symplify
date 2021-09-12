@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte;
 
 use Latte\CompileException;
 use Latte\Compiler;
@@ -15,7 +15,7 @@ use Nette\Bridges\ApplicationLatte\UIMacros;
 use Nette\Bridges\FormsLatte\FormMacros;
 use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
-use Symplify\PHPStanRules\Nette\Latte\Macros\LatteMacroFaker;
+use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
 {
@@ -45,6 +45,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         $functionNames = array_keys($runtimeDefaults->getFunctions());
         $this->setFunctions($functionNames);
 
+        /** @var array<string, mixed> $macros */
         $macros = $this->privatesAccessor->getPrivateProperty($this, 'macros');
         $this->nativeMacrosNames = array_keys($macros);
     }
@@ -68,7 +69,6 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = false): string
     {
         // @todo compile loop counter?
-
         try {
             return parent::compile($tokens, $className, $className, $strictMode);
         } catch (CompileException $compileException) {

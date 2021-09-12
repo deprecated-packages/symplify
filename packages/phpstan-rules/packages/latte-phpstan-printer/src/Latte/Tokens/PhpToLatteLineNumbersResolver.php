@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte\Tokens;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens;
 
 use Nette\Utils\Strings;
 
@@ -12,7 +12,12 @@ final class PhpToLatteLineNumbersResolver
      * @var string
      * @see https://regex101.com/r/Qb4cuo/1
      */
-    private const COMMENTED_LINE_NUMBER_REGEX = '#^\/\* line (?<number>\d+) \*\/$#';
+    private const COMMENTED_LINE_NUMBER_REGEX = '#^\/\* line (?<' . self::NUMBER_KEY . '>\d+) \*\/$#';
+
+    /**
+     * @var string
+     */
+    private const NUMBER_KEY = 'number';
 
     /**
      * @param array<int, mixed> $tokens
@@ -29,14 +34,14 @@ final class PhpToLatteLineNumbersResolver
             }
 
             $lineMatch = Strings::match($token[1], self::COMMENTED_LINE_NUMBER_REGEX);
-            if (! isset($lineMatch['number'])) {
+            if (! isset($lineMatch[self::NUMBER_KEY])) {
                 continue;
             }
 
             $phpLineNumber = $this->resolveLineNumberFromTokensOnPosition($tokens, $position);
             // correct the line number by number of added var types
             $phpLineNumber += $variablesAndTypesCount - 1;
-            $latteLineNumber = (int) $lineMatch['number'];
+            $latteLineNumber = (int) $lineMatch[self::NUMBER_KEY];
 
             $phpLinesToLatteLines[$phpLineNumber] = $latteLineNumber;
         }
