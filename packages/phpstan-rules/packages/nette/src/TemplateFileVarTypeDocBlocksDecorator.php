@@ -73,8 +73,12 @@ final class TemplateFileVarTypeDocBlocksDecorator
         $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray($array, $scope);
 
         // default values
+        $variablesAndTypes[] = new VariableAndType('baseUrl', new StringType());
         $variablesAndTypes[] = new VariableAndType('basePath', new StringType());
         $variablesAndTypes[] = new VariableAndType('user', new ObjectType('Nette\Security\User'));
+        $variablesAndTypes[] = new VariableAndType('presenter', new ObjectType('Nette\Application\UI\Presenter'));
+        $variablesAndTypes[] = new VariableAndType('control', new ObjectType('Nette\Application\UI\Control'));
+        $variablesAndTypes[] = new VariableAndType('flashes', new ObjectType('stdCall'));
 
         return $variablesAndTypes;
     }
