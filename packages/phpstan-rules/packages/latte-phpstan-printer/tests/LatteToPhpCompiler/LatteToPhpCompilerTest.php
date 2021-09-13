@@ -5,21 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler;
 
 use Iterator;
-use Latte\Parser;
-use PhpParser\PrettyPrinter\Standard;
+use PHPStan\DependencyInjection\Container;
 use PHPUnit\Framework\TestCase;
-use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentMatcher;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
+use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteToPhpCompilerTest extends TestCase
 {
@@ -27,24 +20,8 @@ final class LatteToPhpCompilerTest extends TestCase
 
     protected function setUp(): void
     {
-        $unknownMacroAwareLatteCompiler = new UnknownMacroAwareLatteCompiler(
-            new PrivatesAccessor(),
-            new LatteMacroFaker(),
-        );
-
-        $simpleNameResolverStaticFactory = SimpleNameResolverStaticFactory::create();
-
-        $latteParser = new Parser();
-        $lineCommentCorrector = new LineCommentCorrector(new LineCommentMatcher());
-
-        $this->latteToPhpCompiler = new LatteToPhpCompiler(
-            new SmartFileSystem(),
-            $latteParser,
-            $unknownMacroAwareLatteCompiler,
-            $simpleNameResolverStaticFactory,
-            new Standard(),
-            $lineCommentCorrector
-        );
+        $container = $this->createContainer();
+        $this->latteToPhpCompiler = $container->getByType(LatteToPhpCompiler::class);
     }
 
     /**
@@ -67,5 +44,16 @@ final class LatteToPhpCompilerTest extends TestCase
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.latte');
+    }
+
+    private function createContainer(): Container
+    {
+        $configs = [
+            __DIR__ . '/config/extra-services.neon',
+            __DIR__ . '/../../../../config/services/services.neon',
+        ];
+
+        $phpStanContainerFactory = new PHPStanContainerFactory();
+        return $phpStanContainerFactory->createContainer($configs);
     }
 }
