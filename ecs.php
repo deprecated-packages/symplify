@@ -51,6 +51,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // class in paths
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
+            // object compare
+            __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/tests/Filters/DefaultFilterMatcherTest.php',
         ],
     ]);
 };
