@@ -8,6 +8,8 @@ services:
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
     - Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator
+    - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver
+    - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver
