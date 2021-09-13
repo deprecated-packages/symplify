@@ -29,7 +29,17 @@ final class PathResolver
             return $resolvedTemplateFilePath;
         }
 
-        return $this->findCandidateInTemplatesDirectory($resolvedTemplateFilePath);
+        $filePath = $this->findCandidateInTemplatesDirectory($resolvedTemplateFilePath);
+        if ($filePath === null) {
+            return null;
+        }
+
+        $fileRealPath = realpath($filePath);
+        if ($fileRealPath === false) {
+            return null;
+        }
+
+        return $fileRealPath;
     }
 
     /**

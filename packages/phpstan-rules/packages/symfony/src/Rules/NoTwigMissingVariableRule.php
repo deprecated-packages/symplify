@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -25,9 +25,8 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variable "%s" is used in template but missing in render() method';
 
     public function __construct(
-        private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
-        private MissingTwigTemplateRenderVariableResolver $missingTwigTemplateRenderVariableResolver
+        private MissingTwigTemplateRenderVariableResolver $missingTwigTemplateRenderVariableResolver,
+        private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher
     ) {
     }
 
@@ -45,24 +44,13 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isSymfonyControllerRenderMethodCall($node, $scope)) {
-            return [];
-        }
-
-        if (count($node->args) < 1) {
-            return [];
-        }
-
-        $firstArgValue = $node->args[0]->value;
-
-        $resolvedTemplateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
-        if ($resolvedTemplateFilePath === null) {
+        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchSymfonyRender($node, $scope);
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
         $missingVariableNames = $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
-            $node,
-            $resolvedTemplateFilePath,
+            $renderTemplateWithParameters,
             $scope
         );
 

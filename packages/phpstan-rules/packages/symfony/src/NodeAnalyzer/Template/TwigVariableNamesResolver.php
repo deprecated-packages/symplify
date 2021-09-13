@@ -23,6 +23,8 @@ final class TwigVariableNamesResolver
     {
         $moduleNode = $this->twigNodeParser->parseFilePath($filePath);
 
+        // @todo use PHP traverser to unite with other behavior?
+
         $variableCollectingNodeVisitor = new VariableCollectingNodeVisitor();
 
         $twigNodeTraverser = $this->twigNodeTraverserFactory->createWithNodeVisitors([$variableCollectingNodeVisitor]);
