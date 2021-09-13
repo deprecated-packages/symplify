@@ -45,7 +45,11 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
+<<<<<<< HEAD
         if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
+=======
+        if ($renderTemplateWithParameters === null) {
+>>>>>>> add extact SymfonyRenderWithParametersMatcher
             return [];
         }
 
