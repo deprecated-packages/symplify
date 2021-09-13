@@ -7,12 +7,11 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,8 +28,6 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
     public function __construct(
-        private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
         private TwigNodeParser $twigNodeParser,
         private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer,
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
@@ -52,7 +49,7 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
-        if ($renderTemplateWithParameters === null) {
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 

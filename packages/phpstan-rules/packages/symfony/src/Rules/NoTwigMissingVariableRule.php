@@ -10,6 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -44,7 +45,7 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchSymfonyRender($node, $scope);
-        if ($renderTemplateWithParameters === null) {
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
