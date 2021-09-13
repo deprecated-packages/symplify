@@ -37,7 +37,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
+    public const ERROR_MESSAGE = 'Complete analysis of PHP code generated from Latte template';
 
     /**
      * @var array<class-string<DocumentedRuleInterface>>

@@ -21,7 +21,7 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractSymplifyRule imp
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use "%s->%s()" method call over "%s()" func call';
+    public const ERROR_MESSAGE = 'Use "%s" class and "%s()" method call over "%s()" func call';
 
     /**
      * @var array<string, string[]>

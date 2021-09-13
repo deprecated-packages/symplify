@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 161 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4623,7 +4623,7 @@ class SomeClass
 
 ## PreferredMethodCallOverFuncCallRule
 
-Use `"%s->%s()"` method call over `"%s()"` func call
+Use "%s" class and `"%s()"` method call over `"%s()"` func call
 
 :wrench: **configure it!**
 
@@ -4737,58 +4737,6 @@ final class UseRawDataForTestDataProviderTest
     {
         $this->obj->x = $value;
         $this->assertTrue($this->obj->x);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferredStaticCallOverFuncCallRule
-
-Use `"%s::%s()"` static call over `"%s()"` func call
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`](../src/Rules/PreferredStaticCallOverFuncCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            funcCallToPreferredStaticCalls:
-                strlen:
-                    - Nette\Utils\Strings
-                    - length
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function run($value)
-    {
-        return strlen($value);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    public function run($value)
-    {
-        return Strings::length($value);
     }
 }
 ```
