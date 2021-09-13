@@ -6,11 +6,7 @@ namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ObjectType;
-use PHPStan\Type\ThisType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Twig\Environment;
 
 final class TemplateRenderAnalyzer
 {
@@ -32,27 +28,5 @@ final class TemplateRenderAnalyzer
         }
 
         return $this->netteTypeAnalyzer->isTemplateType($methodCall->var, $scope);
-    }
-
-    public function isTwigRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
-    {
-        $callerType = $scope->getType($methodCall->var);
-        if ($callerType instanceof ThisType) {
-            $callerType = new ObjectType($callerType->getClassName());
-        }
-
-        if (! $callerType instanceof ObjectType) {
-            return false;
-        }
-
-        if ($callerType->isInstanceOf(Environment::class)->yes()) {
-            return $this->simpleNameResolver->isName($methodCall->name, self::RENDER);
-        }
-
-        if ($callerType->isInstanceOf(AbstractController::class)->yes()) {
-            return $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'renderView']);
-        }
-
-        return false;
     }
 }
