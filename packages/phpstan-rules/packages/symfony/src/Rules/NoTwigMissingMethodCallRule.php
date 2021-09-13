@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
@@ -39,14 +38,11 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
      */
     private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
-    private Registry $registry;
-
     /**
      * @param Rule[] $rules
      */
     public function __construct(
         array $rules,
-        private FileAnalyser $fileAnalyser,
         private TwigNodeParser $twigNodeParser,
         private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer,
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
@@ -54,9 +50,6 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
         $activeRules = $this->filterActiveRules($rules);
-
-        // HACK for prevent circular reference...
-        $this->registry = new Registry($activeRules);
     }
 
     /**
@@ -88,14 +81,6 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
         // dump($this->fileAnalyser->analyseFile());
 
         die;
-
-        $variableNamesToMissingMethodNames = $this->twigMissingMethodCallAnalyzer->resolveFromArrayAndModuleNode(
-            $renderTemplateWithParameters->getParametersArray(),
-            $scope,
-            $moduleNode
-        );
-
-        return $this->createErrorMessages($variableNamesToMissingMethodNames);
     }
 
     public function getRuleDefinition(): RuleDefinition
