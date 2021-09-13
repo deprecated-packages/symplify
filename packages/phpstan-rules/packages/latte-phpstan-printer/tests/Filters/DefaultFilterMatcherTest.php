@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\Filters;
 
+use Iterator;
+use Latte\Runtime\Filters;
 use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\StaticCallReference;
@@ -33,9 +35,9 @@ final class DefaultFilterMatcherTest extends TestCase
         }
     }
 
-    public function provideData(): \Iterator
+    public function provideData(): Iterator
     {
-        yield ['date', new StaticCallReference(\Latte\Runtime\Filters::class, 'date')];
+        yield ['date', new StaticCallReference(Filters::class, 'date')];
 
         yield ['datez', null];
     }
