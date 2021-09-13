@@ -26,7 +26,7 @@ final class PathResolver
         }
 
         if (file_exists($resolvedTemplateFilePath)) {
-            return $resolvedTemplateFilePath;
+            return realpath($resolvedTemplateFilePath);
         }
 
         $filePath = $this->findCandidateInTemplatesDirectory($resolvedTemplateFilePath);

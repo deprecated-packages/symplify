@@ -12,9 +12,12 @@ use Twig\Source;
 
 final class TwigNodeParser
 {
+    private TolerantTwigEnvironment $tolerantTwigEnvironment;
+
     public function __construct(
-        private SmartFileSystem $smartFileSystem
+        private SmartFileSystem $smartFileSystem,
     ) {
+        $this->tolerantTwigEnvironment = new TolerantTwigEnvironment(new ArrayLoader());
     }
 
     /**
@@ -28,9 +31,16 @@ final class TwigNodeParser
             $filePath => $fileContent,
         ]);
 
-        $tolerantTwigEnvironment = new TolerantTwigEnvironment($arrayLoader);
-        $tokenStream = $tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
+        $this->tolerantTwigEnvironment->setLoader($arrayLoader);
 
-        return $tolerantTwigEnvironment->parse($tokenStream);
+        $tokenStream = $this->tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
+
+        return $this->tolerantTwigEnvironment->parse($tokenStream);
+    }
+
+    public function compileFilePath(string $templateFilePath): string
+    {
+        $moduleNode = $this->parseFilePath($templateFilePath);
+        return $this->tolerantTwigEnvironment->compile($moduleNode);
     }
 }

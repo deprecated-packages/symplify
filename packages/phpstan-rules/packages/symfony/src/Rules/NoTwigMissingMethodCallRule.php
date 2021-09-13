@@ -6,13 +6,19 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Registry;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
+use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,11 +33,30 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
+    /**
+     * @todo possibly extract to own service provider
+     * @var array<class-string<DocumentedRuleInterface>>
+     */
+    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
+
+    private Registry $registry;
+
+    /**
+     * @param Rule[] $rules
+     */
     public function __construct(
+        array $rules,
+        private FileAnalyser $fileAnalyser,
         private TwigNodeParser $twigNodeParser,
         private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer,
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
     ) {
+        // limit rule here, as template class can contain lot of allowed Latte magic
+        // get missing method + missing property etc. rule
+        $activeRules = $this->filterActiveRules($rules);
+
+        // HACK for prevent circular reference...
+        $this->registry = new Registry($activeRules);
     }
 
     /**
@@ -53,7 +78,16 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $moduleNode = $this->twigNodeParser->parseFilePath($renderTemplateWithParameters->getTemplateFilePath());
+        $phpContent = $this->twigNodeParser->compileFilePath($renderTemplateWithParameters->getTemplateFilePath());
+        dump($phpContent);
+
+        dump($renderTemplateWithParameters->getTemplateFilePath());
+
+        // create PHP version of Twig template
+
+        // dump($this->fileAnalyser->analyseFile());
+
+        die;
 
         $variableNamesToMissingMethodNames = $this->twigMissingMethodCallAnalyzer->resolveFromArrayAndModuleNode(
             $renderTemplateWithParameters->getParametersArray(),
@@ -123,5 +157,25 @@ CODE_SAMPLE
         }
 
         return $errorMessages;
+    }
+
+    /**
+     * @param Rule[] $rules
+     * @return Rule[]
+     */
+    private function filterActiveRules(array $rules): array
+    {
+        $activeRules = [];
+
+        foreach ($rules as $rule) {
+            foreach (self::EXCLUDED_RULES as $excludedRule) {
+                if (is_a($rule, $excludedRule, true)) {
+                    continue 2;
+                }
+            }
+
+            $activeRules[] = $rule;
+        }
+        return $activeRules;
     }
 }
