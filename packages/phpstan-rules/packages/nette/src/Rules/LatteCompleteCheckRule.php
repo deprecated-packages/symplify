@@ -28,16 +28,16 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
 /**
- * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\NoLatteMissingMethodCallRuleTest
+ * @see \Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\LatteCompleteCheckRuleTest
  *
  * @inspired at https://github.com/efabrica-team/phpstan-latte/blob/main/src/Rule/ControlLatteRule.php#L56
  */
-final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
+final class LatteCompleteCheckRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
+    public const ERROR_MESSAGE = 'Complete analysis of PHP code generated from Latte template';
 
     /**
      * @var array<class-string<DocumentedRuleInterface>>
@@ -111,11 +111,9 @@ final class NoLatteMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
-
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
+        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
-        // $this->smartFileSystem->dumpFile(getcwd() . '/some-file.php', $phpFileContents);
 
         // to include generated class
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
@@ -137,9 +135,14 @@ class SomeClass extends Control
 {
     public function render()
     {
-        // @todo
+        $this->template->render(__DIR__ . '/some_control.latte', [
+            'some_type' => new SomeType
+        ]);
     }
 }
+
+// some_control.latte
+{$some_type->missingMethod()}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
@@ -149,9 +152,15 @@ class SomeClass extends Control
 {
     public function render()
     {
-        // @todo
+        $this->template->render(__DIR__ . '/some_control.latte', [
+            'some_type' => new SomeType
+        ]);
     }
 }
+
+
+// some_control.latte
+{$some_type->existingMethod()}
 CODE_SAMPLE
             ),
         ]);

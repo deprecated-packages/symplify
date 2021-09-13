@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule;
+namespace Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Nette\Rules\NoLatteMissingMethodCallRule;
-use Symplify\PHPStanRules\Nette\Tests\Rules\NoLatteMissingMethodCallRule\Source\SomeTypeWithMethods;
+use Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule;
+use Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoLatteMissingMethodCallRule>
+ * @extends AbstractServiceAwareRuleTestCase<LatteCompleteCheckRule>
  */
-final class NoLatteMissingMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,9 +35,6 @@ final class NoLatteMissingMethodCallRuleTest extends AbstractServiceAwareRuleTes
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoLatteMissingMethodCallRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return $this->getRuleFromConfig(LatteCompleteCheckRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

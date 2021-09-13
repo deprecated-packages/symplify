@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 161 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1877,59 +1877,6 @@ class SomeClass
 
 <br>
 
-## ForbiddenNullableReturnRule
-
-Return type "%s" cannot be nullable
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule`](../src/Rules/ForbiddenNullableReturnRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - PhpParser\Node
-
-            allowedTypes:
-                - PhpParser\Node\Scalar\String_
-```
-
-↓
-
-```php
-use PhpParser\Node;
-
-class SomeClass
-{
-    public function run(): ?Node
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PhpParser\Node;
-
-class SomeClass
-{
-    public function run(): Node
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenParamTypeRemovalRule
 
 Removing parent param type is forbidden
@@ -2416,6 +2363,55 @@ final class LogoutController extends AbstractController
     {
     }
 }
+```
+
+:+1:
+
+<br>
+
+## LatteCompleteCheckRule
+
+Variable "%s" of type "%s" does not have `"%s()"` method
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule`](../packages/nette/src/Rules/LatteCompleteCheckRule.php)
+
+```php
+use Nette\Application\UI\Control;
+
+class SomeClass extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_control.latte', [
+            'some_type' => new SomeType
+        ]);
+    }
+}
+
+// some_control.latte
+{$some_type->missingMethod()}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Control;
+
+class SomeClass extends Control
+{
+    public function render()
+    {
+        $this->template->render(__DIR__ . '/some_control.latte', [
+            'some_type' => new SomeType
+        ]);
+    }
+}
+
+
+// some_control.latte
+{$some_type->existingMethod()}
 ```
 
 :+1:
@@ -4627,7 +4623,7 @@ class SomeClass
 
 ## PreferredMethodCallOverFuncCallRule
 
-Use `"%s->%s()"` method call over `"%s()"` func call
+Use "%s" class and `"%s()"` method call over `"%s()"` func call
 
 :wrench: **configure it!**
 
@@ -4741,58 +4737,6 @@ final class UseRawDataForTestDataProviderTest
     {
         $this->obj->x = $value;
         $this->assertTrue($this->obj->x);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferredStaticCallOverFuncCallRule
-
-Use `"%s::%s()"` static call over `"%s()"` func call
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule`](../src/Rules/PreferredStaticCallOverFuncCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            funcCallToPreferredStaticCalls:
-                strlen:
-                    - Nette\Utils\Strings
-                    - length
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function run($value)
-    {
-        return strlen($value);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    public function run($value)
-    {
-        return Strings::length($value);
     }
 }
 ```
