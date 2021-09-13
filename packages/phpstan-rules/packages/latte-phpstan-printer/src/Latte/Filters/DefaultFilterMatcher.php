@@ -7,6 +7,9 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters;
 use Latte\Runtime\Defaults;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\StaticCallReference;
 
+/**
+ * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\Filters\DefaultFilterMatcherTest
+ */
 final class DefaultFilterMatcher
 {
     private Defaults $filtersDefaults;
