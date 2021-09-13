@@ -5,6 +5,8 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
     - Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer
 
+    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher
+
     # twig ast
     - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
     - Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory

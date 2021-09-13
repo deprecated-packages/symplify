@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 
 final class MissingTwigTemplateRenderVariableResolver
 {
     public function __construct(
         private TwigVariableNamesResolver $twigVariableNamesResolver,
-        private MethodCallArrayResolver $methodCallArrayResolver
+        private ArrayAnalyzer $arrayAnalyzer
     ) {
     }
 
@@ -20,22 +20,23 @@ final class MissingTwigTemplateRenderVariableResolver
      * @return string[]
      */
     public function resolveFromTemplateAndMethodCall(
-        MethodCall $methodCall,
-        string $templateFilePath,
+        RenderTemplateWithParameters $renderTemplateWithParameters,
         Scope $scope
     ): array {
-        $templateUsedVariableNames = $this->twigVariableNamesResolver->resolveFromFile($templateFilePath);
+        $templateUsedVariableNames = $this->twigVariableNamesResolver->resolveFromFile(
+            $renderTemplateWithParameters->getTemplateFilePath()
+        );
 
-        $availableVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition(
-            $methodCall,
-            $scope,
-            1
+        $availableVariableNames = $this->arrayAnalyzer->resolveStringKeys(
+            $renderTemplateWithParameters->getParametersArray(),
+            $scope
         );
 
         // default variables
         $availableVariableNames[] = 'app';
 
         $missingVariableNames = array_diff($templateUsedVariableNames, $availableVariableNames);
+
         return array_unique($missingVariableNames);
     }
 }
