@@ -11,6 +11,7 @@ use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
+use stdClass;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
@@ -79,7 +80,7 @@ final class TemplateFileVarTypeDocBlocksDecorator
         // nette\application bridge
         $variablesAndTypes[] = new VariableAndType('presenter', new ObjectType('Nette\Application\UI\Presenter'));
         $variablesAndTypes[] = new VariableAndType('control', new ObjectType('Nette\Application\UI\Control'));
-        $variablesAndTypes[] = new VariableAndType('flashes', new ObjectType('stdClass'));
+        $variablesAndTypes[] = new VariableAndType('flashes', new ObjectType(stdClass::class));
 
         return $variablesAndTypes;
     }

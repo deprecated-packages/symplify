@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
@@ -37,7 +38,7 @@ final class LatteLineNumberNodeVisitor extends NodeVisitorAbstract
     {
         $docComment = $node->getDocComment();
 
-        if ($docComment === null) {
+        if (! $docComment instanceof Doc) {
             return null;
         }
 
