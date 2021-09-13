@@ -6,26 +6,23 @@
 <?php
 
 use Latte\Runtime as LR;
-
 /** DummyTemplateClass */
 final class DummyTemplateClass extends Latte\Runtime\Template
 {
-
-	public function main(): array
-	{
-		extract($this->params);
-		if (100 == 100) /* line 1 */ {
-			$this->createTemplate('anything.latte', $this->params, 'include')->renderToContentType('html') /* line 3 */;
-		}
-		return get_defined_vars();
-	}
-
-
-	public function prepare(): void
-	{
-		extract($this->params);
-		Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
-		
-	}
-
+    public function main() : array
+    {
+        extract($this->params);
+        /** line in latte file: 1 */
+        if (100 == 100) {
+            /* line 1 */
+            /** line in latte file: 3 */
+            $this->createTemplate('anything.latte', $this->params, 'include')->renderToContentType('html');
+        }
+        return get_defined_vars();
+    }
+    public function prepare() : void
+    {
+        extract($this->params);
+        Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
+    }
 }

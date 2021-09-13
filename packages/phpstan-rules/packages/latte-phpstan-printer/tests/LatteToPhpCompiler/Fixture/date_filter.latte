@@ -1,4 +1,4 @@
-{$var}
+{$var|date('format')}
 -----
 <?php
 
@@ -10,7 +10,7 @@ final class DummyTemplateClass extends Latte\Runtime\Template
     {
         extract($this->params);
         /** line in latte file: 1 */
-        echo LR\Filters::escapeHtmlText($var);
+        echo LR\Filters::escapeHtmlText(\Latte\Runtime\Filters::date($var('format')));
         echo "\n";
         return get_defined_vars();
     }

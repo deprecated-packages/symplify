@@ -6,11 +6,15 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler;
 
 use Iterator;
 use Latte\Parser;
+use PhpParser\PrettyPrinter\Standard;
 use PHPUnit\Framework\TestCase;
+use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
+use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
+use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentMatcher;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
@@ -28,10 +32,18 @@ final class LatteToPhpCompilerTest extends TestCase
             new LatteMacroFaker(),
         );
 
+        $simpleNameResolverStaticFactory = SimpleNameResolverStaticFactory::create();
+
+        $latteParser = new Parser();
+        $lineCommentCorrector = new LineCommentCorrector(new LineCommentMatcher());
+
         $this->latteToPhpCompiler = new LatteToPhpCompiler(
             new SmartFileSystem(),
-            new Parser(),
-            $unknownMacroAwareLatteCompiler
+            $latteParser,
+            $unknownMacroAwareLatteCompiler,
+            $simpleNameResolverStaticFactory,
+            new Standard(),
+            $lineCommentCorrector
         );
     }
 
