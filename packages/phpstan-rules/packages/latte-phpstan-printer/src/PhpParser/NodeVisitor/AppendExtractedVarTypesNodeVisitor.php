@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Nop;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 
 final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
 {
@@ -21,7 +21,7 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node|null
     {
         if (! $node instanceof ClassMethod) {
             return null;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\ValueObject;
+namespace Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject;
 
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;

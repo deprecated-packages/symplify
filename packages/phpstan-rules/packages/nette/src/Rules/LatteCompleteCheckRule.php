@@ -114,7 +114,6 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 
-
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
         // to include generated class

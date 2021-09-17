@@ -15,10 +15,10 @@ use stdClass;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
+use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
-use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {
