@@ -4,6 +4,8 @@ includes:
     - ../../packages/nette/config/nette-services.neon
 
 services:
+    - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
+
     # doctrine
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
 
