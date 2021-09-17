@@ -4,45 +4,77 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette;
 
-use Latte\Parser;
+use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
-use Symplify\PHPStanRules\Nette\Latte\UnknownMacroAwareLatteCompiler;
-use Symplify\PHPStanRules\Nette\PhpNodeVisitor\LatteVariableCollectingNodeVisitor;
+use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
+use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
+use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\LatteVariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteVariableNamesResolver
 {
     public function __construct(
-        private Parser $latteParser,
-        private SmartFileSystem $smartFileSystem,
         private ParentNodeAwarePhpParser $parentNodeAwarePhpParser,
-        private UnknownMacroAwareLatteCompiler $unknownMacroAwareLatteCompiler,
+        private LatteToPhpCompiler $latteToPhpCompiler,
+        private LatteVariableCollectingNodeVisitor $latteVariableCollectingNodeVisitor,
+        private ParentLayoutTemplateFileResolver $parentLayoutTemplateFileResolver,
+        private IncludedSnippetTemplateFileResolver $includedSnippetTemplateFileResolver
     ) {
     }
 
     /**
      * @return string[]
      */
-    public function resolveFromFile(string $filePath): array
+    public function resolveFromFile(string $templateFilePath): array
     {
-        $fileContent = $this->smartFileSystem->readFile($filePath);
+        $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
 
-        $latteTokens = $this->latteParser->parse($fileContent);
+        // resolve parent layout variables
+        // 1. current template
+        $templateFilePaths = [$templateFilePath];
 
-        // collect used variable from PHP
-        $compiledPhp = $this->unknownMacroAwareLatteCompiler->compile($latteTokens, 'DummyTemplateClass');
-
-        $phpNodes = $this->parentNodeAwarePhpParser->parsePhpContent($compiledPhp);
-        if ($phpNodes === null) {
-            return [];
+        // 2. parent layout
+        $parentLayoutFileName = $this->parentLayoutTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        if ($parentLayoutFileName !== null) {
+            $templateFilePaths[] = $parentLayoutFileName;
         }
 
-        $latteVariableCollectingNodeVisitor = new LatteVariableCollectingNodeVisitor();
+        // 3. included templates
+        $includedTemplateFilePaths = $this->includedSnippetTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        $templateFilePaths = array_merge($templateFilePaths, $includedTemplateFilePaths);
+
+        $usedVariableNames = [];
+        foreach ($templateFilePaths as $templateFilePath) {
+            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
+            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
+            $usedVariableNames = array_merge($usedVariableNames, $currentUsedVariableNames);
+        }
+
+        return $usedVariableNames;
+    }
+
+    /**
+     * @param Stmt[] $phpNodes
+     * @return string[]
+     */
+    private function resolveUsedVariableNamesFromPhpNodes(array $phpNodes): array
+    {
         $phpNodeTraverser = new NodeTraverser();
-        $phpNodeTraverser->addVisitor($latteVariableCollectingNodeVisitor);
+        $phpNodeTraverser->addVisitor($this->latteVariableCollectingNodeVisitor);
         $phpNodeTraverser->traverse($phpNodes);
 
-        return $latteVariableCollectingNodeVisitor->getUsedVariableNames();
+        return $this->latteVariableCollectingNodeVisitor->getUsedVariableNames();
+    }
+
+    /**
+     * @param VariableAndType[] $variablesAndTypes
+     * @return Stmt[]
+     */
+    private function parseTemplateFileNameToPhpNodes(string $templateFilePath, array $variablesAndTypes): array
+    {
+        $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath, $variablesAndTypes);
+        return $this->parentNodeAwarePhpParser->parsePhpContent($parentLayoutCompiledPhp);
     }
 }

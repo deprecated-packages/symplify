@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
+use SomeType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -93,7 +94,7 @@ if ($someType->hasId()) {
 CODE_SAMPLE
                 ,
                     [
-                        'SomeType' => ['getId'],
+                        SomeType::class => ['getId'],
                     ]
                 ),
             ]

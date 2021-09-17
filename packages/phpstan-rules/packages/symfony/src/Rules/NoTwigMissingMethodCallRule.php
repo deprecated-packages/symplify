@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
+ * @todo generic rule potential
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingMethodCallRule\NoTwigMissingMethodCallRuleTest
  */
 final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
@@ -28,10 +28,9 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variable "%s" of type "%s" does not have "%s()" method';
 
     public function __construct(
-        private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
         private TwigNodeParser $twigNodeParser,
-        private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer
+        private TwigMissingMethodCallAnalyzer $twigMissingMethodCallAnalyzer,
+        private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
     ) {
     }
 
@@ -49,31 +48,15 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isTwigRenderMethodCall($node, $scope)) {
+        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
-        if (count($node->args) < 1) {
-            return [];
-        }
-
-        $firstArgValue = $node->args[0]->value;
-
-        $templateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
-
-        if ($templateFilePath === null) {
-            return [];
-        }
-
-        $secondArgValue = $node->args[1]->value;
-        if (! $secondArgValue instanceof Array_) {
-            return [];
-        }
-
-        $moduleNode = $this->twigNodeParser->parseFilePath($templateFilePath);
+        $moduleNode = $this->twigNodeParser->parseFilePath($renderTemplateWithParameters->getTemplateFilePath());
 
         $variableNamesToMissingMethodNames = $this->twigMissingMethodCallAnalyzer->resolveFromArrayAndModuleNode(
-            $secondArgValue,
+            $renderTemplateWithParameters->getParametersArray(),
             $scope,
             $moduleNode
         );

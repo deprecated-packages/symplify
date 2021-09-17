@@ -11,6 +11,6 @@ final class SomeMissingVariableController extends AbstractController
 {
     public function __invoke(): Response
     {
-        return $this->render(__DIR__ . '/../Source/some_template.twig');
+        return $this->render(__DIR__ . '/../Source/template/some_template.twig');
     }
 }

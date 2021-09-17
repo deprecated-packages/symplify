@@ -56,6 +56,7 @@ parameters:
         # WIP parallel
         - packages/easy-coding-standard/packages/Parallel
         - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+        - packages/phpstan-rules/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
@@ -291,6 +292,8 @@ parameters:
             paths:
                 # manually created value objects mostly
                 - packages/git-wrapper/src/*
+                # workaround for node visitor
+                - packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/TemplateIncludesNameNodeVisitor.php
 
         -
             message: '#Spread operator is not allowed#'
@@ -522,6 +525,16 @@ parameters:
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
             path: packages/config-transformer/src/Command/SwitchFormatCommand.php
 
-        - '#Property Symplify\\PHPStanRules\\Nette\\Latte\\UnknownMacroAwareLatteCompiler\:\:\$nativeMacrosNames \(array<string\>\) does not accept array<int, int\|string\>#'
+        # confusing generics
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
+        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
 
-        - '#Method Symplify\\EasyCI\\Config\\ConfigFileAnalyzer\\NonExistingClassConfigFileAnalyzer\:\:filterNonExistingClasses\(\) should return array<class\-string\> but returns array<string\>#'
+        # docs lines
+        -
+            message: '#"%s" in sprintf\(\) format must be quoted#'
+            path: */AppendExtractedVarTypesNodeVisitor.php
+
+        -
+            message: '#Do not use setter on a service#'
+            path: packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/ParentLayoutNameNodeVisitor.php

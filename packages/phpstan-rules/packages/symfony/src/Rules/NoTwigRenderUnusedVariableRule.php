@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -22,12 +22,11 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Passed "%s" variable that are not used in the template';
+    public const ERROR_MESSAGE = 'Passed "%s" variable is not used in the template';
 
     public function __construct(
-        private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
-        private UnusedTwigTemplateVariableAnalyzer $unusedTwigTemplateVariableAnalyzer
+        private UnusedTwigTemplateVariableAnalyzer $unusedTwigTemplateVariableAnalyzer,
+        private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher
     ) {
     }
 
@@ -45,24 +44,14 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isTwigRenderMethodCall($node, $scope)) {
-            return [];
-        }
-
-        if (count($node->args) < 1) {
-            return [];
-        }
-
-        $firstArgValue = $node->args[0]->value;
-
-        $resolvedTemplateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
-        if ($resolvedTemplateFilePath === null) {
+        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
         $unusedVariableNames = $this->unusedTwigTemplateVariableAnalyzer->resolveMethodCallAndTemplate(
             $node,
-            $resolvedTemplateFilePath,
+            $renderTemplateWithParameters->getTemplateFilePath(),
             $scope
         );
 
@@ -70,10 +59,12 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", ', $unusedVariableNames);
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
+        $errorMessages = [];
+        foreach ($unusedVariableNames as $unusedVariableName) {
+            $errorMessages[] = sprintf(self::ERROR_MESSAGE, $unusedVariableName);
+        }
 
-        return [$errorMessage];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition

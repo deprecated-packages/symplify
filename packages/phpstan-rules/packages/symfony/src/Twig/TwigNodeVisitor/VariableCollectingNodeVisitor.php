@@ -8,14 +8,25 @@ use Twig\Environment;
 use Twig\Node\Expression\NameExpression;
 use Twig\Node\ForNode;
 use Twig\Node\Node;
+use Twig\Node\SetNode;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
 final class VariableCollectingNodeVisitor implements NodeVisitorInterface
 {
     /**
+     * @var string
+     */
+    private const NAME = 'name';
+
+    /**
      * @var string[]
      */
     private array $variableNames = [];
+
+    /**
+     * @var string[]
+     */
+    private array $dynamicallyCreatedNames = [];
 
     /**
      * @var string[]
@@ -34,11 +45,21 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
+        // variables created on-the fly, e.g. with {% set ... %}, in {% for ... %} etc.
+        if ($node instanceof SetNode) {
+            $namesNode = $node->getNode('names');
+            foreach ($namesNode as $nameNode) {
+                $this->dynamicallyCreatedNames[] = $nameNode->getAttribute(self::NAME);
+            }
+
+            return $node;
+        }
+
         if (! $node instanceof NameExpression) {
             return $node;
         }
 
-        $this->variableNames[] = $node->getAttribute('name');
+        $this->variableNames[] = $node->getAttribute(self::NAME);
         return $node;
     }
 
@@ -61,7 +82,7 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
      */
     public function getVariableNames(): array
     {
-        return array_diff($this->variableNames, $this->generatedVariableNames);
+        return array_diff($this->variableNames, $this->generatedVariableNames, $this->dynamicallyCreatedNames);
     }
 
     /**
@@ -70,6 +91,6 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
     private function getNodeName(Node $node, string $nodeKey): string
     {
         $keyNode = $node->getNode($nodeKey);
-        return $keyNode->getAttribute('name');
+        return $keyNode->getAttribute(self::NAME);
     }
 }

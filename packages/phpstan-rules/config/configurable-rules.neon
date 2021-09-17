@@ -22,13 +22,6 @@ services:
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
         tags: [phpstan.rules.rule]
 
-#    -
-#        class: Symplify\PHPStanRules\Rules\ForbiddenNullableReturnRule
-#        tags: [phpstan.rules.rule]
-#        arguments:
-#            allowedTypes:
-#                - 'Symplify\SmartFileSystem\SmartFileInfo'
-
     -
         class: \Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
         tags: [phpstan.rules.rule]
@@ -44,6 +37,7 @@ services:
                 - PhpParser\Node\Expr\Empty_
                 - PhpParser\Node\Stmt\Switch_
                 - PhpParser\Node\Expr\ErrorSuppress
+                # trait?
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredClassRule
@@ -85,10 +79,10 @@ services:
                 - PHP_CodeSniffer\Fixer
 
     -
-        class: Symplify\PHPStanRules\Rules\PreferredStaticCallOverFuncCallRule
+        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
         tags: [phpstan.rules.rule]
         arguments:
-            funcCallToPreferredStaticCalls:
+            funcCallToPreferredMethodCalls:
                 'preg_match': ['Nette\Utils\Strings', 'match']
                 'preg_match_all': ['Nette\Utils\Strings', 'matchAll']
                 'preg_replace': ['Nette\Utils\Strings', 'replace']
@@ -96,16 +90,8 @@ services:
                 'preg_split': ['Nette\Utils\Strings', 'split']
                 'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
                 'file_put_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'dumpFile']
-                'strstr': ['Nette\Utils\Strings', 'contains']
                 'json_encode': ['Nette\Utils\Json', 'encode']
                 'json_decode': ['Nette\Utils\Json', 'decode']
-
-    -
-        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            funcCallToPreferredMethodCalls:
-                'file_get_contents': ['Symplify\SmartFileSystem\SmartFileSystem', 'readFile']
 
     -
         class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule

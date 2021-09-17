@@ -6,14 +6,12 @@ use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
-    // when using `vendor/bin/config-transformer` from project root that depends on this package
-    getcwd() . '/vendor/autoload.php',
+    // monorepo
+    __DIR__ . '/../../../vendor/autoload.php',
     // after split package
     __DIR__ . '/../vendor/autoload.php',
     // dependency
     __DIR__ . '/../../../autoload.php',
-    // monorepo
-    __DIR__ . '/../../../vendor/autoload.php',
 ];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
@@ -22,7 +20,6 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
         break;
     }
 }
-
 
 $scoperAutoloadFilepath = __DIR__ . '/../vendor/scoper-autoload.php';
 if (file_exists($scoperAutoloadFilepath)) {

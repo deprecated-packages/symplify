@@ -6,12 +6,12 @@ namespace Symplify\PHPStanRules\Symfony\Twig;
 
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor\MissingMethodCallNodeVisitor;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndMissingMethodName;
-use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
 

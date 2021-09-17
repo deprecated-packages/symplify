@@ -10,7 +10,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class StaticFixtureUpdater
 {
     public static function updateFixtureContent(
-        SmartFileInfo $originalFileInfo,
+        SmartFileInfo|string $originalFileInfo,
         string $changedContent,
         SmartFileInfo $fixtureFileInfo
     ): void {
@@ -41,12 +41,20 @@ final class StaticFixtureUpdater
         return new SmartFileSystem();
     }
 
-    private static function resolveNewFixtureContent(SmartFileInfo $originalFileInfo, string $changedContent): string
-    {
-        if ($originalFileInfo->getContents() === $changedContent) {
-            return $originalFileInfo->getContents();
+    private static function resolveNewFixtureContent(
+        SmartFileInfo|string $originalFileInfo,
+        string $changedContent
+    ): string {
+        if ($originalFileInfo instanceof SmartFileInfo) {
+            $originalContent = $originalFileInfo->getContents();
+        } else {
+            $originalContent = $originalFileInfo;
         }
 
-        return $originalFileInfo->getContents() . '-----' . PHP_EOL . $changedContent;
+        if ($originalContent === $changedContent) {
+            return $originalContent;
+        }
+
+        return $originalContent . '-----' . PHP_EOL . $changedContent;
     }
 }
