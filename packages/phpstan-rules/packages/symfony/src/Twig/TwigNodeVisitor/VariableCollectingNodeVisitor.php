@@ -14,6 +14,11 @@ use Twig\NodeVisitor\NodeVisitorInterface;
 final class VariableCollectingNodeVisitor implements NodeVisitorInterface
 {
     /**
+     * @var string
+     */
+    private const NAME = 'name';
+
+    /**
      * @var string[]
      */
     private array $variableNames = [];
@@ -44,7 +49,7 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
         if ($node instanceof SetNode) {
             $namesNode = $node->getNode('names');
             foreach ($namesNode as $nameNode) {
-                $this->dynamicallyCreatedNames[] = $nameNode->getAttribute('name');
+                $this->dynamicallyCreatedNames[] = $nameNode->getAttribute(self::NAME);
             }
 
             return $node;
@@ -54,7 +59,7 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
             return $node;
         }
 
-        $this->variableNames[] = $node->getAttribute('name');
+        $this->variableNames[] = $node->getAttribute(self::NAME);
         return $node;
     }
 
@@ -86,6 +91,6 @@ final class VariableCollectingNodeVisitor implements NodeVisitorInterface
     private function getNodeName(Node $node, string $nodeKey): string
     {
         $keyNode = $node->getNode($nodeKey);
-        return $keyNode->getAttribute('name');
+        return $keyNode->getAttribute(self::NAME);
     }
 }
