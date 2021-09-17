@@ -1,0 +1,11 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentTypes:
+                - Symplify\PHPStanRules\Tests\Rules\Enum\EmbeddedEnumClassConstSpotterRule\Source\SomeParentObject
+
+includes:
+    - ../../../../../config/symplify-rules.neon
+    - ../../../../../config/services/services.neon
