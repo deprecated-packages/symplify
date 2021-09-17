@@ -1,4 +1,4 @@
-# 161 Rules Overview
+# 162 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -843,6 +843,56 @@ class SomeClass
     {
         // ...
     }
+}
+```
+
+:+1:
+
+<br>
+
+## EmbeddedEnumClassConstSpotterRule
+
+Constants "%s" should be extract to standalone enum class
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule`](../src/Rules/Enum/EmbeddedEnumClassConstSpotterRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentTypes:
+                - AbstractObject
+```
+
+↓
+
+```php
+class SomeProduct extends AbstractObject
+{
+    public const STATUS_ENABLED = 1;
+
+    public const STATUS_DISABLED = 0;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeProduct extends AbstractObject
+{
+}
+
+class SomeStatus
+{
+    public const ENABLED = 1;
+
+    public const DISABLED = 0;
 }
 ```
 
@@ -2371,7 +2421,7 @@ final class LogoutController extends AbstractController
 
 ## LatteCompleteCheckRule
 
-Variable "%s" of type "%s" does not have `"%s()"` method
+Complete analysis of PHP code generated from Latte template
 
 - class: [`Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule`](../packages/nette/src/Rules/LatteCompleteCheckRule.php)
 
@@ -4405,7 +4455,7 @@ final class SomeController extends AbstractController
 
 ## NoTwigRenderUnusedVariableRule
 
-Passed "%s" variable that are not used in the template
+Passed "%s" variable is not used in the template
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoTwigRenderUnusedVariableRule.php)
 
