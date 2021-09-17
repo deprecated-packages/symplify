@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Nop;
@@ -42,7 +43,7 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
 
             $extractMethodCall = $classMethodStmt->expr;
 
-            if (! $extractMethodCall instanceof Node\Expr\FuncCall) {
+            if (! $extractMethodCall instanceof FuncCall) {
                 continue;
             }
 
