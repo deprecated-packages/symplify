@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -29,7 +31,7 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private \Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher $sharedNamePrefixMatcher,
+        private SharedNamePrefixMatcher $sharedNamePrefixMatcher,
         private array $parentTypes = [],
     ) {
     }
@@ -44,6 +46,7 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
 
     /**
      * @param InClassNode $node
+     * @return mixed[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -115,9 +118,9 @@ CODE_SAMPLE
     {
         $constantNames = [];
 
-        foreach ($class->getConstants() as $constant) {
+        foreach ($class->getConstants() as $classConst) {
             /** @var string $constantName */
-            $constantName = $this->simpleNameResolver->getName($constant->consts[0]->name);
+            $constantName = $this->simpleNameResolver->getName($classConst->consts[0]->name);
             $constantNames[] = $constantName;
         }
 
@@ -127,7 +130,7 @@ CODE_SAMPLE
     private function shouldSkip(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (! $classReflection instanceof ClassReflection) {
             return true;
         }
 
