@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Fixture
 
 use Nette\Application\UI\Control;
 
-final class VariableInBlockControl extends Control
+final class SkipVariableInBlockControl extends Control
 {
     public function render()
     {

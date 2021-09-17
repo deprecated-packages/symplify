@@ -1,8 +1,3 @@
-{if 100 == 100}
-    {* test detection of nested cases *}
-    {include 'anything.latte'}
-{/if}
------
 <?php
 
 use Latte\Runtime as LR;
@@ -12,17 +7,14 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
     public function main() : array
     {
         \extract($this->params);
-        /** line in latte file: 1 */
-        if (100 == 100) {
-            /* line 1 */
-            /** line in latte file: 3 */
-            $this->createTemplate('anything.latte', $this->params, 'include')->renderToContentType('html');
-        }
+        /** @var string $someName */
+        echo '%s/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes/input_file.latte';
         return \get_defined_vars();
     }
     public function prepare() : void
     {
         \extract($this->params);
+        /** @var string $someName */
         \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
     }
 }

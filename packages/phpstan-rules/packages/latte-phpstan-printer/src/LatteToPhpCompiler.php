@@ -14,6 +14,7 @@ use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
@@ -27,11 +28,15 @@ final class LatteToPhpCompiler
         private UnknownMacroAwareLatteCompiler $unknownMacroAwareLatteCompiler,
         private SimpleNameResolver $simpleNameResolver,
         private Standard $printerStandard,
-        private LineCommentCorrector $lineCommentCorrector
+        private LineCommentCorrector $lineCommentCorrector,
+        private VarTypeDocBlockDecorator $varTypeDocBlockDecorator,
     ) {
     }
 
-    public function compileContent(string $templateFileContent): string
+    /**
+     * @param array<VariableAndType> $variablesAndTypes
+     */
+    public function compileContent(string $templateFileContent, array $variablesAndTypes): string
     {
         $latteTokens = $this->latteParser->parse($templateFileContent);
 
@@ -41,13 +46,18 @@ final class LatteToPhpCompiler
         $phpStmts = $this->parsePhpContentToPhpStmts($rawPhpContent);
 
         $this->transformFilterMagicClosureToExplicitStaticCall($phpStmts);
-        return $this->printerStandard->prettyPrintFile($phpStmts);
+        $phpContent = $this->printerStandard->prettyPrintFile($phpStmts);
+
+        return $this->varTypeDocBlockDecorator->decorateLatteContentWithTypes($phpContent, $variablesAndTypes);
     }
 
-    public function compileFilePath(string $templateFilePath): string
+    /**
+     * @param array<VariableAndType> $variablesAndTypes
+     */
+    public function compileFilePath(string $templateFilePath, array $variablesAndTypes): string
     {
         $templateFileContent = $this->smartFileSystem->readFile($templateFilePath);
-        return $this->compileContent($templateFileContent);
+        return $this->compileContent($templateFileContent, $variablesAndTypes);
     }
 
     /**

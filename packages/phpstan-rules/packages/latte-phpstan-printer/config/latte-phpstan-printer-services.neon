@@ -8,6 +8,8 @@ services:
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker
 
+    - Symplify\PHPStanRules\LattePHPStanPrinter\VarTypeDocBlockDecorator
+
     # latte lines
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentMatcher

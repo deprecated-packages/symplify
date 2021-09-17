@@ -56,6 +56,7 @@ parameters:
         # WIP parallel
         - packages/easy-coding-standard/packages/Parallel
         - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+        - packages/phpstan-rules/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
@@ -532,7 +533,7 @@ parameters:
         # docs lines
         -
             message: '#"%s" in sprintf\(\) format must be quoted#'
-            path:  packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/AppendExtractedVarTypesNodeVisitor.php
+            path: */AppendExtractedVarTypesNodeVisitor.php
 
         -
             message: '#Do not use setter on a service#'

@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\LatteVariableCollectingNodeVisitor;
@@ -28,7 +29,7 @@ final class LatteVariableNamesResolver
      */
     public function resolveFromFile(string $templateFilePath): array
     {
-        $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath);
+        $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
 
         // resolve parent layout variables
         // 1. current template
@@ -46,7 +47,7 @@ final class LatteVariableNamesResolver
 
         $usedVariableNames = [];
         foreach ($templateFilePaths as $templateFilePath) {
-            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath);
+            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
             $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
             $usedVariableNames = array_merge($usedVariableNames, $currentUsedVariableNames);
         }
@@ -68,11 +69,12 @@ final class LatteVariableNamesResolver
     }
 
     /**
+     * @param VariableAndType[] $variablesAndTypes
      * @return Stmt[]
      */
-    private function parseTemplateFileNameToPhpNodes(string $templateFilePath): array
+    private function parseTemplateFileNameToPhpNodes(string $templateFilePath, array $variablesAndTypes): array
     {
-        $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath);
+        $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath, $variablesAndTypes);
         return $this->parentNodeAwarePhpParser->parsePhpContent($parentLayoutCompiledPhp);
     }
 }

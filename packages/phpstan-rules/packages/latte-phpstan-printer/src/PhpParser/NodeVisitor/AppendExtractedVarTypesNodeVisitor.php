@@ -7,8 +7,10 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Nop;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 
 final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
@@ -17,6 +19,7 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
      * @param VariableAndType[] $variablesAndTypes
      */
     public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
         private array $variablesAndTypes
     ) {
     }
@@ -27,37 +30,62 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if ($node->name->toString() !== 'main') {
-            return null;
-        }
-
         // nothing to wrap
         if ($node->stmts === null) {
             return null;
         }
 
-        $docNodes = [];
-        foreach ($this->variablesAndTypes as $variableAndType) {
-            $prependVarTypesDocBlocks = sprintf(
-                '/** @var %s $%s */',
-                $variableAndType->getTypeAsString(),
-                $variableAndType->getVariable()
-            );
+        foreach ($node->stmts as $key => $classMethodStmt) {
+            if (! $classMethodStmt instanceof Expression) {
+                continue;
+            }
 
-            // doc types node
-            $docNop = new Nop();
-            $docNop->setDocComment(new Doc($prependVarTypesDocBlocks));
+            $extractMethodCall = $classMethodStmt->expr;
 
-            $docNodes[] = $docNop;
+            if (! $extractMethodCall instanceof Node\Expr\FuncCall) {
+                continue;
+            }
+
+            if (! $this->simpleNameResolver->isName($extractMethodCall, 'extract')) {
+                continue;
+            }
+
+            $docNodes = $this->createDocNodes();
+
+            // must be AFTER extract(), otherwise the variable does not exists
+            array_splice($node->stmts, $key + 1, 0, $docNodes);
+
+            return $node;
         }
 
-        // must be AFTER extract(), otherwise the variable does not exists
-        $firstNode = array_shift($node->stmts);
+        return null;
+    }
 
-        /** @var Node\Stmt[] $classMethodStmts */
-        $classMethodStmts = array_merge([$firstNode], $docNodes, $node->stmts);
+    /**
+     * @return Nop[]
+     */
+    private function createDocNodes(): array
+    {
+        $docNodes = [];
+        foreach ($this->variablesAndTypes as $variableAndType) {
+            $docNodes[] = $this->createDocNop($variableAndType);
+        }
 
-        $node->stmts = $classMethodStmts;
-        return $node;
+        return $docNodes;
+    }
+
+    private function createDocNop(VariableAndType $variableAndType): Nop
+    {
+        $prependVarTypesDocBlocks = sprintf(
+            '/** @var %s $%s */',
+            $variableAndType->getTypeAsString(),
+            $variableAndType->getVariable()
+        );
+
+        // doc types node
+        $docNop = new Nop();
+        $docNop->setDocComment(new Doc($prependVarTypesDocBlocks));
+
+        return $docNop;
     }
 }
