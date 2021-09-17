@@ -5,20 +5,15 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette;
 
 use PhpParser\Node\Expr\Array_;
-use PhpParser\NodeTraverser;
-use PhpParser\Parser;
-use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use stdClass;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
-use Symplify\PHPStanRules\Symfony\ValueObject\VariableAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {
@@ -26,31 +21,16 @@ final class TemplateFileVarTypeDocBlocksDecorator
         private LatteToPhpCompiler $latteToPhpCompiler,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private PhpToLatteLineNumbersResolver $phpToLatteLineNumbersResolver,
-        private Standard $printerStandard,
-        private Parser $phpParser
     ) {
     }
 
     public function decorate(string $latteFilePath, Array_ $array, Scope $scope): PhpFileContentsWithLineMap
     {
-        $phpContent = $this->latteToPhpCompiler->compileFilePath($latteFilePath);
-
         $variablesAndTypes = $this->resolveLatteVariablesAndTypes($array, $scope);
+        $phpContent = $this->latteToPhpCompiler->compileFilePath($latteFilePath, $variablesAndTypes);
 
-        // convert to "@var types $variable"
-        $phpNodes = $this->phpParser->parse($phpContent);
-        if ($phpNodes === null) {
-            throw new ShouldNotHappenException();
-        }
-
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor(new AppendExtractedVarTypesNodeVisitor($variablesAndTypes));
-        $nodeTraverser->traverse($phpNodes);
-
-        $decoratedPhpContent = $this->printerStandard->prettyPrintFile($phpNodes);
-
-        $phpLinesToLatteLines = $this->phpToLatteLineNumbersResolver->resolve($decoratedPhpContent);
-        return new PhpFileContentsWithLineMap($decoratedPhpContent, $phpLinesToLatteLines);
+        $phpLinesToLatteLines = $this->phpToLatteLineNumbersResolver->resolve($phpContent);
+        return new PhpFileContentsWithLineMap($phpContent, $phpLinesToLatteLines);
     }
 
     /**

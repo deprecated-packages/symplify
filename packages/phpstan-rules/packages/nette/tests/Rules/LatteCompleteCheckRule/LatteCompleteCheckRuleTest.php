@@ -31,6 +31,7 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 1]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipVariableInBlockControl.php', []];
     }
 
     protected function getRule(): Rule

@@ -47,6 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
         __DIR__ . '/packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php',
+        __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes',
 
         // class in paths
         PhpUnitStrictFixer::class => [

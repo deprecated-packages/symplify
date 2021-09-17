@@ -4,19 +4,19 @@
 
 use Latte\Runtime as LR;
 /** DummyTemplateClass */
-final class DummyTemplateClass extends Latte\Runtime\Template
+final class DummyTemplateClass extends \Latte\Runtime\Template
 {
     public function main() : array
     {
-        extract($this->params);
+        \extract($this->params);
         /** line in latte file: 1 */
-        echo LR\Filters::escapeHtmlText($var);
+        echo \Latte\Runtime\Filters::escapeHtmlText($var);
         echo "\n";
-        return get_defined_vars();
+        return \get_defined_vars();
     }
     public function prepare() : void
     {
-        extract($this->params);
-        Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
+        \extract($this->params);
+        \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
     }
 }

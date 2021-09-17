@@ -13,3 +13,10 @@ services:
         arguments:
             checkFunctionNameCase: %checkFunctionNameCase%
             reportMagicMethods: %reportMagicMethods%
+
+    -
+        class: PHPStan\Rules\Variables\DefinedVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            cliArgumentsVariablesRegistered: false
+            checkMaybeUndefinedVariables: true
