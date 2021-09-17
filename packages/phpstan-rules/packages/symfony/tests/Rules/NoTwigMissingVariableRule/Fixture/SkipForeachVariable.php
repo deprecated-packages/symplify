@@ -10,7 +10,7 @@ final class SkipForeachVariable extends AbstractController
 {
     public function __invoke()
     {
-        return $this->render(__DIR__ . '/../Source/foreach_variable.twig', [
+        return $this->render(__DIR__ . '/../Source/template/foreach_variable.twig', [
             'items' => [1, 2, 3]
         ]);
     }
