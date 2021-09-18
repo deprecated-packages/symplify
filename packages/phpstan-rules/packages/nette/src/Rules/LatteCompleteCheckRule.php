@@ -47,6 +47,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         'Method Nette\Application\UI\Renderable::redrawControl() invoked with',
         'Ternary operator condition is always true',
         'Access to an undefined property Latte\Runtime\FilterExecutor::',
+        'Anonymous function should have native return typehint "void"',
     ];
 
     /**
