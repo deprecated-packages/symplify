@@ -42,7 +42,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const IGNORED_ERRORS = [
+    private const IGNORED_ERROR_MESSAGES = [
         'DummyTemplateClass',
         'Method Nette\Application\UI\Renderable::redrawControl() invoked with',
         'Ternary operator condition is always true',
@@ -225,8 +225,8 @@ CODE_SAMPLE
 
     private function shouldKeep(Error $error): bool
     {
-        foreach (self::EXCLUDED_RULES as $excludedError) {
-            if (str_contains($error->getMessage(), $excludedError)) {
+        foreach (self::IGNORED_ERROR_MESSAGES as $ignoredErrorMessage) {
+            if (str_contains($error->getMessage(), $ignoredErrorMessage)) {
                 return false;
             }
         }
