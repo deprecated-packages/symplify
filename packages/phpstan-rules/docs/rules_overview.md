@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 163 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3897,6 +3897,43 @@ final class SomeClass
 final class SomeClass
 {
     private DateTime $property;
+}
+```
+
+:+1:
+
+<br>
+
+## NoParentDuplicatedTraitUseRule
+
+The "%s" trait is already used in parent class. Remove it here
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule`](../src/Rules/Complexity/NoParentDuplicatedTraitUseRule.php)
+
+```php
+class ParentClass
+{
+    use SomeTrait;
+}
+
+class SomeClass extends ParentClass
+{
+    use SomeTrait;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class ParentClass
+{
+    use SomeTrait;
+}
+
+class SomeClass extends ParentClass
+{
 }
 ```
 
