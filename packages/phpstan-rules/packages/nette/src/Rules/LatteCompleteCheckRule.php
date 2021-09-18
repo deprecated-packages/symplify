@@ -50,6 +50,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         'Anonymous function should have native return typehint "void"',
         // impossible to resolve with conditions in PHP
         '#might not be defined#',
+        '#has an unused variable#',
     ];
 
     /**
