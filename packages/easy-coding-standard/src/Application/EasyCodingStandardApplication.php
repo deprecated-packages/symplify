@@ -84,8 +84,12 @@ final class EasyCodingStandardApplication
             // for progress bar
             $isProgressBarStarted = false;
 
-            $postFileCallback = function (int $stepCount) use (&$isProgressBarStarted, $filePaths, $configuration): void {
-                if ($configuration->shouldShowProgressBar() === false) {
+            $postFileCallback = function (int $stepCount) use (
+                &$isProgressBarStarted,
+                $filePaths,
+                $configuration
+            ): void {
+                if (! $configuration->shouldShowProgressBar()) {
                     return;
                 }
 
