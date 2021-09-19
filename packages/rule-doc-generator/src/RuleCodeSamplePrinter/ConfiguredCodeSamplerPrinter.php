@@ -32,9 +32,6 @@ final class ConfiguredCodeSamplerPrinter
             $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
         ]);
 
-        dump($configPhpCode);
-        die;
-
         $lines[] = $this->markdownCodeWrapper->printPhpCode($configPhpCode);
 
         $lines[] = '↓';

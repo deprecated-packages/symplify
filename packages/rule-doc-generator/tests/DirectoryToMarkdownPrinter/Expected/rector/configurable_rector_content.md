@@ -56,7 +56,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(WithPHPStanTypeObject::class)
-        ->call('configure', [[WithPHPStanTypeObject::ADDED_ARGUMENTS => ValueObjectInliner::inline([new SomeValueObjectWrapper(new ObjectType('SomeObject'))]]]);
+        ->call('configure', [[WithPHPStanTypeObject::ADDED_ARGUMENTS => ValueObjectInliner::inline([new SomeValueObjectWrapper(new ObjectType('SomeObject'))])]]);
 };
 ```
 
