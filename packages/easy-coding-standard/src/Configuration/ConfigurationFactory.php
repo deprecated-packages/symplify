@@ -30,6 +30,8 @@ final class ConfigurationFactory
         $showProgressBar = $this->canShowProgressBar($input);
         $showErrorTable = ! (bool) $input->getOption(Option::NO_ERROR_TABLE);
         $doesMatchGitDiff = (bool) $input->getOption(Option::MATCH_GIT_DIFF);
+        $parallelPort = (string) $input->getOption(Option::PARALLEL_PORT);
+        $parallelIdentifier = (string) $input->getOption(Option::PARALLEL_IDENTIFIER);
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
@@ -55,6 +57,8 @@ final class ConfigurationFactory
             $doesMatchGitDiff,
             $isParallel,
             $config,
+            $parallelPort,
+            $parallelIdentifier
         );
     }
 

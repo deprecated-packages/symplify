@@ -119,8 +119,9 @@ final class ConsoleOutputFormatter implements OutputFormatterInterface
             $this->easyCodingStandardStyle->newLine();
 
             if ($systemError instanceof SystemError) {
-                $this->easyCodingStandardStyle->writeln($systemError->getFileWithLine());
-                $this->easyCodingStandardStyle->warning($systemError->getMessage());
+                $this->easyCodingStandardStyle->error(
+                    $systemError->getMessage() . ' in ' . $systemError->getFileWithLine()
+                );
             } else {
                 $this->easyCodingStandardStyle->error($systemError);
             }

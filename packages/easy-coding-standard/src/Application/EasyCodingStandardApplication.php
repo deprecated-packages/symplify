@@ -109,7 +109,7 @@ final class EasyCodingStandardApplication
             }
 
             // mimics see https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92#diff-387b8f04e0db7a06678eb52ce0c0d0aff73e0d7d8fc5df834d0a5fbec198e5daR139
-            return $this->parallelFileProcessor->analyse(
+            return $this->parallelFileProcessor->check(
                 $schedule,
                 $mainScript,
                 $postFileCallback,
@@ -164,13 +164,15 @@ final class EasyCodingStandardApplication
 
     private function outputProgressBarAndDebugInfo(int $fileInfoCount, Configuration $configuration): void
     {
-        if ($configuration->shouldShowProgressBar()) {
-            $this->easyCodingStandardStyle->progressStart($fileInfoCount);
+        if (! $configuration->shouldShowProgressBar()) {
+            return;
+        }
 
-            // show more data on progress bar
-            if ($this->easyCodingStandardStyle->isVerbose()) {
-                $this->easyCodingStandardStyle->enableDebugProgressBar();
-            }
+        $this->easyCodingStandardStyle->progressStart($fileInfoCount);
+
+        // show more data on progress bar
+        if ($this->easyCodingStandardStyle->isVerbose()) {
+            $this->easyCodingStandardStyle->enableDebugProgressBar();
         }
     }
 
@@ -183,9 +185,12 @@ final class EasyCodingStandardApplication
         if (! isset($_SERVER[self::ARGV][0])) {
             return null;
         }
-        if (! file_exists($_SERVER[self::ARGV][0])) {
+
+        $potentialEcsBinaryPath = $_SERVER[self::ARGV][0];
+        if (! file_exists($potentialEcsBinaryPath)) {
             return null;
         }
-        return $_SERVER[self::ARGV][0];
+
+        return $potentialEcsBinaryPath;
     }
 }

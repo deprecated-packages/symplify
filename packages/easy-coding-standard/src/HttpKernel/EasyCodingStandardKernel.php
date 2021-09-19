@@ -17,6 +17,7 @@ use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
 use Symplify\Skipper\Bundle\SkipperBundle;
 use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
+use Throwable;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\HttpKernel\EasyCodingStandardKernelTest
@@ -57,9 +58,13 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
     {
         $cacheDir = $this->getCacheDir();
 
-        // Rebuild the container on each run
-        FileSystem::delete($cacheDir);
-        FileSystem::createDir($cacheDir);
+        try {
+            FileSystem::delete($cacheDir);
+            FileSystem::createDir($cacheDir);
+        } catch (Throwable) {
+            // the "@" is required for parallel run to avoid deleting locked directory
+            // Rebuild the container on each run
+        }
 
         parent::boot();
     }

@@ -48,7 +48,13 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
         $inputDefinition = $this->prepareCheckCommandDefinition();
         $arrayInput = new ArrayInput($inputParameters, $inputDefinition);
 
-        $workerCommandLine = $this->workerCommandLineFactory->create(self::DUMMY_MAIN_SCRIPT, null, $arrayInput);
+        $workerCommandLine = $this->workerCommandLineFactory->create(
+            self::DUMMY_MAIN_SCRIPT,
+            null,
+            $arrayInput,
+            'identifier',
+            2000
+        );
 
         $this->assertSame($expectedCommand, $workerCommandLine);
     }
@@ -67,7 +73,7 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
                 Option::PATHS => ['src'],
                 '--' . Option::FIX => true,
             ],
-            "'" . PHP_BINARY . "' '" . self::DUMMY_MAIN_SCRIPT . "' '" . $cliInputOptionsAsString . "' worker --fix 'src' --output-format 'json' --no-ansi",
+            "'" . PHP_BINARY . "' '" . self::DUMMY_MAIN_SCRIPT . "' '" . $cliInputOptionsAsString . "' worker --fix --port 2000 --identifier 'identifier' 'src' --output-format 'json' --no-ansi",
         ];
 
         yield [
@@ -77,7 +83,7 @@ final class WorkerCommandLineFactoryTest extends AbstractKernelTestCase
                 '--' . Option::FIX => true,
                 '--' . Option::OUTPUT_FORMAT => ConsoleOutputFormatter::NAME,
             ],
-            "'" . PHP_BINARY . "' '" . self::DUMMY_MAIN_SCRIPT . "' '" . $cliInputOptionsAsString . "' worker --fix 'src' --output-format 'json' --no-ansi",
+            "'" . PHP_BINARY . "' '" . self::DUMMY_MAIN_SCRIPT . "' '" . $cliInputOptionsAsString . "' worker --fix --port 2000 --identifier 'identifier' 'src' --output-format 'json' --no-ansi",
         ];
     }
 
