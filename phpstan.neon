@@ -38,7 +38,7 @@ services:
 
 parameters:
     level: max
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -538,3 +538,6 @@ parameters:
         -
             message: '#Do not use setter on a service#'
             path: packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/ParentLayoutNameNodeVisitor.php
+
+        # paralellel
+        - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
