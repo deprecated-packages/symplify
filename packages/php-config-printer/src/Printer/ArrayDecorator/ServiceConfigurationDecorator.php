@@ -96,6 +96,7 @@ final class ServiceConfigurationDecorator
     private function decorateValueObjects(array $values): StaticCall
     {
         $arrayItems = [];
+
         foreach ($values as $value) {
             $new = $this->newValueObjectFactory->create($value);
             $arrayItems[] = new ArrayItem($new);

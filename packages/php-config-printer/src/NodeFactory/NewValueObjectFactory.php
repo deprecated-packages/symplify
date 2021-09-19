@@ -23,6 +23,7 @@ final class NewValueObjectFactory
             return new StaticCall(new FullyQualified($valueObjectClass), $valueObject->getKey());
         }
 
+        // assumption that constructor parameters share the same value as property names
         $propertyValues = $this->resolvePropertyValuesFromValueObject($valueObjectClass, $valueObject);
         $args = $this->createArgs($propertyValues);
 
@@ -38,7 +39,16 @@ final class NewValueObjectFactory
         $propertyValues = [];
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             $reflectionProperty->setAccessible(true);
-            $propertyValues[] = $reflectionProperty->getValue($valueObject);
+
+            $defaultPropertyValue = $reflectionProperty->getDefaultValue();
+            $currentPropertyValue = $reflectionProperty->getValue($valueObject);
+
+            // do not fill in default values
+            if ($defaultPropertyValue === $currentPropertyValue) {
+                continue;
+            }
+
+            $propertyValues[] = $currentPropertyValue;
         }
 
         return $propertyValues;

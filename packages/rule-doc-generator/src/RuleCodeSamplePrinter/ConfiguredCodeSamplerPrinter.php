@@ -31,6 +31,7 @@ final class ConfiguredCodeSamplerPrinter
         $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices([
             $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
         ]);
+
         $lines[] = $this->markdownCodeWrapper->printPhpCode($configPhpCode);
 
         $lines[] = '↓';
