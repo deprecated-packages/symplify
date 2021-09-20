@@ -13,18 +13,13 @@ use Symplify\EasyCodingStandard\Parallel\Exception\ParallelShouldNotHappenExcept
 final class ProcessPool
 {
     /**
-     * @var TcpServer
-     */
-    private $tcpServer;
-
-    /**
      * @var array<string, ParallelProcess>
      */
-    private $processes = [];
+    private array $processes = [];
 
-    public function __construct(TcpServer $tcpServer)
-    {
-        $this->tcpServer = $tcpServer;
+    public function __construct(
+        private TcpServer $tcpServer
+    ) {
     }
 
     public function getProcess(string $identifier): ParallelProcess
@@ -35,9 +30,9 @@ final class ProcessPool
         return $this->processes[$identifier];
     }
 
-    public function attachProcess(string $identifier, ParallelProcess $process): void
+    public function attachProcess(string $identifier, ParallelProcess $parallelProcess): void
     {
-        $this->processes[$identifier] = $process;
+        $this->processes[$identifier] = $parallelProcess;
     }
 
     public function tryQuitProcess(string $identifier): void
@@ -54,7 +49,7 @@ final class ProcessPool
         $parallelProcess->quit();
 
         unset($this->processes[$identifier]);
-        if (\count($this->processes) !== 0) {
+        if ($this->processes !== []) {
             return;
         }
         $this->tcpServer->close();

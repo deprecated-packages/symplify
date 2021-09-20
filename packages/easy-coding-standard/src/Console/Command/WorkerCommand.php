@@ -77,7 +77,7 @@ final class WorkerCommand extends AbstractCheckCommand
         return self::SUCCESS;
     }
 
-    private function runWorker(Encoder $encoder, Decoder $decoder, Configuration $configuration)
+    private function runWorker(Encoder $encoder, Decoder $decoder, Configuration $configuration): void
     {
         // 1. handle system error
         $handleErrorCallback = static function (Throwable $throwable) use ($encoder): void {

@@ -35,12 +35,7 @@ final class ConfigurationFactory
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
-        if (DIRECTORY_SEPARATOR === '\\') {
-            // windows is not supported yet
-            $isParallel = false;
-        } else {
-            $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
-        }
+        $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
 
         $config = $input->getOption(Option::CONFIG);
         if ($config !== null) {

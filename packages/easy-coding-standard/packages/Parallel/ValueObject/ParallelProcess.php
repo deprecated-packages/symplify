@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
 
+use Clue\React\NDJson\Decoder;
+use Clue\React\NDJson\Encoder;
+use Exception;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
-use React\Stream\ReadableStreamInterface;
-use React\Stream\WritableStreamInterface;
 use Symplify\EasyCodingStandard\Parallel\Enum\Action;
 use Symplify\EasyCodingStandard\Parallel\Exception\ParallelShouldNotHappenException;
+use Throwable;
 
 /**
  * Inspired at @see https://raw.githubusercontent.com/phpstan/phpstan-src/master/src/Parallel/Process.php
@@ -19,12 +21,7 @@ final class ParallelProcess
 {
     public Process $process;
 
-    private WritableStreamInterface $in;
-
-    /**
-     * @var resource
-     */
-    private $stdOut;
+    private Encoder $encoder;
 
     /**
      * @var resource
@@ -37,7 +34,7 @@ final class ParallelProcess
     private $onData;
 
     /**
-     * @var callable(\Throwable) : void
+     * @var callable(Throwable): void
      */
     private $onError;
 
@@ -46,12 +43,13 @@ final class ParallelProcess
     public function __construct(
         private string $command,
         private LoopInterface $loop,
+        private int $timetoutInSeconds
     ) {
     }
 
     /**
      * @param callable(mixed[] $onData) : void $onData
-     * @param callable(\Throwable $onError) : void $onError
+     * @param callable(Throwable $onError) : void $onError
      * @param callable(?int $onExit, string $output) : void $onExit
      */
     public function start(callable $onData, callable $onError, callable $onExit): void
@@ -86,10 +84,12 @@ final class ParallelProcess
     public function request(array $data): void
     {
         $this->cancelTimer();
-        $this->in->write($data);
-        $this->timer = $this->loop->addTimer(60.0, function (): void {
+        $this->encoder->write($data);
+        $this->timer = $this->loop->addTimer($this->timetoutInSeconds, function (): void {
             $onError = $this->onError;
-            $onError(new \Exception('Child process timed out after 60 seconds',));
+
+            $errorMessage = sprintf('Child process timed out after %d seconds', $this->timetoutInSeconds);
+            $onError(new Exception($errorMessage));
         });
     }
 
@@ -104,14 +104,14 @@ final class ParallelProcess
             $pipe->close();
         }
 
-        $this->in->end();
+        $this->encoder->end();
 
         $this->process->terminate();
     }
 
-    public function bindConnection(ReadableStreamInterface $out, WritableStreamInterface $in): void
+    public function bindConnection(Decoder $decoder, Encoder $encoder): void
     {
-        $out->on(ReactEvent::DATA, function (array $json): void {
+        $decoder->on(ReactEvent::DATA, function (array $json): void {
             $this->cancelTimer();
             if ($json[ReactCommand::ACTION] !== Action::RESULT) {
                 return;
@@ -120,14 +120,14 @@ final class ParallelProcess
             $onData = $this->onData;
             $onData($json['result']);
         });
-        $this->in = $in;
+        $this->encoder = $encoder;
 
-        $out->on(ReactEvent::ERROR, function (\Throwable $error): void {
+        $decoder->on(ReactEvent::ERROR, function (Throwable $error): void {
             $onError = $this->onError;
             $onError($error);
         });
 
-        $in->on(ReactEvent::ERROR, function (\Throwable $error): void {
+        $encoder->on(ReactEvent::ERROR, function (Throwable $error): void {
             $onError = $this->onError;
             $onError($error);
         });

@@ -36,6 +36,9 @@ use Throwable;
  */
 final class ParallelFileProcessor
 {
+    /**
+     * @var int
+     */
     public const TIMEOUT_IN_SECONDS = 60;
 
     private int $systemErrorsCountLimit;
@@ -77,7 +80,7 @@ final class ParallelFileProcessor
         $tcpServer = new TcpServer('127.0.0.1:0', $streamSelectLoop);
         $this->processPool = new ProcessPool($tcpServer);
 
-        $tcpServer->on(ReactEvent::CONNECTION, function (ConnectionInterface $connection) use (&$jobs) {
+        $tcpServer->on(ReactEvent::CONNECTION, function (ConnectionInterface $connection) use (&$jobs): void {
             $inDecoder = new Decoder($connection, true, 512, 0, 4 * 1024 * 1024);
             $outEncoder = new Encoder($connection);
 
@@ -142,7 +145,7 @@ final class ParallelFileProcessor
                 $serverPort,
             );
 
-            $parallelProcess = new ParallelProcess($workerCommandLine, $streamSelectLoop);
+            $parallelProcess = new ParallelProcess($workerCommandLine, $streamSelectLoop, self::TIMEOUT_IN_SECONDS);
             $parallelProcess->start(
                 // 1. callable on data
                 function (array $json) use (
@@ -186,7 +189,7 @@ final class ParallelFileProcessor
                         $this->processPool->quitAll();
                     }
 
-                    if (count($jobs) === 0) {
+                    if ($jobs === []) {
                         $this->processPool->quitProcess($processIdentifier);
                         return;
                     }
