@@ -30,15 +30,12 @@ final class ConfigurationFactory
         $showProgressBar = $this->canShowProgressBar($input);
         $showErrorTable = ! (bool) $input->getOption(Option::NO_ERROR_TABLE);
         $doesMatchGitDiff = (bool) $input->getOption(Option::MATCH_GIT_DIFF);
+        $parallelPort = (string) $input->getOption(Option::PARALLEL_PORT);
+        $parallelIdentifier = (string) $input->getOption(Option::PARALLEL_IDENTIFIER);
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
-        if (DIRECTORY_SEPARATOR === '\\') {
-            // windows is not supported yet
-            $isParallel = false;
-        } else {
-            $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
-        }
+        $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
 
         $config = $input->getOption(Option::CONFIG);
         if ($config !== null) {
@@ -55,6 +52,8 @@ final class ConfigurationFactory
             $doesMatchGitDiff,
             $isParallel,
             $config,
+            $parallelPort,
+            $parallelIdentifier
         );
     }
 

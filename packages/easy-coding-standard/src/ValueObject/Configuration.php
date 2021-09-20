@@ -21,6 +21,8 @@ final class Configuration
         private bool $doesMatchGitDiff = false,
         private bool $isParallel = false,
         private ?string $config = null,
+        private string | null $parallelPort = null,
+        private string | null $parallelIdentifier = null,
     ) {
     }
 
@@ -70,5 +72,15 @@ final class Configuration
     public function getConfig(): ?string
     {
         return $this->config;
+    }
+
+    public function getParallelPort(): ?string
+    {
+        return $this->parallelPort;
+    }
+
+    public function getParallelIdentifier(): ?string
+    {
+        return $this->parallelIdentifier;
     }
 }
