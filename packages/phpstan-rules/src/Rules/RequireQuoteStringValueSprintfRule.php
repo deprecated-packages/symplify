@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
@@ -68,7 +69,7 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
         }
 
         $firstArgOrVariablePlaceholder = $args[0];
-        if (! $firstArgOrVariablePlaceholder instanceof Node\Arg) {
+        if (! $firstArgOrVariablePlaceholder instanceof Arg) {
             return [];
         }
 

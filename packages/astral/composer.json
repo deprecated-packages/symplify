@@ -8,13 +8,8 @@
         "symfony/dependency-injection": "^5.3|^6.0",
         "symplify/autowire-array-parameter": "^9.4.66",
         "symfony/http-kernel": "^5.3|^6.0",
-<<<<<<< HEAD
-        "nikic/php-parser": "^4.11",
-        "symplify/package-builder": "^9.4.66"
-=======
         "nikic/php-parser": "^4.13",
-        "symplify/package-builder": "^9.5"
->>>>>>> bump php-parser to 4.13
+        "symplify/package-builder": "^9.4.66"
     },
     "require-dev": {
         "symplify/easy-testing": "^9.4.66",

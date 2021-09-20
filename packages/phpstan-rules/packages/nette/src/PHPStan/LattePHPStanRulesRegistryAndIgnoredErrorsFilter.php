@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\PHPStan;
 
 use PHPStan\Analyser\Error;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -34,8 +35,8 @@ final class LattePHPStanRulesRegistryAndIgnoredErrorsFilter
     private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
     /**
-     * @param \PHPStan\Rules\Rule[] $rules
-     * @return \PHPStan\Rules\Rule[]
+     * @param Rule[] $rules
+     * @return Rule[]
      */
     public function filterActiveRules(array $rules): array
     {

@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Param;
@@ -143,7 +144,7 @@ CODE_SAMPLE
     }
 
     private function getParamType(
-        Identifier | Name | NullableType | UnionType | Node\IntersectionType | ComplexType $node
+        Identifier | Name | NullableType | UnionType | IntersectionType | ComplexType $node
     ): ?string {
         if ($node instanceof NullableType) {
             $node = $node->type;
