@@ -33,7 +33,12 @@ final class ConfigurationFactory
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
-        $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
+        if (DIRECTORY_SEPARATOR === '\\') {
+            // windows is not supported yet
+            $isParallel = false;
+        } else {
+            $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
+        }
 
         $config = $input->getOption(Option::CONFIG);
         if ($config !== null) {
@@ -49,7 +54,7 @@ final class ConfigurationFactory
             $outputFormat,
             $doesMatchGitDiff,
             $isParallel,
-            $config
+            $config,
         );
     }
 

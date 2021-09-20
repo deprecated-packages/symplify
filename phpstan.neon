@@ -541,3 +541,11 @@ parameters:
 
         # paralellel
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
+
+        # php-parser 4.13, not updated yet
+        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
+        - '#expects PhpParser\\Node\\Arg, PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder given#'
+        - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
+        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$unpack#'
+        - '#Parameter (.*?) expects PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType, PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name given#'
+        - '#Method Symplify\\PHPStanRules\\Rules\\ForbiddenNullableParameterRule\:\:matchNullableParamType\(\) should return PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType\|null but returns PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name#'
