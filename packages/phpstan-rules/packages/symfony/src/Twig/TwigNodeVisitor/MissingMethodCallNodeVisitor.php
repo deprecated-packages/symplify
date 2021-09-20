@@ -196,6 +196,10 @@ final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
     {
         // 1. iterated node
         $nameExpression = $forNode->getNode('seq');
+        if (! $nameExpression->hasAttribute(self::NAME)) {
+            return;
+        }
+
         $arrayItemName = $nameExpression->getAttribute(self::NAME);
 
         // 2. assigned node
