@@ -93,8 +93,19 @@ CODE_SAMPLE
             return [];
         }
 
-        $firstArgValue = $node->args[0]->value;
-        $secondArgValue = $node->args[1]->value;
+        $firstArgOrVariadicPlaceholder = $node->args[0];
+        if (! $firstArgOrVariadicPlaceholder instanceof Node\Arg) {
+            return [];
+        }
+
+        $firstArgValue = $firstArgOrVariadicPlaceholder->value;
+
+        $secondArgOrVariadicPlaceholder = $node->args[1];
+        if (! $secondArgOrVariadicPlaceholder instanceof Node\Arg) {
+            return [];
+        }
+
+        $secondArgValue = $secondArgOrVariadicPlaceholder->value;
 
         $firstArgValueContent = $this->standard->prettyPrintExpr($firstArgValue);
         $secondArgValueContent = $this->standard->prettyPrintExpr($secondArgValue);

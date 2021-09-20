@@ -87,7 +87,12 @@ final class TemplateIncludesNameNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $firstArgValue = $methodCall->args[0]->value;
+        $argOrVariadicPlaceholder = $methodCall->args[0];
+        if (! $argOrVariadicPlaceholder instanceof Node\Arg) {
+            return null;
+        }
+
+        $firstArgValue = $argOrVariadicPlaceholder->value;
         return $this->nodeValueResolver->resolve($firstArgValue, $this->templateFilePath);
     }
 }

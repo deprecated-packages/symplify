@@ -60,7 +60,12 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
         $positions = $this->constantArgByNewByType[$className];
 
         foreach ($positions as $position) {
-            if (! $args[$position]->value instanceof ClassConstFetch) {
+            $argOrVariadicPlaceholder = $args[$position];
+            if (! $argOrVariadicPlaceholder instanceof Node\Arg) {
+                continue;
+            }
+
+            if (! $argOrVariadicPlaceholder->value instanceof ClassConstFetch) {
                 return [sprintf(self::ERROR_MESSAGE, $position)];
             }
         }

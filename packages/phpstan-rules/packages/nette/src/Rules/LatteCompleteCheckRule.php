@@ -5,25 +5,35 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+<<<<<<< HEAD
 use Symplify\PHPStanRules\ErrorSkipper;
+=======
+use PHPStan\Rules\RuleErrorBuilder;
+use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\PHPStanRules\Nette\FileSystem\PHPLatteFileDumper;
+>>>>>>> bump php-parser to 4.13
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\PHPStanRules\Nette\PHPStan\LattePHPStanRulesRegistryAndIgnoredErrorsFilter;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+<<<<<<< HEAD
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
+=======
+>>>>>>> bump php-parser to 4.13
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SmartFileSystem\SmartFileSystem;
 use Throwable;
 
 /**
@@ -38,6 +48,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Complete analysis of PHP code generated from Latte template';
 
+<<<<<<< HEAD
     /**
      * @var string[]
      */
@@ -51,6 +62,9 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     ];
 
     private TemplateRulesRegistry $templateRulesRegistry;
+=======
+    private Registry $registry;
+>>>>>>> bump php-parser to 4.13
 
     /**
      * @param Rule[] $rules
@@ -59,6 +73,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
+<<<<<<< HEAD
         private RenderTemplateWithParametersMatcher $renderTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
@@ -69,6 +84,19 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
         $this->templateRulesRegistry = new TemplateRulesRegistry($rules);
+=======
+        private PathResolver $pathResolver,
+        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
+        private PHPLatteFileDumper $phpLatteFileDumper,
+        private LattePHPStanRulesRegistryAndIgnoredErrorsFilter $lattePHPStanRulesRegistryAndIgnoredErrorsFilter
+    ) {
+        // limit rule here, as template class can contain lot of allowed Latte magic
+        // get missing method + missing property etc. rule
+        $activeRules = $this->lattePHPStanRulesRegistryAndIgnoredErrorsFilter->filterActiveRules($rules);
+
+        // HACK for prevent circular reference...
+        $this->registry = new Registry($activeRules);
+>>>>>>> bump php-parser to 4.13
     }
 
     /**
@@ -94,19 +122,63 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
+<<<<<<< HEAD
         $componentNamesAndTypes = $this->componentMapResolver->resolveFromMethodCall($node, $scope);
 
         $errors = [];
         foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $resolvedTemplateFilePath) {
             $currentErrors = $this->processTemplateFilePath(
+=======
+        $firstArg = $node->args[0];
+        if (! $firstArg instanceof Arg) {
+            return [];
+        }
+
+        $firstArgValue = $firstArg->value;
+
+        $resolvedTemplateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
+        if ($resolvedTemplateFilePath === null) {
+            return [];
+        }
+
+        $secondArgOrVariadicPlaceholder = $node->args[1];
+        if (! $secondArgOrVariadicPlaceholder instanceof Arg) {
+            return [];
+        }
+
+        $secondArgValue = $secondArgOrVariadicPlaceholder->value;
+        if (! $secondArgValue instanceof Array_) {
+            return [];
+        }
+
+        try {
+            $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
+>>>>>>> bump php-parser to 4.13
                 $resolvedTemplateFilePath,
                 $renderTemplateWithParameters->getParametersArray(),
                 $scope,
                 $componentNamesAndTypes
             );
+<<<<<<< HEAD
 
             $errors = array_merge($errors, $currentErrors);
         }
+=======
+        } catch (Throwable) {
+            // missing include/layout template or something else went wrong → we cannot analyse template here
+            return [];
+        }
+
+        $dumperPhpFilePath = $this->phpLatteFileDumper->dump($phpFileContentsWithLineMap, $scope);
+
+        // to include generated class
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile($dumperPhpFilePath, [], $this->registry, null);
+
+        // remove errors related to just created class, that cannot be autoloaded
+        $errors = $this->lattePHPStanRulesRegistryAndIgnoredErrorsFilter->filterErrors(
+            $fileAnalyserResult->getErrors()
+        );
+>>>>>>> bump php-parser to 4.13
 
         return $errors;
     }
@@ -175,6 +247,7 @@ CODE_SAMPLE
             return [];
         }
 
+<<<<<<< HEAD
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 
@@ -187,5 +260,8 @@ CODE_SAMPLE
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);
 
         return $this->templateErrorsFactory->createErrors($errors, $templateFilePath, $phpFileContentsWithLineMap);
+=======
+        return $ruleErrors;
+>>>>>>> bump php-parser to 4.13
     }
 }

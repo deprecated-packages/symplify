@@ -58,6 +58,10 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
         }
 
         foreach ($node->args as $key => $arg) {
+            if (! $arg instanceof Node\Arg) {
+                continue;
+            }
+
             if (! $arg->unpack) {
                 continue;
             }

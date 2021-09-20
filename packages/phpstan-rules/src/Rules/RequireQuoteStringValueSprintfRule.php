@@ -67,7 +67,12 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
-        $format = $args[0]->value;
+        $firstArgOrVariablePlaceholder = $args[0];
+        if (! $firstArgOrVariablePlaceholder instanceof Node\Arg) {
+            return [];
+        }
+
+        $format = $firstArgOrVariablePlaceholder->value;
         if (! $format instanceof String_) {
             return [];
         }

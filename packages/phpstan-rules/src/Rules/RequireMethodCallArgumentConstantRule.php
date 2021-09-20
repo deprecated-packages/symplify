@@ -70,6 +70,10 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
             }
 
             foreach ($node->args as $key => $arg) {
+//                if (! $arg instanceof Arg) {
+//                    continue;
+//                }
+
                 if ($this->shouldSkipArg($key, $positions, $arg)) {
                     continue;
                 }
@@ -121,8 +125,12 @@ CODE_SAMPLE
     /**
      * @param int[] $positions
      */
-    private function shouldSkipArg(int $key, array $positions, Arg $arg): bool
+    private function shouldSkipArg(int $key, array $positions, Arg|Node\VariadicPlaceholder $arg): bool
     {
+        if (! $arg instanceof Arg) {
+            return true;
+        }
+
         if (! in_array($key, $positions, true)) {
             return true;
         }
