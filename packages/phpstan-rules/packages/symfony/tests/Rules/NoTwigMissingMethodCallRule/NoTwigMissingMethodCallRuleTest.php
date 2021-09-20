@@ -45,6 +45,7 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
+        yield [__DIR__ . '/Fixture/SkipApp.php', []];
     }
 
     protected function getRule(): Rule
