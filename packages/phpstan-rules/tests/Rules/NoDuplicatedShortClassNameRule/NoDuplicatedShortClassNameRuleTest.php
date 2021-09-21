@@ -32,7 +32,10 @@ final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleT
     {
         // might be same, but skipped for shallow nesting - see config file
         yield [
-            [__DIR__ . '/Fixture/AlreadyExistingShortName.php', __DIR__ . '/Source/AlreadyExistingShortName.php'],
+            [
+                __DIR__ . '/Fixture/SkipAlreadyExistingShortName.php',
+                __DIR__ . '/Source/SkipAlreadyExistingShortName.php',
+            ],
             [],
         ];
 

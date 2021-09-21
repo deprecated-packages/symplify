@@ -558,3 +558,6 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
+
+        # allow duplicated test classes
+        - '#Class with base "Php8(.*?)Test" name is already used in#'
