@@ -53,6 +53,10 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
             return [];
         }
 
+        // @todo compile twig here
+        dump('___');
+        die;
+
         $moduleNode = $this->twigNodeParser->parseFilePath($renderTemplateWithParameters->getTemplateFilePath());
 
         $variableNamesToMissingMethodNames = $this->twigMissingMethodCallAnalyzer->resolveFromArrayAndModuleNode(
