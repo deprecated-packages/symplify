@@ -3,6 +3,7 @@ includes:
     - static-rules.neon
 
     # 2. prepared sets
+    - spotter-rules.neon
     - nette-rules.neon
     - array-rules.neon
     - code-complexity-rules.neon
