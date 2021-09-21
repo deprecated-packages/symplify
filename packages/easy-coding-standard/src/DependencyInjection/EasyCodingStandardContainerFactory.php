@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
+use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
@@ -52,10 +52,10 @@ final class EasyCodingStandardContainerFactory
 
     private function resolveEnvironment(): string
     {
-        if (VersionResolver::PACKAGE_VERSION === '@package_version@') {
+        if (StaticVersionResolver::PACKAGE_VERSION === '@package_version@') {
             return 'dev';
         }
 
-        return 'prod_' . VersionResolver::PACKAGE_VERSION;
+        return 'prod_' . StaticVersionResolver::PACKAGE_VERSION;
     }
 }

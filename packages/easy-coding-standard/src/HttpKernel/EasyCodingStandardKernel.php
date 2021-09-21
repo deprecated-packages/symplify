@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
 use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
-use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
+use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
 use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
 use Symplify\Skipper\Bundle\SkipperBundle;
@@ -47,8 +47,8 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
     {
         $logDirectory = sys_get_temp_dir() . '/ecs_log_' . get_current_user();
 
-        if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
-            $logDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
+        if (StaticVersionResolver::PACKAGE_VERSION !== '@package_version@') {
+            $logDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
         }
 
         return $logDirectory;
