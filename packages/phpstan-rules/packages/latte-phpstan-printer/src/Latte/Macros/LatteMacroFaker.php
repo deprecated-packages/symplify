@@ -13,6 +13,12 @@ use Nette\Utils\Strings;
 final class LatteMacroFaker
 {
     /**
+     * @var string
+     * @see https://regex101.com/r/T10yro/1
+     */
+    private const VARIABLE_NAME_REGEX = '#(?<variable_name>\$[\w0-9\_]+)#';
+
+    /**
      * @param string[] $endRequiringMacroNames
      */
     public function fakeMacro(Compiler $compiler, string $name, array $endRequiringMacroNames): void
@@ -102,7 +108,7 @@ final class LatteMacroFaker
 
     private function resolveMacroArgsToVariableOnlyString(MacroNode $macroNode): string
     {
-        $variableMatches = Strings::matchAll($macroNode->args, '#(?<variable_name>\$[\w0-9\_]+)#');
+        $variableMatches = Strings::matchAll($macroNode->args, self::VARIABLE_NAME_REGEX);
 
         $variableNames = [];
         foreach ($variableMatches as $variableMatch) {
