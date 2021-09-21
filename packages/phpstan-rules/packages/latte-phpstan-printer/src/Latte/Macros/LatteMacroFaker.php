@@ -112,6 +112,12 @@ final class LatteMacroFaker
         // keep only variables
         $variablesArray = array_filter($argumentsArray, fn (string $value): bool => str_starts_with($value, '$'));
 
+        // clean variables from everything that can break PHP
+        foreach ($variablesArray as $key => $variable) {
+            $variable = trim($variable, ',');
+            $variablesArray[$key] = $variable;
+        }
+
         return implode($separator, $variablesArray);
     }
 }

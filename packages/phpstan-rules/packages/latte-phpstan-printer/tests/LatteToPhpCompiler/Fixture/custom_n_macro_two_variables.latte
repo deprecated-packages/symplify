@@ -1,0 +1,25 @@
+<li n:item="$id, js-tab">
+</li>
+-----
+<?php
+
+use Latte\Runtime as LR;
+/** DummyTemplateClass */
+final class DummyTemplateClass extends \Latte\Runtime\Template
+{
+    public function main() : array
+    {
+        \extract($this->params);
+        echo '<li';
+        echo 'item="' . $id . ' " ';
+        echo '>
+</li>
+';
+        return \get_defined_vars();
+    }
+    public function prepare() : void
+    {
+        \extract($this->params);
+        \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
+    }
+}
