@@ -1,5 +1,6 @@
-<li n:item="$id, js-tab">
-</li>
+<li n:item="$id, js-tab"></li>
+<li n:item="$id $number"></li>
+<li n:item="$id + $number"></li>
 -----
 <?php
 
@@ -12,8 +13,13 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         \extract($this->params);
         echo '<li';
         echo 'item="' . $id . ' " ';
-        echo '>
-</li>
+        echo '></li>
+<li';
+        echo 'item="' . $id . $number . ' " ';
+        echo '></li>
+<li';
+        echo 'item="' . $id . $number . ' " ';
+        echo '></li>
 ';
         return \get_defined_vars();
     }
