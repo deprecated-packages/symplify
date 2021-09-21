@@ -8,9 +8,16 @@ use Latte\Compiler;
 use Latte\MacroNode;
 use Latte\Macros\MacroSet;
 use Latte\PhpWriter;
+use Nette\Utils\Strings;
 
 final class LatteMacroFaker
 {
+    /**
+     * @var string
+     * @see https://regex101.com/r/T10yro/1
+     */
+    private const VARIABLE_NAME_REGEX = '#(?<variable_name>\$[\w0-9\_]+)#';
+
     /**
      * @param string[] $endRequiringMacroNames
      */
@@ -75,7 +82,7 @@ final class LatteMacroFaker
         // show parameters to allow php-parser to discover those variables
         // inspiration @see https://github.com/nette/latte/blob/7943f0693a7632ae41e844446f17035e1e3ddb52/src/Latte/Macros/CoreMacros.php#L557-L567
 
-        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode, ' ');
+        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode);
 
         // no variables?
         if ($variablesString === '') {
@@ -88,7 +95,7 @@ final class LatteMacroFaker
 
     private function dummyMacro(MacroNode $macroNode, PhpWriter $phpWriter): string
     {
-        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode, ',');
+        $variablesString = $this->resolveMacroArgsToVariableOnlyString($macroNode);
 
         // nothing to render
         if ($variablesString === '') {
@@ -99,25 +106,15 @@ final class LatteMacroFaker
         return $phpWriter->write('echo ' . $variablesString . ';');
     }
 
-    /**
-     * @param non-empty-string $separator
-     */
-    private function resolveMacroArgsToVariableOnlyString(MacroNode $macroNode, string $separator): string
+    private function resolveMacroArgsToVariableOnlyString(MacroNode $macroNode): string
     {
-        $argumentsArray = explode($separator, $macroNode->args);
+        $variableMatches = Strings::matchAll($macroNode->args, self::VARIABLE_NAME_REGEX);
 
-        // remove empty values
-        $argumentsArray = array_values($argumentsArray);
-
-        // keep only variables
-        $variablesArray = array_filter($argumentsArray, fn (string $value): bool => str_starts_with($value, '$'));
-
-        // clean variables from everything that can break PHP
-        foreach ($variablesArray as $key => $variable) {
-            $variable = trim($variable, ',');
-            $variablesArray[$key] = $variable;
+        $variableNames = [];
+        foreach ($variableMatches as $variableMatch) {
+            $variableNames[] = $variableMatch['variable_name'];
         }
 
-        return implode($separator, $variablesArray);
+        return implode(' . ', $variableNames);
     }
 }
