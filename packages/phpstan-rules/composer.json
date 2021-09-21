@@ -35,6 +35,7 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/symfony/src",
             "Symplify\\PHPStanRules\\LattePHPStanPrinter\\": "packages/latte-phpstan-printer/src",
+            "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/twig-phpstan-printer/src",
             "Symplify\\PHPStanRules\\Nette\\": "packages/nette/src"
         }
     },

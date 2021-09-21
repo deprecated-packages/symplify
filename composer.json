@@ -105,6 +105,7 @@
             "Symplify\\PHPStanRules\\Nette\\": "packages/phpstan-rules/packages/nette/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/symfony/src",
+            "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/phpstan-rules/packages/twig-phpstan-printer/src",
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 
-use Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory;
 use Symplify\PHPStanRules\Symfony\Twig\TwigNodeVisitor\VariableCollectingNodeVisitor;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\Twig\TwigNodeParser;
 
 final class TwigVariableNamesResolver
 {

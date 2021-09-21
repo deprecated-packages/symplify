@@ -3,12 +3,13 @@ services:
     - Latte\Parser
 
     - Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler
+    - Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeFactory\VarDocNodeFactory
 
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker
 
-    - Symplify\PHPStanRules\LattePHPStanPrinter\VarTypeDocBlockDecorator
+    - Symplify\PHPStanRules\LattePHPStanPrinter\LatteVarTypeDocBlockDecorator
 
     # latte lines
     - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector

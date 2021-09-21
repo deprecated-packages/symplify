@@ -1,4 +1,6 @@
 services:
+    - Symplify\PHPStanRules\ErrorSkipper
+
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
@@ -8,7 +10,7 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
     # twig ast
-    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
+#    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
     - Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory
 
     # twig
@@ -16,4 +18,4 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer
     - Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver
-    - Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer
+#    - Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer

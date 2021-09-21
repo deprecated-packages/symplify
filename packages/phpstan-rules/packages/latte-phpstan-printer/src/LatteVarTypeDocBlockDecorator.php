@@ -9,15 +9,17 @@ use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeFactory\VarDocNodeFactory;
 use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 
-final class VarTypeDocBlockDecorator
+final class LatteVarTypeDocBlockDecorator
 {
     public function __construct(
         private Parser $phpParser,
         private Standard $printerStandard,
         private SimpleNameResolver $simpleNameResolver,
+        private VarDocNodeFactory $varDocNodeFactory,
     ) {
     }
 
@@ -33,9 +35,13 @@ final class VarTypeDocBlockDecorator
         }
 
         $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor(
-            new AppendExtractedVarTypesNodeVisitor($this->simpleNameResolver, $variablesAndTypes)
+        $appendExtractedVarTypesNodeVisitor = new AppendExtractedVarTypesNodeVisitor(
+            $this->simpleNameResolver,
+            $this->varDocNodeFactory,
+            $variablesAndTypes
         );
+
+        $nodeTraverser->addVisitor($appendExtractedVarTypesNodeVisitor);
         $nodeTraverser->traverse($phpNodes);
 
         $printedPhpContent = $this->printerStandard->prettyPrintFile($phpNodes);

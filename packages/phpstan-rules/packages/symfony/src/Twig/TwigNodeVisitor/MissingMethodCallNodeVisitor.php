@@ -22,6 +22,9 @@ use Twig\Node\ForNode;
 use Twig\Node\Node;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
+/**
+ * @deprecated
+ */
 final class MissingMethodCallNodeVisitor implements NodeVisitorInterface
 {
     /**

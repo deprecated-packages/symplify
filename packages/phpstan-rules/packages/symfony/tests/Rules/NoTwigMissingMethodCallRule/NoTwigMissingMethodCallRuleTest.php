@@ -26,12 +26,9 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [
-            [
-                sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', SomeType::class, 'nonExistingMethod'),
-                17,
-            ],
-        ]];
+        // done
+//        $errorMessage = sprintf('Call to an undefined method %s::nonExistingMethod().', SomeType::class);
+//        yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [[$errorMessage, 17]]];
 
         $errorMessages = [
             [
@@ -41,11 +38,11 @@ final class NoTwigMissingMethodCallRuleTest extends AbstractServiceAwareRuleTest
             [sprintf(NoTwigMissingMethodCallRule::ERROR_MESSAGE, 'some_type', SomeType::class, 'blabla'), 20],
         ];
         yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', $errorMessages];
-
-        yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
-        yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
-        yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
-        yield [__DIR__ . '/Fixture/SkipApp.php', []];
+//
+//        yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
+//        yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];
+//        yield [__DIR__ . '/Fixture/SkipExistingArrayAccessItems.php', []];
+//        yield [__DIR__ . '/Fixture/SkipApp.php', []];
     }
 
     protected function getRule(): Rule

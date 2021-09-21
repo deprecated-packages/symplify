@@ -36,6 +36,18 @@ final class TemplateFileVarTypeDocBlocksDecorator
     /**
      * @return VariableAndType[]
      */
+    public function resolveTwigVariablesAndTypes(Array_ $array, Scope $scope): array
+    {
+        // traverse nodes to add types after \DummyTemplateClass::main()
+        $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray($array, $scope);
+        return $variablesAndTypes;
+        // $defaultNetteVariablesAndTypes = $this->createDefaultNetteVariablesAndTypes();
+        // return array_merge($variablesAndTypes, $defaultNetteVariablesAndTypes);
+    }
+
+    /**
+     * @return VariableAndType[]
+     */
     private function resolveLatteVariablesAndTypes(Array_ $array, Scope $scope): array
     {
         // traverse nodes to add types after \DummyTemplateClass::main()
