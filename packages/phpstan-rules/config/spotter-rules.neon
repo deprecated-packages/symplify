@@ -1,0 +1,4 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
+        tags: [phpstan.rules.rule]

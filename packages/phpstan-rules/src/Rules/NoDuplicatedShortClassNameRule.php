@@ -9,13 +9,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
  */
-final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
+final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -42,7 +43,8 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
     private array $declaredClassesByShortName = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private int $toleratedNestingLevel = 1
     ) {
     }
 
@@ -73,11 +75,27 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
 
         // make sure classes are unique
         $existingClassesByShortClassName = $this->resolveExistingClassesByShortClassName($shortClassName, $className);
-
         $this->declaredClassesByShortName[$shortClassName] = $existingClassesByShortClassName;
 
         $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
         if (count($classesByShortName) <= 1) {
+            return [];
+        }
+
+        // is nesting level tolerated? - e.g. in case of monorepo project, it's ok to have duplicated classes in 2 levels, e.g. Symplify\\CodingStandard\\
+        $classesByToleratedNamespace = [];
+
+        $classesByShortNameCount = count($classesByShortName);
+
+        foreach ($classesByShortName as $classByShortName) {
+            $toleratedNamespace = Strings::before($classByShortName, '\\', $this->toleratedNestingLevel);
+            $classesByToleratedNamespace[$toleratedNamespace][] = $classByShortName;
+        }
+
+        $toleratedNamespaces = array_keys($classesByToleratedNamespace);
+
+        // this namespace has many classes tolerated → skip it
+        if (count($toleratedNamespaces) >= $classesByShortNameCount) {
             return [];
         }
 
@@ -88,7 +106,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 namespace App;
 
@@ -116,6 +134,10 @@ class AnotherClass
 {
 }
 CODE_SAMPLE
+                ,
+                [
+                    'toleratedNestingLevel' => 1,
+                ]
             ),
         ]);
     }

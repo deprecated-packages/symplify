@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
+use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -15,8 +15,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
 
     $cacheDirectory = sys_get_temp_dir() . '/changed_files_detector%env(TEST_SUFFIX)%';
-    if (VersionResolver::PACKAGE_VERSION !== '@package_version@') {
-        $cacheDirectory .= '_' . VersionResolver::PACKAGE_VERSION;
+    if (StaticVersionResolver::PACKAGE_VERSION !== '@package_version@') {
+        $cacheDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
     }
 
     $parameters->set(Option::CACHE_DIRECTORY, $cacheDirectory);

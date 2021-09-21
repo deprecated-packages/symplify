@@ -38,7 +38,7 @@ services:
 
 parameters:
     level: max
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -340,9 +340,6 @@ parameters:
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
-        # reoslve later
-        - '#Class with base "(.*?)" name is already used in "Symplify\\(.*?)", "Symplify\\(.*?). Use unique name to make classes easy to recognize#'
-
         # xml magic
         -
             message: '#Unreachable statement \- code above always terminates#'
@@ -549,3 +546,18 @@ parameters:
         - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$unpack#'
         - '#Parameter (.*?) expects PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType, PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name given#'
         - '#Method Symplify\\PHPStanRules\\Rules\\ForbiddenNullableParameterRule\:\:matchNullableParamType\(\) should return PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType\|null but returns PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name#'
+
+        -
+             message: '#Class has a static method must so must contains "Static" in its name#'
+             paths:
+                 - packages/package-builder/src/Console/Command/CommandNaming.php
+                 - packages/git-wrapper/src/Strings/GitStrings.php
+                 - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
+
+        # on purpose, to make service a simple as possible
+        -
+            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
+            path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
+
+        # allow duplicated test classes
+        - '#Class with base "Php8(.*?)Test" name is already used in#'

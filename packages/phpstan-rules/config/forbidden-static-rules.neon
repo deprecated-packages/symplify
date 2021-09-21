@@ -5,3 +5,5 @@ services:
 
     -
         class: Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule
+        tags: [phpstan.rules.rule]
+

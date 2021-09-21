@@ -78,9 +78,6 @@ services:
         class: Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
         tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
-        tags: [phpstan.rules.rule]
 
     -
         class: Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule

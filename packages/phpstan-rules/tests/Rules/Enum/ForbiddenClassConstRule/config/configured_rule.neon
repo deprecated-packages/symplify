@@ -7,5 +7,4 @@ services:
                 - Symplify\PHPStanRules\Tests\Rules\Enum\ForbiddenClassConstRule\Source\AbstractEntity
 
 includes:
-    - ../../../../../config/symplify-rules.neon
     - ../../../../../config/services/services.neon

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Nette\Utils\Strings;
-use Symplify\EasyCodingStandard\Application\Version\VersionResolver;
+use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -130,10 +130,10 @@ return [
                 return $content;
             }
 
-            $releaseDateTime = VersionResolver::resolverReleaseDateTime();
+            $releaseDateTime = StaticVersionResolver::resolverReleaseDateTime();
 
             return strtr($content, [
-                '@package_version@' => VersionResolver::resolvePackageVersion(),
+                '@package_version@' => StaticVersionResolver::resolvePackageVersion(),
                 '@release_date@' => $releaseDateTime->format('Y-m-d H:i:s'),
             ]);
         },
