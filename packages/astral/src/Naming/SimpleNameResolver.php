@@ -155,6 +155,9 @@ final class SimpleNameResolver
         return (bool) Strings::match($name, $desiredNameRegex);
     }
 
+    /**
+     * @param class-string $className
+     */
     public function resolveShortName(string $className): string
     {
         if (! \str_contains($className, '\\')) {
