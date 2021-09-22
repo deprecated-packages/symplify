@@ -44,7 +44,7 @@ final class TwigToPhpCompilerTest extends TestCase
             $fileInfo
         );
 
-        $this->assertSame($phpFileContent, $inputFileInfoAndExpected->getExpected());
+        $this->assertStringMatchesFormat($inputFileInfoAndExpected->getExpected(), $phpFileContent);
     }
 
     public function testTypes(): void

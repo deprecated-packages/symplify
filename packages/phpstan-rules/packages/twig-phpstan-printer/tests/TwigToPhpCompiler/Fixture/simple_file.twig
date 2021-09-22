@@ -13,8 +13,8 @@ use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
-/* /tmp/_temp_fixture_easy_testing/input_29b7d29e16f35b5f1fb7_simple_file.twig */
-class __TwigTemplate_8ba289ea5d780c5e3b2a824f667124213bb829f39ed99d3bfbf3e9038b9c8bf0 extends \Twig\Template
+/* /tmp/_temp_fixture_easy_testing/input_%s_simple_file.twig */
+class __TwigTemplate_%s extends \Twig\Template
 {
     private $source;
     private $macros = [];
@@ -30,12 +30,12 @@ class __TwigTemplate_8ba289ea5d780c5e3b2a824f667124213bb829f39ed99d3bfbf3e9038b9
         extract($context);
         $macros = $this->macros;
         // line 1
-        echo \strlen($context["var"] ?? \null, "html", \null, \true);
+        echo \strlen($var, "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()
     {
-        return "/tmp/_temp_fixture_easy_testing/input_29b7d29e16f35b5f1fb7_simple_file.twig";
+        return "/tmp/_temp_fixture_easy_testing/input_%s_simple_file.twig";
     }
     public function isTraitable()
     {
@@ -47,6 +47,6 @@ class __TwigTemplate_8ba289ea5d780c5e3b2a824f667124213bb829f39ed99d3bfbf3e9038b9
     }
     public function getSourceContext()
     {
-        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_29b7d29e16f35b5f1fb7_simple_file.twig", "");
+        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_simple_file.twig", "");
     }
 }

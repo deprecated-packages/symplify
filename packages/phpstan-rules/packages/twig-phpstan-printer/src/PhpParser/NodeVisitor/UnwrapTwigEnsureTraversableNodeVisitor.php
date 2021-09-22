@@ -6,11 +6,7 @@ namespace Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\BinaryOp\Coalesce;
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
@@ -36,21 +32,6 @@ final class UnwrapTwigEnsureTraversableNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if (! $firstArg->value instanceof Coalesce) {
-            return null;
-        }
-
-        $coalesce = $firstArg->value;
-        if (! $coalesce->left instanceof ArrayDimFetch) {
-            return null;
-        }
-
-        $arrayDimFetch = $coalesce->left;
-        if (! $arrayDimFetch->dim instanceof String_) {
-            return null;
-        }
-
-        $variableName = $arrayDimFetch->dim->value;
-        return new Variable($variableName);
+        return $firstArg->value;
     }
 }

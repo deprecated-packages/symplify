@@ -1,6 +1,5 @@
 includes:
     - ../../../packages/latte-phpstan-printer/config/latte-phpstan-printer-services.neon
-    - ../../../packages/twig-phpstan-printer/config/twig-phpstan-printer-services.neon
 
 services:
     # php-parser

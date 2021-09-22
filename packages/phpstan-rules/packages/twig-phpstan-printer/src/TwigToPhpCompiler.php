@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\TwigPHPStanPrinter;
 
+use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\Twig\TolerantTwigEnvironment;
@@ -31,6 +36,7 @@ final class TwigToPhpCompiler
         private Standard $printerStandard,
         private TwigVarTypeDocBlockDecorator $twigVarTypeDocBlockDecorator,
         private SimpleNameResolver $simpleNameResolver,
+        private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
     ) {
     }
 
@@ -80,24 +86,67 @@ final class TwigToPhpCompiler
             throw new ShouldNotHappenException();
         }
 
+        // 0. add types first?
+        $this->unwarpMagicVariables($stmts);
+
+        // 3. collect foreached variables to determine nested value :)
+        $collectForeachedVariablesNodeVisitor = new CollectForeachedVariablesNodeVisitor($this->simpleNameResolver);
+        $this->traverseStmtsWithVisitors($stmts, [$collectForeachedVariablesNodeVisitor]);
+
+        // 2. replace twig_get_attribute with direct access/call
+        $twigGetAttributeExpanderNodeVisitor = new TwigGetAttributeExpanderNodeVisitor(
+            $this->objectTypeMethodAnalyzer,
+            $variablesAndTypes,
+            $collectForeachedVariablesNodeVisitor->getForeachedVariablesToSingles()
+        );
+//        $unwrapEnsureIterableFuncCallNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
+//            $this->simpleNameResolver
+//        );
+
+        $this->traverseStmtsWithVisitors($stmts, [
+            $twigGetAttributeExpanderNodeVisitor,
+            //            $unwrapEnsureIterableFuncCallNodeVisitor,
+        ]);
+
+        $phpContent = $this->printerStandard->prettyPrintFile($stmts);
+        return $this->twigVarTypeDocBlockDecorator->decorateTwigContentWithTypes($phpContent, $variablesAndTypes);
+    }
+
+    /**
+     * @param Stmt[] $stmts
+     * @param NodeVisitorAbstract[] $nodeVisitors
+     */
+    private function traverseStmtsWithVisitors(array $stmts, array $nodeVisitors): void
+    {
         $nodeTraverser = new NodeTraverser();
+        foreach ($nodeVisitors as $nodeVisitor) {
+            $nodeTraverser->addVisitor($nodeVisitor);
+        }
 
-        // replace twig_get_attribute with direct access/call
-        $twigGetAttributeExpanderNodeVisitor = new TwigGetAttributeExpanderNodeVisitor();
-        $nodeTraverser->addVisitor($twigGetAttributeExpanderNodeVisitor);
+        $nodeTraverser->traverse($stmts);
+    }
 
+    /**
+     * @param Stmt[] $stmts
+     */
+    private function unwarpMagicVariables(array $stmts): void
+    {
+        // 1. run $context unwrap first, as needed everywhere
+        $unwrapContextVariableNodeVisitor = new UnwrapContextVariableNodeVisitor($this->simpleNameResolver);
+        $this->traverseStmtsWithVisitors($stmts, [$unwrapContextVariableNodeVisitor]);
+
+        // 2. unwrap coalesce $context
+        $unwrapCoalesceContextNodeVisitor = new UnwrapCoalesceContextNodeVisitor($this->simpleNameResolver);
+        $this->traverseStmtsWithVisitors($stmts, [$unwrapCoalesceContextNodeVisitor]);
+
+        // 3. unwrap twig_ensure_traversable()
         $unwrapEnsureIterableFuncCallNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
             $this->simpleNameResolver
         );
-        $nodeTraverser->addVisitor($unwrapEnsureIterableFuncCallNodeVisitor);
+        $this->traverseStmtsWithVisitors($stmts, [$unwrapEnsureIterableFuncCallNodeVisitor]);
 
-        $unwrapContextVariableNodeVisitor = new UnwrapContextVariableNodeVisitor($this->simpleNameResolver);
-        $nodeTraverser->addVisitor($unwrapContextVariableNodeVisitor);
-
-        $nodeTraverser->traverse($stmts);
-
-        $phpContent = $this->printerStandard->prettyPrintFile($stmts);
-
-        return $this->twigVarTypeDocBlockDecorator->decorateTwigContentWithTypes($phpContent, $variablesAndTypes);
+        // 4. expand foreached magic to make type references clear for iterated variables
+        $expandForeachContextNodeVisitor = new ExpandForeachContextNodeVisitor($this->simpleNameResolver);
+        $this->traverseStmtsWithVisitors($stmts, [$expandForeachContextNodeVisitor]);
     }
 }

@@ -18,7 +18,7 @@ use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
- * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\TwigToPhpCompilerTest
+ * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\LatteToPhpCompilerTest
  */
 final class LatteToPhpCompiler
 {

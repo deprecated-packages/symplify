@@ -148,7 +148,7 @@ parameters:
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
-                - packages/phpstan-rules/packages/symfony/src/ObjectTypeMethodAnalyzer.php
+                - packages/phpstan-rules/packages/twig-phpstan-printer/src/ObjectTypeMethodAnalyzer.php
 
         -
              message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -257,6 +257,7 @@ parameters:
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+                - packages/phpstan-rules/packages/nette/tests/Rules/LatteCompleteCheckRule/LatteCompleteCheckRuleTest.php
 
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'

@@ -11,8 +11,8 @@ use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
-/* /var/www/symplify/packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig */
-class __TwigTemplate_94c8e719ef5da7bdc855cb31d165f0517b94c375d527ef2679694beaa06804c1 extends \Twig\Template
+/* %s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig */
+class __TwigTemplate_%s extends \Twig\Template
 {
     private $source;
     private $macros = [];
@@ -29,12 +29,12 @@ class __TwigTemplate_94c8e719ef5da7bdc855cb31d165f0517b94c375d527ef2679694beaa06
         /** @var string $someName */
         $macros = $this->macros;
         // line 1
-        echo \strlen($context["value"] ?? \null, "html", \null, \true);
+        echo \strlen($value, "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()
     {
-        return "/var/www/symplify/packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
+        return "%s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
     }
     public function isTraitable()
     {
@@ -46,6 +46,6 @@ class __TwigTemplate_94c8e719ef5da7bdc855cb31d165f0517b94c375d527ef2679694beaa06
     }
     public function getSourceContext()
     {
-        return new \Twig\Source("", "/var/www/symplify/packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
+        return new \Twig\Source("", "%s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
     }
 }

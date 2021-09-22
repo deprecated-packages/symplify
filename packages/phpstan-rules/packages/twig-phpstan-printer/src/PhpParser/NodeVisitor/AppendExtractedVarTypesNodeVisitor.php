@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeFactory\VarDocNodeFactory;
@@ -33,9 +38,9 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
         $docNodes = $this->varDocNodeFactory->createDocNodes($this->variablesAndTypes);
 
         // needed to ping phpstan about possible invisbile variables
-        $extractFuncCall = new Node\Expr\FuncCall(new Node\Name('extract'));
-        $extractFuncCall->args[] = new Node\Arg(new Node\Expr\Variable('context'));
-        $funcCallExpression = new Node\Stmt\Expression($extractFuncCall);
+        $extractFuncCall = new FuncCall(new Name('extract'));
+        $extractFuncCall->args[] = new Arg(new Variable('context'));
+        $funcCallExpression = new Expression($extractFuncCall);
 
         $node->stmts = array_merge([$funcCallExpression], $docNodes, $node->stmts);
         return $node;
