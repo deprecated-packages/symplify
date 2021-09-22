@@ -140,10 +140,10 @@ final class TwigToPhpCompiler
         $this->traverseStmtsWithVisitors($stmts, [$unwrapCoalesceContextNodeVisitor]);
 
         // 3. unwrap twig_ensure_traversable()
-        $unwrapEnsureIterableFuncCallNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
+        $unwrapTwigEnsureTraversableNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
             $this->simpleNameResolver
         );
-        $this->traverseStmtsWithVisitors($stmts, [$unwrapEnsureIterableFuncCallNodeVisitor]);
+        $this->traverseStmtsWithVisitors($stmts, [$unwrapTwigEnsureTraversableNodeVisitor]);
 
         // 4. expand foreached magic to make type references clear for iterated variables
         $expandForeachContextNodeVisitor = new ExpandForeachContextNodeVisitor($this->simpleNameResolver);

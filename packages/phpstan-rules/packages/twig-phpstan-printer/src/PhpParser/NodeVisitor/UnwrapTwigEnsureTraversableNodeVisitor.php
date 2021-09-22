@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -28,9 +27,6 @@ final class UnwrapTwigEnsureTraversableNodeVisitor extends NodeVisitorAbstract
         }
 
         $firstArg = $node->args[0];
-        if (! $firstArg instanceof Arg) {
-            return null;
-        }
 
         return $firstArg->value;
     }
