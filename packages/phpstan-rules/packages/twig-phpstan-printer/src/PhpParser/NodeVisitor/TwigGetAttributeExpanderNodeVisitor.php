@@ -62,7 +62,7 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
         // @todo correct improve get method, getter property
         $variableType = $this->matchVariableType($variableName);
 
-        if ($variableType === null) {
+        if (! $variableType instanceof Type) {
             // dummy fallback
             return new MethodCall(new Variable($variableName), new Identifier($accessorName));
         }
