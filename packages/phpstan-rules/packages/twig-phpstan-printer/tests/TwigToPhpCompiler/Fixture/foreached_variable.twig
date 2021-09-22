@@ -1,0 +1,62 @@
+{% for item in items %}
+    {{ item.some_method }}
+{% endfor %}
+-----
+<?php
+
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Extension\SandboxExtension;
+use Twig\Markup;
+use Twig\Sandbox\SecurityError;
+use Twig\Sandbox\SecurityNotAllowedTagError;
+use Twig\Sandbox\SecurityNotAllowedFilterError;
+use Twig\Sandbox\SecurityNotAllowedFunctionError;
+use Twig\Source;
+use Twig\Template;
+/* /tmp/_temp_fixture_easy_testing/input_%s_foreached_variable.twig */
+class __TwigTemplate_%s extends \Twig\Template
+{
+    private $source;
+    private $macros = [];
+    public function __construct(\Twig\Environment $env)
+    {
+        parent::__construct($env);
+        $this->source = $this->getSourceContext();
+        $this->parent = \false;
+        $this->blocks = [];
+    }
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        extract($context);
+        $macros = $this->macros;
+        // line 1
+        $context['_parent'] = $context;
+        foreach ($items as $context["_key"] => $item) {
+            // line 2
+            echo "    ";
+            echo \strlen($item->some_method(), "html", \null, \true);
+            echo "\n";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $item, $context['_parent'], $loop);
+        $context = \array_intersect_key($context, $_parent) + $_parent;
+    }
+    public function getTemplateName()
+    {
+        return "/tmp/_temp_fixture_easy_testing/input_%s_foreached_variable.twig";
+    }
+    public function isTraitable()
+    {
+        return \false;
+    }
+    public function getDebugInfo()
+    {
+        return array(41 => 2, 37 => 1);
+    }
+    public function getSourceContext()
+    {
+        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_foreached_variable.twig", "");
+    }
+}

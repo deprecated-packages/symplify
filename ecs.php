@@ -41,6 +41,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
+        __DIR__ . '/packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/*',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
 

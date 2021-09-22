@@ -29,7 +29,7 @@ final class LatteToPhpCompiler
         private SimpleNameResolver $simpleNameResolver,
         private Standard $printerStandard,
         private LineCommentCorrector $lineCommentCorrector,
-        private VarTypeDocBlockDecorator $varTypeDocBlockDecorator,
+        private LatteVarTypeDocBlockDecorator $latteVarTypeDocBlockDecorator,
     ) {
     }
 
@@ -48,7 +48,7 @@ final class LatteToPhpCompiler
         $this->transformFilterMagicClosureToExplicitStaticCall($phpStmts);
         $phpContent = $this->printerStandard->prettyPrintFile($phpStmts);
 
-        return $this->varTypeDocBlockDecorator->decorateLatteContentWithTypes($phpContent, $variablesAndTypes);
+        return $this->latteVarTypeDocBlockDecorator->decorateLatteContentWithTypes($phpContent, $variablesAndTypes);
     }
 
     /**

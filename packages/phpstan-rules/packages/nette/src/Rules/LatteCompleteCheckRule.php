@@ -7,20 +7,19 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
-use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
+use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -40,14 +39,16 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Complete analysis of PHP code generated from Latte template';
 
     /**
+     * @todo use regex and phpstan-like filtering
      * @var string[]
      */
-    private const IGNORED_ERROR_MESSAGES = [
-        'DummyTemplateClass',
-        'Method Nette\Application\UI\Renderable::redrawControl() invoked with',
-        'Ternary operator condition is always true',
-        'Access to an undefined property Latte\Runtime\FilterExecutor::',
-        'Anonymous function should have native return typehint "void"',
+    private const ERROR_IGNORES = [
+        // nette
+        '#DummyTemplateClass#',
+        '#Method Nette\\\\Application\\\\UI\\\\Renderable::redrawControl\(\) invoked with#',
+        '#Ternary operator condition is always (.*?)#',
+        '#Access to an undefined property Latte\\\\Runtime\\\\FilterExecutor::#',
+        '#Anonymous function should have native return typehint "void"#',
         // impossible to resolve with conditions in PHP
         '#might not be defined#',
         '#has an unused variable#',
@@ -70,12 +71,13 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         private PathResolver $pathResolver,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
+        private ErrorSkipper $errorSkipper,
+        private TemplateErrorsFactory $templateErrorsFactory,
     ) {
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
         $activeRules = $this->filterActiveRules($rules);
 
-        // HACK for prevent circular reference...
         $this->registry = new Registry($activeRules);
     }
 
@@ -134,9 +136,13 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
-        $errors = array_filter($fileAnalyserResult->getErrors(), fn (Error $error): bool => $this->shouldKeep($error));
+        $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
 
-        return $this->createErrors($errors, $resolvedTemplateFilePath, $phpFileContentsWithLineMap);
+        return $this->templateErrorsFactory->createErrors(
+            $errors,
+            $resolvedTemplateFilePath,
+            $phpFileContentsWithLineMap
+        );
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -182,32 +188,6 @@ CODE_SAMPLE
     }
 
     /**
-     * @return RuleError[]
-     */
-    private function createErrors(
-        array $errors,
-        string $resolvedTemplateFilePath,
-        PhpFileContentsWithLineMap $phpFileContentsWithLineMap
-    ): array {
-        $ruleErrors = [];
-
-        $phpToTemplateLines = $phpFileContentsWithLineMap->getPhpToTemplateLines();
-
-        foreach ($errors as $error) {
-            // correct error PHP line number to Latte line number
-            $errorLine = (int) $error->getLine();
-            $errorLine = $phpToTemplateLines[$errorLine] ?? $errorLine;
-
-            $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
-                ->file($resolvedTemplateFilePath)
-                ->line($errorLine)
-                ->build();
-        }
-
-        return $ruleErrors;
-    }
-
-    /**
      * @param Rule[] $rules
      * @return Rule[]
      */
@@ -225,16 +205,5 @@ CODE_SAMPLE
             $activeRules[] = $rule;
         }
         return $activeRules;
-    }
-
-    private function shouldKeep(Error $error): bool
-    {
-        foreach (self::IGNORED_ERROR_MESSAGES as $ignoredErrorMessage) {
-            if (str_contains($error->getMessage(), $ignoredErrorMessage)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

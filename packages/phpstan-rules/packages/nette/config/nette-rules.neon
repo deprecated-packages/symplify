@@ -1,8 +1,8 @@
 services:
     # runs all rules run by PHPStan on php files
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule
-        tags: [phpstan.rules.rule]
+#    -
+#        class: Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule
+#        tags: [phpstan.rules.rule]
 
     # templates
     -

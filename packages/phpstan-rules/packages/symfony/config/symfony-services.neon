@@ -1,14 +1,17 @@
+includes:
+    - ../../../packages/twig-phpstan-printer/config/twig-phpstan-printer-services.neon
+
 services:
+    - Symplify\PHPStanRules\ErrorSkipper
+
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigRectorValueObjectResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
-    - Symplify\PHPStanRules\Symfony\ObjectTypeMethodAnalyzer
 
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
     # twig ast
-    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeParser
     - Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory
 
     # twig
@@ -16,4 +19,3 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer
     - Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver
-    - Symplify\PHPStanRules\Symfony\Twig\TwigMissingMethodCallAnalyzer
