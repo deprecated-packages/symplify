@@ -96,18 +96,15 @@ final class CollectUsedVariablesNodeVisitor extends NodeVisitorAbstract
     private function isJustCreatedVariable(Variable $variable): bool
     {
         $parent = $variable->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof Assign) {
-            if ($parent->var === $variable) {
-                return true;
-            }
+        if ($parent instanceof Assign && $parent->var === $variable) {
+            return true;
         }
-
-        if ($parent instanceof Foreach_) {
-            if ($parent->valueVar === $variable) {
-                return true;
-            }
+        if (! $parent instanceof Foreach_) {
+            return false;
         }
-
-        return false;
+        if ($parent->valueVar !== $variable) {
+            return false;
+        }
+        return true;
     }
 }
