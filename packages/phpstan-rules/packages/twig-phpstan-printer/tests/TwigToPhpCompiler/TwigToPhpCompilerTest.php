@@ -68,10 +68,7 @@ final class TwigToPhpCompilerTest extends TestCase
 
     private function createContainer(): Container
     {
-        $configs = [
-            // __DIR__ . '/config/extra-services.neon',
-            __DIR__ . '/../../../../config/services/services.neon',
-        ];
+        $configs = [__DIR__ . '/../../../../config/services/services.neon'];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();
         return $phpStanContainerFactory->createContainer($configs);
