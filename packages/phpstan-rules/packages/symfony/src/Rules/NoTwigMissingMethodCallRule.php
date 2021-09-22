@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
@@ -68,35 +69,37 @@ final class NoTwigMissingMethodCallRule extends AbstractSymplifyRule
 
     /**
      * @param MethodCall $node
-     * @return string[]
+     * @return array<string|Error>
      */
     public function process(Node $node, Scope $scope): array
     {
+        // 1. find twig template file path with array
         $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
         if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
+        // 2. resolve passed variable types
         $variablesAndTypes = $this->templateFileVarTypeDocBlocksDecorator->resolveTwigVariablesAndTypes(
             $renderTemplateWithParameters->getParametersArray(),
             $scope
         );
 
+        // 3. compile twig to PHP with resolved types in @var docs
         $phpFileContent = $this->twigToPhpCompiler->compileContent(
             $renderTemplateWithParameters->getTemplateFilePath(),
             $variablesAndTypes,
         );
 
+        // 4. print the content to temporary file
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
-
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContent);
 
-        // to include generated class
+        // 5. analyse temporary PHP file with full PHPStan rules
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
-        // correct PHP to twig line
+        // @todo correct PHP to twig line
         // probably via data in getDebugInfo() method
-        // return $this->createErrorMessages($variableNamesToMissingMethodNames);
 
         return $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
     }
@@ -141,24 +144,4 @@ CODE_SAMPLE
             ),
         ]);
     }
-
-//    /**
-//     * @param VariableAndMissingMethodName[] $variableNamesToMissingMethodNames
-//     * @return string[]
-//     */
-//    private function createErrorMessages(array $variableNamesToMissingMethodNames): array
-//    {
-//        $errorMessages = [];
-//
-//        foreach ($variableNamesToMissingMethodNames as $variableAndMissingMethodName) {
-//            $errorMessages[] = sprintf(
-//                self::ERROR_MESSAGE,
-//                $variableAndMissingMethodName->getVariableName(),
-//                $variableAndMissingMethodName->getVariableTypeClassName(),
-//                $variableAndMissingMethodName->getMethodName()
-//            );
-//        }
-//
-//        return $errorMessages;
-//    }
 }

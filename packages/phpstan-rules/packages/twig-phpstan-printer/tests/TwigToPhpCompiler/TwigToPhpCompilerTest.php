@@ -12,18 +12,18 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
-use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class TwigToPhpCompilerTest extends TestCase
 {
-    private LatteToPhpCompiler $latteToPhpCompiler;
+    private TwigToPhpCompiler $twigToPhpCompiler;
 
     protected function setUp(): void
     {
         $container = $this->createContainer();
-        $this->latteToPhpCompiler = $container->getByType(LatteToPhpCompiler::class);
+        $this->twigToPhpCompiler = $container->getByType(TwigToPhpCompiler::class);
     }
 
     /**
@@ -31,22 +31,30 @@ final class TwigToPhpCompilerTest extends TestCase
      */
     public function test(SmartFileInfo $fileInfo): void
     {
-        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
-        $phpFileContent = $this->latteToPhpCompiler->compileContent($inputAndExpected->getInput(), []);
+        $inputFileInfoAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpected($fileInfo);
+        $phpFileContent = $this->twigToPhpCompiler->compileContent(
+            $inputFileInfoAndExpected->getInputFileRealPath(),
+            []
+        );
 
         // update test fixture if the content has changed
-        StaticFixtureUpdater::updateFixtureContent($inputAndExpected->getInput(), $phpFileContent, $fileInfo);
+        StaticFixtureUpdater::updateFixtureContent(
+            $inputFileInfoAndExpected->getInputFileContent(),
+            $phpFileContent,
+            $fileInfo
+        );
 
-        $this->assertSame($phpFileContent, $inputAndExpected->getExpected());
+        $this->assertSame($phpFileContent, $inputFileInfoAndExpected->getExpected());
     }
 
     public function testTypes(): void
     {
         $variablesAndTypes = [new VariableAndType('someName', new StringType())];
-        $phpFileContent = $this->latteToPhpCompiler->compileContent(
-            __DIR__ . '/FixtureWithTypes/input_file.latte',
+        $phpFileContent = $this->twigToPhpCompiler->compileContent(
+            __DIR__ . '/FixtureWithTypes/input_file.twig',
             $variablesAndTypes
         );
+
         $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithTypes/expected_compiled.php', $phpFileContent);
     }
 
@@ -55,13 +63,13 @@ final class TwigToPhpCompilerTest extends TestCase
      */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.latte');
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.twig');
     }
 
     private function createContainer(): Container
     {
         $configs = [
-            __DIR__ . '/config/extra-services.neon',
+            // __DIR__ . '/config/extra-services.neon',
             __DIR__ . '/../../../../config/services/services.neon',
         ];
 

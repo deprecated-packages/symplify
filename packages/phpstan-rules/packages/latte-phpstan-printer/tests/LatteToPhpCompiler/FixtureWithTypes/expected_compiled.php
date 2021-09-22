@@ -8,7 +8,7 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
     {
         \extract($this->params);
         /** @var string $someName */
-        echo '%s/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes/input_file.latte';
+        echo '%s/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes/input_file.twig';
         return \get_defined_vars();
     }
     public function prepare() : void

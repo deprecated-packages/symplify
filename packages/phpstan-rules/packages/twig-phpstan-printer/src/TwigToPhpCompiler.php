@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\TwigPHPStanPrinter;
 
 use PhpParser\NodeTraverser;
+use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
+use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\Twig\TolerantTwigEnvironment;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\ModuleNode;
+use Twig\Node\Node;
 use Twig\Source;
 
 /**
@@ -21,9 +27,10 @@ final class TwigToPhpCompiler
 {
     public function __construct(
         private SmartFileSystem $smartFileSystem,
-        private \PhpParser\Parser $parser,
+        private Parser $parser,
         private Standard $printerStandard,
         private TwigVarTypeDocBlockDecorator $twigVarTypeDocBlockDecorator,
+        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -50,6 +57,9 @@ final class TwigToPhpCompiler
         return new TolerantTwigEnvironment($arrayLoader);
     }
 
+    /**
+     * @return ModuleNode<Node>
+     */
     private function parseFileContentToModuleNode(
         TolerantTwigEnvironment $tolerantTwigEnvironment,
         string $fileContent,
@@ -66,12 +76,24 @@ final class TwigToPhpCompiler
     private function decoratePhpContent(string $phpContent, array $variablesAndTypes): string
     {
         $stmts = $this->parser->parse($phpContent);
+        if ($stmts === null) {
+            throw new ShouldNotHappenException();
+        }
 
         $nodeTraverser = new NodeTraverser();
 
         // replace twig_get_attribute with direct access/call
         $twigGetAttributeExpanderNodeVisitor = new TwigGetAttributeExpanderNodeVisitor();
         $nodeTraverser->addVisitor($twigGetAttributeExpanderNodeVisitor);
+
+        $unwrapEnsureIterableFuncCallNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
+            $this->simpleNameResolver
+        );
+        $nodeTraverser->addVisitor($unwrapEnsureIterableFuncCallNodeVisitor);
+
+        $unwrapContextVariableNodeVisitor = new UnwrapContextVariableNodeVisitor($this->simpleNameResolver);
+        $nodeTraverser->addVisitor($unwrapContextVariableNodeVisitor);
+
         $nodeTraverser->traverse($stmts);
 
         $phpContent = $this->printerStandard->prettyPrintFile($stmts);
