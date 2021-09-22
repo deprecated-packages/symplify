@@ -293,9 +293,9 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
     private function assertArrayOfArraysHasValidTypes(array $intArrays): void
     {
         foreach ($intArrays as $row) {
-            self::assertIsArray($row);
+            $this->assertIsArray($row);
             foreach ($row as $cell) {
-                self::assertIsArray($cell);
+                $this->assertIsArray($cell);
                 foreach ($cell as $integer) {
                     $this->assertIsInt($integer);
                 }

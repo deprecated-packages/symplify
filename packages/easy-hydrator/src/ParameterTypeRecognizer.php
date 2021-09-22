@@ -121,23 +121,22 @@ final class ParameterTypeRecognizer
     }
 
     private function getTypeFromArrayTypeNode(
-        ArrayTypeNode $typeNode,
+        ArrayTypeNode $arrayTypeNode,
         ReflectionParameter $reflectionParameter
-    ): ?string
-    {
+    ): ?string {
         $declaringReflectionClass = $reflectionParameter->getDeclaringClass();
         if (! $declaringReflectionClass instanceof ReflectionClass) {
             return null;
         }
-        $currentTypeNode = $typeNode;
+        $currentTypeNode = $arrayTypeNode;
         do {
             $identifierTypeNode = $currentTypeNode->type;
             if ($identifierTypeNode instanceof IdentifierTypeNode) {
                 return Reflection::expandClassName($identifierTypeNode->name, $declaringReflectionClass);
-            } elseif ($identifierTypeNode instanceof GenericTypeNode) {
+            }
+            if ($identifierTypeNode instanceof GenericTypeNode) {
                 $genericTypeNodes = $identifierTypeNode->genericTypes;
                 $genericTypeNode = $genericTypeNodes[count($genericTypeNodes) - 1];
-
                 return Reflection::expandClassName((string) $genericTypeNode, $declaringReflectionClass);
             }
             $currentTypeNode = $identifierTypeNode;
