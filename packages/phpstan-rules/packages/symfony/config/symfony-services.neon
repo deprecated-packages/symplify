@@ -11,9 +11,6 @@ services:
 
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
-    # twig ast
-    - Symplify\PHPStanRules\Symfony\Twig\TwigNodeTravser\TwigNodeTraverserFactory
-
     # twig
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\TwigVariableNamesResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
