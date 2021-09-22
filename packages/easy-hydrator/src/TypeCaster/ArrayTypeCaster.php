@@ -29,29 +29,41 @@ final class ArrayTypeCaster implements TypeCasterInterface
         ClassConstructorValuesResolver $classConstructorValuesResolver
     ): ?array {
         $type = $this->parameterTypeRecognizer->getTypeFromDocBlock($reflectionParameter);
+        $arrayLevels = $this->parameterTypeRecognizer->getArrayLevels($reflectionParameter);
         if ($this->isAllowedNull($value, $reflectionParameter)) {
             return null;
         }
 
-        return array_map(static function ($value) use ($type) {
-            if ($type === 'string') {
-                return (string) $value;
-            }
+        $mapMultilevelArray = static function ($levels) use ($type, &$mapMultilevelArray) {
+            return static function ($value) use ($type, &$mapMultilevelArray, $levels)
+            {
+                $arrayLevel = $levels - 1;
+                if ($arrayLevel > 0) {
+                    $currentMapFunction = $mapMultilevelArray($arrayLevel);
+                    return array_map($currentMapFunction, $value);
+                }
+                if ($type === 'string') {
+                    return (string) $value;
+                }
 
-            if ($type === 'bool') {
-                return (bool) $value;
-            }
+                if ($type === 'bool') {
+                    return (bool) $value;
+                }
 
-            if ($type === 'int') {
-                return (int) $value;
-            }
+                if ($type === 'int') {
+                    return (int) $value;
+                }
 
-            if ($type === 'float') {
-                return (float) $value;
-            }
+                if ($type === 'float') {
+                    return (float) $value;
+                }
 
-            return $value;
-        }, $value);
+                return $value;
+            };
+        };
+
+        $currentMapFunction = $mapMultilevelArray($arrayLevels);
+        return array_map($currentMapFunction, $value);
     }
 
     public function getPriority(): int

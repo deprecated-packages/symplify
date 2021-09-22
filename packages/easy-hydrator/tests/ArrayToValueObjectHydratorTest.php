@@ -30,7 +30,6 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             'when' => '2020-04-04',
         ],
     ];
-
     private ArrayToValueObjectHydrator $arrayToValueObjectHydrator;
 
     protected function setUp(): void
@@ -86,6 +85,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             'floats' => ['1.1', 2],
             'booleans' => ['true', '0'],
             'strings' => [1, 2.2],
+            'arrayOfArrays' => [[[1, 2], [3, 4]], [[]]],
         ];
 
         /** @var Arrays $actual */
@@ -95,6 +95,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
         $this->assertSame([1.1, 2.0], $actual->getFloats());
         $this->assertSame([true, false], $actual->getBooleans());
         $this->assertSame(['1', '2.2'], $actual->getStrings());
+        $this->assertSame([[[1, 2], [3, 4]], [[]]], $actual->getArrayOfArrays());
     }
 
     public function testDateTimeImmutable(): void
@@ -152,12 +153,14 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                 'floats' => [1.1, 2.2],
                 'booleans' => [true, false],
                 'strings' => ['a', 'b'],
+                'arrayOfArrays' => [[[1, 2], [3, 4]]],
             ],
             [
                 'integers' => [3, 4],
                 'floats' => [3.3, 4.24],
                 'booleans' => [false, true],
                 'strings' => ['c', 'd'],
+                'arrayOfArrays' => [[[3, 4], [1, 2]]],
             ],
         ];
 
@@ -181,7 +184,8 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
                 'personB' => [
                     'name' => 'Jane Doe 1',
                 ],
-            ], [
+            ],
+            [
                 'date' => '2019-06-22',
                 'personA' => [
                     'name' => 'John Doe 2',
@@ -275,6 +279,25 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             $booleans = $arrays->getBooleans();
             foreach ($booleans as $bool) {
                 $this->assertIsBool($bool);
+            }
+
+            $intArrays = $arrays->getArrayOfArrays();
+            $this->assertArrayOfArraysHasValidTypes($intArrays);
+        }
+    }
+
+    /**
+     * @param int[][][] $intArrays
+     */
+    private function assertArrayOfArraysHasValidTypes(array $intArrays): void
+    {
+        foreach ($intArrays as $row) {
+            self::assertIsArray($row);
+            foreach ($row as $cell) {
+                self::assertIsArray($cell);
+                foreach ($cell as $integer) {
+                    $this->assertIsInt($integer);
+                }
             }
         }
     }

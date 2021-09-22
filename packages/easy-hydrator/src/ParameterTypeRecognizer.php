@@ -87,10 +87,7 @@ final class ParameterTypeRecognizer
         }
 
         if ($typeNode instanceof ArrayTypeNode) {
-            /** @var IdentifierTypeNode $identifierTypeNode */
-            $identifierTypeNode = $typeNode->type;
-
-            return Reflection::expandClassName($identifierTypeNode->name, $declaringReflectionClass);
+            return $this->getTypeFromArrayTypeNode($typeNode, $reflectionParameter);
         }
 
         if ($typeNode instanceof GenericTypeNode) {
@@ -105,6 +102,45 @@ final class ParameterTypeRecognizer
         }
 
         return null;
+    }
+
+
+    private function getTypeFromArrayTypeNode(ArrayTypeNode $typeNode, ReflectionParameter $reflectionParameter): ?string
+    {
+        $declaringReflectionClass = $reflectionParameter->getDeclaringClass();
+        if (! $declaringReflectionClass instanceof ReflectionClass) {
+            return null;
+        }
+        $currentTypeNode = $typeNode;
+        do {
+            $identifierTypeNode = $currentTypeNode->type;
+            if ($identifierTypeNode instanceof IdentifierTypeNode) {
+                return Reflection::expandClassName($identifierTypeNode->name, $declaringReflectionClass);
+            } elseif ($identifierTypeNode instanceof GenericTypeNode) {
+                $genericTypeNodes = $identifierTypeNode->genericTypes;
+                $genericTypeNode = $genericTypeNodes[count($genericTypeNodes) - 1];
+
+                return Reflection::expandClassName((string) $genericTypeNode, $declaringReflectionClass);
+            }
+            $currentTypeNode = $identifierTypeNode;
+        } while ($currentTypeNode instanceof ArrayTypeNode);
+        return null;
+    }
+
+    public function getArrayLevels(ReflectionParameter $reflectionParameter): int
+    {
+        $docNode = $this->getDocNode($reflectionParameter);
+        if (!$docNode instanceof SimplePhpDocNode) {
+            return 0;
+        }
+
+        $currentTypeNode = $docNode->getParamType($reflectionParameter->getName());
+        $level = 0;
+        while ($currentTypeNode instanceof ArrayTypeNode) {
+            ++$level;
+            $currentTypeNode = $currentTypeNode->type;
+        }
+        return $level;
     }
 
     private function getTypeFromTypeHint(ReflectionParameter $reflectionParameter): ?string
