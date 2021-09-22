@@ -95,18 +95,13 @@ final class TwigToPhpCompiler
 
         // 2. replace twig_get_attribute with direct access/call
         $twigGetAttributeExpanderNodeVisitor = new TwigGetAttributeExpanderNodeVisitor(
+            $this->simpleNameResolver,
             $this->objectTypeMethodAnalyzer,
             $variablesAndTypes,
             $collectForeachedVariablesNodeVisitor->getForeachedVariablesToSingles()
         );
-//        $unwrapEnsureIterableFuncCallNodeVisitor = new UnwrapTwigEnsureTraversableNodeVisitor(
-//            $this->simpleNameResolver
-//        );
 
-        $this->traverseStmtsWithVisitors($stmts, [
-            $twigGetAttributeExpanderNodeVisitor,
-            //            $unwrapEnsureIterableFuncCallNodeVisitor,
-        ]);
+        $this->traverseStmtsWithVisitors($stmts, [$twigGetAttributeExpanderNodeVisitor]);
 
         $phpContent = $this->printerStandard->prettyPrintFile($stmts);
         return $this->twigVarTypeDocBlockDecorator->decorateTwigContentWithTypes($phpContent, $variablesAndTypes);
