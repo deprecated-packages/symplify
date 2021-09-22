@@ -30,6 +30,7 @@ final class ArrayToValueObjectHydratorTest extends AbstractKernelTestCase
             'when' => '2020-04-04',
         ],
     ];
+
     private ArrayToValueObjectHydrator $arrayToValueObjectHydrator;
 
     protected function setUp(): void

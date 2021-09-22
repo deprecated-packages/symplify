@@ -35,8 +35,7 @@ final class ArrayTypeCaster implements TypeCasterInterface
         }
 
         $mapMultilevelArray = static function ($levels) use ($type, &$mapMultilevelArray) {
-            return static function ($value) use ($type, &$mapMultilevelArray, $levels)
-            {
+            return static function ($value) use ($type, &$mapMultilevelArray, $levels) {
                 $arrayLevel = $levels - 1;
                 if ($arrayLevel > 0) {
                     $currentMapFunction = $mapMultilevelArray($arrayLevel);
