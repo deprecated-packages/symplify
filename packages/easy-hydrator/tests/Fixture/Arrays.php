@@ -25,7 +25,7 @@ final class Arrays
     private $booleans;
 
     /**
-     * @var int[][];
+     * @var int[][][];
      */
     private $arrayOfArrays;
 
@@ -34,7 +34,7 @@ final class Arrays
      * @param int[] $integers
      * @param bool[] $booleans
      * @param float[] $floats
-     * @param int[][] $arrayOfArrays
+     * @param int[][][] $arrayOfArrays
      */
     public function __construct(array $strings, array $integers, array $booleans, array $floats, array $arrayOfArrays)
     {
@@ -66,7 +66,7 @@ final class Arrays
     }
 
     /**
-     * @return int[][]
+     * @return int[][][]
      */
     public function getArrayOfArrays(): array
     {
