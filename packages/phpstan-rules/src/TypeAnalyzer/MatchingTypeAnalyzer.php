@@ -53,6 +53,7 @@ final class MatchingTypeAnalyzer
         if (! $argType instanceof UnionType) {
             return false;
         }
+
         foreach ($argType->getTypes() as $unionedArgType) {
             if ($expectedType->isSuperTypeOf($unionedArgType)->yes()) {
                 return true;
