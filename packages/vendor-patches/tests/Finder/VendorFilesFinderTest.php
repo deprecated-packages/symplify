@@ -22,6 +22,6 @@ final class VendorFilesFinderTest extends AbstractKernelTestCase
     public function test(): void
     {
         $files = $this->oldToNewFilesFinder->find(__DIR__ . '/VendorFilesFinderSource');
-        $this->assertCount(1, $files);
+        $this->assertCount(2, $files);
     }
 }
