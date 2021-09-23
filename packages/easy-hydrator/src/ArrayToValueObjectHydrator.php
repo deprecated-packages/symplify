@@ -18,7 +18,10 @@ final class ArrayToValueObjectHydrator
     }
 
     /**
+     * @template T of object
      * @param mixed[] $data
+     * @param class-string<T> $class
+     * @return T
      */
     public function hydrateArray(array $data, string $class): object
     {
@@ -33,8 +36,10 @@ final class ArrayToValueObjectHydrator
     }
 
     /**
+     * @template T of object
      * @param mixed[][] $datas
-     * @return object[]
+     * @param class-string<T> $class
+     * @return array<T>
      */
     public function hydrateArrays(array $datas, string $class): array
     {
