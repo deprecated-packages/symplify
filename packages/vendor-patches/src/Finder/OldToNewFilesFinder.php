@@ -27,7 +27,7 @@ final class OldToNewFilesFinder
         $oldFileInfos = $this->findSmartFileInfosInDirectory($directory);
 
         foreach ($oldFileInfos as $oldFileInfo) {
-            $newFilePath = rtrim($oldFileInfo->getRealPath(), '.old');
+            $newFilePath = substr($oldFileInfo->getRealPath(), 0, strrpos($oldFileInfo->getRealPath(), '.old'));
             if (! file_exists($newFilePath)) {
                 continue;
             }
