@@ -55,7 +55,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
 
         $firstArgValue = $node->args[0]->value;
 
-        $templateFilePath = $this->pathResolver->resolveExistingFilePath($firstArgValue, $scope);
+        $templateFilePath = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope);
         if ($templateFilePath === null) {
             return [];
         }

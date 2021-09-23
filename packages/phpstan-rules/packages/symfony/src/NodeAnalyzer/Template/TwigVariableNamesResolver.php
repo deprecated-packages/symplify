@@ -26,7 +26,27 @@ final class TwigVariableNamesResolver
     /**
      * @return string[]
      */
-    public function resolveFromFile(string $filePath): array
+    public function resolveFromFiles(array $filePaths): array
+    {
+        $variableNames = [];
+        foreach ($filePaths as $filePath) {
+            $variableNames = array_merge($variableNames, $this->resolveFromFilePath($filePath));
+        }
+
+        return $variableNames;
+    }
+
+    /**
+     * @param Stmt[] $stmts
+     */
+    private function decorateParentAttribute(array $stmts): void
+    {
+        $nodeTraverser = new NodeTraverser();
+        $nodeTraverser->addVisitor(new NodeConnectingVisitor());
+        $nodeTraverser->traverse($stmts);
+    }
+
+    private function resolveFromFilePath($filePath): array
     {
         $phpFileContent = $this->twigToPhpCompiler->compileContent($filePath, []);
 
@@ -49,15 +69,5 @@ final class TwigVariableNamesResolver
         $nodeTraverser->traverse($stmts);
 
         return $templateVariableCollectingNodeVisitor->getUsedVariableNames();
-    }
-
-    /**
-     * @param Stmt[] $stmts
-     */
-    private function decorateParentAttribute(array $stmts): void
-    {
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor(new NodeConnectingVisitor());
-        $nodeTraverser->traverse($stmts);
     }
 }
