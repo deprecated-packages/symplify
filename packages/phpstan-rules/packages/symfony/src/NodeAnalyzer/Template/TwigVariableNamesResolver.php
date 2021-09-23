@@ -10,7 +10,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Symfony\PhpParser\NodeVisitor\CollectUsedVariablesNodeVisitor;
+use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 
 final class TwigVariableNamesResolver
@@ -38,15 +38,17 @@ final class TwigVariableNamesResolver
         $this->decorateParentAttribute($stmts);
 
         $nodeTraverser = new NodeTraverser();
-        $collectUsedVariablesNodeVisitor = new CollectUsedVariablesNodeVisitor(
+        $templateVariableCollectingNodeVisitor = new TemplateVariableCollectingNodeVisitor(
+            ['context', 'macros', 'this', '_parent', 'loop', 'tmp'],
+            ['doDisplay'],
             $this->simpleNameResolver,
             $this->nodeFinder
         );
-        $nodeTraverser->addVisitor($collectUsedVariablesNodeVisitor);
+        $nodeTraverser->addVisitor($templateVariableCollectingNodeVisitor);
 
         $nodeTraverser->traverse($stmts);
 
-        return $collectUsedVariablesNodeVisitor->getUsedVariableNames();
+        return $templateVariableCollectingNodeVisitor->getUsedVariableNames();
     }
 
     /**

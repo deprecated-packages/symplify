@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette;
 
 use PhpParser\Node\Stmt;
+use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\LatteVariableCollectingNodeVisitor;
+use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
 
 final class LatteVariableNamesResolver
@@ -18,9 +20,10 @@ final class LatteVariableNamesResolver
     public function __construct(
         private ParentNodeAwarePhpParser $parentNodeAwarePhpParser,
         private LatteToPhpCompiler $latteToPhpCompiler,
-        private LatteVariableCollectingNodeVisitor $latteVariableCollectingNodeVisitor,
         private ParentLayoutTemplateFileResolver $parentLayoutTemplateFileResolver,
-        private IncludedSnippetTemplateFileResolver $includedSnippetTemplateFileResolver
+        private IncludedSnippetTemplateFileResolver $includedSnippetTemplateFileResolver,
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -29,26 +32,26 @@ final class LatteVariableNamesResolver
      */
     public function resolveFromFile(string $templateFilePath): array
     {
-        $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
+        $stmts = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
 
         // resolve parent layout variables
         // 1. current template
         $templateFilePaths = [$templateFilePath];
 
         // 2. parent layout
-        $parentLayoutFileName = $this->parentLayoutTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        $parentLayoutFileName = $this->parentLayoutTemplateFileResolver->resolve($templateFilePath, $stmts);
         if ($parentLayoutFileName !== null) {
             $templateFilePaths[] = $parentLayoutFileName;
         }
 
         // 3. included templates
-        $includedTemplateFilePaths = $this->includedSnippetTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        $includedTemplateFilePaths = $this->includedSnippetTemplateFileResolver->resolve($templateFilePath, $stmts);
         $templateFilePaths = array_merge($templateFilePaths, $includedTemplateFilePaths);
 
         $usedVariableNames = [];
         foreach ($templateFilePaths as $templateFilePath) {
-            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
-            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
+            $stmts = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
+            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($stmts);
             $usedVariableNames = array_merge($usedVariableNames, $currentUsedVariableNames);
         }
 
@@ -56,16 +59,23 @@ final class LatteVariableNamesResolver
     }
 
     /**
-     * @param Stmt[] $phpNodes
+     * @param Stmt[] $stmts
      * @return string[]
      */
-    private function resolveUsedVariableNamesFromPhpNodes(array $phpNodes): array
+    private function resolveUsedVariableNamesFromPhpNodes(array $stmts): array
     {
-        $phpNodeTraverser = new NodeTraverser();
-        $phpNodeTraverser->addVisitor($this->latteVariableCollectingNodeVisitor);
-        $phpNodeTraverser->traverse($phpNodes);
+        $templateVariableCollectingNodeVisitor = new TemplateVariableCollectingNodeVisitor(
+            ['this', 'iterations', 'ʟ_l', 'ʟ_v'],
+            ['main'],
+            $this->simpleNameResolver,
+            $this->nodeFinder
+        );
 
-        return $this->latteVariableCollectingNodeVisitor->getUsedVariableNames();
+        $phpNodeTraverser = new NodeTraverser();
+        $phpNodeTraverser->addVisitor($templateVariableCollectingNodeVisitor);
+        $phpNodeTraverser->traverse($stmts);
+
+        return $templateVariableCollectingNodeVisitor->getUsedVariableNames();
     }
 
     /**

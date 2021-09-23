@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\PhpParser\NodeVisitor;
+namespace Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
@@ -15,21 +15,27 @@ use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 
-final class CollectUsedVariablesNodeVisitor extends NodeVisitorAbstract
+final class TemplateVariableCollectingNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * @var string[]
      */
-    private const INTERNAL_TWIG_VARIABLE_NAMES = ['context', 'macros', 'this', '_parent', 'loop', 'tmp'];
+    private array $userVariableNames = [];
 
     /**
      * @var string[]
      */
-    private array $usedVariableNames = [];
+    private array $justCreatedVariableNames = [];
 
+    /**
+     * @param array<string> $defaultVariableNames
+     * @param array<string> $renderMethodNames
+     */
     public function __construct(
+        private array $defaultVariableNames,
+        private array $renderMethodNames,
         private SimpleNameResolver $simpleNameResolver,
-        private NodeFinder $nodeFinder
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -39,22 +45,24 @@ final class CollectUsedVariablesNodeVisitor extends NodeVisitorAbstract
      */
     public function beforeTraverse(array $nodes): array
     {
-        $this->usedVariableNames = [];
+        // reset to avoid used variable name in next analysed file
+        $this->userVariableNames = [];
+        $this->justCreatedVariableNames = [];
+
         return $nodes;
     }
 
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node|null
     {
         if (! $node instanceof ClassMethod) {
             return null;
         }
 
-        if (! $this->simpleNameResolver->isName($node, 'doDisplay')) {
+        if (! $this->simpleNameResolver->isNames($node, $this->renderMethodNames)) {
             return null;
         }
 
-        $this->usedVariableNames = $this->resolveVariableNames($node);
-
+        $this->userVariableNames = array_merge($this->userVariableNames, $this->resolveClassMethodVariableNames($node));
         return null;
     }
 
@@ -63,34 +71,36 @@ final class CollectUsedVariablesNodeVisitor extends NodeVisitorAbstract
      */
     public function getUsedVariableNames(): array
     {
-        return array_diff($this->usedVariableNames, self::INTERNAL_TWIG_VARIABLE_NAMES);
+        $removedVariableNames = array_merge($this->defaultVariableNames, $this->justCreatedVariableNames);
+
+        return array_diff($this->userVariableNames, $removedVariableNames);
     }
 
     /**
      * @return string[]
      */
-    private function resolveVariableNames(ClassMethod $classMethod): array
+    private function resolveClassMethodVariableNames(ClassMethod $classMethod): array
     {
         $variableNames = [];
-        $justCreatedVariableNames = [];
 
         /** @var Variable[] $variables */
         $variables = $this->nodeFinder->findInstanceOf((array) $classMethod->stmts, Variable::class);
+
         foreach ($variables as $variable) {
-            if ($this->isJustCreatedVariable($variable)) {
-                $justCreatedVariableNames[] = $this->simpleNameResolver->getName($variable);
+            $variableName = $this->simpleNameResolver->getName($variable);
+            if ($variableName === null) {
                 continue;
             }
 
-            $variableName = $this->simpleNameResolver->getName($variable);
-            if ($variableName === null) {
+            if ($this->isJustCreatedVariable($variable)) {
+                $this->justCreatedVariableNames[] = $variableName;
                 continue;
             }
 
             $variableNames[] = $variableName;
         }
 
-        return array_diff($variableNames, $justCreatedVariableNames);
+        return $variableNames;
     }
 
     private function isJustCreatedVariable(Variable $variable): bool
@@ -99,12 +109,11 @@ final class CollectUsedVariablesNodeVisitor extends NodeVisitorAbstract
         if ($parent instanceof Assign && $parent->var === $variable) {
             return true;
         }
+
         if (! $parent instanceof Foreach_) {
             return false;
         }
-        if ($parent->valueVar !== $variable) {
-            return false;
-        }
-        return true;
+
+        return $parent->valueVar === $variable;
     }
 }

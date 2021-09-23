@@ -28,7 +28,7 @@ final class ArrayToValueObjectHydrator
         $serializedData = serialize($data);
         $arrayHash = md5($serializedData . $class);
 
-        return $this->cache->get($arrayHash, function () use ($class, $data) {
+        return $this->cache->get($arrayHash, function () use ($class, $data): object {
             $resolveClassConstructorValues = $this->classConstructorValuesResolver->resolve($class, $data);
 
             return new $class(...$resolveClassConstructorValues);
