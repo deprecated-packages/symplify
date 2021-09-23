@@ -146,6 +146,7 @@ final class NetteInjectAnalyzer
         if (! $this->isInjectClassMethod($classMethod)) {
             return false;
         }
+
         /** @var Assign[] $assigns */
         $assigns = $this->nodeFinder->findInstanceOf((array) $classMethod->stmts, Assign::class);
         foreach ($assigns as $assign) {
