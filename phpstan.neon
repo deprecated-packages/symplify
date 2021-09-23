@@ -235,11 +235,6 @@ parameters:
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
-        -
-            message: '#Anonymous class is not allowed#'
-            paths:
-                 - packages/astral/src/NodeTraverser/SimpleCallableNodeTraverser.php #35
-
         # the file must start with "Abstract" to be correct
         -
             message: '#Skipped tested file must start with "Skip" prefix#'
@@ -257,7 +252,6 @@ parameters:
             message: '#Unreachable statement \- code above always terminates#'
             paths:
                 - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-                - packages/phpstan-rules/packages/nette/tests/Rules/LatteCompleteCheckRule/LatteCompleteCheckRuleTest.php
 
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
@@ -422,10 +416,6 @@ parameters:
 
         # this class is used by scoper, so better use less external deps
         -
-            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
-            path: packages/easy-coding-standard/src/Application/Version/VersionResolver.php
-
-        -
             message: '#Nested foreach with empty statement is not allowed#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
@@ -501,7 +491,6 @@ parameters:
         - '#Call to an undefined method MyCLabs\\Enum\\Enum\:\:getKey\(\)#'
 
         - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Traverser\\ArrayBlockInfoFinder\:\:reverseTokens\(\) should return array<PhpCsFixer\\Tokenizer\\Token\> but returns array<int, PhpCsFixer\\Tokenizer\\Token\|null\>#'
 
         -
             message: '#Parameter "cwd" cannot be nullable#'
@@ -518,9 +507,6 @@ parameters:
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
-        # not sure iterable
-        - '#Arguments names conflicts with parent class method\: "\$environment" should be "\$env"\. This will break named arguments#'
-
         # strict api : maybe allow ~1 private method
         -
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
@@ -530,15 +516,9 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
         - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-        - '#Method Symplify\\PHPStanRules\\Symfony\\Rules\\TwigCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
         - '#Property Symplify\\PHPStanRules\\TwigPHPStanPrinter\\PhpParser\\NodeVisitor\\AppendExtractedVarTypesNodeVisitor\:\:\$variablesAndTypes type has no value type specified in iterable type array#'
         - '#Method Symplify\\PHPStanRules\\Symfony\\Rules\\TwigCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
-        # docs lines
-        -
-            message: '#"%s" in sprintf\(\) format must be quoted#'
-            path: */AppendExtractedVarTypesNodeVisitor.php
 
         -
             message: '#Do not use setter on a service#'
@@ -575,9 +555,3 @@ parameters:
             path: packages/phpstan-rules/packages/latte-phpstan-printer/src/PhpParser/NodeFactory/VarDocNodeFactory.php
 
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
-
-        # variadics false positive
-        - '#Parameter (.*?) \.\.\.(.*?) of method Symplify\\GitWrapper\\GitWorkingCopy\:\:(.*?)\(\) expects array, string given#'
-        -
-            message: '#PHPDoc tag @param for parameter (.*?) with type mixed is not subtype of native type array#'
-            path: packages/git-wrapper/src/GitWorkingCopy.php
