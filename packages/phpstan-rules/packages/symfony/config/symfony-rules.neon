@@ -1,17 +1,5 @@
 services:
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
         tags: [phpstan.rules.rule]
 
