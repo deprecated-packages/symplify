@@ -25,18 +25,12 @@ final class ForbiddenMethodCallOnTypeRule extends AbstractSymplifyRule implement
     public const ERROR_MESSAGE = '"%s()" call on "%s" type is not allowed';
 
     /**
-     * @var array<string, string[]>
-     */
-    private array $forbiddenMethodNamesByTypes = [];
-
-    /**
      * @param array<string, string[]> $forbiddenMethodNamesByTypes
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        array $forbiddenMethodNamesByTypes = []
+        private array $forbiddenMethodNamesByTypes = []
     ) {
-        $this->forbiddenMethodNamesByTypes = $forbiddenMethodNamesByTypes;
     }
 
     public function getRuleDefinition(): RuleDefinition

@@ -185,6 +185,7 @@ CODE_SAMPLE
 
             $activeRules[] = $rule;
         }
+
         return $activeRules;
     }
 

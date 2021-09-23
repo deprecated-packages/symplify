@@ -30,9 +30,11 @@ final class AutowiredMethodAnalyzer
         if (! $docComment instanceof Doc) {
             return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
         }
+
         if (! (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
             return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
         }
+
         return true;
     }
 

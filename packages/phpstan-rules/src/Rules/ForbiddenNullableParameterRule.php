@@ -35,16 +35,6 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
     public const ERROR_MESSAGE = 'Parameter "%s" cannot be nullable';
 
     /**
-     * @var class-string[]
-     */
-    private array $forbiddenTypes = [];
-
-    /**
-     * @var class-string[]
-     */
-    private array $allowedTypes = [];
-
-    /**
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
@@ -53,11 +43,9 @@ final class ForbiddenNullableParameterRule extends AbstractSymplifyRule implemen
         private NullableTypeResolver $nullableTypeResolver,
         private ParentClassMethodGuard $parentClassMethodGuard,
         private ForbiddenAllowedTypeAnalyzer $forbiddenAllowedTypeAnalyzer,
-        array $forbiddenTypes = [],
-        array $allowedTypes = []
+        private array $forbiddenTypes = [],
+        private array $allowedTypes = []
     ) {
-        $this->forbiddenTypes = $forbiddenTypes;
-        $this->allowedTypes = $allowedTypes;
     }
 
     /**

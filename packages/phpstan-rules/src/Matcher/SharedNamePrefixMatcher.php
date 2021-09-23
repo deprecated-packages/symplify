@@ -48,9 +48,11 @@ final class SharedNamePrefixMatcher
         if ($left === '') {
             return -1;
         }
+
         if ($right === '') {
             return -1;
         }
+
         $position = 0;
         while ($left[$position] && $left[$position] === $right[$position]) {
             ++$position;

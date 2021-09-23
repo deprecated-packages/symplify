@@ -27,19 +27,13 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
     public const ERROR_MESSAGE = 'Method call argument on position %d must use constant (e.g. "Option::NAME") over value';
 
     /**
-     * @var array<class-string, mixed[]>
-     */
-    private array $constantArgByMethodByType = [];
-
-    /**
      * @param array<class-string, mixed[]> $constantArgByMethodByType
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private PositionMatcher $positionMatcher,
-        array $constantArgByMethodByType = []
+        private array $constantArgByMethodByType = []
     ) {
-        $this->constantArgByMethodByType = $constantArgByMethodByType;
     }
 
     /**

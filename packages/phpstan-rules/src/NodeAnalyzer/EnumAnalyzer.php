@@ -29,9 +29,11 @@ final class EnumAnalyzer
         if (! $classReflection instanceof ClassReflection) {
             return $this->hasEnumAnnotation($classLike);
         }
+
         if (! $classReflection->isSubclassOf(Enum::class)) {
             return $this->hasEnumAnnotation($classLike);
         }
+
         return true;
     }
 

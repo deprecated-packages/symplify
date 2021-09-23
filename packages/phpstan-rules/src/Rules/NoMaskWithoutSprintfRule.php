@@ -50,9 +50,11 @@ final class NoMaskWithoutSprintfRule extends AbstractSymplifyRule
         if (in_array($stringKind, [String_::KIND_NOWDOC, String_::KIND_HEREDOC], true)) {
             return [];
         }
+
         if (! str_contains($node->value, '%s')) {
             return [];
         }
+
         if ($node->value === '%s') {
             return [];
         }

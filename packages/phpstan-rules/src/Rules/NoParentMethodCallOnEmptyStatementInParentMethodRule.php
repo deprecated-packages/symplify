@@ -62,6 +62,7 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
         if (! $this->isParentClassMethodEmpty($scope, $methodName)) {
             return [];
         }
+
         return [self::ERROR_MESSAGE];
     }
 
@@ -152,8 +153,10 @@ CODE_SAMPLE
             if ($stmt instanceof Nop) {
                 continue;
             }
+
             ++$countStmts;
         }
+
         return $countStmts;
     }
 }

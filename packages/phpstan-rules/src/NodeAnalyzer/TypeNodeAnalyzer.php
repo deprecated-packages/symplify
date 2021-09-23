@@ -42,6 +42,7 @@ final class TypeNodeAnalyzer
         if (Strings::match($docCommentText, self::KERNEL_REGEX)) {
             return true;
         }
+
         return (bool) Strings::match($docCommentText, self::CONTAINER_REGEX);
     }
 }

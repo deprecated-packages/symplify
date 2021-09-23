@@ -19,13 +19,13 @@ use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\ClassMethod\ParamTypeByMethodCallTypeRector;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
     $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::CODING_STYLE);
     $containerConfigurator->import(SetList::PHP_54);
@@ -111,6 +111,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php',
         ],
 
+        // variadics issues
+        ParamTypeByMethodCallTypeRector::class => [__DIR__ . '/packages/git-wrapper/src/GitWorkingCopy.php'],
+
         // on purpose Latte macro magic
         SymplifyQuoteEscapeRector::class => [
             __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/src/Latte/Macros/LatteMacroFaker.php',
@@ -137,5 +140,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'src/Printer/PhpParserPhpConfigPrinter.php',
             'src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
         ],
+
+        // something broken on array of string and method
+        __DIR__ . '/packages/phpstan-rules/src/Rules/PreferredMethodCallOverFuncCallRule.php',
     ]);
 };

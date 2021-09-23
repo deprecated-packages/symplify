@@ -30,26 +30,14 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parameter argument on position %d must use %s constant';
 
     /**
-     * @var array<class-string, mixed[]>
-     */
-    private array $requiredLocalConstantInMethodCall = [];
-
-    /**
-     * @var array<class-string, mixed[]>
-     */
-    private array $requiredExternalConstantInMethodCall = [];
-
-    /**
      * @param array<class-string, mixed[]> $requiredLocalConstantInMethodCall
      * @param array<class-string, mixed[]> $requiredExternalConstantInMethodCall
      */
     public function __construct(
         private PositionMatcher $positionMatcher,
-        array $requiredLocalConstantInMethodCall = [],
-        array $requiredExternalConstantInMethodCall = []
+        private array $requiredLocalConstantInMethodCall = [],
+        private array $requiredExternalConstantInMethodCall = []
     ) {
-        $this->requiredLocalConstantInMethodCall = $requiredLocalConstantInMethodCall;
-        $this->requiredExternalConstantInMethodCall = $requiredExternalConstantInMethodCall;
     }
 
     /**

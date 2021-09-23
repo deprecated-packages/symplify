@@ -27,19 +27,13 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = '"%s" dependency is allowed only in "%s" types';
 
     /**
-     * @var array<string, string[]>
-     */
-    private array $allowedExclusiveDependencyInTypes = [];
-
-    /**
      * @param array<string, string[]> $allowedExclusiveDependencyInTypes
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        array $allowedExclusiveDependencyInTypes = []
+        private array $allowedExclusiveDependencyInTypes = []
     ) {
-        $this->allowedExclusiveDependencyInTypes = $allowedExclusiveDependencyInTypes;
     }
 
     /**

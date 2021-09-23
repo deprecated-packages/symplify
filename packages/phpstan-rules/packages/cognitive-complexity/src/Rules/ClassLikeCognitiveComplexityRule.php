@@ -30,11 +30,6 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     public const ERROR_MESSAGE = '%s cognitive complexity is %d, keep it under %d';
 
     /**
-     * @var array<string, int>
-     */
-    private array $limitsByTypes = [];
-
-    /**
      * @param array<string, int> $limitsByTypes
      */
     public function __construct(
@@ -42,10 +37,9 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
         private CompositionOverInheritanceAnalyzer $compositionOverInheritanceAnalyzer,
         private SimpleNameResolver $simpleNameResolver,
         private int $maxClassCognitiveComplexity = 50,
-        array $limitsByTypes = [],
-        private bool $scoreCompositionOverInheritance = false,
+        private array $limitsByTypes = [],
+        private bool $scoreCompositionOverInheritance = false
     ) {
-        $this->limitsByTypes = $limitsByTypes;
     }
 
     /**

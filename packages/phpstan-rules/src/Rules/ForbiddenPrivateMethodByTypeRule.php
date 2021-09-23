@@ -25,19 +25,13 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     public const ERROR_MESSAGE = 'Private method in is not allowed here - it should only delegate to others. Decouple the private method to a new service class';
 
     /**
-     * @var array<string, string>
-     */
-    private array $forbiddenTypes = [];
-
-    /**
      * @param array<string, string> $forbiddenTypes
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
-        array $forbiddenTypes = []
+        private array $forbiddenTypes = []
     ) {
-        $this->forbiddenTypes = $forbiddenTypes;
     }
 
     /**

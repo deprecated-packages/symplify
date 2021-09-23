@@ -98,6 +98,7 @@ final class NodeValueResolver
             if (! $classLike instanceof ClassLike) {
                 return null;
             }
+
             $className = $this->simpleNameResolver->getName($classLike);
         }
 

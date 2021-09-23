@@ -24,7 +24,10 @@ final class ScalarValueResolver
         $resolveValues = $this->resolvedValues($args, $scope->getFile());
 
         // filter out false/true values
-        $resolvedValuesWithoutBool = \array_filter($resolveValues, fn ($value) => ! $this->shouldSkipValue($value));
+        $resolvedValuesWithoutBool = \array_filter(
+            $resolveValues,
+            fn ($value): bool => ! $this->shouldSkipValue($value)
+        );
         if ($resolvedValuesWithoutBool === []) {
             return [];
         }
@@ -69,7 +72,7 @@ final class ScalarValueResolver
         }
 
         // the array_count_values ignores "null", so we have to translate it to string here
-        $values = array_filter($values, fn (mixed $value) => $this->isFilterableValue($value));
+        $values = array_filter($values, fn (mixed $value): bool => $this->isFilterableValue($value));
 
         return \array_count_values($values);
     }

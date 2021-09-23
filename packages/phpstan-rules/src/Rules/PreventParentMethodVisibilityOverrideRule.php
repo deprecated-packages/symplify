@@ -117,9 +117,11 @@ CODE_SAMPLE
         if ($reflectionMethod->isProtected() && $classMethod->isProtected()) {
             return true;
         }
+
         if (! $reflectionMethod->isPrivate()) {
             return false;
         }
+
         return $classMethod->isPrivate();
     }
 

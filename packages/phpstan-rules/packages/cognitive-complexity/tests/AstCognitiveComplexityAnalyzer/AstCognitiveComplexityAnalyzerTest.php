@@ -69,12 +69,15 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
             (array) $nodes,
             fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
         );
+
         if ($firstFunctionlike instanceof ClassMethod) {
             return $firstFunctionlike;
         }
+
         if ($firstFunctionlike instanceof Function_) {
             return $firstFunctionlike;
         }
+
         throw new ShouldNotHappenException();
     }
 }

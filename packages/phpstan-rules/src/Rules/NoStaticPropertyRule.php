@@ -88,6 +88,7 @@ CODE_SAMPLE
         if (! $classReflection instanceof ClassReflection) {
             return false;
         }
+
         if (! $classReflection->isAbstract()) {
             return false;
         }
