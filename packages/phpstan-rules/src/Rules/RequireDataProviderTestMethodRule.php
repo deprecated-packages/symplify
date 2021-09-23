@@ -24,18 +24,12 @@ final class RequireDataProviderTestMethodRule extends AbstractSymplifyRule imple
     public const ERROR_MESSAGE = 'The "%s()" method must use data provider';
 
     /**
-     * @var string[]
-     */
-    private array $classesRequiringDataProvider = [];
-
-    /**
      * @param string[] $classesRequiringDataProvider
      */
     public function __construct(
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        array $classesRequiringDataProvider = []
+        private array $classesRequiringDataProvider = []
     ) {
-        $this->classesRequiringDataProvider = $classesRequiringDataProvider;
     }
 
     /**

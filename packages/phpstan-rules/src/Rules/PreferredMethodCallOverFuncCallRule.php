@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
@@ -24,18 +23,12 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractSymplifyRule imp
     public const ERROR_MESSAGE = 'Use "%s" class and "%s()" method call over "%s()" func call';
 
     /**
-     * @var array<string, string[]>
-     */
-    private array $funcCallToPreferredMethodCalls = [];
-
-    /**
      * @param array<string, string[]> $funcCallToPreferredMethodCalls
      */
     public function __construct(
         private FuncCallMatcher $funcCallMatcher,
-        array $funcCallToPreferredMethodCalls = []
+        private array $funcCallToPreferredMethodCalls = []
     ) {
-        $this->funcCallToPreferredMethodCalls = $funcCallToPreferredMethodCalls;
     }
 
     /**
@@ -97,7 +90,7 @@ CODE_SAMPLE
                 ,
                 [
                     'funcCallToPreferredMethodCalls' => [
-                        'strlen' => [Strings::class, 'length'],
+                        'strlen' => ['Nette\Utils\Strings', 'length'],
                     ],
                 ]
             ),

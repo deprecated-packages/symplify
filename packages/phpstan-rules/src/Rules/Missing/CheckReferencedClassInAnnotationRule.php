@@ -171,6 +171,7 @@ CODE_SAMPLE
 
             $errorMessages[] = sprintf(self::METHOD_ERROR_MESSAGE, $method, $class);
         }
+
         return $errorMessages;
     }
 

@@ -121,6 +121,7 @@ CODE_SAMPLE
         if (! $classLike->isFinal()) {
             return false;
         }
+
         if ($classLike->extends === null) {
             return false;
         }

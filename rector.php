@@ -140,5 +140,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'src/Printer/PhpParserPhpConfigPrinter.php',
             'src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
         ],
+
+        // something broken on array of string and method
+        __DIR__ . '/packages/phpstan-rules/src/Rules/PreferredMethodCallOverFuncCallRule.php',
     ]);
 };

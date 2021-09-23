@@ -88,6 +88,7 @@ CODE_SAMPLE
         if ($singleNestedFirstArrayDimFetch->dim === null) {
             return false;
         }
+
         $singleNestedSecondArrayDimFetch = $this->resolveSingleNestedArrayDimFetch($secondArrayDimFetch);
 
         return $this->nodeComparator->areNodesEqual($singleNestedFirstArrayDimFetch, $singleNestedSecondArrayDimFetch);
@@ -113,6 +114,7 @@ CODE_SAMPLE
         if (! $previous instanceof Expression) {
             return null;
         }
+
         if (! $previous->expr instanceof Assign) {
             return null;
         }

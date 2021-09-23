@@ -33,19 +33,13 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     public const ERROR_MESSAGE = 'Use quoted string in method call "%s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.';
 
     /**
-     * @var array<string, array<string, array<int>>>
-     */
-    private array $stringArgPositionByMethodByType = [];
-
-    /**
      * @param array<string, array<string, array<int>>> $stringArgPositionByMethodByType
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        array $stringArgPositionByMethodByType = []
+        private array $stringArgPositionByMethodByType = []
     ) {
-        $this->stringArgPositionByMethodByType = $stringArgPositionByMethodByType;
     }
 
     /**

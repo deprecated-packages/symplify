@@ -36,18 +36,12 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
     private const EXCLUDED_NAMESPACE_REGEX = '#\\\\(Exception|Contract)\\\\#';
 
     /**
-     * @var string[]
-     */
-    private array $namespaceParts = [];
-
-    /**
      * @param string[] $namespaceParts
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        array $namespaceParts = []
+        private array $namespaceParts = []
     ) {
-        $this->namespaceParts = $namespaceParts;
     }
 
     /**

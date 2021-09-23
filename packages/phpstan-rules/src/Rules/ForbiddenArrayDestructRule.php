@@ -110,10 +110,12 @@ CODE_SAMPLE
         if ($assign->expr instanceof FuncCall && $this->simpleNameResolver->isName($assign->expr->name, 'explode')) {
             return true;
         }
+
         // Strings::split() is allowed
         if (! $assign->expr instanceof StaticCall) {
             return false;
         }
+
         return $this->simpleNameResolver->isName($assign->expr->name, 'split');
     }
 

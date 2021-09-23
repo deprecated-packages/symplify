@@ -113,6 +113,7 @@ CODE_SAMPLE
         if (! $class instanceof Class_) {
             return false;
         }
+
         return $class->getMethod($methodName) instanceof ClassMethod;
     }
 }

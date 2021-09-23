@@ -59,6 +59,7 @@ final class NoParentMethodCallOnNoOverrideProcessRule extends AbstractSymplifyRu
         if (! $this->nodeComparator->areArgsAndParamsSame($methodCallArgs, $classMethodParams)) {
             return [];
         }
+
         return [self::ERROR_MESSAGE];
     }
 

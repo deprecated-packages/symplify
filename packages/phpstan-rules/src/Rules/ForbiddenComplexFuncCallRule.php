@@ -24,19 +24,13 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
     public const ERROR_MESSAGE = 'Do not use "%s" function with complex content, make it more readable with extracted method or single-line statement';
 
     /**
-     * @var string[]
-     */
-    private array $forbiddenComplexFunctions = [];
-
-    /**
      * @param string[] $forbiddenComplexFunctions
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        array $forbiddenComplexFunctions = [],
+        private array $forbiddenComplexFunctions = [],
         private int $maximumStmtCount = 2
     ) {
-        $this->forbiddenComplexFunctions = $forbiddenComplexFunctions;
     }
 
     /**

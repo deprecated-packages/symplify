@@ -25,18 +25,12 @@ final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule implement
     public const ERROR_MESSAGE = 'Object instance of "%s" is forbidden to be passed to constructor';
 
     /**
-     * @var string[]
-     */
-    private array $forbiddenTypes = [];
-
-    /**
      * @param string[] $forbiddenTypes
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        array $forbiddenTypes = []
+        private array $forbiddenTypes = []
     ) {
-        $this->forbiddenTypes = $forbiddenTypes;
     }
 
     /**

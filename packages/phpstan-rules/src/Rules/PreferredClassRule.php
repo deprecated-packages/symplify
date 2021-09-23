@@ -31,19 +31,13 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     public const ERROR_MESSAGE = 'Instead of "%s" class/interface use "%s"';
 
     /**
-     * @var string[]
-     */
-    private array $oldToPrefferedClasses = [];
-
-    /**
      * @param string[] $oldToPreferredClasses
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ParentParamTypeGuard $parentParamTypeGuard,
-        array $oldToPreferredClasses
+        private array $oldToPreferredClasses = []
     ) {
-        $this->oldToPrefferedClasses = $oldToPreferredClasses;
     }
 
     /**
@@ -135,7 +129,7 @@ CODE_SAMPLE
         $className = $this->simpleNameResolver->getName($class);
 
         $parentClass = $class->extends->toString();
-        foreach ($this->oldToPrefferedClasses as $oldClass => $prefferedClass) {
+        foreach ($this->oldToPreferredClasses as $oldClass => $prefferedClass) {
             if ($parentClass !== $oldClass) {
                 continue;
             }
@@ -161,7 +155,7 @@ CODE_SAMPLE
             return [];
         }
 
-        foreach ($this->oldToPrefferedClasses as $oldClass => $prefferedClass) {
+        foreach ($this->oldToPreferredClasses as $oldClass => $prefferedClass) {
             if ($className !== $oldClass) {
                 continue;
             }

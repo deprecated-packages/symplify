@@ -123,9 +123,11 @@ CODE_SAMPLE
         if ($parent instanceof BinaryOp) {
             return true;
         }
+
         if (! $parent instanceof Assign) {
             return false;
         }
+
         return $parent->var === $propertyFetch;
     }
 }

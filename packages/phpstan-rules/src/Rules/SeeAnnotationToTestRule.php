@@ -32,11 +32,6 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
      */
     public const ERROR_MESSAGE = 'Class "%s" is missing @see annotation with test case class reference';
 
-    /**
-     * @var string[]
-     */
-    private array $requiredSeeTypes = [];
-
     private PrivatesAccessor $privatesAccessor;
 
     /**
@@ -46,10 +41,8 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
         private Broker $broker,
         private SimpleNameResolver $simpleNameResolver,
         private PhpDocResolver $phpDocResolver,
-        array $requiredSeeTypes = []
+        private array $requiredSeeTypes = []
     ) {
-        $this->requiredSeeTypes = $requiredSeeTypes;
-
         $this->privatesAccessor = new PrivatesAccessor();
     }
 

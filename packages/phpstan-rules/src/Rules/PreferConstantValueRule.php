@@ -28,11 +28,6 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     public const ERROR_MESSAGE = 'Use defined constant %s::%s over string %s';
 
     /**
-     * @var array<string, array<string, string>>
-     */
-    private array $constantHoldingObjects = [];
-
-    /**
      * @var array<string, ReflectionClassConstant[]>
      */
     private array $cacheDefinedConstants = [];
@@ -40,9 +35,9 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
     /**
      * @param array<string, array<string, string>> $constantHoldingObjects
      */
-    public function __construct(array $constantHoldingObjects = [])
-    {
-        $this->constantHoldingObjects = $constantHoldingObjects;
+    public function __construct(
+        private array $constantHoldingObjects = []
+    ) {
     }
 
     /**

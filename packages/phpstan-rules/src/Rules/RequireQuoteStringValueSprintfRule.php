@@ -117,6 +117,7 @@ CODE_SAMPLE
         if ($before === '') {
             $before = ' ';
         }
+
         $after = $matches[self::AFTER_PART] ?? ' ';
         if ($after === '') {
             $after = ' ';
