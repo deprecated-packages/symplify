@@ -29,26 +29,26 @@ final class LatteVariableNamesResolver
      */
     public function resolveFromFile(string $templateFilePath): array
     {
-        $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
+        $stmts = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
 
         // resolve parent layout variables
         // 1. current template
         $templateFilePaths = [$templateFilePath];
 
         // 2. parent layout
-        $parentLayoutFileName = $this->parentLayoutTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        $parentLayoutFileName = $this->parentLayoutTemplateFileResolver->resolve($templateFilePath, $stmts);
         if ($parentLayoutFileName !== null) {
             $templateFilePaths[] = $parentLayoutFileName;
         }
 
         // 3. included templates
-        $includedTemplateFilePaths = $this->includedSnippetTemplateFileResolver->resolve($templateFilePath, $phpNodes);
+        $includedTemplateFilePaths = $this->includedSnippetTemplateFileResolver->resolve($templateFilePath, $stmts);
         $templateFilePaths = array_merge($templateFilePaths, $includedTemplateFilePaths);
 
         $usedVariableNames = [];
         foreach ($templateFilePaths as $templateFilePath) {
-            $phpNodes = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
-            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($phpNodes);
+            $stmts = $this->parseTemplateFileNameToPhpNodes($templateFilePath, []);
+            $currentUsedVariableNames = $this->resolveUsedVariableNamesFromPhpNodes($stmts);
             $usedVariableNames = array_merge($usedVariableNames, $currentUsedVariableNames);
         }
 
