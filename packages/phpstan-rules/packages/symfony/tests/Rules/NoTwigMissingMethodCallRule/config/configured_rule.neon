@@ -1,5 +1,4 @@
 includes:
-#    - ../../../../config/symfony-rules.neon
     - ../../../../../../config/services/services.neon
 
 parameters:

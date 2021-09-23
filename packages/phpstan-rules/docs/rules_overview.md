@@ -1,4 +1,4 @@
-# 163 Rules Overview
+# 164 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2285,6 +2285,49 @@ class SomeClass
 
 <br>
 
+## IfElseToMatchSpotterRule
+
+If/else construction can be replace with more robust `match()`
+
+- class: [`Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule`](../src/Rules/Spotter/IfElseToMatchSpotterRule.php)
+
+```php
+class SomeClass
+{
+    public function spot($value)
+    {
+        if ($value === 100) {
+            $items = ['yes'];
+        } else {
+            $items = ['no'];
+        }
+
+        return $items;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function spot($value)
+    {
+        return match ($value) {
+            100 => ['yes'],
+            default => ['no'],
+        };
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## IfImplementsInterfaceThenNewTypeRule
 
 Class that implements specific interface, must use related class in `new SomeClass`
@@ -2973,7 +3016,20 @@ function run($one, $two);
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
 
+:wrench: **configure it!**
+
 - class: [`Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule`](../src/Rules/NoDuplicatedShortClassNameRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            toleratedNestingLevel: 1
+```
+
+↓
 
 ```php
 namespace App;
@@ -4402,7 +4458,7 @@ class SomeService
 
 ## NoTwigMissingMethodCallRule
 
-Variable "%s" of type "%s" does not have `"%s()"` method
+Complete analysis of PHP code generated from Twig template
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingMethodCallRule`](../packages/symfony/src/Rules/NoTwigMissingMethodCallRule.php)
 

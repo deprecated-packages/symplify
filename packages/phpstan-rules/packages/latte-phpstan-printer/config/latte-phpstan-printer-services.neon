@@ -17,5 +17,4 @@ services:
     - Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
 
     # php traversing
-    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\LatteVariableCollectingNodeVisitor
     - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor
