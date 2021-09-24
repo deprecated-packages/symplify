@@ -39,6 +39,7 @@ final class NoNetteRenderUnusedVariableRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/SkipFakingOpenCloseMacro.php', []];
 
         yield [__DIR__ . '/Fixture/SkipUnknownMacro.php', []];
+        yield [__DIR__ . '/Fixture/SkipUnionTemplate.php', []];
     }
 
     protected function getRule(): Rule

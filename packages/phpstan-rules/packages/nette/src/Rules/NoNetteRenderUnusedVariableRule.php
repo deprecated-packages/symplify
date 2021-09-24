@@ -63,25 +63,22 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
         $unusedVariableNamesByTemplateFilePath = [];
 
         foreach ($templateFilePaths as $templateFilePath) {
-            $unusedVariableNamesByTemplateFilePath[$templateFilePath] = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
+            $unusedVariableNamesByTemplateFilePath[] = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
                 $node,
                 $templateFilePath,
                 $scope
             );
         }
 
-        $errors = [];
-
-        foreach ($unusedVariableNamesByTemplateFilePath as $unusedVariableNames) {
-            if ($unusedVariableNames === []) {
-                continue;
-            }
-
-            $unusedPassedVariablesString = implode('", "', $unusedVariableNames);
-            $errors[] = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
+        $everywhereUnusedVariableNames = array_intersect(...$unusedVariableNamesByTemplateFilePath);
+        if ($everywhereUnusedVariableNames === []) {
+            return [];
         }
 
-        return $errors;
+        $unusedPassedVariablesString = implode('", "', $everywhereUnusedVariableNames);
+        $error = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
+
+        return [$error];
     }
 
     public function getRuleDefinition(): RuleDefinition
