@@ -25,6 +25,7 @@ final class UnusedTwigTemplateVariableAnalyzer
         Scope $scope
     ): array {
         $templateUsedVariableNames = $this->twigVariableNamesResolver->resolveFromFiles($templateFilePaths);
+
         $passedVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition($methodCall, $scope, 1);
 
         return array_diff($passedVariableNames, $templateUsedVariableNames);
