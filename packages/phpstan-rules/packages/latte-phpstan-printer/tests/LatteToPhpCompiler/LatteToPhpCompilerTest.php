@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler;
 
 use Iterator;
 use PHPStan\DependencyInjection\Container;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
@@ -13,7 +14,9 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
+use Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source\SomeNameControl;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -33,7 +36,7 @@ final class LatteToPhpCompilerTest extends TestCase
     public function test(SmartFileInfo $fileInfo): void
     {
         $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
-        $phpFileContent = $this->latteToPhpCompiler->compileContent($inputAndExpected->getInput(), []);
+        $phpFileContent = $this->latteToPhpCompiler->compileContent($inputAndExpected->getInput(), [], []);
 
         // update test fixture if the content has changed
         StaticFixtureUpdater::updateFixtureContent($inputAndExpected->getInput(), $phpFileContent, $fileInfo);
@@ -45,20 +48,22 @@ final class LatteToPhpCompilerTest extends TestCase
      * @dataProvider provideDataWithTypesAndControls()
      *
      * @param VariableAndType[] $variablesAndTypes
+     * @param ComponentNameAndType[] $componentNamesAndtTypes
      */
     public function testTypesAndControls(
         string $inputLatteFile,
         array $variablesAndTypes,
-        array $componentMap,
+        array $componentNamesAndtTypes,
         string $expectedPhpContent
     ): void {
         $smartFileSystem = new SmartFileSystem();
 
         $inputLatteFileContent = $smartFileSystem->readFile($inputLatteFile);
+
         $phpFileContent = $this->latteToPhpCompiler->compileContent(
             $inputLatteFileContent,
             $variablesAndTypes,
-            $componentMap
+            $componentNamesAndtTypes
         );
 
         $this->assertStringMatchesFormatFile($expectedPhpContent, $phpFileContent);
@@ -74,10 +79,12 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/FixtureWithTypes/expected_compiled.php',
         ];
 
+        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
+
         yield [
             __DIR__ . '/FixtureWithControl/input_file.latte',
             [],
-            [],
+            $componentNamesAndTypes,
             __DIR__ . '/FixtureWithControl/expected_compiled.php',
         ];
     }

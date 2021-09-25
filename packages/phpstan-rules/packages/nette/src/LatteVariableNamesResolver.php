@@ -83,7 +83,7 @@ final class LatteVariableNamesResolver implements UsedVariableNamesResolverInter
      */
     private function parseTemplateFileNameToPhpNodes(string $templateFilePath): array
     {
-        $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath, []);
+        $parentLayoutCompiledPhp = $this->latteToPhpCompiler->compileFilePath($templateFilePath, [], []);
         return $this->parentNodeAwarePhpParser->parsePhpContent($parentLayoutCompiledPhp);
     }
 }

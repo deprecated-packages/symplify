@@ -13,7 +13,6 @@ final class SomeControl extends Control
     {
         $this->template->render(__DIR__ . '/some_control.latte', [
             'someVariable' => new SomeType(),
-            'dateTime' => new \Nette\Utils\DateTime('now')
         ]);
     }
 

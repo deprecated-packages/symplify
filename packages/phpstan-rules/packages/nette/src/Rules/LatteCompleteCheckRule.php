@@ -7,20 +7,21 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
+use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
-use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
-use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
+use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -54,12 +55,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         '#has an unused variable#',
     ];
 
-    /**
-     * @var array<class-string<DocumentedRuleInterface>>
-     */
-    private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
-
-    private Registry $registry;
+    private TemplateRulesRegistry $templateRulesRegistry;
 
     /**
      * @param Rule[] $rules
@@ -73,12 +69,11 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
+        private ComponentMapResolver $componentMapResolver,
     ) {
         // limit rule here, as template class can contain lot of allowed Latte magic
         // get missing method + missing property etc. rule
-        $activeRules = $this->filterActiveRules($rules);
-
-        $this->registry = new Registry($activeRules);
+        $this->templateRulesRegistry = new TemplateRulesRegistry($rules);
     }
 
     /**
@@ -97,6 +92,18 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     {
         if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
             return [];
+        }
+
+        // find parent class
+        $parent = $node->getAttribute(AttributeKey::PARENT);
+        $componentNamesAndTypes = [];
+
+        while (! $parent instanceof Class_) {
+            $parent = $parent->getAttribute(AttributeKey::PARENT);
+        }
+
+        if ($parent instanceof Class_) {
+            $componentNamesAndTypes = $this->componentMapResolver->resolveComponentNamesAndTypes($parent, $scope);
         }
 
         // must be template path + variables
@@ -118,7 +125,13 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
 
         $errors = [];
         foreach ($resolvedTemplateFilePaths as $resolvedTemplateFilePath) {
-            $currentErrors = $this->processTemplateFilePath($resolvedTemplateFilePath, $secondArgValue, $scope);
+            $currentErrors = $this->processTemplateFilePath(
+                $resolvedTemplateFilePath,
+                $secondArgValue,
+                $scope,
+                $componentNamesAndTypes
+            );
+
             $errors = array_merge($errors, $currentErrors);
         }
 
@@ -168,38 +181,23 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Rule[] $rules
-     * @return Rule[]
-     */
-    private function filterActiveRules(array $rules): array
-    {
-        $activeRules = [];
-
-        foreach ($rules as $rule) {
-            foreach (self::EXCLUDED_RULES as $excludedRule) {
-                if (is_a($rule, $excludedRule, true)) {
-                    continue 2;
-                }
-            }
-
-            $activeRules[] = $rule;
-        }
-
-        return $activeRules;
-    }
-
-    /**
+     * @param ComponentNameAndType[] $componentNamesAndTypes
      * @return RuleError[]
      */
-    private function processTemplateFilePath(string $templateFilePath, Array_ $array, Scope $scope): array
-    {
+    private function processTemplateFilePath(
+        string $templateFilePath,
+        Array_ $array,
+        Scope $scope,
+        array $componentNamesAndTypes
+    ): array {
         try {
             $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
                 $templateFilePath,
                 $array,
-                $scope
+                $scope,
+                $componentNamesAndTypes
             );
-        } catch (Throwable) {
+        } catch (Throwable $throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
             return [];
         }
@@ -210,7 +208,7 @@ CODE_SAMPLE
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
         // to include generated class
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);

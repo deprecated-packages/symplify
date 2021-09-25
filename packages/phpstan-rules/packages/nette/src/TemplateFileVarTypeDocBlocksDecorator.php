@@ -14,6 +14,7 @@ use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {
@@ -24,10 +25,22 @@ final class TemplateFileVarTypeDocBlocksDecorator
     ) {
     }
 
-    public function decorate(string $latteFilePath, Array_ $array, Scope $scope): PhpFileContentsWithLineMap
-    {
+    /**
+     * @param ComponentNameAndType[] $componentNamesAndTypes
+     */
+    public function decorate(
+        string $latteFilePath,
+        Array_ $array,
+        Scope $scope,
+        array $componentNamesAndTypes
+    ): PhpFileContentsWithLineMap {
         $variablesAndTypes = $this->resolveLatteVariablesAndTypes($array, $scope);
-        $phpContent = $this->latteToPhpCompiler->compileFilePath($latteFilePath, $variablesAndTypes);
+
+        $phpContent = $this->latteToPhpCompiler->compileFilePath(
+            $latteFilePath,
+            $variablesAndTypes,
+            $componentNamesAndTypes
+        );
 
         $phpLinesToLatteLines = $this->phpToLatteLineNumbersResolver->resolve($phpContent);
         return new PhpFileContentsWithLineMap($phpContent, $phpLinesToLatteLines);
@@ -39,10 +52,7 @@ final class TemplateFileVarTypeDocBlocksDecorator
     public function resolveTwigVariablesAndTypes(Array_ $array, Scope $scope): array
     {
         // traverse nodes to add types after \DummyTemplateClass::main()
-        $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray($array, $scope);
-        return $variablesAndTypes;
-        // $defaultNetteVariablesAndTypes = $this->createDefaultNetteVariablesAndTypes();
-        // return array_merge($variablesAndTypes, $defaultNetteVariablesAndTypes);
+        return $this->templateVariableTypesResolver->resolveArray($array, $scope);
     }
 
     /**

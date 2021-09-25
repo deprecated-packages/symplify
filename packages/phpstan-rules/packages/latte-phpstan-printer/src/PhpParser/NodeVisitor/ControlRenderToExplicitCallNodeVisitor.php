@@ -14,8 +14,9 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
+use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source\SomeNameControl;
+use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 
 /**
  * Make $_tmp = $this->global->uiControl->getComponent("someName");
@@ -31,8 +32,12 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
     private string|null $currentComponentName = null;
 
+    /**
+     * @param ComponentNameAndType[] $componentNamesAndTypes
+     */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
+        private array $componentNamesAndTypes
     ) {
     }
 
@@ -54,7 +59,6 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
             }
         }
 
-        // @todo get [string name => control type] map
         if ($node instanceof Variable) {
             return $this->processVariable($node);
         }
@@ -107,12 +111,21 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
         $node->var = new Variable($this->currentComponentName);
 
         // 2. add @var type
-        // @todo resolve dynamically later
-        // @todo get [string name => control type] map
-        $resolvedComponentName = SomeNameControl::class;
+        foreach ($this->componentNamesAndTypes as $componentNameAndType) {
+            if ($componentNameAndType->getName() !== $componentName) {
+                continue;
+            }
 
-        $varDocBlockText = sprintf('/** @var \\%s $%s */', $resolvedComponentName, $this->currentComponentName);
-        $this->appendDocCommentToNode($expression, $varDocBlockText);
+            $componentType = $componentNameAndType->getReturnType();
+            if (! $componentType instanceof TypeWithClassName) {
+                continue;
+            }
+
+            $resolvedComponentName = $componentType->getClassName();
+            $varDocBlockText = sprintf('/** @var \\%s $%s */', $resolvedComponentName, $this->currentComponentName);
+
+            $this->appendDocCommentToNode($expression, $varDocBlockText);
+        }
 
         return $expression;
     }
