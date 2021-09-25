@@ -7,11 +7,12 @@ namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Contract\Templates\UsedVariableNamesResolverInterface;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 
-final class TwigVariableNamesResolver
+final class TwigVariableNamesResolver implements UsedVariableNamesResolverInterface
 {
     public function __construct(
         private TwigToPhpCompiler $twigToPhpCompiler,
@@ -24,21 +25,7 @@ final class TwigVariableNamesResolver
     /**
      * @return string[]
      */
-    public function resolveFromFiles(array $filePaths): array
-    {
-        $variableNames = [];
-        foreach ($filePaths as $filePath) {
-            $currentVariableNames = $this->resolveFromFilePath($filePath);
-            $variableNames = array_merge($variableNames, $currentVariableNames);
-        }
-
-        return $variableNames;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function resolveFromFilePath(string $filePath): array
+    public function resolveFromFilePath(string $filePath): array
     {
         $phpFileContent = $this->twigToPhpCompiler->compileContent($filePath, []);
         $stmts = $this->parentNodeAwarePhpParser->parsePhpContent($phpFileContent);

@@ -32,7 +32,7 @@ final class MissingLatteTemplateRenderVariableResolver
         string $templateFilePath,
         Scope $scope
     ): array {
-        $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFile($templateFilePath);
+        $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFilePath($templateFilePath);
         $availableVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition($methodCall, $scope, 1);
 
         $missingVariableNames = array_diff(

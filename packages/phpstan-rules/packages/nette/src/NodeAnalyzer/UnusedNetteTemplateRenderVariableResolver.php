@@ -25,7 +25,7 @@ final class UnusedNetteTemplateRenderVariableResolver
         string $templateFilePath,
         Scope $scope
     ): array {
-        $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFile($templateFilePath);
+        $templateUsedVariableNames = $this->latteVariableNamesResolver->resolveFromFilePath($templateFilePath);
         $passedVariableNames = $this->methodCallArrayResolver->resolveArrayKeysOnPosition($methodCall, $scope, 1);
 
         return array_diff($passedVariableNames, $templateUsedVariableNames);
