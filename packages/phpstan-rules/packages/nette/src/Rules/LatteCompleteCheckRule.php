@@ -106,8 +106,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
 
         $firstArgValue = $node->args[0]->value;
 
-        // @todo use similar approach to Twig rule
-        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope);
+        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
         if ($resolvedTemplateFilePaths === []) {
             return [];
         }
