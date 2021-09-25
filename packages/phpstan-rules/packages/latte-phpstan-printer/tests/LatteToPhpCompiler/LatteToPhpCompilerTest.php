@@ -41,31 +41,45 @@ final class LatteToPhpCompilerTest extends TestCase
         $this->assertSame($phpFileContent, $inputAndExpected->getExpected());
     }
 
-    public function testTypes(): void
-    {
-        $variablesAndTypes = [new VariableAndType('someName', new StringType())];
-
+    /**
+     * @dataProvider provideDataWithTypesAndControls()
+     *
+     * @param VariableAndType[] $variablesAndTypes
+     */
+    public function testTypesAndControls(
+        string $inputLatteFile,
+        array $variablesAndTypes,
+        array $componentMap,
+        string $expectedPhpContent
+    ): void {
         $smartFileSystem = new SmartFileSystem();
 
+        $inputLatteFileContent = $smartFileSystem->readFile($inputLatteFile);
         $phpFileContent = $this->latteToPhpCompiler->compileContent(
-            $smartFileSystem->readFile(__DIR__ . '/FixtureWithTypes/input_file.latte'),
-            $variablesAndTypes
+            $inputLatteFileContent,
+            $variablesAndTypes,
+            $componentMap
         );
-        $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithTypes/expected_compiled.php', $phpFileContent);
+
+        $this->assertStringMatchesFormatFile($expectedPhpContent, $phpFileContent);
     }
 
-    public function testControlRender(): void
+    public function provideDataWithTypesAndControls(): Iterator
     {
-        $smartFileSystem = new SmartFileSystem();
+        $variablesAndTypes = [new VariableAndType('someName', new StringType())];
+        yield [
+            __DIR__ . '/FixtureWithTypes/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureWithTypes/expected_compiled.php',
+        ];
 
-        $phpFileContent = $this->latteToPhpCompiler->compileContent(
-            $smartFileSystem->readFile(__DIR__ . '/FixtureWithControl/input_file.latte'),
-            []
-        );
-
-        $smartFileSystem->dumpFile('expected.php', $phpFileContent);
-
-        $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithControl/expected_compiled.php', $phpFileContent);
+        yield [
+            __DIR__ . '/FixtureWithControl/input_file.latte',
+            [],
+            [],
+            __DIR__ . '/FixtureWithControl/expected_compiled.php',
+        ];
     }
 
     /**

@@ -60,16 +60,13 @@ parameters:
         # WIP parallel
         - packages/easy-coding-standard/packages/Parallel
         - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
-        - packages/phpstan-rules/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/FixtureWithTypes
+        - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
-
-        # fixtures
-        - packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/*
 
         # PHP 8 only
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php

@@ -14,6 +14,7 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
+use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
 use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -36,17 +37,11 @@ final class LatteToPhpCompiler
 
     /**
      * @param array<VariableAndType> $variablesAndTypes
+     * @param string<string, string> $componentMap
      */
-    public function compileContent(string $templateFileContent, array $variablesAndTypes): string
+    public function compileContent(string $templateFileContent, array $variablesAndTypes, array $componentMap): string
     {
-        if (file_exists($templateFileContent)) {
-            $errorMessage = sprintf(
-                'The file path "%s" was passed as 1st argument in "%s()" metohd. Must be file content instead.',
-                $templateFileContent,
-                __METHOD__
-            );
-            throw new ShouldNotHappenException($errorMessage);
-        }
+        $this->ensureIsNotFilePath($templateFileContent);
 
         $latteTokens = $this->latteParser->parse($templateFileContent);
 
@@ -92,7 +87,26 @@ final class LatteToPhpCompiler
             new DefaultFilterMatcher()
         );
 
+        $controlRenderToExplicitCallNodeVisitor = new ControlRenderToExplicitCallNodeVisitor(
+            $this->simpleNameResolver
+        );
+
         $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
+        $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
         $nodeTraverser->traverse($phpStmts);
+    }
+
+    private function ensureIsNotFilePath(string $templateFileContent): void
+    {
+        if (! file_exists($templateFileContent)) {
+            return;
+        }
+
+        $errorMessage = sprintf(
+            'The file path "%s" was passed as 1st argument in "%s()" metohd. Must be file content instead.',
+            $templateFileContent,
+            __METHOD__
+        );
+        throw new ShouldNotHappenException($errorMessage);
     }
 }

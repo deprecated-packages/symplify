@@ -11,13 +11,14 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         echo '<h1>Some component</h1>
 
 ';
+        /** @var \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source\SomeNameControl $someNameControl */
         /** line in latte file: 3 */
         /* line 3 */
-        $_tmp = $this->global->uiControl->getComponent("someName");
-        if ($_tmp instanceof \Nette\Application\UI\Renderable) {
-            $_tmp->redrawControl(\null, \false);
+        $someNameControl = $this->global->uiControl->getComponent("someName");
+        if ($someNameControl instanceof \Nette\Application\UI\Renderable) {
+            $someNameControl->redrawControl(\null, \false);
         }
-        $_tmp->render('someValue');
+        $someNameControl->render('someValue');
         return \get_defined_vars();
     }
     public function prepare() : void
