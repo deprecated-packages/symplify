@@ -65,8 +65,7 @@ final class PathResolver
     private function findCandidateInTemplatesDirectory(
         string $resolvedTemplateFilePath,
         string $templateSuffix
-    ): string|null
-    {
+    ): string|null {
         $symfonyTemplatesDirectory = getcwd() . '/templates';
         if (! file_exists($symfonyTemplatesDirectory)) {
             return null;

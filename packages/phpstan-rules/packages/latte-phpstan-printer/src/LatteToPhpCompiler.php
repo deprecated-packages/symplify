@@ -10,6 +10,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
 use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
@@ -38,6 +39,15 @@ final class LatteToPhpCompiler
      */
     public function compileContent(string $templateFileContent, array $variablesAndTypes): string
     {
+        if (file_exists($templateFileContent)) {
+            $errorMessage = sprintf(
+                'The file path "%s" was passed as 1st argument in "%s()" metohd. Must be file content instead.',
+                $templateFileContent,
+                __METHOD__
+            );
+            throw new ShouldNotHappenException($errorMessage);
+        }
+
         $latteTokens = $this->latteParser->parse($templateFileContent);
 
         $rawPhpContent = $this->unknownMacroAwareLatteCompiler->compile($latteTokens, 'DummyTemplateClass');

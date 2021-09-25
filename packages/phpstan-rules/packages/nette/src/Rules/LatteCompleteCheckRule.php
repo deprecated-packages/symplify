@@ -204,6 +204,9 @@ CODE_SAMPLE
             return [];
         }
 
+        dump($phpFileContentsWithLineMap->getPhpFileContents());
+        die;
+
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 

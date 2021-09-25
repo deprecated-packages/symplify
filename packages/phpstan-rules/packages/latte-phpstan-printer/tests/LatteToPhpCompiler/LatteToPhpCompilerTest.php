@@ -15,6 +15,7 @@ use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
 use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class LatteToPhpCompilerTest extends TestCase
 {
@@ -43,11 +44,28 @@ final class LatteToPhpCompilerTest extends TestCase
     public function testTypes(): void
     {
         $variablesAndTypes = [new VariableAndType('someName', new StringType())];
+
+        $smartFileSystem = new SmartFileSystem();
+
         $phpFileContent = $this->latteToPhpCompiler->compileContent(
-            __DIR__ . '/FixtureWithTypes/input_file.latte',
+            $smartFileSystem->readFile(__DIR__ . '/FixtureWithTypes/input_file.latte'),
             $variablesAndTypes
         );
         $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithTypes/expected_compiled.php', $phpFileContent);
+    }
+
+    public function testControlRender(): void
+    {
+        $smartFileSystem = new SmartFileSystem();
+
+        $phpFileContent = $this->latteToPhpCompiler->compileContent(
+            $smartFileSystem->readFile(__DIR__ . '/FixtureWithControl/input_file.latte'),
+            []
+        );
+
+        $smartFileSystem->dumpFile('expected.php', $phpFileContent);
+
+        $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithControl/expected_compiled.php', $phpFileContent);
     }
 
     /**

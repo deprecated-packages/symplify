@@ -47,7 +47,9 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
 
         /** @var array<string, mixed> $macros */
         $macros = $this->privatesAccessor->getPrivateProperty($this, 'macros');
+
         $this->nativeMacrosNames = array_keys($macros);
+        sort($this->nativeMacrosNames);
     }
 
     /**
@@ -66,7 +68,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
     /**
      * @param Token[] $tokens
      */
-    public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = false): string
+    public function compile(array $tokens, string $className, string $comment = null, bool $strictMode = true): string
     {
         // @todo compile loop counter?
         try {
