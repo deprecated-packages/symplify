@@ -17,6 +17,8 @@ final class LatteLineNumberNodeVisitor extends NodeVisitorAbstract
      */
     private array $phpLinesToLatteLines = [];
 
+    private ?int $lastLatteLine = null;
+
     public function __construct(
         private LineCommentMatcher $lineCommentMatcher
     ) {
@@ -39,16 +41,19 @@ final class LatteLineNumberNodeVisitor extends NodeVisitorAbstract
         $docComment = $node->getDocComment();
 
         if (! $docComment instanceof Doc) {
+            $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
             return null;
         }
 
         $docCommentText = $docComment->getText();
         $latteLine = $this->lineCommentMatcher->matchLine($docCommentText);
         if ($latteLine === null) {
+            $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
             return null;
         }
 
         $this->phpLinesToLatteLines[$node->getStartLine()] = $latteLine;
+        $this->lastLatteLine = $latteLine;
 
         return null;
     }
