@@ -72,6 +72,11 @@ final class RequireQuoteStringValueSprintfRule extends AbstractSymplifyRule
             return [];
         }
 
+        // probably doblock
+        if (str_starts_with($format->value, '/*')) {
+            return [];
+        }
+
         if (! $this->doesContainBareStringMask($format->value)) {
             return [];
         }

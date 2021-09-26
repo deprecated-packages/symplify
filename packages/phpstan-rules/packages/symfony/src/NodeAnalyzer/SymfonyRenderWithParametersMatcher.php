@@ -98,7 +98,7 @@ final class SymfonyRenderWithParametersMatcher
     ): ?RenderTemplateWithParameters {
         $firstArgValue = $methodCall->args[0]->value;
 
-        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope);
+        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'twig');
         if ($resolvedTemplateFilePaths === []) {
             return null;
         }

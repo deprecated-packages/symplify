@@ -7,9 +7,25 @@ namespace Symplify\PHPStanRules\TypeAnalyzer;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\Type;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 final class ClassMethodTypeAnalyzer
 {
+    public function resolveReturnType(ClassMethod $classMethod, Scope $scope): Type
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            throw new ShouldNotHappenException();
+        }
+
+        $methodName = (string) $classMethod->name;
+        $methodReflection = $classReflection->getNativeMethod($methodName);
+
+        $parametersAcceptor = $methodReflection->getVariants()[0];
+        return $parametersAcceptor->getReturnType();
+    }
+
     /**
      * @param string[] $methodNames
      */
