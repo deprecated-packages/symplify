@@ -41,14 +41,18 @@ final class LatteLineNumberNodeVisitor extends NodeVisitorAbstract
         $docComment = $node->getDocComment();
 
         if (! $docComment instanceof Doc) {
-            $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
+            if ($this->lastLatteLine !== null) {
+                $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
+            }
             return null;
         }
 
         $docCommentText = $docComment->getText();
         $latteLine = $this->lineCommentMatcher->matchLine($docCommentText);
         if ($latteLine === null) {
-            $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
+            if ($this->lastLatteLine !== null) {
+                $this->phpLinesToLatteLines[$node->getStartLine()] = $this->lastLatteLine;
+            }
             return null;
         }
 
