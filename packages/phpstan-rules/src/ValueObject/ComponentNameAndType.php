@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\ValueObject;
 
+use PHPStan\Type\Type;
+
 final class ComponentNameAndType
 {
     public function __construct(
         private string $name,
-        private \PHPStan\Type\Type $returnType
+        private Type $returnType
     ) {
     }
 
@@ -17,7 +19,7 @@ final class ComponentNameAndType
         return $this->name;
     }
 
-    public function getReturnType(): \PHPStan\Type\Type
+    public function getReturnType(): Type
     {
         return $this->returnType;
     }

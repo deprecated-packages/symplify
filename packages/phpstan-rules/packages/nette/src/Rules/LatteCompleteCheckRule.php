@@ -102,9 +102,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             $parent = $parent->getAttribute(AttributeKey::PARENT);
         }
 
-        if ($parent instanceof Class_) {
-            $componentNamesAndTypes = $this->componentMapResolver->resolveComponentNamesAndTypes($parent, $scope);
-        }
+        $componentNamesAndTypes = $this->componentMapResolver->resolveComponentNamesAndTypes($parent, $scope);
 
         // must be template path + variables
         if (count($node->args) !== 2) {
@@ -197,7 +195,7 @@ CODE_SAMPLE
                 $scope,
                 $componentNamesAndTypes
             );
-        } catch (Throwable $throwable) {
+        } catch (Throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
             return [];
         }

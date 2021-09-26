@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Templates;
 
+use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Rules\FunctionCallParametersCheck;
 use PHPStan\Rules\Methods\CallMethodsRule;
@@ -22,7 +23,7 @@ final class TemplateRulesRegistry extends Registry
     private const EXCLUDED_RULES = [ForbiddenFuncCallRule::class, NoDynamicNameRule::class];
 
     /**
-     * @param array<Rule<\PhpParser\Node>> $rules
+     * @param array<Rule<Node>> $rules
      */
     public function __construct(array $rules)
     {
@@ -31,8 +32,8 @@ final class TemplateRulesRegistry extends Registry
     }
 
     /**
-     * @param class-string<\PhpParser\Node> $nodeType
-     * @return array<\PHPStan\Rules\Rule<\PhpParser\Node>>
+     * @param class-string<Node> $nodeType
+     * @return array<Rule<Node>>
      */
     public function getRules(string $nodeType): array
     {
@@ -58,8 +59,8 @@ final class TemplateRulesRegistry extends Registry
     }
 
     /**
-     * @param array<Rule<\PhpParser\Node>> $rules
-     * @return array<Rule<\PhpParser\Node>>
+     * @param array<Rule<Node>> $rules
+     * @return array<Rule<Node>>
      */
     private function filterActiveRules(array $rules): array
     {

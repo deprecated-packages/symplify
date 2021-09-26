@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
@@ -53,10 +52,8 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node): Node|null
     {
-        if ($node instanceof Expression) {
-            if ($node->expr instanceof Assign) {
-                return $this->processAssign($node->expr, $node);
-            }
+        if ($node instanceof Expression && $node->expr instanceof Assign) {
+            return $this->processAssign($node->expr, $node);
         }
 
         if ($node instanceof Variable) {
@@ -78,9 +75,6 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
         }
 
         $firstArg = $methodCall->args[0];
-        if (! $firstArg instanceof Arg) {
-            return null;
-        }
 
         // try to get component name
         if (! $firstArg->value instanceof String_) {
@@ -93,14 +87,14 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
     /**
      * Looking for assign: $tmp_ = $this->global->uiControl->getComponent("someName");
      */
-    private function processAssign(Assign $node, Expression $expression): Expression|null
+    private function processAssign(Assign $assign, Expression $expression): Expression|null
     {
         // look for $tmp_
-        if (! $this->simpleNameResolver->isName($node->var, self::TMP_NAME)) {
+        if (! $this->simpleNameResolver->isName($assign->var, self::TMP_NAME)) {
             return null;
         }
 
-        $componentName = $this->resolveAssignedComponentName($node->expr);
+        $componentName = $this->resolveAssignedComponentName($assign->expr);
         if ($componentName === null) {
             return null;
         }
@@ -108,7 +102,7 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
         $this->currentComponentName = $componentName . 'Control';
 
         // 1. rename assigned control
-        $node->var = new Variable($this->currentComponentName);
+        $assign->var = new Variable($this->currentComponentName);
 
         // 2. add @var type
         foreach ($this->componentNamesAndTypes as $componentNameAndType) {
