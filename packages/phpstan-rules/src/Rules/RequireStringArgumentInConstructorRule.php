@@ -61,6 +61,10 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
             }
 
             foreach ($node->args as $key => $arg) {
+                if (! $arg instanceof Arg) {
+                    continue;
+                }
+
                 if ($this->shouldSkipArg($key, $positions, $arg)) {
                     continue;
                 }
