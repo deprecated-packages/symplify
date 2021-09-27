@@ -74,6 +74,7 @@
             "packages/amnesia/src/Functions/env.php"
         ],
         "psr-4": {
+            "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
             "Symplify\\Amnesia\\": "packages/amnesia/src",
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
