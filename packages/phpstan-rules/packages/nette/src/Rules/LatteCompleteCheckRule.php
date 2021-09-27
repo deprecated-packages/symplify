@@ -15,9 +15,9 @@ use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
@@ -62,7 +62,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
+        private RenderTemplateWithParametersMatcher $renderTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
@@ -92,7 +92,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
-        $renderTemplateWithParameters = $this->matchRenderTemplateWithParameters($node, $scope);
+        $renderTemplateWithParameters = $this->renderTemplateWithParametersMatcher->match($node, $scope, 'latte');
         if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
@@ -190,31 +190,5 @@ CODE_SAMPLE
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);
 
         return $this->templateErrorsFactory->createErrors($errors, $templateFilePath, $phpFileContentsWithLineMap);
-    }
-
-    /**
-     * Must be template path + variables
-     */
-    private function matchRenderTemplateWithParameters(
-        MethodCall $methodCall,
-        Scope $scope
-    ): RenderTemplateWithParameters|null {
-        if (count($methodCall->args) !== 2) {
-            return null;
-        }
-
-        $firstArgValue = $methodCall->args[0]->value;
-
-        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
-        if ($resolvedTemplateFilePaths === []) {
-            return null;
-        }
-
-        $secondArgValue = $methodCall->args[1]->value;
-        if (! $secondArgValue instanceof Array_) {
-            return null;
-        }
-
-        return new RenderTemplateWithParameters($resolvedTemplateFilePaths, $secondArgValue);
     }
 }
