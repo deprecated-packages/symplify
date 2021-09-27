@@ -10,6 +10,7 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Core\Configuration\Option;
+use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
@@ -27,6 +28,10 @@ use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
     $containerConfigurator->import(SetList::DEAD_CODE);
+
+    // uncomment after phpstan is using php-parser 4.13, to avoid false positives
+    // $containerConfigurator->import(SetList::DEAD_CODE);
+
     $containerConfigurator->import(SetList::CODING_STYLE);
     $containerConfigurator->import(SetList::PHP_54);
     $containerConfigurator->import(SetList::PHP_55);
@@ -143,5 +148,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // something broken on array of string and method
         __DIR__ . '/packages/phpstan-rules/src/Rules/PreferredMethodCallOverFuncCallRule.php',
+
+        // conflicting with php-parser 4.13- in phpstan for now
+        RemoveDeadInstanceOfRector::class,
     ]);
 };

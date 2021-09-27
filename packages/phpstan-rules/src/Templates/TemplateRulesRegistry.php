@@ -32,8 +32,9 @@ final class TemplateRulesRegistry extends Registry
     }
 
     /**
-     * @param class-string<Node> $nodeType
-     * @return array<Rule<Node>>
+     * @template TNode as \PhpParser\Node
+     * @param class-string<TNode> $nodeType
+     * @return array<Rule<TNode>>
      */
     public function getRules(string $nodeType): array
     {

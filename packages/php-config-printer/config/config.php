@@ -8,7 +8,12 @@ use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -32,6 +37,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Parser::class);
     $services->set(BuilderFactory::class);
     $services->set(ParentConnectingVisitor::class);
+
+    $services->set(SimpleNodeFinder::class);
+    $services->set(TypeChecker::class);
+    $services->set(NodeValueResolver::class);
+    $services->set(SimpleNameResolver::class)
+        ->factory(SimpleNameResolverStaticFactory::class . '::create');
 
     $services->set(ParameterProvider::class)
         ->args([service(ContainerInterface::class)]);
