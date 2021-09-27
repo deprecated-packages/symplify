@@ -39,7 +39,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 
     $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SKIP, ['*/Tests/*', '*/tests/*', __DIR__ . '/../../tests',
-        'symfony/http-kernel/HttpKernelBrowser.php',
+    $parameters->set(Option::SKIP, [
+        '*/Tests/*',
+        '*/tests/*',
+        __DIR__ . '/../../tests',
+        '*/symfony/http-kernel/HttpKernelBrowser.php',
     ]);
 };
