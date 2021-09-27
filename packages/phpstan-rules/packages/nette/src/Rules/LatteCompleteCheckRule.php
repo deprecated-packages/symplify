@@ -50,6 +50,9 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         '#Ternary operator condition is always (.*?)#',
         '#Access to an undefined property Latte\\\\Runtime\\\\FilterExecutor::#',
         '#Anonymous function should have native return typehint "void"#',
+        // impossible to resolve with conditions in PHP
+        '#might not be defined#',
+        '#has an unused variable#',
     ];
 
     private TemplateRulesRegistry $templateRulesRegistry;
