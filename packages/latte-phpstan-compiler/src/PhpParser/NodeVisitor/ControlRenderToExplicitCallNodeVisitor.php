@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 
 /**
  * Make $_tmp = $this->global->uiControl->getComponent("someName");

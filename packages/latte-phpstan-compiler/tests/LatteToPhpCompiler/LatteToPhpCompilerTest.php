@@ -14,9 +14,9 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
 use Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\SomeNameControl;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
-use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 

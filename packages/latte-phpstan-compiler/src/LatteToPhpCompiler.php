@@ -15,9 +15,9 @@ use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**

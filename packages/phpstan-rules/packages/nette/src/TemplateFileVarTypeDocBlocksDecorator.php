@@ -13,10 +13,10 @@ use PHPStan\Type\StringType;
 use stdClass;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
-use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {

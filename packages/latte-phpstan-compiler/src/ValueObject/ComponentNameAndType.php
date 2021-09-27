@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\ValueObject;
+namespace Symplify\LattePHPStanCompiler\ValueObject;
 
 use PHPStan\Type\Type;
 
