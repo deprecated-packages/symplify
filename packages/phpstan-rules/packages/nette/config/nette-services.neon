@@ -2,12 +2,7 @@ includes:
     - ../../../packages/latte-phpstan-printer/config/latte-phpstan-printer-services.neon
 
 services:
-<<<<<<< HEAD
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
-=======
-    - Symplify\PHPStanRules\Nette\FileSystem\PHPLatteFileDumper
-    - Symplify\PHPStanRules\Nette\PHPStan\LattePHPStanRulesRegistryAndIgnoredErrorsFilter
->>>>>>> bump php-parser to 4.13
 
     # php-parser
     - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser

@@ -515,22 +515,15 @@ parameters:
 
         # confusing generics
         - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-<<<<<<< HEAD
-        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
-        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+
         - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
         - '#Property Symplify\\PHPStanRules\\TwigPHPStanPrinter\\PhpParser\\NodeVisitor\\AppendExtractedVarTypesNodeVisitor\:\:\$variablesAndTypes type has no value type specified in iterable type array#'
         - '#Method Symplify\\PHPStanRules\\Symfony\\Rules\\TwigCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-=======
+
         - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
         - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
 
         # docs lines
-        -
-            message: '#"%s" in sprintf\(\) format must be quoted#'
-            path: */AppendExtractedVarTypesNodeVisitor.php
->>>>>>> bump php-parser to 4.13
-
         -
             message: '#Do not use setter on a service#'
             path: packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/ParentLayoutNameNodeVisitor.php
@@ -560,9 +553,5 @@ parameters:
 
         # allow duplicated test classes
         - '#Class with base "Php8(.*?)Test" name is already used in#'
-
-        -
-            message: '#"%s" in sprintf\(\) format must be quoted#'
-            path: packages/phpstan-rules/packages/latte-phpstan-printer/src/PhpParser/NodeFactory/VarDocNodeFactory.php
 
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
