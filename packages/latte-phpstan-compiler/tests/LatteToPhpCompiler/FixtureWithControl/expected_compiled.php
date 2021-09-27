@@ -11,7 +11,7 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         echo '<h1>Some component</h1>
 
 ';
-        /** @var \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source\SomeNameControl $someNameControl */
+        /** @var \Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\SomeNameControl $someNameControl */
         /** line in latte file: 3 */
         /* line 3 */
         $someNameControl = $this->global->uiControl->getComponent("someName");

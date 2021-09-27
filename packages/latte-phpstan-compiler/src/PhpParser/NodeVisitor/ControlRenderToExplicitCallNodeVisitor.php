@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
+namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;

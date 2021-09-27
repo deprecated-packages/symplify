@@ -2,19 +2,19 @@ services:
     # latte
     - Latte\Parser
 
-    - Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler
-    - Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeFactory\VarDocNodeFactory
+    - Symplify\LattePHPStanCompiler\LatteToPhpCompiler
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory
 
-    - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler
-    - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver
-    - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker
+    - Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler
+    - Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver
+    - Symplify\LattePHPStanCompiler\Latte\Macros\LatteMacroFaker
 
-    - Symplify\PHPStanRules\LattePHPStanPrinter\LatteVarTypeDocBlockDecorator
+    - Symplify\LattePHPStanCompiler\LatteVarTypeDocBlockDecorator
 
     # latte lines
-    - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector
-    - Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentMatcher
-    - Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
 
     # php traversing
     - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor;
+namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -13,8 +13,8 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\StaticCallReference;
+use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
+use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 /**
  * Make \Latte\Runtime\Defaults::getFilters() explicit, from: $this->filters->{magic}(...)

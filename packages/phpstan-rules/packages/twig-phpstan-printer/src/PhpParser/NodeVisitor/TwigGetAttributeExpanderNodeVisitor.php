@@ -18,8 +18,8 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\TwigPHPStanPrinter\ObjectTypeMethodAnalyzer;
 
 final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract

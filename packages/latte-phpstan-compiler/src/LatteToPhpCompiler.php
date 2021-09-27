@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter;
+namespace Symplify\LattePHPStanCompiler;
 
 use Latte\Parser;
 use PhpParser\Node\Stmt;
@@ -10,18 +10,18 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
+use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
+use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentCorrector;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\UnknownMacroAwareLatteCompiler;
-use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
-use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
- * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\LatteToPhpCompilerTest
+ * @see \Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\LatteToPhpCompilerTest
  */
 final class LatteToPhpCompiler
 {

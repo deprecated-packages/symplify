@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters;
+namespace Symplify\LattePHPStanCompiler\Latte\Filters;
 
 use Latte\Runtime\Defaults;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\StaticCallReference;
+use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 /**
- * @see \Symplify\PHPStanRules\LattePHPStanPrinter\Tests\Filters\DefaultFilterMatcherTest
+ * @see \Symplify\LattePHPStanCompiler\Tests\Filters\DefaultFilterMatcherTest
  */
 final class DefaultFilterMatcher
 {

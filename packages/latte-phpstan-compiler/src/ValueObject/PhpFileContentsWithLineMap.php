@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject;
+namespace Symplify\LattePHPStanCompiler\ValueObject;
 
 final class PhpFileContentsWithLineMap
 {

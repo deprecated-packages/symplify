@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source;
+namespace Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source;
 
 final class SomeNameControl
 {

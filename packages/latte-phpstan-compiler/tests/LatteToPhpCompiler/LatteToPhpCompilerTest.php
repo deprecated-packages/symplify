@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler;
+namespace Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler;
 
 use Iterator;
 use PHPStan\DependencyInjection\Container;
@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
+use Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\SomeNameControl;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
-use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Tests\LatteToPhpCompiler\Source\SomeNameControl;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -101,7 +101,7 @@ final class LatteToPhpCompilerTest extends TestCase
     {
         $configs = [
             __DIR__ . '/config/extra-services.neon',
-            __DIR__ . '/../../../../config/services/services.neon',
+            __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
         ];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();

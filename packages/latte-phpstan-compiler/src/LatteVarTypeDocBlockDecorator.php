@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter;
+namespace Symplify\LattePHPStanCompiler;
 
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeFactory\VarDocNodeFactory;
-use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
 
 final class LatteVarTypeDocBlockDecorator
 {

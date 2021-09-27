@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte;
+namespace Symplify\LattePHPStanCompiler\Latte;
 
 use Latte\CompileException;
 use Latte\Compiler;
@@ -14,8 +14,8 @@ use Latte\Token;
 use Nette\Bridges\ApplicationLatte\UIMacros;
 use Nette\Bridges\FormsLatte\FormMacros;
 use Nette\Utils\Strings;
+use Symplify\LattePHPStanCompiler\Latte\Macros\LatteMacroFaker;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Macros\LatteMacroFaker;
 
 final class UnknownMacroAwareLatteCompiler extends Compiler
 {

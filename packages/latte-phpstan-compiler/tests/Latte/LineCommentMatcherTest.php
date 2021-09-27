@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\Latte;
+namespace Symplify\LattePHPStanCompiler\Tests\Latte;
 
 use Iterator;
 use PHPUnit\Framework\TestCase;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\LineCommentMatcher;
+use Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher;
 
 final class LineCommentMatcherTest extends TestCase
 {

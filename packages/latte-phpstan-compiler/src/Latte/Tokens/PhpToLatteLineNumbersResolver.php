@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens;
+namespace Symplify\LattePHPStanCompiler\Latte\Tokens;
 
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
-use Symplify\PHPStanRules\LattePHPStanPrinter\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor;
 
 final class PhpToLatteLineNumbersResolver
 {

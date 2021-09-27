@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\LattePHPStanPrinter\Tests\Filters;
+namespace Symplify\LattePHPStanCompiler\Tests\Filters;
 
 use Iterator;
 use Latte\Runtime\Filters;
 use PHPUnit\Framework\TestCase;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Filters\DefaultFilterMatcher;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\StaticCallReference;
+use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
+use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 final class DefaultFilterMatcherTest extends TestCase
 {

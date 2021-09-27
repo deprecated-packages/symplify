@@ -137,6 +137,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
