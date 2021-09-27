@@ -59,7 +59,7 @@
         "ondram/ci-detector": "^4.1",
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
-        "rector/rector": "^0.11.53",
+        "rector/rector": "^0.11.54",
         "symfony/doctrine-bridge": "^5.3|^6.0",
         "symfony/framework-bundle": "^5.3|^6.0",
         "symfony/security-bundle": "^5.3|^6.0",
