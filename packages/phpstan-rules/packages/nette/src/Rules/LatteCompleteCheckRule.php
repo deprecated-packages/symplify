@@ -93,7 +93,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         }
 
         $renderTemplateWithParameters = $this->matchRenderTemplateWithParameters($node, $scope);
-        if ($renderTemplateWithParameters === null) {
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
