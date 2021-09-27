@@ -36,7 +36,7 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
             'Parameter #1 $name of method %s::render() expects string, int given.',
             InvalidControlRenderArguments::class
         );
-        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 25]]];
+        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 1]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipVariableInBlockControl.php', []];
