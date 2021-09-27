@@ -7,18 +7,17 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
@@ -40,10 +39,9 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Complete analysis of PHP code generated from Latte template';
 
     /**
-     * @todo use regex and phpstan-like filtering
      * @var string[]
      */
-    private const ERROR_IGNORES = [
+    private const USELESS_ERRORS_IGNORES = [
         // nette
         '#DummyTemplateClass#',
         '#Method Nette\\\\Application\\\\UI\\\\Renderable::redrawControl\(\) invoked with#',
@@ -64,7 +62,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
+        private RenderTemplateWithParametersMatcher $renderTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
@@ -94,38 +92,18 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
-        // find parent class
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        $componentNamesAndTypes = [];
-
-        while (! $parent instanceof Class_) {
-            $parent = $parent->getAttribute(AttributeKey::PARENT);
-        }
-
-        $componentNamesAndTypes = $this->componentMapResolver->resolveComponentNamesAndTypes($parent, $scope);
-
-        // must be template path + variables
-        if (count($node->args) !== 2) {
+        $renderTemplateWithParameters = $this->renderTemplateWithParametersMatcher->match($node, $scope, 'latte');
+        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
 
-        $firstArgValue = $node->args[0]->value;
-
-        $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
-        if ($resolvedTemplateFilePaths === []) {
-            return [];
-        }
-
-        $secondArgValue = $node->args[1]->value;
-        if (! $secondArgValue instanceof Array_) {
-            return [];
-        }
+        $componentNamesAndTypes = $this->componentMapResolver->resolveFromMethodCall($node, $scope);
 
         $errors = [];
-        foreach ($resolvedTemplateFilePaths as $resolvedTemplateFilePath) {
+        foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $resolvedTemplateFilePath) {
             $currentErrors = $this->processTemplateFilePath(
                 $resolvedTemplateFilePath,
-                $secondArgValue,
+                $renderTemplateWithParameters->getParametersArray(),
                 $scope,
                 $componentNamesAndTypes
             );
@@ -209,7 +187,7 @@ CODE_SAMPLE
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
-        $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+        $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);
 
         return $this->templateErrorsFactory->createErrors($errors, $templateFilePath, $phpFileContentsWithLineMap);
     }

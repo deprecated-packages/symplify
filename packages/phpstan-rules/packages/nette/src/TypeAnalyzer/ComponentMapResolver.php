@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\TypeAnalyzer;
 
 use Nette\Utils\Strings;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
@@ -17,7 +19,21 @@ final class ComponentMapResolver
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        private SimpleNodeFinder $simpleNodeFinder
     ) {
+    }
+
+    /**
+     * @return ComponentNameAndType[]
+     */
+    public function resolveFromMethodCall(MethodCall $methodCall, Scope $scope): array
+    {
+        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
+        return $this->resolveComponentNamesAndTypes($class, $scope);
     }
 
     /**

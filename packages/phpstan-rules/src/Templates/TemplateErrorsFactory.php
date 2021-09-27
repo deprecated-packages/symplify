@@ -25,7 +25,7 @@ final class TemplateErrorsFactory
         foreach ($errors as $error) {
             // correct error PHP line number to Latte line number
             $errorLine = (int) $error->getLine();
-            $errorLine = $phpToTemplateLines[$errorLine] ?? $errorLine;
+            $errorLine = $this->resolveNearestPhpLine($phpToTemplateLines, $errorLine);
 
             $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
                 ->file($resolvedTemplateFilePath)
@@ -34,5 +34,22 @@ final class TemplateErrorsFactory
         }
 
         return $ruleErrors;
+    }
+
+    /**
+     * @param array<int, int> $phpToTemplateLines
+     */
+    private function resolveNearestPhpLine(array $phpToTemplateLines, int $desiredLine): int
+    {
+        foreach ($phpToTemplateLines as $phpLine => $latteLine) {
+            if ($desiredLine < $phpLine) {
+                continue;
+            }
+
+            // find nearest neighbor - in case of multiline PHP replacement per one latte line
+            return $latteLine;
+        }
+
+        return $desiredLine;
     }
 }
