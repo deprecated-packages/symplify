@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Nette;
 
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use stdClass;
@@ -82,7 +84,9 @@ final class TemplateFileVarTypeDocBlocksDecorator
         // nette\application bridge
         $variablesAndTypes[] = new VariableAndType('presenter', new ObjectType('Nette\Application\UI\Presenter'));
         $variablesAndTypes[] = new VariableAndType('control', new ObjectType('Nette\Application\UI\Control'));
-        $variablesAndTypes[] = new VariableAndType('flashes', new ObjectType(stdClass::class));
+
+        $flashesArrayType = new ArrayType(new MixedType(), new ObjectType(stdClass::class));
+        $variablesAndTypes[] = new VariableAndType('flashes', $flashesArrayType);
 
         return $variablesAndTypes;
     }
