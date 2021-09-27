@@ -43,6 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Tests/*',
         '*/tests/*',
         __DIR__ . '/../../tests',
+        # missing "optional" dependency and never used here
         '*/symfony/framework-bundle/KernelBrowser.php',
         '*/symfony/http-kernel/HttpKernelBrowser.php',
     ]);
