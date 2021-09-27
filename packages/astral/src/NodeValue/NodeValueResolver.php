@@ -15,6 +15,7 @@ use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\MagicConst\File;
@@ -166,8 +167,8 @@ final class NodeValueResolver
             return $this->resolveMagicConst($expr);
         }
 
-        if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
-            return dirname($this->currentFilePath);
+        if ($expr instanceof FuncCall) {
+            return $this->resolveFuncCall($expr);
         }
 
         if ($expr instanceof ConstFetch) {
@@ -185,6 +186,41 @@ final class NodeValueResolver
             throw new ConstExprEvaluationException();
         }
 
+        return null;
+    }
+
+    /**
+     * @return false|mixed|string|null
+     * @throws ShouldNotHappenException
+     */
+    private function resolveFuncCall(FuncCall $expr)
+    {
+        if ($this->currentFilePath === null) {
+            throw new ShouldNotHappenException();
+        }
+
+        if ($this->simpleNameResolver->isName($expr, 'getcwd')) {
+            return dirname($this->currentFilePath);
+        }
+
+        $args = $expr->args;
+        $arguments = [];
+        foreach ($args as $arg) {
+            try {
+                $argValue = $this->constExprEvaluator->evaluateDirectly($arg->value);
+            } catch (ConstExprEvaluationException) {
+                $argValue = null;
+            }
+            $arguments[] = $argValue;
+        }
+
+        if ($expr->name instanceof Name) {
+            $functionName = (string) $expr->name;
+            if (! is_callable($functionName)) {
+                throw new ShouldNotHappenException('Function ' . $functionName . ' is not callable');
+            }
+            return call_user_func_array($functionName, $arguments);
+        }
         return null;
     }
 }
