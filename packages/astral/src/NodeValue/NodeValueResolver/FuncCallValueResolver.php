@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\NodeValue\NodeValueResolver;
 
-use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
@@ -33,19 +32,17 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
 
     /**
      * @param FuncCall $expr
-     * @throws ConstExprEvaluationException
-     * @throws ShouldNotHappenException
      */
     public function resolve(Expr $expr, string $currentFilePath): mixed
     {
-        if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
+        if ($this->simpleNameResolver->isName($expr, 'getcwd')) {
             return dirname($currentFilePath);
         }
 
         $args = $expr->args;
         $arguments = [];
         foreach ($args as $arg) {
-            $arguments[] = $this->constExprEvaluator->evaluateDirectly($arg->value);;
+            $arguments[] = $this->constExprEvaluator->evaluateDirectly($arg->value);
         }
 
         if ($expr->name instanceof Name) {
@@ -53,8 +50,10 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
             if (function_exists($functionName) && is_callable($functionName)) {
                 return call_user_func_array($functionName, $arguments);
             }
+
             throw new ShouldNotHappenException();
         }
+
         return null;
     }
 }
