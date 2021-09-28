@@ -274,8 +274,6 @@ parameters:
                  # traversing is complex operatoin
                  - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
-                 # resolving node value is complex operation
-                 - packages/astral/src/NodeValue/NodeValueResolver.php
 
         -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'

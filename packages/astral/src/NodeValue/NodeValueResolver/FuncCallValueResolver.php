@@ -33,8 +33,10 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
 
     /**
      * @param FuncCall $expr
+     * @throws ConstExprEvaluationException
+     * @throws ShouldNotHappenException
      */
-    public function resolve(Expr $expr, string $currentFilePath): ?string
+    public function resolve(Expr $expr, string $currentFilePath): mixed
     {
         if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
             return dirname($currentFilePath);
@@ -43,18 +45,13 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
         $args = $expr->args;
         $arguments = [];
         foreach ($args as $arg) {
-            try {
-                $argValue = $this->constExprEvaluator->evaluateDirectly($arg->value);
-            } catch (ConstExprEvaluationException) {
-                $argValue = null;
-            }
-            $arguments[] = $argValue;
+            $arguments[] = $this->constExprEvaluator->evaluateDirectly($arg->value);;
         }
 
         if ($expr->name instanceof Name) {
             $functionName = (string) $expr->name;
             if (function_exists($functionName) && is_callable($functionName)) {
-                return (string) call_user_func_array($functionName, $arguments);
+                return call_user_func_array($functionName, $arguments);
             }
             throw new ShouldNotHappenException();
         }
