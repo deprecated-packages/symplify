@@ -53,10 +53,10 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
 
         if ($expr->name instanceof Name) {
             $functionName = (string) $expr->name;
-            if (! is_callable($functionName)) {
-                throw new ShouldNotHappenException();
+            if (function_exists($functionName) && is_callable($functionName)) {
+                return (string) call_user_func_array($functionName, $arguments);
             }
-            return call_user_func_array($functionName, $arguments);
+            throw new ShouldNotHappenException();
         }
         return null;
     }

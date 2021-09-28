@@ -4,6 +4,5 @@ services:
         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
 
     - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\Astral\NodeValue\FuncCallValueResolver
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
     - Symplify\PackageBuilder\Php\TypeChecker
