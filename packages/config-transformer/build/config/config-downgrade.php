@@ -39,5 +39,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 
     $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SKIP, ['*/Tests/*', '*/tests/*', __DIR__ . '/../../tests']);
+    $parameters->set(Option::SKIP, [
+        '*/Tests/*',
+        '*/tests/*',
+        __DIR__ . '/../../tests',
+        # missing "optional" dependency and never used here
+        '*/symfony/framework-bundle/KernelBrowser.php',
+        '*/symfony/http-kernel/HttpKernelBrowser.php',
+        '*/symfony/cache/*',
+    ]);
 };

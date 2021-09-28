@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Templates;
 
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 
 final class TemplateErrorsFactory
 {

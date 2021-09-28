@@ -61,6 +61,7 @@ parameters:
         - packages/easy-coding-standard/packages/Parallel
         - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
+        - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         - packages/easy-coding-standard/build/build-preload.php
@@ -149,7 +150,7 @@ parameters:
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
-                - packages/phpstan-rules/packages/twig-phpstan-printer/src/ObjectTypeMethodAnalyzer.php
+                - packages/twig-phpstan-compiler/src/ObjectTypeMethodAnalyzer.php
 
         -
              message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -557,3 +558,6 @@ parameters:
         - '#Class with base "Php8(.*?)Test" name is already used in#'
 
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
+
+        # false positive - way too generic
+        - '#Property Symplify\\Astral\\NodeValue\\NodeValueResolver\:\:\$nodeValueResolvers with generic interface Symplify\\Astral\\Contract\\NodeValueResolver\\NodeValueResolverInterface does not specify its types\: TExpr#'

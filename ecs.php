@@ -41,20 +41,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
-        __DIR__ . '/packages/phpstan-rules/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/*',
+        __DIR__ . '/packages/twig-phpstan-compiler/tests/TwigToPhpCompiler/FixtureWithTypes/*',
         __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
         __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
         __DIR__ . '/packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php',
-        __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/tests/LatteToPhpCompiler/Fixture*',
+        __DIR__ . '/packages/latte-phpstan-compiler/tests/LatteToPhpCompiler/Fixture*',
 
         // class in paths
         PhpUnitStrictFixer::class => [
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
             // object compare
-            __DIR__ . '/packages/phpstan-rules/packages/latte-phpstan-printer/tests/Filters/DefaultFilterMatcherTest.php',
+            __DIR__ . '/packages/latte-phpstan-compiler/tests/Filters/DefaultFilterMatcherTest.php',
         ],
     ]);
 };

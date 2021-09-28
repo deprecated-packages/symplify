@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Generic\GenericObjectType;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 
 final class TemplateVariableTypesResolver
 {
