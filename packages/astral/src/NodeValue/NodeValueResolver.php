@@ -8,7 +8,6 @@ use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast;
-use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -22,6 +21,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
+use Symplify\Astral\NodeValue\NodeValueResolver\FuncCallValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
@@ -52,6 +52,7 @@ final class NodeValueResolver
         $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($this->simpleNameResolver, $simpleNodeFinder);
         $this->nodeValueResolvers[] = new ConstFetchValueResolver($this->simpleNameResolver);
         $this->nodeValueResolvers[] = new MagicConstValueResolver();
+        $this->nodeValueResolvers[] = new FuncCallValueResolver($this->simpleNameResolver, $this->constExprEvaluator);
     }
 
     /**
@@ -99,10 +100,6 @@ final class NodeValueResolver
     {
         if ($this->currentFilePath === null) {
             throw new ShouldNotHappenException();
-        }
-
-        if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
-            return dirname($this->currentFilePath);
         }
 
         foreach ($this->nodeValueResolvers as $nodeValueResolver) {
