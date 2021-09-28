@@ -25,7 +25,7 @@ final class MagicConstValueResolver implements NodeValueResolverInterface
     /**
      * @param MagicConst $expr
      */
-    public function resolve(Expr $expr, string $currentFilePath)
+    public function resolve(Expr $expr, string $currentFilePath): ?string
     {
         if ($expr instanceof Dir) {
             return dirname($currentFilePath);

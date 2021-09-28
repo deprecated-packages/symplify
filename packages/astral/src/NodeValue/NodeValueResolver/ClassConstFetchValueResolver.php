@@ -7,6 +7,7 @@ namespace Symplify\Astral\NodeValue\NodeValueResolver;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\ClassLike;
+use ReflectionClassConstant;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -31,6 +32,7 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
 
     /**
      * @param ClassConstFetch $expr
+     * @return null|string|mixed
      */
     public function resolve(Expr $expr, string $currentFilePath)
     {
@@ -62,7 +64,7 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
             return null;
         }
 
-        $reflectionClassConstant = new \ReflectionClassConstant($className, $constantName);
+        $reflectionClassConstant = new ReflectionClassConstant($className, $constantName);
         return $reflectionClassConstant->getValue();
     }
 }

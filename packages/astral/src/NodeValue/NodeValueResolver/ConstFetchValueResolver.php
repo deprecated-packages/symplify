@@ -28,6 +28,7 @@ final class ConstFetchValueResolver implements NodeValueResolverInterface
 
     /**
      * @param ConstFetch $expr
+     * @return null|mixed
      */
     public function resolve(Expr $expr, string $currentFilePath)
     {
