@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor;
+namespace Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -14,9 +14,13 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 
 final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
 {
+    /**
+     * @param VariableAndType[] $variablesAndTypes
+     */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private VarDocNodeFactory $varDocNodeFactory,

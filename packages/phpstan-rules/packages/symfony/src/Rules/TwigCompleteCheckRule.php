@@ -16,10 +16,10 @@ use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\TwigCompleteCheckRuleTest

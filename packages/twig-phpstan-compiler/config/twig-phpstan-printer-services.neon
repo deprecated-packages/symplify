@@ -1,0 +1,5 @@
+services:
+    - Symplify\TwigPHPStanCompiler\TwigToPhpCompiler
+    - Symplify\TwigPHPStanCompiler\Twig\TwigNodeParser
+    - Symplify\TwigPHPStanCompiler\TwigVarTypeDocBlockDecorator
+    - Symplify\TwigPHPStanCompiler\ObjectTypeMethodAnalyzer

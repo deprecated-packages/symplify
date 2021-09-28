@@ -18,6 +18,7 @@
         "symplify/smart-file-system": "^9.5",
         "symplify/rule-doc-generator-contracts": "^9.5",
         "symplify/latte-phpstan-compiler": "^9.5",
+        "symplify/twig-phpstan-compiler": "^9.5",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -35,7 +36,6 @@
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/symfony/src",
-            "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/twig-phpstan-printer/src",
             "Symplify\\PHPStanRules\\Nette\\": "packages/nette/src"
         }
     },

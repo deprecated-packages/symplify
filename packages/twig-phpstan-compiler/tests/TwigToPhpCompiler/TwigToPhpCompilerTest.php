@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TwigPHPStanPrinter\Tests\TwigToPhpCompiler;
+namespace Symplify\TwigPHPStanCompiler\Tests\TwigToPhpCompiler;
 
 use Iterator;
 use PHPStan\DependencyInjection\Container;
@@ -13,8 +13,8 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 final class TwigToPhpCompilerTest extends TestCase
 {
@@ -68,7 +68,7 @@ final class TwigToPhpCompilerTest extends TestCase
 
     private function createContainer(): Container
     {
-        $configs = [__DIR__ . '/../../../../config/services/services.neon'];
+        $configs = [__DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon'];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();
         return $phpStanContainerFactory->createContainer($configs);
