@@ -8,24 +8,21 @@ use PhpParser\ConstExprEvaluationException;
 use PhpParser\ConstExprEvaluator;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast;
-use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Scalar\MagicConst;
-use PhpParser\Node\Scalar\MagicConst\Dir;
-use PhpParser\Node\Scalar\MagicConst\File;
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ConstantScalarType;
 use PHPStan\Type\UnionType;
-use ReflectionClassConstant;
+use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
+use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
+use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
@@ -39,13 +36,22 @@ final class NodeValueResolver
 
     private UnionTypeValueResolver $unionTypeValueResolver;
 
+    /**
+     * @var array<NodeValueResolverInterface>
+     */
+    private array $nodeValueResolvers = [];
+
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private TypeChecker $typeChecker,
-        private SimpleNodeFinder $simpleNodeFinder
+        SimpleNodeFinder $simpleNodeFinder,
     ) {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
         $this->unionTypeValueResolver = new UnionTypeValueResolver();
+
+        $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($this->simpleNameResolver, $simpleNodeFinder);
+        $this->nodeValueResolvers[] = new ConstFetchValueResolver($this->simpleNameResolver);
+        $this->nodeValueResolvers[] = new MagicConstValueResolver();
     }
 
     /**
@@ -87,73 +93,6 @@ final class NodeValueResolver
     }
 
     /**
-     * @return mixed|null
-     */
-    private function resolveClassConstFetch(ClassConstFetch $classConstFetch)
-    {
-        $className = $this->simpleNameResolver->getName($classConstFetch->class);
-
-        if ($className === 'self') {
-            $classLike = $this->simpleNodeFinder->findFirstParentByType($classConstFetch, ClassLike::class);
-            if (! $classLike instanceof ClassLike) {
-                return null;
-            }
-
-            $className = $this->simpleNameResolver->getName($classLike);
-        }
-
-        if ($className === null) {
-            return null;
-        }
-
-        $constantName = $this->simpleNameResolver->getName($classConstFetch->name);
-        if ($constantName === null) {
-            return null;
-        }
-
-        if ($constantName === 'class') {
-            return $className;
-        }
-
-        if (! class_exists($className) && ! interface_exists($className)) {
-            return null;
-        }
-
-        $reflectionClassConstant = new ReflectionClassConstant($className, $constantName);
-        return $reflectionClassConstant->getValue();
-    }
-
-    private function resolveMagicConst(MagicConst $magicConst): ?string
-    {
-        if ($this->currentFilePath === null) {
-            throw new ShouldNotHappenException();
-        }
-
-        if ($magicConst instanceof Dir) {
-            return dirname($this->currentFilePath);
-        }
-
-        if ($magicConst instanceof File) {
-            return $this->currentFilePath;
-        }
-
-        return null;
-    }
-
-    /**
-     * @return mixed|null
-     */
-    private function resolveConstFetch(ConstFetch $constFetch)
-    {
-        $constFetchName = $this->simpleNameResolver->getName($constFetch);
-        if ($constFetchName === null) {
-            return null;
-        }
-
-        return constant($constFetchName);
-    }
-
-    /**
      * @return mixed|string|int|bool|null
      */
     private function resolveByNode(Expr $expr)
@@ -162,22 +101,17 @@ final class NodeValueResolver
             throw new ShouldNotHappenException();
         }
 
-        if ($expr instanceof MagicConst) {
-            return $this->resolveMagicConst($expr);
-        }
-
         if ($expr instanceof FuncCall && $this->simpleNameResolver->isName($expr, 'getcwd')) {
             return dirname($this->currentFilePath);
         }
 
-        if ($expr instanceof ConstFetch) {
-            return $this->resolveConstFetch($expr);
+        foreach ($this->nodeValueResolvers as $nodeValueResolver) {
+            if (is_a($expr, $nodeValueResolver->getType(), true)) {
+                return $nodeValueResolver->resolve($expr, $this->currentFilePath);
+            }
         }
 
-        if ($expr instanceof ClassConstFetch) {
-            return $this->resolveClassConstFetch($expr);
-        }
-
+        // these values cannot be resolved in reliable way
         if ($this->typeChecker->isInstanceOf(
             $expr,
             [Variable::class, Cast::class, MethodCall::class, PropertyFetch::class, Instanceof_::class]
