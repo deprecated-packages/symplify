@@ -74,7 +74,6 @@
             "packages/amnesia/src/Functions/env.php"
         ],
         "psr-4": {
-            "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
             "Symplify\\Amnesia\\": "packages/amnesia/src",
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
@@ -94,6 +93,7 @@
             "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
+            "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
             "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
             "Symplify\\MonorepoBuilder\\": [
                 "packages/monorepo-builder/packages",
@@ -137,7 +137,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
@@ -156,6 +155,7 @@
             "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
+            "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
             "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": [
                 "packages/monorepo-builder/packages-tests",
@@ -197,6 +197,7 @@
         "symplify/easy-hydrator": "9.4.67",
         "symplify/easy-testing": "9.4.67",
         "symplify/git-wrapper": "9.4.67",
+        "symplify/latte-phpstan-compiler": "self.version",
         "symplify/markdown-diff": "9.4.67",
         "symplify/monorepo-builder": "9.4.67",
         "symplify/package-builder": "9.4.67",
