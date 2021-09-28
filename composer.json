@@ -21,7 +21,7 @@
         "nikic/php-parser": "^4.13",
         "phar-io/version": "^3.1",
         "phpstan/phpdoc-parser": "^0.5",
-        "phpstan/phpstan": "^0.12.91",
+        "phpstan/phpstan": "^0.12.99",
         "react/child-process": "^0.6.3",
         "react/event-loop": "^1.2",
         "react/socket": "^1.9",
@@ -74,6 +74,7 @@
             "packages/amnesia/src/Functions/env.php"
         ],
         "psr-4": {
+            "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
             "Symplify\\Amnesia\\": "packages/amnesia/src",
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
@@ -136,6 +137,7 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
+            "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
             "Symplify\\Astral\\Tests\\": "packages/astral/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",

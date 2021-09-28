@@ -11,12 +11,12 @@ use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use stdClass;
-use Symplify\PHPStanRules\LattePHPStanPrinter\Latte\Tokens\PhpToLatteLineNumbersResolver;
-use Symplify\PHPStanRules\LattePHPStanPrinter\LatteToPhpCompiler;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\PhpFileContentsWithLineMap;
-use Symplify\PHPStanRules\LattePHPStanPrinter\ValueObject\VariableAndType;
+use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
+use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
+use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
-use Symplify\PHPStanRules\ValueObject\ComponentNameAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {

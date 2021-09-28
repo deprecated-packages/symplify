@@ -1,5 +1,5 @@
 includes:
-    - ../../../packages/latte-phpstan-printer/config/latte-phpstan-printer-services.neon
+    - ../../../../../packages/latte-phpstan-compiler/config/latte-phpstan-printer-services.neon
 
 services:
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver

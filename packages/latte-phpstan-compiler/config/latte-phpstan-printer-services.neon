@@ -1,0 +1,20 @@
+services:
+    # latte
+    - Latte\Parser
+
+    - Symplify\LattePHPStanCompiler\LatteToPhpCompiler
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory
+
+    - Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler
+    - Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver
+    - Symplify\LattePHPStanCompiler\Latte\Macros\LatteMacroFaker
+
+    - Symplify\LattePHPStanCompiler\LatteVarTypeDocBlockDecorator
+
+    # latte lines
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
+
+    # php traversing
+    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor
