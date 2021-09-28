@@ -11,7 +11,7 @@ use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
-/* %s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig */
+/* %stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig */
 class __TwigTemplate_%s extends \Twig\Template
 {
     private $source;
@@ -34,7 +34,7 @@ class __TwigTemplate_%s extends \Twig\Template
     }
     public function getTemplateName()
     {
-        return "%s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
+        return "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
     }
     public function isTraitable()
     {
@@ -46,6 +46,6 @@ class __TwigTemplate_%s extends \Twig\Template
     }
     public function getSourceContext()
     {
-        return new \Twig\Source("", "%s/packages/twig-phpstan-printer/tests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
+        return new \Twig\Source("", "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
     }
 }

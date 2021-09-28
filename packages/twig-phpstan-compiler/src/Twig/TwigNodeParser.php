@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TwigPHPStanPrinter\Twig;
+namespace Symplify\TwigPHPStanCompiler\Twig;
 
-use Symplify\PHPStanRules\TwigPHPStanPrinter\TwigToPhpCompiler;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 use Twig\Loader\ArrayLoader;
 use Twig\Source;
 

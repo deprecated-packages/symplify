@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TwigPHPStanPrinter;
+namespace Symplify\TwigPHPStanCompiler;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
@@ -12,21 +12,21 @@ use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
-use Symplify\PHPStanRules\TwigPHPStanPrinter\Twig\TolerantTwigEnvironment;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
+use Symplify\TwigPHPStanCompiler\Twig\TolerantTwigEnvironment;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
 use Twig\Source;
 
 /**
- * @see \Symplify\PHPStanRules\TwigPHPStanPrinter\Tests\TwigToPhpCompiler\TwigToPhpCompilerTest
+ * @see \Symplify\TwigPHPStanCompiler\Tests\TwigToPhpCompiler\TwigToPhpCompilerTest
  */
 final class TwigToPhpCompiler
 {

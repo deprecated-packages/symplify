@@ -121,6 +121,7 @@
             "Symplify\\SymfonyPhpConfig\\": "packages/symfony-php-config/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
+            "Symplify\\TwigPHPStanCompiler\\": "packages/twig-phpstan-compiler/src",
             "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
@@ -180,6 +181,7 @@
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
+            "Symplify\\TwigPHPStanCompiler\\Tests\\": "packages/twig-phpstan-compiler/tests",
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
@@ -214,6 +216,7 @@
         "symplify/symfony-php-config": "9.4.67",
         "symplify/symfony-static-dumper": "9.4.67",
         "symplify/symplify-kernel": "9.4.67",
+        "symplify/twig-phpstan-compiler": "self.version",
         "symplify/vendor-patches": "9.4.67"
     },
     "scripts": {
