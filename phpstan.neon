@@ -556,3 +556,6 @@ parameters:
         - '#Class with base "Php8(.*?)Test" name is already used in#'
 
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
+
+        # false positive - way too generic
+        - '#Property Symplify\\Astral\\NodeValue\\NodeValueResolver\:\:\$nodeValueResolvers with generic interface Symplify\\Astral\\Contract\\NodeValueResolver\\NodeValueResolverInterface does not specify its types\: TExpr#'
