@@ -1,6 +1,4 @@
-{% for item in items %}
-    {{ item.some_method }}
-{% endfor %}
+{% include "_some_file.twig" with { posts: posts } %}
 -----
 <?php
 
@@ -15,8 +13,8 @@ use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
-/* /tmp/_temp_fixture_easy_testing/input_6ce64869b4a07a7c9903_foreached_variable.twig */
-class __TwigTemplate_0f710b03659a17550d9e3fdf600952a1e0773f59ce028d123c5900e2fa710efb extends \Twig\Template
+/* %s/input_%s_included_file.twig */
+class __TwigTemplate_%s extends \Twig\Template
 {
     private $source;
     private $macros = [];
@@ -32,20 +30,11 @@ class __TwigTemplate_0f710b03659a17550d9e3fdf600952a1e0773f59ce028d123c5900e2fa7
         extract($context);
         $macros = $this->macros;
         // line 1
-        $context['_parent'] = $context;
-        foreach ($items as $context["_key"] => $item) {
-            // line 2
-            echo "    ";
-            echo \strlen($item->some_method(), "html", \null, \true);
-            echo "\n";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $item, $context['_parent'], $loop);
-        $context = \array_intersect_key($context, $_parent) + $_parent;
+        $this->loadTemplate("_some_file.twig", "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig", 1)->display(\twig_array_merge($context, ["posts" => $posts]));
     }
     public function getTemplateName()
     {
-        return "/tmp/_temp_fixture_easy_testing/input_6ce64869b4a07a7c9903_foreached_variable.twig";
+        return "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig";
     }
     public function isTraitable()
     {
@@ -53,10 +42,10 @@ class __TwigTemplate_0f710b03659a17550d9e3fdf600952a1e0773f59ce028d123c5900e2fa7
     }
     public function getDebugInfo()
     {
-        return array(41 => 2, 37 => 1);
+        return array(37 => 1);
     }
     public function getSourceContext()
     {
-        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_6ce64869b4a07a7c9903_foreached_variable.twig", "");
+        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig", "");
     }
 }
