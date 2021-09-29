@@ -126,7 +126,7 @@ return [
 
         // add static versions constant values
         function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, 'src/Application/Version/VersionResolver.php')) {
+            if (! str_ends_with($filePath, 'src/Application/Version/StaticVersionResolver.php')) {
                 return $content;
             }
 
