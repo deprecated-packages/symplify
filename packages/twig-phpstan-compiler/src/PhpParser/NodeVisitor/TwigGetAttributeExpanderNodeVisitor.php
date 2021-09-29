@@ -73,7 +73,7 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
         }
 
         if ($variableType->hasProperty($accessorName)->yes()) {
-            return new PropertyFetch(new Variable('this'), new Identifier($accessorName));
+            return new PropertyFetch(new Variable($variableName), new Identifier($accessorName));
         }
 
         return $this->resolveMethodCall($accessorName, $variableType, $variableName);
