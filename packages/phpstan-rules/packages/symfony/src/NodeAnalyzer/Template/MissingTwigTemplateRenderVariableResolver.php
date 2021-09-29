@@ -39,6 +39,7 @@ final class MissingTwigTemplateRenderVariableResolver
 
         // default variables
         $availableVariableNames[] = 'app';
+        $availableVariableNames[] = 'blocks';
 
         $missingVariableNames = array_diff($templateUsedVariableNames, $availableVariableNames);
 
