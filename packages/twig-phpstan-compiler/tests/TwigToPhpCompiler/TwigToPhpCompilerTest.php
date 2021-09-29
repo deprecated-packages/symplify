@@ -49,7 +49,7 @@ final class TwigToPhpCompilerTest extends TestCase
 
     public function testTypes(): void
     {
-        $variablesAndTypes = [new VariableAndType('someName', new StringType())];
+        $variablesAndTypes = [new VariableAndType('value', new StringType())];
         $phpFileContent = $this->twigToPhpCompiler->compileContent(
             __DIR__ . '/FixtureWithTypes/input_file.twig',
             $variablesAndTypes

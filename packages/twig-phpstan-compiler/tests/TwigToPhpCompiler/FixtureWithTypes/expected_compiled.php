@@ -26,7 +26,7 @@ class __TwigTemplate_%s extends \Twig\Template
     protected function doDisplay(array $context, array $blocks = [])
     {
         extract($context);
-        /** @var string $someName */
+        /** @var string $value */
         $macros = $this->macros;
         // line 1
         echo \strlen($value, "html", \null, \true);
