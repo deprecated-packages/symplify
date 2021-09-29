@@ -32,7 +32,7 @@ final class EnumSpotterRule extends AbstractSymplifyRule
     /**
      * @var string[]
      */
-    private const ALLOWED_STRING_VALUES = ['this', 'config.php'];
+    private const ALLOWED_STRING_VALUES = ['this', 'config.php', 'class'];
 
     /**
      * @var int

@@ -101,6 +101,7 @@ final class LatteToPhpCompilerTest extends TestCase
     {
         $configs = [
             __DIR__ . '/config/extra-services.neon',
+            __DIR__ . '/../../config/latte-phpstan-printer-services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
         ];
 

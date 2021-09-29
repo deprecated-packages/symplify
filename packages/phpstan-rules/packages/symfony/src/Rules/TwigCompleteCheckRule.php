@@ -12,10 +12,10 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\ErrorSkipper;
-use Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -58,7 +58,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
         private TwigToPhpCompiler $twigToPhpCompiler,
-        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
+        private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private SmartFileSystem $smartFileSystem,
         private FileAnalyser $fileAnalyser,
         private ErrorSkipper $errorSkipper,
@@ -87,7 +87,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         }
 
         // 2. resolve passed variable types
-        $variablesAndTypes = $this->templateFileVarTypeDocBlocksDecorator->resolveTwigVariablesAndTypes(
+        $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray(
             $renderTemplateWithParameters->getParametersArray(),
             $scope
         );

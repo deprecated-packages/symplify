@@ -3,7 +3,6 @@ services:
     - Latte\Parser
 
     - Symplify\LattePHPStanCompiler\LatteToPhpCompiler
-    - Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory
 
     - Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler
     - Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver
@@ -16,5 +15,4 @@ services:
     - Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher
     - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
 
-    # php traversing
-    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor
+    - Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator

@@ -6,13 +6,12 @@ includes:
 >>>>>>> 08efa21a9... [PHPStanRules] Extract config imports from other packages as extension installer configs
 services:
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
+    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor
 
     # php-parser
     - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
     - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\ParentLayoutNameNodeVisitor
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
-    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
-    - Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator
     - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver
     - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver
 

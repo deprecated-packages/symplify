@@ -5,6 +5,14 @@ includes:
     - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
     - packages/phpstan-rules/config/services/services.neon
 
+    # nette
+    - packages/phpstan-rules/packages/nette/config/nette-services.neon
+    - packages/latte-phpstan-compiler/config/latte-phpstan-printer-services.neon
+
+    # symfony
+    - packages/phpstan-rules/packages/symfony/config/symfony-services.neon
+    - packages/twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule

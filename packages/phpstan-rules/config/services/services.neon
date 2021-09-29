@@ -1,12 +1,13 @@
 includes:
     - name-resolver-services.neon
-    - ../../packages/symfony/config/symfony-services.neon
-    - ../../packages/nette/config/nette-services.neon
 
 services:
     # templates
+    - Symplify\PHPStanRules\PhpParser\NodeFactory\VarDocNodeFactory
     - Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher
     - Symplify\PHPStanRules\Templates\TemplateErrorsFactory
+    - Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver
+    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
 
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
 
