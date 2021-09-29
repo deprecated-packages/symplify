@@ -35,7 +35,7 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if (! $this->simpleNameResolver->isName($node, 'doDisplay')) {
+        if (! $this->simpleNameResolver->isNames($node, ['doDisplay', 'block_*'])) {
             return null;
         }
 
