@@ -38,7 +38,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-
     // A. full sets
     $containerConfigurator->import(SetList::PSR_12);
 
@@ -51,8 +50,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-#### Full sets before standalone rules
-It is highly recommended doing the full sets configuration (A) first and then the standalone rules (B).
+#### Full Sets before Standalone Rules
+
+It is highly recommended to imports sets (A) first, then add standalone rules (B).
+
 The reason for this is that some settings are configured in the full sets too, and will therefore overwrite your standalone rules, if not configured first.
 
 ### 2. Run in CLI
@@ -138,6 +139,25 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
+## Parallel Run
+
+Do you have multi-core CPUs? ECS can run in *X* parallel threads, where *X* is number of your threads. E.g. with laptop with [AMD Ryzen 4750U](https://en.wikipedia.org/wiki/Ryzen) it is 16.
+
+That means 1600 % faster run with same amount of analysed files. Did you code base took 16 minutes to fix? Now it's 1 minute.
+
+How to enable it?
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\ValueObject\Option;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set(Option::PARALLEL, true);
+};
+```
+
 ## Coding Standards in Markdown
 
 ![ECS-Run](docs/check_markdown.gif)
@@ -196,3 +216,7 @@ In case you are experiencing a bug or want to request a new feature head over to
 ## Contribute
 
 The sources of this package are contained in the Symplify monorepo. We welcome contributions for this package on [symplify/symplify](https://github.com/symplify/symplify).
+
+## Acknowledgment
+
+The parallel run is package is heavily inspired by [https://github.com/phpstan/phpstan-src](phpstan/phpstan-src) by Ondřej Mirtes. Thank you.
