@@ -6,11 +6,12 @@
 
 ## Features
 
+- **Blazing fast [Parallel run](#parallel-run)**
 - Use [PHP_CodeSniffer || PHP-CS-Fixer](https://tomasvotruba.com/blog/2017/05/03/combine-power-of-php-code-sniffer-and-php-cs-fixer-in-3-lines/) - anything you like
 - **2nd run under few seconds** with un-changed file cache
 - Skipping files for specific checkers
-- Prepared sets - PSR12, Symfony, Common, Array, Symplify and more...
-- [Prefixed version](https://github.com/symplify/easy-coding-standard-prefixed) in case of conflicts on install
+- **Prepared sets** - PSR12, Symfony, arrays, use statements, spaces and more... - see `SetList` class for all
+- **Prefixed version** by default to allow install without conflicts
 
 Are you already using another tool?
 
