@@ -236,6 +236,8 @@ parameters:
                 - packages/astral/src/NodeNameResolver/ClassLikeNodeNameResolver.php
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
+                # needed as we do not have scope here
+                - packages/twig-phpstan-compiler/src/PhpParser/NodeVisitor/TwigGetAttributeExpanderNodeVisitor.php
 
         # the file must start with "Abstract" to be correct
         -

@@ -72,8 +72,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
             return new ArrayDimFetch(new Variable($variableName), new String_($accessorName));
         }
 
-        if ($variableType->hasProperty($accessorName)->yes()) {
-            return new PropertyFetch(new Variable('this'), new Identifier($accessorName));
+        if ($this->hasPublicProperty($variableType, $accessorName)) {
+            return new PropertyFetch(new Variable($variableName), new Identifier($accessorName));
         }
 
         return $this->resolveMethodCall($accessorName, $variableType, $variableName);
@@ -158,5 +158,18 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
         }
 
         return new MethodCall(new Variable($variableName), new Identifier($matchedMethodName));
+    }
+
+    private function hasPublicProperty(Type $type, string $variableName): bool
+    {
+        if (! $type instanceof TypeWithClassName) {
+            return false;
+        }
+
+        if (! $type->hasProperty($variableName)->yes()) {
+            return false;
+        }
+
+        return property_exists($type->getClassName(), $variableName);
     }
 }

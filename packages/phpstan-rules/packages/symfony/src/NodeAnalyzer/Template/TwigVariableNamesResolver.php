@@ -32,7 +32,7 @@ final class TwigVariableNamesResolver implements UsedVariableNamesResolverInterf
 
         $templateVariableCollectingNodeVisitor = new TemplateVariableCollectingNodeVisitor(
             ['context', 'macros', 'this', '_parent', 'loop', 'tmp'],
-            ['doDisplay'],
+            ['doDisplay', 'block_*'],
             $this->simpleNameResolver,
             $this->nodeFinder
         );

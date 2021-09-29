@@ -1,0 +1,51 @@
+{% include "_some_file.twig" with { posts: posts } %}
+-----
+<?php
+
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Extension\SandboxExtension;
+use Twig\Markup;
+use Twig\Sandbox\SecurityError;
+use Twig\Sandbox\SecurityNotAllowedTagError;
+use Twig\Sandbox\SecurityNotAllowedFilterError;
+use Twig\Sandbox\SecurityNotAllowedFunctionError;
+use Twig\Source;
+use Twig\Template;
+/* %s/input_%s_included_file.twig */
+class __TwigTemplate_%s extends \Twig\Template
+{
+    private $source;
+    private $macros = [];
+    public function __construct(\Twig\Environment $env)
+    {
+        parent::__construct($env);
+        $this->source = $this->getSourceContext();
+        $this->parent = \false;
+        $this->blocks = [];
+    }
+    protected function doDisplay(array $context, array $blocks = [])
+    {
+        extract($context);
+        $macros = $this->macros;
+        // line 1
+        $this->loadTemplate("_some_file.twig", "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig", 1)->display(\twig_array_merge($context, ["posts" => $posts]));
+    }
+    public function getTemplateName()
+    {
+        return "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig";
+    }
+    public function isTraitable()
+    {
+        return \false;
+    }
+    public function getDebugInfo()
+    {
+        return array(37 => 1);
+    }
+    public function getSourceContext()
+    {
+        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_included_file.twig", "");
+    }
+}
