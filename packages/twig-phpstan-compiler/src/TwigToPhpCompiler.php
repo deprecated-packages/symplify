@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\TwigPHPStanCompiler;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
@@ -11,25 +12,36 @@ use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ReplaceEchoWithVarDocTypeNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
 use Symplify\TwigPHPStanCompiler\Twig\TolerantTwigEnvironment;
+use Twig\Lexer;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
 use Twig\Source;
+use Twig\Token;
+use Twig\TokenStream;
 
 /**
  * @see \Symplify\TwigPHPStanCompiler\Tests\TwigToPhpCompiler\TwigToPhpCompilerTest
  */
 final class TwigToPhpCompiler
 {
+    /**
+     * @var string
+     * @see https://regex101.com/r/dsL5Ou/1
+     */
+    public const TWIG_VAR_TYPE_DOCBLOCK_REGEX = '#\{\#\s+@var\s+(?<name>.*?)\s+(?<type>.*?)\s+\#}#';
+
     public function __construct(
         private SmartFileSystem $smartFileSystem,
         private Parser $parser,
@@ -37,6 +49,7 @@ final class TwigToPhpCompiler
         private TwigVarTypeDocBlockDecorator $twigVarTypeDocBlockDecorator,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
+        private PrivatesAccessor $privatesAccessor
     ) {
     }
 
@@ -46,12 +59,14 @@ final class TwigToPhpCompiler
     public function compileContent(string $filePath, array $variablesAndTypes): string
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
+
         $tolerantTwigEnvironment = $this->createTwigEnvironment($filePath, $fileContent);
 
         $moduleNode = $this->parseFileContentToModuleNode($tolerantTwigEnvironment, $fileContent, $filePath);
-        $phpContent = $tolerantTwigEnvironment->compile($moduleNode);
 
-        return $this->decoratePhpContent($phpContent, $variablesAndTypes);
+        $rawPhpContent = $tolerantTwigEnvironment->compile($moduleNode);
+
+        return $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
     }
 
     private function createTwigEnvironment(string $filePath, string $fileContent): TolerantTwigEnvironment
@@ -71,7 +86,15 @@ final class TwigToPhpCompiler
         string $fileContent,
         string $filePath
     ): ModuleNode {
+        // this should disable comments as we know it - if we don't change it here, the tokenizer will remove all comments completely
+        $lexer = new Lexer($tolerantTwigEnvironment, [
+            'tag_comment' => ['{*', '*}'],
+        ]);
+        $tolerantTwigEnvironment->setLexer($lexer);
+
         $tokenStream = $tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
+
+        $this->removeNonVarTypeDocCommentTokens($tokenStream);
 
         return $tolerantTwigEnvironment->parse($tokenStream);
     }
@@ -88,6 +111,10 @@ final class TwigToPhpCompiler
 
         // 0. add types first?
         $this->unwarpMagicVariables($stmts);
+
+        // 1. hacking {# @var variable type #} comments to /** @var types */
+        $replaceEchoWithVarDocTypeNodeVisitor = new ReplaceEchoWithVarDocTypeNodeVisitor();
+        $this->traverseStmtsWithVisitors($stmts, [$replaceEchoWithVarDocTypeNodeVisitor]);
 
         // 3. collect foreached variables to determine nested value :)
         $collectForeachedVariablesNodeVisitor = new CollectForeachedVariablesNodeVisitor($this->simpleNameResolver);
@@ -143,5 +170,31 @@ final class TwigToPhpCompiler
         // 4. expand foreached magic to make type references clear for iterated variables
         $expandForeachContextNodeVisitor = new ExpandForeachContextNodeVisitor($this->simpleNameResolver);
         $this->traverseStmtsWithVisitors($stmts, [$expandForeachContextNodeVisitor]);
+    }
+
+    private function removeNonVarTypeDocCommentTokens(TokenStream $tokenStream): void
+    {
+        /** @var Token[] $tokens */
+        $tokens = $this->privatesAccessor->getPrivateProperty($tokenStream, 'tokens');
+
+        foreach ($tokens as $key => $token) {
+            if ($token->getType() !== Token::TEXT_TYPE) {
+                continue;
+            }
+
+            // is comment text?
+            if (! str_starts_with($token->getValue(), '{#')) {
+                continue;
+            }
+
+            $match = Strings::match($token->getValue(), self::TWIG_VAR_TYPE_DOCBLOCK_REGEX);
+            if ($match !== null) {
+                continue;
+            }
+
+            unset($tokens[$key]);
+        }
+
+        $this->privatesAccessor->setPrivateProperty($tokenStream, 'tokens', $tokens);
     }
 }
