@@ -565,4 +565,16 @@ parameters:
         # used to be external code, different quality level
         -
             message: '#Parameter "(.*?)" cannot have default value#'
-            path: packages/git-wrapper/src/*
+            paths:
+                 - packages/git-wrapper/src/*
+                 - packages/phpstan-rules/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php
+                 # handy test API
+                 - packages/easy-testing/src/DataProvider/StaticFixtureFinder.php
+                 - packages/easy-testing/src/StaticFixtureSplitter.php
+                 # huge configuration value object
+                 - packages/easy-coding-standard/src/ValueObject/Configuration.php
+
+                 # optional configuration - @todo move to method call in config to make "optional" more clear?
+                 - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php
+                 - packages/phpstan-rules/src/Rules/ClassNameRespectsParentSuffixRule.php
+                 - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php

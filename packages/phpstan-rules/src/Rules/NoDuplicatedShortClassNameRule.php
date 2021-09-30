@@ -44,7 +44,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implemen
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private int $toleratedNestingLevel = 1
+        private int $toleratedNestingLevel
     ) {
     }
 

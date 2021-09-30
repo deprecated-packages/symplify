@@ -33,7 +33,7 @@ final class RequireMethodCallArgumentConstantRule extends AbstractSymplifyRule i
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private PositionMatcher $positionMatcher,
-        private array $constantArgByMethodByType = []
+        private array $constantArgByMethodByType
     ) {
     }
 

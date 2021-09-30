@@ -41,7 +41,7 @@ final class RuleDefinitionsPrinter
                 $lines = $this->printRuleDefinitions($ruleDefinitions, $lines, $shouldCategorize);
             }
         } else {
-            $lines = $this->printRuleDefinitions($ruleDefinitions, $lines);
+            $lines = $this->printRuleDefinitions($ruleDefinitions, $lines, false);
         }
 
         return $lines;
@@ -70,7 +70,7 @@ final class RuleDefinitionsPrinter
      * @param string[] $lines
      * @return string[]
      */
-    private function printRuleDefinitions(array $ruleDefinitions, array $lines, bool $shouldCategorize = false): array
+    private function printRuleDefinitions(array $ruleDefinitions, array $lines, bool $shouldCategorize): array
     {
         foreach ($ruleDefinitions as $ruleDefinition) {
             if ($shouldCategorize) {

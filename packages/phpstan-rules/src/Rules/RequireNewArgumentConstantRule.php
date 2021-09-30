@@ -29,7 +29,7 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
      * @param array<class-string, int[]> $constantArgByNewByType
      */
     public function __construct(
-        private array $constantArgByNewByType = []
+        private array $constantArgByNewByType
     ) {
     }
 

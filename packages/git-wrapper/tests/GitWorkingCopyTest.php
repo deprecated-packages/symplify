@@ -121,12 +121,10 @@ CODE_SAMPLE;
 
     /**
      * Clones the local repo and returns an initialized GitWorkingCopy object.
-     *
-     * @param string $directory The directory that the repository is being cloned to, defaults to "test/wc".
      */
-    public function getWorkingCopy(string $directory = self::WORKING_DIR): GitWorkingCopy
+    public function getWorkingCopy(): GitWorkingCopy
     {
-        $gitWorkingCopy = $this->gitWrapper->workingCopy($directory);
+        $gitWorkingCopy = $this->gitWrapper->workingCopy(self::WORKING_DIR);
         $gitWorkingCopy->cloneRepository('file://' . self::REPO_DIR);
         $gitWorkingCopy->config('user.email', self::CONFIG_EMAIL);
         $gitWorkingCopy->config('user.name', self::CONFIG_NAME);

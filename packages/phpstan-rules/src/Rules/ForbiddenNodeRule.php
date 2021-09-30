@@ -37,7 +37,7 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     public function __construct(
         private Standard $standard,
         private SimpleNodeFinder $simpleNodeFinder,
-        array $forbiddenNodes = []
+        array $forbiddenNodes
     ) {
         Assert::allIsAOf($forbiddenNodes, Node::class);
 

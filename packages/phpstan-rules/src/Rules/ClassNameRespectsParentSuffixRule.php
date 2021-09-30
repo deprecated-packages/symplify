@@ -58,7 +58,7 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     public function __construct(
         private ClassToSuffixResolver $classToSuffixResolver,
         private SimpleNameResolver $simpleNameResolver,
-        array $parentClasses = []
+        array $parentClasses = [],
     ) {
         $this->parentClasses = array_merge($parentClasses, self::DEFAULT_PARENT_CLASSES);
     }
