@@ -6,7 +6,7 @@ namespace Symplify\LattePHPStanCompiler\RelatedFileResolver;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\ParentLayoutNameNodeVisitor;
+use Symplify\LattePHPStanCompiler\NodeVisitor\ParentLayoutNameNodeVisitor;
 
 final class ParentLayoutTemplateFileResolver
 {

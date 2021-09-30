@@ -1,3 +1,5 @@
 services:
     - Symplify\TemplatePHPStanCompiler\NodeFactory\VarDocNodeFactory
     - Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver
+
+    - Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser

@@ -5,12 +5,8 @@ services:
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
 
     # php-parser
-    - Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser
-    - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\ParentLayoutNameNodeVisitor
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
-    - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver
-    - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver
@@ -18,7 +14,5 @@ services:
 
     # latte
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Nette\Latte\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\Nette\LatteVariableNamesResolver
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver

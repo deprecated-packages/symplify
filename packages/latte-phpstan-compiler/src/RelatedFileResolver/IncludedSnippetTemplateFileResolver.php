@@ -6,7 +6,7 @@ namespace Symplify\LattePHPStanCompiler\RelatedFileResolver;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor;
+use Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor;
 
 final class IncludedSnippetTemplateFileResolver
 {
