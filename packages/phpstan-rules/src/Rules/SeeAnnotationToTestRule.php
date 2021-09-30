@@ -41,7 +41,7 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
         private Broker $broker,
         private SimpleNameResolver $simpleNameResolver,
         private PhpDocResolver $phpDocResolver,
-        private array $requiredSeeTypes = []
+        private array $requiredSeeTypes
     ) {
         $this->privatesAccessor = new PrivatesAccessor();
     }

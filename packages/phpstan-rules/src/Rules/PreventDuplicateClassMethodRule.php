@@ -47,7 +47,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
         private SimpleNameResolver $simpleNameResolver,
         private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
         private TypeChecker $typeChecker,
-        private int $minimumLineCount = 3
+        private int $minimumLineCount
     ) {
     }
 

@@ -30,6 +30,8 @@ final class NoDefaultParameterValueRuleTest extends AbstractServiceAwareRuleTest
     {
         $errorMessage = sprintf(NoDefaultParameterValueRule::ERROR_MESSAGE, 'value');
         yield [__DIR__ . '/Fixture/MethodWithDefaultParamValue.php', [[$errorMessage, 9]]];
+
+        yield [__DIR__ . '/Fixture/SkipParentContract.php', []];
     }
 
     protected function getRule(): Rule
