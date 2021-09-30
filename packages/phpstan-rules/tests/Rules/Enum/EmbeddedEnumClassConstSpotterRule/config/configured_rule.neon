@@ -7,5 +7,4 @@ services:
                 - Symplify\PHPStanRules\Tests\Rules\Enum\EmbeddedEnumClassConstSpotterRule\Source\SomeParentObject
 
 includes:
-    - ../../../../../config/symplify-rules.neon
     - ../../../../../config/services/services.neon
