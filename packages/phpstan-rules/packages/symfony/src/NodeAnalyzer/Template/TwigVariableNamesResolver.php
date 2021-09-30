@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
-use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\TemplatePHPStanCompiler\Contract\UsedVariableNamesResolverInterface;
+use Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 final class TwigVariableNamesResolver implements UsedVariableNamesResolverInterface

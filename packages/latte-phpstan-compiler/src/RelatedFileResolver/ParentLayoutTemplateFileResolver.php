@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver;
+namespace Symplify\LattePHPStanCompiler\RelatedFileResolver;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;

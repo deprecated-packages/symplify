@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\PhpParser;
+namespace Symplify\TemplatePHPStanCompiler\PhpParser;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;

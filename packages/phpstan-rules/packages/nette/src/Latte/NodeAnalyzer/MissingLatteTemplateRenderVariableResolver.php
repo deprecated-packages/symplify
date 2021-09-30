@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Nette\Latte\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Nette\LatteVariableNamesResolver;
+use Symplify\LattePHPStanCompiler\LatteVariableNamesResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
 
 final class MissingLatteTemplateRenderVariableResolver

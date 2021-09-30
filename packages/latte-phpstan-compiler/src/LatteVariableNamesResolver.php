@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette;
+namespace Symplify\LattePHPStanCompiler;
 
 use PhpParser\Node\Stmt;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
-use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
-use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
-use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
-use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
+use Symplify\LattePHPStanCompiler\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
+use Symplify\LattePHPStanCompiler\RelatedFileResolver\ParentLayoutTemplateFileResolver;
 use Symplify\TemplatePHPStanCompiler\Contract\UsedVariableNamesResolverInterface;
+use Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser;
 
 final class LatteVariableNamesResolver implements UsedVariableNamesResolverInterface
 {
