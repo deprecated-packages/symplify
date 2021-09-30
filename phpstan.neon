@@ -301,7 +301,8 @@ parameters:
                 # manually created value objects mostly
                 - packages/git-wrapper/src/*
                 # workaround for node visitor
-                - packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/TemplateIncludesNameNodeVisitor.php
+                - packages/latte-phpstan-compiler/src/NodeVisitor/TemplateIncludesNameNodeVisitor.php
+                - packages/latte-phpstan-compiler/src/NodeVisitor/ParentLayoutNameNodeVisitor.php
 
         -
             message: '#Spread operator is not allowed#'
@@ -531,11 +532,6 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
         - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
-        # docs lines
-        -
-            message: '#Do not use setter on a service#'
-            path: packages/phpstan-rules/packages/nette/src/PhpParser/NodeVisitor/ParentLayoutNameNodeVisitor.php
 
         # paralellel
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'

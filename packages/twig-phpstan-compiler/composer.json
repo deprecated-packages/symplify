@@ -1,5 +1,6 @@
 {
     "name": "symplify/twig-phpstan-compiler",
+    "type": "phpstan-extension",
     "description": "Compile twig template to PHPStan-compatible PHP code to allow its static analysis",
     "license": "MIT",
     "require": {
@@ -30,6 +31,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.5-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services.neon"
+            ]
         }
     },
     "conflict": {
