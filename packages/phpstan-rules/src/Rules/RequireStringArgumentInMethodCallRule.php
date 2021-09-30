@@ -39,7 +39,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private array $stringArgPositionByMethodByType = []
+        private array $stringArgPositionByMethodByType
     ) {
     }
 

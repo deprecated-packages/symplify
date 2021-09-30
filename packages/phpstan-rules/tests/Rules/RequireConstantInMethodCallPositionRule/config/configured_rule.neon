@@ -6,9 +6,8 @@ services:
         class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
-            requiredLocalConstantInMethodCall:
+            requiredConstantInMethodCall:
                 Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantLocal:
                     call: [0]
-            requiredExternalConstantInMethodCall:
                 Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal:
                     call: [0]
