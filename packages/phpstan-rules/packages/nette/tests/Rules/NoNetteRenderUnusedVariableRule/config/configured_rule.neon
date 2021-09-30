@@ -1,3 +1,7 @@
 includes:
-    - ../../../../config/latte-rules.neon
     - ../../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]

@@ -1,3 +1,7 @@
 includes:
-    - ../../../../config/twig-rules.neon
     - ../../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]
