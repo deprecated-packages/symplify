@@ -1,3 +1,7 @@
 includes:
-    - ../../../../config/nette-rules.neon
     - ../../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
+        tags: [phpstan.rules.rule]

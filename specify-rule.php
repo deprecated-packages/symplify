@@ -6,7 +6,12 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 require __DIR__ . '/vendor/autoload.php';
 
 $finder = new Symfony\Component\Finder\Finder();
-$fileInfos = $finder->in(__DIR__ . '/packages/phpstan-rules/tests')
+$fileInfos = $finder->in([
+        __DIR__ . '/packages/phpstan-rules/packages/nette/tests',
+        __DIR__ . '/packages/phpstan-rules/packages/symfony/tests',
+        __DIR__ . '/packages/phpstan-rules/packages/cognitive-complexity/tests',
+        __DIR__ . '/packages/phpstan-rules/packages/object-calisthenics/tests',
+    ])
     ->files()
     ->name('*.neon')
     ->getIterator();
@@ -16,17 +21,27 @@ $smartFileSystem = new SmartFileSystem();
 foreach ($fileInfos as $fileInfo) {
     $configFileContent = $smartFileSystem->readFile($fileInfo->getRealPath());
     // 1. is generic config?
-    if (! str_contains($configFileContent, 'symplify-rules.neon')) {
+    if (! str_contains($configFileContent, '-rules.neon')) {
         continue;
     }
 
+    dump($fileInfo->getRealPath());
+
     // 2. detect rule class name from the test
     $baseRuleDirectory = dirname($fileInfo->getPath());
+
+    $match = Strings::match($baseRuleDirectory, '#packages/(?<name>\w+)/tests#');
+    if ($match === null) {
+        continue;
+    }
+
+    $category = ucfirst($match['name']);
+
     $specificRuleDirectory = Strings::after($baseRuleDirectory, 'tests/');
 
     $specificRuleDirectory = str_replace('/', '\\', $specificRuleDirectory);
+    $ruleClass = 'Symplify\\PHPStanRules\\' . $category . '\\' . $specificRuleDirectory;
 
-    $ruleClass = 'Symplify\\PHPStanRules\\' . $specificRuleDirectory;
     if (! class_exists($ruleClass)) {
         continue;
     }
