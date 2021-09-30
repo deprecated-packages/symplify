@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireNewArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule;
+use Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireNewArgumentConstantRule>

@@ -101,7 +101,7 @@ services:
                 'json_decode': ['Nette\Utils\Json', 'decode']
 
     -
-        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:

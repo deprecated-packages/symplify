@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Enum;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
@@ -11,12 +11,13 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\Console\Input\InputOption;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Enum\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
  */
 final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {

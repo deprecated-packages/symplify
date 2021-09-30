@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireNewArgumentConstantRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireNewArgumentConstantRule\Fixture;
 
 use Symfony\Component\Console\Input\InputOption;
 
