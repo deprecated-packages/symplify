@@ -24,7 +24,7 @@ final class TooLongVariableRule extends AbstractSymplifyRule implements Configur
     public const ERROR_MESSAGE = 'Variable "$%s" is too long with %d chars. Narrow it under %d chars';
 
     public function __construct(
-        private int $maxVariableLength = 40
+        private int $maxVariableLength
     ) {
     }
 
