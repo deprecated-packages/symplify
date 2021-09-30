@@ -6,7 +6,8 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "twig/twig": "^3.3",
-        "phpstan/phpstan": "^0.12.99"
+        "phpstan/phpstan": "^0.12.99",
+        "symplify/template-phpstan-compiler": "^9.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

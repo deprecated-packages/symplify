@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Templating\NodeFactory;
+namespace Symplify\TemplatePHPStanCompiler\NodeFactory;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Nop;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class VarDocNodeFactory
 {

@@ -1,10 +1,12 @@
 {
     "name": "symplify/template-phpstan-compiler",
+    "type": "phpstan-extension",
     "description": "Internal package for template to PHPStan-compatible compilers",
     "license": "MIT",
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
+        "symplify/astral": "^9.5",
         "phpstan/phpstan": "^0.12.99"
     },
     "require-dev": {
@@ -25,6 +27,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.5-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services.neon"
+            ]
         }
     },
     "conflict": {

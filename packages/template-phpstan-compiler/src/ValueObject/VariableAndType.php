@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\LattePHPStanCompiler\ValueObject;
+namespace Symplify\TemplatePHPStanCompiler\ValueObject;
 
 use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;

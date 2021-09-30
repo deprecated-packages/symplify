@@ -15,10 +15,10 @@ use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
 use Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\SomeNameControl;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class LatteToPhpCompilerTest extends TestCase
 {
@@ -101,6 +101,7 @@ final class LatteToPhpCompilerTest extends TestCase
     {
         $configs = [
             __DIR__ . '/config/extra-services.neon',
+            __DIR__ . '/../../../../packages/template-phpstan-compiler/config/services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
         ];
 

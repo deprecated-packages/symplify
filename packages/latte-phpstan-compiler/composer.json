@@ -6,7 +6,8 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "latte/latte": "^2.10",
-        "phpstan/phpstan": "^0.12.99"
+        "phpstan/phpstan": "^0.12.99",
+        "symplify/template-phpstan-compiler": "^9.5"
     },
     "require-dev": {
         "nette/application": "^3.1",

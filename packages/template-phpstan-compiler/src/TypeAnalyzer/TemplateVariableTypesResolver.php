@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Templating\TypeAnalyzer;
+namespace Symplify\TemplatePHPStanCompiler\TypeAnalyzer;
 
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Generic\GenericObjectType;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class TemplateVariableTypesResolver
 {
