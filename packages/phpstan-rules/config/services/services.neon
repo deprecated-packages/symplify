@@ -31,8 +31,9 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
 
     - PhpParser\NodeFinder
-    - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\PHPStanRules\NodeFinder\AttrFinder
+
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PHPStanRules\Reflection\Parser\ReflectionParser
     - Symplify\PHPStanRules\Reflection\PropertyAnalyzer
@@ -55,7 +56,6 @@ services:
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
     - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\ClassMethodsNodeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
 
     - Symplify\PHPStanRules\Printer\NodeComparator
@@ -65,13 +65,13 @@ services:
     - Symplify\PHPStanRules\Matcher\PositionMatcher
 
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
-
     - Symplify\Astral\NodeValue\NodeValueResolver
+    - Symplify\Astral\NodeFinder\SimpleNodeFinder
+
     - Symplify\PHPStanRules\Location\DirectoryChecker
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
 
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
 
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PackageBuilder\Php\TypeChecker
@@ -83,7 +83,6 @@ services:
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
-    - Symplify\PHPStanRules\NodeFinder\PreviousLoopFinder
 
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
@@ -96,13 +95,11 @@ services:
 
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ConstantTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\TypeAndNameAnalyzer
 
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
