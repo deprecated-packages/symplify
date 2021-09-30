@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireConstantInMethodCallPositionRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPositionRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule;
+use Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireConstantInMethodCallPositionRule>

@@ -1,0 +1,13 @@
+includes:
+    - ../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredConstantInMethodCall:
+                Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantLocal:
+                    call: [0]
+                Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal:
+                    call: [0]
