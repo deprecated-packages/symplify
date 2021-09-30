@@ -3,3 +3,4 @@ services:
     - Symplify\TwigPHPStanCompiler\Twig\TwigNodeParser
     - Symplify\TwigPHPStanCompiler\TwigVarTypeDocBlockDecorator
     - Symplify\TwigPHPStanCompiler\ObjectTypeMethodAnalyzer
+
