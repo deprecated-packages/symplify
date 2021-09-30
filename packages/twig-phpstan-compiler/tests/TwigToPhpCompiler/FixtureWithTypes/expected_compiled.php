@@ -29,7 +29,7 @@ class __TwigTemplate_%s extends \Twig\Template
         /** @var string $value */
         $macros = $this->macros;
         // line 1
-        echo \strlen($value, "html", \null, \true);
+        echo \twig_escape_filter($this->env, $value, "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()

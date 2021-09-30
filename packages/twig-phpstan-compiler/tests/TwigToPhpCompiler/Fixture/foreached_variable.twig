@@ -36,7 +36,7 @@ class __TwigTemplate_%s extends \Twig\Template
         foreach ($items as $context["_key"] => $item) {
             // line 2
             echo "    ";
-            echo \strlen($item->some_method(), "html", \null, \true);
+            echo \twig_escape_filter($this->env, $item->some_method(), "html", \null, \true);
             echo "\n";
         }
         $_parent = $context['_parent'];
