@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Contract\Templates;
+namespace Symplify\TemplatePHPStanCompiler\Contract;
 
 interface UsedVariableNamesResolverInterface
 {

@@ -9,11 +9,11 @@ use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
-use Symplify\PHPStanRules\Contract\Templates\UsedVariableNamesResolverInterface;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
+use Symplify\TemplatePHPStanCompiler\Contract\UsedVariableNamesResolverInterface;
 
 final class LatteVariableNamesResolver implements UsedVariableNamesResolverInterface
 {
