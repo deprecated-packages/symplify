@@ -100,8 +100,8 @@ final class LatteToPhpCompilerTest extends TestCase
     private function createContainer(): Container
     {
         $configs = [
-            __DIR__ . '/config/extra-services.neon',
             __DIR__ . '/../../../../packages/template-phpstan-compiler/config/services.neon',
+            __DIR__ . '/../../../../packages/latte-phpstan-compiler/config/services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
         ];
 

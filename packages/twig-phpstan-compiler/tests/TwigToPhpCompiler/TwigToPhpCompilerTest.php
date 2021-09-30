@@ -70,6 +70,7 @@ final class TwigToPhpCompilerTest extends TestCase
     {
         $configs = [
             __DIR__ . '/../../../../packages/template-phpstan-compiler/config/services.neon',
+            __DIR__ . '/../../../../packages/twig-phpstan-compiler/config/services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
         ];
 
