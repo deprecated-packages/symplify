@@ -1,5 +1,8 @@
 includes:
     - ../../../../../../config/services/services.neon
+    - ../../../../../../packages/nette/config/services.neon
+    - ../../../../../../../../packages/latte-phpstan-compiler/config/services.neon
+    - ../../../../../../../../packages/template-phpstan-compiler/config/services.neon
 
 services:
     -

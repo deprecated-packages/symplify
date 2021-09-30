@@ -11,10 +11,10 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
+use Symplify\TwigPHPStanCompiler\Exception\TwigPHPStanCompilerException;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ReplaceEchoWithVarDocTypeNodeVisitor;
@@ -106,7 +106,7 @@ final class TwigToPhpCompiler
     {
         $stmts = $this->parser->parse($phpContent);
         if ($stmts === null) {
-            throw new ShouldNotHappenException();
+            throw new TwigPHPStanCompilerException();
         }
 
         // 0. add types first?

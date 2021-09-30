@@ -1,0 +1,28 @@
+services:
+    # latte
+    - Latte\Parser
+
+    - Symplify\LattePHPStanCompiler\LatteToPhpCompiler
+    - Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator
+
+    - Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler
+    - Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver
+    - Symplify\LattePHPStanCompiler\Latte\Macros\LatteMacroFaker
+
+    - Symplify\LattePHPStanCompiler\LatteVarTypeDocBlockDecorator
+
+    # latte lines
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector
+    - Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
+
+    # php traversing
+    - Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor
+    - Symplify\LattePHPStanCompiler\NodeVisitor\ParentLayoutNameNodeVisitor
+    - Symplify\LattePHPStanCompiler\LatteVariableNamesResolver
+
+    - Symplify\LattePHPStanCompiler\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver
+    - Symplify\LattePHPStanCompiler\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver
+
+    - Symplify\LattePHPStanCompiler\RelatedFileResolver\ParentLayoutTemplateFileResolver
+    - Symplify\LattePHPStanCompiler\RelatedFileResolver\IncludedSnippetTemplateFileResolver

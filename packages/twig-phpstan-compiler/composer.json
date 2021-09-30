@@ -1,12 +1,16 @@
 {
     "name": "symplify/twig-phpstan-compiler",
+    "type": "phpstan-extension",
     "description": "Compile twig template to PHPStan-compatible PHP code to allow its static analysis",
     "license": "MIT",
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "twig/twig": "^3.3",
-        "phpstan/phpstan": "^0.12.99"
+        "phpstan/phpstan": "^0.12.99",
+        "symplify/package-builder": "^9.5",
+        "symplify/smart-file-system": "^9.5",
+        "symplify/template-phpstan-compiler": "^9.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -27,6 +31,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.5-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services.neon"
+            ]
         }
     },
     "conflict": {

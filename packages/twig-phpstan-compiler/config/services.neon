@@ -1,0 +1,10 @@
+services:
+    - Symplify\TwigPHPStanCompiler\TwigToPhpCompiler
+    - Symplify\TwigPHPStanCompiler\Twig\TwigNodeParser
+    - Symplify\TwigPHPStanCompiler\TwigVarTypeDocBlockDecorator
+    - Symplify\TwigPHPStanCompiler\ObjectTypeMethodAnalyzer
+
+    # node analyzer
+    - Symplify\TwigPHPStanCompiler\NodeAnalyzer\TwigVariableNamesResolver
+    - Symplify\TwigPHPStanCompiler\NodeAnalyzer\MissingTwigTemplateRenderVariableResolver
+    - Symplify\TwigPHPStanCompiler\NodeAnalyzer\UnusedTwigTemplateVariableAnalyzer

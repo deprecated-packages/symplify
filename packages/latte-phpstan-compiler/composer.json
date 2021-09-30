@@ -1,12 +1,15 @@
 {
     "name": "symplify/latte-phpstan-compiler",
+    "type": "phpstan-extension",
     "description": "Compile latte template to PHPStan-compatible PHP code to allow its static analysis",
     "license": "MIT",
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "latte/latte": "^2.10",
-        "phpstan/phpstan": "^0.12.99"
+        "phpstan/phpstan": "^0.12.99",
+        "symplify/astral": "^9.5",
+        "symplify/template-phpstan-compiler": "^9.5"
     },
     "require-dev": {
         "nette/application": "^3.1",
@@ -28,6 +31,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.5-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services.neon"
+            ]
         }
     },
     "conflict": {

@@ -14,8 +14,8 @@ use stdClass;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
-use Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {

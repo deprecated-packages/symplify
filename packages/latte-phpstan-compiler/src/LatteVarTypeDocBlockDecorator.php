@@ -8,10 +8,10 @@ use PhpParser\NodeTraverser;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\Exception\LattePHPStanCompilerException;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\Templating\NodeFactory\VarDocNodeFactory;
+use Symplify\TemplatePHPStanCompiler\NodeFactory\VarDocNodeFactory;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class LatteVarTypeDocBlockDecorator
 {
@@ -31,7 +31,7 @@ final class LatteVarTypeDocBlockDecorator
         // convert to "@var types $variable"
         $phpNodes = $this->phpParser->parse($phpContent);
         if ($phpNodes === null) {
-            throw new ShouldNotHappenException();
+            throw new LattePHPStanCompilerException();
         }
 
         $nodeTraverser = new NodeTraverser();

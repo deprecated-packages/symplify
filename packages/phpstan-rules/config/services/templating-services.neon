@@ -1,3 +1,0 @@
-services:
-    - Symplify\PHPStanRules\Templating\NodeFactory\VarDocNodeFactory
-    - Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver

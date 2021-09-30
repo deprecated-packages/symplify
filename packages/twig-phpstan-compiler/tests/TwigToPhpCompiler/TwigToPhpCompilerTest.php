@@ -11,9 +11,9 @@ use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
-use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 final class TwigToPhpCompilerTest extends TestCase
@@ -68,7 +68,11 @@ final class TwigToPhpCompilerTest extends TestCase
 
     private function createContainer(): Container
     {
-        $configs = [__DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon'];
+        $configs = [
+            __DIR__ . '/../../../../packages/template-phpstan-compiler/config/services.neon',
+            __DIR__ . '/../../../../packages/twig-phpstan-compiler/config/services.neon',
+            __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
+        ];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();
         return $phpStanContainerFactory->createContainer($configs);

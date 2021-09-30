@@ -1,8 +1,5 @@
 includes:
     - name-resolver-services.neon
-    - templating-services.neon
-    - ../../packages/symfony/config/symfony-services.neon
-    - ../../packages/nette/config/nette-services.neon
 
 services:
     # templates
@@ -49,19 +46,14 @@ services:
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
     - Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard
 
     - Symplify\PHPStanRules\PhpDoc\BarePhpDocParser
     - Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver
     - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
-
     - Symplify\PHPStanRules\Printer\NodeComparator
 
-    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
 
@@ -69,51 +61,62 @@ services:
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
 
+    - Symplify\PackageBuilder\Php\TypeChecker
+    - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
+
     - Symplify\PHPStanRules\Location\DirectoryChecker
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
 
-    - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
 
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
-    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
 
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
+    - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeFinder\StatementFinder
+
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
-    - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
-    - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
-
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
+
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
 
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
-    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
+
+    # node analyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
+    - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
+    - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
+    - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
+    - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
+
+    - Symplify\PHPStanRules\ErrorSkipper
+
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
 
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
 
     # regex
-    - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
-
-    - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
