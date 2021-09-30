@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-includes:
-    - ../../../../latte-phpstan-compiler/config/latte-phpstan-printer-services.neon
-
-=======
->>>>>>> 08efa21a9... [PHPStanRules] Extract config imports from other packages as extension installer configs
 services:
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
     - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateIncludesNameNodeVisitor

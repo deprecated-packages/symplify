@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-includes:
-    - ../../../../twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
-
-=======
->>>>>>> 08efa21a9... [PHPStanRules] Extract config imports from other packages as extension installer configs
 services:
     - Symplify\PHPStanRules\ErrorSkipper
 
