@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template;
+namespace Symplify\TwigPHPStanCompiler\NodeAnalyzer;
 
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;

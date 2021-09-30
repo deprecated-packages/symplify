@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Latte\NodeAnalyzer;
+namespace Symplify\LattePHPStanCompiler\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

@@ -1,5 +1,6 @@
 includes:
     - ../../../../../../config/services/services.neon
+    - ../../../../../../packages/symfony/config/symfony-services.neon
 
 services:
     -

@@ -1,12 +1,8 @@
-includes:
-    - ../../../../latte-phpstan-compiler/config/services.neon
-
 services:
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
 
     # php-parser
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
-    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver
@@ -14,5 +10,4 @@ services:
 
     # latte
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
-    - Symplify\PHPStanRules\Nette\Latte\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver

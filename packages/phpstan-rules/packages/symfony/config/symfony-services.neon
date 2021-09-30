@@ -1,15 +1,4 @@
-includes:
-    - ../../../../twig-phpstan-compiler/config/services.neon
-
 services:
-    - Symplify\PHPStanRules\ErrorSkipper
-
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
-
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher
-
-    # twig
-    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\TwigVariableNamesResolver
-    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
-    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer

@@ -1,5 +1,8 @@
 includes:
     - ../../../../../../config/services/services.neon
+    - ../../../../../../packages/nette/config/nette-services.neon
+    - ../../../../../../../../packages/latte-phpstan-compiler/config/services.neon
+    - ../../../../../../../../packages/template-phpstan-compiler/config/services.neon
 
 parameters:
     # needed to enable missing method rule bellow

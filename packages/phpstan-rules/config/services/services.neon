@@ -112,6 +112,9 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
+    - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
+
+    - Symplify\PHPStanRules\ErrorSkipper
 
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver

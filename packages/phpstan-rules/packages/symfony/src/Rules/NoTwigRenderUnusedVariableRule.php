@@ -9,10 +9,10 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
-use Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\TwigPHPStanCompiler\NodeAnalyzer\UnusedTwigTemplateVariableAnalyzer;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRule\NoTwigRenderUnusedVariableRuleTest

@@ -1,5 +1,6 @@
 includes:
     - ../../../../../../config/services/services.neon
+    - ../../../../../../packages/nette/config/nette-services.neon
 
 services:
     -

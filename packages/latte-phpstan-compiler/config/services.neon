@@ -20,7 +20,9 @@ services:
     - Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor
     - Symplify\LattePHPStanCompiler\NodeVisitor\ParentLayoutNameNodeVisitor
     - Symplify\LattePHPStanCompiler\LatteVariableNamesResolver
+
     - Symplify\LattePHPStanCompiler\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver
+    - Symplify\LattePHPStanCompiler\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver
 
     - Symplify\LattePHPStanCompiler\RelatedFileResolver\ParentLayoutTemplateFileResolver
     - Symplify\LattePHPStanCompiler\RelatedFileResolver\IncludedSnippetTemplateFileResolver
