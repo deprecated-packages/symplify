@@ -9,7 +9,7 @@ use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Contract\Templates\UsedVariableNamesResolverInterface;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
-use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
+use Symplify\PHPStanRules\PhpParser\ParentNodeAwarePhpParser;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 final class TwigVariableNamesResolver implements UsedVariableNamesResolverInterface

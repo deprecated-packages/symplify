@@ -1,7 +1,7 @@
-includes:
-    - ../../../../config/services/services.neon
-
 services:
     -
         class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
         tags: [phpstan.rules.rule]
+
+includes:
+    - ../../../../config/services/services.neon

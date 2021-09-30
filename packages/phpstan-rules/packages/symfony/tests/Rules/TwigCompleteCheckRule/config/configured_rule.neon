@@ -1,5 +1,7 @@
 includes:
     - ../../../../../../config/services/services.neon
+    - ../../../../../../packages/symfony/config/symfony-services.neon
+    - ../../../../../../../twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
 
 parameters:
     # needed to enable missing method rule bellow

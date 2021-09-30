@@ -1,3 +1,8 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
+        tags: [phpstan.rules.rule]
+
 includes:
     - ../../../../../config/services/services.neon
 

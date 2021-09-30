@@ -1,7 +1,17 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
+        tags: [phpstan.rules.rule]
+
 includes:
     - ../../../../../../config/services/services.neon
+<<<<<<< HEAD
 
 services:
     -
         class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
         tags: [phpstan.rules.rule]
+=======
+    - ../../../../../../packages/symfony/config/symfony-services.neon
+    - ../../../../../../../twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
+>>>>>>> moving services to correct places

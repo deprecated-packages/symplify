@@ -13,7 +13,7 @@ use Symplify\PHPStanRules\Contract\Templates\UsedVariableNamesResolverInterface;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver;
 use Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
-use Symplify\PHPStanRules\Nette\PhpParser\ParentNodeAwarePhpParser;
+use Symplify\PHPStanRules\PhpParser\ParentNodeAwarePhpParser;
 
 final class LatteVariableNamesResolver implements UsedVariableNamesResolverInterface
 {

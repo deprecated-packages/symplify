@@ -9,6 +9,8 @@ services:
     - Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
 
+    - Symplify\PHPStanRules\PhpParser\ParentNodeAwarePhpParser
+
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
 
     # doctrine

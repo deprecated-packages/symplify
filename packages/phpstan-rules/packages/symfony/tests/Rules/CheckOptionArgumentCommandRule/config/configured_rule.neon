@@ -1,7 +1,16 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
+        tags: [phpstan.rules.rule]
+
 includes:
     - ../../../../../../config/services/services.neon
+<<<<<<< HEAD
 
 services:
     -
         class: Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
         tags: [phpstan.rules.rule]
+=======
+    - ../../../../../../packages/symfony/config/symfony-services.neon
+>>>>>>> moving services to correct places

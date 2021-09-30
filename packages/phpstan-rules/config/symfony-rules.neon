@@ -1,7 +1,4 @@
 # for BC
-includes:
-    - ../packages/symfony/config/symfony-rules.neon
-
 services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule

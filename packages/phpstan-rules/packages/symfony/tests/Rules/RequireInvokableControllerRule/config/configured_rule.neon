@@ -1,7 +1,20 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
+        tags: [phpstan.rules.rule]
+
 includes:
+<<<<<<< HEAD
     - ../../../../../../config/services/services.neon
 
 services:
     -
         class: Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
         tags: [phpstan.rules.rule]
+=======
+#    - ../../../../config/symfony-rules.neon
+    - ../../../../../../config/services/services.neon
+
+    - ../../../../../../packages/symfony/config/symfony-services.neon
+    - ../../../../../../../twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
+>>>>>>> moving services to correct places
