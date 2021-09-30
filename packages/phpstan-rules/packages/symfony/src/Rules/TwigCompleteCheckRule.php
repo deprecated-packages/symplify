@@ -11,6 +11,7 @@ use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
+use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
