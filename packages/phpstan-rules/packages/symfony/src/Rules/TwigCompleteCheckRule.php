@@ -11,7 +11,6 @@ use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
-use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
@@ -59,7 +58,6 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
         private TwigToPhpCompiler $twigToPhpCompiler,
-        private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private SmartFileSystem $smartFileSystem,
         private FileAnalyser $fileAnalyser,
         private ErrorSkipper $errorSkipper,
