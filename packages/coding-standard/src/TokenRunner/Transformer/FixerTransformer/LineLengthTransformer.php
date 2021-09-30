@@ -7,6 +7,7 @@ namespace Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\CodingStandard\TokenRunner\Enum\LineKind;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 
 final class LineLengthTransformer
@@ -35,7 +36,7 @@ final class LineLengthTransformer
 
         $firstLineLength = $this->firstLineLengthResolver->resolveFromTokensAndStartPosition($tokens, $blockInfo);
         if ($firstLineLength > $lineLength && $breakLongLines) {
-            $this->tokensNewliner->breakItems($blockInfo, $tokens);
+            $this->tokensNewliner->breakItems($blockInfo, $tokens, LineKind::CALLS);
             return;
         }
 

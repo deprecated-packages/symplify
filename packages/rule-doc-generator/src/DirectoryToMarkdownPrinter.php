@@ -26,7 +26,7 @@ final class DirectoryToMarkdownPrinter
     /**
      * @param string[] $directories
      */
-    public function print(string $workingDirectory, array $directories, bool $shouldCategorize = false): string
+    public function print(string $workingDirectory, array $directories, bool $shouldCategorize): string
     {
         // 1. collect documented rules in provided path
         $documentedRuleClasses = $this->classByTypeFinder->findByType(

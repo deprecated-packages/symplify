@@ -11,7 +11,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,7 +30,6 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
         private array $forbiddenTypes
     ) {
     }

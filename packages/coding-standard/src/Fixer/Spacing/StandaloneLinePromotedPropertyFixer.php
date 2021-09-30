@@ -13,6 +13,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
+use Symplify\CodingStandard\TokenRunner\Enum\LineKind;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\TokensNewliner;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
 use Symplify\PackageBuilder\ValueObject\MethodName;
@@ -123,7 +124,7 @@ CODE_SAMPLE
             return;
         }
 
-        $this->tokensNewliner->breakItems($blockInfo, $tokens);
+        $this->tokensNewliner->breakItems($blockInfo, $tokens, LineKind::CALLS);
     }
 
     /**

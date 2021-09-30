@@ -63,7 +63,7 @@ final class FixerFileProcessor implements FileProcessorInterface
         private CurrentParentFileInfoProvider $currentParentFileInfoProvider,
         private TargetFileInfoResolver $targetFileInfoResolver,
         private FileDiffFactory $fileDiffFactory,
-        array $fixers = []
+        array $fixers
     ) {
         $this->fixers = $this->sortFixers($fixers);
     }

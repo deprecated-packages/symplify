@@ -33,7 +33,7 @@ final class ComposerPackageSorter
      * @param array<string, string> $packages
      * @return array<string, string>
      */
-    public function sortPackages(array $packages = []): array
+    public function sortPackages(array $packages): array
     {
         uksort(
             $packages,

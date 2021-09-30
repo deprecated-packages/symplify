@@ -39,7 +39,7 @@ final class SrcTestsDirectoriesFinder
      */
     public function findSrcAndTestsDirectories(
         array $directories,
-        bool $allowTestingDirectory = false
+        bool $allowTestingDirectory
     ): ?SrcAndTestsDirectories {
         $fileInfos = $this->findInDirectories($directories, $allowTestingDirectory);
         if ($fileInfos === []) {
@@ -66,7 +66,7 @@ final class SrcTestsDirectoriesFinder
     /**
      * @return SmartFileInfo[]
      */
-    private function findInDirectories(array $directories, bool $allowTestingDirectory = false): array
+    private function findInDirectories(array $directories, bool $allowTestingDirectory): array
     {
         $existingDirectories = $this->filterExistingDirectories($directories);
         if ($existingDirectories === []) {

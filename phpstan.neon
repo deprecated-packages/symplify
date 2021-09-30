@@ -567,6 +567,7 @@ parameters:
             message: '#Parameter "(.*?)" cannot have default value#'
             paths:
                  - packages/git-wrapper/src/*
+                 - packages/git-wrapper/tests/AbstractGitWrapperTestCase.php
                  - packages/phpstan-rules/packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php
                  # handy test API
                  - packages/easy-testing/src/DataProvider/StaticFixtureFinder.php
@@ -576,5 +577,16 @@ parameters:
 
                  # optional configuration - @todo move to method call in config to make "optional" more clear?
                  - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php
+                 - packages/rule-doc-generator/tests/DirectoryToMarkdownPrinter/DirectoryToMarkdownPrinterTest.php
+                 - packages/phpstan-rules/packages/object-calisthenics/src/Rules/NoShortNameRule.php
                  - packages/phpstan-rules/src/Rules/ClassNameRespectsParentSuffixRule.php
                  - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
+                 - packages/phpstan-rules/packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php
+                 - packages/smart-file-system/src/Finder/SmartFinder.php
+                 - packages/phpstan-rules/src/Rules/ForbiddenNullableParameterRule.php
+                 - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
+                 - packages/symplify-kernel/src/ValueObject/KernelBootAndApplicationRun.php
+                 - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
+                 - packages/easy-coding-standard/src/Finder/SourceFinder.php
+                 - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php
+                 - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php
