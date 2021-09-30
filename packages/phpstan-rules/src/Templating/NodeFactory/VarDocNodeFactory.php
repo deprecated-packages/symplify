@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\LattePHPStanCompiler\PhpParser\NodeFactory;
+namespace Symplify\PHPStanRules\Templating\NodeFactory;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\Nop;

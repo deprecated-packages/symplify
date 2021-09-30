@@ -9,7 +9,6 @@ services:
     - Symplify\PHPStanRules\Nette\PhpParser\NodeVisitor\ParentLayoutNameNodeVisitor
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
-    - Symplify\PHPStanRules\Nette\TemplateFileVarTypeDocBlocksDecorator
     - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\ParentLayoutTemplateFileResolver
     - Symplify\PHPStanRules\Nette\Latte\RelatedFileResolver\IncludedSnippetTemplateFileResolver
 

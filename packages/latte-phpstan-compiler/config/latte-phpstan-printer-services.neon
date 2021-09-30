@@ -3,7 +3,7 @@ services:
     - Latte\Parser
 
     - Symplify\LattePHPStanCompiler\LatteToPhpCompiler
-    - Symplify\LattePHPStanCompiler\PhpParser\NodeFactory\VarDocNodeFactory
+    - Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator
 
     - Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler
     - Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver
