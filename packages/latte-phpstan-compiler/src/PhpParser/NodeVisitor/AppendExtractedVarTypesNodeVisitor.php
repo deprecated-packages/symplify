@@ -21,7 +21,7 @@ final class AppendExtractedVarTypesNodeVisitor extends NodeVisitorAbstract
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private VarDocNodeFactory $varDocNodeFactory,
-        private array $variablesAndTypes = []
+        private array $variablesAndTypes
     ) {
     }
 

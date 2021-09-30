@@ -29,8 +29,8 @@ final class ForbiddenComplexFuncCallRule extends AbstractSymplifyRule implements
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private array $forbiddenComplexFunctions = [],
-        private int $maximumStmtCount = 2
+        private array $forbiddenComplexFunctions,
+        private int $maximumStmtCount
     ) {
     }
 
