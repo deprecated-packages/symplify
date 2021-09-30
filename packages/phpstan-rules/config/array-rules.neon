@@ -18,7 +18,3 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule
         tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule
-        tags: [phpstan.rules.rule]

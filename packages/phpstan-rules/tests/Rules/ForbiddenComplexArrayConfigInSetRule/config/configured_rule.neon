@@ -1,7 +1,0 @@
-includes:
-    - ../../../../config/services/services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule
-        tags: [phpstan.rules.rule]
