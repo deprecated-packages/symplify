@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoConstantInterfaceRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Enum\NoConstantInterfaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\NoConstantInterfaceRule;
+use Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoConstantInterfaceRule>

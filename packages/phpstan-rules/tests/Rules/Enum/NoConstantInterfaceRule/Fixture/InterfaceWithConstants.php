@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoConstantInterfaceRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\Enum\NoConstantInterfaceRule\Fixture;
 
 interface InterfaceWithConstants
 {
