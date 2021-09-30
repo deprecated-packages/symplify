@@ -1,5 +1,5 @@
 includes:
-    - ../../../../../packages/twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
+    - ../../../../twig-phpstan-compiler/config/twig-phpstan-printer-services.neon
 
 services:
     - Symplify\PHPStanRules\ErrorSkipper
