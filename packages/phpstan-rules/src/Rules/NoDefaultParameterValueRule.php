@@ -86,6 +86,7 @@ CODE_SAMPLE
 
     private function isParentContractClassMethod(ClassMethod $classMethod, Scope $scope): bool
     {
+        /** @var string $classMethodName */
         $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
         $classReflection = $scope->getClassReflection();
