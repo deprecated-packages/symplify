@@ -1,0 +1,2 @@
+services:
+    - Symplify\PHPStanRules\Templating\NodeFactory\VarDocNodeFactory

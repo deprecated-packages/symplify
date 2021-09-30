@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette;
+namespace Symplify\LattePHPStanCompiler;
 
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
@@ -12,7 +12,6 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use stdClass;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
-use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
