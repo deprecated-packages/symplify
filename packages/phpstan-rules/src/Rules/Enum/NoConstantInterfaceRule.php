@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Rules;
+namespace Symplify\PHPStanRules\Rules\Enum;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoConstantInterfaceRule\NoConstantInterfaceRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Enum\NoConstantInterfaceRule\NoConstantInterfaceRuleTest
  */
 final class NoConstantInterfaceRule extends AbstractSymplifyRule
 {

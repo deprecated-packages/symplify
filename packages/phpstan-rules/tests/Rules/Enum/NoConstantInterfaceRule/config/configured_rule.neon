@@ -1,0 +1,7 @@
+includes:
+    - ../../../../../config/services/services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
+        tags: [phpstan.rules.rule]
