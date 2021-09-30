@@ -1,4 +1,4 @@
-# 164 Rules Overview
+# 163 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -490,44 +490,6 @@ class SomeClass
 
     private function isCheck(MethodCall $node)
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckUsedNamespacedNameOnClassNodeRule
-
-Use `$class->namespaceName` instead of `$class->name` that only returns short class name
-
-- class: [`Symplify\PHPStanRules\Rules\CheckUsedNamespacedNameOnClassNodeRule`](../src/Rules/CheckUsedNamespacedNameOnClassNodeRule.php)
-
-```php
-use PhpParser\Node\Stmt\Class_;
-
-final class SomeClass
-{
-    public function run(Class_ $class)
-    {
-        $className = (string) $class->name;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PhpParser\Node\Stmt\Class_;
-
-final class SomeClass
-{
-    public function run(Class_ $class)
-    {
-        $className = (string) $class->namespacedName;
     }
 }
 ```
