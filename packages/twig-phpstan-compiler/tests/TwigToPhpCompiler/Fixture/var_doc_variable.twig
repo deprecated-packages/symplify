@@ -33,7 +33,7 @@ class __TwigTemplate_%s extends \Twig\Template
         // line 1
         /** @var \Symplify\TwigPHPStanCompiler\Tests\TwigToPhpCompiler\Source\SomeDocType $someValue */
         // line 2
-        echo \strlen($someValue->name(), "html", \null, \true);
+        echo \twig_escape_filter($this->env, $someValue->name(), "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()

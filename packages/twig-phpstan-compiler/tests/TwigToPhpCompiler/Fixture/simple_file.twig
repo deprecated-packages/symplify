@@ -30,7 +30,7 @@ class __TwigTemplate_%s extends \Twig\Template
         extract($context);
         $macros = $this->macros;
         // line 1
-        echo \strlen($var, "html", \null, \true);
+        echo \twig_escape_filter($this->env, $var, "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()

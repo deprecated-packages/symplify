@@ -1,3 +1,6 @@
+{{ items }}
+{{ items|length }}
+-----
 <?php
 
 use Twig\Environment;
@@ -11,7 +14,7 @@ use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
-/* %stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig */
+/* /tmp/_temp_fixture_easy_testing/input_%s_simple_filter.twig */
 class __TwigTemplate_%s extends \Twig\Template
 {
     private $source;
@@ -26,15 +29,17 @@ class __TwigTemplate_%s extends \Twig\Template
     protected function doDisplay(array $context, array $blocks = [])
     {
         extract($context);
-        /** @var string $value */
         $macros = $this->macros;
         // line 1
-        echo \twig_escape_filter($this->env, $value, "html", \null, \true);
+        echo \twig_escape_filter($this->env, $items, "html", \null, \true);
+        echo "\n";
+        // line 2
+        echo \twig_escape_filter($this->env, \twig_length_filter($this->env, $items), "html", \null, \true);
         echo "\n";
     }
     public function getTemplateName()
     {
-        return "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
+        return "/tmp/_temp_fixture_easy_testing/input_%s_simple_filter.twig";
     }
     public function isTraitable()
     {
@@ -42,10 +47,10 @@ class __TwigTemplate_%s extends \Twig\Template
     }
     public function getDebugInfo()
     {
-        return array(37 => 1);
+        return array(41 => 2, 37 => 1);
     }
     public function getSourceContext()
     {
-        return new \Twig\Source("", "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
+        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_simple_filter.twig", "");
     }
 }
