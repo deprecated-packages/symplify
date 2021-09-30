@@ -1,4 +1,4 @@
-# 163 Rules Overview
+# 162 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -6001,56 +6001,6 @@ class SomeClass extends Rule
 class SomeClass extends Rule
 {
 }
-```
-
-:+1:
-
-<br>
-
-## ServiceAndValueObjectHaveSameStartsRule
-
-Make specific service suffix to use similar value object names for configuring in Symfony configs
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule`](../src/Rules/ServiceAndValueObjectHaveSameStartsRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ServiceAndValueObjectHaveSameStartsRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classSuffixes:
-                - Rector
-```
-
-↓
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(SomeRector::class)
-        ->call('configure', [[new Another()]]);
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(SomeRector::class)
-        ->call('configure', [[new Some()]]);
-};
 ```
 
 :+1:

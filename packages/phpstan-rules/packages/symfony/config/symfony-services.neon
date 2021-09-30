@@ -4,8 +4,6 @@ includes:
 services:
     - Symplify\PHPStanRules\ErrorSkipper
 
-    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigRectorValueObjectResolver
-    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyConfigMethodCallAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
 
