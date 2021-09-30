@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -40,12 +41,17 @@ final class NoDefaultParameterValueRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        if ($this->isParentContractClassMethod($node, $scope)) {
+            return [];
+        }
+
         $errorMessages = [];
         foreach ($node->params as $param) {
             if ($param->default === null) {
                 continue;
             }
 
+            /** @var string $paramName */
             $paramName = $this->simpleNameResolver->getName($param);
             $errorMessages[] = sprintf(self::ERROR_MESSAGE, $paramName);
         }
@@ -76,5 +82,29 @@ class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function isParentContractClassMethod(ClassMethod $classMethod, Scope $scope): bool
+    {
+        /** @var string $classMethodName */
+        $classMethodName = $this->simpleNameResolver->getName($classMethod);
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        foreach ($classReflection->getAncestors() as $ancestorClassReflection) {
+            // skip itself
+            if ($classReflection === $ancestorClassReflection) {
+                continue;
+            }
+
+            if ($ancestorClassReflection->hasMethod($classMethodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

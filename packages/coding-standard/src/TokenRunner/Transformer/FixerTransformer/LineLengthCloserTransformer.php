@@ -8,9 +8,9 @@ use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\CallAnalyzer;
+use Symplify\CodingStandard\TokenRunner\Enum\LineKind;
 use Symplify\CodingStandard\TokenRunner\TokenFinder;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
-use Symplify\CodingStandard\TokenRunner\ValueObject\LineKind;
 
 final class LineLengthCloserTransformer
 {

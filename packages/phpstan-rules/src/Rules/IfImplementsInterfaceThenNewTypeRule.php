@@ -30,7 +30,7 @@ final class IfImplementsInterfaceThenNewTypeRule extends AbstractSymplifyRule im
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder,
-        private array $newTypesByInterface = []
+        private array $newTypesByInterface
     ) {
     }
 

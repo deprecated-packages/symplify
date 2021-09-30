@@ -18,7 +18,7 @@ final class FileSystemGuard
         throw new FileNotFoundException(sprintf('File "%s" not found in "%s".', $file, $location));
     }
 
-    public function ensureDirectoryExists(string $directory, string $extraMessage = ''): void
+    public function ensureDirectoryExists(string $directory, string $extraMessage): void
     {
         if (is_dir($directory) && file_exists($directory)) {
             return;

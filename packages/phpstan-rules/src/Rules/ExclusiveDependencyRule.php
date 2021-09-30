@@ -32,7 +32,7 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        private array $allowedExclusiveDependencyInTypes = []
+        private array $allowedExclusiveDependencyInTypes
     ) {
     }
 

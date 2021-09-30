@@ -6,10 +6,11 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,12 +26,11 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
     public const ERROR_MESSAGE = 'Private method in is not allowed here - it should only delegate to others. Decouple the private method to a new service class';
 
     /**
-     * @param array<string, string> $forbiddenTypes
+     * @param array<class-string> $forbiddenTypes
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
-        private array $forbiddenTypes = []
+        private array $forbiddenTypes
     ) {
     }
 
@@ -39,16 +39,18 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param ClassMethod $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $node->isPrivate()) {
+        $classLike = $node->getOriginalNode();
+
+        if (! $this->isClassWithPrivateMethod($classLike)) {
             return [];
         }
 
@@ -57,24 +59,16 @@ final class ForbiddenPrivateMethodByTypeRule extends AbstractSymplifyRule implem
             return [];
         }
 
-        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
-        if (! $class instanceof Class_) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        if ($class->isAbstract()) {
+        if (! $this->isClassReflectionOfTypes($classReflection, $this->forbiddenTypes)) {
             return [];
         }
 
-        foreach ($this->forbiddenTypes as $forbiddenType) {
-            if (! is_a($className, $forbiddenType, true)) {
-                continue;
-            }
-
-            return [self::ERROR_MESSAGE];
-        }
-
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -121,5 +115,42 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    private function isClassWithPrivateMethod(ClassLike $classLike): bool
+    {
+        if (! $classLike instanceof Class_) {
+            return false;
+        }
+
+        if ($classLike->isAbstract()) {
+            return false;
+        }
+
+        foreach ($classLike->getMethods() as $classMethod) {
+            if ($classMethod->isPrivate()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array<class-string> $types
+     */
+    private function isClassReflectionOfTypes(ClassReflection $classReflection, array $types): bool
+    {
+        foreach ($types as $type) {
+            if ($classReflection->isSubclassOf($type)) {
+                return true;
+            }
+
+            if ($classReflection->implementsInterface($type)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

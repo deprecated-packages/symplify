@@ -32,7 +32,7 @@ final class ForbiddenBinaryMethodCallRule extends AbstractSymplifyRule implement
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private array $typesToMethods = []
+        private array $typesToMethods
     ) {
     }
 

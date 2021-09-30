@@ -105,7 +105,7 @@ $callable = function (Node $node): Node {
     return $node;
 };
 
-$callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable);
+$callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable, null);
 $phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
 
 // B. or class that extends AbstractPhpDocNodeVisitor

@@ -32,7 +32,7 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private SharedNamePrefixMatcher $sharedNamePrefixMatcher,
-        private array $parentTypes = [],
+        private array $parentTypes
     ) {
     }
 

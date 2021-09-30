@@ -26,7 +26,7 @@ final class TooDeepNewClassNestingRule extends AbstractSymplifyRule implements C
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private int $maxNewClassNesting = 3
+        private int $maxNewClassNesting
     ) {
     }
 

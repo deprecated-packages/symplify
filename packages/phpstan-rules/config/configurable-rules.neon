@@ -23,6 +23,7 @@ services:
         arguments:
             forbiddenComplexFunctions:
                 - 'array_filter'
+            maximumStmtCount: 2
 
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule

@@ -1,3 +1,7 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule
+        tags: [phpstan.rules.rule]
+
 includes:
     - ../../../../config/services/services.neon
-    - ../../../../config/symplify-strict-rules.neon

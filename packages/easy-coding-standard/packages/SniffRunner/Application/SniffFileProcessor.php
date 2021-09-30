@@ -45,7 +45,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         private SniffMetadataCollector $sniffMetadataCollector,
         private SmartFileSystem $smartFileSystem,
         private FileDiffFactory $fileDiffFactory,
-        array $sniffs = []
+        array $sniffs
     ) {
         $this->addCompatibilityLayer();
 

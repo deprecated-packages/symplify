@@ -10,8 +10,6 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Name;
-use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use SomeType;
 use Symplify\PHPStanRules\Matcher\PositionMatcher;
@@ -27,16 +25,14 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Parameter argument on position %d must use %s constant';
+    public const ERROR_MESSAGE = 'Parameter argument on position %d must use constant';
 
     /**
-     * @param array<class-string, mixed[]> $requiredLocalConstantInMethodCall
-     * @param array<class-string, mixed[]> $requiredExternalConstantInMethodCall
+     * @param array<class-string, mixed[]> $requiredConstantInMethodCall
      */
     public function __construct(
         private PositionMatcher $positionMatcher,
-        private array $requiredLocalConstantInMethodCall = [],
-        private array $requiredExternalConstantInMethodCall = []
+        private array $requiredConstantInMethodCall
     ) {
     }
 
@@ -58,23 +54,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
             return [];
         }
 
-        $errorMessagesLocal = $this->getErrorMessages(
-            $node,
-            $scope,
-            true,
-            $this->requiredLocalConstantInMethodCall,
-            'local'
-        );
-
-        $errorMessagesExternal = $this->getErrorMessages(
-            $node,
-            $scope,
-            false,
-            $this->requiredExternalConstantInMethodCall,
-            'external'
-        );
-
-        return array_merge($errorMessagesLocal, $errorMessagesExternal);
+        return $this->getErrorMessages($node, $scope, $this->requiredConstantInMethodCall);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -118,13 +98,8 @@ CODE_SAMPLE
      * @param mixed[] $config
      * @return string[]
      */
-    private function getErrorMessages(
-        MethodCall $methodCall,
-        Scope $scope,
-        bool $isLocalConstant,
-        array $config,
-        string $messageVar
-    ): array {
+    private function getErrorMessages(MethodCall $methodCall, Scope $scope, array $config,): array
+    {
         /** @var Identifier $name */
         $name = $methodCall->name;
         $methodName = (string) $name;
@@ -148,11 +123,11 @@ CODE_SAMPLE
                     continue;
                 }
 
-                if ($this->shouldSkipArg($key, $positions, $arg, $isLocalConstant)) {
+                if ($this->shouldSkipArg($key, $positions, $arg)) {
                     continue;
                 }
 
-                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key, $messageVar);
+                $errorMessages[] = sprintf(self::ERROR_MESSAGE, $key);
             }
         }
 
@@ -162,7 +137,7 @@ CODE_SAMPLE
     /**
      * @param int[] $positions
      */
-    private function shouldSkipArg(int $key, array $positions, Arg $arg, bool $isLocalConstant): bool
+    private function shouldSkipArg(int $key, array $positions, Arg $arg): bool
     {
         if (! in_array($key, $positions, true)) {
             return true;
@@ -172,12 +147,6 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! $arg->value instanceof ClassConstFetch) {
-            return false;
-        }
-
-        return $isLocalConstant
-            ? $arg->value->class instanceof Name
-            : $arg->value->class instanceof FullyQualified;
+        return $arg->value instanceof ClassConstFetch;
     }
 }

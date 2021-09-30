@@ -27,7 +27,7 @@ final class PreferredMethodCallOverFuncCallRule extends AbstractSymplifyRule imp
      */
     public function __construct(
         private FuncCallMatcher $funcCallMatcher,
-        private array $funcCallToPreferredMethodCalls = []
+        private array $funcCallToPreferredMethodCalls
     ) {
     }
 

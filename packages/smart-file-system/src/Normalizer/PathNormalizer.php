@@ -32,8 +32,10 @@ final class PathNormalizer
      */
     private const SCHEME_UNDEFINED = 'undefined';
 
-    public function normalizePath(string $originalPath, string $directorySeparator = DIRECTORY_SEPARATOR): string
+    public function normalizePath(string $originalPath): string
     {
+        $directorySeparator = DIRECTORY_SEPARATOR;
+
         $matches = Strings::match($originalPath, self::SCHEME_PATH_REGEX);
         if ($matches !== null) {
             [, $scheme, $path] = $matches;

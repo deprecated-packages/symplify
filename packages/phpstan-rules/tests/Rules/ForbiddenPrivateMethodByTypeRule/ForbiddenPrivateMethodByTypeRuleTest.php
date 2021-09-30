@@ -27,7 +27,7 @@ final class ForbiddenPrivateMethodByTypeRuleTest extends AbstractServiceAwareRul
     {
         yield [__DIR__ . '/Fixture/SkipAbstractCommand.php', []];
 
-        yield [__DIR__ . '/Fixture/ConsoleCommand.php', [[ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/ConsoleCommand.php', [[ForbiddenPrivateMethodByTypeRule::ERROR_MESSAGE, 9]]];
     }
 
     protected function getRule(): Rule

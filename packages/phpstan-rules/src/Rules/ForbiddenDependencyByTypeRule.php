@@ -29,7 +29,7 @@ final class ForbiddenDependencyByTypeRule extends AbstractSymplifyRule implement
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private array $forbiddenTypes = []
+        private array $forbiddenTypes
     ) {
     }
 

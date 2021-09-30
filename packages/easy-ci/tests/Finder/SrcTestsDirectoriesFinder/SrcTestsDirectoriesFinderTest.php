@@ -36,7 +36,8 @@ final class SrcTestsDirectoriesFinderTest extends AbstractKernelTestCase
     public function testNothing(): void
     {
         $srcAndTestsDirectories = $this->srcTestsDirectoriesFinder->findSrcAndTestsDirectories(
-            [__DIR__ . '/Fixture/nothing']
+            [__DIR__ . '/Fixture/nothing'],
+            false
         );
         $this->assertNull($srcAndTestsDirectories);
     }

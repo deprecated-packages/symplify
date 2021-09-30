@@ -36,7 +36,7 @@ final class PreferConstantValueRule extends AbstractSymplifyRule implements Conf
      * @param array<string, array<string, string>> $constantHoldingObjects
      */
     public function __construct(
-        private array $constantHoldingObjects = []
+        private array $constantHoldingObjects
     ) {
     }
 
