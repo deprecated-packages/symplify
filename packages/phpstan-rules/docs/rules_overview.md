@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 161 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1239,48 +1239,6 @@ class ProductVisibility extends Enum
 
     public const VISIBLE = 1;
 }
-```
-
-:+1:
-
-<br>
-
-## ForbiddenComplexArrayConfigInSetRule
-
-For complex configuration use value object over array
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexArrayConfigInSetRule`](../src/Rules/ForbiddenComplexArrayConfigInSetRule.php)
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set('...')
-        ->call('...', [[
-            'options' => ['Cake\Network\Response', ['withLocation', 'withHeader']],
-        ]]);
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set('...')
-        ->call('...', [[
-            'options' => inline_value_objects([
-                new SomeValueObject('Cake\Network\Response', ['withLocation', 'withHeader']),
-            ]),
-        ]]);
-};
 ```
 
 :+1:
@@ -2767,7 +2725,7 @@ class SomeStaticClass
 
 Reserve interface for contract only. Move constant holder to a class soon-to-be Enum
 
-- class: [`Symplify\PHPStanRules\Rules\NoConstantInterfaceRule`](../src/Rules/NoConstantInterfaceRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule`](../src/Rules/Enum/NoConstantInterfaceRule.php)
 
 ```php
 interface SomeContract
@@ -5133,16 +5091,16 @@ final class SomeClass
 
 ## RequireConstantInMethodCallPositionRule
 
-Parameter argument on position %d must use %s constant
+Parameter argument on position %d must use constant
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule`](../src/Rules/RequireConstantInMethodCallPositionRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule`](../src/Rules/Enum/RequireConstantInMethodCallPositionRule.php)
 
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\RequireConstantInMethodCallPositionRule
+        class: Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
             requiredLocalConstantInMethodCall:
@@ -5409,12 +5367,12 @@ New expression argument on position %d must use constant over value
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule`](../src/Rules/RequireNewArgumentConstantRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule`](../src/Rules/Enum/RequireNewArgumentConstantRule.php)
 
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\RequireNewArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
         tags: [phpstan.rules.rule]
         arguments:
             constantArgByNewByType:
