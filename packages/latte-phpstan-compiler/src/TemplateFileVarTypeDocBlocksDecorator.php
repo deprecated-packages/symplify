@@ -15,14 +15,14 @@ use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\LattePHPStanCompiler\ValueObject\VariableAndType;
-use Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver;
 
 final class TemplateFileVarTypeDocBlocksDecorator
 {
     public function __construct(
         private LatteToPhpCompiler $latteToPhpCompiler,
-        private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private PhpToLatteLineNumbersResolver $phpToLatteLineNumbersResolver,
+        private TemplateVariableTypesResolver $templateVariableTypesResolver
     ) {
     }
 
@@ -45,15 +45,6 @@ final class TemplateFileVarTypeDocBlocksDecorator
 
         $phpLinesToLatteLines = $this->phpToLatteLineNumbersResolver->resolve($phpContent);
         return new PhpFileContentsWithLineMap($phpContent, $phpLinesToLatteLines);
-    }
-
-    /**
-     * @return VariableAndType[]
-     */
-    public function resolveTwigVariablesAndTypes(Array_ $array, Scope $scope): array
-    {
-        // traverse nodes to add types after \DummyTemplateClass::main()
-        return $this->templateVariableTypesResolver->resolveArray($array, $scope);
     }
 
     /**

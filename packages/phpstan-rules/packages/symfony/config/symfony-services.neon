@@ -13,4 +13,3 @@ services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\TwigVariableNamesResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\MissingTwigTemplateRenderVariableResolver
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\Template\UnusedTwigTemplateVariableAnalyzer
-    - Symplify\PHPStanRules\Symfony\TypeAnalyzer\TemplateVariableTypesResolver
