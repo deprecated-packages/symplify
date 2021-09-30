@@ -1,6 +1,10 @@
 services:
     - Symplify\PHPStanRules\Templating\NodeFactory\VarDocNodeFactory
 <<<<<<< HEAD
+<<<<<<< HEAD
     - Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver
 =======
 >>>>>>> f0eac6d84... move TemplateFileVarTypeDocBlocksDecorator to LattePHPStanCompiler
+=======
+    - Symplify\PHPStanRules\Templating\TypeAnalyzer\TemplateVariableTypesResolver
+>>>>>>> 55712df73... move TemplateVariableTypesResolver to TwigPHPStanCompiler
