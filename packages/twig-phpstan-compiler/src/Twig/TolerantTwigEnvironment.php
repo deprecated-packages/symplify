@@ -21,7 +21,7 @@ final class TolerantTwigEnvironment extends Environment
         }
 
         // 2nd argument is dummy function, so the function name is not empty and compilation twig to PHP passes
-        return new TwigFilter($name, 'strlen');
+        return new TwigFilter($name, fn ($value) => $value);
     }
 
     public function getFunction(string $name): ?TwigFunction
@@ -32,6 +32,6 @@ final class TolerantTwigEnvironment extends Environment
         }
 
         // 2nd argument is dummy function, so the function name is not empty and compilation twig to PHP passes
-        return new TwigFunction($name, 'strlen');
+        return new TwigFunction($name, fn ($value) => $value);
     }
 }

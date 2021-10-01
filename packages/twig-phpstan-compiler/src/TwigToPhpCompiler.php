@@ -65,7 +65,6 @@ final class TwigToPhpCompiler
         $tolerantTwigEnvironment = $this->createTwigEnvironment($filePath, $fileContent);
 
         $moduleNode = $this->parseFileContentToModuleNode($tolerantTwigEnvironment, $fileContent, $filePath);
-
         $rawPhpContent = $tolerantTwigEnvironment->compile($moduleNode);
 
         return $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
