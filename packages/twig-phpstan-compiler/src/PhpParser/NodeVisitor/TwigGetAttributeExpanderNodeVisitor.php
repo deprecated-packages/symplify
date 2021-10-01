@@ -16,7 +16,9 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
+use PHPStan\Type\UnionType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
@@ -137,6 +139,11 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
         string $variableName
     ): MethodCall {
         $matchedMethodName = $accessorName;
+
+        // unwrap nullable method calls
+        if ($variableType instanceof UnionType) {
+            $variableType = TypeCombinator::removeNull($variableType);
+        }
 
         // twig can work with 3 magic types: ".name" in twig => "getName()" method, "$name" property and "name()" method in PHP
         if ($variableType instanceof TypeWithClassName) {
