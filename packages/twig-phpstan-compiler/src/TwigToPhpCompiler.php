@@ -22,6 +22,7 @@ use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\TwigGetAttributeExpanderN
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapContextVariableNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapTwigEnsureTraversableNodeVisitor;
+use Symplify\TwigPHPStanCompiler\Reflection\PublicPropertyAnalyzer;
 use Symplify\TwigPHPStanCompiler\Twig\TolerantTwigEnvironment;
 use Twig\Lexer;
 use Twig\Loader\ArrayLoader;
@@ -49,7 +50,8 @@ final class TwigToPhpCompiler
         private TwigVarTypeDocBlockDecorator $twigVarTypeDocBlockDecorator,
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
-        private PrivatesAccessor $privatesAccessor
+        private PrivatesAccessor $privatesAccessor,
+        private PublicPropertyAnalyzer $publicPropertyAnalyzer,
     ) {
     }
 
@@ -124,8 +126,10 @@ final class TwigToPhpCompiler
         $twigGetAttributeExpanderNodeVisitor = new TwigGetAttributeExpanderNodeVisitor(
             $this->simpleNameResolver,
             $this->objectTypeMethodAnalyzer,
+            $this->publicPropertyAnalyzer,
             $variablesAndTypes,
-            $collectForeachedVariablesNodeVisitor->getForeachedVariablesToSingles()
+            $collectForeachedVariablesNodeVisitor->getForeachedVariablesToSingles(),
+
         );
 
         $this->traverseStmtsWithVisitors($stmts, [$twigGetAttributeExpanderNodeVisitor]);
