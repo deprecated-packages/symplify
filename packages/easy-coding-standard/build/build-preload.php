@@ -47,6 +47,11 @@ CODE_SAMPLE;
         $vendorDir . '/symplify/rule-doc-generator-contracts/src/Contract/DocumentedRuleInterface.php'
     );
 
+    // fixes https://github.com/symplify/symplify/issues/3630
+    $fileInfos[] = new SplFileInfo(
+        $vendorDir . '/react/promise/src/functions.php'
+    );
+
     foreach ($fileInfos as $fileInfo) {
         $realPath = $fileInfo->getRealPath();
         $filePath = '/vendor/' . Strings::after($realPath, 'vendor/');
