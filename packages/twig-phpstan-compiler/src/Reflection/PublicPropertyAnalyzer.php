@@ -11,7 +11,7 @@ use ReflectionProperty;
 final class PublicPropertyAnalyzer
 {
     /**
-     * @var array string<string, array<string, bool>>
+     * @var array<string, array<string, bool>>
      */
     private array $resolvedPropertyVisibility = [];
 
@@ -25,9 +25,9 @@ final class PublicPropertyAnalyzer
             return false;
         }
 
-        $resolvedVisibility = $this->resolvedPropertyVisibility[$type->getClassName()][$variableName] ?? null;
-        if ($resolvedVisibility !== null) {
-            return $resolvedVisibility;
+        $cachedResolvedVisibility = $this->resolvedPropertyVisibility[$type->getClassName()][$variableName] ?? null;
+        if ($cachedResolvedVisibility !== null) {
+            return $cachedResolvedVisibility;
         }
 
         if (! property_exists($type->getClassName(), $variableName)) {

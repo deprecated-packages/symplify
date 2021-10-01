@@ -244,6 +244,8 @@ parameters:
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
                 # needed as we do not have scope here
                 - packages/twig-phpstan-compiler/src/PhpParser/NodeVisitor/TwigGetAttributeExpanderNodeVisitor.php
+                # checking on purpose
+                - packages/twig-phpstan-compiler/src/Reflection/PublicPropertyAnalyzer.php
 
         # the file must start with "Abstract" to be correct
         -
