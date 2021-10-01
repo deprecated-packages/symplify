@@ -13,6 +13,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
+use Symplify\LattePHPStanCompiler\NodeVisitor\RemoveUselessClassMethodsNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
@@ -90,7 +91,13 @@ final class LatteToPhpCompiler
      */
     private function decorateStmts(array $phpStmts, array $componentNamesAndTypes): void
     {
-        $nodeTraverser = new NodeTraverser();
+        // 0. remove unused class methods
+        $anotherNodeTraverser = new NodeTraverser();
+        $removeUselessClassMethodsNodeVisitor = new RemoveUselessClassMethodsNodeVisitor();
+        $anotherNodeTraverser->addVisitor($removeUselessClassMethodsNodeVisitor);
+        $anotherNodeTraverser->traverse($phpStmts);
+
+        $anotherNodeTraverser = new NodeTraverser();
         $magicFilterToExplicitCallNodeVisitor = new MagicFilterToExplicitCallNodeVisitor(
             $this->simpleNameResolver,
             new DefaultFilterMatcher()
@@ -101,9 +108,9 @@ final class LatteToPhpCompiler
             $componentNamesAndTypes
         );
 
-        $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
-        $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
-        $nodeTraverser->traverse($phpStmts);
+        $anotherNodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
+        $anotherNodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
+        $anotherNodeTraverser->traverse($phpStmts);
     }
 
     private function ensureIsNotFilePath(string $templateFileContent): void

@@ -19,12 +19,6 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
 ';
         return \get_defined_vars();
     }
-    public function prepare() : void
-    {
-        \extract($this->params);
-        /** @var string $someName */
-        \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
-    }
     /** {snippet name} on line 1 */
     public function blockName(array $ʟ_args) : void
     {
