@@ -51,6 +51,8 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         '#Access to property \$env on an unknown class __TwigTemplate_(.*?)#',
         // ob_start contents magic on {% set %} ...
         '#Anonymous function should have native return typehint "string"#',
+        '#Parameter "blocks" cannot have default value#',
+        '#Separate function "twig_array_merge\(\)" in method call to standalone row to improve readability#',
     ];
 
     private Registry $registry;

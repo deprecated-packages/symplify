@@ -44,6 +44,12 @@ final class TwigToPhpCompiler
      */
     public const TWIG_VAR_TYPE_DOCBLOCK_REGEX = '#\{\#\s+@var\s+(?<name>.*?)\s+(?<type>.*?)\s+\#}#';
 
+    /**
+     * @var string
+     * @see https://regex101.com/r/shHvbH/1
+     */
+    private const COMMENT_START_REGEX = '#(\s+)?\{\##';
+
     public function __construct(
         private SmartFileSystem $smartFileSystem,
         private Parser $parser,
@@ -96,9 +102,9 @@ final class TwigToPhpCompiler
 
         $tokenStream = $tolerantTwigEnvironment->tokenize(new Source($fileContent, $filePath));
 
-        $this->removeNonVarTypeDocCommentTokens($tokenStream);
+        $clearTokenStream = $this->removeNonVarTypeDocCommentTokens($tokenStream);
 
-        return $tolerantTwigEnvironment->parse($tokenStream);
+        return $tolerantTwigEnvironment->parse($clearTokenStream);
     }
 
     /**
@@ -183,7 +189,7 @@ final class TwigToPhpCompiler
         $this->traverseStmtsWithVisitors($stmts, [$expandForeachContextNodeVisitor]);
     }
 
-    private function removeNonVarTypeDocCommentTokens(TokenStream $tokenStream): void
+    private function removeNonVarTypeDocCommentTokens(TokenStream $tokenStream): TokenStream
     {
         /** @var Token[] $tokens */
         $tokens = $this->privatesAccessor->getPrivateProperty($tokenStream, 'tokens');
@@ -194,7 +200,7 @@ final class TwigToPhpCompiler
             }
 
             // is comment text?
-            if (! str_starts_with($token->getValue(), '{#')) {
+            if (! Strings::match($token->getValue(), self::COMMENT_START_REGEX)) {
                 continue;
             }
 
@@ -206,6 +212,8 @@ final class TwigToPhpCompiler
             unset($tokens[$key]);
         }
 
-        $this->privatesAccessor->setPrivateProperty($tokenStream, 'tokens', $tokens);
+        $tokens = array_values($tokens);
+
+        return new TokenStream($tokens, $tokenStream->getSourceContext());
     }
 }
