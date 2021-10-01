@@ -61,7 +61,7 @@ final class TwigToPhpCompiler
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
         private PrivatesAccessor $privatesAccessor,
         private PublicPropertyAnalyzer $publicPropertyAnalyzer,
-        private TemplateLinesMapResolver $templateLinesResolver
+        private TemplateLinesMapResolver $templateLinesMapResolver
     ) {
     }
 
@@ -77,7 +77,7 @@ final class TwigToPhpCompiler
         $rawPhpContent = $tolerantTwigEnvironment->compile($moduleNode);
 
         $decoratedPhpContent = $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
-        $phpLinesToTemplateLines = $this->templateLinesResolver->resolve($rawPhpContent);
+        $phpLinesToTemplateLines = $this->templateLinesMapResolver->resolve($rawPhpContent);
 
         return new PhpFileContentsWithLineMap($decoratedPhpContent, $phpLinesToTemplateLines);
     }
