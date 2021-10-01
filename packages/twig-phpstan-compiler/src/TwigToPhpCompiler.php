@@ -118,6 +118,10 @@ final class TwigToPhpCompiler
         $replaceEchoWithVarDocTypeNodeVisitor = new ReplaceEchoWithVarDocTypeNodeVisitor();
         $this->traverseStmtsWithVisitors($stmts, [$replaceEchoWithVarDocTypeNodeVisitor]);
 
+        // get those types for further analysis
+        $collectedVariablesAndTypes = $replaceEchoWithVarDocTypeNodeVisitor->getCollectedVariablesAndTypes();
+        $variablesAndTypes = array_merge($variablesAndTypes, $collectedVariablesAndTypes);
+
         // 3. collect foreached variables to determine nested value :)
         $collectForeachedVariablesNodeVisitor = new CollectForeachedVariablesNodeVisitor($this->simpleNameResolver);
         $this->traverseStmtsWithVisitors($stmts, [$collectForeachedVariablesNodeVisitor]);
