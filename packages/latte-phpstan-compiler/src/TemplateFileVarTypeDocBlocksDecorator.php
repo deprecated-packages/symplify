@@ -13,8 +13,8 @@ use PHPStan\Type\StringType;
 use stdClass;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
-use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class TemplateFileVarTypeDocBlocksDecorator
