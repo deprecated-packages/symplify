@@ -11,7 +11,7 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;

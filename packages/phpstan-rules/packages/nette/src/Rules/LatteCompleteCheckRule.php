@@ -19,7 +19,7 @@ use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
-use Symplify\PHPStanRules\Templates\TemplateErrorsFactory;
+use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;

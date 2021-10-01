@@ -15,6 +15,7 @@ use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -68,6 +69,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private FileAnalyser $fileAnalyser,
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
+        private TemplateErrorsFactory $templateErrorsFactory
     ) {
         $this->registry = new Registry($rules);
     }
@@ -166,8 +168,7 @@ CODE_SAMPLE
         // 5. analyse temporary PHP file with full PHPStan rules
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
-        // @todo correct PHP to twig line
-        // probably via data in getDebugInfo() method
-        return $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+        $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+        return $this->templateErrorsFactory->createErrors($errors, $templateFilePath, $phpFileContentsWithLineMap);
     }
 }

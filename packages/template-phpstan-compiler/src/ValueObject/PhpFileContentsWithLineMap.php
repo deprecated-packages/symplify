@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\LattePHPStanCompiler\ValueObject;
+namespace Symplify\TemplatePHPStanCompiler\ValueObject;
+
+use Webmozart\Assert\Assert;
 
 final class PhpFileContentsWithLineMap
 {
@@ -13,6 +15,8 @@ final class PhpFileContentsWithLineMap
         private string $phpFileContents,
         private array $phpToTemplateLines
     ) {
+        Assert::allInteger(array_keys($phpToTemplateLines));
+        Assert::allInteger($phpToTemplateLines);
     }
 
     public function getPhpFileContents(): string

@@ -26,15 +26,14 @@ final class TwigCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
-        // done
         $errorMessage = sprintf('Call to an undefined method %s::nonExistingMethod().', SomeType::class);
-        yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [[$errorMessage, 17]]];
+        yield [__DIR__ . '/Fixture/SomeMissingVariableController.php', [[$errorMessage, 1]]];
 
         $firstErrorMessage = sprintf('Call to an undefined method %s::nonExistingMethod().', SomeType::class);
-        $secondErrorMessage = sprintf('Call to an undefined method %s::blabla().', SomeType::class);
+        yield [__DIR__ . '/Fixture/FirstForeachMissing.php', [[$firstErrorMessage, 2]]];
 
-        $errorMessages = [[$firstErrorMessage, 20], [$secondErrorMessage, 20]];
-        yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', $errorMessages];
+        $secondErrorMessage = sprintf('Call to an undefined method %s::blabla().', SomeType::class);
+        yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', [[$secondErrorMessage, 4]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];

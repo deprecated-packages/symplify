@@ -49,7 +49,7 @@ final class PhpToTemplateLinesNodeVisitor extends NodeVisitorAbstract
                 continue;
             }
 
-            $templateLineNumber = $match['line_number'];
+            $templateLineNumber = (int) $match['line_number'];
             $phpLineNumber = $node->getLine();
 
             $this->phpLinesToTemplateLines[$phpLineNumber] = $templateLineNumber;
