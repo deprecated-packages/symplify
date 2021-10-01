@@ -129,7 +129,6 @@ final class TwigToPhpCompiler
             $this->publicPropertyAnalyzer,
             $variablesAndTypes,
             $collectForeachedVariablesNodeVisitor->getForeachedVariablesToSingles(),
-
         );
 
         $this->traverseStmtsWithVisitors($stmts, [$twigGetAttributeExpanderNodeVisitor]);
