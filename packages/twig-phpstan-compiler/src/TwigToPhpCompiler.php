@@ -17,6 +17,7 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\Exception\TwigPHPStanCompilerException;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
+use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\RemoveUselessClassMethodsNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ReplaceEchoWithVarDocTypeNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\TwigGetAttributeExpanderNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\UnwrapCoalesceContextNodeVisitor;
@@ -109,6 +110,10 @@ final class TwigToPhpCompiler
         if ($stmts === null) {
             throw new TwigPHPStanCompilerException();
         }
+
+        // -1. remove useless class methods
+        $removeUselessClassMethodsNodeVisitor = new RemoveUselessClassMethodsNodeVisitor();
+        $this->traverseStmtsWithVisitors($stmts, [$removeUselessClassMethodsNodeVisitor]);
 
         // 0. add types first?
         $this->unwarpMagicVariables($stmts);

@@ -43,20 +43,4 @@ class __TwigTemplate_%s extends \Twig\Template
         unset($context['_seq'], $context['_iterated'], $context['_key'], $item, $context['_parent'], $loop);
         $context = \array_intersect_key($context, $_parent) + $_parent;
     }
-    public function getTemplateName()
-    {
-        return "/tmp/_temp_fixture_easy_testing/input_%s_foreached_variable.twig";
-    }
-    public function isTraitable()
-    {
-        return \false;
-    }
-    public function getDebugInfo()
-    {
-        return array(41 => 2, 37 => 1);
-    }
-    public function getSourceContext()
-    {
-        return new \Twig\Source("", "/tmp/_temp_fixture_easy_testing/input_%s_foreached_variable.twig", "");
-    }
 }
