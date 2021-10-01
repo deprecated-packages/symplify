@@ -19,6 +19,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 /**
@@ -48,6 +49,8 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         '#Class __TwigTemplate_(.*?) was not found while trying to analyse it \- discovering symbols is probably not configured properly#',
         '#Do not use chained method calls\. Put each on separated lines#',
         '#Access to property \$env on an unknown class __TwigTemplate_(.*?)#',
+        // ob_start contents magic on {% set %} ...
+        '#Anonymous function should have native return typehint "string"#',
     ];
 
     private Registry $registry;
@@ -145,6 +148,7 @@ CODE_SAMPLE
     }
 
     /**
+     * @param VariableAndType[] $variablesAndTypes
      * @return Error[]
      */
     private function processTemplateFilePath(string $templateFilePath, array $variablesAndTypes, Scope $scope): array
