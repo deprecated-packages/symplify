@@ -47,6 +47,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         '#Access to property \$(parent|source|macros|blocks) on an unknown class __TwigTemplate_(.*?)#',
         '#Class __TwigTemplate_(.*?) was not found while trying to analyse it \- discovering symbols is probably not configured properly#',
         '#Do not use chained method calls\. Put each on separated lines#',
+        '#Access to property \$env on an unknown class __TwigTemplate_(.*?)#',
     ];
 
     private Registry $registry;

@@ -21,6 +21,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\ObjectTypeMethodAnalyzer;
+use Symplify\TwigPHPStanCompiler\Reflection\PublicPropertyAnalyzer;
 
 final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 {
@@ -31,6 +32,7 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
+        private PublicPropertyAnalyzer $publicPropertyAnalyzer,
         private array $variablesAndTypes,
         private array $foreachedVariablesToSingles
     ) {
@@ -38,26 +40,17 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node): Expr|null
     {
-        if (! $node instanceof FuncCall) {
+        $funcCall = $this->matchTwigAttributeFuncCall($node);
+        if (! $funcCall instanceof FuncCall) {
             return null;
         }
 
-        if ($node->name instanceof Expr) {
-            return null;
-        }
-
-        // @see https://github.com/twigphp/Twig/blob/ed29f0010f93df22a96409f5ea442e91728213da/src/Extension/CoreExtension.php#L1378
-
-        if (! $this->simpleNameResolver->isName($node, 'twig_get_attribute')) {
-            return null;
-        }
-
-        $variableName = $this->resolveVariableName($node);
+        $variableName = $this->resolveVariableName($funcCall);
         if ($variableName === null) {
             return null;
         }
 
-        $accessorName = $this->resolveAccessor($node);
+        $accessorName = $this->resolveAccessor($funcCall);
 
         // @todo correct improve get method, getter property
         $variableType = $this->matchVariableType($variableName);
@@ -72,7 +65,7 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
             return new ArrayDimFetch(new Variable($variableName), new String_($accessorName));
         }
 
-        if ($this->hasPublicProperty($variableType, $accessorName)) {
+        if ($this->publicPropertyAnalyzer->hasPublicProperty($variableType, $accessorName)) {
             return new PropertyFetch(new Variable($variableName), new Identifier($accessorName));
         }
 
@@ -160,16 +153,21 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
         return new MethodCall(new Variable($variableName), new Identifier($matchedMethodName));
     }
 
-    private function hasPublicProperty(Type $type, string $variableName): bool
+    private function matchTwigAttributeFuncCall(Node $node): null|FuncCall
     {
-        if (! $type instanceof TypeWithClassName) {
-            return false;
+        if (! $node instanceof FuncCall) {
+            return null;
         }
 
-        if (! $type->hasProperty($variableName)->yes()) {
-            return false;
+        if ($node->name instanceof Expr) {
+            return null;
         }
 
-        return property_exists($type->getClassName(), $variableName);
+        // @see https://github.com/twigphp/Twig/blob/ed29f0010f93df22a96409f5ea442e91728213da/src/Extension/CoreExtension.php#L1378
+        if (! $this->simpleNameResolver->isName($node, 'twig_get_attribute')) {
+            return null;
+        }
+
+        return $node;
     }
 }
