@@ -91,6 +91,7 @@ final class Option
     public const INDENTATION_TAB = 'tab';
 
     /**
+     * @deprecated
      * @var string
      */
     public const MATCH_GIT_DIFF = 'match-git-diff';
