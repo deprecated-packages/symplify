@@ -33,7 +33,7 @@ final class TwigCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/FirstForeachMissing.php', [[$firstErrorMessage, 2]]];
 
         $secondErrorMessage = sprintf('Call to an undefined method %s::blabla().', SomeType::class);
-        yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', [[$secondErrorMessage, 4]]];
+        yield [__DIR__ . '/Fixture/SomeForeachMissingVariableController.php', [[$secondErrorMessage, 5]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipExistingProperty.php', []];

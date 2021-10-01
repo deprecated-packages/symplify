@@ -41,17 +41,10 @@ final class TemplateErrorsFactory
      */
     private function resolveNearestPhpLine(array $phpToTemplateLines, int $desiredLine): int
     {
-//        ++$desiredLine;
-
-//        if (count($phpToTemplateLines) === 1) {
-//            $firstKey = array_key_first($phpToTemplateLines);
-//            return $phpToTemplateLines[$firstKey];
-//        }
-
-        $lastTemplateLine = null;
+        $lastTemplateLine = 1;
 
         foreach ($phpToTemplateLines as $phpLine => $templateLine) {
-            if ($desiredLine <= $phpLine) {
+            if ($desiredLine > $phpLine) {
                 $lastTemplateLine = $templateLine;
                 continue;
             }

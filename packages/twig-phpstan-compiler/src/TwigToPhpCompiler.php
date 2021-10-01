@@ -77,7 +77,7 @@ final class TwigToPhpCompiler
         $rawPhpContent = $tolerantTwigEnvironment->compile($moduleNode);
 
         $decoratedPhpContent = $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
-        $phpLinesToTemplateLines = $this->templateLinesMapResolver->resolve($rawPhpContent);
+        $phpLinesToTemplateLines = $this->templateLinesMapResolver->resolve($decoratedPhpContent);
 
         return new PhpFileContentsWithLineMap($decoratedPhpContent, $phpLinesToTemplateLines);
     }
