@@ -32,20 +32,4 @@ class __TwigTemplate_%s extends \Twig\Template
         echo \twig_escape_filter($this->env, $value, "html", \null, \true);
         echo "\n";
     }
-    public function getTemplateName()
-    {
-        return "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig";
-    }
-    public function isTraitable()
-    {
-        return \false;
-    }
-    public function getDebugInfo()
-    {
-        return array(37 => 1);
-    }
-    public function getSourceContext()
-    {
-        return new \Twig\Source("", "%stests/TwigToPhpCompiler/FixtureWithTypes/input_file.twig", "");
-    }
 }
