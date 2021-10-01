@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Templates;
+namespace Symplify\TemplatePHPStanCompiler\Reporting;
 
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\LattePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
+use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 
 final class TemplateErrorsFactory
 {
@@ -41,15 +41,18 @@ final class TemplateErrorsFactory
      */
     private function resolveNearestPhpLine(array $phpToTemplateLines, int $desiredLine): int
     {
-        foreach ($phpToTemplateLines as $phpLine => $latteLine) {
-            if ($desiredLine < $phpLine) {
+        $lastTemplateLine = 1;
+
+        foreach ($phpToTemplateLines as $phpLine => $templateLine) {
+            if ($desiredLine > $phpLine) {
+                $lastTemplateLine = $templateLine;
                 continue;
             }
 
             // find nearest neighbor - in case of multiline PHP replacement per one latte line
-            return $latteLine;
+            return $templateLine;
         }
 
-        return $desiredLine;
+        return $lastTemplateLine;
     }
 }

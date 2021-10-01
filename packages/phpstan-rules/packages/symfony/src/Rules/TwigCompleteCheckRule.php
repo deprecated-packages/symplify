@@ -6,11 +6,11 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\Error;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
@@ -18,6 +18,7 @@ use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
@@ -68,6 +69,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private FileAnalyser $fileAnalyser,
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
+        private TemplateErrorsFactory $templateErrorsFactory
     ) {
         $this->registry = new Registry($rules);
     }
@@ -82,7 +84,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
 
     /**
      * @param MethodCall $node
-     * @return array<string|Error>
+     * @return array<string|RuleError>
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -99,13 +101,13 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         );
 
         // 3. compile twig to PHP with resolved types in @var docs
-        $errors = [];
+        $ruleErrors = [];
         foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $templateFilePath) {
-            $currentErrors = $this->processTemplateFilePath($templateFilePath, $variablesAndTypes, $scope);
-            $errors = array_merge($errors, $currentErrors);
+            $currentRuleErrors = $this->processTemplateFilePath($templateFilePath, $variablesAndTypes, $scope);
+            $ruleErrors = array_merge($ruleErrors, $currentRuleErrors);
         }
 
-        return $errors;
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -151,21 +153,22 @@ CODE_SAMPLE
 
     /**
      * @param VariableAndType[] $variablesAndTypes
-     * @return Error[]
+     * @return RuleError[]
      */
     private function processTemplateFilePath(string $templateFilePath, array $variablesAndTypes, Scope $scope): array
     {
-        $phpFileContent = $this->twigToPhpCompiler->compileContent($templateFilePath, $variablesAndTypes,);
+        $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent($templateFilePath, $variablesAndTypes);
+
+        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 
         // 4. print the content to temporary file
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
-        $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContent);
+        $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
         // 5. analyse temporary PHP file with full PHPStan rules
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
-        // @todo correct PHP to twig line
-        // probably via data in getDebugInfo() method
-        return $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+        $ruleErrors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+        return $this->templateErrorsFactory->createErrors($ruleErrors, $templateFilePath, $phpFileContentsWithLineMap);
     }
 }

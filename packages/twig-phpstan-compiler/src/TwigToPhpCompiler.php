@@ -13,7 +13,9 @@ use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\SmartFileSystem\SmartFileSystem;
+use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
+use Symplify\TwigPHPStanCompiler\ErrorReporting\TemplateLinesMapResolver;
 use Symplify\TwigPHPStanCompiler\Exception\TwigPHPStanCompilerException;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\CollectForeachedVariablesNodeVisitor;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\ExpandForeachContextNodeVisitor;
@@ -59,22 +61,25 @@ final class TwigToPhpCompiler
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
         private PrivatesAccessor $privatesAccessor,
         private PublicPropertyAnalyzer $publicPropertyAnalyzer,
+        private TemplateLinesMapResolver $templateLinesMapResolver
     ) {
     }
 
     /**
      * @param array<VariableAndType> $variablesAndTypes
      */
-    public function compileContent(string $filePath, array $variablesAndTypes): string
+    public function compileContent(string $filePath, array $variablesAndTypes): PhpFileContentsWithLineMap
     {
         $fileContent = $this->smartFileSystem->readFile($filePath);
-
         $tolerantTwigEnvironment = $this->createTwigEnvironment($filePath, $fileContent);
 
         $moduleNode = $this->parseFileContentToModuleNode($tolerantTwigEnvironment, $fileContent, $filePath);
         $rawPhpContent = $tolerantTwigEnvironment->compile($moduleNode);
 
-        return $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
+        $decoratedPhpContent = $this->decoratePhpContent($rawPhpContent, $variablesAndTypes);
+        $phpLinesToTemplateLines = $this->templateLinesMapResolver->resolve($decoratedPhpContent);
+
+        return new PhpFileContentsWithLineMap($decoratedPhpContent, $phpLinesToTemplateLines);
     }
 
     private function createTwigEnvironment(string $filePath, string $fileContent): TolerantTwigEnvironment

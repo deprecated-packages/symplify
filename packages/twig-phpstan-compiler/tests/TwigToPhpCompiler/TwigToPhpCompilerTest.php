@@ -32,10 +32,12 @@ final class TwigToPhpCompilerTest extends TestCase
     public function test(SmartFileInfo $fileInfo): void
     {
         $inputFileInfoAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpected($fileInfo);
-        $phpFileContent = $this->twigToPhpCompiler->compileContent(
+
+        $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent(
             $inputFileInfoAndExpected->getInputFileRealPath(),
             []
         );
+        $phpFileContent = $phpFileContentsWithLineMap->getPhpFileContents();
 
         // update test fixture if the content has changed
         StaticFixtureUpdater::updateFixtureContent(
@@ -50,10 +52,12 @@ final class TwigToPhpCompilerTest extends TestCase
     public function testTypes(): void
     {
         $variablesAndTypes = [new VariableAndType('value', new StringType())];
-        $phpFileContent = $this->twigToPhpCompiler->compileContent(
+
+        $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent(
             __DIR__ . '/FixtureWithTypes/input_file.twig',
             $variablesAndTypes
         );
+        $phpFileContent = $phpFileContentsWithLineMap->getPhpFileContents();
 
         $this->assertStringMatchesFormatFile(__DIR__ . '/FixtureWithTypes/expected_compiled.php', $phpFileContent);
     }

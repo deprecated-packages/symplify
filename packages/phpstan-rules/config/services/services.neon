@@ -4,7 +4,6 @@ includes:
 services:
     # templates
     - Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher
-    - Symplify\PHPStanRules\Templates\TemplateErrorsFactory
 
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
 

@@ -27,8 +27,10 @@ final class TwigVariableNamesResolver implements UsedVariableNamesResolverInterf
      */
     public function resolveFromFilePath(string $filePath): array
     {
-        $phpFileContent = $this->twigToPhpCompiler->compileContent($filePath, []);
-        $stmts = $this->parentNodeAwarePhpParser->parsePhpContent($phpFileContent);
+        $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent($filePath, []);
+        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
+
+        $stmts = $this->parentNodeAwarePhpParser->parsePhpContent($phpFileContents);
 
         $templateVariableCollectingNodeVisitor = new TemplateVariableCollectingNodeVisitor(
             ['context', 'macros', 'this', '_parent', 'loop', 'tmp'],
