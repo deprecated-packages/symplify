@@ -54,20 +54,14 @@ final class ReplaceEchoWithVarDocTypeNodeVisitor extends NodeVisitorAbstract
 
         $varTypeDoc = new VarTypeDoc($match['name'], $match['type']);
 
-        $varDoc = sprintf('/** @var %s $%s */', $varTypeDoc->getType(), $varTypeDoc->getVariableName());
-
-        $comments = $node->getComments();
-        $comments[] = new Comment($varDoc);
-
-        $nop = new Nop();
-        $nop->setAttribute(AttributeKey::COMMENTS, $comments);
 
         // @todo assumption that type is an object - resolve in some strict/doc parser clean way
         $this->collectedVariablesAndTypes[] = new VariableAndType($varTypeDoc->getVariableName(), new ObjectType(
             $varTypeDoc->getType()
         ));
 
-        return $nop;
+        // basically remove node
+        return new Nop();
     }
 
     /**
