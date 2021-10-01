@@ -155,11 +155,13 @@ CODE_SAMPLE
      */
     private function processTemplateFilePath(string $templateFilePath, array $variablesAndTypes, Scope $scope): array
     {
-        $phpFileContent = $this->twigToPhpCompiler->compileContent($templateFilePath, $variablesAndTypes,);
+        $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent($templateFilePath, $variablesAndTypes);
+
+        $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
 
         // 4. print the content to temporary file
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
-        $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContent);
+        $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
         // 5. analyse temporary PHP file with full PHPStan rules
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);

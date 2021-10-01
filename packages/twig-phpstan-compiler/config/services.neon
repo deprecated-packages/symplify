@@ -8,3 +8,4 @@ services:
     - Symplify\TwigPHPStanCompiler\NodeAnalyzer\TwigVariableNamesResolver
     - Symplify\TwigPHPStanCompiler\NodeAnalyzer\MissingTwigTemplateRenderVariableResolver
     - Symplify\TwigPHPStanCompiler\NodeAnalyzer\UnusedTwigTemplateVariableAnalyzer
+    - Symplify\TwigPHPStanCompiler\ErrorReporting\TemplateLinesMapResolver
