@@ -22,7 +22,7 @@ final class ReplaceEchoWithVarDocTypeNodeVisitor extends NodeVisitorAbstract
      */
     private array $collectedVariablesAndTypes = [];
 
-    public function beforeTraverse(array $nodes)
+    public function beforeTraverse(array $nodes): ?array
     {
         $this->collectedVariablesAndTypes = [];
 
