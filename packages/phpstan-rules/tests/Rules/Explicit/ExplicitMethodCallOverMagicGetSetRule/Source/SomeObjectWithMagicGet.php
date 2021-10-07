@@ -13,6 +13,10 @@ final class SomeObjectWithMagicGet extends AbstractMagicGet
         return 1000;
     }
 
+    public function isValid()
+    {
+    }
+
     public function setId($value)
     {
     }

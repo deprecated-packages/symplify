@@ -64,11 +64,11 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         // skip local "$this" calls
-        if ($node->var instanceof Variable && $this->simpleNameResolver->isName($node->var, 'this')) {
+        if ($this->isVariableThis($node->var)) {
             return [];
         }
 
-        $callerClassReflection = $this->resolveMagicGetClassReflection($scope, $node->var);
+        $callerClassReflection = $this->resolveClassReflection($scope, $node->var);
         if (! $callerClassReflection instanceof ClassReflection) {
             return [];
         }
@@ -83,16 +83,15 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
             return [];
         }
 
-        // skip setter
         $parent = $node->getAttribute(AttributeKey::PARENT);
         if ($parent instanceof Assign && $parent->var === $node) {
-            return $this->processSetterAssign($node, $callerClassReflection, $propertyName);
+            return $this->processSetterMethodCall($node, $callerClassReflection, $propertyName);
         }
 
         return $this->processGetterMethodCall($node, $callerClassReflection, $propertyName);
     }
 
-    private function resolveMagicGetClassReflection(Scope $scope, Expr $caller): ClassReflection|null
+    private function resolveClassReflection(Scope $scope, Expr $caller): ClassReflection|null
     {
         $callerType = $scope->getType($caller);
         if (! $callerType instanceof TypeWithClassName) {
@@ -105,7 +104,7 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
     /**
      * @return string[]
      */
-    private function processSetterAssign(
+    private function processSetterMethodCall(
         PropertyFetch $propertyFetch,
         ClassReflection $classReflection,
         string $propertyName
@@ -114,12 +113,12 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
             return [];
         }
 
-        $getterMethodName = 'set' . \ucfirst($propertyName);
-        if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $getterMethodName)) {
+        $setterMethodName = 'set' . \ucfirst($propertyName);
+        if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $setterMethodName)) {
             return [];
         }
 
-        $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $getterMethodName);
+        $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $setterMethodName);
         return [$errorMessage];
     }
 
@@ -136,17 +135,34 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
         }
 
         $getterMethodName = 'get' . \ucfirst($propertyName);
-        if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $getterMethodName)) {
-            return [];
+        $isserMethodName = 'is' . \ucfirst($propertyName);
+
+        $possibleMethodNames = [$getterMethodName, $isserMethodName];
+
+        foreach ($possibleMethodNames as $possibleMethodName) {
+            if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $possibleMethodName)) {
+                continue;
+            }
+
+            $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $possibleMethodName);
+            return [$errorMessage];
         }
 
-        $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $getterMethodName);
-        return [$errorMessage];
+        return [];
     }
 
     private function createErrorMessage(PropertyFetch $propertyFetch, string $propertyName, string $methodName): string
     {
         $printedPropertyFetch = (string) $propertyFetch->var->getAttribute(AttributeKey::PHPSTAN_CACHE_PRINTER);
         return \sprintf(self::ERROR_MESSAGE, $propertyName, $printedPropertyFetch, $methodName);
+    }
+
+    private function isVariableThis(Expr $expr): bool
+    {
+        if (! $expr instanceof Variable) {
+            return false;
+        }
+
+        return $this->simpleNameResolver->isName($expr, 'this');
     }
 }

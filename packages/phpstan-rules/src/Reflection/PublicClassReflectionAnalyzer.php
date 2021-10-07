@@ -18,13 +18,13 @@ final class PublicClassReflectionAnalyzer
         return $nativePropertyReflection->isPublic();
     }
 
-    public function hasPublicNativeMethod(ClassReflection $callerClassReflection, string $getterMethodName): bool
+    public function hasPublicNativeMethod(ClassReflection $classReflection, string $getterMethodName): bool
     {
-        if (! $callerClassReflection->hasNativeMethod($getterMethodName)) {
+        if (! $classReflection->hasNativeMethod($getterMethodName)) {
             return false;
         }
 
-        $methodReflection = $callerClassReflection->getNativeMethod($getterMethodName);
+        $methodReflection = $classReflection->getNativeMethod($getterMethodName);
         return $methodReflection->isPublic();
     }
 }

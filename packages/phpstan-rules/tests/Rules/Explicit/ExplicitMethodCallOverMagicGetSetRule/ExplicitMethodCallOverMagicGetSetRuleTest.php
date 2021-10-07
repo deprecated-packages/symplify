@@ -40,6 +40,14 @@ final class ExplicitMethodCallOverMagicGetSetRuleTest extends AbstractServiceAwa
         );
         yield [__DIR__ . '/Fixture/MagicSetter.php', [[$setterErrorMessage, 13]]];
 
+        $boolGetterErrorMessage = \sprintf(
+            ExplicitMethodCallOverMagicGetSetRule::ERROR_MESSAGE,
+            'valid',
+            '$someSmartObject',
+            'isValid'
+        );
+        yield [__DIR__ . '/Fixture/MagicIsGetter.php', [[$boolGetterErrorMessage, 16]]];
+
         yield [__DIR__ . '/Fixture/SkipNormalPropertyFetch.php', []];
         yield [__DIR__ . '/Fixture/SkipPrivateMethod.php', []];
         yield [__DIR__ . '/Fixture/SkipAssignToPositions.php', []];
