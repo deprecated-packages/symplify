@@ -16,6 +16,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -46,7 +47,48 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, []);
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+class MagicCallsObject
+{
+    // adds magic __get() and __set() methods
+    use \Nette\SmartObject;
+
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+}
+
+$magicObject = new MagicObject();
+// magic re-directed to method
+$magicObject->name;
+CODE_SAMPLE
+            ,
+                <<<'CODE_SAMPLE'
+class MagicCallsObject
+{
+    // adds magic __get() and __set() methods
+    use \Nette\SmartObject;
+
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+}
+
+$magicObject = new MagicObject();
+// explicit
+$magicObject->getName();
+CODE_SAMPLE
+            ),
+
+        ]);
     }
 
     /**
