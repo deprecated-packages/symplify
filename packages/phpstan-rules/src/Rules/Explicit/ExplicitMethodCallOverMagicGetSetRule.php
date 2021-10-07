@@ -1,0 +1,152 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\PHPStanRules\Rules\Explicit;
+
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\TypeWithClassName;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer;
+use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+
+/**
+ * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule\ExplicitMethodCallOverMagicGetSetRuleTest
+ */
+final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
+{
+    /**
+     * @var string
+     */
+    public const ERROR_MESSAGE = 'Instead of magic property "%s" access use direct explicit "%s->%s()" method call';
+
+    /**
+     * @var string
+     */
+    private const GET_METHOD_NAME = '__get';
+
+    /**
+     * @var string
+     */
+    private const SET_METHOD_NAME = '__set';
+
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver,
+        private PublicClassReflectionAnalyzer $publicClassReflectionAnalyzer
+    ) {
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, []);
+    }
+
+    /**
+     * @return array<class-string<Node>>
+     */
+    public function getNodeTypes(): array
+    {
+        return [PropertyFetch::class];
+    }
+
+    /**
+     * @param PropertyFetch $node
+     * @return string[]
+     */
+    public function process(Node $node, Scope $scope): array
+    {
+        // skip local "$this" calls
+        if ($node->var instanceof Variable && $this->simpleNameResolver->isName($node->var, 'this')) {
+            return [];
+        }
+
+        $callerClassReflection = $this->resolveMagicGetClassReflection($scope, $node->var);
+        if (! $callerClassReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        $propertyName = $this->simpleNameResolver->getName($node->name);
+        if ($propertyName === null) {
+            return [];
+        }
+
+        // has public native property?
+        if ($this->publicClassReflectionAnalyzer->hasPublicNativeProperty($callerClassReflection, $propertyName)) {
+            return [];
+        }
+
+        // skip setter
+        $parent = $node->getAttribute(AttributeKey::PARENT);
+        if ($parent instanceof Assign && $parent->var === $node) {
+            return $this->processSetterAssign($node, $callerClassReflection, $propertyName);
+        }
+
+        return $this->processGetterMethodCall($node, $callerClassReflection, $propertyName);
+    }
+
+    private function resolveMagicGetClassReflection(Scope $scope, Expr $caller): ClassReflection|null
+    {
+        $callerType = $scope->getType($caller);
+        if (! $callerType instanceof TypeWithClassName) {
+            return null;
+        }
+
+        return $callerType->getClassReflection();
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processSetterAssign(
+        PropertyFetch $propertyFetch,
+        ClassReflection $classReflection,
+        string $propertyName
+    ): array {
+        if (! $classReflection->hasNativeMethod(self::SET_METHOD_NAME)) {
+            return [];
+        }
+
+        $getterMethodName = 'set' . \ucfirst($propertyName);
+        if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $getterMethodName)) {
+            return [];
+        }
+
+        $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $getterMethodName);
+        return [$errorMessage];
+    }
+
+    /**
+     * @return string[]
+     */
+    private function processGetterMethodCall(
+        PropertyFetch $propertyFetch,
+        ClassReflection $classReflection,
+        string $propertyName
+    ): array {
+        if (! $classReflection->hasNativeMethod(self::GET_METHOD_NAME)) {
+            return [];
+        }
+
+        $getterMethodName = 'get' . \ucfirst($propertyName);
+        if (! $this->publicClassReflectionAnalyzer->hasPublicNativeMethod($classReflection, $getterMethodName)) {
+            return [];
+        }
+
+        $errorMessage = $this->createErrorMessage($propertyFetch, $propertyName, $getterMethodName);
+        return [$errorMessage];
+    }
+
+    private function createErrorMessage(PropertyFetch $propertyFetch, string $propertyName, string $methodName): string
+    {
+        $printedPropertyFetch = (string) $propertyFetch->var->getAttribute(AttributeKey::PHPSTAN_CACHE_PRINTER);
+        return \sprintf(self::ERROR_MESSAGE, $propertyName, $printedPropertyFetch, $methodName);
+    }
+}
