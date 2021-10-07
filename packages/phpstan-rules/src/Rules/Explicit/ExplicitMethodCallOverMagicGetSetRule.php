@@ -91,9 +91,9 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
         return $this->processGetterMethodCall($node, $callerClassReflection, $propertyName);
     }
 
-    private function resolveClassReflection(Scope $scope, Expr $caller): ClassReflection|null
+    private function resolveClassReflection(Scope $scope, Expr $expr): ClassReflection|null
     {
-        $callerType = $scope->getType($caller);
+        $callerType = $scope->getType($expr);
         if (! $callerType instanceof TypeWithClassName) {
             return null;
         }

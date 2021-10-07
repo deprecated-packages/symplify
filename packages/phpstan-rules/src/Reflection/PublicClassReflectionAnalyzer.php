@@ -14,8 +14,8 @@ final class PublicClassReflectionAnalyzer
             return false;
         }
 
-        $nativePropertyReflection = $classReflection->getNativeProperty($propertyName);
-        return $nativePropertyReflection->isPublic();
+        $phpPropertyReflection = $classReflection->getNativeProperty($propertyName);
+        return $phpPropertyReflection->isPublic();
     }
 
     public function hasPublicNativeMethod(ClassReflection $classReflection, string $getterMethodName): bool

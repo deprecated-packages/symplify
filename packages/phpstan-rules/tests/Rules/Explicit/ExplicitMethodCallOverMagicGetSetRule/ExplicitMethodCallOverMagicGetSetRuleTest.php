@@ -16,6 +16,7 @@ final class ExplicitMethodCallOverMagicGetSetRuleTest extends AbstractServiceAwa
 {
     /**
      * @dataProvider provideData()
+     * @param array<int, mixed[]> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {
