@@ -14,14 +14,14 @@ use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 
 /**
  * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
+ *
+ * @see \Symplify\PHPStanExtensions\Tests\TypeExtension\MethodCall\ContainerGetReturnTypeExtension\ContainerGetReturnTypeExtensionTest
  */
 final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver;
-
-    public function __construct()
-    {
-        $this->classConstFetchReturnTypeResolver = new ClassConstFetchReturnTypeResolver();
+    public function __construct(
+        private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver
+    ) {
     }
 
     public function getClass(): string

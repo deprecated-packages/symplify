@@ -93,6 +93,7 @@ parameters:
         # tests
         - packages/easy-coding-standard/packages/SniffRunner/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/symfony-static-dumper/tests/test_project/
+        - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # 3rd party
         - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
@@ -594,3 +595,16 @@ parameters:
                  - packages/easy-coding-standard/src/Finder/SourceFinder.php
                  - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php
                  - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php
+
+        # vendor test case limitation
+        -
+            message: '#Class has a static method must so must contains "Static" in its name#'
+            path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
+        -
+            message: '#Spread operator is not allowed#'
+            path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
+
+        # invalid parent type name
+        -
+            message: '#Arguments names conflicts with parent class method\: "\$funcCall" should be "\$functionCall"\. This will break named arguments#'
+            path: packages/phpstan-extensions/src/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension.php

@@ -8,6 +8,9 @@ use PHPStan\Testing\TypeInferenceTestCase;
 
 final class SplFileInfoTolerantReturnTypeExtensionTest extends TypeInferenceTestCase
 {
+    /**
+     * @return iterable<string, mixed[]>
+     */
     public function dataAsserts(): iterable
     {
         yield from $this->gatherAssertTypes(__DIR__ . '/data/fixture.php');
