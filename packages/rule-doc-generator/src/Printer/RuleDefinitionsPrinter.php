@@ -74,9 +74,9 @@ final class RuleDefinitionsPrinter
     {
         foreach ($ruleDefinitions as $ruleDefinition) {
             if ($shouldCategorize) {
-                $lines[] = '### ' . $ruleDefinition->getRuleShortClass();
+                $lines[] = '### [' . $ruleDefinition->getRuleShortClass() .'](' . $ruleDefinition->getRuleFilePath() . ')';
             } else {
-                $lines[] = '## ' . $ruleDefinition->getRuleShortClass();
+                $lines[] = '## [' . $ruleDefinition->getRuleShortClass() .'](' . $ruleDefinition->getRuleFilePath() . ')';
             }
 
             $lines[] = $this->keywordHighlighter->highlight($ruleDefinition->getDescription());
@@ -85,8 +85,14 @@ final class RuleDefinitionsPrinter
                 $lines[] = ':wrench: **configure it!**';
             }
 
-            $lines[] = '- class: [`' . $ruleDefinition->getRuleClass() . '`](' . $ruleDefinition->getRuleFilePath() . ')';
+            $lines[] = '';
+            $lines[] = '- class:';
+            $lines[] = '```';
+            $lines[] = $ruleDefinition->getRuleClass();
+            $lines[] = '```';
 
+            $lines[] = '';
+            $lines[] = '- example-diff:';
             $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
             $lines = array_merge($lines, $codeSampleLines);
         }
