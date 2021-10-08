@@ -23,7 +23,7 @@ final class SymfonyControllerAnalyzer
     ) {
     }
 
-    public function isActionMethod(ClassMethod $classMethod): bool
+    public function isControllerActionMethod(ClassMethod $classMethod): bool
     {
         if (! $classMethod->isPublic()) {
             return false;
