@@ -4,27 +4,27 @@ includes:
 services:
     # Symplify\PackageBuilder\Testing\AbstractKernelTestCase::getService($1) => $1 type
     -
-        class: Symplify\PHPStanExtensions\ReturnTypeExtension\GetServiceReturnTypeExtension
+        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\GetServiceReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
     # Symfony Container::get($1) => $1 type
     -
-        class: Symplify\PHPStanExtensions\ReturnTypeExtension\ContainerGetReturnTypeExtension
+        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\ContainerGetReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
     # Symfony SplFileInfo::getContent() => string type
     -
-        class: Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantReturnTypeExtension
+        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\SplFileInfoTolerantReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
     # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
     -
-        class: Symplify\PHPStanExtensions\ReturnTypeExtension\KernelGetContainerAfterBootReturnTypeExtension
+        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\KernelGetContainerAfterBootReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
     - Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver
 
     # getcwd -> returns always "string"
     -
-        class: Symplify\PHPStanExtensions\Php\Type\NativeFunctionDynamicFunctionReturnTypeExtension
+        class: Symplify\PHPStanExtensions\TypeExtension\FuncCall\NativeFunctionDynamicFunctionReturnTypeExtension
         tags: [phpstan.broker.dynamicFunctionReturnTypeExtension]

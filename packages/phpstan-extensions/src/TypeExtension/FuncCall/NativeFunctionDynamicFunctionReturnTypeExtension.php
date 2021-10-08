@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\Php\Type;
+namespace Symplify\PHPStanExtensions\TypeExtension\FuncCall;
 
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
@@ -12,6 +12,9 @@ use PHPStan\Type\ResourceType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 
+/**
+ * @see \Symplify\PHPStanExtensions\Tests\TypeExtension\FuncCall\NativeFunctionDynamicFunctionReturnTypeExtension\NativeFunctionDynamicFunctionReturnTypeExtensionTest
+ */
 final class NativeFunctionDynamicFunctionReturnTypeExtension implements DynamicFunctionReturnTypeExtension
 {
     public function isFunctionSupported(FunctionReflection $functionReflection): bool

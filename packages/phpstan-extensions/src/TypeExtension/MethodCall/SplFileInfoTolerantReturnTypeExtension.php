@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\ReturnTypeExtension;
+namespace Symplify\PHPStanExtensions\TypeExtension\MethodCall;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;

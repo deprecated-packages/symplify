@@ -2,36 +2,31 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanExtensions\ReturnTypeExtension;
+namespace Symplify\PHPStanExtensions\TypeExtension\MethodCall;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\Type;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 
-/**
- * @inspiration https://github.com/phpstan/phpstan-symfony/blob/master/src/Type/Symfony/ServiceDynamicReturnTypeExtension.php
- */
-final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
+final class GetServiceReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
-    private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver;
-
-    public function __construct()
-    {
-        $this->classConstFetchReturnTypeResolver = new ClassConstFetchReturnTypeResolver();
+    public function __construct(
+        private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver
+    ) {
     }
 
     public function getClass(): string
     {
-        return ContainerInterface::class;
+        return AbstractKernelTestCase::class;
     }
 
     public function isMethodSupported(MethodReflection $methodReflection): bool
     {
-        return $methodReflection->getName() === 'get';
+        return $methodReflection->getName() === 'getService';
     }
 
     public function getTypeFromMethodCall(
