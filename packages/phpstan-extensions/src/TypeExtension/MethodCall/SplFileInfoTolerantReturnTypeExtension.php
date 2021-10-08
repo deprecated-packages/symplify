@@ -17,6 +17,8 @@ use Symfony\Component\Finder\SplFileInfo;
  * $splFileInfo->getRealPath() has no added value. Just pollutes code and config and makes it unreadable.
  *
  * This narrows validation only to custom created SplFileInfo.
+ *
+ * @see \Symplify\PHPStanExtensions\Tests\TypeExtension\MethodCall\SplFileInfoTolerantReturnTypeExtension\SplFileInfoTolerantReturnTypeExtensionTest
  */
 final class SplFileInfoTolerantReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {

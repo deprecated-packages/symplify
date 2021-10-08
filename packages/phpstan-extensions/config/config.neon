@@ -17,11 +17,6 @@ services:
         class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\SplFileInfoTolerantReturnTypeExtension
         tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
 
-    # Symfony Kernel::getContainer() after Kernel::boot() => ContainerInterface type
-    -
-        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\KernelGetContainerAfterBootReturnTypeExtension
-        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
-
     - Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver
 
     # getcwd -> returns always "string"

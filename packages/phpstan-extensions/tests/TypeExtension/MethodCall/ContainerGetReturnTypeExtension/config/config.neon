@@ -1,0 +1,4 @@
+services:
+    -
+        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\ContainerGetReturnTypeExtension
+        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
