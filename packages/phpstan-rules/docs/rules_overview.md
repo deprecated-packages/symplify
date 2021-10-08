@@ -1,4 +1,4 @@
-# 161 Rules Overview
+# 162 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -976,6 +976,58 @@ namespace App\Presenter;
 class SomePresenter
 {
 }
+```
+
+:+1:
+
+<br>
+
+## ExplicitMethodCallOverMagicGetSetRule
+
+Instead of magic property "%s" access use direct explicit `"%s->%s()"` method call
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule`](../src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php)
+
+```php
+class MagicCallsObject
+{
+    // adds magic __get() and __set() methods
+    use \Nette\SmartObject;
+
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+}
+
+$magicObject = new MagicObject();
+// magic re-directed to method
+$magicObject->name;
+```
+
+:x:
+
+<br>
+
+```php
+class MagicCallsObject
+{
+    // adds magic __get() and __set() methods
+    use \Nette\SmartObject;
+
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+}
+
+$magicObject = new MagicObject();
+// explicit
+$magicObject->getName();
 ```
 
 :+1:

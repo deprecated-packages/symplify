@@ -8,8 +8,8 @@ use Nette\Application\UI\Presenter;
 
 final class SomePresenter extends Presenter
 {
-    public function link(string $destination, $args = []): string
+    public function link(string $destination, ...$args): string
     {
-        return $destination . '/' . implode('/', $args[0] ?? []);
+        return $destination . '/' . implode('/', ...$args[0] ?? []);
     }
 }

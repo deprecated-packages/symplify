@@ -48,9 +48,7 @@ CODE_SAMPLE;
     );
 
     // fixes https://github.com/symplify/symplify/issues/3630
-    $fileInfos[] = new SplFileInfo(
-        $vendorDir . '/react/promise/src/functions.php'
-    );
+    $fileInfos[] = new SplFileInfo($vendorDir . '/react/promise/src/functions.php');
 
     foreach ($fileInfos as $fileInfo) {
         $realPath = $fileInfo->getRealPath();

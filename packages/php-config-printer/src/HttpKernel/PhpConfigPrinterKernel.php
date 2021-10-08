@@ -15,7 +15,7 @@ final class PhpConfigPrinterKernel extends AbstractSymplifyKernel implements Ext
     /**
      * @var string[]
      */
-    private $configs = [];
+    private array $configs = [];
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {

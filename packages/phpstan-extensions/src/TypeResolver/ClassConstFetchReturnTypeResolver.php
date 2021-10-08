@@ -12,6 +12,7 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 
@@ -30,7 +31,7 @@ final class ClassConstFetchReturnTypeResolver
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
 
         if (! isset($methodCall->args[0])) {
-            return $returnType;
+            throw new ShouldNotHappenException('Not supported without argument');
         }
 
         $firstArgOrVariadciPlaceholder = $methodCall->args[0];

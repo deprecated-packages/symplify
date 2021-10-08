@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule
         tags: [phpstan.rules.rule]
 

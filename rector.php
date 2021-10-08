@@ -102,6 +102,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/templates',
         __DIR__ . '/packages/easy-coding-standard/build/build-preload.php',
+        // test fixtures
+        '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
 
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
@@ -131,7 +133,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // buggy with parent interface contract
         ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
-        UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
+        UnSpreadOperatorRector::class => [
+            __DIR__ . '/packages/git-wrapper',
+            '*/packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*TypeExtensionTest.php',
+        ],
 
         CallableThisArrayToAnonymousFunctionRector::class => [
             // not a callable, accidental array
