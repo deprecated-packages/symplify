@@ -85,13 +85,11 @@ final class RuleDefinitionsPrinter
                 $lines[] = ':wrench: **configure it!**';
             }
 
-            $lines[] = '';
             $lines[] = '- class:';
             $lines[] = '```';
             $lines[] = $ruleDefinition->getRuleClass();
             $lines[] = '```';
 
-            $lines[] = '';
             $lines[] = '- example-diff:';
             $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
             $lines = array_merge($lines, $codeSampleLines);

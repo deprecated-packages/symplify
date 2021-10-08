@@ -4,8 +4,6 @@
 
 Add regex101.com link to that shows the regex in practise, so it will be easier to maintain in case of bug/extension in the future
 
-
-
 - class:
 
 ```
@@ -14,12 +12,9 @@ Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     private const COMPLICATED_REGEX = '#some_complicated_stu|ff#';
@@ -31,7 +26,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -49,8 +43,6 @@ class SomeClass
 
 Method `"%s()"` returns bool type, so the name should start with is/has/was...
 
-
-
 - class:
 
 ```
@@ -59,12 +51,9 @@ Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function old(): bool
@@ -79,7 +68,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function isOld(): bool
@@ -97,8 +85,6 @@ class SomeClass
 
 Class was not found
 
-
-
 - class:
 
 ```
@@ -107,12 +93,9 @@ Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 #[SomeAttribute(firstName: 'MissingClass::class')]
 class SomeClass
 {
@@ -124,7 +107,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 #[SomeAttribute(firstName: ExistingClass::class)]
 class SomeClass
 {
@@ -139,8 +121,6 @@ class SomeClass
 
 Class like namespace "%s" does not follow PSR-4 configuration in `composer.json`
 
-
-
 - class:
 
 ```
@@ -149,12 +129,9 @@ Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // defined "Foo\Bar" namespace in composer.json > autoload > psr-4
 namespace Foo;
 
@@ -168,7 +145,6 @@ class Baz
 <br>
 
 ```php
-<?php
 // defined "Foo\Bar" namespace in composer.json > autoload > psr-4
 namespace Foo\Bar;
 
@@ -185,8 +161,6 @@ class Baz
 
 Move constant expression to `__construct()`, `setUp()` method or constant
 
-
-
 - class:
 
 ```
@@ -195,12 +169,9 @@ Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function someMethod()
@@ -216,7 +187,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     private $mainPath;
@@ -241,8 +211,6 @@ class SomeClass
 
 "*Test.php" file cannot be located outside "Tests" namespace
 
-
-
 - class:
 
 ```
@@ -251,12 +219,9 @@ Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // file: "SomeTest.php
 namespace App;
 
@@ -270,7 +235,6 @@ class SomeTest
 <br>
 
 ```php
-<?php
 // file: "SomeTest.php
 namespace App\Tests;
 
@@ -287,8 +251,6 @@ class SomeTest
 
 Argument and options "%s" got confused
 
-
-
 - class:
 
 ```
@@ -297,12 +259,9 @@ Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass extends Command
 {
     protected function configure(): void
@@ -322,7 +281,6 @@ class SomeClass extends Command
 <br>
 
 ```php
-<?php
 class SomeClass extends Command
 {
     protected function configure(): void
@@ -345,8 +303,6 @@ class SomeClass extends Command
 
 Method parameters must be compatible with its parent
 
-
-
 - class:
 
 ```
@@ -355,12 +311,9 @@ Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class ParentClass
 {
     public function run(string $someParameter)
@@ -381,7 +334,6 @@ class SomeClass extends ParentClass
 <br>
 
 ```php
-<?php
 class ParentClass
 {
     public function run(string $someParameter)
@@ -405,8 +357,6 @@ class SomeClass extends ParentClass
 
 Class "%s" used in annotation is missing
 
-
-
 - class:
 
 ```
@@ -415,12 +365,9 @@ Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 /**
  * @SomeAnnotation(value=MissingClass::class)
  */
@@ -434,7 +381,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 /**
  * @SomeAnnotation(value=ExistingClass::class)
  */
@@ -451,8 +397,6 @@ class SomeClass
 
 Interface must be located in "Contract" namespace
 
-
-
 - class:
 
 ```
@@ -461,12 +405,9 @@ Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 namespace App\Repository;
 
 interface ProductRepositoryInterface
@@ -479,7 +420,6 @@ interface ProductRepositoryInterface
 <br>
 
 ```php
-<?php
 namespace App\Contract\Repository;
 
 interface ProductRepositoryInterface
@@ -495,8 +435,6 @@ interface ProductRepositoryInterface
 
 Autowired/inject method name must respect "autowire/inject" + class name
 
-
-
 - class:
 
 ```
@@ -505,12 +443,9 @@ Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     /**
@@ -528,7 +463,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     /**
@@ -549,8 +483,6 @@ final class SomeClass
 
 `sprintf()` call mask types does not match provided arguments types
 
-
-
 - class:
 
 ```
@@ -559,12 +491,9 @@ Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
 ```
 
@@ -573,7 +502,6 @@ echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
 <br>
 
 ```php
-<?php
 echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
 ```
 
@@ -585,8 +513,6 @@ echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
 
 `autowire()`, `autoconfigure()`, and `public()` are required in config service
 
-
-
 - class:
 
 ```
@@ -595,12 +521,9 @@ Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -616,7 +539,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <br>
 
 ```php
-<?php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -637,8 +559,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 Parameter %d should use "%s" type as the only type passed to this method
 
-
-
 - class:
 
 ```
@@ -647,12 +567,9 @@ Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 
@@ -674,7 +591,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use PhpParser\Node\Expr\MethodCall;
 
 class SomeClass
@@ -700,8 +616,6 @@ Cognitive complexity of class/trait must be under specific limit
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -709,8 +623,6 @@ Cognitive complexity of class/trait must be under specific limit
 Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
 
 ```
-
-
 
 - example-diff:
 
@@ -727,7 +639,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function simple($value)
@@ -757,7 +668,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function simple($value)
@@ -789,7 +699,6 @@ services:
 ↓
 
 ```php
-<?php
 use Symfony\Component\Console\Command\Command;
 
 class SomeCommand extends Command
@@ -815,7 +724,6 @@ class SomeCommand extends Command
 <br>
 
 ```php
-<?php
 use Symfony\Component\Console\Command\Command;
 
 class SomeCommand extends Command
@@ -842,8 +750,6 @@ Class should have suffix "%s" to respect parent type
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -851,8 +757,6 @@ Class should have suffix "%s" to respect parent type
 Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
 
 ```
-
-
 
 - example-diff:
 
@@ -869,7 +773,6 @@ services:
 ↓
 
 ```php
-<?php
 class Some extends Command
 {
 }
@@ -880,7 +783,6 @@ class Some extends Command
 <br>
 
 ```php
-<?php
 class SomeCommand extends Command
 {
 }
@@ -894,8 +796,6 @@ class SomeCommand extends Command
 
 Static constant map should be extracted from this method
 
-
-
 - class:
 
 ```
@@ -904,12 +804,9 @@ Symplify\PHPStanRules\Rules\ConstantMapRuleRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value)
@@ -932,7 +829,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -964,8 +860,6 @@ class SomeClass
 
 Modifier "%s" is not matching passed variable type "%s". The "%s" type is expected - see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
 
-
-
 - class:
 
 ```
@@ -974,12 +868,9 @@ Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $database->query('INSERT INTO table %v', 'string');
 ```
 
@@ -988,10 +879,7 @@ $database->query('INSERT INTO table %v', 'string');
 <br>
 
 ```php
-<?php
-$database->query('INSERT INTO table %v', [
-    'name' => 'Matthias',
-]);
+$database->query('INSERT INTO table %v', ['name' => 'Matthias']);
 ```
 
 :+1:
@@ -1002,8 +890,6 @@ $database->query('INSERT INTO table %v', [
 
 Method name should be different to its parameter name, in a verb form
 
-
-
 - class:
 
 ```
@@ -1012,12 +898,9 @@ Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function apple(string $apple)
@@ -1032,7 +915,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function eatApple(string $apple)
@@ -1050,8 +932,6 @@ class SomeClass
 
 Method name should be different to its return type, in a verb form
 
-
-
 - class:
 
 ```
@@ -1060,12 +940,9 @@ Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function apple(): Apple
@@ -1080,7 +957,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function getApple(): Apple
@@ -1100,8 +976,6 @@ Constants "%s" should be extract to standalone enum class
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1109,8 +983,6 @@ Constants "%s" should be extract to standalone enum class
 Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1127,7 +999,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeProduct extends AbstractObject
 {
     public const STATUS_ENABLED = 1;
@@ -1141,7 +1012,6 @@ class SomeProduct extends AbstractObject
 <br>
 
 ```php
-<?php
 class SomeProduct extends AbstractObject
 {
 }
@@ -1162,8 +1032,6 @@ class SomeStatus
 
 The string value "%s" is repeated %d times. Refactor to enum to avoid typos and make clear allowed values
 
-
-
 - class:
 
 ```
@@ -1172,12 +1040,9 @@ Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $this->addFlash('info', 'Some message');
 $this->addFlash('info', 'Another message');
 ```
@@ -1187,7 +1052,6 @@ $this->addFlash('info', 'Another message');
 <br>
 
 ```php
-<?php
 $this->addFlash(FlashType::INFO, 'Some message');
 $this->addFlash(FlashType::INFO, 'Another message');
 ```
@@ -1202,8 +1066,6 @@ Dependency of specific type can be used only in specific class types
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1211,8 +1073,6 @@ Dependency of specific type can be used only in specific class types
 Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1233,7 +1093,6 @@ services:
 ↓
 
 ```php
-<?php
 final class CheckboxController
 {
     public function __construct(
@@ -1248,7 +1107,6 @@ final class CheckboxController
 <br>
 
 ```php
-<?php
 final class CheckboxRepository
 {
     public function __construct(
@@ -1268,8 +1126,6 @@ Exclusive namespace can only contain classes of specific type, nothing else
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1277,8 +1133,6 @@ Exclusive namespace can only contain classes of specific type, nothing else
 Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1295,7 +1149,6 @@ services:
 ↓
 
 ```php
-<?php
 namespace App\Presenter;
 
 class SomeRepository
@@ -1308,7 +1161,6 @@ class SomeRepository
 <br>
 
 ```php
-<?php
 namespace App\Presenter;
 
 class SomePresenter
@@ -1324,8 +1176,6 @@ class SomePresenter
 
 Instead of magic property "%s" access use direct explicit `"%s->%s()"` method call
 
-
-
 - class:
 
 ```
@@ -1334,12 +1184,9 @@ Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class MagicCallsObject
 {
     // adds magic __get() and __set() methods
@@ -1363,7 +1210,6 @@ $magicObject->name;
 <br>
 
 ```php
-<?php
 class MagicCallsObject
 {
     // adds magic __get() and __set() methods
@@ -1390,8 +1236,6 @@ $magicObject->getName();
 
 Anonymous class is not allowed.
 
-
-
 - class:
 
 ```
@@ -1400,14 +1244,10 @@ Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
-new class() {
-};
+new class {};
 ```
 
 :x:
@@ -1415,12 +1255,12 @@ new class() {
 <br>
 
 ```php
-<?php
 class SomeClass
 {
+
 }
 
-new SomeClass();
+new SomeClass;
 ```
 
 :+1:
@@ -1431,8 +1271,6 @@ new SomeClass();
 
 Array destruct is not allowed. Use value object to pass data instead
 
-
-
 - class:
 
 ```
@@ -1441,12 +1279,9 @@ Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function run(): void
@@ -1461,7 +1296,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function run(): void
@@ -1481,8 +1315,6 @@ final class SomeClass
 
 Array method calls [$this, "method"] are not allowed. Use explicit method instead to help PhpStorm, PHPStan and Rector understand your code
 
-
-
 - class:
 
 ```
@@ -1491,13 +1323,10 @@ Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
-usort($items, [$this, 'method']);
+usort($items, [$this, "method"]);
 ```
 
 :x:
@@ -1505,7 +1334,6 @@ usort($items, [$this, 'method']);
 <br>
 
 ```php
-<?php
 usort($items, function (array $apples) {
     return $this->method($apples);
 };
@@ -1519,8 +1347,6 @@ usort($items, function (array $apples) {
 
 Array with keys is not allowed. Use value object to pass data instead
 
-
-
 - class:
 
 ```
@@ -1529,12 +1355,9 @@ Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function run()
@@ -1552,7 +1375,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function run()
@@ -1572,8 +1394,6 @@ Attribute key "%s" cannot be used
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1581,8 +1401,6 @@ Attribute key "%s" cannot be used
 Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1600,7 +1418,6 @@ services:
 ↓
 
 ```php
-<?php
 use Doctrine\ORM\Mapping\Entity;
 
 #[Entity(repositoryClass: SomeRepository::class)]
@@ -1614,7 +1431,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use Doctrine\ORM\Mapping\Entity;
 
 #[Entity]
@@ -1633,8 +1449,6 @@ This call cannot be used in binary compare. Use direct method instead
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1642,8 +1456,6 @@ This call cannot be used in binary compare. Use direct method instead
 Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1660,7 +1472,6 @@ services:
 ↓
 
 ```php
-<?php
 $someType = new SomeType();
 if ($someType->getId() !== null) {
     return $someType->getId();
@@ -1672,7 +1483,6 @@ if ($someType->getId() !== null) {
 <br>
 
 ```php
-<?php
 $someType = new SomeType();
 if ($someType->hasId()) {
     return $someType->getId();
@@ -1689,8 +1499,6 @@ Constants in this class are not allowed, move them to custom Enum class instead
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1698,8 +1506,6 @@ Constants in this class are not allowed, move them to custom Enum class instead
 Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1716,7 +1522,6 @@ services:
 ↓
 
 ```php
-<?php
 final class Product extends AbstractEntity
 {
     public const TYPE_HIDDEN = 0;
@@ -1730,7 +1535,6 @@ final class Product extends AbstractEntity
 <br>
 
 ```php
-<?php
 final class Product extends AbstractEntity
 {
 }
@@ -1751,8 +1555,6 @@ class ProductVisibility extends Enum
 
 `foreach()`, `while()`, `for()` or `if()` cannot contain a complex expression. Extract it to a new variable on a line before
 
-
-
 - class:
 
 ```
@@ -1761,12 +1563,9 @@ Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 foreach ($this->getData($arg) as $key => $item) {
     // ...
 }
@@ -1777,7 +1576,6 @@ foreach ($this->getData($arg) as $key => $item) {
 <br>
 
 ```php
-<?php
 $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
     // ...
@@ -1794,8 +1592,6 @@ Do not use "%s" function with complex content, make it more readable with extrac
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1803,8 +1599,6 @@ Do not use "%s" function with complex content, make it more readable with extrac
 Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1823,7 +1617,6 @@ services:
 ↓
 
 ```php
-<?php
 $filteredElements = array_filter($elemnets, function ($item) {
     if ($item) {
         return true;
@@ -1842,7 +1635,6 @@ $filteredElements = array_filter($elemnets, function ($item) {
 <br>
 
 ```php
-<?php
 $filteredElements = array_filter($elemnets, function ($item) {
     return $item instanceof KeepItSimple;
 };
@@ -1858,8 +1650,6 @@ Object instance of "%s" is forbidden to be passed to constructor
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1867,8 +1657,6 @@ Object instance of "%s" is forbidden to be passed to constructor
 Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule
 
 ```
-
-
 
 - example-diff:
 
@@ -1885,7 +1673,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function __construct(
@@ -1901,7 +1688,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function __construct(
@@ -1920,8 +1706,6 @@ class SomeClass
 
 Foreach over empty missing array is not allowed. Use isset check early instead.
 
-
-
 - class:
 
 ```
@@ -1930,12 +1714,9 @@ Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function run(): void
@@ -1952,7 +1733,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function run(): void
@@ -1978,8 +1758,6 @@ Function `"%s()"` cannot be used/left in the code
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -1987,8 +1765,6 @@ Function `"%s()"` cannot be used/left in the code
 Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -2005,7 +1781,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     return eval('...');
@@ -2017,7 +1792,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     return echo '...';
@@ -2041,7 +1815,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     dump('hello world');
@@ -2054,7 +1827,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     return true;
@@ -2069,8 +1841,6 @@ class SomeClass
 
 Method `"%s()"` only calling another method call and has no added value. Use the inlined call instead
 
-
-
 - class:
 
 ```
@@ -2079,12 +1849,9 @@ Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -2104,7 +1871,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -2122,8 +1888,6 @@ class SomeClass
 
 Method call on new expression is not allowed.
 
-
-
 - class:
 
 ```
@@ -2132,12 +1896,9 @@ Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 (new SomeClass())->run();
 ```
 
@@ -2146,7 +1907,6 @@ Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
 <br>
 
 ```php
-<?php
 $someClass = new SomeClass();
 $someClass->run();
 ```
@@ -2161,8 +1921,6 @@ Prevent using certain method calls on certains types
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -2170,8 +1928,6 @@ Prevent using certain method calls on certains types
 Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnTypeRule
 
 ```
-
-
 
 - example-diff:
 
@@ -2189,7 +1945,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function process(SpecificType $specificType)
@@ -2204,7 +1959,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function process(SpecificType $specificType)
@@ -2222,8 +1976,6 @@ class SomeClass
 
 Multiple class/interface/trait is not allowed in single file
 
-
-
 - class:
 
 ```
@@ -2232,12 +1984,9 @@ Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // src/SomeClass.php
 class SomeClass
 {
@@ -2253,7 +2002,6 @@ interface SomeInterface
 <br>
 
 ```php
-<?php
 // src/SomeClass.php
 class SomeClass
 {
@@ -2273,8 +2021,6 @@ interface SomeInterface
 
 Decouple method call in assert to standalone line to make test core more readable
 
-
-
 - class:
 
 ```
@@ -2283,12 +2029,9 @@ Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use PHPUnit\Framework\TestCase;
 
 final class SomeClass extends TestCase
@@ -2305,7 +2048,6 @@ final class SomeClass extends TestCase
 <br>
 
 ```php
-<?php
 use PHPUnit\Framework\TestCase;
 
 final class SomeClass extends TestCase
@@ -2326,8 +2068,6 @@ final class SomeClass extends TestCase
 
 Nested foreach with empty statement is not allowed
 
-
-
 - class:
 
 ```
@@ -2336,12 +2076,9 @@ Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $collectedFileErrors = [];
 
 foreach ($errors as $fileErrors) {
@@ -2356,7 +2093,6 @@ foreach ($errors as $fileErrors) {
 <br>
 
 ```php
-<?php
 $collectedFileErrors = [];
 
 foreach ($fileErrors as $fileError) {
@@ -2372,8 +2108,6 @@ foreach ($fileErrors as $fileError) {
 
 Assign to already injected property is not allowed
 
-
-
 - class:
 
 ```
@@ -2382,12 +2116,9 @@ Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 abstract class AbstractParent
 {
     /**
@@ -2411,7 +2142,6 @@ final class SomeChild extends AbstractParent
 <br>
 
 ```php
-<?php
 abstract class AbstractParent
 {
     /**
@@ -2436,8 +2166,6 @@ final class SomeChild extends AbstractParent
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -2445,8 +2173,6 @@ final class SomeChild extends AbstractParent
 Symplify\PHPStanRules\Rules\ForbiddenNodeRule
 
 ```
-
-
 
 - example-diff:
 
@@ -2463,7 +2189,6 @@ services:
 ↓
 
 ```php
-<?php
 return @strlen('...');
 ```
 
@@ -2472,7 +2197,6 @@ return @strlen('...');
 <br>
 
 ```php
-<?php
 return strlen('...');
 ```
 
@@ -2486,8 +2210,6 @@ Parameter "%s" cannot be nullable
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -2495,8 +2217,6 @@ Parameter "%s" cannot be nullable
 Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
 
 ```
-
-
 
 - example-diff:
 
@@ -2516,7 +2236,6 @@ services:
 ↓
 
 ```php
-<?php
 use PhpParser\Node;
 
 class SomeClass
@@ -2532,7 +2251,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use PhpParser\Node;
 
 class SomeClass
@@ -2551,8 +2269,6 @@ class SomeClass
 
 Removing parent param type is forbidden
 
-
-
 - class:
 
 ```
@@ -2561,12 +2277,9 @@ Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 interface RectorInterface
 {
     public function refactor(Node $node);
@@ -2585,7 +2298,6 @@ final class SomeRector implements RectorInterface
 <br>
 
 ```php
-<?php
 interface RectorInterface
 {
     public function refactor(Node $node);
@@ -2609,8 +2321,6 @@ Private method in is not allowed here - it should only delegate to others. Decou
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -2618,8 +2328,6 @@ Private method in is not allowed here - it should only delegate to others. Decou
 Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
 
 ```
-
-
 
 - example-diff:
 
@@ -2636,7 +2344,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeCommand extends Command
 {
     public function run()
@@ -2656,7 +2363,6 @@ class SomeCommand extends Command
 <br>
 
 ```php
-<?php
 class SomeCommand extends Command
 {
     /**
@@ -2684,8 +2390,6 @@ class SomeCommand extends Command
 
 Property with protected modifier is not allowed. Use interface contract method instead
 
-
-
 - class:
 
 ```
@@ -2694,12 +2398,9 @@ Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     protected $repository;
@@ -2711,7 +2412,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass implements RepositoryAwareInterface
 {
     public function getRepository()
@@ -2729,8 +2429,6 @@ class SomeClass implements RepositoryAwareInterface
 
 Cannot return include_once/require_once
 
-
-
 - class:
 
 ```
@@ -2739,12 +2437,9 @@ Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -2759,7 +2454,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -2777,8 +2471,6 @@ class SomeClass
 
 Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
 
-
-
 - class:
 
 ```
@@ -2787,12 +2479,9 @@ Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $value = 1000;
 $value = 2000;
 ```
@@ -2802,7 +2491,6 @@ $value = 2000;
 <br>
 
 ```php
-<?php
 $value = 1000;
 $anotherValue = 2000;
 ```
@@ -2815,8 +2503,6 @@ $anotherValue = 2000;
 
 New objects with "%s" name are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
 
-
-
 - class:
 
 ```
@@ -2825,12 +2511,9 @@ Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $product = new Product();
 $product = new Product();
 
@@ -2842,7 +2525,6 @@ $this->productRepository->save($product);
 <br>
 
 ```php
-<?php
 $firstProduct = new Product();
 $secondProduct = new Product();
 
@@ -2857,8 +2539,6 @@ $this->productRepository->save($firstProduct);
 
 Spread operator is not allowed.
 
-
-
 - class:
 
 ```
@@ -2867,14 +2547,11 @@ Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $args = [$firstValue, $secondValue];
-$message = sprintf('%s', ...$args);
+$message =  sprintf('%s', ...$args);
 ```
 
 :x:
@@ -2882,8 +2559,7 @@ $message = sprintf('%s', ...$args);
 <br>
 
 ```php
-<?php
-$message = sprintf('%s', $firstValue, $secondValue);
+$message =  sprintf('%s', $firstValue, $secondValue);
 ```
 
 :+1:
@@ -2894,8 +2570,6 @@ $message = sprintf('%s', $firstValue, $secondValue);
 
 "Tests" namespace can be only in "/tests" directory
 
-
-
 - class:
 
 ```
@@ -2904,12 +2578,9 @@ Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // file path: "src/SomeClass.php
 
 namespace App\Tests;
@@ -2924,7 +2595,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 // file path: "tests/SomeClass.php
 
 namespace App\Tests;
@@ -2942,8 +2612,6 @@ class SomeClass
 
 `$this` as argument is not allowed. Refactor method to service composition
 
-
-
 - class:
 
 ```
@@ -2952,12 +2620,9 @@ Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $this->someService->process($this, ...);
 ```
 
@@ -2966,7 +2631,6 @@ $this->someService->process($this, ...);
 <br>
 
 ```php
-<?php
 $this->someService->process($value, ...);
 ```
 
@@ -2980,8 +2644,6 @@ Cognitive complexity of function/method must be under specific limit
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -2989,8 +2651,6 @@ Cognitive complexity of function/method must be under specific limit
 Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
 
 ```
-
-
 
 - example-diff:
 
@@ -3006,7 +2666,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function simple($value)
@@ -3027,7 +2686,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function simple($value)
@@ -3049,8 +2707,6 @@ class SomeClass
 
 If/else construction can be replace with more robust `match()`
 
-
-
 - class:
 
 ```
@@ -3059,12 +2715,9 @@ Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function spot($value)
@@ -3085,12 +2738,11 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function spot($value)
     {
-        return match ($value) {
+        return match($value) {
             100 => ['yes'],
             default => ['no'],
         };
@@ -3108,8 +2760,6 @@ Class that implements specific interface, must use related class in `new SomeCla
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -3117,8 +2767,6 @@ Class that implements specific interface, must use related class in `new SomeCla
 Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
 
 ```
-
-
 
 - example-diff:
 
@@ -3135,7 +2783,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeRule implements ConfigurableRuleInterface
 {
     public function some()
@@ -3150,7 +2797,6 @@ class SomeRule implements ConfigurableRuleInterface
 <br>
 
 ```php
-<?php
 class SomeRule implements ConfigurableRuleInterface
 {
     public function some()
@@ -3170,8 +2816,6 @@ Class must implement "%s" interface
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -3179,8 +2823,6 @@ Class must implement "%s" interface
 Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
 
 ```
-
-
 
 - example-diff:
 
@@ -3197,7 +2839,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeRule
 {
     public function run()
@@ -3212,7 +2853,6 @@ class SomeRule
 <br>
 
 ```php
-<?php
 class SomeRule implements ConfiguredRuleInterface
 {
     public function run()
@@ -3230,8 +2870,6 @@ class SomeRule implements ConfiguredRuleInterface
 
 Use controller class name based on route name instead
 
-
-
 - class:
 
 ```
@@ -3240,12 +2878,9 @@ Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 final class SecurityController extends AbstractController
@@ -3262,7 +2897,6 @@ final class SecurityController extends AbstractController
 <br>
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 final class LogoutController extends AbstractController
@@ -3282,8 +2916,6 @@ final class LogoutController extends AbstractController
 
 Complete analysis of PHP code generated from Latte template
 
-
-
 - class:
 
 ```
@@ -3292,12 +2924,9 @@ Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 class SomeClass extends Control
@@ -3319,7 +2948,6 @@ class SomeClass extends Control
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 class SomeClass extends Control
@@ -3345,8 +2973,6 @@ class SomeClass extends Control
 
 Constant type should be "%s", but is "%s"
 
-
-
 - class:
 
 ```
@@ -3355,12 +2981,9 @@ Symplify\PHPStanRules\Rules\MatchingTypeConstantRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -3375,7 +2998,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -3393,8 +3015,6 @@ class SomeClass
 
 Use explicit interface contract or a service over unclear abstract methods
 
-
-
 - class:
 
 ```
@@ -3403,12 +3023,9 @@ Symplify\PHPStanRules\Rules\NoAbstractMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 abstract class SomeClass
 {
     abstract public function run();
@@ -3420,7 +3037,6 @@ abstract class SomeClass
 <br>
 
 ```php
-<?php
 abstract class SomeClass implements RunnableInterface
 {
 }
@@ -3439,8 +3055,6 @@ interface RunnableInterface
 
 Instead of abstract class, use specific service with composition
 
-
-
 - class:
 
 ```
@@ -3449,12 +3063,9 @@ Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class NormalHelper extends AbstractHelper
 {
 }
@@ -3469,7 +3080,6 @@ abstract class AbstractHelper
 <br>
 
 ```php
-<?php
 final class NormalHelper
 {
     public function __construct(
@@ -3491,8 +3101,6 @@ final class SpecificHelper
 
 Use explicit methods over array access on object
 
-
-
 - class:
 
 ```
@@ -3501,12 +3109,9 @@ Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run(MagicArrayObject $magicArrayObject)
@@ -3521,7 +3126,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run(MagicArrayObject $magicArrayObject)
@@ -3539,8 +3143,6 @@ class SomeClass
 
 Use another value object over array with string-keys and objects, array<string, ValueObject>
 
-
-
 - class:
 
 ```
@@ -3549,12 +3151,9 @@ Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public getItems()
@@ -3576,7 +3175,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public getItems()
@@ -3602,8 +3200,6 @@ final class SomeClass
 
 No magic closure function call is allowed, use explicit class with method instead
 
-
-
 - class:
 
 ```
@@ -3612,12 +3208,9 @@ Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 return array_filter($items, function ($item) {
 }) !== [];
 ```
@@ -3627,7 +3220,6 @@ return array_filter($items, function ($item) {
 <br>
 
 ```php
-<?php
 $values = array_filter($items, function ($item) {
 });
 return $values !== [];
@@ -3643,8 +3235,6 @@ Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -3652,8 +3242,6 @@ Do not use chained method calls. Put each on separated lines.
 Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -3670,13 +3258,10 @@ services:
 ↓
 
 ```php
-<?php
-$this->runThis()
-    ->runThat();
+$this->runThis()->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :x:
@@ -3684,13 +3269,11 @@ $fluentClass->one()
 <br>
 
 ```php
-<?php
 $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :+1:
@@ -3701,8 +3284,6 @@ $fluentClass->one()
 
 Class has a static method must so must contains "Static" in its name
 
-
-
 - class:
 
 ```
@@ -3711,12 +3292,9 @@ Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public static function getSome()
@@ -3730,7 +3308,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeStaticClass
 {
     public static function getSome()
@@ -3747,8 +3324,6 @@ class SomeStaticClass
 
 Reserve interface for contract only. Move constant holder to a class soon-to-be Enum
 
-
-
 - class:
 
 ```
@@ -3757,12 +3332,9 @@ Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 interface SomeContract
 {
     public const YES = 'yes';
@@ -3776,7 +3348,6 @@ interface SomeContract
 <br>
 
 ```php
-<?php
 class SomeValues
 {
     public const YES = 'yes';
@@ -3793,8 +3364,6 @@ class SomeValues
 
 Do not use constructor in tests. Move to `setUp()` method
 
-
-
 - class:
 
 ```
@@ -3803,12 +3372,9 @@ Symplify\PHPStanRules\Rules\NoConstructorInTestRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeTest
 {
     public function __construct()
@@ -3823,10 +3389,9 @@ final class SomeTest
 <br>
 
 ```php
-<?php
 final class SomeTest
 {
-    protected function setUp()
+    public function setUp()
     {
         // ...
     }
@@ -3841,8 +3406,6 @@ final class SomeTest
 
 Instead of container injection, use specific service
 
-
-
 - class:
 
 ```
@@ -3851,12 +3414,9 @@ Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function __construct(ContainerInterface $container)
@@ -3871,7 +3431,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function __construct(SomeDependency $someDependency)
@@ -3889,8 +3448,6 @@ class SomeClass
 
 Use custom exceptions instead of native "%s"
 
-
-
 - class:
 
 ```
@@ -3899,12 +3456,9 @@ Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 throw new RuntimeException('...');
 ```
 
@@ -3913,7 +3467,6 @@ throw new RuntimeException('...');
 <br>
 
 ```php
-<?php
 use App\Exception\FileNotFoundException;
 
 throw new FileNotFoundException('...');
@@ -3927,8 +3480,6 @@ throw new FileNotFoundException('...');
 
 Parameter "%s" cannot have default value
 
-
-
 - class:
 
 ```
@@ -3937,12 +3488,9 @@ Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value = true): void
@@ -3956,7 +3504,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value): void
@@ -3973,8 +3520,6 @@ class SomeClass
 
 Use dependency injection instead of dependency juggling
 
-
-
 - class:
 
 ```
@@ -3983,12 +3528,9 @@ Symplify\PHPStanRules\Rules\NoDependencyJugglingRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 public function __construct(
     private $service
 ) {
@@ -4005,7 +3547,6 @@ public function run($someObject)
 <br>
 
 ```php
-<?php
 public function run($someObject)
 {
     return $someObject->someMethod();
@@ -4020,8 +3561,6 @@ public function run($someObject)
 
 This call has duplicate argument
 
-
-
 - class:
 
 ```
@@ -4030,12 +3569,9 @@ Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 function run($one, $one);
 ```
 
@@ -4044,7 +3580,6 @@ function run($one, $one);
 <br>
 
 ```php
-<?php
 function run($one, $two);
 ```
 
@@ -4058,8 +3593,6 @@ Class with base "%s" name is already used in "%s". Use unique name to make class
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -4067,8 +3600,6 @@ Class with base "%s" name is already used in "%s". Use unique name to make class
 Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule
 
 ```
-
-
 
 - example-diff:
 
@@ -4084,7 +3615,6 @@ services:
 ↓
 
 ```php
-<?php
 namespace App;
 
 class SomeClass
@@ -4103,7 +3633,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 namespace App;
 
 class SomeClass
@@ -4125,8 +3654,6 @@ class AnotherClass
 
 Use explicit names over dynamic ones
 
-
-
 - class:
 
 ```
@@ -4135,12 +3662,9 @@ Symplify\PHPStanRules\Rules\NoDynamicNameRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function old(): bool
@@ -4155,7 +3679,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function old(): bool
@@ -4173,8 +3696,6 @@ class SomeClass
 
 Use non-dynamic property on static calls or class const fetches
 
-
-
 - class:
 
 ```
@@ -4183,12 +3704,9 @@ Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -4203,7 +3721,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -4221,8 +3738,6 @@ class SomeClass
 
 Do not use "else/elseif". Refactor to early return
 
-
-
 - class:
 
 ```
@@ -4231,12 +3746,9 @@ Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 if (...) {
     return 1;
 } else {
@@ -4249,7 +3761,6 @@ if (...) {
 <br>
 
 ```php
-<?php
 if (...) {
     return 1;
 }
@@ -4265,8 +3776,6 @@ return 2;
 
 There should be no empty class
 
-
-
 - class:
 
 ```
@@ -4275,12 +3784,9 @@ Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
 }
@@ -4291,7 +3797,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function getSome()
@@ -4308,8 +3813,6 @@ class SomeClass
 
 Do not use factory/method call in constructor. Put factory in config and get service with dependency injection
 
-
-
 - class:
 
 ```
@@ -4318,12 +3821,9 @@ Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     private $someDependency;
@@ -4340,7 +3840,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     private $someDependency;
@@ -4360,8 +3859,6 @@ class SomeClass
 
 Separate function `"%s()"` in method call to standalone row to improve readability
 
-
-
 - class:
 
 ```
@@ -4370,12 +3867,9 @@ Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function run($value): void
@@ -4392,7 +3886,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function run($value): void
@@ -4413,8 +3906,6 @@ final class SomeClass
 
 Do not use `"$entityManager->getRepository()"` outside of the constructor of repository service or `setUp()` method in test case
 
-
-
 - class:
 
 ```
@@ -4423,12 +3914,9 @@ Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeController
 {
     public function someAction(EntityManager $entityManager): void
@@ -4443,7 +3931,6 @@ final class SomeController
 <br>
 
 ```php
-<?php
 final class SomeRepository
 {
     public function __construct(EntityManager $entityManager): void
@@ -4461,8 +3948,6 @@ final class SomeRepository
 
 Use constructor on final classes, instead of property injection
 
-
-
 - class:
 
 ```
@@ -4471,12 +3956,9 @@ Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomePresenter
 {
     /**
@@ -4491,7 +3973,6 @@ final class SomePresenter
 <br>
 
 ```php
-<?php
 abstract class SomePresenter
 {
     /**
@@ -4509,8 +3990,6 @@ abstract class SomePresenter
 
 Use local named constant instead of inline string for regex to explain meaning by constant name
 
-
-
 - class:
 
 ```
@@ -4519,12 +3998,9 @@ Symplify\PHPStanRules\Rules\NoInlineStringRegexRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value)
@@ -4539,7 +4015,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -4562,8 +4037,6 @@ class SomeClass
 
 Use default null value and nullable compare instead of isset on object
 
-
-
 - class:
 
 ```
@@ -4572,18 +4045,15 @@ Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if (isset($object)) {
@@ -4598,14 +4068,13 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if ($object !== null) {
@@ -4623,8 +4092,6 @@ class SomeClass
 
 No magic closure function call is allowed, use explicit class with method instead
 
-
-
 - class:
 
 ```
@@ -4633,12 +4100,9 @@ Symplify\PHPStanRules\Rules\NoMagicClosureRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 (static function () {
     // ...
 })
@@ -4649,7 +4113,6 @@ Symplify\PHPStanRules\Rules\NoMagicClosureRule
 <br>
 
 ```php
-<?php
 final class HelpfulName
 {
     public function clearName()
@@ -4667,8 +4130,6 @@ final class HelpfulName
 
 Missing `sprintf()` function for a mask
 
-
-
 - class:
 
 ```
@@ -4677,12 +4138,9 @@ Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 return 'Hey %s';
 ```
 
@@ -4691,7 +4149,6 @@ return 'Hey %s';
 <br>
 
 ```php
-<?php
 return sprintf('Hey %s', 'Matthias');
 ```
 
@@ -4703,8 +4160,6 @@ return sprintf('Hey %s', 'Matthias');
 
 Do not use `@method` tag in class docblock
 
-
-
 - class:
 
 ```
@@ -4713,12 +4168,9 @@ Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 /**
  * @method getMagic() string
  */
@@ -4736,7 +4188,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function getExplicitValue()
@@ -4754,8 +4205,6 @@ class SomeClass
 
 The assert is tautology that compares to itself. Fix it to different values
 
-
-
 - class:
 
 ```
@@ -4764,12 +4213,9 @@ Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use PHPUnit\Framework\TestCase;
 
 final class AssertMirror extends TestCase
@@ -4786,7 +4232,6 @@ final class AssertMirror extends TestCase
 <br>
 
 ```php
-<?php
 use PHPUnit\Framework\TestCase;
 
 final class AssertMirror extends TestCase
@@ -4807,8 +4252,6 @@ final class AssertMirror extends TestCase
 
 The path "%s" was not found
 
-
-
 - class:
 
 ```
@@ -4817,12 +4260,9 @@ Symplify\PHPStanRules\Rules\NoMissingDirPathRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $filePath = __DIR__ . '/missing_location.txt';
 ```
 
@@ -4831,7 +4271,6 @@ $filePath = __DIR__ . '/missing_location.txt';
 <br>
 
 ```php
-<?php
 $filePath = __DIR__ . '/existing_location.txt';
 ```
 
@@ -4843,8 +4282,6 @@ $filePath = __DIR__ . '/existing_location.txt';
 
 Use void instead of modify and return self object
 
-
-
 - class:
 
 ```
@@ -4853,12 +4290,9 @@ Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function modify(ComposerJson $composerJson): ComposerJson
@@ -4874,7 +4308,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function modify(ComposerJson $composerJson): void
@@ -4892,8 +4325,6 @@ final class SomeClass
 
 Use value object over multi array assign
 
-
-
 - class:
 
 ```
@@ -4902,12 +4333,9 @@ Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $values = [];
 $values['person']['name'] = 'Tom';
 $values['person']['surname'] = 'Dev';
@@ -4918,7 +4346,6 @@ $values['person']['surname'] = 'Dev';
 <br>
 
 ```php
-<?php
 $values = [];
 $values[] = new Person('Tom', 'Dev');
 ```
@@ -4931,8 +4358,6 @@ $values[] = new Person('Tom', 'Dev');
 
 Use separate function calls with readable variable names
 
-
-
 - class:
 
 ```
@@ -4941,12 +4366,9 @@ Symplify\PHPStanRules\Rules\NoNestedFuncCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $filteredValues = array_filter(array_map($callback, $items));
 ```
 
@@ -4955,7 +4377,6 @@ $filteredValues = array_filter(array_map($callback, $items));
 <br>
 
 ```php
-<?php
 $mappedItems = array_map($callback, $items);
 $filteredValues = array_filter($mappedItems);
 ```
@@ -4968,8 +4389,6 @@ $filteredValues = array_filter($mappedItems);
 
 Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
 
-
-
 - class:
 
 ```
@@ -4978,12 +4397,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5000,7 +4416,6 @@ class SomeClass extends Presenter
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5020,8 +4435,6 @@ class SomeClass extends Presenter
 
 Avoid double template variable override of "%s"
 
-
-
 - class:
 
 ```
@@ -5030,12 +4443,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5053,7 +4463,6 @@ class SomeClass extends Presenter
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5073,8 +4482,6 @@ class SomeClass extends Presenter
 
 Use either `__construct()` or @inject, not both together
 
-
-
 - class:
 
 ```
@@ -5083,12 +4490,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     private $someType;
@@ -5110,7 +4514,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     private $someType;
@@ -5130,8 +4533,6 @@ class SomeClass
 
 Passed "%s" variable that are not used in the template
 
-
-
 - class:
 
 ```
@@ -5140,12 +4541,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -5165,7 +4563,6 @@ final class SomeControl extends Control
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -5190,8 +4587,6 @@ final class SomeControl extends Control
 
 Extra variables "%s" are passed to the template but never used there
 
-
-
 - class:
 
 ```
@@ -5200,12 +4595,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -5222,7 +4614,6 @@ final class SomeControl extends Control
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -5230,7 +4621,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value',
+            'never_used_in_template' => 'value'
         ]);
     }
 }
@@ -5244,8 +4635,6 @@ final class SomeControl extends Control
 
 Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
 
-
-
 - class:
 
 ```
@@ -5254,12 +4643,9 @@ Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5278,7 +4664,6 @@ class SomeClass extends Presenter
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Presenter;
 
 class SomeClass extends Presenter
@@ -5298,8 +4683,6 @@ class SomeClass extends Presenter
 
 Use required typed property over of nullable array property
 
-
-
 - class:
 
 ```
@@ -5308,12 +4691,9 @@ Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     private ?array $property = null;
@@ -5325,7 +4705,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     private array $property = [];
@@ -5340,8 +4719,6 @@ final class SomeClass
 
 Use required typed property over of nullable property
 
-
-
 - class:
 
 ```
@@ -5350,12 +4727,9 @@ Symplify\PHPStanRules\Rules\NoNullablePropertyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     private ?DateTime $property = null;
@@ -5367,7 +4741,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     private DateTime $property;
@@ -5382,8 +4755,6 @@ final class SomeClass
 
 The "%s" trait is already used in parent class. Remove it here
 
-
-
 - class:
 
 ```
@@ -5392,12 +4763,9 @@ Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class ParentClass
 {
     use SomeTrait;
@@ -5414,7 +4782,6 @@ class SomeClass extends ParentClass
 <br>
 
 ```php
-<?php
 class ParentClass
 {
     use SomeTrait;
@@ -5433,8 +4800,6 @@ class SomeClass extends ParentClass
 
 Do not call parent method if parent method is empty
 
-
-
 - class:
 
 ```
@@ -5443,12 +4808,9 @@ Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class ParentClass
 {
     public function someMethod()
@@ -5470,7 +4832,6 @@ class SomeClass extends ParentClass
 <br>
 
 ```php
-<?php
 class ParentClass
 {
     public function someMethod()
@@ -5494,8 +4855,6 @@ class SomeClass extends ParentClass
 
 Do not call parent method if no override process
 
-
-
 - class:
 
 ```
@@ -5504,12 +4863,9 @@ Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass extends Printer
 {
     public function print($nodes)
@@ -5524,7 +4880,6 @@ class SomeClass extends Printer
 <br>
 
 ```php
-<?php
 class SomeClass extends Printer
 {
 }
@@ -5538,8 +4893,6 @@ class SomeClass extends Printer
 
 Post operation are forbidden, as they make 2 values at the same line. Use pre instead
 
-
-
 - class:
 
 ```
@@ -5548,12 +4901,9 @@ Symplify\PHPStanRules\Rules\NoPostIncPostDecRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value = 1)
@@ -5570,7 +4920,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value = 1)
@@ -5590,8 +4939,6 @@ class SomeClass
 
 Instead of protected element in final class use private element or contract method
 
-
-
 - class:
 
 ```
@@ -5600,12 +4947,9 @@ Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     protected function run()
@@ -5619,7 +4963,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     private function run()
@@ -5636,8 +4979,6 @@ final class SomeClass
 
 Use explicit return value over magic &reference
 
-
-
 - class:
 
 ```
@@ -5646,12 +4987,9 @@ Symplify\PHPStanRules\Rules\NoReferenceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run(&$value)
@@ -5665,7 +5003,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value)
@@ -5683,8 +5020,6 @@ class SomeClass
 
 Use value object over return of values
 
-
-
 - class:
 
 ```
@@ -5693,12 +5028,9 @@ Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class ReturnVariables
 {
     public function run($value, $value2): array
@@ -5713,7 +5045,6 @@ class ReturnVariables
 <br>
 
 ```php
-<?php
 final class ReturnVariables
 {
     public function run($value, $value2): ValueObject
@@ -5731,8 +5062,6 @@ final class ReturnVariables
 
 Setter method cannot return anything, only set value
 
-
-
 - class:
 
 ```
@@ -5741,12 +5070,9 @@ Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     private $name;
@@ -5763,7 +5089,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     private $name;
@@ -5783,8 +5108,6 @@ final class SomeClass
 
 Do not use setter on a service
 
-
-
 - class:
 
 ```
@@ -5793,12 +5116,9 @@ Symplify\PHPStanRules\Rules\NoSetterOnServiceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeService
 {
     public function setSomeValue($value)
@@ -5812,7 +5132,6 @@ class SomeService
 <br>
 
 ```php
-<?php
 class SomeEntity
 {
     public function setSomeValue($value)
@@ -5831,8 +5150,6 @@ Do not name "%s", shorter than %d chars
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -5840,8 +5157,6 @@ Do not name "%s", shorter than %d chars
 Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
 
 ```
-
-
 
 - example-diff:
 
@@ -5857,7 +5172,6 @@ services:
 ↓
 
 ```php
-<?php
 function is()
 {
 }
@@ -5868,7 +5182,6 @@ function is()
 <br>
 
 ```php
-<?php
 function isClass()
 {
 }
@@ -5882,8 +5195,6 @@ function isClass()
 
 Do not use static property
 
-
-
 - class:
 
 ```
@@ -5892,12 +5203,9 @@ Symplify\PHPStanRules\Rules\NoStaticPropertyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     private static $customFileNames = [];
@@ -5909,7 +5217,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     private $customFileNames = [];
@@ -5924,8 +5231,6 @@ final class SomeClass
 
 Value Object class name "%s" must be without "ValueObject" suffix.
 
-
-
 - class:
 
 ```
@@ -5934,12 +5239,9 @@ Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeValueObject
 {
     public function __construct(string $name)
@@ -5954,7 +5256,6 @@ class SomeValueObject
 <br>
 
 ```php
-<?php
 class Some
 {
     public function __construct(string $name)
@@ -5972,8 +5273,6 @@ class Some
 
 Instead of magic template assign use `render()` param and explicit variable
 
-
-
 - class:
 
 ```
@@ -5982,12 +5281,9 @@ Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -6006,7 +5302,6 @@ final class SomeControl extends Control
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -6014,7 +5309,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000,
+            'value' => 1000
         ]);
     }
 }
@@ -6028,8 +5323,6 @@ final class SomeControl extends Control
 
 Do not use trait, extract to a service and dependency injection instead
 
-
-
 - class:
 
 ```
@@ -6038,12 +5331,9 @@ Symplify\PHPStanRules\Rules\NoTraitRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 trait SomeTrait
 {
     public function run()
@@ -6057,7 +5347,6 @@ trait SomeTrait
 <br>
 
 ```php
-<?php
 class SomeService
 {
     public function run(...)
@@ -6074,8 +5363,6 @@ class SomeService
 
 Variable "%s" is used in template but missing in `render()` method
 
-
-
 - class:
 
 ```
@@ -6084,12 +5371,9 @@ Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SomeController extends AbstractController
@@ -6097,7 +5381,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value',
+            'non_existing_variable' => 'value'
         ]);
     }
 }
@@ -6108,7 +5392,6 @@ final class SomeController extends AbstractController
 <br>
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SomeController extends AbstractController
@@ -6116,7 +5399,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value',
+            'existing_variable' => 'value'
         ]);
     }
 }
@@ -6130,8 +5413,6 @@ final class SomeController extends AbstractController
 
 Passed "%s" variable is not used in the template
 
-
-
 - class:
 
 ```
@@ -6140,15 +5421,12 @@ Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value',
+    'used_variable' => 'value'
 ]);
 ```
 
@@ -6157,10 +5435,9 @@ $environment->render(__DIR__ . '/some_file.twig', [
 <br>
 
 ```php
-<?php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value',
+    'unused_variable' => 'value'
 ]);
 ```
 
@@ -6172,8 +5449,6 @@ $environment->render(__DIR__ . '/some_file.twig', [
 
 Getter method must return something, not void
 
-
-
 - class:
 
 ```
@@ -6182,12 +5457,9 @@ Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public function getData(): void
@@ -6202,7 +5474,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public function getData(): array
@@ -6222,8 +5493,6 @@ Use defined constant %s::%s over string %s
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6231,8 +5500,6 @@ Use defined constant %s::%s over string %s
 Symplify\PHPStanRules\Rules\PreferConstantValueRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6251,7 +5518,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -6266,7 +5532,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 
 class SomeClass
@@ -6288,8 +5553,6 @@ Use attribute instead of "%s" annotation
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6297,8 +5560,6 @@ Use attribute instead of "%s" annotation
 Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6315,7 +5576,6 @@ services:
 ↓
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
@@ -6334,7 +5594,6 @@ class SomeController
 <br>
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
@@ -6356,8 +5615,6 @@ Instead of "%s" class/interface use "%s"
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6365,8 +5622,6 @@ Instead of "%s" class/interface use "%s"
 Symplify\PHPStanRules\Rules\PreferredClassRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6383,7 +5638,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -6398,7 +5652,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 class SomeClass
@@ -6420,8 +5673,6 @@ Use "%s" class and `"%s()"` method call over `"%s()"` func call
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6429,8 +5680,6 @@ Use "%s" class and `"%s()"` method call over `"%s()"` func call
 Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6449,7 +5698,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function run($value)
@@ -6464,7 +5712,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use Nette\Utils\Strings;
 
 class SomeClass
@@ -6489,8 +5736,6 @@ class SomeClass
 
 Code configured at `setUp()` cannot be used in data provider. Move it to `test()` method
 
-
-
 - class:
 
 ```
@@ -6499,12 +5744,9 @@ Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class UseDataFromSetupInTestDataProviderTest extends TestCase
 {
     private $data;
@@ -6534,7 +5776,6 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 <br>
 
 ```php
-<?php
 use stdClass;
 
 final class UseRawDataForTestDataProviderTest
@@ -6543,7 +5784,7 @@ final class UseRawDataForTestDataProviderTest
 
     protected function setUp()
     {
-        $this->obj = new stdClass();
+        $this->obj = new stdClass;
     }
 
     public function provideFoo()
@@ -6570,8 +5811,6 @@ final class UseRawDataForTestDataProviderTest
 
 Abstract class name "%s" must be prefixed with "Abstract"
 
-
-
 - class:
 
 ```
@@ -6580,12 +5819,9 @@ Symplify\PHPStanRules\Rules\PrefixAbstractClassRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 abstract class SomeClass
 {
 }
@@ -6596,7 +5832,6 @@ abstract class SomeClass
 <br>
 
 ```php
-<?php
 abstract class AbstractSomeClass
 {
 }
@@ -6610,8 +5845,6 @@ abstract class AbstractSomeClass
 
 Set param value is overriden. Merge it to previous set above
 
-
-
 - class:
 
 ```
@@ -6620,12 +5853,9 @@ Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -6641,7 +5871,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 <br>
 
 ```php
-<?php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -6661,8 +5890,6 @@ Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6670,8 +5897,6 @@ Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use
 Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6687,7 +5912,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function someMethod()
@@ -6712,7 +5936,6 @@ class AnotherClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function someMethod()
@@ -6732,8 +5955,6 @@ class SomeClass
 
 Change `"%s()"` method visibility to "%s" to respect parent method visibility.
 
-
-
 - class:
 
 ```
@@ -6742,12 +5963,9 @@ Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeParentClass
 {
     public function run()
@@ -6768,7 +5986,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeParentClass
 {
     public function run()
@@ -6792,8 +6009,6 @@ class SomeClass
 
 Name your constant with "_REGEX" suffix, instead of "%s"
 
-
-
 - class:
 
 ```
@@ -6802,12 +6017,9 @@ Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public const SOME_NAME = '#some\s+name#';
@@ -6824,7 +6036,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public const SOME_NAME_REGEX = '#some\s+name#';
@@ -6844,8 +6055,6 @@ class SomeClass
 
 Attribute must have all names explicitly defined
 
-
-
 - class:
 
 ```
@@ -6854,17 +6063,14 @@ Symplify\PHPStanRules\Rules\RequireAttributeNameRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -6876,12 +6082,11 @@ class SomeController
 <br>
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
@@ -6896,8 +6101,6 @@ class SomeController
 
 Attribute must be located in "Attribute" namespace
 
-
-
 - class:
 
 ```
@@ -6906,12 +6109,9 @@ Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // app/Entity/SomeAttribute.php
 namespace App\Controller;
 
@@ -6926,7 +6126,6 @@ final class SomeAttribute
 <br>
 
 ```php
-<?php
 // app/Attribute/SomeAttribute.php
 namespace App\Attribute;
 
@@ -6946,8 +6145,6 @@ Argument "%s" must be a constant
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -6955,8 +6152,6 @@ Argument "%s" must be a constant
 Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
 
 ```
-
-
 
 - example-diff:
 
@@ -6974,7 +6169,6 @@ services:
 ↓
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeClass
@@ -6991,7 +6185,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 use Symfony\Component\Routing\Annotation\Route;
 
 final class SomeClass
@@ -7013,8 +6206,6 @@ Parameter argument on position %d must use constant
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7022,8 +6213,6 @@ Parameter argument on position %d must use constant
 Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7042,7 +6231,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function someMethod(SomeType $someType)
@@ -7057,7 +6245,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     private const HEY = 'hey'
@@ -7079,8 +6266,6 @@ The `"%s()"` method must use data provider
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7088,8 +6273,6 @@ The `"%s()"` method must use data provider
 Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7106,7 +6289,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeRectorTestCase extends RectorTestCase
 {
     public function test()
@@ -7120,7 +6302,6 @@ class SomeRectorTestCase extends RectorTestCase
 <br>
 
 ```php
-<?php
 class SomeRectorTestCase extends RectorTestCase
 {
     /**
@@ -7145,8 +6326,6 @@ class SomeRectorTestCase extends RectorTestCase
 
 `Exception` must be located in "Exception" namespace
 
-
-
 - class:
 
 ```
@@ -7155,17 +6334,15 @@ Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 // app/Controller/SomeException.php
 namespace App\Controller;
 
 final class SomeException extends Exception
 {
+
 }
 ```
 
@@ -7174,7 +6351,6 @@ final class SomeException extends Exception
 <br>
 
 ```php
-<?php
 // app/Exception/SomeException.php
 namespace App\Exception;
 
@@ -7191,8 +6367,6 @@ final class SomeException extends Exception
 
 Use invokable controller with `__invoke()` method instead of named action method
 
-
-
 - class:
 
 ```
@@ -7201,12 +6375,9 @@ Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -7224,7 +6395,6 @@ final class SomeController extends AbstractController
 <br>
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -7247,8 +6417,6 @@ Method call argument on position %d must use constant (e.g. "Option::NAME") over
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7256,8 +6424,6 @@ Method call argument on position %d must use constant (e.g. "Option::NAME") over
 Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7276,7 +6442,6 @@ services:
 ↓
 
 ```php
-<?php
 class AnotherClass
 {
     public function run(SomeClass $someClass)
@@ -7291,7 +6456,6 @@ class AnotherClass
 <br>
 
 ```php
-<?php
 class AnotherClass
 {
     private OPTION_NAME = 'name';
@@ -7311,8 +6475,6 @@ class AnotherClass
 
 Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
 
-
-
 - class:
 
 ```
@@ -7321,12 +6483,9 @@ Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SomeController extends AbstractController
@@ -7345,7 +6504,6 @@ class SomeController extends AbstractController
 <br>
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SomeController extends AbstractController
@@ -7353,7 +6511,7 @@ class SomeController extends AbstractController
     public function default()
     {
         return $this->render('...', [
-            'name' => 'John',
+            'name' => 'John'
         ]);
     }
 }
@@ -7369,8 +6527,6 @@ New expression argument on position %d must use constant over value
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7378,8 +6534,6 @@ New expression argument on position %d must use constant over value
 Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7397,7 +6551,6 @@ services:
 ↓
 
 ```php
-<?php
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, 2);
@@ -7408,7 +6561,6 @@ $inputOption = new InputOption('name', null, 2);
 <br>
 
 ```php
-<?php
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
@@ -7422,8 +6574,6 @@ $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 
 "%s" in `sprintf()` format must be quoted
 
-
-
 - class:
 
 ```
@@ -7432,12 +6582,9 @@ Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -7452,7 +6599,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -7470,8 +6616,6 @@ class SomeClass
 
 Skipped tested file must start with "Skip" prefix
 
-
-
 - class:
 
 ```
@@ -7480,12 +6624,9 @@ Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use PHPStan\Testing\RuleTestCase;
 
 final class SomeRuleTest extends RuleTestCase
@@ -7516,7 +6657,6 @@ final class SomeRuleTest extends RuleTestCase
 <br>
 
 ```php
-<?php
 use PHPStan\Testing\RuleTestCase;
 
 final class SomeRuleTest extends RuleTestCase
@@ -7550,8 +6690,6 @@ final class SomeRuleTest extends RuleTestCase
 
 Provide more specific return type "%s" over abstract one
 
-
-
 - class:
 
 ```
@@ -7560,12 +6698,9 @@ Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class IssueControlFactory
 {
     public function create(): Control
@@ -7584,7 +6719,6 @@ final class IssueControl extends Control
 <br>
 
 ```php
-<?php
 final class IssueControlFactory
 {
     public function create(): IssueControl
@@ -7608,8 +6742,6 @@ Use quoted string in constructor "new `%s()"` argument on position %d instead of
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7617,8 +6749,6 @@ Use quoted string in constructor "new `%s()"` argument on position %d instead of
 Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7636,7 +6766,6 @@ services:
 ↓
 
 ```php
-<?php
 class AnotherClass
 {
     public function run()
@@ -7651,7 +6780,6 @@ class AnotherClass
 <br>
 
 ```php
-<?php
 class AnotherClass
 {
     public function run()
@@ -7671,8 +6799,6 @@ Use quoted string in method call `"%s()"` argument on position %d instead of "::
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -7680,8 +6806,6 @@ Use quoted string in method call `"%s()"` argument on position %d instead of "::
 Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
 
 ```
-
-
 
 - example-diff:
 
@@ -7700,7 +6824,6 @@ services:
 ↓
 
 ```php
-<?php
 class AnotherClass
 {
     public function run(SomeClass $someClass)
@@ -7715,7 +6838,6 @@ class AnotherClass
 <br>
 
 ```php
-<?php
 class AnotherClass
 {
     public function run(SomeClass $someClass)
@@ -7733,8 +6855,6 @@ class AnotherClass
 
 Regex must use string named capture groups instead of numeric
 
-
-
 - class:
 
 ```
@@ -7743,12 +6863,9 @@ Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Utils\Strings;
 
 class SomeClass
@@ -7770,7 +6887,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 use Nette\Utils\Strings;
 
 class SomeClass
@@ -7795,8 +6911,6 @@ class SomeClass
 
 Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
 
-
-
 - class:
 
 ```
@@ -7805,12 +6919,9 @@ Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -7826,7 +6937,6 @@ final class SomeControl extends Control
 <br>
 
 ```php
-<?php
 use Nette\Application\UI\Control;
 
 final class SomeControl extends Control
@@ -7846,8 +6956,6 @@ final class SomeControl extends Control
 
 Use "$this-><method>()" instead of "self::<method>()" to call local method
 
-
-
 - class:
 
 ```
@@ -7856,12 +6964,9 @@ Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -7880,7 +6985,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -7902,8 +7006,6 @@ class SomeClass
 
 Use "$this-><method>()" instead of "parent::<method>()" unless in the same named method
 
-
-
 - class:
 
 ```
@@ -7912,12 +7014,9 @@ Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeParentClass
 {
     public function run()
@@ -7939,7 +7038,6 @@ class SomeClass extends SomeParentClass
 <br>
 
 ```php
-<?php
 class SomeParentClass
 {
     public function run()
@@ -7964,8 +7062,6 @@ class SomeClass extends SomeParentClass
 
 Enum constants "%s" are duplicated. Make them unique instead
 
-
-
 - class:
 
 ```
@@ -7974,12 +7070,9 @@ Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use MyCLabs\Enum\Enum;
 
 class SomeClass extends Enum
@@ -7995,7 +7088,6 @@ class SomeClass extends Enum
 <br>
 
 ```php
-<?php
 use MyCLabs\Enum\Enum;
 
 class SomeClass extends Enum
@@ -8014,8 +7106,6 @@ class SomeClass extends Enum
 
 Class name starting with "Abstract" must have an `abstract` keyword
 
-
-
 - class:
 
 ```
@@ -8024,12 +7114,9 @@ Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class AbstractClass
 {
 }
@@ -8040,7 +7127,6 @@ class AbstractClass
 <br>
 
 ```php
-<?php
 abstract class AbstractClass
 {
 }
@@ -8054,8 +7140,6 @@ abstract class AbstractClass
 
 Arguments names conflicts with parent class method: %s. This will break named arguments
 
-
-
 - class:
 
 ```
@@ -8064,12 +7148,9 @@ Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 interface SomeInterface
 {
     public function run($value);
@@ -8088,7 +7169,6 @@ final class SomeClass implements SomeInterface
 <br>
 
 ```php
-<?php
 interface SomeInterface
 {
     public function run($value);
@@ -8112,8 +7192,6 @@ Class "%s" is missing `@see` annotation with test case class reference
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -8121,8 +7199,6 @@ Class "%s" is missing `@see` annotation with test case class reference
 Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule
 
 ```
-
-
 
 - example-diff:
 
@@ -8139,7 +7215,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass extends Rule
 {
 }
@@ -8150,7 +7225,6 @@ class SomeClass extends Rule
 <br>
 
 ```php
-<?php
 /**
  * @see SomeClassTest
  */
@@ -8167,8 +7241,6 @@ class SomeClass extends Rule
 
 Use single inject*() class method per class
 
-
-
 - class:
 
 ```
@@ -8177,12 +7249,9 @@ Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     private $type;
@@ -8206,7 +7275,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     private $type;
@@ -8231,8 +7299,6 @@ class SomeClass
 
 Interface must be suffixed with "Interface" exclusively
 
-
-
 - class:
 
 ```
@@ -8241,12 +7307,9 @@ Symplify\PHPStanRules\Rules\SuffixInterfaceRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 interface SomeClass
 {
 }
@@ -8257,7 +7320,6 @@ interface SomeClass
 <br>
 
 ```php
-<?php
 interface SomeInterface
 {
 }
@@ -8271,8 +7333,6 @@ interface SomeInterface
 
 Trait must be suffixed by "Trait" exclusively
 
-
-
 - class:
 
 ```
@@ -8281,12 +7341,9 @@ Symplify\PHPStanRules\Rules\SuffixTraitRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 trait SomeClass
 {
 }
@@ -8297,7 +7354,6 @@ trait SomeClass
 <br>
 
 ```php
-<?php
 trait SomeTrait
 {
 }
@@ -8313,8 +7369,6 @@ new <class> is limited to %d "new <class>(new <class>))" nesting to each other. 
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -8322,8 +7376,6 @@ new <class> is limited to %d "new <class>(new <class>))" nesting to each other. 
 Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
 
 ```
-
-
 
 - example-diff:
 
@@ -8339,8 +7391,11 @@ services:
 ↓
 
 ```php
-<?php
-$someObject = new A(new B(new C()));
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
 ```
 
 :x:
@@ -8348,7 +7403,6 @@ $someObject = new A(new B(new C()));
 <br>
 
 ```php
-<?php
 $firstObject = new B(new C());
 $someObject = new A($firstObject);
 ```
@@ -8363,8 +7417,6 @@ Variable "$%s" is too long with %d chars. Narrow it under %d chars
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -8372,8 +7424,6 @@ Variable "$%s" is too long with %d chars. Narrow it under %d chars
 Symplify\PHPStanRules\Rules\TooLongVariableRule
 
 ```
-
-
 
 - example-diff:
 
@@ -8389,7 +7439,6 @@ services:
 ↓
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -8404,7 +7453,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     public function run()
@@ -8422,8 +7470,6 @@ class SomeClass
 
 Complete analysis of PHP code generated from Twig template
 
-
-
 - class:
 
 ```
@@ -8432,12 +7478,9 @@ Symplify\PHPStanRules\Symfony\Rules\TwigCompleteCheckRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SomeController extends AbstractController
@@ -8459,7 +7502,6 @@ final class SomeController extends AbstractController
 <br>
 
 ```php
-<?php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class SomeController extends AbstractController
@@ -8484,8 +7526,6 @@ final class SomeController extends AbstractController
 
 Constant "%s" must be uppercase
 
-
-
 - class:
 
 ```
@@ -8494,12 +7534,9 @@ Symplify\PHPStanRules\Rules\UppercaseConstantRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 final class SomeClass
 {
     public const some = 'value';
@@ -8511,7 +7548,6 @@ final class SomeClass
 <br>
 
 ```php
-<?php
 final class SomeClass
 {
     public const SOME = 'value';
@@ -8526,8 +7562,6 @@ final class SomeClass
 
 Nette `@inject` annotation/#[Inject] must be valid
 
-
-
 - class:
 
 ```
@@ -8536,12 +7570,9 @@ Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -8556,7 +7587,6 @@ class SomeClass
 <br>
 
 ```php
-<?php
 class SomeClass
 {
     /**
@@ -8574,8 +7604,6 @@ class SomeClass
 
 Instead of array shape, use value object with specific types in constructor and getters
 
-
-
 - class:
 
 ```
@@ -8584,20 +7612,15 @@ Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
 
 ```
 
-
-
 - example-diff:
 
 ```php
-<?php
 /**
  * @return array{line: int}
  */
 function createConfiguration()
 {
-    return [
-        'line' => 100,
-    ];
+    return ['line' => 100];
 }
 ```
 
@@ -8606,7 +7629,6 @@ function createConfiguration()
 <br>
 
 ```php
-<?php
 /**
  * @return array{line: int}
  */

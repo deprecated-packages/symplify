@@ -4,8 +4,6 @@
 
 Indexed PHP array item has to have one line per item
 
-
-
 - class:
 
 ```
@@ -13,8 +11,6 @@ Indexed PHP array item has to have one line per item
 Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -30,8 +26,6 @@ Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer
 
 Indexed PHP array opener [ and closer ] must be on own line
 
-
-
 - class:
 
 ```
@@ -39,8 +33,6 @@ Indexed PHP array opener [ and closer ] must be on own line
 Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -57,8 +49,6 @@ Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer
 
 Strict type declaration has to be followed by empty line
 
-
-
 - class:
 
 ```
@@ -66,8 +56,6 @@ Strict type declaration has to be followed by empty line
 Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -85,8 +73,6 @@ Docblock lenght should fit expected width
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -94,8 +80,6 @@ Docblock lenght should fit expected width
 Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -138,8 +122,6 @@ Adds nested curly brackets to defined annotations, see https://github.com/doctri
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -147,8 +129,6 @@ Adds nested curly brackets to defined annotations, see https://github.com/doctri
 Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -191,8 +171,6 @@ Array items, method parameters, method call arguments, new arguments should be o
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -200,8 +178,6 @@ Array items, method parameters, method call arguments, new arguments should be o
 Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -249,8 +225,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 Each chain method call must be on own line
 
-
-
 - class:
 
 ```
@@ -258,8 +232,6 @@ Each chain method call must be on own line
 Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -275,8 +247,6 @@ Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer
 
 Add newline for a fluent call on service definition in Symfony config
 
-
-
 - class:
 
 ```
@@ -284,8 +254,6 @@ Add newline for a fluent call on service definition in Symfony config
 Symplify\CodingStandard\Fixer\Spacing\NewlineServiceDefinitionConfigFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -307,8 +275,6 @@ Symplify\CodingStandard\Fixer\Spacing\NewlineServiceDefinitionConfigFixer
 
 Fixes @param, @return, `@var` and inline `@var` annotations broken formats
 
-
-
 - class:
 
 ```
@@ -316,8 +282,6 @@ Fixes @param, @return, `@var` and inline `@var` annotations broken formats
 Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -337,8 +301,6 @@ Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer
 
 Remove "Created by PhpStorm" annotations
 
-
-
 - class:
 
 ```
@@ -346,8 +308,6 @@ Remove "Created by PhpStorm" annotations
 Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -369,8 +329,6 @@ Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer
 
 Remove useless PHPStorm-generated `@todo` comments, redundant "Class XY" or "gets service" comments etc.
 
-
-
 - class:
 
 ```
@@ -378,8 +336,6 @@ Remove useless PHPStorm-generated `@todo` comments, redundant "Class XY" or "get
 Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -406,8 +362,6 @@ Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer
 
 Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower, see https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3
 
-
-
 - class:
 
 ```
@@ -415,8 +369,6 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -437,8 +389,6 @@ Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer
 
 Indexed arrays must have 1 item per line
 
-
-
 - class:
 
 ```
@@ -446,8 +396,6 @@ Indexed arrays must have 1 item per line
 Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -465,8 +413,6 @@ Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
 
 Promoted property should be on standalone line
 
-
-
 - class:
 
 ```
@@ -474,8 +420,6 @@ Promoted property should be on standalone line
 Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer
 
 ```
-
-
 
 - example-diff:
 
@@ -500,8 +444,6 @@ Use configured nowdoc and heredoc keyword
 
 :wrench: **configure it!**
 
-
-
 - class:
 
 ```
@@ -509,8 +451,6 @@ Use configured nowdoc and heredoc keyword
 Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer
 
 ```
-
-
 
 - example-diff:
 
