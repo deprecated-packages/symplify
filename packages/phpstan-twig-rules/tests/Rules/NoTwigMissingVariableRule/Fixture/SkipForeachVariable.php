@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigMissingVariableRule\Fixture;
+namespace Symplify\PHPStanTwigRules\Tests\Rules\NoTwigMissingVariableRule\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

@@ -9,5 +9,5 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule
+        class: Symplify\PHPStanTwigRules\Rules\NoTwigMissingVariableRule
         tags: [phpstan.rules.rule]

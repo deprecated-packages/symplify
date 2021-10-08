@@ -1,0 +1,3 @@
+services:
+    - Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher
+    - Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher

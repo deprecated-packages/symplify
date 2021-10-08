@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer;
+namespace Symplify\PHPStanTwigRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
-use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
+use Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher;
 use Twig\Environment;
 
 final class SymfonyRenderWithParametersMatcher

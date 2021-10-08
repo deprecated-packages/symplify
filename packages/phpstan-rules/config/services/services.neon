@@ -4,9 +4,6 @@ includes:
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
-    # templates
-    - Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher
-
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
 
     # doctrine
