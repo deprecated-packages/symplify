@@ -1,10 +1,22 @@
 # 15 Rules Overview
 
-## ArrayListItemNewlineFixer
+## [ArrayListItemNewlineFixer](../src/Fixer/ArrayNotation/ArrayListItemNewlineFixer.php)
 
 Indexed PHP array item has to have one line per item
 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer`](../src/Fixer/ArrayNotation/ArrayListItemNewlineFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -$value = ['simple' => 1, 'easy' => 2];
@@ -14,11 +26,23 @@ Indexed PHP array item has to have one line per item
 
 <br>
 
-## ArrayOpenerAndCloserNewlineFixer
+## [ArrayOpenerAndCloserNewlineFixer](../src/Fixer/ArrayNotation/ArrayOpenerAndCloserNewlineFixer.php)
 
 Indexed PHP array opener [ and closer ] must be on own line
 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer`](../src/Fixer/ArrayNotation/ArrayOpenerAndCloserNewlineFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -$items = [1 => 'Hey'];
@@ -29,11 +53,23 @@ Indexed PHP array opener [ and closer ] must be on own line
 
 <br>
 
-## BlankLineAfterStrictTypesFixer
+## [BlankLineAfterStrictTypesFixer](../src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
 
 Strict type declaration has to be followed by empty line
 
-- class: [`Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer`](../src/Fixer/Strict/BlankLineAfterStrictTypesFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
  declare(strict_types=1);
@@ -43,15 +79,31 @@ Strict type declaration has to be followed by empty line
 
 <br>
 
-## DocBlockLineLengthFixer
+## [DocBlockLineLengthFixer](../src/Fixer/LineLength/DocBlockLineLengthFixer.php)
 
 Docblock lenght should fit expected width
 
 :wrench: **configure it!**
 
-- class: [`Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer`](../src/Fixer/LineLength/DocBlockLineLengthFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer
+
+```
+
+
+
+- example-diff:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer;
 
@@ -80,15 +132,31 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## DoctrineAnnotationNestedBracketsFixer
+## [DoctrineAnnotationNestedBracketsFixer](../src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php)
 
 Adds nested curly brackets to defined annotations, see https://github.com/doctrine/annotations/issues/418
 
 :wrench: **configure it!**
 
-- class: [`Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer`](../src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer
+
+```
+
+
+
+- example-diff:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
 
@@ -117,15 +185,31 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## LineLengthFixer
+## [LineLengthFixer](../src/Fixer/LineLength/LineLengthFixer.php)
 
 Array items, method parameters, method call arguments, new arguments should be on same/standalone line to fit line length.
 
 :wrench: **configure it!**
 
-- class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](../src/Fixer/LineLength/LineLengthFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer
+
+```
+
+
+
+- example-diff:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 
@@ -161,11 +245,23 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 <br>
 
-## MethodChainingNewlineFixer
+## [MethodChainingNewlineFixer](../src/Fixer/Spacing/MethodChainingNewlineFixer.php)
 
 Each chain method call must be on own line
 
-- class: [`Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer`](../src/Fixer/Spacing/MethodChainingNewlineFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -$someClass->firstCall()->secondCall();
@@ -175,11 +271,23 @@ Each chain method call must be on own line
 
 <br>
 
-## NewlineServiceDefinitionConfigFixer
+## [NewlineServiceDefinitionConfigFixer](../src/Fixer/Spacing/NewlineServiceDefinitionConfigFixer.php)
 
 Add newline for a fluent call on service definition in Symfony config
 
-- class: [`Symplify\CodingStandard\Fixer\Spacing\NewlineServiceDefinitionConfigFixer`](../src/Fixer/Spacing/NewlineServiceDefinitionConfigFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Spacing\NewlineServiceDefinitionConfigFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
  use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -195,11 +303,23 @@ Add newline for a fluent call on service definition in Symfony config
 
 <br>
 
-## ParamReturnAndVarTagMalformsFixer
+## [ParamReturnAndVarTagMalformsFixer](../src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
 
 Fixes @param, @return, `@var` and inline `@var` annotations broken formats
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer`](../src/Fixer/Commenting/ParamReturnAndVarTagMalformsFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
  /**
@@ -213,11 +333,23 @@ Fixes @param, @return, `@var` and inline `@var` annotations broken formats
 
 <br>
 
-## RemovePHPStormAnnotationFixer
+## [RemovePHPStormAnnotationFixer](../src/Fixer/Annotation/RemovePHPStormAnnotationFixer.php)
 
 Remove "Created by PhpStorm" annotations
 
-- class: [`Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer`](../src/Fixer/Annotation/RemovePHPStormAnnotationFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -/**
@@ -233,11 +365,23 @@ Remove "Created by PhpStorm" annotations
 
 <br>
 
-## RemoveUselessDefaultCommentFixer
+## [RemoveUselessDefaultCommentFixer](../src/Fixer/Commenting/RemoveUselessDefaultCommentFixer.php)
 
 Remove useless PHPStorm-generated `@todo` comments, redundant "Class XY" or "gets service" comments etc.
 
-- class: [`Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer`](../src/Fixer/Commenting/RemoveUselessDefaultCommentFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -/**
@@ -258,11 +402,23 @@ Remove useless PHPStorm-generated `@todo` comments, redundant "Class XY" or "get
 
 <br>
 
-## SpaceAfterCommaHereNowDocFixer
+## [SpaceAfterCommaHereNowDocFixer](../src/Fixer/Spacing/SpaceAfterCommaHereNowDocFixer.php)
 
 Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower, see https://laravel-news.com/flexible-heredoc-and-nowdoc-coming-to-php-7-3
 
-- class: [`Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer`](../src/Fixer/Spacing/SpaceAfterCommaHereNowDocFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
  $values = [
@@ -277,11 +433,23 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 
 <br>
 
-## StandaloneLineInMultilineArrayFixer
+## [StandaloneLineInMultilineArrayFixer](../src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
 
 Indexed arrays must have 1 item per line
 
-- class: [`Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer`](../src/Fixer/ArrayNotation/StandaloneLineInMultilineArrayFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
 -$friends = [1 => 'Peter', 2 => 'Paul'];
@@ -293,11 +461,23 @@ Indexed arrays must have 1 item per line
 
 <br>
 
-## StandaloneLinePromotedPropertyFixer
+## [StandaloneLinePromotedPropertyFixer](../src/Fixer/Spacing/StandaloneLinePromotedPropertyFixer.php)
 
 Promoted property should be on standalone line
 
-- class: [`Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer`](../src/Fixer/Spacing/StandaloneLinePromotedPropertyFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer
+
+```
+
+
+
+- example-diff:
 
 ```diff
  final class PromotedProperties
@@ -314,15 +494,31 @@ Promoted property should be on standalone line
 
 <br>
 
-## StandardizeHereNowDocKeywordFixer
+## [StandardizeHereNowDocKeywordFixer](../src/Fixer/Naming/StandardizeHereNowDocKeywordFixer.php)
 
 Use configured nowdoc and heredoc keyword
 
 :wrench: **configure it!**
 
-- class: [`Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`](../src/Fixer/Naming/StandardizeHereNowDocKeywordFixer.php)
+
+
+- class:
+
+```
+
+Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer
+
+```
+
+
+
+- example-diff:
 
 ```php
+<?php
+
+declare(strict_types=1);
+
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
 
