@@ -25,7 +25,11 @@ final class RenderTemplateWithParametersMatcher
         Scope $scope,
         string $templateSuffix
     ): RenderTemplateWithParameters|null {
-        $firstArgValue = $methodCall->args[0]->value;
+        $firstArg = $methodCall->args[0] ?? null;
+        if ($firstArg === null) {
+            return null;
+        }
+        $firstArgValue = $firstArg->value;
 
         $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths(
             $firstArgValue,

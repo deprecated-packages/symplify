@@ -11,14 +11,15 @@ use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\PHPStanRules\Nette\Templates\TemplateWithParametersMatcher;
 use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
-use Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -59,14 +60,14 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private RenderTemplateWithParametersMatcher $renderTemplateWithParametersMatcher,
+        private TemplateWithParametersMatcher $templateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
         private ComponentMapResolver $componentMapResolver,
     ) {
-        // limit rule here, as template class can contain lot of allowed Latte magic
+        // limit rule here, as template class can contain a lot of allowed Latte magic
         // get missing method + missing property etc. rule
         $this->templateRulesRegistry = new TemplateRulesRegistry($rules);
     }
@@ -89,7 +90,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
-        $renderTemplateWithParameters = $this->renderTemplateWithParametersMatcher->match($node, $scope, 'latte');
+        $renderTemplateWithParameters = $this->templateWithParametersMatcher->match($node, $scope);
         if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }
@@ -172,7 +173,7 @@ CODE_SAMPLE
             );
         } catch (Throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
-            return [];
+            return [RuleErrorBuilder::message('Template file ' . $templateFilePath . ' does not exist')->build()];
         }
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';

@@ -1,0 +1,13 @@
+<div class="output">
+    <p>{$existingVariable|date, 123, 456}</p>
+    <p>{$nonExistingVariable}</p>
+    <p>{$baseUrl}</p>
+    <p>{$user->getId()}</p>
+    <p><!-- {$user->nonExistingMethod()} --></p>
+
+    {foreach $listOfObjects as $item}
+        {$item->getTitle()}
+    {/foreach}
+
+    {control exampleSubControl, 123, 'yyy'}
+</div>

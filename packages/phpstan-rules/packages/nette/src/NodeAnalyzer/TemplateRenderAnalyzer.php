@@ -23,7 +23,7 @@ final class TemplateRenderAnalyzer
 
     public function isNetteTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
     {
-        if (! $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'action'])) {
+        if (! $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'renderToString', 'action'])) {
             return false;
         }
 

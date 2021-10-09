@@ -11,3 +11,4 @@ services:
     # latte
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
     - Symplify\PHPStanRules\Nette\LatteUsedControlResolver
+    - Symplify\PHPStanRules\Nette\Templates\TemplateWithParametersMatcher
