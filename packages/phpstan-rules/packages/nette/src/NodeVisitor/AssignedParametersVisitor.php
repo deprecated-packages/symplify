@@ -37,8 +37,10 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
 
         if ($node->var instanceof Variable) {
             $var = $node->var;
+            $nameNode = $node->var->name;
         } elseif ($node->var instanceof PropertyFetch) {
             $var = $node->var->var;
+            $nameNode = $node->var->name;
         } else {
             return null;
         }
@@ -47,7 +49,7 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $name = $this->simpleNameResolver->getName($node->var);
+        $name = $this->simpleNameResolver->getName($nameNode);
         if (! $name) {
             return null;
         }
