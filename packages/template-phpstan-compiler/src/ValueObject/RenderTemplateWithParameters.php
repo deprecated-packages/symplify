@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\ValueObject;
+namespace Symplify\TemplatePHPStanCompiler\ValueObject;
 
 use PhpParser\Node\Expr\Array_;
 

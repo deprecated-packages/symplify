@@ -11,15 +11,15 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
-use Symplify\PHPStanRules\ErrorSkipper;
+use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 

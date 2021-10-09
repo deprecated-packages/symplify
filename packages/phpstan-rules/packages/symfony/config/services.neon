@@ -1,4 +1,3 @@
 services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer
-#    - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyRenderWithParametersMatcher

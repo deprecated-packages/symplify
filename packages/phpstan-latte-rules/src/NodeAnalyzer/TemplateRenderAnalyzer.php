@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
+namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class TemplateRenderAnalyzer
 {

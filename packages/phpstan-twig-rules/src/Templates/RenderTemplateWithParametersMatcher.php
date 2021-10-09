@@ -8,7 +8,7 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
 final class RenderTemplateWithParametersMatcher
 {

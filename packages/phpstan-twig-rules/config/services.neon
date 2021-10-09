@@ -16,13 +16,10 @@ services:
     - PhpParser\NodeFinder
 
     # node analyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
     # @todo move to template package
-    - Symplify\PHPStanRules\ErrorSkipper
     - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
     - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer

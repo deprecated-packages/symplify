@@ -14,18 +14,23 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
+<<<<<<< HEAD
 use Symplify\PHPStanRules\ErrorSkipper;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Nette\Templates\TemplateWithParametersMatcher;
+=======
+use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
+>>>>>>> extratc ParametersArrayAnalyzer
 use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Throwable;
 
 /**

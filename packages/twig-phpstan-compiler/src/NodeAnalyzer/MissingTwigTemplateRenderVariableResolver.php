@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Symplify\TwigPHPStanCompiler\NodeAnalyzer;
 
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\ParametersArrayAnalyzer;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
 final class MissingTwigTemplateRenderVariableResolver
 {
     public function __construct(
         private TwigVariableNamesResolver $twigVariableNamesResolver,
-        private ArrayAnalyzer $arrayAnalyzer
+        private ParametersArrayAnalyzer $parametersArrayAnalyzer
     ) {
     }
 
@@ -32,7 +32,7 @@ final class MissingTwigTemplateRenderVariableResolver
             $templateUsedVariableNames = array_merge($templateUsedVariableNames, $currentTemplateUsedVariableNames);
         }
 
-        $availableVariableNames = $this->arrayAnalyzer->resolveStringKeys(
+        $availableVariableNames = $this->parametersArrayAnalyzer->resolveStringKeys(
             $renderTemplateWithParameters->getParametersArray(),
             $scope
         );

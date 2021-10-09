@@ -8,12 +8,11 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 
 final class MethodCallArrayResolver
 {
     public function __construct(
-        private ArrayAnalyzer $arrayAnalyzer
+        private ParametersArrayAnalyzer $parametersArrayAnalyzer
     ) {
     }
 
@@ -36,6 +35,6 @@ final class MethodCallArrayResolver
             return [];
         }
 
-        return $this->arrayAnalyzer->resolveStringKeys($secondArgValue, $scope);
+        return $this->parametersArrayAnalyzer->resolveStringKeys($secondArgValue, $scope);
     }
 }

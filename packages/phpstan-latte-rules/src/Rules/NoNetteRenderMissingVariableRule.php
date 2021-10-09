@@ -9,7 +9,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\LattePHPStanCompiler\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
+use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;

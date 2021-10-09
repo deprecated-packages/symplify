@@ -8,10 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TwigPHPStanCompiler\NodeAnalyzer\MissingTwigTemplateRenderVariableResolver;
 
 /**

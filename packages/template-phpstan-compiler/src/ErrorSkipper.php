@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules;
+namespace Symplify\TemplatePHPStanCompiler;
 
 use Nette\Utils\Strings;
 use PHPStan\Analyser\Error;

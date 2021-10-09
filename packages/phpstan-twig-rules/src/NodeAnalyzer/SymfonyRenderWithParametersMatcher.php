@@ -11,8 +11,8 @@ use PHPStan\Type\ThisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
 use Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Twig\Environment;
 
 final class SymfonyRenderWithParametersMatcher
