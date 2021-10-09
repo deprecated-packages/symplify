@@ -6,5 +6,5 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
+        class: Symplify\PHPStanLatteRules\Rules\NoNetteRenderMissingVariableRule
         tags: [phpstan.rules.rule]

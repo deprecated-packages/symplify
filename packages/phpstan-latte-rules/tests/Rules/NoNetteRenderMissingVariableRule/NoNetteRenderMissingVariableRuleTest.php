@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderMissingVariableRule;
+namespace Symplify\PHPStanLatteRules\Tests\Rules\NoNetteRenderMissingVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule;
+use Symplify\PHPStanLatteRules\Rules\NoNetteRenderMissingVariableRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoNetteRenderMissingVariableRule>

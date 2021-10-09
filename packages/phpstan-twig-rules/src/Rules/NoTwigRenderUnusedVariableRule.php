@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\TwigPHPStanCompiler\NodeAnalyzer\UnusedTwigTemplateVariableAnalyzer;
 
 /**
- * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRule\NoTwigRenderUnusedVariableRuleTest
+ * @see \Symplify\PHPStanTwigRules\Tests\Rules\NoTwigRenderUnusedVariableRule\NoTwigRenderUnusedVariableRuleTest
  */
 final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
 {

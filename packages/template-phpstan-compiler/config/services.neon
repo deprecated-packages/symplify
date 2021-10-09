@@ -5,3 +5,4 @@ services:
     - Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser
     - Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory
 
+    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver

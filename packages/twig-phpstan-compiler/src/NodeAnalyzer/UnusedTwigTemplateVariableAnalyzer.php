@@ -6,7 +6,7 @@ namespace Symplify\TwigPHPStanCompiler\NodeAnalyzer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
+use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver;
 
 final class UnusedTwigTemplateVariableAnalyzer
 {

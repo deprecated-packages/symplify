@@ -13,7 +13,6 @@ services:
     - PhpParser\NodeFinder
 
     # node analyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer

@@ -7,7 +7,7 @@ namespace Symplify\LattePHPStanCompiler\NodeAnalyzer;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\LattePHPStanCompiler\LatteVariableNamesResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver;
+use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver;
 
 final class UnusedNetteTemplateRenderVariableResolver
 {

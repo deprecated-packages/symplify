@@ -606,4 +606,4 @@ parameters:
             path: packages/phpstan-extensions/src/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension.php
 
         # useless generics
-        - '#Method Symplify\\PHPStanLatteRules\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+        - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'

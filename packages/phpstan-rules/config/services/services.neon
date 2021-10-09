@@ -101,7 +101,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeAnalyzer;
+namespace Symplify\TemplatePHPStanCompiler\NodeAnalyzer;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 
 final class MethodCallArrayResolver
 {

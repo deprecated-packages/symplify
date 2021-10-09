@@ -2,3 +2,11 @@ services:
     -
         class: Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
+        tags: [phpstan.rules.rule]

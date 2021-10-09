@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderUnusedVariableRule;
+namespace Symplify\PHPStanLatteRules\Tests\Rules\NoNetteRenderUnusedVariableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule;
+use Symplify\PHPStanLatteRules\Rules\NoNetteRenderUnusedVariableRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoNetteRenderUnusedVariableRule>

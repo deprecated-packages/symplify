@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Rules;
+namespace Symplify\PHPStanLatteRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\LattePHPStanCompiler\NodeAnalyzer\UnusedNetteTemplateRenderVariableResolver;
+use Symplify\LattePHPStanCompiler\NodeAnalyzer\MissingLatteTemplateRenderVariableResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -16,19 +16,19 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteRenderUnusedVariableRule\NoNetteRenderUnusedVariableRuleTest
+ * @see \Symplify\PHPStanLatteRules\Tests\Rules\NoNetteRenderMissingVariableRule\NoNetteRenderMissingVariableRuleTest
  */
-final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
+final class NoNetteRenderMissingVariableRule extends AbstractSymplifyRule
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Extra variables "%s" are passed to the template but never used there';
+    public const ERROR_MESSAGE = 'Passed "%s" variable that are not used in the template';
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private PathResolver $pathResolver,
-        private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver,
+        private MissingLatteTemplateRenderVariableResolver $missingLatteTemplateRenderVariableResolver
     ) {
     }
 
@@ -50,41 +50,40 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (count($node->args) < 2) {
+        if (count($node->args) < 1) {
             return [];
         }
 
-        $firstArgOrVariadicPlaceholder = $node->args[0];
-        if (! $firstArgOrVariadicPlaceholder instanceof Arg) {
+        $argOrVariadicPlaceholder = $node->args[0];
+        if (! $argOrVariadicPlaceholder instanceof Arg) {
             return [];
         }
 
-        $firstArgValue = $firstArgOrVariadicPlaceholder->value;
+        $firstArgValue = $argOrVariadicPlaceholder->value;
 
         $templateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
         if ($templateFilePaths === []) {
             return [];
         }
 
-        $unusedVariableNamesByTemplateFilePath = [];
-
+        $missingVariableNames = [];
         foreach ($templateFilePaths as $templateFilePath) {
-            $unusedVariableNamesByTemplateFilePath[] = $this->unusedNetteTemplateRenderVariableResolver->resolveMethodCallAndTemplate(
+            $currentMissingVariableNames = $this->missingLatteTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
                 $node,
                 $templateFilePath,
                 $scope
             );
+
+            $missingVariableNames = array_merge($missingVariableNames, $currentMissingVariableNames);
         }
 
-        $everywhereUnusedVariableNames = array_intersect(...$unusedVariableNamesByTemplateFilePath);
-        if ($everywhereUnusedVariableNames === []) {
+        if ($missingVariableNames === []) {
             return [];
         }
 
-        $unusedPassedVariablesString = implode('", "', $everywhereUnusedVariableNames);
-        $error = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
-
-        return [$error];
+        $unusedPassedVariablesString = implode('", "', $missingVariableNames);
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $unusedPassedVariablesString);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -101,6 +100,9 @@ final class SomeControl extends Control
         $this->template->render(__DIR__ . '/some_file.latte');
     }
 }
+
+// some_file.latte
+{$usedValue}
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
@@ -111,10 +113,13 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value'
+            'usedValue' => 'value'
         ]);
     }
 }
+
+// some_file.latte
+{$usedValue}
 CODE_SAMPLE
             ),
         ]);

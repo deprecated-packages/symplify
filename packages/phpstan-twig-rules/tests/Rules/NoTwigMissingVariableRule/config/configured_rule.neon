@@ -1,6 +1,5 @@
 includes:
     - ../../../../config/services.neon
-    - ../../../../../../packages/phpstan-rules/config/services/services.neon
     - ../../../../../../packages/twig-phpstan-compiler/config/services.neon
     - ../../../../../../packages/template-phpstan-compiler/config/services.neon
 
