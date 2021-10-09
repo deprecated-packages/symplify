@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule;
+namespace Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Symfony\Rules\TwigCompleteCheckRule;
-use Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\Source\SomeType;
+use Symplify\PHPStanTwigRules\Rules\TwigCompleteCheckRule;
+use Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule\Source\SomeType;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<TwigCompleteCheckRule>

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Rules;
+namespace Symplify\PHPStanTwigRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
@@ -24,7 +24,7 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
 /**
- * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\TwigCompleteCheckRuleTest
+ * @see \Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule\TwigCompleteCheckRuleTest
  */
 final class TwigCompleteCheckRule extends AbstractSymplifyRule
 {

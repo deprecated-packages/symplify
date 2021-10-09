@@ -1,10 +1,6 @@
 services:
     # generic rule check for all twigs
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\TwigCompleteCheckRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule
         tags: [phpstan.rules.rule]
 

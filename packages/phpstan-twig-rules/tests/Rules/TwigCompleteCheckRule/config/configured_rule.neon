@@ -1,8 +1,7 @@
 includes:
-    - ../../../../../../config/services/services.neon
-    - ../../../../../../packages/symfony/config/services.neon
-    - ../../../../../../../../packages/twig-phpstan-compiler/config/services.neon
-    - ../../../../../../../../packages/template-phpstan-compiler/config/services.neon
+    - ../../../../config/services.neon
+    - ../../../../../../packages/twig-phpstan-compiler/config/services.neon
+    - ../../../../../../packages/template-phpstan-compiler/config/services.neon
 
 parameters:
     # needed to enable missing method rule bellow
@@ -10,7 +9,7 @@ parameters:
 
 services:
     -
-        class: Symplify\PHPStanRules\Symfony\Rules\TwigCompleteCheckRule
+        class: Symplify\PHPStanTwigRules\Rules\TwigCompleteCheckRule
         tags: [phpstan.rules.rule]
 
     -

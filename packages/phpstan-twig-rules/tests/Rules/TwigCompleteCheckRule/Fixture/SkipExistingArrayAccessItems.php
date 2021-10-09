@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\Fixture;
+namespace Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule\Fixture;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\Source\SomeArrayAccesType;
+use Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule\Source\SomeArrayAccesType;
 
 final class SkipExistingArrayAccessItems extends AbstractController
 {

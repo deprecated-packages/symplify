@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\TwigCompleteCheckRule\Source;
+namespace Symplify\PHPStanTwigRules\Tests\Rules\TwigCompleteCheckRule\Source;
 
 final class SomeType
 {
