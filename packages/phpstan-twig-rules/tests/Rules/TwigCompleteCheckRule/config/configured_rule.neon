@@ -1,7 +1,5 @@
 includes:
-    - ../../../../config/services.neon
-    - ../../../../../../packages/twig-phpstan-compiler/config/services.neon
-    - ../../../../../../packages/template-phpstan-compiler/config/services.neon
+    - ../../../config/included_services.neon
 
 parameters:
     # needed to enable missing method rule bellow
