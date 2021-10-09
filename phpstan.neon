@@ -604,3 +604,6 @@ parameters:
         -
             message: '#Arguments names conflicts with parent class method\: "\$funcCall" should be "\$functionCall"\. This will break named arguments#'
             path: packages/phpstan-extensions/src/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension.php
+
+        # useless generics
+        - '#Method Symplify\\PHPStanLatteRules\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
