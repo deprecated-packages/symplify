@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Rules;
+namespace Symplify\PHPStanLatteRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
@@ -29,7 +29,7 @@ use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Throwable;
 
 /**
- * @see \Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\LatteCompleteCheckRuleTest
+ * @see \Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\LatteCompleteCheckRuleTest
  *
  * @inspired at https://github.com/efabrica-team/phpstan-latte/blob/main/src/Rule/ControlLatteRule.php#L56
  */

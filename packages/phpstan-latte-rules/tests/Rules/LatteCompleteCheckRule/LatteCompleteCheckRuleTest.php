@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule;
+namespace Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule;
-use Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Fixture\InvalidControlRenderArguments;
-use Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
+use Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\InvalidControlRenderArguments;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<LatteCompleteCheckRule>

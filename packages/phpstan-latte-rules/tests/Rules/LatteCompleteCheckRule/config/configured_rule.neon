@@ -17,7 +17,7 @@ parameters:
 
 services:
     -
-        class: Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule
+        class: Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule
         tags: [phpstan.rules.rule]
 
     -

@@ -13,10 +13,6 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
         tags: [phpstan.rules.rule]
         arguments:
