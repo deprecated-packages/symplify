@@ -6,24 +6,25 @@ namespace Symplify\PHPStanRules\Nette\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class RenderParametersVisitor extends NodeVisitorAbstract
 {
-    /** @var array<string, Expr>  */
+    /**
+     * @var ArrayItem[]
+     */
     private array $parameters = [];
 
     public function __construct(
         private Scope $scope,
-        private NetteTypeAnalyzer $netteTypeAnalyzer,
-        private NodeValueResolver $nodeValueResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
     }
 
@@ -33,7 +34,8 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if (! in_array($node->name->name, ['render', 'renderToString'], true)) {
+        $methodName = $this->simpleNameResolver->getName($node->name);
+        if (! in_array($methodName, ['render', 'renderToString'], true)) {
             return null;
         }
 
@@ -41,7 +43,7 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        /** @var Arg $renderParameters */
+        /** @var Arg|null $renderParameters */
         $renderParameters = $node->args[1] ?? null;
         if (! $renderParameters) {
             return null;
@@ -52,24 +54,14 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        /** @var ArrayItem|null $parameter */
-        foreach ($parameters->items as $parameter) {
-            if (! $parameter instanceof ArrayItem) {
-                continue;
-            }
-            if ($parameter->key === null) {
-                continue;
-            }
-
-            $this->parameters[$this->nodeValueResolver->resolveWithScope($parameter->key, $this->scope)] = $parameter->value;
-        }
-
+        $this->parameters = array_filter($parameters->items);
         return null;
     }
 
     /**
      * call after traversing
-     * @return array<string, Expr>
+     *
+     * @return ArrayItem[]
      */
     public function getParameters(): array
     {

@@ -7,6 +7,7 @@ namespace Symplify\Astral\Naming;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Property;
@@ -56,7 +57,7 @@ final class SimpleNameResolver
             return $this->getName($propertyProperty->name);
         }
 
-        if ($node instanceof Variable) {
+        if ($node instanceof Variable || $node instanceof PropertyFetch) {
             return $this->getName($node->name);
         }
 

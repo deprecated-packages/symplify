@@ -173,9 +173,7 @@ CODE_SAMPLE
             );
         } catch (Throwable) {
             // missing include/layout template or something else went wrong → we cannot analyse template here
-            return [
-                RuleErrorBuilder::message('Template file ' . $templateFilePath . ' doesn\'t exist')->build(),
-            ];
+            return [RuleErrorBuilder::message('Template file ' . $templateFilePath . ' doesn\'t exist')->build()];
         }
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';

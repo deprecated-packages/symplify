@@ -5,21 +5,26 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\NodeVisitor;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class AssignedParametersVisitor extends NodeVisitorAbstract
 {
-    /** @var array<string, Expr>  */
+    /**
+     * @var ArrayItem[]
+     */
     private array $parameters = [];
 
     public function __construct(
         private Scope $scope,
+        private SimpleNameResolver $simpleNameResolver,
         private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
     }
@@ -32,10 +37,8 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
 
         if ($node->var instanceof Variable) {
             $var = $node->var;
-            $name = $node->var->name;
         } elseif ($node->var instanceof PropertyFetch) {
             $var = $node->var->var;
-            $name = $node->var->name->name;
         } else {
             return null;
         }
@@ -44,13 +47,18 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $this->parameters[$name] = $node->expr;
+        $name = $this->simpleNameResolver->getName($node->var);
+        if (! $name) {
+            return null;
+        }
+        $this->parameters[] = new ArrayItem($node->expr, new String_($name));
         return null;
     }
 
     /**
      * call after traversing
-     * @return array<string, Expr>
+     *
+     * @return ArrayItem[]
      */
     public function getParameters(): array
     {

@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Nette\Templates;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
@@ -23,6 +23,7 @@ final class TemplateWithParametersMatcher
 {
     public function __construct(
         private SimpleNodeFinder $simpleNodeFinder,
+        private SimpleNameResolver $simpleNameResolver,
         private NetteTypeAnalyzer $netteTypeAnalyzer,
         private NodeValueResolver $nodeValueResolver
     ) {
@@ -41,18 +42,22 @@ final class TemplateWithParametersMatcher
         }
 
         $parameters = $this->findParameters($class, $scope);
-        $parametersItems = [];
-        foreach ($parameters as $key => $value) {
-            $parametersItems[] = new ArrayItem($value, new String_($key));
-        }
-        return new RenderTemplateWithParameters($templates, new Array_($parametersItems));
+        return new RenderTemplateWithParameters($templates, new Array_($parameters));
     }
 
+    /**
+     * @return string[]
+     */
     private function findTemplates(Class_ $class, Scope $scope): array
     {
         $nodes = [$class];
         $nodeTraverser = new NodeTraverser();
-        $templatePathFinderVisitor = new TemplatePathFinderVisitor($scope, $this->netteTypeAnalyzer, $this->nodeValueResolver);
+        $templatePathFinderVisitor = new TemplatePathFinderVisitor(
+            $scope,
+            $this->simpleNameResolver,
+            $this->netteTypeAnalyzer,
+            $this->nodeValueResolver
+        );
 
         $nodeTraverser->addVisitor($templatePathFinderVisitor);
         $nodeTraverser->traverse($nodes);
@@ -60,12 +65,23 @@ final class TemplateWithParametersMatcher
         return $templatePathFinderVisitor->getTemplatePaths();
     }
 
+    /**
+     * @return ArrayItem[]
+     */
     private function findParameters(Class_ $class, Scope $scope): array
     {
         $nodes = [$class];
         $nodeTraverser = new NodeTraverser();
-        $assignedVariablesVisitor = new AssignedParametersVisitor($scope, $this->netteTypeAnalyzer);
-        $parametersAsParameterVisitor = new RenderParametersVisitor($scope, $this->netteTypeAnalyzer, $this->nodeValueResolver);
+        $assignedVariablesVisitor = new AssignedParametersVisitor(
+            $scope,
+            $this->simpleNameResolver,
+            $this->netteTypeAnalyzer
+        );
+        $parametersAsParameterVisitor = new RenderParametersVisitor(
+            $scope,
+            $this->simpleNameResolver,
+            $this->netteTypeAnalyzer
+        );
 
         $nodeTraverser->addVisitor($assignedVariablesVisitor);
         $nodeTraverser->addVisitor($parametersAsParameterVisitor);

@@ -41,35 +41,28 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipVariableInBlockControl.php', []];
 
-
         $errorMessages = [
-//            [
-//                'Static method Latte\Runtime\Filters::date() invoked with 3 parameters, 1-2 required.',
-//                2
-//            ],
-//            [
-//                'Parameter #2 $format of static method Latte\Runtime\Filters::date() expects string|null, int given.',
-//                2
-//            ],
-            [
-                'Variable $nonExistingVariable might not be defined.',
-                3
-            ],
-            [
-                'Call to an undefined method Nette\Security\User::nonExistingMethod().',
-                6
-            ],
+            //            [
+            //                'Static method Latte\Runtime\Filters::date() invoked with 3 parameters, 1-2 required.',
+            //                2
+            //            ],
+            //            [
+            //                'Parameter #2 $format of static method Latte\Runtime\Filters::date() expects string|null, int given.',
+            //                2
+            //            ],
+            ['Variable $nonExistingVariable might not be defined.', 3],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 6],
             [
                 'Call to an undefined method Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel::getTitle().',
-                9
+                9,
             ],
             [
                 'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
-                12
+                12,
             ],
             [
                 'Parameter #1 $name of method ' . InvalidControlRenderArguments::class . '::render() expects string, int given.',
-                12
+                12,
             ],
         ];
 

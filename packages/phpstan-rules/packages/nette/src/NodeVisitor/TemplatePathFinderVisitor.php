@@ -8,16 +8,20 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 {
-    /** @var string[] */
+    /**
+     * @var string[]
+     */
     private array $templatePaths = [];
 
     public function __construct(
         private Scope $scope,
+        private SimpleNameResolver $simpleNameResolver,
         private NetteTypeAnalyzer $netteTypeAnalyzer,
         private NodeValueResolver $nodeValueResolver
     ) {
@@ -25,11 +29,12 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if (!$node instanceof MethodCall) {
+        if (! $node instanceof MethodCall) {
             return null;
         }
 
-        if (!in_array($node->name->name, ['setFile', 'render', 'renderToString'], true)) {
+        $methodName = $this->simpleNameResolver->getName($node->name);
+        if (! in_array($methodName, ['setFile', 'render', 'renderToString'], true)) {
             return null;
         }
 
@@ -51,6 +56,7 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 
     /**
      * call after traversing
+     *
      * @return string[]
      */
     public function getTemplatePaths(): array
