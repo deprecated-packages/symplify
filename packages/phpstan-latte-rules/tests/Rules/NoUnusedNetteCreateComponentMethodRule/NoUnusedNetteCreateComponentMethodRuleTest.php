@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoUnusedNetteCreateComponentMethodRule;
+namespace Symplify\PHPStanLatteRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Nette\Rules\NoUnusedNetteCreateComponentMethodRule;
+use Symplify\PHPStanLatteRules\Rules\NoUnusedNetteCreateComponentMethodRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoUnusedNetteCreateComponentMethodRule>

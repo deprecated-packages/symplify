@@ -78,10 +78,11 @@ services:
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
+    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
+
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer

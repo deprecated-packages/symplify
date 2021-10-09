@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.0",
         "twig/twig": "^3.3",
+        "symplify/astral": "^9.5",
         "symplify/rule-doc-generator-contracts": "^9.5",
         "symplify/package-builder": "^9.5",
         "symplify/twig-phpstan-compiler": "^9.5"

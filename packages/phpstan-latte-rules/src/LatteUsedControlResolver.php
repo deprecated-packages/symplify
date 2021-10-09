@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette;
+namespace Symplify\PHPStanLatteRules;
 
 use Nette\Utils\Strings;
 use PHPStan\Analyser\Scope;

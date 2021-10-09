@@ -1,5 +1,8 @@
 services:
+    - Symplify\PHPStanLatteRules\LatteUsedControlResolver
     - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\SmartFileSystem\Finder\FinderSanitizer
+    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
 
     # simple name resolver
     -
@@ -20,6 +23,6 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
-    # @todo move to template package
-    - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
-    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
+
+    - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
+    - Symplify\PHPStanLatteRules\LatteUsedControlResolver

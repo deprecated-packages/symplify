@@ -10,3 +10,7 @@ services:
     -
         class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
         tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanLatteRules\Rules\NoUnusedNetteCreateComponentMethodRul
+        tags: [phpstan.rules.rule]

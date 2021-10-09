@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Rules;
+namespace Symplify\PHPStanLatteRules\Rules;
 
 use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
@@ -12,11 +12,11 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Nette\LatteUsedControlResolver;
+use Symplify\PHPStanLatteRules\LatteUsedControlResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver;
 
 /**
- * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
+ * @see \Symplify\PHPStanLatteRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest
  * @implements Rule<ClassMethod>
  */
 final class NoUnusedNetteCreateComponentMethodRule implements Rule

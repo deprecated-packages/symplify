@@ -20,6 +20,3 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
-    # @todo move to template package
-    - Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver
-    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer

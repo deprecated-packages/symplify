@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\TypeAnalyzer;
+namespace Symplify\PHPStanLatteRules\TypeAnalyzer;
 
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
@@ -10,9 +10,9 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
-use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
 
 final class ComponentMapResolver
 {
