@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRule\Fixture;
+namespace Symplify\PHPStanTwigRules\Tests\Rules\NoTwigRenderUnusedVariableRule\Fixture;
 
 use Nette\Application\UI\Control;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

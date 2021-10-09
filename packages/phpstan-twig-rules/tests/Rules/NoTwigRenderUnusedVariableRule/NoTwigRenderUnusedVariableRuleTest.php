@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\NoTwigRenderUnusedVariableRu
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule;
+use Symplify\PHPStanTwigRules\Rules\NoTwigRenderUnusedVariableRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoTwigRenderUnusedVariableRule>
