@@ -2,8 +2,4 @@ services:
     - Symplify\PHPStanTwigRules\NodeAnalyzer\TwigRenderTemplateWithParametersMatcher
     - Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
-    # simple name resolver
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-
     - Symplify\SmartFileSystem\SmartFileSystem
-    - PhpParser\NodeFinder

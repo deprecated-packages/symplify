@@ -5,9 +5,6 @@ services:
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
 
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-    - PhpParser\NodeFinder
-
     # node analyzer
     - Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer
 

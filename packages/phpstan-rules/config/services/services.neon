@@ -1,6 +1,3 @@
-#includes:
-#    - name-resolver-services.neon
-
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
@@ -26,7 +23,6 @@ services:
 
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
 
-    - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
 
@@ -38,8 +34,6 @@ services:
     - Symplify\PHPStanRules\Naming\ClassNameAnalyzer
 
     - Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector
-
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
     - Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard

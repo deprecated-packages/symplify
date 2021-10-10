@@ -1,4 +1,8 @@
 services:
+    # mostly used shared services
+    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
+    - PhpParser\NodeFinder
+
     -
         class: Symplify\Astral\Naming\SimpleNameResolver
         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
