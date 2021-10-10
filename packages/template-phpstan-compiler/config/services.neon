@@ -9,4 +9,4 @@ services:
     - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\ParametersArrayAnalyzer
 
     - Symplify\TemplatePHPStanCompiler\ErrorSkipper
-
+    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\PathResolver

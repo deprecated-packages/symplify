@@ -14,9 +14,3 @@ services:
     - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
     - PhpParser\NodeFinder
-
-    # node analyzer
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
-    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
