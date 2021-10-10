@@ -36,7 +36,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
     {
         /** @var string[] $sources */
         $sources = (array) $input->getArgument(Option::SOURCES);
-        $fileInfos = $this->smartFinder->find($sources, ConfigFileSuffixes::provideRegex());
+        $fileInfos = $this->smartFinder->find($sources, ConfigFileSuffixes::provideRegex(), ['Fixture']);
 
         $message = sprintf(
             'Checking %d files with "%s" suffixes',

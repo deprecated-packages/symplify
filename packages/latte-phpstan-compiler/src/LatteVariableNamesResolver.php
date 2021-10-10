@@ -8,10 +8,10 @@ use PhpParser\Node\Stmt;
 use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\LattePHPStanCompiler\RelatedFileResolver\IncludedSnippetTemplateFileResolver;
 use Symplify\LattePHPStanCompiler\RelatedFileResolver\ParentLayoutTemplateFileResolver;
 use Symplify\TemplatePHPStanCompiler\Contract\UsedVariableNamesResolverInterface;
+use Symplify\TemplatePHPStanCompiler\NodeVisitor\TemplateVariableCollectingNodeVisitor;
 use Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser;
 
 final class LatteVariableNamesResolver implements UsedVariableNamesResolverInterface

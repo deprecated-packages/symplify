@@ -53,6 +53,7 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
         if (! $name) {
             return null;
         }
+
         $this->parameters[] = new ArrayItem($node->expr, new String_($name));
         return null;
     }

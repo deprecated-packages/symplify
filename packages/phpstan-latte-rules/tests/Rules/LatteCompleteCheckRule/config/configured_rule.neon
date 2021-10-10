@@ -1,0 +1,32 @@
+includes:
+    - ../../../config/included_services.neon
+
+parameters:
+    # needed to enable missing method rule bellow
+    checkThisOnly: false
+    checkArgumentsPassedByReference: true
+    checkMissingTypehints: true
+    checkNeverInGenericReturnType: true
+    checkExtraArguments: true
+
+    # this is not propagates in test case for some reason, so must be set manually
+    checkArgumentTypes: true
+
+services:
+    -
+        class: Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: PHPStan\Rules\Methods\CallMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            checkFunctionNameCase: true
+            reportMagicMethods: true
+
+    -
+        class: PHPStan\Rules\Variables\DefinedVariableRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            cliArgumentsVariablesRegistered: false
+            checkMaybeUndefinedVariables: true

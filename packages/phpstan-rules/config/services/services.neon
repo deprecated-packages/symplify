@@ -4,9 +4,6 @@ includes:
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
-    # templates
-    - Symplify\PHPStanRules\Templates\RenderTemplateWithParametersMatcher
-
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
 
     # doctrine
@@ -81,10 +78,11 @@ services:
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
+    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
+
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
@@ -104,7 +102,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArrayResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
@@ -112,8 +109,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ScalarAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
-
-    - Symplify\PHPStanRules\ErrorSkipper
 
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver

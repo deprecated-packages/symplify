@@ -46,6 +46,7 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
         if ($pathArg === null) {
             return null;
         }
+
         $path = $this->nodeValueResolver->resolveWithScope($pathArg->value, $this->scope);
         if ($path) {
             $this->templatePaths[] = $path;

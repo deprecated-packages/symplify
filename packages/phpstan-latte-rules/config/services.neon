@@ -1,0 +1,29 @@
+services:
+    - Symplify\PHPStanLatteRules\LatteUsedControlResolver
+    - Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher
+
+    - Symplify\SmartFileSystem\SmartFileSystem
+    - Symplify\SmartFileSystem\Finder\FinderSanitizer
+    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
+
+    # simple name resolver
+    -
+         class: Symplify\Astral\Naming\SimpleNameResolver
+         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
+
+    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
+    - Symplify\Astral\NodeValue\NodeValueResolver
+    - Symplify\PackageBuilder\Php\TypeChecker
+    - Symplify\Astral\NodeFinder\SimpleNodeFinder
+    - PhpParser\NodeFinder
+
+    # node analyzer
+    - Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer
+
+    - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
+    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
+    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
+    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
+
+    - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
+    - Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver

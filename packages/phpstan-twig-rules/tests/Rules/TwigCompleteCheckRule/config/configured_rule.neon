@@ -1,0 +1,18 @@
+includes:
+    - ../../../config/included_services.neon
+
+parameters:
+    # needed to enable missing method rule bellow
+    checkThisOnly: false
+
+services:
+    -
+        class: Symplify\PHPStanTwigRules\Rules\TwigCompleteCheckRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: PHPStan\Rules\Methods\CallMethodsRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            checkFunctionNameCase: %checkFunctionNameCase%
+            reportMagicMethods: %reportMagicMethods%

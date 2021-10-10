@@ -21,10 +21,6 @@ services:
         class: Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
         tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoUnusedNetteCreateComponentMethodRule
-        tags: [phpstan.rules.rule]
-
     # inject
     -
         class: Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule

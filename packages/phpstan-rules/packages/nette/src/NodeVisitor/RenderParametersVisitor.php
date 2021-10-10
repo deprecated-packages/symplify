@@ -43,9 +43,8 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        /** @var Arg|null $renderParameters */
         $renderParameters = $node->args[1] ?? null;
-        if (! $renderParameters) {
+        if (! $renderParameters instanceof Arg) {
             return null;
         }
 

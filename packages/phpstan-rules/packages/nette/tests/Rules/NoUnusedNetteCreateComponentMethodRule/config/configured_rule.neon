@@ -1,8 +1,0 @@
-includes:
-    - ../../../../../../config/services/services.neon
-    - ../../../../../../packages/nette/config/services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoUnusedNetteCreateComponentMethodRule
-        tags: [phpstan.rules.rule]

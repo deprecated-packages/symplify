@@ -13,9 +13,9 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
-use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

@@ -66,7 +66,7 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->symfonyControllerAnalyzer->isActionMethod($node)) {
+        if (! $this->symfonyControllerAnalyzer->isControllerActionMethod($node)) {
             return [];
         }
 
