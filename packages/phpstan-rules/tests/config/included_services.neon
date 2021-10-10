@@ -1,0 +1,3 @@
+includes:
+    - ../../config/services/services.neon
+    - ../../../../packages/astral/config/services.neon

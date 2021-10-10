@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\TemplatePHPStanCompiler\Tests;
 
-use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Analyser\Error;
 use PHPUnit\Framework\TestCase;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 
@@ -19,8 +19,7 @@ final class ErrorSkipperTest extends TestCase
 
     public function test(): void
     {
-        $ruleError = RuleErrorBuilder::message('Some message')
-            ->build();
+        $ruleError = new Error('Some message', 'some_file.php');
 
         $nonFilteredErrors = $this->errorSkipper->skipErrors([$ruleError], []);
         $this->assertSame([$ruleError], $nonFilteredErrors);

@@ -11,8 +11,3 @@ services:
     - Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory
 
     - Symplify\TemplatePHPStanCompiler\ErrorSkipper
-
-    # astral
-#    - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
-    - Symplify\PackageBuilder\Php\TypeChecker

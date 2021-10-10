@@ -13,13 +13,11 @@ services:
 
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
 #    - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\PackageBuilder\Php\TypeChecker
     - PhpParser\NodeFinder
 
-    # astral
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
-    - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
-    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
+#    # astral
+#    - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
+#    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
 
     # node analyzer
     - Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer

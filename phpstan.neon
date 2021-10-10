@@ -1,4 +1,5 @@
 includes:
+    - packages/astral/config/services.neon
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
@@ -609,4 +610,4 @@ parameters:
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         # class-string mess
         - '#Parameter \#3 \$types of method Symplify\\Astral\\TypeAnalyzer\\ContainsTypeAnalyser\:\:containsExprTypes\(\) expects array<class\-string\>, array<int, string\> given#'
-
+        - '#Parameter (.*?) expects class\-string, string given#'
