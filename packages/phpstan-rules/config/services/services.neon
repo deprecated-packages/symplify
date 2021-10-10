@@ -78,13 +78,13 @@ services:
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
+    # astral
     - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
+    - Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer
 
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
-    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
 
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
@@ -111,6 +111,7 @@ services:
 
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
+    - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
 
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
 

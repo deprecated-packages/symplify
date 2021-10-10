@@ -2,29 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeVisitor;
+namespace Symplify\PHPStanLatteRules\NodeVisitor;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\Astral\NodeValue\NodeValueResolver;
 
-final class RenderParametersVisitor extends NodeVisitorAbstract
+final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var ArrayItem[]
+     * @var string[]
      */
-    private array $parameters = [];
+    private array $templatePaths = [];
 
     public function __construct(
         private Scope $scope,
         private SimpleNameResolver $simpleNameResolver,
-        private NetteTypeAnalyzer $netteTypeAnalyzer
+        private NetteTypeAnalyzer $netteTypeAnalyzer,
+        private NodeValueResolver $nodeValueResolver
     ) {
     }
 
@@ -35,7 +34,7 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
         }
 
         $methodName = $this->simpleNameResolver->getName($node->name);
-        if (! in_array($methodName, ['render', 'renderToString'], true)) {
+        if (! in_array($methodName, ['setFile', 'render', 'renderToString'], true)) {
             return null;
         }
 
@@ -43,27 +42,26 @@ final class RenderParametersVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $renderParameters = $node->args[1] ?? null;
-        if (! $renderParameters instanceof Arg) {
+        $pathArg = $node->args[0] ?? null;
+        if ($pathArg === null) {
             return null;
         }
 
-        $parameters = $renderParameters->value;
-        if (! $parameters instanceof Array_) {
-            return null;
+        $path = $this->nodeValueResolver->resolveWithScope($pathArg->value, $this->scope);
+        if ($path) {
+            $this->templatePaths[] = $path;
         }
 
-        $this->parameters = array_filter($parameters->items);
         return null;
     }
 
     /**
      * call after traversing
      *
-     * @return ArrayItem[]
+     * @return string[]
      */
-    public function getParameters(): array
+    public function getTemplatePaths(): array
     {
-        return $this->parameters;
+        return $this->templatePaths;
     }
 }

@@ -7,6 +7,7 @@ namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class TemplateRenderAnalyzer
 {

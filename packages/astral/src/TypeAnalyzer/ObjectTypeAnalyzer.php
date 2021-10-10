@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TypeAnalyzer;
+namespace Symplify\Astral\TypeAnalyzer;
 
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\Astral\Exception\ShouldNotHappenException;
 
 final class ObjectTypeAnalyzer
 {
-    public function __construct(
-        private TypeUnwrapper $typeUnwrapper
-    ) {
-    }
-
     /**
      * @param array<class-string> $desiredClasses
      */
@@ -39,7 +35,7 @@ final class ObjectTypeAnalyzer
             return true;
         }
 
-        $unwrappedType = $this->typeUnwrapper->unwrapNullableType($type);
+        $unwrappedType = TypeCombinator::removeNull($type);
         if (! $unwrappedType instanceof ObjectType) {
             return false;
         }

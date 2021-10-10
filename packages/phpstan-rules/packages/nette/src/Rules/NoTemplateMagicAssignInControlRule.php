@@ -10,7 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;

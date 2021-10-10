@@ -2,28 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeVisitor;
+namespace Symplify\PHPStanLatteRules\NodeVisitor;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 
-final class TemplatePathFinderVisitor extends NodeVisitorAbstract
+final class RenderParametersVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var string[]
+     * @var ArrayItem[]
      */
-    private array $templatePaths = [];
+    private array $parameters = [];
 
     public function __construct(
         private Scope $scope,
         private SimpleNameResolver $simpleNameResolver,
-        private NetteTypeAnalyzer $netteTypeAnalyzer,
-        private NodeValueResolver $nodeValueResolver
+        private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
     }
 
@@ -34,7 +35,7 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
         }
 
         $methodName = $this->simpleNameResolver->getName($node->name);
-        if (! in_array($methodName, ['setFile', 'render', 'renderToString'], true)) {
+        if (! in_array($methodName, ['render', 'renderToString'], true)) {
             return null;
         }
 
@@ -42,26 +43,27 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $pathArg = $node->args[0] ?? null;
-        if ($pathArg === null) {
+        $renderParameters = $node->args[1] ?? null;
+        if (! $renderParameters instanceof Arg) {
             return null;
         }
 
-        $path = $this->nodeValueResolver->resolveWithScope($pathArg->value, $this->scope);
-        if ($path) {
-            $this->templatePaths[] = $path;
+        $parameters = $renderParameters->value;
+        if (! $parameters instanceof Array_) {
+            return null;
         }
 
+        $this->parameters = array_filter($parameters->items);
         return null;
     }
 
     /**
      * call after traversing
      *
-     * @return string[]
+     * @return ArrayItem[]
      */
-    public function getTemplatePaths(): array
+    public function getParameters(): array
     {
-        return $this->templatePaths;
+        return $this->parameters;
     }
 }
