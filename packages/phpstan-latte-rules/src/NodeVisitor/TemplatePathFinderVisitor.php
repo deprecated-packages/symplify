@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeVisitor;
+namespace Symplify\PHPStanLatteRules\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 {

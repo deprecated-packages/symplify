@@ -1,5 +1,6 @@
 {
     "name": "symplify/astral",
+    "type": "phpstan-extension",
     "description": "Toolking for smart daily work with AST",
     "license": "MIT",
     "require": {
@@ -28,6 +29,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "9.5-dev"
+        },
+        "phpstan": {
+            "includes": [
+                "config/services.neon"
+            ]
         }
     },
     "conflict": {

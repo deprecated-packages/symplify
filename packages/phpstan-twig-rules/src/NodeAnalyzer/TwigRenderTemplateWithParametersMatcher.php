@@ -7,7 +7,7 @@ namespace Symplify\PHPStanTwigRules\NodeAnalyzer;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
+use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\PathResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
 final class TwigRenderTemplateWithParametersMatcher

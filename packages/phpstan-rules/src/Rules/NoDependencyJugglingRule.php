@@ -14,10 +14,10 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeWithClassName;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Naming\ClassNameAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -58,7 +58,7 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     public function __construct(
         private ConstructorDefinedPropertyNodeAnalyzer $constructorDefinedPropertyNodeAnalyzer,
         private ClassNameAnalyzer $classNameAnalyzer,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer
+        private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
 
@@ -130,6 +130,7 @@ CODE_SAMPLE
         }
 
         $parentParent = $parent->getAttribute(AttributeKey::PARENT);
+
         if ($this->isAllowedCallerType($scope, $parentParent)) {
             return true;
         }
@@ -145,7 +146,7 @@ CODE_SAMPLE
         }
 
         $classObjectType = new ObjectType($classReflection->getName());
-        if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($classObjectType, self::ALLOWED_CLASS_TYPES)) {
+        if ($this->containsTypeAnalyser->containsTypeExprTypes($classObjectType, self::ALLOWED_CLASS_TYPES)) {
             return true;
         }
 
@@ -154,10 +155,7 @@ CODE_SAMPLE
             return true;
         }
 
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes(
-            $propertyFetchType,
-            self::ALLOWED_PROPERTY_TYPES
-        );
+        return $this->containsTypeAnalyser->containsExprTypes($propertyFetch, $scope, self::ALLOWED_PROPERTY_TYPES);
     }
 
     private function isAllowedCallerType(Scope $scope, Expr $expr): bool

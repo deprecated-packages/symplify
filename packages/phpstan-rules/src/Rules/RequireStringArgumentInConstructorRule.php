@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,11 +29,11 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     public const ERROR_MESSAGE = 'Use quoted string in constructor "new %s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.';
 
     /**
-     * @param array<string, array<int>> $stringArgPositionsByType
+     * @param array<class-string, array<int>> $stringArgPositionsByType
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private ContainsTypeAnalyser $containsTypeAnalyser,
         private array $stringArgPositionsByType
     ) {
     }
@@ -55,8 +55,7 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
         $errorMessages = [];
 
         foreach ($this->stringArgPositionsByType as $type => $positions) {
-            $constructCallType = $scope->getType($node);
-            if (! $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($constructCallType, $type)) {
+            if (! $this->containsTypeAnalyser->containsExprType($node, $scope, $type)) {
                 continue;
             }
 

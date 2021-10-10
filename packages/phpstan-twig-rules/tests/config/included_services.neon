@@ -2,3 +2,4 @@ includes:
     - ../../config/services.neon
     - ../../../../packages/twig-phpstan-compiler/config/services.neon
     - ../../../../packages/template-phpstan-compiler/config/services.neon
+    - ../../../../packages/astral/config/services.neon

@@ -1,6 +1,3 @@
-includes:
-    - name-resolver-services.neon
-
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
@@ -26,7 +23,6 @@ services:
 
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
 
-    - PhpParser\NodeFinder
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
 
@@ -38,8 +34,6 @@ services:
     - Symplify\PHPStanRules\Naming\ClassNameAnalyzer
 
     - Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector
-
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
     - Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard
@@ -55,11 +49,6 @@ services:
     - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
 
-    - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
-    - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
-
-    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
 
     - Symplify\PHPStanRules\Location\DirectoryChecker
@@ -78,18 +67,11 @@ services:
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
-    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
-
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
-
-    - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
-    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
-    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-
-    - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
 
+    - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
 
     # node analyzer
@@ -102,7 +84,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
@@ -115,4 +96,3 @@ services:
 
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
 
-    # regex

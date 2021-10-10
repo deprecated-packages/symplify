@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
-use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -48,11 +48,11 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->containsTypeAnalyser->containsExprTypes($node, $scope, [ContainerInterface::class])) {
+        if (! $this->containsTypeAnalyser->containsExprType($node, $scope, ContainerInterface::class)) {
             return [];
         }
 
-        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, [ContainerBuilder::class])) {
+        if ($this->containsTypeAnalyser->containsExprType($node, $scope, ContainerBuilder::class)) {
             return [];
         }
 

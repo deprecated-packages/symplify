@@ -7,6 +7,9 @@ namespace Symplify\TemplatePHPStanCompiler;
 use Nette\Utils\Strings;
 use PHPStan\Analyser\Error;
 
+/**
+ * @see \Symplify\TemplatePHPStanCompiler\Tests\ErrorSkipperTest
+ */
 final class ErrorSkipper
 {
     /**

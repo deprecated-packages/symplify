@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Matcher;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 
 final class PositionMatcher
 {
@@ -26,7 +26,7 @@ final class PositionMatcher
         array $positionsByMethods,
         string $methodName
     ) {
-        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
+        if (! $this->containsTypeAnalyser->containsExprType($methodCall->var, $scope, $desiredType)) {
             return null;
         }
 

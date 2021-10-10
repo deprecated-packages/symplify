@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\ElseIf_;
@@ -20,12 +21,8 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\BooleanType;
-use PHPStan\Type\MixedType;
-use PHPStan\Type\ObjectType;
-use PHPStan\Type\Type;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -51,8 +48,7 @@ final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private SimpleNameResolver $simpleNameResolver,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
 
@@ -122,36 +118,17 @@ CODE_SAMPLE
             return true;
         }
 
-        $callType = $scope->getType($expr);
-        if ($this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callType, self::ALLOWED_CLASS_TYPES)) {
+        if ($this->containsTypeAnalyser->containsExprTypes($expr, $scope, self::ALLOWED_CLASS_TYPES)) {
             return true;
         }
 
+        $callType = $scope->getType($expr);
         return $callType instanceof BooleanType;
-    }
-
-    private function resolveCalleeType(Scope $scope, StaticCall | MethodCall $node): Type
-    {
-        if ($node instanceof StaticCall) {
-            $className = $this->simpleNameResolver->getName($node->class);
-            if ($className === null) {
-                return new MixedType();
-            }
-
-            return new ObjectType($className);
-        }
-
-        return $scope->getType($node->var);
     }
 
     private function isAllowedCallerType(Scope $scope, StaticCall | MethodCall $node): bool
     {
-        if (! $node instanceof StaticCall) {
-            return false;
-        }
-
-        $callerType = $this->resolveCalleeType($scope, $node);
-
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::ALLOWED_CLASS_TYPES);
+        $caller = $node instanceof StaticCall ? new New_($node->class) : $node->var;
+        return $this->containsTypeAnalyser->containsExprTypes($caller, $scope, self::ALLOWED_CLASS_TYPES);
     }
 }

@@ -15,13 +15,13 @@ use PHPStan\Type\CallableType;
 use PHPStan\Type\ClosureType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class CallableTypeAnalyzer
 {
     public function __construct(
-        private TypeUnwrapper $typeUnwrapper,
         private SimpleNodeFinder $simpleNodeFinder,
         private Standard $standard
     ) {
@@ -30,7 +30,7 @@ final class CallableTypeAnalyzer
     public function isClosureOrCallableType(Scope $scope, Expr $expr, Node $node): bool
     {
         $nameStaticType = $scope->getType($expr);
-        $unwrappedNameStaticType = $this->typeUnwrapper->unwrapNullableType($nameStaticType);
+        $unwrappedNameStaticType = TypeCombinator::removeNull($nameStaticType);
 
         if ($unwrappedNameStaticType instanceof CallableType) {
             return true;

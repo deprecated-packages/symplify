@@ -1,4 +1,4 @@
-# 162 Rules Overview
+# 156 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2434,55 +2434,6 @@ final class LogoutController extends AbstractController
 
 <br>
 
-## LatteCompleteCheckRule
-
-Complete analysis of PHP code generated from Latte template
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\LatteCompleteCheckRule`](../packages/nette/src/Rules/LatteCompleteCheckRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-class SomeClass extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_control.latte', [
-            'some_type' => new SomeType
-        ]);
-    }
-}
-
-// some_control.latte
-{$some_type->missingMethod()}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-class SomeClass extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_control.latte', [
-            'some_type' => new SomeType
-        ]);
-    }
-}
-
-
-// some_control.latte
-{$some_type->existingMethod()}
-```
-
-:+1:
-
-<br>
-
 ## MatchingTypeConstantRule
 
 Constant type should be "%s", but is "%s"
@@ -3750,92 +3701,6 @@ class SomeClass
 
 <br>
 
-## NoNetteRenderMissingVariableRule
-
-Passed "%s" variable that are not used in the template
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule`](../packages/nette/src/Rules/NoNetteRenderMissingVariableRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte');
-    }
-}
-
-// some_file.latte
-{$usedValue}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'usedValue' => 'value'
-        ]);
-    }
-}
-
-// some_file.latte
-{$usedValue}
-```
-
-:+1:
-
-<br>
-
-## NoNetteRenderUnusedVariableRule
-
-Extra variables "%s" are passed to the template but never used there
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule`](../packages/nette/src/Rules/NoNetteRenderUnusedVariableRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value',
-        ]);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoNetteTemplateVariableReadRule
 
 Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
@@ -4422,76 +4287,6 @@ class SomeService
     {
     }
 }
-```
-
-:+1:
-
-<br>
-
-## NoTwigMissingVariableRule
-
-Variable "%s" is used in template but missing in `render()` method
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigMissingVariableRule`](../packages/symfony/src/Rules/NoTwigMissingVariableRule.php)
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value',
-        ]);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value',
-        ]);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoTwigRenderUnusedVariableRule
-
-Passed "%s" variable is not used in the template
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\NoTwigRenderUnusedVariableRule`](../packages/symfony/src/Rules/NoTwigRenderUnusedVariableRule.php)
-
-```php
-$environment = new Twig\Environment();
-$environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value',
-]);
-```
-
-:x:
-
-<br>
-
-```php
-$environment = new Twig\Environment();
-$environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value',
-]);
 ```
 
 :+1:
@@ -6193,54 +5988,6 @@ class SomeClass
         return $shortName;
     }
 }
-```
-
-:+1:
-
-<br>
-
-## TwigCompleteCheckRule
-
-Complete analysis of PHP code generated from Twig template
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\TwigCompleteCheckRule`](../packages/symfony/src/Rules/TwigCompleteCheckRule.php)
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'some' => new SomeObject()
-        ]);
-    }
-}
-
-// some_file.twig
-{{ some.non_existing_method }}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-final class SomeController extends AbstractController
-{
-    public function __invoke()
-    {
-        return $this->render(__DIR__ . '/some_file.twig', [
-            'some' => new SomeObject()
-        ]);
-    }
-}
-
-// some_file.twig
-{{ some.existing_method }}
 ```
 
 :+1:

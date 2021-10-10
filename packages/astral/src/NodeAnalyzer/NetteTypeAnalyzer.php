@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
+namespace Symplify\Astral\NodeAnalyzer;
 
 use Nette\Application\UI\Template;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 
 final class NetteTypeAnalyzer
 {
@@ -23,8 +23,8 @@ final class NetteTypeAnalyzer
     ];
 
     public function __construct(
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
 
@@ -49,8 +49,7 @@ final class NetteTypeAnalyzer
      */
     public function isTemplateType(Expr $expr, Scope $scope): bool
     {
-        $callerType = $scope->getType($expr);
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::TEMPLATE_TYPES);
+        return $this->containsTypeAnalyser->containsExprTypes($expr, $scope, self::TEMPLATE_TYPES);
     }
 
     /**

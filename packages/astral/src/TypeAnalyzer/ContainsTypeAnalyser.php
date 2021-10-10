@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\TypeAnalyzer;
+namespace Symplify\Astral\TypeAnalyzer;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
@@ -30,10 +30,25 @@ final class ContainsTypeAnalyser
         return false;
     }
 
-    private function containsExprType(Expr $expr, Scope $scope, string $type): bool
+    /**
+     * @param class-string[] $types
+     */
+    public function containsTypeExprTypes(Type $exprType, array $types): bool
     {
-        $exprType = $scope->getType($expr);
+        foreach ($types as $type) {
+            if ($this->containsTypeExprType($exprType, $type)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    /**
+     * @param class-string $type
+     */
+    public function containsTypeExprType(Type $exprType, string $type): bool
+    {
         if ($exprType instanceof IntersectionType) {
             $intersectionedTypes = $exprType->getTypes();
             foreach ($intersectionedTypes as $intersectionedType) {
@@ -46,6 +61,18 @@ final class ContainsTypeAnalyser
         return $this->isExprTypeOfType($exprType, $type);
     }
 
+    /**
+     * @param class-string $type
+     */
+    public function containsExprType(Expr $expr, Scope $scope, string $type): bool
+    {
+        $exprType = $scope->getType($expr);
+        return $this->containsTypeExprType($exprType, $type);
+    }
+
+    /**
+     * @param class-string $class
+     */
     private function isUnionTypeWithClass(Type $type, string $class): bool
     {
         if (! $type instanceof UnionType) {
@@ -66,6 +93,9 @@ final class ContainsTypeAnalyser
         return false;
     }
 
+    /**
+     * @param class-string $type
+     */
     private function isArrayWithItemType(Type $propertyType, string $type): bool
     {
         if (! $propertyType instanceof ArrayType) {
@@ -80,6 +110,9 @@ final class ContainsTypeAnalyser
         return is_a($arrayItemType->getClassName(), $type, true);
     }
 
+    /**
+     * @param class-string $type
+     */
     private function isExprTypeOfType(Type $exprType, string $type): bool
     {
         if ($exprType instanceof TypeWithClassName) {

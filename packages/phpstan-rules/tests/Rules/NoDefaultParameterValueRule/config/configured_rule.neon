@@ -4,4 +4,4 @@ services:
         tags: [phpstan.rules.rule]
 
 includes:
-    - ../../../../config/services/services.neon
+    - ../../../config/included_services.neon

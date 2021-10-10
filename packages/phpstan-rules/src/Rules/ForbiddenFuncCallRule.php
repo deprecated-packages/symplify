@@ -8,11 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
-use Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer;
+use Symplify\PHPStanRules\ValueObject\Configuration\RequiredWithMessage;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -34,7 +36,6 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private array $forbiddenFunctions,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
         private RequiredWithMessageFormatter $requiredWithMessageFormatter,
     ) {
     }
@@ -69,12 +70,7 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
                 continue;
             }
 
-            if ($requiredWithMessage->getMessage() === null) {
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $funcName);
-            } else {
-                $errorMessage = sprintf(self::ERROR_MESSAGE . ': ' . $requiredWithMessage->getMessage(), $funcName);
-            }
-
+            $errorMessage = $this->createErrorMessage($requiredWithMessage, $funcName);
             return [$errorMessage];
         }
 
@@ -140,8 +136,23 @@ CODE_SAMPLE
         }
 
         $firstArgValue = $argOrVariadicPlaceholder->value;
-        $firstArgType = $scope->getType($firstArgValue);
 
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($firstArgType, SimpleXMLElement::class);
+        $firstArgType = $scope->getType($firstArgValue);
+        // non nullable
+        $firstArgType = TypeCombinator::removeNull($firstArgType);
+
+        $simpleXmlElementObjectType = new ObjectType(SimpleXMLElement::class);
+
+        return $simpleXmlElementObjectType->isSuperTypeOf($firstArgType)
+            ->yes();
+    }
+
+    private function createErrorMessage(RequiredWithMessage $requiredWithMessage, string $funcName): string
+    {
+        if ($requiredWithMessage->getMessage() === null) {
+            return sprintf(self::ERROR_MESSAGE, $funcName);
+        }
+
+        return sprintf(self::ERROR_MESSAGE . ': ' . $requiredWithMessage->getMessage(), $funcName);
     }
 }
