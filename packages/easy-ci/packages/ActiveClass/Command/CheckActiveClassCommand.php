@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\ActiveClass\Filtering\PossiblyUnusedClassesFilter;
 use Symplify\EasyCI\ActiveClass\Finder\ClassNamesFinder;
-use Symplify\EasyCI\ActiveClass\UsedNeonServicesResolver;
 use Symplify\EasyCI\ActiveClass\UseImportsResolver;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
@@ -24,7 +23,6 @@ final class CheckActiveClassCommand extends Command
         private SymfonyStyle $symfonyStyle,
         private ClassNamesFinder $classNamesFinder,
         private UseImportsResolver $useImportsResolver,
-        private UsedNeonServicesResolver $usedNeonServicesResolver,
         private PossiblyUnusedClassesFilter $possiblyUnusedClassesFilter
     ) {
         parent::__construct();
@@ -47,12 +45,9 @@ final class CheckActiveClassCommand extends Command
         $sources = (array) $input->getArgument(Option::SOURCES);
 
         $phpFileInfos = $this->smartFinder->find($sources, '*.php', ['Fixture', 'Source', 'tests', 'stubs']);
-        $uniqueUseImports = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
+        $classUses = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
 
-        $neonFileInfos = $this->smartFinder->find($sources, '*.neon', ['Fixture', 'Source', 'tests']);
-        $uniqueUsedNeonServices = $this->usedNeonServicesResolver->resolveFormFileInfos($neonFileInfos);
-
-        $classUses = array_merge($uniqueUseImports, $uniqueUsedNeonServices);
+        // @todo also find classes from the same namespace?
 
         $classNames = $this->classNamesFinder->resolveClassNamesToCheck($phpFileInfos);
 
