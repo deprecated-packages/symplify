@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
+use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 
 final class PossiblyUnusedClassesFilter
 {
     /**
-     * @var string[]
+     * @var class-string[]
      */
-    private const EXCLUDED_TYPES = [ConfigurableRuleInterface::class];
+    private const EXCLUDED_TYPES = [ConfigurableRuleInterface::class, Rule::class];
 
     /**
      * @param string[] $checkClassNames

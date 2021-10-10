@@ -9,7 +9,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\EasyCI\ActiveClass\ClassNameResolver;
+use Symplify\EasyCI\ActiveClass\Filtering\PossiblyUnusedClassesFilter;
+use Symplify\EasyCI\ActiveClass\Finder\ClassNamesFinder;
 use Symplify\EasyCI\ActiveClass\UsedNeonServicesResolver;
 use Symplify\EasyCI\ActiveClass\UseImportsResolver;
 use Symplify\EasyCI\ValueObject\Option;
@@ -21,11 +22,10 @@ final class CheckActiveClassCommand extends Command
     public function __construct(
         private SmartFinder $smartFinder,
         private SymfonyStyle $symfonyStyle,
-        private ClassNameResolver $classNameResolver,
-        private \Symplify\EasyCI\ActiveClass\Finder\ClassNamesFinder $classNamesFinder,
+        private ClassNamesFinder $classNamesFinder,
         private UseImportsResolver $useImportsResolver,
         private UsedNeonServicesResolver $usedNeonServicesResolver,
-        private \Symplify\EasyCI\ActiveClass\Filtering\PossiblyUnusedClassesFilter $possiblyUnusedClassesFilter
+        private PossiblyUnusedClassesFilter $possiblyUnusedClassesFilter
     ) {
         parent::__construct();
     }
