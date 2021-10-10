@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
-use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

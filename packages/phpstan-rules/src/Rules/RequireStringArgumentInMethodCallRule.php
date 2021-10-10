@@ -12,7 +12,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\VariadicPlaceholder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -38,7 +38,7 @@ final class RequireStringArgumentInMethodCallRule extends AbstractSymplifyRule i
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
+        private ContainsTypeAnalyser $containsTypeAnalyser,
         private array $stringArgPositionByMethodByType
     ) {
     }
@@ -119,6 +119,7 @@ CODE_SAMPLE
 
     /**
      * @param array<string, array<int>> $positionsByMethods
+     * @param class-string $desiredType
      * @return int[]
      */
     private function matchPositions(
@@ -128,7 +129,7 @@ CODE_SAMPLE
         array $positionsByMethods,
         string $methodName
     ): array {
-        if (! $this->isNodeVarType($methodCall, $scope, $desiredType)) {
+        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
             return [];
         }
 
@@ -156,11 +157,5 @@ CODE_SAMPLE
         $classConstFetch = $arg->value;
 
         return ! $this->simpleNameResolver->isName($classConstFetch->name, 'class');
-    }
-
-    private function isNodeVarType(MethodCall $methodCall, Scope $scope, string $desiredType): bool
-    {
-        $methodVarType = $scope->getType($methodCall->var);
-        return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectType($methodVarType, $desiredType);
     }
 }

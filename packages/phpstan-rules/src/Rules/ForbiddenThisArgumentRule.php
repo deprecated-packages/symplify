@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -45,7 +45,7 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private TypeChecker $typeChecker,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer
+        private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
 
@@ -115,8 +115,7 @@ CODE_SAMPLE
     private function shouldSkip(MethodCall | FuncCall | StaticCall $node, Scope $scope): bool
     {
         if ($node instanceof MethodCall) {
-            $callerType = $scope->getType($node->var);
-            return $this->objectTypeAnalyzer->isObjectOrUnionOfObjectTypes($callerType, self::ALLOWED_CALLER_CLASSES);
+            return $this->containsTypeAnalyser->containsExprTypes($node->var, $scope, self::ALLOWED_CALLER_CLASSES);
         }
 
         if ($node instanceof FuncCall) {

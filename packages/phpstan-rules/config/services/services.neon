@@ -80,11 +80,10 @@ services:
 
     # astral
     - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
-    - Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer
+    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
 
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
 
-    - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
 
     - Symplify\PackageBuilder\Reflection\PrivatesCaller

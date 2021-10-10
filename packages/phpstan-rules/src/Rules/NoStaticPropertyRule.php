@@ -12,7 +12,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

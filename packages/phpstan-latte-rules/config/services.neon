@@ -19,7 +19,7 @@ services:
     # astral
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
     - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
-    - Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer
+    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
 
     # node analyzer
     - Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer

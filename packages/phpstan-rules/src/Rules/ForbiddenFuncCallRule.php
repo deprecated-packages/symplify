@@ -12,7 +12,6 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use SimpleXMLElement;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\TypeAnalyzer\ObjectTypeAnalyzer;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
 use Symplify\PHPStanRules\ValueObject\Configuration\RequiredWithMessage;
@@ -37,7 +36,6 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
         private array $forbiddenFunctions,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private SimpleNameResolver $simpleNameResolver,
-        private ObjectTypeAnalyzer $objectTypeAnalyzer,
         private RequiredWithMessageFormatter $requiredWithMessageFormatter,
     ) {
     }

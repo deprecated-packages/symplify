@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Matcher;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
+use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 
 final class PositionMatcher
 {

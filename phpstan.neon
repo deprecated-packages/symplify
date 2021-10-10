@@ -607,3 +607,6 @@ parameters:
 
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+        # class-string mess
+        - '#Parameter \#3 \$types of method Symplify\\Astral\\TypeAnalyzer\\ContainsTypeAnalyser\:\:containsExprTypes\(\) expects array<class\-string\>, array<int, string\> given#'
+
