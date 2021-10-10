@@ -15,7 +15,7 @@ final class ClassExtractor
      * @var string
      * @see https://regex101.com/r/1VKOxi/8
      */
-    private const CLASS_NAME_REGEX = '#(?<'. self::INDENT_SPACES . '>^\s+)?(.*?)(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Za-z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
+    private const CLASS_NAME_REGEX = '#(?<' . self::INDENT_SPACES . '>^\s+)?(.*?)(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Za-z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
 
     /**
      * @var string
@@ -54,17 +54,8 @@ final class ClassExtractor
                 continue;
             }
 
-
-            if (isset($classNameMatch[self::INDENT_SPACES])) {
-                // indented argument
-                $indentSpaces = $classNameMatch[self::INDENT_SPACES];
-                if (substr_count($indentSpaces, "\t") > 3) {
-                    continue;
-                }
-
-                if (substr_count($indentSpaces, " ") > 12) {
-                    continue;
-                }
+            if ($this->shouldSkipArgument($classNameMatch)) {
+                continue;
             }
 
             $classNames[] = $this->extractClassName($fileInfo, $classNameMatch);
@@ -103,5 +94,23 @@ final class ClassExtractor
         }
 
         return $match[self::CLASS_NAME_PART];
+    }
+
+    /**
+     * @param array<string, mixed> $classNameMatch
+     */
+    private function shouldSkipArgument(array $classNameMatch): bool
+    {
+        if (! isset($classNameMatch[self::INDENT_SPACES])) {
+            return false;
+        }
+        // indented argument
+        $indentSpaces = $classNameMatch[self::INDENT_SPACES];
+        if (substr_count($indentSpaces, "\t") >= 3) {
+            return true;
+        }
+
+        // in case of spaces
+        return substr_count($indentSpaces, ' ') >= 12;
     }
 }
