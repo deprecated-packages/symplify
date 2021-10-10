@@ -15,7 +15,7 @@ final class ClassExtractor
      * @var string
      * @see https://regex101.com/r/1VKOxi/8
      */
-    private const CLASS_NAME_REGEX = '#(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Za-z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
+    private const CLASS_NAME_REGEX = '#(?<'. self::INDENT_SPACES . '>^\s+)?(.*?)(?<quote>["\']?)\b(?<' . self::CLASS_NAME_PART . '>[A-Za-z](\w+\\\\(\\\\)?)+(\w+))(?<next_char>\\\\|\\\\:|(?&quote))?(?!:)$#m';
 
     /**
      * @var string
@@ -34,6 +34,11 @@ final class ClassExtractor
     private const CLASS_NAME_PART = 'class_name';
 
     /**
+     * @var string
+     */
+    private const INDENT_SPACES = 'indent_spaces';
+
+    /**
      * @return string[]
      */
     public function extractFromFileInfo(SmartFileInfo $fileInfo): array
@@ -47,6 +52,19 @@ final class ClassExtractor
             if (isset($classNameMatch[self::NEXT_CHAR]) && ($classNameMatch[self::NEXT_CHAR] === '\\' || $classNameMatch[self::NEXT_CHAR] === '\\:')) {
                 // is Symfony autodiscovery → skip
                 continue;
+            }
+
+
+            if (isset($classNameMatch[self::INDENT_SPACES])) {
+                // indented argument
+                $indentSpaces = $classNameMatch[self::INDENT_SPACES];
+                if (substr_count($indentSpaces, "\t") > 3) {
+                    continue;
+                }
+
+                if (substr_count($indentSpaces, " ") > 12) {
+                    continue;
+                }
             }
 
             $classNames[] = $this->extractClassName($fileInfo, $classNameMatch);

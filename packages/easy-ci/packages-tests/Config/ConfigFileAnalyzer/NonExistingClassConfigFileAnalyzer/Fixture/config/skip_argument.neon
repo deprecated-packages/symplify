@@ -1,0 +1,7 @@
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            annotations:
+                - Symfony\Component\Validator\Constraints\Blank
