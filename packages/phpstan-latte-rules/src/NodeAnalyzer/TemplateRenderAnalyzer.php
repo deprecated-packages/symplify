@@ -14,7 +14,7 @@ final class TemplateRenderAnalyzer
     /**
      * @var string
      */
-    private const RENDER = 'render';
+    private const NETTE_RENDER_METHOD_NAMES = ['render', 'renderToString', 'action'];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
@@ -24,7 +24,7 @@ final class TemplateRenderAnalyzer
 
     public function isNetteTemplateRenderMethodCall(MethodCall $methodCall, Scope $scope): bool
     {
-        if (! $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'renderToString', 'action'])) {
+        if (! $this->simpleNameResolver->isNames($methodCall->name, self::NETTE_RENDER_METHOD_NAMES)) {
             return false;
         }
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Templates;
+namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
@@ -17,9 +17,9 @@ use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeVisitor\AssignedParametersVisitor;
 use Symplify\PHPStanRules\Nette\NodeVisitor\RenderParametersVisitor;
 use Symplify\PHPStanRules\Nette\NodeVisitor\TemplatePathFinderVisitor;
-use Symplify\PHPStanRules\Symfony\ValueObject\RenderTemplateWithParameters;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
-final class TemplateWithParametersMatcher
+final class LatteTemplateWithParametersMatcher
 {
     public function __construct(
         private SimpleNodeFinder $simpleNodeFinder,

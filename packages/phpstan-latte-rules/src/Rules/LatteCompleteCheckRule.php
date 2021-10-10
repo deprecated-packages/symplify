@@ -14,22 +14,11 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
-<<<<<<< HEAD
-use Symplify\PHPStanRules\ErrorSkipper;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanRules\Nette\Templates\TemplateWithParametersMatcher;
-=======
+use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
-<<<<<<< HEAD
-use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
->>>>>>> extratc ParametersArrayAnalyzer
-use Symplify\PHPStanRules\Nette\TypeAnalyzer\ComponentMapResolver;
-=======
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
->>>>>>> moving services
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
-use Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -71,7 +60,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private TemplateWithParametersMatcher $templateWithParametersMatcher,
+        private LatteTemplateWithParametersMatcher $templateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,

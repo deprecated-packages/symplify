@@ -4,11 +4,11 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderUnusedVariableRule
+        class: Symplify\PHPStanLatteRules\Rules\NoNetteRenderUnusedVariableRule
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteRenderMissingVariableRule
+        class: Symplify\PHPStanLatteRules\Rules\NoNetteRenderMissingVariableRule
         tags: [phpstan.rules.rule]
 
     -
