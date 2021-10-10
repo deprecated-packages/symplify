@@ -14,11 +14,11 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
-use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver;
+use Symplify\PHPStanRules\Nette\NodeAnalyzer\DibiQueryAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeResolver\ArgTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -58,7 +58,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
     ];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
+        private DibiQueryAnalyzer $dibiQueryAnalyzer,
         private QueryMasksResolver $queryMasksResolver,
         private ArgTypeResolver $argTypeResolver,
     ) {
@@ -78,6 +78,16 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection === null) {
+            return [];
+        }
+
+        // skip itself
+        if (in_array($classReflection->getName(), [self::class, SprintfSpecifierTypeResolver::class], true)) {
+            return [];
+        }
+
         if ($node instanceof MethodCall) {
             return $this->processMethodCall($node, $scope);
         }
@@ -104,25 +114,12 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isDibiConnectionQueryCall(Scope $scope, MethodCall $methodCall): bool
-    {
-        $callerType = $scope->getType($methodCall->var);
-
-        $dibiConnectionObjectType = new ObjectType('Dibi\Connection');
-        if (! $callerType->isSuperTypeOf($dibiConnectionObjectType)->yes()) {
-            return false;
-        }
-
-        // check direct caller with string masks
-        return $this->simpleNameResolver->isNames($methodCall->name, ['query']);
-    }
-
     /**
      * @return string[]
      */
     private function processMethodCall(MethodCall $methodCall, Scope $scope): array
     {
-        if (! $this->isDibiConnectionQueryCall($scope, $methodCall)) {
+        if (! $this->dibiQueryAnalyzer->isDibiConnectionQueryCall($scope, $methodCall)) {
             return [];
         }
 

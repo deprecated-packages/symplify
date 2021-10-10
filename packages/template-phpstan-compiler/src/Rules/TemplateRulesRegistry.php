@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Templates;
+namespace Symplify\TemplatePHPStanCompiler\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
