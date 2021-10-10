@@ -13,6 +13,6 @@ final class ConfigFileSuffixes
 
     public static function provideRegex(): string
     {
-        return '#' . implode('|', self::SUFFIXES) . '#';
+        return '#(' . implode('|', self::SUFFIXES) . ')$#';
     }
 }

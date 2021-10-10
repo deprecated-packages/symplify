@@ -104,6 +104,7 @@ final class ClassExtractor
         if (! isset($classNameMatch[self::INDENT_SPACES])) {
             return false;
         }
+
         // indented argument
         $indentSpaces = $classNameMatch[self::INDENT_SPACES];
         if (substr_count($indentSpaces, "\t") >= 3) {

@@ -29,6 +29,10 @@ jobs:
                         run: packages/easy-ci/bin/easy-ci validate-file-length packages
 
                     -
+                        name: Check existing classes in NEON/YAML Files
+                        run: packages/easy-ci/bin/easy-ci check-config packages --ansi
+
+                    -
                         name: Composer Validate
                         run: composer validate
 
