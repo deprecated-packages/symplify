@@ -1,30 +1,20 @@
-# Rule Doc Generator
+# PHPStan Twig Rules
 
-Generate Documentation for you Sniffer, Fixer, Rector, PHPStan... any rule in nice styled Markdown syntax with PHP Code examples everyone will understand.
+[![Downloads](https://img.shields.io/packagist/dt/symplify/phpstan-twig-rules.svg?style=flat-square)](https://packagist.org/packages/symplify/phpstan-twig-rules/stats)
 
-[![Downloads total](https://img.shields.io/packagist/dt/symplify/rule-doc-generator.svg?style=flat-square)](https://packagist.org/packages/symplify/rule-doc-generator/stats)
+Rules for static analysis of TWIG templates and TWIG render() methods
+
+- See [Rules Overview](docs/rules_overview.md)
 
 ## Install
 
 ```bash
-composer require symplify/rule-doc-generator --dev
+composer require symplify/phpstan-twig-rules --dev
 ```
 
 ## Usage
 
-To generate documentation from rules, use `generate` command with paths that contain the rules:
-
-```bash
-vendor/bin/rule-doc-generator generate src/Rules
-```
-
-The file will be generated to `/docs/rules_overview.md` by default. To change that, use `--output-file`:
-
-```bash
-vendor/bin/rule-doc-generator generate src/Rules --output-file docs/symplify_rules.md
-```
-
-Happy coding!
+@todo
 
 <br>
 
