@@ -13,7 +13,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanLatteRules\LatteUsedControlResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver;
+use Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver;
 
 /**
  * @see \Symplify\PHPStanLatteRules\Tests\Rules\NoUnusedNetteCreateComponentMethodRule\NoUnusedNetteCreateComponentMethodRuleTest

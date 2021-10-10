@@ -2,16 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Fixture;
+namespace Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture;
 
 use Nette\Application\UI\Control;
-use Nette\Bridges\ApplicationLatte\Template;
-use Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel;
 
-/**
- * @property-read Template $template
- */
-final class PropertyReadTemplate extends Control
+final class NoAdditionalPropertyRead extends Control
 {
     /** @var ExampleModel[] */
     private $listOfObjects = [];

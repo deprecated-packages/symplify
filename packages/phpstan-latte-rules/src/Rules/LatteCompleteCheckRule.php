@@ -60,7 +60,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         array $rules,
         private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private LatteTemplateWithParametersMatcher $templateWithParametersMatcher,
+        private LatteTemplateWithParametersMatcher $latteTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
@@ -90,7 +90,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
-        $renderTemplateWithParameters = $this->templateWithParametersMatcher->match($node, $scope);
+        $renderTemplateWithParameters = $this->latteTemplateWithParametersMatcher->match($node, $scope);
         if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
             return [];
         }

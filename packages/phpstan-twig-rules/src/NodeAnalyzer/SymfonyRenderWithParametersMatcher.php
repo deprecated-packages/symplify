@@ -11,7 +11,6 @@ use PHPStan\Type\ThisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Twig\Environment;
 
@@ -22,15 +21,20 @@ final class SymfonyRenderWithParametersMatcher
      */
     private const RENDER = 'render';
 
+    /**
+     * @var string[]
+     */
+    private const RENDER_METHOD_NAMES = [self::RENDER, 'renderView'];
+
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private RenderTemplateWithParametersMatcher $renderTemplateWithParametersMatcher,
+        private TwigRenderTemplateWithParametersMatcher $twigRenderTemplateWithParametersMatcher,
     ) {
     }
 
     public function matchSymfonyRender(MethodCall $methodCall, Scope $scope): RenderTemplateWithParameters|null
     {
-        if (! $this->simpleNameResolver->isNames($methodCall->name, [self::RENDER, 'renderView'])) {
+        if (! $this->simpleNameResolver->isNames($methodCall->name, self::RENDER_METHOD_NAMES)) {
             return null;
         }
 
@@ -43,7 +47,7 @@ final class SymfonyRenderWithParametersMatcher
             return null;
         }
 
-        return $this->renderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
+        return $this->twigRenderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
     }
 
     public function matchTwigRender(MethodCall $methodCall, Scope $scope): RenderTemplateWithParameters|null
@@ -61,7 +65,7 @@ final class SymfonyRenderWithParametersMatcher
             return null;
         }
 
-        return $this->renderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
+        return $this->twigRenderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
     }
 
     private function isTwigCallerType(ObjectType $objectType, MethodCall $methodCall): bool

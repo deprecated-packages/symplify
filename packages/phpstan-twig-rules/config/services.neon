@@ -1,5 +1,5 @@
 services:
-    - Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher
+    - Symplify\PHPStanTwigRules\NodeAnalyzer\TwigRenderTemplateWithParametersMatcher
     - Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
     - Symplify\SmartFileSystem\SmartFileSystem

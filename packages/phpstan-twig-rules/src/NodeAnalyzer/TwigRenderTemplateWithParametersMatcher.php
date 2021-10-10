@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanTwigRules\Templates;
+namespace Symplify\PHPStanTwigRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
@@ -10,7 +10,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\PHPStanRules\NodeAnalyzer\PathResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
-final class RenderTemplateWithParametersMatcher
+final class TwigRenderTemplateWithParametersMatcher
 {
     public function __construct(
         private PathResolver $pathResolver
@@ -29,6 +29,7 @@ final class RenderTemplateWithParametersMatcher
         if ($firstArg === null) {
             return null;
         }
+
         $firstArgValue = $firstArg->value;
 
         $resolvedTemplateFilePaths = $this->pathResolver->resolveExistingFilePaths(

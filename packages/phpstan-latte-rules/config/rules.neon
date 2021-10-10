@@ -12,5 +12,5 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanLatteRules\Rules\NoUnusedNetteCreateComponentMethodRul
+        class: Symplify\PHPStanLatteRules\Rules\NoUnusedNetteCreateComponentMethodRule
         tags: [phpstan.rules.rule]

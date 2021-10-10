@@ -23,8 +23,7 @@ services:
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
-    - Symplify\PHPStanTwigRules\Templates\RenderTemplateWithParametersMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
 
     - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
-    - Symplify\PHPStanLatteRules\LatteUsedControlResolver
+    - Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver

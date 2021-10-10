@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 final class TemplateRenderAnalyzer
 {
     /**
-     * @var string
+     * @var string[]
      */
     private const NETTE_RENDER_METHOD_NAMES = ['render', 'renderToString', 'action'];
 

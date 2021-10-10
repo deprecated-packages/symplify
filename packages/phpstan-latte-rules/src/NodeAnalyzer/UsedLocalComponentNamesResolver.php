@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
+namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ArrayDimFetch;

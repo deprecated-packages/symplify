@@ -70,23 +70,25 @@ final class LatteTemplateWithParametersMatcher
      */
     private function findParameters(Class_ $class, Scope $scope): array
     {
+        $assignedParametersVisitor = null;
+        $renderParametersVisitor = null;
         $nodes = [$class];
         $nodeTraverser = new NodeTraverser();
-        $assignedVariablesVisitor = new AssignedParametersVisitor(
+        $assignedParametersVisitor = new AssignedParametersVisitor(
             $scope,
             $this->simpleNameResolver,
             $this->netteTypeAnalyzer
         );
-        $parametersAsParameterVisitor = new RenderParametersVisitor(
+        $renderParametersVisitor = new RenderParametersVisitor(
             $scope,
             $this->simpleNameResolver,
             $this->netteTypeAnalyzer
         );
 
-        $nodeTraverser->addVisitor($assignedVariablesVisitor);
-        $nodeTraverser->addVisitor($parametersAsParameterVisitor);
+        $nodeTraverser->addVisitor($assignedParametersVisitor);
+        $nodeTraverser->addVisitor($renderParametersVisitor);
         $nodeTraverser->traverse($nodes);
 
-        return array_merge($assignedVariablesVisitor->getParameters(), $parametersAsParameterVisitor->getParameters());
+        return array_merge($assignedParametersVisitor->getParameters(), $renderParametersVisitor->getParameters());
     }
 }

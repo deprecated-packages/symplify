@@ -3,5 +3,4 @@ services:
     - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\UsedLocalComponentNamesResolver
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer

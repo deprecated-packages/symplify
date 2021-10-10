@@ -9,6 +9,7 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\InvalidControlRenderArguments;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
 
 /**
@@ -44,10 +45,7 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
         $errorMessages = [
             ['Variable $nonExistingVariable might not be defined.', 3],
             ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 6],
-            [
-                'Call to an undefined method Symplify\PHPStanRules\Nette\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel::getTitle().',
-                9,
-            ],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 9],
             [
                 'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
                 12,

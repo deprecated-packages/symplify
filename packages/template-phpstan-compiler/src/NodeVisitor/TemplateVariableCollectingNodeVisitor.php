@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
+namespace Symplify\TemplatePHPStanCompiler\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
