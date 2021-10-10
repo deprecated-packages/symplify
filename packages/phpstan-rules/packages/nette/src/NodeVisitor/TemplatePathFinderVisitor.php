@@ -10,7 +10,7 @@ use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\PHPStanLatteRules\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class TemplatePathFinderVisitor extends NodeVisitorAbstract
 {

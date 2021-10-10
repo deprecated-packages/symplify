@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\PHPStanRules\Nette\NodeVisitor\AssignedParametersVisitor;
 use Symplify\PHPStanRules\Nette\NodeVisitor\RenderParametersVisitor;
 use Symplify\PHPStanRules\Nette\NodeVisitor\TemplatePathFinderVisitor;

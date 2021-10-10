@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
+namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 
 use Nette\Application\UI\Template;
 use PhpParser\Node\Expr;

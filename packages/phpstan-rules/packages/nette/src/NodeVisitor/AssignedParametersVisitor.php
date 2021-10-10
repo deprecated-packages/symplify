@@ -13,7 +13,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\PHPStanLatteRules\NodeAnalyzer\NetteTypeAnalyzer;
 
 final class AssignedParametersVisitor extends NodeVisitorAbstract
 {

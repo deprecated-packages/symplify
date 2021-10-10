@@ -20,10 +20,5 @@ services:
     # node analyzer
     - Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer
 
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ObjectTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\TypeUnwrapper
-    - Symplify\PHPStanRules\NodeAnalyzer\PathResolver
-
     - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
     - Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver
