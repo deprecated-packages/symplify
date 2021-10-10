@@ -240,8 +240,6 @@ parameters:
                 - packages/astral/src/NodeNameResolver/ClassLikeNodeNameResolver.php
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
-                # needed as we do not have scope here
-                - packages/twig-phpstan-compiler/src/PhpParser/NodeVisitor/TwigGetAttributeExpanderNodeVisitor.php
                 # checking on purpose
                 - packages/twig-phpstan-compiler/src/Reflection/PublicPropertyAnalyzer.php
 
@@ -483,11 +481,6 @@ parameters:
         # wrong php-cs-fixer doc types
         - '#Parameter \#1 \$type of method PhpCsFixer\\Doctrine\\Annotation\\Tokens\:\:getNextTokenOfType\(\) expects array<string\>\|string, int given#'
 
-        # config for rector.php
-        -
-            message: '#For complex configuration use value object over array#'
-            path: packages/*/build/config/config-downgrade.php
-
         # command cast of string
         -
             message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
@@ -523,26 +516,14 @@ parameters:
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
             path: packages/config-transformer/src/Command/SwitchFormatCommand.php
 
-        # confusing generics
-        - '#Method Symplify\\PHPStanRules\\Nette\\Rules\\LatteCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
         - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
-        - '#Property Symplify\\PHPStanRules\\TwigPHPStanPrinter\\PhpParser\\NodeVisitor\\AppendExtractedVarTypesNodeVisitor\:\:\$variablesAndTypes type has no value type specified in iterable type array#'
-        - '#Method Symplify\\PHPStanRules\\Symfony\\Rules\\TwigCompleteCheckRule\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
-        - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) return type with generic interface PHPStan\\Rules\\Rule does not specify its types\: TNodeType#'
-        - '#Method Symplify\\PHPStanRules\\Nette\\PHPStan\\LattePHPStanRulesRegistryAndIgnoredErrorsFilter\:\:filterActiveRules\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
 
         # paralellel
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
 
         # php-parser 4.13, not updated yet
         - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
-        - '#expects PhpParser\\Node\\Arg, PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder given#'
         - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
-        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$unpack#'
-        - '#Parameter (.*?) expects PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType, PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name given#'
-        - '#Method Symplify\\PHPStanRules\\Rules\\ForbiddenNullableParameterRule\:\:matchNullableParamType\(\) should return PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name\|PhpParser\\Node\\NullableType\|PhpParser\\Node\\UnionType\|null but returns PhpParser\\Node\\ComplexType\|PhpParser\\Node\\Identifier\|PhpParser\\Node\\Name#'
 
         -
              message: '#Class has a static method must so must contains "Static" in its name#'
@@ -608,6 +589,4 @@ parameters:
 
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-        # class-string mess
-        - '#Parameter \#3 \$types of method Symplify\\Astral\\TypeAnalyzer\\ContainsTypeAnalyser\:\:containsExprTypes\(\) expects array<class\-string\>, array<int, string\> given#'
         - '#Parameter (.*?) expects class\-string, string given#'
