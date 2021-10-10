@@ -10,3 +10,5 @@ services:
     - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
 
+    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
+    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser

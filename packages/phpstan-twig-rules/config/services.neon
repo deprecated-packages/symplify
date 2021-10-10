@@ -3,10 +3,6 @@ services:
     - Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
     # simple name resolver
-    -
-         class: Symplify\Astral\Naming\SimpleNameResolver
-         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
-
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
 
     - Symplify\SmartFileSystem\SmartFileSystem

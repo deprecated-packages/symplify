@@ -1,5 +1,0 @@
-services:
-    # simple name resolver
-    -
-         class: Symplify\Astral\Naming\SimpleNameResolver
-         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']

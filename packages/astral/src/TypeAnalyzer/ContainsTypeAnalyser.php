@@ -30,7 +30,10 @@ final class ContainsTypeAnalyser
         return false;
     }
 
-    public function containsTypeExprTypes(\PHPStan\Type\Type $exprType, array $types): bool
+    /**
+     * @param class-string[] $types
+     */
+    public function containsTypeExprTypes(Type $exprType, array $types): bool
     {
         foreach ($types as $type) {
             if ($this->containsTypeExprType($exprType, $type)) {
@@ -41,7 +44,10 @@ final class ContainsTypeAnalyser
         return false;
     }
 
-    public function containsTypeExprType(\PHPStan\Type\Type $exprType, string $type): bool
+    /**
+     * @param class-string $type
+     */
+    public function containsTypeExprType(Type $exprType, string $type): bool
     {
         if ($exprType instanceof IntersectionType) {
             $intersectionedTypes = $exprType->getTypes();
@@ -55,12 +61,18 @@ final class ContainsTypeAnalyser
         return $this->isExprTypeOfType($exprType, $type);
     }
 
+    /**
+     * @param class-string $type
+     */
     public function containsExprType(Expr $expr, Scope $scope, string $type): bool
     {
         $exprType = $scope->getType($expr);
         return $this->containsTypeExprType($exprType, $type);
     }
 
+    /**
+     * @param class-string $class
+     */
     private function isUnionTypeWithClass(Type $type, string $class): bool
     {
         if (! $type instanceof UnionType) {
@@ -81,6 +93,9 @@ final class ContainsTypeAnalyser
         return false;
     }
 
+    /**
+     * @param class-string $type
+     */
     private function isArrayWithItemType(Type $propertyType, string $type): bool
     {
         if (! $propertyType instanceof ArrayType) {
@@ -95,6 +110,9 @@ final class ContainsTypeAnalyser
         return is_a($arrayItemType->getClassName(), $type, true);
     }
 
+    /**
+     * @param class-string $type
+     */
     private function isExprTypeOfType(Type $exprType, string $type): bool
     {
         if ($exprType instanceof TypeWithClassName) {

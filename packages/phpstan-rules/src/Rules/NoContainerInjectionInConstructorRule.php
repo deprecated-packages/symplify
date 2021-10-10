@@ -48,11 +48,11 @@ final class NoContainerInjectionInConstructorRule extends AbstractSymplifyRule
             return [];
         }
 
-        if (! $this->containsTypeAnalyser->containsExprTypes($node, $scope, [ContainerInterface::class])) {
+        if (! $this->containsTypeAnalyser->containsExprType($node, $scope, ContainerInterface::class)) {
             return [];
         }
 
-        if ($this->containsTypeAnalyser->containsExprTypes($node, $scope, [ContainerBuilder::class])) {
+        if ($this->containsTypeAnalyser->containsExprType($node, $scope, ContainerBuilder::class)) {
             return [];
         }
 

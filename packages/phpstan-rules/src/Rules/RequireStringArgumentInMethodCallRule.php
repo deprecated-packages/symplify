@@ -129,7 +129,7 @@ CODE_SAMPLE
         array $positionsByMethods,
         string $methodName
     ): array {
-        if (! $this->containsTypeAnalyser->containsExprTypes($methodCall->var, $scope, [$desiredType])) {
+        if (! $this->containsTypeAnalyser->containsExprType($methodCall->var, $scope, $desiredType)) {
             return [];
         }
 

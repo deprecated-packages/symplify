@@ -55,7 +55,7 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
         $errorMessages = [];
 
         foreach ($this->stringArgPositionsByType as $type => $positions) {
-            if (! $this->containsTypeAnalyser->containsExprTypes($node, $scope, [$type])) {
+            if (! $this->containsTypeAnalyser->containsExprType($node, $scope, $type)) {
                 continue;
             }
 

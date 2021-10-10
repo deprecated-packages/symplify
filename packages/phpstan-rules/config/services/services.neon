@@ -73,17 +73,11 @@ services:
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
 
-    # astral
-    - Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer
-    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
-
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
-
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-
-    - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
 
+    - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
 
     # node analyzer
