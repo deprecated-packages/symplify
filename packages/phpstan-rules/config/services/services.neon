@@ -1,5 +1,5 @@
-includes:
-    - name-resolver-services.neon
+#includes:
+#    - name-resolver-services.neon
 
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
@@ -55,9 +55,6 @@ services:
     - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
 
-    - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
-    - Symplify\Astral\NodeValue\NodeValueResolver
-
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
 
     - Symplify\PHPStanRules\Location\DirectoryChecker
@@ -108,8 +105,6 @@ services:
 
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
-    - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
 
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
 
-    # regex
