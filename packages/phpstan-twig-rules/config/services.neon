@@ -2,15 +2,12 @@ services:
     - Symplify\PHPStanTwigRules\NodeAnalyzer\TwigRenderTemplateWithParametersMatcher
     - Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher
 
-    - Symplify\SmartFileSystem\SmartFileSystem
-
     # simple name resolver
     -
          class: Symplify\Astral\Naming\SimpleNameResolver
          factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']
 
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
-    - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\PackageBuilder\Php\TypeChecker
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
+
+    - Symplify\SmartFileSystem\SmartFileSystem
     - PhpParser\NodeFinder

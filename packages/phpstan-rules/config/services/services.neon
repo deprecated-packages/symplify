@@ -57,9 +57,7 @@ services:
 
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\Astral\NodeValue\NodeValueResolver
-    - Symplify\Astral\NodeFinder\SimpleNodeFinder
 
-    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
 
     - Symplify\PHPStanRules\Location\DirectoryChecker

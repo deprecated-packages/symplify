@@ -1,12 +1,18 @@
 services:
     - Symplify\TemplatePHPStanCompiler\NodeFactory\VarDocNodeFactory
+
+    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver
+    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\ParametersArrayAnalyzer
+    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\PathResolver
+
     - Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver
 
     - Symplify\TemplatePHPStanCompiler\PhpParser\ParentNodeAwarePhpParser
     - Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory
 
-    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver
-    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\ParametersArrayAnalyzer
-
     - Symplify\TemplatePHPStanCompiler\ErrorSkipper
-    - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\PathResolver
+
+    # astral
+#    - Symplify\Astral\NodeValue\NodeValueResolver
+    - Symplify\Astral\NodeFinder\SimpleNodeFinder
+    - Symplify\PackageBuilder\Php\TypeChecker

@@ -30,10 +30,19 @@ final class ContainsTypeAnalyser
         return false;
     }
 
-    private function containsExprType(Expr $expr, Scope $scope, string $type): bool
+    public function containsTypeExprTypes(\PHPStan\Type\Type $exprType, array $types): bool
     {
-        $exprType = $scope->getType($expr);
+        foreach ($types as $type) {
+            if ($this->containsTypeExprType($exprType, $type)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
+
+    public function containsTypeExprType(\PHPStan\Type\Type $exprType, string $type): bool
+    {
         if ($exprType instanceof IntersectionType) {
             $intersectionedTypes = $exprType->getTypes();
             foreach ($intersectionedTypes as $intersectionedType) {
@@ -44,6 +53,12 @@ final class ContainsTypeAnalyser
         }
 
         return $this->isExprTypeOfType($exprType, $type);
+    }
+
+    public function containsExprType(Expr $expr, Scope $scope, string $type): bool
+    {
+        $exprType = $scope->getType($expr);
+        return $this->containsTypeExprType($exprType, $type);
     }
 
     private function isUnionTypeWithClass(Type $type, string $class): bool

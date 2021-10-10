@@ -145,6 +145,11 @@ CODE_SAMPLE
             return true;
         }
 
+        $classObjectType = new ObjectType($classReflection->getName());
+        if ($this->containsTypeAnalyser->containsTypeExprTypes($classObjectType, self::ALLOWED_CLASS_TYPES)) {
+            return true;
+        }
+
         $propertyFetchType = $scope->getType($propertyFetch);
         if (! $propertyFetchType instanceof TypeWithClassName) {
             return true;
