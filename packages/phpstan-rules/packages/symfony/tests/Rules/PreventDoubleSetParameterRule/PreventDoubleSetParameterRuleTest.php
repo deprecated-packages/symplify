@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\PreventDoubleSetParameterRule;
+namespace Symplify\PHPStanRules\Symfony\Tests\Rules\PreventDoubleSetParameterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule;
+use Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<PreventDoubleSetParameterRule>

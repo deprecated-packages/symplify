@@ -31,7 +31,7 @@ final class PossiblyUnusedClassesFilter
 
             // is excluded interfaces?
             foreach (self::EXCLUDED_TYPES as $excludedType) {
-                if (is_a($fileWithClass, $excludedType, true)) {
+                if (is_a($fileWithClass->getClassName(), $excludedType, true)) {
                     continue 2;
                 }
             }
