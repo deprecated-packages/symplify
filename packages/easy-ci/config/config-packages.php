@@ -20,7 +20,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\EasyCI\\', __DIR__ . '/../packages')
-        ->exclude([__DIR__ . '/../packages/StaticDetector/ValueObject']);
+        ->exclude([
+            __DIR__ . '/../packages/StaticDetector/ValueObject',
+            __DIR__ . '/../packages/ActiveClass/ValueObject',
+        ]);
 
     $services->set(StaticCollectNodeTraverser::class)
         ->factory([service(StaticCollectNodeTraverserFactory::class), 'create']);

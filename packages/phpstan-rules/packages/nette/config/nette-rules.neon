@@ -1,4 +1,9 @@
 services:
+    # dibi
+    -
+        class: Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
+        tags: [phpstan.rules.rule]
+
     # templates
     -
         class: Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule

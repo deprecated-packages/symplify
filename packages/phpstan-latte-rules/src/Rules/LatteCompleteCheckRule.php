@@ -18,12 +18,12 @@ use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Templates\TemplateRulesRegistry;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
+use Symplify\TemplatePHPStanCompiler\Rules\TemplateRulesRegistry;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Throwable;
 
