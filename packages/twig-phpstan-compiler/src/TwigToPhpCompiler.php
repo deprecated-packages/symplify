@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\Parser;
+use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -52,9 +53,10 @@ final class TwigToPhpCompiler
      */
     private const COMMENT_START_REGEX = '#(\s+)?\{\##';
 
+    private Parser $parser;
+
     public function __construct(
         private SmartFileSystem $smartFileSystem,
-        private Parser $parser,
         private Standard $printerStandard,
         private TwigVarTypeDocBlockDecorator $twigVarTypeDocBlockDecorator,
         private SimpleNameResolver $simpleNameResolver,
@@ -63,6 +65,9 @@ final class TwigToPhpCompiler
         private PublicPropertyAnalyzer $publicPropertyAnalyzer,
         private TemplateLinesMapResolver $templateLinesMapResolver
     ) {
+        // avoids unneeded caching from phpstan parser, we need to change content of same file based on provided variable types
+        $parserFactory = new ParserFactory();
+        $this->parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
     }
 
     /**
