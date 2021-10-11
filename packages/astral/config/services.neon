@@ -10,6 +10,7 @@ services:
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\Astral\NodeFinder\SimpleNodeFinder
     - Symplify\PackageBuilder\Php\TypeChecker
+    - Symplify\SmartFileSystem\SmartFileSystem
 
     - Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser

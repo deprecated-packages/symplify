@@ -23,7 +23,6 @@ services:
 
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer
 
-    - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
 
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
