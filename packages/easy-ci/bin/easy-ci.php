@@ -17,10 +17,16 @@ $possibleAutoloadPaths = [
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     if (file_exists($possibleAutoloadPath)) {
         require_once $possibleAutoloadPath;
-
         break;
     }
 }
 
-$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(EasyCIKernel::class);
+$extraConfigs = [];
+
+$easyCIFilePath = getcwd() . '/easy-ci.php';
+if (file_exists($easyCIFilePath)) {
+    $extraConfigs[] = new \Symplify\SmartFileSystem\SmartFileInfo($easyCIFilePath);
+}
+
+$kernelBootAndApplicationRun = new KernelBootAndApplicationRun(EasyCIKernel::class, $extraConfigs);
 $kernelBootAndApplicationRun->run();

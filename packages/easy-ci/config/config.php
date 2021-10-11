@@ -11,6 +11,7 @@ use PhpParser\PrettyPrinter\Standard;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCI\Console\EasyCIConsoleApplication;
+use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;

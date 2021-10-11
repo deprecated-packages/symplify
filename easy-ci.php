@@ -35,6 +35,7 @@ use Symplify\Skipper\Contract\SkipVoterInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
+
     $parameters->set(Option::TYPES_TO_SKIP, [
         ConfigurableRuleInterface::class,
         Rule::class,
