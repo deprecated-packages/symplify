@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass;
 
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\NameResolver;
-use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
-use PhpParser\ParserFactory;
+use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\EasyCI\ActiveClass\NodeVisitor\UsedClassNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class UseImportsResolver
 {
-    private Parser $parser;
-
-    public function __construct()
-    {
-        $parserFactory = new ParserFactory();
-        $this->parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
+    public function __construct(
+        private Parser $parser,
+        private FullyQualifiedNameNodeDecorator $fullyQualifiedNameNodeDecorator,
+    ) {
     }
 
     /**
@@ -37,10 +33,7 @@ final class UseImportsResolver
                 continue;
             }
 
-            $nodeTraverser = new NodeTraverser();
-            $nodeTraverser->addVisitor(new NameResolver());
-            $nodeTraverser->addVisitor(new NodeConnectingVisitor());
-            $nodeTraverser->traverse($stmts);
+            $this->fullyQualifiedNameNodeDecorator->decorate($stmts);
 
             $nodeTraverser = new NodeTraverser();
             $usedClassNodeVisitor = new UsedClassNodeVisitor();

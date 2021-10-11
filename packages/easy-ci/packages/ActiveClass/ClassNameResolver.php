@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ActiveClass;
 
-use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
+use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\EasyCI\ActiveClass\NodeVisitor\ClassNameNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -17,7 +16,8 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ClassNameResolver
 {
     public function __construct(
-        private Parser $parser
+        private Parser $parser,
+        private FullyQualifiedNameNodeDecorator $fullyQualifiedNameNodeDecorator
     ) {
     }
 
@@ -28,7 +28,7 @@ final class ClassNameResolver
             return null;
         }
 
-        $this->resolveFullyQualifiedNames($stmts);
+        $this->fullyQualifiedNameNodeDecorator->decorate($stmts);
 
         $classNameNodeVisitor = new ClassNameNodeVisitor();
         $nodeTraverser = new NodeTraverser();
@@ -36,15 +36,5 @@ final class ClassNameResolver
         $nodeTraverser->traverse($stmts);
 
         return $classNameNodeVisitor->getClassName();
-    }
-
-    /**
-     * @param Stmt[] $stmts
-     */
-    private function resolveFullyQualifiedNames(array $stmts): void
-    {
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor(new NameResolver());
-        $nodeTraverser->traverse($stmts);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\ActiveClass\ClassNameResolver;
 
+use Iterator;
 use Symplify\EasyCI\ActiveClass\ClassNameResolver;
 use Symplify\EasyCI\HttpKernel\EasyCIKernel;
 use Symplify\EasyCI\Tests\ActiveClass\ClassNameResolver\Fixture\SomeClass;
@@ -30,7 +31,10 @@ final class ClassNameResolverTest extends AbstractKernelTestCase
         $this->assertSame($expectedClassName, $resolvedClassName);
     }
 
-    public function provideData(): \Iterator
+    /**
+     * @return Iterator<array<class-string<SomeClass>>|SmartFileInfo[]>
+     */
+    public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/SomeClass.php'), SomeClass::class];
     }
