@@ -18,6 +18,7 @@ final class NetteTypeAnalyzer
      */
     private const TEMPLATE_TYPES = [
         'Nette\Application\UI\Template',
+        'Nette\Application\UI\ITemplate',
         'Nette\Bridges\ApplicationLatte\Template',
         'Nette\Bridges\ApplicationLatte\DefaultTemplate',
     ];
