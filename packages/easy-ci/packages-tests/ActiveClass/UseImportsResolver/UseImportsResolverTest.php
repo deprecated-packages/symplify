@@ -24,6 +24,8 @@ final class UseImportsResolverTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
+     * @param SmartFileInfo[] $fileInfos
+     * @param class-string<FirstUsedClass>[]|class-string<SecondUsedClass>[] $expectedClassUsages
      */
     public function test(array $fileInfos, array $expectedClassUsages): void
     {
@@ -31,6 +33,9 @@ final class UseImportsResolverTest extends AbstractKernelTestCase
         $this->assertSame($expectedClassUsages, $resolvedClassUsages);
     }
 
+    /**
+     * @return Iterator<array<int, array<class-string<FirstUsedClass>|SmartFileInfo>>|array<int, array<class-string<FirstUsedClass>|class-string<SecondUsedClass>|SmartFileInfo>>>
+     */
     public function provideData(): Iterator
     {
         $fileInfos = [new SmartFileInfo(__DIR__ . '/Fixture/FileUsingOtherClasses.php')];

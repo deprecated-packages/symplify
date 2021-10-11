@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
+use PhpCsFixer\Fixer\FixerInterface;
 use PHPStan\Rules\Rule;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
+use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
+use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 
 final class PossiblyUnusedClassesFilter
@@ -19,13 +24,13 @@ final class PossiblyUnusedClassesFilter
         ConfigurableRuleInterface::class,
         Rule::class,
         MalformWorkerInterface::class,
-        \PhpCsFixer\Fixer\FixerInterface::class,
-        \Symfony\Component\HttpKernel\Bundle\BundleInterface::class,
-        \PHPUnit\Framework\TestCase::class,
+        FixerInterface::class,
+        BundleInterface::class,
+        TestCase::class,
         Command::class,
-        \Symplify\EasyCodingStandard\ValueObject\Set\SetList::class,
+        SetList::class,
         // part of tests
-        \Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile::class,
+        SomeFile::class,
     ];
 
     /**
