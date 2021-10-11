@@ -8,10 +8,15 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCI\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
 use Symplify\EasyCI\StaticDetector\NodeTraverser\StaticCollectNodeTraverserFactory;
+use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set(Option::TYPES_TO_SKIP, []);
+    $parameters->set(Option::EXCLUDED_CHECK_PATHS, []);
+
     $services = $containerConfigurator->services();
 
     $services->defaults()

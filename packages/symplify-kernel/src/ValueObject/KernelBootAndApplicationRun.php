@@ -95,9 +95,11 @@ final class KernelBootAndApplicationRun
      */
     private function validateKernelClass(string $kernelClass): void
     {
-        if (! is_a($kernelClass, KernelInterface::class, true)) {
-            $message = sprintf('Class "%s" must by type of "%s"', $kernelClass, KernelInterface::class);
-            throw new BootException($message);
+        if (is_a($kernelClass, KernelInterface::class, true)) {
+            return;
         }
+
+        $errorMessage = sprintf('Class "%s" must by type of "%s"', $kernelClass, KernelInterface::class);
+        throw new BootException($errorMessage);
     }
 }
