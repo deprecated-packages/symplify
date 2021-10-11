@@ -6,6 +6,7 @@ namespace Symplify\EasyCI\ActiveClass;
 
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use Symplify\EasyCI\NodeVisitor\UsedClassNodeVisitor;
@@ -38,9 +39,8 @@ final class UseImportsResolver
 
             $nodeTraverser = new NodeTraverser();
             $nodeTraverser->addVisitor(new NameResolver());
+            $nodeTraverser->addVisitor(new NodeConnectingVisitor());
             $nodeTraverser->traverse($stmts);
-
-            // @todo traverse nodes and collect node names...
 
             $nodeTraverser = new NodeTraverser();
             $usedClassNodeVisitor = new UsedClassNodeVisitor();

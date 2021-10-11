@@ -47,17 +47,14 @@ final class CheckActiveClassCommand extends Command
         $phpFileInfos = $this->smartFinder->find($sources, '*.php', ['Fixture', 'Source', 'tests', 'stubs']);
         $classUses = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
 
-        // @todo also find classes from the same namespace?
-
         $classNames = $this->classNamesFinder->resolveClassNamesToCheck($phpFileInfos);
 
         $possiblyUnusedClasses = $this->possiblyUnusedClassesFilter->filter($classNames, $classUses);
 
         if ($possiblyUnusedClasses === []) {
             $errorMessage = sprintf(
-                'All the %d services from %d files are used. Great job!',
+                'All the %d services are used. Great job!',
                 count($classNames),
-                count($phpFileInfos)
             );
             $this->symfonyStyle->success($errorMessage);
             return self::SUCCESS;

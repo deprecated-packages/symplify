@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\NodeVisitor;
 
+use PhpParser\Node;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class UsedClassNodeVisitor extends NodeVisitorAbstract
 {
@@ -20,10 +23,18 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
         return $nodes;
     }
 
-    public function enterNode(\PhpParser\Node $node)
+    public function enterNode(Node $node)
     {
         if (! $node instanceof Name) {
             return null;
+        }
+
+        $parent = $node->getAttribute(AttributeKey::PARENT);
+        if ($parent instanceof ClassLike) {
+            // skip class name itself
+            if ($parent->name === $node) {
+                return null;
+            }
         }
 
         $this->usedNames[] = $node->toString();
