@@ -7,13 +7,23 @@ namespace Symplify\EasyCI\ActiveClass\Filtering;
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
+use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
+use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
+use Symplify\Skipper\Contract\SkipVoterInterface;
 
 final class PossiblyUnusedClassesFilter
 {
@@ -31,6 +41,16 @@ final class PossiblyUnusedClassesFilter
         SetList::class,
         // part of tests
         SomeFile::class,
+        Application::class,
+        KernelInterface::class,
+        TwigTemplateAnalyzerInterface::class,
+        LatteTemplateAnalyzerInterface::class,
+        CompilerPassInterface::class,
+        ReleaseWorkerInterface::class,
+        ComposerKeyMergerInterface::class,
+        ComposerJsonDecoratorInterface::class,
+        RuleCodeSamplePrinterInterface::class,
+        SkipVoterInterface::class,
     ];
 
     /**
