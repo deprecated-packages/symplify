@@ -14,6 +14,7 @@ use Symplify\EasyCI\ActiveClass\Reporting\UnusedClassReporter;
 use Symplify\EasyCI\ActiveClass\UseImportsResolver;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 
 final class CheckActiveClassCommand extends Command
@@ -23,7 +24,8 @@ final class CheckActiveClassCommand extends Command
         private ClassNamesFinder $classNamesFinder,
         private UseImportsResolver $useImportsResolver,
         private PossiblyUnusedClassesFilter $possiblyUnusedClassesFilter,
-        private UnusedClassReporter $unusedClassReporter
+        private UnusedClassReporter $unusedClassReporter,
+        private ParameterProvider $parameterProvider
     ) {
         parent::__construct();
     }
@@ -42,12 +44,10 @@ final class CheckActiveClassCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $excludedCheckPaths = $this->parameterProvider->provideArrayParameter(Option::EXCLUDED_CHECK_PATHS);
+
         $sources = (array) $input->getArgument(Option::SOURCES);
-        $phpFileInfos = $this->smartFinder->find(
-            $sources,
-            '*.php',
-            ['Fixture', 'Source', 'tests', 'stubs', 'templates']
-        );
+        $phpFileInfos = $this->smartFinder->find($sources, '*.php', $excludedCheckPaths);
 
         $usedNames = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
 

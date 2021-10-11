@@ -25,7 +25,7 @@ $extraConfigs = [];
 
 $easyCIFilePath = getcwd() . '/easy-ci.php';
 if (file_exists($easyCIFilePath)) {
-    $extraConfigs[] = new \Symplify\SmartFileSystem\SmartFileInfo($easyCIFilePath);
+    $extraConfigs[] = $easyCIFilePath;
 }
 
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(EasyCIKernel::class, $extraConfigs);
