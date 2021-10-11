@@ -390,12 +390,6 @@ parameters:
             paths:
                  - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
 
-        # return type is uknonw, php type is good enough
-        -
-            message: '#Method Symplify\\EasyHydrator\\TypeCaster\\ArrayTypeCaster\:\:retype\(\) return type has no value type specified in iterable type array#'
-            paths:
-                - packages/easy-hydrator/src/TypeCaster/ArrayTypeCaster.php
-
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
         # some bug
