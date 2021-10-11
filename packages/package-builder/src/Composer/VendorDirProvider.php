@@ -8,6 +8,7 @@ use Composer\Autoload\ClassLoader;
 use ReflectionClass;
 
 /**
+ * @api
  * @see \Symplify\PackageBuilder\Tests\Composer\VendorDirProviderTest
  */
 final class VendorDirProvider

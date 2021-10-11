@@ -17,6 +17,9 @@ use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
+/**
+ * @api
+ */
 final class TemplateFileVarTypeDocBlocksDecorator
 {
     public function __construct(

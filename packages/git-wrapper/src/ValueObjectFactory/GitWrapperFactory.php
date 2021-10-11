@@ -8,6 +8,9 @@ use Symfony\Component\Process\ExecutableFinder;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitWrapper;
 
+/**
+ * @api
+ */
 final class GitWrapperFactory
 {
     public function __construct(

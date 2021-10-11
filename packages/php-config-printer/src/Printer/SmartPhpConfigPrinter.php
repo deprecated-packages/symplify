@@ -9,6 +9,7 @@ use Symplify\PhpConfigPrinter\Printer\ArrayDecorator\ServiceConfigurationDecorat
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 /**
+ * @api
  * @see \Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\SmartPhpConfigPrinterTest
  */
 final class SmartPhpConfigPrinter

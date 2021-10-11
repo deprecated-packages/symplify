@@ -7,6 +7,9 @@ namespace Symplify\ConsoleColorDiff\Console\Output;
 use SebastianBergmann\Diff\Differ;
 use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 
+/**
+ * @api
+ */
 final class ConsoleDiffer
 {
     public function __construct(

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\DynamicFunctionReturnTypeExtension;
+use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -18,9 +21,13 @@ use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\EasyHydrator\Contract\TypeCasterInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
+use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
+use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
@@ -28,6 +35,7 @@ use Symplify\Skipper\Contract\SkipVoterInterface;
 final class PossiblyUnusedClassesFilter
 {
     /**
+     * @todo refactor to config passed parameter
      * @var class-string[]
      */
     private const EXCLUDED_TYPES = [
@@ -51,6 +59,13 @@ final class PossiblyUnusedClassesFilter
         ComposerJsonDecoratorInterface::class,
         RuleCodeSamplePrinterInterface::class,
         SkipVoterInterface::class,
+        TypeCasterInterface::class,
+        CaseConverterInterface::class,
+        ServiceOptionsKeyYamlToPhpFactoryInterface::class,
+        DynamicMethodReturnTypeExtension::class,
+        DynamicFunctionReturnTypeExtension::class,
+        ErrorFormatter::class,
+        RoutingCaseConverterInterface::class,
     ];
 
     /**

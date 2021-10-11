@@ -9,7 +9,7 @@ use PHPStan\Analyser\Scope;
 use Symfony\Component\Finder\Finder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 
-final class PathResolver
+final class TemplateFilePathResolver
 {
     public function __construct(
         private NodeValueResolver $nodeValueResolver

@@ -8,6 +8,7 @@ use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 /**
+ * @api
  * Creates @see UnifiedDiffOutputBuilder with "$contextLines = 1000;"
  */
 final class CompleteUnifiedDiffOutputBuilderFactory

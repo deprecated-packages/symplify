@@ -6,6 +6,9 @@ namespace Symplify\TemplatePHPStanCompiler\ValueObject;
 
 use PhpParser\Node\Expr\Array_;
 
+/**
+ * @api
+ */
 final class RenderTemplateWithParameters
 {
     /**

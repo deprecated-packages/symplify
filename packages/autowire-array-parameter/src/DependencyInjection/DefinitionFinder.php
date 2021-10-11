@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\DependencyInjection;
+namespace Symplify\AutowireArrayParameter\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -10,7 +10,8 @@ use Symplify\PackageBuilder\Exception\DependencyInjection\DefinitionForTypeNotFo
 use Throwable;
 
 /**
- * @see \Symplify\PackageBuilder\Tests\DependencyInjection\DefinitionFinderTest
+ * @api
+ * @see \Symplify\AutowireArrayParameter\Tests\DependencyInjection\DefinitionFinderTest
  */
 final class DefinitionFinder
 {

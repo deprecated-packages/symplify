@@ -11,10 +11,10 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symplify\AutowireArrayParameter\DependencyInjection\DefinitionFinder;
 use Symplify\AutowireArrayParameter\DocBlock\ParamTypeDocBlockResolver;
 use Symplify\AutowireArrayParameter\Skipper\ParameterSkipper;
 use Symplify\AutowireArrayParameter\TypeResolver\ParameterTypeResolver;
-use Symplify\PackageBuilder\DependencyInjection\DefinitionFinder;
 
 /**
  * @inspiration https://github.com/nette/di/pull/178

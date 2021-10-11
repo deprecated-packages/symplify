@@ -8,6 +8,9 @@ use Nette\Neon\Encoder;
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
 
+/**
+ * @api
+ */
 final class NeonPrinter
 {
     /**

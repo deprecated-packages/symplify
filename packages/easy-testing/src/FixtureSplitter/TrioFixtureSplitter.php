@@ -10,6 +10,9 @@ use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
+/**
+ * @api
+ */
 final class TrioFixtureSplitter
 {
     public function splitFileInfo(SmartFileInfo $smartFileInfo): TrioContent

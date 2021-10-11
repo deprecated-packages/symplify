@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\Matcher;
 
-use Symplify\Skipper\FileSystem\PathNormalizer;
+use Symplify\Skipper\FileSystem\FnMatchPathNormalizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileInfoMatcher
 {
     public function __construct(
-        private PathNormalizer $pathNormalizer
+        private FnMatchPathNormalizer $fnMatchPathNormalizer
     ) {
     }
 
@@ -38,7 +38,7 @@ final class FileInfoMatcher
             return true;
         }
 
-        $ignoredPath = $this->pathNormalizer->normalizeForFnmatch($ignoredPath);
+        $ignoredPath = $this->fnMatchPathNormalizer->normalizeForFnmatch($ignoredPath);
         if ($ignoredPath === '') {
             return false;
         }

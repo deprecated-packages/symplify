@@ -16,10 +16,10 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\CheckerTolerantYamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
+use Symplify\ConfigTransformer\Exception\NotImplementedYetException;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ContainerBuilderAndFileContent;
 use Symplify\ConfigTransformer\ValueObject\Format;
-use Symplify\PackageBuilder\Exception\NotImplementedYetException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 

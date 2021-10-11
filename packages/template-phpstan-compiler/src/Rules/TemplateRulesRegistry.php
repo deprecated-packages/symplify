@@ -15,6 +15,9 @@ use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
+/**
+ * @api
+ */
 final class TemplateRulesRegistry extends Registry
 {
     /**

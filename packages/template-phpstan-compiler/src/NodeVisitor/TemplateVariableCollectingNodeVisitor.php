@@ -15,6 +15,9 @@ use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 
+/**
+ * @api
+ */
 final class TemplateVariableCollectingNodeVisitor extends NodeVisitorAbstract
 {
     /**

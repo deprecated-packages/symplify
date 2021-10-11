@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 
 /**
+ * @api
  * @see \Symplify\PackageBuilder\Tests\Parameter\ParameterProviderTest
  */
 final class ParameterProvider

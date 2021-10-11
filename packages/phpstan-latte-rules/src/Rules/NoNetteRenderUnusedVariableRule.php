@@ -13,7 +13,7 @@ use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\PathResolver;
+use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\TemplateFilePathResolver;
 
 /**
  * @see \Symplify\PHPStanLatteRules\Tests\Rules\NoNetteRenderUnusedVariableRule\NoNetteRenderUnusedVariableRuleTest
@@ -27,7 +27,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
 
     public function __construct(
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private PathResolver $pathResolver,
+        private TemplateFilePathResolver $templateFilePathResolver,
         private UnusedNetteTemplateRenderVariableResolver $unusedNetteTemplateRenderVariableResolver,
     ) {
     }
@@ -61,7 +61,7 @@ final class NoNetteRenderUnusedVariableRule extends AbstractSymplifyRule
 
         $firstArgValue = $firstArgOrVariadicPlaceholder->value;
 
-        $templateFilePaths = $this->pathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
+        $templateFilePaths = $this->templateFilePathResolver->resolveExistingFilePaths($firstArgValue, $scope, 'latte');
         if ($templateFilePaths === []) {
             return [];
         }

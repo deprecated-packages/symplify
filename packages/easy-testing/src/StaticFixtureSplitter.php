@@ -12,6 +12,9 @@ use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @api
+ */
 final class StaticFixtureSplitter
 {
     public static ?string $customTemporaryPath = null;

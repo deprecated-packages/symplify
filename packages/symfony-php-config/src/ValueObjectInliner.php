@@ -12,6 +12,9 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ReferenceConfigura
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 use Symplify\SymfonyPhpConfig\Reflection\ArgumentAndParameterFactory;
 
+/**
+ * @api
+ */
 final class ValueObjectInliner
 {
     public static function inlineArgumentObject(
