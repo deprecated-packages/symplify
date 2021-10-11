@@ -18,7 +18,7 @@ final class ComponentMapResolver
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private ComponentClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        private ComponentClassMethodTypeAnalyzer $componentClassMethodTypeAnalyzer,
         private SimpleNodeFinder $simpleNodeFinder
     ) {
     }
@@ -58,7 +58,7 @@ final class ComponentMapResolver
 
             $componentName = lcfirst($componentName);
 
-            $classMethodReturnType = $this->classMethodTypeAnalyzer->resolveReturnType($classMethod, $scope);
+            $classMethodReturnType = $this->componentClassMethodTypeAnalyzer->resolveReturnType($classMethod, $scope);
             $componentNamesAndTypes[] = new ComponentNameAndType($componentName, $classMethodReturnType);
         }
 

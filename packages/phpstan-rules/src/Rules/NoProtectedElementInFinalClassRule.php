@@ -15,7 +15,6 @@ use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\ComponentClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,7 +31,6 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
 
     public function __construct(
         private ParentMethodAnalyser $parentMethodAnalyser,
-        private ComponentClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
         private SimpleNameResolver $simpleNameResolver,
         private ReflectionProvider $reflectionProvider
     ) {

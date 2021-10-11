@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral\ValueObject\NodeFinder;
+namespace Symplify\PHPStanRules\ValueObject;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;

@@ -16,7 +16,7 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\Astral\ValueObject\NodeFinder\ScopeTypes;
+use Symplify\PHPStanRules\ValueObject\ScopeTypes;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 

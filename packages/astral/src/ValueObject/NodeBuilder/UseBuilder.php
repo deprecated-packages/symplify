@@ -8,6 +8,7 @@ use PhpParser\Builder\Use_;
 use PhpParser\Node\Stmt\Use_ as UseStmt;
 
 /**
+ * @api
  * Fixed duplicated naming in php-parser and prevents confusion
  */
 final class UseBuilder extends Use_
