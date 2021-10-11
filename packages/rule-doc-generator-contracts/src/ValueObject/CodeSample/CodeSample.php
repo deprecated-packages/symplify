@@ -6,6 +6,9 @@ namespace Symplify\RuleDocGenerator\ValueObject\CodeSample;
 
 use Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample;
 
+/**
+ * @api
+ */
 final class CodeSample extends AbstractCodeSample
 {
 }

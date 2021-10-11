@@ -14,6 +14,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\BootException;
 use Throwable;
 
+/**
+ * @api
+ */
 final class KernelBootAndApplicationRun
 {
     /**

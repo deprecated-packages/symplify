@@ -64,6 +64,9 @@ final class PossiblyUnusedClassesFilter
         DynamicFunctionReturnTypeExtension::class,
         ErrorFormatter::class,
         RoutingCaseConverterInterface::class,
+        \Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface::class,
+        \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface::class,
+        \Symplify\RuleDocGenerator\Contract\CodeSampleInterface::class,
     ];
 
     /**

@@ -36,6 +36,45 @@ jobs:
                         name: Composer Validate
                         run: composer validate
 
+                    # is the class really used somewhere in the package?
+                    -
+                        name: Check Active Classes
+                        # on purpose in single pipe-line to allow faster CI, as this is bottle neck - runs a full container for just 2 secs operation
+                        run: |
+                            packages/easy-ci/bin/easy-ci check-active-class packages/amnesia --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/astral --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/autowire-array-parameter --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/composer-json-manipulator --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/console-color-diff --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/console-package-builder --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/git-wrapper --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/latte-phpstan-compiler --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/markdown-diff --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/php-config-printer --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-latte-rules --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-twig-rules --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/psr4-switcher --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/simple-php-doc-parser --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/skipper --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/smart-file-system --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/symfony-php-config --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/symplify-kernel --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/template-phpstan-compiler --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/twig-phpstan-compiler --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/vendor-patches --ansi
+
                     -
                         name: Docs Generator
                         run: composer docs
