@@ -4,36 +4,37 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ActiveClass;
 
-use Nette\Utils\Strings;
+use PhpParser\NodeTraverser;
+use PhpParser\Parser;
+use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
+use Symplify\EasyCI\ActiveClass\NodeVisitor\ClassNameNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\EasyCI\Tests\ActiveClass\ClassNameResolver\ClassNameResolverTest
+ */
 final class ClassNameResolver
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/t0IMqu/1
-     */
-    private const NAMESPACE_REGEX = '#^namespace (?<namespace>.*?);$#m';
-
-    /**
-     * @var string
-     * @see https://regex101.com/r/NoGueg/1
-     */
-    private const CLASS_SHORT_NAME_REGEX = '#^(final ?)(class|interface|trait) (?<class_like_name>[\w_]+)#ms';
+    public function __construct(
+        private Parser $parser,
+        private FullyQualifiedNameNodeDecorator $fullyQualifiedNameNodeDecorator
+    ) {
+    }
 
     public function resolveFromFromFileInfo(SmartFileInfo $phpFileInfo): ?string
     {
-        // get class name
-        $namespaceMatch = Strings::match($phpFileInfo->getContents(), self::NAMESPACE_REGEX);
-        if (! isset($namespaceMatch['namespace'])) {
+        $stmts = $this->parser->parse($phpFileInfo->getContents());
+        if ($stmts === null) {
             return null;
         }
 
-        $classLikeMatch = Strings::match($phpFileInfo->getContents(), self::CLASS_SHORT_NAME_REGEX);
-        if (! isset($classLikeMatch['class_like_name'])) {
-            return null;
-        }
+        $this->fullyQualifiedNameNodeDecorator->decorate($stmts);
 
-        return $namespaceMatch['namespace'] . '\\' . $classLikeMatch['class_like_name'];
+        $classNameNodeVisitor = new ClassNameNodeVisitor();
+        $nodeTraverser = new NodeTraverser();
+        $nodeTraverser->addVisitor($classNameNodeVisitor);
+        $nodeTraverser->traverse($stmts);
+
+        return $classNameNodeVisitor->getClassName();
     }
 }

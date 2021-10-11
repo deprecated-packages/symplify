@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\NodeVisitor;
+namespace Symplify\EasyCI\ActiveClass\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\Astral\ValueObject\AttributeKey;
 
 final class UsedClassNodeVisitor extends NodeVisitorAbstract
 {
@@ -15,7 +19,11 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
      */
     private array $usedNames = [];
 
-    public function beforeTraverse(array $nodes)
+    /**
+     * @param Stmt[] $nodes
+     * @return Stmt[]
+     */
+    public function beforeTraverse(array $nodes): array
     {
         $this->usedNames = [];
         return $nodes;
@@ -24,6 +32,10 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
     public function enterNode(Node $node)
     {
         if (! $node instanceof Name) {
+            return null;
+        }
+
+        if ($this->isNonNameNode($node)) {
             return null;
         }
 
@@ -43,5 +55,16 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
         sort($uniqueUsedNames);
 
         return $uniqueUsedNames;
+    }
+
+    private function isNonNameNode(Name $name): bool
+    {
+        // skip nodes that are not part of class names
+        $parent = $name->getAttribute(AttributeKey::PARENT);
+        if ($parent instanceof Namespace_) {
+            return true;
+        }
+
+        return $parent instanceof ClassMethod;
     }
 }
