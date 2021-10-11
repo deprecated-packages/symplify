@@ -55,6 +55,7 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
 
                     -
                         name: Binary File Run
