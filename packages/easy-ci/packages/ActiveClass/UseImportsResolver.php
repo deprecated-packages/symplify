@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\ActiveClass;
 
-use Nette\Utils\Strings;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
+use PhpParser\Parser;
+use PhpParser\ParserFactory;
+use Symplify\EasyCI\NodeVisitor\UsedClassNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class UseImportsResolver
 {
-    /**
-     * @var string
-     * @see https://regex101.com/r/G02Uhv/1
-     */
-    private const USE_IMPORT_REGEX = '#^use (?<used_class>.*?);$#ms';
+    private Parser $parser;
+
+    public function __construct()
+    {
+        $parserFactory = new ParserFactory();
+        $this->parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
+    }
 
     /**
      * @param SmartFileInfo[] $phpFileInfos
@@ -21,19 +27,32 @@ final class UseImportsResolver
      */
     public function resolveFromFileInfos(array $phpFileInfos): array
     {
-        $useImports = [];
+        $usedNames = [];
 
         foreach ($phpFileInfos as $phpFileInfo) {
-            $matches = Strings::matchAll($phpFileInfo->getContents(), self::USE_IMPORT_REGEX);
-
-            foreach ($matches as $match) {
-                $useImports[] = $match['used_class'];
+            // @todo maybe parse and traverse?
+            $stmts = $this->parser->parse($phpFileInfo->getContents());
+            if ($stmts === null) {
+                continue;
             }
+
+            $nodeTraverser = new NodeTraverser();
+            $nodeTraverser->addVisitor(new NameResolver());
+            $nodeTraverser->traverse($stmts);
+
+            // @todo traverse nodes and collect node names...
+
+            $nodeTraverser = new NodeTraverser();
+            $usedClassNodeVisitor = new UsedClassNodeVisitor();
+            $nodeTraverser->addVisitor($usedClassNodeVisitor);
+            $nodeTraverser->traverse($stmts);
+
+            $usedNames = array_merge($usedNames, $usedClassNodeVisitor->getUsedNames());
         }
 
-        $uniqueUseImports = array_unique($useImports);
-        sort($uniqueUseImports);
+        $uniqueUsedNames = array_unique($usedNames);
+        sort($uniqueUsedNames);
 
-        return $uniqueUseImports;
+        return $uniqueUsedNames;
     }
 }
