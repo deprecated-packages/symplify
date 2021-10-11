@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
 use Symplify\EasyCodingStandard\Parallel\Enum\Action;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ParallelProcess;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ProcessPool;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
@@ -117,8 +118,7 @@ final class ParallelFileProcessor
 
         $reachedSystemErrorsCountLimit = false;
 
-        $handleErrorCallable = static function (Throwable $throwable) use (
-            $streamSelectLoop,
+        $handleErrorCallable = function (Throwable $throwable) use (
             &$systemErrors,
             &$systemErrorsCount,
             &$reachedSystemErrorsCountLimit
@@ -165,6 +165,10 @@ final class ParallelFileProcessor
                     foreach ($json[Bridge::SYSTEM_ERRORS] as $jsonError) {
                         if (is_string($jsonError)) {
                             $systemErrors[] = sprintf('System error: %s', $jsonError);
+                            continue;
+                        }
+                        if (!isset($jsonError[Name::CHECKER_CLASS])) {
+                            $systemErrors[] = $jsonError[Name::MESSAGE];
                             continue;
                         }
 
