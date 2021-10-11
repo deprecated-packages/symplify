@@ -42,8 +42,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixture/*',
         '*/Source/*',
         __DIR__ . '/packages/twig-phpstan-compiler/tests/TwigToPhpCompiler/FixtureWithTypes/*',
-        __DIR__ . '/packages/easy-hydrator/tests/Fixture/TypedProperty.php',
-        __DIR__ . '/packages/easy-hydrator/tests/TypedPropertiesTest.php',
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
