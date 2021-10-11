@@ -6,6 +6,7 @@ namespace Symplify\EasyCI\ActiveClass\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeVisitorAbstract;
@@ -18,7 +19,11 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
      */
     private array $usedNames = [];
 
-    public function beforeTraverse(array $nodes)
+    /**
+     * @param Stmt[] $nodes
+     * @return Stmt[]
+     */
+    public function beforeTraverse(array $nodes): array
     {
         $this->usedNames = [];
         return $nodes;

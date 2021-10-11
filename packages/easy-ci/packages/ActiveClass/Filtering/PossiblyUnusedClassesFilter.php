@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
 use PHPStan\Rules\Rule;
+use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 
@@ -13,7 +14,13 @@ final class PossiblyUnusedClassesFilter
     /**
      * @var class-string[]
      */
-    private const EXCLUDED_TYPES = [ConfigurableRuleInterface::class, Rule::class];
+    private const EXCLUDED_TYPES = [
+        ConfigurableRuleInterface::class,
+        Rule::class,
+        MalformWorkerInterface::class,
+        \PhpCsFixer\Fixer\FixerInterface::class,
+        \Symfony\Component\HttpKernel\Bundle\BundleInterface::class,
+    ];
 
     /**
      * @param FileWithClass[] $filesWithClasses
