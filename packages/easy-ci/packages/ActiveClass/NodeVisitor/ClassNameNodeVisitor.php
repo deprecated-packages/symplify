@@ -11,7 +11,7 @@ use PhpParser\NodeVisitorAbstract;
 
 final class ClassNameNodeVisitor extends NodeVisitorAbstract
 {
-    private string|null $className =null;
+    private string|null $className = null;
 
     public function beforeTraverse(array $nodes)
     {
@@ -29,7 +29,7 @@ final class ClassNameNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $this->className = $node->name->toString();
+        $this->className = $node->namespacedName->toString();
 
         return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
     }
