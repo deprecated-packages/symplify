@@ -30,7 +30,6 @@ final class UseImportsResolver
         $usedNames = [];
 
         foreach ($phpFileInfos as $phpFileInfo) {
-            // @todo maybe parse and traverse?
             $stmts = $this->parser->parse($phpFileInfo->getContents());
             if ($stmts === null) {
                 continue;

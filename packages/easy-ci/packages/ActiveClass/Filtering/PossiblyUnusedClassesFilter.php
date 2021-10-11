@@ -7,8 +7,15 @@ namespace Symplify\EasyCI\ActiveClass\Filtering;
 use PhpCsFixer\Fixer\FixerInterface;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
+<<<<<<< HEAD
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+=======
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+>>>>>>> 7a3db34db... misc
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
@@ -31,6 +38,11 @@ final class PossiblyUnusedClassesFilter
         SetList::class,
         // part of tests
         SomeFile::class,
+<<<<<<< HEAD
+=======
+        Application::class,
+        KernelInterface::class,
+>>>>>>> 7a3db34db... misc
     ];
 
     /**
