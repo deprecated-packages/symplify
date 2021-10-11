@@ -6,9 +6,7 @@ namespace Symplify\EasyCI\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\ValueObject\AttributeKey;
 
 final class UsedClassNodeVisitor extends NodeVisitorAbstract
 {
@@ -29,13 +27,7 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof ClassLike) {
-            // skip class name itself
-            if ($parent->name === $node) {
-                return null;
-            }
-        }
+        // class names itself are skipped automatically, as they are Identifier node
 
         $this->usedNames[] = $node->toString();
 

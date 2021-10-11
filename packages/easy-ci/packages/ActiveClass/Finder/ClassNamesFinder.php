@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass\Finder;
 
 use Symplify\EasyCI\ActiveClass\ClassNameResolver;
+use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ClassNamesFinder
@@ -16,11 +17,11 @@ final class ClassNamesFinder
 
     /**
      * @param SmartFileInfo[] $phpFileInfos
-     * @return string[]
+     * @return FileWithClass[]
      */
     public function resolveClassNamesToCheck(array $phpFileInfos): array
     {
-        $checkClassNames = [];
+        $filesWithClasses = [];
 
         foreach ($phpFileInfos as $phpFileInfo) {
             $className = $this->classNameResolver->resolveFromFromFileInfo($phpFileInfo);
@@ -28,9 +29,9 @@ final class ClassNamesFinder
                 continue;
             }
 
-            $checkClassNames[] = $className;
+            $filesWithClasses[] = new FileWithClass($phpFileInfo, $className);
         }
 
-        return $checkClassNames;
+        return $filesWithClasses;
     }
 }

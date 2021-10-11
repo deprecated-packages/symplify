@@ -50,9 +50,9 @@ final class UseImportsResolver
             $usedNames = array_merge($usedNames, $usedClassNodeVisitor->getUsedNames());
         }
 
-        $uniqueUsedNames = array_unique($usedNames);
-        sort($uniqueUsedNames);
+        $usedNames = array_unique($usedNames);
+        sort($usedNames);
 
-        return $uniqueUsedNames;
+        return $usedNames;
     }
 }

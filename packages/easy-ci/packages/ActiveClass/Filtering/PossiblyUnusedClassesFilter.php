@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
 use PHPStan\Rules\Rule;
+use Symplify\EasyCI\ActiveClass\ValueObject\FileWithClass;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 
 final class PossiblyUnusedClassesFilter
@@ -15,29 +16,29 @@ final class PossiblyUnusedClassesFilter
     private const EXCLUDED_TYPES = [ConfigurableRuleInterface::class, Rule::class];
 
     /**
-     * @param string[] $checkClassNames
-     * @param string[] $allClassUses
-     * @return string[]
+     * @param FileWithClass[] $filesWithClasses
+     * @param string[] $usedNames
+     * @return FileWithClass[]
      */
-    public function filter(array $checkClassNames, array $allClassUses): array
+    public function filter(array $filesWithClasses, array $usedNames): array
     {
-        $possiblyUnusedClasses = [];
+        $possiblyUnusedFilesWithClasses = [];
 
-        foreach ($checkClassNames as $checkClassName) {
-            if (in_array($checkClassName, $allClassUses, true)) {
+        foreach ($filesWithClasses as $fileWithClass) {
+            if (in_array($fileWithClass->getClassName(), $usedNames, true)) {
                 continue;
             }
 
             // is excluded interfaces?
             foreach (self::EXCLUDED_TYPES as $excludedType) {
-                if (is_a($checkClassName, $excludedType, true)) {
+                if (is_a($fileWithClass, $excludedType, true)) {
                     continue 2;
                 }
             }
 
-            $possiblyUnusedClasses[] = $checkClassName;
+            $possiblyUnusedFilesWithClasses[] = $fileWithClass;
         }
 
-        return $possiblyUnusedClasses;
+        return $possiblyUnusedFilesWithClasses;
     }
 }
