@@ -8,6 +8,7 @@ use Symplify\Skipper\Contract\SkipVoterInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
+ * @api
  * @see \Symplify\Skipper\Tests\Skipper\Skipper\SkipperTest
  */
 final class Skipper

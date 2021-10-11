@@ -43,7 +43,11 @@ final class CheckActiveClassCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sources = (array) $input->getArgument(Option::SOURCES);
-        $phpFileInfos = $this->smartFinder->find($sources, '*.php', ['Fixture', 'Source', 'tests', 'stubs']);
+        $phpFileInfos = $this->smartFinder->find(
+            $sources,
+            '*.php',
+            ['Fixture', 'Source', 'tests', 'stubs', 'templates']
+        );
 
         $usedNames = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
 

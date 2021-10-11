@@ -59,6 +59,10 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/vendor-patches --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/autowire-array-parameter --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/composer-json-manipulator --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/skipper --ansi
 
                     -
                         name: Binary File Run

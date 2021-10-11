@@ -8,16 +8,14 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @api
+ */
 final class ComposerJsonPrinter
 {
     public function __construct(
         private JsonFileManager $jsonFileManager
     ) {
-    }
-
-    public function printToString(ComposerJson $composerJson): string
-    {
-        return $this->jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
     }
 
     public function print(ComposerJson $composerJson, string | SmartFileInfo $targetFile): string

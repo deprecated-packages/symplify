@@ -18,7 +18,12 @@ use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
+use Symplify\Skipper\Contract\SkipVoterInterface;
 
 final class PossiblyUnusedClassesFilter
 {
@@ -41,6 +46,11 @@ final class PossiblyUnusedClassesFilter
         TwigTemplateAnalyzerInterface::class,
         LatteTemplateAnalyzerInterface::class,
         CompilerPassInterface::class,
+        ReleaseWorkerInterface::class,
+        ComposerKeyMergerInterface::class,
+        ComposerJsonDecoratorInterface::class,
+        RuleCodeSamplePrinterInterface::class,
+        SkipVoterInterface::class,
     ];
 
     /**
