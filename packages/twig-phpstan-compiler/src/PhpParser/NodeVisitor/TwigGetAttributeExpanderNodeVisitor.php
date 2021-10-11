@@ -56,7 +56,6 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
         // @todo correct improve get method, getter property
         $variableType = $this->matchVariableType($variableName);
-
         if (! $variableType instanceof Type) {
             // dummy fallback
             return new MethodCall(new Variable($variableName), new Identifier($accessorName));
@@ -94,15 +93,15 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
             return $variablesAndType->getType();
         }
 
-        return $this->matchForeachVariableType();
+        return $this->matchForeachVariableType($variableName);
     }
 
-    private function matchForeachVariableType(): ?Type
+    private function matchForeachVariableType(string $variableName): ?Type
     {
         // foreached variable
         foreach ($this->variablesAndTypes as $variablesAndType) {
-            foreach (array_keys($this->foreachedVariablesToSingles) as $foreachedVariable) {
-                if ($foreachedVariable !== $variablesAndType->getVariable()) {
+            foreach ($this->foreachedVariablesToSingles as $singleName) {
+                if ($singleName !== $variableName) {
                     continue;
                 }
 
