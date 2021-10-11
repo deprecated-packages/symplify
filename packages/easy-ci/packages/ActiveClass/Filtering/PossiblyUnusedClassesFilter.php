@@ -27,7 +27,10 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
+use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
+use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 
@@ -64,9 +67,9 @@ final class PossiblyUnusedClassesFilter
         DynamicFunctionReturnTypeExtension::class,
         ErrorFormatter::class,
         RoutingCaseConverterInterface::class,
-        \Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface::class,
-        \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface::class,
-        \Symplify\RuleDocGenerator\Contract\CodeSampleInterface::class,
+        CategoryInfererInterface::class,
+        DocumentedRuleInterface::class,
+        CodeSampleInterface::class,
     ];
 
     /**
