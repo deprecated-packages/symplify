@@ -210,10 +210,6 @@ parameters:
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
 
-        -
-            message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-            path: packages/easy-ci/src/Finder/SrcTestsDirectoriesFinder.php
-
         # skipped tests
         - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
 

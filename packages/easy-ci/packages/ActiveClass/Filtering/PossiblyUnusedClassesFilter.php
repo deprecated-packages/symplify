@@ -9,6 +9,7 @@ use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
@@ -39,6 +40,7 @@ final class PossiblyUnusedClassesFilter
         KernelInterface::class,
         TwigTemplateAnalyzerInterface::class,
         LatteTemplateAnalyzerInterface::class,
+        CompilerPassInterface::class,
     ];
 
     /**
