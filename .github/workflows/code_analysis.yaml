@@ -53,6 +53,7 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules/packages/symfony --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
+                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
 
                     -
                         name: Binary File Run
