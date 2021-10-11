@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\NodeVisitor;
+namespace Symplify\EasyCI\ActiveClass\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Name;

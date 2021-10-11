@@ -9,7 +9,7 @@ use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\NodeVisitor\NodeConnectingVisitor;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
-use Symplify\EasyCI\NodeVisitor\UsedClassNodeVisitor;
+use Symplify\EasyCI\ActiveClass\NodeVisitor\UsedClassNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class UseImportsResolver
