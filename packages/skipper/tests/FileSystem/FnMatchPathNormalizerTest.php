@@ -6,17 +6,17 @@ namespace Symplify\Skipper\Tests\FileSystem;
 
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\Skipper\FileSystem\PathNormalizer;
+use Symplify\Skipper\FileSystem\FnMatchPathNormalizer;
 use Symplify\Skipper\HttpKernel\SkipperKernel;
 
-final class PathNormalizerTest extends AbstractKernelTestCase
+final class FnMatchPathNormalizerTest extends AbstractKernelTestCase
 {
-    private PathNormalizer $pathNormalizer;
+    private FnMatchPathNormalizer $fnMatchPathNormalizer;
 
     protected function setUp(): void
     {
         $this->bootKernel(SkipperKernel::class);
-        $this->pathNormalizer = $this->getService(PathNormalizer::class);
+        $this->fnMatchPathNormalizer = $this->getService(FnMatchPathNormalizer::class);
     }
 
     /**
@@ -24,7 +24,7 @@ final class PathNormalizerTest extends AbstractKernelTestCase
      */
     public function testPaths(string $path, string $expectedNormalizedPath): void
     {
-        $normalizedPath = $this->pathNormalizer->normalizeForFnmatch($path);
+        $normalizedPath = $this->fnMatchPathNormalizer->normalizeForFnmatch($path);
         $this->assertSame($expectedNormalizedPath, $normalizedPath);
     }
 

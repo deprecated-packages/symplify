@@ -7,6 +7,9 @@ namespace Symplify\GitWrapper\ValueObjectFactory;
 use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\GitWrapper;
 
+/**
+ * @api
+ */
 final class GitWorkingCopyFactory
 {
     public function __construct(

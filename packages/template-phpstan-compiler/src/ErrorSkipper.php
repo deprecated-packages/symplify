@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use PHPStan\Analyser\Error;
 
 /**
+ * @api
  * @see \Symplify\TemplatePHPStanCompiler\Tests\ErrorSkipperTest
  */
 final class ErrorSkipper

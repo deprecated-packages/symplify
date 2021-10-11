@@ -8,6 +8,9 @@ use PhpParser\Node;
 use PhpParser\NodeTraverser;
 use Symplify\Astral\NodeVisitor\CallableNodeVisitor;
 
+/**
+ * @api
+ */
 final class SimpleCallableNodeTraverser
 {
     /**

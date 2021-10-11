@@ -8,6 +8,7 @@ use ReflectionProperty;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 /**
+ * @api
  * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesAccessorTest
  */
 final class PrivatesAccessor

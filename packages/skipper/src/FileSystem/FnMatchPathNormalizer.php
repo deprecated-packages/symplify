@@ -7,9 +7,9 @@ namespace Symplify\Skipper\FileSystem;
 use Nette\Utils\Strings;
 
 /**
- * @see \Symplify\Skipper\Tests\FileSystem\PathNormalizerTest
+ * @see \Symplify\Skipper\Tests\FileSystem\FnMatchPathNormalizerTest
  */
-final class PathNormalizer
+final class FnMatchPathNormalizer
 {
     /**
      * @var string

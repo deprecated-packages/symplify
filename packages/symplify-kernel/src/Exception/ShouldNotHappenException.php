@@ -6,6 +6,9 @@ namespace Symplify\SymplifyKernel\Exception;
 
 use Exception;
 
+/**
+ * @api
+ */
 final class ShouldNotHappenException extends Exception
 {
 }

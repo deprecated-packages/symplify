@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\PHPUnit;
 
+/**
+ * @api
+ */
 final class StaticPHPUnitEnvironment
 {
     /**

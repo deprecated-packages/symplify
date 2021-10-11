@@ -8,6 +8,9 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver;
 
+/**
+ * @api
+ */
 final class UnusedTwigTemplateVariableAnalyzer
 {
     public function __construct(

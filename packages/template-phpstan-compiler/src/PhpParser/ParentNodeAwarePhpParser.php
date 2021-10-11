@@ -9,6 +9,9 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use PhpParser\ParserFactory;
 
+/**
+ * @api
+ */
 final class ParentNodeAwarePhpParser
 {
     /**

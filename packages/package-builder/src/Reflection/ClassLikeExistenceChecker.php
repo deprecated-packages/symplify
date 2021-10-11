@@ -6,6 +6,9 @@ namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionClass;
 
+/**
+ * @api
+ */
 final class ClassLikeExistenceChecker
 {
     /**

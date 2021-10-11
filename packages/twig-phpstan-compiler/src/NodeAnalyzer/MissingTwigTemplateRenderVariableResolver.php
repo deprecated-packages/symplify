@@ -8,6 +8,9 @@ use PHPStan\Analyser\Scope;
 use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\ParametersArrayAnalyzer;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
+/**
+ * @api
+ */
 final class MissingTwigTemplateRenderVariableResolver
 {
     public function __construct(

@@ -9,6 +9,9 @@ use PHPStan\Analyser\Scope;
 use Symplify\LattePHPStanCompiler\LatteVariableNamesResolver;
 use Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver;
 
+/**
+ * @api
+ */
 final class MissingLatteTemplateRenderVariableResolver
 {
     /**

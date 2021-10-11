@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\ActiveClass\Filtering;
 
 use PhpCsFixer\Fixer\FixerInterface;
+use PHPStan\Command\ErrorFormatter\ErrorFormatter;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\DynamicFunctionReturnTypeExtension;
+use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -21,13 +24,20 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
+use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
+use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
+use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
+use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
+use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 
 final class PossiblyUnusedClassesFilter
 {
     /**
+     * @todo refactor to config passed parameter
      * @var class-string[]
      */
     private const EXCLUDED_TYPES = [
@@ -51,6 +61,15 @@ final class PossiblyUnusedClassesFilter
         ComposerJsonDecoratorInterface::class,
         RuleCodeSamplePrinterInterface::class,
         SkipVoterInterface::class,
+        CaseConverterInterface::class,
+        ServiceOptionsKeyYamlToPhpFactoryInterface::class,
+        DynamicMethodReturnTypeExtension::class,
+        DynamicFunctionReturnTypeExtension::class,
+        ErrorFormatter::class,
+        RoutingCaseConverterInterface::class,
+        CategoryInfererInterface::class,
+        DocumentedRuleInterface::class,
+        CodeSampleInterface::class,
     ];
 
     /**

@@ -7,6 +7,7 @@ namespace Symplify\Amnesia\Enum\Doctrine;
 /**
  * @see https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html
  * @enum
+ * @api
  */
 final class ColumnType
 {

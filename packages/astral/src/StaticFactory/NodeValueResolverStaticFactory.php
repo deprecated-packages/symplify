@@ -9,6 +9,9 @@ use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
+/**
+ * @api
+ */
 final class NodeValueResolverStaticFactory
 {
     public static function create(): NodeValueResolver

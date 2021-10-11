@@ -15,6 +15,7 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TwigPHPStanCompiler\NodeAnalyzer\MissingTwigTemplateRenderVariableResolver;
 
 /**
+ * @api
  * @see \Symplify\PHPStanTwigRules\Tests\Rules\NoTwigMissingVariableRule\NoTwigMissingVariableRuleTest
  */
 final class NoTwigMissingVariableRule extends AbstractSymplifyRule

@@ -12,6 +12,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
+/**
+ * @api
+ */
 final class SymfonyStyleFactory
 {
     private PrivatesCaller $privatesCaller;

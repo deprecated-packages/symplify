@@ -10,15 +10,15 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
+use Symplify\PHPStanLatteRules\NodeAnalyzer\ComponentClassMethodTypeAnalyzer;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 final class ComponentMapResolver
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
+        private ComponentClassMethodTypeAnalyzer $componentClassMethodTypeAnalyzer,
         private SimpleNodeFinder $simpleNodeFinder
     ) {
     }
@@ -58,7 +58,7 @@ final class ComponentMapResolver
 
             $componentName = lcfirst($componentName);
 
-            $classMethodReturnType = $this->classMethodTypeAnalyzer->resolveReturnType($classMethod, $scope);
+            $classMethodReturnType = $this->componentClassMethodTypeAnalyzer->resolveReturnType($classMethod, $scope);
             $componentNamesAndTypes[] = new ComponentNameAndType($componentName, $classMethodReturnType);
         }
 

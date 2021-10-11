@@ -12,6 +12,9 @@ use PHPStan\Type\Generic\GenericObjectType;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
+/**
+ * @api
+ */
 final class TemplateVariableTypesResolver
 {
     public function __construct(

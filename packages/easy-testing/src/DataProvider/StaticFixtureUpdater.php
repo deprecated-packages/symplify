@@ -7,6 +7,9 @@ namespace Symplify\EasyTesting\DataProvider;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
+/**
+ * @api
+ */
 final class StaticFixtureUpdater
 {
     public static function updateFixtureContent(

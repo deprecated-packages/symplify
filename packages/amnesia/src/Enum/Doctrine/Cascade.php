@@ -7,6 +7,7 @@ namespace Symplify\Amnesia\Enum\Doctrine;
 /**
  * @see https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/reference/working-with-associations.html#transitive-persistence-cascade-operations
  * @enum
+ * @api
  */
 final class Cascade
 {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\Amnesia\ValueObject\Symfony\Extension\Security;
 
+/**
+ * @api
+ */
 final class AccessControl
 {
     /**

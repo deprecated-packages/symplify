@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PhpConfigPrinter;
+namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
@@ -13,8 +13,10 @@ use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
 use Symplify\PhpConfigPrinter\Yaml\CheckerServiceParametersShifter;
 
 /**
+ * @api
  * @source https://raw.githubusercontent.com/archeoprog/maker-bundle/make-convert-services/src/Util/PhpServicesCreator.php
- * @see \Symplify\PhpConfigPrinter\Tests\YamlToPhpConverter\YamlToPhpConverterTest
+ *
+ * @see \Symplify\ConfigTransformer\Tests\Converter\YamlToPhpConverter\YamlToPhpConverterTest
  */
 final class YamlToPhpConverter
 {

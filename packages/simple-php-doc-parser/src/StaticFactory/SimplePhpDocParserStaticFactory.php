@@ -10,6 +10,9 @@ use PHPStan\PhpDocParser\Parser\PhpDocParser;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symplify\SimplePhpDocParser\SimplePhpDocParser;
 
+/**
+ * @api
+ */
 final class SimplePhpDocParserStaticFactory
 {
     public static function create(): SimplePhpDocParser

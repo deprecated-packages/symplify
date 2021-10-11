@@ -50,7 +50,7 @@ $smartConfigPrinter->printConfiguredServices($config);
 ### 2. Full Config
 
 ```php
-use Symplify\PhpConfigPrinter\YamlToPhpConverter;
+use Symplify\ConfigTransformer\Converter\YamlToPhpConverter;
 
 class SomeClass
 {

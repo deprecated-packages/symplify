@@ -10,10 +10,10 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\TypeAnalyzer\ClassMethodTypeAnalyzer;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -31,7 +31,6 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
 
     public function __construct(
         private ParentMethodAnalyser $parentMethodAnalyser,
-        private ClassMethodTypeAnalyzer $classMethodTypeAnalyzer,
         private SimpleNameResolver $simpleNameResolver,
         private ReflectionProvider $reflectionProvider
     ) {
@@ -141,11 +140,15 @@ CODE_SAMPLE
 
     private function isSymfonyMicroKernelRequired(ClassMethod $classMethod, Scope $scope): bool
     {
-        return $this->classMethodTypeAnalyzer->isClassMethodOfNamesAndType(
-            $classMethod,
-            $scope,
-            ['configureRoutes', 'configureContainer'],
-            MicroKernelTrait::class
-        );
+        if (! $this->simpleNameResolver->isNames($classMethod, ['configureRoutes', 'configureContainer'])) {
+            return false;
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        return $classReflection->hasTraitUse(MicroKernelTrait::class);
     }
 }
