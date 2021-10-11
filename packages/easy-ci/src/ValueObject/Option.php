@@ -20,4 +20,9 @@ final class Option
      * @var string
      */
     public const LINE_LIMIT = 'line-limit';
+
+    /**
+     * @var string
+     */
+    public const TYPES_TO_SKIP = 'types_to_skip';
 }
