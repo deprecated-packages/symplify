@@ -21,7 +21,6 @@ use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
-use Symplify\EasyHydrator\Contract\TypeCasterInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
@@ -59,7 +58,6 @@ final class PossiblyUnusedClassesFilter
         ComposerJsonDecoratorInterface::class,
         RuleCodeSamplePrinterInterface::class,
         SkipVoterInterface::class,
-        TypeCasterInterface::class,
         CaseConverterInterface::class,
         ServiceOptionsKeyYamlToPhpFactoryInterface::class,
         DynamicMethodReturnTypeExtension::class,

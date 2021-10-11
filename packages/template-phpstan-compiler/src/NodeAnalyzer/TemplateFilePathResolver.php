@@ -9,6 +9,9 @@ use PHPStan\Analyser\Scope;
 use Symfony\Component\Finder\Finder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 
+/**
+ * @api
+ */
 final class TemplateFilePathResolver
 {
     public function __construct(

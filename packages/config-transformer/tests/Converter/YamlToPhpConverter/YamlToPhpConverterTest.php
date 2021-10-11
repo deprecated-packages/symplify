@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PhpConfigPrinter\Tests\YamlToPhpConverter;
+namespace Symplify\ConfigTransformer\Tests\Converter\YamlToPhpConverter;
 
+use Symplify\ConfigTransformer\Converter\YamlToPhpConverter;
+use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
-use Symplify\PhpConfigPrinter\YamlToPhpConverter;
 
 final class YamlToPhpConverterTest extends AbstractKernelTestCase
 {
@@ -14,7 +14,7 @@ final class YamlToPhpConverterTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(PhpConfigPrinterKernel::class);
+        $this->bootKernel(ConfigTransformerKernel::class);
         $this->yamlToPhpConverter = $this->getService(YamlToPhpConverter::class);
     }
 

@@ -8,6 +8,7 @@ use Nette\Utils\Strings;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 
 /**
+ * @api
  * @copy of https://github.com/symplify/symplify/blob/d4beda1b1af847599aa035ead755e03db81c7247/packages/easy-coding-standard/src/Yaml/CheckerServiceParametersShifter.php
  *
  * Before:

@@ -9,6 +9,9 @@ use PhpParser\Node\Stmt\Return_;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
 
+/**
+ * @api
+ */
 final class RoutingConfiguratorReturnClosureFactory
 {
     /**
