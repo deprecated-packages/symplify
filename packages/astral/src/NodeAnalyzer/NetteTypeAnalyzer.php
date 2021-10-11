@@ -11,6 +11,9 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 
+/**
+ * @api
+ */
 final class NetteTypeAnalyzer
 {
     /**

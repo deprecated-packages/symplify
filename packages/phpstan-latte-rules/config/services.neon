@@ -1,6 +1,7 @@
 services:
     - Symplify\PHPStanLatteRules\LatteUsedControlResolver
     - Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher
+    - Symplify\PHPStanLatteRules\NodeAnalyzer\ComponentClassMethodTypeAnalyzer
 
     - Symplify\SmartFileSystem\SmartFileSystem
     - Symplify\SmartFileSystem\Finder\FinderSanitizer
