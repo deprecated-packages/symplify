@@ -90,7 +90,6 @@
                 "packages/easy-coding-standard/packages",
                 "packages/easy-coding-standard/src"
             ],
-            "Symplify\\EasyHydrator\\": "packages/easy-hydrator/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
@@ -156,7 +155,6 @@
                 "packages/easy-coding-standard/packages-tests",
                 "packages/easy-coding-standard/tests"
             ],
-            "Symplify\\EasyHydrator\\Tests\\": "packages/easy-hydrator/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
@@ -202,7 +200,6 @@
         "symplify/console-package-builder": "9.4.70",
         "symplify/easy-ci": "9.4.70",
         "symplify/easy-coding-standard": "9.4.70",
-        "symplify/easy-hydrator": "9.4.70",
         "symplify/easy-testing": "9.4.70",
         "symplify/git-wrapper": "9.4.70",
         "symplify/latte-phpstan-compiler": "9.4.70",

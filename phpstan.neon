@@ -100,8 +100,6 @@ parameters:
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
         # requires PHP 7.4
-        - 'packages/easy-hydrator/tests/Fixture/TypedProperty.php'
-        - 'packages/easy-hydrator/tests/TypedPropertiesTest.php'
         - '*/Source/*'
         - '*/Fixture/*'
         - */vendor/*
@@ -260,11 +258,6 @@ parameters:
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
-        -
-            message: '#\$this as argument is not allowed#'
-            paths:
-                - packages/easy-hydrator/src/ClassConstructorValuesResolver.php #44
-
         # required complexity, as get/set methods for API of composer.json
         - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'
 
@@ -389,12 +382,6 @@ parameters:
             message: '#Parameter "docContent" cannot be nullable#'
             paths:
                  - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
-
-        # return type is uknonw, php type is good enough
-        -
-            message: '#Method Symplify\\EasyHydrator\\TypeCaster\\ArrayTypeCaster\:\:retype\(\) return type has no value type specified in iterable type array#'
-            paths:
-                - packages/easy-hydrator/src/TypeCaster/ArrayTypeCaster.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
