@@ -63,8 +63,6 @@ jobs:
 
             -   run: vendor/bin/rector process packages/${{ matrix.package }} --ansi
 
-            -   run: packages/easy-coding-standard/bin/ecs check --fix --ansi
-
             # see https://github.com/EndBug/add-and-commit
             -
                 # commit only to core contributors who have repository access
