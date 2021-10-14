@@ -61,6 +61,7 @@ final class TemplateFileVarTypeDocBlocksDecorator
             $collectedVariablesAndTypes = $latteVariableCollector->getVariablesAndTypes();
             $variablesAndTypes = array_merge($variablesAndTypes, $collectedVariablesAndTypes);
         }
+
         return $variablesAndTypes;
     }
 }
