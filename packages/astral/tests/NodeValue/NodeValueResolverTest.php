@@ -32,6 +32,7 @@ final class NodeValueResolverTest extends TestCase
 
     /**
      * @dataProvider provideData()
+     * @param string|class-string<\Symplify\Astral\Tests\NodeValue\NodeValueResolverTest>|bool $expectedValue
      */
     public function test(Expr $expr, string|bool $expectedValue): void
     {
