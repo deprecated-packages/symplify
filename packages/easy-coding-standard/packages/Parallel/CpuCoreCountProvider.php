@@ -11,29 +11,16 @@ use Nette\Utils\Strings;
  */
 final class CpuCoreCountProvider
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    public const PROCESSOR_REGEX_PREFIX = '#^processor#m';
-
->>>>>>> 5fd2e94f1... static fixes
-    public function provide(): int
-    {
-        // from brianium/paratest
-        $coreCount = 2;
-        if (is_file('/proc/cpuinfo')) {
-            // Linux (and potentially Windows with linux sub systems)
-            $cpuinfo = file_get_contents('/proc/cpuinfo');
-            if ($cpuinfo !== false) {
-                $matches = Strings::matchAll($cpuinfo, self::PROCESSOR_REGEX_PREFIX);
-                if ($matches === []) {
-                    return 0;
-                }
-
-                return count($matches);
-            }
-=======
+    /**
+     * @see https://regex101.com/r/XMeAl4/1
+     * @var string
+     */
     public const PROCESSOR_REGEX = '#^processor#m';
+
+    /**
+     * @var int
+     */
+    private const DEFAULT_CORE_COUNT = 2;
 
     public function provide(): int
     {
@@ -41,10 +28,9 @@ final class CpuCoreCountProvider
         $cpuInfoCount = $this->resolveFromProcCpuinfo();
         if ($cpuInfoCount !== null) {
             return $cpuInfoCount;
->>>>>>> 22bd880ce... fixup! static fixes
         }
 
-        $coreCount = 2;
+        $coreCount = self::DEFAULT_CORE_COUNT;
 
         if (\DIRECTORY_SEPARATOR === '\\') {
             // Windows

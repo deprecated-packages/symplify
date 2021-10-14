@@ -6,15 +6,17 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedAssignR
 
 final class SkipScopedClosures
 {
+    private $someExternal;
+
     public function run($callable, $secondCallable)
     {
         $callable->on(function () {
-            $error = true;
+            $error = $this->someExternal;
             $error(100);
         });
 
         $secondCallable->on(function () {
-            $error = false;
+            $error = $this->someExternal;
             $error(100);
         });
 

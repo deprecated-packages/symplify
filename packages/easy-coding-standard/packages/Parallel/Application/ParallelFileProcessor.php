@@ -160,7 +160,7 @@ final class ParallelFileProcessor
                     // decode arrays to objects
                     foreach ($json[Bridge::SYSTEM_ERRORS] as $jsonError) {
                         if (is_string($jsonError)) {
-                            $systemErrors[] = sprintf('System error: "%s"', $jsonError);
+                            $systemErrors[] = 'System error: ' . $jsonError;
                             continue;
                         }
 
@@ -212,7 +212,7 @@ final class ParallelFileProcessor
                         return;
                     }
 
-                    $systemErrors[] = sprintf('Child process error: "%s"', $stdErr);
+                    $systemErrors[] = 'Child process error: ' . $stdErr;
                 }
             );
 

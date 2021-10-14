@@ -594,3 +594,8 @@ parameters:
         -
             message: '#Cannot call method (.*?)\(\) on Symplify\\EasyCodingStandard\\Parallel\\ValueObject\\ProcessPool\|null#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        # complex worker pool logic
+        -
+            message: '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Parallel\\Application\\ParallelFileProcessor\:\:check\(\)" is \d+, keep it under 8#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
