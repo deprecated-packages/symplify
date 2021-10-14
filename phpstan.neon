@@ -572,3 +572,10 @@ parameters:
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         - '#Parameter (.*?) expects class\-string, string given#'
+
+        # parallel
+        - '#"@\\popen(.*?)" is forbidden to use#'
+        -
+            message: '#Parameter "projectConfigFile" cannot be nullable#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+        - '#PHPDoc tag @param for parameter \$postFileCallback with type \(Closure\)\|null is not subtype of native type Closure#'

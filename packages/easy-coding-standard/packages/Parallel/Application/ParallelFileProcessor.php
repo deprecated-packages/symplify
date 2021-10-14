@@ -115,7 +115,6 @@ final class ParallelFileProcessor
         $reachedSystemErrorsCountLimit = false;
 
         $handleErrorCallable = function (Throwable $throwable) use (
-            $streamSelectLoop,
             &$systemErrors,
             &$systemErrorsCount,
             &$reachedSystemErrorsCountLimit
@@ -161,7 +160,7 @@ final class ParallelFileProcessor
                     // decode arrays to objects
                     foreach ($json[Bridge::SYSTEM_ERRORS] as $jsonError) {
                         if (is_string($jsonError)) {
-                            $systemErrors[] = sprintf('System error: %s', $jsonError);
+                            $systemErrors[] = sprintf('System error: "%s"', $jsonError);
                             continue;
                         }
 

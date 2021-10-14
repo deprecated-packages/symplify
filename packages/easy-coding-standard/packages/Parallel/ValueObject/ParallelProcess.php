@@ -54,7 +54,6 @@ final class ParallelProcess
      */
     public function start(callable $onData, callable $onError, callable $onExit): void
     {
-        // todo should I unlink this file after?
         $tmp = tmpfile();
         if ($tmp === false) {
             throw new ParallelShouldNotHappenException('Failed creating temp file.');
@@ -74,7 +73,8 @@ final class ParallelProcess
             $this->cancelTimer();
 
             rewind($this->stdErr);
-            $onExit($exitCode, stream_get_contents($this->stdErr));
+            $streamContents = stream_get_contents($this->stdErr);
+            $onExit($exitCode, $streamContents);
             fclose($this->stdErr);
         });
     }
