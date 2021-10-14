@@ -14,6 +14,9 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class DefaultTemplateVariables implements LatteVariableCollectorInterface
 {
+    /**
+     * @return VariableAndType[]
+     */
     public function getVariablesAndTypes(): array
     {
         $variablesAndTypes = [];
