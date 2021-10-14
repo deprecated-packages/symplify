@@ -6,10 +6,10 @@ namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\Contract\SerializableInterface;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class FileDiff implements Serializable
+final class FileDiff implements SerializableInterface
 {
     /**
      * @param array<class-string<Sniff|FixerInterface>|string> $appliedCheckers

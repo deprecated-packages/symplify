@@ -82,7 +82,6 @@ final class TemplatePathsResolver
             if ($currentDirectory === '/') {
                 break;
             }
-
         } while ($bundleFileInfo === null);
 
         throw new ShouldNotHappenException();

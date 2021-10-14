@@ -25,7 +25,7 @@ final class ProcessPool
     public function getProcess(string $identifier): ParallelProcess
     {
         if (! \array_key_exists($identifier, $this->processes)) {
-            throw new ParallelShouldNotHappenException(\sprintf('Process %s not found.', $identifier));
+            throw new ParallelShouldNotHappenException(\sprintf('Process "%s" not found.', $identifier));
         }
 
         return $this->processes[$identifier];

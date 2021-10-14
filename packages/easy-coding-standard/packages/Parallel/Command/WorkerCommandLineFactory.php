@@ -19,7 +19,7 @@ final class WorkerCommandLineFactory
     /**
      * @var string
      */
-    private const _ = '--';
+    private const OPTION_DASHES = '--';
 
     public function __construct(
         private CheckCommand $checkCommand
@@ -33,11 +33,15 @@ final class WorkerCommandLineFactory
         string $identifier,
         int $port
     ): string {
-        $args = array_merge([PHP_BINARY, $mainScript], array_slice($_SERVER['argv'], 1));
+        $commandArguments = array_slice($_SERVER['argv'], 1);
+        $args = array_merge([PHP_BINARY, $mainScript], $commandArguments);
+
         $processCommandArray = [];
 
         foreach ($args as $arg) {
-            if ($arg === CommandNaming::classToName(CheckCommand::class)) {
+            // skip command name
+            $checkCommandName = CommandNaming::classToName(CheckCommand::class);
+            if ($arg === $checkCommandName) {
                 break;
             }
 
@@ -46,39 +50,12 @@ final class WorkerCommandLineFactory
 
         $processCommandArray[] = CommandNaming::classToName(WorkerCommand::class);
         if ($projectConfigFile !== null) {
-            $processCommandArray[] = self::_ . Option::CONFIG;
+            $processCommandArray[] = self::OPTION_DASHES . Option::CONFIG;
             $processCommandArray[] = escapeshellarg($projectConfigFile);
         }
 
-        $checkCommandOptionNames = $this->getCheckCommandOptionNames();
-
-        foreach ($checkCommandOptionNames as $checkCommandOptionName) {
-            if (! $input->hasOption($checkCommandOptionName)) {
-                continue;
-            }
-
-            // skip output format
-            if ($checkCommandOptionName === Option::OUTPUT_FORMAT) {
-                continue;
-            }
-
-            /** @var bool|string|null $optionValue */
-            $optionValue = $input->getOption($checkCommandOptionName);
-            if (is_bool($optionValue)) {
-                if ($optionValue) {
-                    $processCommandArray[] = sprintf('--%s', $checkCommandOptionName);
-                }
-
-                continue;
-            }
-
-            if ($optionValue === null) {
-                continue;
-            }
-
-            $processCommandArray[] = self::_ . $checkCommandOptionName;
-            $processCommandArray[] = escapeshellarg($optionValue);
-        }
+        $processCommandOptions = $this->createProcessCommandOptions($input, $this->getCheckCommandOptionNames());
+        $processCommandArray = array_merge($processCommandArray, $processCommandOptions);
 
         // for TCP local server
         $processCommandArray[] = '--port';
@@ -94,7 +71,7 @@ final class WorkerCommandLineFactory
         }
 
         // set json output
-        $processCommandArray[] = self::_ . Option::OUTPUT_FORMAT;
+        $processCommandArray[] = self::OPTION_DASHES . Option::OUTPUT_FORMAT;
         $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
 
         // disable colors, breaks json_decode() otherwise
@@ -117,5 +94,53 @@ final class WorkerCommandLineFactory
         }
 
         return $optionNames;
+    }
+
+    /**
+     * Keeps all options that are allowed in check command options
+     *
+     * @param string[] $checkCommandOptionNames
+     * @return string[]
+     */
+    private function createProcessCommandOptions(InputInterface $input, array $checkCommandOptionNames): array
+    {
+        $processCommandOptions = [];
+
+        foreach ($checkCommandOptionNames as $checkCommandOptionName) {
+            if ($this->shouldSkipOption($input, $checkCommandOptionName)) {
+                continue;
+            }
+
+            /** @var bool|string|null $optionValue */
+            $optionValue = $input->getOption($checkCommandOptionName);
+
+            // skip clutter
+            if ($optionValue === null) {
+                continue;
+            }
+
+            if (is_bool($optionValue)) {
+                if ($optionValue) {
+                    $processCommandOptions[] = sprintf('--%s', $checkCommandOptionName);
+                }
+
+                continue;
+            }
+
+            $processCommandOptions[] = self::OPTION_DASHES . $checkCommandOptionName;
+            $processCommandOptions[] = escapeshellarg($optionValue);
+        }
+
+        return $processCommandOptions;
+    }
+
+    private function shouldSkipOption(InputInterface $input, string $optionName): bool
+    {
+        if (! $input->hasOption($optionName)) {
+            return true;
+        }
+
+        // skip output format, not relevant in parallel worker command
+        return $optionName === Option::OUTPUT_FORMAT;
     }
 }

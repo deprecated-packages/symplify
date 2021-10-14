@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error;
 
-use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\Contract\SerializableInterface;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class CodingStandardError implements Serializable
+final class CodingStandardError implements SerializableInterface
 {
     public function __construct(
         private int $line,
