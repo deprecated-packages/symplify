@@ -73,8 +73,11 @@ final class ParallelProcess
             $this->cancelTimer();
 
             rewind($this->stdErr);
+
+            /** @var string $streamContents */
             $streamContents = stream_get_contents($this->stdErr);
             $onExit($exitCode, $streamContents);
+
             fclose($this->stdErr);
         });
     }

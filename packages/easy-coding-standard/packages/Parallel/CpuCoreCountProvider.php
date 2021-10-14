@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Parallel;
 
+use Nette\Utils\Strings;
+
 /**
  * From https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92
  */
 final class CpuCoreCountProvider
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    public const PROCESSOR_REGEX_PREFIX = '#^processor#m';
+
+>>>>>>> 5fd2e94f1... static fixes
     public function provide(): int
     {
         // from brianium/paratest
@@ -18,8 +25,12 @@ final class CpuCoreCountProvider
             // Linux (and potentially Windows with linux sub systems)
             $cpuinfo = file_get_contents('/proc/cpuinfo');
             if ($cpuinfo !== false) {
-                preg_match_all('#^processor#m', $cpuinfo, $matches);
-                return is_countable($matches[0]) ? count($matches[0]) : 0;
+                $matches = Strings::matchAll($cpuinfo, self::PROCESSOR_REGEX_PREFIX);
+                if ($matches === []) {
+                    return 0;
+                }
+
+                return count($matches);
             }
 =======
     public const PROCESSOR_REGEX = '#^processor#m';

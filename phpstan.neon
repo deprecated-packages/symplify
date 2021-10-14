@@ -574,8 +574,23 @@ parameters:
         - '#Parameter (.*?) expects class\-string, string given#'
 
         # parallel
-        - '#"@\\popen(.*?)" is forbidden to use#'
+        - '#popen(.*?)" is forbidden to use#'
         -
             message: '#Parameter "projectConfigFile" cannot be nullable#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+            paths:
+                - packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+                - packages/easy-coding-standard/packages/Parallel/Command/WorkerCommandLineFactory.php
         - '#PHPDoc tag @param for parameter \$postFileCallback with type \(Closure\)\|null is not subtype of native type Closure#'
+        -
+            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem" class and "readFile\(\)" method call over "file_get_contents\(\)" func call#'
+            path: packages/easy-coding-standard/packages/Parallel/CpuCoreCountProvider.php
+
+        # json return
+        -
+            message: '#Use value object over return of values#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        # handy property fetch for nested closures
+        -
+            message: '#Cannot call method (.*?)\(\) on Symplify\\EasyCodingStandard\\Parallel\\ValueObject\\ProcessPool\|null#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php

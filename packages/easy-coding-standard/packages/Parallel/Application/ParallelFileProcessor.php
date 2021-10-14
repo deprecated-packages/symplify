@@ -212,7 +212,7 @@ final class ParallelFileProcessor
                         return;
                     }
 
-                    $systemErrors[] = sprintf('Child process error: %s', $stdErr);
+                    $systemErrors[] = sprintf('Child process error: "%s"', $stdErr);
                 }
             );
 

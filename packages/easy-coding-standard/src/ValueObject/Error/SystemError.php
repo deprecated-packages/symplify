@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
-use Symplify\EasyCodingStandard\Parallel\Contract\Serializable;
+use Symplify\EasyCodingStandard\Parallel\Contract\SerializableInterface;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 
-final class SystemError implements Serializable
+final class SystemError implements SerializableInterface
 {
     public function __construct(
         private int $line,
