@@ -117,7 +117,7 @@ final class ParallelFileProcessor
 
         $reachedSystemErrorsCountLimit = false;
 
-        $handleErrorCallable = static function (Throwable $throwable) use (
+        $handleErrorCallable = function (Throwable $throwable) use (
             $streamSelectLoop,
             &$systemErrors,
             &$systemErrorsCount,
