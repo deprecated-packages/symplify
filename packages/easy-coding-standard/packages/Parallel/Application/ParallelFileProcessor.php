@@ -73,9 +73,6 @@ final class ParallelFileProcessor
         $codingStandardErrors = [];
         $fileDiffs = [];
         $systemErrors = [];
-        // $systemErrorsCount = 0;
-
-        $reachedSystemErrorsCountLimit = false;
 
         $tcpServer = new TcpServer('127.0.0.1:0', $streamSelectLoop);
         $this->processPool = new ProcessPool($tcpServer);

@@ -61,7 +61,6 @@ parameters:
         - *scoper.inc.php
 
         # WIP parallel
-        - packages/easy-coding-standard/packages/Parallel
         - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
