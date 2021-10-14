@@ -20,6 +20,7 @@ final class PrivatesCallerTest extends TestCase
 
     /**
      * @dataProvider provideData()
+     * @param class-string<SomeClassWithPrivateMethods>|SomeClassWithPrivateMethods $object
      * @param mixed[]|int[] $arguments
      */
     public function test(

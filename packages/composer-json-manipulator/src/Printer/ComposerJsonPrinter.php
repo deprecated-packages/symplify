@@ -18,6 +18,11 @@ final class ComposerJsonPrinter
     ) {
     }
 
+    public function printToString(ComposerJson $composerJson): string
+    {
+        return $this->jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
+    }
+
     public function print(ComposerJson $composerJson, string | SmartFileInfo $targetFile): string
     {
         if (is_string($targetFile)) {

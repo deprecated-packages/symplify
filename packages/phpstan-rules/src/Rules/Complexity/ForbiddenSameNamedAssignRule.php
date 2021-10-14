@@ -6,11 +6,13 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -33,9 +35,9 @@ final class ForbiddenSameNamedAssignRule extends AbstractSymplifyRule
     private const ALLOWED_VARIABLE_NAMES = ['position'];
 
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
         private TestAnalyzer $testAnalyzer,
-        private AssignAnalyzer $assignAnalyzer
+        private AssignAnalyzer $assignAnalyzer,
+        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser
     ) {
     }
 
@@ -76,8 +78,7 @@ CODE_SAMPLE
             return [];
         }
 
-        /** @var Assign[] $assigns */
-        $assigns = $this->simpleNodeFinder->findByType($node, Assign::class);
+        $assigns = $this->findCurrentScopeAssigns($node);
 
         $assignsByVariableNames = $this->assignAnalyzer->resolveAssignsByVariableNames(
             $assigns,
@@ -109,5 +110,31 @@ CODE_SAMPLE
         }
 
         return $overriddenVariableNames;
+    }
+
+    /**
+     * @return Assign[]
+     */
+    private function findCurrentScopeAssigns(ClassMethod|Function_ $functionLike): array
+    {
+        $assigns = [];
+
+        $this->simpleCallableNodeTraverser->traverseNodesWithCallable($functionLike->stmts, function (
+            Node $node
+        ) use (&$assigns): int|null {
+            // avoid nested scope with different variable names
+            if ($node instanceof Closure) {
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+            }
+
+            if (! $node instanceof Assign) {
+                return null;
+            }
+
+            $assigns[] = $node;
+            return null;
+        });
+
+        return $assigns;
     }
 }

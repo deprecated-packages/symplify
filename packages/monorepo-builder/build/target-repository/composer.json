@@ -7,5 +7,10 @@
     },
     "bin": [
         "bin/monorepo-builder"
-    ]
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-main": "9.5-dev"
+        }
+    }
 }

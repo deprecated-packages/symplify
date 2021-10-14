@@ -25,6 +25,7 @@ final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTes
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipScopedClosures.php', []];
         yield [__DIR__ . '/Fixture/SkipPositionNames.php', []];
         yield [__DIR__ . '/Fixture/SkipFunctionCall.php', []];
         yield [__DIR__ . '/Fixture/SkipInitialization.php', []];
