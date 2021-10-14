@@ -8,6 +8,9 @@ namespace Symplify\Amnesia\Enum\Doctrine;
  * @see https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html
  * @enum
  * @api
+ *
+ * @deprecated Use
+ * @see https://github.com/doctrine/dbal/blob/3.1.x/src/Types/Types.php instead
  */
 final class ColumnType
 {
