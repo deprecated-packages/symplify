@@ -147,7 +147,6 @@ final class ParallelFileProcessor
                 function (array $json) use (
                     $parallelProcess,
                     &$systemErrors,
-                    &$errors,
                     &$fileDiffs,
                     &$codingStandardErrors,
                     &$jobs,
@@ -164,7 +163,7 @@ final class ParallelFileProcessor
                             continue;
                         }
 
-                        $errors[] = CodingStandardError::decode($jsonError);
+                        $systemErrors[] = SystemError::decode($jsonError);
                     }
 
                     foreach ($json[Bridge::FILE_DIFFS] as $jsonError) {

@@ -120,8 +120,8 @@ CODE_SAMPLE
         $assigns = [];
 
         $this->simpleCallableNodeTraverser->traverseNodesWithCallable($functionLike->stmts, function (
-            \PhpParser\Node $node
-        ) use (&$assigns) {
+            Node $node
+        ) use (&$assigns): int|null {
             // avoid nested scope with different variable names
             if ($node instanceof Closure) {
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
