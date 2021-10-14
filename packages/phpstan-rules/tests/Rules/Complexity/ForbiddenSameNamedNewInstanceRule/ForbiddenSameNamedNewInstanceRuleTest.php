@@ -25,6 +25,7 @@ final class ForbiddenSameNamedNewInstanceRuleTest extends AbstractServiceAwareRu
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipScopedClosures.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentNames.php', []];
         yield [__DIR__ . '/Fixture/SkipNonObjectAssigns.php', []];
 

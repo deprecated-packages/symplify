@@ -19,7 +19,7 @@ final class WorkerCommandLineFactory
     /**
      * @var string
      */
-    private const _ = '--';
+    private const OPTION_DASHES = '--';
 
     public function __construct(
         private CheckCommand $checkCommand
@@ -37,7 +37,9 @@ final class WorkerCommandLineFactory
         $processCommandArray = [];
 
         foreach ($args as $arg) {
-            if ($arg === CommandNaming::classToName(CheckCommand::class)) {
+            // skip command name
+            $checkCommandName = CommandNaming::classToName(CheckCommand::class);
+            if ($arg === $checkCommandName) {
                 break;
             }
 
@@ -46,7 +48,7 @@ final class WorkerCommandLineFactory
 
         $processCommandArray[] = CommandNaming::classToName(WorkerCommand::class);
         if ($projectConfigFile !== null) {
-            $processCommandArray[] = self::_ . Option::CONFIG;
+            $processCommandArray[] = self::OPTION_DASHES . Option::CONFIG;
             $processCommandArray[] = escapeshellarg($projectConfigFile);
         }
 
@@ -76,7 +78,7 @@ final class WorkerCommandLineFactory
                 continue;
             }
 
-            $processCommandArray[] = self::_ . $checkCommandOptionName;
+            $processCommandArray[] = self::OPTION_DASHES . $checkCommandOptionName;
             $processCommandArray[] = escapeshellarg($optionValue);
         }
 
@@ -94,7 +96,7 @@ final class WorkerCommandLineFactory
         }
 
         // set json output
-        $processCommandArray[] = self::_ . Option::OUTPUT_FORMAT;
+        $processCommandArray[] = self::OPTION_DASHES . Option::OUTPUT_FORMAT;
         $processCommandArray[] = escapeshellarg(JsonOutputFormatter::NAME);
 
         // disable colors, breaks json_decode() otherwise
