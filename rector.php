@@ -8,6 +8,7 @@ use Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
+use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Core\Configuration\Option;
 use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
@@ -110,6 +111,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         # tests
         __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
+
+        NewlineAfterStatementRector::class => [
+            // false positive on do + while
+            __DIR__ . '/packages/easy-ci/src/Template/TemplatePathsResolver.php',
+        ],
 
         // many false postivies
         RenameForeachValueVariableToMatchExprVariableRector::class,

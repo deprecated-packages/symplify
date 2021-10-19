@@ -20,6 +20,7 @@ use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
@@ -68,5 +69,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         CategoryInfererInterface::class,
         DocumentedRuleInterface::class,
         CodeSampleInterface::class,
+        LatteVariableCollectorInterface::class,
     ]);
 };

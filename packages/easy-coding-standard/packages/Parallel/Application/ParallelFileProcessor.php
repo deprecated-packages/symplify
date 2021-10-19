@@ -73,9 +73,6 @@ final class ParallelFileProcessor
         $codingStandardErrors = [];
         $fileDiffs = [];
         $systemErrors = [];
-        // $systemErrorsCount = 0;
-
-        $reachedSystemErrorsCountLimit = false;
 
         $tcpServer = new TcpServer('127.0.0.1:0', $streamSelectLoop);
         $this->processPool = new ProcessPool($tcpServer);
@@ -117,8 +114,7 @@ final class ParallelFileProcessor
 
         $reachedSystemErrorsCountLimit = false;
 
-        $handleErrorCallable = static function (Throwable $throwable) use (
-            $streamSelectLoop,
+        $handleErrorCallable = function (Throwable $throwable) use (
             &$systemErrors,
             &$systemErrorsCount,
             &$reachedSystemErrorsCountLimit
@@ -151,7 +147,6 @@ final class ParallelFileProcessor
                 function (array $json) use (
                     $parallelProcess,
                     &$systemErrors,
-                    &$errors,
                     &$fileDiffs,
                     &$codingStandardErrors,
                     &$jobs,
@@ -164,11 +159,11 @@ final class ParallelFileProcessor
                     // decode arrays to objects
                     foreach ($json[Bridge::SYSTEM_ERRORS] as $jsonError) {
                         if (is_string($jsonError)) {
-                            $systemErrors[] = sprintf('System error: %s', $jsonError);
+                            $systemErrors[] = 'System error: ' . $jsonError;
                             continue;
                         }
 
-                        $errors[] = CodingStandardError::decode($jsonError);
+                        $systemErrors[] = SystemError::decode($jsonError);
                     }
 
                     foreach ($json[Bridge::FILE_DIFFS] as $jsonError) {
@@ -216,7 +211,7 @@ final class ParallelFileProcessor
                         return;
                     }
 
-                    $systemErrors[] = sprintf('Child process error: %s', $stdErr);
+                    $systemErrors[] = 'Child process error: ' . $stdErr;
                 }
             );
 

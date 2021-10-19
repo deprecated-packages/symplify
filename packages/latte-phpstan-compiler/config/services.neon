@@ -16,6 +16,9 @@ services:
     - Symplify\LattePHPStanCompiler\Latte\LineCommentMatcher
     - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor
 
+    # variables
+    - Symplify\LattePHPStanCompiler\LatteVariableCollector\DefaultTemplateVariables
+
     # php traversing
     - Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor
     - Symplify\LattePHPStanCompiler\NodeVisitor\ParentLayoutNameNodeVisitor
