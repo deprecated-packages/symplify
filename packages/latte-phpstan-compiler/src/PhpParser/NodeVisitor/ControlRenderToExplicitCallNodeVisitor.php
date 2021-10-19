@@ -157,7 +157,10 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
     private function processInstanceof(Instanceof_ $instanceof): ?Instanceof_
     {
-        if (! $this->simpleNameResolver->isName($instanceof->class, 'Nette\Application\UI\IRenderable')) {
+        if (! $this->simpleNameResolver->isNames(
+            $instanceof->class,
+            ['Nette\Application\UI\IRenderable', 'Nette\Application\UI\Renderable']
+        )) {
             return null;
         }
 
