@@ -50,7 +50,7 @@ final class InstanceofRenderableNodeVisitor extends NodeVisitorAbstract
         }
 
         $redrawMethodCall = $this->matchRedrawControlMethodCall($node);
-        if (!$redrawMethodCall instanceof MethodCall) {
+        if (! $redrawMethodCall instanceof MethodCall) {
             return null;
         }
 

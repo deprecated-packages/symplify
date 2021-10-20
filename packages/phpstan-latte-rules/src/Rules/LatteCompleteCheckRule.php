@@ -45,10 +45,6 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
     private const USELESS_ERRORS_IGNORES = [
         // nette
         '#DummyTemplateClass#',
-        '#Method Nette\\\\Application\\\\UI\\\\Renderable::redrawControl\(\) invoked with#',
-        '#Ternary operator condition is always (.*?)#',
-        '#Access to an undefined property Latte\\\\Runtime\\\\FilterExecutor::#',
-        '#Anonymous function should have native return typehint "void"#',
     ];
 
     private TemplateRulesRegistry $templateRulesRegistry;
