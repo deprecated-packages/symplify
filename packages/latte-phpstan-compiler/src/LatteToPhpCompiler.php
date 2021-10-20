@@ -101,8 +101,14 @@ final class LatteToPhpCompiler
             $componentNamesAndTypes
         );
 
+        $instanceofRenderableNodeVisitor = new \Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor(
+            $this->simpleNameResolver
+        );
+
         $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
         $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
+        $nodeTraverser->addVisitor($instanceofRenderableNodeVisitor);
+
         $nodeTraverser->traverse($phpStmts);
     }
 

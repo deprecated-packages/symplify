@@ -8,10 +8,8 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
-use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
@@ -60,10 +58,6 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
         if ($node instanceof Variable) {
             return $this->processVariable($node);
-        }
-
-        if ($node instanceof Instanceof_) {
-            return $this->processInstanceof($node);
         }
 
         return null;
@@ -153,17 +147,5 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
         }
 
         return new Variable($this->currentComponentName);
-    }
-
-    private function processInstanceof(Instanceof_ $instanceof): ?Instanceof_
-    {
-        if (! $this->simpleNameResolver->isNames(
-            $instanceof->class,
-            ['Nette\Application\UI\IRenderable', 'Nette\Application\UI\Renderable']
-        )) {
-            return null;
-        }
-
-        return new Instanceof_($instanceof->expr, new FullyQualified('Nette\Application\UI\Control'));
     }
 }
