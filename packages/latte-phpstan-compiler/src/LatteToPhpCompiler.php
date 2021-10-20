@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler;
 
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor;
 use Latte\Parser;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
@@ -15,6 +14,7 @@ use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
@@ -102,9 +102,7 @@ final class LatteToPhpCompiler
             $componentNamesAndTypes
         );
 
-        $instanceofRenderableNodeVisitor = new InstanceofRenderableNodeVisitor(
-            $this->simpleNameResolver
-        );
+        $instanceofRenderableNodeVisitor = new InstanceofRenderableNodeVisitor($this->simpleNameResolver);
 
         $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
         $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
