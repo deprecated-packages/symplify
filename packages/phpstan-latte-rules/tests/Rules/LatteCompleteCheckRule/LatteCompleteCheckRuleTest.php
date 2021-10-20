@@ -61,6 +61,13 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/PropertyReadTemplate.php', $errorMessages];
         yield [__DIR__ . '/Fixture/RenderWithParameters.php', $errorMessages];
         yield [__DIR__ . '/Fixture/TemplateAsVariableAndRenderToStringWithParameters.php', $errorMessages];
+
+        $errorMessages = [
+            ['Variable $nonExistingVariable might not be defined.', 3],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 6],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 9],
+        ];
+        yield [__DIR__ . '/Fixture/ControlWithForm.php', $errorMessages];
     }
 
     protected function getRule(): Rule

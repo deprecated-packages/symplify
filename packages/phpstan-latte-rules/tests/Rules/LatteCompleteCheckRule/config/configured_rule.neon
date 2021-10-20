@@ -30,3 +30,10 @@ services:
         arguments:
             cliArgumentsVariablesRegistered: false
             checkMaybeUndefinedVariables: true
+
+    -
+        class: PHPStan\Rules\Classes\ImpossibleInstanceOfRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            checkAlwaysTrueInstanceof: %checkAlwaysTrueInstanceof%
+            treatPhpDocTypesAsCertain: %treatPhpDocTypesAsCertain%

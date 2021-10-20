@@ -15,9 +15,6 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         /** line in latte file: 3 */
         /* line 3 */
         $someNameControl = $this->global->uiControl->getComponent("someName");
-        if ($someNameControl instanceof \Nette\Application\UI\Renderable) {
-            $someNameControl->redrawControl(\null, \false);
-        }
         $someNameControl->render('someValue');
         return \get_defined_vars();
     }
