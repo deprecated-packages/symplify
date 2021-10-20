@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
+use Nette\Application\UI\Renderable;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
@@ -43,13 +44,13 @@ final class InstanceofRenderableNodeVisitor extends NodeVisitorAbstract
 
         if (! $this->simpleNameResolver->isNames(
             $instanceof->class,
-            ['Nette\Application\UI\IRenderable', 'Nette\Application\UI\Renderable']
+            ['Nette\Application\UI\IRenderable', Renderable::class]
         )) {
             return null;
         }
 
         $redrawMethodCall = $this->matchRedrawControlMethodCall($node);
-        if ($redrawMethodCall === null) {
+        if (!$redrawMethodCall instanceof MethodCall) {
             return null;
         }
 
@@ -58,7 +59,7 @@ final class InstanceofRenderableNodeVisitor extends NodeVisitorAbstract
 
     private function matchRedrawControlMethodCall(If_ $if): ?MethodCall
     {
-        if (count($if->stmts) === 0) {
+        if ($if->stmts === []) {
             return null;
         }
 
