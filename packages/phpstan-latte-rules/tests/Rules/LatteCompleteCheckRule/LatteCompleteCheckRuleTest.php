@@ -30,42 +30,31 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
     {
         // tests @see \PHPStan\Rules\Methods\CallMethodsRule
         $errorMessage = sprintf('Call to an undefined method %s::missingMethod().', SomeTypeWithMethods::class);
-        yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 1]]];
+        yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 16]]];
 
         // tests @see \PHPStan\Rules\Methods\CallMethodsRule
         $errorMessage = sprintf(
             'Parameter #1 $name of method %s::render() expects string, int given.',
             InvalidControlRenderArguments::class
         );
-        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 1]]];
+        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 17]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipVariableInBlockControl.php', []];
 
-        $errorMessages = [
-            ['Variable $nonExistingVariable might not be defined.', 3],
-            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 6],
-            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 9],
-            [
-                'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
-                12,
-            ],
-            [
-                'Parameter #1 $name of method ' . InvalidControlRenderArguments::class . '::render() expects string, int given.',
-                12,
-            ],
+        yield [__DIR__ . '/Fixture/GetTemplateAndReplaceExtension.php', $this->createSharedErrorMessages(20)];
+        yield [__DIR__ . '/Fixture/NoAdditionalPropertyRead.php', $this->createSharedErrorMessages(20)];
+        yield [__DIR__ . '/Fixture/PropertyReadTemplate.php', $this->createSharedErrorMessages(24)];
+        yield [__DIR__ . '/Fixture/RenderWithParameters.php', $this->createSharedErrorMessages(17)];
+        yield [
+            __DIR__ . '/Fixture/TemplateAsVariableAndRenderToStringWithParameters.php',
+            $this->createSharedErrorMessages(20),
         ];
 
-        yield [__DIR__ . '/Fixture/GetTemplateAndReplaceExtension.php', $errorMessages];
-        yield [__DIR__ . '/Fixture/NoAdditionalPropertyRead.php', $errorMessages];
-        yield [__DIR__ . '/Fixture/PropertyReadTemplate.php', $errorMessages];
-        yield [__DIR__ . '/Fixture/RenderWithParameters.php', $errorMessages];
-        yield [__DIR__ . '/Fixture/TemplateAsVariableAndRenderToStringWithParameters.php', $errorMessages];
-
         $errorMessages = [
-            ['Variable $nonExistingVariable might not be defined.', 3],
-            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 6],
-            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 9],
+            ['Variable $nonExistingVariable might not be defined.', 21],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 21],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 21],
         ];
         yield [__DIR__ . '/Fixture/ControlWithForm.php', $errorMessages];
     }
@@ -73,5 +62,25 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(LatteCompleteCheckRule::class, __DIR__ . '/config/configured_rule.neon');
+    }
+
+    /**
+     * @return array<array<string|int>>
+     */
+    private function createSharedErrorMessages(int $phpLine): array
+    {
+        return [
+            ['Variable $nonExistingVariable might not be defined.', $phpLine],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', $phpLine],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), $phpLine],
+            [
+                'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
+                $phpLine,
+            ],
+            [
+                'Parameter #1 $name of method ' . InvalidControlRenderArguments::class . '::render() expects string, int given.',
+                $phpLine,
+            ],
+        ];
     }
 }
