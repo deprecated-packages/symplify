@@ -19,7 +19,7 @@ final class PatchDiffer
      * @see https://regex101.com/r/0O5NO1/1/
      * @var string
      */
-    private const LOCAL_PATH_REGEX = '#vendor\/(\w|\-)+\/(\w|\-)+\/(?<local_path>.*?)$#is';
+    private const LOCAL_PATH_REGEX = '#vendor\/[^\/]+\/[^\/]+\/(?<local_path>.*?)$#is';
 
     /**
      * @see https://regex101.com/r/vNa7PO/1
