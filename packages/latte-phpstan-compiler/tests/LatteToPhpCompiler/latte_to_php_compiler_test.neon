@@ -1,0 +1,9 @@
+parameters:
+    latteTemplateFilters:
+        translate:
+            callback: Nette\Localization\Translator::translate
+            static: false
+        customFilter:
+            callback: Some\Custom\Filter::process
+            static: true
+        asdf: qwerty
