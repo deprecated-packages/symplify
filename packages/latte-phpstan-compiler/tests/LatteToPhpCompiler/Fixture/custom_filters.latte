@@ -1,0 +1,37 @@
+{$var|translate}
+{_$var}
+{$var|customFilter}
+{$var|asdf}
+-----
+<?php
+
+declare (strict_types=1);
+use Latte\Runtime as LR;
+/** DummyTemplateClass */
+final class DummyTemplateClass extends \Latte\Runtime\Template
+{
+    public function main() : array
+    {
+        \extract($this->params);
+        /** line in latte file: 1 */
+        /** @var \Nette\Localization\Translator $translator */
+        echo \Latte\Runtime\Filters::escapeHtmlText($translator->translate($var));
+        echo "\n";
+        /** line in latte file: 2 */
+        /** @var \Nette\Localization\Translator $translator */
+        echo \Latte\Runtime\Filters::escapeHtmlText($translator->translate($var));
+        echo "\n";
+        /** line in latte file: 3 */
+        echo \Latte\Runtime\Filters::escapeHtmlText(\Some\Custom\Filter::process($var));
+        echo "\n";
+        /** line in latte file: 4 */
+        echo \Latte\Runtime\Filters::escapeHtmlText(\qwerty($var));
+        echo "\n";
+        return \get_defined_vars();
+    }
+    public function prepare() : void
+    {
+        \extract($this->params);
+        \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
+    }
+}

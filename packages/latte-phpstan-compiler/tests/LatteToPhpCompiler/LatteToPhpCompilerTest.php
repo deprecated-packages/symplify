@@ -104,6 +104,7 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/../../../../packages/latte-phpstan-compiler/config/services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
             __DIR__ . '/../../../../packages/astral/config/services.neon',
+            __DIR__ . '/latte_to_php_compiler_test.neon',
         ];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();
