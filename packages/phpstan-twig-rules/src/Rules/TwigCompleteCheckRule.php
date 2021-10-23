@@ -69,7 +69,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private FileAnalyser $fileAnalyser,
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
-        private TemplateErrorsFactory $templateErrorsFactory
+        private TemplateErrorsFactory $templateErrorsFactory,
     ) {
         $this->registry = new Registry($rules);
     }
@@ -103,7 +103,12 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         // 3. compile twig to PHP with resolved types in @var docs
         $ruleErrors = [];
         foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $templateFilePath) {
-            $currentRuleErrors = $this->processTemplateFilePath($templateFilePath, $variablesAndTypes, $scope);
+            $currentRuleErrors = $this->processTemplateFilePath(
+                $templateFilePath,
+                $variablesAndTypes,
+                $scope,
+                $node->getLine()
+            );
             $ruleErrors = array_merge($ruleErrors, $currentRuleErrors);
         }
 
@@ -155,8 +160,12 @@ CODE_SAMPLE
      * @param VariableAndType[] $variablesAndTypes
      * @return RuleError[]
      */
-    private function processTemplateFilePath(string $templateFilePath, array $variablesAndTypes, Scope $scope): array
-    {
+    private function processTemplateFilePath(
+        string $templateFilePath,
+        array $variablesAndTypes,
+        Scope $scope,
+        int $phpLine
+    ): array {
         $phpFileContentsWithLineMap = $this->twigToPhpCompiler->compileContent($templateFilePath, $variablesAndTypes);
 
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
@@ -169,6 +178,12 @@ CODE_SAMPLE
         $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
 
         $ruleErrors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
-        return $this->templateErrorsFactory->createErrors($ruleErrors, $templateFilePath, $phpFileContentsWithLineMap);
+        return $this->templateErrorsFactory->createErrors(
+            $ruleErrors,
+            $scope->getFile(),
+            $templateFilePath,
+            $phpFileContentsWithLineMap,
+            $phpLine
+        );
     }
 }
