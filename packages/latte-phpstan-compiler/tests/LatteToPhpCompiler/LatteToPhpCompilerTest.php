@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler;
 
 use Iterator;
+use Nette\Localization\Translator;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
@@ -79,8 +80,15 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/FixtureWithTypes/expected_compiled.php',
         ];
 
-        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
+        $variablesAndTypes = [new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class))];
+        yield [
+            __DIR__ . '/FixtureWithNonStaticFilter/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureWithNonStaticFilter/expected_compiled.php',
+        ];
 
+        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
         yield [
             __DIR__ . '/FixtureWithControl/input_file.latte',
             [],

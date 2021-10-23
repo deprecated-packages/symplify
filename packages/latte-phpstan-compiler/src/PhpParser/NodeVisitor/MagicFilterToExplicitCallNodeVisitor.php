@@ -74,15 +74,12 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
         if ($callReference instanceof NonStaticCallReference) {
             $className = $callReference->getClass();
-            $variableName = lcfirst((string) Strings::after($className, '\\', -1));
-            $methodCall = new MethodCall(
+            $variableName = lcfirst(str_replace('\\', '', $className)) . 'Filter';
+            return new MethodCall(
                 new Variable($variableName),
                 new Identifier($callReference->getMethod()),
                 $node->args
             );
-            // trying to add php doc where type of filter variable is defined
-            $methodCall->setDocComment(new Doc('/** @var ' . $className . ' ' . $variableName . ' */'));
-            return $methodCall;
         }
 
         if ($callReference instanceof FunctionCallReference) {

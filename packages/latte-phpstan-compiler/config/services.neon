@@ -1,8 +1,12 @@
 parameters:
-    latteTemplateFilters: []
+    latteStaticFilters: []
+    latteNonStaticFilters: []
+    latteFunctionFilters: []
 
 parametersSchema:
-    latteTemplateFilters: array()
+    latteStaticFilters: array()
+    latteNonStaticFilters: array()
+    latteFunctionFilters: array()
 
 services:
     # latte
@@ -24,9 +28,18 @@ services:
 
     # variables
     - Symplify\LattePHPStanCompiler\LatteVariableCollector\DefaultTemplateVariables
+    -
+        class: Symplify\LattePHPStanCompiler\LatteVariableCollector\NonStaticFilterVariables
+        arguments:
+            nonStaticFilters: %latteNonStaticFilters%
 
     # filters
-    - Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher(%latteTemplateFilters%)
+    -
+        class: Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher
+        arguments:
+            staticFilters: %latteStaticFilters%
+            nonStaticFilters: %latteNonStaticFilters%
+            functionFilters: %latteFunctionFilters%
 
     # php traversing
     - Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor
