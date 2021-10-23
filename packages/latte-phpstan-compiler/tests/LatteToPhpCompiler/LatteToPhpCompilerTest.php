@@ -80,7 +80,9 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/FixtureWithTypes/expected_compiled.php',
         ];
 
-        $variablesAndTypes = [new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class))];
+        $variablesAndTypes = [
+            new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class)),
+        ];
         yield [
             __DIR__ . '/FixtureWithNonStaticFilter/input_file.latte',
             $variablesAndTypes,

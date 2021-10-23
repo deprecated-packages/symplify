@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\LatteVariableCollector;
 
+use Nette\Utils\Strings;
 use PHPStan\Type\ObjectType;
 use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 
 final class NonStaticFilterVariables implements LatteVariableCollectorInterface
 {
+    /**
+     * @param array<string, string> $nonStaticFilters
+     */
     public function __construct(
         private array $nonStaticFilters
     ) {
@@ -23,7 +27,7 @@ final class NonStaticFilterVariables implements LatteVariableCollectorInterface
         $variablesAndTypes = [];
         foreach ($this->nonStaticFilters as $nonStaticFilter) {
             [$className,] = explode('::', $nonStaticFilter, 2);
-            $variableName = lcfirst(str_replace('\\', '', $className)) . 'Filter';
+            $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
             $variablesAndTypes[] = new VariableAndType($variableName, new ObjectType($className));
         }
         return $variablesAndTypes;

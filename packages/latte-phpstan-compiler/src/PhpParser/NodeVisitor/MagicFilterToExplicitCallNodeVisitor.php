@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
 use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
@@ -74,7 +73,7 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
         if ($callReference instanceof NonStaticCallReference) {
             $className = $callReference->getClass();
-            $variableName = lcfirst(str_replace('\\', '', $className)) . 'Filter';
+            $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
             return new MethodCall(
                 new Variable($variableName),
                 new Identifier($callReference->getMethod()),
