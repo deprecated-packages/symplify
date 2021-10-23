@@ -14,7 +14,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'non_existing_variable' => 'value'
+            'non_existing_variable' => 'value',
         ]);
     }
 }
@@ -32,7 +32,7 @@ final class SomeController extends AbstractController
     public function __invoke()
     {
         return $this->render(__DIR__ . '/some_file.twig', [
-            'existing_variable' => 'value'
+            'existing_variable' => 'value',
         ]);
     }
 }
@@ -51,7 +51,7 @@ Passed "%s" variable is not used in the template
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value'
+    'used_variable' => 'value',
 ]);
 ```
 
@@ -62,7 +62,7 @@ $environment->render(__DIR__ . '/some_file.twig', [
 ```php
 $environment = new Twig\Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value'
+    'unused_variable' => 'value',
 ]);
 ```
 

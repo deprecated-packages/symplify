@@ -1,4 +1,4 @@
-# 156 Rules Overview
+# 157 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3228,6 +3228,44 @@ final class SomeRepository
 
 <br>
 
+## NoGetterAndPropertyRule
+
+There are 2 way to get "%s" value: public property and getter now - pick one to avoid variant behavior.
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule`](../src/Rules/Explicit/NoGetterAndPropertyRule.php)
+
+```php
+final class SomeProduct
+{
+    public $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeProduct
+{
+    private $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoInjectOnFinalRule
 
 Use constructor on final classes, instead of property injection
@@ -4637,7 +4675,7 @@ abstract class AbstractSomeClass
 
 Set param value is overriden. Merge it to previous set above
 
-- class: [`Symplify\PHPStanRules\Rules\PreventDoubleSetParameterRule`](../src/Rules/PreventDoubleSetParameterRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/symfony/src/Rules/PreventDoubleSetParameterRule.php)
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

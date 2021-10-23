@@ -125,7 +125,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'never_used_in_template' => 'value'
+            'never_used_in_template' => 'value',
         ]);
     }
 }
