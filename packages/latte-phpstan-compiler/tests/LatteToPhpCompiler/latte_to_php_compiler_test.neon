@@ -1,9 +1,7 @@
 parameters:
-    latteTemplateFilters:
-        translate:
-            callback: Nette\Localization\Translator::translate
-            static: false
-        customFilter:
-            callback: Some\Custom\Filter::process
-            static: true
+    latteStaticFilters:
+        customFilter: Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\StaticFilter::process
+    latteNonStaticFilters:
+        translate: Nette\Localization\Translator::translate
+    latteFunctionFilters:
         asdf: qwerty

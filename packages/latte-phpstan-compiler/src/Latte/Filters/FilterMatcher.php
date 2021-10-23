@@ -14,15 +14,15 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
  */
 final class FilterMatcher
 {
-    private array $filters;
-
+    private array $staticFilters;
+    private array $nonStaticFilters;
+    private array $functionFilters;
     private Defaults $filtersDefaults;
 
-    /**
-     * @param array<string, string|array{callback: string, static: bool}> $filters
-     */
-    public function __construct(array $filters) {
-        $this->filters = array_change_key_case($filters, CASE_LOWER);
+    public function __construct(array $staticFilters, array $nonStaticFilters, array $functionFilters) {
+        $this->staticFilters = array_change_key_case($staticFilters, CASE_LOWER);
+        $this->nonStaticFilters = array_change_key_case($nonStaticFilters, CASE_LOWER);
+        $this->functionFilters = array_change_key_case($functionFilters, CASE_LOWER);
         $this->filtersDefaults = new Defaults();
     }
 
@@ -65,20 +65,19 @@ final class FilterMatcher
         string $filterName
     ): StaticCallReference|NonStaticCallReference|FunctionCallReference|null
     {
-        if (! isset($this->filters[$filterName])) {
-            return null;
-        }
-
-        $filter = $this->filters[$filterName];
-        if (is_string($filter)) {
-            return new FunctionCallReference($filter);
-        }
-
-        [$className, $methodName] = explode('::', $filter['callback'], 2);
-
-        if ($filter['static']) {
+        if (isset($this->staticFilters[$filterName])) {
+            [$className, $methodName] = explode('::', $this->staticFilters[$filterName], 2);
             return new StaticCallReference($className, $methodName);
         }
-        return new NonStaticCallReference($className, $methodName);
+
+        if (isset($this->nonStaticFilters[$filterName])) {
+            [$className, $methodName] = explode('::', $this->nonStaticFilters[$filterName], 2);
+            return new NonStaticCallReference($className, $methodName);
+        }
+
+        if (isset($this->functionFilters[$filterName])) {
+            return new FunctionCallReference($this->functionFilters[$filterName]);
+        }
+        return null;
     }
 }
