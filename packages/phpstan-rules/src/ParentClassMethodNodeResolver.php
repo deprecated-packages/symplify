@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules;
 
-use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Parser\Parser;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
-use Symplify\PHPStanRules\Reflection\Parser\ReflectionParser;
-use Throwable;
+use Symplify\Astral\ReflectionParser;
 
 final class ParentClassMethodNodeResolver
 {
     public function __construct(
-        private Parser $parser,
         private NodeFinder $nodeFinder,
-        private ReflectionParser $reflectionParser
+        private ReflectionParser $reflectionParser,
     ) {
     }
 
@@ -35,7 +31,7 @@ final class ParentClassMethodNodeResolver
             }
 
             $parentMethodReflection = new ReflectionMethod($parentClassReflection->getName(), $methodName);
-            return $this->reflectionParser->parseMethodReflectionToClassMethod($parentMethodReflection);
+            return $this->reflectionParser->parseMethodReflection($parentMethodReflection);
         }
 
         return null;
@@ -50,7 +46,7 @@ final class ParentClassMethodNodeResolver
         $parentClassReflections = $this->getParentClassIncludeInterfaceReflections($scope);
 
         foreach ($parentClassReflections as $parentClassReflection) {
-            $parentClassNodes = $this->resolveClassNodes($parentClassReflection);
+            $parentClassNodes = $this->reflectionParser->parseClassReflection($parentClassReflection);
             if ($parentClassNodes === []) {
                 continue;
             }
@@ -98,23 +94,5 @@ final class ParentClassMethodNodeResolver
         }
 
         return array_merge($classReflection->getParents(), $classReflection->getInterfaces());
-    }
-
-    /**
-     * @return Node[]
-     */
-    private function resolveClassNodes(ClassReflection $parentClassReflection): array
-    {
-        try {
-            $parentClassFileName = $parentClassReflection->getFileName();
-            if ($parentClassFileName === false) {
-                return [];
-            }
-
-            return $this->parser->parseFile($parentClassFileName);
-        } catch (Throwable) {
-            // not reachable
-            return [];
-        }
     }
 }

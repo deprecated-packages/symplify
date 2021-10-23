@@ -3,6 +3,9 @@ services:
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - PhpParser\NodeFinder
 
+    - Symplify\Astral\ReflectionParser
+    - PhpParser\ParserFactory
+
     -
         class: Symplify\Astral\Naming\SimpleNameResolver
         factory: ['Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory', 'create']

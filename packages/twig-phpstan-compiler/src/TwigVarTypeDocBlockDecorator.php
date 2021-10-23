@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\TwigPHPStanCompiler;
 
 use PhpParser\NodeTraverser;
-use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
@@ -16,7 +15,6 @@ use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNo
 final class TwigVarTypeDocBlockDecorator
 {
     public function __construct(
-        private Parser $phpParser,
         private Standard $printerStandard,
         private SimpleNameResolver $simpleNameResolver,
         private VarDocNodeFactory $varDocNodeFactory,

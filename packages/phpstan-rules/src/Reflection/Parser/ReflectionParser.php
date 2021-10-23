@@ -8,20 +8,23 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use PHPStan\Parser\Parser;
+use PhpParser\ParserFactory;
 use ReflectionMethod;
 use ReflectionProperty;
 use Throwable;
 
 final class ReflectionParser
 {
+    private \PhpParser\Parser $parser;
+
     public function __construct(
-        private Parser $parser,
-        private NodeFinder $nodeFinder
+        private NodeFinder $nodeFinder,
     ) {
+        $parserFactory = new ParserFactory();
+        $this->parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
     }
 
-    public function parseMethodReflectionToClassMethod(ReflectionMethod $reflectionMethod): ?ClassMethod
+    public function parseMethodReflection(ReflectionMethod $reflectionMethod): ?ClassMethod
     {
         $class = $this->parseReflectionToClass($reflectionMethod);
         if (! $class instanceof Class_) {
@@ -31,7 +34,7 @@ final class ReflectionParser
         return $class->getMethod($reflectionMethod->getName());
     }
 
-    public function parsePropertyReflectionToProperty(ReflectionProperty $reflectionProperty): ?Property
+    public function parsePropertyReflection(ReflectionProperty $reflectionProperty): ?Property
     {
         $class = $this->parseReflectionToClass($reflectionProperty);
         if (! $class instanceof Class_) {
@@ -51,7 +54,7 @@ final class ReflectionParser
         }
 
         try {
-            $nodes = $this->parser->parseFile($fileName);
+            $nodes = $this->parser->parse($fileName);
         } catch (Throwable) {
             // not reachable
             return null;
