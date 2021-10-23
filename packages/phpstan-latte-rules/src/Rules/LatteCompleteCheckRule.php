@@ -99,7 +99,8 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
                 $resolvedTemplateFilePath,
                 $renderTemplateWithParameters->getParametersArray(),
                 $scope,
-                $componentNamesAndTypes
+                $componentNamesAndTypes,
+                $node->getLine()
             );
 
             $errors = array_merge($errors, $currentErrors);
@@ -158,7 +159,8 @@ CODE_SAMPLE
         string $templateFilePath,
         Array_ $array,
         Scope $scope,
-        array $componentNamesAndTypes
+        array $componentNamesAndTypes,
+        int $phpLine
     ): array {
         try {
             $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
@@ -185,6 +187,12 @@ CODE_SAMPLE
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);
 
-        return $this->templateErrorsFactory->createErrors($errors, $templateFilePath, $phpFileContentsWithLineMap);
+        return $this->templateErrorsFactory->createErrors(
+            $errors,
+            $scope->getFile(),
+            $templateFilePath,
+            $phpFileContentsWithLineMap,
+            $phpLine
+        );
     }
 }

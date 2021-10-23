@@ -6,6 +6,7 @@ namespace Symplify\TemplatePHPStanCompiler\Reporting;
 
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 
 /**
@@ -18,21 +19,30 @@ final class TemplateErrorsFactory
      */
     public function createErrors(
         array $errors,
+        string $filePath,
         string $resolvedTemplateFilePath,
-        PhpFileContentsWithLineMap $phpFileContentsWithLineMap
+        PhpFileContentsWithLineMap $phpFileContentsWithLineMap,
+        int $phpFileLine
     ): array {
         $ruleErrors = [];
 
         $phpToTemplateLines = $phpFileContentsWithLineMap->getPhpToTemplateLines();
 
+        $templateFileInfo = new SmartFileInfo($resolvedTemplateFilePath);
+        $relativeFilePathFromCwd = $templateFileInfo->getRelativeFilePathFromCwd();
+
         foreach ($errors as $error) {
             // correct error PHP line number to Latte line number
             $errorLine = (int) $error->getLine();
-            $errorLine = $this->resolveNearestPhpLine($phpToTemplateLines, $errorLine);
+            $templateLine = $this->resolveNearestPhpLine($phpToTemplateLines, $errorLine);
 
             $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
-                ->file($resolvedTemplateFilePath)
-                ->line($errorLine)
+                ->file($filePath)
+                ->line($phpFileLine)
+                ->metadata([
+                    'template_file_path' => $relativeFilePathFromCwd,
+                    'template_line' => $templateLine,
+                ])
                 ->build();
         }
 
