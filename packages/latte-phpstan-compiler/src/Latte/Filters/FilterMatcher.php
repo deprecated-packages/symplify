@@ -14,12 +14,24 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
  */
 final class FilterMatcher
 {
+    /** @var array<string, string> */
     private array $staticFilters;
+
+    /** @var array<string, string> */
     private array $nonStaticFilters;
+
+    /** @var array<string, string> */
     private array $functionFilters;
+
     private Defaults $filtersDefaults;
 
-    public function __construct(array $staticFilters, array $nonStaticFilters, array $functionFilters) {
+    /**
+     * @param array<string, string> $staticFilters
+     * @param array<string, string> $nonStaticFilters
+     * @param array<string, string> $functionFilters
+     */
+    public function __construct(array $staticFilters, array $nonStaticFilters, array $functionFilters)
+    {
         $this->staticFilters = array_change_key_case($staticFilters, CASE_LOWER);
         $this->nonStaticFilters = array_change_key_case($nonStaticFilters, CASE_LOWER);
         $this->functionFilters = array_change_key_case($functionFilters, CASE_LOWER);
@@ -63,8 +75,7 @@ final class FilterMatcher
 
     private function findInConfiguredFilters(
         string $filterName
-    ): StaticCallReference|NonStaticCallReference|FunctionCallReference|null
-    {
+    ): StaticCallReference|NonStaticCallReference|FunctionCallReference|null {
         if (isset($this->staticFilters[$filterName])) {
             [$className, $methodName] = explode('::', $this->staticFilters[$filterName], 2);
             return new StaticCallReference($className, $methodName);

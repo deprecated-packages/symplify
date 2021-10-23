@@ -21,7 +21,9 @@ final class FilterMatcherTest extends TestCase
     {
         $this->filterMatcher = new FilterMatcher(
             [],
-            ['translate' => 'Nette\Localization\Translator::translate'],
+            [
+                'translate' => 'Nette\Localization\Translator::translate',
+            ],
             []
         );
     }
