@@ -22,9 +22,9 @@ final class SmartPhpParserFactory
     public function create(): SmartPhpParser
     {
         $nativePhpParser = $this->createNativePhpParser();
-        $phpstanParser = $this->createPHPStanParser($nativePhpParser);
+        $cachedParser = $this->createPHPStanParser($nativePhpParser);
 
-        return new SmartPhpParser($phpstanParser);
+        return new SmartPhpParser($cachedParser);
     }
 
     private function createNativePhpParser(): Parser
