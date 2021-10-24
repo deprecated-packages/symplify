@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\Astral;
 
+use ReflectionClass;
+use ReflectionProperty;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -30,7 +32,7 @@ final class ReflectionParser
     /**
      * @return Stmt[]
      */
-    public function parseClassReflection(ClassReflection|\ReflectionClass $classReflection): array
+    public function parseClassReflection(ClassReflection|ReflectionClass $classReflection): array
     {
         $fileName = $classReflection->getFileName();
         if ($fileName === false) {
@@ -57,7 +59,7 @@ final class ReflectionParser
         return $class->getMethod($reflectionMethod->getName());
     }
 
-    public function parsePropertyReflection(\ReflectionProperty $reflectionProperty): ?Property
+    public function parsePropertyReflection(ReflectionProperty $reflectionProperty): ?Property
     {
         $class = $this->parseReflectionToClass($reflectionProperty);
         if (! $class instanceof Class_) {
@@ -67,7 +69,7 @@ final class ReflectionParser
         return $class->getProperty($reflectionProperty->getName());
     }
 
-    private function parseReflectionToClass(ReflectionMethod | \ReflectionProperty $reflector): ?Class_
+    private function parseReflectionToClass(ReflectionMethod | ReflectionProperty $reflector): ?Class_
     {
         $reflectionClass = $reflector->getDeclaringClass();
 
