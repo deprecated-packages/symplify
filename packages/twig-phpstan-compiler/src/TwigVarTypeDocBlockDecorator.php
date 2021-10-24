@@ -14,6 +14,7 @@ use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNo
 
 final class TwigVarTypeDocBlockDecorator
 {
+    public $phpParser;
     public function __construct(
         private Standard $printerStandard,
         private SimpleNameResolver $simpleNameResolver,
