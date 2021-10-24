@@ -10,16 +10,16 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\Parser\Parser;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
+use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\Astral\Reflection\ReflectionParser;
 use Throwable;
 
 final class ParentClassMethodNodeResolver
 {
     public function __construct(
-        private Parser $parser,
+        private SmartPhpParser $smartPhpParser,
         private NodeFinder $nodeFinder,
         private ReflectionParser $reflectionParser
     ) {
@@ -111,7 +111,7 @@ final class ParentClassMethodNodeResolver
                 return [];
             }
 
-            return $this->parser->parseFile($parentClassFileName);
+            return $this->smartPhpParser->parseFile($parentClassFileName);
         } catch (Throwable) {
             // not reachable
             return [];
