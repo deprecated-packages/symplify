@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Parser\Parser;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
-use Symplify\PHPStanRules\Reflection\Parser\ReflectionParser;
+use Symplify\Astral\Reflection\ReflectionParser;
 use Throwable;
 
 final class ParentClassMethodNodeResolver

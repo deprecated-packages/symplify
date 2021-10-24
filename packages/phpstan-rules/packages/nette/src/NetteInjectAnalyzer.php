@@ -15,9 +15,9 @@ use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
 use ReflectionClass;
 use ReflectionMethod;
+use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector;
 use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\Reflection\Parser\ReflectionParser;
 use Symplify\PHPStanRules\Reflection\PropertyAnalyzer;
 
 final class NetteInjectAnalyzer

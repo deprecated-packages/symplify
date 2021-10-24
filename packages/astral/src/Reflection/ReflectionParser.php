@@ -2,21 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Reflection\Parser;
+namespace Symplify\Astral\Reflection;
 
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use PHPStan\Parser\Parser;
 use ReflectionMethod;
 use ReflectionProperty;
+use Symplify\Astral\PhpParser\SmartPhpParser;
 use Throwable;
 
+/**
+ * @api
+ */
 final class ReflectionParser
 {
     public function __construct(
-        private Parser $parser,
+        private SmartPhpParser $smartPhpParser,
         private NodeFinder $nodeFinder
     ) {
     }
@@ -51,13 +54,13 @@ final class ReflectionParser
         }
 
         try {
-            $nodes = $this->parser->parseFile($fileName);
+            $stmts = $this->smartPhpParser->parseFile($fileName);
         } catch (Throwable) {
             // not reachable
             return null;
         }
 
-        $class = $this->nodeFinder->findFirstInstanceOf($nodes, Class_::class);
+        $class = $this->nodeFinder->findFirstInstanceOf($stmts, Class_::class);
         if (! $class instanceof Class_) {
             return null;
         }
