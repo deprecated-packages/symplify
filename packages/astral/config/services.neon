@@ -4,7 +4,11 @@ services:
     - PhpParser\NodeFinder
 
     - Symplify\Astral\Reflection\ReflectionParser
-    - PhpParser\ParserFactory
+
+    - Symplify\Astral\PhpParser\SmartPhpParserFactory
+    -
+        type: Symplify\Astral\PhpParser\SmartPhpParser
+        factory: ['@Symplify\Astral\PhpParser\SmartPhpParserFactory', 'create']
 
     -
         class: Symplify\Astral\Naming\SimpleNameResolver
