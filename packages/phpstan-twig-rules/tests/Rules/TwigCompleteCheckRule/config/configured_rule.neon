@@ -9,10 +9,12 @@ services:
     -
         class: Symplify\PHPStanTwigRules\Rules\TwigCompleteCheckRule
         tags: [phpstan.rules.rule]
+        arguments:
+            parser: @currentPhpVersionRichParser
 
     -
         class: PHPStan\Rules\Methods\CallMethodsRule
         tags: [phpstan.rules.rule]
         arguments:
-            checkFunctionNameCase: %checkFunctionNameCase%
-            reportMagicMethods: %reportMagicMethods%
+            checkFunctionNameCase: true
+            reportMagicMethods: true

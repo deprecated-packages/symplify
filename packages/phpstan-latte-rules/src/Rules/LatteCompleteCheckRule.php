@@ -184,7 +184,7 @@ CODE_SAMPLE
         // to include generated class
         $fileAnalyserResult = $this->fileAnalyser->analyseFile(
             $tmpFilePath,
-            [$tmpFilePath],
+            [],
             $this->templateRulesRegistry,
             null
         );
