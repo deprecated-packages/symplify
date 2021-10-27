@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Symplify\TwigPHPStanCompiler;
 
 use PhpParser\NodeTraverser;
-use PhpParser\Parser;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\TemplatePHPStanCompiler\NodeFactory\VarDocNodeFactory;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNodeVisitor;
@@ -16,7 +15,7 @@ use Symplify\TwigPHPStanCompiler\PhpParser\NodeVisitor\AppendExtractedVarTypesNo
 final class TwigVarTypeDocBlockDecorator
 {
     public function __construct(
-        private Parser $phpParser,
+        private SmartPhpParser $smartPhpParser,
         private Standard $printerStandard,
         private SimpleNameResolver $simpleNameResolver,
         private VarDocNodeFactory $varDocNodeFactory,
@@ -29,10 +28,7 @@ final class TwigVarTypeDocBlockDecorator
     public function decorateTwigContentWithTypes(string $phpContent, array $variablesAndTypes): string
     {
         // convert to "@var types $variable"
-        $phpNodes = $this->phpParser->parse($phpContent);
-        if ($phpNodes === null) {
-            throw new ShouldNotHappenException();
-        }
+        $phpNodes = $this->smartPhpParser->parseString($phpContent);
 
         $nodeTraverser = new NodeTraverser();
         $appendExtractedVarTypesNodeVisitor = new AppendExtractedVarTypesNodeVisitor(

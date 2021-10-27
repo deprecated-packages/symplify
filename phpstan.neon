@@ -12,6 +12,10 @@ includes:
     - packages/twig-phpstan-compiler/config/services.neon
     - packages/template-phpstan-compiler/config/services.neon
 
+    # latte testing
+    - packages/phpstan-latte-rules/config/services.neon
+    - packages/phpstan-latte-rules/config/rules.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule

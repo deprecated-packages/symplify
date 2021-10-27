@@ -114,12 +114,26 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     {
         $this->separator();
 
-        // clickable path
         $relativeFilePath = $this->getRelativePath($error->getFile());
-        $this->writeln(' ' . $relativeFilePath . ':' . $error->getLine());
-        $this->separator();
+        $relativeLine = $relativeFilePath . ':' . $error->getLine();
 
-        // ignored path
+        // template error
+        $templateFilePath = $error->getMetadata()['template_file_path'] ?? null;
+        $templateLine = $error->getMetadata()['template_line'] ?? null;
+
+        if ($templateFilePath && $templateLine) {
+            $templateFileLine = $templateFilePath . ':' . $templateLine;
+            $this->writeln($templateFileLine);
+
+            $this->writeln('rendered in: ' . $relativeLine);
+            $this->separator();
+        } else {
+            // clickable path
+            $this->writeln(' ' . $relativeLine);
+            $this->separator();
+        }
+
+        // ignored path - @todo include file
         $regexMessage = $this->regexMessage($error->getMessage());
         $itemMessage = sprintf(" - '%s'", $regexMessage);
         $this->writeln($itemMessage);

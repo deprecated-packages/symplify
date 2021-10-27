@@ -2,6 +2,14 @@ services:
     # mostly used shared services
     - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - PhpParser\NodeFinder
+    - Symplify\SmartFileSystem\Finder\FinderSanitizer
+
+    - Symplify\Astral\Reflection\ReflectionParser
+
+    - Symplify\Astral\PhpParser\SmartPhpParserFactory
+    -
+        type: Symplify\Astral\PhpParser\SmartPhpParser
+        factory: ['@Symplify\Astral\PhpParser\SmartPhpParserFactory', 'create']
 
     -
         class: Symplify\Astral\Naming\SimpleNameResolver

@@ -26,7 +26,6 @@ services:
     - Symplify\PHPStanRules\NodeFinder\AttrFinder
 
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
-    - Symplify\PHPStanRules\Reflection\Parser\ReflectionParser
     - Symplify\PHPStanRules\Reflection\PropertyAnalyzer
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer
@@ -71,7 +70,6 @@ services:
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
 
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
-    - Symplify\SmartFileSystem\Finder\FinderSanitizer
 
     # node analyzer
     - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
