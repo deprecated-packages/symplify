@@ -21,11 +21,7 @@ final class PropertiesServiceOptionKeyYamlToPhpFactory implements ServiceOptions
         return $this->singleServicePhpNodeFactory->createProperties($methodCall, $yaml);
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $values
-     */
-    public function isMatch($key, $values): bool
+    public function isMatch(mixed $key, mixed $values): bool
     {
         return $key === YamlServiceKey::PROPERTIES;
     }

@@ -182,7 +182,12 @@ CODE_SAMPLE
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
         // to include generated class
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
+        $fileAnalyserResult = $this->fileAnalyser->analyseFile(
+            $tmpFilePath,
+            [$tmpFilePath],
+            $this->templateRulesRegistry,
+            null
+        );
 
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);

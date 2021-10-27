@@ -71,11 +71,7 @@ final class DecoratesServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
         return new MethodCall($methodCall, 'decorate', $args);
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed $values
-     */
-    public function isMatch($key, $values): bool
+    public function isMatch(mixed $key, mixed $values): bool
     {
         return $key === YamlServiceKey::DECORATES;
     }

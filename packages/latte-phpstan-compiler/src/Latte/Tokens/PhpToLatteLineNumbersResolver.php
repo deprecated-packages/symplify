@@ -23,7 +23,7 @@ final class PhpToLatteLineNumbersResolver
      */
     public function resolve(string $phpFileContent): array
     {
-        $phpNodes = $this->smartPhpParser->parseFile($phpFileContent);
+        $phpNodes = $this->smartPhpParser->parseString($phpFileContent);
 
         // nothign to resolve
         if ($phpNodes === []) {

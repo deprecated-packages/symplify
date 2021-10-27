@@ -45,6 +45,7 @@ final class LatteVarTypeDocBlockDecorator
         $nodeTraverser->traverse($phpStmts);
 
         $printedPhpContent = $this->printerStandard->prettyPrintFile($phpStmts);
+
         return rtrim($printedPhpContent) . PHP_EOL;
     }
 }
