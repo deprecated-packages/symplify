@@ -7,7 +7,7 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "twig/twig": "^3.3",
-        "phpstan/phpstan": "^1.0",
+        "phpstan/phpstan": "1.0.x-dev as 1.0",
         "symplify/package-builder": "^9.5",
         "symplify/smart-file-system": "^9.5",
         "symplify/template-phpstan-compiler": "^9.5"
