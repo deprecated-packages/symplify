@@ -39,7 +39,7 @@ final class InstanceOfNestedCaseConverter
         return new Expression($decoreatedInstanceofMethodCall);
     }
 
-    public function isMatch(string $rootKey, $subKey): bool
+    public function isMatch(string $rootKey, mixed $subKey): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;

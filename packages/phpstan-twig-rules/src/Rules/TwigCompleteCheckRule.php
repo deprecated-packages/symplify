@@ -8,9 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Parser\Parser;
+use PHPStan\Parser\RichParser;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -70,6 +73,8 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private TemplateErrorsFactory $templateErrorsFactory,
+        private Parser $parser,
+        private PrivatesAccessor $privatesAccessor
     ) {
         $this->registry = new Registry($rules);
     }
@@ -174,10 +179,15 @@ CODE_SAMPLE
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        // 5. analyse temporary PHP file with full PHPStan rules
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+        $fileAnalyser = clone $this->fileAnalyser;
 
+        // 5. fix missing parent nodes by using RichParser
+        $this->privatesAccessor->setPrivateProperty($fileAnalyser, 'parser', $this->parser);
+
+        // 6. analyse temporary PHP file with full PHPStan rules
+        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
         $ruleErrors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+
         return $this->templateErrorsFactory->createErrors(
             $ruleErrors,
             $scope->getFile(),

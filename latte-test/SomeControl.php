@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Control;
+
 use Nette\Application\UI\Control;
 
 /**
@@ -9,10 +11,10 @@ use Nette\Application\UI\Control;
  */
 final class SomeControl extends Control
 {
-    public function render(string $name = 'Adam'): void
+    public function render(string $name): void
     {
         $this->template->render(__DIR__ . '/some_control.latte', [
-            'someVariable' => new SomeType(),
+            'someVariable' => new \SomeType(),
         ]);
     }
 

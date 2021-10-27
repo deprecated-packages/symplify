@@ -99,7 +99,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkip(Scope $scope, $node): bool
+    private function shouldSkip(Scope $scope, Return_ $return): bool
     {
         // skip tests
         if (Strings::match(
@@ -122,7 +122,7 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! $node->expr instanceof Array_) {
+        if (! $return->expr instanceof Array_) {
             return true;
         }
 

@@ -48,7 +48,7 @@ services:
                 Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
 
 parameters:
-    level: max
+    level: 8
     reportUnmatchedIgnoredErrors: false
 
     parallel:
@@ -60,7 +60,7 @@ parameters:
         - ecs.php
         - rector.php
 
-    excludes_analyse:
+    excludePaths:
         - */scoper.php
         - *scoper.inc.php
 
@@ -103,10 +103,15 @@ parameters:
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
         # requires PHP 7.4
-        - '*/Source/*'
-        - '*/Fixture/*'
+        - '*/tests/Source/*'
+        - '*/tests/**/Source/*'
+        - '*/tests/**/Fixture/*'
+        - '*/tests/**/Fixture*/*'
         - */vendor/*
         - */stubs/*
+        - */packages-tests/**/Fixture/*
+        - */packages-tests/**/Source/*
+        - */tests/Fixture/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
 
@@ -603,3 +608,13 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Parallel\\Application\\ParallelFileProcessor\:\:check\(\)" is \d+, keep it under 8#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
+
+        -
+            # temporary test skip
+            message: '#Unreachable statement \- code above always terminates#'
+            paths:
+                - packages/phpstan-twig-rules/tests/Rules/TwigCompleteCheckRule/TwigCompleteCheckRuleTest.php
+                - packages/phpstan-latte-rules/tests/Rules/LatteCompleteCheckRule/LatteCompleteCheckRuleTest.php
+

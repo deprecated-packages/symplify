@@ -22,7 +22,7 @@ final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements Servi
         return new MethodCall($methodCall, 'factory', $args);
     }
 
-    public function isMatch($key, $values): bool
+    public function isMatch(mixed $key, mixed $values): bool
     {
         return in_array($key, [YamlKey::FACTORY, YamlKey::CONFIGURATOR], true);
     }

@@ -82,11 +82,17 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
         $this->stringFormatConverter = new StringFormatConverter();
     }
 
+    /**
+     * @param mixed[] $values
+     */
     public function match(string $key, $values): bool
     {
         return isset($values[self::RESOURCE]);
     }
 
+    /**
+     * @param mixed $values
+     */
     public function convertToMethodCall(string $key, $values): Expression
     {
         $variable = new Variable(VariableName::ROUTING_CONFIGURATOR);

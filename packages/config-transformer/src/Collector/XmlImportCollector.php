@@ -13,7 +13,7 @@ final class XmlImportCollector
      */
     private $imports = [];
 
-    public function addImport($resource, $ignoreErrors): void
+    public function addImport(mixed $resource, bool|string $ignoreErrors): void
     {
         $this->imports[] = [
             YamlKey::RESOURCE => $resource,

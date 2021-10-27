@@ -28,7 +28,7 @@ final class NoDependencyJugglingRuleTest extends AbstractServiceAwareRuleTestCas
      */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/JugglingDependency.php', [[NoDependencyJugglingRule::ERROR_MESSAGE, 23]]];
+        yield [__DIR__ . '/Fixture/JugglingDependency.php', [[NoDependencyJugglingRule::ERROR_MESSAGE, 25]]];
         yield [__DIR__ . '/Fixture/ValueObject/SkipValueObject.php', []];
         yield [__DIR__ . '/Fixture/SkipPrivatesCaller.php', []];
         yield [__DIR__ . '/Fixture/SkipNodeVisitor.php', []];

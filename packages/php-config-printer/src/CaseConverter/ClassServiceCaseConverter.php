@@ -22,7 +22,7 @@ final class ClassServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         $args = $this->argsNodeFactory->createFromValues([$key, $values[YamlKey::CLASS_KEY]]);
         $methodCall = new MethodCall(new Variable(VariableName::SERVICES), MethodName::SET, $args);
@@ -33,7 +33,7 @@ final class ClassServiceCaseConverter implements CaseConverterInterface
         return new Expression($decoratedMethodCall);
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;

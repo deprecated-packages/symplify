@@ -41,7 +41,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     public const ERROR_MESSAGE = 'Do not use chained method calls. Put each on separated lines.';
 
     /**
-     * @var class-string[]
+     * @var array<class-string|string>
      */
     private const DEFAULT_ALLOWED_CHAIN_TYPES = [
         TwitterAPIExchange::class,

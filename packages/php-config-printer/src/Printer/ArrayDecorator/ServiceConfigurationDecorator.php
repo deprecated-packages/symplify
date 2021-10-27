@@ -45,6 +45,8 @@ final class ServiceConfigurationDecorator
     }
 
     /**
+     * @param mixed[] $value
+     * @param mixed $key
      * @return mixed[]
      */
     private function configureArrayOfObjects(array $configuration, array $value, $key): array
@@ -108,7 +110,7 @@ final class ServiceConfigurationDecorator
         return $this->createInlineStaticCall($args);
     }
 
-    private function isArrayOfObjects($values): bool
+    private function isArrayOfObjects(mixed $values): bool
     {
         if (! is_array($values)) {
             return false;
