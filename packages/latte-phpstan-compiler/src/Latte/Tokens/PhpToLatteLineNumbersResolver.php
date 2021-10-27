@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\Latte\Tokens;
 
 use PhpParser\NodeTraverser;
-use PhpParser\Parser;
+use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LatteLineNumberNodeVisitor;
 
 final class PhpToLatteLineNumbersResolver
 {
     public function __construct(
         private LatteLineNumberNodeVisitor $latteLineNumberNodeVisitor,
-        private Parser $parser
+        private SmartPhpParser $smartPhpParser
     ) {
     }
 
@@ -23,7 +23,7 @@ final class PhpToLatteLineNumbersResolver
      */
     public function resolve(string $phpFileContent): array
     {
-        $phpNodes = $this->parser->parse($phpFileContent);
+        $phpNodes = $this->smartPhpParser->parseFile($phpFileContent);
 
         // nothign to resolve
         if ($phpNodes === null) {

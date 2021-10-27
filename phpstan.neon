@@ -48,7 +48,7 @@ services:
                 Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
 
 parameters:
-    level: max
+    level: 8
     reportUnmatchedIgnoredErrors: false
 
     parallel:
