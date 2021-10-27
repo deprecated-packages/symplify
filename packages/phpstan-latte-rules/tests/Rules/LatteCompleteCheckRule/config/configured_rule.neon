@@ -16,6 +16,8 @@ services:
     -
         class: Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule
         tags: [phpstan.rules.rule]
+        arguments:
+            parser: @currentPhpVersionRichParser
 
     -
         class: PHPStan\Rules\Methods\CallMethodsRule

@@ -9,11 +9,13 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Parser\Parser;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
@@ -62,6 +64,8 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
         private ComponentMapResolver $componentMapResolver,
+        private Parser $parser,
+        private PrivatesAccessor $privatesAccessor,
     ) {
         // limit rule here, as template class can contain a lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -178,16 +182,15 @@ CODE_SAMPLE
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
-
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
+        $fileAnalyser = clone $this->fileAnalyser;
+
+        // 5. fix missing parent nodes by using RichParser
+        $this->privatesAccessor->setPrivateProperty($fileAnalyser, 'parser', $this->parser);
+
         // to include generated class
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile(
-            $tmpFilePath,
-            [],
-            $this->templateRulesRegistry,
-            null
-        );
+        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);

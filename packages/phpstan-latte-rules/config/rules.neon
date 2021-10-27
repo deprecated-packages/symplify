@@ -2,6 +2,8 @@ services:
     -
         class: Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule
         tags: [phpstan.rules.rule]
+        arguments:
+            parser: @currentPhpVersionRichParser
 
     -
         class: Symplify\PHPStanLatteRules\Rules\NoNetteRenderUnusedVariableRule

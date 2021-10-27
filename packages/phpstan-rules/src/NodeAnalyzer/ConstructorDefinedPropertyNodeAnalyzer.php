@@ -12,27 +12,26 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\Php\PhpClassReflectionExtension;
-use Rector\Core\PhpParser\AstResolver;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class ConstructorDefinedPropertyNodeAnalyzer
 {
+    /**
+     * @var string
+     */
+    private const THIS = 'this';
+
     public function __construct(
-        //        private PhpClassReflectionExtension $phpClassReflectionExtension,
-//        private PrivatesCaller $privatesCaller,
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
-//        private AstResolver $astResolver,
     ) {
     }
 
     public function isLocalPropertyDefinedInConstructor(PropertyFetch $propertyFetch, Scope $scope): bool
     {
-        if (! $this->simpleNameResolver->isName($propertyFetch->var, 'this')) {
+        if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
             return false;
         }
 
@@ -48,7 +47,6 @@ final class ConstructorDefinedPropertyNodeAnalyzer
     private function resolvePropertyNames(Scope $scope, PropertyFetch $propertyFetch): array
     {
         $classReflection = $scope->getClassReflection();
-
         if (! $classReflection instanceof ClassReflection) {
             return [];
         }
@@ -90,7 +88,7 @@ final class ConstructorDefinedPropertyNodeAnalyzer
             }
 
             $propertyFetch = $assign->var;
-            if (! $this->simpleNameResolver->isName($propertyFetch->var, 'this')) {
+            if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
                 continue;
             }
 
@@ -139,7 +137,7 @@ final class ConstructorDefinedPropertyNodeAnalyzer
             }
 
             $propertyFetch = $assign->var;
-            if (! $this->simpleNameResolver->isName($propertyFetch->var, 'this')) {
+            if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
                 continue;
             }
 

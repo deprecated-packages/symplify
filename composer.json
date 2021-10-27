@@ -129,7 +129,6 @@
     },
     "autoload-dev": {
         "classmap": [
-            "latte-test",
             "packages/phpstan-rules/stubs",
             "packages/rule-doc-generator/stubs"
         ],

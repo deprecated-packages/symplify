@@ -610,3 +610,11 @@ parameters:
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
+
+        -
+            # temporary test skip
+            message: '#Unreachable statement \- code above always terminates#'
+            paths:
+                - packages/phpstan-twig-rules/tests/Rules/TwigCompleteCheckRule/TwigCompleteCheckRuleTest.php
+                - packages/phpstan-latte-rules/tests/Rules/LatteCompleteCheckRule/LatteCompleteCheckRuleTest.php
+
