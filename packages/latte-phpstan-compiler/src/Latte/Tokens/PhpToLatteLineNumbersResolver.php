@@ -26,7 +26,7 @@ final class PhpToLatteLineNumbersResolver
         $phpNodes = $this->smartPhpParser->parseFile($phpFileContent);
 
         // nothign to resolve
-        if ($phpNodes === null) {
+        if ($phpNodes === []) {
             return [];
         }
 

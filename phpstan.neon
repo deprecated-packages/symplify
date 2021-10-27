@@ -109,7 +109,9 @@ parameters:
         - '*/tests/**/Fixture*/*'
         - */vendor/*
         - */stubs/*
-
+        - */packages-tests/**/Fixture/*
+        - */packages-tests/**/Source/*
+        - */tests/Fixture/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
 

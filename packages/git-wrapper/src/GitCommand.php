@@ -127,7 +127,7 @@ final class GitCommand
      * @api
      * @return mixed
      */
-    public function getOption(string $option, $default = null)
+    public function getOption(string $option, mixed $default = null)
     {
         return $this->options[$option] ?? $default;
     }

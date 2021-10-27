@@ -23,7 +23,7 @@ final class ExtensionConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         $args = $this->argsNodeFactory->createFromValues([
             $this->rootKey,
@@ -38,7 +38,7 @@ final class ExtensionConverter implements CaseConverterInterface
         return new Expression($methodCall);
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         $this->rootKey = $rootKey;
 

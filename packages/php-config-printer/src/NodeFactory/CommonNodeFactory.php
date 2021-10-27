@@ -16,7 +16,7 @@ use PhpParser\Node\Scalar\String_;
 
 final class CommonNodeFactory
 {
-    public function createAbsoluteDirExpr($argument): Expr
+    public function createAbsoluteDirExpr(mixed $argument): Expr
     {
         if ($argument === '') {
             return new String_('');

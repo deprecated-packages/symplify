@@ -35,7 +35,6 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
     }
 
     /**
-     * @param mixed string $key
      * @param mixed $values
      */
     public function match(string $key, $values): bool

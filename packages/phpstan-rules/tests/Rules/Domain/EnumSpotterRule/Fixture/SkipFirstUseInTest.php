@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule\Fixture;
 
-use PHPStan\Testing\PHPStanTestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule\Source\AnotherFlashAdder;
 
-final class SkipFirstUseInTest extends PHPStanTestCase
+final class SkipFirstUseInTest extends TestCase
 {
     public function apply(AnotherFlashAdder $flashAdder)
     {

@@ -110,7 +110,7 @@ final class ServiceConfigurationDecorator
         return $this->createInlineStaticCall($args);
     }
 
-    private function isArrayOfObjects($values): bool
+    private function isArrayOfObjects(mixed $values): bool
     {
         if (! is_array($values)) {
             return false;

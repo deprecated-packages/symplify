@@ -30,7 +30,7 @@ final class LatteVarTypeDocBlockDecorator
     {
         // convert to "@var types $variable"
         $phpStmts = $this->smartPhpParser->parseString($phpContent);
-        if ($phpStmts === null) {
+        if ($phpStmts === []) {
             throw new LattePHPStanCompilerException();
         }
 

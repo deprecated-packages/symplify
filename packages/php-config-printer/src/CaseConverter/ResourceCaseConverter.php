@@ -16,7 +16,7 @@ final class ResourceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         // Due to the yaml behavior that does not allow the declaration of several identical key names.
         if (isset($values['namespace'])) {
@@ -27,7 +27,7 @@ final class ResourceCaseConverter implements CaseConverterInterface
         return $this->servicesPhpNodeFactory->createResource($key, $values);
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         return isset($values[YamlKey::RESOURCE]);
     }
