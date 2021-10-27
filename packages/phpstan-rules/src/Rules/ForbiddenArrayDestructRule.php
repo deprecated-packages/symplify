@@ -132,7 +132,7 @@ CODE_SAMPLE
 
         $classReflection = $this->reflectionProvider->getClass($callerType->getClassName());
         $fileName = $classReflection->getFileName();
-        if ($fileName === false) {
+        if ($fileName === null) {
             return true;
         }
 

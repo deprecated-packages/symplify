@@ -38,6 +38,10 @@ final class SharedPublicServiceOptionKeyYamlToPhpFactory implements ServiceOptio
         throw new NotImplementedYetException();
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $values
+     */
     public function isMatch($key, $values): bool
     {
         return in_array($key, ['shared', 'public'], true);

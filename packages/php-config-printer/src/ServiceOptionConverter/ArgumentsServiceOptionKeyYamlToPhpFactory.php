@@ -34,6 +34,10 @@ final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
         return $methodCall;
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $values
+     */
     public function isMatch($key, $values): bool
     {
         return $key === YamlServiceKey::ARGUMENTS;

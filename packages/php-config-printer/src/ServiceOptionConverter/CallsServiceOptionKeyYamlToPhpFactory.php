@@ -21,6 +21,10 @@ final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYa
         return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml);
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $values
+     */
     public function isMatch($key, $values): bool
     {
         return $key === YamlServiceKey::CALLS;

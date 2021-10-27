@@ -37,8 +37,17 @@ final class EntityClassDetector
             return false;
         }
 
-        return (bool) $simplePhpDocNode->getTagsByName('@Entity')
-            ?? $simplePhpDocNode->getTagsByName('@ORM\Entity')
-            ?? $simplePhpDocNode->getTagsByName('@' . Entity::class);
+        $entityTags = $simplePhpDocNode->getTagsByName('@Entity');
+        if ($entityTags !== []) {
+            return true;
+        }
+
+        $ormEntityTags = $simplePhpDocNode->getTagsByName('@ORM\Entity');
+        if ($ormEntityTags !== []) {
+            return true;
+        }
+
+        $fqnEntityTags = $simplePhpDocNode->getTagsByName('@' . Entity::class);
+        return $fqnEntityTags !== [];
     }
 }

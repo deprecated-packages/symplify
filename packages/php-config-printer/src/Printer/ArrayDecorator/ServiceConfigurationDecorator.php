@@ -45,6 +45,8 @@ final class ServiceConfigurationDecorator
     }
 
     /**
+     * @param mixed[] $value
+     * @param mixed $key
      * @return mixed[]
      */
     private function configureArrayOfObjects(array $configuration, array $value, $key): array

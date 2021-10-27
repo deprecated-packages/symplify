@@ -30,6 +30,10 @@ final class DeprecatedServiceOptionKeyYamlToPhpFactory implements ServiceOptions
         return new MethodCall($methodCall, 'deprecate', $args);
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $values
+     */
     public function isMatch($key, $values): bool
     {
         return $key === YamlServiceKey::DEPRECATED;

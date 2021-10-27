@@ -107,7 +107,7 @@ final class ParentClassMethodNodeResolver
     {
         try {
             $parentClassFileName = $parentClassReflection->getFileName();
-            if ($parentClassFileName === false) {
+            if ($parentClassFileName === null) {
                 return [];
             }
 

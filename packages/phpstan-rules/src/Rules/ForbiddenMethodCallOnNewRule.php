@@ -9,7 +9,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
-use Symfony\Component\Finder\Finder;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,7 +24,7 @@ final class ForbiddenMethodCallOnNewRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Method call on new expression is not allowed.';
 
     /**
-     * @var array<class-string<Finder>>
+     * @var array<class-string>
      */
     private const ALLOWED_TYPES = ['Symfony\Component\Finder\Finder', 'DateTime', 'Nette\Utils\DateTime'];
 

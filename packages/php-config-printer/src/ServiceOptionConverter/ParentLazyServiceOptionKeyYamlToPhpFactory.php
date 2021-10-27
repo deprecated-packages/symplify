@@ -21,6 +21,10 @@ final class ParentLazyServiceOptionKeyYamlToPhpFactory implements ServiceOptions
         return $methodCall;
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed $values
+     */
     public function isMatch($key, $values): bool
     {
         return in_array($key, [YamlKey::PARENT, YamlKey::LAZY], true);
