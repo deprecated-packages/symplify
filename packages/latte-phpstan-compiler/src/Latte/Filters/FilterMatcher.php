@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\Latte\Filters;
 
 use Latte\Runtime\Defaults;
+use ReflectionClass;
+use ReflectionException;
+use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
-use Symplify\LattePHPStanCompiler\ValueObject\NonStaticCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 /**
@@ -14,32 +16,22 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
  */
 final class FilterMatcher
 {
-    /** @var array<string, string> */
-    private array $staticFilters;
-
-    /** @var array<string, string> */
-    private array $nonStaticFilters;
-
-    /** @var array<string, string> */
-    private array $functionFilters;
+    /** @var array<string, string|array{string, string}> */
+    private array $latteFilters;
 
     private Defaults $filtersDefaults;
 
     /**
-     * @param array<string, string> $staticFilters
-     * @param array<string, string> $nonStaticFilters
-     * @param array<string, string> $functionFilters
+     * @param array<string, string|array{string, string}> $latteFilters
      */
-    public function __construct(array $staticFilters, array $nonStaticFilters, array $functionFilters)
+    public function __construct(array $latteFilters)
     {
-        $this->staticFilters = array_change_key_case($staticFilters, CASE_LOWER);
-        $this->nonStaticFilters = array_change_key_case($nonStaticFilters, CASE_LOWER);
-        $this->functionFilters = array_change_key_case($functionFilters, CASE_LOWER);
+        $this->latteFilters = array_change_key_case($latteFilters, CASE_LOWER);
         $this->filtersDefaults = new Defaults();
     }
 
     /**
-     * @return StaticCallReference|NonStaticCallReference|FunctionCallReference|null
+     * @return StaticCallReference|DynamicCallReference|FunctionCallReference|null
      */
     public function match(string $filterName)
     {
@@ -50,10 +42,31 @@ final class FilterMatcher
         return $this->findInConfiguredFilters($filterName);
     }
 
-    private function findInDefaultFilters(string $filterName): StaticCallReference|FunctionCallReference|null
+    private function findInDefaultFilters(string $filterName): StaticCallReference|DynamicCallReference|FunctionCallReference|null
     {
         // match filter name in
         $filterCallable = $this->filtersDefaults->getFilters()[$filterName] ?? null;
+        return $this->createCallReference($filterCallable);
+    }
+
+    private function findInConfiguredFilters(
+        string $filterName
+    ): StaticCallReference|DynamicCallReference|FunctionCallReference|null {
+        $filterCallable = $this->latteFilters[$filterName] ?? null;
+        return $this->createCallReference($filterCallable);
+    }
+
+    /**
+     * @param mixed $filterCallable
+     */
+    private function createCallReference(
+        $filterCallable
+    ): StaticCallReference|DynamicCallReference|FunctionCallReference|null
+    {
+        if ($filterCallable === null) {
+            return null;
+        }
+
         if (is_string($filterCallable)) {
             return new FunctionCallReference($filterCallable);
         }
@@ -70,25 +83,16 @@ final class FilterMatcher
         $filterClass = $filterCallable[0];
         $filterMethod = $filterCallable[1];
 
-        return new StaticCallReference($filterClass, $filterMethod);
-    }
-
-    private function findInConfiguredFilters(
-        string $filterName
-    ): StaticCallReference|NonStaticCallReference|FunctionCallReference|null {
-        if (isset($this->staticFilters[$filterName])) {
-            [$className, $methodName] = explode('::', $this->staticFilters[$filterName], 2);
-            return new StaticCallReference($className, $methodName);
+        try {
+            $reflectionClass = new ReflectionClass($filterClass);
+            $reflectionMethod = $reflectionClass->getMethod($filterMethod);
+        } catch (ReflectionException $e) {
+            return null;
         }
 
-        if (isset($this->nonStaticFilters[$filterName])) {
-            [$className, $methodName] = explode('::', $this->nonStaticFilters[$filterName], 2);
-            return new NonStaticCallReference($className, $methodName);
+        if ($reflectionMethod->isStatic()) {
+            return new StaticCallReference($filterClass, $filterMethod);
         }
-
-        if (isset($this->functionFilters[$filterName])) {
-            return new FunctionCallReference($this->functionFilters[$filterName]);
-        }
-        return null;
+        return new DynamicCallReference($filterClass, $filterMethod);
     }
 }

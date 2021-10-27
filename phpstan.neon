@@ -158,10 +158,15 @@ parameters:
                 - packages/twig-phpstan-compiler/src/ObjectTypeMethodAnalyzer.php
 
         -
-             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-             paths:
-                 - packages/smart-file-system/src/Finder/FinderSanitizer.php
-                 - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
+            message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+            paths:
+                - packages/smart-file-system/src/Finder/FinderSanitizer.php
+                - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
+
+        -
+            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
+            paths:
+                - packages/latte-phpstan-compiler/src/LatteVariableCollector/DynamicFilterVariables.php
 
         -
             message: '#Do not use static property#'

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\ValueObject;
 
-final class NonStaticCallReference
+final class DynamicCallReference
 {
     public function __construct(
         private string $class,
