@@ -17,8 +17,8 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
+use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
-use Symplify\LattePHPStanCompiler\ValueObject\NonStaticCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 /**
@@ -71,7 +71,7 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
             );
         }
 
-        if ($callReference instanceof NonStaticCallReference) {
+        if ($callReference instanceof DynamicCallReference) {
             $className = $callReference->getClass();
             $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
             return new MethodCall(

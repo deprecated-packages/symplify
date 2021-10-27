@@ -9,8 +9,8 @@ use Latte\Runtime\Filters;
 use Nette\Localization\Translator;
 use PHPUnit\Framework\TestCase;
 use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
+use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
-use Symplify\LattePHPStanCompiler\ValueObject\NonStaticCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 final class FilterMatcherTest extends TestCase
@@ -20,11 +20,9 @@ final class FilterMatcherTest extends TestCase
     protected function setUp(): void
     {
         $this->filterMatcher = new FilterMatcher(
-            [],
             [
-                'translate' => 'Nette\Localization\Translator::translate',
+                'translate' => ['Nette\Localization\Translator', 'translate'],
             ],
-            []
         );
     }
 
@@ -33,15 +31,15 @@ final class FilterMatcherTest extends TestCase
      */
     public function test(
         string $filterName,
-        StaticCallReference|NonStaticCallReference|FunctionCallReference|null $expectedCallReference
+        StaticCallReference|DynamicCallReference|FunctionCallReference|null $expectedCallReference
     ): void {
         $callReference = $this->filterMatcher->match($filterName);
 
         if ($expectedCallReference instanceof StaticCallReference) {
             $this->assertInstanceOf(StaticCallReference::class, $callReference);
             $this->assertEquals($callReference, $expectedCallReference);
-        } elseif ($expectedCallReference instanceof NonStaticCallReference) {
-            $this->assertInstanceOf(NonStaticCallReference::class, $callReference);
+        } elseif ($expectedCallReference instanceof DynamicCallReference) {
+            $this->assertInstanceOf(DynamicCallReference::class, $callReference);
             $this->assertEquals($callReference, $expectedCallReference);
         } elseif ($expectedCallReference instanceof FunctionCallReference) {
             $this->assertInstanceOf(FunctionCallReference::class, $callReference);
@@ -59,6 +57,6 @@ final class FilterMatcherTest extends TestCase
 
         yield ['number', new FunctionCallReference('number_format')];
 
-        yield ['translate', new NonStaticCallReference(Translator::class, 'translate')];
+        yield ['translate', new DynamicCallReference(Translator::class, 'translate')];
     }
 }
