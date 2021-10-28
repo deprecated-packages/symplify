@@ -24,19 +24,6 @@ final class DelegatingLoaderFactory
         return $this->createFromContainerBuilderAndFileLocator($containerBuilder, $kernelFileLocator);
     }
 
-    /**
-     * For tests
-     */
-    public function createContainerBuilderAndConfig(
-        ContainerBuilder $containerBuilder,
-        string $config
-    ): DelegatingLoader {
-        $directory = dirname($config);
-        $fileLocator = new SimpleFileLocator($directory);
-
-        return $this->createFromContainerBuilderAndFileLocator($containerBuilder, $fileLocator);
-    }
-
     private function createFromContainerBuilderAndFileLocator(
         ContainerBuilder $containerBuilder,
         SimpleFileLocator $simpleFileLocator
