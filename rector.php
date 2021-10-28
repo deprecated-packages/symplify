@@ -15,11 +15,8 @@ use Rector\DeadCode\Rector\If_\RemoveDeadInstanceOfRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
-use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
-use Rector\Php74\Rector\Property\TypedPropertyRector;
-use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
-use Rector\Php80\Rector\Switch_\ChangeSwitchToMatchRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
+use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Rector\TypeDeclaration\Rector\ClassMethod\ParamTypeByMethodCallTypeRector;
 use Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector;
@@ -30,19 +27,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
     $containerConfigurator->import(SetList::DEAD_CODE);
 
-    // uncomment after phpstan is using php-parser 4.13, to avoid false positives
-    // $containerConfigurator->import(SetList::DEAD_CODE);
-
+    $containerConfigurator->import(LevelSetList::UP_TO_PHP_80);
     $containerConfigurator->import(SetList::CODING_STYLE);
-    $containerConfigurator->import(SetList::PHP_54);
-    $containerConfigurator->import(SetList::PHP_55);
-    $containerConfigurator->import(SetList::PHP_56);
-    $containerConfigurator->import(SetList::PHP_70);
-    $containerConfigurator->import(SetList::PHP_71);
-    $containerConfigurator->import(SetList::PHP_72);
-    $containerConfigurator->import(SetList::PHP_73);
-    $containerConfigurator->import(SetList::PHP_74);
-    $containerConfigurator->import(SetList::PHP_80);
     $containerConfigurator->import(SetList::TYPE_DECLARATION);
     $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
     $containerConfigurator->import(SetList::NAMING);
@@ -52,13 +38,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services = $containerConfigurator->services();
 
-    // PHP 8+
-    $services->set(ClosureToArrowFunctionRector::class);
-    $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
-    $services->set(ChangeSwitchToMatchRector::class);
-    $services->set(ClassPropertyAssignToConstructorPromotionRector::class);
-    $services->set(TypedPropertyRector::class);
-
     $services->set(StringClassNameToClassConstantRector::class)
         ->call('configure', [[
             StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [
@@ -67,15 +46,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 'Dibi\Connection',
                 'Doctrine\ORM\EntityManagerInterface',
                 'Doctrine\ORM\EntityManager',
-                'Nette\Application\UI\Template',
-                'Nette\DI\Attributes\Inject',
-                'Nette\Bridges\ApplicationLatte\Template',
-                'Nette\Bridges\ApplicationLatte\DefaultTemplate',
-                'Nette\Bridges\ApplicationLatte\UIMacros',
-                'Nette\Bridges\FormsLatte\FormMacros',
-                'Nette\Security\User',
-                'Nette\Application\UI\Control',
-                'Nette\Application\UI\Presenter',
+                'Nette\*',
             ],
         ]]);
 
@@ -110,7 +81,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
 
         # tests
-        __DIR__ . '/packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php',
+        __DIR__ . '/packages/vendor-patches/tests',
 
         NewlineAfterStatementRector::class => [
             // false positive on do + while
@@ -118,7 +89,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         // many false postivies
-        RenameForeachValueVariableToMatchExprVariableRector::class,
+        //RenameForeachValueVariableToMatchExprVariableRector::class,
         StringClassNameToClassConstantRector::class => [
             // for prefixed version skip
             __DIR__ . '/packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php',

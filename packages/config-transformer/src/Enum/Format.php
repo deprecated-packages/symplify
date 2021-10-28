@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConfigTransformer\ValueObject;
+namespace Symplify\ConfigTransformer\Enum;
 
 final class Format
 {
