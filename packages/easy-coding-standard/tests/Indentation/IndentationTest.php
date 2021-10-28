@@ -7,8 +7,6 @@ namespace Symplify\EasyCodingStandard\Tests\Indentation;
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\WhitespacesFixerConfig;
-use Psr\Container\ContainerInterface;
-use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
@@ -30,7 +28,7 @@ final class IndentationTest extends AbstractKernelTestCase
             [__DIR__ . '/IndentationSource/config-with-spaces-indentation.php']
         );
 
-        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer(self::$container);
+        $indentationTypeFixer = $this->getService(IndentationTypeFixer::class);
 
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
         $whitespacesFixerConfig = new WhitespacesFixerConfig('    ', StaticEolConfiguration::getEolChar());
@@ -49,7 +47,7 @@ final class IndentationTest extends AbstractKernelTestCase
             [__DIR__ . '/IndentationSource/config-with-tabs-indentation.php']
         );
 
-        $indentationTypeFixer = $this->getIndentationTypeFixerFromContainer(self::$container);
+        $indentationTypeFixer = $this->getService(IndentationTypeFixer::class);
 
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
         $whitespacesFixerConfig = new WhitespacesFixerConfig('	', StaticEolConfiguration::getEolChar());
@@ -59,14 +57,5 @@ final class IndentationTest extends AbstractKernelTestCase
             'whitespacesConfig'
         );
         $this->assertEquals($whitespacesFixerConfig, $fixerWhitespaceConfig);
-    }
-
-    private function getIndentationTypeFixerFromContainer(ContainerInterface $container): IndentationTypeFixer
-    {
-        $fixerFileProcessor = $container->get(FixerFileProcessor::class);
-        $checkers = $fixerFileProcessor->getCheckers();
-        $this->assertCount(1, $checkers);
-
-        return array_pop($checkers);
     }
 }
