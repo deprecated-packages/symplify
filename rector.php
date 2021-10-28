@@ -88,8 +88,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/easy-ci/src/Template/TemplatePathsResolver.php',
         ],
 
-        // many false postivies
-        //RenameForeachValueVariableToMatchExprVariableRector::class,
+        // many false postivies - @todo fix in Rector!
+        RenameForeachValueVariableToMatchExprVariableRector::class,
+
         StringClassNameToClassConstantRector::class => [
             // for prefixed version skip
             __DIR__ . '/packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php',
