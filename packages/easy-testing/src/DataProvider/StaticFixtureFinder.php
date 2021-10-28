@@ -118,13 +118,13 @@ final class StaticFixtureFinder
 
     private static function ensureNoOtherFileName(string $directory, string $suffix): void
     {
-        $iterator = Finder::create()->in($directory)
+        $fileInfos = Finder::create()->in($directory)
             ->files()
             ->notName($suffix)
             ->getIterator();
 
         $relativeFilePaths = [];
-        foreach ($iterator as $fileInfo) {
+        foreach ($fileInfos as $fileInfo) {
             $relativeFilePaths[] = Strings::substring($fileInfo->getRealPath(), strlen(getcwd()) + 1);
         }
 
