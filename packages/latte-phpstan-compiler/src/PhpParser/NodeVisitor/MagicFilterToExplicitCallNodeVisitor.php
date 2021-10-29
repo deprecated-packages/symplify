@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
+use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
+use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
+use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 
 /**
@@ -25,7 +30,7 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private DefaultFilterMatcher $defaultFilterMatcher
+        private FilterMatcher $filterMatcher
     ) {
     }
 
@@ -56,18 +61,31 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $staticCallReference = $this->defaultFilterMatcher->match($filterName);
-        if (! $staticCallReference instanceof StaticCallReference) {
-            return null;
+        $callReference = $this->filterMatcher->match($filterName);
+
+        if ($callReference instanceof StaticCallReference) {
+            return new StaticCall(
+                new FullyQualified($callReference->getClass()),
+                new Identifier($callReference->getMethod()),
+                $node->args
+            );
         }
 
-        $staticCall = new StaticCall(
-            new FullyQualified($staticCallReference->getClass()),
-            new Identifier($staticCallReference->getMethod())
-        );
+        if ($callReference instanceof DynamicCallReference) {
+            $className = $callReference->getClass();
+            $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
+            return new MethodCall(
+                new Variable($variableName),
+                new Identifier($callReference->getMethod()),
+                $node->args
+            );
+        }
 
-        $staticCall->args = $node->args;
-        return $staticCall;
+        if ($callReference instanceof FunctionCallReference) {
+            return new FuncCall(new FullyQualified($callReference->getFunction()), $node->args);
+        }
+
+        return null;
     }
 
     private function isPropertyFetchNames(Expr $expr, string $variableName, string $propertyName): bool
