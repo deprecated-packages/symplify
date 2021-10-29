@@ -198,7 +198,7 @@ final class CheckerServiceParametersShifter
         return $services;
     }
 
-    private function isReservedKey(string | int | bool $key): bool
+    private function isReservedKey(string | int $key): bool
     {
         if (! is_string($key)) {
             return false;

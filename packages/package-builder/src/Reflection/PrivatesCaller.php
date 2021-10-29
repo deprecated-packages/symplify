@@ -6,7 +6,6 @@ namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionClass;
 use ReflectionMethod;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesCallerTest

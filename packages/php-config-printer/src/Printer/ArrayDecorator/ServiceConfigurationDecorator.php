@@ -46,10 +46,9 @@ final class ServiceConfigurationDecorator
 
     /**
      * @param mixed[] $value
-     * @param mixed $key
      * @return mixed[]
      */
-    private function configureArrayOfObjects(array $configuration, array $value, $key): array
+    private function configureArrayOfObjects(array $configuration, array $value, int|string $key): array
     {
         foreach ($value as $keyValue => $singleValue) {
             if (is_string($keyValue)) {
@@ -95,6 +94,9 @@ final class ServiceConfigurationDecorator
         return $this->createInlineStaticCall($args);
     }
 
+    /**
+     * @param mixed[] $values
+     */
     private function decorateValueObjects(array $values): StaticCall
     {
         $arrayItems = [];
