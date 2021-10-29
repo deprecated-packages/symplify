@@ -8,7 +8,6 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Core\Configuration\Option;
-use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -87,13 +86,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // adopted 3rd party package - keep API compatible
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
-
-        // protected param rename to create miss-matching param names with parent class method
-        // @see https://github.com/symplify/symplify/pull/3429 - paths must be relative, so child process in specific directory skips it
-        RenameParamToMatchTypeRector::class => [
-            'src/Php/Type/NativeFunctionDynamicFunctionReturnTypeExtension.php',
-            'src/Printer/PhpParserPhpConfigPrinter.php',
-            'src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
-        ],
     ]);
 };
