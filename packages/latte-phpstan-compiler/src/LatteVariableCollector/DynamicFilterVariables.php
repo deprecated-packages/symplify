@@ -43,12 +43,13 @@ final class DynamicFilterVariables implements LatteVariableCollectorInterface
                     continue;
                 }
 
-                $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
+                $variableName = Strings::firstLower(Strings::replace($className, '#\\\#', '')) . 'Filter';
                 $variablesAndTypes[] = new VariableAndType($variableName, new ObjectType($className));
-            } catch (ReflectionException $e) {
+            } catch (ReflectionException) {
                 continue;
             }
         }
+
         return $variablesAndTypes;
     }
 }
