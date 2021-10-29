@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule;
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenArrayWithStringKeysRule>
  */
-final class Php80Test extends AbstractServiceAwareRuleTestCase
+final class ForbiddenArrayWithStringKeysRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @param array<int|string> $expectedErrorMessagesWithLines

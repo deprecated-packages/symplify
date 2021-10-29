@@ -560,11 +560,6 @@ parameters:
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
 
-        # invalid parent type name
-        -
-            message: '#Arguments names conflicts with parent class method\: "\$funcCall" should be "\$functionCall"\. This will break named arguments#'
-            path: packages/phpstan-extensions/src/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension.php
-
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         - '#Parameter (.*?) expects class\-string, string given#'

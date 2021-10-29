@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\TooDeepNewClassNestingRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyOnStaticCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
+use Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<TooDeepNewClassNestingRule>
+ * @extends AbstractServiceAwareRuleTestCase<NoDynamicPropertyOnStaticCallRule>
  */
-final class Php8Test extends AbstractServiceAwareRuleTestCase
+final class NoDynamicPropertyOnStaticCallRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,11 +28,14 @@ final class Php8Test extends AbstractServiceAwareRuleTestCase
      */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/FixturePhp8/SkipExpressionThrow.php', []];
+        yield [__DIR__ . '/FixturePhp8/SkipObjectClass.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(TooDeepNewClassNestingRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(
+            NoDynamicPropertyOnStaticCallRule::class,
+            __DIR__ . '/config/configured_rule.neon'
+        );
     }
 }
