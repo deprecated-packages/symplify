@@ -77,19 +77,19 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implemen
         $existingClassesByShortClassName = $this->resolveExistingClassesByShortClassName($shortClassName, $className);
         $this->declaredClassesByShortName[$shortClassName] = $existingClassesByShortClassName;
 
-        $classesByShortName = $this->declaredClassesByShortName[$shortClassName] ?? [];
-        if (count($classesByShortName) <= 1) {
+        $classes = $this->declaredClassesByShortName[$shortClassName] ?? [];
+        if (count($classes) <= 1) {
             return [];
         }
 
         // is nesting level tolerated? - e.g. in case of monorepo project, it's ok to have duplicated classes in 2 levels, e.g. Symplify\\CodingStandard\\
         $classesByToleratedNamespace = [];
 
-        $classesByShortNameCount = count($classesByShortName);
+        $classesByShortNameCount = count($classes);
 
-        foreach ($classesByShortName as $classByShortName) {
-            $toleratedNamespace = Strings::before($classByShortName, '\\', $this->toleratedNestingLevel);
-            $classesByToleratedNamespace[$toleratedNamespace][] = $classByShortName;
+        foreach ($classes as $class) {
+            $toleratedNamespace = Strings::before($class, '\\', $this->toleratedNestingLevel);
+            $classesByToleratedNamespace[$toleratedNamespace][] = $class;
         }
 
         $toleratedNamespaces = array_keys($classesByToleratedNamespace);
@@ -99,7 +99,7 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implemen
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName, implode('", "', $classesByShortName));
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $shortClassName, implode('", "', $classes));
         return [$errorMessage];
     }
 
