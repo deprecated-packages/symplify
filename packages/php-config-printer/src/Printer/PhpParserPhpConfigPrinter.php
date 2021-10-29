@@ -88,16 +88,16 @@ final class PhpParserPhpConfigPrinter extends Standard
         return "'" . Strings::replace($string, self::QUOTE_SLASH_REGEX, '\\\\$0') . "'";
     }
 
-    protected function pExpr_Array(Array_ $node): string
+    protected function pExpr_Array(Array_ $array): string
     {
-        $node->setAttribute(self::KIND, Array_::KIND_SHORT);
+        $array->setAttribute(self::KIND, Array_::KIND_SHORT);
 
-        return parent::pExpr_Array($node);
+        return parent::pExpr_Array($array);
     }
 
-    protected function pExpr_MethodCall(MethodCall $node): string
+    protected function pExpr_MethodCall(MethodCall $methodCall): string
     {
-        $printedMethodCall = parent::pExpr_MethodCall($node);
+        $printedMethodCall = parent::pExpr_MethodCall($methodCall);
         return $this->indentFluentCallToNewline($printedMethodCall);
     }
 

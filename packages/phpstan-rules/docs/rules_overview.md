@@ -1,4 +1,4 @@
-# 157 Rules Overview
+# 156 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -5758,48 +5758,6 @@ class AbstractClass
 ```php
 abstract class AbstractClass
 {
-}
-```
-
-:+1:
-
-<br>
-
-## SameNamedParamFamilyRule
-
-Arguments names conflicts with parent class method: %s. This will break named arguments
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\SameNamedParamFamilyRule`](../src/Rules/Explicit/SameNamedParamFamilyRule.php)
-
-```php
-interface SomeInterface
-{
-    public function run($value);
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run($differentValue)
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-interface SomeInterface
-{
-    public function run($value);
-}
-
-final class SomeClass implements SomeInterface
-{
-    public function run($value)
-    {
-    }
 }
 ```
 
