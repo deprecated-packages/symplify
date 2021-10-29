@@ -44,7 +44,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For CLI App Developers
 
 - [Console Color Diff](https://github.com/symplify/console-color-diff)
-- [Console Package Builder](https://github.com/symplify/console-package-builder)
 
 ## For Any Developer
 
