@@ -18,7 +18,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testRouting(SmartFileInfo $fileInfo): void
     {
-        $configuration = new Configuration([], 3.4, true);
+        $configuration = new Configuration([], true);
         $this->doTestOutput($fileInfo, $configuration);
     }
 
@@ -40,7 +40,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
         require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
-        $configuration = new Configuration([], 5.4, true);
+        $configuration = new Configuration([], true);
         $this->doTestOutput($fixtureFileInfo, $configuration);
     }
 
@@ -86,7 +86,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Controller');
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Domain');
 
-        $configuration = new Configuration([], 5.4, true);
+        $configuration = new Configuration([], true);
         $this->doTestOutput($fileInfo, $configuration);
     }
 
@@ -144,7 +144,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
 
-        $configuration = new Configuration([], 5.4, true);
+        $configuration = new Configuration([], true);
         $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo, $configuration);
     }
 }

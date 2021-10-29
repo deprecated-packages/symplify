@@ -4,25 +4,35 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\Enum;
 
-final class Format
+use MyCLabs\Enum\Enum;
+
+/**
+ * @method static Format YAML()
+ * @method static Format YML()
+ * @method static Format XML()
+ * @method static Format PHP()
+ *
+ * @extends Enum<Format>
+ */
+final class Format extends Enum
 {
     /**
      * @var string
      */
-    public const YAML = 'yaml';
+    private const YAML = 'yaml';
 
     /**
      * @var string
      */
-    public const YML = 'yml';
+    private const YML = 'yml';
 
     /**
      * @var string
      */
-    public const XML = 'xml';
+    private const XML = 'xml';
 
     /**
      * @var string
      */
-    public const PHP = 'php';
+    private const PHP = 'php';
 }

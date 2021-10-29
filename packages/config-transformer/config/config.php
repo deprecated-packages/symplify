@@ -27,6 +27,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->exclude([
             __DIR__ . '/../src/HttpKernel',
             __DIR__ . '/../src/DependencyInjection/Loader',
+            __DIR__ . '/../src/Enum',
             __DIR__ . '/../src/ValueObject',
         ]);
 

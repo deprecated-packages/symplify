@@ -64,7 +64,8 @@
         "symfony/templating": "^5.3|^6.0",
         "symfony/translation": "^5.3|^6.0",
         "symfony/twig-bundle": "^5.3|^6.0",
-        "tracy/tracy": "^2.8"
+        "tracy/tracy": "^2.8",
+        "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0"
     },
     "autoload": {
         "files": [

@@ -13,7 +13,6 @@ final class Configuration
      */
     public function __construct(
         private array $sources,
-        private float $targetSymfonyVersion,
         private bool $isDryRun
     ) {
     }
@@ -26,11 +25,6 @@ final class Configuration
         return $this->sources;
     }
 
-    public function isAtLeastSymfonyVersion(float $symfonyVersion): bool
-    {
-        return $this->targetSymfonyVersion >= $symfonyVersion;
-    }
-
     public function isDryRun(): bool
     {
         return $this->isDryRun;
@@ -41,6 +35,6 @@ final class Configuration
      */
     public function getInputSuffixes(): array
     {
-        return [Format::YAML, Format::YML, Format::XML];
+        return [Format::YAML()->getValue(), Format::YML()->getValue(), Format::XML()->getValue()];
     }
 }
