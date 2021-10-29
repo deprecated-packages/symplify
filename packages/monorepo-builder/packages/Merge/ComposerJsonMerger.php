@@ -28,15 +28,20 @@ final class ComposerJsonMerger
     }
 
     /**
-     * @param SmartFileInfo[] $composerPackageFileInfos
+     * @param SmartFileInfo[] $composerPackagesFileInfos
      */
-    public function mergeFileInfos(array $composerPackageFileInfos): ComposerJson
+    public function mergeFileInfos(array $composerPackagesFileInfos): ComposerJson
     {
         $mainComposerJson = $this->composerJsonFactory->createFromArray([]);
-        foreach ($composerPackageFileInfos as $packageFileInfo) {
-            $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($packageFileInfo);
 
-            $this->mergeJsonToRootWithPackageFileInfo($mainComposerJson, $packageComposerJson, $packageFileInfo);
+        foreach ($composerPackagesFileInfos as $composerPackagesFileInfo) {
+            $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($composerPackagesFileInfo);
+
+            $this->mergeJsonToRootWithPackageFileInfo(
+                $mainComposerJson,
+                $packageComposerJson,
+                $composerPackagesFileInfo
+            );
         }
 
         return $mainComposerJson;

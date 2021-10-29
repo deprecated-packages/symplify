@@ -86,12 +86,12 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
     private function matchVariableType(string $variableName): ?Type
     {
-        foreach ($this->variablesAndTypes as $variablesAndType) {
-            if ($variablesAndType->getVariable() !== $variableName) {
+        foreach ($this->variablesAndTypes as $variableAndType) {
+            if ($variableAndType->getVariable() !== $variableName) {
                 continue;
             }
 
-            return $variablesAndType->getType();
+            return $variableAndType->getType();
         }
 
         return $this->matchForeachVariableType($variableName);
@@ -100,13 +100,13 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     private function matchForeachVariableType(string $variableName): ?Type
     {
         // foreached variable
-        foreach ($this->variablesAndTypes as $variablesAndType) {
+        foreach ($this->variablesAndTypes as $variableAndType) {
             foreach ($this->foreachedVariablesToSingles as $singleName) {
                 if ($singleName !== $variableName) {
                     continue;
                 }
 
-                $possibleArrayType = $variablesAndType->getType();
+                $possibleArrayType = $variableAndType->getType();
                 if (! $possibleArrayType instanceof ArrayType) {
                     continue;
                 }

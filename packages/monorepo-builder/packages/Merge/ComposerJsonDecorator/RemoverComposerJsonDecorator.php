@@ -79,8 +79,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
                 continue;
             }
 
-            $autoloadListKeys = array_keys($autoloadList);
-            foreach ($autoloadListKeys as $namespace) {
+            $namespaces = array_keys($autoloadList);
+            foreach ($namespaces as $namespace) {
                 unset($currentAutoload[$type][$namespace]);
             }
         }
@@ -101,8 +101,8 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
                 continue;
             }
 
-            $autoloadListKeys = array_keys($autoloadList);
-            foreach ($autoloadListKeys as $namespace) {
+            $namespaces = array_keys($autoloadList);
+            foreach ($namespaces as $namespace) {
                 unset($currentAutoloadDev[$type][$namespace]);
             }
         }

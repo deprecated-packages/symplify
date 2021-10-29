@@ -36,8 +36,8 @@ final class RootRemoveComposerJsonDecorator implements ComposerJsonDecoratorInte
      */
     private function filterOutMergedPackages(array $require): array
     {
-        $requireKeys = array_keys($require);
-        foreach ($requireKeys as $packageName) {
+        $packageNames = array_keys($require);
+        foreach ($packageNames as $packageName) {
             if (! in_array($packageName, $this->mergedPackagesCollector->getPackages(), true)) {
                 continue;
             }

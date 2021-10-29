@@ -62,8 +62,8 @@ final class ClassExtractor
         }
 
         $staticCallsMatches = Strings::matchAll($fileContent, self::STATIC_CALL_CLASS_REGEX);
-        foreach ($staticCallsMatches as $staticCallsMatch) {
-            $classNames[] = $this->extractClassName($fileInfo, $staticCallsMatch);
+        foreach ($staticCallsMatches as $staticCallMatch) {
+            $classNames[] = $this->extractClassName($fileInfo, $staticCallMatch);
         }
 
         return $classNames;

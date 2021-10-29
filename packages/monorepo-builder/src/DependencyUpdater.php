@@ -24,14 +24,14 @@ final class DependencyUpdater
         array $packageNames,
         string $version
     ): void {
-        foreach ($smartFileInfos as $packageComposerFileInfo) {
-            $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
+        foreach ($smartFileInfos as $smartFileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
             $json = $this->processSectionWithPackages($json, $packageNames, $version, ComposerJsonSection::REQUIRE);
 
             $json = $this->processSectionWithPackages($json, $packageNames, $version, ComposerJsonSection::REQUIRE_DEV);
 
-            $this->jsonFileManager->printJsonToFileInfo($json, $packageComposerFileInfo);
+            $this->jsonFileManager->printJsonToFileInfo($json, $smartFileInfo);
         }
     }
 
@@ -43,24 +43,24 @@ final class DependencyUpdater
         string $vendor,
         string $version
     ): void {
-        foreach ($smartFileInfos as $packageComposerFileInfo) {
-            $json = $this->jsonFileManager->loadFromFileInfo($packageComposerFileInfo);
+        foreach ($smartFileInfos as $smartFileInfo) {
+            $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
             $json = $this->processSection($json, $vendor, $version, ComposerJsonSection::REQUIRE);
             $json = $this->processSection($json, $vendor, $version, ComposerJsonSection::REQUIRE_DEV);
 
-            $this->jsonFileManager->printJsonToFileInfo($json, $packageComposerFileInfo);
+            $this->jsonFileManager->printJsonToFileInfo($json, $smartFileInfo);
         }
     }
 
     /**
      * @param mixed[] $json
-     * @param string[] $packageNames
+     * @param string[] $parentPackageNames
      * @return mixed[]
      */
     private function processSectionWithPackages(
         array $json,
-        array $packageNames,
+        array $parentPackageNames,
         string $targetVersion,
         string $section
     ): array {
@@ -68,9 +68,9 @@ final class DependencyUpdater
             return $json;
         }
 
-        $sectionKeys = array_keys($json[$section]);
-        foreach ($sectionKeys as $packageName) {
-            if (! in_array($packageName, $packageNames, true)) {
+        $packageNames = array_keys($json[$section]);
+        foreach ($packageNames as $packageName) {
+            if (! in_array($packageName, $parentPackageNames, true)) {
                 continue;
             }
 

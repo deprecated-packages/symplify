@@ -19,8 +19,9 @@ final class AutowireInterfacesCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $containerBuilder): void
     {
-        $containerBuilderDefinitions = $containerBuilder->getDefinitions();
-        foreach ($containerBuilderDefinitions as $definition) {
+        $definitions = $containerBuilder->getDefinitions();
+
+        foreach ($definitions as $definition) {
             foreach ($this->typesToAutowire as $typeToAutowire) {
                 if (! is_a((string) $definition->getClass(), $typeToAutowire, true)) {
                     continue;

@@ -40,8 +40,8 @@ final class MissingClassConstantTwigAnalyzer implements TwigTemplateAnalyzerInte
                 continue;
             }
 
-            foreach ($matches as $foundMatch) {
-                $classConstantName = (string) $foundMatch[self::CLASS_CONSTANT_NAME_PART];
+            foreach ($matches as $match) {
+                $classConstantName = (string) $match[self::CLASS_CONSTANT_NAME_PART];
 
                 $classConstantName = str_replace('\\\\', '\\', $classConstantName);
                 if (defined($classConstantName)) {

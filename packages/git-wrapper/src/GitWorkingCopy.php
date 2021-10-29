@@ -357,9 +357,9 @@ final class GitWorkingCopy
         $remotes = [];
 
         $resultLines = $this->splitByNewline($result);
-        foreach ($resultLines as $remote) {
-            $remotes[$remote][CommandName::FETCH] = $this->getRemoteUrl($remote);
-            $remotes[$remote][CommandName::PUSH] = $this->getRemoteUrl($remote, CommandName::PUSH);
+        foreach ($resultLines as $resultLine) {
+            $remotes[$resultLine][CommandName::FETCH] = $this->getRemoteUrl($resultLine);
+            $remotes[$resultLine][CommandName::PUSH] = $this->getRemoteUrl($resultLine, CommandName::PUSH);
         }
 
         return $remotes;

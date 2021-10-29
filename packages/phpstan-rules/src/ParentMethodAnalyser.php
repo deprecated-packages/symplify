@@ -19,8 +19,8 @@ final class ParentMethodAnalyser
         /** @var ClassReflection[] $parentClassLikeReflections */
         $parentClassLikeReflections = array_merge($classReflection->getParents(), $classReflection->getInterfaces());
 
-        foreach ($parentClassLikeReflections as $classLikeReflection) {
-            if ($classLikeReflection->hasMethod($methodName)) {
+        foreach ($parentClassLikeReflections as $parentClassLikeReflection) {
+            if ($parentClassLikeReflection->hasMethod($methodName)) {
                 return true;
             }
         }

@@ -85,23 +85,23 @@ final class NeonFilesProcessor implements FileProcessorInterface
     {
         $fileErrors = [];
 
-        foreach ($servicesNeon as $singleService) {
-            if ($singleService instanceof Entity) {
-                $errorMessage = $this->createErrorMessageFromNeonEntity($singleService);
+        foreach ($servicesNeon as $serviceNeon) {
+            if ($serviceNeon instanceof Entity) {
+                $errorMessage = $this->createErrorMessageFromNeonEntity($serviceNeon);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
                 continue;
             }
 
             // 0. skip empty or aliaseses
-            if (! is_array($singleService)) {
+            if (! is_array($serviceNeon)) {
                 continue;
             }
 
             // 1. the "setup" has allowed entities
-            $singleService = $this->removeSetupKey($singleService);
+            $serviceNeon = $this->removeSetupKey($serviceNeon);
 
             // 2. detect complex neon entities
-            $flatNeon = Arrays::flatten($singleService, true);
+            $flatNeon = Arrays::flatten($serviceNeon, true);
             foreach ($flatNeon as $itemNeon) {
                 if ($this->shouldSkip($itemNeon)) {
                     continue;

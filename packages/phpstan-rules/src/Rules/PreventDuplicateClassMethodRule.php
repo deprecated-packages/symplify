@@ -41,7 +41,7 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     /**
      * @var array<array<string, string>>
      */
-    private array $classMethodContent = [];
+    private array $classMethodContents = [];
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
@@ -82,12 +82,12 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
 
         $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($node);
 
-        $validateDuplication = $this->validateDuplication($className, $classMethodName, $printStmts);
+        $validateDuplication = $this->validateDuplication($classMethodName, $printStmts);
         if ($validateDuplication !== []) {
             return $validateDuplication;
         }
 
-        $this->classMethodContent[] = [
+        $this->classMethodContents[] = [
             'class' => $className,
             'method' => $classMethodName,
             'content' => $printStmts,
@@ -142,21 +142,17 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function validateDuplication(
-        string $className,
-        string $classMethodName,
-        string $currentPrintedClassMethod
-    ): array {
-        foreach ($this->classMethodContent as $contentMethod) {
-            if ($contentMethod['content'] !== $currentPrintedClassMethod) {
+    private function validateDuplication(string $classMethodName, string $currentClassMethodContent): array {
+        foreach ($this->classMethodContents as $classMethodContent) {
+            if ($classMethodContent['content'] !== $currentClassMethodContent) {
                 continue;
             }
 
             $errorMessage = sprintf(
                 self::ERROR_MESSAGE,
                 $classMethodName,
-                $contentMethod['method'],
-                $contentMethod['class']
+                $classMethodContent['method'],
+                $classMethodContent['class']
             );
 
             return [$errorMessage];

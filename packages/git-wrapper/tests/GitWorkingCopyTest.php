@@ -165,7 +165,7 @@ CODE_SAMPLE;
 
         // Dumb count checks. Is there a better way to do this?
         $allBranches = 0;
-        foreach ($gitBranches as $branch) {
+        foreach ($gitBranches as $gitBranch) {
             ++$allBranches;
         }
 
