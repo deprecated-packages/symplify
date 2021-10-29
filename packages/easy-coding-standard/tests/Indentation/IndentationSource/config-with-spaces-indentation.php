@@ -8,7 +8,8 @@ use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
-    $services->set(IndentationTypeFixer::class);
+    $services->set(IndentationTypeFixer::class)
+        ->public();
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);

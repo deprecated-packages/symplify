@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\ValueObject;
 
+use Symplify\ConfigTransformer\Enum\Format;
+
 final class Configuration
 {
     /**

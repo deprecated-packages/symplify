@@ -126,7 +126,7 @@ final class GitCommits implements IteratorAggregate
                     $captureBody = true;
                 }
 
-                $items[Strings::firstLower($key)] = $value;
+                $items[lcfirst($key)] = $value;
             } else {
                 $items['body'] .= "\n" . $line;
             }

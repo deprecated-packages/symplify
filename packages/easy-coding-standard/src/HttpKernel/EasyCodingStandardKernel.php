@@ -77,7 +77,7 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
     }
 
     /**
-     * @param ContainerInterface|ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
     {
