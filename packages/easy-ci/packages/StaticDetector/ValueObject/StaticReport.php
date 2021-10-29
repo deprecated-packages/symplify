@@ -19,8 +19,8 @@ final class StaticReport
     public function __construct(array $staticClassMethodsWithStaticCalls)
     {
         $staticCallsCount = 0;
-        foreach ($staticClassMethodsWithStaticCalls as $staticClassMethodWithStaticCalls) {
-            $staticCallsCount += count($staticClassMethodWithStaticCalls->getStaticCalls());
+        foreach ($staticClassMethodsWithStaticCalls as $staticClassMethodWithStaticCall) {
+            $staticCallsCount += count($staticClassMethodWithStaticCall->getStaticCalls());
         }
 
         $this->staticCallsCount = $staticCallsCount;

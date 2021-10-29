@@ -34,13 +34,13 @@ final class ComposerJsonMerger
     {
         $mainComposerJson = $this->composerJsonFactory->createFromArray([]);
 
-        foreach ($composerPackagesFileInfos as $composerPackagesFileInfo) {
-            $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($composerPackagesFileInfo);
+        foreach ($composerPackagesFileInfos as $composerPackageFileInfo) {
+            $packageComposerJson = $this->composerJsonFactory->createFromFileInfo($composerPackageFileInfo);
 
             $this->mergeJsonToRootWithPackageFileInfo(
                 $mainComposerJson,
                 $packageComposerJson,
-                $composerPackagesFileInfo
+                $composerPackageFileInfo
             );
         }
 

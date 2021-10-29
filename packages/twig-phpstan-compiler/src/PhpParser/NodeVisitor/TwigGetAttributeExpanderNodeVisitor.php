@@ -29,14 +29,14 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * @param VariableAndType[] $variablesAndTypes
-     * @param array<string, string> $foreachedVariablesToSingles
+     * @param array<string, string> $foreachedVariablesBySingleName
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
         private PublicPropertyAnalyzer $publicPropertyAnalyzer,
         private array $variablesAndTypes,
-        private array $foreachedVariablesToSingles
+        private array $foreachedVariablesBySingleName
     ) {
     }
 
@@ -101,7 +101,7 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     {
         // foreached variable
         foreach ($this->variablesAndTypes as $variableAndType) {
-            foreach ($this->foreachedVariablesToSingles as $singleName) {
+            foreach ($this->foreachedVariablesBySingleName as $singleName) {
                 if ($singleName !== $variableName) {
                     continue;
                 }

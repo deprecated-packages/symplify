@@ -58,12 +58,12 @@ final class RoutingConfiguratorReturnClosureFactory
         foreach ($arrayData as $key => $values) {
             $expression = null;
 
-            foreach ($this->routingCaseConverters as $caseConverter) {
-                if (! $caseConverter->match($key, $values)) {
+            foreach ($this->routingCaseConverters as $routingCaseConverter) {
+                if (! $routingCaseConverter->match($key, $values)) {
                     continue;
                 }
 
-                $expression = $caseConverter->convertToMethodCall($key, $values);
+                $expression = $routingCaseConverter->convertToMethodCall($key, $values);
                 break;
             }
 

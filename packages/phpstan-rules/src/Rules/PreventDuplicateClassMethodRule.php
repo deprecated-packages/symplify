@@ -142,7 +142,8 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function validateDuplication(string $classMethodName, string $currentClassMethodContent): array {
+    private function validateDuplication(string $classMethodName, string $currentClassMethodContent): array
+    {
         foreach ($this->classMethodContents as $classMethodContent) {
             if ($classMethodContent['content'] !== $currentClassMethodContent) {
                 continue;
