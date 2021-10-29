@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler;
 
 use Iterator;
+use Nette\Localization\Translator;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
@@ -79,8 +80,17 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/FixtureWithTypes/expected_compiled.php',
         ];
 
-        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
+        $variablesAndTypes = [
+            new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class)),
+        ];
+        yield [
+            __DIR__ . '/FixtureWithNonStaticFilter/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureWithNonStaticFilter/expected_compiled.php',
+        ];
 
+        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
         yield [
             __DIR__ . '/FixtureWithControl/input_file.latte',
             [],
@@ -104,6 +114,7 @@ final class LatteToPhpCompilerTest extends TestCase
             __DIR__ . '/../../../../packages/latte-phpstan-compiler/config/services.neon',
             __DIR__ . '/../../../../packages/phpstan-rules/config/services/services.neon',
             __DIR__ . '/../../../../packages/astral/config/services.neon',
+            __DIR__ . '/latte_to_php_compiler_test.neon',
         ];
 
         $phpStanContainerFactory = new PHPStanContainerFactory();

@@ -1,3 +1,9 @@
+parameters:
+    latteFilters: []
+
+parametersSchema:
+    latteFilters: array()
+
 services:
     # latte
     - Latte\Parser
@@ -18,6 +24,16 @@ services:
 
     # variables
     - Symplify\LattePHPStanCompiler\LatteVariableCollector\DefaultTemplateVariables
+    -
+        class: Symplify\LattePHPStanCompiler\LatteVariableCollector\DynamicFilterVariables
+        arguments:
+            latteFilters: %latteFilters%
+
+    # filters
+    -
+        class: Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher
+        arguments:
+            latteFilters: %latteFilters%
 
     # php traversing
     - Symplify\LattePHPStanCompiler\NodeVisitor\TemplateIncludesNameNodeVisitor
