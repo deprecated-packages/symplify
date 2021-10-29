@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Kernel;
 use Symplify\PackageBuilder\Bundle\NamelessConsoleCommandBundle;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 
-final class PackageBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
+final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
     /**
      * @var string[]

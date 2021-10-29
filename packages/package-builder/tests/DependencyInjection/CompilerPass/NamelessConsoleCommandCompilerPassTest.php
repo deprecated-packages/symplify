@@ -7,13 +7,13 @@ namespace Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass;
 use Symfony\Component\Console\Application;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\Source\SomeCommand;
-use Symplify\PackageBuilder\Tests\HttpKernel\PackageBuilderKernel;
+use Symplify\PackageBuilder\Tests\HttpKernel\ConsolePackageBuilderKernel;
 
 final class NamelessConsoleCommandCompilerPassTest extends AbstractKernelTestCase
 {
     protected function setUp(): void
     {
-        $this->bootKernelWithConfigs(PackageBuilderKernel::class, [__DIR__ . '/config/command_config.php']);
+        $this->bootKernelWithConfigs(ConsolePackageBuilderKernel::class, [__DIR__ . '/config/command_config.php']);
     }
 
     public function test(): void

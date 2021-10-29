@@ -19,14 +19,14 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 final class FilterMatcher
 {
     /**
-     * @var CallReferenceInterface[]
+     * @var array<string, CallReferenceInterface>
      */
     private array $latteFilters = [];
 
     private Defaults $filtersDefaults;
 
     /**
-     * @param array<string, string|array{string, string}> $latteFilters
+     * @param array<string, string|array<string, string>> $latteFilters
      */
     public function __construct(array $latteFilters)
     {
@@ -55,6 +55,7 @@ final class FilterMatcher
             return null;
         }
 
+        /** @var array<string, string> $filterCallable */
         return $this->createCallReference($filterCallable);
     }
 
