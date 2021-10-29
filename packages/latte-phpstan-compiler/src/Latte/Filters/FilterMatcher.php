@@ -26,7 +26,7 @@ final class FilterMatcher
     private Defaults $filtersDefaults;
 
     /**
-     * @param array<string, string|array<string, string>> $latteFilters
+     * @param array<string, string|array{string, string}> $latteFilters
      */
     public function __construct(array $latteFilters)
     {
