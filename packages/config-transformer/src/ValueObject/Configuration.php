@@ -31,7 +31,7 @@ final class Configuration
     }
 
     /**
-     * @return string[]
+     * @return Format[]
      */
     public function getInputSuffixes(): array
     {
