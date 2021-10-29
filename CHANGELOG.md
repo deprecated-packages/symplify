@@ -802,7 +802,7 @@ PRs and issues are linked, so you can find more about it. Thanks to [ChangelogLi
 #### ClassPresence
 - [#2541] Init new packages
 
-#### ConsolePackageBuilder
+#### PackageBuilder
 - [#2542] Init a new package
 
 #### EasyHydrator

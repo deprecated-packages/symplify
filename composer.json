@@ -79,7 +79,7 @@
             "Symplify\\ComposerJsonManipulator\\": "packages/composer-json-manipulator/src",
             "Symplify\\ConfigTransformer\\": "packages/config-transformer/src",
             "Symplify\\ConsoleColorDiff\\": "packages/console-color-diff/src",
-            "Symplify\\ConsolePackageBuilder\\": "packages/console-package-builder/src",
+            "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\EasyCI\\": [
                 "packages/easy-ci/packages",
                 "packages/easy-ci/src"
@@ -107,7 +107,6 @@
             "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/phpstan-rules/packages/twig-phpstan-printer/src",
             "Symplify\\PHPStanTwigRules\\": "packages/phpstan-twig-rules/src",
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
-            "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -143,7 +142,7 @@
             "Symplify\\ComposerJsonManipulator\\Tests\\": "packages/composer-json-manipulator/tests",
             "Symplify\\ConfigTransformer\\Tests\\": "packages/config-transformer/tests",
             "Symplify\\ConsoleColorDiff\\Tests\\": "packages/console-color-diff/tests",
-            "Symplify\\ConsolePackageBuilder\\Tests\\": "packages/console-package-builder/tests",
+            "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\EasyCI\\Tests\\": [
                 "packages/easy-ci/packages-tests",
                 "packages/easy-ci/tests"
@@ -170,7 +169,6 @@
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
             "Symplify\\PHPStanTwigRules\\Tests\\": "packages/phpstan-twig-rules/tests",
             "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
-            "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
@@ -194,7 +192,6 @@
         "symplify/composer-json-manipulator": "9.4.70",
         "symplify/config-transformer": "9.4.70",
         "symplify/console-color-diff": "9.4.70",
-        "symplify/console-package-builder": "9.4.70",
         "symplify/easy-ci": "9.4.70",
         "symplify/easy-coding-standard": "9.4.70",
         "symplify/easy-testing": "9.4.70",

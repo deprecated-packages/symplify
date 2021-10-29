@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsolePackageBuilder\Tests\HttpKernel;
+namespace Symplify\PackageBuilder\Tests\HttpKernel;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\ConsolePackageBuilder\Bundle\NamelessConsoleCommandBundle;
+use Symplify\PackageBuilder\Bundle\NamelessConsoleCommandBundle;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 
-final class ConsolePackageBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
+final class PackageBuilderKernel extends Kernel implements ExtraConfigAwareKernelInterface
 {
     /**
      * @var string[]
