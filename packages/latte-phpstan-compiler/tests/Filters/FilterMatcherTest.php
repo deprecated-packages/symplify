@@ -19,11 +19,9 @@ final class FilterMatcherTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->filterMatcher = new FilterMatcher(
-            [
-                'translate' => ['Nette\Localization\Translator', 'translate'],
-            ],
-        );
+        $this->filterMatcher = new FilterMatcher([
+            'translate' => ['Nette\Localization\Translator', 'translate'],
+        ]);
     }
 
     /**

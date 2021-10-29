@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsolePackageBuilder\DependencyInjection\CompilerPass;
+namespace Symplify\PackageBuilder\DependencyInjection\CompilerPass;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 /**
- * @see \Symplify\ConsolePackageBuilder\Tests\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPassTest
+ * @see \Symplify\PackageBuilder\Tests\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPassTest
  */
 final class NamelessConsoleCommandCompilerPass implements CompilerPassInterface
 {

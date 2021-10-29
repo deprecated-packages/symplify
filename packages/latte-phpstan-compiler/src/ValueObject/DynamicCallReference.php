@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\ValueObject;
 
-final class DynamicCallReference
+use Symplify\LattePHPStanCompiler\Contract\ValueObject\CallReferenceInterface;
+
+final class DynamicCallReference implements CallReferenceInterface
 {
     public function __construct(
         private string $class,
