@@ -127,32 +127,32 @@ final class ConfiguratorClosureNodeFactory
     }
 
     /**
-     * @param Expr[][][] $extensionNodes
+     * @param array<string, Expr[][]> $extensionNodesByExtensionName
      * @param Stmt[] $stmts
      * @return Stmt[]
      */
-    private function replaceArrayArgWithMergedArrayItems(array $extensionNodes, array $stmts): array
+    private function replaceArrayArgWithMergedArrayItems(array $extensionNodesByExtensionName, array $stmts): array
     {
-        foreach ($extensionNodes as $extensionStmts) {
-            if (count($extensionStmts) === 1) {
+        foreach ($extensionNodesByExtensionName as $extensionNodes) {
+            if (count($extensionNodes) === 1) {
                 continue;
             }
 
-            $firstStmtKey = $this->resolveFirstStmtKey($extensionStmts);
-            $stmtKeysToRemove = $this->resolveStmtKeysToRemove($extensionStmts);
-            $newArrayItems = $this->resolveMergedArrayItems($extensionStmts);
+            $firstStmtKey = $this->resolveFirstStmtKey($extensionNodes);
+            $stmtKeysToRemove = $this->resolveStmtKeysToRemove($extensionNodes);
+            $newArrayItems = $this->resolveMergedArrayItems($extensionNodes);
 
             foreach ($stmtKeysToRemove as $stmtKeyToRemove) {
                 unset($stmts[$stmtKeyToRemove]);
             }
 
             // replace first extension argument
-            $expressoin = $stmts[$firstStmtKey];
-            if (! $expressoin instanceof Expression) {
+            $expression = $stmts[$firstStmtKey];
+            if (! $expression instanceof Expression) {
                 continue;
             }
 
-            $methodCall = $expressoin->expr;
+            $methodCall = $expression->expr;
             if (! $methodCall instanceof MethodCall) {
                 continue;
             }

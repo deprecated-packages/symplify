@@ -139,9 +139,8 @@ final class RemoveMutualCheckersCompilerPass implements CompilerPassInterface
             }
 
             array_shift($matchingCheckerGroup);
-            foreach ($matchingCheckerGroup as $checkerToRemove) {
-                $checkersToRemove[] = $checkerToRemove;
-            }
+
+            $checkersToRemove = [...$checkersToRemove, ...$matchingCheckerGroup];
         }
 
         return $checkersToRemove;

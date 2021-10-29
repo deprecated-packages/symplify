@@ -45,9 +45,9 @@ final class TemplatePathsResolver
     private function resolveTemplatePathsWithBundle(array $twigTemplateFileInfos): array
     {
         $templatePathsWithBundle = [];
-        foreach ($twigTemplateFileInfos as $templateFileInfo) {
-            $relativeTemplateFilepath = $this->resolveRelativeTemplateFilepath($templateFileInfo);
-            $bundlePrefix = $this->findBundlePrefix($templateFileInfo);
+        foreach ($twigTemplateFileInfos as $twigTemplateFileInfo) {
+            $relativeTemplateFilepath = $this->resolveRelativeTemplateFilepath($twigTemplateFileInfo);
+            $bundlePrefix = $this->findBundlePrefix($twigTemplateFileInfo);
 
             $templatePathsWithBundle[] = '@' . $bundlePrefix . '/' . $relativeTemplateFilepath;
         }

@@ -61,13 +61,13 @@ final class YamlToPhpConverter
     }
 
     /**
-     * @param array<string, mixed> $yaml
+     * @param array<string, mixed> $yamlLines
      */
-    private function isRouteYaml(array $yaml): bool
+    private function isRouteYaml(array $yamlLines): bool
     {
-        foreach ($yaml as $value) {
+        foreach ($yamlLines as $yamlLine) {
             foreach (self::ROUTING_KEYS as $routeKey) {
-                if (isset($value[$routeKey])) {
+                if (isset($yamlLine[$routeKey])) {
                     return true;
                 }
             }

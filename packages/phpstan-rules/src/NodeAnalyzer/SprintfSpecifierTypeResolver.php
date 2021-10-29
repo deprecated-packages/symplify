@@ -34,11 +34,11 @@ final class SprintfSpecifierTypeResolver
     {
         $expectedTypes = [];
 
-        foreach ($specifiers as $mask) {
+        foreach ($specifiers as $specifier) {
             $types = [];
 
-            if (isset(self::MASK_TO_STATIC_TYPES_MAP[$mask])) {
-                $typeClasses = self::MASK_TO_STATIC_TYPES_MAP[$mask];
+            if (isset(self::MASK_TO_STATIC_TYPES_MAP[$specifier])) {
+                $typeClasses = self::MASK_TO_STATIC_TYPES_MAP[$specifier];
                 foreach ($typeClasses as $typeClass) {
                     $types[] = new $typeClass();
                 }

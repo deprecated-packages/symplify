@@ -191,16 +191,16 @@ CODE_SAMPLE
         $paragraphLines = [];
         $paragraphIndex = 0;
 
-        foreach ($descriptionLines as $line) {
+        foreach ($descriptionLines as $descriptionLine) {
             if (! isset($paragraphLines[$paragraphIndex])) {
                 $paragraphLines[$paragraphIndex] = [];
             }
 
-            $line = trim($line);
-            if ($line === '') {
+            $descriptionLine = trim($descriptionLine);
+            if ($descriptionLine === '') {
                 ++$paragraphIndex;
             } else {
-                $paragraphLines[$paragraphIndex][] = $line;
+                $paragraphLines[$paragraphIndex][] = $descriptionLine;
             }
         }
 

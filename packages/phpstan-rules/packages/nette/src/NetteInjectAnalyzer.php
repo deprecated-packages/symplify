@@ -126,9 +126,9 @@ final class NetteInjectAnalyzer
         ReflectionClass $reflectionClass,
         PropertyFetch $propertyFetch
     ): bool {
-        $publicNativeClassMethodReflections = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
-        foreach ($publicNativeClassMethodReflections as $nativeMethodReflection) {
-            $classMethod = $this->reflectionParser->parseMethodReflectionToClassMethod($nativeMethodReflection);
+        $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+        foreach ($reflectionMethods as $reflectionMethod) {
+            $classMethod = $this->reflectionParser->parseMethodReflectionToClassMethod($reflectionMethod);
             if (! $classMethod instanceof ClassMethod) {
                 continue;
             }
