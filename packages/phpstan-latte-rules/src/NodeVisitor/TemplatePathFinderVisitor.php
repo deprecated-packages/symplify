@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanLatteRules\NodeVisitor;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeVisitorAbstract;
 use PHPStan\Analyser\Scope;
@@ -43,7 +44,7 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
         }
 
         $pathArg = $node->getArgs()[0] ?? null;
-        if ($pathArg === null) {
+        if (! $pathArg instanceof Arg) {
             return null;
         }
 

@@ -51,7 +51,7 @@ services:
 
 parameters:
     level: 8
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -66,8 +66,7 @@ parameters:
         - */scoper.php
         - *scoper.inc.php
 
-        # WIP parallel
-        #- packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+        # parallel
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
@@ -93,18 +92,15 @@ parameters:
         - *packages/coding-standard/tests/**/Wrong*
         - *packages/phpstan-extensions/**/Source/**
         # tests
-        - packages/easy-coding-standard/packages/SniffRunner/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/symfony-static-dumper/tests/test_project/
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # 3rd party
-        - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
         - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # tests
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
-        # requires PHP 7.4
         - '*/tests/Source/*'
         - '*/tests/**/Source/*'
         - '*/tests/**/Fixture/*'
@@ -116,10 +112,6 @@ parameters:
         - */tests/Fixture/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
-
-        # requireds PHP 8
-        - packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php
-        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -138,9 +130,7 @@ parameters:
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
-
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
@@ -498,12 +488,8 @@ parameters:
 
         - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
 
-        # paralellel
+        # paralell
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
-
-        # php-parser 4.13, not updated yet
-#        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
-#        - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
 
         -
              message: '#Class has a static method must so must contains "Static" in its name#'
@@ -594,10 +580,5 @@ parameters:
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
         # enum false positives
-#        -
-#            path: packages/config-transformer/src
-#            message: '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
-#        - '#Method Symplify\\ConfigTransformer\\ValueObject\\Configuration\:\:getInputSuffixes\(\) should return array<string\> but returns array<int, Symplify\\ConfigTransformer\\Enum\\Format\>#'
         - '#Call to function in_array\(\) with arguments string, array\{Symplify\\ConfigTransformer\\Enum\\Format, Symplify\\ConfigTransformer\\Enum\\Format\} and true will always evaluate to false#'
-
         - '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'

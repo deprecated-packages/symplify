@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanTwigRules\NodeAnalyzer;
 
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -26,7 +27,7 @@ final class TwigRenderTemplateWithParametersMatcher
         string $templateSuffix
     ): RenderTemplateWithParameters|null {
         $firstArg = $methodCall->getArgs()[0] ?? null;
-        if ($firstArg === null) {
+        if (! $firstArg instanceof Arg) {
             return null;
         }
 
