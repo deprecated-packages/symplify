@@ -8,7 +8,6 @@ use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Core\Configuration\Option;
-use Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
@@ -73,11 +72,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
-
-        # tests
-        __DIR__ . '/packages/vendor-patches/tests',
-
-        RenameForeachValueVariableToMatchExprVariableRector::class,
 
         // on purpose Latte macro magic
         SymplifyQuoteEscapeRector::class => [
