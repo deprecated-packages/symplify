@@ -10,6 +10,4 @@ services:
     -
         class: Symplify\PHPStanTwigRules\Rules\TwigCompleteCheckRule
         tags: [phpstan.rules.rule]
-        arguments:
-            parser: @currentPhpVersionRichParser
 
