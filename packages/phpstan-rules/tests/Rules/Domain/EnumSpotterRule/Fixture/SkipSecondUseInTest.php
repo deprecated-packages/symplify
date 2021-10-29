@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule\Fixture;
 
-use PHPStan\Testing\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule\Source\AnotherFlashAdder;
 
 final class SkipSecondUseInTest extends TestCase

@@ -40,7 +40,7 @@ final class ImportCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         return $rootKey === YamlKey::IMPORTS;
     }
@@ -48,7 +48,7 @@ final class ImportCaseConverter implements CaseConverterInterface
     /**
      * @param mixed|mixed[] $values
      */
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         if (is_array($values)) {
             $arguments = $this->yamlArgumentSorter->sortArgumentsByKeyIfExists($values, [
@@ -98,7 +98,7 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $args;
     }
 
-    private function shouldSkipDefaultValue(string $name, $value, array $arguments): bool
+    private function shouldSkipDefaultValue(string $name, mixed $value, array $arguments): bool
     {
         // skip default value for "ignore_errors"
         if ($name === YamlKey::IGNORE_ERRORS && $value === false) {
@@ -125,7 +125,7 @@ final class ImportCaseConverter implements CaseConverterInterface
     /**
      * @return mixed|string
      */
-    private function replaceImportedFileSuffix($value)
+    private function replaceImportedFileSuffix(mixed $value)
     {
         if (! is_string($value)) {
             return $value;
@@ -134,7 +134,7 @@ final class ImportCaseConverter implements CaseConverterInterface
         return Strings::replace($value, self::INPUT_SUFFIX_REGEX, '.php');
     }
 
-    private function resolveExpr($value): Expr
+    private function resolveExpr(mixed $value): Expr
     {
         if (is_bool($value)) {
             return BuilderHelpers::normalizeValue($value);

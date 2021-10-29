@@ -15,7 +15,7 @@ final class ConflictingPackageVersionsReporter
     }
 
     /**
-     * @param mixed[] $conflictingPackages
+     * @param array<string, array<string, string>> $conflictingPackages
      */
     public function report(array $conflictingPackages): void
     {
@@ -31,9 +31,10 @@ final class ConflictingPackageVersionsReporter
     }
 
     /**
+     * @param array<string, string> $filesToVersions
      * @return array<int, mixed[]>
      */
-    private function createTableRows($filesToVersions): array
+    private function createTableRows(array $filesToVersions): array
     {
         $tableRows = [];
 

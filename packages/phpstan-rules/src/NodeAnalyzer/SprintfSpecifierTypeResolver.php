@@ -13,7 +13,7 @@ use PHPStan\Type\Type;
 final class SprintfSpecifierTypeResolver
 {
     /**
-     * @var array<string, Type[]>
+     * @var array<string, array<class-string<Type>>>
      *
      * @see https://www.php.net/manual/en/function.sprintf.php > "Specifiers"
      */

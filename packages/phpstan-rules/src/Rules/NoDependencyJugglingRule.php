@@ -9,7 +9,6 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\NodeVisitor;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
@@ -32,7 +31,7 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use dependency injection instead of dependency juggling';
 
     /**
-     * @var array<class-string<NodeVisitor>>
+     * @var array<class-string>
      */
     private const ALLOWED_PROPERTY_TYPES = [
         'PhpParser\NodeVisitor',

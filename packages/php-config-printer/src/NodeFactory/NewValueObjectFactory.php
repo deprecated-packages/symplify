@@ -37,6 +37,7 @@ final class NewValueObjectFactory
     {
         $reflectionClass = new ReflectionClass($valueObjectClass);
         $propertyValues = [];
+
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             $reflectionProperty->setAccessible(true);
 

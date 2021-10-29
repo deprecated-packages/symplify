@@ -11,7 +11,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
-use SomeType;
 use Symplify\PHPStanRules\Matcher\PositionMatcher;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -86,7 +85,7 @@ CODE_SAMPLE
                 ,
                 [
                     'requiredLocalConstantInMethodCall' => [
-                        SomeType::class => [
+                        'SomeType' => [
                             'someMethod' => [0],
                         ],
                     ],

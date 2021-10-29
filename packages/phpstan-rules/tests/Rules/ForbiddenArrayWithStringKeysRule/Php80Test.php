@@ -24,7 +24,7 @@ final class Php80Test extends AbstractServiceAwareRuleTestCase
     }
 
     /**
-     * @return Iterator<array<int, array|string>>
+     * @return Iterator<array<int, mixed[]|string>>
      */
     public function provideData(): Iterator
     {

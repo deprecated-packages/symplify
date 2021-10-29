@@ -10,4 +10,11 @@ if (class_exists(\MyCLabs\Enum\Enum::class)) {
 
 abstract class Enum
 {
+    public function getKey(): string
+    {
+    }
+
+    public function getValue(): void
+    {
+    }
 }

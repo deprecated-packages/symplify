@@ -43,7 +43,7 @@ final class AliasCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         if (! is_string($key)) {
             throw new ShouldNotHappenException();
@@ -74,7 +74,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         throw new ShouldNotHappenException();
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;
@@ -95,7 +95,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         return $values[0] === '@';
     }
 
-    private function createAliasNode(string $key, string $fullClassName, $serviceValues): MethodCall
+    private function createAliasNode(string $key, string $fullClassName, mixed $serviceValues): MethodCall
     {
         $args = [];
 

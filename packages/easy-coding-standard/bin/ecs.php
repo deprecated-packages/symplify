@@ -38,6 +38,7 @@ try {
     $symfonyStyleFactory = new SymfonyStyleFactory();
     $symfonyStyle = $symfonyStyleFactory->create();
     $symfonyStyle->error($throwable->getMessage());
+    $symfonyStyle->writeln($throwable->getTraceAsString());
     exit(Command::FAILURE);
 }
 

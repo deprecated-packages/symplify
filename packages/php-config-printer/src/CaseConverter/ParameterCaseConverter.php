@@ -30,12 +30,12 @@ final class ParameterCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         return $rootKey === YamlKey::PARAMETERS;
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         if (is_string($values)) {
             $values = $this->prefixWithDirConstantIfExistingPath($values);

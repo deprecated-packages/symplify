@@ -7,30 +7,31 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\Php\PhpClassReflectionExtension;
-use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class ConstructorDefinedPropertyNodeAnalyzer
 {
+    /**
+     * @var string
+     */
+    private const THIS = 'this';
+
     public function __construct(
-        private PhpClassReflectionExtension $phpClassReflectionExtension,
-        private PrivatesCaller $privatesCaller,
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder
+        private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }
 
     public function isLocalPropertyDefinedInConstructor(PropertyFetch $propertyFetch, Scope $scope): bool
     {
-        if (! $this->simpleNameResolver->isName($propertyFetch->var, 'this')) {
+        if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
             return false;
         }
 
@@ -50,20 +51,15 @@ final class ConstructorDefinedPropertyNodeAnalyzer
             return [];
         }
 
-        $propertyNames = [];
-
-        $propertyNameToTypes = $this->resolveConstructorPropertyNamesToTypes($classReflection);
-        foreach (array_keys($propertyNameToTypes) as $propertyName) {
-            if (! is_string($propertyName)) {
-                continue;
-            }
-
-            $propertyNames[] = $propertyName;
+        $class = $this->simpleNodeFinder->findFirstParentByType($propertyFetch, Class_::class);
+        if (! $class instanceof Class_) {
+            return [];
         }
 
+        $definedPropertyNames = $this->resolveConstructorDefinedPropertyNames($class);
         $justCreatedPropertyNames = $this->resolveConstructorJustCreatedPropertyNames($propertyFetch);
 
-        return array_diff($propertyNames, $justCreatedPropertyNames);
+        return array_diff($definedPropertyNames, $justCreatedPropertyNames);
     }
 
     /**
@@ -92,7 +88,7 @@ final class ConstructorDefinedPropertyNodeAnalyzer
             }
 
             $propertyFetch = $assign->var;
-            if (! $this->simpleNameResolver->isName($propertyFetch->var, 'this')) {
+            if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
                 continue;
             }
 
@@ -112,20 +108,65 @@ final class ConstructorDefinedPropertyNodeAnalyzer
     }
 
     /**
-     * @return array<string, Type>
+     * @return string[]
      */
-    private function resolveConstructorPropertyNamesToTypes(ClassReflection $classReflection): array
+    private function resolveConstructorDefinedPropertyNames(Class_ $class): array
     {
-        if (! $classReflection->hasConstructor()) {
+        $constructorClassMethod = $class->getMethod(MethodName::CONSTRUCTOR);
+        if (! $constructorClassMethod instanceof ClassMethod) {
             return [];
         }
 
-        $constructorMethodReflection = $classReflection->getConstructor();
+        $paramNames = $this->resolveParamNames($constructorClassMethod);
 
-        return $this->privatesCaller->callPrivateMethod(
-            $this->phpClassReflectionExtension,
-            'inferAndCachePropertyTypes',
-            [$constructorMethodReflection]
-        );
+        $propertyFetchNames = [];
+
+        /** @var Assign[] $assigns */
+        $assigns = $this->simpleNodeFinder->findByType($constructorClassMethod, Assign::class);
+        foreach ($assigns as $assign) {
+            if (! $assign->expr instanceof Variable) {
+                continue;
+            }
+
+            if (! $this->simpleNameResolver->isNames($assign->expr, $paramNames)) {
+                continue;
+            }
+
+            if (! $assign->var instanceof PropertyFetch) {
+                continue;
+            }
+
+            $propertyFetch = $assign->var;
+            if (! $this->simpleNameResolver->isName($propertyFetch->var, self::THIS)) {
+                continue;
+            }
+
+            $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
+            if (! is_string($propertyFetchName)) {
+                continue;
+            }
+
+            $propertyFetchNames[] = $propertyFetchName;
+        }
+
+        return $propertyFetchNames;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function resolveParamNames(ClassMethod $constructorClassMethod): array
+    {
+        $paramNames = [];
+        foreach ($constructorClassMethod->params as $param) {
+            $paramName = $this->simpleNameResolver->getName($param);
+            if (! is_string($paramName)) {
+                continue;
+            }
+
+            $paramNames[] = $paramName;
+        }
+
+        return $paramNames;
     }
 }

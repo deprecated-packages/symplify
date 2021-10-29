@@ -15,5 +15,5 @@ interface ServiceOptionsKeyYamlToPhpFactoryInterface
      */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall;
 
-    public function isMatch($key, $values): bool;
+    public function isMatch(mixed $key, mixed $values): bool;
 }
