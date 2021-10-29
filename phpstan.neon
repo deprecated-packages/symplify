@@ -51,7 +51,7 @@ services:
 
 parameters:
     level: 8
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     parallel:
         # to prevent full thread lagging pc
@@ -67,7 +67,7 @@ parameters:
         - *scoper.inc.php
 
         # WIP parallel
-        - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+        #- packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
@@ -131,9 +131,6 @@ parameters:
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag\(\)#'
 
-        # intersect/union buggy
-        - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
-
         # phpstan 0.10 news
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
 
@@ -169,11 +166,6 @@ parameters:
             paths:
                 - packages/smart-file-system/src/Finder/FinderSanitizer.php
                 - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-            paths:
-                - packages/latte-phpstan-compiler/src/LatteVariableCollector/DynamicFilterVariables.php
 
         -
             message: '#Do not use static property#'
@@ -359,8 +351,6 @@ parameters:
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'
-        # resolve first
-        - '#Method (.*?) has parameter (.*?) with no typehint specified#'
 
         # wrong keys
         - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
@@ -450,8 +440,6 @@ parameters:
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
 
-        - '#Parameter \#1 \$container of method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest\:\:getIndentationTypeFixerFromContainer\(\) expects Psr\\Container\\ContainerInterface, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given#'
-
         -
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
             path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
@@ -486,12 +474,6 @@ parameters:
 
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ArgsNodeFactory\:\:createFromValues\(\)" is 13, keep it under 8#'
 
-        -
-            message: '#Method "isSymfonyMicroKernelRequired\(\)" only calling another method call and has no added value\. Use the inlined call instead#'
-            path: packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php
-
-        - '#Call to an undefined method MyCLabs\\Enum\\Enum\:\:getKey\(\)#'
-
         - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
 
         -
@@ -520,8 +502,8 @@ parameters:
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
 
         # php-parser 4.13, not updated yet
-        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
-        - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
+#        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
+#        - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
 
         -
              message: '#Class has a static method must so must contains "Static" in its name#'
@@ -536,8 +518,6 @@ parameters:
             path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
 
         # allow duplicated test classes
-        - '#Class with base "Php8(.*?)Test" name is already used in#'
-
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
 
         # false positive - way too generic
@@ -619,9 +599,10 @@ parameters:
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
         # enum false positives
-        -
-            path: packages/config-transformer/src
-            message: '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
-        - '#Method Symplify\\ConfigTransformer\\ValueObject\\Configuration\:\:getInputSuffixes\(\) should return array<string\> but returns array<int, Symplify\\ConfigTransformer\\Enum\\Format\>#'
+#        -
+#            path: packages/config-transformer/src
+#            message: '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
+#        - '#Method Symplify\\ConfigTransformer\\ValueObject\\Configuration\:\:getInputSuffixes\(\) should return array<string\> but returns array<int, Symplify\\ConfigTransformer\\Enum\\Format\>#'
         - '#Call to function in_array\(\) with arguments string, array\{Symplify\\ConfigTransformer\\Enum\\Format, Symplify\\ConfigTransformer\\Enum\\Format\} and true will always evaluate to false#'
 
+        - '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'

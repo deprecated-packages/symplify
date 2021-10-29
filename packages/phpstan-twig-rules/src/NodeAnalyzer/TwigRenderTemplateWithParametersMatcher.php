@@ -25,7 +25,7 @@ final class TwigRenderTemplateWithParametersMatcher
         Scope $scope,
         string $templateSuffix
     ): RenderTemplateWithParameters|null {
-        $firstArg = $methodCall->args[0] ?? null;
+        $firstArg = $methodCall->getArgs()[0] ?? null;
         if ($firstArg === null) {
             return null;
         }
@@ -47,11 +47,12 @@ final class TwigRenderTemplateWithParametersMatcher
 
     private function resolveParametersArray(MethodCall $methodCall): Array_
     {
-        if (count($methodCall->args) !== 2) {
+        if (count($methodCall->getArgs()) !== 2) {
             return new Array_();
         }
 
-        $secondArgValue = $methodCall->args[1]->value;
+        $secondArgValue = $methodCall->getArgs()[1]
+            ->value;
         if (! $secondArgValue instanceof Array_) {
             return new Array_();
         }

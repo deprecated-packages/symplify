@@ -42,7 +42,7 @@ final class TemplatePathFinderVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $pathArg = $node->args[0] ?? null;
+        $pathArg = $node->getArgs()[0] ?? null;
         if ($pathArg === null) {
             return null;
         }

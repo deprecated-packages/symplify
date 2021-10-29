@@ -75,7 +75,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
     private function resolveAccessor(FuncCall $funcCall): string
     {
-        $string = $funcCall->args[3]->value;
+        $string = $funcCall->getArgs()[3]
+            ->value;
         if (! $string instanceof String_) {
             throw new ShouldNotHappenException();
         }
@@ -120,7 +121,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     private function resolveVariableName(FuncCall $funcCall): string|null
     {
         // @todo match with provided type
-        $variable = $funcCall->args[2]->value;
+        $variable = $funcCall->getArgs()[2]
+            ->value;
         if (! $variable instanceof Variable) {
             throw new ShouldNotHappenException();
         }
