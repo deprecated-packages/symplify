@@ -10,6 +10,7 @@
         "ext-dom": "*",
         "nette/neon": "^3.2",
         "nette/utils": "^3.2",
+        "myclabs/php-enum": "^1.8",
         "nikic/php-parser": "^4.13",
         "symfony/console": "^5.3|^6.0",
         "symfony/dependency-injection": "^5.3|^6.0",

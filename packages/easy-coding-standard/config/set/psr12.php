@@ -93,7 +93,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::SKIP, [
-        SingleImportPerStatementFixer::class => null,
-    ]);
+    $parameters->set(Option::SKIP, [SingleImportPerStatementFixer::class]);
 };

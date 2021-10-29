@@ -22,6 +22,7 @@
         "symplify/phpstan-extensions": "^9.5",
         "symplify/rule-doc-generator": "^9.5",
         "phpunit/phpunit": "^9.5",
+        "myclabs/php-enum": "^1.8",
         "symfony/framework-bundle": "^5.3|^6.0"
     },
     "autoload": {

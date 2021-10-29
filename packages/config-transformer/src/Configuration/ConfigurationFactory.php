@@ -13,9 +13,8 @@ final class ConfigurationFactory
     public function createFromInput(InputInterface $input): Configuration
     {
         $source = (array) $input->getArgument(Option::SOURCES);
-        $targetSymfonyVersion = floatval($input->getOption(Option::TARGET_SYMFONY_VERSION));
         $isDryRun = boolval($input->getOption(Option::DRY_RUN));
 
-        return new Configuration($source, $targetSymfonyVersion, $isDryRun);
+        return new Configuration($source, $isDryRun);
     }
 }

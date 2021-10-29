@@ -17,7 +17,7 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
 final class FilterMatcher
 {
     /** @var array<string, string|array{string, string}> */
-    private array $latteFilters;
+    private array $latteFilters = [];
 
     private Defaults $filtersDefaults;
 
@@ -39,6 +39,7 @@ final class FilterMatcher
         if ($callReference !== null) {
             return $callReference;
         }
+
         return $this->findInConfiguredFilters($filterName);
     }
 
@@ -86,13 +87,14 @@ final class FilterMatcher
         try {
             $reflectionClass = new ReflectionClass($filterClass);
             $reflectionMethod = $reflectionClass->getMethod($filterMethod);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             return null;
         }
 
         if ($reflectionMethod->isStatic()) {
             return new StaticCallReference($filterClass, $filterMethod);
         }
+
         return new DynamicCallReference($filterClass, $filterMethod);
     }
 }

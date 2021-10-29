@@ -73,7 +73,7 @@ final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
 
         if ($callReference instanceof DynamicCallReference) {
             $className = $callReference->getClass();
-            $variableName = Strings::firstLower(Strings::replace($className, '/\\\\/', '')) . 'Filter';
+            $variableName = Strings::firstLower(Strings::replace($className, '#\\\#', '')) . 'Filter';
             return new MethodCall(
                 new Variable($variableName),
                 new Identifier($callReference->getMethod()),

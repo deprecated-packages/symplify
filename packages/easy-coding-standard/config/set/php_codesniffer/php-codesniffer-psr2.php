@@ -123,10 +123,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set(Option::SKIP, [
-        ControlStructureSpacingSniff::class . '.SpacingAfterOpenBrace' => null,
-        ControlStructureSpacingSniff::class . '.SpaceBeforeCloseBrace' => null,
-        ControlStructureSpacingSniff::class . '.LineAfterClose' => null,
-        ControlStructureSpacingSniff::class . '.NoLineAfterClose' => null,
-        FunctionCallSignatureSniff::class . '.OpeningIndent' => null,
+        ControlStructureSpacingSniff::class . '.SpacingAfterOpenBrace',
+        ControlStructureSpacingSniff::class . '.SpaceBeforeCloseBrace',
+        ControlStructureSpacingSniff::class . '.LineAfterClose',
+        ControlStructureSpacingSniff::class . '.NoLineAfterClose',
+        FunctionCallSignatureSniff::class . '.OpeningIndent',
     ]);
 };
