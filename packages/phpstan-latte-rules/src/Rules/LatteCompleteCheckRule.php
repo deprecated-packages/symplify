@@ -7,15 +7,12 @@ namespace Symplify\PHPStanLatteRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
-use PHPStan\Parser\Parser;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
@@ -24,6 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
+use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\Rules\TemplateRulesRegistry;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
@@ -56,7 +54,6 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
      */
     public function __construct(
         array $rules,
-        private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private LatteTemplateWithParametersMatcher $latteTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
@@ -64,8 +61,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
         private ComponentMapResolver $componentMapResolver,
-        private Parser $parser,
-        private PrivatesAccessor $privatesAccessor,
+        private FileAnalyserProvider $fileAnalyserProvider
     ) {
         // limit rule here, as template class can contain a lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -184,10 +180,8 @@ CODE_SAMPLE
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        $fileAnalyser = clone $this->fileAnalyser;
-
         // 5. fix missing parent nodes by using RichParser
-        $this->privatesAccessor->setPrivateProperty($fileAnalyser, 'parser', $this->parser);
+        $fileAnalyser = $this->fileAnalyserProvider->provide();
 
         // to include generated class
         $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);

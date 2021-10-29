@@ -1,4 +1,6 @@
 services:
+    - Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider
+
     - Symplify\TemplatePHPStanCompiler\NodeFactory\VarDocNodeFactory
 
     - Symplify\TemplatePHPStanCompiler\NodeAnalyzer\MethodCallArrayResolver

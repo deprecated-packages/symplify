@@ -1,0 +1,11 @@
+services:
+    defaultAnalysisParser:
+        factory: @cachedCurrentPhpVersionRichParser
+        arguments!: []
+
+    cachedCurrentPhpVersionRichParser:
+        class: PHPStan\Parser\CachedParser
+        arguments:
+             originalParser: @currentPhpVersionRichParser
+             cachedNodesByStringCountMax: 1024
+        autowired: no

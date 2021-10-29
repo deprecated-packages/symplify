@@ -6,20 +6,17 @@ namespace Symplify\PHPStanTwigRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
-use PHPStan\Parser\Parser;
-use PHPStan\Parser\RichParser;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
+use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
@@ -69,12 +66,10 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
         private TwigToPhpCompiler $twigToPhpCompiler,
         private SmartFileSystem $smartFileSystem,
-        private FileAnalyser $fileAnalyser,
+        private FileAnalyserProvider $fileAnalyserProvider,
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private TemplateErrorsFactory $templateErrorsFactory,
-        private Parser $parser,
-        private PrivatesAccessor $privatesAccessor
     ) {
         $this->registry = new Registry($rules);
     }
@@ -179,10 +174,8 @@ CODE_SAMPLE
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        $fileAnalyser = clone $this->fileAnalyser;
-
-        // 5. fix missing parent nodes by using RichParser
-        $this->privatesAccessor->setPrivateProperty($fileAnalyser, 'parser', $this->parser);
+        // 5. get file analyser
+        $fileAnalyser = $this->fileAnalyserProvider->provide();
 
         // 6. analyse temporary PHP file with full PHPStan rules
         $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
