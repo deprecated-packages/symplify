@@ -11,7 +11,6 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TwigPHPStanCompiler\NodeAnalyzer\MissingTwigTemplateRenderVariableResolver;
 
 /**
@@ -45,15 +44,15 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchSymfonyRender($node, $scope);
-        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
-            return [];
-        }
+        $renderTemplatesWithParameters = $this->symfonyRenderWithParametersMatcher->matchSymfonyRender($node, $scope);
 
-        $missingVariableNames = $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
-            $renderTemplateWithParameters,
-            $scope
-        );
+        $missingVariableNames = [];
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+            $missingVariableNames = array_merge($missingVariableNames, $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
+                $renderTemplateWithParameters,
+                $scope
+            ));
+        }
 
         if ($missingVariableNames === []) {
             return [];

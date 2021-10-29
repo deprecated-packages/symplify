@@ -11,21 +11,15 @@ use PhpParser\Node\Expr\Array_;
  */
 final class RenderTemplateWithParameters
 {
-    /**
-     * @param non-empty-array&string[] $templateFilePaths
-     */
     public function __construct(
-        private array $templateFilePaths,
+        private string $templateFilePath,
         private Array_ $parametersArray
     ) {
     }
 
-    /**
-     * @return string[]
-     */
-    public function getTemplateFilePaths(): array
+    public function getTemplateFilePath(): string
     {
-        return $this->templateFilePaths;
+        return $this->templateFilePath;
     }
 
     public function getParametersArray(): Array_
