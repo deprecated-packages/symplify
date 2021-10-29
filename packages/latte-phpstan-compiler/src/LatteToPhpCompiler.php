@@ -10,7 +10,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\LattePHPStanCompiler\Latte\Filters\DefaultFilterMatcher;
+use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
@@ -34,6 +34,7 @@ final class LatteToPhpCompiler
         private Standard $printerStandard,
         private LineCommentCorrector $lineCommentCorrector,
         private LatteVarTypeDocBlockDecorator $latteVarTypeDocBlockDecorator,
+        private FilterMatcher $filterMatcher,
     ) {
     }
 
@@ -94,7 +95,7 @@ final class LatteToPhpCompiler
         $nodeTraverser = new NodeTraverser();
         $magicFilterToExplicitCallNodeVisitor = new MagicFilterToExplicitCallNodeVisitor(
             $this->simpleNameResolver,
-            new DefaultFilterMatcher()
+            $this->filterMatcher
         );
 
         $controlRenderToExplicitCallNodeVisitor = new ControlRenderToExplicitCallNodeVisitor(

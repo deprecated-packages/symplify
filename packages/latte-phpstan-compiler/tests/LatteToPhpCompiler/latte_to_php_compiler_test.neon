@@ -1,0 +1,5 @@
+parameters:
+    latteFilters:
+        customFilter: [Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\StaticFilter, process]
+        translate: [Nette\Localization\Translator, translate]
+        asdf: qwerty
