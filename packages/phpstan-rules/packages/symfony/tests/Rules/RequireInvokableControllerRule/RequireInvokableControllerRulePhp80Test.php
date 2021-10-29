@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule;
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireInvokableControllerRule>
  */
-final class Php80Test extends AbstractServiceAwareRuleTestCase
+final class RequireInvokableControllerRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

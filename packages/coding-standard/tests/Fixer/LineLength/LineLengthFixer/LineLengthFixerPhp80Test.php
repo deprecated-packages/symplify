@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
+namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-final class Php80Test extends AbstractCheckerTestCase
+final class LineLengthFixerPhp80Test extends AbstractCheckerTestCase
 {
     /**
-     * @dataProvider provideData()
+     * @dataProvider provideDataForTest()
      */
     public function test(SmartFileInfo $fileInfo): void
     {
@@ -20,9 +20,9 @@ final class Php80Test extends AbstractCheckerTestCase
     }
 
     /**
-     * @return Iterator<mixed, SmartFileInfo>
+     * @return Iterator<SmartFileInfo>
      */
-    public function provideData(): Iterator
+    public function provideDataForTest(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp80');
     }

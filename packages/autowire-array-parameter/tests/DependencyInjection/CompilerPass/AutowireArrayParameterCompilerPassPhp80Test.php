@@ -8,7 +8,7 @@ use Symplify\AutowireArrayParameter\Tests\HttpKernel\AutowireArrayParameterHttpK
 use Symplify\AutowireArrayParameter\Tests\SourcePhp8\PromotedPropertyCollector;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
-final class Php8Test extends AbstractKernelTestCase
+final class AutowireArrayParameterCompilerPassPhp80Test extends AbstractKernelTestCase
 {
     protected function setUp(): void
     {

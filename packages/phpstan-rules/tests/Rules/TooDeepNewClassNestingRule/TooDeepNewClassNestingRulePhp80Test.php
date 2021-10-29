@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicNameRule;
+namespace Symplify\PHPStanRules\Tests\Rules\TooDeepNewClassNestingRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
+use Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDynamicNameRule>
+ * @extends AbstractServiceAwareRuleTestCase<TooDeepNewClassNestingRule>
  */
-final class Php8Test extends AbstractServiceAwareRuleTestCase
+final class TooDeepNewClassNestingRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,11 +28,11 @@ final class Php8Test extends AbstractServiceAwareRuleTestCase
      */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/FixturePhp8/SkipObjectClassOnPhp8.php', []];
+        yield [__DIR__ . '/FixturePhp8/SkipExpressionThrow.php', []];
     }
 
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoDynamicNameRule::class, __DIR__ . '/config/configured_rule.neon');
+        return $this->getRuleFromConfig(TooDeepNewClassNestingRule::class, __DIR__ . '/config/configured_rule.neon');
     }
 }

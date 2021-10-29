@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyOnStaticCallRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule;
+use Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDynamicPropertyOnStaticCallRule>
+ * @extends AbstractServiceAwareRuleTestCase<NoParentMethodCallOnEmptyStatementInParentMethodRule>
  */
-final class Php8Test extends AbstractServiceAwareRuleTestCase
+final class NoParentMethodCallOnEmptyStatementInParentMethodRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -28,13 +28,13 @@ final class Php8Test extends AbstractServiceAwareRuleTestCase
      */
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/FixturePhp8/SkipObjectClass.php', []];
+        yield [__DIR__ . '/FixturePhp80/SkipPromotedParentProperty.php', []];
     }
 
     protected function getRule(): Rule
     {
         return $this->getRuleFromConfig(
-            NoDynamicPropertyOnStaticCallRule::class,
+            NoParentMethodCallOnEmptyStatementInParentMethodRule::class,
             __DIR__ . '/config/configured_rule.neon'
         );
     }
