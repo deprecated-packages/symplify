@@ -66,7 +66,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set(Option::SKIP, [
-        AssignmentInConditionSniff::class . '.FoundInWhileCondition' => null,
-    ]);
+    $parameters->set(Option::SKIP, [AssignmentInConditionSniff::class . '.FoundInWhileCondition']);
 };

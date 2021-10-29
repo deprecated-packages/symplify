@@ -7,7 +7,7 @@ namespace Symplify\SymfonyStaticDumper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\ConsolePackageBuilder\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPass;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPass;
 use Symplify\SymfonyStaticDumper\DependencyInjection\Extension\SymfonyStaticDumperExtension;
 
 final class SymfonyStaticDumperBundle extends Bundle

@@ -43,14 +43,14 @@ final class ConfigFormatConverter
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
 
-        if ($smartFileInfo->getSuffix() === Format::YAML) {
+        if ($smartFileInfo->getSuffix() === Format::YAML()->getValue()) {
             $dumpedYaml = $containerBuilderAndFileContent->getFileContent();
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
             return $this->yamlToPhpConverter->convert($dumpedYaml);
         }
 
-        if ($smartFileInfo->getSuffix() === Format::XML) {
+        if ($smartFileInfo->getSuffix() === Format::XML()->getValue()) {
             $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 

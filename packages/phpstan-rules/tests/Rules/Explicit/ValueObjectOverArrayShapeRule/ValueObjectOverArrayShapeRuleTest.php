@@ -29,6 +29,7 @@ final class ValueObjectOverArrayShapeRuleTest extends AbstractServiceAwareRuleTe
 
         yield [__DIR__ . '/Fixture/SkipJsonSerializable.php', []];
         yield [__DIR__ . '/Fixture/SkipNoArrayShape.php', []];
+        yield [__DIR__ . '/Fixture/SkipConstructorAsIntroData.php', []];
     }
 
     protected function getRule(): Rule

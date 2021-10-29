@@ -1,4 +1,6 @@
 includes:
+    - vendor/timeweb/phpstan-enum/extension.neon
+
     - packages/astral/config/services.neon
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
@@ -615,3 +617,11 @@ parameters:
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
+
+        # enum false positives
+        -
+            path: packages/config-transformer/src
+            message: '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
+        - '#Method Symplify\\ConfigTransformer\\ValueObject\\Configuration\:\:getInputSuffixes\(\) should return array<string\> but returns array<int, Symplify\\ConfigTransformer\\Enum\\Format\>#'
+        - '#Call to function in_array\(\) with arguments string, array\{Symplify\\ConfigTransformer\\Enum\\Format, Symplify\\ConfigTransformer\\Enum\\Format\} and true will always evaluate to false#'
+

@@ -7,6 +7,8 @@ namespace Symplify\LattePHPStanCompiler\Latte\Filters;
 use Latte\Runtime\Defaults;
 use ReflectionClass;
 use ReflectionException;
+use Symplify\LattePHPStanCompiler\Contract\ValueObject\CallReferenceInterface;
+use Symplify\LattePHPStanCompiler\Exception\InvalidLatteFilterFormatException;
 use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
@@ -16,8 +18,10 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
  */
 final class FilterMatcher
 {
-    /** @var array<string, string|array{string, string}> */
-    private array $latteFilters;
+    /**
+     * @var array<string, CallReferenceInterface>
+     */
+    private array $latteFilters = [];
 
     private Defaults $filtersDefaults;
 
@@ -26,73 +30,67 @@ final class FilterMatcher
      */
     public function __construct(array $latteFilters)
     {
-        $this->latteFilters = array_change_key_case($latteFilters, CASE_LOWER);
+        foreach ($latteFilters as $filterName => $latteFilter) {
+            $this->latteFilters[strtolower($filterName)] = $this->createCallReference($latteFilter);
+        }
+
         $this->filtersDefaults = new Defaults();
     }
 
-    /**
-     * @return StaticCallReference|DynamicCallReference|FunctionCallReference|null
-     */
-    public function match(string $filterName)
+    public function match(string $filterName): CallReferenceInterface|null
     {
         $callReference = $this->findInDefaultFilters($filterName);
         if ($callReference !== null) {
             return $callReference;
         }
-        return $this->findInConfiguredFilters($filterName);
+
+        return $this->latteFilters[$filterName] ?? null;
     }
 
-    private function findInDefaultFilters(string $filterName): StaticCallReference|DynamicCallReference|FunctionCallReference|null
+    private function findInDefaultFilters(string $filterName): CallReferenceInterface|null
     {
         // match filter name in
         $filterCallable = $this->filtersDefaults->getFilters()[$filterName] ?? null;
-        return $this->createCallReference($filterCallable);
-    }
-
-    private function findInConfiguredFilters(
-        string $filterName
-    ): StaticCallReference|DynamicCallReference|FunctionCallReference|null {
-        $filterCallable = $this->latteFilters[$filterName] ?? null;
-        return $this->createCallReference($filterCallable);
-    }
-
-    /**
-     * @param mixed $filterCallable
-     */
-    private function createCallReference(
-        $filterCallable
-    ): StaticCallReference|DynamicCallReference|FunctionCallReference|null
-    {
         if ($filterCallable === null) {
             return null;
         }
 
+        /** @var array<string, string> $filterCallable */
+        return $this->createCallReference($filterCallable);
+    }
+
+    /**
+     * @param string|string[] $filterCallable
+     */
+    private function createCallReference(string|array $filterCallable): CallReferenceInterface
+    {
         if (is_string($filterCallable)) {
             return new FunctionCallReference($filterCallable);
         }
 
         if (! is_array($filterCallable)) {
-            return null;
+            throw new InvalidLatteFilterFormatException();
         }
 
-        /** @var mixed[] $filterCallable */
         if (count($filterCallable) !== 2) {
-            return null;
+            throw new InvalidLatteFilterFormatException('Filter should be consist of array ["class", "method"]');
         }
 
         $filterClass = $filterCallable[0];
         $filterMethod = $filterCallable[1];
 
         try {
+            // @todo method exists
             $reflectionClass = new ReflectionClass($filterClass);
             $reflectionMethod = $reflectionClass->getMethod($filterMethod);
-        } catch (ReflectionException $e) {
-            return null;
+        } catch (ReflectionException) {
+            throw new InvalidLatteFilterFormatException();
         }
 
         if ($reflectionMethod->isStatic()) {
             return new StaticCallReference($filterClass, $filterMethod);
         }
+
         return new DynamicCallReference($filterClass, $filterMethod);
     }
 }
