@@ -73,7 +73,7 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $reversedTokens = $this->reverseTokens($tokens);
         foreach ($reversedTokens as $index => $token) {

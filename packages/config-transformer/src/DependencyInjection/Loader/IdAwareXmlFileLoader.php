@@ -97,13 +97,13 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         }
     }
 
-    private function processAnonymousServices(DOMDocument $xml, string $file): void
+    private function processAnonymousServices(DOMDocument $domDocument, string $file): void
     {
         $this->count = 0;
         $definitions = [];
         $suffix = '~' . ContainerBuilder::hash($file);
 
-        $domxPath = new DOMXPath($xml);
+        $domxPath = new DOMXPath($domDocument);
         $domxPath->registerNamespace('container', self::NS);
 
         $definitions = $this->processAnonymousServicesInArguments($domxPath, $suffix, $file, $definitions);

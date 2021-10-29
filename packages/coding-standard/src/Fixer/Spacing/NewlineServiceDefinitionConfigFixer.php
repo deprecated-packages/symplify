@@ -53,7 +53,7 @@ final class NewlineServiceDefinitionConfigFixer extends AbstractSymplifyFixer im
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         if (! $this->symfonyClosureAnalyzer->isContainerConfiguratorClosure($tokens)) {
             return;
