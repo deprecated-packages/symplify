@@ -14,7 +14,7 @@ abstract class Enum
     {
     }
 
-    public function getValue()
+    public function getValue(): void
     {
     }
 }
