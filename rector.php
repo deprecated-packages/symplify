@@ -104,15 +104,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
 
         // buggy on array access object
-        UnusedForeachValueToArrayKeysRector::class => [
-            __DIR__ . '/packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php',
-        ],
+        //        UnusedForeachValueToArrayKeysRector::class => [
+        //            __DIR__ . '/packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php',
+        //        ],
 
         // buggy with parent interface contract
-        ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
+        //        ParamTypeDeclarationRector::class => [__DIR__ . '/packages/skipper/src/SkipVoter/*SkipVoter.php'],
+        // adopted 3rd party package - keep API compatible
         UnSpreadOperatorRector::class => [
             __DIR__ . '/packages/git-wrapper',
-            '*/packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*TypeExtensionTest.php',
+            //            '*/packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*TypeExtensionTest.php',
         ],
 
         CallableThisArrayToAnonymousFunctionRector::class => [
