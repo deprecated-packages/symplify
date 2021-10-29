@@ -88,7 +88,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/easy-ci/src/Template/TemplatePathsResolver.php',
         ],
 
-        // many false postivies - @todo fix in Rector!
         RenameForeachValueVariableToMatchExprVariableRector::class,
 
         StringClassNameToClassConstantRector::class => [
