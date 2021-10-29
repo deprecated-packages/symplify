@@ -83,11 +83,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         # tests
         __DIR__ . '/packages/vendor-patches/tests',
 
-        NewlineAfterStatementRector::class => [
-            // false positive on do + while
-            __DIR__ . '/packages/easy-ci/src/Template/TemplatePathsResolver.php',
-        ],
-
         // many false postivies - @todo fix in Rector!
         RenameForeachValueVariableToMatchExprVariableRector::class,
 
