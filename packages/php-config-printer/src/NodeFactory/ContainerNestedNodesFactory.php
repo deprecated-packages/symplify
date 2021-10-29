@@ -17,7 +17,7 @@ final class ContainerNestedNodesFactory
     /**
      * @return Expression[]
      */
-    public function createFromValues(array $nestedValues, string $key, $nestedKey): array
+    public function createFromValues(array $nestedValues, string $key, int|string $nestedKey): array
     {
         $nestedNodes = [];
 

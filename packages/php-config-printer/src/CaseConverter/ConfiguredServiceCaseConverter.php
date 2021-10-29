@@ -22,7 +22,7 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         $valuesForArgs = [$key];
 
@@ -37,7 +37,7 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
         return new Expression($decoratedMethodCall);
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;
@@ -67,7 +67,7 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
         return $values !== [];
     }
 
-    private function isAlias($values): bool
+    private function isAlias(mixed $values): bool
     {
         if (isset($values[YamlKey::ALIAS])) {
             return true;

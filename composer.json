@@ -21,7 +21,7 @@
         "nikic/php-parser": "^4.13",
         "phar-io/version": "^3.1",
         "phpstan/phpdoc-parser": "^1.2",
-        "phpstan/phpstan": "^0.12.99",
+        "phpstan/phpstan": "1.0.x-dev as 1.0",
         "react/child-process": "^0.6.3",
         "react/event-loop": "^1.2",
         "react/socket": "^1.9",
@@ -45,12 +45,8 @@
     },
     "require-dev": {
         "doctrine/annotations": "^1.13",
-        "doctrine/cache": "^1.11",
-        "doctrine/common": "^3.1",
-        "doctrine/doctrine-bundle": "^2.4",
-        "doctrine/orm": "^2.9",
-        "doctrine/persistence": "^2.2",
-        "myclabs/php-enum": "^1.8",
+        "doctrine/cache": "^1.12",
+        "doctrine/orm": "^2.10",
         "nette/application": "^3.1",
         "nette/bootstrap": "^3.1",
         "nette/finder": "^2.5",
@@ -59,7 +55,7 @@
         "ondram/ci-detector": "^4.1",
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
-        "rector/rector": "^0.11.55",
+        "rector/rector": "dev-main",
         "symfony/doctrine-bridge": "^5.3|^6.0",
         "symfony/framework-bundle": "^5.3|^6.0",
         "symfony/security-bundle": "^5.3|^6.0",
@@ -129,7 +125,6 @@
     },
     "autoload-dev": {
         "classmap": [
-            "latte-test",
             "packages/phpstan-rules/stubs",
             "packages/rule-doc-generator/stubs"
         ],
@@ -253,5 +248,7 @@
     "config": {
         "sort-packages": true,
         "platform-check": false
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

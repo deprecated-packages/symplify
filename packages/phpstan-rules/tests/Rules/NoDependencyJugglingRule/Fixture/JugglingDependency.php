@@ -13,7 +13,9 @@ final class JugglingDependency
      */
     private $juggleBall;
 
-    public function __construct(JuggleBall $juggleBall)
+    public function __construct(
+        JuggleBall $juggleBall
+     )
     {
         $this->juggleBall = $juggleBall;
     }

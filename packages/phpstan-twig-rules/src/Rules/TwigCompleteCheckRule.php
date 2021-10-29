@@ -6,7 +6,6 @@ namespace Symplify\PHPStanTwigRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Registry;
 use PHPStan\Rules\Rule;
@@ -17,6 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
+use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
 use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
@@ -66,7 +66,7 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
         private SymfonyRenderWithParametersMatcher $symfonyRenderWithParametersMatcher,
         private TwigToPhpCompiler $twigToPhpCompiler,
         private SmartFileSystem $smartFileSystem,
-        private FileAnalyser $fileAnalyser,
+        private FileAnalyserProvider $fileAnalyserProvider,
         private ErrorSkipper $errorSkipper,
         private TemplateVariableTypesResolver $templateVariableTypesResolver,
         private TemplateErrorsFactory $templateErrorsFactory,
@@ -171,10 +171,13 @@ CODE_SAMPLE
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-twig-compiled.php';
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
-        // 5. analyse temporary PHP file with full PHPStan rules
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
+        // 5. get file analyser
+        $fileAnalyser = $this->fileAnalyserProvider->provide();
 
+        // 6. analyse temporary PHP file with full PHPStan rules
+        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->registry, null);
         $ruleErrors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::ERROR_IGNORES);
+
         return $this->templateErrorsFactory->createErrors(
             $ruleErrors,
             $scope->getFile(),

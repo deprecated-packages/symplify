@@ -14,5 +14,5 @@ services:
         class: PHPStan\Rules\Methods\CallMethodsRule
         tags: [phpstan.rules.rule]
         arguments:
-            checkFunctionNameCase: %checkFunctionNameCase%
-            reportMagicMethods: %reportMagicMethods%
+            checkFunctionNameCase: true
+            reportMagicMethods: true

@@ -27,6 +27,9 @@ final class ServicesPhpNodeFactory
     ) {
     }
 
+    /**
+     * @param mixed[] $serviceValues
+     */
     public function createResource(string $serviceKey, array $serviceValues): Expression
     {
         $servicesLoadMethodCall = $this->createServicesLoadMethodCall($serviceKey, $serviceValues);
@@ -56,7 +59,10 @@ final class ServicesPhpNodeFactory
         return new Expression($excludeMethodCall);
     }
 
-    private function createServicesLoadMethodCall(string $serviceKey, $serviceValues): MethodCall
+    /**
+     * @param mixed[] $serviceValues
+     */
+    private function createServicesLoadMethodCall(string $serviceKey, array $serviceValues): MethodCall
     {
         $servicesVariable = new Variable(VariableName::SERVICES);
 

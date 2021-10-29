@@ -7,38 +7,32 @@ namespace Symplify\TemplatePHPStanCompiler\PhpParser;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
-use PhpParser\ParserFactory;
+use Symplify\Astral\PhpParser\SmartPhpParser;
 
 /**
  * @api
  */
 final class ParentNodeAwarePhpParser
 {
+    public function __construct(
+        private SmartPhpParser $smartPhpParser
+    ) {
+    }
+
     /**
      * @return Stmt[]
      */
     public function parsePhpContent(string $phpContent): array
     {
-        $phpNodes = $this->parsePhpContentToPhpNodes($phpContent);
-        if ($phpNodes === null) {
+        $phpStmts = $this->smartPhpParser->parseString($phpContent);
+        if ($phpStmts === []) {
             return [];
         }
 
         $phpNodeTraverser = new NodeTraverser();
         $phpNodeTraverser->addVisitor(new ParentConnectingVisitor());
-        $phpNodeTraverser->traverse($phpNodes);
+        $phpNodeTraverser->traverse($phpStmts);
 
-        return $phpNodes;
-    }
-
-    /**
-     * @return Stmt[]|null
-     */
-    private function parsePhpContentToPhpNodes(string $compiledPhp): ?array
-    {
-        $parserFactory = new ParserFactory();
-        $phpParser = $parserFactory->create(ParserFactory::PREFER_PHP7);
-
-        return $phpParser->parse($compiledPhp);
+        return $phpStmts;
     }
 }

@@ -60,6 +60,7 @@ final class LatteTemplateWithParametersMatcher
     {
         $nodes = [$class];
         $nodeTraverser = new NodeTraverser();
+
         $templatePathFinderVisitor = new TemplatePathFinderVisitor(
             $scope,
             $this->simpleNameResolver,

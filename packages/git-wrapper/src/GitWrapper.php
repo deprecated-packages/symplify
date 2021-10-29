@@ -67,7 +67,7 @@ final class GitWrapper
         return $this->gitBinary;
     }
 
-    public function setEnvVar(string $var, $value): void
+    public function setEnvVar(string $var, mixed $value): void
     {
         $this->env[$var] = $value;
     }

@@ -78,7 +78,7 @@ final class AutoBindNodeFactory
         return $methodCall;
     }
 
-    private function createAutowire($value, MethodCall $methodCall, string $type): MethodCall
+    private function createAutowire(mixed $value, MethodCall $methodCall, string $type): MethodCall
     {
         if ($value === true) {
             return new MethodCall($methodCall, YamlKey::AUTOWIRE);
@@ -93,7 +93,7 @@ final class AutoBindNodeFactory
         return new MethodCall($methodCall, YamlKey::AUTOWIRE, $args);
     }
 
-    private function createAutoconfigure($value, MethodCall $methodCall, string $type): MethodCall
+    private function createAutoconfigure(mixed $value, MethodCall $methodCall, string $type): MethodCall
     {
         if ($value === true) {
             return new MethodCall($methodCall, YamlKey::AUTOCONFIGURE);
@@ -108,7 +108,7 @@ final class AutoBindNodeFactory
         return new MethodCall($methodCall, YamlKey::AUTOCONFIGURE, $args);
     }
 
-    private function createPublicPrivate($value, MethodCall $methodCall, string $type): MethodCall
+    private function createPublicPrivate(mixed $value, MethodCall $methodCall, string $type): MethodCall
     {
         if ($value !== false) {
             return new MethodCall($methodCall, 'public');

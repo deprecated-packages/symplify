@@ -24,7 +24,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstrac
     }
 
     /**
-     * @return Iterator<array<int, array|string>>
+     * @return Iterator<array<int, mixed[]|string>>
      */
     public function provideData(): Iterator
     {

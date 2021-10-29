@@ -46,7 +46,7 @@ final class ArgsNodeFactory
     /**
      * @return Arg[]
      */
-    public function createFromValuesAndWrapInArray($values): array
+    public function createFromValuesAndWrapInArray(mixed $values): array
     {
         if (is_array($values)) {
             $array = $this->resolveExprFromArray($values);
@@ -63,7 +63,7 @@ final class ArgsNodeFactory
      * @return Arg[]
      */
     public function createFromValues(
-        $values,
+        mixed $values,
         bool $skipServiceReference = false,
         bool $skipClassesToConstantReference = false
     ): array {
@@ -100,6 +100,9 @@ final class ArgsNodeFactory
         throw new NotImplementedYetException();
     }
 
+    /**
+     * @param mixed $value
+     */
     public function resolveExpr(
         $value,
         bool $skipServiceReference = false,

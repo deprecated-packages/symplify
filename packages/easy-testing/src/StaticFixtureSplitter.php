@@ -110,7 +110,7 @@ final class StaticFixtureSplitter
     /**
      * @return mixed|int|float
      */
-    private static function retypeExpected($expected)
+    private static function retypeExpected(mixed $expected): mixed
     {
         if (! is_numeric(trim($expected))) {
             return $expected;

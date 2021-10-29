@@ -33,6 +33,7 @@ final class SingleServicePhpNodeFactory
     }
 
     /**
+     * @param mixed[] $calls
      * @see https://symfony.com/doc/current/service_container/injection_types.html
      */
     public function createCalls(MethodCall $methodCall, array $calls): MethodCall
@@ -63,17 +64,26 @@ final class SingleServicePhpNodeFactory
         return $methodCall;
     }
 
-    private function resolveCallMethod($call): String_
+    /**
+     * @param mixed[] $call
+     */
+    private function resolveCallMethod(array $call): String_
     {
         return new String_($call[0] ?? $call['method'] ?? key($call));
     }
 
-    private function resolveCallArguments($call): Expr
+    /**
+     * @param mixed[] $call
+     */
+    private function resolveCallArguments(array $call): Expr
     {
         $arguments = $call[1] ?? $call['arguments'] ?? current($call);
         return $this->argsNodeFactory->resolveExpr($arguments);
     }
 
+    /**
+     * @param mixed[] $call
+     */
     private function resolveCallReturnClone(array $call): ?Expr
     {
         if (isset($call[2]) || isset($call['returns_clone'])) {

@@ -20,7 +20,7 @@ final class ServicesDefaultsCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall($key, $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         $methodCall = new MethodCall($this->createServicesVariable(), MethodName::DEFAULTS);
 
@@ -33,7 +33,7 @@ final class ServicesDefaultsCaseConverter implements CaseConverterInterface
         return new Expression($decoratedMethodCall);
     }
 
-    public function match(string $rootKey, $key, $values): bool
+    public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         if ($rootKey !== YamlKey::SERVICES) {
             return false;

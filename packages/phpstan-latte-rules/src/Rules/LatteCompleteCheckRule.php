@@ -7,7 +7,6 @@ namespace Symplify\PHPStanLatteRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
-use PHPStan\Analyser\FileAnalyser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -22,6 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
+use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\Rules\TemplateRulesRegistry;
 use Throwable;
@@ -53,7 +53,6 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
      */
     public function __construct(
         array $rules,
-        private FileAnalyser $fileAnalyser,
         private TemplateRenderAnalyzer $templateRenderAnalyzer,
         private LatteTemplateWithParametersMatcher $latteTemplateWithParametersMatcher,
         private SmartFileSystem $smartFileSystem,
@@ -61,6 +60,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
         private ComponentMapResolver $componentMapResolver,
+        private FileAnalyserProvider $fileAnalyserProvider
     ) {
         // limit rule here, as template class can contain a lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -173,11 +173,13 @@ CODE_SAMPLE
 
         $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
-
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 
+        // 5. fix missing parent nodes by using RichParser
+        $fileAnalyser = $this->fileAnalyserProvider->provide();
+
         // to include generated class
-        $fileAnalyserResult = $this->fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
+        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);

@@ -198,7 +198,7 @@ final class CheckerServiceParametersShifter
         return $services;
     }
 
-    private function isReservedKey(string | int | bool $key): bool
+    private function isReservedKey(string | int $key): bool
     {
         if (! is_string($key)) {
             return false;
@@ -210,7 +210,7 @@ final class CheckerServiceParametersShifter
     /**
      * @return mixed|mixed[]|string
      */
-    private function escapeValue($value)
+    private function escapeValue(mixed $value)
     {
         if (! is_array($value) && ! is_string($value)) {
             return $value;
