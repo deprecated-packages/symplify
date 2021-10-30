@@ -101,8 +101,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     {
         // foreached variable
         foreach ($this->variablesAndTypes as $variableAndType) {
-            foreach ($this->foreachedVariablesBySingleName as $singleName) {
-                if ($singleName !== $variableName) {
+            foreach ($this->foreachedVariablesBySingleName as $foreachedVariables) {
+                if ($foreachedVariables !== $variableName) {
                     continue;
                 }
 
