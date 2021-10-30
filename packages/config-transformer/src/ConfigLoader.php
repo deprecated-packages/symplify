@@ -50,7 +50,7 @@ final class ConfigLoader
         // correct old syntax of tags so we can parse it
         $content = $smartFileInfo->getContents();
 
-        if (in_array($smartFileInfo->getSuffix(), [Format::YML()->getValue(), Format::YAML()->getValue()], true)) {
+        if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {
             $content = Strings::replace($content, self::PHP_CONST_REGEX, '!php/const ');
             if ($content !== $smartFileInfo->getContents()) {
                 $fileRealPath = sys_get_temp_dir() . '/_migrify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
@@ -67,17 +67,17 @@ final class ConfigLoader
 
     private function createLoaderBySuffix(ContainerBuilder $containerBuilder, string $suffix): DelegatingLoader
     {
-        if ($suffix === Format::XML()->getValue()) {
+        if ($suffix === Format::XML) {
             $idAwareXmlFileLoader = $this->idAwareXmlFileLoaderFactory->createFromContainerBuilder($containerBuilder);
             return $this->wrapToDelegatingLoader($idAwareXmlFileLoader, $containerBuilder);
         }
 
-        if (in_array($suffix, [Format::YML()->getValue(), Format::YAML()->getValue()], true)) {
+        if (in_array($suffix, [Format::YML, Format::YAML], true)) {
             $yamlFileLoader = new YamlFileLoader($containerBuilder, new FileLocator());
             return $this->wrapToDelegatingLoader($yamlFileLoader, $containerBuilder);
         }
 
-        if ($suffix === Format::PHP()->getValue()) {
+        if ($suffix === Format::PHP) {
             $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
             return $this->wrapToDelegatingLoader($phpFileLoader, $containerBuilder);
         }

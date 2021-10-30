@@ -31,10 +31,10 @@ final class Configuration
     }
 
     /**
-     * @return Format[]
+     * @return string[]
      */
     public function getInputSuffixes(): array
     {
-        return [Format::YAML()->getValue(), Format::YML()->getValue(), Format::XML()->getValue()];
+        return [Format::YAML, Format::YML, Format::XML];
     }
 }
