@@ -21,7 +21,7 @@
     "require-dev": {
         "doctrine/annotations": "^1.13",
         "doctrine/cache": "^1.12",
-        "phpstan/phpstan": "1.0.x-dev as 1.0",
+        "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^9.5",
         "symfony/framework-bundle": "^5.3|^6.0",
         "symfony/twig-bundle": "^5.3|^6.0"
