@@ -21,9 +21,9 @@ final class Psr4PathNormalizer
     {
         $data = [];
 
-        foreach ($psr4NamespacesToPaths as $psr4NamespaceToPaths) {
-            $namespaceRoot = $this->normalizeNamespaceRoot($psr4NamespaceToPaths->getNamespace());
-            $data[$namespaceRoot] = $this->psr4PathResolver->resolvePaths($psr4NamespaceToPaths);
+        foreach ($psr4NamespacesToPaths as $psr4NamespaceToPath) {
+            $namespaceRoot = $this->normalizeNamespaceRoot($psr4NamespaceToPath->getNamespace());
+            $data[$namespaceRoot] = $this->psr4PathResolver->resolvePaths($psr4NamespaceToPath);
         }
 
         ksort($data);
