@@ -45,6 +45,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/symfony/http-kernel/HttpKernelBrowser.php',
         '*/symfony/cache/*',
         // fails on DOMCaster
-        '*/symfony/var-dumper/*
+        '*/symfony/var-dumper/*',
     ]);
 };
