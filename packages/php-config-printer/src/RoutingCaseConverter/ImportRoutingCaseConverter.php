@@ -136,14 +136,14 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
     {
         $argumentValues = [];
 
-        foreach ($argsNames as $arg) {
-            if (isset($values[$arg])) {
+        foreach ($argsNames as $argName) {
+            if (isset($values[$argName])) {
                 // Default $ignoreErrors to false before $exclude on import(), same behaviour as symfony
-                if ($arg === self::EXCLUDE) {
+                if ($argName === self::EXCLUDE) {
                     $argumentValues[] = false;
                 }
 
-                $argumentValues[] = $values[$arg];
+                $argumentValues[] = $values[$argName];
             }
         }
 

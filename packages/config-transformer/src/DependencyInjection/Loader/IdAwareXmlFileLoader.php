@@ -115,11 +115,10 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         // anonymous services "in the wild"
         $anonymousServiceNodes = $domxPath->query('//container:services/container:service[not(@id)]');
         if ($anonymousServiceNodes !== false) {
-            /** @var DOMElement $anonymousServiceNode */
-            foreach ($anonymousServiceNodes as $anonymousServiceNode) {
-                $id = $this->createAnonymousServiceId($hasNamedServices, $anonymousServiceNode, $file);
-                $anonymousServiceNode->setAttribute(self::ID, $id);
-                $definitions[$id] = [$anonymousServiceNode, $file, true];
+            foreach ($anonymousServiceNodes as $anonymouServiceNode) {
+                $id = $this->createAnonymousServiceId($hasNamedServices, $anonymouServiceNode, $file);
+                $anonymouServiceNode->setAttribute(self::ID, $id);
+                $definitions[$id] = [$anonymouServiceNode, $file, true];
             }
         }
 
