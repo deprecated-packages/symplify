@@ -23,9 +23,9 @@ final class YamlArgumentSorter
             return $argumentsInOrder;
         }
 
-        foreach ($inOrderKeys as $key) {
-            if (isset($arrayToSort[$key])) {
-                $argumentsInOrder[] = $arrayToSort[$key];
+        foreach ($inOrderKeys as $inOrderKey) {
+            if (isset($arrayToSort[$inOrderKey])) {
+                $argumentsInOrder[] = $arrayToSort[$inOrderKey];
             }
         }
 
