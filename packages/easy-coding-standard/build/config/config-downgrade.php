@@ -10,7 +10,7 @@ use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\DowngradePhp80\Rector\Class_\DowngradeAttributeToAnnotationRector;
 use Rector\DowngradePhp80\ValueObject\DowngradeAttributeToAnnotation;
-use Rector\Set\ValueObject\DowngradeSetList;
+use Rector\Set\ValueObject\DowngradeLevelSetList;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -23,10 +23,7 @@ use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(DowngradeSetList::PHP_80);
-    $containerConfigurator->import(DowngradeSetList::PHP_74);
-    $containerConfigurator->import(DowngradeSetList::PHP_73);
-    $containerConfigurator->import(DowngradeSetList::PHP_72);
+    $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
 
     $services = $containerConfigurator->services();
 
