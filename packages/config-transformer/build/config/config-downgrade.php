@@ -46,5 +46,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/symfony/cache/*',
         // fails on DOMCaster
         '*/symfony/var-dumper/*',
+        '*/symfony/var-exporter/*',
     ]);
 };
