@@ -84,7 +84,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Controller');
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Domain');
 
-        $configuration = new Configuration([], true);
         $this->doTestOutput($fileInfo);
     }
 
