@@ -14,6 +14,7 @@ use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SwitchFormatCommand extends AbstractSymplifyCommand
@@ -28,6 +29,8 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
+
         $this->setDescription('Converts XML/YAML configs to PHP format');
 
         $this->addArgument(

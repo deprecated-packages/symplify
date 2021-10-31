@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Console\ConfigTransfomerConsoleApplication;
 use Symplify\ConfigTransformer\Provider\YamlContentProvider;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
@@ -34,7 +33,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // console
     $services->set(ConfigTransfomerConsoleApplication::class);
     $services->alias(Application::class, ConfigTransfomerConsoleApplication::class);
-    $services->set(CommandNaming::class);
 
     $services->set(BuilderFactory::class);
     $services->set(NodeFinder::class);
