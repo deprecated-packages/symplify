@@ -13,14 +13,15 @@
 composer require symplify/composer-json-manipulator
 ```
 
-Add to `config/bundles.php`:
+Add to your `config/config.php`:
 
 ```php
-return [
-    Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle::class => [
-        'all' => true,
-    ],
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(ComposerJsonManipulatorConfig::FILE_PATH);
+};
 ```
 
 ## Usage

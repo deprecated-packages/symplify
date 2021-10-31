@@ -24,8 +24,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('Symplify\ComposerJsonManipulator\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Bundle']);
+    $services->load('Symplify\ComposerJsonManipulator\\', __DIR__ . '/../src');
 
     $services->set(SmartFileSystem::class);
     $services->set(PrivatesCaller::class);
