@@ -45,5 +45,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/symfony/error-handler/*',
         '*/symfony/event-dispatcher/*',
         '*/symfony/event-dispatcher-contracts/*',
+        '*/symfony/expression-language/*',
+        '*/symfony/http-foundation/*',
     ]);
 };
