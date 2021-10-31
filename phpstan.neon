@@ -579,6 +579,5 @@ parameters:
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
-        # enum false positives
-        - '#Call to function in_array\(\) with arguments string, array\{Symplify\\ConfigTransformer\\Enum\\Format, Symplify\\ConfigTransformer\\Enum\\Format\} and true will always evaluate to false#'
-        - '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
+        # false positive
+        - '#Parameter \#1 \$kernel of method Symplify\\SymplifyKernel\\ValueObject\\KernelBootAndApplicationRun\:\:setExtraConfigs\(\) expects Symfony\\Component\\HttpKernel\\KernelInterface, Symfony\\Component\\HttpKernel\\KernelInterface\|Symplify\\SymplifyKernel\\Contract\\LightKernelInterface given#'

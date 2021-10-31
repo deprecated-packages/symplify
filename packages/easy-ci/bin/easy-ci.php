@@ -23,7 +23,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 $extraConfigs = [];
 
-$easyCIFilePath = getcwd() . '/easy-ci.php';
+$easyCIFilePath = getcwd() . DIRECTORY_SEPARATOR . 'easy-ci.php';
 if (file_exists($easyCIFilePath)) {
     $extraConfigs[] = $easyCIFilePath;
 }
