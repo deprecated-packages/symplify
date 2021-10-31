@@ -22,6 +22,12 @@
         "symfony/framework-bundle": "^5.3|^6.0",
         "symplify/easy-testing": "^9.5"
     },
+    "replace": {
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-ctype": "*"
+    },
     "autoload": {
         "psr-4": {
             "Symplify\\ConfigTransformer\\": "src"
@@ -31,9 +37,6 @@
         "psr-4": {
             "Symplify\\ConfigTransformer\\Tests\\": "tests"
         }
-    },
-    "replace": {
-        "symfony/polyfill-php73": "*"
     },
     "config": {
         "sort-packages": true,
