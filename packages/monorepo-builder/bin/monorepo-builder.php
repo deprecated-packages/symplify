@@ -51,7 +51,7 @@ function resolveConfigFile(ArgvInput $argvInput): ?string
     if ($argvInput->hasParameterOption(['-c', '--config'])) {
         $configOption = $argvInput->getParameterOption(['-c', '--config']);
         if (is_string($configOption) && file_exists($configOption)) {
-            return $configOption;
+            return realpath($configOption);
         }
     }
 
