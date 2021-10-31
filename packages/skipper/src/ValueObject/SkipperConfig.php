@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\Skipper\ValueObject;
 
+/**
+ * @api
+ */
 final class SkipperConfig
 {
     /**

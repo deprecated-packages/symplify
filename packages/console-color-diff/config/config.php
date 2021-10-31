@@ -14,8 +14,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->autoconfigure();
 
-    $services->load('Symplify\ConsoleColorDiff\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Bundle']);
+    $services->load('Symplify\ConsoleColorDiff\\', __DIR__ . '/../src');
 
     $services->set(Differ::class);
     $services->set(PrivatesAccessor::class);

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SimplePhpDocParser\ValueObject;
+namespace Symplify\SymfonyStaticDumper\ValueObject;
 
 /**
  * @api
  */
-final class SimplePhpDocParserConfig
+final class SymfonyStaticDumperConfig
 {
     /**
      * @var string

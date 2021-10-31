@@ -19,7 +19,6 @@ final class ExtensionConverter implements CaseConverterInterface
 
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory,
-        private YamlKey $yamlKey
     ) {
     }
 
@@ -41,7 +40,6 @@ final class ExtensionConverter implements CaseConverterInterface
     public function match(string $rootKey, mixed $key, mixed $values): bool
     {
         $this->rootKey = $rootKey;
-
-        return ! in_array($rootKey, $this->yamlKey->provideRootKeys(), true);
+        return ! in_array($rootKey, YamlKey::provideRootKeys(), true);
     }
 }

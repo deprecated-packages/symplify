@@ -24,6 +24,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         parent::__construct();
 
         $projectDir = (string) $parameterBag->get('kernel.project_dir');
+
         $this->publicDirectory = $projectDir . '/public';
         $this->outputDirectory = getcwd() . '/output';
     }

@@ -7,11 +7,14 @@ namespace Symplify\SymplifyKernel\HttpKernel;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\ConfigTransformer\Exception\ShouldNotHappenException;
 use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
+/**
+ * @api
+ */
 abstract class AbstractSymplifyKernel implements LightKernelInterface
 {
     private Container|null $container = null;

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SimplePhpDocParser\ValueObject;
+namespace Symplify\EasyTesting\ValueObject;
 
 /**
  * @api
  */
-final class SimplePhpDocParserConfig
+final class EasyTestingConfig
 {
     /**
      * @var string

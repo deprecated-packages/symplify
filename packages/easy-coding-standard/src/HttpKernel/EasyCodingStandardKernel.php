@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\CodingStandard\DependencyInjection\Extension\SymplifyCodingStandardExtension;
 use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
@@ -69,7 +68,6 @@ final class EasyCodingStandardKernel implements LightKernelInterface
 
         $extensions[] = new SymplifyKernelExtension();
         $extensions[] = new EasyCodingStandardExtension();
-        $extensions[] = new SymplifyCodingStandardExtension();
 
         return $extensions;
     }
