@@ -43,5 +43,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/symfony/var-dumper/*',
         '*/symfony/var-exporter/*',
         '*/symfony/error-handler/*',
+        '*/symfony/event-dispatcher/*',
+        '*/symfony/event-dispatcher-contracts/*',
     ]);
 };
