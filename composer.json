@@ -32,6 +32,7 @@
         "symfony/console": "^5.3|^6.0",
         "symfony/dependency-injection": "^5.3|^6.0",
         "symfony/event-dispatcher": "^5.3|^6.0",
+        "symfony/expression-language": "^5.3|^6.0",
         "symfony/filesystem": "^5.3|^6.0",
         "symfony/finder": "^5.3|^6.0",
         "symfony/http-foundation": "^5.3|^6.0",
@@ -57,8 +58,8 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "^5.3|^6.0",
         "symfony/twig-bundle": "^5.3|^6.0",
-        "tracy/tracy": "^2.8",
-        "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0"
+        "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0",
+        "tracy/tracy": "^2.8"
     },
     "autoload": {
         "files": [
@@ -72,7 +73,6 @@
             "Symplify\\ComposerJsonManipulator\\": "packages/composer-json-manipulator/src",
             "Symplify\\ConfigTransformer\\": "packages/config-transformer/src",
             "Symplify\\ConsoleColorDiff\\": "packages/console-color-diff/src",
-            "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\EasyCI\\": [
                 "packages/easy-ci/packages",
                 "packages/easy-ci/src"
@@ -100,6 +100,7 @@
             "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/phpstan-rules/packages/twig-phpstan-printer/src",
             "Symplify\\PHPStanTwigRules\\": "packages/phpstan-twig-rules/src",
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
+            "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -135,7 +136,6 @@
             "Symplify\\ComposerJsonManipulator\\Tests\\": "packages/composer-json-manipulator/tests",
             "Symplify\\ConfigTransformer\\Tests\\": "packages/config-transformer/tests",
             "Symplify\\ConsoleColorDiff\\Tests\\": "packages/console-color-diff/tests",
-            "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\EasyCI\\Tests\\": [
                 "packages/easy-ci/packages-tests",
                 "packages/easy-ci/tests"
@@ -162,6 +162,7 @@
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
             "Symplify\\PHPStanTwigRules\\Tests\\": "packages/phpstan-twig-rules/tests",
             "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
+            "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
@@ -178,6 +179,10 @@
         }
     },
     "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
         "symplify/amnesia": "9.4.70",
         "symplify/astral": "9.4.70",
         "symplify/autowire-array-parameter": "9.4.70",
