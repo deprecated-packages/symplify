@@ -54,8 +54,6 @@ final class KernelBootAndApplicationRun
         $environment = 'prod' . random_int(1, 100000);
         $kernel = new $kernelClass($environment, StaticInputDetector::isDebug());
 
-        $this->setExtraConfigs($kernel, $kernelClass);
-
         return $kernel;
     }
 
@@ -66,10 +64,6 @@ final class KernelBootAndApplicationRun
         if ($kernel instanceof LightKernelInterface) {
             $container = $kernel->createFromConfigs($this->extraConfigs);
         } else {
-            if ($kernel instanceof ExtraConfigAwareKernelInterface && $this->extraConfigs !== []) {
-                $kernel->setConfigs($this->extraConfigs);
-            }
-
             $kernel->boot();
             $container = $kernel->getContainer();
         }
@@ -77,25 +71,6 @@ final class KernelBootAndApplicationRun
         /** @var Application $application */
         $application = $container->get(Application::class);
         exit($application->run());
-    }
-
-    private function setExtraConfigs(KernelInterface $kernel, string $kernelClass): void
-    {
-        if ($this->extraConfigs === []) {
-            return;
-        }
-
-        if (is_a($kernel, ExtraConfigAwareKernelInterface::class, true)) {
-            /** @var ExtraConfigAwareKernelInterface $kernel */
-            $kernel->setConfigs($this->extraConfigs);
-        } else {
-            $message = sprintf(
-                'Extra configs are set, but the "%s" kernel class is missing "%s" interface',
-                $kernelClass,
-                ExtraConfigAwareKernelInterface::class
-            );
-            throw new BootException($message);
-        }
     }
 
     /**
