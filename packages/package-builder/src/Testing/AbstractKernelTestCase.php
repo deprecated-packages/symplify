@@ -28,11 +28,6 @@ abstract class AbstractKernelTestCase extends TestCase
     protected static ?ContainerInterface $container = null;
 
     /**
-     * @var array<string, KernelInterface>
-     */
-    private static array $kernelsByHash = [];
-
-    /**
      * @param class-string<KernelInterface> $kernelClass
      * @param string[]|SmartFileInfo[] $configs
      */
@@ -49,29 +44,6 @@ abstract class AbstractKernelTestCase extends TestCase
         static::$kernel = $bootedKernel;
 
         return $bootedKernel;
-    }
-
-    /**
-     * @param class-string<KernelInterface> $kernelClass
-     * @param string[]|SmartFileInfo[] $configs
-     */
-    protected function bootKernelWithConfigsAndStaticCache(string $kernelClass, array $configs): KernelInterface
-    {
-        // unwrap file infos to real paths
-        $configFilePaths = $this->resolveConfigFilePaths($configs);
-        $configsHash = $this->resolveConfigsHash($configFilePaths);
-
-        if (isset(self::$kernelsByHash[$configsHash])) {
-            static::$kernel = self::$kernelsByHash[$configsHash];
-            self::$container = static::$kernel->getContainer();
-        } else {
-            $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
-
-            static::$kernel = $bootedKernel;
-            self::$kernelsByHash[$configsHash] = $bootedKernel;
-        }
-
-        return static::$kernel;
     }
 
     /**
