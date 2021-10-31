@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral\ValueObject;
+namespace Symplify\ConsoleColorDiff\ValueObject;
 
 /**
  * @api
  */
-final class AstralConfig
+final class ConsoleColorDiffConfig
 {
     /**
      * @var string

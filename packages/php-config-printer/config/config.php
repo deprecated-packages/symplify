@@ -26,12 +26,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\PhpConfigPrinter\\', __DIR__ . '/../src')
-        ->exclude([
-            __DIR__ . '/../src/HttpKernel',
-            __DIR__ . '/../src/Dummy',
-            __DIR__ . '/../src/Bundle',
-            __DIR__ . '/../src/ValueObject/FullyQualifiedImport.php',
-        ]);
+        ->exclude([__DIR__ . '/../src/ValueObject']);
 
     $services->set(NodeFinder::class);
     $services->set(Parser::class);

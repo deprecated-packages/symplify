@@ -5,43 +5,19 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\HttpKernel;
 
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container;
-use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\ConfigTransformer\Exception\ShouldNotHappenException;
-use Symplify\PhpConfigPrinter\DependencyInjection\Extension\PhpConfigPrinterExtension;
-use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
-use Symplify\SymplifyKernel\Contract\LightKernelInterface;
-use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
+use Symplify\PhpConfigPrinter\ValueObject\PhpConfigPrinterConfig;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class ConfigTransformerKernel implements LightKernelInterface
+final class ConfigTransformerKernel extends AbstractSymplifyKernel
 {
-    private Container|null $container = null;
-
     /**
      * @param string[] $configFiles
      */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        $containerBuilderFactory = new ContainerBuilderFactory();
-
-        $extensions = [new SymplifyKernelExtension(), new PhpConfigPrinterExtension()];
-        $compilerPasses = [new AutowireArrayParameterCompilerPass()];
         $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = PhpConfigPrinterConfig::FILE_PATH;
 
-        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
-        $containerBuilder->compile();
-
-        $this->container = $containerBuilder;
-
-        return $containerBuilder;
-    }
-
-    public function getContainer(): ContainerInterface
-    {
-        if (! $this->container instanceof Container) {
-            throw new ShouldNotHappenException();
-        }
-
-        return $this->container;
+        return $this->create([], [], $configFiles);
     }
 }

@@ -10,24 +10,15 @@ Skip files by rule class, fnmatch or regex.
 composer require symplify/skipper
 ```
 
-Register bundle in your Kernel:
+Register package in your config:
 
 ```php
-namespace App;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\Skipper\ValueObject\SkipperConfig;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\Skipper\Bundle\SkipperBundle;
-
-final class AppKernel
-{
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [new SkipperBundle()];
-    }
-}
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(SkipperConfig::FILE_PATH);
+};
 ```
 
 ## Use

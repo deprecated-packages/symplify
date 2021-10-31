@@ -4,27 +4,22 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\MarkdownDiff\Bundle\MarkdownDiffBundle;
-use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
+use Psr\Container\ContainerInterface;
+use Symplify\MarkdownDiff\ValueObject\MarkdownDiffConfig;
+use Symplify\PhpConfigPrinter\ValueObject\PhpConfigPrinterConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/../../config/config.php');
-
-        parent::registerContainerConfiguration($loader);
-    }
-
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new SymplifyKernelBundle(), new MarkdownDiffBundle(), new PhpConfigPrinterBundle()];
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = PhpConfigPrinterConfig::FILE_PATH;
+        $configFiles[] = MarkdownDiffConfig::FILE_PATH;
+
+        return $this->create([], [], $configFiles);
     }
 }

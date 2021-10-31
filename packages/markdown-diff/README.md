@@ -8,16 +8,15 @@
 composer require symplify/markdown-diff
 ```
 
-Add to `config/bundles.php`:
+Add to `config/config.php`:
 
 ```php
-use Symplify\MarkdownDiff\Bundle\MarkdownDiffBundle;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\MarkdownDiff\ValueObject\MarkdownDiffConfig;
 
-return [
-    MarkdownDiffBundle::class => [
-        'all' => true,
-    ],
-];
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(MarkdownDiffConfig::class);
+};
 ```
 
 ## Usage

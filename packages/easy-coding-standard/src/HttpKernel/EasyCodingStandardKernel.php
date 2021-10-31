@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\CodingStandard\DependencyInjection\Extension\SymplifyCodingStandardExtension;
-use Symplify\ConsoleColorDiff\DependencyInjection\Extension\ConsoleColorDiffExtension;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
@@ -20,7 +20,7 @@ use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualChe
 use Symplify\EasyCodingStandard\DependencyInjection\Extension\EasyCodingStandardExtension;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
-use Symplify\Skipper\DependencyInjection\Extension\SkipperExtension;
+use Symplify\Skipper\ValueObject\SkipperConfig;
 use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
@@ -38,10 +38,12 @@ final class EasyCodingStandardKernel implements LightKernelInterface
 
         $compilerPasses = $this->createCompilerPasses();
         $extensions = $this->createExtensions();
+        $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
+        $configFiles[] = SkipperConfig::FILE_PATH;
 
         $containerBuilderFactory = new ContainerBuilderFactory();
 
-        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
+        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles);
         $containerBuilder->compile();
 
         $this->container = $containerBuilder;
@@ -67,8 +69,6 @@ final class EasyCodingStandardKernel implements LightKernelInterface
 
         $extensions[] = new SymplifyKernelExtension();
         $extensions[] = new EasyCodingStandardExtension();
-        $extensions[] = new ConsoleColorDiffExtension();
-        $extensions[] = new SkipperExtension();
         $extensions[] = new SymplifyCodingStandardExtension();
 
         return $extensions;

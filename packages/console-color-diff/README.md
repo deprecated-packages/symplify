@@ -11,11 +11,12 @@ composer require symplify/console-color-diff
 Add to `config/bundles.php`:
 
 ```php
-return [
-    Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle::class => [
-        'all' => true,
-    ],
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(ConsoleColorDiffConfig::FILE_PATH);
+};
 ```
 
 ## Usage
