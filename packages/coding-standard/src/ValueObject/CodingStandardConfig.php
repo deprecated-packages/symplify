@@ -7,10 +7,10 @@ namespace Symplify\CodingStandard\ValueObject;
 /**
  * @api
  */
-final class SymplifyCodingStandardConfig
+final class CodingStandardConfig
 {
     /**
      * @var string
      */
-    public const FILE_PATH = __DIR__ . '/../../config/symplify.php';
+    public const FILE_PATH = __DIR__ . '/../../config/config.php';
 }

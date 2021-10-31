@@ -70,6 +70,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder): void
     {
         $definitions = $containerBuilder->getDefinitions();
+
         foreach ($definitions as $definition) {
             if ($this->shouldSkipDefinition($containerBuilder, $definition)) {
                 continue;

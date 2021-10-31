@@ -9,7 +9,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
-use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\Exception\BootException;
 use Throwable;
@@ -52,9 +51,7 @@ final class KernelBootAndApplicationRun
         }
 
         $environment = 'prod' . random_int(1, 100000);
-        $kernel = new $kernelClass($environment, StaticInputDetector::isDebug());
-
-        return $kernel;
+        return new $kernelClass($environment, StaticInputDetector::isDebug());
     }
 
     private function booKernelAndRunApplication(): void
