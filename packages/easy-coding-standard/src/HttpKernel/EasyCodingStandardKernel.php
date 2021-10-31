@@ -4,84 +4,98 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\HttpKernel;
 
-use Nette\Utils\FileSystem;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PhpCsFixer\Fixer\FixerInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
-use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
-use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
-use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
-use Symplify\EasyCodingStandard\DependencyInjection\DelegatingLoaderFactory;
-use Symplify\Skipper\Bundle\SkipperBundle;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
-use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
-use Throwable;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
+use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\CodingStandard\DependencyInjection\Extension\SymplifyCodingStandardExtension;
+use Symplify\ConsoleColorDiff\DependencyInjection\Extension\ConsoleColorDiffExtension;
+use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
+use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
+use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
+use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveExcludedCheckersCompilerPass;
+use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass;
+use Symplify\EasyCodingStandard\DependencyInjection\Extension\EasyCodingStandardExtension;
+use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
+use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
+use Symplify\Skipper\DependencyInjection\Extension\SkipperExtension;
+use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
+use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
 
-/**
- * @see \Symplify\EasyCodingStandard\Tests\HttpKernel\EasyCodingStandardKernelTest
- */
-final class EasyCodingStandardKernel extends AbstractSymplifyKernel
+final class EasyCodingStandardKernel implements LightKernelInterface
 {
+    private ContainerInterface|null $container = null;
+
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [
-            new EasyCodingStandardBundle(),
-            new SymplifyCodingStandardBundle(),
-            new ConsoleColorDiffBundle(),
-            new SymplifyKernelBundle(),
-            new SkipperBundle(),
-        ];
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+
+        $compilerPasses = $this->createCompilerPasses();
+        $extensions = $this->createExtensions();
+
+        $containerBuilderFactory = new ContainerBuilderFactory();
+
+        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
+        $containerBuilder->compile();
+
+        $this->container = $containerBuilder;
+
+        return $containerBuilder;
     }
 
-    public function getCacheDir(): string
+    public function getContainer(): ContainerInterface
     {
-        return sys_get_temp_dir() . '/ecs_' . get_current_user();
-    }
-
-    public function getLogDir(): string
-    {
-        $logDirectory = sys_get_temp_dir() . '/ecs_log_' . get_current_user();
-
-        if (StaticVersionResolver::PACKAGE_VERSION !== '@package_version@') {
-            $logDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
+        if (! $this->container instanceof ContainerInterface) {
+            throw new ShouldNotHappenException();
         }
 
-        return $logDirectory;
-    }
-
-    public function boot(): void
-    {
-        $cacheDir = $this->getCacheDir();
-
-        try {
-            FileSystem::delete($cacheDir);
-            FileSystem::createDir($cacheDir);
-        } catch (Throwable) {
-            // the "@" is required for parallel run to avoid deleting locked directory
-            // Rebuild the container on each run
-        }
-
-        parent::boot();
-    }
-
-    protected function prepareContainer(ContainerBuilder $containerBuilder): void
-    {
-        // works better with workers - see https://github.com/symfony/symfony/pull/32581
-        $containerBuilder->setParameter('container.dumper.inline_factories', true);
-        parent::prepareContainer($containerBuilder);
+        return $this->container;
     }
 
     /**
-     * @param ContainerBuilder $container
+     * @return ExtensionInterface[]
      */
-    protected function getContainerLoader(ContainerInterface $container): DelegatingLoader
+    private function createExtensions(): array
     {
-        $delegatingLoaderFactory = new DelegatingLoaderFactory();
-        return $delegatingLoaderFactory->createFromContainerBuilderAndKernel($container, $this);
+        $extensions = [];
+
+        $extensions[] = new SymplifyKernelExtension();
+        $extensions[] = new EasyCodingStandardExtension();
+        $extensions[] = new ConsoleColorDiffExtension();
+        $extensions[] = new SkipperExtension();
+        $extensions[] = new SymplifyCodingStandardExtension();
+
+        return $extensions;
+    }
+
+    /**
+     * @return CompilerPassInterface[]
+     */
+    private function createCompilerPasses(): array
+    {
+        $compilerPasses = [];
+
+        // cleanup
+        $compilerPasses[] = new RemoveExcludedCheckersCompilerPass();
+        $compilerPasses[] = new RemoveMutualCheckersCompilerPass();
+        $compilerPasses[] = new ConflictingCheckersCompilerPass();
+
+        // autowire
+        $compilerPasses[] = new AutowireInterfacesCompilerPass([
+            FixerInterface::class,
+            Sniff::class,
+            OutputFormatterInterface::class,
+        ]);
+
+        $compilerPasses[] = new FixerWhitespaceConfigCompilerPass();
+        $compilerPasses[] = new AutowireArrayParameterCompilerPass();
+
+        return $compilerPasses;
     }
 }
