@@ -593,3 +593,5 @@ parameters:
         -
             path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
             message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
+
+        - '#Content of method "createFromConfigs\(\)" is duplicated with method "createFromConfigs\(\)" in "Symplify\\(.*?)\\HttpKernel\\Psr4SwitcherKernel" class\. Use unique content or service instead#'
