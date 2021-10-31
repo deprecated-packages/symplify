@@ -4,24 +4,44 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
-use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\ConfigTransformer\Exception\ShouldNotHappenException;
+use Symplify\PhpConfigPrinter\DependencyInjection\Extension\PhpConfigPrinterExtension;
+use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
+use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
 
-final class ConfigTransformerKernel extends AbstractSymplifyKernel
+final class ConfigTransformerKernel implements LightKernelInterface
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/../../config/config.php');
-    }
+    private Container|null $container = null;
 
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new SymplifyKernelBundle(), new PhpConfigPrinterBundle()];
+        $containerBuilderFactory = new ContainerBuilderFactory();
+
+        $extensions = [new SymplifyKernelExtension(), new PhpConfigPrinterExtension()];
+        $compilerPasses = [new AutowireArrayParameterCompilerPass()];
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+
+        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
+        $containerBuilder->compile();
+
+        $this->container = $containerBuilder;
+
+        return $containerBuilder;
+    }
+
+    public function getContainer(): ContainerInterface
+    {
+        if (! $this->container instanceof Container) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->container;
     }
 }
