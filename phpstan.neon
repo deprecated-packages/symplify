@@ -581,3 +581,15 @@ parameters:
 
         # false positive
         - '#Parameter \#1 \$kernel of method Symplify\\SymplifyKernel\\ValueObject\\KernelBootAndApplicationRun\:\:setExtraConfigs\(\) expects Symfony\\Component\\HttpKernel\\KernelInterface, Symfony\\Component\\HttpKernel\\KernelInterface\|Symplify\\SymplifyKernel\\Contract\\LightKernelInterface given#'
+
+        # known realpath() checked with file_exist right above
+        -
+            message: '#Function resolveConfigFile\(\) should return string\|null but returns string\|false#'
+            path: packages/monorepo-builder/bin/monorepo-builder.php
+        -
+            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Caching\\ChangedFilesDetector\:\:setUsedConfigs\(\) expects array<string\>, array<int, string\|false\> given#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+        -
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
