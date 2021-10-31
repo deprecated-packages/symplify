@@ -56,7 +56,7 @@ abstract class AbstractKernelTestCase extends TestCase
     protected function getService(string $type): object
     {
         if (self::$container === null) {
-            throw new ShouldNotHappenException('First, crewate container with booKernel(KernelClass::class)');
+            throw new ShouldNotHappenException('First, create container with booKernel(KernelClass::class)');
         }
 
         $service = self::$container->get($type);
