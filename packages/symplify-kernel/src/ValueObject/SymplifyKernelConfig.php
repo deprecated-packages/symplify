@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\SymplifyKernel\ValueObject;
 
+/**
+ * @api
+ */
 final class SymplifyKernelConfig
 {
     /**

@@ -9,19 +9,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\SymfonyContainerBuilder\Config\Loader\ParameterMergingLoaderFactory;
 use Symplify\SymfonyContainerBuilder\DependencyInjection\LoadExtensionConfigsCompilerPass;
-use Symplify\SymfonyContainerBuilder\Parameters\KernelParametersProvider;
 use Webmozart\Assert\Assert;
 
 final class ContainerBuilderFactory
 {
     private ParameterMergingLoaderFactory $parameterMergingLoaderFactory;
 
-    private KernelParametersProvider $kernelParameterProvider;
-
     public function __construct()
     {
         $this->parameterMergingLoaderFactory = new ParameterMergingLoaderFactory();
-        $this->kernelParameterProvider = new KernelParametersProvider();
     }
 
     /**
@@ -39,11 +35,6 @@ final class ContainerBuilderFactory
         $this->registerExtensions($containerBuilder, $extensions);
         $this->registerConfigFiles($containerBuilder, $configFiles);
         $this->registerCompilerPasses($containerBuilder, $compilerPasses);
-
-        $kernelParameters = $this->kernelParameterProvider->provide();
-        foreach ($kernelParameters as $name => $value) {
-            $containerBuilder->setParameter($name, $value);
-        }
 
         // this calls load() method in every extensions
         // ensure these extensions are implicitly loaded
