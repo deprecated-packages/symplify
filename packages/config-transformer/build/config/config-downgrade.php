@@ -2,13 +2,10 @@
 
 declare(strict_types=1);
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinterAbstract;
 use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
-
 use Rector\Set\ValueObject\DowngradeLevelSetList;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
@@ -22,8 +19,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->call('configure', [[
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
-                Sniff::class,
-                FixerInterface::class,
                 OutputInterface::class,
                 StyleInterface::class,
                 // phpstan
