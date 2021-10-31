@@ -14,6 +14,7 @@ use Symfony\Contracts\Service\ResetInterface;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
 use Symplify\PackageBuilder\Exception\HttpKernel\MissingInterfaceException;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
@@ -23,15 +24,15 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  */
 abstract class AbstractKernelTestCase extends TestCase
 {
-    protected static ?KernelInterface $kernel = null;
+    protected static KernelInterface|LightKernelInterface|null $kernel = null;
 
     protected static ?ContainerInterface $container = null;
 
     /**
-     * @param class-string<KernelInterface> $kernelClass
+     * @param class-string<KernelInterface|LightKernelInterface> $kernelClass
      * @param string[]|SmartFileInfo[] $configs
      */
-    protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface
+    protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface|LightKernelInterface
     {
         // unwrap file infos to real paths
         $configFilePaths = $this->resolveConfigFilePaths($configs);
@@ -42,12 +43,13 @@ abstract class AbstractKernelTestCase extends TestCase
         $bootedKernel = $this->createBootedKernelFromConfigs($kernelClass, $configsHash, $configFilePaths);
 
         static::$kernel = $bootedKernel;
+        self::$container = $bootedKernel->getContainer();
 
         return $bootedKernel;
     }
 
     /**
-     * Syntax sugger to remove static from the test cases vission
+     * Syntax sugger to remove static from the test cases vision
      *
      * @template T of object
      * @param class-string<T> $type
@@ -68,8 +70,21 @@ abstract class AbstractKernelTestCase extends TestCase
         return $service;
     }
 
+    /**
+     * @param class-string<KernelInterface|LightKernelInterface> $kernelClass
+     */
     protected function bootKernel(string $kernelClass): void
     {
+        if (is_a($kernelClass, LightKernelInterface::class, true)) {
+            /** @var LightKernelInterface $kernel */
+            $kernel = new $kernelClass();
+            $kernel->createFromConfigs([]);
+
+            static::$kernel = $kernel;
+            self::$container = $kernel->getContainer();
+            return;
+        }
+
         $this->ensureKernelShutdown();
 
         $kernel = new $kernelClass('test', true);
@@ -85,7 +100,7 @@ abstract class AbstractKernelTestCase extends TestCase
      */
     protected function ensureKernelShutdown(): void
     {
-        if (static::$kernel !== null) {
+        if (static::$kernel !== null && static::$kernel instanceof KernelInterface) {
             // make sure boot() is called
             // @see https://github.com/symfony/symfony/pull/31202/files
             $kernelReflectionClass = new ReflectionClass(static::$kernel);
@@ -134,8 +149,12 @@ abstract class AbstractKernelTestCase extends TestCase
         return $configFilePaths;
     }
 
-    private function ensureIsConfigAwareKernel(KernelInterface $kernel): void
+    private function ensureIsConfigAwareKernel(KernelInterface|LightKernelInterface $kernel): void
     {
+        if ($kernel instanceof LightKernelInterface) {
+            return;
+        }
+
         if ($kernel instanceof ExtraConfigAwareKernelInterface) {
             return;
         }
@@ -174,13 +193,21 @@ abstract class AbstractKernelTestCase extends TestCase
     }
 
     /**
+     * @param class-string<KernelInterface|LightKernelInterface> $kernelClass
      * @param string[] $configFilePaths
      */
     private function createBootedKernelFromConfigs(
         string $kernelClass,
         string $configsHash,
         array $configFilePaths
-    ): KernelInterface {
+    ): KernelInterface|LightKernelInterface {
+        if (is_a($kernelClass, LightKernelInterface::class, true)) {
+            /** @var LightKernelInterface $kernel */
+            $kernel = new $kernelClass();
+            $kernel->createFromConfigs($configFilePaths);
+            return $kernel;
+        }
+
         $kernel = new $kernelClass('test_' . $configsHash, true);
         $this->ensureIsConfigAwareKernel($kernel);
 

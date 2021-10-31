@@ -9,6 +9,7 @@
         "symfony/filesystem": "^5.3|^6.0",
         "symfony/finder": "^5.3|^6.0",
         "symfony/http-foundation": "^5.3|^6.0",
+        "symfony/http-kernel": "^5.3|^6.0",
         "symfony/config": "^5.3|^6.0",
         "symfony/dependency-injection": "^5.3|^6.0",
         "symfony/routing": "^5.3|^6.0",

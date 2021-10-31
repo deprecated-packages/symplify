@@ -12,21 +12,8 @@
         "nikic/php-parser": "^4.13",
         "symfony/console": "^5.3|^6.0",
         "symfony/dependency-injection": "^5.3|^6.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "symfony/expression-language": "^5.3|^6.0",
-=======
-<<<<<<< HEAD
->>>>>>> drop couple unused symfony deps
-=======
-<<<<<<< HEAD
->>>>>>> remove expresison language
         "symfony/http-kernel": "^5.3|^6.0",
-=======
-        "symfony/expression-language": "^5.3|^6.0",
->>>>>>> drop couple unused symfony deps
-=======
->>>>>>> remove expresison language
         "symfony/yaml": "^5.3|^6.0",
         "symplify/php-config-printer": "^9.5"
     },

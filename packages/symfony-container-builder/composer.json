@@ -1,27 +1,16 @@
 {
-    "name": "symplify/simple-php-doc-parser",
-    "description": "Service integration of phpstan/phpdoc-parser, with few extra goodies for practical simple use",
+    "name": "symplify/symfony-container-builder",
+    "description": "Missing component for only building dependency injection container",
     "license": "MIT",
     "require": {
         "php": ">=8.0",
-        "phpstan/phpdoc-parser": "^1.2",
+        "symplify/package-builder": "^9.5",
         "symfony/dependency-injection": "^5.3|^6.0",
-        "symfony/config": "^5.3|^6.0",
-        "symfony/http-kernel": "^5.3|^6.0",
-        "symplify/package-builder": "^9.5"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "symplify/easy-testing": "^9.5"
+        "symfony/config": "^5.3|^6.0"
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\SimplePhpDocParser\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Symplify\\SimplePhpDocParser\\Tests\\": "tests"
+            "Symplify\\SymfonyContainerBuilder\\": "src"
         }
     },
     "extra": {
@@ -37,7 +26,7 @@
         "symplify/easy-testing": "<9.4.70",
         "symplify/psr4-switcher": "<9.4.70",
         "symplify/rule-doc-generator-contracts": "<9.4.70",
-        "symplify/symfony-php-config": "<9.4.70",
+        "symplify/simple-php-doc-parser": "<9.4.70",
         "symplify/php-config-printer": "<9.4.70",
         "symplify/console-color-diff": "<9.4.70",
         "symplify/autowire-array-parameter": "<9.4.70",
@@ -50,7 +39,6 @@
         "symplify/smart-file-system": "<9.4.70",
         "symplify/symfony-static-dumper": "<9.4.70",
         "symplify/git-wrapper": "<9.4.70",
-        "symplify/symplify-kernel": "<9.4.70",
         "symplify/monorepo-builder": "<9.4.70",
         "symplify/config-transformer": "<9.4.70",
         "symplify/easy-ci": "<9.4.70",
