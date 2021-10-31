@@ -12,7 +12,6 @@ use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
 use Symplify\ConfigTransformer\Enum\Format;
 use Symplify\ConfigTransformer\Exception\NotImplementedYetException;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
@@ -36,7 +35,9 @@ final class ConfigFormatConverter
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
-        $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo($smartFileInfo);
+        $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo(
+            $smartFileInfo
+        );
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
 

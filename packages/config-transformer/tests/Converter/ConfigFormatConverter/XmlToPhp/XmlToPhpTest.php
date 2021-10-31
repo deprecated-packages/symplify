@@ -6,7 +6,6 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\XmlTo
 
 use Iterator;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
