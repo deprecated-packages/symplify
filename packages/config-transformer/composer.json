@@ -32,6 +32,9 @@
             "Symplify\\ConfigTransformer\\Tests\\": "tests"
         }
     },
+    "replace": {
+        "symfony/polyfill-php73": "*"
+    },
     "config": {
         "sort-packages": true,
         "platform-check": false
