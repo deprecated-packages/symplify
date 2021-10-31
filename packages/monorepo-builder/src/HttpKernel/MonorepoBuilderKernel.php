@@ -4,35 +4,47 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle;
-use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
-use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+use Symplify\ConfigTransformer\Exception\ShouldNotHappenException;
+use Symplify\ConsoleColorDiff\DependencyInjection\Extension\ConsoleColorDiffExtension;
+use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
+use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
 
-final class MonorepoBuilderKernel extends AbstractSymplifyKernel
+final class MonorepoBuilderKernel implements LightKernelInterface
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/../../config/config.php');
-
-        parent::registerContainerConfiguration($loader);
-    }
+    private Container|null $container = null;
 
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle(), new ConsoleColorDiffBundle()];
+        $containerBuilderFactory = new ContainerBuilderFactory();
+
+        $extensions = [new SymplifyKernelExtension(), new ConsoleColorDiffExtension()];
+        $compilerPasses = [new AutowireArrayParameterCompilerPass()];
+
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
+
+        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles);
+        $containerBuilder->compile();
+
+        $this->container = $containerBuilder;
+
+        return $containerBuilder;
     }
 
-    protected function build(ContainerBuilder $containerBuilder): void
+    public function getContainer(): ContainerInterface
     {
-        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]));
+        if (! $this->container instanceof Container) {
+            throw new ShouldNotHappenException();
+        }
+
+        return $this->container;
     }
 }

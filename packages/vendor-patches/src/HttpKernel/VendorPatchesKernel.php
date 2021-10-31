@@ -7,7 +7,7 @@ namespace Symplify\VendorPatches\HttpKernel;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\ComposerJsonManipulator\DependencyInjection\Extension\ComposerJsonManipulatorExtension;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
 use Symplify\ConfigTransformer\Exception\ShouldNotHappenException;
 use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
@@ -24,9 +24,10 @@ final class VendorPatchesKernel implements LightKernelInterface
     {
         $containerBuilderFactory = new ContainerBuilderFactory();
 
-        $extensions = [new SymplifyKernelExtension(), new ComposerJsonManipulatorExtension()];
+        $extensions = [new SymplifyKernelExtension()];
         $compilerPasses = [new AutowireArrayParameterCompilerPass()];
         $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
 
         $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
         $containerBuilder->compile();
