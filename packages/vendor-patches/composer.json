@@ -10,9 +10,9 @@
         "nette/utils": "^3.2",
         "symfony/console": "^5.3|^6.0",
         "symfony/dependency-injection": "^5.3|^6.0",
-        "symfony/http-kernel": "^5.3|^6.0",
         "sebastian/diff": "^4.0",
         "cweagans/composer-patches": "^1.7",
+        "symplify/symfony-container-builder": "^9.5",
         "symplify/composer-json-manipulator": "^9.5",
         "symplify/symplify-kernel": "^9.5"
     },

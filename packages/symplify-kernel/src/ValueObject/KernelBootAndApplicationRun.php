@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\Exception\BootException;
 use Throwable;
 
@@ -20,8 +20,8 @@ use Throwable;
 final class KernelBootAndApplicationRun
 {
     /**
-     * @param class-string<KernelInterface> $kernelClass
-     * @param string[]|SmartFileInfo[] $extraConfigs
+     * @param class-string<KernelInterface|LightKernelInterface> $kernelClass
+     * @param string[] $extraConfigs
      */
     public function __construct(
         private string $kernelClass,
@@ -42,12 +42,16 @@ final class KernelBootAndApplicationRun
         }
     }
 
-    private function createKernel(): KernelInterface
+    private function createKernel(): KernelInterface|LightKernelInterface
     {
         // random has is needed, so cache is invalidated and changes from config are loaded
-        $environment = 'prod' . random_int(1, 100000);
         $kernelClass = $this->kernelClass;
 
+        if (is_a($kernelClass, LightKernelInterface::class, true)) {
+            return new $kernelClass();
+        }
+
+        $environment = 'prod' . random_int(1, 100000);
         $kernel = new $kernelClass($environment, StaticInputDetector::isDebug());
 
         $this->setExtraConfigs($kernel, $kernelClass);
@@ -58,13 +62,17 @@ final class KernelBootAndApplicationRun
     private function booKernelAndRunApplication(): void
     {
         $kernel = $this->createKernel();
-        if ($kernel instanceof ExtraConfigAwareKernelInterface && $this->extraConfigs !== []) {
-            $kernel->setConfigs($this->extraConfigs);
+
+        if ($kernel instanceof LightKernelInterface) {
+            $container = $kernel->createFromConfigs($this->extraConfigs);
+        } else {
+            if ($kernel instanceof ExtraConfigAwareKernelInterface && $this->extraConfigs !== []) {
+                $kernel->setConfigs($this->extraConfigs);
+            }
+
+            $kernel->boot();
+            $container = $kernel->getContainer();
         }
-
-        $kernel->boot();
-
-        $container = $kernel->getContainer();
 
         /** @var Application $application */
         $application = $container->get(Application::class);
@@ -99,7 +107,16 @@ final class KernelBootAndApplicationRun
             return;
         }
 
-        $errorMessage = sprintf('Class "%s" must by type of "%s"', $kernelClass, KernelInterface::class);
+        if (is_a($kernelClass, LightKernelInterface::class, true)) {
+            return;
+        }
+
+        $errorMessage = sprintf(
+            'Class "%s" must by type of "%s" or "%s"',
+            $kernelClass,
+            KernelInterface::class,
+            LightKernelInterface::class
+        );
         throw new BootException($errorMessage);
     }
 }
