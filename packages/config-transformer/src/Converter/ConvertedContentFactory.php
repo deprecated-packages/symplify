@@ -21,7 +21,7 @@ final class ConvertedContentFactory
      * @param SmartFileInfo[] $fileInfos
      * @return ConvertedContent[]
      */
-    public function createFromFileInfos(array $fileInfos, Configuration $configuration): array
+    public function createFromFileInfos(array $fileInfos): array
     {
         $convertedContentFromFileInfo = [];
 
@@ -29,7 +29,7 @@ final class ConvertedContentFactory
             $message = sprintf('Processing "%s" file', $fileInfo->getRelativeFilePathFromCwd());
             $this->symfonyStyle->note($message);
 
-            $convertedContent = $this->configFormatConverter->convert($fileInfo, $configuration);
+            $convertedContent = $this->configFormatConverter->convert($fileInfo);
 
             $convertedContentFromFileInfo[] = new ConvertedContent($convertedContent, $fileInfo);
         }

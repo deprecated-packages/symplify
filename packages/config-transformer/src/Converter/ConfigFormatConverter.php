@@ -32,14 +32,11 @@ final class ConfigFormatConverter
     ) {
     }
 
-    public function convert(SmartFileInfo $smartFileInfo, Configuration $configuration): string
+    public function convert(SmartFileInfo $smartFileInfo): string
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
-        $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo(
-            $smartFileInfo,
-            $configuration
-        );
+        $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo($smartFileInfo);
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
 

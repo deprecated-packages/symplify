@@ -40,7 +40,6 @@ final class ConfigLoader
 
     public function createAndLoadContainerBuilderFromFileInfo(
         SmartFileInfo $smartFileInfo,
-        Configuration $configuration
     ): ContainerBuilderAndFileContent {
         $containerBuilder = new ContainerBuilder();
 

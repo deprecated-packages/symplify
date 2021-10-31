@@ -50,7 +50,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
         $fileInfos = $this->smartFinder->find($configuration->getSources(), $suffixesRegex);
 
-        $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos, $configuration);
+        $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos);
 
         foreach ($convertedContents as $convertedContent) {
             $this->configFileDumper->dumpFile($convertedContent, $configuration);

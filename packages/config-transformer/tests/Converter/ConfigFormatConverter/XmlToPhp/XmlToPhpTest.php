@@ -22,8 +22,7 @@ final class XmlToPhpTest extends AbstractConfigFormatConverterTest
             sys_get_temp_dir() . '/_temp_fixture_easy_testing/some.xml'
         );
 
-        $configuration = new Configuration([], true);
-        $this->doTestOutput($fixtureFileInfo, $configuration);
+        $this->doTestOutput($fixtureFileInfo);
     }
 
     /**
