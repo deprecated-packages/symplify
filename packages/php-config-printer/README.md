@@ -10,24 +10,15 @@ Print Symfony services array with configuration to to plain PHP file format than
 composer require symplify/php-config-printer --dev
 ```
 
-Register bundle in your Kernel:
+Register config in your services:
 
 ```php
-namespace App;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\PhpConfigPrinter\ValueObject\PhpConfigPrinterConfig;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\PhpConfigPrinter\Bundle\PhpConfigPrinterBundle;
-
-final class AppKernel
-{
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [new PhpConfigPrinterBundle()];
-    }
-}
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(PhpConfigPrinterConfig::FILE_PATH);
+};
 ```
 
 ## Use

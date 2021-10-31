@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PackageBuilder\Tests\HttpKernel;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Psr\Container\ContainerInterface;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class PackageBuilderTestKernel extends AbstractSymplifyKernel
 {
-    protected function build(ContainerBuilder $containerBuilder): void
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        $containerBuilder->autowire(ParameterProvider::class)
-            ->setPublic(true);
+        $configFiles[] = __DIR__ . '/../config/test_config.php';
+        return $this->create([], [], $configFiles);
     }
 }

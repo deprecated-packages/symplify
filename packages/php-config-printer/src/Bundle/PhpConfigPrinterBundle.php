@@ -17,17 +17,17 @@ use Symplify\PhpConfigPrinter\Dummy\DummyYamlFileContentProvider;
  */
 final class PhpConfigPrinterBundle extends Bundle
 {
-    public function build(ContainerBuilder $containerBuilder): void
-    {
-        $this->registerDefaultImplementations($containerBuilder);
+//    public function build(ContainerBuilder $containerBuilder): void
+//    {
+//        $this->registerDefaultImplementations($containerBuilder);
+//
+//        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
+//    }
 
-        $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
-    }
-
-    protected function createContainerExtension(): PhpConfigPrinterExtension
-    {
-        return new PhpConfigPrinterExtension();
-    }
+//    protected function createContainerExtension(): PhpConfigPrinterExtension
+//    {
+//        return new PhpConfigPrinterExtension();
+//    }
 
     private function registerDefaultImplementations(ContainerBuilder $containerBuilder): void
     {

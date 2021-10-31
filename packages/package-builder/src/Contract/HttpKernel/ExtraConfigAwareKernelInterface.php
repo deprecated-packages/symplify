@@ -7,6 +7,9 @@ namespace Symplify\PackageBuilder\Contract\HttpKernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @deprecated
+ */
 interface ExtraConfigAwareKernelInterface extends KernelInterface
 {
     /**
