@@ -36,14 +36,6 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
             'Path to directory with configs'
         );
 
-        $this->addOption(
-            Option::TARGET_SYMFONY_VERSION,
-            's',
-            InputOption::VALUE_REQUIRED,
-            'Symfony version to migrate config to',
-            '3.2'
-        );
-
         $this->addOption(Option::DRY_RUN, null, InputOption::VALUE_NONE, 'Dry run - no removal or config change');
     }
 
