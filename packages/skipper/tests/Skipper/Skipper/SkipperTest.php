@@ -6,8 +6,8 @@ namespace Symplify\Skipper\Tests\Skipper\Skipper;
 
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\Skipper\HttpKernel\SkipperKernel;
 use Symplify\Skipper\Skipper\Skipper;
+use Symplify\Skipper\Tests\HttpKernel\SkipperKernel;
 use Symplify\Skipper\Tests\Skipper\Skipper\Fixture\Element\FifthElement;
 use Symplify\Skipper\Tests\Skipper\Skipper\Fixture\Element\SixthSense;
 use Symplify\Skipper\Tests\Skipper\Skipper\Fixture\Element\ThreeMan;
