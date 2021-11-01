@@ -7,7 +7,6 @@ namespace Symplify\SymfonyStaticDumper;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\NamelessConsoleCommandCompilerPass;
 use Symplify\SymfonyStaticDumper\DependencyInjection\Extension\SymfonyStaticDumperExtension;
 
 final class SymfonyStaticDumperBundle extends Bundle
@@ -16,7 +15,6 @@ final class SymfonyStaticDumperBundle extends Bundle
     {
         // @see https://symfony.com/doc/current/service_container/compiler_passes.html#working-with-compiler-passes-in-bundles
         $containerBuilder->addCompilerPass(new AutowireArrayParameterCompilerPass());
-        $containerBuilder->addCompilerPass(new NamelessConsoleCommandCompilerPass());
     }
 
     protected function createContainerExtension(): SymfonyStaticDumperExtension
