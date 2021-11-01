@@ -1,6 +1,6 @@
 <?php
 
-class Bla
+class SkipCurlyNewline
 {
     /**
      * @param array{
