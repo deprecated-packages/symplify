@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyContainerBuilder\Contract\Config;
+namespace Symplify\SymplifyKernel\Contract\Config;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
