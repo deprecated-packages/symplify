@@ -16,6 +16,17 @@ composer require symplify/phpstan-latte-rules --dev
 
 @todo
 
+## Configuration
+
+[LatteCompleteCheckRule](docs/rules_overview.md) can check usage of all [default latte filters](https://github.com/nette/latte/blob/master/src/Latte/Runtime/Defaults.php#L21). If you use some additional filters, register them in your phpstan.neon as `latteFilters` parameter. Use array `[className, methodName]` for static and dynamic method calls, and simple string for function calls:
+```neon
+parameters:
+    latteFilters:
+        someStaticFilter: [SomeFilterClass, processStatic]
+        someDynamicFilter: [SomeFilterClass, processDynamic]
+        someFunctionFilter: some_function
+```
+
 <br>
 
 ## Report Issues
