@@ -21,25 +21,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-or via Kernel:
-
-```php
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle;
-
-final class AppKernel extends Kernel
-{
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [new SimplePhpDocParserBundle()];
-    }
-}
-```
-
 ## 3. Usage of `SimplePhpDocParser`
 
 Required services `Symplify\SimplePhpDocParser\SimplePhpDocParser` in constructor, where you need it, and use it:
