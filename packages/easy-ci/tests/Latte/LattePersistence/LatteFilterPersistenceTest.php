@@ -12,7 +12,8 @@ use Symplify\EasyCI\Tests\Latte\LattePersistence\Source\PlusFilterProvider;
 use Symplify\EasyCI\Tests\Latte\LattePersistence\Source\SomePresenter;
 
 /**
- * This is a meta test for @see \Symplify\EasyCI\StaticCallWithFilterReplacer To verify that the filter behaves the same as static function
+ * This is a meta test for @see \Symplify\EasyCI\StaticCallWithFilterReplacer To verify that the filter behaves the same
+ * as static function
  */
 final class LatteFilterPersistenceTest extends TestCase
 {
