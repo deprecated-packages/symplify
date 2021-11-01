@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector;
 
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

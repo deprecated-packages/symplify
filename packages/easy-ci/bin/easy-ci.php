@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [

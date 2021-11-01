@@ -18,7 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\RuleDocGenerator\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
+        ->exclude([__DIR__ . '/../src/Kernel', __DIR__ . '/../src/ValueObject']);
 
     $services->set(RuleDocGeneratorConsoleApplication::class);
     $services->alias(Application::class, RuleDocGeneratorConsoleApplication::class);

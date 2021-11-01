@@ -7,7 +7,7 @@ namespace Symplify\SymfonyStaticDumper\Tests\FileSystem;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\FileSystem\AssetsCopier;
-use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
+use Symplify\SymfonyStaticDumper\Tests\TestProject\Kernel\TestSymfonyStaticDumperKernel;
 
 final class AssetsCopierTest extends AbstractKernelTestCase
 {

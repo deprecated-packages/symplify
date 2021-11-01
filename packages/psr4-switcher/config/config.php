@@ -16,7 +16,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\Psr4Switcher\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
+        ->exclude([__DIR__ . '/../src/Kernel', __DIR__ . '/../src/ValueObject']);
 
     $services->alias(Application::class, PSR4SwitcherConsoleApplication::class);
     $services->set(CommandNaming::class);

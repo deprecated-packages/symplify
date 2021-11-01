@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Tests\Converter\YamlToPhpConverter;
 
 use Symplify\ConfigTransformer\Converter\YamlToPhpConverter;
-use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
+use Symplify\ConfigTransformer\Kernel\ConfigTransformerKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class YamlToPhpConverterTest extends AbstractKernelTestCase

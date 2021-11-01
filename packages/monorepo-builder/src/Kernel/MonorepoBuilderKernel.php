@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCI\HttpKernel;
+namespace Symplify\MonorepoBuilder\Kernel;
 
 use Psr\Container\ContainerInterface;
-use Symplify\Astral\ValueObject\AstralConfig;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class EasyCIKernel extends AbstractSymplifyKernel
+final class MonorepoBuilderKernel extends AbstractSymplifyKernel
 {
     /**
      * @param string[] $configFiles
@@ -18,7 +18,7 @@ final class EasyCIKernel extends AbstractSymplifyKernel
     {
         $configFiles[] = __DIR__ . '/../../config/config.php';
         $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
-        $configFiles[] = AstralConfig::FILE_PATH;
+        $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
 
         return $this->create([], [], $configFiles);
     }

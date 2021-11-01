@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
+use Symplify\ConfigTransformer\Kernel\ConfigTransformerKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [

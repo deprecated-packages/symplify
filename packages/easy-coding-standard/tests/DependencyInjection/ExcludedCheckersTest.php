@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\DependencyInjection;
 
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ExcludedCheckersTest extends AbstractKernelTestCase

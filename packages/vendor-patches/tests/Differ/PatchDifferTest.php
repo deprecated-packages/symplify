@@ -7,7 +7,7 @@ namespace Symplify\VendorPatches\Tests\Differ;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\VendorPatches\Differ\PatchDiffer;
-use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
+use Symplify\VendorPatches\Kernel\VendorPatchesKernel;
 use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 final class PatchDifferTest extends AbstractKernelTestCase

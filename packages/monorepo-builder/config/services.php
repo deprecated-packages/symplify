@@ -18,11 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\MonorepoBuilder\\', __DIR__ . '/../src')
-        ->exclude([
-            __DIR__ . '/../src/Exception',
-            __DIR__ . '/../src/HttpKernel',
-            __DIR__ . '/../src/ValueObject',
-        ]);
+        ->exclude([__DIR__ . '/../src/Exception', __DIR__ . '/../src/Kernel', __DIR__ . '/../src/ValueObject']);
 
     // console
     $services->set(MonorepoBuilderConsoleApplication::class);

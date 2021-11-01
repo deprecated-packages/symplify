@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Tests\Finder\PackageComposerFinder;
 
 use Symplify\MonorepoBuilder\Finder\PackageComposerFinder;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class PackageComposerFinderTest extends AbstractKernelTestCase

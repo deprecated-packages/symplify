@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\Latte\LatteTemplateAnalyzer\LatteStaticCallAnalyzer;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Latte\LatteTemplateAnalyzer\StaticCallLatteAnalyzer;
 use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\StaticDetector\StaticScanner;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\StaticDetector\Collector\StaticNodeCollector;
 use Symplify\EasyCI\StaticDetector\StaticScanner;
 use Symplify\EasyCI\StaticDetector\ValueObject\StaticReport;

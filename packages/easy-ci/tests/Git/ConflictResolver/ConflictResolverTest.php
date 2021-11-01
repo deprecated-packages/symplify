@@ -6,7 +6,7 @@ namespace Symplify\EasyCI\Tests\Git\ConflictResolver;
 
 use Iterator;
 use Symplify\EasyCI\Git\ConflictResolver;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
