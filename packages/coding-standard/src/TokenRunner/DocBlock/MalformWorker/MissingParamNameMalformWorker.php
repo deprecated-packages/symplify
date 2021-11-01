@@ -17,9 +17,9 @@ final class MissingParamNameMalformWorker implements MalformWorkerInterface
 {
     /**
      * @var string
-     * @see https://regex101.com/r/QtWnWv/4
+     * @see https://regex101.com/r/QtWnWv/5
      */
-    private const PARAM_WITHOUT_NAME_REGEX = '#@param ([^${]*?)( ([^${]*?))?\n#';
+    private const PARAM_WITHOUT_NAME_REGEX = '#@param ([^${]*?)( ([^$]*?))?\n#';
 
     /**
      * @var string
