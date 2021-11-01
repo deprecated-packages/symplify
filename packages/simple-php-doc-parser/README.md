@@ -8,9 +8,9 @@ Simple service integration of phpstan/phpdoc-parser, with few extra goodies for 
 composer require symplify/simple-php-doc-parser
 ```
 
-## 2. Register Bundle
+## 2. Register Config
 
-Register bundle in your `config/config.php`:
+Register config in your `config/config.php`:
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
