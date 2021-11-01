@@ -57,6 +57,33 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
             [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 21],
         ];
         yield [__DIR__ . '/Fixture/ControlWithForm.php', $errorMessages];
+
+        $errorMessages = [
+            ['Variable $existingVariable might not be defined.', 18],
+            ['Variable $nonExistingVariable might not be defined.', 18],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 18],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 18],
+            [
+                'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
+                18,
+            ],
+            [
+                'Parameter #1 $name of method ' . InvalidControlRenderArguments::class . '::render() expects string, int given.',
+                18,
+            ],
+            ['Variable $nonExistingVariable might not be defined.', 24],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 24],
+            ['Variable $listOfObjects might not be defined.', 24],
+            [
+                'Method ' . InvalidControlRenderArguments::class . '::render() invoked with 2 parameters, 1 required.',
+                24,
+            ],
+            [
+                'Parameter #1 $name of method ' . InvalidControlRenderArguments::class . '::render() expects string, int given.',
+                24,
+            ],
+        ];
+        yield [__DIR__ . '/Fixture/MultiRenderWithParameters.php', $errorMessages];
     }
 
     protected function getRule(): Rule
