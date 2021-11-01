@@ -599,3 +599,5 @@ parameters:
         -
             path: packages/php-config-printer/src/ValueObject/YamlKey.php
             message: '#Class has a static method must so must contains "Static" in its name#'
+        # known realpath()
+        - '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Kernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'

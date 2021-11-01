@@ -8,7 +8,6 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\CodingStandard\ValueObject\CodingStandardConfig;
 use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
@@ -17,10 +16,9 @@ use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingChec
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveExcludedCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass;
-use Symplify\EasyCodingStandard\DependencyInjection\Extension\EasyCodingStandardExtension;
+use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\Skipper\ValueObject\SkipperConfig;
-use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
@@ -33,25 +31,13 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         $configFiles[] = __DIR__ . '/../../config/config.php';
 
         $compilerPasses = $this->createCompilerPasses();
-        $extensions = $this->createExtensions();
+
         $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
         $configFiles[] = SkipperConfig::FILE_PATH;
         $configFiles[] = CodingStandardConfig::FILE_PATH;
+        $configFiles[] = EasyCodingStandardConfig::FILE_PATH;
 
-        return $this->create($extensions, $compilerPasses, $configFiles);
-    }
-
-    /**
-     * @return ExtensionInterface[]
-     */
-    private function createExtensions(): array
-    {
-        $extensions = [];
-
-        $extensions[] = new SymplifyKernelExtension();
-        $extensions[] = new EasyCodingStandardExtension();
-
-        return $extensions;
+        return $this->create([], $compilerPasses, $configFiles);
     }
 
     /**

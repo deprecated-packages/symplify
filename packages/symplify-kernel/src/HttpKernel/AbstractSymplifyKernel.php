@@ -9,8 +9,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
-use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
+use Symplify\SymplifyKernel\ValueObject\SymplifyKernelConfig;
 
 /**
  * @api
@@ -26,8 +26,9 @@ abstract class AbstractSymplifyKernel implements LightKernelInterface
     {
         $containerBuilderFactory = new ContainerBuilderFactory();
 
-        $extensions[] = new SymplifyKernelExtension();
         $compilerPasses[] = new AutowireArrayParameterCompilerPass();
+
+        $configFiles[] = SymplifyKernelConfig::FILE_PATH;
 
         $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles);
         $containerBuilder->compile();
