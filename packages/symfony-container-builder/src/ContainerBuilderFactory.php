@@ -7,17 +7,17 @@ namespace Symplify\SymfonyContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symplify\SymfonyContainerBuilder\Config\Loader\ParameterMergingLoaderFactory;
+use Symplify\SymfonyContainerBuilder\Contract\Config\LoaderFactoryInterface;
 use Symplify\SymfonyContainerBuilder\DependencyInjection\LoadExtensionConfigsCompilerPass;
 use Webmozart\Assert\Assert;
 
 final class ContainerBuilderFactory
 {
-    private ParameterMergingLoaderFactory $parameterMergingLoaderFactory;
+    private LoaderFactoryInterface $loaderFactory;
 
-    public function __construct()
+    public function __construct(LoaderFactoryInterface $loaderFactory)
     {
-        $this->parameterMergingLoaderFactory = new ParameterMergingLoaderFactory();
+        $this->loaderFactory = $loaderFactory;
     }
 
     /**
@@ -69,7 +69,7 @@ final class ContainerBuilderFactory
      */
     private function registerConfigFiles(ContainerBuilder $containerBuilder, array $configFiles): void
     {
-        $delegatingLoader = $this->parameterMergingLoaderFactory->create($containerBuilder, getcwd());
+        $delegatingLoader = $this->loaderFactory->create($containerBuilder, getcwd());
         foreach ($configFiles as $configFile) {
             $delegatingLoader->load($configFile);
         }

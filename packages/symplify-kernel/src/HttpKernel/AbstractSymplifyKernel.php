@@ -7,6 +7,7 @@ namespace Symplify\SymplifyKernel\HttpKernel;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\SymfonyContainerBuilder\Config\Loader\ParameterMergingLoaderFactory;
 use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
 use Symplify\SymplifyKernel\Contract\LightKernelInterface;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -24,7 +25,7 @@ abstract class AbstractSymplifyKernel implements LightKernelInterface
      */
     public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerInterface
     {
-        $containerBuilderFactory = new ContainerBuilderFactory();
+        $containerBuilderFactory = new ContainerBuilderFactory(new ParameterMergingLoaderFactory());
 
         $compilerPasses[] = new AutowireArrayParameterCompilerPass();
 

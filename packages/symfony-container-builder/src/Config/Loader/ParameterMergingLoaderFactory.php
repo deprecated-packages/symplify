@@ -10,8 +10,9 @@ use Symfony\Component\Config\Loader\GlobFileLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symplify\PackageBuilder\DependencyInjection\FileLoader\ParameterMergingPhpFileLoader;
+use Symplify\SymfonyContainerBuilder\Contract\Config\LoaderFactoryInterface;
 
-final class ParameterMergingLoaderFactory
+final class ParameterMergingLoaderFactory implements LoaderFactoryInterface
 {
     public function create(ContainerBuilder $containerBuilder, string $currentWorkingDirectory): DelegatingLoader
     {
