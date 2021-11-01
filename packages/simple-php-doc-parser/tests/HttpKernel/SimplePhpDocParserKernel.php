@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\SimplePhpDocParser\Tests\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
+use Psr\Container\ContainerInterface;
+use Symplify\SimplePhpDocParser\ValueObject\SimplePhpDocParserConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class SimplePhpDocParserKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        $loader->load(__DIR__ . '/../../config/config.php');
+        $configFiles[] = SimplePhpDocParserConfig::FILE_PATH;
+        return $this->create([], [], $configFiles);
     }
 }

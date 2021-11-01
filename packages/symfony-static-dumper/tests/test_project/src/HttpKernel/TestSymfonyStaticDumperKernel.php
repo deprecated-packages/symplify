@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle;
+use Symplify\SymfonyStaticDumper\ValueObject\SymfonyStaticDumperConfig;
 
 final class TestSymfonyStaticDumperKernel extends Kernel
 {
@@ -29,7 +29,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
      */
     public function registerBundles(): array
     {
-        return [new FrameworkBundle(), new TwigBundle(), new SymfonyStaticDumperBundle()];
+        return [new FrameworkBundle(), new TwigBundle()];
     }
 
     public function getCacheDir(): string
@@ -45,6 +45,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     protected function configureContainer(ContainerBuilder $containerBuilder, LoaderInterface $loader): void
     {
         $loader->load(__DIR__ . '/../../config/services.php');
+        $loader->load(SymfonyStaticDumperConfig::FILE_PATH);
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void

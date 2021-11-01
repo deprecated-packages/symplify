@@ -17,10 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\SimplePhpDocParser\\', __DIR__ . '/../src')
-        ->exclude([
-            __DIR__ . '/../src/Bundle',
-            __DIR__ . '/../src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php',
-        ]);
+        ->exclude([__DIR__ . '/../src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php']);
 
     $services->set(PhpDocParser::class);
     $services->set(Lexer::class);

@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\Skipper\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/Bundle', __DIR__ . '/../src/HttpKernel', __DIR__ . '/../src/ValueObject']);
+        ->exclude([__DIR__ . '/../src/ValueObject']);
 
     $services->set(ClassLikeExistenceChecker::class);
 

@@ -25,7 +25,7 @@ final class ContainerBuilderFactory
      * @param CompilerPassInterface[] $compilerPasses
      * @param string[] $configFiles
      */
-    public function create(array $extensions, array $compilerPasses, array $configFiles,): ContainerBuilder
+    public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerBuilder
     {
         Assert::allString($configFiles);
         Assert::allFile($configFiles);
@@ -33,8 +33,8 @@ final class ContainerBuilderFactory
         $containerBuilder = new ContainerBuilder();
 
         $this->registerExtensions($containerBuilder, $extensions);
-        $this->registerCompilerPasses($containerBuilder, $compilerPasses);
         $this->registerConfigFiles($containerBuilder, $configFiles);
+        $this->registerCompilerPasses($containerBuilder, $compilerPasses);
 
         // this calls load() method in every extensions
         // ensure these extensions are implicitly loaded

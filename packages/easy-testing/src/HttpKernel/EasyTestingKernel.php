@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
+use Psr\Container\ContainerInterface;
+use Symplify\EasyTesting\ValueObject\EasyTestingConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class EasyTestingKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
+    /**
+     * @param string[] $configFiles
+     */
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        $loader->load(__DIR__ . '/../../config/config.php');
+        $configFiles[] = EasyTestingConfig::FILE_PATH;
+        return $this->create([], [], $configFiles);
     }
 }

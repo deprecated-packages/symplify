@@ -4,35 +4,22 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle;
-use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
-use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
-use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
+use Psr\Container\ContainerInterface;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class MonorepoBuilderKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/../../config/config.php');
-
-        parent::registerContainerConfiguration($loader);
-    }
-
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle(), new ConsoleColorDiffBundle()];
-    }
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
+        $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
 
-    protected function build(ContainerBuilder $containerBuilder): void
-    {
-        $containerBuilder->addCompilerPass(new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]));
+        return $this->create([], [], $configFiles);
     }
 }

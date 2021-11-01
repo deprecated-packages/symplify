@@ -8,10 +8,8 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Console\ConfigTransfomerConsoleApplication;
-use Symplify\ConfigTransformer\Provider\YamlContentProvider;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
-use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 use Symplify\SmartFileSystem\FileSystemFilter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -38,8 +36,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(NodeFinder::class);
     $services->set(Parser::class);
     $services->set(FileSystemFilter::class);
-
-    $services->alias(YamlFileContentProviderInterface::class, YamlContentProvider::class);
 
     $services->set(ClassLikeExistenceChecker::class);
     $services->set(ParametersMerger::class);

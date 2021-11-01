@@ -16,6 +16,8 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
+    $parameters->set(Option::PACKAGE_DIRECTORIES, [__DIR__ . '/packages']);
+
     $parameters->set(Option::DEFAULT_BRANCH_NAME, 'main');
     $parameters->set(Option::DATA_TO_REMOVE, [
         'require' => [
@@ -28,6 +30,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $services = $containerConfigurator->services();
+    $services->defaults()
+        ->public()
+        ->autowire()
+        ->autoconfigure();
 
     # release workers - in order to execute
     $services->set(UpdateReplaceReleaseWorker::class);

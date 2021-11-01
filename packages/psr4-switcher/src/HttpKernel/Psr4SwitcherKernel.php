@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\Psr4Switcher\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\ComposerJsonManipulator\Bundle\ComposerJsonManipulatorBundle;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
+use Psr\Container\ContainerInterface;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class Psr4SwitcherKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        $loader->load(__DIR__ . '/../../config/config.php');
-    }
-
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): array
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new ComposerJsonManipulatorBundle(), new SymplifyKernelBundle()];
+        $configFiles[] = __DIR__ . '/../../config/config.php';
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
+
+        return $this->create([], [], $configFiles);
     }
 }

@@ -6,7 +6,7 @@ namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
+use Symplify\PhpConfigPrinter\Dummy\YamlContentProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\RoutingConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
@@ -30,14 +30,14 @@ final class YamlToPhpConverter
         private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
         private ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
         private RoutingConfiguratorReturnClosureFactory $routingConfiguratorReturnClosureFactory,
-        private YamlFileContentProviderInterface $yamlFileContentProvider,
+        private YamlContentProvider $yamlContentProvider,
         private CheckerServiceParametersShifter $checkerServiceParametersShifter
     ) {
     }
 
     public function convert(string $yaml): string
     {
-        $this->yamlFileContentProvider->setContent($yaml);
+        $this->yamlContentProvider->setContent($yaml);
 
         /** @var mixed[]|null $yamlArray */
         $yamlArray = $this->parser->parse($yaml, Yaml::PARSE_CUSTOM_TAGS | Yaml::PARSE_CONSTANT);

@@ -11,14 +11,14 @@ Useful for deploy to Github Pages and other non-PHP static website hostings.
 composer require symplify/symfony-static-dumper
 ```
 
-Add to `config/bundles.php` if you're not using Flex:
+Add config to `config/config.php`:
 
 ```php
-return [
-    Symplify\SymfonyStaticDumper\SymfonyStaticDumperBundle::class => [
-        'all' => true,
-    ],
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(\Symplify\SymfonyStaticDumper\ValueObject\SymfonyStaticDumperConfig::FILE_PATH);
+};
 ```
 
 ## Controller with Argument

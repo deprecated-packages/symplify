@@ -10,25 +10,21 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
-use Symplify\CodingStandard\DependencyInjection\Extension\SymplifyCodingStandardExtension;
-use Symplify\ConsoleColorDiff\DependencyInjection\Extension\ConsoleColorDiffExtension;
+use Symplify\CodingStandard\ValueObject\CodingStandardConfig;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveExcludedCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\Extension\EasyCodingStandardExtension;
-use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
-use Symplify\Skipper\DependencyInjection\Extension\SkipperExtension;
-use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
-use Symplify\SymplifyKernel\Contract\LightKernelInterface;
+use Symplify\Skipper\ValueObject\SkipperConfig;
 use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class EasyCodingStandardKernel implements LightKernelInterface
+final class EasyCodingStandardKernel extends AbstractSymplifyKernel
 {
-    private ContainerInterface|null $container = null;
-
     /**
      * @param string[] $configFiles
      */
@@ -38,24 +34,11 @@ final class EasyCodingStandardKernel implements LightKernelInterface
 
         $compilerPasses = $this->createCompilerPasses();
         $extensions = $this->createExtensions();
+        $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
+        $configFiles[] = SkipperConfig::FILE_PATH;
+        $configFiles[] = CodingStandardConfig::FILE_PATH;
 
-        $containerBuilderFactory = new ContainerBuilderFactory();
-
-        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles,);
-        $containerBuilder->compile();
-
-        $this->container = $containerBuilder;
-
-        return $containerBuilder;
-    }
-
-    public function getContainer(): ContainerInterface
-    {
-        if (! $this->container instanceof ContainerInterface) {
-            throw new ShouldNotHappenException();
-        }
-
-        return $this->container;
+        return $this->create($extensions, $compilerPasses, $configFiles);
     }
 
     /**
@@ -67,9 +50,6 @@ final class EasyCodingStandardKernel implements LightKernelInterface
 
         $extensions[] = new SymplifyKernelExtension();
         $extensions[] = new EasyCodingStandardExtension();
-        $extensions[] = new ConsoleColorDiffExtension();
-        $extensions[] = new SkipperExtension();
-        $extensions[] = new SymplifyCodingStandardExtension();
 
         return $extensions;
     }

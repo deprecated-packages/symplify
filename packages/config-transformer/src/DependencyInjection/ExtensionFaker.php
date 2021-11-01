@@ -15,11 +15,6 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
  */
 final class ExtensionFaker
 {
-    public function __construct(
-        private YamlKey $yamlKey
-    ) {
-    }
-
     public function fakeInContainerBuilder(ContainerBuilder $containerBuilder, string $yamlContent): void
     {
         $yaml = Yaml::parse($yamlContent, Yaml::PARSE_CUSTOM_TAGS);
@@ -31,7 +26,7 @@ final class ExtensionFaker
         $rootKeys = array_keys($yaml);
 
         /** @var string[] $extensionKeys */
-        $extensionKeys = array_diff($rootKeys, $this->yamlKey->provideRootKeys());
+        $extensionKeys = array_diff($rootKeys, YamlKey::provideRootKeys());
         if ($extensionKeys === []) {
             return;
         }

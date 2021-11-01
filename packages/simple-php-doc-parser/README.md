@@ -10,15 +10,15 @@ composer require symplify/simple-php-doc-parser
 
 ## 2. Register Bundle
 
-Register bundle in your project:
+Register bundle in your `config/config.php`:
 
 ```php
-// app/bundles.php
-return [
-    Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => [
-        'all' => true,
-    ],
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\SimplePhpDocParser\ValueObject\SimplePhpDocParserConfig;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(SimplePhpDocParserConfig::FILE_PATH);
+};
 ```
 
 or via Kernel:

@@ -7,8 +7,8 @@ namespace Symplify\Astral\Tests\Naming;
 use Iterator;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
-use Symplify\Astral\HttpKernel\AstralKernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\Tests\HttpKernel\AstralKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SimpleNameResolverTest extends AbstractKernelTestCase

@@ -4,63 +4,45 @@ declare(strict_types=1);
 
 namespace Symplify\SymplifyKernel\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Contract\HttpKernel\ExtraConfigAwareKernelInterface;
-use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
-use Symplify\SymplifyKernel\Strings\KernelUniqueHasher;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
+use Symplify\SymfonyContainerBuilder\ContainerBuilderFactory;
+use Symplify\SymplifyKernel\Contract\LightKernelInterface;
+use Symplify\SymplifyKernel\DependencyInjection\Extension\SymplifyKernelExtension;
+use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
-abstract class AbstractSymplifyKernel extends Kernel implements ExtraConfigAwareKernelInterface
+/**
+ * @api
+ */
+abstract class AbstractSymplifyKernel implements LightKernelInterface
 {
-    /**
-     * @var string[]
-     */
-    private array $configs = [];
-
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/' . $this->getUniqueKernelHash();
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/' . $this->getUniqueKernelHash() . '_log';
-    }
+    private Container|null $container = null;
 
     /**
-     * @return BundleInterface[]
+     * @param string[] $configFiles
      */
-    public function registerBundles(): iterable
+    public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerInterface
     {
-        return [new SymplifyKernelBundle()];
+        $containerBuilderFactory = new ContainerBuilderFactory();
+
+        $extensions[] = new SymplifyKernelExtension();
+        $compilerPasses[] = new AutowireArrayParameterCompilerPass();
+
+        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles);
+        $containerBuilder->compile();
+
+        $this->container = $containerBuilder;
+
+        return $containerBuilder;
     }
 
-    /**
-     * @param string[]|SmartFileInfo[] $configs
-     */
-    public function setConfigs(array $configs): void
+    public function getContainer(): ContainerInterface
     {
-        foreach ($configs as $config) {
-            if ($config instanceof SmartFileInfo) {
-                $config = $config->getRealPath();
-            }
-
-            $this->configs[] = $config;
+        if (! $this->container instanceof Container) {
+            throw new ShouldNotHappenException();
         }
-    }
 
-    public function registerContainerConfiguration(LoaderInterface $loader): void
-    {
-        foreach ($this->configs as $config) {
-            $loader->load($config);
-        }
-    }
-
-    private function getUniqueKernelHash(): string
-    {
-        $kernelUniqueHasher = new KernelUniqueHasher();
-        return $kernelUniqueHasher->hashKernelClass(static::class);
+        return $this->container;
     }
 }
