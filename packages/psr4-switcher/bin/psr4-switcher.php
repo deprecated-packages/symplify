@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
+use Symplify\Psr4Switcher\Kernel\Psr4SwitcherKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [

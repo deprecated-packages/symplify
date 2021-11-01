@@ -8,7 +8,7 @@ use DateTimeInterface;
 use Iterator;
 use Nette\Utils\DateTime;
 use Symplify\EasyCI\Composer\SupportedPhpVersionResolver;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SupportedPhpVersionResolverTest extends AbstractKernelTestCase

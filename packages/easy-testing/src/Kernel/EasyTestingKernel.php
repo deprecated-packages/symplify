@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyTesting\HttpKernel;
+namespace Symplify\EasyTesting\Kernel;
 
 use Psr\Container\ContainerInterface;
 use Symplify\EasyTesting\ValueObject\EasyTestingConfig;

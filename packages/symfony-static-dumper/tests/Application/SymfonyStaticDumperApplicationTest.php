@@ -7,7 +7,7 @@ namespace Symplify\SymfonyStaticDumper\Tests\Application;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
-use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
+use Symplify\SymfonyStaticDumper\Tests\TestProject\Kernel\TestSymfonyStaticDumperKernel;
 
 final class SymfonyStaticDumperApplicationTest extends AbstractKernelTestCase
 {

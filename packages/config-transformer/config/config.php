@@ -22,7 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->load('Symplify\ConfigTransformer\\', __DIR__ . '/../src')
         ->exclude([
-            __DIR__ . '/../src/HttpKernel',
+            __DIR__ . '/../src/Kernel',
             __DIR__ . '/../src/DependencyInjection/Loader',
             __DIR__ . '/../src/Enum',
             __DIR__ . '/../src/ValueObject',

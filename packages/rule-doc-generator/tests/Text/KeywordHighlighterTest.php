@@ -6,7 +6,7 @@ namespace Symplify\RuleDocGenerator\Tests\Text;
 
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\RuleDocGenerator\HttpKernel\RuleDocGeneratorKernel;
+use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
 use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
 
 final class KeywordHighlighterTest extends AbstractKernelTestCase

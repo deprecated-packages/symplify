@@ -6,7 +6,7 @@ namespace Symplify\Psr4Switcher\Tests\Utils;
 
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
+use Symplify\Psr4Switcher\Kernel\Psr4SwitcherKernel;
 use Symplify\Psr4Switcher\Utils\SymplifyStrings;
 
 final class SymplifyStringsTest extends AbstractKernelTestCase

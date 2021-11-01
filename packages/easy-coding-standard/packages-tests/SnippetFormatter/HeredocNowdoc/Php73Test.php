@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Tests\SnippetFormatter\HeredocNowdoc;
 
 use Iterator;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;

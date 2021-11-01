@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Input\ArgvInput;
 
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 

@@ -7,7 +7,7 @@ namespace Symplify\Psr4Switcher\Tests\ValueObjectFactory\Psr4NamespaceToPathFact
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Psr4Switcher\Configuration\Psr4SwitcherConfiguration;
-use Symplify\Psr4Switcher\HttpKernel\Psr4SwitcherKernel;
+use Symplify\Psr4Switcher\Kernel\Psr4SwitcherKernel;
 use Symplify\Psr4Switcher\ValueObject\Psr4NamespaceToPath;
 use Symplify\Psr4Switcher\ValueObjectFactory\Psr4NamespaceToPathFactory;
 

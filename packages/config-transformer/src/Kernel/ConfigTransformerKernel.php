@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConfigTransformer\HttpKernel;
+namespace Symplify\ConfigTransformer\Kernel;
 
 use Psr\Container\ContainerInterface;
 use Symplify\PhpConfigPrinter\ValueObject\PhpConfigPrinterConfig;

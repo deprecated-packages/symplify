@@ -7,7 +7,7 @@ namespace Symplify\EasyCodingStandard\Tests\Console\Output;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\EasyCodingStandard\Console\Output\JsonOutputFormatter;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

@@ -8,7 +8,7 @@ use Iterator;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
-use Symplify\RuleDocGenerator\HttpKernel\RuleDocGeneratorKernel;
+use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase

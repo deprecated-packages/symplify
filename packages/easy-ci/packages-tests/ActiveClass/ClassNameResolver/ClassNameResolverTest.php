@@ -6,7 +6,7 @@ namespace Symplify\EasyCI\Tests\ActiveClass\ClassNameResolver;
 
 use Iterator;
 use Symplify\EasyCI\ActiveClass\ClassNameResolver;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Tests\ActiveClass\ClassNameResolver\Fixture\SomeClass;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

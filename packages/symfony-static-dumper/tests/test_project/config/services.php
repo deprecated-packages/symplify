@@ -17,5 +17,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure();
 
     $services->load('Symplify\SymfonyStaticDumper\Tests\TestProject\\', __DIR__ . '/../src')
-        ->exclude([__DIR__ . '/../src/HttpKernel']);
+        ->exclude([__DIR__ . '/../src/Kernel']);
 };

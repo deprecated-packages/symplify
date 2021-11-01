@@ -6,7 +6,7 @@ namespace Symplify\EasyCI\Tests\ActiveClass\UseImportsResolver;
 
 use Iterator;
 use Symplify\EasyCI\ActiveClass\UseImportsResolver;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Tests\ActiveClass\UseImportsResolver\Source\FirstUsedClass;
 use Symplify\EasyCI\Tests\ActiveClass\UseImportsResolver\Source\SecondUsedClass;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

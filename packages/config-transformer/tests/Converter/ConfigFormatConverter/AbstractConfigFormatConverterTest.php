@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter;
 
 use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
-use Symplify\ConfigTransformer\HttpKernel\ConfigTransformerKernel;
+use Symplify\ConfigTransformer\Kernel\ConfigTransformerKernel;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;

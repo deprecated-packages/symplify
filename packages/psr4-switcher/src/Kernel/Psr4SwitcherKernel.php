@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\RuleDocGenerator\HttpKernel;
+namespace Symplify\Psr4Switcher\Kernel;
 
 use Psr\Container\ContainerInterface;
-use Symplify\MarkdownDiff\ValueObject\MarkdownDiffConfig;
-use Symplify\PhpConfigPrinter\ValueObject\PhpConfigPrinterConfig;
+use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
+final class Psr4SwitcherKernel extends AbstractSymplifyKernel
 {
     /**
      * @param string[] $configFiles
@@ -17,8 +16,7 @@ final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = __DIR__ . '/../../config/config.php';
-        $configFiles[] = PhpConfigPrinterConfig::FILE_PATH;
-        $configFiles[] = MarkdownDiffConfig::FILE_PATH;
+        $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
 
         return $this->create([], [], $configFiles);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\EasyTesting\HttpKernel\EasyTestingKernel;
+use Symplify\EasyTesting\Kernel\EasyTestingKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
