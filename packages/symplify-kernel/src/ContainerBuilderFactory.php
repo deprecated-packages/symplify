@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyContainerBuilder;
+namespace Symplify\SymplifyKernel;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
-use Symplify\SymfonyContainerBuilder\Contract\Config\LoaderFactoryInterface;
-use Symplify\SymfonyContainerBuilder\DependencyInjection\LoadExtensionConfigsCompilerPass;
+use Symplify\SymplifyKernel\Contract\Config\LoaderFactoryInterface;
+use Symplify\SymplifyKernel\DependencyInjection\LoadExtensionConfigsCompilerPass;
 use Webmozart\Assert\Assert;
 
 final class ContainerBuilderFactory

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\SymfonyContainerBuilder\DependencyInjection;
+namespace Symplify\SymplifyKernel\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
