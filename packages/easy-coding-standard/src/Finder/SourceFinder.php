@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Finder;
 
 use Symfony\Component\Finder\Finder;
-use Symplify\EasyCodingStandard\Git\GitDiffProvider;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
@@ -24,7 +23,6 @@ final class SourceFinder
     public function __construct(
         private FinderSanitizer $finderSanitizer,
         ParameterProvider $parameterProvider,
-        private GitDiffProvider $gitDiffProvider
     ) {
         $this->fileExtensions = $parameterProvider->provideArrayParameter(Option::FILE_EXTENSIONS);
     }
