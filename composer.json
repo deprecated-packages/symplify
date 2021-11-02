@@ -179,9 +179,9 @@
         }
     },
     "replace": {
-        "symfony/polyfill-ctype": "10.0.0-beta2",
-        "symfony/polyfill-php73": "10.0.0-beta2",
-        "symfony/polyfill-php80": "10.0.0-beta2",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
         "symplify/amnesia": "10.0.0-beta2",
         "symplify/astral": "10.0.0-beta2",
         "symplify/autowire-array-parameter": "10.0.0-beta2",

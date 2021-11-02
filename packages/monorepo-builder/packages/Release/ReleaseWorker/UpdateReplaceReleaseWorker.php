@@ -25,8 +25,14 @@ final class UpdateReplaceReleaseWorker implements ReleaseWorkerInterface
 
         $replace = $rootComposerJson->getReplace();
 
+        $packageNames = $this->composerJsonProvider->getPackageNames();
+
         $newReplace = [];
         foreach (array_keys($replace) as $package) {
+            if (! in_array($package, $packageNames, true)) {
+                continue;
+            }
+
             $newReplace[$package] = $version->getVersionString();
         }
 
