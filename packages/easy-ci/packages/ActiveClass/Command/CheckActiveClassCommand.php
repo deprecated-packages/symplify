@@ -8,6 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\ActiveClass\Filtering\PossiblyUnusedClassesFilter;
 use Symplify\EasyCI\ActiveClass\Finder\ClassNamesFinder;
 use Symplify\EasyCI\ActiveClass\Reporting\UnusedClassReporter;
@@ -25,7 +26,8 @@ final class CheckActiveClassCommand extends Command
         private UseImportsResolver $useImportsResolver,
         private PossiblyUnusedClassesFilter $possiblyUnusedClassesFilter,
         private UnusedClassReporter $unusedClassReporter,
-        private ParameterProvider $parameterProvider
+        private ParameterProvider $parameterProvider,
+        private SymfonyStyle $symfonyStyle
     ) {
         parent::__construct();
     }
@@ -48,6 +50,9 @@ final class CheckActiveClassCommand extends Command
 
         $sources = (array) $input->getArgument(Option::SOURCES);
         $phpFileInfos = $this->smartFinder->find($sources, '*.php', $excludedCheckPaths);
+
+        $phpFilesCount = count($phpFileInfos);
+        $this->symfonyStyle->progressStart($phpFilesCount);
 
         $usedNames = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
 
