@@ -31,10 +31,9 @@ final class SourceFinder
 
     /**
      * @param string[] $source
-     * @param bool $doesMatchGitDiff - @deprecated
      * @return SmartFileInfo[]
      */
-    public function find(array $source, bool $doesMatchGitDiff = false): array
+    public function find(array $source): array
     {
         $fileInfos = [];
         foreach ($source as $singleSource) {
@@ -45,8 +44,6 @@ final class SourceFinder
                 $fileInfos = array_merge($fileInfos, $filesInDirectory);
             }
         }
-
-        $fileInfos = $this->filterOutGitDiffFiles($fileInfos, $doesMatchGitDiff);
 
         ksort($fileInfos);
 
@@ -85,26 +82,5 @@ final class SourceFinder
         }
 
         return $normalizedFileExtensions;
-    }
-
-    /**
-     * @param SmartFileInfo[] $fileInfos
-     * @param bool $doesMatchGitDiff @deprecated
-     * @return SmartFileInfo[]
-     */
-    private function filterOutGitDiffFiles(array $fileInfos, bool $doesMatchGitDiff): array
-    {
-        if (! $doesMatchGitDiff) {
-            return $fileInfos;
-        }
-
-        $gitDiffFiles = $this->gitDiffProvider->provide();
-
-        $fileInfos = array_filter(
-            $fileInfos,
-            fn ($splFile): bool => in_array($splFile->getRealPath(), $gitDiffFiles, true)
-        );
-
-        return array_values($fileInfos);
     }
 }

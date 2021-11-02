@@ -29,7 +29,6 @@ final class ConfigurationFactory
         $shouldClearCache = (bool) $input->getOption(Option::CLEAR_CACHE);
         $showProgressBar = $this->canShowProgressBar($input);
         $showErrorTable = ! (bool) $input->getOption(Option::NO_ERROR_TABLE);
-        $doesMatchGitDiff = (bool) $input->getOption(Option::MATCH_GIT_DIFF);
         $parallelPort = (string) $input->getOption(Option::PARALLEL_PORT);
         $parallelIdentifier = (string) $input->getOption(Option::PARALLEL_IDENTIFIER);
 
@@ -49,7 +48,6 @@ final class ConfigurationFactory
             $showErrorTable,
             $paths,
             $outputFormat,
-            $doesMatchGitDiff,
             $isParallel,
             $config,
             $parallelPort,

@@ -55,7 +55,7 @@ final class EasyCodingStandardApplication
     public function run(Configuration $configuration, InputInterface $input): array
     {
         // 1. find files in sources
-        $fileInfos = $this->sourceFinder->find($configuration->getSources(), $configuration->doesMatchGitDiff());
+        $fileInfos = $this->sourceFinder->find($configuration->getSources());
 
         // 2. clear cache
         if ($configuration->shouldClearCache()) {

@@ -18,7 +18,6 @@ final class Configuration
         private bool $showErrorTable = true,
         private array $sources = [],
         private string $outputFormat = ConsoleOutputFormatter::NAME,
-        private bool $doesMatchGitDiff = false,
         private bool $isParallel = false,
         private ?string $config = null,
         private string | null $parallelPort = null,
@@ -57,14 +56,6 @@ final class Configuration
     public function getOutputFormat(): string
     {
         return $this->outputFormat;
-    }
-
-    /**
-     * @deprecated
-     */
-    public function doesMatchGitDiff(): bool
-    {
-        return $this->doesMatchGitDiff;
     }
 
     public function isParallel(): bool
