@@ -195,6 +195,22 @@ vendor/bin/easy-ci check-commented-code <directory>
 vendor/bin/easy-ci check-commented-code packages --line-limit 5
 ```
 
+### 9. Short File === Class Name
+
+Does short file name matches the class name?
+
+```bash
+vendor/bin/easy-ci check-file-class-name src
+```
+
+### 10. Avoid 2 classes in 1 File
+
+What files have 2 and more classes?
+
+```bash
+vendor/bin/easy-ci find-multi-classes tests
+```
+
 <br>
 
 ## Report Issues

@@ -67,7 +67,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For Upgrades
 
-- [PSR-4 Switcher](https://github.com/symplify/psr4-switcher)
 - [Vendor Patches](https://github.com/symplify/vendor-patches)
 
 <br>
