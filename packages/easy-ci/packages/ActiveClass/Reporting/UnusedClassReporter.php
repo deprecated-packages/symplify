@@ -21,6 +21,8 @@ final class UnusedClassReporter
      */
     public function reportResult(array $unusedFilesWithClasses, array $existingFilesWithClasses): int
     {
+        $this->symfonyStyle->newLine();
+
         if ($unusedFilesWithClasses === []) {
             $successMessage = sprintf(
                 'All the %d services are used. Great job!',
