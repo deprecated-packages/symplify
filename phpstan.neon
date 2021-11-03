@@ -84,6 +84,7 @@ parameters:
         - packages/phpstan-rules/tests/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule/FixturePhp80/SkipPromotedParentProperty.php
 
         # functions false positive
+        - */Vendor/*
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/templates/*
@@ -431,10 +432,6 @@ parameters:
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
 
         -
-            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
-            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
-
-        -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
             path: packages/easy-coding-standard/packages/SnippetFormatter/Application/SnippetFormatterApplication.php
 
@@ -601,3 +598,8 @@ parameters:
             message: '#Class has a static method must so must contains "Static" in its name#'
         # known realpath()
         - '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Kernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
+
+        # value changed to int
+        -
+            path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'

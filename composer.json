@@ -102,7 +102,6 @@
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
-            "Symplify\\Psr4Switcher\\": "packages/psr4-switcher/src",
             "Symplify\\RuleDocGenerator\\": [
                 "packages/rule-doc-generator-contracts/src",
                 "packages/rule-doc-generator/src"
@@ -164,7 +163,6 @@
             "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
-            "Symplify\\Psr4Switcher\\Tests\\": "packages/psr4-switcher/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SimplePhpDocParser\\Tests\\": "packages/simple-php-doc-parser/tests",
             "Symplify\\Skipper\\Tests\\": "packages/skipper/tests",
@@ -199,7 +197,6 @@
         "symplify/phpstan-latte-rules": "10.0.0-beta1",
         "symplify/phpstan-rules": "10.0.0-beta1",
         "symplify/phpstan-twig-rules": "10.0.0-beta1",
-        "symplify/psr4-switcher": "10.0.0-beta1",
         "symplify/rule-doc-generator": "10.0.0-beta1",
         "symplify/rule-doc-generator-contracts": "10.0.0-beta1",
         "symplify/simple-php-doc-parser": "10.0.0-beta1",
