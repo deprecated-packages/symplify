@@ -32,7 +32,7 @@ final class FindMultiClassesCommand extends AbstractSymplifyCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var string[] $source */
-        $source = $input->getArgument(Option::SOURCES);
+        $source = (array) $input->getArgument(Option::SOURCES);
 
         $multipleClassesByFile = $this->multipleClassInOneFileFinder->findInDirectories($source);
         if ($multipleClassesByFile === []) {

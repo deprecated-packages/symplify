@@ -17,6 +17,12 @@ final class PhpClassLoader
         $robotLoader = new RobotLoader();
         $robotLoader->addDirectory(...$directories);
         $robotLoader->setTempDirectory(sys_get_temp_dir() . '/migrify_psr4_switcher');
+
+        $robotLoader->ignoreDirs[] = 'bin';
+        $robotLoader->ignoreDirs[] = 'tests';
+        $robotLoader->ignoreDirs[] = 'Fixture';
+        $robotLoader->ignoreDirs[] = 'Source';
+
         $robotLoader->rebuild();
 
         return $robotLoader->getIndexedClasses();
