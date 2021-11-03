@@ -66,7 +66,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
         __DIR__ . '/packages/monorepo-builder/templates',
-        __DIR__ . '/packages/easy-coding-standard/build/build-preload.php',
         // test fixtures
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
         // many false positives related to file class autoload

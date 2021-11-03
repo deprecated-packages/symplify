@@ -29,7 +29,6 @@ final class SymplifyStringsTest extends AbstractKernelTestCase
         $this->assertSame($expectedSharedSuffix, $sharedSuffix);
     }
 
-
     public function provideData(): Iterator
     {
         yield [['Car', 'BusCar'], 'Car'];
