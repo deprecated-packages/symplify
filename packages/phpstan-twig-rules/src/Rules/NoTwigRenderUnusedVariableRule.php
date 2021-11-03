@@ -11,7 +11,6 @@ use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanTwigRules\NodeAnalyzer\SymfonyRenderWithParametersMatcher;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TwigPHPStanCompiler\NodeAnalyzer\UnusedTwigTemplateVariableAnalyzer;
 
 /**
@@ -44,14 +43,16 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
-        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
-            return [];
+        $renderTemplatesWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
+
+        $templateFilePaths = [];
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+            $templateFilePaths[] = $renderTemplateWithParameters->getTemplateFilePath();
         }
 
         $unusedVariableNames = $this->unusedTwigTemplateVariableAnalyzer->resolveMethodCallAndTemplate(
             $node,
-            $renderTemplateWithParameters->getTemplateFilePaths(),
+            $templateFilePaths,
             $scope
         );
 

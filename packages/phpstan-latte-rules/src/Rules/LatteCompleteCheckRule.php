@@ -24,7 +24,6 @@ use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\Rules\TemplateRulesRegistry;
-use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Throwable;
 
 /**
@@ -86,17 +85,13 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             return [];
         }
 
-        $renderTemplateWithParameters = $this->latteTemplateWithParametersMatcher->match($node, $scope);
-        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
-            return [];
-        }
-
+        $renderTemplatesWithParameters = $this->latteTemplateWithParametersMatcher->match($node, $scope);
         $componentNamesAndTypes = $this->componentMapResolver->resolveFromMethodCall($node, $scope);
 
         $errors = [];
-        foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $resolvedTemplateFilePath) {
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
             $currentErrors = $this->processTemplateFilePath(
-                $resolvedTemplateFilePath,
+                $renderTemplateWithParameters->getTemplateFilePath(),
                 $renderTemplateWithParameters->getParametersArray(),
                 $scope,
                 $componentNamesAndTypes,

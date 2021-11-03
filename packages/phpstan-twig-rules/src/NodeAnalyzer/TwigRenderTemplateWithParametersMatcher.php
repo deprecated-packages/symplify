@@ -20,15 +20,16 @@ final class TwigRenderTemplateWithParametersMatcher
 
     /**
      * Must be template path + variables
+     * @return RenderTemplateWithParameters[]
      */
     public function match(
         MethodCall $methodCall,
         Scope $scope,
         string $templateSuffix
-    ): RenderTemplateWithParameters|null {
+    ): array {
         $firstArg = $methodCall->getArgs()[0] ?? null;
         if (! $firstArg instanceof Arg) {
-            return null;
+            return [];
         }
 
         $firstArgValue = $firstArg->value;
@@ -39,11 +40,16 @@ final class TwigRenderTemplateWithParametersMatcher
             $templateSuffix
         );
         if ($resolvedTemplateFilePaths === []) {
-            return null;
+            return [];
         }
 
         $parametersArray = $this->resolveParametersArray($methodCall);
-        return new RenderTemplateWithParameters($resolvedTemplateFilePaths, $parametersArray);
+
+        $result = [];
+        foreach ($resolvedTemplateFilePaths as $template) {
+            $result[] = new RenderTemplateWithParameters($template, $parametersArray);
+        }
+        return $result;
     }
 
     private function resolveParametersArray(MethodCall $methodCall): Array_

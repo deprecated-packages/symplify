@@ -29,20 +29,28 @@ final class LatteTemplateWithParametersMatcher
     ) {
     }
 
-    public function match(MethodCall $methodCall, Scope $scope): ?RenderTemplateWithParameters
+    /**
+     * @return RenderTemplateWithParameters[]
+     */
+    public function match(MethodCall $methodCall, Scope $scope): array
     {
         $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
         if (! $class instanceof Class_) {
-            return null;
+            return [];
         }
 
         $templates = $this->findTemplates($class, $scope);
         if ($templates === []) {
-            return null;
+            return [];
         }
 
         $parameters = $this->findParameters($class, $scope);
-        return new RenderTemplateWithParameters($templates, new Array_($parameters));
+
+        $result = [];
+        foreach ($templates as $template) {
+            $result[] = new RenderTemplateWithParameters($template, new Array_($parameters));
+        }
+        return $result;
     }
 
     /**

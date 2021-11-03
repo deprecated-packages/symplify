@@ -89,22 +89,19 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
     public function process(Node $node, Scope $scope): array
     {
         // 1. find twig template file path with array
-        $renderTemplateWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
-        if (! $renderTemplateWithParameters instanceof RenderTemplateWithParameters) {
-            return [];
-        }
+        $renderTemplatesWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
 
-        // 2. resolve passed variable types
-        $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray(
-            $renderTemplateWithParameters->getParametersArray(),
-            $scope
-        );
-
-        // 3. compile twig to PHP with resolved types in @var docs
+        // 2. compile twig to PHP with resolved types in @var docs
         $ruleErrors = [];
-        foreach ($renderTemplateWithParameters->getTemplateFilePaths() as $templateFilePath) {
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+            // resolve passed variable types
+            $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray(
+                $renderTemplateWithParameters->getParametersArray(),
+                $scope
+            );
+
             $currentRuleErrors = $this->processTemplateFilePath(
-                $templateFilePath,
+                $renderTemplateWithParameters->getTemplateFilePath(),
                 $variablesAndTypes,
                 $scope,
                 $node->getLine()

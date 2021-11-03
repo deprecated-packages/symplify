@@ -32,25 +32,31 @@ final class SymfonyRenderWithParametersMatcher
     ) {
     }
 
-    public function matchSymfonyRender(MethodCall $methodCall, Scope $scope): RenderTemplateWithParameters|null
+    /**
+     * @return RenderTemplateWithParameters[]
+     */
+    public function matchSymfonyRender(MethodCall $methodCall, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isNames($methodCall->name, self::RENDER_METHOD_NAMES)) {
-            return null;
+            return [];
         }
 
         $methodCallReturnType = $scope->getType($methodCall);
         if (! $methodCallReturnType instanceof ObjectType) {
-            return null;
+            return [];
         }
 
         if (! $methodCallReturnType->isInstanceOf(Response::class)->yes()) {
-            return null;
+            return [];
         }
 
         return $this->twigRenderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
     }
 
-    public function matchTwigRender(MethodCall $methodCall, Scope $scope): RenderTemplateWithParameters|null
+    /**
+     * @return RenderTemplateWithParameters[]
+     */
+    public function matchTwigRender(MethodCall $methodCall, Scope $scope): array
     {
         $callerType = $scope->getType($methodCall->var);
         if ($callerType instanceof ThisType) {
@@ -58,11 +64,11 @@ final class SymfonyRenderWithParametersMatcher
         }
 
         if (! $callerType instanceof ObjectType) {
-            return null;
+            return [];
         }
 
         if (! $this->isTwigCallerType($callerType, $methodCall)) {
-            return null;
+            return [];
         }
 
         return $this->twigRenderTemplateWithParametersMatcher->match($methodCall, $scope, 'twig');
