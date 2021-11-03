@@ -75,7 +75,7 @@ final class DocBlockLineLengthFixer extends AbstractSymplifyFixer implements Con
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
         for ($position = count($tokens) - 1; $position >= 0; --$position) {
@@ -191,16 +191,16 @@ CODE_SAMPLE
         $paragraphLines = [];
         $paragraphIndex = 0;
 
-        foreach ($descriptionLines as $line) {
+        foreach ($descriptionLines as $descriptionLine) {
             if (! isset($paragraphLines[$paragraphIndex])) {
                 $paragraphLines[$paragraphIndex] = [];
             }
 
-            $line = trim($line);
-            if ($line === '') {
+            $descriptionLine = trim($descriptionLine);
+            if ($descriptionLine === '') {
                 ++$paragraphIndex;
             } else {
-                $paragraphLines[$paragraphIndex][] = $line;
+                $paragraphLines[$paragraphIndex][] = $descriptionLine;
             }
         }
 

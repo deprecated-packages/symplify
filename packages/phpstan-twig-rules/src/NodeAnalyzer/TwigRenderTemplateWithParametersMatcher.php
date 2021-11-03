@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanTwigRules\NodeAnalyzer;
 
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -26,8 +27,8 @@ final class TwigRenderTemplateWithParametersMatcher
         Scope $scope,
         string $templateSuffix
     ): array {
-        $firstArg = $methodCall->args[0] ?? null;
-        if ($firstArg === null) {
+        $firstArg = $methodCall->getArgs()[0] ?? null;
+        if (! $firstArg instanceof Arg) {
             return [];
         }
 
@@ -53,11 +54,12 @@ final class TwigRenderTemplateWithParametersMatcher
 
     private function resolveParametersArray(MethodCall $methodCall): Array_
     {
-        if (count($methodCall->args) !== 2) {
+        if (count($methodCall->getArgs()) !== 2) {
             return new Array_();
         }
 
-        $secondArgValue = $methodCall->args[1]->value;
+        $secondArgValue = $methodCall->getArgs()[1]
+            ->value;
         if (! $secondArgValue instanceof Array_) {
             return new Array_();
         }

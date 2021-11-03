@@ -12,7 +12,6 @@ use Symplify\ConfigTransformer\ConfigLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ContainerBuilderCleaner;
 use Symplify\ConfigTransformer\Enum\Format;
 use Symplify\ConfigTransformer\Exception\NotImplementedYetException;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\PhpConfigPrinter\Provider\CurrentFilePathProvider;
@@ -32,25 +31,24 @@ final class ConfigFormatConverter
     ) {
     }
 
-    public function convert(SmartFileInfo $smartFileInfo, Configuration $configuration): string
+    public function convert(SmartFileInfo $smartFileInfo): string
     {
         $this->currentFilePathProvider->setFilePath($smartFileInfo->getRealPath());
 
         $containerBuilderAndFileContent = $this->configLoader->createAndLoadContainerBuilderFromFileInfo(
-            $smartFileInfo,
-            $configuration
+            $smartFileInfo
         );
 
         $containerBuilder = $containerBuilderAndFileContent->getContainerBuilder();
 
-        if ($smartFileInfo->getSuffix() === Format::YAML()->getValue()) {
+        if ($smartFileInfo->getSuffix() === Format::YAML) {
             $dumpedYaml = $containerBuilderAndFileContent->getFileContent();
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
             return $this->yamlToPhpConverter->convert($dumpedYaml);
         }
 
-        if ($smartFileInfo->getSuffix() === Format::XML()->getValue()) {
+        if ($smartFileInfo->getSuffix() === Format::XML) {
             $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 

@@ -6,7 +6,7 @@ namespace Symplify\VendorPatches\Tests\Finder;
 
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\VendorPatches\Finder\OldToNewFilesFinder;
-use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
+use Symplify\VendorPatches\Kernel\VendorPatchesKernel;
 
 final class VendorFilesFinderTest extends AbstractKernelTestCase
 {

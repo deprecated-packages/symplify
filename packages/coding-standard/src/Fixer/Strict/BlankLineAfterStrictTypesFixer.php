@@ -65,7 +65,7 @@ final class BlankLineAfterStrictTypesFixer extends AbstractSymplifyFixer impleme
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         $sequenceLocation = $tokens->findSequence($this->declareStrictTypeTokens, 1, 15);
         if ($sequenceLocation === null) {

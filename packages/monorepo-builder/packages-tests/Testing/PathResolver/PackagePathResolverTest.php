@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Testing\PathResolver;
 
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Testing\PathResolver\PackagePathResolver;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

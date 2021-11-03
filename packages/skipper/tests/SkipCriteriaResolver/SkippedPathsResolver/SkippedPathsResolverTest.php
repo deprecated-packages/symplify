@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\Skipper\Tests\SkipCriteriaResolver\SkippedPathsResolver;
 
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\Skipper\HttpKernel\SkipperKernel;
 use Symplify\Skipper\SkipCriteriaResolver\SkippedPathsResolver;
+use Symplify\Skipper\Tests\HttpKernel\SkipperKernel;
 
 final class SkippedPathsResolverTest extends AbstractKernelTestCase
 {

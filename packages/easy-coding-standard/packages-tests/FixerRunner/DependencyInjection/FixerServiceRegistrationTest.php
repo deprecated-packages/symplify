@@ -7,7 +7,7 @@ namespace Symplify\EasyCodingStandard\Tests\FixerRunner\DependencyInjection;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 

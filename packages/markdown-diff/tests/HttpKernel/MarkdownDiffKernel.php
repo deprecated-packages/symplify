@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\MarkdownDiff\Tests\HttpKernel;
 
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symplify\MarkdownDiff\Bundle\MarkdownDiffBundle;
-use Symplify\SymplifyKernel\Bundle\SymplifyKernelBundle;
+use Psr\Container\ContainerInterface;
+use Symplify\MarkdownDiff\ValueObject\MarkdownDiffConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class MarkdownDiffKernel extends AbstractSymplifyKernel
 {
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): iterable
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return [new MarkdownDiffBundle(), new SymplifyKernelBundle()];
+        $configFiles[] = MarkdownDiffConfig::FILE_PATH;
+        return $this->create([], [], $configFiles);
     }
 }

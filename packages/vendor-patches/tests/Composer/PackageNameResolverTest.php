@@ -7,7 +7,7 @@ namespace Symplify\VendorPatches\Tests\Composer;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\VendorPatches\Composer\PackageNameResolver;
-use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
+use Symplify\VendorPatches\Kernel\VendorPatchesKernel;
 
 final class PackageNameResolverTest extends AbstractKernelTestCase
 {

@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
-use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
+use Symplify\PhpConfigPrinter\Dummy\YamlContentProvider;
 
 /**
  * Hacking constants @solve better in the future now it's hardcoded very deep in yaml parser, so unable to detected:
@@ -23,7 +23,7 @@ use Symplify\PhpConfigPrinter\Contract\YamlFileContentProviderInterface;
 final class ConstantNodeFactory
 {
     public function __construct(
-        private YamlFileContentProviderInterface $yamlFileContentProvider
+        private YamlContentProvider $yamlContentProvider
     ) {
     }
 
@@ -51,7 +51,7 @@ final class ConstantNodeFactory
                 continue;
             }
 
-            $yamlContent = $this->yamlFileContentProvider->getYamlContent();
+            $yamlContent = $this->yamlContentProvider->getYamlContent();
             $constantDefinitionPattern = '#' . preg_quote('!php/const', '#') . '(\s)+' . $constantName . '#';
 
             if (! Strings::match($yamlContent, $constantDefinitionPattern)) {

@@ -13,8 +13,8 @@ use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
 use PHP_CodeSniffer\Util\Common;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
-use Symplify\EasyCodingStandard\SniffRunner\Exception\File\NotImplementedException;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
+use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
 use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -39,15 +39,9 @@ final class File extends BaseFile
      */
     public $tokenizerType = 'PHP';
 
-    /**
-     * @var string|null
-     */
-    private $activeSniffClass;
+    private string|null $activeSniffClass = null;
 
-    /**
-     * @var string|null
-     */
-    private $previousActiveSniffClass;
+    private string|null $previousActiveSniffClass = null;
 
     /**
      * @var Sniff[][]
@@ -93,13 +87,18 @@ final class File extends BaseFile
         $this->parse();
         $this->fixer->startFile($this);
 
+        $currentFileInfo = $this->fileInfo;
+        if (! $currentFileInfo instanceof SmartFileInfo) {
+            throw new ShouldNotHappenException();
+        }
+
         foreach ($this->tokens as $stackPtr => $token) {
             if (! isset($this->tokenListeners[$token['code']])) {
                 continue;
             }
 
             foreach ($this->tokenListeners[$token['code']] as $sniff) {
-                if ($this->skipper->shouldSkipElementAndFileInfo($sniff, $this->fileInfo)) {
+                if ($this->skipper->shouldSkipElementAndFileInfo($sniff, $currentFileInfo)) {
                     continue;
                 }
 
@@ -110,19 +109,6 @@ final class File extends BaseFile
         }
 
         $this->fixedCount += $this->fixer->getFixCount();
-    }
-
-    public function getErrorCount(): void
-    {
-        throw new NotImplementedException(sprintf('Method "%s" is not needed to be public.', __METHOD__,));
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function getErrors(): void
-    {
-        throw new NotImplementedException(sprintf('Method "%s" is not needed to be public.', __METHOD__,));
     }
 
     /**
@@ -154,6 +140,10 @@ final class File extends BaseFile
      */
     public function addWarning($warning, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
+        if ($this->activeSniffClass === null) {
+            throw new ShouldNotHappenException();
+        }
+
         if (! $this->isSniffClassWarningAllowed($this->activeSniffClass)) {
             return false;
         }
@@ -235,6 +225,10 @@ final class File extends BaseFile
     private function shouldSkipError(string $error, string $code, array $data): bool
     {
         $fullyQualifiedCode = $this->resolveFullyQualifiedCode($code);
+
+        if ($this->fileInfo === null) {
+            throw new ShouldNotHappenException();
+        }
 
         if ($this->skipper->shouldSkipElementAndFileInfo($fullyQualifiedCode, $this->fileInfo)) {
             return true;

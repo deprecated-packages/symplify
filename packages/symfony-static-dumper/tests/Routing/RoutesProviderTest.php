@@ -6,7 +6,7 @@ namespace Symplify\SymfonyStaticDumper\Tests\Routing;
 
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
-use Symplify\SymfonyStaticDumper\Tests\TestProject\HttpKernel\TestSymfonyStaticDumperKernel;
+use Symplify\SymfonyStaticDumper\Tests\TestProject\Kernel\TestSymfonyStaticDumperKernel;
 
 final class RoutesProviderTest extends AbstractKernelTestCase
 {

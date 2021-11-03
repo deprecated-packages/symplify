@@ -13,6 +13,7 @@ use Symplify\EasyCI\Template\TemplatePathsResolver;
 use Symplify\EasyCI\Twig\TwigAnalyzer;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckTwigRenderCommand extends AbstractSymplifyCommand
 {
@@ -27,6 +28,8 @@ final class CheckTwigRenderCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
+
         $this->setDescription('Validate template paths in $this->render(...)');
         $this->addArgument(
             Option::SOURCES,

@@ -9,8 +9,8 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\UnionType;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\PhpConfigPrinter\HttpKernel\PhpConfigPrinterKernel;
 use Symplify\PhpConfigPrinter\Printer\SmartPhpConfigPrinter;
+use Symplify\PhpConfigPrinter\Tests\HttpKernel\PhpConfigPrinterKernel;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ClassWithConstants;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\ClassWithType;
 use Symplify\PhpConfigPrinter\Tests\Printer\SmartPhpConfigPrinter\Source\FirstClass;
@@ -29,7 +29,7 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
 
     /**
      * @dataProvider provideData()
-     * @param array<string, array<string, string>>|array<string, null>|array<string, array<int|string, string>>|array<string, array<string, Simple>>|array<string, array<string, Simple[]>>|array<string, array<string, ClassWithType[]>> $services
+     * @param array<string, mixed[]> $services
      */
     public function test(array $services, string $expectedContentFilePath): void
     {

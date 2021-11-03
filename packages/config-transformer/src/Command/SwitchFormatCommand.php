@@ -14,6 +14,7 @@ use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SwitchFormatCommand extends AbstractSymplifyCommand
@@ -28,20 +29,14 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
+
         $this->setDescription('Converts XML/YAML configs to PHP format');
 
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'Path to directory with configs'
-        );
-
-        $this->addOption(
-            Option::TARGET_SYMFONY_VERSION,
-            's',
-            InputOption::VALUE_REQUIRED,
-            'Symfony version to migrate config to',
-            '3.2'
         );
 
         $this->addOption(Option::DRY_RUN, null, InputOption::VALUE_NONE, 'Dry run - no removal or config change');
@@ -55,7 +50,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
         $fileInfos = $this->smartFinder->find($configuration->getSources(), $suffixesRegex);
 
-        $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos, $configuration);
+        $convertedContents = $this->convertedContentFactory->createFromFileInfos($fileInfos);
 
         foreach ($convertedContents as $convertedContent) {
             $this->configFileDumper->dumpFile($convertedContent, $configuration);

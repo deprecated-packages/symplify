@@ -6,7 +6,7 @@ namespace Symplify\VendorPatches\Tests\Composer\ComposerPatchesConfigurationUpda
 
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\VendorPatches\Composer\ComposerPatchesConfigurationUpdater;
-use Symplify\VendorPatches\HttpKernel\VendorPatchesKernel;
+use Symplify\VendorPatches\Kernel\VendorPatchesKernel;
 
 final class ComposerPatchesConfigurationUpdaterTest extends AbstractKernelTestCase
 {

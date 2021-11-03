@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 $possibleAutoloadPaths = [
@@ -23,7 +23,7 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
 
 $extraConfigs = [];
 
-$easyCIFilePath = getcwd() . '/easy-ci.php';
+$easyCIFilePath = getcwd() . DIRECTORY_SEPARATOR . 'easy-ci.php';
 if (file_exists($easyCIFilePath)) {
     $extraConfigs[] = $easyCIFilePath;
 }

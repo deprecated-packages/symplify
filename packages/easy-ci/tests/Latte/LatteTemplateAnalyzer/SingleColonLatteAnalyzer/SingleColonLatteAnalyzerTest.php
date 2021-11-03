@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\Latte\LatteTemplateAnalyzer\SingleColonLatteAnalyzer;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Latte\LatteTemplateAnalyzer\SingleColonLatteAnalyzer;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

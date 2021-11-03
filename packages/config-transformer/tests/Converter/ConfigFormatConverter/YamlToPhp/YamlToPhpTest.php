@@ -6,7 +6,6 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlT
 
 use Iterator;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -18,8 +17,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testRouting(SmartFileInfo $fileInfo): void
     {
-        $configuration = new Configuration([], true);
-        $this->doTestOutput($fileInfo, $configuration);
+        $this->doTestOutput($fileInfo);
     }
 
     /**
@@ -40,8 +38,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
         require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
-        $configuration = new Configuration([], true);
-        $this->doTestOutput($fixtureFileInfo, $configuration);
+        $this->doTestOutput($fixtureFileInfo);
     }
 
     /**
@@ -86,8 +83,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Controller');
         $this->smartFileSystem->mkdir($temporaryPath . '/../src/Domain');
 
-        $configuration = new Configuration([], true);
-        $this->doTestOutput($fileInfo, $configuration);
+        $this->doTestOutput($fileInfo);
     }
 
     /**
@@ -144,7 +140,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         $inputFileInfo = new SmartFileInfo($fileTemporaryPath);
 
-        $configuration = new Configuration([], true);
-        $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo, $configuration);
+        $this->doTestFileInfo($inputFileInfo, $inputAndExpected->getExpected(), $fixtureFileInfo);
     }
 }

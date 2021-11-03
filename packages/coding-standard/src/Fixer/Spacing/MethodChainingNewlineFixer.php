@@ -61,7 +61,7 @@ final class MethodChainingNewlineFixer extends AbstractSymplifyFixer implements 
     /**
      * @param Tokens<Token> $tokens
      */
-    public function fix(SplFileInfo $file, Tokens $tokens): void
+    public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
         // function arguments, function call parameters, lambda use()
         for ($index = 1, $count = count($tokens); $index < $count; ++$index) {

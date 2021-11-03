@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\StaticDetector\Strings;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\StaticDetector\Strings\StringsFilter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 

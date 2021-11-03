@@ -6,22 +6,15 @@ namespace Symplify\EasyCI\Console;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class EasyCIConsoleApplication extends Application
 {
     /**
      * @param Command[] $commands
      */
-    public function __construct(CommandNaming $commandNaming, array $commands)
+    public function __construct(array $commands)
     {
-        foreach ($commands as $command) {
-            $commandName = $commandNaming->resolveFromCommand($command);
-            $command->setName($commandName);
-
-            $this->add($command);
-        }
-
+        $this->addCommands($commands);
         parent::__construct('Easy CI');
     }
 }

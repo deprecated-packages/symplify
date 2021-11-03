@@ -7,7 +7,7 @@ namespace Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\RemoverComp
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\RemoverComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 use Symplify\MonorepoBuilder\ValueObject\Option;

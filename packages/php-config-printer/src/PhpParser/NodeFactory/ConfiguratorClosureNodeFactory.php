@@ -127,32 +127,32 @@ final class ConfiguratorClosureNodeFactory
     }
 
     /**
-     * @param Expr[][][] $extensionNodes
+     * @param array<string, Expr[][]> $extensionNodesByExtensionName
      * @param Stmt[] $stmts
      * @return Stmt[]
      */
-    private function replaceArrayArgWithMergedArrayItems(array $extensionNodes, array $stmts): array
+    private function replaceArrayArgWithMergedArrayItems(array $extensionNodesByExtensionName, array $stmts): array
     {
-        foreach ($extensionNodes as $extensionStmts) {
-            if (count($extensionStmts) === 1) {
+        foreach ($extensionNodesByExtensionName as $extensionNodes) {
+            if (count($extensionNodes) === 1) {
                 continue;
             }
 
-            $firstStmtKey = $this->resolveFirstStmtKey($extensionStmts);
-            $stmtKeysToRemove = $this->resolveStmtKeysToRemove($extensionStmts);
-            $newArrayItems = $this->resolveMergedArrayItems($extensionStmts);
+            $firstStmtKey = $this->resolveFirstStmtKey($extensionNodes);
+            $stmtKeysToRemove = $this->resolveStmtKeysToRemove($extensionNodes);
+            $newArrayItems = $this->resolveMergedArrayItems($extensionNodes);
 
             foreach ($stmtKeysToRemove as $stmtKeyToRemove) {
                 unset($stmts[$stmtKeyToRemove]);
             }
 
             // replace first extension argument
-            $expressoin = $stmts[$firstStmtKey];
-            if (! $expressoin instanceof Expression) {
+            $expression = $stmts[$firstStmtKey];
+            if (! $expression instanceof Expression) {
                 continue;
             }
 
-            $methodCall = $expressoin->expr;
+            $methodCall = $expression->expr;
             if (! $methodCall instanceof MethodCall) {
                 continue;
             }
@@ -171,13 +171,13 @@ final class ConfiguratorClosureNodeFactory
     private function resolveMergedArrayItems(array $extensionExprs): array
     {
         $newArrayItems = [];
-        foreach ($extensionExprs as $stmtKeyToArray) {
-            foreach ($stmtKeyToArray as $array) {
-                if (! $array instanceof Array_) {
+        foreach ($extensionExprs as $extensionExpr) {
+            foreach ($extensionExpr as $singleExtensionExpr) {
+                if (! $singleExtensionExpr instanceof Array_) {
                     continue;
                 }
 
-                $newArrayItems = array_merge($newArrayItems, $array->items);
+                $newArrayItems = array_merge($newArrayItems, $singleExtensionExpr->items);
             }
         }
 
@@ -189,8 +189,8 @@ final class ConfiguratorClosureNodeFactory
      */
     private function resolveFirstStmtKey(array $extensionStmts): int
     {
-        foreach ($extensionStmts as $stmtKeyToArray) {
-            return (int) array_key_first($stmtKeyToArray);
+        foreach ($extensionStmts as $extensionStmt) {
+            return (int) array_key_first($extensionStmt);
         }
 
         throw new ShouldNotHappenException();
@@ -205,8 +205,8 @@ final class ConfiguratorClosureNodeFactory
         $stmtKeysToRemove = [];
 
         $firstKey = null;
-        foreach ($extensionStmts as $stmtKeyToArray) {
-            foreach (array_keys($stmtKeyToArray) as $stmtKey) {
+        foreach ($extensionStmts as $extensionStmt) {
+            foreach (array_keys($extensionStmt) as $stmtKey) {
                 /** @var int $stmtKey */
                 if ($firstKey === null) {
                     $firstKey = $stmtKey;

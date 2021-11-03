@@ -15,12 +15,12 @@ final class FileInfoMatcher
     }
 
     /**
-     * @param string[] $filePattern
+     * @param string[] $filePatterns
      */
-    public function doesFileInfoMatchPatterns(SmartFileInfo $smartFileInfo, array $filePattern): bool
+    public function doesFileInfoMatchPatterns(SmartFileInfo $smartFileInfo, array $filePatterns): bool
     {
-        foreach ($filePattern as $onlyFile) {
-            if ($this->doesFileInfoMatchPattern($smartFileInfo, $onlyFile)) {
+        foreach ($filePatterns as $filePattern) {
+            if ($this->doesFileInfoMatchPattern($smartFileInfo, $filePattern)) {
                 return true;
             }
         }

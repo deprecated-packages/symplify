@@ -99,7 +99,7 @@ final class YamlKey
     /**
      * @return string[]
      */
-    public function provideRootKeys(): array
+    public static function provideRootKeys(): array
     {
         return [self::PARAMETERS, self::IMPORTS, self::SERVICES];
     }

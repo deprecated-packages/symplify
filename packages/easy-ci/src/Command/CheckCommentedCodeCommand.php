@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Comments\CommentedCodeAnalyzer;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
 {
@@ -27,6 +28,8 @@ final class CheckCommentedCodeCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
+
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,

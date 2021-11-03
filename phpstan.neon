@@ -66,13 +66,11 @@ parameters:
         - */scoper.php
         - *scoper.inc.php
 
-        # WIP parallel
-        - packages/easy-coding-standard/src/Console/Command/WorkerCommand.php
+        # parallel
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
-        - packages/easy-coding-standard/build/build-preload.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
         - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
@@ -85,6 +83,7 @@ parameters:
         - packages/phpstan-rules/tests/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule/FixturePhp80/SkipPromotedParentProperty.php
 
         # functions false positive
+        - */Vendor/*
         - *packages/**/tests/**/config.php
         - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/templates/*
@@ -93,18 +92,15 @@ parameters:
         - *packages/coding-standard/tests/**/Wrong*
         - *packages/phpstan-extensions/**/Source/**
         # tests
-        - packages/easy-coding-standard/packages/SniffRunner/Application/FileProcessorSource/ReferenceUsedNamesOnlySniff/
         - packages/symfony-static-dumper/tests/test_project/
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # 3rd party
-        - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
         - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # tests
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
-        # requires PHP 7.4
         - '*/tests/Source/*'
         - '*/tests/**/Source/*'
         - '*/tests/**/Fixture/*'
@@ -117,10 +113,6 @@ parameters:
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
         - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
 
-        # requireds PHP 8
-        - packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php
-        - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
-
     bootstrapFiles:
         - tests/bootstrap.php
 
@@ -131,9 +123,6 @@ parameters:
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag\(\)#'
 
-        # intersect/union buggy
-        - '#expects Symfony\\Component\\DependencyInjection\\ContainerBuilder, Symfony\\Component\\DependencyInjection\\ContainerInterface given#'
-
         # phpstan 0.10 news
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
 
@@ -141,9 +130,7 @@ parameters:
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
         - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
-
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
-
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
@@ -169,11 +156,6 @@ parameters:
             paths:
                 - packages/smart-file-system/src/Finder/FinderSanitizer.php
                 - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
-            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-            paths:
-                - packages/latte-phpstan-compiler/src/LatteVariableCollector/DynamicFilterVariables.php
 
         -
             message: '#Do not use static property#'
@@ -359,8 +341,6 @@ parameters:
 
         # resolve later
         - '#Method (.*?) with no value type specified in iterable type array#'
-        # resolve first
-        - '#Method (.*?) has parameter (.*?) with no typehint specified#'
 
         # wrong keys
         - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
@@ -417,10 +397,6 @@ parameters:
             message: '#Removing parent param type is forbidden#'
             path: *FileLoader.php
 
-        -
-            message:  '#Use "Symplify\\SmartFileSystem\\SmartFileSystem\:\:dumpFile\(\)" static call over "file_put_contents\(\)" func call#'
-            path: packages/easy-coding-standard/build/build-preload.php
-
         # this class is used by scoper, so better use less external deps
         -
             message: '#Nested foreach with empty statement is not allowed#'
@@ -449,12 +425,6 @@ parameters:
         -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
-
-        - '#Parameter \#1 \$container of method Symplify\\EasyCodingStandard\\Tests\\Indentation\\IndentationTest\:\:getIndentationTypeFixerFromContainer\(\) expects Psr\\Container\\ContainerInterface, Symfony\\Component\\DependencyInjection\\ContainerInterface\|null given#'
-
-        -
-            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
-            path: packages/psr4-switcher/src/Utils/SymplifyStrings.php
 
         -
             message: '#Array with keys is not allowed\. Use value object to pass data instead#'
@@ -486,12 +456,6 @@ parameters:
 
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ArgsNodeFactory\:\:createFromValues\(\)" is 13, keep it under 8#'
 
-        -
-            message: '#Method "isSymfonyMicroKernelRequired\(\)" only calling another method call and has no added value\. Use the inlined call instead#'
-            path: packages/phpstan-rules/src/Rules/NoProtectedElementInFinalClassRule.php
-
-        - '#Call to an undefined method MyCLabs\\Enum\\Enum\:\:getKey\(\)#'
-
         - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
 
         -
@@ -516,12 +480,8 @@ parameters:
 
         - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
 
-        # paralellel
+        # paralell
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
-
-        # php-parser 4.13, not updated yet
-        - '#Access to an undefined property PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\:\:\$value#'
-        - '#<PhpParser\\Node\\Arg\|PhpParser\\Node\\VariadicPlaceholder\> given#'
 
         -
              message: '#Class has a static method must so must contains "Static" in its name#'
@@ -536,8 +496,6 @@ parameters:
             path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
 
         # allow duplicated test classes
-        - '#Class with base "Php8(.*?)Test" name is already used in#'
-
         - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
 
         # false positive - way too generic
@@ -580,11 +538,6 @@ parameters:
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
 
-        # invalid parent type name
-        -
-            message: '#Arguments names conflicts with parent class method\: "\$funcCall" should be "\$functionCall"\. This will break named arguments#'
-            path: packages/phpstan-extensions/src/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension.php
-
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
         - '#Parameter (.*?) expects class\-string, string given#'
@@ -618,10 +571,30 @@ parameters:
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
-        # enum false positives
-        -
-            path: packages/config-transformer/src
-            message: '#Strict comparison using \=\=\= between string and Symplify\\ConfigTransformer\\Enum\\Format will always evaluate to false#'
-        - '#Method Symplify\\ConfigTransformer\\ValueObject\\Configuration\:\:getInputSuffixes\(\) should return array<string\> but returns array<int, Symplify\\ConfigTransformer\\Enum\\Format\>#'
-        - '#Call to function in_array\(\) with arguments string, array\{Symplify\\ConfigTransformer\\Enum\\Format, Symplify\\ConfigTransformer\\Enum\\Format\} and true will always evaluate to false#'
+        # false positive
+        - '#Parameter \#1 \$kernel of method Symplify\\SymplifyKernel\\ValueObject\\KernelBootAndApplicationRun\:\:setExtraConfigs\(\) expects Symfony\\Component\\HttpKernel\\KernelInterface, Symfony\\Component\\HttpKernel\\KernelInterface\|Symplify\\SymplifyKernel\\Contract\\LightKernelInterface given#'
 
+        # known realpath() checked with file_exist right above
+        -
+            message: '#Function resolveConfigFile\(\) should return string\|null but returns string\|false#'
+            path: packages/monorepo-builder/bin/monorepo-builder.php
+        -
+            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Caching\\ChangedFilesDetector\:\:setUsedConfigs\(\) expects array<string\>, array<int, string\|false\> given#'
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+
+        -
+            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
+
+        - '#Content of method "createFromConfigs\(\)" is duplicated with method "createFromConfigs\(\)" in "Symplify\\(.*?)\\HttpKernel\\Psr4SwitcherKernel" class\. Use unique content or service instead#'
+
+        -
+            path: packages/php-config-printer/src/ValueObject/YamlKey.php
+            message: '#Class has a static method must so must contains "Static" in its name#'
+        # known realpath()
+        - '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Kernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
+
+        # value changed to int
+        -
+            path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
+            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'

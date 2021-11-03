@@ -24,24 +24,24 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
     ) {
     }
 
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
+    public function decorateServiceMethodCall($key, $yamlLines, $values, MethodCall $methodCall): MethodCall
     {
-        /** @var mixed[] $yaml */
-        if (count($yaml) === 1 && is_string($yaml[0])) {
-            $string = new String_($yaml[0]);
+        /** @var mixed[] $yamlLines */
+        if (count($yamlLines) === 1 && is_string($yamlLines[0])) {
+            $string = new String_($yamlLines[0]);
             return new MethodCall($methodCall, self::TAG, [new Arg($string)]);
         }
 
-        foreach ($yaml as $singleValue) {
+        foreach ($yamlLines as $yamlLine) {
             $args = [];
-            foreach ($singleValue as $singleNestedKey => $singleNestedValue) {
+            foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
                 if ($singleNestedKey === 'name') {
                     $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
-                    unset($singleValue[$singleNestedKey]);
+                    unset($yamlLine[$singleNestedKey]);
                 }
             }
 
-            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($singleValue);
+            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
 
             $args = array_merge($args, $restArgs);
             $methodCall = new MethodCall($methodCall, self::TAG, $args);

@@ -28,6 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->exclude([
             __DIR__ . '/../packages/StaticDetector/ValueObject',
             __DIR__ . '/../packages/ActiveClass/ValueObject',
+            __DIR__ . '/../packages/Psr4/ValueObject',
         ]);
 
     $services->set(StaticCollectNodeTraverser::class)

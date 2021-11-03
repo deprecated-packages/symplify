@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
@@ -23,12 +24,14 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         parent::__construct();
 
         $projectDir = (string) $parameterBag->get('kernel.project_dir');
+
         $this->publicDirectory = $projectDir . '/public';
         $this->outputDirectory = getcwd() . '/output';
     }
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Dump website to static HTML and CSS in the output directory');
     }
 

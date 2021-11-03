@@ -6,7 +6,7 @@ namespace Symplify\EasyCodingStandard\Tests\SniffRunner\File;
 
 use PHP_CodeSniffer\Files\File as PhpCodeSnifferFile;
 use PHP_CodeSniffer\Fixer;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\SniffRunner\File\FileFactory;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

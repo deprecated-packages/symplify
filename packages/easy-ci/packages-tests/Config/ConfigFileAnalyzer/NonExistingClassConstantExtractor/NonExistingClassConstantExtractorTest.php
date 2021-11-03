@@ -6,7 +6,7 @@ namespace Symplify\EasyCI\Tests\Config\ConfigFileAnalyzer\NonExistingClassConsta
 
 use Iterator;
 use Symplify\EasyCI\Config\ConfigFileAnalyzer\NonExistingClassConstantConfigFileAnalyzer;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 

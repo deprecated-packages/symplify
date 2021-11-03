@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\Twig\TwigTemplateAnalyzer\MissingClassConstantTwigAnalyzer;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Twig\TwigTemplateAnalyzer\MissingClassConstantTwigAnalyzer;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;

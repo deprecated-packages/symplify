@@ -7,7 +7,7 @@ namespace Symplify\EasyCodingStandard\Testing\PHPUnit;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\Testing\Contract\ConfigAwareInterface;
@@ -16,6 +16,7 @@ use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Webmozart\Assert\Assert;
 
 // needed for scoped version to load unprefixed classes; does not have any effect inside the class
 $scoperAutoloadFilePath = __DIR__ . '/../../../vendor/scoper-autoload.php';
@@ -173,17 +174,10 @@ abstract class AbstractCheckerTestCase extends TestCase implements ConfigAwareIn
      */
     private function bootContainerWithConfigs(array $configs): ContainerInterface
     {
-        $configsHash = '';
-        foreach ($configs as $config) {
-            $configsHash .= md5_file($config);
-        }
+        Assert::allString($configs);
+        Assert::allFile($configs);
 
-        $configsHash = md5($configsHash);
-
-        $easyCodingStandardKernel = new EasyCodingStandardKernel('test_' . $configsHash, true);
-        $easyCodingStandardKernel->setConfigs($configs);
-        $easyCodingStandardKernel->boot();
-
-        return $easyCodingStandardKernel->getContainer();
+        $easyCodingStandardKernel = new EasyCodingStandardKernel();
+        return $easyCodingStandardKernel->createFromConfigs($configs);
     }
 }

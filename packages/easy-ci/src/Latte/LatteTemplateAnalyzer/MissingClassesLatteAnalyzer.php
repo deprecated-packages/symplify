@@ -28,6 +28,12 @@ final class MissingClassesLatteAnalyzer implements LatteTemplateAnalyzerInterfac
      */
     private const VARTYPE_INSTANCEOF_CLASS_REGEX = '#(vartype|varType|instanceof|instanceOf)\s+(\\\\)?(?<class>[A-Z][\w\\\\]+)#ms';
 
+    /**
+     * @see https://regex101.com/r/8UK0P4/1
+     * @var string
+     */
+    private const SCRIPT_CONTENTS_REGEX = '#<script(.*?)>(.*?)</script>#ms';
+
     public function __construct(
         private ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
@@ -42,9 +48,12 @@ final class MissingClassesLatteAnalyzer implements LatteTemplateAnalyzerInterfac
         $errors = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $classMatches = Strings::matchAll($fileInfo->getContents(), self::CLASS_REGEX);
+            // clear content from javascript fiels
+            $fileContents = Strings::replace($fileInfo->getContents(), self::SCRIPT_CONTENTS_REGEX, '');
+            $classMatches = Strings::matchAll($fileContents, self::CLASS_REGEX);
+
             $varTypeInstanceOfClassMatches = Strings::matchAll(
-                $fileInfo->getContents(),
+                $fileContents,
                 self::VARTYPE_INSTANCEOF_CLASS_REGEX
             );
 
@@ -53,8 +62,8 @@ final class MissingClassesLatteAnalyzer implements LatteTemplateAnalyzerInterfac
                 continue;
             }
 
-            foreach ($matches as $foundClassesMatch) {
-                $class = (string) $foundClassesMatch['class'];
+            foreach ($matches as $match) {
+                $class = (string) $match['class'];
                 if ($this->classLikeExistenceChecker->doesClassLikeExist($class)) {
                     continue;
                 }

@@ -6,7 +6,7 @@ namespace Symplify\PhpConfigPrinter\Tests\NodeFactory;
 
 use PhpParser\Node\Expr\ConstFetch;
 use PHPUnit\Framework\TestCase;
-use Symplify\ConfigTransformer\Provider\YamlContentProvider;
+use Symplify\PhpConfigPrinter\Dummy\YamlContentProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
 
 final class ConstantNodeFactoryTest extends TestCase

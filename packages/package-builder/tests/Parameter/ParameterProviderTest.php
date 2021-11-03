@@ -51,7 +51,5 @@ final class ParameterProviderTest extends AbstractKernelTestCase
 
         $this->assertSame(1, $parameters['one']);
         $this->assertSame(2, $parameters['two']);
-
-        $this->assertArrayHasKey('kernel.project_dir', $parameterProvider->provide());
     }
 }

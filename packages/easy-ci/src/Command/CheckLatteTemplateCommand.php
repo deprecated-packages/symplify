@@ -11,6 +11,7 @@ use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Latte\LatteTemplateProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 {
@@ -23,6 +24,8 @@ final class CheckLatteTemplateCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
+
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,

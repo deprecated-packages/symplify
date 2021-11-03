@@ -29,14 +29,14 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 {
     /**
      * @param VariableAndType[] $variablesAndTypes
-     * @param array<string, string> $foreachedVariablesToSingles
+     * @param array<string, string> $foreachedVariablesBySingleName
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ObjectTypeMethodAnalyzer $objectTypeMethodAnalyzer,
         private PublicPropertyAnalyzer $publicPropertyAnalyzer,
         private array $variablesAndTypes,
-        private array $foreachedVariablesToSingles
+        private array $foreachedVariablesBySingleName
     ) {
     }
 
@@ -75,7 +75,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
     private function resolveAccessor(FuncCall $funcCall): string
     {
-        $string = $funcCall->args[3]->value;
+        $string = $funcCall->getArgs()[3]
+            ->value;
         if (! $string instanceof String_) {
             throw new ShouldNotHappenException();
         }
@@ -85,12 +86,12 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
 
     private function matchVariableType(string $variableName): ?Type
     {
-        foreach ($this->variablesAndTypes as $variablesAndType) {
-            if ($variablesAndType->getVariable() !== $variableName) {
+        foreach ($this->variablesAndTypes as $variableAndType) {
+            if ($variableAndType->getVariable() !== $variableName) {
                 continue;
             }
 
-            return $variablesAndType->getType();
+            return $variableAndType->getType();
         }
 
         return $this->matchForeachVariableType($variableName);
@@ -99,13 +100,13 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     private function matchForeachVariableType(string $variableName): ?Type
     {
         // foreached variable
-        foreach ($this->variablesAndTypes as $variablesAndType) {
-            foreach ($this->foreachedVariablesToSingles as $singleName) {
-                if ($singleName !== $variableName) {
+        foreach ($this->variablesAndTypes as $variableAndType) {
+            foreach ($this->foreachedVariablesBySingleName as $foreachedVariables) {
+                if ($foreachedVariables !== $variableName) {
                     continue;
                 }
 
-                $possibleArrayType = $variablesAndType->getType();
+                $possibleArrayType = $variableAndType->getType();
                 if (! $possibleArrayType instanceof ArrayType) {
                     continue;
                 }
@@ -120,7 +121,8 @@ final class TwigGetAttributeExpanderNodeVisitor extends NodeVisitorAbstract
     private function resolveVariableName(FuncCall $funcCall): string|null
     {
         // @todo match with provided type
-        $variable = $funcCall->args[2]->value;
+        $variable = $funcCall->getArgs()[2]
+            ->value;
         if (! $variable instanceof Variable) {
             throw new ShouldNotHappenException();
         }

@@ -58,8 +58,8 @@ final class ReleaseCommand extends AbstractSymplifyCommand
         // validation phase
         $stage = $this->stageResolver->resolveFromInput($input);
 
-        $activeReleaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
-        if ($activeReleaseWorkers === []) {
+        $releaseWorkers = $this->releaseWorkerProvider->provideByStage($stage);
+        if ($releaseWorkers === []) {
             $errorMessage = sprintf(
                 'There are no release workers registered. Be sure to add them to "%s"',
                 File::CONFIG
@@ -69,12 +69,12 @@ final class ReleaseCommand extends AbstractSymplifyCommand
             return self::FAILURE;
         }
 
-        $totalWorkerCount = count($activeReleaseWorkers);
+        $totalWorkerCount = count($releaseWorkers);
         $i = 0;
         $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
         $version = $this->versionResolver->resolveVersion($input, $stage);
 
-        foreach ($activeReleaseWorkers as $releaseWorker) {
+        foreach ($releaseWorkers as $releaseWorker) {
             $title = sprintf('%d/%d) ', ++$i, $totalWorkerCount) . $releaseWorker->getDescription($version);
             $this->symfonyStyle->title($title);
             $this->releaseWorkerReporter->printMetadata($releaseWorker);

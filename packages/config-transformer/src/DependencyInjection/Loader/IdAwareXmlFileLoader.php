@@ -97,13 +97,13 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         }
     }
 
-    private function processAnonymousServices(DOMDocument $xml, string $file): void
+    private function processAnonymousServices(DOMDocument $domDocument, string $file): void
     {
         $this->count = 0;
         $definitions = [];
         $suffix = '~' . ContainerBuilder::hash($file);
 
-        $domxPath = new DOMXPath($xml);
+        $domxPath = new DOMXPath($domDocument);
         $domxPath->registerNamespace('container', self::NS);
 
         $definitions = $this->processAnonymousServicesInArguments($domxPath, $suffix, $file, $definitions);
@@ -115,11 +115,10 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         // anonymous services "in the wild"
         $anonymousServiceNodes = $domxPath->query('//container:services/container:service[not(@id)]');
         if ($anonymousServiceNodes !== false) {
-            /** @var DOMElement $node */
-            foreach ($anonymousServiceNodes as $node) {
-                $id = $this->createAnonymousServiceId($hasNamedServices, $node, $file);
-                $node->setAttribute(self::ID, $id);
-                $definitions[$id] = [$node, $file, true];
+            foreach ($anonymousServiceNodes as $anonymouServiceNode) {
+                $id = $this->createAnonymousServiceId($hasNamedServices, $anonymouServiceNode, $file);
+                $anonymouServiceNode->setAttribute(self::ID, $id);
+                $definitions[$id] = [$anonymouServiceNode, $file, true];
             }
         }
 

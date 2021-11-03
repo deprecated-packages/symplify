@@ -2,31 +2,23 @@
 
 declare(strict_types=1);
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
 use PhpParser\Parser;
 use PhpParser\PrettyPrinterAbstract;
 use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
-
-use Rector\Set\ValueObject\DowngradeSetList;
+use Rector\Set\ValueObject\DowngradeLevelSetList;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(DowngradeSetList::PHP_80);
-    $containerConfigurator->import(DowngradeSetList::PHP_74);
-    $containerConfigurator->import(DowngradeSetList::PHP_73);
-    $containerConfigurator->import(DowngradeSetList::PHP_72);
+    $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
 
     $services = $containerConfigurator->services();
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->call('configure', [[
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
-                Sniff::class,
-                FixerInterface::class,
                 OutputInterface::class,
                 StyleInterface::class,
                 // phpstan
@@ -47,5 +39,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         '*/symfony/framework-bundle/KernelBrowser.php',
         '*/symfony/http-kernel/HttpKernelBrowser.php',
         '*/symfony/cache/*',
+        // fails on DOMCaster
+        '*/symfony/var-dumper/*',
+        '*/symfony/var-exporter/*',
+        '*/symfony/error-handler/*',
+        '*/symfony/event-dispatcher/*',
+        '*/symfony/event-dispatcher-contracts/*',
+        '*/symfony/http-foundation/*',
     ]);
 };

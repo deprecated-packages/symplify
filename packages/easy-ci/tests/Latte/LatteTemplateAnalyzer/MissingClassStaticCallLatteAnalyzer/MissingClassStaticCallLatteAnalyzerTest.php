@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\Latte\LatteTemplateAnalyzer\MissingClassStaticCallLatteAnalyzer;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Latte\LatteTemplateAnalyzer\MissingClassStaticCallLatteAnalyzer;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;

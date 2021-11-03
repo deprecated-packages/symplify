@@ -7,7 +7,7 @@ namespace Symplify\Skipper\Tests\FileSystem;
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\Skipper\FileSystem\FnMatchPathNormalizer;
-use Symplify\Skipper\HttpKernel\SkipperKernel;
+use Symplify\Skipper\Tests\HttpKernel\SkipperKernel;
 
 final class FnMatchPathNormalizerTest extends AbstractKernelTestCase
 {

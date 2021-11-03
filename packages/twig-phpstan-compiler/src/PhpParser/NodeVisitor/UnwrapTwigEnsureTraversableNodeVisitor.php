@@ -26,7 +26,7 @@ final class UnwrapTwigEnsureTraversableNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $firstArg = $node->args[0];
+        $firstArg = $node->getArgs()[0];
 
         return $firstArg->value;
     }

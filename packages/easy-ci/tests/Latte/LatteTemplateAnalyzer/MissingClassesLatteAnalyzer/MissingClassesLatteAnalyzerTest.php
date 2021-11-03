@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyCI\Tests\Latte\LatteTemplateAnalyzer\MissingClassesLatteAnalyzer;
 
 use Iterator;
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Latte\LatteTemplateAnalyzer\MissingClassesLatteAnalyzer;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -45,5 +45,9 @@ final class MissingClassesLatteAnalyzerTest extends AbstractKernelTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/missing_input.latte'), 2];
 
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_scalar_vartype.latte'), 0];
+
+        // skip javascripts
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_instanceof_javascript.latte'), 0];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_double_instanceof_javascript.latte'), 0];
     }
 }

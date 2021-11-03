@@ -37,14 +37,14 @@ final class GitCommand
     private array $args = [];
 
     /**
-     * @param mixed ...$argsAndOptions
+     * @param mixed ...$argsOrOptions
      */
     public function __construct(
         //  The command being run, e.g. "clone", "commit", etc.
         private string $command = '',
-        ...$argsAndOptions,
+        ...$argsOrOptions,
     ) {
-        foreach ($argsAndOptions as $argOrOption) {
+        foreach ($argsOrOptions as $argOrOption) {
             if (is_array($argOrOption)) {
                 // If item is array, set it as the options
                 $this->setOptions($argOrOption);

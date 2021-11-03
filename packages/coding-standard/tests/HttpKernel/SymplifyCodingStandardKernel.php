@@ -4,33 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Tests\HttpKernel;
 
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\CodingStandard\Bundle\SymplifyCodingStandardBundle;
-use Symplify\ConsoleColorDiff\Bundle\ConsoleColorDiffBundle;
-use Symplify\EasyCodingStandard\Bundle\EasyCodingStandardBundle;
+use Psr\Container\ContainerInterface;
+use Symplify\CodingStandard\ValueObject\CodingStandardConfig;
+use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
+use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
+use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
-final class SymplifyCodingStandardKernel extends Kernel
+final class SymplifyCodingStandardKernel extends AbstractSymplifyKernel
 {
-    public function registerContainerConfiguration(LoaderInterface $loader): void
+    public function createFromConfigs(array $configFiles): ContainerInterface
     {
-    }
+        $configFiles[] = EasyCodingStandardConfig::FILE_PATH;
+        $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
+        $configFiles[] = CodingStandardConfig::FILE_PATH;
 
-    public function getCacheDir(): string
-    {
-        return sys_get_temp_dir() . '/symplify_coding_standard';
-    }
-
-    public function getLogDir(): string
-    {
-        return sys_get_temp_dir() . '/symplify_coding_standard_log';
-    }
-
-    /**
-     * @return SymplifyCodingStandardBundle[]|ConsoleColorDiffBundle[]|EasyCodingStandardBundle[]
-     */
-    public function registerBundles(): iterable
-    {
-        return [new SymplifyCodingStandardBundle(), new EasyCodingStandardBundle(), new ConsoleColorDiffBundle()];
+        return $this->create([], [], $configFiles);
     }
 }

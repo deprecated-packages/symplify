@@ -6,56 +6,37 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\HttpKernel\EasyCodingStandardKernel;
-use Symplify\PackageBuilder\Console\Input\StaticInputDetector;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 
 final class EasyCodingStandardContainerFactory
 {
     public function createFromFromInput(InputInterface $input): ContainerInterface
     {
-        $environment = $this->resolveEnvironment();
+        $easyCodingStandardKernel = new EasyCodingStandardKernel();
 
-        $easyCodingStandardKernel = new EasyCodingStandardKernel($environment, StaticInputDetector::isDebug());
-
-        $inputConfigFileInfos = [];
-        $rootECSConfig = getcwd() . DIRECTORY_SEPARATOR . '/ecs.php';
+        $inputConfigFiles = [];
+        $rootECSConfig = getcwd() . DIRECTORY_SEPARATOR . 'ecs.php';
 
         if ($input->hasParameterOption(['--config', '-c'])) {
             $commandLineConfigFile = $input->getParameterOption(['--config', '-c']);
             if (is_string($commandLineConfigFile) && file_exists($commandLineConfigFile)) {
-                $inputConfigFileInfos[] = new SmartFileInfo($commandLineConfigFile);
+                // must be realpath, so container builder knows the location
+                $inputConfigFiles[] = realpath($commandLineConfigFile);
             }
         } elseif (file_exists($rootECSConfig)) {
-            $inputConfigFileInfos[] = new SmartFileInfo($rootECSConfig);
+            $inputConfigFiles[] = $rootECSConfig;
         }
 
-        if ($inputConfigFileInfos !== []) {
-            $easyCodingStandardKernel->setConfigs($inputConfigFileInfos);
-        }
+        $container = $easyCodingStandardKernel->createFromConfigs($inputConfigFiles);
 
-        $easyCodingStandardKernel->boot();
-
-        $container = $easyCodingStandardKernel->getContainer();
-
-        if ($inputConfigFileInfos !== []) {
+        if ($inputConfigFiles !== []) {
             // for cache invalidation on config change
             /** @var ChangedFilesDetector $changedFilesDetector */
             $changedFilesDetector = $container->get(ChangedFilesDetector::class);
-            $changedFilesDetector->setUsedConfigs($inputConfigFileInfos);
+            $changedFilesDetector->setUsedConfigs($inputConfigFiles);
         }
 
         return $container;
-    }
-
-    private function resolveEnvironment(): string
-    {
-        if (StaticVersionResolver::PACKAGE_VERSION === '@package_version@') {
-            return 'dev';
-        }
-
-        return 'prod_' . StaticVersionResolver::PACKAGE_VERSION;
     }
 }

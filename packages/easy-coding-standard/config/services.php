@@ -33,9 +33,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->load('Symplify\EasyCodingStandard\\', __DIR__ . '/../src')
         ->exclude([
             // only for "bin/ecs" file, where container does not exist yet
-            __DIR__ . '/../src/Bundle',
             __DIR__ . '/../src/DependencyInjection',
-            __DIR__ . '/../src/HttpKernel',
+            __DIR__ . '/../src/Kernel',
             __DIR__ . '/../src/Exception',
             __DIR__ . '/../src/ValueObject',
             // for 3rd party tests

@@ -15,6 +15,7 @@ use Symplify\AutowireArrayParameter\DependencyInjection\DefinitionFinder;
 use Symplify\AutowireArrayParameter\DocBlock\ParamTypeDocBlockResolver;
 use Symplify\AutowireArrayParameter\Skipper\ParameterSkipper;
 use Symplify\AutowireArrayParameter\TypeResolver\ParameterTypeResolver;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 
 /**
  * @inspiration https://github.com/nette/di/pull/178
@@ -69,6 +70,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $containerBuilder): void
     {
         $definitions = $containerBuilder->getDefinitions();
+
         foreach ($definitions as $definition) {
             if ($this->shouldSkipDefinition($containerBuilder, $definition)) {
                 continue;
@@ -121,7 +123,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
             return true;
         }
 
-        if (! $reflectionClass->hasMethod('__construct')) {
+        if (! $reflectionClass->hasMethod(MethodName::CONSTRUCTOR)) {
             return true;
         }
 

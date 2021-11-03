@@ -6,6 +6,7 @@ namespace Symplify\EasyCI\ActiveClass;
 
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\EasyCI\ActiveClass\NodeVisitor\UsedClassNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -18,6 +19,7 @@ final class UseImportsResolver
     public function __construct(
         private Parser $parser,
         private FullyQualifiedNameNodeDecorator $fullyQualifiedNameNodeDecorator,
+        private SymfonyStyle $symfonyStyle,
     ) {
     }
 
@@ -30,6 +32,8 @@ final class UseImportsResolver
         $usedNames = [];
 
         foreach ($phpFileInfos as $phpFileInfo) {
+            $this->symfonyStyle->progressAdvance();
+
             $stmts = $this->parser->parse($phpFileInfo->getContents());
             if ($stmts === null) {
                 continue;

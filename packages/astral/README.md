@@ -10,14 +10,15 @@ composer require symplify/astral
 
 ### Add to Symfony Project
 
-Register bundle in `config/bundles.php`:
+Register package in `config/config.php`:
 
 ```php
-return [
-    Symplify\Astral\Bundle\AstralBundle::class => [
-        'all' => true,
-    ],
-];
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\Astral\ValueObject\AstralConfig::FILE_PATH;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(AstralConfig::FILE_PATH);
+};
 ```
 
 ### Add to PHPStan Rules

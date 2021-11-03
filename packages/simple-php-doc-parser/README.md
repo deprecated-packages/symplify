@@ -8,36 +8,17 @@ Simple service integration of phpstan/phpdoc-parser, with few extra goodies for 
 composer require symplify/simple-php-doc-parser
 ```
 
-## 2. Register Bundle
+## 2. Register Config
 
-Register bundle in your project:
-
-```php
-// app/bundles.php
-return [
-    Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle::class => [
-        'all' => true,
-    ],
-];
-```
-
-or via Kernel:
+Register config in your `config/config.php`:
 
 ```php
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\SimplePhpDocParser\Bundle\SimplePhpDocParserBundle;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\SimplePhpDocParser\ValueObject\SimplePhpDocParserConfig;
 
-final class AppKernel extends Kernel
-{
-    /**
-     * @return BundleInterface[]
-     */
-    public function registerBundles(): array
-    {
-        return [new SimplePhpDocParserBundle()];
-    }
-}
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(SimplePhpDocParserConfig::FILE_PATH);
+};
 ```
 
 ## 3. Usage of `SimplePhpDocParser`

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Tests\Release\ReleaseWorkerProvider;
 
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 

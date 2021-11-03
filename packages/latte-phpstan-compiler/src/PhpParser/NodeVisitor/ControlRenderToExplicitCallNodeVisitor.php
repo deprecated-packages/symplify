@@ -74,7 +74,7 @@ final class ControlRenderToExplicitCallNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $firstArg = $methodCall->args[0];
+        $firstArg = $methodCall->getArgs()[0];
 
         // try to get component name
         if (! $firstArg->value instanceof String_) {

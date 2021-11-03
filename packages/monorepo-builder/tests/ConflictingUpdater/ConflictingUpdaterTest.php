@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder\Tests\ConflictingUpdater;
 
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\ConflictingUpdater;
-use Symplify\MonorepoBuilder\HttpKernel\MonorepoBuilderKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\Template\PossibleTemplatePathsResolver;
 
-use Symplify\EasyCI\HttpKernel\EasyCIKernel;
+use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\EasyCI\Template\TemplatePathsResolver;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 

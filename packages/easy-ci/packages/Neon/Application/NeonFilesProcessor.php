@@ -85,30 +85,30 @@ final class NeonFilesProcessor implements FileProcessorInterface
     {
         $fileErrors = [];
 
-        foreach ($servicesNeon as $singleService) {
-            if ($singleService instanceof Entity) {
-                $errorMessage = $this->createErrorMessageFromNeonEntity($singleService);
+        foreach ($servicesNeon as $serviceNeon) {
+            if ($serviceNeon instanceof Entity) {
+                $errorMessage = $this->createErrorMessageFromNeonEntity($serviceNeon);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
                 continue;
             }
 
             // 0. skip empty or aliaseses
-            if (! is_array($singleService)) {
+            if (! is_array($serviceNeon)) {
                 continue;
             }
 
             // 1. the "setup" has allowed entities
-            $singleService = $this->removeSetupKey($singleService);
+            $serviceNeon = $this->removeSetupKey($serviceNeon);
 
             // 2. detect complex neon entities
-            $flatNeon = Arrays::flatten($singleService, true);
-            foreach ($flatNeon as $itemNeon) {
-                if ($this->shouldSkip($itemNeon)) {
+            $neonLines = Arrays::flatten($serviceNeon, true);
+            foreach ($neonLines as $neonLine) {
+                if ($this->shouldSkip($neonLine)) {
                     continue;
                 }
 
-                /** @var Entity $itemNeon */
-                $errorMessage = $this->createErrorMessageFromNeonEntity($itemNeon);
+                /** @var Entity $neonLine */
+                $errorMessage = $this->createErrorMessageFromNeonEntity($neonLine);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
             }
         }
@@ -129,14 +129,14 @@ final class NeonFilesProcessor implements FileProcessorInterface
         return $singleService;
     }
 
-    private function shouldSkip(mixed $itemNeon): bool
+    private function shouldSkip(mixed $neonLine): bool
     {
-        if (! $itemNeon instanceof Entity) {
+        if (! $neonLine instanceof Entity) {
             return true;
         }
 
         // @see https://github.com/nette/di/blob/0ab4d4f67979a38fa06bf4c4f9cd81a98cc6ccba/tests/DI/Compiler.functions.phpt#L36-L40
         // skip functions
-        return in_array($itemNeon->value, ['not', 'string', 'int', 'float', 'bool'], true);
+        return in_array($neonLine->value, ['not', 'string', 'int', 'float', 'bool'], true);
     }
 }
