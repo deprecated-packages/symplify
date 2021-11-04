@@ -20,13 +20,10 @@ final class TwigRenderTemplateWithParametersMatcher
 
     /**
      * Must be template path + variables
+     *
      * @return RenderTemplateWithParameters[]
      */
-    public function match(
-        MethodCall $methodCall,
-        Scope $scope,
-        string $templateSuffix
-    ): array {
+    public function match(MethodCall $methodCall, Scope $scope, string $templateSuffix): array {
         $firstArg = $methodCall->getArgs()[0] ?? null;
         if (! $firstArg instanceof Arg) {
             return [];
