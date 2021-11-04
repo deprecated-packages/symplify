@@ -21,6 +21,7 @@ use Symplify\EasyCI\ValueObject\Option;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
+use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerKeyMergerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
@@ -70,5 +71,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         DocumentedRuleInterface::class,
         CodeSampleInterface::class,
         LatteVariableCollectorInterface::class,
+        TagResolverInterface::class,
     ]);
 };
