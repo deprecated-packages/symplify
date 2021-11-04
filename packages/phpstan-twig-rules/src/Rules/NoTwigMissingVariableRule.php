@@ -48,10 +48,13 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
 
         $missingVariableNames = [];
         foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
-            $missingVariableNames = array_merge($missingVariableNames, $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
+            $missingVariableNames = array_merge(
+                $missingVariableNames,
+                $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
                 $renderTemplateWithParameters,
                 $scope
-            ));
+            )
+            );
         }
 
         if ($missingVariableNames === []) {

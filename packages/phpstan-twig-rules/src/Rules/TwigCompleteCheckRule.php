@@ -19,7 +19,6 @@ use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\TypeAnalyzer\TemplateVariableTypesResolver;
-use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
 use Symplify\TwigPHPStanCompiler\TwigToPhpCompiler;
 
