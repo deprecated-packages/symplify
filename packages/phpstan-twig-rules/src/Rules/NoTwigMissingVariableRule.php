@@ -47,13 +47,13 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
         $renderTemplatesWithParameters = $this->symfonyRenderWithParametersMatcher->matchSymfonyRender($node, $scope);
 
         $missingVariableNames = [];
-        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+        foreach ($renderTemplatesWithParameters as $renderTemplatesWithParameter) {
             $missingVariableNames = array_merge(
                 $missingVariableNames,
                 $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
-                $renderTemplateWithParameters,
-                $scope
-            )
+                    $renderTemplatesWithParameter,
+                    $scope
+                )
             );
         }
 

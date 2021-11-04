@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\Guard;
 
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
+use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
