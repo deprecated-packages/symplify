@@ -6,7 +6,7 @@ namespace Symplify\MonorepoBuilder\Release\Guard;
 
 use PharIo\Version\Version;
 use Symplify\MonorepoBuilder\Exception\Git\InvalidGitVersionException;
-use Symplify\MonorepoBuilder\Git\MostRecentTagResolver;
+use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\StageAwareInterface;
 use Symplify\MonorepoBuilder\Release\Exception\ConfigurationException;
@@ -33,7 +33,7 @@ final class ReleaseGuard
      */
     public function __construct(
         ParameterProvider $parameterProvider,
-        private MostRecentTagResolver $mostRecentTagResolver,
+        private TagResolverInterface $tagResolver,
         private array $releaseWorkers
     ) {
         $this->isStageRequired = $parameterProvider->provideBoolParameter(Option::IS_STAGE_REQUIRED);
@@ -110,7 +110,7 @@ final class ReleaseGuard
 
     private function ensureVersionIsNewerThanLastOne(Version $version): void
     {
-        $mostRecentVersion = $this->mostRecentTagResolver->resolve(getcwd());
+        $mostRecentVersion = $this->tagResolver->resolve(getcwd());
 
         // no tag yet
         if ($mostRecentVersion === null) {

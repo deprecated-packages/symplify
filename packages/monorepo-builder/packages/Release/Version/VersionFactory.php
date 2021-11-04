@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\Version;
 
 use PharIo\Version\Version;
-use Symplify\MonorepoBuilder\Git\MostRecentTagResolver;
+use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
 use Symplify\MonorepoBuilder\Release\Guard\ReleaseGuard;
 use Symplify\MonorepoBuilder\Release\ValueObject\SemVersion;
 
@@ -13,7 +13,7 @@ final class VersionFactory
 {
     public function __construct(
         private ReleaseGuard $releaseGuard,
-        private MostRecentTagResolver $mostRecentTagResolver
+        private TagResolverInterface $tagResolver
     ) {
     }
 
@@ -36,7 +36,7 @@ final class VersionFactory
     private function resolveNextVersionByVersionKind(string $versionKind): Version
     {
         // get current version
-        $mostRecentVersion = $this->mostRecentTagResolver->resolve(getcwd());
+        $mostRecentVersion = $this->tagResolver->resolve(getcwd());
         if ($mostRecentVersion === null) {
             // the very first tag
             return new Version('v0.1.0');

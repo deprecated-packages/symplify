@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Git;
 
+use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
 use Symplify\MonorepoBuilder\Release\Process\ProcessRunner;
 
-final class MostRecentTagResolver
+final class MostRecentTagResolver implements TagResolverInterface
 {
     /**
      * @var string[]
