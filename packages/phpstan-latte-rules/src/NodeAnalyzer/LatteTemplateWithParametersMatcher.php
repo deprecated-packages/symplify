@@ -50,6 +50,7 @@ final class LatteTemplateWithParametersMatcher
         foreach ($templates as $template) {
             $result[] = new RenderTemplateWithParameters($template, new Array_($parameters));
         }
+
         return $result;
     }
 

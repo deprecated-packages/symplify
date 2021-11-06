@@ -23,7 +23,8 @@ final class TwigRenderTemplateWithParametersMatcher
      *
      * @return RenderTemplateWithParameters[]
      */
-    public function match(MethodCall $methodCall, Scope $scope, string $templateSuffix): array {
+    public function match(MethodCall $methodCall, Scope $scope, string $templateSuffix): array
+    {
         $firstArg = $methodCall->getArgs()[0] ?? null;
         if (! $firstArg instanceof Arg) {
             return [];
@@ -43,9 +44,10 @@ final class TwigRenderTemplateWithParametersMatcher
         $parametersArray = $this->resolveParametersArray($methodCall);
 
         $result = [];
-        foreach ($resolvedTemplateFilePaths as $template) {
-            $result[] = new RenderTemplateWithParameters($template, $parametersArray);
+        foreach ($resolvedTemplateFilePaths as $resolvedTemplateFilePath) {
+            $result[] = new RenderTemplateWithParameters($resolvedTemplateFilePath, $parametersArray);
         }
+
         return $result;
     }
 

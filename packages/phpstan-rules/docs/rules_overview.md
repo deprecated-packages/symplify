@@ -1,4 +1,4 @@
-# 156 Rules Overview
+# 155 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2427,40 +2427,6 @@ final class LogoutController extends AbstractController
     public function __invoke(): Response
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## MatchingTypeConstantRule
-
-Constant type should be "%s", but is "%s"
-
-- class: [`Symplify\PHPStanRules\Rules\MatchingTypeConstantRule`](../src/Rules/MatchingTypeConstantRule.php)
-
-```php
-class SomeClass
-{
-    /**
-     * @var int
-     */
-    private const LIMIT = 'max';
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    /**
-     * @var string
-     */
-    private const LIMIT = 'max';
 }
 ```
 

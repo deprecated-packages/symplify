@@ -92,15 +92,15 @@ final class TwigCompleteCheckRule extends AbstractSymplifyRule
 
         // 2. compile twig to PHP with resolved types in @var docs
         $ruleErrors = [];
-        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameter) {
             // resolve passed variable types
             $variablesAndTypes = $this->templateVariableTypesResolver->resolveArray(
-                $renderTemplateWithParameters->getParametersArray(),
+                $renderTemplateWithParameter->getParametersArray(),
                 $scope
             );
 
             $currentRuleErrors = $this->processTemplateFilePath(
-                $renderTemplateWithParameters->getTemplateFilePath(),
+                $renderTemplateWithParameter->getTemplateFilePath(),
                 $variablesAndTypes,
                 $scope,
                 $node->getLine()

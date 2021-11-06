@@ -89,10 +89,10 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
         $componentNamesAndTypes = $this->componentMapResolver->resolveFromMethodCall($node, $scope);
 
         $errors = [];
-        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameter) {
             $currentErrors = $this->processTemplateFilePath(
-                $renderTemplateWithParameters->getTemplateFilePath(),
-                $renderTemplateWithParameters->getParametersArray(),
+                $renderTemplateWithParameter->getTemplateFilePath(),
+                $renderTemplateWithParameter->getParametersArray(),
                 $scope,
                 $componentNamesAndTypes,
                 $node->getLine()
