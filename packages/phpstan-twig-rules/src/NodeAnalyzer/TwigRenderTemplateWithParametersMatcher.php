@@ -44,9 +44,10 @@ final class TwigRenderTemplateWithParametersMatcher
         $parametersArray = $this->resolveParametersArray($methodCall);
 
         $result = [];
-        foreach ($resolvedTemplateFilePaths as $template) {
-            $result[] = new RenderTemplateWithParameters($template, $parametersArray);
+        foreach ($resolvedTemplateFilePaths as $resolvedTemplateFilePath) {
+            $result[] = new RenderTemplateWithParameters($resolvedTemplateFilePath, $parametersArray);
         }
+
         return $result;
     }
 

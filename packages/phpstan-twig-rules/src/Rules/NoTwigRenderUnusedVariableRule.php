@@ -46,8 +46,8 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
         $renderTemplatesWithParameters = $this->symfonyRenderWithParametersMatcher->matchTwigRender($node, $scope);
 
         $templateFilePaths = [];
-        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
-            $templateFilePaths[] = $renderTemplateWithParameters->getTemplateFilePath();
+        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameter) {
+            $templateFilePaths[] = $renderTemplateWithParameter->getTemplateFilePath();
         }
 
         $unusedVariableNames = $this->unusedTwigTemplateVariableAnalyzer->resolveMethodCallAndTemplate(
