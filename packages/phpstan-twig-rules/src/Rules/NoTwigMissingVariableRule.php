@@ -51,9 +51,9 @@ final class NoTwigMissingVariableRule extends AbstractSymplifyRule
             $missingVariableNames = array_merge(
                 $missingVariableNames,
                 $this->missingTwigTemplateRenderVariableResolver->resolveFromTemplateAndMethodCall(
-                $renderTemplateWithParameters,
-                $scope
-            )
+                    $renderTemplateWithParameters,
+                    $scope
+                )
             );
         }
 
