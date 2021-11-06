@@ -30,10 +30,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     $services = $containerConfigurator->services();
-    $services->defaults()
-        ->public()
-        ->autowire()
-        ->autoconfigure();
 
     # release workers - in order to execute
     $services->set(UpdateReplaceReleaseWorker::class);

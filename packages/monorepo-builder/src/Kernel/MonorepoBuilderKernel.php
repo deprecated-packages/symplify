@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Kernel;
 
 use Psr\Container\ContainerInterface;
+use RectorPrefix20211102\Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
 use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
+use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class MonorepoBuilderKernel extends AbstractSymplifyKernel
@@ -20,6 +22,9 @@ final class MonorepoBuilderKernel extends AbstractSymplifyKernel
         $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
         $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        $autowireInterfacesCompilerPass = new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]);
+        $compilerPasses = [$autowireInterfacesCompilerPass];
+
+        return $this->create([], $compilerPasses, $configFiles);
     }
 }
