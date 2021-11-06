@@ -11,6 +11,8 @@ use PharIo\Version\Version;
 use PharIo\Version\VersionNumber;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\NullsafeMethodCall;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -21,6 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurat
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -101,6 +104,10 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
             return [];
         }
 
+        if ($this->isNullsafeMethodCall($node)) {
+            return [];
+        }
+
         if ($this->shouldSkipType($scope, $node)) {
             return [];
         }
@@ -141,5 +148,19 @@ CODE_SAMPLE
         }
 
         return $this->objectTypeMatcher->isExprTypes($methodCall->var, $scope, $this->allowedChainTypes);
+    }
+
+    private function isNullsafeMethodCall(MethodCall $methodCall): bool
+    {
+        $parent = $methodCall->getAttribute(AttributeKey::PARENT);
+        if ($parent instanceof NullsafeMethodCall) {
+            return true;
+        }
+
+        if (! $parent instanceof Return_) {
+            return false;
+        }
+
+        return $parent->expr instanceof NullsafeMethodCall;
     }
 }
