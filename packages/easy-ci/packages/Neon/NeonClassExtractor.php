@@ -98,6 +98,10 @@ final class NeonClassExtractor
                 return null;
             }
 
+            if ($class === '') {
+                return null;
+            }
+
             $classNames[] = $class;
             return null;
         });
