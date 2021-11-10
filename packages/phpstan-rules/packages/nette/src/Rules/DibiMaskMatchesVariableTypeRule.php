@@ -62,6 +62,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
         private DibiQueryAnalyzer $dibiQueryAnalyzer,
         private QueryMasksResolver $queryMasksResolver,
         private ArgTypeResolver $argTypeResolver,
+        private \Symplify\PHPStanRules\Nette\TypeAnalyzer\NonEmptyArrayTypeRemover $nonEmptyArrayTypeRemover
     ) {
     }
 
@@ -158,6 +159,9 @@ CODE_SAMPLE
         }
 
         $valueType = $scope->getType($arrayItem->value);
+
+        // correct union type on non-empty array since PHPStan 1.0
+        $valueType = $this->nonEmptyArrayTypeRemover->clean($valueType);
 
         $errorMessage = $this->matchErrorMessageIfHappens($mask, $valueType);
         if ($errorMessage === null) {
