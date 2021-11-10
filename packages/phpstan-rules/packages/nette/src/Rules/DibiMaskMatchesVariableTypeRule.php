@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
+use Symplify\PHPStanRules\Nette\TypeAnalyzer\NonEmptyArrayTypeRemover;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\ArrayItem;
@@ -62,7 +63,7 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
         private DibiQueryAnalyzer $dibiQueryAnalyzer,
         private QueryMasksResolver $queryMasksResolver,
         private ArgTypeResolver $argTypeResolver,
-        private \Symplify\PHPStanRules\Nette\TypeAnalyzer\NonEmptyArrayTypeRemover $nonEmptyArrayTypeRemover
+        private NonEmptyArrayTypeRemover $nonEmptyArrayTypeRemover
     ) {
     }
 
