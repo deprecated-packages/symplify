@@ -19,10 +19,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class CompositionOverInheritanceAnalyzerTest extends TestCase
 {
-    /**
-     * @var CompositionOverInheritanceAnalyzer
-     */
-    private $compositionOverInheritanceAnalyzer;
+    private CompositionOverInheritanceAnalyzer $compositionOverInheritanceAnalyzer;
 
     protected function setUp(): void
     {

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Neon\Application;
 
-use Nette\Neon\Entity;
-use Nette\Neon\Neon;
-use Nette\Utils\Arrays;
+use Nette\Neon\Decoder;
+use Nette\Neon\Node;
+use Nette\Neon\Node\ArrayItemNode;
+use Nette\Neon\Node\ArrayNode;
+use Nette\Neon\Node\EntityNode;
+use Nette\Neon\Traverser;
 use Symplify\EasyCI\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\EasyCI\Tests\Neon\Application\NeonFilesProcessor\NeonFilesProcessorTest
@@ -23,13 +25,8 @@ final class NeonFilesProcessor implements FileProcessorInterface
      */
     private const SERVICES_KEY = 'services';
 
-    /**
-     * @var string
-     */
-    private const SETUP_KEY = 'setup';
-
     public function __construct(
-        private SmartFileSystem $smartFileSystem
+        private Decoder $decoder
     ) {
     }
 
@@ -42,15 +39,7 @@ final class NeonFilesProcessor implements FileProcessorInterface
         $fileErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $neon = $this->readNeonFile($fileInfo);
-
-            // 1. we only take care about services
-            $servicesNeon = $neon[self::SERVICES_KEY] ?? null;
-            if ($servicesNeon === null) {
-                continue;
-            }
-
-            $currentFileErrors = $this->processServicesSection($servicesNeon, $fileInfo);
+            $currentFileErrors = $this->process($fileInfo);
             $fileErrors = array_merge($fileErrors, $currentFileErrors);
         }
 
@@ -58,57 +47,52 @@ final class NeonFilesProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return mixed[]
-     */
-    private function readNeonFile(SmartFileInfo $fileInfo): array
-    {
-        $fileContent = $this->smartFileSystem->readFile($fileInfo->getRealPath());
-        return Neon::decode($fileContent);
-    }
-
-    private function createErrorMessageFromNeonEntity(Entity $neonEntity): string
-    {
-        $neonEntityContent = Neon::encode($neonEntity);
-
-        return sprintf(
-            'Complex entity found "%s"%s   Change it to explicit syntax with named keys, that is easier to read.',
-            $neonEntityContent,
-            PHP_EOL,
-        );
-    }
-
-    /**
-     * @param mixed[] $servicesNeon
      * @return FileErrorInterface[]
      */
-    private function processServicesSection(array $servicesNeon, SmartFileInfo $fileInfo): array
+    private function process(SmartFileInfo $fileInfo): array
     {
         $fileErrors = [];
 
-        foreach ($servicesNeon as $serviceNeon) {
-            if ($serviceNeon instanceof Entity) {
-                $errorMessage = $this->createErrorMessageFromNeonEntity($serviceNeon);
-                $fileErrors[] = new FileError($errorMessage, $fileInfo);
-                continue;
+        $node = $this->decoder->parseToNode($fileInfo->getContents());
+
+        $traverser = new Traverser();
+        $traverser->traverse($node, function ($node) use ($fileInfo, &$fileErrors) {
+            if (! $node instanceof ArrayItemNode) {
+                return null;
             }
 
-            // 0. skip empty or aliaseses
-            if (! is_array($serviceNeon)) {
-                continue;
+            if ($node->key === null) {
+                return null;
             }
 
-            // 1. the "setup" has allowed entities
-            $serviceNeon = $this->removeSetupKey($serviceNeon);
+            $keyName = $node->key->toString();
 
-            // 2. detect complex neon entities
-            $neonLines = Arrays::flatten($serviceNeon, true);
-            foreach ($neonLines as $neonLine) {
-                if ($this->shouldSkip($neonLine)) {
-                    continue;
-                }
+            // we only take care about services
+            if ($keyName !== self::SERVICES_KEY) {
+                return null;
+            }
 
-                /** @var Entity $neonLine */
-                $errorMessage = $this->createErrorMessageFromNeonEntity($neonLine);
+            $currentFileErrors = $this->processServicesSection($node->value, $fileInfo);
+            $fileErrors = array_merge($fileErrors, $currentFileErrors);
+            return null;
+        });
+
+        return $fileErrors;
+    }
+
+    /**
+     * @return FileErrorInterface[]
+     */
+    private function processServicesSection(Node $servicesNode, SmartFileInfo $fileInfo): array
+    {
+        $fileErrors = [];
+        if (! $servicesNode instanceof ArrayNode) {
+            return [];
+        }
+
+        foreach ($servicesNode->items as $serviceItem) {
+            if ($serviceItem->value instanceof EntityNode) {
+                $errorMessage = $this->createErrorMessageFromNeonEntity($serviceItem->value);
                 $fileErrors[] = new FileError($errorMessage, $fileInfo);
             }
         }
@@ -116,27 +100,14 @@ final class NeonFilesProcessor implements FileProcessorInterface
         return $fileErrors;
     }
 
-    /**
-     * @param array<int|string, mixed> $singleService
-     * @return array<int|string, mixed>
-     */
-    private function removeSetupKey(array $singleService): array
+    private function createErrorMessageFromNeonEntity(EntityNode $entityNode): string
     {
-        if (isset($singleService[self::SETUP_KEY])) {
-            unset($singleService[self::SETUP_KEY]);
-        }
+        $neonEntityContent = $entityNode->toString();
 
-        return $singleService;
-    }
-
-    private function shouldSkip(mixed $neonLine): bool
-    {
-        if (! $neonLine instanceof Entity) {
-            return true;
-        }
-
-        // @see https://github.com/nette/di/blob/0ab4d4f67979a38fa06bf4c4f9cd81a98cc6ccba/tests/DI/Compiler.functions.phpt#L36-L40
-        // skip functions
-        return in_array($neonLine->value, ['not', 'string', 'int', 'float', 'bool'], true);
+        return sprintf(
+            'Complex entity found "%s".%sChange it to explicit syntax with named keys, that is easier to read.',
+            $neonEntityContent,
+            PHP_EOL,
+        );
     }
 }

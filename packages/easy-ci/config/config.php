@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use Nette\Neon\Decoder;
 
 use Composer\Semver\Semver;
 use Composer\Semver\VersionParser;
@@ -35,6 +36,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(VersionParser::class);
     $services->set(Semver::class);
+
+    // neon
+    $services->set(Decoder::class);
 
     // php-parser
     $services->set(ParserFactory::class);

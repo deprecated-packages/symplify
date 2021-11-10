@@ -53,6 +53,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
             // object compare
             __DIR__ . '/packages/latte-phpstan-compiler/tests/Filters/FilterMatcherTest.php',
+            __DIR__ . '/packages/easy-ci/packages-tests/Neon/Application/NeonFilesProcessor/NeonFilesProcessorTest.php',
         ],
     ]);
 };

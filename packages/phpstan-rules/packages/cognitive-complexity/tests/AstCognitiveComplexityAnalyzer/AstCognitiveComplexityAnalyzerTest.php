@@ -20,10 +20,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class AstCognitiveComplexityAnalyzerTest extends TestCase
 {
-    /**
-     * @var AstCognitiveComplexityAnalyzer
-     */
-    private $astCognitiveComplexityAnalyzer;
+    private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer;
 
     protected function setUp(): void
     {
