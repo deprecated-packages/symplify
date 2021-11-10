@@ -1,10 +1,11 @@
 <?php
 
 declare(strict_types=1);
-use Nette\Neon\Decoder;
 
 use Composer\Semver\Semver;
+
 use Composer\Semver\VersionParser;
+use Nette\Neon\Decoder;
 use PhpParser\NodeFinder;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
