@@ -1,0 +1,4 @@
+parameters:
+    key:
+        nested_key:
+            nested_nested_key: ::constant(BUILD_ID)
