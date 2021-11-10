@@ -25,7 +25,12 @@ final class NeonFilesProcessorTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $fileInfo, int $expectedErrorFileCount): void
     {
+        dump($fileInfo->getRealPath());
+
         $fileErrors = $this->neonFilesProcessor->processFileInfos([$fileInfo]);
+
+        dump($fileErrors);
+
         $this->assertCount($expectedErrorFileCount, $fileErrors);
     }
 

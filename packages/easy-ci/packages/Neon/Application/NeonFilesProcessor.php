@@ -11,7 +11,6 @@ use Symplify\EasyCI\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\ValueObject\FileError;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\EasyCI\Tests\Neon\Application\NeonFilesProcessor\NeonFilesProcessorTest
@@ -28,11 +27,6 @@ final class NeonFilesProcessor implements FileProcessorInterface
      */
     private const SETUP_KEY = 'setup';
 
-    public function __construct(
-        private SmartFileSystem $smartFileSystem
-    ) {
-    }
-
     /**
      * @param SmartFileInfo[] $fileInfos
      * @return FileErrorInterface[]
@@ -42,7 +36,7 @@ final class NeonFilesProcessor implements FileProcessorInterface
         $fileErrors = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $neon = $this->readNeonFile($fileInfo);
+            $neon = Neon::decodeFile($fileInfo->getRealPath());
 
             // 1. we only take care about services
             $servicesNeon = $neon[self::SERVICES_KEY] ?? null;
@@ -55,15 +49,6 @@ final class NeonFilesProcessor implements FileProcessorInterface
         }
 
         return $fileErrors;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    private function readNeonFile(SmartFileInfo $fileInfo): array
-    {
-        $fileContent = $this->smartFileSystem->readFile($fileInfo->getRealPath());
-        return Neon::decode($fileContent);
     }
 
     private function createErrorMessageFromNeonEntity(Entity $neonEntity): string

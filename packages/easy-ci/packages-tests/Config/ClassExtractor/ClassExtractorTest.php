@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\Config\ClassExtractor;
 
-use stdClass;
 use Iterator;
+use stdClass;
 use Symplify\EasyCI\Config\ClassExtractor;
 use Symplify\EasyCI\Kernel\EasyCIKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;

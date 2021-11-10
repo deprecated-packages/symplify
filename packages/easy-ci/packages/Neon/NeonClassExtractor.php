@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Neon;
 
-use Nette\Neon\Node\ArrayNode;
 use Nette\Neon\Decoder;
 use Nette\Neon\Node;
 use Nette\Neon\Node\ArrayItemNode;
+use Nette\Neon\Node\ArrayNode;
 use Nette\Neon\Node\LiteralNode;
 use Nette\Neon\Traverser;
 use Symplify\SmartFileSystem\SmartFileInfo;
