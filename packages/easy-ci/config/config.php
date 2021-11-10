@@ -36,6 +36,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(VersionParser::class);
     $services->set(Semver::class);
 
+    // neon
+    $services->set(\Nette\Neon\Decoder::class);
+
     // php-parser
     $services->set(ParserFactory::class);
     $services->set(Parser::class)

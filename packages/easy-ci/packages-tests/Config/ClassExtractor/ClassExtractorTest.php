@@ -34,7 +34,7 @@ final class ClassExtractorTest extends AbstractKernelTestCase
     }
 
     /**
-     * @return Iterator<<string, string[]>>
+     * @return Iterator<string[]|array<string[]>>
      */
     public function provideData(): Iterator
     {
