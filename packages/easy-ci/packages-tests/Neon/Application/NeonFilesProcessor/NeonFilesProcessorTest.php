@@ -39,6 +39,7 @@ final class NeonFilesProcessorTest extends AbstractKernelTestCase
         yield [new SmartFileInfo(__DIR__ . '/Fixture/service_with_setup.neon'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/complex_non_service.neon'), 0];
 
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_argument_name.neon'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_not.neon'), 0];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/skip_empty_service.neon'), 0];
     }

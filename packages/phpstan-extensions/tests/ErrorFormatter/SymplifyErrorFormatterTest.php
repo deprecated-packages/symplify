@@ -14,10 +14,7 @@ use Symplify\PHPStanExtensions\Tests\ErrorFormatter\Source\DummyOutput;
 
 final class SymplifyErrorFormatterTest extends TestCase
 {
-    /**
-     * @var SymplifyErrorFormatter
-     */
-    private $symplifyErrorFormatter;
+    private SymplifyErrorFormatter $symplifyErrorFormatter;
 
     private DummyOutput $dummyOutput;
 

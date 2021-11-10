@@ -7,8 +7,12 @@ namespace Symplify\EasyCI\Config;
 use Nette\Neon\Encoder;
 use Nette\Neon\Neon;
 use Nette\Utils\Strings;
+use Symplify\EasyCI\Neon\NeonClassExtractor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\EasyCI\Tests\Config\ClassExtractor\ClassExtractorTest
+ */
 final class ClassExtractor
 {
     /**
@@ -38,6 +42,11 @@ final class ClassExtractor
      */
     private const INDENT_SPACES = 'indent_spaces';
 
+    public function __construct(
+        private NeonClassExtractor $neonClassExtractor
+    ) {
+    }
+
     /**
      * @return string[]
      */
@@ -45,6 +54,11 @@ final class ClassExtractor
     {
         $classNames = [];
         $fileContent = $this->getFileContent($fileInfo);
+
+        if ($fileInfo->getSuffix() === 'neon') {
+            // use neon parser
+            return $this->neonClassExtractor->extract($fileInfo);
+        }
 
         $classNameMatches = Strings::matchAll($fileContent, self::CLASS_NAME_REGEX);
 

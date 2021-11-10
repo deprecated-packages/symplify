@@ -9,6 +9,9 @@ use Symplify\EasyCI\Contract\Application\FileProcessorInterface;
 use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @see \Symplify\EasyCI\Tests\Config\ConfigFileAnalyzer\NonExistingClassConfigFileAnalyzer\NonExistingClassConfigFileAnalyzerTest
+ */
 final class ClassAndConstantExistanceFileProcessor implements FileProcessorInterface
 {
     /**
