@@ -7,6 +7,7 @@ namespace Symplify\TemplatePHPStanCompiler\Reporting;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplatePHPStanCompiler\ValueObject\ErrorMessageWithTip;
 use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 
 /**
@@ -35,15 +36,22 @@ final class TemplateErrorsFactory
             // correct error PHP line number to Latte line number
             $errorLine = (int) $error->getLine();
             $templateLine = $this->resolveNearestPhpLine($phpToTemplateLines, $errorLine);
+            $errorMessageWithTip = $this->resolveTipForMessage($error->getMessage());
 
-            $ruleErrors[] = RuleErrorBuilder::message($error->getMessage())
+            $ruleErrorBuilder = RuleErrorBuilder::message($errorMessageWithTip->getErrorMessage())
                 ->file($filePath)
                 ->line($phpFileLine)
                 ->metadata([
                     'template_file_path' => $relativeFilePathFromCwd,
                     'template_line' => $templateLine,
-                ])
-                ->build();
+                ]);
+
+            $tip = $errorMessageWithTip->getTip();
+            if ($tip) {
+                $ruleErrorBuilder->tip($tip);
+            }
+
+            $ruleErrors[] = $ruleErrorBuilder->build();
         }
 
         return $ruleErrors;
@@ -67,5 +75,16 @@ final class TemplateErrorsFactory
         }
 
         return $lastTemplateLine;
+    }
+
+    private function resolveTipForMessage(string $message): ErrorMessageWithTip
+    {
+        $tip = '';
+        $undefinedFilter = str_replace('Access to an undefined property Latte\Runtime\FilterExecutor::$', '', $message);
+        if ($undefinedFilter !== $message) {
+            $message = 'Undefined filter ' . $undefinedFilter;
+            $tip = 'Register it in parameters > latteFilters. See https://github.com/symplify/symplify/tree/main/packages/phpstan-latte-rules#configuration';
+        }
+        return new ErrorMessageWithTip($message, $tip);
     }
 }
