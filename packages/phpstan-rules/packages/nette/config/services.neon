@@ -4,4 +4,3 @@ services:
 
     - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
     - Symplify\PHPStanRules\Nette\NodeAnalyzer\DibiQueryAnalyzer
-    - Symplify\PHPStanRules\Nette\TypeAnalyzer\NonEmptyArrayTypeRemover

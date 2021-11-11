@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
-use Symplify\PHPStanRules\Nette\TypeAnalyzer\NonEmptyArrayTypeRemover;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\ArrayItem;
@@ -16,6 +15,7 @@ use PHPStan\Type\ArrayType;
 use PHPStan\Type\BooleanType;
 use PHPStan\Type\FloatType;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver;
@@ -38,33 +38,35 @@ final class DibiMaskMatchesVariableTypeRule extends AbstractSymplifyRule
 
     /**
      * @see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
-     * @var array<string, class-string<Type>>
+     * @var array<string, Type>
      */
-    private const MASK_TO_EXPECTED_TYPE_CLASS = [
-        '%v' => ArrayType::class,
-        '%and' => ArrayType::class,
-        '%or' => ArrayType::class,
-        '%a' => ArrayType::class,
-        '%l' => ArrayType::class,
-        '%in' => ArrayType::class,
-        '%m' => ArrayType::class,
-        '%by' => ArrayType::class,
-        '%n' => ArrayType::class,
-        // non-array types
-        '%s' => StringType::class,
-        '%sN' => StringType::class,
-        '%b' => BooleanType::class,
-        '%i' => IntegerType::class,
-        '%iN' => IntegerType::class,
-        '%f' => FloatType::class,
-    ];
+    private array $masksToExpectedTypes = [];
 
     public function __construct(
         private DibiQueryAnalyzer $dibiQueryAnalyzer,
         private QueryMasksResolver $queryMasksResolver,
         private ArgTypeResolver $argTypeResolver,
-        private NonEmptyArrayTypeRemover $nonEmptyArrayTypeRemover
     ) {
+        $arrayType = new ArrayType(new MixedType(), new MixedType());
+
+        $this->masksToExpectedTypes = [
+            '%v' => $arrayType,
+            '%and' => $arrayType,
+            '%or' => $arrayType,
+            '%a' => $arrayType,
+            '%l' => $arrayType,
+            '%in' => $arrayType,
+            '%m' => $arrayType,
+            '%by' => $arrayType,
+            '%n' => $arrayType,
+            // non-array types
+            '%s' => new StringType(),
+            '%sN' => new StringType(),
+            '%b' => new BooleanType(),
+            '%i' => new IntegerType(),
+            '%iN' => new IntegerType(),
+            '%f' => new FloatType(),
+        ];
     }
 
     /**
@@ -161,9 +163,6 @@ CODE_SAMPLE
 
         $valueType = $scope->getType($arrayItem->value);
 
-        // correct union type on non-empty array since PHPStan 1.0
-        $valueType = $this->nonEmptyArrayTypeRemover->clean($valueType);
-
         $errorMessage = $this->matchErrorMessageIfHappens($mask, $valueType);
         if ($errorMessage === null) {
             return [];
@@ -174,20 +173,19 @@ CODE_SAMPLE
 
     private function matchErrorMessageIfHappens(string $queryMask, Type $argumentType): ?string
     {
-        $expectedTypeClass = self::MASK_TO_EXPECTED_TYPE_CLASS[$queryMask] ?? null;
+        $expectedType = $this->masksToExpectedTypes[$queryMask] ?? null;
 
         // nothing to verify
-        if ($expectedTypeClass === null) {
+        if (! $expectedType instanceof Type) {
             return null;
         }
 
-        // is it correct? skip
-        if (is_a($argumentType, $expectedTypeClass, true)) {
+        if ($expectedType->isSuperTypeOf($argumentType)->yes()) {
             return null;
         }
 
         // create error message
-        return sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedTypeClass);
+        return sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedType::class);
     }
 
     /**
