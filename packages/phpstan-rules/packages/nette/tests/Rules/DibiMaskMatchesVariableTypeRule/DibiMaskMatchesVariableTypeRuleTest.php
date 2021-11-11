@@ -54,6 +54,7 @@ final class DibiMaskMatchesVariableTypeRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/SkipMaskNonDibi.php', []];
         yield [__DIR__ . '/Fixture/SkipNullableArray.php', []];
 
+        yield [__DIR__ . '/Fixture/SkipArrayUnionArray.php', []];
         yield [__DIR__ . '/Fixture/SkipValidJustUnionType.php', []];
     }
 
