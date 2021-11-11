@@ -6,8 +6,6 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\DibiMaskMatchesVariableTypeRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use PHPStan\Type\ArrayType;
-use PHPStan\Type\Constant\ConstantStringType;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule;
 
@@ -27,20 +25,10 @@ final class DibiMaskMatchesVariableTypeRuleTest extends AbstractServiceAwareRule
 
     public function provideData(): Iterator
     {
-        $errorMessage = sprintf(
-            DibiMaskMatchesVariableTypeRule::ERROR_MESSAGE,
-            '%v',
-            ConstantStringType::class,
-            ArrayType::class
-        );
+        $errorMessage = sprintf(DibiMaskMatchesVariableTypeRule::ERROR_MESSAGE, '%v', 'string', 'array');
         yield [__DIR__ . '/Fixture/InvalidType.php', [[$errorMessage, 13]]];
 
-        $errorMessage = sprintf(
-            DibiMaskMatchesVariableTypeRule::ERROR_MESSAGE,
-            '%in',
-            ConstantStringType::class,
-            ArrayType::class
-        );
+        $errorMessage = sprintf(DibiMaskMatchesVariableTypeRule::ERROR_MESSAGE, '%in', 'string', 'array');
         yield [__DIR__ . '/Fixture/InvalidAssignType.php', [[$errorMessage, 12]]];
 
         yield [__DIR__ . '/Fixture/InvalidArray.php', [[$errorMessage, 12]]];

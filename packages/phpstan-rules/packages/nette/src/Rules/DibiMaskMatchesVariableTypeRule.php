@@ -18,6 +18,7 @@ use PHPStan\Type\IntegerType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use PHPStan\Type\VerbosityLevel;
 use Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver;
 use Symplify\PHPStanRules\Nette\NodeAnalyzer\DibiQueryAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver;
@@ -184,8 +185,12 @@ CODE_SAMPLE
             return null;
         }
 
-        // create error message
-        return sprintf(self::ERROR_MESSAGE, $queryMask, $argumentType::class, $expectedType::class);
+        return sprintf(
+            self::ERROR_MESSAGE,
+            $queryMask,
+            $argumentType->describe(VerbosityLevel::typeOnly()),
+            $expectedType->describe(VerbosityLevel::typeOnly())
+        );
     }
 
     /**
