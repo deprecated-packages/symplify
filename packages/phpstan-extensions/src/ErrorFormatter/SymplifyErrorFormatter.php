@@ -122,7 +122,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         $templateLine = $error->getMetadata()['template_line'] ?? null;
 
         if ($templateFilePath && $templateLine) {
-            $templateFileLine = $templateFilePath . ':' . $templateLine;
+            $templateFileLine = $this->getRelativePath($templateFilePath) . ':' . $templateLine;
             $this->writeln($templateFileLine);
 
             $this->writeln('rendered in: ' . $relativeLine);
