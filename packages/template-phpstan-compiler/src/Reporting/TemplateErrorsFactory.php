@@ -7,6 +7,7 @@ namespace Symplify\TemplatePHPStanCompiler\Reporting;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\TemplatePHPStanCompiler\Contract\TemplateErrorMessageResolverInterface;
 use Symplify\TemplatePHPStanCompiler\ValueObject\ErrorMessageWithTip;
 use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 
@@ -15,6 +16,14 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
  */
 final class TemplateErrorsFactory
 {
+    /**
+     * @param TemplateErrorMessageResolverInterface[] $templateErrorMessageResolvers
+     */
+    public function __construct(
+        private array $templateErrorMessageResolvers
+    ) {
+    }
+
     /**
      * @return RuleError[]
      */
@@ -79,12 +88,12 @@ final class TemplateErrorsFactory
 
     private function resolveTipForMessage(string $message): ErrorMessageWithTip
     {
-        $tip = '';
-        $undefinedFilter = str_replace('Access to an undefined property Latte\Runtime\FilterExecutor::$', '', $message);
-        if ($undefinedFilter !== $message) {
-            $message = 'Undefined filter ' . $undefinedFilter;
-            $tip = 'Register it in parameters > latteFilters. See https://github.com/symplify/symplify/tree/main/packages/phpstan-latte-rules#configuration';
+        foreach ($this->templateErrorMessageResolvers as $templateErrorMessageResolver) {
+            $errorMessageWithTip = $templateErrorMessageResolver->resolve($message);
+            if ($errorMessageWithTip) {
+                return $errorMessageWithTip;
+            }
         }
-        return new ErrorMessageWithTip($message, $tip);
+        return new ErrorMessageWithTip($message, '');
     }
 }

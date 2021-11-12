@@ -8,3 +8,5 @@ services:
 
     - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
     - Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver
+
+    - Symplify\PHPStanLatteRules\TemplateErrorMessageResolver\UndefinedLatteFilter
