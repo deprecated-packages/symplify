@@ -34,6 +34,7 @@ use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
+use Symplify\TemplatePHPStanCompiler\Contract\TemplateErrorMessageResolverInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -72,5 +73,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         CodeSampleInterface::class,
         LatteVariableCollectorInterface::class,
         TagResolverInterface::class,
+        TemplateErrorMessageResolverInterface::class,
     ]);
 };
