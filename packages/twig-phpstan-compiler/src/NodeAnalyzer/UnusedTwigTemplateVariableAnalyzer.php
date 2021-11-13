@@ -27,6 +27,10 @@ final class UnusedTwigTemplateVariableAnalyzer
         array $templateFilePaths,
         Scope $scope
     ): array {
+        if ($templateFilePaths === []) {
+            return [];
+        }
+
         $templatesUsedVariableNames = [];
         foreach ($templateFilePaths as $templateFilePath) {
             $currentUsedVariableNames = $this->twigVariableNamesResolver->resolveFromFilePath($templateFilePath);
