@@ -12,5 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autoconfigure()
         ->public();
 
-    $services->load('Symplify\AutowireArrayParameter\Tests\SourcePhp8\\', __DIR__ . '/../SourcePhp8');
+    $services->load('Symplify\AutowireArrayParameter\Tests\SourcePhp8\\', __DIR__ . '/../SourcePhp8')
+        ->exclude([__DIR__ . '/../SourcePhp8/SkipMe']);
 };
