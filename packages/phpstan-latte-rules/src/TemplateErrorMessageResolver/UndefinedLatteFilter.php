@@ -21,7 +21,7 @@ final class UndefinedLatteFilter implements TemplateErrorMessageResolverInterfac
         $match = Strings::match($message, self::UNDEFINED_FILTER_REGEX);
         if ($match) {
             $message = 'Undefined latte filter "' . $match['undefined_filter'] . '".';
-            $tip = 'Register it in parameters > latteFilters. See https://github.com/symplify/symplify/tree/main/packages/phpstan-latte-rules#configuration';
+            $tip = 'Register it in phpstan.neon: parameters > latteFilters. See https://github.com/symplify/symplify/tree/main/packages/phpstan-latte-rules#configuration';
             return new ErrorMessageWithTip($message, $tip);
         }
         return null;
