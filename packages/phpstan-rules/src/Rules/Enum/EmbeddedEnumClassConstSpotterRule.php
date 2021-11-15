@@ -9,8 +9,8 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher;
+use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -30,8 +30,9 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
      * @param array<class-string> $parentTypes
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
+        private ClassAnalyzer $classAnalyzer,
         private SharedNamePrefixMatcher $sharedNamePrefixMatcher,
+        private \Symplify\PHPStanRules\Enum\EnumConstantAnalyzer $enumConstantAnalyzer,
         private array $parentTypes
     ) {
     }
@@ -59,25 +60,25 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
             return [];
         }
 
-        $constantNames = $this->resolveConstantNames($classLike);
+        $constantNames = $this->classAnalyzer->resolveConstantNames($classLike);
+
         $groupedByPrefix = $this->sharedNamePrefixMatcher->match($constantNames);
 
-        $errorMessages = [];
+        $enumConstantNamesGroup = [];
 
         foreach ($groupedByPrefix as $prefix => $constantNames) {
             if (\count($constantNames) < 1) {
                 continue;
             }
 
-            if ($this->shouldSkipConstantPrefix($prefix)) {
+            if ($this->enumConstantAnalyzer->isNonEnumConstantPrefix($prefix)) {
                 continue;
             }
 
-            $enumConstantNamesString = \implode('", "', $constantNames);
-            $errorMessages[] = \sprintf(self::ERROR_MESSAGE, $enumConstantNamesString);
+            $enumConstantNamesGroup[] = $constantNames;
         }
 
-        return $errorMessages;
+        return $this->createErrorMessages($enumConstantNamesGroup);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -111,22 +112,6 @@ CODE_SAMPLE
         )]);
     }
 
-    /**
-     * @return string[]
-     */
-    private function resolveConstantNames(Class_ $class): array
-    {
-        $constantNames = [];
-
-        foreach ($class->getConstants() as $classConst) {
-            /** @var string $constantName */
-            $constantName = $this->simpleNameResolver->getName($classConst->consts[0]->name);
-            $constantNames[] = $constantName;
-        }
-
-        return $constantNames;
-    }
-
     private function shouldSkip(Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
@@ -151,18 +136,19 @@ CODE_SAMPLE
         return true;
     }
 
-    private function shouldSkipConstantPrefix(string $prefix): bool
+    /**
+     * @param string[][] $enumConstantNamesGroup
+     * @return string[]
+     */
+    private function createErrorMessages(array $enumConstantNamesGroup): array
     {
-        // constant prefix is needed
-        if (! \str_ends_with($prefix, '_')) {
-            return true;
+        $errorMessages = [];
+
+        foreach ($enumConstantNamesGroup as $enumConstantNames) {
+            $enumConstantNamesString = \implode('", "', $enumConstantNames);
+            $errorMessages[] = \sprintf(self::ERROR_MESSAGE, $enumConstantNamesString);
         }
 
-        // not enum, but rather validation limit
-        if (\str_starts_with($prefix, 'MIN_')) {
-            return true;
-        }
-
-        return \str_starts_with($prefix, 'MAX_');
+        return $errorMessages;
     }
 }
