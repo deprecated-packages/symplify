@@ -49,9 +49,11 @@ Passed "%s" variable is not used in the template
 - class: [`Symplify\PHPStanTwigRules\Rules\NoTwigRenderUnusedVariableRule`](../src/Rules/NoTwigRenderUnusedVariableRule.php)
 
 ```php
-$environment = new Twig\Environment();
+use Twig\Environment;
+
+$environment = new Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value',
+    'unused_variable' => 'value',
 ]);
 ```
 
@@ -60,9 +62,11 @@ $environment->render(__DIR__ . '/some_file.twig', [
 <br>
 
 ```php
-$environment = new Twig\Environment();
+use Twig\Environment;
+
+$environment = new Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value',
+    'used_variable' => 'value',
 ]);
 ```
 

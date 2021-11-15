@@ -73,16 +73,20 @@ final class NoTwigRenderUnusedVariableRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-$environment = new Twig\Environment();
+use Twig\Environment;
+
+$environment = new Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'used_variable' => 'value'
+    'unused_variable' => 'value'
 ]);
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-$environment = new Twig\Environment();
+use Twig\Environment;
+
+$environment = new Environment();
 $environment->render(__DIR__ . '/some_file.twig', [
-    'unused_variable' => 'value'
+    'used_variable' => 'value'
 ]);
 CODE_SAMPLE
             ),

@@ -37,6 +37,7 @@ final class NoTwigRenderUnusedVariableRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/SkipUnionSingleUsed.php', []];
         yield [__DIR__ . '/Fixture/SkipForeachUsedVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipIncludeArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipControllerRouter.php', []];
 
         yield [__DIR__ . '/Fixture/RenderTwoTemplates.php', [
             [sprintf(NoTwigRenderUnusedVariableRule::ERROR_MESSAGE, 'unused_variable'), 16],

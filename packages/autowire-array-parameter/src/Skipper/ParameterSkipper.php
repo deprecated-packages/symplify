@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\AutowireArrayParameter\Skipper;
 
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symplify\AutowireArrayParameter\TypeResolver\ParameterTypeResolver;
@@ -89,6 +90,10 @@ final class ParameterSkipper
         }
 
         $reflectionParameterType = $reflectionParameter->getType();
+        if (! $reflectionParameterType instanceof ReflectionNamedType) {
+            return false;
+        }
+
         return $reflectionParameterType->getName() === 'array';
     }
 }
