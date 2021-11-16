@@ -2,6 +2,8 @@ services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
+    - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
+    - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
 
     # doctrine
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector

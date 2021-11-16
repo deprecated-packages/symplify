@@ -8,6 +8,8 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
+use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -27,6 +29,8 @@ final class ForbiddenClassConstRule extends AbstractSymplifyRule implements Conf
      * @param array<class-string> $classTypes
      */
     public function __construct(
+        private ClassAnalyzer $classAnalyzer,
+        private EnumConstantAnalyzer $enumConstantAnalyzer,
         private array $classTypes
     ) {
     }
@@ -54,7 +58,17 @@ final class ForbiddenClassConstRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $constantNames = $this->classAnalyzer->resolveConstantNames($classLike);
+
+        foreach ($constantNames as $constantName) {
+            if ($this->enumConstantAnalyzer->isNonEnumConstantName($constantName)) {
+                continue;
+            }
+
+            return [self::ERROR_MESSAGE];
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition

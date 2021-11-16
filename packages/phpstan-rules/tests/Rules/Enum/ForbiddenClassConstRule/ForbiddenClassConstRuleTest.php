@@ -26,8 +26,11 @@ final class ForbiddenClassConstRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/NotAllowedConstant.php', [[ForbiddenClassConstRule::ERROR_MESSAGE, 9]]];
+
         yield [__DIR__ . '/Fixture/SkipDifferenteParent.php', []];
         yield [__DIR__ . '/Fixture/SkipValidClassConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipMinMaxConstant.php', []];
+        yield [__DIR__ . '/Fixture/SkipMinMaxConstantSuffix.php', []];
     }
 
     protected function getRule(): Rule
