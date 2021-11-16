@@ -3,9 +3,14 @@
 <container xmlns="http://symfony.com/schema/dic/services"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
-    <imports>
-        <import resource="some.xml" />
-    </imports>
+
+<services>
+    <service id="mime_types">
+        <tag name="tag1" />
+        <tag name="tag2" />
+    </service>
+</services>
+
 </container>
 -----
 <?php
@@ -15,5 +20,9 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/some.php');
+    $services = $containerConfigurator->services();
+
+    $services->set('mime_types')
+        ->tag('tag1')
+        ->tag('tag2');
 };
