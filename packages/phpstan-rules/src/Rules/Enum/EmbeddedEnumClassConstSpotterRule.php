@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
+use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -32,7 +33,7 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
     public function __construct(
         private ClassAnalyzer $classAnalyzer,
         private SharedNamePrefixMatcher $sharedNamePrefixMatcher,
-        private \Symplify\PHPStanRules\Enum\EnumConstantAnalyzer $enumConstantAnalyzer,
+        private EnumConstantAnalyzer $enumConstantAnalyzer,
         private array $parentTypes
     ) {
     }
@@ -144,8 +145,8 @@ CODE_SAMPLE
     {
         $errorMessages = [];
 
-        foreach ($enumConstantNamesGroup as $enumConstantNames) {
-            $enumConstantNamesString = \implode('", "', $enumConstantNames);
+        foreach ($enumConstantNamesGroup as $enumConstantNameGroup) {
+            $enumConstantNamesString = \implode('", "', $enumConstantNameGroup);
             $errorMessages[] = \sprintf(self::ERROR_MESSAGE, $enumConstantNamesString);
         }
 
