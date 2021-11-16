@@ -6,6 +6,7 @@
 
 <services>
     <service id="mime_types">
+        <tag name="controller.service_subscriber" />
         <tag name="controller.service_arguments" />
     </service>
 </services>
@@ -22,5 +23,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set('mime_types')
+        ->tag('controller.service_subscriber')
         ->tag('controller.service_arguments');
 };
