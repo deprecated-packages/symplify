@@ -26,8 +26,8 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
 
     public function decorateServiceMethodCall($key, $yamlLines, $values, MethodCall $methodCall): MethodCall
     {
-        /** @var mixed[] $yamlLines */
-        if (count($yamlLines) === 1 && is_string($yamlLines[0])) {
+        if ($this->isSingleLineYamlLines($yamlLines)) {
+            /** @var string[] $yamlLines */
             $string = new String_($yamlLines[0]);
             return new MethodCall($methodCall, self::TAG, [new Arg($string)]);
         }
@@ -36,23 +36,34 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
             if (is_string($yamlLine)) {
                 $arg = new Arg(BuilderHelpers::normalizeValue($yamlLine));
                 $args = $this->argsNodeFactory->createFromValues($arg);
-            } else {
-                $args = [];
-                foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
-                    if ($singleNestedKey === 'name') {
-                        $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
-                        unset($yamlLine[$singleNestedKey]);
-                    }
-                }
 
-                $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
-                $args = array_merge($args, $restArgs);
+                $methodCall = new MethodCall($methodCall, self::TAG, $args);
+                continue;
             }
+
+            $args = [];
+            foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
+                if ($singleNestedKey === 'name') {
+                    $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
+                    unset($yamlLine[$singleNestedKey]);
+                }
+            }
+
+            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
+            $args = array_merge($args, $restArgs);
 
             $methodCall = new MethodCall($methodCall, self::TAG, $args);
         }
 
         return $methodCall;
+    }
+
+    /**
+     * @param mixed[] $yamlLines
+     */
+    private function isSingleLineYamlLines(array $yamlLines): bool
+    {
+        return count($yamlLines) === 1 && is_string($yamlLines[0]);
     }
 
     public function isMatch(mixed $key, mixed $values): bool
