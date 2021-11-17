@@ -8,3 +8,6 @@ services:
 
     - Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver
     - Symplify\PHPStanLatteRules\NodeAnalyzer\UsedLocalComponentNamesResolver
+
+    - Symplify\PHPStanLatteRules\LatteTemplateHolder\NetteApplicationUIControl
+    - Symplify\PHPStanLatteRules\LatteTemplateHolder\NetteApplicationUIPresenter

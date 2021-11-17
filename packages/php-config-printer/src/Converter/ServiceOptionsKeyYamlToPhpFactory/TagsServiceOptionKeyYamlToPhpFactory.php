@@ -58,16 +58,16 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
         return $methodCall;
     }
 
+    public function isMatch(mixed $key, mixed $values): bool
+    {
+        return $key === YamlServiceKey::TAGS;
+    }
+
     /**
      * @param mixed[] $yamlLines
      */
     private function isSingleLineYamlLines(array $yamlLines): bool
     {
         return count($yamlLines) === 1 && is_string($yamlLines[0]);
-    }
-
-    public function isMatch(mixed $key, mixed $values): bool
-    {
-        return $key === YamlServiceKey::TAGS;
     }
 }
