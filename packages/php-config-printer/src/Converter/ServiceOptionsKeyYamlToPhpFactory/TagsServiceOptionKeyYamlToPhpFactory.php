@@ -33,17 +33,21 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
         }
 
         foreach ($yamlLines as $yamlLine) {
-            $args = [];
-            foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
-                if ($singleNestedKey === 'name') {
-                    $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
-                    unset($yamlLine[$singleNestedKey]);
+            if (is_string($yamlLine)) {
+                $args = $this->argsNodeFactory->createFromValues($yamlLine);
+            } else {
+                $args = [];
+                foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
+                    if ($singleNestedKey === 'name') {
+                        $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
+                        unset($yamlLine[$singleNestedKey]);
+                    }
                 }
+
+                $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
+                $args = array_merge($args, $restArgs);
             }
 
-            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
-
-            $args = array_merge($args, $restArgs);
             $methodCall = new MethodCall($methodCall, self::TAG, $args);
         }
 
