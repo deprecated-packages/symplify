@@ -49,8 +49,10 @@ final class FilterMatcher
 
     private function findInDefaultFilters(string $filterName): CallReferenceInterface|null
     {
+        $defaultFilters = array_change_key_case($this->filtersDefaults->getFilters());
+
         // match filter name in
-        $filterCallable = $this->filtersDefaults->getFilters()[$filterName] ?? null;
+        $filterCallable = $defaultFilters[$filterName] ?? null;
         if ($filterCallable === null) {
             return null;
         }
