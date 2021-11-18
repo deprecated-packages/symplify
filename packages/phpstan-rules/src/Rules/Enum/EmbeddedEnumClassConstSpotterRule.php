@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
-use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
+use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;

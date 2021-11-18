@@ -13,9 +13,11 @@ use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
 
 /**
- * Make ($ʟ_tmp = \array_filter(['class1', $var ? 'class2' : \null])) ? ' class="' . \Latte\Runtime\Filters::escapeHtmlAttr(\implode(" ", \array_unique($ʟ_tmp))) . '"' : "";
+ * from: <code> echo ($ʟ_tmp = \array_filter(['class1', $var ? 'class2' : \null])) ? ' class="' .
+ * \Latte\Runtime\Filters::escapeHtmlAttr(\implode(" ", \array_unique($ʟ_tmp))) . '"' : ""; </code>
  *
- * to: ' class="' . \Latte\Runtime\Filters::escapeHtmlAttr(\implode(" ", \array_unique(\array_filter(['class1', $var ? 'class2' : \null])))) . '"';
+ * to: <code> $ʟ_tmp = \array_filter(['class1', $var ? 'class2' : \null]); echo ' class="' .
+ * \Latte\Runtime\Filters::escapeHtmlAttr(\implode(" ", \array_unique($ʟ_tmp))) . '"'; </code>
  */
 final class NClassNodeVisitor extends NodeVisitorAbstract
 {
@@ -57,9 +59,7 @@ final class NClassNodeVisitor extends NodeVisitorAbstract
 
         return [
             new Expression($ternary->cond, $node->getAttributes()),
-            new Echo_([
-                new Concat(new Concat($left, $ternary->if->left->right), $ternary->if->right),
-            ]),
+            new Echo_([new Concat(new Concat($left, $ternary->if->left->right), $ternary->if->right)]),
         ];
     }
 }
