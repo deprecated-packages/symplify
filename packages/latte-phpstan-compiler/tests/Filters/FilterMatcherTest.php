@@ -60,6 +60,5 @@ final class FilterMatcherTest extends TestCase
         yield ['breaklines', new StaticCallReference(Filters::class, 'breaklines')];
 
         yield ['breakLines', new StaticCallReference(Filters::class, 'breaklines')];
-
     }
 }

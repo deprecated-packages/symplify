@@ -1,0 +1,27 @@
+<div n:class="class1, $var ? class2">
+</div>
+-----
+<?php
+
+declare (strict_types=1);
+use Latte\Runtime as LR;
+/** DummyTemplateClass */
+final class DummyTemplateClass extends \Latte\Runtime\Template
+{
+    public function main() : array
+    {
+        \extract($this->params);
+        echo '<div';
+        /** line in latte file: 1 */
+        echo ' class="' . \implode(' ', ['class1', $var ? 'class2' : \null]) . '"';
+        echo '>
+</div>
+';
+        return \get_defined_vars();
+    }
+    public function prepare() : void
+    {
+        \extract($this->params);
+        \Nette\Bridges\ApplicationLatte\UIRuntime::initialize($this, $this->parentName, $this->blocks);
+    }
+}
