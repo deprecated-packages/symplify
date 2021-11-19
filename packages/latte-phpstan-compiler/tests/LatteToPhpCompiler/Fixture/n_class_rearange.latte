@@ -13,8 +13,7 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         \extract($this->params);
         echo '<div';
         /** line in latte file: 1 */
-        $ʟ_tmp = \array_filter(['class1', $var ? 'class2' : \null]);
-        echo ' class="' . \Latte\Runtime\Filters::escapeHtmlAttr(\implode(" ", \array_unique($ʟ_tmp))) . '"';
+        echo ' class="' . \implode(' ', ['class1', $var ? 'class2' : \null]) . '"';
         echo '>
 </div>
 ';
