@@ -4,6 +4,8 @@ includes:
 parameters:
     # needed to enable missing method rule bellow
     checkThisOnly: false
+    checkFunctionNameCase: true
+    reportMagicMethods: true
 
 services:
     -
@@ -13,6 +15,3 @@ services:
     -
         class: PHPStan\Rules\Methods\CallMethodsRule
         tags: [phpstan.rules.rule]
-        arguments:
-            checkFunctionNameCase: true
-            reportMagicMethods: true
