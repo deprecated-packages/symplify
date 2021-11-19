@@ -11,7 +11,7 @@
         "symplify/package-builder": "^10.0",
         "symplify/smart-file-system": "^10.0",
         "symplify/twig-phpstan-compiler": "^10.0",
-        "phpstan/phpstan": "^1.0"
+        "phpstan/phpstan": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
