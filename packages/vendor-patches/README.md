@@ -36,19 +36,21 @@ vendor/nette/di/src/DI/Extensions/InjectExtension.php.old
 
 Only `*.php` file is loaded, not the `*.php.old` one. This way you can **be sure the new code** is working before you generate patches.
 
-### 3. Run `generate` command ~~for every single file changed this way~~ once for all files 🎆
+### 3. Run `generate` command 🥳️
 
 ```bash
 vendor/bin/vendor-patches generate
 ```
 
-This tool will generate patch files for all files created this way in `/patches` directory:
+This tool will generate **patch files for all files created this** way in `/patches` directory:
 
 ```bash
 /patches/nette-di-di-extensions-injectextension.php.patch
 ```
 
 The patch path is based on original file path, so **the patch name is always unique**.
+
+<br>
 
 Also, it will add configuration for `cweagans/composer-patches` to your `composer.json`:
 
@@ -65,6 +67,8 @@ Also, it will add configuration for `cweagans/composer-patches` to your `compose
 ```
 
 That's it!
+
+<br>
 
 Now all you need to do is run composer:
 
