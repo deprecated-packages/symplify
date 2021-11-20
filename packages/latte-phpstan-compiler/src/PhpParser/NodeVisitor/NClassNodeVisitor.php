@@ -40,6 +40,7 @@ final class NClassNodeVisitor extends NodeVisitorAbstract
         if (! $node->if->left->left instanceof String_) {
             return null;
         }
+
         $left = $node->if->left->left;
         if ($left->value !== ' class="') {
             return null;
