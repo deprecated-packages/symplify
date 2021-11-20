@@ -12,12 +12,12 @@ use Symplify\SymplifyKernel\ValueObject\KernelBootAndApplicationRun;
 
 # 1. autoload
 $possibleAutoloadPaths = [
+    // dependency
+    __DIR__ . '/../../../autoload.php',
     // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
     // after split package
     __DIR__ . '/../vendor/autoload.php',
-    // dependency
-    __DIR__ . '/../../../autoload.php',
 ];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
