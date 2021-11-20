@@ -9,7 +9,7 @@ use Nette\DI\Attributes\Inject;
 final class SkipWithInjectAttributeCorrect
 {
     #[Inject]
-    public function injectSkipWithInjectAttributeCorrect()
+    public function inject()
     {
     }
 }

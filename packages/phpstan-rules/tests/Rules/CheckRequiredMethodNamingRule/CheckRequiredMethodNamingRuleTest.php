@@ -27,11 +27,11 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
     public function provideData(): Iterator
     {
         yield [[__DIR__ . '/Fixture/SkipWithoutRequired.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipCorretName.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipAutowireName.php'], []];
         yield [[__DIR__ . '/Fixture/SkipWithInjectAttributeCorrect.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipWithInjectAttribute.php'], []];
 
         yield [[__DIR__ . '/Fixture/WithInject.php'], [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 12]]];
-        yield [[__DIR__ . '/Fixture/WithInjectAttribute.php'], [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 11]]];
 
         yield [[__DIR__ . '/Fixture/WithRequiredNotAutowire.php'],
             [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 12]], ];
