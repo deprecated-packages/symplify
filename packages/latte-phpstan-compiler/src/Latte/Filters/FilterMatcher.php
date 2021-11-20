@@ -26,7 +26,7 @@ final class FilterMatcher
     /**
      * @var array<string, callable>
      */
-    private array $defaultFilters;
+    private array $defaultFilters = [];
 
     /**
      * @param array<string, string|array{string, string}> $latteFilters
@@ -67,8 +67,9 @@ final class FilterMatcher
     /**
      * @param string|string[] $filterCallable
      */
-    private function createCallReference(string|array $filterCallable): CallReferenceInterface
-    {
+    private function createCallReference(
+        string|array $filterCallable
+    ): DynamicCallReference|FunctionCallReference|StaticCallReference {
         if (is_string($filterCallable)) {
             return new FunctionCallReference($filterCallable);
         }

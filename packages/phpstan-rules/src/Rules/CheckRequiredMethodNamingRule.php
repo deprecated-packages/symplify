@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,7 +19,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Autowired/inject method name must respect "autowire/inject(*)" name';
+    public const ERROR_MESSAGE = 'Autowired/inject method name "%s()" must respect "autowire/inject(*)" name';
 
     /**
      * @var string[]

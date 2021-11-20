@@ -31,12 +31,11 @@ final class CheckRequiredMethodNamingRuleTest extends AbstractServiceAwareRuleTe
         yield [[__DIR__ . '/Fixture/SkipWithInjectAttributeCorrect.php'], []];
         yield [[__DIR__ . '/Fixture/SkipWithInjectAttribute.php'], []];
 
-        yield [[__DIR__ . '/Fixture/WithInject.php'], [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 12]]];
+        $errorMessage = sprintf(CheckRequiredMethodNamingRule::ERROR_MESSAGE, 'run');
 
-        yield [[__DIR__ . '/Fixture/WithRequiredNotAutowire.php'],
-            [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 12]], ];
-        yield [[__DIR__ . '/Fixture/WithRequiredAttributeNotAutowire.php'],
-            [[CheckRequiredMethodNamingRule::ERROR_MESSAGE, 11]], ];
+        yield [[__DIR__ . '/Fixture/WithInject.php'], [[$errorMessage, 12]]];
+        yield [[__DIR__ . '/Fixture/WithRequiredNotAutowire.php'], [[$errorMessage, 12]]];
+        yield [[__DIR__ . '/Fixture/WithRequiredAttributeNotAutowire.php'], [[$errorMessage, 11]]];
     }
 
     protected function getRule(): Rule

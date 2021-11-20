@@ -60,9 +60,11 @@ final class NClassNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $implodeSeparator = new Arg(new String_(' '));
-        $classes = $funcCall->args[0];
-        $implode = new FuncCall(new FullyQualified('implode'), [$implodeSeparator, $classes]);
+        $implodeSeparatorString = new String_(' ');
+
+        $args = [new Arg($implodeSeparatorString), $funcCall->args[0]];
+
+        $implode = new FuncCall(new FullyQualified('implode'), $args);
 
         return new Concat(new Concat($left, $implode), $node->if->right);
     }
