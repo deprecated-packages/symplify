@@ -40,6 +40,7 @@ final class NClassNodeVisitor extends NodeVisitorAbstract
         if (! $node->if->left->left instanceof String_) {
             return null;
         }
+
         $left = $node->if->left->left;
         if ($left->value !== ' class="') {
             return null;
@@ -60,9 +61,11 @@ final class NClassNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $implodeSeparator = new Arg(new String_(' '));
-        $classes = $funcCall->args[0];
-        $implode = new FuncCall(new FullyQualified('implode'), [$implodeSeparator, $classes]);
+        $implodeSeparatorString = new String_(' ');
+
+        $args = [new Arg($implodeSeparatorString), $funcCall->args[0]];
+
+        $implode = new FuncCall(new FullyQualified('implode'), $args);
 
         return new Concat(new Concat($left, $implode), $node->if->right);
     }

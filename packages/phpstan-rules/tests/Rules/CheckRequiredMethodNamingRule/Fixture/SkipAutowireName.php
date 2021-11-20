@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredMethodNamingRule\Fixture;
 
-use Nette\DI\Attributes\Inject;
-
-final class WithInjectAttribute
+final class SkipAutowireName
 {
-    #[Inject]
-    public function run()
+    /**
+     * @required
+     */
+    public function autowire()
     {
     }
 }
