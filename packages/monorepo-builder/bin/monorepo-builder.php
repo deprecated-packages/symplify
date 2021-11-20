@@ -16,8 +16,6 @@ $possibleAutoloadPaths = [
     __DIR__ . '/../../../autoload.php',
     // monorepo
     __DIR__ . '/../../../vendor/autoload.php',
-    // after split package
-    __DIR__ . '/../vendor/autoload.php',
 ];
 
 foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
