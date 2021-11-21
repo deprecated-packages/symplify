@@ -65,7 +65,7 @@ final class NativePropertyFetchTypeResolver
         return $this->resolveScalarValueToType($propertyDefaultValue);
     }
 
-    private function resolveScalarValueToType(mixed $propertyDefaultValue): Type
+    private function resolveScalarValueToType(mixed $propertyDefaultValue): ArrayType|BooleanType|FloatType|IntegerType|StringType
     {
         if ($propertyDefaultValue === []) {
             return new ArrayType(new MixedType(), new MixedType());
@@ -92,8 +92,8 @@ final class NativePropertyFetchTypeResolver
 
     private function resolvePropertyDefaultValue(ClassReflection $classReflection, string $propertyFetchName): mixed
     {
-        $nativeClassReflection = $classReflection->getNativeReflection();
-        $nativePropertyReflection = $nativeClassReflection->getProperty($propertyFetchName);
+        $reflectionClass = $classReflection->getNativeReflection();
+        $nativePropertyReflection = $reflectionClass->getProperty($propertyFetchName);
 
         return $nativePropertyReflection->getDefaultValue();
     }

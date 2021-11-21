@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\TypeAnalyzer;
 
+use PHPStan\Reflection\ClassReflection;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Class_;
@@ -28,7 +29,7 @@ final class PropertyFetchTypeAnalyzer
     public function resolveAssignedTypes(PropertyFetch $propertyFetch, string $propertyFetchName, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
-        if ($classReflection === null) {
+        if (!$classReflection instanceof ClassReflection) {
             return [];
         }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\StrictTypes;
 
+use Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Return_;
@@ -30,7 +31,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private NativePropertyFetchTypeResolver $nativePropertyFetchTypeResolver,
-        private \Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer $propertyFetchTypeAnalyzer,
+        private PropertyFetchTypeAnalyzer $propertyFetchTypeAnalyzer,
         private ClassMethodReturnTypeAnalyzer $classMethodReturnTypeAnalyzer,
     ) {
     }
@@ -45,6 +46,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
 
     /**
      * @param InClassMethodNode $node
+     * @return mixed[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -53,7 +55,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
             return [];
         }
 
-        if (\count($classMethod->stmts) !== 1) {
+        if (\count((array) $classMethod->stmts) !== 1) {
             return [];
         }
 
@@ -63,7 +65,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
         }
 
         $classMethodReturnType = $this->classMethodReturnTypeAnalyzer->resolve($classMethod, $scope);
-        if ($classMethodReturnType === null) {
+        if (!$classMethodReturnType instanceof Type) {
             return [];
         }
 
@@ -78,7 +80,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
         }
 
         $propertyType = $this->nativePropertyFetchTypeResolver->resolve($propertyFetch, $scope);
-        if ($propertyType === null) {
+        if (!$propertyType instanceof Type) {
             return [];
         }
 

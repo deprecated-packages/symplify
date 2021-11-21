@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule;
 
+use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule;
@@ -15,13 +16,14 @@ final class RespectPropertyTypeInGetterReturnTypeRuleTest extends AbstractServic
 {
     /**
      * @dataProvider provideData()
+     * @param mixed[]|array<int, array<int|string>> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {
         $this->analyse([$filePath], $expectedErrorsWithLines);
     }
 
-    public function provideData(): \Iterator
+    public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipMatchingArrayType.php', []];
         yield [__DIR__ . '/Fixture/SkipInterface.php', []];
