@@ -89,12 +89,12 @@ CODE_SAMPLE
             $this->allowedVariableNames
         );
 
-        $overridenVariableNames = $this->resolveOverridenVariableNames($assignsByVariableNames);
-        if ($overridenVariableNames === []) {
+        $overriddenVariableNames = $this->resolveOverridenVariableNames($assignsByVariableNames);
+        if ($overriddenVariableNames === []) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overridenVariableNames));
+        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overriddenVariableNames));
         return [$errorMessage];
     }
 
