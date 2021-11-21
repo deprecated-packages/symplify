@@ -93,8 +93,8 @@ final class NativePropertyFetchTypeResolver
     private function resolvePropertyDefaultValue(ClassReflection $classReflection, string $propertyFetchName): mixed
     {
         $reflectionClass = $classReflection->getNativeReflection();
-        $nativePropertyReflection = $reflectionClass->getProperty($propertyFetchName);
+        $reflectionProperty = $reflectionClass->getProperty($propertyFetchName);
 
-        return $nativePropertyReflection->getDefaultValue();
+        return $reflectionProperty->getDefaultValue();
     }
 }
