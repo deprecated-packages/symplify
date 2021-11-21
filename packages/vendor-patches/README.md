@@ -29,7 +29,7 @@ vendor/nette/di/src/DI/Extensions/InjectExtension.php.old
 ```diff
  			if (DI\Helpers::parseAnnotation($rp, 'inject') !== null) {
 -				if ($type = DI\Helpers::parseAnnotation($rp, 'var')) {
-+				if ($type = \Amateri\Reflection\Helper\StaticReflectionHelper::getPropertyType($rp)) {
++				if ($type = \App\Reflection\Helper\StaticReflectionHelper::getPropertyType($rp)) {
 +				} elseif ($type = DI\Helpers::parseAnnotation($rp, 'var')) {
  					$type = Reflection::expandClassName($type, Reflection::getPropertyDeclaringClass($rp));
 ```

@@ -5,6 +5,10 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
     - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
 
+    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodReturnTypeAnalyzer
+    - Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver
+    - Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer
+
     # doctrine
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
 

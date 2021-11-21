@@ -596,3 +596,7 @@ parameters:
         -
             path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\TypeAnalyzer\\PropertyFetchTypeAnalyzer\:\:resolveAssignedTypes\(\)" is 17, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\StrictTypes\\RespectPropertyTypeInGetterReturnTypeRule\:\:process\(\)" is 11, keep it under 8#'
+
