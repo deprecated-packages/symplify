@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\StrictTypes;
 
-use Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassMethodNode;
@@ -14,6 +14,7 @@ use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodReturnTypeAnalyzer;
+use Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer;
 use Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -51,25 +52,8 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
     public function process(Node $node, Scope $scope): array
     {
         $classMethod = $node->getOriginalNode();
-        if ($classMethod->stmts === null) {
-            return [];
-        }
 
-        if (\count((array) $classMethod->stmts) !== 1) {
-            return [];
-        }
-
-        $onlyStmt = $classMethod->stmts[0];
-        if (! $onlyStmt instanceof Return_) {
-            return [];
-        }
-
-        $classMethodReturnType = $this->classMethodReturnTypeAnalyzer->resolve($classMethod, $scope);
-        if (!$classMethodReturnType instanceof Type) {
-            return [];
-        }
-
-        $propertyFetch = $onlyStmt->expr;
+        $propertyFetch = $this->matchOnlyStmtReturnPropertyFetch($classMethod);
         if (! $propertyFetch instanceof PropertyFetch) {
             return [];
         }
@@ -80,7 +64,12 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
         }
 
         $propertyType = $this->nativePropertyFetchTypeResolver->resolve($propertyFetch, $scope);
-        if (!$propertyType instanceof Type) {
+        if (! $propertyType instanceof Type) {
+            return [];
+        }
+
+        $classMethodReturnType = $this->classMethodReturnTypeAnalyzer->resolve($classMethod, $scope);
+        if (! $classMethodReturnType instanceof Type) {
             return [];
         }
 
@@ -143,5 +132,27 @@ final class SomeClass
 CODE_SAMPLE
             ),
         ]);
+    }
+
+    private function matchOnlyStmtReturnPropertyFetch(ClassMethod $classMethod): PropertyFetch|null
+    {
+        if ($classMethod->stmts === null) {
+            return null;
+        }
+
+        if (\count((array) $classMethod->stmts) !== 1) {
+            return null;
+        }
+
+        $onlyStmt = $classMethod->stmts[0];
+        if (! $onlyStmt instanceof Return_) {
+            return null;
+        }
+
+        if (! $onlyStmt->expr instanceof PropertyFetch) {
+            return null;
+        }
+
+        return $onlyStmt->expr;
     }
 }

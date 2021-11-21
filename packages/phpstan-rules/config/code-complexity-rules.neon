@@ -1,9 +1,5 @@
 services:
     -
-        class: Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
         tags: [phpstan.rules.rule]
 

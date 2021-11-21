@@ -54,10 +54,8 @@ final class NativePropertyFetchTypeResolver
             return $nativePropertyType;
         }
 
-        // detect default value
+        // detect default value - is null default null or no default value? :)
         $propertyDefaultValue = $this->resolvePropertyDefaultValue($classReflection, $propertyName);
-
-        // is null default null or no default value? :)
         if ($propertyDefaultValue === null) {
             return null;
         }
@@ -65,8 +63,9 @@ final class NativePropertyFetchTypeResolver
         return $this->resolveScalarValueToType($propertyDefaultValue);
     }
 
-    private function resolveScalarValueToType(mixed $propertyDefaultValue): ArrayType|BooleanType|FloatType|IntegerType|StringType
-    {
+    private function resolveScalarValueToType(
+        mixed $propertyDefaultValue
+    ): ArrayType|BooleanType|FloatType|IntegerType|StringType {
         if ($propertyDefaultValue === []) {
             return new ArrayType(new MixedType(), new MixedType());
         }

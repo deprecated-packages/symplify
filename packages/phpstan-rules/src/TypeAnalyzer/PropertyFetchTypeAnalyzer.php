@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\TypeAnalyzer;
 
-use PHPStan\Reflection\ClassReflection;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\Php\PhpParameterReflection;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -29,7 +30,7 @@ final class PropertyFetchTypeAnalyzer
     public function resolveAssignedTypes(PropertyFetch $propertyFetch, string $propertyFetchName, Scope $scope): array
     {
         $classReflection = $scope->getClassReflection();
-        if (!$classReflection instanceof ClassReflection) {
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
@@ -43,20 +44,16 @@ final class PropertyFetchTypeAnalyzer
 
         $assignedTypes = [];
         foreach ($assigns as $assign) {
-            // assign to property fetch?
-            if (! $assign->var instanceof PropertyFetch) {
+            $assignedVar = $assign->var;
+            if (! $assignedVar instanceof PropertyFetch) {
                 continue;
             }
 
-            /** @var PropertyFetch $assignedPropertyFetch */
-            $assignedPropertyFetch = $assign->var;
-
-            $assignedPropertyFetchName = $this->simpleNameResolver->getName($assignedPropertyFetch->name);
-            if ($assignedPropertyFetchName !== $propertyFetchName) {
+            if (! $this->simpleNameResolver->isName($assignedVar->name, $propertyFetchName)) {
                 continue;
             }
 
-            // scope does not work here as different class method :/
+            // scope does not work here as different class method
 
             $assignedClassMethod = $this->simpleNodeFinder->findFirstParentByType($assign, ClassMethod::class);
             if (! $assignedClassMethod instanceof ClassMethod) {
@@ -64,28 +61,54 @@ final class PropertyFetchTypeAnalyzer
             }
 
             $assignMethodName = $this->simpleNameResolver->getName($assignedClassMethod);
-            if ($assignMethodName === null) {
+            if (! is_string($assignMethodName)) {
                 return [];
             }
 
-            $assignMethodReflection = $classReflection->getMethod($assignMethodName, $scope);
-            foreach ($assignedClassMethod->params as $param) {
-                if (! $this->simpleNameResolver->isName($param->var, $propertyFetchName)) {
-                    continue;
-                }
+            $currentAssignedTypes = $this->resolveParamTypes(
+                $classReflection,
+                $assignMethodName,
+                $scope,
+                $assignedClassMethod,
+                $propertyFetchName
+            );
 
-                // use parameter reflection
-                $parametersAcceptor = $assignMethodReflection->getVariants()[0];
-                foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
-                    if (! $parameterReflection instanceof PhpParameterReflection) {
-                        continue;
-                    }
-
-                    $assignedTypes[] = $parameterReflection->getType();
-                }
-            }
+            $assignedTypes = array_merge($assignedTypes, $currentAssignedTypes);
         }
 
         return $assignedTypes;
+    }
+
+    /**
+     * @return Type[]
+     */
+    private function resolveParamTypes(
+        ClassReflection $classReflection,
+        string $assignMethodName,
+        Scope $scope,
+        ClassMethod $assignedClassMethod,
+        string $propertyFetchName
+    ): array {
+        $types = [];
+
+        $assignMethodReflection = $classReflection->getMethod($assignMethodName, $scope);
+
+        foreach ($assignedClassMethod->params as $param) {
+            if (! $this->simpleNameResolver->isName($param->var, $propertyFetchName)) {
+                continue;
+            }
+
+            $parametersAcceptor = ParametersAcceptorSelector::selectSingle($assignMethodReflection->getVariants());
+
+            foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
+                if (! $parameterReflection instanceof PhpParameterReflection) {
+                    continue;
+                }
+
+                $types[] = $parameterReflection->getType();
+            }
+        }
+
+        return $types;
     }
 }
