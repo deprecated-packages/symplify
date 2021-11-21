@@ -5,3 +5,7 @@ services:
     -
         class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
         tags: [phpstan.rules.rule]
+        arguments:
+            allowedVariableNames:
+                - params
+                - position
