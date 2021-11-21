@@ -36,6 +36,7 @@ final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/SkipTestCase.php', []];
         yield [__DIR__ . '/Fixture/SkipSwitch.php', []];
         yield [__DIR__ . '/Fixture/SkipInlineIf.php', []];
+        yield [__DIR__ . '/Fixture/SkipArrayFilterValues.php', []];
 
         $errorMessage = sprintf(ForbiddenSameNamedAssignRule::ERROR_MESSAGE, '$first');
         yield [__DIR__ . '/Fixture/SameVariableNames.php', [[$errorMessage, 9]]];

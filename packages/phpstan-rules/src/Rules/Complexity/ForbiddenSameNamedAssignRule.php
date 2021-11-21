@@ -90,7 +90,7 @@ CODE_SAMPLE
             $this->allowedVariableNames
         );
 
-        $overriddenVariableNames = $this->resolveOverridenVariableNames($assignsByVariableNames);
+        $overriddenVariableNames = $this->resolveOverriddenVariableNames($assignsByVariableNames);
         if ($overriddenVariableNames === []) {
             return [];
         }
@@ -103,7 +103,7 @@ CODE_SAMPLE
      * @param array<string, Assign[]> $assignsByVariableNames
      * @return string[]
      */
-    private function resolveOverridenVariableNames(array $assignsByVariableNames): array
+    private function resolveOverriddenVariableNames(array $assignsByVariableNames): array
     {
         $overriddenVariableNames = [];
         foreach ($assignsByVariableNames as $variableName => $assigns) {
