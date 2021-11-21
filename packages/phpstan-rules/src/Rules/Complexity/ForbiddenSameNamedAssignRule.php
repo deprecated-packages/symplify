@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\Switch_;
 use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
@@ -124,6 +125,11 @@ CODE_SAMPLE
         ) use (&$assigns): int|null {
             // avoid nested scope with different variable names
             if ($node instanceof Closure) {
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+            }
+
+            // skip switch branches
+            if ($node instanceof Switch_) {
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             }
 
