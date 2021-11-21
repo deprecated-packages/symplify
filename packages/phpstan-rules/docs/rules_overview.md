@@ -353,17 +353,17 @@ interface ProductRepositoryInterface
 
 ## CheckRequiredMethodNamingRule
 
-Autowired/inject method name must respect "autowire/inject" + class name
+Autowired/inject method name `"%s()"` must respect "autowire/inject(*)" name
 
 - class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](../src/Rules/CheckRequiredMethodNamingRule.php)
 
 ```php
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireRandom(...)
+    #[Required]
+    public function install(...)
     {
         // ...
     }
@@ -375,12 +375,12 @@ final class SomeClass
 <br>
 
 ```php
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireSomeClass(...)
+    #[Required]
+    public function autowire(...)
     {
         // ...
     }

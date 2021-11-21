@@ -59,7 +59,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(DocBlockLineLengthFixer::class)
-        ->call('configure', [[DocBlockLineLengthFixer::LINE_LENGTH => 40]]);
+        ->call('configure', [[
+            DocBlockLineLengthFixer::LINE_LENGTH => 40,
+        ]]);
 };
 ```
 
@@ -94,7 +96,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(DoctrineAnnotationNestedBracketsFixer::class)
-        ->call('configure', [[DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation']]]);
+        ->call('configure', [[
+            DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation'],
+        ]]);
 };
 ```
 
@@ -129,7 +133,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(LineLengthFixer::class)
-        ->call('configure', [[LineLengthFixer::LINE_LENGTH => 40]]);
+        ->call('configure', [[
+            LineLengthFixer::LINE_LENGTH => 40,
+        ]]);
 };
 ```
 
@@ -324,7 +330,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(StandardizeHereNowDocKeywordFixer::class)
-        ->call('configure', [[StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET']]);
+        ->call('configure', [[
+            StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
+        ]]);
 };
 ```
 
