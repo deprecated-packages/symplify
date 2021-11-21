@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
@@ -133,6 +134,10 @@ CODE_SAMPLE
 
             // skip switch branches
             if ($node instanceof Switch_) {
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+            }
+
+            if ($node instanceof BooleanOr) {
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             }
 
