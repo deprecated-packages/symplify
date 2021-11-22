@@ -81,6 +81,7 @@
                 "packages/easy-coding-standard/packages",
                 "packages/easy-coding-standard/src"
             ],
+            "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
@@ -143,6 +144,7 @@
                 "packages/easy-coding-standard/packages-tests",
                 "packages/easy-coding-standard/tests"
             ],
+            "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
@@ -186,6 +188,7 @@
         "symplify/console-color-diff": "10.0.0-beta10",
         "symplify/easy-ci": "10.0.0-beta10",
         "symplify/easy-coding-standard": "10.0.0-beta10",
+        "symplify/easy-parallel": "self.version",
         "symplify/easy-testing": "10.0.0-beta10",
         "symplify/git-wrapper": "10.0.0-beta10",
         "symplify/latte-phpstan-compiler": "10.0.0-beta10",

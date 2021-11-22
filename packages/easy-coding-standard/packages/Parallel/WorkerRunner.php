@@ -7,23 +7,19 @@ namespace Symplify\EasyCodingStandard\Parallel;
 use Clue\React\NDJson\Decoder;
 use Clue\React\NDJson\Encoder;
 use Symplify\EasyCodingStandard\Application\SingleFileProcessor;
-use Symplify\EasyCodingStandard\Parallel\Enum\Action;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
+use Symplify\EasyParallel\Enum\Action;
+use Symplify\EasyParallel\Enum\Content;
+use Symplify\EasyParallel\Enum\ReactCommand;
+use Symplify\EasyParallel\Enum\ReactEvent;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Throwable;
 
 final class WorkerRunner
 {
-    /**
-     * @var string
-     */
-    private const RESULT = 'result';
-
     public function __construct(
         private SingleFileProcessor $singleFileProcessor,
         private ParametersMerger $parametersMerger
@@ -37,8 +33,8 @@ final class WorkerRunner
             $systemErrors = new SystemError($throwable->getLine(), $throwable->getMessage(), $throwable->getFile());
 
             $encoder->write([
-                ReactCommand::ACTION => self::RESULT,
-                self::RESULT => [
+                ReactCommand::ACTION => Action::RESULT,
+                Content::RESULT => [
                     Bridge::SYSTEM_ERRORS => [$systemErrors],
                     Bridge::FILES_COUNT => 0,
                     Bridge::SYSTEM_ERRORS_COUNT => 1,
@@ -52,14 +48,14 @@ final class WorkerRunner
         // 2. collect diffs + errors from file processor
         $decoder->on(ReactEvent::DATA, function (array $json) use ($encoder, $configuration): void {
             $action = $json[ReactCommand::ACTION];
-            if ($action !== Action::CHECK) {
+            if ($action !== Action::MAIN) {
                 return;
             }
 
             $systemErrorsCount = 0;
 
             /** @var string[] $filePaths */
-            $filePaths = $json[Bridge::FILES] ?? [];
+            $filePaths = $json[Content::FILES] ?? [];
 
             $errorAndFileDiffs = [];
             $systemErrors = [];
@@ -89,8 +85,8 @@ final class WorkerRunner
              * this invokes all listeners listening $decoder->on(...) @see ReactEvent::DATA
              */
             $encoder->write([
-                ReactCommand::ACTION => self::RESULT,
-                self::RESULT => [
+                ReactCommand::ACTION => Action::RESULT,
+                Content::RESULT => [
                     Bridge::CODING_STANDARD_ERRORS => $errorAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [],
                     Bridge::FILE_DIFFS => $errorAndFileDiffs[Bridge::FILE_DIFFS] ?? [],
                     Bridge::FILES_COUNT => count($filePaths),

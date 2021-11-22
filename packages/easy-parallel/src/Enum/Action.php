@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\Enum;
+namespace Symplify\EasyParallel\Enum;
 
 final class Action
 {
@@ -14,7 +14,7 @@ final class Action
     /**
      * @var string
      */
-    public const CHECK = 'check';
+    public const MAIN = 'main';
 
     /**
      * @var string

@@ -27,6 +27,7 @@ final class ShowCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName('show');
         $this->setDescription('Show loaded checkers');
     }
 
