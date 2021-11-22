@@ -73,13 +73,6 @@ abstract class AbstractCheckCommand extends AbstractSymplifyCommand
             ConsoleOutputFormatter::NAME
         );
 
-        $this->addOption(
-            Option::MATCH_GIT_DIFF,
-            null,
-            InputOption::VALUE_NONE,
-            'Execute only on file(s) matching the git diff.'
-        );
-
         $this->addOption(Option::PARALLEL_PORT, null, InputOption::VALUE_REQUIRED);
         $this->addOption(Option::PARALLEL_IDENTIFIER, null, InputOption::VALUE_REQUIRED);
     }
