@@ -25,7 +25,6 @@ use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardErro
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
 /**
@@ -41,15 +40,16 @@ final class ParallelFileProcessor
      */
     public const TIMEOUT_IN_SECONDS = 60;
 
-    private int $systemErrorsCountLimit;
+    /**
+     * @var int
+     */
+    private const SYSTEM_ERRORS_COUNT_LIMIT = 50;
 
     private ProcessPool|null $processPool = null;
 
     public function __construct(
-        ParameterProvider $parameterProvider,
         private WorkerCommandLineFactory $workerCommandLineFactory
     ) {
-        $this->systemErrorsCountLimit = $parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
     }
 
     /**
@@ -180,7 +180,7 @@ final class ParallelFileProcessor
                     }
 
                     $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
-                    if ($systemErrorsCount >= $this->systemErrorsCountLimit) {
+                    if ($systemErrorsCount >= self::SYSTEM_ERRORS_COUNT_LIMIT) {
                         $reachedInternalErrorsCountLimit = true;
                         $this->processPool->quitAll();
                     }
