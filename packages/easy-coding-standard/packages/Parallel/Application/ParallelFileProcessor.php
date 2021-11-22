@@ -223,7 +223,7 @@ final class ParallelFileProcessor
         if ($reachedSystemErrorsCountLimit) {
             $systemErrors[] = sprintf(
                 'Reached system errors count limit of %d, exiting...',
-                $this->systemErrorsCountLimit
+                self::SYSTEM_ERRORS_COUNT_LIMIT
             );
         }
 
