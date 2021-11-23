@@ -126,6 +126,7 @@ final class WorkerCommandLineFactoryTest extends TestCase
             $cliInputOptionsAsString = implode("' '", $cliInputOptions);
             $commandLineString .= " '" . $cliInputOptionsAsString . "'";
         }
+
         return $commandLineString . " worker --port 2000 --identifier 'identifier' 'src' --output-format 'json' --no-ansi";
     }
 }
