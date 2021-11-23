@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\FileSystem;
+namespace Symplify\EasyParallel\FileSystem;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 

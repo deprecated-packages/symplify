@@ -28,7 +28,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // experimental
     $parameters->set(Option::PARALLEL, true);
-    $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, 16);
 
     $parameters->set(Option::PATHS, [
         __DIR__ . '/packages',
