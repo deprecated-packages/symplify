@@ -12,7 +12,6 @@ use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\FileSystem\FileFilter;
 use Symplify\EasyCodingStandard\Finder\SourceFinder;
 use Symplify\EasyCodingStandard\Parallel\Application\ParallelFileProcessor;
-use Symplify\EasyCodingStandard\Parallel\FileSystem\FilePathNormalizer;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\Testing\Exception\ShouldNotHappenException;
@@ -21,6 +20,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyParallel\CpuCoreCountProvider;
+use Symplify\EasyParallel\FileSystem\FilePathNormalizer;
 use Symplify\EasyParallel\ScheduleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
@@ -78,6 +78,7 @@ final class EasyCodingStandardApplication
             $schedule = $this->scheduleFactory->create(
                 $this->cpuCoreCountProvider->provide(),
                 $this->parameterProvider->provideIntParameter(Option::PARALLEL_JOB_SIZE),
+                $this->parameterProvider->provideIntParameter(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES),
                 $filePaths
             );
 
