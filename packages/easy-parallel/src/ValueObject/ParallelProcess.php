@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
+namespace Symplify\EasyParallel\ValueObject;
 
 use Clue\React\NDJson\Decoder;
 use Clue\React\NDJson\Encoder;
@@ -10,8 +10,11 @@ use Exception;
 use React\ChildProcess\Process;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
-use Symplify\EasyCodingStandard\Parallel\Enum\Action;
-use Symplify\EasyCodingStandard\Parallel\Exception\ParallelShouldNotHappenException;
+use Symplify\EasyParallel\Enum\Action;
+use Symplify\EasyParallel\Enum\Content;
+use Symplify\EasyParallel\Enum\ReactCommand;
+use Symplify\EasyParallel\Enum\ReactEvent;
+use Symplify\EasyParallel\Exception\ParallelShouldNotHappenException;
 use Throwable;
 
 /**
@@ -122,7 +125,7 @@ final class ParallelProcess
             }
 
             $onData = $this->onData;
-            $onData($json['result']);
+            $onData($json[Content::RESULT]);
         });
         $this->encoder = $encoder;
 

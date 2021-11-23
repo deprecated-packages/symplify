@@ -12,6 +12,7 @@ final class InitCommand extends AbstractSymplifyCommand
 {
     protected function configure(): void
     {
+        $this->setName('init');
         $this->setDescription('Generate ecs.php configuration file');
     }
 

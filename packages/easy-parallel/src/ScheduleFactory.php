@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel;
+namespace Symplify\EasyParallel;
 
-use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
+use Symplify\EasyParallel\ValueObject\Schedule;
 
 /**
  * Used from

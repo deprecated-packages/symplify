@@ -11,9 +11,9 @@ use React\Socket\ConnectionInterface;
 use React\Socket\TcpConnector;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symplify\EasyCodingStandard\Parallel\Enum\Action;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
 use Symplify\EasyCodingStandard\Parallel\WorkerRunner;
+use Symplify\EasyParallel\Enum\Action;
+use Symplify\EasyParallel\Enum\ReactCommand;
 
 /**
  * Inspired at: https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92
@@ -32,8 +32,10 @@ final class WorkerCommand extends AbstractCheckCommand
 
     protected function configure(): void
     {
-        parent::configure();
+        $this->setName('worker');
         $this->setDescription('(Internal) Support for parallel process');
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

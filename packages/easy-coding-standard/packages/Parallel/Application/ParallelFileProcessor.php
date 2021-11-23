@@ -13,18 +13,20 @@ use React\Socket\ConnectionInterface;
 use React\Socket\TcpServer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
-use Symplify\EasyCodingStandard\Parallel\Enum\Action;
+use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ParallelProcess;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ProcessPool;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyParallel\CommandLine\WorkerCommandLineFactory;
+use Symplify\EasyParallel\Enum\Action;
+use Symplify\EasyParallel\Enum\Content;
+use Symplify\EasyParallel\Enum\ReactCommand;
+use Symplify\EasyParallel\Enum\ReactEvent;
+use Symplify\EasyParallel\ValueObject\ParallelProcess;
+use Symplify\EasyParallel\ValueObject\ProcessPool;
+use Symplify\EasyParallel\ValueObject\Schedule;
 use Throwable;
 
 /**
@@ -48,7 +50,7 @@ final class ParallelFileProcessor
     private ProcessPool|null $processPool = null;
 
     public function __construct(
-        private WorkerCommandLineFactory $workerCommandLineFactory
+        private WorkerCommandLineFactory $workerCommandLineFactory,
     ) {
     }
 
@@ -98,8 +100,8 @@ final class ParallelFileProcessor
 
                 $job = array_pop($jobs);
                 $parallelProcess->request([
-                    ReactCommand::ACTION => Action::CHECK,
-                    'files' => $job,
+                    ReactCommand::ACTION => Action::MAIN,
+                    Content::FILES => $job,
                 ]);
             });
         });
@@ -135,6 +137,9 @@ final class ParallelFileProcessor
             $processIdentifier = Random::generate();
             $workerCommandLine = $this->workerCommandLineFactory->create(
                 $mainScript,
+                CheckCommand::class,
+                'worker',
+                Option::PATHS,
                 $projectConfigFile,
                 $input,
                 $processIdentifier,
@@ -192,8 +197,8 @@ final class ParallelFileProcessor
 
                     $job = array_pop($jobs);
                     $parallelProcess->request([
-                        ReactCommand::ACTION => Action::CHECK,
-                        'files' => $job,
+                        ReactCommand::ACTION => Action::MAIN,
+                        Content::FILES => $job,
                     ]);
                 },
 

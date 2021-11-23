@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
+namespace Symplify\EasyParallel\ValueObject;
 
 use React\Socket\TcpServer;
-use Symplify\EasyCodingStandard\Parallel\Exception\ParallelShouldNotHappenException;
+use Symplify\EasyParallel\Exception\ParallelShouldNotHappenException;
 
 /**
  * Used from https://github.com/phpstan/phpstan-src/blob/master/src/Parallel/ProcessPool.php

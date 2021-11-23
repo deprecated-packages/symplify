@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\Exception;
+namespace Symplify\EasyParallel\Exception;
 
 use Exception;
 

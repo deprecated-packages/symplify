@@ -6,8 +6,8 @@ namespace Symplify\EasyCodingStandard\ValueObject\Error;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\EasyCodingStandard\Parallel\Contract\SerializableInterface;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
+use Symplify\EasyParallel\Contract\SerializableInterface;
 
 final class FileDiff implements SerializableInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\EasyCodingStandard\Parallel\ValueObject;
+namespace Symplify\EasyParallel\Enum;
 
 /**
  * @enum
