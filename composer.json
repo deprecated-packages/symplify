@@ -230,8 +230,7 @@
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/cognitive-complexity --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/object-calisthenics --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/nette --output-file packages/phpstan-rules/docs/nette_rules_overview.md",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony --output-file packages/phpstan-rules/docs/symfony_overview.md",
-            "packages/easy-coding-standard/bin/ecs check-markdown packages/phpstan-rules/docs/rules_overview.md packages/phpstan-latte-rules/docs/rules_overview.md packages/phpstan-twig-rules/docs/rules_overview.md --fix"
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony --output-file packages/phpstan-rules/docs/symfony_overview.md"
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
