@@ -15,10 +15,12 @@ final class ScheduleFactory
     /**
      * @param array<string> $files
      */
-    public function create(int $cpuCores, int $jobSize, array $files): Schedule
+    public function create(int $cpuCores, int $jobSize, int $maxNumberOfProcesses, array $files): Schedule
     {
         $jobs = array_chunk($files, $jobSize);
         $numberOfProcesses = min(count($jobs), $cpuCores);
+
+        $numberOfProcesses = min($maxNumberOfProcesses, $numberOfProcesses);
 
         return new Schedule($numberOfProcesses, $jobs);
     }

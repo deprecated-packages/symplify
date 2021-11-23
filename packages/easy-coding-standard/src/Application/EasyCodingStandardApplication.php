@@ -78,6 +78,7 @@ final class EasyCodingStandardApplication
             $schedule = $this->scheduleFactory->create(
                 $this->cpuCoreCountProvider->provide(),
                 $this->parameterProvider->provideIntParameter(Option::PARALLEL_JOB_SIZE),
+                $this->parameterProvider->provideIntParameter(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES),
                 $filePaths
             );
 
