@@ -122,12 +122,10 @@ final class WorkerCommandLineFactoryTest extends TestCase
 
         // in some cases, the test does not have any options/args, e.g. when running it like "vendor/bin/phpunit"
         // vs." vendor/bin/phpunit <some_arg>"
-        if ($cliInputOptions) {
+        if ($cliInputOptions !== []) {
             $cliInputOptionsAsString = implode("' '", $cliInputOptions);
             $commandLineString .= " '" . $cliInputOptionsAsString . "'";
         }
-
-        $commandLineString .= " worker --port 2000 --identifier 'identifier' 'src' --output-format 'json' --no-ansi";
-        return $commandLineString;
+        return $commandLineString . " worker --port 2000 --identifier 'identifier' 'src' --output-format 'json' --no-ansi";
     }
 }
