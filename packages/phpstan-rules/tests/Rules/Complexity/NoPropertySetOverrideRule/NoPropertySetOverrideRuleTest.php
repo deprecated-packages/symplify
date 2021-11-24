@@ -16,6 +16,7 @@ final class NoPropertySetOverrideRuleTest extends AbstractServiceAwareRuleTestCa
 {
     /**
      * @dataProvider provideData()
+     * @param mixed[]|array<int, array<int|string>> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

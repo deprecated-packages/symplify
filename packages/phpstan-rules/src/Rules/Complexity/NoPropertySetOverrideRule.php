@@ -52,6 +52,7 @@ final class NoPropertySetOverrideRule extends AbstractSymplifyRule
 
     /**
      * @param InClassMethodNode $node
+     * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -130,7 +131,7 @@ CODE_SAMPLE
             return $cacheKey;
         }
 
-        return $cacheKey . '_' . \get_class($parentScopeNode) . '_ ' . \spl_object_hash($parentScopeNode);
+        return $cacheKey . '_' . $parentScopeNode::class . '_ ' . \spl_object_hash($parentScopeNode);
     }
 
     private function createRuleError(PropertyFetch $propertyFetch): RuleError
