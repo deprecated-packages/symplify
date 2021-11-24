@@ -84,11 +84,11 @@ final class ForbiddenSpreadOperatorRule extends AbstractSymplifyRule
             new CodeSample(
                 <<<'CODE_SAMPLE'
 $args = [$firstValue, $secondValue];
-$message =  sprintf('%s', ...$args);
+$message = sprintf('%s', ...$args);
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-$message =  sprintf('%s', $firstValue, $secondValue);
+$message = sprintf('%s', $firstValue, $secondValue);
 CODE_SAMPLE
             ),
         ]);
