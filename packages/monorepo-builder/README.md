@@ -156,8 +156,8 @@ When a new version of your package is released, you have to do many manual steps
 - bump mutual dependencies,
 - tag this version,
 - `git push` with tag,
-- change `CHANGELOG.md` title *Unreleated* to `v<version> - Y-m-d` format
-- bump alias and mutual dependency to next version alias
+- change `CHANGELOG.md` title *Unreleased* to `v<version> - Y-m-d` format
+- bump alias and mutual dependencies to next version alias
 
 But what if **you forget one or do it in wrong order**? Everything will crash!
 
