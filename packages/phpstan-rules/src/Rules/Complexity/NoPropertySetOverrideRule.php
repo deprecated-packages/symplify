@@ -61,10 +61,10 @@ final class NoPropertySetOverrideRule extends AbstractSymplifyRule
         /** @var Assign[] $assigns */
         $assigns = $this->simpleNodeFinder->findByType($classMethod, Assign::class);
 
-        $propertyAssignsByContent = $this->groupPropertyAssignsByContent($assigns);
+        $propertyFetchesByContent = $this->groupPropertyFetchesByContent($assigns);
 
         $ruleErrors = [];
-        foreach ($propertyAssignsByContent as $propertyFetches) {
+        foreach ($propertyFetchesByContent as $propertyFetches) {
             if (\count($propertyFetches) < 2) {
                 continue;
             }
@@ -101,9 +101,9 @@ CODE_SAMPLE
      * @param Assign[] $assigns
      * @return array<string, PropertyFetch[]>
      */
-    private function groupPropertyAssignsByContent(array $assigns): array
+    private function groupPropertyFetchesByContent(array $assigns): array
     {
-        $propertyAssignsByContent = [];
+        $propertyFetchesByContent = [];
 
         foreach ($assigns as $assign) {
             $assignedVar = $assign->var;
@@ -112,10 +112,10 @@ CODE_SAMPLE
             }
 
             $cacheKey = $this->createCacheKey($assignedVar);
-            $propertyAssignsByContent[$cacheKey][] = $assignedVar;
+            $propertyFetchesByContent[$cacheKey][] = $assignedVar;
         }
 
-        return $propertyAssignsByContent;
+        return $propertyFetchesByContent;
     }
 
     private function createCacheKey(PropertyFetch $propertyFetch): string
