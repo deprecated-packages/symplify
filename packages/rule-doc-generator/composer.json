@@ -14,7 +14,7 @@
         "symplify/rule-doc-generator-contracts": "^10.0",
         "symplify/markdown-diff": "^10.0",
         "symplify/package-builder": "^10.0",
-        "nette/neon": "3.3.0",
+        "nette/neon": "^3.3.2",
         "symplify/php-config-printer": "^10.0",
         "symplify/smart-file-system": "^10.0"
     },
