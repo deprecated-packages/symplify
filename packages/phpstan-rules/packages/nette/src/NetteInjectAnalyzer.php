@@ -112,9 +112,7 @@ final class NetteInjectAnalyzer
             return false;
         }
 
-        $property = $this->reflectionParser->parsePropertyReflectionToProperty(
-            $propertyReflection->getNativeReflection()
-        );
+        $property = $this->reflectionParser->parsePropertyReflection($propertyReflection->getNativeReflection());
         if (! $property instanceof Property) {
             return false;
         }
@@ -128,7 +126,7 @@ final class NetteInjectAnalyzer
     ): bool {
         $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
         foreach ($reflectionMethods as $reflectionMethod) {
-            $classMethod = $this->reflectionParser->parseMethodReflectionToClassMethod($reflectionMethod);
+            $classMethod = $this->reflectionParser->parseMethodReflection($reflectionMethod);
             if (! $classMethod instanceof ClassMethod) {
                 continue;
             }
