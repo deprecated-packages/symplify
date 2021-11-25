@@ -35,7 +35,7 @@ final class ParentClassMethodNodeResolver
             }
 
             $parentMethodReflection = new ReflectionMethod($parentClassReflection->getName(), $methodName);
-            return $this->reflectionParser->parseMethodReflectionToClassMethod($parentMethodReflection);
+            return $this->reflectionParser->parseMethodReflection($parentMethodReflection);
         }
 
         return null;

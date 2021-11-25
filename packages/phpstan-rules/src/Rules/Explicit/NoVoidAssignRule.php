@@ -6,9 +6,15 @@ namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Yield_;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\VoidType;
-use Symplify\Astral\Reflection\ReflectionParser;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\Reflection\MethodCallParser;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,7 +30,8 @@ final class NoVoidAssignRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Assign of void value is not allowed, as it can lead to unexpected results';
 
     public function __construct(
-        private ReflectionParser $reflectionParser
+        private MethodCallParser $methodCallParser,
+        private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }
 
@@ -78,19 +85,55 @@ CODE_SAMPLE
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($node->expr instanceof Node\Expr\MethodCall) {
-            // parse method call to
-            dump('__DD');
-            die;
+        $assignedExprType = $scope->getType($node->expr);
+        if ($assignedExprType instanceof VoidType) {
+            return [self::ERROR_MESSAGE];
         }
 
-        $assignedExprType = $scope->getType($node->expr);
+        if (! $node->expr instanceof MethodCall) {
+            return [];
+        }
 
+        return $this->processMethodCall($node->expr, $scope);
+    }
 
-        if (! $assignedExprType instanceof VoidType) {
+    /**
+     * @return string[]
+     */
+    private function processMethodCall(MethodCall $methodCall, Scope $scope): array
+    {
+        $classMethod = $this->methodCallParser->parseMethodCall($methodCall, $scope);
+
+        // unable to analyse
+        if ($classMethod === null) {
+            return [];
+        }
+
+        if ($this->hasNonEmptyNonVoidReturnType($classMethod)) {
+            return [];
+        }
+
+        // is not void
+        if ($this->simpleNodeFinder->hasByTypes($classMethod, [Return_::class, Yield_::class])) {
             return [];
         }
 
         return [self::ERROR_MESSAGE];
+    }
+
+    private function hasNonEmptyNonVoidReturnType(ClassMethod $classMethod): bool
+    {
+        $returnTypeNode = $classMethod->returnType;
+        if (! $returnTypeNode instanceof Node) {
+            return false;
+        }
+
+        // not void
+        if (! $returnTypeNode instanceof Identifier) {
+            return true;
+        }
+
+        // not void
+        return $returnTypeNode->toString() !== 'void';
     }
 }
