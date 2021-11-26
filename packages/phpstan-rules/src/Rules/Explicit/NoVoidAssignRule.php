@@ -105,7 +105,7 @@ CODE_SAMPLE
         $classMethod = $this->methodCallParser->parseMethodCall($methodCall, $scope);
 
         // unable to analyse
-        if (!$classMethod instanceof ClassMethod) {
+        if (! $classMethod instanceof ClassMethod) {
             return [];
         }
 

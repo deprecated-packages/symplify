@@ -25,6 +25,7 @@ final class NoPropertySetOverrideRuleTest extends AbstractServiceAwareRuleTestCa
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipClosureNestedAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipIfElse.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentIf.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentPropertySet.php', []];
