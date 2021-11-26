@@ -10,9 +10,9 @@ final class SkipClosureNestedAssign
 {
     public function run(SomeClass $someClass)
     {
-        if (mt_rand(0, 100)) {
-            $someClass->anotherProperty = 100;
-        }
+        $closure = function(SomeClass $someClass) {
+            $someClass->anotherProperty = 1000;
+        };
 
         $closure = function(SomeClass $someClass) {
             $someClass->anotherProperty = 1000;

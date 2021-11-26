@@ -122,7 +122,7 @@ CODE_SAMPLE
     {
         $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes($propertyFetch, [
             If_::class, Else_::class, ElseIf_::class, While_::class, For_::class, Foreach_::class, Switch_::class,
-            Case_::class, Match_::class,
+            Case_::class, Match_::class, Node\Expr\Closure::class,
         ]);
 
         $cacheKey = $this->printerStandard->prettyPrintExpr($propertyFetch);
