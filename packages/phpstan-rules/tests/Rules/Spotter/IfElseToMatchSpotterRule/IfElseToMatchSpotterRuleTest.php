@@ -29,6 +29,7 @@ final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipNonMatchIf.php', []];
         yield [__DIR__ . '/Fixture/SkipAlmostMatching.php', []];
 
+        yield [__DIR__ . '/Fixture/EmptyArrayAssign.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 13]]];
         yield [__DIR__ . '/Fixture/MatchingIfCandidate.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 11]]];
     }
 
