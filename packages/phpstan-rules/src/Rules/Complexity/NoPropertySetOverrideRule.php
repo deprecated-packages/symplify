@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Complexity;
 
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\Match_;
@@ -122,7 +123,7 @@ CODE_SAMPLE
     {
         $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes($propertyFetch, [
             If_::class, Else_::class, ElseIf_::class, While_::class, For_::class, Foreach_::class, Switch_::class,
-            Case_::class, Match_::class, Node\Expr\Closure::class,
+            Case_::class, Match_::class, Closure::class,
         ]);
 
         $cacheKey = $this->printerStandard->prettyPrintExpr($propertyFetch);
