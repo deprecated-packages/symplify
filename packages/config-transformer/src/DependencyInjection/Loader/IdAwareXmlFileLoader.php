@@ -101,12 +101,11 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
     {
         $this->count = 0;
         $definitions = [];
-        $suffix = '~' . ContainerBuilder::hash($file);
 
         $domxPath = new DOMXPath($domDocument);
         $domxPath->registerNamespace('container', self::NS);
 
-        $definitions = $this->processAnonymousServicesInArguments($domxPath, $suffix, $file, $definitions);
+        $definitions = $this->processAnonymousServicesInArguments($domxPath, $file, $definitions);
 
         /** @var DOMNodeList<DOMNode> $nodeWithIds */
         $nodeWithIds = $domxPath->query('//container:services/container:service[@id]');
@@ -144,9 +143,8 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
      */
     private function processAnonymousServicesInArguments(
         DOMXPath $domxPath,
-        string $suffix,
         string $file,
-        array $definitions
+        string $definitions
     ): array {
         $nodes = $domxPath->query(
             '//container:argument[@type="service"][not(@id)]|//container:property[@type="service"][not(@id)]|//container:bind[not(@id)]|//container:factory[not(@service)]|//container:configurator[not(@service)]'
