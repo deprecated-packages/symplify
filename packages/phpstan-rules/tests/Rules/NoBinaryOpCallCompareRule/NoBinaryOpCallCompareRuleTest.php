@@ -27,6 +27,7 @@ final class NoBinaryOpCallCompareRuleTest extends AbstractServiceAwareRuleTestCa
     {
         yield [__DIR__ . '/Fixture/CompareToFuncCall.php', [[NoBinaryOpCallCompareRule::ERROR_MESSAGE, 8]]];
 
+        yield [__DIR__ . '/Fixture/SkipBool.php', []];
         yield [__DIR__ . '/Fixture/SkipAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipConcat.php', []];
         yield [__DIR__ . '/Fixture/SkipFuncCallCount.php', []];
