@@ -140,11 +140,12 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
 
     /**
      * @return mixed[]
+     * @param mixed[] $definitions
      */
     private function processAnonymousServicesInArguments(
         DOMXPath $domxPath,
         string $file,
-        string $definitions
+        array $definitions
     ): array {
         $nodes = $domxPath->query(
             '//container:argument[@type="service"][not(@id)]|//container:property[@type="service"][not(@id)]|//container:bind[not(@id)]|//container:factory[not(@service)]|//container:configurator[not(@service)]'
