@@ -11,12 +11,12 @@ use Symplify\RuleDocGenerator\ValueObject\AbstractCodeSample;
 final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampleInterface
 {
     /**
-     * @var array<string, mixed>
+     * @var mixed[]
      */
     private array $configuration = [];
 
     /**
-     * @param array<string, mixed> $configuration
+     * @param mixed[] $configuration
      */
     public function __construct(string $badCode, string $goodCode, array $configuration)
     {
@@ -31,7 +31,7 @@ final class ConfiguredCodeSample extends AbstractCodeSample implements CodeSampl
     }
 
     /**
-     * @return array<string, mixed>
+     * @return mixed[]
      */
     public function getConfiguration(): array
     {
