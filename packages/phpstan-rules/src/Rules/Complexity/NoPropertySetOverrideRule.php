@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Complexity;
 
-use PhpParser\Node\Expr\Closure;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Match_;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Case_;
