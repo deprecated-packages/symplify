@@ -53,11 +53,12 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         $ignoreErrors = false,
         $sourceResource = null,
         $exclude = null
-    ): void {
+    ): mixed {
         $this->xmlImportCollector->addImport($resource, $ignoreErrors);
+        return null;
     }
 
-    public function load($resource, ?string $type = null): void
+    public function load(mixed $resource, ?string $type = null): mixed
     {
         $path = $this->locator->locate($resource);
 
@@ -95,6 +96,8 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
             $this->instanceof = [];
             $this->registerAliasesForSinglyImplementedInterfaces();
         }
+
+        return null;
     }
 
     private function processAnonymousServices(DOMDocument $domDocument, string $file): void

@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ComposerJsonManipulator\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
@@ -30,7 +29,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(PrivatesCaller::class);
 
     $services->set(ParameterProvider::class)
-        ->args([service(ContainerInterface::class)]);
+        ->args([service('service_container')]);
 
     $services->set(SymfonyStyleFactory::class);
     $services->set(SymfonyStyle::class)

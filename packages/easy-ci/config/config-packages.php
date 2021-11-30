@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCI\StaticDetector\NodeTraverser\StaticCollectNodeTraverser;
 use Symplify\EasyCI\StaticDetector\NodeTraverser\StaticCollectNodeTraverserFactory;
@@ -40,5 +39,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$kind', ParserFactory::PREFER_PHP7);
 
     $services->set(ParameterProvider::class)
-        ->args([service(ContainerInterface::class)]);
+        ->args([service('service_container')]);
 };

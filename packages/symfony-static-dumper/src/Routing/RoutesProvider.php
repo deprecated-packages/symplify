@@ -25,7 +25,7 @@ final class RoutesProvider
     }
 
     /**
-     * @return Route[]
+     * @return array<string, Route>
      */
     public function provide(): array
     {
@@ -34,7 +34,7 @@ final class RoutesProvider
     }
 
     /**
-     * @return Route[]
+     * @return array<string, Route>
      */
     public function provideRoutesWithoutArguments(): array
     {

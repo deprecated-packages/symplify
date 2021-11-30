@@ -11,7 +11,6 @@ services:
     fake.simple_class_two:
         public: false
         alias: Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\SecondFakeClass
-        deprecated: 'The "%alias_id%" alias is deprecated. Do not use it anymore.'
 -----
 <?php
 
@@ -33,6 +32,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('doctrine.dbal.read_connection', 'doctrine.dbal.read1_connection');
 
     $services->alias('fake.simple_class_two', SecondFakeClass::class)
-        ->private()
-        ->deprecate('The "%alias_id%" alias is deprecated. Do not use it anymore.');
+        ->private();
 };
