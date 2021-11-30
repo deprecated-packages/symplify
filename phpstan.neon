@@ -243,12 +243,6 @@ parameters:
         # manually constructored for Symfony compiler pass, before DI is created
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
-        # false positive - changes on release
-        -
-            message: '#Unreachable statement \- code above always terminates#'
-            paths:
-                - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
@@ -324,9 +318,6 @@ parameters:
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
-
-        # some phpstan bug
-        - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
@@ -562,10 +553,6 @@ parameters:
             path: packages/monorepo-builder/bin/monorepo-builder.php
 
         -
-            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Caching\\ChangedFilesDetector\:\:setUsedConfigs\(\) expects array<string\>, array<int, string\|false\> given#'
-            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-
-        -
             path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
             message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
 
@@ -591,9 +578,6 @@ parameters:
         -
             message: '#Parameter "projectConfigFile" cannot be nullable#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
-
-        # closure/callable
-        - '#Parameter \#2 \$callback of method Nette\\Neon\\Traverser\:\:traverse\(\) expects callable\(Nette\\Neon\\Node\)\: void, Closure(.*?) given#'
 
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
