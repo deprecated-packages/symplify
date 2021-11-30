@@ -6,14 +6,16 @@ namespace Symplify\PHPStanRules\Rules\Spotter;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\If_;
-use PhpParser\Node\Stmt\Return_;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCond;
 use Symplify\PHPStanRules\ValueObject\Spotter\ReturnAndAssignBranchCounts;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,6 +31,12 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'If/else construction can be replace with more robust match()';
+
+    public function __construct(
+        private Standard $printerStandard,
+        private IfElseBranchAnalyzer $ifElseBranchAnalyzer
+    ) {
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -52,17 +60,28 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
         /** @var array<If_|Else_|ElseIf_> $branches */
         $branches = array_merge([$node], $node->elseifs, [$node->else]);
 
-        $singleBranchStmts = [];
+        $ifsAndConds = [];
+
         foreach ($branches as $branch) {
             // must be exactly single item
             if (count($branch->stmts) !== 1) {
                 return [];
             }
 
-            $singleBranchStmts[] = $branch->stmts[0];
+            // the conditioned parameters must be the same
+            if ($branch instanceof If_ || $branch instanceof ElseIf_) {
+                $ifsAndConds[] = new IfAndCond($branch->stmts[0], $branch->cond);
+                continue;
+            }
+
+            $ifsAndConds[] = new IfAndCond($branch->stmts[0], null);
         }
 
-        $returnAndAssignBranchCounts = $this->resolveBranchTypesToCount($singleBranchStmts);
+        if (! $this->isUniqueBinaryConds($ifsAndConds)) {
+            return [];
+        }
+
+        $returnAndAssignBranchCounts = $this->ifElseBranchAnalyzer->resolveBranchTypesToCount($ifsAndConds);
 
         $branchCount = count($branches);
         if (! $this->isUnitedMatchingBranchType($returnAndAssignBranchCounts, $branchCount)) {
@@ -129,26 +148,27 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Stmt[] $branchSingleStmts
+     * @param IfAndCond[] $ifsAndConds
      */
-    private function resolveBranchTypesToCount(array $branchSingleStmts): ReturnAndAssignBranchCounts
+    private function isUniqueBinaryConds(array $ifsAndConds): bool
     {
-        $returnBranchCount = 0;
-        $assignBranchCount = 0;
+        $comparedExprContent = [];
 
-        foreach ($branchSingleStmts as $branchSingleStmt) {
-            // unwrap expression
-            if ($branchSingleStmt instanceof Expression) {
-                $branchSingleStmt = $branchSingleStmt->expr;
+        foreach ($ifsAndConds as $ifAndCond) {
+            if ($ifAndCond->getCondExpr() === null) {
+                continue;
             }
 
-            if ($branchSingleStmt instanceof Return_) {
-                ++$returnBranchCount;
-            } elseif ($branchSingleStmt instanceof Assign) {
-                ++$assignBranchCount;
+            $condExpr = $ifAndCond->getCondExpr();
+            if (! $condExpr instanceof BinaryOp) {
+                return false;
             }
+
+            // assuming the left is compared expression
+            $comparedExprContent[] = $this->printerStandard->prettyPrintExpr($condExpr->left);
         }
 
-        return new ReturnAndAssignBranchCounts($returnBranchCount, $assignBranchCount);
+        $uniqueComparedExprContent = array_unique($comparedExprContent);
+        return count($uniqueComparedExprContent) === 1;
     }
 }

@@ -1,6 +1,7 @@
 services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
 
+    - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
     - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
