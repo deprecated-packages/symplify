@@ -154,12 +154,12 @@ CODE_SAMPLE
     {
         $comparedExprContent = [];
 
-        foreach ($ifsAndConds as $ifsAndCond) {
-            if ($ifsAndCond->getCondExpr() === null) {
+        foreach ($ifsAndConds as $ifAndCond) {
+            if ($ifAndCond->getCondExpr() === null) {
                 continue;
             }
 
-            $condExpr = $ifsAndCond->getCondExpr();
+            $condExpr = $ifAndCond->getCondExpr();
             if (! $condExpr instanceof BinaryOp) {
                 return false;
             }
