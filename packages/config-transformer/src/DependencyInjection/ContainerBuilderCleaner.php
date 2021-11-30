@@ -26,7 +26,6 @@ final class ContainerBuilderCleaner
 
     public function cleanContainerBuilder(ContainerBuilder $containerBuilder): void
     {
-        $this->removeExplicitPrivate($containerBuilder);
         $this->removeSymfonyInternalServices($containerBuilder);
         $this->removeTemporaryAnonymousIds($containerBuilder);
 
@@ -40,18 +39,6 @@ final class ContainerBuilderCleaner
         $containerBuilder->removeDefinition('service_container');
         $containerBuilder->removeAlias(PsrContainerInterface::class);
         $containerBuilder->removeAlias(ContainerInterface::class);
-    }
-
-    private function removeExplicitPrivate(ContainerBuilder $containerBuilder): void
-    {
-        foreach ($containerBuilder->getDefinitions() as $definition) {
-            // remove public: false, by default
-            if ($definition->isPublic()) {
-                continue;
-            }
-
-            $definition->setPrivate(true);
-        }
     }
 
     private function removeTemporaryAnonymousIds(ContainerBuilder $containerBuilder): void

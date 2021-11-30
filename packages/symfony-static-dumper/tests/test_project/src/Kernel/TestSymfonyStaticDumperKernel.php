@@ -11,7 +11,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\SymfonyStaticDumper\ValueObject\SymfonyStaticDumperConfig;
 
@@ -27,7 +27,7 @@ final class TestSymfonyStaticDumperKernel extends Kernel
     /**
      * @return BundleInterface[]
      */
-    public function registerBundles(): array
+    public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new TwigBundle()];
     }
@@ -48,9 +48,9 @@ final class TestSymfonyStaticDumperKernel extends Kernel
         $loader->load(SymfonyStaticDumperConfig::FILE_PATH);
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routeCollectionBuilder): void
+    protected function configureRoutes(RoutingConfigurator $routingConfigurator): void
     {
-        $routeCollectionBuilder->import(__DIR__ . '/../../config/routes.php');
+        $routingConfigurator->import(__DIR__ . '/../../config/routes.php');
     }
 
     protected function build(ContainerBuilder $containerBuilder): void

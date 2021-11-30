@@ -14,8 +14,9 @@ final class SkipParentWithArgs extends Kernel
         parent::__construct('protect', false);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
+        return [];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
