@@ -25,6 +25,7 @@ final class RespectPropertyTypeInGetterReturnTypeRuleTest extends AbstractServic
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipPromotedProperty.php', []];
         yield [__DIR__ . '/Fixture/SkipMatchingArrayType.php', []];
         yield [__DIR__ . '/Fixture/SkipInterface.php', []];
         yield [__DIR__ . '/Fixture/SkipUntrustableDocblock.php', []];
