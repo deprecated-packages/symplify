@@ -79,7 +79,7 @@ final class ServicesConfigDumper
             'services' => $classNames,
         ];
 
-        return Neon::encode($neon, Neon::BLOCK);
+        return Neon::encode($neon, Neon::BLOCK, '    ');
     }
 }
 
