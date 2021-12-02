@@ -6,6 +6,7 @@ namespace Symplify\EasyCI\ActiveClass;
 
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\EasyCI\ActiveClass\NodeVisitor\ClassNameNodeVisitor;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -21,7 +22,7 @@ final class ClassNameResolver
     ) {
     }
 
-    public function resolveFromFromFileInfo(SmartFileInfo $phpFileInfo): ?string
+    public function resolveFromFromFileInfo(SmartFileInfo|SplFileInfo $phpFileInfo): ?string
     {
         $stmts = $this->parser->parse($phpFileInfo->getContents());
         if ($stmts === null) {
