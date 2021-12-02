@@ -44,13 +44,6 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
 
     private RemoverComposerJsonDecorator $removerComposerJsonDecorator;
 
-    public function test(): void
-    {
-        $this->removerComposerJsonDecorator->decorate($this->composerJson);
-
-        $this->assertComposerJsonEquals($this->expectedComposerJson, $this->composerJson);
-    }
-
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
@@ -67,15 +60,20 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 ],
                 'files' => ['src/SomeFile.php'],
             ],
-            ComposerJsonSection::REPOSITORIES => [
-                Option::REMOVE_COMPLETELY
-            ]
+            ComposerJsonSection::REPOSITORIES => [Option::REMOVE_COMPLETELY],
         ]);
 
         $this->removerComposerJsonDecorator = $this->getService(RemoverComposerJsonDecorator::class);
 
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
+    }
+
+    public function test(): void
+    {
+        $this->removerComposerJsonDecorator->decorate($this->composerJson);
+
+        $this->assertComposerJsonEquals($this->expectedComposerJson, $this->composerJson);
     }
 
     private function createMainComposerJson(): ComposerJson

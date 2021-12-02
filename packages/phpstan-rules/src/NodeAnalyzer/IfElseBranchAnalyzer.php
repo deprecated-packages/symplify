@@ -7,22 +7,22 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
-use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCond;
+use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 use Symplify\PHPStanRules\ValueObject\Spotter\ReturnAndAssignBranchCounts;
 
 final class IfElseBranchAnalyzer
 {
     /**
-     * @param IfAndCond[] $ifsAndConds
+     * @param IfAndCondExpr[] $ifsAndCondExprs
      */
-    public function resolveBranchTypesToCount(array $ifsAndConds): ReturnAndAssignBranchCounts
+    public function resolveBranchTypesToCount(array $ifsAndCondExprs): ReturnAndAssignBranchCounts
     {
         $returnBranchCount = 0;
         $assignBranchCount = 0;
 
-        foreach ($ifsAndConds as $ifAndCond) {
+        foreach ($ifsAndCondExprs as $ifAndCondExpr) {
             // unwrap expression
-            $stmt = $ifAndCond->getStmt();
+            $stmt = $ifAndCondExpr->getStmt();
             if ($stmt instanceof Expression) {
                 $stmt = $stmt->expr;
             }
