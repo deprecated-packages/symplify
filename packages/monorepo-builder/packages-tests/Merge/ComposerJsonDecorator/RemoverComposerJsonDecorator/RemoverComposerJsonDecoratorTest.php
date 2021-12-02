@@ -68,7 +68,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 'files' => ['src/SomeFile.php'],
             ],
             ComposerJsonSection::REPOSITORIES => [
-                '*'
+                Option::REMOVE_COMPLETELY
             ]
         ]);
 

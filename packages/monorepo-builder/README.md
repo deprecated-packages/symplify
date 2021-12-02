@@ -90,7 +90,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
         ComposerJsonSection::REPOSITORIES => [
             // this will remove all repositories
-            '*',
+            Option::REMOVE_COMPLETELY,
         ],
     ]);
 };
