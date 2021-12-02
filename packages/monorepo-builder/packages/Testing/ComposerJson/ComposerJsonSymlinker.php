@@ -67,7 +67,7 @@ final class ComposerJsonSymlinker
             );
             $relativePathToLocalPackage = $relativePathFromTargetPackageToRoot . $relativeDirectoryFromRootToLocalPackage;
 
-            $repositoriesContent = [
+            $repositoriesContentJson = [
                 self::TYPE => 'path',
                 self::URL => $relativePathToLocalPackage,
                 self::OPTIONS => [
@@ -78,10 +78,10 @@ final class ComposerJsonSymlinker
             if (array_key_exists(ComposerJsonSection::REPOSITORIES, $packageComposerJson)) {
                 $packageComposerJson = $this->addRepositoryEntryToPackageComposerJson(
                     $packageComposerJson,
-                    $repositoriesContent
+                    $repositoriesContentJson
                 );
             } else {
-                $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContent;
+                $packageComposerJson[ComposerJsonSection::REPOSITORIES][] = $repositoriesContentJson;
             }
         }
 
