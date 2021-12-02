@@ -91,6 +91,7 @@
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
             ],
+            "Symplify\\NeonConfigDumper\\": "packages/neon-config-dumper/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanLatteRules\\": "packages/phpstan-latte-rules/src",
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",

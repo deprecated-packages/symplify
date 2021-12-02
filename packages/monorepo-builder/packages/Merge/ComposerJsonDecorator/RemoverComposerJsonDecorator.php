@@ -121,8 +121,15 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
             $composerJson->removePreferStable();
         }
 
+<<<<<<< HEAD
         if (count($removingComposerJson->getRepositories()) !== 1) {
             return;
+=======
+        if (count(
+            $removingComposerJson->getRepositories()
+        ) === 1 && $removingComposerJson->getRepositories()[0] === Option::REMOVE_COMPLETELY) {
+            $composerJson->setRepositories([]);
+>>>>>>> [NeonConfigDumper] Init simple package to dump neon services
         }
 
         if ($removingComposerJson->getRepositories()[0] !== Option::REMOVE_COMPLETELY) {

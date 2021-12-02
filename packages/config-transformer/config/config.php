@@ -7,10 +7,11 @@ use PhpParser\NodeFinder;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
-use Symplify\ConfigTransformer\Console\ConfigTransfomerConsoleApplication;
+use Symplify\ConfigTransformer\Command\SwitchFormatCommand;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemFilter;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -29,8 +30,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     // console
-    $services->set(ConfigTransfomerConsoleApplication::class);
-    $services->alias(Application::class, ConfigTransfomerConsoleApplication::class);
+    $services->set(Application::class)
+        ->call('add', arguments: [service(SwitchFormatCommand::class)]);
 
     $services->set(BuilderFactory::class);
     $services->set(NodeFinder::class);
