@@ -30,6 +30,12 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
             ],
             'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
         ],
+        ComposerJsonSection::REPOSITORIES => [
+            [
+                'type' => 'git',
+                'url' => '',
+            ],
+        ],
     ];
 
     private ComposerJson $composerJson;
@@ -37,6 +43,13 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
     private ComposerJson $expectedComposerJson;
 
     private RemoverComposerJsonDecorator $removerComposerJsonDecorator;
+
+    public function test(): void
+    {
+        $this->removerComposerJsonDecorator->decorate($this->composerJson);
+
+        $this->assertComposerJsonEquals($this->expectedComposerJson, $this->composerJson);
+    }
 
     protected function setUp(): void
     {
@@ -54,19 +67,15 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 ],
                 'files' => ['src/SomeFile.php'],
             ],
+            ComposerJsonSection::REPOSITORIES => [
+                '*'
+            ]
         ]);
 
         $this->removerComposerJsonDecorator = $this->getService(RemoverComposerJsonDecorator::class);
 
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
-    }
-
-    public function test(): void
-    {
-        $this->removerComposerJsonDecorator->decorate($this->composerJson);
-
-        $this->assertComposerJsonEquals($this->expectedComposerJson, $this->composerJson);
     }
 
     private function createMainComposerJson(): ComposerJson
