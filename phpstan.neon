@@ -584,3 +584,6 @@ parameters:
             paths:
                  - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
                  - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
+
+         # node finder generics meshup
+        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstByType\(\) should return T of PhpParser\\Node\|null but returns PhpParser\\Node\|null#'
