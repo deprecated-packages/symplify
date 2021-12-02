@@ -120,12 +120,15 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
         if ($removingComposerJson->getPreferStable()) {
             $composerJson->removePreferStable();
         }
+
         if (count($removingComposerJson->getRepositories()) !== 1) {
             return;
         }
+
         if ($removingComposerJson->getRepositories()[0] !== Option::REMOVE_COMPLETELY) {
             return;
         }
+
         $composerJson->setRepositories([]);
     }
 }
