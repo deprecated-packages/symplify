@@ -7,6 +7,7 @@ namespace Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\Merge\Configuration\ModifyingComposerJsonProvider;
 use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\RemoverComposerJsonDecoratorTest
@@ -118,6 +119,10 @@ final class RemoverComposerJsonDecorator implements ComposerJsonDecoratorInterfa
 
         if ($removingComposerJson->getPreferStable()) {
             $composerJson->removePreferStable();
+        }
+
+        if (count($removingComposerJson->getRepositories()) === 1 && $removingComposerJson->getRepositories()[0] === Option::REMOVE_COMPLETELY) {
+            $composerJson->setRepositories([]);
         }
     }
 }

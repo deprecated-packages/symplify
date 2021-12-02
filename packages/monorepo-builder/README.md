@@ -88,6 +88,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             // the line is removed by key, so version is irrelevant, thus *
             'phpunit/phpunit' => '*',
         ],
+        ComposerJsonSection::REPOSITORIES => [
+            // this will remove all repositories
+            Option::REMOVE_COMPLETELY,
+        ],
     ]);
 };
 ```
