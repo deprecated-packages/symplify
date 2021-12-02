@@ -8,6 +8,7 @@ declare(strict_types=1);
 use Nette\Neon\Neon;
 use PhpParser\ParserFactory;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\EasyCI\ActiveClass\ClassNameResolver;
 use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -35,10 +36,7 @@ final class ServicesConfigDumper
         $fileInfos = $this->findFileInfosInDirectory($directory);
 
         // 2. extract class names
-        $classNames = [];
-        foreach ($fileInfos as $fileInfo) {
-            $classNames[] = $this->classNameResolver->resolveFromFromFileInfo($fileInfo);
-        }
+        $classNames = $this->classNameResolver->resolveFromFromFileInfos($fileInfos);
 
         // 3. create neon file
         $serviceFileContent = $this->createNeonFileContent($classNames);
@@ -56,7 +54,7 @@ final class ServicesConfigDumper
     }
 
     /**
-     * @return \Symfony\Component\Finder\SplFileInfo[]
+     * @return SplFileInfo[]
      */
     private function findFileInfosInDirectory(string $directory): array
     {

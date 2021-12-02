@@ -22,6 +22,25 @@ final class ClassNameResolver
     ) {
     }
 
+    /**
+     * @param SmartFileInfo[]|SplFileInfo[] $fileInfos
+     * @return string[]
+     */
+    public function resolveFromFromFileInfos(array $fileInfos): array
+    {
+        $classNames = [];
+        foreach ($fileInfos as $fileInfo) {
+            $className = $this->resolveFromFromFileInfo($fileInfo);
+            if ($className === null) {
+                continue;
+            }
+
+            $classNames[] = $className;
+        }
+
+        return $classNames;
+    }
+
     public function resolveFromFromFileInfo(SmartFileInfo|SplFileInfo $phpFileInfo): ?string
     {
         $stmts = $this->parser->parse($phpFileInfo->getContents());

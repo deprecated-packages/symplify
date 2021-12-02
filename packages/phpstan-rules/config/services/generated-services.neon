@@ -8,6 +8,7 @@ services:
     - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
+    - Symplify\PHPStanRules\Naming\AssignToVariableChecker
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\Naming\ClassNameAnalyzer
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
