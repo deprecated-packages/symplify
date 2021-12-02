@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use JsonSerializable;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Attribute;
@@ -14,12 +13,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ClassConst;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ArrayType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\Naming\AssignToVariableChecker;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -45,14 +45,14 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      * @see https://regex101.com/r/TOKYyM/1
      * @var string
      */
-    private const ARRAY_EXPECTED_CLASS_NAMES_REGEX = '#(yaml|json|neon)#i';
+    private const ARRAY_CONFIGURATION_NAMES_REGEX = '#(yaml|json|neon)#i';
 
     public function __construct(
         private ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
         private ArrayAnalyzer $arrayAnalyzer,
-        private ReflectionProvider $reflectionProvider
+        private AssignToVariableChecker $assignToVariableChecker
     ) {
     }
 
@@ -70,7 +70,7 @@ final class ForbiddenArrayWithStringKeysRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkipClass($scope)) {
+        if ($this->shouldSkipClass($scope, $node)) {
             return [];
         }
 
@@ -138,6 +138,10 @@ CODE_SAMPLE
             return true;
         }
 
+        if ($this->assignToVariableChecker->isAssignToVariableRegex($array, self::ARRAY_CONFIGURATION_NAMES_REGEX)) {
+            return true;
+        }
+
         return $this->isPartOfClassConstOrNew($array);
     }
 
@@ -152,7 +156,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipClass(Scope $scope): bool
+    private function shouldSkipClass(Scope $scope, Array_ $array): bool
     {
         $filePath = $scope->getFile();
 
@@ -166,19 +170,15 @@ CODE_SAMPLE
             return true;
         }
 
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $classMethod = $this->simpleNodeFinder->findFirstParentByType($array, ClassMethod::class);
+        if (! $classMethod instanceof ClassMethod) {
             return false;
         }
 
-        // allow for array
-        if ($this->reflectionProvider->hasClass($className)) {
-            $classReflection = $this->reflectionProvider->getClass($className);
-            if ($classReflection->implementsInterface(JsonSerializable::class)) {
-                return true;
-            }
-        }
+        /** @var string $classMethodName */
+        $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
-        return (bool) Strings::match($className, self::ARRAY_EXPECTED_CLASS_NAMES_REGEX);
+        $match = Strings::match($classMethodName, self::ARRAY_CONFIGURATION_NAMES_REGEX);
+        return $match !== null;
     }
 }

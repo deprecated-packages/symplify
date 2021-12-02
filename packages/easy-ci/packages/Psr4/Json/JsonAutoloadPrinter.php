@@ -24,12 +24,13 @@ final class JsonAutoloadPrinter
         $normalizedJsonArray = $this->psr4PathNormalizer->normalizePsr4NamespaceToPathsToJsonsArray(
             $psr4NamespaceToPaths
         );
-        $composerData = [
+
+        $composerJson = [
             ComposerJsonSection::AUTOLOAD => [
                 'psr-4' => $normalizedJsonArray,
             ],
         ];
 
-        return Json::encode($composerData, Json::PRETTY);
+        return Json::encode($composerJson, Json::PRETTY);
     }
 }

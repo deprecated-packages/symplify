@@ -47,11 +47,11 @@ final class JsonOutputFormatter implements OutputFormatterInterface
 
     public function createJsonContent(ErrorAndDiffResult $errorAndDiffResult): string
     {
-        $errorsArray = $this->createBaseErrorsArray($errorAndDiffResult);
+        $errorsArrayJson = $this->createBaseErrorsJson($errorAndDiffResult);
 
         $codingStandardErrors = $errorAndDiffResult->getErrors();
         foreach ($codingStandardErrors as $codingStandardError) {
-            $errorsArray[self::FILES][$codingStandardError->getRelativeFilePath()]['errors'][] = [
+            $errorsArrayJson[self::FILES][$codingStandardError->getRelativeFilePath()]['errors'][] = [
                 'line' => $codingStandardError->getLine(),
                 'file_path' => $codingStandardError->getRelativeFilePath(),
                 'message' => $codingStandardError->getMessage(),
@@ -61,19 +61,19 @@ final class JsonOutputFormatter implements OutputFormatterInterface
 
         $fileDiffs = $errorAndDiffResult->getFileDiffs();
         foreach ($fileDiffs as $fileDiff) {
-            $errorsArray[self::FILES][$fileDiff->getRelativeFilePath()]['diffs'][] = [
+            $errorsArrayJson[self::FILES][$fileDiff->getRelativeFilePath()]['diffs'][] = [
                 'diff' => $fileDiff->getDiff(),
                 'applied_checkers' => $fileDiff->getAppliedCheckers(),
             ];
         }
 
-        return Json::encode($errorsArray, Json::PRETTY);
+        return Json::encode($errorsArrayJson, Json::PRETTY);
     }
 
     /**
      * @return mixed[]
      */
-    private function createBaseErrorsArray(ErrorAndDiffResult $errorAndDiffResult): array
+    private function createBaseErrorsJson(ErrorAndDiffResult $errorAndDiffResult): array
     {
         return [
             'totals' => [
