@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
 use Symplify\EasyCodingStandard\SnippetFormatter\Application\SnippetFormatterApplication;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckHeredocNowdocCommand extends AbstractCheckCommand
 {
@@ -20,6 +21,7 @@ final class CheckHeredocNowdocCommand extends AbstractCheckCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Heredoc/Nowdoc PHP snippets in PHP files');
 
         parent::configure();

@@ -37,7 +37,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(JsonFileSystem::class);
 
     $services->set(Application::class)
-        ->call('addCommands', [[GenerateCommand::class]]);
+        ->call('addCommands', [[service(GenerateCommand::class)]]);
 
     $services->set(ParametersMerger::class);
 };
