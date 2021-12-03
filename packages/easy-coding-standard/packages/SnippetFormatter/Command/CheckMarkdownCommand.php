@@ -10,6 +10,7 @@ use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
 use Symplify\EasyCodingStandard\SnippetFormatter\Application\SnippetFormatterApplication;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckMarkdownCommand extends AbstractCheckCommand
 {
@@ -21,6 +22,7 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Format Markdown PHP code');
 
         parent::configure();

@@ -11,6 +11,7 @@ use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class BumpInterdependencyCommand extends AbstractSymplifyCommand
@@ -30,6 +31,7 @@ final class BumpInterdependencyCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Bump dependency of split packages on each other');
         $this->addArgument(
             self::VERSION_ARGUMENT,

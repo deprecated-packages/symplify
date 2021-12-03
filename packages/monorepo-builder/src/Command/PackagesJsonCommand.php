@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\Json\PackageJsonProvider;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class PackagesJsonCommand extends AbstractSymplifyCommand
 {
@@ -22,6 +23,7 @@ final class PackagesJsonCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Provides package paths in json format. Useful for GitHub Actions Workflow');
         $this->addOption(Option::TESTS, null, InputOption::VALUE_NONE, 'Only with /tests directory');
         $this->addOption(

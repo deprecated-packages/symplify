@@ -71,4 +71,3 @@ services:
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
     - Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver
     - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
-

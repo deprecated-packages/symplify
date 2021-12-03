@@ -83,12 +83,16 @@ final class KernelBootAndApplicationRun
             return;
         }
 
+        $currentValueType = get_debug_type($kernelClass);
+
         $errorMessage = sprintf(
-            'Class "%s" must by type of "%s" or "%s"',
+            'Class "%s" must by type of "%s" or "%s". "%s" given',
             $kernelClass,
             KernelInterface::class,
-            LightKernelInterface::class
+            LightKernelInterface::class,
+            $currentValueType
         );
+
         throw new BootException($errorMessage);
     }
 }
