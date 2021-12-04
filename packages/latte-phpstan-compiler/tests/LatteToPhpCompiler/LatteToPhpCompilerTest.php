@@ -97,6 +97,14 @@ final class LatteToPhpCompilerTest extends TestCase
             $componentNamesAndTypes,
             __DIR__ . '/FixtureWithControl/expected_compiled.php',
         ];
+
+        $variablesAndTypes = [new VariableAndType('actualClass', new ObjectType(SomeNameControl::class))];
+        yield [
+            __DIR__ . '/FixtureHandleLink/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureHandleLink/expected_compiled.php',
+        ];
     }
 
     /**
