@@ -11,4 +11,8 @@ final class SomeNameControl extends Control
     public function render(string $name)
     {
     }
+
+    public function handleDoSomething(string $foo, ?array $bar = null): void
+    {
+    }
 }

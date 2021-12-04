@@ -10,11 +10,13 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor;
+use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LinkNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\NClassNodeVisitor;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
@@ -36,6 +38,7 @@ final class LatteToPhpCompiler
         private LineCommentCorrector $lineCommentCorrector,
         private LatteVarTypeDocBlockDecorator $latteVarTypeDocBlockDecorator,
         private FilterMatcher $filterMatcher,
+        private NodeValueResolver $nodeValueResolver,
     ) {
     }
 
@@ -108,10 +111,13 @@ final class LatteToPhpCompiler
 
         $nClassNodeVisitor = new NClassNodeVisitor();
 
+        $linkNodeVisitor = new LinkNodeVisitor($this->simpleNameResolver, $this->nodeValueResolver);
+
         $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
         $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
         $nodeTraverser->addVisitor($instanceofRenderableNodeVisitor);
         $nodeTraverser->addVisitor($nClassNodeVisitor);
+        $nodeTraverser->addVisitor($linkNodeVisitor);
 
         $nodeTraverser->traverse($phpStmts);
     }
