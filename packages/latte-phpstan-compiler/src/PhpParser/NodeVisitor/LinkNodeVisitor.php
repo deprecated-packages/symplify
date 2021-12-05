@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
+use Nette\Application\PresenterFactory;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
@@ -28,11 +30,12 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private NodeValueResolver $nodeValueResolver
+        private NodeValueResolver $nodeValueResolver,
+        private PresenterFactory $presenterFactory
     ) {
     }
 
-    public function enterNode(Node $node): Node|null
+    public function leaveNode(Node $node): Node|array|int|null
     {
         if (! $node instanceof Echo_) {
             return null;
@@ -54,30 +57,64 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if (! $this->isMethodCallUiControlLink($methodCall)) {
+        if (! $this->isMethodCallUiLink($methodCall)) {
             return null;
         }
 
+        return $this->prepareNodes($methodCall, $node->getAttributes());
+    }
+
+    /**
+     * @return Node[]|null
+     */
+    private function prepareNodes(MethodCall $methodCall, array $attributes): ?array
+    {
         $linkArgs = $methodCall->getArgs();
         $target = $linkArgs[0]->value;
 
         $targetName = $this->nodeValueResolver->resolve($target, '');
+        $targetName = trim($targetName, '/');
+        $methodCallVar = null;
+        $targetMethodNames = [];
 
-        // Only handle methods can be transferred for now
-        if (! str_ends_with($targetName, '!')) {
+        if (str_ends_with($targetName, '!')) {
+            $targetMethodNames[] = 'handle' . ucfirst(substr($targetName, 0, -1));
+            $methodCallVar = new Variable('actualClass');
+        } elseif (str_contains($targetName, ':')) {
+            $actionParts = explode(':', $targetName);
+            $actionName = array_pop($actionParts);
+            $presenterName = implode($actionParts);
+            $presenterClassName = $this->presenterFactory->formatPresenterClass($presenterName);
+
+            $presenterNameVariable = lcfirst($presenterName) . 'Presenter';
+            $methodCallVar = new Variable($presenterNameVariable);
+
+            $attributes['comments'][] = new Doc(
+                '/** @var ' . $presenterClassName . ' $' . $presenterNameVariable . ' */'
+            );
+            $targetMethodNames = $this->createMethodNames($presenterClassName, $actionName);
+        }
+
+        if ($methodCallVar === null) {
+            return null;
+        }
+
+        if ($targetMethodNames === []) {
             return null;
         }
 
         $targetParams = $linkArgs[1]->value;
         $linkParams = $targetParams instanceof Array_ ? $this->createLinkParams($targetParams) : [];
 
-        $targetMethodName = 'handle' . ucfirst(substr($targetName, 0, -1));
-        return new Expression(new MethodCall(new Variable(
-            'actualClass',
-        ), $targetMethodName, $linkParams), $node->getAttributes());
+        $nodes = [];
+        foreach ($targetMethodNames as $targetMethodName) {
+            $nodes[] = new Expression(new MethodCall($methodCallVar, $targetMethodName, $linkParams), $attributes);
+            $attributes = [];   // reset attributes, we want to print them only with first expression
+        }
+        return $nodes;
     }
 
-    private function isMethodCallUiControlLink(MethodCall $methodCall): bool
+    private function isMethodCallUiLink(MethodCall $methodCall): bool
     {
         $methodName = $this->simpleNameResolver->getName($methodCall->name);
         if ($methodName !== 'link') {
@@ -90,10 +127,26 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
         }
 
         $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
-        if ($propertyFetchName !== 'uiControl') {
+        if (! in_array($propertyFetchName, ['uiControl', 'uiPresenter'], true)) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function createMethodNames(string $presenterClassName, string $actionName): array
+    {
+        $targetMethodNames = [];
+        // both methods have to have same parameters, so we check them both if exist
+        foreach (['action', 'render'] as $type) {
+            $targetMethodName = $type . ucfirst($actionName);
+            if (method_exists($presenterClassName, $targetMethodName)) {
+                $targetMethodNames[] = $targetMethodName;
+            }
+        }
+        return $targetMethodNames;
     }
 
     /**
