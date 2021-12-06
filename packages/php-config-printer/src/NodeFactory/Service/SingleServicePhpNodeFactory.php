@@ -94,7 +94,6 @@ final class SingleServicePhpNodeFactory
             $args[] = new Arg($returnCloneExpr);
         }
 
-
         $currentArray = current($call);
         if ($currentArray instanceof TaggedValue) {
             $args[] = new Arg(BuilderHelpers::normalizeValue(true));
