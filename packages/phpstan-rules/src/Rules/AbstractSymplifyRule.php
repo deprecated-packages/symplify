@@ -11,17 +11,26 @@ use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
 /**
- * @implements Rule<Node>
+ * @template NodeType of Node
+ *
+ * @implements Rule<NodeType>
  */
 abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, DocumentedRuleInterface
 {
     /**
-     * @return class-string<Node>
+     * @return class-string<NodeType>
      */
     public function getNodeType(): string
     {
         return Node::class;
     }
+
+    /**
+     * @param NodeType $node
+     *
+     * @return array<string|RuleError>
+     */
+    abstract function process(Node $node, Scope $scope): array;
 
     /**
      * @return mixed[]
