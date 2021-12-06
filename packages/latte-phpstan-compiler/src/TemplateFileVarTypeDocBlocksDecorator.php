@@ -6,6 +6,7 @@ namespace Symplify\LattePHPStanCompiler;
 
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ObjectType;
 use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
@@ -64,7 +65,7 @@ final class TemplateFileVarTypeDocBlocksDecorator
         }
 
         $classReflection = $scope->getClassReflection();
-        if ($classReflection) {
+        if ($classReflection instanceof ClassReflection) {
             $variablesAndTypes[] = new VariableAndType('actualClass', new ObjectType($classReflection->getName()));
         }
 

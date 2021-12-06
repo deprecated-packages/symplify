@@ -24,13 +24,17 @@ final class ConfiguredCodeSamplerPrinter
      */
     public function printConfiguredCodeSample(
         RuleDefinition $ruleDefinition,
-        ConfiguredCodeSample $configuredCodeSample
+        ConfiguredCodeSample $configuredCodeSample,
+        bool $shouldUseConfigureMethod
     ): array {
         $lines = [];
 
-        $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices([
-            $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
-        ]);
+        $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices(
+            [
+                $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
+            ],
+            $shouldUseConfigureMethod
+        );
 
         $lines[] = $this->markdownCodeWrapper->printPhpCode($configPhpCode);
 

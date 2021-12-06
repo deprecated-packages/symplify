@@ -23,7 +23,7 @@ final class RuleDefinitionsPrinter
      * @param RuleDefinition[] $ruleDefinitions
      * @return string[]
      */
-    public function print(array $ruleDefinitions, bool $shouldCategorize): array
+    public function print(array $ruleDefinitions, bool $shouldCategorize, bool $shouldUseConfigureMethod): array
     {
         $ruleCount = count($ruleDefinitions);
 
@@ -38,10 +38,15 @@ final class RuleDefinitionsPrinter
 
             foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
                 $lines[] = '## ' . $category;
-                $lines = $this->printRuleDefinitions($ruleDefinitions, $lines, $shouldCategorize);
+                $lines = $this->printRuleDefinitions(
+                    $ruleDefinitions,
+                    $lines,
+                    $shouldCategorize,
+                    $shouldUseConfigureMethod
+                );
             }
         } else {
-            $lines = $this->printRuleDefinitions($ruleDefinitions, $lines, false);
+            $lines = $this->printRuleDefinitions($ruleDefinitions, $lines, false, $shouldUseConfigureMethod);
         }
 
         return $lines;
@@ -70,8 +75,12 @@ final class RuleDefinitionsPrinter
      * @param string[] $lines
      * @return string[]
      */
-    private function printRuleDefinitions(array $ruleDefinitions, array $lines, bool $shouldCategorize): array
-    {
+    private function printRuleDefinitions(
+        array $ruleDefinitions,
+        array $lines,
+        bool $shouldCategorize,
+        bool $shouldUseConfigureMethod
+    ): array {
         foreach ($ruleDefinitions as $ruleDefinition) {
             if ($shouldCategorize) {
                 $lines[] = '### ' . $ruleDefinition->getRuleShortClass();
@@ -87,7 +96,7 @@ final class RuleDefinitionsPrinter
 
             $lines[] = '- class: [`' . $ruleDefinition->getRuleClass() . '`](' . $ruleDefinition->getRuleFilePath() . ')';
 
-            $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition);
+            $codeSampleLines = $this->codeSamplePrinter->print($ruleDefinition, $shouldUseConfigureMethod);
             $lines = array_merge($lines, $codeSampleLines);
         }
 

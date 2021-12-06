@@ -22,16 +22,20 @@ final class SmartPhpConfigPrinter
     }
 
     /**
-     * @param array<string, mixed[]|null> $configuredServices
+     * @param array<string, mixed> $configuredServices
      */
-    public function printConfiguredServices(array $configuredServices): string
+    public function printConfiguredServices(array $configuredServices, bool $shouldUseConfigureMethod): string
     {
         $servicesWithConfigureCalls = [];
         foreach ($configuredServices as $service => $configuration) {
             if ($configuration === null) {
                 $servicesWithConfigureCalls[$service] = null;
             } else {
-                $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration($configuration, $service);
+                $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration(
+                    $configuration,
+                    $service,
+                    $shouldUseConfigureMethod
+                );
             }
         }
 
@@ -44,16 +48,25 @@ final class SmartPhpConfigPrinter
 
     /**
      * @param mixed[] $configuration
-     * @return array<string, mixed>|null
+     * @return array<string, mixed>
      */
-    private function createServiceConfiguration(array $configuration, string $class): ?array
-    {
-        if ($configuration === []) {
-            return null;
+    private function createServiceConfiguration(
+        array $configuration,
+        string $class,
+        bool $shouldUseConfigureMethod
+    ): array {
+        if ($shouldUseConfigureMethod) {
+            $configuration = $this->serviceConfigurationDecorator->decorate(
+                $configuration,
+                $class,
+                $shouldUseConfigureMethod
+            );
+            return [
+                'configure' => $configuration,
+            ];
         }
 
-        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class);
-
+        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class, false);
         return [
             'calls' => [['configure', [$configuration]]],
         ];
