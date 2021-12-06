@@ -44,7 +44,8 @@ services:
                 - PhpParser\Node\Expr\Empty_
                 - PhpParser\Node\Stmt\Switch_
                 - PhpParser\Node\Expr\ErrorSuppress
-                # trait?
+                - PhpParser\Node\Scalar\Encapsed
+                - PhpParser\Node\Scalar\EncapsedStringPart
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredClassRule

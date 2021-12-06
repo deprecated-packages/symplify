@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Spotter;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
-use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 use Symplify\PHPStanRules\ValueObject\Spotter\ReturnAndAssignBranchCounts;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -29,6 +31,12 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
      * @var string
      */
     public const ERROR_MESSAGE = 'If/else construction can be replace with more robust match()';
+
+    public function __construct(
+        private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
+        private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer
+    ) {
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -48,21 +56,33 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
             return [];
         }
 
-        // all branches must have return or assign - at the same time
-        /** @var array<If_|Else_|ElseIf_> $branches */
-        $branches = array_merge([$node], $node->elseifs, [$node->else]);
+        $branches = $this->mergeIfBranches($node);
 
-        $singleBranchStmts = [];
+        $ifsAndConds = [];
         foreach ($branches as $branch) {
             // must be exactly single item
             if (count($branch->stmts) !== 1) {
                 return [];
             }
 
-            $singleBranchStmts[] = $branch->stmts[0];
+            // the conditioned parameters must be the same
+            if ($branch instanceof If_ || $branch instanceof ElseIf_) {
+                $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], $branch->cond);
+                continue;
+            }
+
+            $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], null);
         }
 
-        $returnAndAssignBranchCounts = $this->resolveBranchTypesToCount($singleBranchStmts);
+        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
+            return [];
+        }
+
+        if ($this->shouldSkipForConflictingReturn($node, $ifsAndConds)) {
+            return [];
+        }
+
+        $returnAndAssignBranchCounts = $this->ifElseBranchAnalyzer->resolveBranchTypesToCount($ifsAndConds);
 
         $branchCount = count($branches);
         if (! $this->isUnitedMatchingBranchType($returnAndAssignBranchCounts, $branchCount)) {
@@ -122,33 +142,49 @@ CODE_SAMPLE
     private function shouldSkipIf(If_ $if): bool
     {
         if ($if->else === null) {
-            return true;
+            // is followed by return?
+            $next = $if->getAttribute(AttributeKey::NEXT);
+            return ! $next instanceof Return_;
         }
 
         return $if->elseifs === [];
     }
 
     /**
-     * @param Stmt[] $branchSingleStmts
+     * @param IfAndCondExpr[] $ifsAndCondExprs
      */
-    private function resolveBranchTypesToCount(array $branchSingleStmts): ReturnAndAssignBranchCounts
+    private function shouldSkipForConflictingReturn(If_ $if, array $ifsAndCondExprs): bool
     {
-        $returnBranchCount = 0;
-        $assignBranchCount = 0;
-
-        foreach ($branchSingleStmts as $branchSingleStmt) {
-            // unwrap expression
-            if ($branchSingleStmt instanceof Expression) {
-                $branchSingleStmt = $branchSingleStmt->expr;
-            }
-
-            if ($branchSingleStmt instanceof Return_) {
-                ++$returnBranchCount;
-            } elseif ($branchSingleStmt instanceof Assign) {
-                ++$assignBranchCount;
-            }
+        if ($if->else !== null) {
+            return false;
         }
 
-        return new ReturnAndAssignBranchCounts($returnBranchCount, $assignBranchCount);
+        $next = $if->getAttribute(AttributeKey::NEXT);
+        if (! $next instanceof Return_) {
+            return false;
+        }
+
+        $returnExpr = $next->expr;
+        if (! $returnExpr instanceof Expr) {
+            return false;
+        }
+
+        return ! $this->ifResemblingMatchAnalyzer->isReturnExprSameVariableAsAssigned($returnExpr, $ifsAndCondExprs);
+    }
+
+    /**
+     * @return array<If_|Else_|ElseIf_>
+     */
+    private function mergeIfBranches(If_ $if): array
+    {
+        // all branches must have return or assign - at the same time
+
+        /** @var array<If_|Else_|ElseIf_> $branches */
+        $branches = array_merge([$if], $if->elseifs);
+        if ($if->else instanceof Else_) {
+            $branches[] = $if->else;
+        }
+
+        return $branches;
     }
 }

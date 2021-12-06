@@ -27,12 +27,7 @@ final class EasyCodingStandardConsoleApplication extends Application
         parent::__construct('EasyCodingStandard', StaticVersionResolver::PACKAGE_VERSION);
 
         // @see https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming/
-        $commandNaming = new CommandNaming();
-        foreach ($commands as $command) {
-            $commandName = $commandNaming->resolveFromCommand($command);
-            $command->setName($commandName);
-            $this->add($command);
-        }
+        $this->addCommands($commands);
 
         $this->setDefaultCommand(CommandNaming::classToName(CheckCommand::class));
     }

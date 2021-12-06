@@ -17,6 +17,7 @@ use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespace
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveExcludedCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualCheckersCompilerPass;
 use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
+use Symplify\EasyParallel\ValueObject\EasyParallelConfig;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\Skipper\ValueObject\SkipperConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
@@ -36,6 +37,7 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         $configFiles[] = SkipperConfig::FILE_PATH;
         $configFiles[] = CodingStandardConfig::FILE_PATH;
         $configFiles[] = EasyCodingStandardConfig::FILE_PATH;
+        $configFiles[] = EasyParallelConfig::FILE_PATH;
 
         return $this->create([], $compilerPasses, $configFiles);
     }

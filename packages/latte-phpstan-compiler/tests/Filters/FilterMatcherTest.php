@@ -56,5 +56,9 @@ final class FilterMatcherTest extends TestCase
         yield ['number', new FunctionCallReference('number_format')];
 
         yield ['translate', new DynamicCallReference(Translator::class, 'translate')];
+
+        yield ['breaklines', new StaticCallReference(Filters::class, 'breaklines')];
+
+        yield ['breakLines', new StaticCallReference(Filters::class, 'breaklines')];
     }
 }

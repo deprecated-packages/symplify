@@ -64,7 +64,7 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
         }
 
         if ($node instanceof ClassMethod) {
-            return $this->processClassMethod($node, $parent, $scope);
+            return $this->processClassMethod($node, $scope);
         }
 
         return $this->processProperty($parent, $node);
@@ -104,7 +104,7 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processClassMethod(ClassMethod $classMethod, Class_ $class, Scope $scope): array
+    private function processClassMethod(ClassMethod $classMethod, Scope $scope): array
     {
         // is Symfony Kernel required magic method?
         if ($this->isSymfonyMicroKernelRequired($classMethod, $scope)) {

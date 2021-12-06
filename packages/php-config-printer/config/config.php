@@ -5,7 +5,6 @@ declare(strict_types=1);
 use PhpParser\BuilderFactory;
 use PhpParser\NodeFinder;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -40,7 +39,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory(SimpleNameResolverStaticFactory::class . '::create');
 
     $services->set(ParameterProvider::class)
-        ->args([service(ContainerInterface::class)]);
+        ->args([service('service_container')]);
 
     $services->set(ClassLikeExistenceChecker::class);
 };

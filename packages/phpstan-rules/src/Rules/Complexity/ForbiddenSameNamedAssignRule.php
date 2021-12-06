@@ -6,23 +6,25 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\Switch_;
 use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\RuleError;
 use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedAssignRule\ForbiddenSameNamedAssignRuleTest
  */
-final class ForbiddenSameNamedAssignRule extends AbstractSymplifyRule
+final class ForbiddenSameNamedAssignRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -30,21 +32,20 @@ final class ForbiddenSameNamedAssignRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.';
 
     /**
-     * @var string[]
+     * @param string[] $allowedVariableNames
      */
-    private const ALLOWED_VARIABLE_NAMES = ['position'];
-
     public function __construct(
         private TestAnalyzer $testAnalyzer,
         private AssignAnalyzer $assignAnalyzer,
-        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser
+        private SimpleCallableNodeTraverser $simpleCallableNodeTraverser,
+        private array $allowedVariableNames
     ) {
     }
 
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
+            new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
 $value = 1000;
 $value = 2000;
@@ -55,6 +56,10 @@ CODE_SAMPLE
 $value = 1000;
 $anotherValue = 2000;
 CODE_SAMPLE
+                ,
+                [
+                    'allowedVariableNames' => ['position'],
+                ]
             ),
         ]);
     }
@@ -69,7 +74,7 @@ CODE_SAMPLE
 
     /**
      * @param ClassMethod|Function_ $node
-     * @return string[]|RuleError[]
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
@@ -82,15 +87,15 @@ CODE_SAMPLE
 
         $assignsByVariableNames = $this->assignAnalyzer->resolveAssignsByVariableNames(
             $assigns,
-            self::ALLOWED_VARIABLE_NAMES
+            $this->allowedVariableNames
         );
 
-        $overridenVariableNames = $this->resolveOverridenVariableNames($assignsByVariableNames);
-        if ($overridenVariableNames === []) {
+        $overriddenVariableNames = $this->resolveOverriddenVariableNames($assignsByVariableNames);
+        if ($overriddenVariableNames === []) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overridenVariableNames));
+        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overriddenVariableNames));
         return [$errorMessage];
     }
 
@@ -98,7 +103,7 @@ CODE_SAMPLE
      * @param array<string, Assign[]> $assignsByVariableNames
      * @return string[]
      */
-    private function resolveOverridenVariableNames(array $assignsByVariableNames): array
+    private function resolveOverriddenVariableNames(array $assignsByVariableNames): array
     {
         $overriddenVariableNames = [];
         foreach ($assignsByVariableNames as $variableName => $assigns) {
@@ -124,6 +129,15 @@ CODE_SAMPLE
         ) use (&$assigns): int|null {
             // avoid nested scope with different variable names
             if ($node instanceof Closure) {
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+            }
+
+            // skip switch branches
+            if ($node instanceof Switch_) {
+                return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+            }
+
+            if ($node instanceof BooleanOr) {
                 return NodeTraverser::DONT_TRAVERSE_CHILDREN;
             }
 

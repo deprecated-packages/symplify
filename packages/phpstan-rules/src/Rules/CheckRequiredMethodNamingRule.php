@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,11 +19,15 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Autowired/inject method name must respect "autowire/inject" + class name';
+    public const ERROR_MESSAGE = 'Autowired/inject method name "%s()" must respect "autowire/inject(*)" name';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_METHOD_NAMES = ['autowire', 'inject'];
 
     public function __construct(
         private AutowiredMethodAnalyzer $autowiredMethodAnalyzer,
-        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -46,11 +49,13 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->hasRequiredName((string) $node->name, $scope)) {
+        $methodName = (string) $node->name;
+        if ($this->hasRequiredName($methodName)) {
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $methodName);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -58,12 +63,12 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireRandom(...)
+    #[Required]
+    public function install(...)
     {
         // ...
     }
@@ -71,12 +76,12 @@ final class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireSomeClass(...)
+    #[Required]
+    public function autowire(...)
     {
         // ...
     }
@@ -86,14 +91,18 @@ CODE_SAMPLE
         ]);
     }
 
-    private function hasRequiredName(string $methodName, Scope $scope): bool
+    private function hasRequiredName(string $methodName): bool
     {
-        $shortClassName = $this->simpleNameResolver->resolveShortNameFromScope($scope);
-        if ($shortClassName === null) {
-            return true;
+        foreach (self::ALLOWED_METHOD_NAMES as $allowedMethodName) {
+            if ($methodName === $allowedMethodName) {
+                return true;
+            }
+
+            if (str_starts_with($methodName, $allowedMethodName)) {
+                return true;
+            }
         }
 
-        $requiredMethodNames = ['autowire' . $shortClassName, 'inject' . $shortClassName];
-        return in_array($methodName, $requiredMethodNames, true);
+        return false;
     }
 }

@@ -1,5 +1,13 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
         tags: [phpstan.rules.rule]
 

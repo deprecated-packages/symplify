@@ -23,7 +23,10 @@ final class FilterMatcher
      */
     private array $latteFilters = [];
 
-    private Defaults $filtersDefaults;
+    /**
+     * @var array<string, callable>
+     */
+    private array $defaultFilters = [];
 
     /**
      * @param array<string, string|array{string, string}> $latteFilters
@@ -34,11 +37,13 @@ final class FilterMatcher
             $this->latteFilters[strtolower($filterName)] = $this->createCallReference($latteFilter);
         }
 
-        $this->filtersDefaults = new Defaults();
+        $defaults = new Defaults();
+        $this->defaultFilters = array_change_key_case($defaults->getFilters());
     }
 
     public function match(string $filterName): CallReferenceInterface|null
     {
+        $filterName = strtolower($filterName);
         $callReference = $this->findInDefaultFilters($filterName);
         if ($callReference !== null) {
             return $callReference;
@@ -50,7 +55,7 @@ final class FilterMatcher
     private function findInDefaultFilters(string $filterName): CallReferenceInterface|null
     {
         // match filter name in
-        $filterCallable = $this->filtersDefaults->getFilters()[$filterName] ?? null;
+        $filterCallable = $this->defaultFilters[$filterName] ?? null;
         if ($filterCallable === null) {
             return null;
         }
@@ -62,8 +67,9 @@ final class FilterMatcher
     /**
      * @param string|string[] $filterCallable
      */
-    private function createCallReference(string|array $filterCallable): CallReferenceInterface
-    {
+    private function createCallReference(
+        string|array $filterCallable
+    ): DynamicCallReference|FunctionCallReference|StaticCallReference {
         if (is_string($filterCallable)) {
             return new FunctionCallReference($filterCallable);
         }

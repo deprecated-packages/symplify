@@ -27,14 +27,19 @@ final class EnumAnalyzer
 
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
-            return $this->hasEnumAnnotation($classLike);
+            return false;
         }
 
-        if (! $classReflection->isSubclassOf(Enum::class)) {
-            return $this->hasEnumAnnotation($classLike);
+        if ($this->hasEnumAnnotation($classLike)) {
+            return true;
         }
 
-        return true;
+        if ($classReflection->isSubclassOf(Enum::class)) {
+            return true;
+        }
+
+        // is in /Enum/ namespace
+        return str_contains($classReflection->getName(), '\\Enum\\');
     }
 
     private function hasEnumAnnotation(Class_ $class): bool

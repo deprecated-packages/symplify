@@ -36,29 +36,14 @@ final class SingleServicePhpNodeFactory
      * @param mixed[] $calls
      * @see https://symfony.com/doc/current/service_container/injection_types.html
      */
-    public function createCalls(MethodCall $methodCall, array $calls): MethodCall
+    public function createCalls(MethodCall $methodCall, array $calls, bool $shouldUseConfigureMethod): MethodCall
     {
+        if ($shouldUseConfigureMethod) {
+            return $this->createConfigureMethodCall($calls, $methodCall);
+        }
+
         foreach ($calls as $call) {
-            // @todo can be more items
-            $args = [];
-
-            $methodName = $this->resolveCallMethod($call);
-            $args[] = new Arg($methodName);
-
-            $argumentsExpr = $this->resolveCallArguments($call);
-            $args[] = new Arg($argumentsExpr);
-
-            $returnCloneExpr = $this->resolveCallReturnClone($call);
-            if ($returnCloneExpr !== null) {
-                $args[] = new Arg($returnCloneExpr);
-            }
-
-            $currentArray = current($call);
-            if ($currentArray instanceof TaggedValue) {
-                $args[] = new Arg(BuilderHelpers::normalizeValue(true));
-            }
-
-            $methodCall = new MethodCall($methodCall, 'call', $args);
+            $methodCall = $this->createCallMethodCall($call, $methodCall);
         }
 
         return $methodCall;
@@ -92,5 +77,39 @@ final class SingleServicePhpNodeFactory
         }
 
         return null;
+    }
+
+    private function createCallMethodCall(mixed $call, MethodCall $methodCall): MethodCall
+    {
+        $args = [];
+
+        $string = $this->resolveCallMethod($call);
+        $args[] = new Arg($string);
+
+        $argumentsExpr = $this->resolveCallArguments($call);
+        $args[] = new Arg($argumentsExpr);
+
+        $returnCloneExpr = $this->resolveCallReturnClone($call);
+        if ($returnCloneExpr !== null) {
+            $args[] = new Arg($returnCloneExpr);
+        }
+
+        $currentArray = current($call);
+        if ($currentArray instanceof TaggedValue) {
+            $args[] = new Arg(BuilderHelpers::normalizeValue(true));
+        }
+
+        return new MethodCall($methodCall, 'call', $args);
+    }
+
+    private function createConfigureMethodCall(array $calls, MethodCall $methodCall): MethodCall
+    {
+        $args = [];
+
+        $argumentsExpr = $this->argsNodeFactory->resolveExpr($calls);
+
+        $args[] = new Arg($argumentsExpr);
+
+        return new MethodCall($methodCall, 'configure', $args);
     }
 }

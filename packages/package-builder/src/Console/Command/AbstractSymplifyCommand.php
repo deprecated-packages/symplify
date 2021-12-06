@@ -31,7 +31,7 @@ abstract class AbstractSymplifyCommand extends Command
     }
 
     #[Required]
-    public function autowireAbstractSymplifyCommand(
+    public function autowire(
         SymfonyStyle $symfonyStyle,
         SmartFileSystem $smartFileSystem,
         SmartFinder $smartFinder,

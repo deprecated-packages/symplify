@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
 use PhpParser\Node\Stmt\Expression;
-use Symplify\PhpConfigPrinter\CaseConverter\InstanceOfNestedCaseConverter;
+use Symplify\PhpConfigPrinter\CaseConverter\NestedCaseConverter\InstanceOfNestedCaseConverter;
 
 final class ContainerNestedNodesFactory
 {

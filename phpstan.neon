@@ -127,7 +127,6 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        - '#Call to an undefined method ReflectionType\:\:getName\(\)#'
         - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
@@ -244,12 +243,6 @@ parameters:
         # manually constructored for Symfony compiler pass, before DI is created
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
-        # false positive - changes on release
-        -
-            message: '#Unreachable statement \- code above always terminates#'
-            paths:
-                - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
@@ -320,14 +313,11 @@ parameters:
              paths:
                  - packages/git-wrapper/src
                  - packages/git-wrapper/tests
-
+                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
 
         - '#Parameter "outputFileInfo" cannot be nullable#'
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
-
-        # some phpstan bug
-        - '#(Method|Property) (.*?) iterable type Symfony\\Component\\Process\\Process#'
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
@@ -524,7 +514,6 @@ parameters:
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
                  - packages/symplify-kernel/src/ValueObject/KernelBootAndApplicationRun.php
                  - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
-                 - packages/easy-coding-standard/src/Finder/SourceFinder.php
                  - packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php
                  - packages/phpstan-rules/src/Rules/PreventDuplicateClassMethodRule.php
 
@@ -542,24 +531,11 @@ parameters:
 
         # parallel
         - '#popen(.*?)" is forbidden to use#'
-        -
-            message: '#Parameter "projectConfigFile" cannot be nullable#'
-            paths:
-                - packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
-                - packages/easy-coding-standard/packages/Parallel/Command/WorkerCommandLineFactory.php
         - '#PHPDoc tag @param for parameter \$postFileCallback with type \(Closure\)\|null is not subtype of native type Closure#'
-        -
-            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem" class and "readFile\(\)" method call over "file_get_contents\(\)" func call#'
-            path: packages/easy-coding-standard/packages/Parallel/CpuCoreCountProvider.php
 
         # json return
         -
             message: '#Use value object over return of values#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
-
-        # handy property fetch for nested closures
-        -
-            message: '#Cannot call method (.*?)\(\) on Symplify\\EasyCodingStandard\\Parallel\\ValueObject\\ProcessPool\|null#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         # complex worker pool logic
@@ -570,21 +546,15 @@ parameters:
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
         # false positive
-        - '#Parameter \#1 \$kernel of method Symplify\\SymplifyKernel\\ValueObject\\KernelBootAndApplicationRun\:\:setExtraConfigs\(\) expects Symfony\\Component\\HttpKernel\\KernelInterface, Symfony\\Component\\HttpKernel\\KernelInterface\|Symplify\\SymplifyKernel\\Contract\\LightKernelInterface given#'
 
         # known realpath() checked with file_exist right above
         -
             message: '#Function resolveConfigFile\(\) should return string\|null but returns string\|false#'
             path: packages/monorepo-builder/bin/monorepo-builder.php
-        -
-            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Caching\\ChangedFilesDetector\:\:setUsedConfigs\(\) expects array<string\>, array<int, string\|false\> given#'
-            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
 
         -
             path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
             message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
-
-        - '#Content of method "createFromConfigs\(\)" is duplicated with method "createFromConfigs\(\)" in "Symplify\\(.*?)\\HttpKernel\\Psr4SwitcherKernel" class\. Use unique content or service instead#'
 
         -
             path: packages/php-config-printer/src/ValueObject/YamlKey.php
@@ -596,3 +566,24 @@ parameters:
         -
             path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
+
+        -
+            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem" class and "readFile\(\)" method call over "file_get_contents\(\)" func call#'
+            path: packages/easy-parallel/src/CpuCoreCountProvider.php
+
+        -
+            message: '#Cannot call method (.*?)\(\) on Symplify\\EasyParallel\\ValueObject\\ProcessPool\|null#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        -
+            message: '#Parameter "projectConfigFile" cannot be nullable#'
+            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        -
+            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
+            paths:
+                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
+                 - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
+
+         # node finder generics meshup
+        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstByType\(\) should return T of PhpParser\\Node\|null but returns PhpParser\\Node\|null#'

@@ -12,8 +12,20 @@ use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCI\Console\EasyCIConsoleApplication;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
+use Symplify\EasyCI\ActiveClass\Command\CheckActiveClassCommand;
+use Symplify\EasyCI\Command\CheckCommentedCodeCommand;
+use Symplify\EasyCI\Command\CheckConflictsCommand;
+use Symplify\EasyCI\Command\CheckLatteTemplateCommand;
+use Symplify\EasyCI\Command\CheckTwigRenderCommand;
+use Symplify\EasyCI\Command\CheckTwigTemplateCommand;
+use Symplify\EasyCI\Command\PhpVersionsJsonCommand;
+use Symplify\EasyCI\Command\ValidateFileLengthCommand;
+use Symplify\EasyCI\Config\Command\CheckConfigCommand;
+use Symplify\EasyCI\Neon\Command\CheckNeonCommand;
+use Symplify\EasyCI\Psr4\Command\CheckFileClassNameCommand;
+use Symplify\EasyCI\Psr4\Command\FindMultiClassesCommand;
+use Symplify\EasyCI\Psr4\Command\GeneratePsr4ToPathsCommand;
+use Symplify\EasyCI\StaticDetector\Command\DetectStaticCommand;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -31,9 +43,25 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->exclude([__DIR__ . '/../src/Kernel', __DIR__ . '/../src/ValueObject']);
 
     // console
-    $services->set(CommandNaming::class);
-    $services->set(EasyCIConsoleApplication::class);
-    $services->alias(Application::class, EasyCIConsoleApplication::class);
+    $services->set(Application::class)
+        ->call('addCommands', [[
+            // basic commands
+            service(CheckCommentedCodeCommand::class),
+            service(CheckConflictsCommand::class),
+            service(CheckLatteTemplateCommand::class),
+            service(CheckTwigRenderCommand::class),
+            service(CheckTwigTemplateCommand::class),
+            service(PhpVersionsJsonCommand::class),
+            service(ValidateFileLengthCommand::class),
+            // package commands
+            service(CheckActiveClassCommand::class),
+            service(CheckConfigCommand::class),
+            service(CheckNeonCommand::class),
+            service(CheckFileClassNameCommand::class),
+            service(FindMultiClassesCommand::class),
+            service(GeneratePsr4ToPathsCommand::class),
+            service(DetectStaticCommand::class),
+        ]]);
 
     $services->set(VersionParser::class);
     $services->set(Semver::class);

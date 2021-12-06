@@ -92,7 +92,7 @@ final class ClassExtractor
             unset($neon['application']['mapping']);
             unset($neon['mapping']);
 
-            return Neon::encode($neon, Encoder::BLOCK);
+            return Neon::encode($neon, Encoder::BLOCK, '    ');
         }
 
         return $fileInfo->getContents();

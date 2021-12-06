@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(ConfigurableRector::class)
-        ->call('configure', [['key' => 'value']]);
+        ->configure(['key' => 'value', 'second_key' => 'second_value']);
 };
 ```
 
@@ -50,13 +50,12 @@ use PHPStan\Type\ObjectType;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\WithPHPStanTypeObject;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Source\SomeValueObjectWrapper;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(WithPHPStanTypeObject::class)
-        ->call('configure', [[WithPHPStanTypeObject::ADDED_ARGUMENTS => ValueObjectInliner::inline([new SomeValueObjectWrapper(new ObjectType('SomeObject'))])]]);
+        ->configure([new SomeValueObjectWrapper(new ObjectType('SomeObject'))]);
 };
 ```
 

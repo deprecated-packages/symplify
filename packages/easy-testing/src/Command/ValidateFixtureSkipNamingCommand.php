@@ -23,6 +23,7 @@ final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName('validate-fixture-skip-naming');
         $this->addArgument(Option::SOURCE, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Paths to analyse');
         $this->setDescription('Check that skipped fixture files (without `-----` separator) have a "skip" prefix');
     }

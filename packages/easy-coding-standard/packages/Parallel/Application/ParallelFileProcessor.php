@@ -13,19 +13,20 @@ use React\Socket\ConnectionInterface;
 use React\Socket\TcpServer;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symplify\EasyCodingStandard\Parallel\Command\WorkerCommandLineFactory;
-use Symplify\EasyCodingStandard\Parallel\Enum\Action;
+use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ParallelProcess;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ProcessPool;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactCommand;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\ReactEvent;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\Schedule;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\EasyCodingStandard\ValueObject\Error\SystemError;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\PackageBuilder\Parameter\ParameterProvider;
+use Symplify\EasyParallel\CommandLine\WorkerCommandLineFactory;
+use Symplify\EasyParallel\Enum\Action;
+use Symplify\EasyParallel\Enum\Content;
+use Symplify\EasyParallel\Enum\ReactCommand;
+use Symplify\EasyParallel\Enum\ReactEvent;
+use Symplify\EasyParallel\ValueObject\ParallelProcess;
+use Symplify\EasyParallel\ValueObject\ProcessPool;
+use Symplify\EasyParallel\ValueObject\Schedule;
 use Throwable;
 
 /**
@@ -41,15 +42,16 @@ final class ParallelFileProcessor
      */
     public const TIMEOUT_IN_SECONDS = 60;
 
-    private int $systemErrorsCountLimit;
+    /**
+     * @var int
+     */
+    private const SYSTEM_ERRORS_COUNT_LIMIT = 50;
 
     private ProcessPool|null $processPool = null;
 
     public function __construct(
-        ParameterProvider $parameterProvider,
-        private WorkerCommandLineFactory $workerCommandLineFactory
+        private WorkerCommandLineFactory $workerCommandLineFactory,
     ) {
-        $this->systemErrorsCountLimit = $parameterProvider->provideIntParameter(Option::SYSTEM_ERROR_COUNT_LIMIT);
     }
 
     /**
@@ -98,8 +100,8 @@ final class ParallelFileProcessor
 
                 $job = array_pop($jobs);
                 $parallelProcess->request([
-                    ReactCommand::ACTION => Action::CHECK,
-                    'files' => $job,
+                    ReactCommand::ACTION => Action::MAIN,
+                    Content::FILES => $job,
                 ]);
             });
         });
@@ -135,6 +137,9 @@ final class ParallelFileProcessor
             $processIdentifier = Random::generate();
             $workerCommandLine = $this->workerCommandLineFactory->create(
                 $mainScript,
+                CheckCommand::class,
+                'worker',
+                Option::PATHS,
                 $projectConfigFile,
                 $input,
                 $processIdentifier,
@@ -180,7 +185,7 @@ final class ParallelFileProcessor
                     }
 
                     $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
-                    if ($systemErrorsCount >= $this->systemErrorsCountLimit) {
+                    if ($systemErrorsCount >= self::SYSTEM_ERRORS_COUNT_LIMIT) {
                         $reachedInternalErrorsCountLimit = true;
                         $this->processPool->quitAll();
                     }
@@ -192,8 +197,8 @@ final class ParallelFileProcessor
 
                     $job = array_pop($jobs);
                     $parallelProcess->request([
-                        ReactCommand::ACTION => Action::CHECK,
-                        'files' => $job,
+                        ReactCommand::ACTION => Action::MAIN,
+                        Content::FILES => $job,
                     ]);
                 },
 
@@ -223,7 +228,7 @@ final class ParallelFileProcessor
         if ($reachedSystemErrorsCountLimit) {
             $systemErrors[] = sprintf(
                 'Reached system errors count limit of %d, exiting...',
-                $this->systemErrorsCountLimit
+                self::SYSTEM_ERRORS_COUNT_LIMIT
             );
         }
 

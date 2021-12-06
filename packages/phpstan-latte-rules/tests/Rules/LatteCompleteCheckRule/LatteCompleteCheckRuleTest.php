@@ -8,6 +8,7 @@ use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\ControlWithHandle;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\InvalidControlRenderArguments;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
@@ -65,6 +66,23 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
             [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 16],
         ];
         yield [__DIR__ . '/Fixture/ControlWithForm.php', $errorMessages];
+
+        $errorMessages = [
+            [
+                'Method ' . ControlWithHandle::class . '::handleDoSomething() invoked with 3 parameters, 1-2 required.',
+                18,
+            ],
+            [
+                'Parameter #2 $bar of method ' . ControlWithHandle::class . '::handleDoSomething() expects array|null, string given.',
+                18,
+            ],
+            [
+                'Parameter #2 $bar of method ' . ControlWithHandle::class . '::handleDoSomething() expects array|null, string given.',
+                18,
+            ],
+            ['Call to an undefined method ' . ControlWithHandle::class . '::handleUnknown().', 18],
+        ];
+        yield [__DIR__ . '/Fixture/ControlWithHandle.php', $errorMessages];
     }
 
     protected function getRule(): Rule

@@ -26,8 +26,9 @@ final class SkipKernel extends Kernel
         $value->call($this->juggleBall);
     }
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
+        return [];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

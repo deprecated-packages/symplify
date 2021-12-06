@@ -125,4 +125,10 @@ final class Option
      * @var string
      */
     public const EXCLUDE_PACKAGE_VERSION_CONFLICTS = 'exclude_package_version_conflicts';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const REMOVE_COMPLETELY = 'remove_completely';
 }

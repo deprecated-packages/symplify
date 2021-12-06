@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\Reflection;
 
+use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
+use PHPStan\Reflection\MethodReflection;
+use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 use Symplify\Astral\PhpParser\SmartPhpParser;
@@ -24,9 +27,26 @@ final class ReflectionParser
     ) {
     }
 
-    public function parseMethodReflectionToClassMethod(ReflectionMethod $reflectionMethod): ?ClassMethod
+    public function parsePHPStanMethodReflection(MethodReflection $methodReflection): ?ClassMethod
     {
-        $class = $this->parseReflectionToClass($reflectionMethod);
+        $classReflection = $methodReflection->getDeclaringClass();
+
+        $fileName = $classReflection->getFileName();
+        if ($fileName === null) {
+            return null;
+        }
+
+        $class = $this->parseFilenameToClass($fileName);
+        if (! $class instanceof Node) {
+            return null;
+        }
+
+        return $class->getMethod($methodReflection->getName());
+    }
+
+    public function parseMethodReflection(ReflectionMethod $reflectionMethod): ?ClassMethod
+    {
+        $class = $this->parseNativeClassReflection($reflectionMethod->getDeclaringClass());
         if (! $class instanceof Class_) {
             return null;
         }
@@ -34,9 +54,9 @@ final class ReflectionParser
         return $class->getMethod($reflectionMethod->getName());
     }
 
-    public function parsePropertyReflectionToProperty(ReflectionProperty $reflectionProperty): ?Property
+    public function parsePropertyReflection(ReflectionProperty $reflectionProperty): ?Property
     {
-        $class = $this->parseReflectionToClass($reflectionProperty);
+        $class = $this->parseNativeClassReflection($reflectionProperty->getDeclaringClass());
         if (! $class instanceof Class_) {
             return null;
         }
@@ -44,15 +64,18 @@ final class ReflectionParser
         return $class->getProperty($reflectionProperty->getName());
     }
 
-    private function parseReflectionToClass(\ReflectionMethod | \ReflectionProperty $reflector): ?Class_
+    private function parseNativeClassReflection(ReflectionClass $reflectionClass): ?Class_
     {
-        $reflectionClass = $reflector->getDeclaringClass();
-
         $fileName = $reflectionClass->getFileName();
         if ($fileName === false) {
             return null;
         }
 
+        return $this->parseFilenameToClass($fileName);
+    }
+
+    private function parseFilenameToClass(string $fileName): Class_|null
+    {
         try {
             $stmts = $this->smartPhpParser->parseFile($fileName);
         } catch (Throwable) {

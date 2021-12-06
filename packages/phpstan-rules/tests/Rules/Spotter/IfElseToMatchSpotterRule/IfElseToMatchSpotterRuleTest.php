@@ -25,11 +25,16 @@ final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipMultiStmts.php', []];
+        yield [__DIR__ . '/Fixture/SkipNextReturnDifferentMethodCall.php', []];
+        yield [__DIR__ . '/Fixture/SkipIfWithReturn.php', []];
+        yield [__DIR__ . '/Fixture/SkipComplexValue.php', []];
+        yield [__DIR__ . '/Fixture/SkipNonEmpty.php', []];
         yield [__DIR__ . '/Fixture/SkipNonMatchIf.php', []];
         yield [__DIR__ . '/Fixture/SkipAlmostMatching.php', []];
 
+        yield [__DIR__ . '/Fixture/EmptyArrayAssign.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 13]]];
         yield [__DIR__ . '/Fixture/MatchingIfCandidate.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/LaterReturnDefault.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 12]]];
     }
 
     protected function getRule(): Rule

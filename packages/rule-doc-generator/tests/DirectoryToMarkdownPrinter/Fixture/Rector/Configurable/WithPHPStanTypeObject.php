@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable;
 
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\StringType;
-use Rector\Arguments\ValueObject\ArgumentAdder;
 use Rector\Core\Contract\Rector\RectorInterface;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Source\SomeValueObjectWrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -23,9 +21,7 @@ final class WithPHPStanTypeObject implements RectorInterface
         $objectType = new ObjectType('SomeObject');
 
         $exampleConfiguration = [
-            self::ADDED_ARGUMENTS => [
-                new SomeValueObjectWrapper($objectType),
-            ],
+            new SomeValueObjectWrapper($objectType),
         ];
 
         return new RuleDefinition('Some change', [

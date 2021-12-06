@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -23,6 +24,7 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
+        $this->setName(CommandNaming::classToName(self::class));
         $this->setDescription('Generated Markdown documentation based on documented rules found in directory');
         $this->addArgument(
             Option::PATHS,
@@ -37,12 +39,15 @@ final class GenerateCommand extends AbstractSymplifyCommand
             getcwd() . '/docs/rules_overview.md'
         );
         $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
+        $this->addOption(Option::CONFIGURE_METHOD, null, InputOption::VALUE_NONE, 'Use configure() method in configs');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $paths = (array) $input->getArgument(Option::PATHS);
         $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
+
+        $shouldUseConfigureMethod = (bool) $input->getOption(Option::CONFIGURE_METHOD);
 
         // dump markdown file
         $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);
@@ -57,7 +62,8 @@ final class GenerateCommand extends AbstractSymplifyCommand
         $markdownFileContent = $this->directoryToMarkdownPrinter->print(
             $markdownFileDirectory,
             $paths,
-            $shouldCategorize
+            $shouldCategorize,
+            $shouldUseConfigureMethod
         );
 
         $this->smartFileSystem->dumpFile($outputFilePath, $markdownFileContent);

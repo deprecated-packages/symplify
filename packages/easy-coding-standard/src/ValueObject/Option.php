@@ -44,9 +44,16 @@ final class Option
     public const SETS = 'sets';
 
     /**
+     * @api
+     * Alias for SOURCE
      * @var string
      */
-    public const PATHS = 'paths';
+    public const PATHS = self::SOURCE;
+
+    /**
+     * @var string
+     */
+    public const SOURCE = 'source';
 
     /**
      * @api
@@ -91,12 +98,6 @@ final class Option
     public const INDENTATION_TAB = 'tab';
 
     /**
-     * @deprecated
-     * @var string
-     */
-    public const MATCH_GIT_DIFF = 'match-git-diff';
-
-    /**
      * @var string
      */
     public const XDEBUG = 'xdebug';
@@ -135,4 +136,9 @@ final class Option
      * @var string
      */
     public const PARALLEL_IDENTIFIER = 'identifier';
+
+    /**
+     * @var string
+     */
+    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
 }

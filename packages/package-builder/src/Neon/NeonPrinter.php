@@ -30,10 +30,7 @@ final class NeonPrinter
      */
     public function printNeon(array $phpStanNeon): string
     {
-        $neonContent = Neon::encode($phpStanNeon, Encoder::BLOCK);
-
-        // tabs to spaces for consistency
-        $neonContent = $this->replaceTabsWithSpaces($neonContent);
+        $neonContent = Neon::encode($phpStanNeon, Encoder::BLOCK, '    ');
 
         // inline single tags, dummy
         $neonContent = $this->inlineSingleTags($neonContent);
@@ -41,11 +38,6 @@ final class NeonPrinter
         $neonContent = $this->fixDoubleSpaceInArguments($neonContent);
 
         return rtrim($neonContent) . PHP_EOL;
-    }
-
-    private function replaceTabsWithSpaces(string $neonContent): string
-    {
-        return Strings::replace($neonContent, '#\t#', '    ');
     }
 
     private function inlineSingleTags(string $neonContent): string

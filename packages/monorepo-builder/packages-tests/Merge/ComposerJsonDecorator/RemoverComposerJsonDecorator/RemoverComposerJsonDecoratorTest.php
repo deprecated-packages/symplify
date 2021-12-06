@@ -30,6 +30,12 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
             ],
             'files' => ['src/SomeFile.php', 'src/KeepFile.php'],
         ],
+        ComposerJsonSection::REPOSITORIES => [
+            [
+                'type' => 'git',
+                'url' => '',
+            ],
+        ],
     ];
 
     private ComposerJson $composerJson;
@@ -54,6 +60,7 @@ final class RemoverComposerJsonDecoratorTest extends AbstractComposerJsonDecorat
                 ],
                 'files' => ['src/SomeFile.php'],
             ],
+            ComposerJsonSection::REPOSITORIES => [Option::REMOVE_COMPLETELY],
         ]);
 
         $this->removerComposerJsonDecorator = $this->getService(RemoverComposerJsonDecorator::class);

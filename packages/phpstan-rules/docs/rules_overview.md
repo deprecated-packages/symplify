@@ -1,4 +1,4 @@
-# 155 Rules Overview
+# 158 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -353,17 +353,17 @@ interface ProductRepositoryInterface
 
 ## CheckRequiredMethodNamingRule
 
-Autowired/inject method name must respect "autowire/inject" + class name
+Autowired/inject method name `"%s()"` must respect "autowire/inject(*)" name
 
 - class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](../src/Rules/CheckRequiredMethodNamingRule.php)
 
 ```php
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireRandom(...)
+    #[Required]
+    public function install(...)
     {
         // ...
     }
@@ -375,12 +375,12 @@ final class SomeClass
 <br>
 
 ```php
+use Symfony\Contracts\Service\Attribute\Required;
+
 final class SomeClass
 {
-    /**
-     * @required
-     */
-    public function autowireSomeClass(...)
+    #[Required]
+    public function autowire(...)
     {
         // ...
     }
@@ -735,9 +735,7 @@ $database->query('INSERT INTO table %v', 'string');
 <br>
 
 ```php
-$database->query('INSERT INTO table %v', [
-    'name' => 'Matthias',
-]);
+$database->query('INSERT INTO table %v', ['name' => 'Matthias']);
 ```
 
 :+1:
@@ -1041,8 +1039,7 @@ Anonymous class is not allowed.
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule`](../src/Rules/ForbiddenAnonymousClassRule.php)
 
 ```php
-new class() {
-};
+new class {};
 ```
 
 :x:
@@ -1052,9 +1049,10 @@ new class() {
 ```php
 class SomeClass
 {
+
 }
 
-new SomeClass();
+new SomeClass;
 ```
 
 :+1:
@@ -1104,7 +1102,7 @@ Array method calls [$this, "method"] are not allowed. Use explicit method instea
 - class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule`](../src/Rules/Complexity/ForbiddenArrayMethodCallRule.php)
 
 ```php
-usort($items, [$this, 'method']);
+usort($items, [$this, "method"]);
 ```
 
 :x:
@@ -2073,7 +2071,21 @@ class SomeClass
 
 Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
 
+:wrench: **configure it!**
+
 - class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule`](../src/Rules/Complexity/ForbiddenSameNamedAssignRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedVariableNames:
+                - position
+```
+
+↓
 
 ```php
 $value = 1000;
@@ -2288,7 +2300,7 @@ class SomeClass
 {
     public function spot($value)
     {
-        return match ($value) {
+        return match($value) {
             100 => ['yes'],
             default => ['no'],
         };
@@ -2633,12 +2645,10 @@ services:
 ↓
 
 ```php
-$this->runThis()
-    ->runThat();
+$this->runThis()->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :x:
@@ -2650,8 +2660,7 @@ $this->runThis();
 $this->runThat();
 
 $fluentClass = new AllowedFluent();
-$fluentClass->one()
-    ->two();
+$fluentClass->one()->two();
 ```
 
 :+1:
@@ -2745,7 +2754,7 @@ final class SomeTest
 ```php
 final class SomeTest
 {
-    protected function setUp()
+    public function setUp()
     {
         // ...
     }
@@ -3317,7 +3326,7 @@ class SomeClass
     public function run()
     {
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if (isset($object)) {
@@ -3338,7 +3347,7 @@ class SomeClass
     {
         $object = null;
         if (random_int(0, 1)) {
-            $object = new self();
+            $object = new SomeClass();
         }
 
         if ($object !== null) {
@@ -3953,6 +3962,33 @@ class SomeClass
 
 <br>
 
+## NoPropertySetOverrideRule
+
+Property set "%s" is overridden.
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule`](../src/Rules/Complexity/NoPropertySetOverrideRule.php)
+
+```php
+$someObject = new SomeClass();
+$someObject->name = 'First value';
+
+// ...
+$someObject->name = 'Second value';
+```
+
+:x:
+
+<br>
+
+```php
+$someObject = new SomeClass();
+$someObject->name = 'First value';
+```
+
+:+1:
+
+<br>
+
 ## NoProtectedElementInFinalClassRule
 
 Instead of protected element in final class use private element or contract method
@@ -4255,7 +4291,7 @@ final class SomeControl extends Control
     public function render()
     {
         $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000,
+            'value' => 1000
         ]);
     }
 }
@@ -4288,6 +4324,48 @@ trait SomeTrait
 class SomeService
 {
     public function run(...)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoVoidAssignRule
+
+Assign of void value is not allowed, as it can lead to unexpected results
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule`](../src/Rules/Explicit/NoVoidAssignRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $value = $this->getNothing();
+    }
+
+    public function getNothing(): void
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $this->getNothing();
+    }
+
+    public function getNothing(): void
     {
     }
 }
@@ -4588,7 +4666,7 @@ final class UseRawDataForTestDataProviderTest
 
     protected function setUp()
     {
-        $this->obj = new stdClass();
+        $this->obj = new stdClass;
     }
 
     public function provideFoo()
@@ -4826,7 +4904,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route('/path')]
+    #[Route("/path")]
     public function someAction()
     {
     }
@@ -4842,7 +4920,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #[Route(path: '/path')]
+    #[Route(path: "/path")]
     public function someAction()
     {
     }
@@ -5058,6 +5136,7 @@ namespace App\Controller;
 
 final class SomeException extends Exception
 {
+
 }
 ```
 
@@ -5202,7 +5281,7 @@ class SomeController extends AbstractController
     public function default()
     {
         return $this->render('...', [
-            'name' => 'John',
+            'name' => 'John'
         ]);
     }
 }
@@ -5731,6 +5810,54 @@ abstract class AbstractClass
 
 <br>
 
+## RespectPropertyTypeInGetterReturnTypeRule
+
+This getter method does not respect property type
+
+- class: [`Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule`](../src/Rules/StrictTypes/RespectPropertyTypeInGetterReturnTypeRule.php)
+
+```php
+final class SomeClass
+{
+    private $value = [];
+
+    public function setValues(array $values)
+    {
+        $this->values = $values;
+    }
+
+    public function getValues(): array|null
+    {
+        return $this->values;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private $value = [];
+
+    public function setValues(array $values)
+    {
+        $this->values = $values;
+    }
+
+    public function getValues(): array
+    {
+        return $this->values;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## SeeAnnotationToTestRule
 
 Class "%s" is missing `@see` annotation with test case class reference
@@ -5810,7 +5937,10 @@ class SomeClass
 
     private $anotherType;
 
-    public function injectSomeClass(Type $type, AnotherType $anotherType) {
+    public function injectSomeClass(
+        Type $type,
+        AnotherType $anotherType
+    ) {
         $this->type = $type;
         $this->anotherType = $anotherType;
     }
@@ -5893,7 +6023,11 @@ services:
 ↓
 
 ```php
-$someObject = new A(new B(new C()));
+$someObject = new A(
+    new B(
+        new C()
+    )
+);
 ```
 
 :x:
@@ -6030,9 +6164,7 @@ Instead of array shape, use value object with specific types in constructor and 
  */
 function createConfiguration()
 {
-    return [
-        'line' => 100,
-    ];
+    return ['line' => 100];
 }
 ```
 

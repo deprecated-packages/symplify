@@ -6,6 +6,8 @@ namespace Symplify\LattePHPStanCompiler;
 
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\ObjectType;
 use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
 use Symplify\LattePHPStanCompiler\Latte\Tokens\PhpToLatteLineNumbersResolver;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
@@ -60,6 +62,11 @@ final class TemplateFileVarTypeDocBlocksDecorator
         foreach ($this->latteVariableCollectors as $latteVariableCollector) {
             $collectedVariablesAndTypes = $latteVariableCollector->getVariablesAndTypes();
             $variablesAndTypes = array_merge($variablesAndTypes, $collectedVariablesAndTypes);
+        }
+
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection instanceof ClassReflection) {
+            $variablesAndTypes[] = new VariableAndType('actualClass', new ObjectType($classReflection->getName()));
         }
 
         return $variablesAndTypes;

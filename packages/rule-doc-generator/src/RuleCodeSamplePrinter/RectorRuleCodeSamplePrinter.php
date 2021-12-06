@@ -31,8 +31,11 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     /**
      * @return string[]
      */
-    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
-    {
+    public function print(
+        CodeSampleInterface $codeSample,
+        RuleDefinition $ruleDefinition,
+        bool $shouldUseConfigureMethod
+    ): array {
         if ($codeSample instanceof ExtraFileCodeSample) {
             return $this->printExtraFileCodeSample($codeSample);
         }
@@ -42,7 +45,11 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
         }
 
         if ($codeSample instanceof ConfiguredCodeSample) {
-            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample($ruleDefinition, $codeSample);
+            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample(
+                $ruleDefinition,
+                $codeSample,
+                $shouldUseConfigureMethod
+            );
         }
 
         return $this->diffCodeSamplePrinter->print($codeSample);
