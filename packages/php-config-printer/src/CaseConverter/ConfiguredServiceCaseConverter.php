@@ -64,6 +64,10 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
             return false;
         }
 
+        if (array_key_exists('configure', $values)) {
+            return true;
+        }
+
         return $values !== [];
     }
 

@@ -7,9 +7,8 @@ namespace Symplify\PhpConfigPrinter\ServiceOptionConverter;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\Service\SingleServicePhpNodeFactory;
-use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 
-final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
+final class ConfigureServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
         private SingleServicePhpNodeFactory $singleServicePhpNodeFactory
@@ -18,11 +17,11 @@ final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYa
 
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
-        return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml, false);
+        return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml, true);
     }
 
     public function isMatch(mixed $key, mixed $values): bool
     {
-        return $key === YamlServiceKey::CALLS;
+        return $key === 'configure';
     }
 }

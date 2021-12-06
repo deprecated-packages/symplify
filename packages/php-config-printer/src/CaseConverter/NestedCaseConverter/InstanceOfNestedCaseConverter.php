@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PhpConfigPrinter\CaseConverter;
+namespace Symplify\PhpConfigPrinter\CaseConverter\NestedCaseConverter;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;

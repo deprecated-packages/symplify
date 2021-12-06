@@ -20,4 +20,9 @@ final class Option
      * @var string
      */
     public const CATEGORIZE = 'categorize';
+
+    /**
+     * @var string
+     */
+    public const CONFIGURE_METHOD = 'configure-method';
 }
