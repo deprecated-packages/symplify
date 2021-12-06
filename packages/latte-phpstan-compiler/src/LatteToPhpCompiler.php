@@ -14,7 +14,7 @@ use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
-use Symplify\LattePHPStanCompiler\Nette\PresenterFactoryFaker;
+use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LinkNodeVisitor;
@@ -40,7 +40,7 @@ final class LatteToPhpCompiler
         private LatteVarTypeDocBlockDecorator $latteVarTypeDocBlockDecorator,
         private FilterMatcher $filterMatcher,
         private NodeValueResolver $nodeValueResolver,
-        private PresenterFactoryFaker $presenterFactoryFaker,
+        private LinkProcessorFactory $linkProcessorFactory,
     ) {
     }
 
@@ -116,7 +116,7 @@ final class LatteToPhpCompiler
         $linkNodeVisitor = new LinkNodeVisitor(
             $this->simpleNameResolver,
             $this->nodeValueResolver,
-            $this->presenterFactoryFaker->getPresenterFactory()
+            $this->linkProcessorFactory
         );
 
         $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
