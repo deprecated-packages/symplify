@@ -4,4 +4,4 @@ parameters:
         translate: [Nette\Localization\Translator, translate]
         asdf: qwerty
     presenterFactoryMapping:
-        '*': 'Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\*Presenter'
+        *: Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\*Presenter

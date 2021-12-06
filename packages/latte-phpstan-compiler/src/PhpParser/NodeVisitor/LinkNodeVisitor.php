@@ -35,7 +35,10 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    public function leaveNode(Node $node): Node|array|int|null
+    /**
+     * @return Node[]|null
+     */
+    public function leaveNode(Node $node): ?array
     {
         if (! $node instanceof Echo_) {
             return null;

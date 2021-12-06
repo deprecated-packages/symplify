@@ -15,7 +15,7 @@ parameters:
     checkArgumentTypes: true
 
     presenterFactoryMapping:
-        '*': 'Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\*Presenter'
+        *: Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\*Presenter
 
 services:
     -

@@ -29,6 +29,15 @@ parameters:
 
 <br>
 
+With application mapping registered in phpstan.neon [LatteCompleteCheckRule](docs/rules_overview.md) can also check if your links are correct:
+```neon
+parameters:
+    presenterFactoryMapping:
+        *: App\*Module\*Presenter
+```
+
+<br>
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)

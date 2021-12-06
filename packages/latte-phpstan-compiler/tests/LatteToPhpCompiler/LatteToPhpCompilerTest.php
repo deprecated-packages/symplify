@@ -35,16 +35,16 @@ final class LatteToPhpCompilerTest extends TestCase
     /**
      * @dataProvider provideData()
      */
-//    public function test(SmartFileInfo $fileInfo): void
-//    {
-//        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
-//        $phpFileContent = $this->latteToPhpCompiler->compileContent($inputAndExpected->getInput(), [], []);
-//
-//        // update test fixture if the content has changed
-//        StaticFixtureUpdater::updateFixtureContent($inputAndExpected->getInput(), $phpFileContent, $fileInfo);
-//
-//        $this->assertSame($phpFileContent, $inputAndExpected->getExpected());
-//    }
+    public function test(SmartFileInfo $fileInfo): void
+    {
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToInputAndExpected($fileInfo);
+        $phpFileContent = $this->latteToPhpCompiler->compileContent($inputAndExpected->getInput(), [], []);
+
+        // update test fixture if the content has changed
+        StaticFixtureUpdater::updateFixtureContent($inputAndExpected->getInput(), $phpFileContent, $fileInfo);
+
+        $this->assertSame($phpFileContent, $inputAndExpected->getExpected());
+    }
 
     /**
      * @dataProvider provideDataWithTypesAndControls()
@@ -73,31 +73,31 @@ final class LatteToPhpCompilerTest extends TestCase
 
     public function provideDataWithTypesAndControls(): Iterator
     {
-//        $variablesAndTypes = [new VariableAndType('someName', new StringType())];
-//        yield [
-//            __DIR__ . '/FixtureWithTypes/input_file.latte',
-//            $variablesAndTypes,
-//            [],
-//            __DIR__ . '/FixtureWithTypes/expected_compiled.php',
-//        ];
-//
-//        $variablesAndTypes = [
-//            new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class)),
-//        ];
-//        yield [
-//            __DIR__ . '/FixtureWithNonStaticFilter/input_file.latte',
-//            $variablesAndTypes,
-//            [],
-//            __DIR__ . '/FixtureWithNonStaticFilter/expected_compiled.php',
-//        ];
-//
-//        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
-//        yield [
-//            __DIR__ . '/FixtureWithControl/input_file.latte',
-//            [],
-//            $componentNamesAndTypes,
-//            __DIR__ . '/FixtureWithControl/expected_compiled.php',
-//        ];
+        $variablesAndTypes = [new VariableAndType('someName', new StringType())];
+        yield [
+            __DIR__ . '/FixtureWithTypes/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureWithTypes/expected_compiled.php',
+        ];
+
+        $variablesAndTypes = [
+            new VariableAndType('netteLocalizationTranslatorFilter', new ObjectType(Translator::class)),
+        ];
+        yield [
+            __DIR__ . '/FixtureWithNonStaticFilter/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixtureWithNonStaticFilter/expected_compiled.php',
+        ];
+
+        $componentNamesAndTypes = [new ComponentNameAndType('someName', new ObjectType(SomeNameControl::class))];
+        yield [
+            __DIR__ . '/FixtureWithControl/input_file.latte',
+            [],
+            $componentNamesAndTypes,
+            __DIR__ . '/FixtureWithControl/expected_compiled.php',
+        ];
 
         $variablesAndTypes = [new VariableAndType('actualClass', new ObjectType(SomeNameControl::class))];
         yield [
