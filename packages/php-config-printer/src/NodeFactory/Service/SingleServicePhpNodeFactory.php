@@ -38,12 +38,12 @@ final class SingleServicePhpNodeFactory
      */
     public function createCalls(MethodCall $methodCall, array $calls, bool $shouldUseConfigureMethod): MethodCall
     {
-        foreach ($calls as $key => $call) {
-            if ($shouldUseConfigureMethod) {
-                $methodCall = $this->createConfigureMethodCall($key, $call, $methodCall);
-            } else {
-                $methodCall = $this->createCallMethodCall($call, $methodCall);
-            }
+        if ($shouldUseConfigureMethod) {
+            return $this->createConfigureMethodCall($calls, $methodCall);
+        }
+
+        foreach ($calls as $call) {
+            $methodCall = $this->createCallMethodCall($call, $methodCall);
         }
 
         return $methodCall;
@@ -102,13 +102,12 @@ final class SingleServicePhpNodeFactory
         return new MethodCall($methodCall, 'call', $args);
     }
 
-    private function createConfigureMethodCall(int|string $key, mixed $call, MethodCall $methodCall): MethodCall
+    private function createConfigureMethodCall(array $calls, MethodCall $methodCall): MethodCall
     {
         $args = [];
 
-        $argumentsExpr = $this->argsNodeFactory->resolveExpr([
-            $key => $call,
-        ]);
+        $argumentsExpr = $this->argsNodeFactory->resolveExpr($calls);
+
         $args[] = new Arg($argumentsExpr);
 
         return new MethodCall($methodCall, 'configure', $args);

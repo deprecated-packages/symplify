@@ -24,7 +24,8 @@ after
 CODE_SAMPLE
                 ,
                 [
-                    'key' => 'value'
+                    'key' => 'value',
+                    'second_key' => 'second_value',
                 ]
             )
         ]);
