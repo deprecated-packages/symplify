@@ -93,21 +93,24 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
         if ($propertyFetchName !== 'uiControl') {
             return false;
         }
+
         return true;
     }
 
     /**
      * @return Arg[]
      */
-    private function createLinkParams(Array_ $targetParams): array
+    private function createLinkParams(Array_ $array): array
     {
         $linkParams = [];
-        foreach ($targetParams->items as $targetParam) {
-            if (! $targetParam instanceof ArrayItem) {
+        foreach ($array->items as $arrayItem) {
+            if (! $arrayItem instanceof ArrayItem) {
                 continue;
             }
-            $linkParams[] = new Arg($targetParam);
+
+            $linkParams[] = new Arg($arrayItem);
         }
+
         return $linkParams;
     }
 }

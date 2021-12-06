@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\Printer\ArrayDecorator;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
+use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name\FullyQualified;
 use Symplify\PhpConfigPrinter\NodeFactory\NewValueObjectFactory;
@@ -25,7 +26,7 @@ final class ServiceConfigurationDecorator
      * @param mixed|mixed[] $configuration
      * @return mixed|mixed[]
      */
-    public function decorate($configuration, string $class)
+    public function decorate($configuration, string $class, bool $shouldUseConfigureMethod)
     {
         if (! is_array($configuration)) {
             return $configuration;
@@ -35,9 +36,14 @@ final class ServiceConfigurationDecorator
 
         foreach ($configuration as $key => $value) {
             if ($this->isArrayOfObjects($value)) {
-                $configuration = $this->configureArrayOfObjects($configuration, $value, $key);
+                $configuration = $this->configureArrayOfObjects(
+                    $configuration,
+                    $value,
+                    $key,
+                    $shouldUseConfigureMethod
+                );
             } elseif (is_object($value)) {
-                $configuration[$key] = $this->decorateValueObject($value);
+                $configuration[$key] = $this->decorateValueObject($value, $shouldUseConfigureMethod);
             }
         }
 
@@ -48,17 +54,21 @@ final class ServiceConfigurationDecorator
      * @param mixed[] $value
      * @return mixed[]
      */
-    private function configureArrayOfObjects(array $configuration, array $value, int|string $key): array
-    {
+    private function configureArrayOfObjects(
+        array $configuration,
+        array $value,
+        int|string $key,
+        bool $shouldUseConfigureMethod
+    ): array {
         foreach ($value as $keyValue => $singleValue) {
             if (is_string($keyValue)) {
                 $configuration[$key] = array_merge($configuration[$key], [
-                    $keyValue => $this->decorateValueObject($singleValue),
+                    $keyValue => $this->decorateValueObject($singleValue, $shouldUseConfigureMethod),
                 ]);
             }
 
             if (is_numeric($keyValue)) {
-                $configuration[$key] = $this->decorateValueObjects([$singleValue]);
+                $configuration[$key] = $this->decorateValueObjects([$singleValue], $shouldUseConfigureMethod);
             }
         }
 
@@ -86,18 +96,21 @@ final class ServiceConfigurationDecorator
         return $configuration;
     }
 
-    private function decorateValueObject(object $value): StaticCall
+    private function decorateValueObject(object $value, bool $shouldUseConfigureMethod): StaticCall|New_
     {
         $new = $this->newValueObjectFactory->create($value);
-        $args = [new Arg($new)];
+        if ($shouldUseConfigureMethod) {
+            return $new;
+        }
 
+        $args = [new Arg($new)];
         return $this->createInlineStaticCall($args);
     }
 
     /**
      * @param mixed[] $values
      */
-    private function decorateValueObjects(array $values): StaticCall
+    private function decorateValueObjects(array $values, bool $shouldUseConfigureMethod): StaticCall|Array_
     {
         $arrayItems = [];
 
@@ -107,6 +120,10 @@ final class ServiceConfigurationDecorator
         }
 
         $array = new Array_($arrayItems);
+        if ($shouldUseConfigureMethod) {
+            return $array;
+        }
+
         $args = [new Arg($array)];
 
         return $this->createInlineStaticCall($args);

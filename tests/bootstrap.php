@@ -28,3 +28,6 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
 // e.g. /packagse/EasyCodingStandard/src (monorepo) => src (after monorepo)
 // use this to find out where you are
 define('SYMPLIFY_MONOREPO', true);
+
+// give priority over rector included
+require __DIR__ . '/../packages/rule-doc-generator-contracts/src/Contract/RuleCodeSamplePrinterInterface.php';
