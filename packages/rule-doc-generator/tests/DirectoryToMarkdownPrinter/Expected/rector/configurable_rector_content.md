@@ -20,7 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(ConfigurableRector::class)
-        ->configure(['key' => 'value']);
+        ->configure(['key' => 'value', 'second_key' => 'second_value']);
 };
 ```
 
