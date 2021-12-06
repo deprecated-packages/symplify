@@ -35,7 +35,8 @@ final class PresenterActionLinkProcessor implements LinkProcessorInterface
         $actionName = array_pop($actionParts);
         $presenterName = implode($actionParts);
         $presenterVariableName = lcfirst($presenterName) . 'Presenter';
-        $presenterClassName = $this->presenterFactoryFaker->getPresenterFactory()->formatPresenterClass($presenterName);
+        $presenterFactory = $this->presenterFactoryFaker->getPresenterFactory();
+        $presenterClassName = $presenterFactory->formatPresenterClass($presenterName);
 
         $variable = new Variable($presenterVariableName);
         $methodNames = $this->prepareMethodNames($presenterClassName, $actionName);

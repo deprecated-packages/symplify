@@ -26,8 +26,6 @@ final class SignalLinkProcessor implements LinkProcessorInterface
     {
         $variable = new Variable('actualClass');
         $methodName = 'handle' . ucfirst(substr($targetName, 0, -1));
-        return [
-            new Expression(new MethodCall($variable, $methodName, $linkParams), $attributes)
-        ];
+        return [new Expression(new MethodCall($variable, $methodName, $linkParams), $attributes)];
     }
 }
