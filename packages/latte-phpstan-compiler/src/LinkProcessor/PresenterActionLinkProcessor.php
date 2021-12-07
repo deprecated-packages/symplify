@@ -29,11 +29,14 @@ final class PresenterActionLinkProcessor implements LinkProcessorInterface
         return str_contains($targetName, ':');
     }
 
+    /**
+     * @return Expression[]
+     */
     public function createLinkExpressions(string $targetName, array $linkParams, array $attributes): array
     {
         $actionParts = explode(':', $targetName);
         $actionName = array_pop($actionParts);
-        $presenterName = implode($actionParts);
+        $presenterName = implode('', $actionParts);
         $presenterVariableName = lcfirst($presenterName) . 'Presenter';
         $presenterFactory = $this->presenterFactoryFaker->getPresenterFactory();
         $presenterClassName = $presenterFactory->formatPresenterClass($presenterName);
@@ -50,6 +53,7 @@ final class PresenterActionLinkProcessor implements LinkProcessorInterface
             $expressions[] = new Expression(new MethodCall($variable, $methodName, $linkParams), $attributes);
             $attributes = [];   // reset attributes, we want to print them only with first expression
         }
+
         return $expressions;
     }
 
@@ -66,6 +70,7 @@ final class PresenterActionLinkProcessor implements LinkProcessorInterface
                 $methodNames[] = $methodName;
             }
         }
+
         return $methodNames;
     }
 }
