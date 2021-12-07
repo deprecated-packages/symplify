@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
+use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
@@ -70,7 +71,7 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
         $targetName = ltrim($targetName, '/');
 
         $linkProcessor = $this->linkProcessorFactory->create($targetName);
-        if ($linkProcessor === null) {
+        if (!$linkProcessor instanceof LinkProcessorInterface) {
             return null;
         }
 
