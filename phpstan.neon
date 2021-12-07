@@ -49,6 +49,7 @@ services:
 
 parameters:
     level: 8
+
     reportUnmatchedIgnoredErrors: false
 
     parallel:
