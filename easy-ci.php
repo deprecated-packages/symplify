@@ -28,6 +28,7 @@ use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterfa
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
+use Symplify\PHPStanLatteRules\Contract\LatteTemplateHolderInterface;
 use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -72,5 +73,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         CodeSampleInterface::class,
         LatteVariableCollectorInterface::class,
         TagResolverInterface::class,
+        LatteTemplateHolderInterface::class,
     ]);
 };

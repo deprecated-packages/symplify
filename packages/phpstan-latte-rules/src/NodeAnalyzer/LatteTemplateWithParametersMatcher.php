@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanLatteRules\NodeAnalyzer;
 
+use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
@@ -25,7 +26,7 @@ final class LatteTemplateWithParametersMatcher
         private SimpleNodeFinder $simpleNodeFinder,
         private SimpleNameResolver $simpleNameResolver,
         private NetteTypeAnalyzer $netteTypeAnalyzer,
-        private NodeValueResolver $nodeValueResolver
+        private NodeValueResolver $nodeValueResolver,
     ) {
     }
 
@@ -55,6 +56,31 @@ final class LatteTemplateWithParametersMatcher
     }
 
     /**
+     * @return ArrayItem[]
+     */
+    public function findParameters(Node $node, Scope $scope): array
+    {
+        $nodes = [$node];
+        $nodeTraverser = new NodeTraverser();
+        $assignedParametersVisitor = new AssignedParametersVisitor(
+            $scope,
+            $this->simpleNameResolver,
+            $this->netteTypeAnalyzer,
+        );
+        $renderParametersVisitor = new RenderParametersVisitor(
+            $scope,
+            $this->simpleNameResolver,
+            $this->netteTypeAnalyzer,
+        );
+
+        $nodeTraverser->addVisitor($assignedParametersVisitor);
+        $nodeTraverser->addVisitor($renderParametersVisitor);
+        $nodeTraverser->traverse($nodes);
+
+        return array_merge($assignedParametersVisitor->getParameters(), $renderParametersVisitor->getParameters());
+    }
+
+    /**
      * @return string[]
      */
     private function findTemplates(Class_ $class, Scope $scope): array
@@ -73,32 +99,5 @@ final class LatteTemplateWithParametersMatcher
         $nodeTraverser->traverse($nodes);
 
         return $templatePathFinderVisitor->getTemplatePaths();
-    }
-
-    /**
-     * @return ArrayItem[]
-     */
-    private function findParameters(Class_ $class, Scope $scope): array
-    {
-        $assignedParametersVisitor = null;
-        $renderParametersVisitor = null;
-        $nodes = [$class];
-        $nodeTraverser = new NodeTraverser();
-        $assignedParametersVisitor = new AssignedParametersVisitor(
-            $scope,
-            $this->simpleNameResolver,
-            $this->netteTypeAnalyzer
-        );
-        $renderParametersVisitor = new RenderParametersVisitor(
-            $scope,
-            $this->simpleNameResolver,
-            $this->netteTypeAnalyzer
-        );
-
-        $nodeTraverser->addVisitor($assignedParametersVisitor);
-        $nodeTraverser->addVisitor($renderParametersVisitor);
-        $nodeTraverser->traverse($nodes);
-
-        return array_merge($assignedParametersVisitor->getParameters(), $renderParametersVisitor->getParameters());
     }
 }
