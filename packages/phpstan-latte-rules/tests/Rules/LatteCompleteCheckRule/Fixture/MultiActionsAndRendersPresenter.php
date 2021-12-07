@@ -24,6 +24,18 @@ final class MultiActionsAndRendersPresenter extends Presenter
         $this->template->listOfObjects = $this->listOfObjects;
     }
 
+    public function actionActionAndRender(): void
+    {
+        // first variable is assigned in action
+        $this->template->existingVariable = '2021-09-11';
+    }
+
+    public function renderActionAndRender(): void
+    {
+        // second variable is assigned in render
+        $this->template->listOfObjects = $this->listOfObjects;
+    }
+
     protected function createComponentExampleSubControl(): InvalidControlRenderArguments
     {
         return new InvalidControlRenderArguments();

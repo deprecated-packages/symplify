@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanLatteRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -69,11 +68,10 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [ClassMethod::class];
+        return [Node::class];
     }
 
     /**
-     * @param ClassMethod $node
      * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array

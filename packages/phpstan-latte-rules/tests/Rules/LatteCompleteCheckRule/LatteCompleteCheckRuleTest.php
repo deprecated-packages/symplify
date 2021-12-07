@@ -31,39 +31,40 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
     {
         // tests @see \PHPStan\Rules\Methods\CallMethodsRule
         $errorMessage = sprintf('Call to an undefined method %s::missingMethod().', SomeTypeWithMethods::class);
-//        yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 12]]];
+        yield [__DIR__ . '/Fixture/SomeMissingMethodCall.php', [[$errorMessage, 16]]];
 
         // tests @see \PHPStan\Rules\Methods\CallMethodsRule
         $errorMessage = sprintf(
             'Parameter #1 $name of method %s::render() expects string, int given.',
             InvalidControlRenderArguments::class
         );
-        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 15]]];
+        yield [__DIR__ . '/Fixture/InvalidControlRenderArguments.php', [[$errorMessage, 17]]];
 
         yield [__DIR__ . '/Fixture/SkipExistingMethodCall.php', []];
         yield [__DIR__ . '/Fixture/SkipVariableInBlockControl.php', []];
 
-        yield [__DIR__ . '/Fixture/GetTemplateAndReplaceExtension.php', $this->createSharedErrorMessages(15)];
-        yield [__DIR__ . '/Fixture/NoAdditionalPropertyRead.php', $this->createSharedErrorMessages(15)];
-        yield [__DIR__ . '/Fixture/PropertyReadTemplate.php', $this->createSharedErrorMessages(19)];
-        yield [__DIR__ . '/Fixture/RenderWithParameters.php', $this->createSharedErrorMessages(15)];
-//        yield [
-//            __DIR__ . '/Fixture/TemplateAsVariableAndRenderToStringWithParameters.php',
-//            $this->createSharedErrorMessages(16),
-//        ];
+        yield [__DIR__ . '/Fixture/GetTemplateAndReplaceExtension.php', $this->createSharedErrorMessages(20)];
+        yield [__DIR__ . '/Fixture/NoAdditionalPropertyRead.php', $this->createSharedErrorMessages(20)];
+        yield [__DIR__ . '/Fixture/PropertyReadTemplate.php', $this->createSharedErrorMessages(24)];
+        yield [__DIR__ . '/Fixture/RenderWithParameters.php', $this->createSharedErrorMessages(17)];
+        yield [
+            __DIR__ . '/Fixture/TemplateAsVariableAndRenderToStringWithParameters.php',
+            $this->createSharedErrorMessages(20),
+        ];
 
-        yield [__DIR__ . '/Fixture/OneActionPresenter.php', $this->createSharedErrorMessages(15)];
+        yield [__DIR__ . '/Fixture/OneActionPresenter.php', $this->createSharedErrorMessages(10)];
 
         $multiActionsPresenterErrors = array_merge(
-            $this->createSharedErrorMessages(15),
-            $this->createSharedErrorMessages(21),
+            $this->createSharedErrorMessages(10),
+            $this->createSharedErrorMessages(10),
+            $this->createSharedErrorMessages(10),
         );
         yield [__DIR__ . '/Fixture/MultiActionsAndRendersPresenter.php', $multiActionsPresenterErrors];
 
         $errorMessages = [
-            ['Variable $nonExistingVariable might not be defined.', 16],
-            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 16],
-            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 16],
+            ['Variable $nonExistingVariable might not be defined.', 21],
+            ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 21],
+            [sprintf('Call to an undefined method %s::getTitle().', ExampleModel::class), 21],
         ];
         yield [__DIR__ . '/Fixture/ControlWithForm.php', $errorMessages];
 
