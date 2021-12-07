@@ -28,6 +28,7 @@ final class TemplateRenderMethodCall implements LatteTemplateHolderInterface
         if (! $node instanceof MethodCall) {
             return false;
         }
+
         return $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope);
     }
 
