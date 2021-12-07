@@ -28,7 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(DowngradeParameterTypeWideningRector::class)
-        ->call('configure', [[
+        ->configure([
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
                 Sniff::class,
                 FixerInterface::class,
@@ -47,11 +47,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]]);
 
     $services->set(DowngradeAttributeToAnnotationRector::class)
-        ->call('configure', [[
-            DowngradeAttributeToAnnotationRector::ATTRIBUTE_TO_ANNOTATION => ValueObjectInliner::inline([
-                new DowngradeAttributeToAnnotation(Required::class, 'required'),
-            ]),
-        ]]);
+        ->configure([
+            new DowngradeAttributeToAnnotation(Required::class, 'required'),
+        ]);
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::SKIP, [
