@@ -44,7 +44,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
                 ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
             ],
-        ]]);
+        ]);
 
     $services->set(DowngradeAttributeToAnnotationRector::class)
         ->configure([
