@@ -11,28 +11,25 @@ use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Echo_;
-use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 
-/**
- * from: <code> echo \Latte\Runtime\Filters::escapeHtmlAttr($this->global->uiControl->link("doSomething!", ['a']));
- * </code>
- *
- * to: <code> $actualClass->handleDoSomething('a'); </code>
- */
-final class LinkNodeVisitor extends NodeVisitorAbstract
+class LinkNodeVisitor extends NodeVisitorAbstract
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private NodeValueResolver $nodeValueResolver
+        private NodeValueResolver $nodeValueResolver,
+        private LinkProcessorFactory $linkProcessorFactory,
     ) {
     }
 
-    public function enterNode(Node $node): Node|null
+    /**
+     * @return Node[]|null
+     */
+    public function leaveNode(Node $node): ?array
     {
         if (! $node instanceof Echo_) {
             return null;
@@ -54,30 +51,40 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        if (! $this->isMethodCallUiControlLink($methodCall)) {
+        if (! $this->isMethodCallUiLink($methodCall)) {
             return null;
         }
 
+        return $this->prepareNodes($methodCall, $node->getAttributes());
+    }
+
+    /**
+     * @return Node[]|null
+     */
+    private function prepareNodes(MethodCall $methodCall, array $attributes): ?array
+    {
         $linkArgs = $methodCall->getArgs();
         $target = $linkArgs[0]->value;
 
         $targetName = $this->nodeValueResolver->resolve($target, '');
+        $targetName = ltrim($targetName, '/');
 
-        // Only handle methods can be transferred for now
-        if (! str_ends_with($targetName, '!')) {
+        $linkProcessor = $this->linkProcessorFactory->create($targetName);
+        if (! $linkProcessor) {
             return null;
         }
 
         $targetParams = $linkArgs[1]->value;
         $linkParams = $targetParams instanceof Array_ ? $this->createLinkParams($targetParams) : [];
 
-        $targetMethodName = 'handle' . ucfirst(substr($targetName, 0, -1));
-        return new Expression(new MethodCall(new Variable(
-            'actualClass',
-        ), $targetMethodName, $linkParams), $node->getAttributes());
+        $expressions = $linkProcessor->createLinkExpressions($targetName, $linkParams, $attributes);
+        if ($expressions === []) {
+            return null;
+        }
+        return $expressions;
     }
 
-    private function isMethodCallUiControlLink(MethodCall $methodCall): bool
+    private function isMethodCallUiLink(MethodCall $methodCall): bool
     {
         $methodName = $this->simpleNameResolver->getName($methodCall->name);
         if ($methodName !== 'link') {
@@ -90,7 +97,7 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
         }
 
         $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
-        if ($propertyFetchName !== 'uiControl') {
+        if (! in_array($propertyFetchName, ['uiControl', 'uiPresenter'], true)) {
             return false;
         }
 

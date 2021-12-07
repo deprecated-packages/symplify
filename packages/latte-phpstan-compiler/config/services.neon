@@ -1,8 +1,10 @@
 parameters:
     latteFilters: []
+    presenterFactoryMapping: []
 
 parametersSchema:
     latteFilters: array()
+    presenterFactoryMapping: array()
 
 services:
     # latte
@@ -16,6 +18,16 @@ services:
     - Symplify\LattePHPStanCompiler\Latte\Macros\LatteMacroFaker
 
     - Symplify\LattePHPStanCompiler\LatteVarTypeDocBlockDecorator
+
+    # links
+    -
+        class: Symplify\LattePHPStanCompiler\Nette\PresenterFactoryFaker
+        arguments:
+            mapping: %presenterFactoryMapping%
+
+    - Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory
+    - Symplify\LattePHPStanCompiler\LinkProcessor\SignalLinkProcessor
+    - Symplify\LattePHPStanCompiler\LinkProcessor\PresenterActionLinkProcessor
 
     # latte lines
     - Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector

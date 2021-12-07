@@ -8,7 +8,7 @@ use Nette\Application\UI\Control;
 
 final class SomeNameControl extends Control
 {
-    public function render(string $name)
+    public function render(string $name): void
     {
     }
 

@@ -14,6 +14,7 @@ use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\LattePHPStanCompiler\LatteToPhpCompiler;
+use Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\FooPresenter;
 use Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\SomeNameControl;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
@@ -104,6 +105,14 @@ final class LatteToPhpCompilerTest extends TestCase
             $variablesAndTypes,
             [],
             __DIR__ . '/FixtureHandleLink/expected_compiled.php',
+        ];
+
+        $variablesAndTypes = [new VariableAndType('actualClass', new ObjectType(FooPresenter::class))];
+        yield [
+            __DIR__ . '/FixturePresenterLinks/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixturePresenterLinks/expected_compiled.php',
         ];
     }
 

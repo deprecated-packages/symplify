@@ -11,6 +11,7 @@ use Symplify\PHPStanLatteRules\Rules\LatteCompleteCheckRule;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\ControlWithHandle;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Fixture\InvalidControlRenderArguments;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\ExampleModel;
+use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\FooPresenter;
 use Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\SomeTypeWithMethods;
 
 /**
@@ -82,6 +83,10 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
                 18,
             ],
             ['Call to an undefined method ' . ControlWithHandle::class . '::handleUnknown().', 18],
+            [
+                'Parameter #2 $add of method ' . FooPresenter::class . '::renderDefault() expects array|null, string given.',
+                18,
+            ],
         ];
         yield [__DIR__ . '/Fixture/ControlWithHandle.php', $errorMessages];
     }

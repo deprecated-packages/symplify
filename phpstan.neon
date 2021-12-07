@@ -217,6 +217,7 @@ parameters:
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
                 - packages/easy-ci/src/Latte/LatteTemplateAnalyzer/MissingClassStaticCallLatteAnalyzer.php
+                - packages/latte-phpstan-compiler/src/LinkProcessor/PresenterActionLinkProcessor.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
 
