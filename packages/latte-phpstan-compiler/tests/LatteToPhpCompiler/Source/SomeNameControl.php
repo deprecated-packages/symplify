@@ -15,4 +15,8 @@ final class SomeNameControl extends Control
     public function handleDoSomething(string $foo, ?array $bar = null): void
     {
     }
+
+    public function handleWithoutParameters(): void
+    {
+    }
 }

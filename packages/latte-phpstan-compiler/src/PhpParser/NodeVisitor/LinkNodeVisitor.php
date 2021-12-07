@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
-use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
@@ -16,6 +15,7 @@ use PhpParser\Node\Stmt\Echo_;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 
 final class LinkNodeVisitor extends NodeVisitorAbstract
@@ -71,11 +71,11 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
         $targetName = ltrim($targetName, '/');
 
         $linkProcessor = $this->linkProcessorFactory->create($targetName);
-        if (!$linkProcessor instanceof LinkProcessorInterface) {
+        if (! $linkProcessor instanceof LinkProcessorInterface) {
             return null;
         }
 
-        $targetParams = $linkArgs[1]->value;
+        $targetParams = isset($linkArgs[1]) ? $linkArgs[1]->value : null;
         $linkParams = $targetParams instanceof Array_ ? $this->createLinkParams($targetParams) : [];
 
         $expressions = $linkProcessor->createLinkExpressions($targetName, $linkParams, $attributes);
