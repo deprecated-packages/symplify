@@ -22,6 +22,9 @@ final class SignalLinkProcessor implements LinkProcessorInterface
         return str_ends_with($targetName, '!');
     }
 
+    /**
+     * @return Expression[]
+     */
     public function createLinkExpressions(string $targetName, array $linkParams, array $attributes): array
     {
         $variable = new Variable('actualClass');

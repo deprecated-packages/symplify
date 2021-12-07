@@ -81,12 +81,13 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
             if (! $latteTemplateHolder->check($node, $scope)) {
                 continue;
             }
+
             $renderTemplatesWithParameters = $latteTemplateHolder->findRenderTemplateWithParameters($node, $scope);
             $componentNamesAndTypes = $latteTemplateHolder->findComponentNamesAndTypes($node, $scope);
 
-            foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+            foreach ($renderTemplatesWithParameters as $renderTemplateWithParameter) {
                 $currentErrors = $this->processTemplateFilePath(
-                    $renderTemplateWithParameters,
+                    $renderTemplateWithParameter,
                     $scope,
                     $componentNamesAndTypes,
                     $node->getLine()    // TODO add line to RenderTemplateWithParameters
@@ -95,6 +96,7 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
                 $errors = array_merge($errors, $currentErrors);
             }
         }
+
         return $errors;
     }
 
@@ -151,12 +153,12 @@ CODE_SAMPLE
         int $phpLine
     ): array {
         $templateFilePath = $renderTemplateWithParameters->getTemplateFilePath();
-        $parameters = $renderTemplateWithParameters->getParametersArray();
+        $array = $renderTemplateWithParameters->getParametersArray();
 
         try {
             $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
                 $templateFilePath,
-                $parameters,
+                $array,
                 $scope,
                 $componentNamesAndTypes
             );

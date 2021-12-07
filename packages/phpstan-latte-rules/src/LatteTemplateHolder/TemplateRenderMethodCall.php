@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanLatteRules\LatteTemplateHolder;
 
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -27,15 +29,12 @@ final class TemplateRenderMethodCall implements LatteTemplateHolderInterface
             return false;
         }
 
-        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
-            return false;
-        }
-
-        return true;
+        return $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope);
     }
 
     /**
      * @param MethodCall $node
+     * @return RenderTemplateWithParameters[]
      */
     public function findRenderTemplateWithParameters(Node $node, Scope $scope): array
     {
@@ -44,6 +43,7 @@ final class TemplateRenderMethodCall implements LatteTemplateHolderInterface
 
     /**
      * @param MethodCall $node
+     * @return ComponentNameAndType[]
      */
     public function findComponentNamesAndTypes(Node $node, Scope $scope): array
     {

@@ -23,6 +23,7 @@ final class LinkProcessorFactory
                 return $linkProcessor;
             }
         }
+
         return null;
     }
 }

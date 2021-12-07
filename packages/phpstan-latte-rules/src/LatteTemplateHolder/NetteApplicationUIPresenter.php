@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanLatteRules\LatteTemplateHolder;
 
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Stmt\Class_;
@@ -38,18 +39,20 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
         if (! $class instanceof Class_) {
             return false;
         }
+
         $className = $this->simpleNameResolver->getName($class);
         if (! $className) {
             return false;
         }
 
-        $classObject = new ObjectType($className);
-        return $classObject->isInstanceOf('Nette\Application\UI\Presenter')
+        $objectType = new ObjectType($className);
+        return $objectType->isInstanceOf('Nette\Application\UI\Presenter')
             ->yes();
     }
 
     /**
      * @param InClassNode $node
+     * @return RenderTemplateWithParameters[]
      */
     public function findRenderTemplateWithParameters(Node $node, Scope $scope): array
     {
@@ -62,6 +65,7 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
             if (! $this->simpleNameResolver->isNames($method, ['render*', 'action*'])) {
                 continue;
             }
+
             $template = $this->findTemplateFilePath($method, $scope);
             if ($template === null) {
                 continue;
@@ -71,6 +75,7 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
             if (! isset($templatesAndParameters[$template])) {
                 $templatesAndParameters[$template] = [];
             }
+
             $templatesAndParameters[$template] = array_merge($templatesAndParameters[$template], $parameters);
         }
 
@@ -78,11 +83,13 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
         foreach ($templatesAndParameters as $template => $parameters) {
             $renderTemplatesWithParameters[] = new RenderTemplateWithParameters($template, new Array_($parameters));
         }
+
         return $renderTemplatesWithParameters;
     }
 
     /**
      * @param InClassNode $node
+     * @return ComponentNameAndType[]
      */
     public function findComponentNamesAndTypes(Node $node, Scope $scope): array
     {
@@ -97,10 +104,12 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
         if (! $class instanceof Class_) {
             return null;
         }
+
         $className = $this->simpleNameResolver->getName($class);
         if (! $className) {
             return null;
         }
+
         $shortClassName = $this->simpleNameResolver->resolveShortName($className);
         $presenterName = str_replace('Presenter', '', $shortClassName);
 
@@ -108,6 +117,7 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
         if (! $methodName) {
             return null;
         }
+
         $actionName = str_replace(['action', 'render'], '', $methodName);
         $actionName = lcfirst($actionName);
 
@@ -124,6 +134,7 @@ final class NetteApplicationUIPresenter implements LatteTemplateHolderInterface
                 return $templateFileCandidate;
             }
         }
+
         return null;
     }
 }

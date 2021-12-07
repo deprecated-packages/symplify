@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor;
 
+use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
@@ -17,7 +18,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 
-class LinkNodeVisitor extends NodeVisitorAbstract
+final class LinkNodeVisitor extends NodeVisitorAbstract
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
@@ -70,7 +71,7 @@ class LinkNodeVisitor extends NodeVisitorAbstract
         $targetName = ltrim($targetName, '/');
 
         $linkProcessor = $this->linkProcessorFactory->create($targetName);
-        if (! $linkProcessor) {
+        if (!$linkProcessor instanceof LinkProcessorInterface) {
             return null;
         }
 
@@ -81,6 +82,7 @@ class LinkNodeVisitor extends NodeVisitorAbstract
         if ($expressions === []) {
             return null;
         }
+
         return $expressions;
     }
 
@@ -97,11 +99,7 @@ class LinkNodeVisitor extends NodeVisitorAbstract
         }
 
         $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
-        if (! in_array($propertyFetchName, ['uiControl', 'uiPresenter'], true)) {
-            return false;
-        }
-
-        return true;
+        return in_array($propertyFetchName, ['uiControl', 'uiPresenter'], true);
     }
 
     /**
