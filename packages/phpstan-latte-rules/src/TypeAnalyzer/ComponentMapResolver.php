@@ -7,6 +7,7 @@ namespace Symplify\PHPStanLatteRules\TypeAnalyzer;
 use Nette\Utils\Strings;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -29,6 +30,19 @@ final class ComponentMapResolver
     public function resolveFromMethodCall(MethodCall $methodCall, Scope $scope): array
     {
         $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        if (! $class instanceof Class_) {
+            return [];
+        }
+
+        return $this->resolveComponentNamesAndTypes($class, $scope);
+    }
+
+    /**
+     * @return ComponentNameAndType[]
+     */
+    public function resolveFromClassMethod(ClassMethod $classMethod, Scope $scope): array
+    {
+        $class = $this->simpleNodeFinder->findFirstParentByType($classMethod, Class_::class);
         if (! $class instanceof Class_) {
             return [];
         }

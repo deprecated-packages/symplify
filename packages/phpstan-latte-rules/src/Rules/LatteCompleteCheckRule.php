@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace Symplify\PHPStanLatteRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\LattePHPStanCompiler\TemplateFileVarTypeDocBlocksDecorator;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
-use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
-use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
+use Symplify\PHPStanLatteRules\Contract\LatteTemplateHolderInterface;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,6 +20,7 @@ use Symplify\TemplatePHPStanCompiler\ErrorSkipper;
 use Symplify\TemplatePHPStanCompiler\PHPStan\FileAnalyserProvider;
 use Symplify\TemplatePHPStanCompiler\Reporting\TemplateErrorsFactory;
 use Symplify\TemplatePHPStanCompiler\Rules\TemplateRulesRegistry;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 use Throwable;
 
 /**
@@ -50,17 +47,16 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
 
     /**
      * @param Rule[] $rules
+     * @param LatteTemplateHolderInterface[] $latteTemplateHolders
      */
     public function __construct(
         array $rules,
-        private TemplateRenderAnalyzer $templateRenderAnalyzer,
-        private LatteTemplateWithParametersMatcher $latteTemplateWithParametersMatcher,
+        private array $latteTemplateHolders,
         private SmartFileSystem $smartFileSystem,
         private TemplateFileVarTypeDocBlocksDecorator $templateFileVarTypeDocBlocksDecorator,
         private ErrorSkipper $errorSkipper,
         private TemplateErrorsFactory $templateErrorsFactory,
-        private ComponentMapResolver $componentMapResolver,
-        private FileAnalyserProvider $fileAnalyserProvider
+        private FileAnalyserProvider $fileAnalyserProvider,
     ) {
         // limit rule here, as template class can contain a lot of allowed Latte magic
         // get missing method + missing property etc. rule
@@ -72,35 +68,33 @@ final class LatteCompleteCheckRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [Node::class];
     }
 
     /**
-     * @param MethodCall $node
      * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->templateRenderAnalyzer->isNetteTemplateRenderMethodCall($node, $scope)) {
-            return [];
-        }
-
-        $renderTemplatesWithParameters = $this->latteTemplateWithParametersMatcher->match($node, $scope);
-        $componentNamesAndTypes = $this->componentMapResolver->resolveFromMethodCall($node, $scope);
-
         $errors = [];
-        foreach ($renderTemplatesWithParameters as $renderTemplateWithParameter) {
-            $currentErrors = $this->processTemplateFilePath(
-                $renderTemplateWithParameter->getTemplateFilePath(),
-                $renderTemplateWithParameter->getParametersArray(),
-                $scope,
-                $componentNamesAndTypes,
-                $node->getLine()
-            );
+        foreach ($this->latteTemplateHolders as $latteTemplateHolder) {
+            if (! $latteTemplateHolder->check($node, $scope)) {
+                continue;
+            }
+            $renderTemplatesWithParameters = $latteTemplateHolder->findRenderTemplateWithParameters($node, $scope);
+            $componentNamesAndTypes = $latteTemplateHolder->findComponentNamesAndTypes($node, $scope);
 
-            $errors = array_merge($errors, $currentErrors);
+            foreach ($renderTemplatesWithParameters as $renderTemplateWithParameters) {
+                $currentErrors = $this->processTemplateFilePath(
+                    $renderTemplateWithParameters,
+                    $scope,
+                    $componentNamesAndTypes,
+                    $node->getLine()    // TODO add line to RenderTemplateWithParameters
+                );
+
+                $errors = array_merge($errors, $currentErrors);
+            }
         }
-
         return $errors;
     }
 
@@ -151,16 +145,18 @@ CODE_SAMPLE
      * @return RuleError[]
      */
     private function processTemplateFilePath(
-        string $templateFilePath,
-        Array_ $array,
+        RenderTemplateWithParameters $renderTemplateWithParameters,
         Scope $scope,
         array $componentNamesAndTypes,
         int $phpLine
     ): array {
+        $templateFilePath = $renderTemplateWithParameters->getTemplateFilePath();
+        $parameters = $renderTemplateWithParameters->getParametersArray();
+
         try {
             $phpFileContentsWithLineMap = $this->templateFileVarTypeDocBlocksDecorator->decorate(
                 $templateFilePath,
-                $array,
+                $parameters,
                 $scope,
                 $componentNamesAndTypes
             );
@@ -171,7 +167,8 @@ CODE_SAMPLE
             return [$ruleError];
         }
 
-        $tmpFilePath = sys_get_temp_dir() . '/' . md5($scope->getFile()) . '-latte-compiled.php';
+        $serializedRenderTemplateWithParameters = serialize($renderTemplateWithParameters);
+        $tmpFilePath = sys_get_temp_dir() . '/' . md5($serializedRenderTemplateWithParameters) . '-latte-compiled.php';
         $phpFileContents = $phpFileContentsWithLineMap->getPhpFileContents();
         $this->smartFileSystem->dumpFile($tmpFilePath, $phpFileContents);
 

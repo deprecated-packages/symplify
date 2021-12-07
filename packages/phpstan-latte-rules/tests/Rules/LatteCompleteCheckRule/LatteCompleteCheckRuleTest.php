@@ -53,6 +53,15 @@ final class LatteCompleteCheckRuleTest extends AbstractServiceAwareRuleTestCase
             $this->createSharedErrorMessages(20),
         ];
 
+        yield [__DIR__ . '/Fixture/OneActionPresenter.php', $this->createSharedErrorMessages(10)];
+
+        $multiActionsPresenterErrors = array_merge(
+            $this->createSharedErrorMessages(10),
+            $this->createSharedErrorMessages(10),
+            $this->createSharedErrorMessages(10),
+        );
+        yield [__DIR__ . '/Fixture/MultiActionsAndRendersPresenter.php', $multiActionsPresenterErrors];
+
         $errorMessages = [
             ['Variable $nonExistingVariable might not be defined.', 21],
             ['Call to an undefined method Nette\Security\User::nonExistingMethod().', 21],
