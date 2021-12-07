@@ -137,8 +137,6 @@ parameters:
             paths:
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 # Symfony API
-                - packages/rule-doc-generator/src/RuleCodeSamplePrinter/PHPStanRuleCodeSamplePrinter.php # 71
-                - packages/vendor-patches/src/Composer/ComposerPatchesConfigurationUpdater.php
                 - packages/easy-testing/src/MissplacedSkipPrefixResolver.php #23
 
         -
@@ -553,14 +551,8 @@ parameters:
             path: packages/monorepo-builder/bin/monorepo-builder.php
 
         -
-            path: packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-            message: '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\HttpKernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
-
-        -
             path: packages/php-config-printer/src/ValueObject/YamlKey.php
             message: '#Class has a static method must so must contains "Static" in its name#'
-        # known realpath()
-        - '#Parameter \#1 \$configFiles of method Symplify\\EasyCodingStandard\\Kernel\\EasyCodingStandardKernel\:\:createFromConfigs\(\) expects array<string\>, array<int, bool\|string\> given#'
 
         # value changed to int
         -
@@ -587,3 +579,6 @@ parameters:
 
          # node finder generics meshup
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstByType\(\) should return T of PhpParser\\Node\|null but returns PhpParser\\Node\|null#'
+
+        # false positive, due to scoped autoload of rector.php
+        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServiceConfigurator\:\:configure\(\)#'

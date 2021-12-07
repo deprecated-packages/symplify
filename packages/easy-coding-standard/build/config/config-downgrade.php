@@ -20,7 +20,6 @@ use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
@@ -47,9 +46,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     $services->set(DowngradeAttributeToAnnotationRector::class)
-        ->configure([
-            new DowngradeAttributeToAnnotation(Required::class, 'required'),
-        ]);
+        ->configure([new DowngradeAttributeToAnnotation(Required::class, 'required')]);
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::SKIP, [
