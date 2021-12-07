@@ -31,7 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     // console
     $services->set(Application::class)
-        ->call('add', arguments: [service(SwitchFormatCommand::class)]);
+        ->call('add', [service(SwitchFormatCommand::class)]);
 
     $services->set(BuilderFactory::class);
     $services->set(NodeFinder::class);
