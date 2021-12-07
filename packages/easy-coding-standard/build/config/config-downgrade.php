@@ -20,7 +20,6 @@ use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
@@ -28,7 +27,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(DowngradeParameterTypeWideningRector::class)
-        ->call('configure', [[
+        ->configure([
             DowngradeParameterTypeWideningRector::SAFE_TYPES => [
                 Sniff::class,
                 FixerInterface::class,
@@ -44,14 +43,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
                 ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
             ],
-        ]]);
+        ]);
 
     $services->set(DowngradeAttributeToAnnotationRector::class)
-        ->call('configure', [[
-            DowngradeAttributeToAnnotationRector::ATTRIBUTE_TO_ANNOTATION => ValueObjectInliner::inline([
-                new DowngradeAttributeToAnnotation(Required::class, 'required'),
-            ]),
-        ]]);
+        ->configure([new DowngradeAttributeToAnnotation(Required::class, 'required')]);
 
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::SKIP, [
