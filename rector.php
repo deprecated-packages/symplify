@@ -13,7 +13,6 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\SymfonyPhpConfig\ValueObjectInliner;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODE_QUALITY);
@@ -31,24 +30,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(StringClassNameToClassConstantRector::class)
-        ->call('configure', [[
-            StringClassNameToClassConstantRector::CLASSES_TO_SKIP => [
-                'Error',
-                'Exception',
-                'Dibi\Connection',
-                'Doctrine\ORM\EntityManagerInterface',
-                'Doctrine\ORM\EntityManager',
-                'Nette\*',
-                'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
-            ],
-        ]]);
+        ->configure([
+            'Error',
+            'Exception',
+            'Dibi\Connection',
+            'Doctrine\ORM\EntityManagerInterface',
+            'Doctrine\ORM\EntityManager',
+            'Nette\*',
+            'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+        ]);
 
     $services->set(PreferThisOrSelfMethodCallRector::class)
-        ->call('configure', [[
-            PreferThisOrSelfMethodCallRector::TYPE_TO_PREFERENCE => [
-                TestCase::class => ValueObjectInliner::inline(PreferenceSelfThis::PREFER_THIS()),
-            ],
-        ]]);
+        ->configure([
+            TestCase::class => PreferenceSelfThis::PREFER_THIS(),
+        ]);
 
     $parameters = $containerConfigurator->parameters();
 
