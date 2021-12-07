@@ -17,15 +17,15 @@
         "symfony/dependency-injection": "^5.4|^6.0",
         "symfony/finder": "^5.4|^6.0",
         "symfony/process": "^5.4|^6.0",
-        "symplify/autowire-array-parameter": "^10.0",
-        "symplify/coding-standard": "^10.0",
-        "symplify/console-color-diff": "^10.0",
-        "symplify/easy-parallel": "^10.0",
-        "symplify/easy-testing": "^10.0",
-        "symplify/package-builder": "^10.0",
-        "symplify/skipper": "^10.0",
-        "symplify/smart-file-system": "^10.0",
-        "symplify/symplify-kernel": "^10.0",
+        "symplify/autowire-array-parameter": "^10.1",
+        "symplify/coding-standard": "^10.1",
+        "symplify/console-color-diff": "^10.1",
+        "symplify/easy-parallel": "^10.1",
+        "symplify/easy-testing": "^10.1",
+        "symplify/package-builder": "^10.1",
+        "symplify/skipper": "^10.1",
+        "symplify/smart-file-system": "^10.1",
+        "symplify/symplify-kernel": "^10.1",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -49,7 +49,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "10.0-dev"
+            "dev-main": "10.1-dev"
         }
     },
     "config": {

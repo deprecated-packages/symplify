@@ -7,14 +7,14 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "symfony/dependency-injection": "^5.4|^6.0",
-        "symplify/smart-file-system": "^10.0",
+        "symplify/smart-file-system": "^10.1",
         "phpstan/phpstan": "^1.2",
         "nikic/php-parser": "^4.13",
-        "symplify/package-builder": "^10.0",
-        "symplify/symplify-kernel": "^10.0"
+        "symplify/package-builder": "^10.1",
+        "symplify/symplify-kernel": "^10.1"
     },
     "require-dev": {
-        "symplify/easy-testing": "^10.0",
+        "symplify/easy-testing": "^10.1",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
@@ -29,7 +29,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "10.0-dev"
+            "dev-main": "10.1-dev"
         },
         "phpstan": {
             "includes": [

@@ -9,18 +9,18 @@
         "nette/utils": "^3.2",
         "phpstan/phpdoc-parser": "^1.2",
         "phpstan/phpstan": "^1.2",
-        "symplify/astral": "^10.0",
-        "symplify/composer-json-manipulator": "^10.0",
-        "symplify/package-builder": "^10.0",
-        "symplify/simple-php-doc-parser": "^10.0",
-        "symplify/smart-file-system": "^10.0",
-        "symplify/rule-doc-generator-contracts": "^10.0",
+        "symplify/astral": "^10.1",
+        "symplify/composer-json-manipulator": "^10.1",
+        "symplify/package-builder": "^10.1",
+        "symplify/simple-php-doc-parser": "^10.1",
+        "symplify/smart-file-system": "^10.1",
+        "symplify/rule-doc-generator-contracts": "^10.1",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "symplify/easy-testing": "^10.0",
-        "symplify/phpstan-extensions": "^10.0",
-        "symplify/rule-doc-generator": "^10.0",
+        "symplify/easy-testing": "^10.1",
+        "symplify/phpstan-extensions": "^10.1",
+        "symplify/rule-doc-generator": "^10.1",
         "phpunit/phpunit": "^9.5",
         "myclabs/php-enum": "^1.8",
         "symfony/framework-bundle": "^5.4|^6.0"
@@ -51,7 +51,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "10.0-dev"
+            "dev-main": "10.1-dev"
         },
         "phpstan": {
             "includes": [
