@@ -5,9 +5,9 @@
     "require": {
         "php": ">=8.0",
         "clue/ndjson-react": "^1.2",
-        "react/child-process": "^0.6.3",
+        "react/child-process": "^0.6.4",
         "react/event-loop": "^1.2",
-        "react/socket": "^1.9",
+        "react/socket": "^1.10",
         "symfony/console": "^5.4|^6.0",
         "symplify/package-builder": "^10.0"
     },
