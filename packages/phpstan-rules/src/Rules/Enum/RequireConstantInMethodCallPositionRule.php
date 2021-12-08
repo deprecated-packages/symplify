@@ -95,17 +95,16 @@ CODE_SAMPLE
     }
 
     /**
-     * @param mixed[] $config
+     * @param array<class-string, mixed[]> $config
      * @return string[]
      */
-    private function getErrorMessages(MethodCall $methodCall, Scope $scope, array $config,): array
+    private function getErrorMessages(MethodCall $methodCall, Scope $scope, array $config): array
     {
         /** @var Identifier $name */
         $name = $methodCall->name;
         $methodName = (string) $name;
         $errorMessages = [];
 
-        /** @var class-string $type */
         foreach ($config as $type => $positionsByMethods) {
             $positions = $this->positionMatcher->matchPositions(
                 $methodCall,

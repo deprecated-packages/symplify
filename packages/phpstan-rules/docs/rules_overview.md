@@ -1,4 +1,4 @@
-# 131 Rules Overview
+# 130 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4222,58 +4222,6 @@ namespace App\Exception;
 
 final class SomeException extends Exception
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RequireMethodCallArgumentConstantRule
-
-Method call argument on position %d must use constant (e.g. "Option::NAME") over value
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule`](../src/Rules/RequireMethodCallArgumentConstantRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantArgByMethodByType:
-                SomeClass:
-                    call:
-                        - 0
-```
-
-↓
-
-```php
-class AnotherClass
-{
-    public function run(SomeClass $someClass)
-    {
-        $someClass->call('name');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class AnotherClass
-{
-    private OPTION_NAME = 'name';
-
-    public function run(SomeClass $someClass)
-    {
-        $someClass->call(self::OPTION_NAME);
-    }
 }
 ```
 

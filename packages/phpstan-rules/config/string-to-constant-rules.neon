@@ -1,10 +1,10 @@
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\RequireMethodCallArgumentConstantRule
+        class: Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
         tags: [phpstan.rules.rule]
         arguments:
-            constantArgByMethodByType:
+            requiredConstantInMethodCall:
                 Symfony\Component\Console\Command\Command:
                     addArgument: [0]
                     addOption: [0]
