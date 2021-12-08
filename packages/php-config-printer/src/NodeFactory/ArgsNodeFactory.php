@@ -73,7 +73,7 @@ final class ArgsNodeFactory
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
 
                 if (! is_int($key) && $this->isPhpNamedArguments) {
-                    $args[] = new Arg($expr, name: new Identifier($key));
+                    $args[] = new Arg($expr, false, false, [], new Identifier($key));
                 } else {
                     $args[] = new Arg($expr);
                 }
