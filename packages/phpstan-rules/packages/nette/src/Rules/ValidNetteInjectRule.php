@@ -24,7 +24,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Property with @inject annotation or #[Nette\DI\Attributes\Inject] attribute must be public';
 
     public function __construct(
-        private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer
+        private AutowiredMethodPropertyAnalyzer $autowiredMethodPropertyAnalyzer
     ) {
     }
 
@@ -42,7 +42,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->autowiredMethodAnalyzer->detect($node)) {
+        if (! $this->autowiredMethodPropertyAnalyzer->detect($node)) {
             return [];
         }
 

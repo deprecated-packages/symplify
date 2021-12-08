@@ -27,7 +27,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     private const ALLOWED_METHOD_NAMES = ['autowire', 'inject'];
 
     public function __construct(
-        private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer,
+        private AutowiredMethodPropertyAnalyzer $autowiredMethodPropertyAnalyzer,
     ) {
     }
 
@@ -45,7 +45,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        if (! $this->autowiredMethodAnalyzer->detect($node)) {
+        if (! $this->autowiredMethodPropertyAnalyzer->detect($node)) {
             return [];
         }
 
