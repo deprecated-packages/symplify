@@ -33,6 +33,16 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         echo '">Two methods n:href</a>
 <a href="';
         /** line in latte file: 5 */
+        /** @var Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\FooPresenter $fooPresenter */
+        $fooPresenter->actionWithoutParameters();
+        echo '">link without parameters</a>
+<a href="';
+        /** line in latte file: 6 */
+        /** @var Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\FooPresenter $fooPresenter */
+        $fooPresenter->actionWithoutParameters();
+        echo '">n:href without parameters</a>
+<a href="';
+        /** line in latte file: 7 */
         $actualClass->handleDoSomething('a');
         echo '">signal</a>
 ';

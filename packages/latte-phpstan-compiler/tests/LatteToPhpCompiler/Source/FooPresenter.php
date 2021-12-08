@@ -20,6 +20,10 @@ final class FooPresenter extends Presenter
     {
     }
 
+    public function actionWithoutParameters(): void
+    {
+    }
+
     public function handleDoSomething(string $foo): void
     {
     }
