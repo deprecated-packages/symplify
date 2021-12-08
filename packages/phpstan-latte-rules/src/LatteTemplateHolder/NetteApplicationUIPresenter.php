@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanLatteRules\LatteTemplateHolder;
 
-use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Stmt\Class_;
@@ -14,6 +13,7 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanLatteRules\Contract\LatteTemplateHolderInterface;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;

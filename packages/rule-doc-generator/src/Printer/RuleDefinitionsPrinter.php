@@ -115,7 +115,8 @@ final class RuleDefinitionsPrinter
         $lines[] = '## Categories';
 
         foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
-            $categoryLink = $this->asciiSlugger->slug($category)->lower();
+            $categoryLink = $this->asciiSlugger->slug($category)
+                ->lower();
 
             $lines[] = sprintf('- [%s](#%s) (%d)', $category, $categoryLink, count($ruleDefinitions));
         }

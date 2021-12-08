@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symplify\PackageBuilder\Neon\NeonPrinter;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\RuleDocGenerator\Command\GenerateCommand;
@@ -25,5 +26,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(NeonPrinter::class);
     $services->set(ClassLikeExistenceChecker::class);
-    $services->set(\Symfony\Component\String\Slugger\AsciiSlugger::class);
+    $services->set(AsciiSlugger::class);
 };

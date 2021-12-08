@@ -39,7 +39,8 @@
         "symfony/http-kernel": "^5.4|^6.0",
         "symfony/process": "^5.4|^6.0",
         "symfony/routing": "^5.4|^6.0",
-        "symfony/strings": "^5.4|^6.0",
+        "symfony/string": "^5.4|^6.0",
+        "symfony/translation-contracts": "^3.0",
         "symfony/yaml": "^5.4|^6.0",
         "twig/twig": "^3.3",
         "webmozart/assert": "^1.10"

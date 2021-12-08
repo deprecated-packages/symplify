@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurat
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\String\AbstractString;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -52,13 +53,14 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         RouteConfigurator::class,
         Alias::class,
         Finder::class,
+        // symfony
+        AbstractString::class,
         // php-scoper finder
         'Isolated\Symfony\Component\Finder\Finder',
         Definition::class,
         VersionNumber::class,
         Version::class,
         RouteCollection::class,
-        TrinaryLogic::class,
         'Stringy\Stringy',
         // also trinary logic ↓
         PassedByReference::class,
@@ -69,6 +71,7 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
         'Stringy\Stringy',
         // phpstan
         RuleErrorBuilder::class,
+        TrinaryLogic::class,
     ];
 
     /**
