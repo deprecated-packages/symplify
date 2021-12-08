@@ -34,7 +34,7 @@ final class NoInjectOnFinalRuleTest extends AbstractServiceAwareRuleTestCase
         ];
 
         yield [
-            __DIR__ . '/Fixture/RequireOnNonAbstractWithAbstractParent.php',
+            __DIR__ . '/Fixture/InjectAttributeWithParent.php',
             [[NoInjectOnFinalRule::ERROR_MESSAGE, 15]],
         ];
     }

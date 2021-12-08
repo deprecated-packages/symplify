@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Nette\Rules;
 
-use Nette\Utils\Strings;
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,17 +23,15 @@ final class NoInjectOnFinalRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'Use constructor on final classes, instead of property injection';
 
-    /**
-     * @var string
-     * @see https://regex101.com/r/VqX9MC/1
-     */
-    public const INJECT_REQUIRE_REGEX = '#\@(inject|required)#';
+    public function __construct(
+        private NetteInjectAnalyzer $netteInjectAnalyzer
+    ) {
+    }
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(
-            self::ERROR_MESSAGE,
-            [new CodeSample(
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
                 <<<'CODE_SAMPLE'
 final class SomePresenter
 {
@@ -72,12 +69,7 @@ CODE_SAMPLE
      */
     public function process(Node $node, Scope $scope): array
     {
-        $docComment = $node->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return [];
-        }
-
-        if (! Strings::match($docComment->getText(), self::INJECT_REQUIRE_REGEX)) {
+        if (! $this->netteInjectAnalyzer->isInjectProperty($node)) {
             return [];
         }
 
