@@ -7,4 +7,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             stringArgPositionsByType:
-                Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source\AlwaysCallMeWithString: [1]
+                Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInConstructorRule\Source\AlwaysCallMeWithString: [1]

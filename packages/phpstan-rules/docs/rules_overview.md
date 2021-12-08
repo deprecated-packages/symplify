@@ -1,4 +1,4 @@
-# 158 Rules Overview
+# 157 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -5515,56 +5515,6 @@ class AnotherClass
     public function run()
     {
         new SomeClass('YetAnotherClass');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## RequireStringArgumentInMethodCallRule
-
-Use quoted string in method call `"%s()"` argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule`](../src/Rules/RequireStringArgumentInMethodCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInMethodCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            stringArgPositionByMethodByType:
-                SomeClass:
-                    someMethod:
-                        - 0
-```
-
-↓
-
-```php
-class AnotherClass
-{
-    public function run(SomeClass $someClass)
-    {
-        $someClass->someMethod(YetAnotherClass:class);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class AnotherClass
-{
-    public function run(SomeClass $someClass)
-    {
-        $someClass->someMethod('YetAnotherClass'');
     }
 }
 ```
