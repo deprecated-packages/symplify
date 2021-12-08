@@ -23,7 +23,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
     - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\FuncCallMatcher
     - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer

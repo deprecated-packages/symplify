@@ -186,8 +186,12 @@ parameters:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
 
-        # use rector rule for this
-        - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
+        # exceptions to get file
+        -
+             message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
+             paths:
+                 - packages/easy-parallel/src/CpuCoreCountProvider.php
+                 - packages/smart-file-system/src/SmartFileSystem.php
 
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
@@ -521,7 +525,6 @@ parameters:
 
         # useless generics
         - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-        - '#Parameter (.*?) expects class\-string, string given#'
 
         # parallel
         - '#popen(.*?)" is forbidden to use#'
@@ -556,10 +559,6 @@ parameters:
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
 
         -
-            message: '#Use "Symplify\\SmartFileSystem\\SmartFileSystem" class and "readFile\(\)" method call over "file_get_contents\(\)" func call#'
-            path: packages/easy-parallel/src/CpuCoreCountProvider.php
-
-        -
             message: '#Cannot call method (.*?)\(\) on Symplify\\EasyParallel\\ValueObject\\ProcessPool\|null#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
@@ -581,3 +580,4 @@ parameters:
 
         # is never string
         - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
+        - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
