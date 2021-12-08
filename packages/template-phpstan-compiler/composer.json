@@ -6,13 +6,13 @@
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
-        "symplify/astral": "^10.0.1",
+        "symplify/astral": "^10.1",
         "phpstan/phpstan": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "symplify/easy-testing": "^10.0.1",
-        "symplify/phpstan-extensions": "^10.0.1"
+        "symplify/easy-testing": "^10.1",
+        "symplify/phpstan-extensions": "^10.1"
     },
     "autoload": {
         "psr-4": {
