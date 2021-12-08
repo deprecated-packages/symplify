@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInMethodCallRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInConstructorRule\Source;
 
 final class AnotherClassWithConstant
 {
