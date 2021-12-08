@@ -32,6 +32,23 @@ final class ForbiddenParamTypeRemovalRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipIndirectRemoval.php', []];
 
         yield [__DIR__ . '/Fixture/RemoveParentType.php', [[ForbiddenParamTypeRemovalRule::ERROR_MESSAGE, 11]]];
+
+        yield [__DIR__ . '/Fixture/SkipNoParent.php', []];
+        yield [__DIR__ . '/Fixture/SkipNotHasParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipHasSameParameterWithParentMethod.php', []];
+        yield [__DIR__ . '/Fixture/SkipHasSameParameterWithInterfaceMethod.php', []];
+
+        yield [
+            __DIR__ . '/Fixture/HasDifferentParameterWithParentMethod.php',
+            [[ForbiddenParamTypeRemovalRule::ERROR_MESSAGE, 9]],
+        ];
+        yield [
+            __DIR__ . '/Fixture/HasDifferentParameterWithInterfaceMethod.php',
+            [[ForbiddenParamTypeRemovalRule::ERROR_MESSAGE, 9], [
+                ForbiddenParamTypeRemovalRule::ERROR_MESSAGE,
+                13,
+            ]],
+        ];
     }
 
     protected function getRule(): Rule

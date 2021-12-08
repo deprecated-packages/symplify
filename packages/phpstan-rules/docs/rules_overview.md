@@ -1,4 +1,4 @@
-# 156 Rules Overview
+# 154 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -235,52 +235,6 @@ class SomeClass extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $source = $input->getArgument('source');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## CheckParentChildMethodParameterTypeCompatibleRule
-
-Method parameters must be compatible with its parent
-
-- class: [`Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`](../src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php)
-
-```php
-class ParentClass
-{
-    public function run(string $someParameter)
-    {
-    }
-}
-
-class SomeClass extends ParentClass
-{
-    public function run($someParameter)
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class ParentClass
-{
-    public function run(string $someParameter)
-    {
-    }
-}
-
-class SomeClass extends ParentClass
-{
-    public function run(string $someParameter)
-    {
     }
 }
 ```
@@ -4413,7 +4367,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SomeController
 {
-    #Route()
+    #[Route]
     public function action()
     {
     }
