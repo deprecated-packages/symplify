@@ -21,7 +21,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Property with @inject annotation or #[Inject] attribute must be public';
+    public const ERROR_MESSAGE = 'Property with @inject annotation or #[Nette\DI\Attributes\Inject] attribute must be public';
 
     public function __construct(
         private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer

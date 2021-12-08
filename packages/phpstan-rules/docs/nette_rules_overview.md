@@ -399,7 +399,7 @@ class SomeClass
 
 ## ValidNetteInjectRule
 
-Property with `@inject` annotation or #[Inject] attribute must be public
+Property with `@inject` annotation or #[Nette\DI\Attributes\Inject] attribute must be public
 
 - class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/nette/src/Rules/ValidNetteInjectRule.php)
 
