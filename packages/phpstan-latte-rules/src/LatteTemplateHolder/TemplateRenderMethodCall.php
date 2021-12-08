@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanLatteRules\LatteTemplateHolder;
 
-use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
-use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanLatteRules\Contract\LatteTemplateHolderInterface;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\LatteTemplateWithParametersMatcher;
 use Symplify\PHPStanLatteRules\NodeAnalyzer\TemplateRenderAnalyzer;
 use Symplify\PHPStanLatteRules\TypeAnalyzer\ComponentMapResolver;
+use Symplify\TemplatePHPStanCompiler\ValueObject\RenderTemplateWithParameters;
 
 final class TemplateRenderMethodCall implements LatteTemplateHolderInterface
 {

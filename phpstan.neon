@@ -583,3 +583,6 @@ parameters:
 
         # false positive, due to scoped autoload of rector.php
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServiceConfigurator\:\:configure\(\)#'
+
+        # is never string
+        - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
