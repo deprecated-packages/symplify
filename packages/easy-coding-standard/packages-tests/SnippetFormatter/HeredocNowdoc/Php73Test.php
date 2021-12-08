@@ -37,7 +37,7 @@ final class Php73Test extends AbstractKernelTestCase
             $fixtureFileInfo
         );
 
-        $configuration = new Configuration(isFixer: true);
+        $configuration = new Configuration(true);
 
         $changedContent = $this->snippetFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),

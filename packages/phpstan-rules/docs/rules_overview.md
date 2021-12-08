@@ -1,4 +1,4 @@
-# 131 Rules Overview
+# 132 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1316,6 +1316,28 @@ class SomeClass
 interface SomeInterface
 {
 }
+```
+
+:+1:
+
+<br>
+
+## ForbiddenNamedArgumentsRule
+
+Named arguments do not add any value here. Use normal arguments in the same order
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenNamedArgumentsRule`](../src/Rules/Complexity/ForbiddenNamedArgumentsRule.php)
+
+```php
+return strlen(string: 'name');
+```
+
+:x:
+
+<br>
+
+```php
+return strlen('name');
 ```
 
 :+1:
