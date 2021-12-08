@@ -11,3 +11,10 @@ services:
                     call: [0]
                 Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstantExternal:
                     call: [0]
+                Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPositionRule\Source\AlwaysCallMeWithConstant:
+                    call: [0]
+                Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator:
+                    set: [0]
+                PhpParser\Node:
+                    getAttribute: [0]
+                    setAttribute: [0]
