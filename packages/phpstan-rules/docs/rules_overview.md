@@ -1,4 +1,4 @@
-# 132 Rules Overview
+# 131 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3721,63 +3721,6 @@ class SomeClass
     public function run()
     {
         return new SmartFileInfo('...');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferredMethodCallOverFuncCallRule
-
-Use "%s" class and `"%s()"` method call over `"%s()"` func call
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule`](../src/Rules/PreferredMethodCallOverFuncCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\PreferredMethodCallOverFuncCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            funcCallToPreferredMethodCalls:
-                strlen:
-                    - Nette\Utils\Strings
-                    - length
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function run($value)
-    {
-        return strlen($value);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    public function __construct(Strings $strings)
-    {
-        $this->strings = $strings;
-    }
-
-    public function run($value)
-    {
-        return $this->strings->length($value);
     }
 }
 ```
