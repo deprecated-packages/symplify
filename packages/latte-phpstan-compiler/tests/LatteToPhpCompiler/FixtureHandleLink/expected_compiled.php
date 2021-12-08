@@ -17,6 +17,14 @@ final class DummyTemplateClass extends \Latte\Runtime\Template
         /** line in latte file: 2 */
         $actualClass->handleDoSomething('b', ['c' => 'd']);
         echo '">n:href</a>
+<a href="';
+        /** line in latte file: 3 */
+        $actualClass->handleWithoutParameters();
+        echo '">link no params</a>
+<a href="';
+        /** line in latte file: 4 */
+        $actualClass->handleWithoutParameters();
+        echo '">n:href no params</a>
 ';
         return \get_defined_vars();
     }

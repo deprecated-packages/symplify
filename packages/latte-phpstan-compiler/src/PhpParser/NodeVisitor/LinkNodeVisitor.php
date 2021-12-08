@@ -75,7 +75,7 @@ final class LinkNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
-        $targetParams = $linkArgs[1]->value;
+        $targetParams = isset($linkArgs[1]) ? $linkArgs[1]->value : null;
         $linkParams = $targetParams instanceof Array_ ? $this->createLinkParams($targetParams) : [];
 
         $expressions = $linkProcessor->createLinkExpressions($targetName, $linkParams, $attributes);

@@ -5,3 +5,6 @@ parameters:
         asdf: qwerty
     presenterFactoryMapping:
         *: Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler\Source\*Presenter
+
+services:
+    - Symplify\LattePHPStanCompiler\LinkProcessor\SignalLinkProcessor
