@@ -1,4 +1,4 @@
-# 130 Rules Overview
+# 129 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3565,58 +3565,6 @@ final class SomeClass
     public function getData(): array
     {
         // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferConstantValueRule
-
-Use defined constant %s::%s over string %s
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\PreferConstantValueRule`](../src/Rules/PreferConstantValueRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\PreferConstantValueRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantHoldingObjects:
-                Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection:
-                    - "REQUIRE(_.*)?"
-                    - "AUTOLOAD(_.*)?"
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return 'require';
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
-
-class SomeClass
-{
-    public function run()
-    {
-        return ComposerJsonSection::REQUIRE;
     }
 }
 ```
