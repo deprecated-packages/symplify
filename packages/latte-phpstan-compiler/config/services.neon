@@ -26,7 +26,6 @@ services:
             mapping: %presenterFactoryMapping%
 
     - Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory
-    - Symplify\LattePHPStanCompiler\LinkProcessor\SignalLinkProcessor
     - Symplify\LattePHPStanCompiler\LinkProcessor\PresenterActionLinkProcessor
 
     # latte lines
