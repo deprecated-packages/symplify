@@ -25,4 +25,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(NeonPrinter::class);
     $services->set(ClassLikeExistenceChecker::class);
+    $services->set(\Symfony\Component\String\Slugger\AsciiSlugger::class);
 };
