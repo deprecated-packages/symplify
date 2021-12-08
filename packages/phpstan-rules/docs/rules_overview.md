@@ -1203,48 +1203,6 @@ class SomeClass
 
 <br>
 
-## ForbiddenBinaryMethodCallRule
-
-This call cannot be used in binary compare. Use direct method instead
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule`](../src/Rules/Domain/ForbiddenBinaryMethodCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Domain\ForbiddenBinaryMethodCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            SomeType:
-                - getId
-```
-
-↓
-
-```php
-$someType = new SomeType();
-if ($someType->getId() !== null) {
-    return $someType->getId();
-}
-```
-
-:x:
-
-<br>
-
-```php
-$someType = new SomeType();
-if ($someType->hasId()) {
-    return $someType->getId();
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenClassConstRule
 
 Constants in this class are not allowed, move them to custom Enum class instead
