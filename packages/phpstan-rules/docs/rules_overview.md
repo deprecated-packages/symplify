@@ -5,6 +5,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 154 Rules Overview
 =======
 =======
@@ -13,6 +14,8 @@
 >>>>>>> [PHPStanRules] Remove ForbiddenMethodCallOnTypeRule, only for temporary job
 =======
 >>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+=======
+>>>>>>> [PHPStanRules] Remove RequireQuoteStringValueSprintfRule, depends way too often on the context
 <<<<<<< HEAD
 # 157 Rules Overview
 =======
@@ -36,8 +39,17 @@
 =======
 # 133 Rules Overview
 >>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+<<<<<<< HEAD
 >>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+<<<<<<< HEAD
 >>>>>>> rebuild docs
+=======
+=======
+=======
+# 132 Rules Overview
+>>>>>>> [PHPStanRules] Remove RequireQuoteStringValueSprintfRule, depends way too often on the context
+>>>>>>> [PHPStanRules] Remove RequireQuoteStringValueSprintfRule, depends way too often on the context
+>>>>>>> [PHPStanRules] Remove RequireQuoteStringValueSprintfRule, depends way too often on the context
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
