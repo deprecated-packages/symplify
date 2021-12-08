@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -21,10 +21,10 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Nette @inject annotation/#[Inject] must be valid';
+    public const ERROR_MESSAGE = 'Property with @inject annotation or #[Inject] attribute must be public';
 
     public function __construct(
-        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer
+        private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer
     ) {
     }
 
@@ -58,21 +58,21 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 class SomeClass
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     private $someDependency;
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 class SomeClass
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     public $someDependency;
 }
 CODE_SAMPLE

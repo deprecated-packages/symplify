@@ -30,28 +30,30 @@ final class NoInjectOnFinalRule extends AbstractSymplifyRule
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
+        return new RuleDefinition(
+            self::ERROR_MESSAGE,
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 final class SomePresenter
 {
-    /**
-     * @inject
-     */
+     #[Inject]
     public $property;
 }
 CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 abstract class SomePresenter
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     public $property;
 }
 CODE_SAMPLE
-            )]
+                ), ]
         );
     }
 

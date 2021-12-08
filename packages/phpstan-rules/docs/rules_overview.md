@@ -1,4 +1,43 @@
+<<<<<<< HEAD
 # 131 Rules Overview
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+# 154 Rules Overview
+=======
+=======
+>>>>>>> [PHPStanRules] Remove ForbiddenBinaryMethodCallRule, used for temporary refactoring
+=======
+>>>>>>> [PHPStanRules] Remove ForbiddenMethodCallOnTypeRule, only for temporary job
+=======
+>>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+<<<<<<< HEAD
+# 157 Rules Overview
+=======
+# 136 Rules Overview
+>>>>>>> rebuild docs
+<<<<<<< HEAD
+>>>>>>> rebuild docs
+=======
+=======
+# 135 Rules Overview
+>>>>>>> [PHPStanRules] Remove ForbiddenBinaryMethodCallRule, used for temporary refactoring
+<<<<<<< HEAD
+>>>>>>> [PHPStanRules] Remove ForbiddenBinaryMethodCallRule, used for temporary refactoring
+=======
+=======
+# 134 Rules Overview
+>>>>>>> [PHPStanRules] Remove ForbiddenMethodCallOnTypeRule, only for temporary job
+<<<<<<< HEAD
+>>>>>>> [PHPStanRules] Remove ForbiddenMethodCallOnTypeRule, only for temporary job
+=======
+=======
+# 133 Rules Overview
+>>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+>>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+>>>>>>> rebuild docs
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -199,6 +238,91 @@ class SomeTest
 
 <br>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+## CheckOptionArgumentCommandRule
+
+Argument and options "%s" got confused
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule`](../packages/symfony/src/Rules/CheckOptionArgumentCommandRule.php)
+
+```php
+class SomeClass extends Command
+{
+    protected function configure(): void
+    {
+        $this->addOption('source');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $source = $input->getArgument('source');
+=======
+## CheckParentChildMethodParameterTypeCompatibleRule
+
+Method parameters must be compatible with its parent
+
+- class: [`Symplify\PHPStanRules\Rules\CheckParentChildMethodParameterTypeCompatibleRule`](../src/Rules/CheckParentChildMethodParameterTypeCompatibleRule.php)
+
+```php
+class ParentClass
+{
+    public function run(string $someParameter)
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run($someParameter)
+    {
+>>>>>>> rebuild docs
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+<<<<<<< HEAD
+class SomeClass extends Command
+{
+    protected function configure(): void
+    {
+        $this->addArgument('source');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $source = $input->getArgument('source');
+=======
+class ParentClass
+{
+    public function run(string $someParameter)
+    {
+    }
+}
+
+class SomeClass extends ParentClass
+{
+    public function run(string $someParameter)
+    {
+>>>>>>> rebuild docs
+    }
+}
+```
+
+:+1:
+
+<br>
+
+=======
+>>>>>>> [PHPStanRules] Merge CheckParentChildMethodParameterTypeCompatibleRule to ForbiddenParamTypeRemovalRule, as the same functionalit
+>>>>>>> rebuild docs
 ## CheckReferencedClassInAnnotationRule
 
 Class "%s" used in annotation is missing

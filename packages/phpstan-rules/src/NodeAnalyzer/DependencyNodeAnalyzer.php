@@ -23,7 +23,7 @@ final class DependencyNodeAnalyzer
         private NodeFinder $nodeFinder,
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
-        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer
+        private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer
     ) {
     }
 

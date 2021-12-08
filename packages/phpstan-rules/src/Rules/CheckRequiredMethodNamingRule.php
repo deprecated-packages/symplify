@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,7 +27,7 @@ final class CheckRequiredMethodNamingRule extends AbstractSymplifyRule
     private const ALLOWED_METHOD_NAMES = ['autowire', 'inject'];
 
     public function __construct(
-        private AutowiredMethodAnalyzer $autowiredMethodAnalyzer,
+        private AutowiredMethodPropertyAnalyzer $autowiredMethodAnalyzer,
     ) {
     }
 
