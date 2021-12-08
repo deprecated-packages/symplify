@@ -1,4 +1,4 @@
-# 154 Rules Overview
+# 131 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -199,50 +199,6 @@ class SomeTest
 
 <br>
 
-## CheckOptionArgumentCommandRule
-
-Argument and options "%s" got confused
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule`](../packages/symfony/src/Rules/CheckOptionArgumentCommandRule.php)
-
-```php
-class SomeClass extends Command
-{
-    protected function configure(): void
-    {
-        $this->addOption('source');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $source = $input->getArgument('source');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass extends Command
-{
-    protected function configure(): void
-    {
-        $this->addArgument('source');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $source = $input->getArgument('source');
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## CheckReferencedClassInAnnotationRule
 
 Class "%s" used in annotation is missing
@@ -367,44 +323,6 @@ echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
 
 <br>
 
-## CheckSymfonyConfigDefaultsRule
-
-`autowire()`, `autoconfigure()`, and `public()` are required in config service
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule`](../packages/symfony/src/Rules/CheckSymfonyConfigDefaultsRule.php)
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public();
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public()
-        ->autowire()
-        ->autoconfigure();
-};
-```
-
-:+1:
-
-<br>
-
 ## CheckTypehintCallerTypeRule
 
 Parameter %d should use "%s" type as the only type passed to this method
@@ -444,132 +362,6 @@ class SomeClass
 
     private function isCheck(MethodCall $node)
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## ClassLikeCognitiveComplexityRule
-
-Cognitive complexity of class/trait must be under specific limit
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxClassCognitiveComplexity: 10
-            scoreCompositionOverInheritance: true
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function another($value)
-    {
-        if ($value !== 1 && $value !== 2) {
-            return false;
-        }
-
-        return true;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        return $this->someOtherService->count($value);
-    }
-
-    public function another($value)
-    {
-        return $this->someOtherService->delete($value);
-    }
-}
-```
-
-:+1:
-
-<br>
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            limitsByTypes:
-                Symfony\Component\Console\Command\Command: 5
-```
-
-↓
-
-```php
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        if (...) {
-            // ...
-        } else {
-            // ...
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        return $this->externalService->resolve(...);
     }
 }
 ```
@@ -668,28 +460,6 @@ class SomeClass
         return 200;
     }
 }
-```
-
-:+1:
-
-<br>
-
-## DibiMaskMatchesVariableTypeRule
-
-Modifier "%s" is not matching passed variable type "%s". The "%s" type is expected - see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule`](../packages/nette/src/Rules/DibiMaskMatchesVariableTypeRule.php)
-
-```php
-$database->query('INSERT INTO table %v', 'string');
-```
-
-:x:
-
-<br>
-
-```php
-$database->query('INSERT INTO table %v', ['name' => 'Matthias']);
 ```
 
 :+1:
@@ -1623,54 +1393,6 @@ foreach ($fileErrors as $fileError) {
 
 <br>
 
-## ForbiddenNetteInjectOverrideRule
-
-Assign to already injected property is not allowed
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/nette/src/Rules/ForbiddenNetteInjectOverrideRule.php)
-
-```php
-abstract class AbstractParent
-{
-    /**
-     * @inject
-     * @var SomeType
-     */
-    protected $someType;
-}
-
-final class SomeChild extends AbstractParent
-{
-    public function __construct(AnotherType $anotherType)
-    {
-        $this->someType = $anotherType;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-abstract class AbstractParent
-{
-    /**
-     * @inject
-     * @var SomeType
-     */
-    protected $someType;
-}
-
-final class SomeChild extends AbstractParent
-{
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenNodeRule
 
 "%s" is forbidden to use
@@ -2075,63 +1797,6 @@ $this->someService->process($value, ...);
 
 <br>
 
-## FunctionLikeCognitiveComplexityRule
-
-Cognitive complexity of function/method must be under specific limit
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCognitiveComplexity: 5
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value === 1) {
-            return true;
-        }
-
-        return $value === 2;
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## IfElseToMatchSpotterRule
 
 If/else construction can be replace with more robust `match()`
@@ -2263,44 +1928,6 @@ class SomeRule implements ConfiguredRuleInterface
     public function run()
     {
         return new ConfiguredCodeSample('...');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## InvokableControllerByRouteNamingRule
-
-Use controller class name based on route name instead
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule`](../packages/symfony/src/Rules/InvokableControllerByRouteNamingRule.php)
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SecurityController extends AbstractController
-{
-    #[Route(path: '/logout', name: 'logout')]
-    public function __invoke(): Response
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class LogoutController extends AbstractController
-{
-    #[Route(path: '/logout', name: 'logout')]
-    public function __invoke(): Response
-    {
     }
 }
 ```
@@ -2481,49 +2108,6 @@ return array_filter($items, function ($item) {
 $values = array_filter($items, function ($item) {
 });
 return $values !== [];
-```
-
-:+1:
-
-<br>
-
-## NoChainMethodCallRule
-
-Do not use chained method calls. Put each on separated lines.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](../packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedChainTypes:
-                - AllowedFluent
-```
-
-↓
-
-```php
-$this->runThis()->runThat();
-
-$fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
-```
-
-:x:
-
-<br>
-
-```php
-$this->runThis();
-$this->runThat();
-
-$fluentClass = new AllowedFluent();
-$fluentClass->one()->two();
 ```
 
 :+1:
@@ -2896,36 +2480,6 @@ class SomeClass
 
 <br>
 
-## NoElseAndElseIfRule
-
-Do not use "else/elseif". Refactor to early return
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
-
-```php
-if (...) {
-    return 1;
-} else {
-    return 2;
-}
-```
-
-:x:
-
-<br>
-
-```php
-if (...) {
-    return 1;
-}
-
-return 2;
-```
-
-:+1:
-
-<br>
-
 ## NoEmptyClassRule
 
 There should be no empty class
@@ -3097,40 +2651,6 @@ final class SomeProduct
     {
         return $this->name;
     }
-}
-```
-
-:+1:
-
-<br>
-
-## NoInjectOnFinalRule
-
-Use constructor on final classes, instead of property injection
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/nette/src/Rules/NoInjectOnFinalRule.php)
-
-```php
-final class SomePresenter
-{
-    /**
-     * @inject
-     */
-    public $property;
-}
-```
-
-:x:
-
-<br>
-
-```php
-abstract class SomePresenter
-{
-    /**
-     * @inject
-     */
-    public $property;
 }
 ```
 
@@ -3451,166 +2971,6 @@ $filteredValues = array_filter(array_map($callback, $items));
 ```php
 $mappedItems = array_map($callback, $items);
 $filteredValues = array_filter($mappedItems);
-```
-
-:+1:
-
-<br>
-
-## NoNetteArrayAccessInControlRule
-
-Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule`](../packages/nette/src/Rules/NoNetteArrayAccessInControlRule.php)
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        return $this['someControl'];
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        return $this->getComponent('someControl');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNetteDoubleTemplateAssignRule
-
-Avoid double template variable override of "%s"
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule`](../packages/nette/src/Rules/NoNetteDoubleTemplateAssignRule.php)
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        $this->template->key = '1';
-        $this->template->key = '2';
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        $this->template->key = '2';
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNetteInjectAndConstructorRule
-
-Use either `__construct()` or @inject, not both together
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule`](../packages/nette/src/Rules/NoNetteInjectAndConstructorRule.php)
-
-```php
-class SomeClass
-{
-    private $someType;
-
-    public function __construct()
-    {
-        // ...
-    }
-
-    public function injectSomeType($someType)
-    {
-        $this->someType = $someType;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $someType;
-
-    public function __construct($someType)
-    {
-        $this->someType = $someType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNetteTemplateVariableReadRule
-
-Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/nette/src/Rules/NoNetteTemplateVariableReadRule.php)
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        if ($this->template->key === 'value') {
-            return;
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        $this->template->key = 'value';
-    }
-}
 ```
 
 :+1:
@@ -4021,45 +3381,6 @@ class SomeEntity
 
 <br>
 
-## NoShortNameRule
-
-Do not name "%s", shorter than %d chars
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            minNameLength: 3
-```
-
-↓
-
-```php
-function is()
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-function isClass()
-{
-}
-```
-
-:+1:
-
-<br>
-
 ## NoStaticPropertyRule
 
 Do not use static property
@@ -4114,48 +3435,6 @@ class Some
     public function __construct(string $name)
     {
         $this->name = $name;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoTemplateMagicAssignInControlRule
-
-Instead of magic template assign use `render()` param and explicit variable
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule`](../packages/nette/src/Rules/NoTemplateMagicAssignInControlRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->value = 1000;
-
-        $this->template->render(__DIR__ . '/some_file.latte');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000
-        ]);
     }
 }
 ```
@@ -4578,41 +3857,6 @@ abstract class AbstractSomeClass
 
 <br>
 
-## PreventDoubleSetParameterRule
-
-Set param value is overriden. Merge it to previous set above
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/symfony/src/Rules/PreventDoubleSetParameterRule.php)
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set('some_param', [1]);
-    $parameters->set('some_param', [2]);
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set('some_param', [1, 2]);
-};
-```
-
-:+1:
-
-<br>
-
 ## PreventDuplicateClassMethodRule
 
 Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use unique content or service instead
@@ -5020,46 +4264,6 @@ final class SomeException extends Exception
 
 <br>
 
-## RequireInvokableControllerRule
-
-Use invokable controller with `__invoke()` method instead of named action method
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/symfony/src/Rules/RequireInvokableControllerRule.php)
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeController extends AbstractController
-{
-    #[Route()]
-    public function someMethod()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeController extends AbstractController
-{
-    #[Route()]
-    public function __invoke()
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireMethodCallArgumentConstantRule
 
 Method call argument on position %d must use constant (e.g. "Option::NAME") over value
@@ -5112,48 +4316,6 @@ class AnotherClass
 
 <br>
 
-## RequireNativeArraySymfonyRenderCallRule
-
-Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/symfony/src/Rules/RequireNativeArraySymfonyRenderCallRule.php)
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class SomeController extends AbstractController
-{
-    public function default()
-    {
-        $parameters['name'] = 'John';
-        $parameters['name'] = 'Doe';
-        return $this->render('...', $parameters);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
-class SomeController extends AbstractController
-{
-    public function default()
-    {
-        return $this->render('...', [
-            'name' => 'John'
-        ]);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireNewArgumentConstantRule
 
 New expression argument on position %d must use constant over value
@@ -5189,40 +4351,6 @@ $inputOption = new InputOption('name', null, 2);
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
-```
-
-:+1:
-
-<br>
-
-## RequireQuoteStringValueSprintfRule
-
-"%s" in `sprintf()` format must be quoted
-
-- class: [`Symplify\PHPStanRules\Rules\RequireQuoteStringValueSprintfRule`](../src/Rules/RequireQuoteStringValueSprintfRule.php)
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        echo sprintf('%s value', $variable);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        echo sprintf('"%s" value', $variable);
-    }
-}
 ```
 
 :+1:
@@ -5426,43 +4554,6 @@ class SomeClass
         if ($matches) {
             echo $matches['content'];
         }
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## RequireTemplateInNetteControlRule
-
-Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/nette/src/Rules/RequireTemplateInNetteControlRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render('some_file.latte');
     }
 }
 ```
@@ -5714,56 +4805,6 @@ class SomeClass extends Rule
 
 <br>
 
-## SingleNetteInjectMethodRule
-
-Use single inject*() class method per class
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/nette/src/Rules/SingleNetteInjectMethodRule.php)
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectOne(Type $type)
-    {
-        $this->type = $type;
-    }
-
-    public function injectTwo(AnotherType $anotherType)
-    {
-        $this->anotherType = $anotherType;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectSomeClass(
-        Type $type,
-        AnotherType $anotherType
-    ) {
-        $this->type = $type;
-        $this->anotherType = $anotherType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## SuffixInterfaceRule
 
 Interface must be suffixed with "Interface" exclusively
@@ -5924,40 +4965,6 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
-}
-```
-
-:+1:
-
-<br>
-
-## ValidNetteInjectRule
-
-Nette `@inject` annotation/#[Inject] must be valid
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/nette/src/Rules/ValidNetteInjectRule.php)
-
-```php
-class SomeClass
-{
-    /**
-     * @inject
-     */
-    private $someDependency;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    /**
-     * @inject
-     */
-    public $someDependency;
 }
 ```
 
