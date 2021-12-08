@@ -29,12 +29,14 @@ Assign to already injected property is not allowed
 - class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/nette/src/Rules/ForbiddenNetteInjectOverrideRule.php)
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 abstract class AbstractParent
 {
     /**
-     * @inject
      * @var SomeType
      */
+    #[Inject]
     protected $someType;
 }
 
@@ -52,12 +54,14 @@ final class SomeChild extends AbstractParent
 <br>
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 abstract class AbstractParent
 {
     /**
-     * @inject
      * @var SomeType
      */
+    #[Inject]
     protected $someType;
 }
 
@@ -77,11 +81,11 @@ Use constructor on final classes, instead of property injection
 - class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/nette/src/Rules/NoInjectOnFinalRule.php)
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 final class SomePresenter
 {
-    /**
-     * @inject
-     */
+     #[Inject]
     public $property;
 }
 ```
@@ -91,11 +95,11 @@ final class SomePresenter
 <br>
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 abstract class SomePresenter
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     public $property;
 }
 ```
@@ -395,16 +399,16 @@ class SomeClass
 
 ## ValidNetteInjectRule
 
-Nette `@inject` annotation/#[Inject] must be valid
+Property with `@inject` annotation or #[Nette\DI\Attributes\Inject] attribute must be public
 
 - class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/nette/src/Rules/ValidNetteInjectRule.php)
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 class SomeClass
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     private $someDependency;
 }
 ```
@@ -414,11 +418,11 @@ class SomeClass
 <br>
 
 ```php
+use Nette\DI\Attributes\Inject;
+
 class SomeClass
 {
-    /**
-     * @inject
-     */
+    #[Inject]
     public $someDependency;
 }
 ```

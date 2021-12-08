@@ -59,12 +59,14 @@ final class ForbiddenNetteInjectOverrideRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 abstract class AbstractParent
 {
     /**
-     * @inject
      * @var SomeType
      */
+    #[Inject]
     protected $someType;
 }
 
@@ -78,12 +80,14 @@ final class SomeChild extends AbstractParent
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
+use Nette\DI\Attributes\Inject;
+
 abstract class AbstractParent
 {
     /**
-     * @inject
      * @var SomeType
      */
+    #[Inject]
     protected $someType;
 }
 

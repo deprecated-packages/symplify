@@ -395,11 +395,6 @@ parameters:
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
-        # symfony 5.3 news
-        -
-            message: '#Method parameters must be compatible with its parent#'
-            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
-
         - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
 
         -

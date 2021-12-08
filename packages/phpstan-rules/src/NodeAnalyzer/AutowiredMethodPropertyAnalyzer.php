@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\Property;
 use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
-final class AutowiredMethodAnalyzer
+final class AutowiredMethodPropertyAnalyzer
 {
     /**
      * @var string
