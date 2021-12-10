@@ -2,24 +2,16 @@
 
 declare(strict_types=1);
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
-use PhpParser\Parser;
-use PhpParser\PrettyPrinterAbstract;
 use Rector\Core\Configuration\Option;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\DowngradePhp80\Rector\Class_\DowngradeAttributeToAnnotationRector;
 use Rector\DowngradePhp80\ValueObject\DowngradeAttributeToAnnotation;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
 
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\StyleInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Contracts\Service\Attribute\Required;
-use Symplify\RuleDocGenerator\Contract\Category\CategoryInfererInterface;
-use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
-use Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
@@ -28,20 +20,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->configure([
-            DowngradeParameterTypeWideningRector::SAFE_TYPES => [
-                Sniff::class,
-                FixerInterface::class,
-                OutputInterface::class,
-                StyleInterface::class,
-                PhpDocNodeVisitorInterface::class,
-                // phpstan
-                Parser::class,
-                RuleCodeSamplePrinterInterface::class,
-                CategoryInfererInterface::class,
-                PrettyPrinterAbstract::class,
-            ],
-            DowngradeParameterTypeWideningRector::SAFE_TYPES_TO_METHODS => [
-                ContainerInterface::class => ['setParameter', 'getParameter', 'hasParameter'],
+            DowngradeParameterTypeWideningRector::UNSAFE_TYPES_TO_METHODS => [
+                LoaderInterface::class => ['load'],
+                Loader::class => ['import'],
             ],
         ]);
 
