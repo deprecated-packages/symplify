@@ -57,7 +57,7 @@
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
-        "rector/rector": "^0.12.7",
+        "rector/rector": "dev-main",
         "symfony/framework-bundle": "^5.4|^6.0",
         "symfony/twig-bundle": "^5.4|^6.0",
         "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0",
