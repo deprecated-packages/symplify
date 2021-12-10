@@ -9,7 +9,7 @@
         "php": ">=8.0",
         "ext-dom": "*",
         "nette/utils": "^3.2",
-        "nikic/php-parser": "^4.13",
+        "nikic/php-parser": "^4.13.2",
         "symfony/console": "^5.4|^6.0",
         "symfony/dependency-injection": "^5.4|^6.0",
         "symfony/expression-language": "^5.4|^6.0",
