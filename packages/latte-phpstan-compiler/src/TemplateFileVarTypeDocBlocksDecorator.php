@@ -67,6 +67,10 @@ final class TemplateFileVarTypeDocBlocksDecorator
         $classReflection = $scope->getClassReflection();
         if ($classReflection instanceof ClassReflection) {
             $variablesAndTypes[] = new VariableAndType('actualClass', new ObjectType($classReflection->getName()));
+
+            // scope: presenter -> control and presenter is the presenter = actualclass
+            // scope: control -> control is actualclass, presenter - we dont know from this context
+
         }
 
         return $variablesAndTypes;
