@@ -56,3 +56,9 @@ services:
 
     - Symplify\LattePHPStanCompiler\RelatedFileResolver\ParentLayoutTemplateFileResolver
     - Symplify\LattePHPStanCompiler\RelatedFileResolver\IncludedSnippetTemplateFileResolver
+
+    # node visitors
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\NClassNodeVisitor
+    - Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LinkNodeVisitor

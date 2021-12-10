@@ -15,10 +15,11 @@ use PhpParser\Node\Stmt\Echo_;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 
-final class LinkNodeVisitor extends NodeVisitorAbstract
+final class LinkNodeVisitor extends NodeVisitorAbstract implements LatteToPhpCompilerNodeVisitorInterface
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
