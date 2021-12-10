@@ -17,10 +17,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->configure([
-            DowngradeParameterTypeWideningRector::UNSAFE_TYPES_TO_METHODS => [
                 LoaderInterface::class => ['load'],
                 Loader::class => ['import'],
-            ],
         ]);
 
     $parameters = $containerConfigurator->parameters();
