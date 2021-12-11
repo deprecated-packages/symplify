@@ -8,6 +8,8 @@ use Nette\Application\UI\Presenter;
 
 final class FooPresenter extends Presenter
 {
+    public string $foo;
+
     public function renderDefault(int $limit, ?array $add = null): void
     {
     }

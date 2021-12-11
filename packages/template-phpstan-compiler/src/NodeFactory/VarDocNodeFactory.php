@@ -21,10 +21,10 @@ final class VarDocNodeFactory
     {
         $docNodes = [];
         foreach ($variablesAndTypes as $variableAndType) {
-            $docNodes[] = $this->createDocNop($variableAndType);
+            $docNodes[$variableAndType->getVariable()] = $this->createDocNop($variableAndType);
         }
 
-        return $docNodes;
+        return array_values($docNodes);
     }
 
     private function createDocNop(VariableAndType $variableAndType): Nop
