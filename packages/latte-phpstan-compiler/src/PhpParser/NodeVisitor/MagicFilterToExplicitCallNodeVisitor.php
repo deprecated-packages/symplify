@@ -16,6 +16,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
 use Symplify\LattePHPStanCompiler\ValueObject\DynamicCallReference;
 use Symplify\LattePHPStanCompiler\ValueObject\FunctionCallReference;
@@ -26,7 +27,7 @@ use Symplify\LattePHPStanCompiler\ValueObject\StaticCallReference;
  *
  * to: \Latte\Runtime\Filters::date(...)
  */
-final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract
+final class MagicFilterToExplicitCallNodeVisitor extends NodeVisitorAbstract implements LatteToPhpCompilerNodeVisitorInterface
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
