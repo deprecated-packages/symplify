@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\Tests\LatteToPhpCompiler;
 
 use Iterator;
+use Nette\Application\UI\Presenter;
 use Nette\Localization\Translator;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Type\ObjectType;
@@ -113,6 +114,18 @@ final class LatteToPhpCompilerTest extends TestCase
             $variablesAndTypes,
             [],
             __DIR__ . '/FixturePresenterLinks/expected_compiled.php',
+        ];
+
+        $variablesAndTypes = [
+            new VariableAndType('presenter', new ObjectType(Presenter::class)),
+            new VariableAndType('presenter', new ObjectType(FooPresenter::class)),
+            new VariableAndType('control', new ObjectType(FooPresenter::class)),
+        ];
+        yield [
+            __DIR__ . '/FixturePresenterVariable/input_file.latte',
+            $variablesAndTypes,
+            [],
+            __DIR__ . '/FixturePresenterVariable/expected_compiled.php',
         ];
     }
 

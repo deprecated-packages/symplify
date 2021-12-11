@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\LattePHPStanCompiler;
 
+use Nette\Application\UI\Control;
+use Nette\Application\UI\Presenter;
 use PhpParser\Node\Expr\Array_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
@@ -66,11 +68,15 @@ final class TemplateFileVarTypeDocBlocksDecorator
 
         $classReflection = $scope->getClassReflection();
         if ($classReflection instanceof ClassReflection) {
-            $variablesAndTypes[] = new VariableAndType('actualClass', new ObjectType($classReflection->getName()));
+            $actualClass = new ObjectType($classReflection->getName());
+            $variablesAndTypes[] = new VariableAndType('actualClass', $actualClass);
 
-            // scope: presenter -> control and presenter is the presenter = actualclass
-            // scope: control -> control is actualclass, presenter - we dont know from this context
-
+            if ($actualClass->isInstanceOf(Presenter::class)->yes()) {
+                $variablesAndTypes[] = new VariableAndType('presenter', $actualClass);
+            }
+            if ($actualClass->isInstanceOf(Control::class)->yes()) {
+                $variablesAndTypes[] = new VariableAndType('control', $actualClass);
+            }
         }
 
         return $variablesAndTypes;
