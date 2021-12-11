@@ -13,13 +13,14 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 
 /**
  * Fixes render() invalid contract
  *
  * @see https://github.com/symplify/symplify/issues/3682
  */
-final class InstanceofRenderableNodeVisitor extends NodeVisitorAbstract
+final class InstanceofRenderableNodeVisitor extends NodeVisitorAbstract implements LatteToPhpCompilerNodeVisitorInterface
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,

@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\Ternary;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 
 /**
  * from: <code> echo ($ʟ_tmp = \array_filter(['class1', $var ? 'class2' : \null])) ? ' class="' .
@@ -20,7 +21,7 @@ use PhpParser\NodeVisitorAbstract;
  *
  * to: <code> echo ' class="' . \implode(" ", ['class1', $var ? 'class2' : \null]) . '"'; </code>
  */
-final class NClassNodeVisitor extends NodeVisitorAbstract
+final class NClassNodeVisitor extends NodeVisitorAbstract implements LatteToPhpCompilerNodeVisitorInterface
 {
     public function enterNode(Node $node): Node|null
     {

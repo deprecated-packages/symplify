@@ -20,6 +20,7 @@ use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 use Symplify\LattePHPStanCompiler\Contract\LatteVariableCollectorInterface;
 use Symplify\LattePHPStanCompiler\Contract\LinkProcessorInterface;
 use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
@@ -76,5 +77,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         TagResolverInterface::class,
         LinkProcessorInterface::class,
         LatteTemplateHolderInterface::class,
+        LatteToPhpCompilerNodeVisitorInterface::class,
     ]);
 };

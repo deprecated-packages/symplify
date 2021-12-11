@@ -10,16 +10,10 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\LattePHPStanCompiler\Latte\Filters\FilterMatcher;
+use Symplify\LattePHPStanCompiler\Contract\LatteToPhpCompilerNodeVisitorInterface;
 use Symplify\LattePHPStanCompiler\Latte\LineCommentCorrector;
 use Symplify\LattePHPStanCompiler\Latte\UnknownMacroAwareLatteCompiler;
-use Symplify\LattePHPStanCompiler\LinkProcessor\LinkProcessorFactory;
 use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\ControlRenderToExplicitCallNodeVisitor;
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\InstanceofRenderableNodeVisitor;
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\LinkNodeVisitor;
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\MagicFilterToExplicitCallNodeVisitor;
-use Symplify\LattePHPStanCompiler\PhpParser\NodeVisitor\NClassNodeVisitor;
 use Symplify\LattePHPStanCompiler\ValueObject\ComponentNameAndType;
 use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -30,6 +24,9 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\VariableAndType;
  */
 final class LatteToPhpCompiler
 {
+    /**
+     * @param LatteToPhpCompilerNodeVisitorInterface[] $nodeVisitors
+     */
     public function __construct(
         private SmartFileSystem $smartFileSystem,
         private Parser $latteParser,
@@ -38,9 +35,7 @@ final class LatteToPhpCompiler
         private Standard $printerStandard,
         private LineCommentCorrector $lineCommentCorrector,
         private LatteVarTypeDocBlockDecorator $latteVarTypeDocBlockDecorator,
-        private FilterMatcher $filterMatcher,
-        private NodeValueResolver $nodeValueResolver,
-        private LinkProcessorFactory $linkProcessorFactory,
+        private array $nodeVisitors,
     ) {
     }
 
@@ -99,31 +94,16 @@ final class LatteToPhpCompiler
     private function decorateStmts(array $phpStmts, array $componentNamesAndTypes): void
     {
         $nodeTraverser = new NodeTraverser();
-        $magicFilterToExplicitCallNodeVisitor = new MagicFilterToExplicitCallNodeVisitor(
-            $this->simpleNameResolver,
-            $this->filterMatcher
-        );
 
         $controlRenderToExplicitCallNodeVisitor = new ControlRenderToExplicitCallNodeVisitor(
             $this->simpleNameResolver,
             $componentNamesAndTypes
         );
-
-        $instanceofRenderableNodeVisitor = new InstanceofRenderableNodeVisitor($this->simpleNameResolver);
-
-        $nClassNodeVisitor = new NClassNodeVisitor();
-
-        $linkNodeVisitor = new LinkNodeVisitor(
-            $this->simpleNameResolver,
-            $this->nodeValueResolver,
-            $this->linkProcessorFactory
-        );
-
-        $nodeTraverser->addVisitor($magicFilterToExplicitCallNodeVisitor);
         $nodeTraverser->addVisitor($controlRenderToExplicitCallNodeVisitor);
-        $nodeTraverser->addVisitor($instanceofRenderableNodeVisitor);
-        $nodeTraverser->addVisitor($nClassNodeVisitor);
-        $nodeTraverser->addVisitor($linkNodeVisitor);
+
+        foreach ($this->nodeVisitors as $nodeVisitor) {
+            $nodeTraverser->addVisitor($nodeVisitor);
+        }
 
         $nodeTraverser->traverse($phpStmts);
     }
