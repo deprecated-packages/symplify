@@ -68,14 +68,15 @@ final class TemplateFileVarTypeDocBlocksDecorator
 
         $classReflection = $scope->getClassReflection();
         if ($classReflection instanceof ClassReflection) {
-            $actualClass = new ObjectType($classReflection->getName());
-            $variablesAndTypes[] = new VariableAndType('actualClass', $actualClass);
+            $objectType = new ObjectType($classReflection->getName());
+            $variablesAndTypes[] = new VariableAndType('actualClass', $objectType);
 
-            if ($actualClass->isInstanceOf(Presenter::class)->yes()) {
-                $variablesAndTypes[] = new VariableAndType('presenter', $actualClass);
+            if ($objectType->isInstanceOf(Presenter::class)->yes()) {
+                $variablesAndTypes[] = new VariableAndType('presenter', $objectType);
             }
-            if ($actualClass->isInstanceOf(Control::class)->yes()) {
-                $variablesAndTypes[] = new VariableAndType('control', $actualClass);
+
+            if ($objectType->isInstanceOf(Control::class)->yes()) {
+                $variablesAndTypes[] = new VariableAndType('control', $objectType);
             }
         }
 

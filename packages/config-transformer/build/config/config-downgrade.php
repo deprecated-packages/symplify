@@ -16,8 +16,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(DowngradeParameterTypeWideningRector::class)
         ->configure([
-                LoaderInterface::class => ['load'],
-                Loader::class => ['import'],
+            LoaderInterface::class => ['load'],
+            Loader::class => ['import'],
         ]);
 
     $parameters = $containerConfigurator->parameters();
