@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Finder;
 
 use Symfony\Component\Finder\Finder;
+use Symplify\MonorepoBuilder\Exception\ConfigurationException;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
@@ -50,6 +51,15 @@ final class PackageComposerFinder
      */
     public function getPackageComposerFiles(): array
     {
+        if ($this->packageDirectories === []) {
+            $errorMessage = sprintf(
+                'First define package directories in "monorepo-builder.php" config.%sUse $parameters->set(Option::%s, "...");',
+                PHP_EOL,
+                Option::PACKAGE_DIRECTORIES
+            );
+            throw new ConfigurationException($errorMessage);
+        }
+
         if ($this->cachedPackageComposerFiles === []) {
             $finder = Finder::create()
                 ->files()
