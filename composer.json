@@ -102,7 +102,6 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/symfony/src",
             "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/phpstan-rules/packages/twig-phpstan-printer/src",
-            "Symplify\\PHPStanTwigRules\\": "packages/phpstan-twig-rules/src",
             "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
@@ -165,7 +164,6 @@
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
             "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/phpstan-rules/packages/symfony/tests",
             "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
-            "Symplify\\PHPStanTwigRules\\Tests\\": "packages/phpstan-twig-rules/tests",
             "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
@@ -204,7 +202,6 @@
         "symplify/phpstan-extensions": "10.0.2",
         "symplify/phpstan-latte-rules": "10.0.2",
         "symplify/phpstan-rules": "10.0.2",
-        "symplify/phpstan-twig-rules": "10.0.2",
         "symplify/rule-doc-generator": "10.0.2",
         "symplify/rule-doc-generator-contracts": "10.0.2",
         "symplify/simple-php-doc-parser": "10.0.2",
@@ -214,7 +211,6 @@
         "symplify/symfony-static-dumper": "10.0.2",
         "symplify/symplify-kernel": "10.0.2",
         "symplify/template-phpstan-compiler": "10.0.2",
-        "symplify/twig-phpstan-compiler": "10.0.2",
         "symplify/vendor-patches": "10.0.2"
     },
     "scripts": {

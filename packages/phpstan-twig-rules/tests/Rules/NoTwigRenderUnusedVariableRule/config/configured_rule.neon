@@ -1,7 +1,0 @@
-includes:
-    - ../../../config/included_services.neon
-
-services:
-    -
-        class: Symplify\PHPStanTwigRules\Rules\NoTwigRenderUnusedVariableRule
-        tags: [phpstan.rules.rule]
