@@ -116,7 +116,6 @@
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
             "Symplify\\TemplatePHPStanCompiler\\": "packages/template-phpstan-compiler/src",
-            "Symplify\\TwigPHPStanCompiler\\": "packages/twig-phpstan-compiler/src",
             "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
@@ -176,7 +175,6 @@
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
             "Symplify\\TemplatePHPStanCompiler\\Tests\\": "packages/template-phpstan-compiler/tests",
-            "Symplify\\TwigPHPStanCompiler\\Tests\\": "packages/twig-phpstan-compiler/tests",
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },

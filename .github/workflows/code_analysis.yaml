@@ -77,7 +77,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symplify-kernel --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/template-phpstan-compiler --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/twig-phpstan-compiler --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/vendor-patches --ansi
 
                     -
