@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
@@ -47,13 +46,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
         __DIR__ . '/packages/phpstan-rules/tests/Rules/TooDeepNewClassNestingRule/FixturePhp8/SkipExpressionThrow.php',
         __DIR__ . '/packages/latte-phpstan-compiler/tests/LatteToPhpCompiler/Fixture*',
-
-        // class in paths
-        PhpUnitStrictFixer::class => [
-            __DIR__ . '/packages/easy-coding-standard/tests/Indentation/IndentationTest.php',
-            // object compare
-            __DIR__ . '/packages/latte-phpstan-compiler/tests/Filters/FilterMatcherTest.php',
-            __DIR__ . '/packages/easy-ci/packages-tests/Neon/Application/NeonFilesProcessor/NeonFilesProcessorTest.php',
-        ],
     ]);
 };
