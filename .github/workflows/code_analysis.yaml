@@ -68,7 +68,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-latte-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-twig-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/simple-php-doc-parser --ansi
@@ -78,7 +77,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symplify-kernel --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/template-phpstan-compiler --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/twig-phpstan-compiler --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/vendor-patches --ansi
 
                     -

@@ -9,7 +9,6 @@ includes:
     - packages/phpstan-rules/packages/symfony/config/services.neon
     - packages/phpstan-rules/packages/nette/config/services.neon
     - packages/latte-phpstan-compiler/config/services.neon
-    - packages/twig-phpstan-compiler/config/services.neon
     - packages/template-phpstan-compiler/config/services.neon
 
     # latte testing
@@ -144,7 +143,6 @@ parameters:
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
-                - packages/twig-phpstan-compiler/src/ObjectTypeMethodAnalyzer.php
 
         -
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -231,8 +229,6 @@ parameters:
                 - packages/astral/src/NodeNameResolver/ClassLikeNodeNameResolver.php
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
-                # checking on purpose
-                - packages/twig-phpstan-compiler/src/Reflection/PublicPropertyAnalyzer.php
 
         # the file must start with "Abstract" to be correct
         -

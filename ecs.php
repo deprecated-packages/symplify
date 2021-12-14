@@ -40,7 +40,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
-        __DIR__ . '/packages/twig-phpstan-compiler/tests/TwigToPhpCompiler/FixtureWithTypes/*',
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
