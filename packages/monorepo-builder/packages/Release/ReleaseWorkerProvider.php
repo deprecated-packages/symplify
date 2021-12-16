@@ -14,16 +14,11 @@ use Symplify\MonorepoBuilder\Release\ValueObject\Stage;
 final class ReleaseWorkerProvider
 {
     /**
-     * @var ReleaseWorkerInterface[]
-     */
-    private array $releaseWorkers = [];
-
-    /**
      * @param ReleaseWorkerInterface[] $releaseWorkers
      */
-    public function __construct(array $releaseWorkers)
-    {
-        $this->releaseWorkers = $releaseWorkers;
+    public function __construct(
+        private array $releaseWorkers
+    ) {
     }
 
     /**

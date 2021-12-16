@@ -7,18 +7,12 @@ namespace Symplify\EasyCI\Psr4\ValueObject;
 final class Psr4NamespaceToPaths
 {
     /**
-     * @var string[]
-     */
-    private array $paths = [];
-
-    /**
      * @param string[] $paths
      */
     public function __construct(
         private string $namespace,
-        array $paths
+        private array $paths
     ) {
-        $this->paths = $paths;
     }
 
     public function getNamespace(): string

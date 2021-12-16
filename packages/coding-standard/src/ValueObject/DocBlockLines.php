@@ -7,23 +7,13 @@ namespace Symplify\CodingStandard\ValueObject;
 final class DocBlockLines
 {
     /**
-     * @var array<string>
-     */
-    private array $descriptionLines = [];
-
-    /**
-     * @var array<string>
-     */
-    private array $otherLines = [];
-
-    /**
      * @param array<string> $descriptionLines
      * @param array<string> $otherLines
      */
-    public function __construct(array $descriptionLines, array $otherLines)
-    {
-        $this->descriptionLines = $descriptionLines;
-        $this->otherLines = $otherLines;
+    public function __construct(
+        private array $descriptionLines,
+        private array $otherLines
+    ) {
     }
 
     /**

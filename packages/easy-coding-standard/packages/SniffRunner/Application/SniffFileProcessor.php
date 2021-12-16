@@ -28,7 +28,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     /**
      * @var Sniff[]
      */
-    private $sniffs = [];
+    private array $sniffs = [];
 
     /**
      * @var array<int|string, Sniff[]>
