@@ -25,6 +25,7 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipPgExecWithInlinedVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipOr.php', []];
         yield [__DIR__ . '/Fixture/SkipAssignOfVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipConstFetchNonAssign.php', []];
