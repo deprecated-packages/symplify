@@ -11,28 +11,25 @@ final class ErrorAndDiffResult
     /**
      * @var CodingStandardError[]
      */
-    private $codingStandardErrors = [];
+    private array $codingStandardErrors = [];
 
     /**
      * @var FileDiff[]
      */
-    private $fileDiffs = [];
-
-    /**
-     * @var array<SystemError|string>
-     */
-    private array $systemErrors = [];
+    private array $fileDiffs = [];
 
     /**
      * @param CodingStandardError[] $codingStandardErrors
      * @param FileDiff[] $fileDiffs
      * @param array<SystemError|string> $systemErrors
      */
-    public function __construct(array $codingStandardErrors, array $fileDiffs, array $systemErrors)
-    {
+    public function __construct(
+        array $codingStandardErrors,
+        array $fileDiffs,
+        private array $systemErrors
+    ) {
         $this->codingStandardErrors = $this->sortByFileAndLine($codingStandardErrors);
         $this->fileDiffs = $this->sortByFilePath($fileDiffs);
-        $this->systemErrors = $systemErrors;
     }
 
     public function getErrorCount(): int

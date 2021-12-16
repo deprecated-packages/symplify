@@ -10,23 +10,17 @@ use PhpParser\Node\Expr\StaticCall;
 final class StaticClassMethodWithStaticCalls
 {
     /**
-     * @var StaticCall[]
-     */
-    private array $staticCalls = [];
-
-    /**
      * @var string[]
      */
-    private $staticCallsFilePathsWithLines = [];
+    private array $staticCallsFilePathsWithLines = [];
 
     /**
      * @param StaticCall[] $staticCalls
      */
     public function __construct(
         private StaticClassMethod $staticClassMethod,
-        array $staticCalls
+        private array $staticCalls
     ) {
-        $this->staticCalls = $staticCalls;
         $this->staticCallsFilePathsWithLines = $this->createFilePathsWithLinesFromNodes($staticCalls);
     }
 

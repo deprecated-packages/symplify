@@ -35,7 +35,7 @@ final class GitWrapper
      *
      * @var string[]
      */
-    private $env = [];
+    private array $env = [];
 
     private ?StreamOutputEventSubscriber $outputEventSubscriber = null;
 

@@ -19,6 +19,11 @@ use Symplify\Astral\Naming\SimpleNameResolver;
  */
 final class FuncCallValueResolver implements NodeValueResolverInterface
 {
+    /**
+     * @var string[]
+     */
+    private const EXCLUDED_FUNC_NAMES = ['pg_*'];
+
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ConstExprEvaluator $constExprEvaluator
@@ -47,6 +52,11 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
 
         if ($expr->name instanceof Name) {
             $functionName = (string) $expr->name;
+
+            if (! $this->isAllowedFunctionName($functionName)) {
+                return null;
+            }
+
             if (function_exists($functionName) && is_callable($functionName)) {
                 return call_user_func_array($functionName, $arguments);
             }
@@ -55,5 +65,16 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
         }
 
         return null;
+    }
+
+    private function isAllowedFunctionName(string $functionName): bool
+    {
+        foreach (self::EXCLUDED_FUNC_NAMES as $excludedFuncName) {
+            if (fnmatch($excludedFuncName, $functionName, FNM_NOESCAPE)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

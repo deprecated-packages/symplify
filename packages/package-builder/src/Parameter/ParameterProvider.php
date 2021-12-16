@@ -6,6 +6,7 @@ namespace Symplify\PackageBuilder\Parameter;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * @api
@@ -16,11 +17,12 @@ final class ParameterProvider
     /**
      * @var array<string, mixed>
      */
-    private $parameters = [];
+    private array $parameters = [];
 
     public function __construct(ContainerInterface $container)
     {
         $parameterBag = $container->getParameterBag();
+        /** @var ParameterBag $parameterBag */
         $this->parameters = $parameterBag->all();
     }
 

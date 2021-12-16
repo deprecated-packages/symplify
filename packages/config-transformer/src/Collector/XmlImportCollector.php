@@ -11,7 +11,7 @@ final class XmlImportCollector
     /**
      * @var array<string, array<string, mixed>>|string[]
      */
-    private $imports = [];
+    private array $imports = [];
 
     public function addImport(mixed $resource, bool|string $ignoreErrors): void
     {

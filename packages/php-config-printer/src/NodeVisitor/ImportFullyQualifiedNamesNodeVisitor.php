@@ -19,7 +19,7 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
     /**
      * @var FullyQualifiedImport[]
      */
-    private $imports = [];
+    private array $imports = [];
 
     public function __construct(
         private ClassNaming $classNaming

@@ -33,7 +33,7 @@ final class ComposerJson
     /**
      * @var string[]
      */
-    private $keywords = [];
+    private array $keywords = [];
 
     private ?string $homepage = null;
 
@@ -49,52 +49,52 @@ final class ComposerJson
     /**
      * @var mixed[]
      */
-    private $repositories = [];
+    private array $repositories = [];
 
     /**
      * @var array<string, mixed>
      */
-    private $require = [];
+    private array $require = [];
 
     /**
      * @var mixed[]
      */
-    private $autoload = [];
+    private array $autoload = [];
 
     /**
      * @var mixed[]
      */
-    private $extra = [];
+    private array $extra = [];
 
     /**
      * @var array<string, mixed>
      */
-    private $requireDev = [];
+    private array $requireDev = [];
 
     /**
      * @var mixed[]
      */
-    private $autoloadDev = [];
+    private array $autoloadDev = [];
 
     /**
      * @var string[]
      */
-    private $orderedKeys = [];
+    private array $orderedKeys = [];
 
     /**
      * @var string[]
      */
-    private $replace = [];
+    private array $replace = [];
 
     /**
      * @var array<string, string|string[]>
      */
-    private $scripts = [];
+    private array $scripts = [];
 
     /**
      * @var mixed[]
      */
-    private $config = [];
+    private array $config = [];
 
     private ?SmartFileInfo $fileInfo = null;
 
@@ -103,29 +103,29 @@ final class ComposerJson
     /**
      * @var array<string, string>
      */
-    private $conflicts = [];
+    private array $conflicts = [];
 
     /**
      * @var mixed[]
      */
-    private $bin = [];
+    private array $bin = [];
 
     private ?string $type = null;
 
     /**
      * @var mixed[]
      */
-    private $authors = [];
+    private array $authors = [];
 
     /**
      * @var array<string, string>
      */
-    private $scriptsDescriptions = [];
+    private array $scriptsDescriptions = [];
 
     /**
      * @var array<string, string>
      */
-    private $suggest = [];
+    private array $suggest = [];
 
     private ?string $version = null;
 

@@ -14,7 +14,7 @@ final class Psr4SwitcherConfiguration
     /**
      * @var string[]
      */
-    private $source = [];
+    private array $source = [];
 
     private ?string $composerJsonPath = null;
 
