@@ -21,8 +21,8 @@ final class ParameterProvider
 
     public function __construct(ContainerInterface $container)
     {
-        $parameterBag = $container->getParameterBag();
         /** @var ParameterBag $parameterBag */
+        $parameterBag = $container->getParameterBag();
         $this->parameters = $parameterBag->all();
     }
 
