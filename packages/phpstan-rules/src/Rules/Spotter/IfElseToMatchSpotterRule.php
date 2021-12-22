@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\ConstFetch;
-use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
@@ -81,7 +80,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->isDefaultNullPropertyAssign($node)) {
+        if ($this->isDefaultNullAssign($node)) {
             return [];
         }
 
@@ -195,7 +194,7 @@ CODE_SAMPLE
         return $branches;
     }
 
-    private function isDefaultNullPropertyAssign(If_ $if): bool
+    private function isDefaultNullAssign(If_ $if): bool
     {
         if ($if->else !== null) {
             return false;
@@ -206,10 +205,6 @@ CODE_SAMPLE
         }
 
         $binaryOp = $if->cond;
-        if (! $binaryOp->left instanceof PropertyFetch) {
-            return false;
-        }
-
         if (! $binaryOp->right instanceof ConstFetch) {
             return false;
         }
