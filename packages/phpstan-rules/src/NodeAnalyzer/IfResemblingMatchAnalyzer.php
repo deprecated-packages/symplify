@@ -8,6 +8,9 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp;
+use PhpParser\Node\Expr\BinaryOp\BooleanOr;
+use PhpParser\Node\Expr\BinaryOp\Equal;
+use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
@@ -23,7 +26,7 @@ final class IfResemblingMatchAnalyzer
     /**
      * @param IfAndCondExpr[] $ifsAndCondExprs
      */
-    public function isUniqueBinaryConds(array $ifsAndCondExprs): bool
+    public function isUniqueCompareBinaryConds(array $ifsAndCondExprs): bool
     {
         $comparedExprContent = [];
 
@@ -34,6 +37,10 @@ final class IfResemblingMatchAnalyzer
 
             $condExpr = $ifAndCondExpr->getCondExpr();
             if (! $condExpr instanceof BinaryOp) {
+                return false;
+            }
+
+            if (! $this->hasExclusiveIdenticalorEqual($condExpr)) {
                 return false;
             }
 
@@ -62,6 +69,53 @@ final class IfResemblingMatchAnalyzer
 
                 $printedAssignVar = $this->printerStandard->prettyPrintExpr($assignVar);
                 if ($printedAssignVar === $printedReturnExpr) {
+                    continue;
+                }
+
+                return false;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function hasExclusivelyCompare(BooleanOr $booleanOr): bool
+    {
+        if (! $this->isIdenticalOrEqual($booleanOr->left)) {
+            return false;
+        }
+
+        return $this->isIdenticalOrEqual($booleanOr->right);
+    }
+
+    private function isIdenticalOrEqual(Expr $expr): bool
+    {
+        if ($expr instanceof Identical) {
+            return true;
+        }
+
+        return $expr instanceof Equal;
+    }
+
+    private function hasExclusiveIdenticalorEqual(BinaryOp $binaryOp): bool
+    {
+        // has only ==, === and || binaries?
+        $nestedBinaryOps = $this->simpleNodeFinder->findByType($binaryOp, BinaryOp::class);
+
+        foreach ($nestedBinaryOps as $nestedBinaryOp) {
+            if ($nestedBinaryOp instanceof Identical) {
+                continue;
+            }
+
+            if ($nestedBinaryOp instanceof Equal) {
+                continue;
+            }
+
+            if ($nestedBinaryOp instanceof BooleanOr) {
+                // only allowed
+                if ($this->hasExclusivelyCompare($nestedBinaryOp)) {
                     continue;
                 }
 
