@@ -26,6 +26,7 @@ final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/MultiBinaryWithCompare.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 13]]];
+        yield [__DIR__ . '/Fixture/MultiMultiBinaryWithCompare.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipMultiBinaryAnd.php', []];
         yield [__DIR__ . '/Fixture/SkipMultiBinary.php', []];

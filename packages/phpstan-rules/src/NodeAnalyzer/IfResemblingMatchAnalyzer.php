@@ -92,6 +92,10 @@ final class IfResemblingMatchAnalyzer
 
     private function isIdenticalOrEqual(Expr $expr): bool
     {
+        if ($expr instanceof BooleanOr) {
+            return $this->hasExclusivelyCompare($expr);
+        }
+
         if ($expr instanceof Identical) {
             return true;
         }

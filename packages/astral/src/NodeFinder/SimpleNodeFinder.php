@@ -29,22 +29,6 @@ final class SimpleNodeFinder
 
     /**
      * @template T of Node
-     * @param array<class-string<T>> $nodeClasses
-     * @return T[]
-     */
-    public function findByTypes(Node $node, array $nodeClasses): array
-    {
-        $foundNodes = [];
-        foreach ($nodeClasses as $nodeClass) {
-            $currentNodes = $this->nodeFinder->findInstanceOf($node, $nodeClass);
-            $foundNodes[] = array_merge($foundNodes, $currentNodes);
-        }
-
-        return $foundNodes;
-    }
-
-    /**
-     * @template T of Node
      * @param class-string<T> $nodeClass
      * @return T[]
      */
