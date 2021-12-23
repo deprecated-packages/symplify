@@ -16,6 +16,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer

@@ -12,6 +12,7 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -34,7 +35,8 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
 
     public function __construct(
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
-        private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer
+        private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
+        private CacheIfAnalyzer $cacheIfAnalyzer,
     ) {
     }
 
@@ -74,11 +76,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
             $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], null);
         }
 
-        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
-            return [];
-        }
-
-        if ($this->shouldSkipForConflictingReturn($node, $ifsAndConds)) {
+        if ($this->shouldSkipIfsAndConds($ifsAndConds, $node)) {
             return [];
         }
 
@@ -186,5 +184,21 @@ CODE_SAMPLE
         }
 
         return $branches;
+    }
+
+    /**
+     * @param IfAndCondExpr[] $ifsAndConds
+     */
+    private function shouldSkipIfsAndConds(array $ifsAndConds, If_ $if): bool
+    {
+        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
+            return true;
+        }
+
+        if ($this->cacheIfAnalyzer->isDefaultNullAssign($if)) {
+            return true;
+        }
+
+        return $this->shouldSkipForConflictingReturn($if, $ifsAndConds);
     }
 }
