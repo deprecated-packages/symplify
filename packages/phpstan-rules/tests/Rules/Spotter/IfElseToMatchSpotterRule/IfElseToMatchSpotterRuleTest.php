@@ -27,6 +27,7 @@ final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
     {
         yield [__DIR__ . '/Fixture/MultiBinaryWithCompare.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 13]]];
 
+        yield [__DIR__ . '/Fixture/SkipMultiBinaryAnd.php', []];
         yield [__DIR__ . '/Fixture/SkipMultiBinary.php', []];
         yield [__DIR__ . '/Fixture/SkipVariableNullCompare.php', []];
         yield [__DIR__ . '/Fixture/SkipNullCompare.php', []];
