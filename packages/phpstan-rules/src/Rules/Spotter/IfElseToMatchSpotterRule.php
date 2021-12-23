@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Spotter;
 
-use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Else_;
@@ -15,6 +14,7 @@ use PHPStan\Analyser\Scope;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
