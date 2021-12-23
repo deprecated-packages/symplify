@@ -6,16 +6,13 @@ namespace Symplify\PHPStanRules\Rules\Spotter;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\BinaryOp;
-use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -39,7 +36,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
     public function __construct(
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
         private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
-        private SimpleNodeFinder $simpleNodeFinder,
+        private CacheIfAnalyzer $cacheIfAnalyzer,
     ) {
     }
 
@@ -79,15 +76,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
             $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], null);
         }
 
-        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
-            return [];
-        }
-
-        if ($this->isDefaultNullAssign($node)) {
-            return [];
-        }
-
-        if ($this->shouldSkipForConflictingReturn($node, $ifsAndConds)) {
+        if ($this->shouldSkipIfsAndConds($ifsAndConds, $node)) {
             return [];
         }
 
@@ -197,33 +186,19 @@ CODE_SAMPLE
         return $branches;
     }
 
-    private function isDefaultNullAssign(If_ $if): bool
+    /**
+     * @param IfAndCondExpr[] $ifsAndConds
+     */
+    private function shouldSkipIfsAndConds(array $ifsAndConds, If_ $if): bool
     {
-        if ($if->else !== null) {
-            return false;
+        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
+            return true;
         }
 
-        $binaryOps = $this->simpleNodeFinder->findByType($if->cond, BinaryOp::class);
-        return $this->hasIdenticalToNull($binaryOps);
-    }
-
-    private function hasIdenticalToNull(array $binaryOps): bool
-    {
-        foreach ($binaryOps as $binaryOp) {
-            if (! $binaryOp instanceof Identical && ! $binaryOp instanceof BinaryOp\NotIdentical) {
-                continue;
-            }
-
-            if (! $binaryOp->right instanceof ConstFetch) {
-                continue;
-            }
-
-            $constFetch = $binaryOp->right;
-            if ($constFetch->name->toLowerString() === 'null') {
-                return true;
-            }
+        if ($this->cacheIfAnalyzer->isDefaultNullAssign($if)) {
+            return true;
         }
 
-        return false;
+        return $this->shouldSkipForConflictingReturn($if, $ifsAndConds);
     }
 }
