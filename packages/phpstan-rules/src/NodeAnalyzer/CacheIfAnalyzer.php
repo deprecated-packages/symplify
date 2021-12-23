@@ -34,6 +34,9 @@ final class CacheIfAnalyzer
         return $this->simpleNodeFinder->hasByTypes($if->cond, [Empty_::class, Isset_::class]);
     }
 
+    /**
+     * @param BinaryOp[] $binaryOps
+     */
     private function hasIdenticalToNull(array $binaryOps): bool
     {
         foreach ($binaryOps as $binaryOp) {
