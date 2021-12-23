@@ -83,6 +83,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
         $returnAndAssignBranchCounts = $this->ifElseBranchAnalyzer->resolveBranchTypesToCount($ifsAndConds);
 
         $branchCount = count($branches);
+
         if (! $this->isUnitedMatchingBranchType($returnAndAssignBranchCounts, $branchCount)) {
             return [];
         }
@@ -191,7 +192,7 @@ CODE_SAMPLE
      */
     private function shouldSkipIfsAndConds(array $ifsAndConds, If_ $if): bool
     {
-        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
+        if (! $this->ifResemblingMatchAnalyzer->isUniqueCompareBinaryConds($ifsAndConds)) {
             return true;
         }
 
