@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Spotter;
 
+use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Else_;
@@ -37,7 +38,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
         private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
         private CacheIfAnalyzer $cacheIfAnalyzer,
-        private \Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer $ifEnumAnalyzer
+        private IfEnumAnalyzer $ifEnumAnalyzer
     ) {
     }
 

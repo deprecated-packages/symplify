@@ -21,6 +21,7 @@ final class IfEnumAnalyzer
         if (! $node instanceof If_) {
             return false;
         }
+
         $parent = $node->getAttribute(AttributeKey::PARENT);
 
         $ifs = $this->simpleNodeFinder->findByType($parent, If_::class);
