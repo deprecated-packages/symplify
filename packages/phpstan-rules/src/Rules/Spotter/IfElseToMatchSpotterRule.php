@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Spotter;
 
+use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Else_;
@@ -37,6 +38,7 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
         private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
         private CacheIfAnalyzer $cacheIfAnalyzer,
+        private IfEnumAnalyzer $ifEnumAnalyzer
     ) {
     }
 
@@ -67,9 +69,15 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
                 return [];
             }
 
+            // is multiple if with same variable - skip it, we need else/if here
+            if ($this->ifEnumAnalyzer->isMultipleIf($branch)) {
+                return [];
+            }
+
             // the conditioned parameters must be the same
             if ($branch instanceof If_ || $branch instanceof ElseIf_) {
                 $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], $branch->cond);
+
                 continue;
             }
 
