@@ -22,11 +22,11 @@ final class ScalarAndNonScalarCounter
         return $this->nonScalarCount;
     }
 
-    public function getScalarRelative(): float
+    public function getScalarRelative(): float|int
     {
         $totalCount = $this->getTotalCount();
         if ($totalCount === 0) {
-            return 1.0;
+            return 1;
         }
 
         return $this->scalarCount / $totalCount;
