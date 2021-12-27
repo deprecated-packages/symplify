@@ -35,6 +35,6 @@ final class ComposerAutoloadResolver
         $autoloadPsr4 = $composerJsonContent[ComposerJsonSection::AUTOLOAD]['psr-4'] ?? [];
         $autoloadDevPsr4 = $composerJsonContent[ComposerJsonSection::AUTOLOAD_DEV]['psr-4'] ?? [];
 
-        return $autoloadPsr4 + $autoloadDevPsr4;
+        return array_merge($autoloadPsr4, $autoloadDevPsr4);
     }
 }

@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Static_;
 use PhpParser\Node\Stmt\StaticVar;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -66,6 +67,9 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @return array<class-string<Node>>
+     */
     public function getNodeTypes(): array
     {
         return [ClassMethod::class];
@@ -73,6 +77,7 @@ CODE_SAMPLE
 
     /**
      * @param ClassMethod $node
+     * @return RuleError[]
      */
     public function process(Node $node, Scope $scope): array
     {

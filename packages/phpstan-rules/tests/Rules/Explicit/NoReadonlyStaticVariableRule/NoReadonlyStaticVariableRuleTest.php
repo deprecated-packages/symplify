@@ -16,6 +16,7 @@ final class NoReadonlyStaticVariableRuleTest extends AbstractServiceAwareRuleTes
 {
     /**
      * @dataProvider provideData()
+     * @param mixed[] $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {
