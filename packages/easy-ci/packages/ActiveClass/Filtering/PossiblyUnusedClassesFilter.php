@@ -33,7 +33,7 @@ final class PossiblyUnusedClassesFilter
 
             // is excluded interfaces?
             foreach ($typesToSkip as $typeToSkip) {
-                if (is_a($fileWithClass->getClassName(), $typeToSkip, true)) {
+                if ($this->isClassSkipped($fileWithClass, $typeToSkip)) {
                     continue 2;
                 }
             }
@@ -42,5 +42,15 @@ final class PossiblyUnusedClassesFilter
         }
 
         return $possiblyUnusedFilesWithClasses;
+    }
+
+    private function isClassSkipped(FileWithClass $fileWithClass, string $typeToSkip): bool
+    {
+        if (! str_contains($typeToSkip, '*')) {
+            return is_a($fileWithClass->getClassName(), $typeToSkip, true);
+        }
+
+        // try fnmatch
+        return fnmatch($typeToSkip, $fileWithClass->getClassName(), FNM_NOESCAPE);
     }
 }

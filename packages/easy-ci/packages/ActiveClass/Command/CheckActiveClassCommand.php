@@ -54,13 +54,19 @@ final class CheckActiveClassCommand extends Command
         $phpFilesCount = count($phpFileInfos);
         $this->symfonyStyle->progressStart($phpFilesCount);
 
+        $usedNames = [];
         foreach ($phpFileInfos as $phpFileInfo) {
+            $currentUsedNames = $this->useImportsResolver->resolve($phpFileInfo);
+            $usedNames = array_merge($usedNames, $currentUsedNames);
+
             $this->symfonyStyle->progressAdvance();
         }
 
-        $usedNames = $this->useImportsResolver->resolveFromFileInfos($phpFileInfos);
+        $usedNames = array_unique($usedNames);
+        sort($usedNames);
 
         $existingFilesWithClasses = $this->classNamesFinder->resolveClassNamesToCheck($phpFileInfos);
+
         $possiblyUnusedFilesWithClasses = $this->possiblyUnusedClassesFilter->filter(
             $existingFilesWithClasses,
             $usedNames

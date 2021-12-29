@@ -12,7 +12,9 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
+use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
@@ -34,7 +36,9 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
 
     public function __construct(
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
-        private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer
+        private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
+        private CacheIfAnalyzer $cacheIfAnalyzer,
+        private IfEnumAnalyzer $ifEnumAnalyzer
     ) {
     }
 
@@ -65,26 +69,29 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
                 return [];
             }
 
+            // is multiple if with same variable - skip it, we need else/if here
+            if ($this->ifEnumAnalyzer->isMultipleIf($branch)) {
+                return [];
+            }
+
             // the conditioned parameters must be the same
             if ($branch instanceof If_ || $branch instanceof ElseIf_) {
                 $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], $branch->cond);
+
                 continue;
             }
 
             $ifsAndConds[] = new IfAndCondExpr($branch->stmts[0], null);
         }
 
-        if (! $this->ifResemblingMatchAnalyzer->isUniqueBinaryConds($ifsAndConds)) {
-            return [];
-        }
-
-        if ($this->shouldSkipForConflictingReturn($node, $ifsAndConds)) {
+        if ($this->shouldSkipIfsAndConds($ifsAndConds, $node)) {
             return [];
         }
 
         $returnAndAssignBranchCounts = $this->ifElseBranchAnalyzer->resolveBranchTypesToCount($ifsAndConds);
 
         $branchCount = count($branches);
+
         if (! $this->isUnitedMatchingBranchType($returnAndAssignBranchCounts, $branchCount)) {
             return [];
         }
@@ -186,5 +193,21 @@ CODE_SAMPLE
         }
 
         return $branches;
+    }
+
+    /**
+     * @param IfAndCondExpr[] $ifsAndConds
+     */
+    private function shouldSkipIfsAndConds(array $ifsAndConds, If_ $if): bool
+    {
+        if (! $this->ifResemblingMatchAnalyzer->isUniqueCompareBinaryConds($ifsAndConds)) {
+            return true;
+        }
+
+        if ($this->cacheIfAnalyzer->isDefaultNullAssign($if)) {
+            return true;
+        }
+
+        return $this->shouldSkipForConflictingReturn($if, $ifsAndConds);
     }
 }
