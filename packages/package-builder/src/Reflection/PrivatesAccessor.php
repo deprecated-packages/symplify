@@ -50,13 +50,11 @@ final class PrivatesAccessor
      */
     public function setPrivatePropertyOfClass(object $object, string $propertyName, mixed $value, string $valueClassName): void
     {
-        $this->setPrivateProperty($object, $propertyName, $value);
-
-        if ($value instanceof $valueClassName) {
-            return;
+        if (!($value instanceof $valueClassName)) {
+            throw new ShouldNotHappenException();
         }
 
-        throw new ShouldNotHappenException();
+        $this->setPrivateProperty($object, $propertyName, $value);
     }
 
     public function setPrivateProperty(object $object, string $propertyName, mixed $value): void
