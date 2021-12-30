@@ -50,7 +50,7 @@ final class PrivatesAccessor
      */
     public function setPrivatePropertyOfClass(object $object, string $propertyName, mixed $value, string $valueClassName): void
     {
-        if (!($value instanceof $valueClassName)) {
+        if (! $value instanceof $valueClassName) {
             throw new ShouldNotHappenException();
         }
 
