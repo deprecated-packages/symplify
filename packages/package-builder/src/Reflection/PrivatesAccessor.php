@@ -14,6 +14,24 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 final class PrivatesAccessor
 {
     /**
+     * @template T
+     *
+     * @param class-string<T> $valueClassName
+     *
+     * @return T
+     */
+    public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName)
+    {
+        $value = $this->getPrivateProperty($object, $propertyName);
+
+        if ($value instanceof $valueClassName) {
+            return $value;
+        }
+
+        throw new ShouldNotHappenException();
+    }
+
+    /**
      * @return mixed
      */
     public function getPrivateProperty(object $object, string $propertyName)
@@ -22,6 +40,21 @@ final class PrivatesAccessor
         $propertyReflection->setAccessible(true);
 
         return $propertyReflection->getValue($object);
+    }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $valueClassName
+     * @param T $value
+     */
+    public function setPrivatePropertyOfClass(object $object, string $propertyName, mixed $value, string $valueClassName): void
+    {
+        if (! $value instanceof $valueClassName) {
+            throw new ShouldNotHappenException();
+        }
+
+        $this->setPrivateProperty($object, $propertyName, $value);
     }
 
     public function setPrivateProperty(object $object, string $propertyName, mixed $value): void
