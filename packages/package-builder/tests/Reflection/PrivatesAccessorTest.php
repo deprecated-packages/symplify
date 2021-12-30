@@ -11,7 +11,7 @@ use Symplify\PackageBuilder\Tests\Reflection\Source\SomeClassWithPrivateProperty
 
 final class PrivatesAccessorTest extends TestCase
 {
-    public function testGetter(): void
+    public function testGetterSetter(): void
     {
         $privatesAccessor = new PrivatesAccessor();
         $someClassWithPrivateProperty = new SomeClassWithPrivateProperty();
@@ -22,21 +22,21 @@ final class PrivatesAccessorTest extends TestCase
         $fetchedParentValue = $privatesAccessor->getPrivateProperty($someClassWithPrivateProperty, 'parentValue');
         $this->assertSame($someClassWithPrivateProperty->getParentValue(), $fetchedParentValue);
 
-        $fetchedValue = $privatesAccessor->getPrivatePropertyOfClass($someClassWithPrivateProperty, 'object', stdClass::class);
-        $this->assertSame($someClassWithPrivateProperty->getObject(), $fetchedValue);
+        $privatesAccessor->setPrivateProperty($someClassWithPrivateProperty, 'value', 25);
+        $this->assertSame(25, $someClassWithPrivateProperty->getValue());
     }
 
-    public function testSetter(): void
+    public function testGetterSetterTypesafe(): void
     {
         $privatesAccessor = new PrivatesAccessor();
         $someClassWithPrivateProperty = new SomeClassWithPrivateProperty();
-
-        $privatesAccessor->setPrivateProperty($someClassWithPrivateProperty, 'value', 25);
-        $this->assertSame(25, $someClassWithPrivateProperty->getValue());
 
         $newObject = new stdClass();
         $this->assertNotSame($newObject, $someClassWithPrivateProperty->getObject());
         $privatesAccessor->setPrivatePropertyOfClass($someClassWithPrivateProperty, 'object', $newObject, stdClass::class);
         $this->assertSame($newObject, $someClassWithPrivateProperty->getObject());
+
+        $fetchedValue = $privatesAccessor->getPrivatePropertyOfClass($someClassWithPrivateProperty, 'object', stdClass::class);
+        $this->assertSame($someClassWithPrivateProperty->getObject(), $fetchedValue);
     }
 }
