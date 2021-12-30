@@ -80,6 +80,10 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
             }
         }
 
+        if ($namespaceBeforeClass === '') {
+            return [];
+        }
+
         $namespacePart = substr($namespaceBeforeClass, 0, -1);
         $errorMessage = sprintf(self::ERROR_MESSAGE, $namespacePart);
 
