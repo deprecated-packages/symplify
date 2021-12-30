@@ -33,10 +33,19 @@ final class PrivatesAccessorTest extends TestCase
 
         $newObject = new stdClass();
         $this->assertNotSame($newObject, $someClassWithPrivateProperty->getObject());
-        $privatesAccessor->setPrivatePropertyOfClass($someClassWithPrivateProperty, 'object', $newObject, stdClass::class);
+        $privatesAccessor->setPrivatePropertyOfClass(
+            $someClassWithPrivateProperty,
+            'object',
+            $newObject,
+            stdClass::class
+        );
         $this->assertSame($newObject, $someClassWithPrivateProperty->getObject());
 
-        $fetchedValue = $privatesAccessor->getPrivatePropertyOfClass($someClassWithPrivateProperty, 'object', stdClass::class);
+        $fetchedValue = $privatesAccessor->getPrivatePropertyOfClass(
+            $someClassWithPrivateProperty,
+            'object',
+            stdClass::class
+        );
         $this->assertSame($someClassWithPrivateProperty->getObject(), $fetchedValue);
     }
 }
