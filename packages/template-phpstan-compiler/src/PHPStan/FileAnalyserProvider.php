@@ -30,8 +30,9 @@ final class FileAnalyserProvider
         }
 
         $container = $this->derivativeContainerFactory->create([__DIR__ . '/../../config/php-parser.neon']);
-        $fileAnalyser = $container->getByType(FileAnalyser::class);
 
+        /** @var FileAnalyser $fileAnalyser */
+        $fileAnalyser = $container->getByType(FileAnalyser::class);
         $this->fileAnalyser = $fileAnalyser;
 
         return $fileAnalyser;

@@ -178,7 +178,7 @@ CODE_SAMPLE
         $fileAnalyser = $this->fileAnalyserProvider->provide();
 
         // to include generated class
-        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [], $this->templateRulesRegistry, null);
+        $fileAnalyserResult = $fileAnalyser->analyseFile($tmpFilePath, [$tmpFilePath], $this->templateRulesRegistry, null);
 
         // remove errors related to just created class, that cannot be autoloaded
         $errors = $this->errorSkipper->skipErrors($fileAnalyserResult->getErrors(), self::USELESS_ERRORS_IGNORES);
