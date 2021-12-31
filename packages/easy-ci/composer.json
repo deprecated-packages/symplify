@@ -12,11 +12,11 @@
         "symfony/console": "^5.4|^6.0",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
-        "symplify/composer-json-manipulator": "^10.0.8",
-        "symplify/package-builder": "^10.0.8",
-        "symplify/symplify-kernel": "^10.0.8",
-        "symplify/astral": "^10.0.8",
-        "symplify/smart-file-system": "^10.0.8",
+        "symplify/composer-json-manipulator": "^10.1",
+        "symplify/package-builder": "^10.1",
+        "symplify/symplify-kernel": "^10.1",
+        "symplify/astral": "^10.1",
+        "symplify/smart-file-system": "^10.1",
         "nette/robot-loader": "^3.4"
     },
     "require-dev": {
