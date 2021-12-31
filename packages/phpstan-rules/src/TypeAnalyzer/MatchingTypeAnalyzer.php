@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\TypeAnalyzer;
 
+use PHPStan\Type\ErrorType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -27,6 +28,11 @@ final class MatchingTypeAnalyzer
             }
 
             if ($expectedType->isSuperTypeOf($argType)->yes()) {
+                return true;
+            }
+
+            // handle "$%s"
+            if ($argType instanceof ErrorType) {
                 return true;
             }
         }

@@ -30,6 +30,7 @@ final class CheckSprinfMatchingTypesRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/SkipCorrectSprinft.php', []];
         yield [__DIR__ . '/Fixture/SkipCorrectForeachKey.php', []];
         yield [__DIR__ . '/Fixture/SkipToString.php', []];
+        yield [__DIR__ . '/Fixture/SkipErrorType.php', []];
     }
 
     protected function getRule(): Rule
