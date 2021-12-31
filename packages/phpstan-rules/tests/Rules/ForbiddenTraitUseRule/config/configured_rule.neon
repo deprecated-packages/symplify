@@ -1,0 +1,10 @@
+includes:
+    - ../../../config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTraits:
+                - 'Symplify\PHPStanRules\Tests\Rules\ForbiddenTraitUseRule\Source\SomeSmartObjectTrait'
