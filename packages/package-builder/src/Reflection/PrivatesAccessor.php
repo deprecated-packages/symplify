@@ -19,7 +19,7 @@ final class PrivatesAccessor
      * @param class-string<T> $valueClassName
      * @return T
      */
-    public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName)
+    public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName): object
     {
         $value = $this->getPrivateProperty($object, $propertyName);
 
