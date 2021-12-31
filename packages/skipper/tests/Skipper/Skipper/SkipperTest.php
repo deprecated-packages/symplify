@@ -34,6 +34,9 @@ final class SkipperTest extends AbstractKernelTestCase
         $this->assertSame($expectedSkip, $resultSkip);
     }
 
+    /**
+     * @return Iterator<string[]|bool[]>
+     */
     public function provideDataShouldSkipFileInfo(): Iterator
     {
         yield [__DIR__ . '/Fixture/SomeRandom/file.txt', false];
@@ -50,6 +53,9 @@ final class SkipperTest extends AbstractKernelTestCase
         $this->assertSame($expectedSkip, $resultSkip);
     }
 
+    /**
+     * @return Iterator<bool[]|class-string<SixthSense>[]|class-string<ThreeMan>[]|FifthElement[]>
+     */
     public function provideDataShouldSkipElement(): Iterator
     {
         yield [ThreeMan::class, false];
