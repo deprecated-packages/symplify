@@ -29,6 +29,9 @@ final class StringsFilterTest extends AbstractKernelTestCase
         $this->assertSame($expectedIsMatch, $isMatch);
     }
 
+    /**
+     * @return Iterator<string[]|never[][]|string[][]|bool[]>
+     */
     public function provideData(): Iterator
     {
         yield ['some', [], true];

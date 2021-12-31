@@ -606,6 +606,9 @@ CODE_SAMPLE;
         }
     }
 
+    /**
+     * @return Iterator<never[][]|array<string, string[]|bool>[]|string[][]>
+     */
     public function provideDataNoRemoteBranches(): Iterator
     {
         yield [[], ['remote/master', 'remote/remote-branch']];
@@ -646,6 +649,9 @@ CODE_SAMPLE;
         }
     }
 
+    /**
+     * @return Iterator<array<string, bool>[]|array<string, string|bool>[]|array<string, string[]|bool>[]|string[][]>
+     */
     public function provideDataRemoteBranches(): Iterator
     {
         yield [
@@ -690,6 +696,9 @@ CODE_SAMPLE;
         ];
     }
 
+    /**
+     * @return Iterator<string[]|never[][]|array<string, bool>[]|array<string, string[]|bool>[]|null[]>
+     */
     public function provideDataForRemote(): \Iterator
     {
         yield [

@@ -45,6 +45,9 @@ final class ComposerJsonSymlinkerTest extends AbstractKernelTestCase
         $this->assertJsonStringEqualsJsonFile($expectedJsonFile, $jsonString);
     }
 
+    /**
+     * @return Iterator<string[]|bool[]>
+     */
     public function provideData(): Iterator
     {
         yield [

@@ -67,6 +67,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         ];
     }
 
+    /**
+     * @return Iterator<string[]|bool[]>
+     */
     public function provideDataRector(): Iterator
     {
         yield [__DIR__ . '/Fixture/Rector/Standard', __DIR__ . '/Expected/rector/rector_content.md'];
