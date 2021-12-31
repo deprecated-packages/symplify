@@ -1,4 +1,4 @@
-# 129 Rules Overview
+# 131 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3266,6 +3266,43 @@ final class SomeClass
 
 <br>
 
+## NoReadonlyStaticVariableRule
+
+Avoid using static variables, as they can change. Use class constant instead
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule`](../src/Rules/Explicit/NoReadonlyStaticVariableRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        static $list = [1, 2, 3];
+
+        return $list;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private const LIST = [1, 2, 3];
+    public function run()
+    {
+        return self::LIST;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoReferenceRule
 
 Use explicit return value over magic &reference
@@ -4712,6 +4749,39 @@ trait SomeClass
 trait SomeTrait
 {
 }
+```
+
+:+1:
+
+<br>
+
+## SwitchToMatchSpotterRule
+
+Switch construction can be replace with more robust `match()`
+
+- class: [`Symplify\PHPStanRules\Rules\Spotter\SwitchToMatchSpotterRule`](../src/Rules/Spotter/SwitchToMatchSpotterRule.php)
+
+```php
+switch ($key) {
+    case 1:
+        return 100;
+    case 2:
+        return 200;
+    default:
+        return 300;
+};
+```
+
+:x:
+
+<br>
+
+```php
+return match($key) {
+    1 => 100,
+    2 => 200,
+    default => 300,
+};
 ```
 
 :+1:

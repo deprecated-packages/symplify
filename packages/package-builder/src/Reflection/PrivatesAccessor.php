@@ -48,8 +48,12 @@ final class PrivatesAccessor
      * @param class-string<T> $valueClassName
      * @param T $value
      */
-    public function setPrivatePropertyOfClass(object $object, string $propertyName, mixed $value, string $valueClassName): void
-    {
+    public function setPrivatePropertyOfClass(
+        object $object,
+        string $propertyName,
+        mixed $value,
+        string $valueClassName
+    ): void {
         if (! $value instanceof $valueClassName) {
             throw new ShouldNotHappenException();
         }
