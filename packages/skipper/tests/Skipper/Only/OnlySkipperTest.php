@@ -34,6 +34,9 @@ final class OnlySkipperTest extends AbstractKernelTestCase
         $this->assertSame($expected, $resolvedSkip);
     }
 
+    /**
+     * @return Iterator<string[]|bool[]|class-string<IncludeThisClass>[]|class-string<SkipCompletely>[]|class-string<SkipCompletelyToo>[]|class-string<SkipThisClass>[]>
+     */
     public function provideCheckerAndFile(): Iterator
     {
         yield [IncludeThisClass::class, __DIR__ . '/Fixture/SomeFileToOnlyInclude.php', false];
