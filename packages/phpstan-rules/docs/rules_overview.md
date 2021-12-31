@@ -1,4 +1,4 @@
-# 131 Rules Overview
+# 132 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1813,6 +1813,49 @@ $this->someService->process($this, ...);
 
 ```php
 $this->someService->process($value, ...);
+```
+
+:+1:
+
+<br>
+
+## ForbiddenTraitUseRule
+
+Trait "%s" cannot be used in the code
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule`](../src/Rules/ForbiddenTraitUseRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTraits:
+                - Nette\SmartObject
+```
+
+↓
+
+```php
+use Nette\SmartObject;
+
+class SomeClass
+{
+    use SmartObject;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+}
 ```
 
 :+1:
