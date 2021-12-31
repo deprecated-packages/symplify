@@ -18,7 +18,7 @@ final class PrivatesAccessor
      *
      * @param class-string<T> $valueClassName
      *
-     * @return T
+     * @return object&mixed
      */
     public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName)
     {
@@ -73,7 +73,7 @@ final class PrivatesAccessor
 
         $parentClass = get_parent_class($object);
         if ($parentClass === false) {
-            $errorMessage = sprintf('Property "$%s" was not found in "%s" class', $propertyName, get_class($object));
+            $errorMessage = sprintf('Property "$%s" was not found in "%s" class', $propertyName, $object::class);
             throw new ShouldNotHappenException($errorMessage);
         }
 
