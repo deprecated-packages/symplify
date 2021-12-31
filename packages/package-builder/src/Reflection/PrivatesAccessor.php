@@ -14,11 +14,10 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 final class PrivatesAccessor
 {
     /**
-     * @template T
+     * @template T as object
      *
      * @param class-string<T> $valueClassName
-     *
-     * @return object&mixed
+     * @return T
      */
     public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName)
     {
