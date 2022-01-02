@@ -14,13 +14,12 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 final class PrivatesAccessor
 {
     /**
-     * @template T
+     * @template T as object
      *
      * @param class-string<T> $valueClassName
-     *
-     * @return object&mixed
+     * @return T
      */
-    public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName)
+    public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName): object
     {
         $value = $this->getPrivateProperty($object, $propertyName);
 
@@ -48,8 +47,12 @@ final class PrivatesAccessor
      * @param class-string<T> $valueClassName
      * @param T $value
      */
-    public function setPrivatePropertyOfClass(object $object, string $propertyName, mixed $value, string $valueClassName): void
-    {
+    public function setPrivatePropertyOfClass(
+        object $object,
+        string $propertyName,
+        mixed $value,
+        string $valueClassName
+    ): void {
         if (! $value instanceof $valueClassName) {
             throw new ShouldNotHappenException();
         }

@@ -1,4 +1,4 @@
-# 129 Rules Overview
+# 132 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1819,6 +1819,49 @@ $this->someService->process($value, ...);
 
 <br>
 
+## ForbiddenTraitUseRule
+
+Trait "%s" cannot be used in the code
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule`](../src/Rules/ForbiddenTraitUseRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            forbiddenTraits:
+                - Nette\SmartObject
+```
+
+↓
+
+```php
+use Nette\SmartObject;
+
+class SomeClass
+{
+    use SmartObject;
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## IfElseToMatchSpotterRule
 
 If/else construction can be replace with more robust `match()`
@@ -3258,6 +3301,43 @@ final class SomeClass
 {
     private function run()
     {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoReadonlyStaticVariableRule
+
+Avoid using static variables, as they can change. Use class constant instead
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule`](../src/Rules/Explicit/NoReadonlyStaticVariableRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        static $list = [1, 2, 3];
+
+        return $list;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    private const LIST = [1, 2, 3];
+    public function run()
+    {
+        return self::LIST;
     }
 }
 ```
@@ -4712,6 +4792,39 @@ trait SomeClass
 trait SomeTrait
 {
 }
+```
+
+:+1:
+
+<br>
+
+## SwitchToMatchSpotterRule
+
+Switch construction can be replace with more robust `match()`
+
+- class: [`Symplify\PHPStanRules\Rules\Spotter\SwitchToMatchSpotterRule`](../src/Rules/Spotter/SwitchToMatchSpotterRule.php)
+
+```php
+switch ($key) {
+    case 1:
+        return 100;
+    case 2:
+        return 200;
+    default:
+        return 300;
+};
+```
+
+:x:
+
+<br>
+
+```php
+return match($key) {
+    1 => 100,
+    2 => 200,
+    default => 300,
+};
 ```
 
 :+1:
