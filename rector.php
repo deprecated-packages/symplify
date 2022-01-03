@@ -47,6 +47,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters = $containerConfigurator->parameters();
 
+    $parameters->set(Option::PARALLEL, true);
     $parameters->set(Option::AUTO_IMPORT_NAMES, true);
     $parameters->set(Option::AUTOLOAD_PATHS, [__DIR__ . '/tests/bootstrap.php']);
 
