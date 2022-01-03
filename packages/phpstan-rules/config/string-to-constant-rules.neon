@@ -1,4 +1,3 @@
-
 services:
     -
         class: Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
