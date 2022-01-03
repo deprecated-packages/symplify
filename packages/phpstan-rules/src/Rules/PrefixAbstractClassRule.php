@@ -25,7 +25,6 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Abstract class name "%s" must be prefixed with "Abstract"';
 
     public function __construct(
-        private Broker $broker,
         private SimpleNameResolver $simpleNameResolver
     ) {
     }
@@ -44,11 +43,7 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
+        $classReflection = $node->getClassReflection();
         if ($classReflection->isAnonymous()) {
             return [];
         }
@@ -63,7 +58,6 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classReflection = $this->broker->getClass($className);
         if (! $classReflection->isAbstract()) {
             return [];
         }

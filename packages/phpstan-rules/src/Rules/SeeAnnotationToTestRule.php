@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Broker\Broker;
+use PHPStan\Node\InClassNode;
 use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
@@ -38,7 +39,6 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
      * @param string[] $requiredSeeTypes
      */
     public function __construct(
-        private Broker $broker,
         private SimpleNameResolver $simpleNameResolver,
         private PhpDocResolver $phpDocResolver,
         private array $requiredSeeTypes
@@ -51,21 +51,22 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $classReflection = $this->matchClassReflection($node);
-        if (! $classReflection instanceof ClassReflection) {
+        $classReflection = $node->getClassReflection();
+        if ($this->shouldSkipClassReflection($classReflection)) {
             return [];
         }
 
-        if ($this->shouldSkipClassReflection($classReflection)) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
@@ -130,20 +131,6 @@ CODE_SAMPLE
         }
 
         return true;
-    }
-
-    private function matchClassReflection(Class_ $class): ?ClassReflection
-    {
-        $className = $this->simpleNameResolver->getName($class);
-        if ($className === null) {
-            return null;
-        }
-
-        if (! class_exists($className)) {
-            return null;
-        }
-
-        return $this->broker->getClass($className);
     }
 
     /**
