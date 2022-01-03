@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
@@ -52,7 +51,7 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
      */
     public function process(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkip($scope)) {
+        if ($this->shouldSkip($node)) {
             return [];
         }
 
@@ -113,12 +112,9 @@ CODE_SAMPLE
         )]);
     }
 
-    private function shouldSkip(Scope $scope): bool
+    private function shouldSkip(InClassNode $inClassNode): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return true;
-        }
+        $classReflection = $inClassNode->getClassReflection();
 
         // already enum
         if (\str_contains($classReflection->getName(), '\\Enum\\') && ! \str_contains(

@@ -8,7 +8,6 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Broker\Broker;
 use PHPStan\Node\InClassNode;
 use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
@@ -16,7 +15,6 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\PhpDoc\PhpDocResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -39,7 +37,6 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
      * @param string[] $requiredSeeTypes
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private PhpDocResolver $phpDocResolver,
         private array $requiredSeeTypes
     ) {
