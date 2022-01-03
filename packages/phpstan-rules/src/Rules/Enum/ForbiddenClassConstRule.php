@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Rules\Enum;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -54,7 +53,7 @@ final class ForbiddenClassConstRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        if (! $this->isInClassTypes($scope, $this->classTypes)) {
+        if (! $this->isInClassTypes($node, $this->classTypes)) {
             return [];
         }
 
@@ -107,12 +106,9 @@ CODE_SAMPLE
     /**
      * @param class-string[] $classTypes
      */
-    private function isInClassTypes(Scope $scope, array $classTypes): bool
+    private function isInClassTypes(InClassNode $inClassNode, array $classTypes): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
+        $classReflection = $inClassNode->getClassReflection();
 
         foreach ($classTypes as $classType) {
             if ($classReflection->isSubclassOf($classType)) {

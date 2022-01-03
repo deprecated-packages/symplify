@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Broker\Broker;
+use PHPStan\Node\InClassNode;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,7 +23,6 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Abstract class name "%s" must be prefixed with "Abstract"';
 
     public function __construct(
-        private Broker $broker,
         private SimpleNameResolver $simpleNameResolver
     ) {
     }
@@ -33,26 +32,35 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
      */
     public function getNodeTypes(): array
     {
-        return [Class_::class];
+        return [InClassNode::class];
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $className = $this->simpleNameResolver->getName($node);
+        $classReflection = $node->getClassReflection();
+        if ($classReflection->isAnonymous()) {
+            return [];
+        }
+
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
+            return [];
+        }
+
+        $className = $this->simpleNameResolver->getName($classLike);
         if ($className === null) {
             return [];
         }
 
-        $classReflection = $this->broker->getClass($className);
         if (! $classReflection->isAbstract()) {
             return [];
         }
 
-        $shortClassName = (string) $node->name;
+        $shortClassName = (string) $classLike->name;
         if (\str_starts_with($shortClassName, 'Abstract')) {
             return [];
         }
