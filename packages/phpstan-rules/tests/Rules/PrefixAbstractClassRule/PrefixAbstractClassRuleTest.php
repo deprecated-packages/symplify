@@ -25,6 +25,7 @@ final class PrefixAbstractClassRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAnonymousClass.php', []];
         yield [__DIR__ . '/Fixture/AbstractSomeAbstractClass.php', []];
 
         $errorMessage = sprintf(PrefixAbstractClassRule::ERROR_MESSAGE, 'SomeAbstractClass');
