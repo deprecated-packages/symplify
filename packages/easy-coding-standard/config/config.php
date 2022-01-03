@@ -25,7 +25,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::CACHE_NAMESPACE, $cacheNamespace);
 
     // parallel
-    $parameters->set(Option::PARALLEL, false);
+    $parameters->set(Option::PARALLEL, true);
+
     // how many files are processed in single process
     $parameters->set(Option::PARALLEL_JOB_SIZE, 60);
     $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, 16);
