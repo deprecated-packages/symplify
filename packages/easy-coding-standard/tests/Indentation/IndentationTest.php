@@ -33,9 +33,10 @@ final class IndentationTest extends AbstractKernelTestCase
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
         $whitespacesFixerConfig = new WhitespacesFixerConfig('    ', StaticEolConfiguration::getEolChar());
 
-        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivateProperty(
+        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivatePropertyOfClass(
             $indentationTypeFixer,
-            'whitespacesConfig'
+            'whitespacesConfig',
+            WhitespacesFixerConfig::class
         );
         $this->assertEquals($whitespacesFixerConfig, $fixerWhitespaceConfig);
     }
@@ -52,9 +53,10 @@ final class IndentationTest extends AbstractKernelTestCase
         $this->assertInstanceOf(WhitespacesAwareFixerInterface::class, $indentationTypeFixer);
         $whitespacesFixerConfig = new WhitespacesFixerConfig('	', StaticEolConfiguration::getEolChar());
 
-        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivateProperty(
+        $fixerWhitespaceConfig = $this->privatesAccessor->getPrivatePropertyOfClass(
             $indentationTypeFixer,
-            'whitespacesConfig'
+            'whitespacesConfig',
+            WhitespacesFixerConfig::class
         );
         $this->assertEquals($whitespacesFixerConfig, $fixerWhitespaceConfig);
     }
