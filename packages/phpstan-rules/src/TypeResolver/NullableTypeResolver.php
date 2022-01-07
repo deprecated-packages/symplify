@@ -26,6 +26,10 @@ final class NullableTypeResolver
         } else {
             $class = $this->simpleNameResolver->getName($node);
         }
+        
+        if ($class === null ) {
+            return null;
+        }
 
         if (!class_exists($class)) {
             throw new ShouldNotHappenException();
