@@ -126,6 +126,9 @@ final class SimpleNameResolver
         return $this->resolveShortName($className);
     }
 
+    /**
+     * @return class-string|null
+     */
     public function getClassNameFromScope(Scope $scope): ?string
     {
         if ($scope->isInTrait()) {
