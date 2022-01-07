@@ -14,7 +14,7 @@ use Symplify\Astral\NodeVisitor\CallableNodeVisitor;
 final class SimpleCallableNodeTraverser
 {
     /**
-     * @param callable(Node $node): Node|bool|NodeTraverser::* $callable
+     * @param callable(Node $node): Node|null|NodeTraverser::* $callable
      * @param Node|Node[]|null $nodes
      */
     public function traverseNodesWithCallable(Node | array | null $nodes, callable $callable): void
