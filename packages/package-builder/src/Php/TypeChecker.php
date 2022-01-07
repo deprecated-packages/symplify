@@ -10,6 +10,7 @@ namespace Symplify\PackageBuilder\Php;
 final class TypeChecker
 {
     /**
+     * @param object|class-string $object
      * @param array<class-string> $types
      */
     public function isInstanceOf(object | string $object, array $types): bool
