@@ -14,6 +14,7 @@ final class ForbiddenAllowedTypeAnalyzer
     }
 
     /**
+     * @param class-string $mainType
      * @param class-string[] $forbiddenTypes
      * @param class-string[] $allowedTypes
      */
@@ -27,6 +28,7 @@ final class ForbiddenAllowedTypeAnalyzer
     }
 
     /**
+     * @param class-string $typeName
      * @param class-string[] $forbiddenTypes
      */
     private function isForbiddenType(string $typeName, array $forbiddenTypes): bool
