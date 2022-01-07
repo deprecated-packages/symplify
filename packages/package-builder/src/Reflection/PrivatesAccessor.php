@@ -42,7 +42,7 @@ final class PrivatesAccessor
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param class-string<T> $valueClassName
      * @param T $value
