@@ -54,7 +54,7 @@ final class TemplateRulesRegistry extends Registry
 
                 /** @var CallMethodsRule $activeRule */
                 /** @var FunctionCallParametersCheck $check */
-                $check = $privatesAccessor->getPrivateProperty($activeRule, 'parametersCheck');
+                $check = $privatesAccessor->getPrivatePropertyOfClass($activeRule, 'parametersCheck', FunctionCallParametersCheck::class);
                 $privatesAccessor->setPrivateProperty($check, 'checkArgumentTypes', true);
             }
         }
