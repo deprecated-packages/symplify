@@ -15,6 +15,9 @@ final class NullableTypeResolver
     ) {
     }
 
+    /**
+     * @return class-string|null
+     */
     public function resolveNormalType(Node $node): ?string
     {
         if ($node instanceof NullableType) {
