@@ -6,6 +6,7 @@ namespace Symplify\LattePHPStanCompiler\Latte;
 
 use Latte\CompileException;
 use Latte\Compiler;
+use Latte\HtmlNode;
 use Latte\MacroNode;
 use Latte\Macros\BlockMacros;
 use Latte\Macros\CoreMacros;
@@ -96,7 +97,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
      */
     public function writeAttrsMacro(string $html): void
     {
-        $htmlNode = $this->privatesAccessor->getPrivateProperty($this, 'htmlNode');
+        $htmlNode = $this->privatesAccessor->getPrivatePropertyOfClass($this, 'htmlNode', HtmlNode::class);
 
         // all collected n:attributes with nodes
         $attrs = $htmlNode->macroAttrs;
