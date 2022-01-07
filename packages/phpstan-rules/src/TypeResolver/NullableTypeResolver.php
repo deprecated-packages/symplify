@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\TypeResolver;
 use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 
 final class NullableTypeResolver
 {
@@ -21,9 +22,14 @@ final class NullableTypeResolver
     public function resolveNormalType(Node $node): ?string
     {
         if ($node instanceof NullableType) {
-            return $this->simpleNameResolver->getName($node->type);
+            $class = $this->simpleNameResolver->getName($node->type);
+        } else {
+            $class = $this->simpleNameResolver->getName($node);
         }
 
-        return $this->simpleNameResolver->getName($node);
+        if (!class_exists($class)) {
+            throw new ShouldNotHappenException();
+        }
+        return $class;
     }
 }
