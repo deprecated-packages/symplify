@@ -6,11 +6,11 @@
         "php": ">=8.0",
         "symfony/console": "^5.4|^6.0",
         "symfony/dependency-injection": "^5.4|^6.0",
-        "symplify/smart-file-system": "^10.0.9",
-        "symplify/composer-json-manipulator": "^10.0.9",
-        "symplify/autowire-array-parameter": "^10.0.9",
-        "symplify/package-builder": "^10.0.9",
-        "symplify/symplify-kernel": "^10.0.9",
+        "symplify/smart-file-system": "^10.1",
+        "symplify/composer-json-manipulator": "^10.1",
+        "symplify/autowire-array-parameter": "^10.1",
+        "symplify/package-builder": "^10.1",
+        "symplify/symplify-kernel": "^10.1",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
