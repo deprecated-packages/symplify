@@ -162,6 +162,9 @@ CODE_SAMPLE
         return [];
     }
 
+    /**
+     * @param class-string $className
+     */
     private function shouldSkip(ClassMethod $classMethod, Scope $scope, string $className): bool
     {
         if ($scope->isInTrait()) {
