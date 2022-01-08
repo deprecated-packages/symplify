@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Symplify\Astral\NodeFinder;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeFinder;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\Php\TypeChecker;
@@ -88,6 +92,74 @@ final class SimpleNodeFinder
             }
 
             $node = $node->getAttribute(AttributeKey::PARENT);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Node|Node[] $nodes
+     * @param callable(Node $node): bool $filter
+     */
+    public function findFirst(Node | array $nodes, callable $filter): ?Node
+    {
+        return $this->nodeFinder->findFirst($nodes, $filter);
+    }
+
+    /**
+     * @param callable(Node $node): bool $filter
+     */
+    public function findFirstPrevious(Node $node, callable $filter): ?Node
+    {
+        $node = $node instanceof Expression ? $node : $node->getAttribute(AttributeKey::CURRENT_NODE);
+        if ($node === null) {
+            return null;
+        }
+
+        $foundNode = $this->findFirst([$node], $filter);
+        // we found what we need
+        if ($foundNode !== null) {
+            return $foundNode;
+        }
+
+        // move to previous expression
+        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
+        if ($previousStatement !== null) {
+            return $this->findFirstPrevious($previousStatement, $filter);
+        }
+
+        $parent = $node->getAttribute(AttributeKey::PARENT);
+        if ($parent === null) {
+            return null;
+        }
+
+        return $this->findFirstPrevious($parent, $filter);
+    }
+
+    /**
+     * @param callable(Node $node):bool $filter
+     */
+    public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
+    {
+        // move to previous expression
+        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
+        if ($previousStatement !== null) {
+            $foundNode = $this->findFirst([$previousStatement], $filter);
+            // we found what we need
+            if ($foundNode !== null) {
+                return $foundNode;
+            }
+
+            return $this->findFirstPreviousOfNode($previousStatement, $filter);
+        }
+
+        $parent = $node->getAttribute(AttributeKey::PARENT);
+        if ($parent instanceof FunctionLike) {
+            return null;
+        }
+
+        if ($parent instanceof Node) {
+            return $this->findFirstPreviousOfNode($parent, $filter);
         }
 
         return null;
