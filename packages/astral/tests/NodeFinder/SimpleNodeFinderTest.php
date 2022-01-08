@@ -6,6 +6,7 @@ namespace Symplify\Astral\Tests\NodeFinder;
 
 use Iterator;
 use PhpParser\Node;
+use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
@@ -15,6 +16,7 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\Astral\Tests\HttpKernel\AstralKernel;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class SimpleNodeFinderTest extends AbstractKernelTestCase
@@ -48,7 +50,22 @@ final class SimpleNodeFinderTest extends AbstractKernelTestCase
         $this->assertNotNull($class);
 
         $this->assertInstanceOf(Variable::class, $variable);
+        $this->assertSame('param', $variable->name);
         $this->assertInstanceOf(Class_::class, $class);
+    }
+
+    public function testFindFirstPreviousOfNode(): void {
+        $methodCall = $this->simpleNodeFinder->findFirst($this->nodes, function(Node $node) {
+            return $node instanceof MethodCall;
+        });
+        $this->assertNotNull($methodCall);
+
+        $previous = $this->simpleNodeFinder->findFirstPreviousOfNode($methodCall, function(Node $node) {
+            return $node instanceof Variable;
+        });
+
+        $this->assertInstanceOf(Variable::class, $previous);
+        $this->assertSame('z', $previous->name);
     }
 
 }
