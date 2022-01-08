@@ -102,7 +102,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
         // all collected n:attributes with nodes
         $attrs = $htmlNode->macroAttrs;
 
-        foreach ($attrs as $macroName => $macroContent) {
+        foreach (array_keys($attrs) as $macroName) {
             $this->latteMacroFaker->fakeAttrMacro($this, $this->nativeMacrosNames, $macroName);
         }
 
