@@ -107,36 +107,6 @@ final class SimpleNodeFinder
     }
 
     /**
-     * @param callable(Node $node): bool $filter
-     */
-    public function findFirstPrevious(Node $node, callable $filter): ?Node
-    {
-        $node = $node instanceof Expression ? $node : $node->getAttribute(AttributeKey::CURRENT_NODE);
-        if ($node === null) {
-            return null;
-        }
-
-        $foundNode = $this->findFirst([$node], $filter);
-        // we found what we need
-        if ($foundNode !== null) {
-            return $foundNode;
-        }
-
-        // move to previous expression
-        $previousStatement = $node->getAttribute(AttributeKey::PREVIOUS);
-        if ($previousStatement !== null) {
-            return $this->findFirstPrevious($previousStatement, $filter);
-        }
-
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if ($parent === null) {
-            return null;
-        }
-
-        return $this->findFirstPrevious($parent, $filter);
-    }
-
-    /**
      * @param callable(Node $node):bool $filter
      */
     public function findFirstPreviousOfNode(Node $node, callable $filter): ?Node
