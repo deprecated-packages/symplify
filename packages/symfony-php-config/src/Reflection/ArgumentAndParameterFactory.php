@@ -16,6 +16,8 @@ final class ArgumentAndParameterFactory
     }
 
     /**
+     * @param class-string $className
+     *
      * @param array<string, mixed> $arguments
      * @param array<string, mixed> $properties
      */
