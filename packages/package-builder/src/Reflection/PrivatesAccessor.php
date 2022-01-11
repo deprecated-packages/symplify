@@ -14,7 +14,7 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 final class PrivatesAccessor
 {
     /**
-     * @template T of object
+     * @template T as object
      *
      * @param class-string<T> $valueClassName
      * @return T
@@ -22,12 +22,12 @@ final class PrivatesAccessor
     public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName): object
     {
         $value = $this->getPrivateProperty($object, $propertyName);
-
         if ($value instanceof $valueClassName) {
             return $value;
         }
 
-        throw new ShouldNotHappenException();
+        $errorMessage = sprintf('The type "%s" is required, but "%s" type given', $valueClassName, get_class($value));
+        throw new ShouldNotHappenException($errorMessage);
     }
 
     /**
@@ -42,7 +42,7 @@ final class PrivatesAccessor
     }
 
     /**
-     * @template T of object
+     * @template T
      *
      * @param class-string<T> $valueClassName
      * @param T $value
@@ -54,7 +54,12 @@ final class PrivatesAccessor
         string $valueClassName
     ): void {
         if (! $value instanceof $valueClassName) {
-            throw new ShouldNotHappenException();
+            $errorMessage = sprintf(
+                'The type "%s" is required, but "%s" type given',
+                $valueClassName,
+                get_class($value)
+            );
+            throw new ShouldNotHappenException($errorMessage);
         }
 
         $this->setPrivateProperty($object, $propertyName, $value);
