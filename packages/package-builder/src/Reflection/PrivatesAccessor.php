@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PackageBuilder\Reflection;
 
 use ReflectionProperty;
-use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
+use Symplify\PackageBuilder\Exception\InvalidPrivatePropertyTypeException;
+use Symplify\PackageBuilder\Exception\MissingPrivatePropertyException;
 
 /**
  * @api
@@ -22,12 +23,12 @@ final class PrivatesAccessor
     public function getPrivatePropertyOfClass(object $object, string $propertyName, string $valueClassName): object
     {
         $value = $this->getPrivateProperty($object, $propertyName);
-
         if ($value instanceof $valueClassName) {
             return $value;
         }
 
-        throw new ShouldNotHappenException();
+        $errorMessage = sprintf('The type "%s" is required, but "%s" type given', $valueClassName, $value::class);
+        throw new InvalidPrivatePropertyTypeException($errorMessage);
     }
 
     /**
@@ -53,11 +54,17 @@ final class PrivatesAccessor
         mixed $value,
         string $valueClassName
     ): void {
-        if (! $value instanceof $valueClassName) {
-            throw new ShouldNotHappenException();
+        if ($value instanceof $valueClassName) {
+            $this->setPrivateProperty($object, $propertyName, $value);
+            return;
         }
 
-        $this->setPrivateProperty($object, $propertyName, $value);
+        $errorMessage = sprintf(
+            'The type "%s" is required, but "%s" type given',
+            $valueClassName,
+            $value::class
+        );
+        throw new InvalidPrivatePropertyTypeException($errorMessage);
     }
 
     public function setPrivateProperty(object $object, string $propertyName, mixed $value): void
@@ -75,11 +82,11 @@ final class PrivatesAccessor
         }
 
         $parentClass = get_parent_class($object);
-        if ($parentClass === false) {
-            $errorMessage = sprintf('Property "$%s" was not found in "%s" class', $propertyName, $object::class);
-            throw new ShouldNotHappenException($errorMessage);
+        if ($parentClass !== false) {
+            return new ReflectionProperty($parentClass, $propertyName);
         }
 
-        return new ReflectionProperty($parentClass, $propertyName);
+        $errorMessage = sprintf('Property "$%s" was not found in "%s" class', $propertyName, $object::class);
+        throw new MissingPrivatePropertyException($errorMessage);
     }
 }
