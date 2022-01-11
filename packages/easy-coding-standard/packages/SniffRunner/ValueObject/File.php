@@ -182,9 +182,10 @@ final class File extends BaseFile
         }
 
         $message = $data !== [] ? vsprintf($message, $data) : $message;
-        $codingStandardError = new CodingStandardError($line, $message, $this->resolveFullyQualifiedCode(
-            $sniffClassOrCode
-        ), $this->getFilename());
+
+        $checkerClass = $this->resolveFullyQualifiedCode($sniffClassOrCode);
+        $codingStandardError = new CodingStandardError($line, $message, $checkerClass, $this->getFilename());
+
         $this->sniffMetadataCollector->addCodingStandardError($codingStandardError);
 
         if ($isFixable) {
