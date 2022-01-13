@@ -17,6 +17,7 @@ use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardErro
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\File;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -45,6 +46,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         private SniffMetadataCollector $sniffMetadataCollector,
         private SmartFileSystem $smartFileSystem,
         private FileDiffFactory $fileDiffFactory,
+        private PrivatesAccessor $privatesAccessor,
         array $sniffs
     ) {
         $this->addCompatibilityLayer();
@@ -151,6 +153,7 @@ final class SniffFileProcessor implements FileProcessorInterface
             // Only needed once file content has changed.
             $content = $previousContent;
 
+            $this->privatesAccessor->setPrivateProperty($fixer, 'inConflict', false);
             $file->setContent($content);
             $file->processWithTokenListenersAndFileInfo($tokenListeners, $smartFileInfo);
 
