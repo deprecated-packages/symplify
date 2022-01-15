@@ -38,6 +38,7 @@ note "Downgrading directories\n"
 
 # --working-dir is needed, so "SKIP" parameter is applied in absolute path of nested directory
 php -d memory_limit=-1 vendor/bin/rector process bin src --config packages/easy-ci/build/config/config-downgrade.php --working-dir $BUILD_DIRECTORY --ansi
+php -d memory_limit=-1 vendor/bin/rector process packages --config packages/easy-ci/build/config/config-downgrade.php --working-dir $BUILD_DIRECTORY --ansi
 php -d memory_limit=-1 vendor/bin/rector process vendor --config packages/easy-ci/build/config/config-downgrade.php --working-dir $BUILD_DIRECTORY --ansi
 
 # CONFIRMED: give time to print all the files, before the next process takes over newly printed content
