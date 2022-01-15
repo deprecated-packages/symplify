@@ -1,11 +1,12 @@
 # builds the content of:
 # * https://github.com/symplify/config-transformer
 # * https://github.com/symplify/monorepo-builder
+# * https://github.com/symplify/easy-ci
 
 # inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
 # and from https://github.com/rectorphp/rector/blob/main/.github/workflows/build_scoped_rector.yaml
 
-name: Build Downgraded and Prefixed Tools
+name: Build Tools
 
 on:
     push:
@@ -21,7 +22,7 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    build_downgraded_and_prefixed_tools:
+    build_tools:
         strategy:
             fail-fast: false
             matrix:
@@ -36,7 +37,7 @@ jobs:
                         name: 'Easy CI'
                         directory: 'easy-ci'
 
-        name: 'Build Downgrade and Prefix of ${{ matrix.tools.name }}'
+        name: 'Build ${{ matrix.tools.name }}'
         runs-on: ubuntu-latest
 
         steps:
