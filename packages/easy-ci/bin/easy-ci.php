@@ -28,5 +28,11 @@ if (file_exists($easyCIFilePath)) {
     $extraConfigs[] = $easyCIFilePath;
 }
 
+
+$scoperAutoloadFilepath = __DIR__ . '/../vendor/scoper-autoload.php';
+if (file_exists($scoperAutoloadFilepath)) {
+    require_once $scoperAutoloadFilepath;
+}
+
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(EasyCIKernel::class, $extraConfigs);
 $kernelBootAndApplicationRun->run();
