@@ -59,11 +59,7 @@ final class PrivatesAccessor
             return;
         }
 
-        $errorMessage = sprintf(
-            'The type "%s" is required, but "%s" type given',
-            $valueClassName,
-            $value::class
-        );
+        $errorMessage = sprintf('The type "%s" is required, but "%s" type given', $valueClassName, $value::class);
         throw new InvalidPrivatePropertyTypeException($errorMessage);
     }
 
