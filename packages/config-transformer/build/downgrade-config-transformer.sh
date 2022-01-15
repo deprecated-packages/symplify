@@ -42,4 +42,4 @@ php -d memory_limit=-1 vendor/bin/rector process vendor --config packages/config
 
 # CONFIRMED: give time to print all the files, before the next process takes over newly printed content
 # avoids bugs like these half of files done, next half waiting https://github.com/rectorphp/rector-src/runs/2565478682
-sleep 30
+sleep 10
