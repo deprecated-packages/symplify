@@ -577,3 +577,5 @@ parameters:
         # is never string
         - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
+
+        - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
