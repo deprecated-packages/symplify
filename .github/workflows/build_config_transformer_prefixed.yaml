@@ -3,7 +3,7 @@
 # inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
 # and from https://github.com/rectorphp/rector/blob/main/.github/workflows/build_scoped_rector.yaml
 
-name: Build Config Transformer Prefixed
+name: Build Downgraded and Prefixed Tools
 
 on:
     push:
@@ -20,6 +20,15 @@ env:
 
 jobs:
     build_config_transformer_prefixed:
+        strategy:
+            fail-fast: false
+            matrix:
+                tools:
+                    -
+                        name: 'Config Transformer'
+                        directory: 'config-transformer'
+
+        name: 'Downgrade of ${{ matrix.tools.name }}'
         runs-on: ubuntu-latest
 
         steps:
@@ -44,32 +53,32 @@ jobs:
             -   run: composer update --no-progress --ansi
 
             # 1. install package dependencies
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/config-transformer/composer.json --ansi
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths ${{ matrix.tools.name }}/composer.json --ansi
 
             -
-                run: composer install --working-dir packages/config-transformer --ansi --no-dev
+                run: composer install --working-dir packages/${{ matrix.tools.directory }} --ansi --no-dev
 
             # 2. prepare build directory
-            -   run: cp -r packages/config-transformer/. config-transformer-build
+            -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
             # remove test files
-            -   run: rm -rf config-transformer-build/tests
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/tests
 
             # 3. downgrade
-            -   run: sh packages/config-transformer/build/downgrade-config-transformer.sh config-transformer-build
+            -   run: sh ${{ matrix.tools.name }}/build/downgrade-${{ matrix.tools.directory }}.sh ${{ matrix.tools.directory }}-build
 
             # 4. prefix
-            -   run: sh packages/config-transformer/build/build-config-transformer-scoped.sh config-transformer-build config-transformer-prefixed-downgraded
+            -   run: sh ${{ matrix.tools.name }}/build/build-${{ matrix.tools.directory }}-scoped.sh ${{ matrix.tools.directory }}-build ${{ matrix.tools.directory }}-prefixed-downgraded
 
-            -   run: chmod 777 ./config-transformer-prefixed-downgraded/bin/config-transformer
+            -   run: chmod 777 ./${{ matrix.tools.directory }}-prefixed-downgraded/bin/${{ matrix.tools.directory }}
 
             # copy github actions to repository, so tests run there too
-            -   run: cp -R packages/config-transformer/build/target-repository/. config-transformer-prefixed-downgraded
+            -   run: cp -R ${{ matrix.tools.name }}/build/target-repository/. ${{ matrix.tools.directory }}-prefixed-downgraded
 
             # clone remote repository, so we can push it
             -
                 uses: "actions/checkout@v2"
                 with:
-                    repository: symplify/config-transformer
+                    repository: symplify/${{ matrix.tools.directory }}
                     path: remote-repository
                     token: ${{ secrets.ACCESS_TOKEN }}
 
@@ -77,7 +86,7 @@ jobs:
             -   run: rm -rf remote-repository/.github remote-repository/bin remote-repository/config remote-repository/src remote-repository/vendor
 
             # copy repository meta files
-            -   run: cp -R config-transformer-prefixed-downgraded/. remote-repository
+            -   run: cp -R ${{ matrix.tools.directory }}-prefixed-downgraded/. remote-repository
 
             # setup git
             -
