@@ -1,0 +1,11 @@
+{
+    "name": "symplify/easy-ci",
+    "description": "Toolkit of commands that should not be missed in you CI",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1"
+    },
+    "bin": [
+        "bin/easy-ci"
+    ]
+}
