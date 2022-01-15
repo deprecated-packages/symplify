@@ -32,6 +32,9 @@ jobs:
                     -
                         name: 'Monorepo Builder'
                         directory: 'monorepo-builder'
+                    -
+                        name: 'Easy CI'
+                        directory: 'easy-ci'
 
         name: 'Build Downgrade and Prefix of ${{ matrix.tools.name }}'
         runs-on: ubuntu-latest
