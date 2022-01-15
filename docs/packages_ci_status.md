@@ -18,3 +18,10 @@
 
 * https://github.com/symplify/monorepo-builder
 * ![](https://github.com/symplify/monorepo-builder/actions/workflows/bare_run.yaml/badge.svg)
+
+<br>
+
+## Easy CI
+
+* https://github.com/symplify/easy-ci
+* ![](https://github.com/symplify/easy-ci/actions/workflows/bare_run.yaml/badge.svg)
