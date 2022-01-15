@@ -73,6 +73,10 @@
         "symplify/easy-parallel": "<10.0.9",
         "symplify/neon-config-dumper": "<10.0.9"
     },
+    "config": {
+        "sort-packages": true,
+        "platform-check": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
