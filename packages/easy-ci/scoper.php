@@ -26,6 +26,8 @@ return [
     'whitelist' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+        // naturally
+        'Symplify\EasyCI\*',
     ],
     'files-whitelist' => [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
