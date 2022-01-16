@@ -67,11 +67,16 @@ return [
                 return $content;
             }
 
-            // fix symfony config load scoping, except CodingStandard and EasyCodingStandard
+            // fix symfony config load scoping, except EasyCI
             $content = Strings::replace(
                 $content,
                 '#load\(\'Symplify\\\\\\\\(?<package_name>[A-Za-z]+)#',
                 function (array $match) use ($prefix) {
+                    if (in_array($match['package_name'], ['EasyCI'], true)) {
+                        // skip
+                        return $match[0];
+                    }
+
                     return 'load(\'' . $prefix . '\Symplify\\' . $match['package_name'];
                 }
             );
