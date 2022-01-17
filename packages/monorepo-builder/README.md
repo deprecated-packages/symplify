@@ -66,7 +66,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         __DIR__ . '/projects',
     ]);
 
-    // how skip packages in loaded direectories?
+    // how to skip packages in loaded directories?
     $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [__DIR__ . '/packages/secret-package']);
 
     // "merge" command related
