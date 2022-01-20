@@ -11,12 +11,22 @@ use PHPUnit\Framework\TestCase;
  */
 final class DualTestCaseAuloader
 {
+    /**
+     * @var string
+     */
+    private const UNDERSCORED_TEST_CASE_CLASS = 'PHPUnit_Framework_TestCase';
+
     public function autoload(): void
     {
-        if (! class_exists('PHPUnit_Framework_TestCase')) {
-            class_alias(TestCase::class, 'PHPUnit_Framework_TestCase');
-        } elseif (! class_exists(TestCase::class)) {
-            class_alias('PHPUnit_Framework_TestCase', TestCase::class);
+        if (! class_exists(self::UNDERSCORED_TEST_CASE_CLASS)) {
+            // alias new test case to old one
+            class_alias(TestCase::class, self::UNDERSCORED_TEST_CASE_CLASS);
+            return;
+        }
+
+        if (! class_exists(TestCase::class)) {
+            // alias old test case to new one
+            class_alias(self::UNDERSCORED_TEST_CASE_CLASS, TestCase::class);
         }
     }
 }

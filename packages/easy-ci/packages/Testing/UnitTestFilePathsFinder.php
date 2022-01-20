@@ -19,6 +19,10 @@ final class UnitTestFilePathsFinder
     ) {
     }
 
+    /**
+     * @param string[] $directories
+     * @return array<string, string>
+     */
     public function findInDirectories(array $directories): array
     {
         $this->dualTestCaseAuloader->autoload();

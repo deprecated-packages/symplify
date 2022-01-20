@@ -20,9 +20,11 @@ final class UnitTestFilter
      */
     public function filter(array $testClassesToFilePaths): array
     {
-        return array_filter($testClassesToFilePaths, function (string $testClass): bool {
-            return $this->isUnitTest($testClass);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter(
+            $testClassesToFilePaths,
+            fn (string $testClass): bool => $this->isUnitTest($testClass),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     private function isUnitTest(string $class): bool

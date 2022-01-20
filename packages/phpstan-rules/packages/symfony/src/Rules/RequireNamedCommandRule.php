@@ -50,12 +50,7 @@ final class RequireNamedCommandRule extends AbstractSymplifyRule
             return [];
         }
 
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        if (! $classReflection->isSubclassOf(Command::class)) {
+        if (! $this->isInNonAbstractCommand($scope)) {
             return [];
         }
 
@@ -113,5 +108,19 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function isInNonAbstractCommand(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        if ($classReflection->isAbstract()) {
+            return false;
+        }
+
+        return $classReflection->isSubclassOf(Command::class);
     }
 }

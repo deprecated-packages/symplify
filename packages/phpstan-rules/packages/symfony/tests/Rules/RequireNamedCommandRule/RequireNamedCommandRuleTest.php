@@ -26,6 +26,7 @@ final class RequireNamedCommandRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNamedCommand.php', []];
+        yield [__DIR__ . '/Fixture/SkipAbstractMissingNameCommand.php', []];
 
         yield [__DIR__ . '/Fixture/MissingNameCommand.php', [[RequireNamedCommandRule::ERROR_MESSAGE, 11]]];
     }

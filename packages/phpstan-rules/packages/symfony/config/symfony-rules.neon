@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
         tags: [phpstan.rules.rule]
 
