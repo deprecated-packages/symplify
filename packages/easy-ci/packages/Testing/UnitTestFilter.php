@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 final class UnitTestFilter
 {
     /**
-     * @var string[]
+     * @var string[]|class-string<KernelTestCase>[]
      */
     private const NON_UNIT_TEST_CASE_CLASSES = [KernelTestCase::class, 'Symfony\Component\Form\Test\TypeTestCase'];
 
