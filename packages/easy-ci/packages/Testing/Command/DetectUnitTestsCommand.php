@@ -33,6 +33,8 @@ final class DetectUnitTestsCommand extends Command
 
     protected function configure(): void
     {
+        $this->setName('detect-unit-tests');
+
         $this->setDescription('Get list of tests in specific directory, that are considered "unit".
 They depend only on bare PHPUnit test case, but not on KernelTestCase. Move the generated file to your phpunit.xml test group.');
 
