@@ -1,4 +1,4 @@
-# 6 Rules Overview
+# 7 Rules Overview
 
 ## CheckOptionArgumentCommandRule
 
@@ -187,6 +187,43 @@ final class SomeController extends AbstractController
     #[Route()]
     public function __invoke()
     {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNamedCommandRule
+
+The command is missing `$this->setName("...")` in `configure()` method
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule`](../packages/symfony/src/Rules/RequireNamedCommandRule.php)
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+final class SomeCommand extends Command
+{
+    public function configure()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+final class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('some');
     }
 }
 ```
