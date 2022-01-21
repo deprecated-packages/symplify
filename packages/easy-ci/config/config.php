@@ -26,6 +26,7 @@ use Symplify\EasyCI\Psr4\Command\CheckFileClassNameCommand;
 use Symplify\EasyCI\Psr4\Command\FindMultiClassesCommand;
 use Symplify\EasyCI\Psr4\Command\GeneratePsr4ToPathsCommand;
 use Symplify\EasyCI\StaticDetector\Command\DetectStaticCommand;
+use Symplify\EasyCI\Testing\Command\DetectUnitTestsCommand;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -61,6 +62,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service(FindMultiClassesCommand::class),
             service(GeneratePsr4ToPathsCommand::class),
             service(DetectStaticCommand::class),
+            service(DetectUnitTestsCommand::class),
         ]]);
 
     $services->set(VersionParser::class);

@@ -12,6 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\Testing\Printer\PHPUnitXmlPrinter;
 use Symplify\EasyCI\Testing\UnitTestFilePathsFinder;
 use Symplify\EasyCI\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use Webmozart\Assert\Assert;
 
@@ -33,7 +34,7 @@ final class DetectUnitTestsCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('detect-unit-tests');
+        $this->setName(CommandNaming::classToName(self::class));
 
         $this->setDescription('Get list of tests in specific directory, that are considered "unit".
 They depend only on bare PHPUnit test case, but not on KernelTestCase. Move the generated file to your phpunit.xml test group.');
