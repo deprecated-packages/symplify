@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Composer\Semver\Semver;
-
 use Composer\Semver\VersionParser;
 use Nette\Neon\Decoder;
 use PhpParser\NodeFinder;
@@ -55,13 +54,20 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             service(PhpVersionsJsonCommand::class),
             service(ValidateFileLengthCommand::class),
             // package commands
+
+            // active classes
             service(CheckActiveClassCommand::class),
+            // config
             service(CheckConfigCommand::class),
+            // neon
             service(CheckNeonCommand::class),
+            // PSR-4
             service(CheckFileClassNameCommand::class),
             service(FindMultiClassesCommand::class),
             service(GeneratePsr4ToPathsCommand::class),
+            // static
             service(DetectStaticCommand::class),
+            // local unit test
             service(DetectUnitTestsCommand::class),
         ]]);
 
