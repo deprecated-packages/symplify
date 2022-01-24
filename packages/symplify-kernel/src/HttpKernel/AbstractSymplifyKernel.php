@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\SymplifyKernel\HttpKernel;
 
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\SymplifyKernel\Config\Loader\ParameterMergingLoaderFactory;
 use Symplify\SymplifyKernel\ContainerBuilderFactory;
@@ -21,6 +23,8 @@ abstract class AbstractSymplifyKernel implements LightKernelInterface
     private Container|null $container = null;
 
     /**
+     * @param ExtensionInterface[] $extensions
+     * @param CompilerPassInterface[] $compilerPasses
      * @param string[] $configFiles
      */
     public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerInterface

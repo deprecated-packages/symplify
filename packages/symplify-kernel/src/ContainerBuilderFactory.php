@@ -25,6 +25,9 @@ final class ContainerBuilderFactory
      */
     public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerBuilder
     {
+        Assert::allIsAOf($extensions, ExtensionInterface::class);
+        Assert::allIsAOf($compilerPasses, CompilerPassInterface::class);
+
         Assert::allString($configFiles);
         Assert::allFile($configFiles);
 
