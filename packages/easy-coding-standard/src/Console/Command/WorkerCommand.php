@@ -11,6 +11,7 @@ use React\Socket\ConnectionInterface;
 use React\Socket\TcpConnector;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\MemoryLimitter;
 use Symplify\EasyCodingStandard\Parallel\WorkerRunner;
 use Symplify\EasyParallel\Enum\Action;
 use Symplify\EasyParallel\Enum\ReactCommand;
@@ -26,6 +27,7 @@ final class WorkerCommand extends AbstractCheckCommand
 {
     public function __construct(
         private WorkerRunner $workerRunner,
+        private MemoryLimitter $memoryLimitter,
     ) {
         parent::__construct();
     }
@@ -41,6 +43,7 @@ final class WorkerCommand extends AbstractCheckCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configuration = $this->configurationFactory->createFromInput($input);
+        $this->memoryLimitter->adjust($configuration);
 
         $streamSelectLoop = new StreamSelectLoop();
         $parallelIdentifier = $configuration->getParallelIdentifier();

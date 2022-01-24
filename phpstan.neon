@@ -583,3 +583,4 @@ parameters:
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
+        - '#Cognitive complexity for "Symplify\\EasyParallel\\CommandLine\\WorkerCommandLineFactory\:\:mirrorCommandOptions\(\)" is 10, keep it under 8#'
