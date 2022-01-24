@@ -22,6 +22,7 @@ final class Configuration
         private ?string $config = null,
         private string | null $parallelPort = null,
         private string | null $parallelIdentifier = null,
+        private string | null $memoryLimit = null
     ) {
     }
 
@@ -76,5 +77,10 @@ final class Configuration
     public function getParallelIdentifier(): ?string
     {
         return $this->parallelIdentifier;
+    }
+
+    public function getMemoryLimit(): ?string
+    {
+        return $this->memoryLimit;
     }
 }

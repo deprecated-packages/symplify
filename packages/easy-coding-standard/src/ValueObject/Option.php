@@ -141,4 +141,9 @@ final class Option
      * @var string
      */
     public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
+
+    /**
+     * @var string
+     */
+    public const MEMORY_LIMIT = 'memory-limit';
 }

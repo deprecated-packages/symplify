@@ -6,12 +6,14 @@ namespace Symplify\EasyCodingStandard\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symplify\EasyCodingStandard\MemoryLimitter;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
 
 final class CheckCommand extends AbstractCheckCommand
 {
     public function __construct(
         private ProcessedFileReporter $processedFileReporter,
+        private MemoryLimitter $memoryLimitter,
     ) {
         parent::__construct();
     }
@@ -31,6 +33,8 @@ final class CheckCommand extends AbstractCheckCommand
         }
 
         $configuration = $this->configurationFactory->createFromInput($input);
+        $this->memoryLimitter->adjust($configuration);
+
         $errorsAndDiffs = $this->easyCodingStandardApplication->run($configuration, $input);
 
         return $this->processedFileReporter->report($errorsAndDiffs, $configuration);

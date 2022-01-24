@@ -73,6 +73,8 @@ abstract class AbstractCheckCommand extends AbstractSymplifyCommand
             ConsoleOutputFormatter::NAME
         );
 
+        $this->addOption(Option::MEMORY_LIMIT, null, InputOption::VALUE_REQUIRED, 'Memory limit for check');
+
         $this->addOption(Option::PARALLEL_PORT, null, InputOption::VALUE_REQUIRED);
         $this->addOption(Option::PARALLEL_IDENTIFIER, null, InputOption::VALUE_REQUIRED);
     }

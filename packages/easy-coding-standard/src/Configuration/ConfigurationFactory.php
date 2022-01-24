@@ -34,6 +34,9 @@ final class ConfigurationFactory
 
         $outputFormat = (string) $input->getOption(Option::OUTPUT_FORMAT);
 
+        /** @var string|null $memoryLimit */
+        $memoryLimit = $input->getOption(Option::MEMORY_LIMIT);
+
         $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
 
         $config = $input->getOption(Option::CONFIG);
@@ -51,7 +54,8 @@ final class ConfigurationFactory
             $isParallel,
             $config,
             $parallelPort,
-            $parallelIdentifier
+            $parallelIdentifier,
+            $memoryLimit
         );
     }
 
