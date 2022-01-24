@@ -64,7 +64,12 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
         $rootFuncCallName = $this->simpleNameResolver->getName($node);
         $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);
 
+        if ($this->simpleNameResolver->isName($node->name, 'assert')) {
+            return [];
+        }
+
         foreach ($node->args as $arg) {
+            /** @var FuncCall[] $nestedFuncCalls */
             $nestedFuncCalls = $this->nodeFinder->findInstanceOf($arg, FuncCall::class);
 
             foreach ($nestedFuncCalls as $nestedFuncCall) {
