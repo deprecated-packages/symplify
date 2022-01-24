@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\PackageBuilder\Composer\VendorDirProvider;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\Json\JsonFileSystem;
-use Symplify\VendorPatches\Command\GenerateCommand;
+use Symplify\VendorPatches\Console\VendorPatchesApplication;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -36,8 +36,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(VendorDirProvider::class);
     $services->set(JsonFileSystem::class);
 
-    $services->set(Application::class)
-        ->call('addCommands', [[service(GenerateCommand::class)]]);
+    // for autowired commands
+    $services->alias(Application::class, VendorPatchesApplication::class);
 
     $services->set(ParametersMerger::class);
 };
