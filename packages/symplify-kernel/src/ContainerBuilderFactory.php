@@ -11,6 +11,9 @@ use Symplify\SymplifyKernel\Contract\Config\LoaderFactoryInterface;
 use Symplify\SymplifyKernel\DependencyInjection\LoadExtensionConfigsCompilerPass;
 use Webmozart\Assert\Assert;
 
+/**
+ * @see \Symplify\SymplifyKernel\Tests\ContainerBuilderFactory\ContainerBuilderFactoryTest
+ */
 final class ContainerBuilderFactory
 {
     public function __construct(
