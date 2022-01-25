@@ -12,6 +12,6 @@ final class PackageBuilderTestKernel extends AbstractSymplifyKernel
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = __DIR__ . '/../config/test_config.php';
-        return $this->create($configFiles, [], []);
+        return $this->create($configFiles);
     }
 }

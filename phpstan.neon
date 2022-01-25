@@ -584,3 +584,8 @@ parameters:
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
         - '#Cognitive complexity for "Symplify\\EasyParallel\\CommandLine\\WorkerCommandLineFactory\:\:mirrorCommandOptions\(\)" is 10, keep it under 8#'
+
+        # DX of rearely used parameters
+        -
+            message: '#Parameter "(.*?)" cannot have default value#'
+            path: packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php

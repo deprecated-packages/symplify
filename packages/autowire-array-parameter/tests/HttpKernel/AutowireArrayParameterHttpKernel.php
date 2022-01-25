@@ -16,6 +16,6 @@ final class AutowireArrayParameterHttpKernel extends AbstractSymplifyKernel
     {
         $configFiles[] = __DIR__ . '/../config/autowire_array_parameter.php';
 
-        return $this->create($configFiles, [], []);
+        return $this->create($configFiles);
     }
 }

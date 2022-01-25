@@ -13,6 +13,6 @@ final class SimplePhpDocParserKernel extends AbstractSymplifyKernel
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = SimplePhpDocParserConfig::FILE_PATH;
-        return $this->create($configFiles, [], []);
+        return $this->create($configFiles);
     }
 }

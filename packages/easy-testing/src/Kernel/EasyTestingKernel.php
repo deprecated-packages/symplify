@@ -16,6 +16,6 @@ final class EasyTestingKernel extends AbstractSymplifyKernel
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = EasyTestingConfig::FILE_PATH;
-        return $this->create($configFiles, [], []);
+        return $this->create($configFiles);
     }
 }
