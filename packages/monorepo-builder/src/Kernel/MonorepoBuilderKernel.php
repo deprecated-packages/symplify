@@ -25,6 +25,6 @@ final class MonorepoBuilderKernel extends AbstractSymplifyKernel
         $autowireInterfacesCompilerPass = new AutowireInterfacesCompilerPass([ReleaseWorkerInterface::class]);
         $compilerPasses = [$autowireInterfacesCompilerPass];
 
-        return $this->create([], $compilerPasses, $configFiles);
+        return $this->create($configFiles, $compilerPasses, []);
     }
 }

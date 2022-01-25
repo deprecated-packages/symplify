@@ -23,11 +23,11 @@ abstract class AbstractSymplifyKernel implements LightKernelInterface
     private Container|null $container = null;
 
     /**
-     * @param ExtensionInterface[] $extensions
-     * @param CompilerPassInterface[] $compilerPasses
      * @param string[] $configFiles
+     * @param CompilerPassInterface[] $compilerPasses
+     * @param ExtensionInterface[] $extensions
      */
-    public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerInterface
+    public function create(array $configFiles, array $compilerPasses, array $extensions): ContainerInterface
     {
         $containerBuilderFactory = new ContainerBuilderFactory(new ParameterMergingLoaderFactory());
 
@@ -35,7 +35,7 @@ abstract class AbstractSymplifyKernel implements LightKernelInterface
 
         $configFiles[] = SymplifyKernelConfig::FILE_PATH;
 
-        $containerBuilder = $containerBuilderFactory->create($extensions, $compilerPasses, $configFiles);
+        $containerBuilder = $containerBuilderFactory->create($configFiles, $compilerPasses, $extensions);
         $containerBuilder->compile();
 
         $this->container = $containerBuilder;

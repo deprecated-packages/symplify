@@ -17,6 +17,6 @@ final class ComposerJsonManipulatorKernel extends AbstractSymplifyKernel
     {
         $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

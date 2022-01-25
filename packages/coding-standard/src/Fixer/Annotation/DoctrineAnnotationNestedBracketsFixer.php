@@ -126,8 +126,7 @@ CODE_SAMPLE
     private function fixAnnotations(DoctrineAnnotationTokens $doctrineAnnotationTokens, array $useDeclarations): void
     {
         foreach ($doctrineAnnotationTokens as $index => $token) {
-            $isAtToken = $token->isType(DocLexer::T_AT);
-            if (! $isAtToken) {
+            if (! $token->isType(DocLexer::T_AT)) {
                 continue;
             }
 

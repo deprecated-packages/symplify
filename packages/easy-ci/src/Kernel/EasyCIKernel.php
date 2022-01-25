@@ -20,6 +20,6 @@ final class EasyCIKernel extends AbstractSymplifyKernel
         $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
         $configFiles[] = AstralConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

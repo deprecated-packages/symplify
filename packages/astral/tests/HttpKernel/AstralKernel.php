@@ -13,6 +13,6 @@ final class AstralKernel extends AbstractSymplifyKernel
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = AstralConfig::FILE_PATH;
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

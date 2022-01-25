@@ -16,6 +16,6 @@ final class NeonConfigDumperKernel extends AbstractSymplifyKernel
     {
         $configFiles[] = __DIR__ . '/../../config/config.php';
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }
