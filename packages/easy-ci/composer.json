@@ -13,11 +13,11 @@
         "nikic/php-parser": "^4.13.2",
         "symfony/console": "^5.4|^6.0",
         "symfony/dependency-injection": "^5.4|^6.0",
-        "symplify/astral": "^10.0.17",
-        "symplify/composer-json-manipulator": "^10.0.17",
-        "symplify/package-builder": "^10.0.17",
-        "symplify/smart-file-system": "^10.0.17",
-        "symplify/symplify-kernel": "^10.0.17"
+        "symplify/astral": "^10.1",
+        "symplify/composer-json-manipulator": "^10.1",
+        "symplify/package-builder": "^10.1",
+        "symplify/smart-file-system": "^10.1",
+        "symplify/symplify-kernel": "^10.1"
     },
     "require-dev": {
         "latte/latte": "^2.10",
