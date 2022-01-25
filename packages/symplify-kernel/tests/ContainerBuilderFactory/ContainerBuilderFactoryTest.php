@@ -11,7 +11,7 @@ use Symplify\SymplifyKernel\ContainerBuilderFactory;
 
 final class ContainerBuilderFactoryTest extends TestCase
 {
-    public function test()
+    public function test(): void
     {
         $containerBuilderFactory = new ContainerBuilderFactory(new ParameterMergingLoaderFactory());
 
