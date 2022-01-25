@@ -17,7 +17,7 @@ final class DoctrineAnnotationNameResolver
      */
     public function resolveName(Tokens $tokens, int $index, array $namespaceUseAnalyses): ?string
     {
-        $openParenthesisPosition = $tokens->getNextTokenOfType(DocLexer::T_OPEN_PARENTHESIS, $index);
+        $openParenthesisPosition = $this->getNextOpenParenthesisFromTokens($tokens, $index);
         if ($openParenthesisPosition === null) {
             return null;
         }
@@ -41,5 +41,22 @@ final class DoctrineAnnotationNameResolver
         }
 
         return $annotationShortName;
+    }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function getNextOpenParenthesisFromTokens(Tokens $tokens, int $index): ?int
+    {
+        $openParenthesisPosition = $tokens->getNextMeaningfulToken($index);
+        if ($openParenthesisPosition === null) {
+            return null;
+        }
+
+        if ($tokens[$openParenthesisPosition]->isType(DocLexer::T_OPEN_PARENTHESIS)) {
+            return $openParenthesisPosition;
+        }
+
+        return $this->getNextOpenParenthesisFromTokens($tokens, $openParenthesisPosition);
     }
 }
