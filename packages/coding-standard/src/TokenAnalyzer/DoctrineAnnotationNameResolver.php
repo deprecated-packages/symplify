@@ -53,7 +53,9 @@ final class DoctrineAnnotationNameResolver
             return null;
         }
 
-        if ($tokens[$openParenthesisPosition]->isType(DocLexer::T_OPEN_PARENTHESIS)) {
+        /** @var Token $nextOpenParenthesis */
+        $nextOpenParenthesis = $tokens[$openParenthesisPosition];
+        if ($nextOpenParenthesis->isType(DocLexer::T_OPEN_PARENTHESIS)) {
             return $openParenthesisPosition;
         }
 
