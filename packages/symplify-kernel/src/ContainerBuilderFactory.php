@@ -19,11 +19,11 @@ final class ContainerBuilderFactory
     }
 
     /**
-     * @param ExtensionInterface[] $extensions
-     * @param CompilerPassInterface[] $compilerPasses
      * @param string[] $configFiles
+     * @param CompilerPassInterface[] $compilerPasses
+     * @param ExtensionInterface[] $extensions
      */
-    public function create(array $extensions, array $compilerPasses, array $configFiles): ContainerBuilder
+    public function create(array $configFiles, array $compilerPasses, array $extensions): ContainerBuilder
     {
         Assert::allIsAOf($extensions, ExtensionInterface::class);
         Assert::allIsAOf($compilerPasses, CompilerPassInterface::class);

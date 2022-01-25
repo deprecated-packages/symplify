@@ -14,6 +14,6 @@ final class SymfonyPhpConfigKernel extends AbstractSymplifyKernel
      */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

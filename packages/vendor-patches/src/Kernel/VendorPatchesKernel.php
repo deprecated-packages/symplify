@@ -18,6 +18,6 @@ final class VendorPatchesKernel extends AbstractSymplifyKernel
         $configFiles[] = __DIR__ . '/../../config/config.php';
         $configFiles[] = ComposerJsonManipulatorConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

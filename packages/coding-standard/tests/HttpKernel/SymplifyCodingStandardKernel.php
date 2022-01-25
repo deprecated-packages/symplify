@@ -18,6 +18,6 @@ final class SymplifyCodingStandardKernel extends AbstractSymplifyKernel
         $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
         $configFiles[] = CodingStandardConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

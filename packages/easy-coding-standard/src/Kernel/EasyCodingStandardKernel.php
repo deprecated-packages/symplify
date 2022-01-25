@@ -39,7 +39,7 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         $configFiles[] = EasyCodingStandardConfig::FILE_PATH;
         $configFiles[] = EasyParallelConfig::FILE_PATH;
 
-        return $this->create([], $compilerPasses, $configFiles);
+        return $this->create($configFiles, $compilerPasses, []);
     }
 
     /**

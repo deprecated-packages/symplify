@@ -18,6 +18,6 @@ final class ConfigTransformerKernel extends AbstractSymplifyKernel
         $configFiles[] = __DIR__ . '/../../config/config.php';
         $configFiles[] = PhpConfigPrinterConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }

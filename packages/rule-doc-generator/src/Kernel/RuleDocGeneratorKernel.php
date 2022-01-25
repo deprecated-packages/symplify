@@ -20,6 +20,6 @@ final class RuleDocGeneratorKernel extends AbstractSymplifyKernel
         $configFiles[] = PhpConfigPrinterConfig::FILE_PATH;
         $configFiles[] = MarkdownDiffConfig::FILE_PATH;
 
-        return $this->create([], [], $configFiles);
+        return $this->create($configFiles, [], []);
     }
 }
