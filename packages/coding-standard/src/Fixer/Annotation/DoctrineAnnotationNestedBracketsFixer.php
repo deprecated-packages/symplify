@@ -112,6 +112,7 @@ CODE_SAMPLE
         /** @var Token[] $docCommentTokens */
         $docCommentTokens = $tokens->findGivenKind(T_DOC_COMMENT);
         foreach ($docCommentTokens as $index => $docCommentToken) {
+            /** @var DoctrineAnnotationTokens<DoctrineAnnotationToken> $doctrineAnnotationTokens */
             $doctrineAnnotationTokens = DoctrineAnnotationTokens::createFromDocComment($docCommentToken, []);
             $this->fixAnnotations($doctrineAnnotationTokens, $useDeclarations);
 
@@ -125,7 +126,7 @@ CODE_SAMPLE
     private function fixAnnotations(DoctrineAnnotationTokens $doctrineAnnotationTokens, array $useDeclarations): void
     {
         foreach ($doctrineAnnotationTokens as $index => $token) {
-            $isAtToken = $doctrineAnnotationTokens[$index]->isType(DocLexer::T_AT);
+            $isAtToken = $token->isType(DocLexer::T_AT);
             if (! $isAtToken) {
                 continue;
             }
