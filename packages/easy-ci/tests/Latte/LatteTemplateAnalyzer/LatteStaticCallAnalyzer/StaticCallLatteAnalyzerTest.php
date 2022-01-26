@@ -31,9 +31,11 @@ final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
     ): void {
         $templateErrors = $this->staticCallLatteAnalyzer->analyze([$fileInfo]);
         $this->assertCount($expectedClassMethodCount, $templateErrors);
-
         // no errors expected
-        if ($expectedClassMethodCount === 0 || $expectedErrorMessage === null) {
+        if ($expectedClassMethodCount === 0) {
+            return;
+        }
+        if ($expectedErrorMessage === null) {
             return;
         }
 
