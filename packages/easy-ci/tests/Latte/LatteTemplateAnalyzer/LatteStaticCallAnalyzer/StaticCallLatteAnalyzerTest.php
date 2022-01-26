@@ -35,6 +35,7 @@ final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
         if ($expectedClassMethodCount === 0) {
             return;
         }
+
         if ($expectedErrorMessage === null) {
             return;
         }
