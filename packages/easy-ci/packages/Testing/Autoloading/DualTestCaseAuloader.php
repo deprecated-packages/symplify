@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Testing\Autoloading;
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * To ease detection of dual test case classes.
  */
@@ -20,13 +18,13 @@ final class DualTestCaseAuloader
     {
         if (! class_exists(self::UNDERSCORED_TEST_CASE_CLASS)) {
             // alias new test case to old one
-            class_alias(TestCase::class, self::UNDERSCORED_TEST_CASE_CLASS);
+            class_alias('PHPUnit\Framework\TestCase', self::UNDERSCORED_TEST_CASE_CLASS);
             return;
         }
 
-        if (! class_exists(TestCase::class)) {
+        if (! class_exists('PHPUnit\Framework\TestCase')) {
             // alias old test case to new one
-            class_alias(self::UNDERSCORED_TEST_CASE_CLASS, TestCase::class);
+            class_alias(self::UNDERSCORED_TEST_CASE_CLASS, 'PHPUnit\Framework\TestCase');
         }
     }
 }
