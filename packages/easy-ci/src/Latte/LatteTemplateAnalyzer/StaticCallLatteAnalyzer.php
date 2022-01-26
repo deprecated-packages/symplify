@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Latte\LatteTemplateAnalyzer;
 
-use Nette\Utils\DateTime;
 use Nette\Utils\Strings;
 use Symplify\EasyCI\Contract\ValueObject\FileErrorInterface;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
@@ -79,9 +78,10 @@ final class StaticCallLatteAnalyzer implements LatteTemplateAnalyzerInterface
     {
         return array_filter(
             $matches,
-            static fn (array $match): bool => ! in_array($match[self::CLASS_NAME_PART], [
-                Strings::class,
-                DateTime::class,
+            fn (array $match): bool => ! in_array($match[self::CLASS_NAME_PART], [
+                // keep strings, to avoid prefixing
+                'Nette\Utils\Strings',
+                'Nette\Utils\DateTime',
             ], true)
         );
     }

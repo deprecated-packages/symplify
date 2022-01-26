@@ -24,24 +24,35 @@ final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo, int $expectedClassMethodCount, string $expectedClassMethodName): void
-    {
+    public function test(
+        SmartFileInfo $fileInfo,
+        int $expectedClassMethodCount,
+        string|null $expectedErrorMessage
+    ): void {
         $templateErrors = $this->staticCallLatteAnalyzer->analyze([$fileInfo]);
         $this->assertCount($expectedClassMethodCount, $templateErrors);
+
+        // no errors expected
+        if ($expectedClassMethodCount === 0 || $expectedErrorMessage === null) {
+            return;
+        }
 
         $TemplateError = $templateErrors[0];
         $this->assertInstanceOf(FileError::class, $TemplateError);
 
-        $this->assertSame($expectedClassMethodName, $TemplateError->getErrorMessage());
+        $this->assertSame($expectedErrorMessage, $TemplateError->getErrorMessage());
     }
 
     public function provideData(): Iterator
     {
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/keep_nette_utils.latte'), 0, null];
+
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/simple_static_call.latte'),
             1,
             'Static call "Project\MailHelper::getUnsubscribeHash()" should not be used in template, move to filter provider instead',
         ];
+
         yield [
             new SmartFileInfo(__DIR__ . '/Fixture/on_variable_static_call.latte'),
             1,
