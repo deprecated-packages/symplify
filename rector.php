@@ -38,6 +38,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             'Doctrine\ORM\EntityManager',
             'Nette\*',
             'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+            'PHPUnit\Framework\TestCase',
         ]);
 
     $services->set(PreferThisOrSelfMethodCallRector::class)

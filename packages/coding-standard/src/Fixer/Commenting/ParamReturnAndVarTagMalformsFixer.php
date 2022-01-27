@@ -67,6 +67,19 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
             return false;
         }
 
+        $reversedTokens = $this->reverseTokens($tokens);
+        foreach ($reversedTokens as $index => $token) {
+            if (!$token->isGivenKind([T_CALLABLE])) {
+                continue;
+            }
+
+            if (!(isset($tokens[$index + 3]) && $tokens[$index + 3]->getContent() === ')')) {
+                continue;
+            }
+
+            return false;
+        }
+
         return $tokens->isAnyTokenKindsFound([T_FUNCTION, T_VARIABLE]);
     }
 
