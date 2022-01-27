@@ -72,9 +72,11 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
             if (!$token->isGivenKind([T_CALLABLE])) {
                 continue;
             }
+
             if (!(isset($tokens[$index + 3]) && $tokens[$index + 3]->getContent() === ')')) {
                 continue;
             }
+
             return false;
         }
 
