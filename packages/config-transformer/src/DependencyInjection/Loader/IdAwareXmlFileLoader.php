@@ -169,7 +169,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
                 // @see https://stackoverflow.com/a/28944/1348344
                 $parentServiceId = $parentNode->getAttribute('id');
 
-                /** @var \DOMElement[] $services */
+                /** @var DOMElement[] $services */
                 $services = $this->privatesCaller->callPrivateMethod($this, 'getChildren', [$node, 'service']);
                 if ($services !== []) {
                     $id = $this->createUniqueServiceNameFromClass($services[0], $parentServiceId);
