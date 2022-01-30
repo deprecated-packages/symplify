@@ -44,7 +44,8 @@ final class SomeClass
     }
 
     public function some(): void
-    {/** @var SimplePhpDocParser $docBlock */$docBlock = '/** @param int $name */';
+    {
+        $docBlock = '/** @param int $name */';
 
         /** @var PhpDocNode $phpDocNode */
         $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
