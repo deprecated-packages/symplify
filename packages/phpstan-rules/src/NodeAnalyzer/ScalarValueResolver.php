@@ -77,6 +77,7 @@ final class ScalarValueResolver
         }
 
         // the array_count_values ignores "null", so we have to translate it to string here
+        /** @var array<string|int> $values */
         $values = array_filter($values, fn (mixed $value): bool => $this->isFilterableValue($value));
 
         return \array_count_values($values);

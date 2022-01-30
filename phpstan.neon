@@ -432,9 +432,6 @@ parameters:
             message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
             path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
 
-        # wrong php-cs-fixer doc types
-        - '#Parameter \#1 \$type of method PhpCsFixer\\Doctrine\\Annotation\\Tokens\:\:getNextTokenOfType\(\) expects array<string\>\|string, int given#'
-
         # command cast of string
         -
             message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
@@ -464,8 +461,6 @@ parameters:
             message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
             path: packages/config-transformer/src/Command/SwitchFormatCommand.php
 
-        - '#Property PhpParser\\Node\\Stmt\\ClassMethod\:\:\$stmts \(array<PhpParser\\Node\\Stmt\>\|null\) does not accept array<mixed, mixed\>#'
-
         # paralell
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
 
@@ -480,9 +475,6 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
-
-        # allow duplicated test classes
-        - '#Parameter \#3 \.\.\.\$arrays of function array_merge expects array, array<PhpParser\\Node\\Stmt\>\|null given#'
 
         # false positive - way too generic
         - '#Property Symplify\\Astral\\NodeValue\\NodeValueResolver\:\:\$nodeValueResolvers with generic interface Symplify\\Astral\\Contract\\NodeValueResolver\\NodeValueResolverInterface does not specify its types\: TExpr#'
@@ -589,3 +581,8 @@ parameters:
         -
             message: '#Parameter "(.*?)" cannot have default value#'
             path: packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
+
+        # already @var typed and checked
+        -
+            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
+            path: packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
