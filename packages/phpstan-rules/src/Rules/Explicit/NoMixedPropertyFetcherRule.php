@@ -34,6 +34,7 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
 
     /**
      * @param PropertyFetch $node
+     * @return mixed[]
      */
     public function process(Node $node, Scope $scope): array
     {

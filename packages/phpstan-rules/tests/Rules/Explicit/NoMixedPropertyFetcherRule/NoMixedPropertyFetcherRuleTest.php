@@ -16,6 +16,7 @@ final class NoMixedPropertyFetcherRuleTest extends AbstractServiceAwareRuleTestC
 {
     /**
      * @dataProvider provideData()
+     * @param mixed[]|array<int, array<int|string>> $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {
