@@ -7,12 +7,10 @@ namespace Symplify\Astral\NodeFinder;
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class SimpleNodeFinder
 {
     public function __construct(
-        private TypeChecker $typeChecker,
         private NodeFinder $nodeFinder
     ) {
     }
@@ -63,7 +61,8 @@ final class SimpleNodeFinder
     public function findFirstParentByType(Node $node, string $nodeClass): ?Node
     {
         $node = $node->getAttribute(AttributeKey::PARENT);
-        while ($node) {
+
+        while ($node instanceof Node) {
             if (is_a($node, $nodeClass, true)) {
                 return $node;
             }
@@ -82,9 +81,11 @@ final class SimpleNodeFinder
     public function findFirstParentByTypes(Node $node, array $nodeTypes): ?Node
     {
         $node = $node->getAttribute(AttributeKey::PARENT);
-        while ($node) {
-            if ($this->typeChecker->isInstanceOf($node, $nodeTypes)) {
-                return $node;
+        while ($node instanceof Node) {
+            foreach ($nodeTypes as $nodeType) {
+                if (is_a($node, $nodeType)) {
+                    return $node;
+                }
             }
 
             $node = $node->getAttribute(AttributeKey::PARENT);

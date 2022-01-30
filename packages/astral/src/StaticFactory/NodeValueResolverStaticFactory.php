@@ -17,7 +17,7 @@ final class NodeValueResolverStaticFactory
     public static function create(): NodeValueResolver
     {
         $simpleNameResolver = SimpleNameResolverStaticFactory::create();
-        $simpleNodeFinder = new SimpleNodeFinder(new TypeChecker(), new NodeFinder());
+        $simpleNodeFinder = new SimpleNodeFinder(new NodeFinder());
 
         return new NodeValueResolver($simpleNameResolver, new TypeChecker(), $simpleNodeFinder);
     }

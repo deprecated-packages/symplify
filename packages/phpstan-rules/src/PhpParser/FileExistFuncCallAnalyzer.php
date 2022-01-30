@@ -32,7 +32,7 @@ final class FileExistFuncCallAnalyzer
     public function hasParentIfWithFileExistCheck(Concat $concat): bool
     {
         $parent = $concat->getAttribute(AttributeKey::PARENT);
-        while ($parent !== null) {
+        while ($parent instanceof \PhpParser\Node) {
             if ($parent instanceof If_ && $this->isFileCheckingFuncCall($parent->cond)) {
                 return true;
             }

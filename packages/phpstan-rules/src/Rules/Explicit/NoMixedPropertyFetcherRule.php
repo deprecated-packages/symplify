@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\MixedType;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule\Source\KnownType;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -54,20 +53,20 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
-<<<'CODE_SAMPLE'
+                <<<'CODE_SAMPLE'
 function run($unknownType)
 {
     return $unknownType->name;
 }
 CODE_SAMPLE
                 ,
-<<<'CODE_SAMPLE'
+                <<<'CODE_SAMPLE'
 function run(KnownType $knownType)
 {
     return $knownType->name;
 }
 CODE_SAMPLE
-            )
+            ),
         ]);
     }
 }

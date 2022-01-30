@@ -25,13 +25,13 @@ final class FullyQualifiedImportSorter
      */
     public function sortImports(array $imports): array
     {
-        $sortByFullQualifiedCallback = static fn ($left, $right): int => strcmp(
+        $sortByFullQualifiedCallback = static fn (FullyQualifiedImport $left, FullyQualifiedImport $right): int => strcmp(
             $left->getFullyQualified(),
             $right->getFullyQualified()
         );
         usort($imports, $sortByFullQualifiedCallback);
 
-        $sortByTypeCallback = static fn ($left, $right): int => self::TYPE_ORDER[$left->getType()] <=> self::TYPE_ORDER[$right->getType()];
+        $sortByTypeCallback = static fn (FullyQualifiedImport $left, FullyQualifiedImport $right): int => self::TYPE_ORDER[$left->getType()] <=> self::TYPE_ORDER[$right->getType()];
         usort($imports, $sortByTypeCallback);
 
         return $imports;
