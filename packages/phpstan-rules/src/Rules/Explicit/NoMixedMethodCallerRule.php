@@ -32,6 +32,7 @@ final class NoMixedMethodCallerRule extends AbstractSymplifyRule
 
     /**
      * @param MethodCall $node
+     * @return mixed[]
      */
     public function process(Node $node, Scope $scope): array
     {

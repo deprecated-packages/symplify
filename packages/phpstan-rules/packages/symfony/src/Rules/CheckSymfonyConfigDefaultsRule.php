@@ -110,7 +110,7 @@ CODE_SAMPLE
     private function getMethodCallNames(MethodCall $methodCall): array
     {
         $methodCalls = [];
-        while ($methodCall instanceof \PhpParser\Node) {
+        while ($methodCall instanceof Node) {
             if ($methodCall instanceof MethodCall) {
                 $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
                 if ($methodCallName === null) {
