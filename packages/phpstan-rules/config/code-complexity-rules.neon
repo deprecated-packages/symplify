@@ -1,6 +1,10 @@
 services:
     -
+<<<<<<< HEAD
         class: Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
+=======
+        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule
+>>>>>>> [PHPStanRules] Add NoMixedMethodCallerRule
         tags: [phpstan.rules.rule]
 
     -
