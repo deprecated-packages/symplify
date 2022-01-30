@@ -1,4 +1,4 @@
-# 132 Rules Overview
+# 133 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2953,6 +2953,34 @@ $filePath = __DIR__ . '/missing_location.txt';
 
 ```php
 $filePath = __DIR__ . '/existing_location.txt';
+```
+
+:+1:
+
+<br>
+
+## NoMixedPropertyFetcherRule
+
+Anonymous variables in a property fetch can lead to false dead property. Make sure the variable type is known
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule`](../src/Rules/Explicit/NoMixedPropertyFetcherRule.php)
+
+```php
+function run($unknownType)
+{
+    return $unknownType->name;
+}
+```
+
+:x:
+
+<br>
+
+```php
+function run(KnownType $knownType)
+{
+    return $knownType->name;
+}
 ```
 
 :+1:
