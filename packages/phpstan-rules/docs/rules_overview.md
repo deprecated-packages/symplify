@@ -1,4 +1,4 @@
-# 133 Rules Overview
+# 134 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2953,6 +2953,34 @@ $filePath = __DIR__ . '/missing_location.txt';
 
 ```php
 $filePath = __DIR__ . '/existing_location.txt';
+```
+
+:+1:
+
+<br>
+
+## NoMixedMethodCallerRule
+
+Anonymous variables in a method call can lead to false dead methods. Make sure the variable type is known
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule`](../src/Rules/Explicit/NoMixedMethodCallerRule.php)
+
+```php
+function run($unknownType)
+{
+    return $unknownType->call();
+}
+```
+
+:x:
+
+<br>
+
+```php
+function run(KnownType $knownType)
+{
+    return $knownType->call();
+}
 ```
 
 :+1:

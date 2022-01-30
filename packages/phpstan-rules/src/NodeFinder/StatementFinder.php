@@ -26,7 +26,7 @@ final class StatementFinder
         $next = $node->getAttribute(AttributeKey::NEXT);
         $parentOfParentAssignment = $node->getAttribute(AttributeKey::PARENT);
 
-        while ($next) {
+        while ($next instanceof Node) {
             $nextVars = $this->nodeFinder->findInstanceOf($next, $varClass);
             if ($this->hasSameVar($nextVars, $parentOfParentAssignment, $var)) {
                 return true;
@@ -45,7 +45,14 @@ final class StatementFinder
     {
         foreach ($nodes as $node) {
             $parent = $node->getAttribute(AttributeKey::PARENT);
+            if (! $parent instanceof Node) {
+                return false;
+            }
+
             $parentOfParentNode = $parent->getAttribute(AttributeKey::PARENT);
+            if (! $parentOfParentNode instanceof Node) {
+                return false;
+            }
 
             if (! $this->simpleNameResolver->areNamesEqual($node, $varExpr)) {
                 continue;

@@ -24,6 +24,9 @@ use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
  * Mimics https://github.com/symfony/symfony/commit/b8c68da0107a4f433dd414a355ea5589da0da0e8 for Symfony 3.3-
+ *
+ * @property-read ContainerBuilder $container
+ * @property-read FileLocatorInterface $locator
  */
 final class IdAwareXmlFileLoader extends XmlFileLoader
 {
@@ -116,8 +119,9 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
 
         // anonymous services "in the wild"
         $anonymousServiceNodes = $domxPath->query('//container:services/container:service[not(@id)]');
-        if ($anonymousServiceNodes !== false) {
+        if ($anonymousServiceNodes instanceof DOMNodeList) {
             foreach ($anonymousServiceNodes as $anonymouServiceNode) {
+                /** @var DOMElement $anonymouServiceNode */
                 $id = $this->createAnonymousServiceId($hasNamedServices, $anonymouServiceNode, $file);
                 $anonymouServiceNode->setAttribute(self::ID, $id);
                 $definitions[$id] = [$anonymouServiceNode, $file, true];
@@ -165,6 +169,7 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
                 // @see https://stackoverflow.com/a/28944/1348344
                 $parentServiceId = $parentNode->getAttribute('id');
 
+                /** @var DOMElement[] $services */
                 $services = $this->privatesCaller->callPrivateMethod($this, 'getChildren', [$node, 'service']);
                 if ($services !== []) {
                     $id = $this->createUniqueServiceNameFromClass($services[0], $parentServiceId);

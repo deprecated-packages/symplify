@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\TemplatePHPStanCompiler\Reporting;
 
+use PHPStan\Analyser\Error;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -15,6 +16,7 @@ use Symplify\TemplatePHPStanCompiler\ValueObject\PhpFileContentsWithLineMap;
 final class TemplateErrorsFactory
 {
     /**
+     * @param Error[] $errors
      * @return RuleError[]
      */
     public function createErrors(
