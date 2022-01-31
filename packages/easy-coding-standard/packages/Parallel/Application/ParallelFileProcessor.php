@@ -27,6 +27,7 @@ use Symplify\EasyParallel\Enum\ReactEvent;
 use Symplify\EasyParallel\ValueObject\ParallelProcess;
 use Symplify\EasyParallel\ValueObject\ProcessPool;
 use Symplify\EasyParallel\ValueObject\Schedule;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Throwable;
 
 /**
@@ -37,11 +38,11 @@ use Throwable;
  */
 final class ParallelFileProcessor
 {
-    public $parameterProvider;
     private ProcessPool|null $processPool = null;
 
     public function __construct(
         private WorkerCommandLineFactory $workerCommandLineFactory,
+        private ParameterProvider $parameterProvider
     ) {
     }
 
