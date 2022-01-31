@@ -37,6 +37,7 @@ use Throwable;
  */
 final class ParallelFileProcessor
 {
+    public $parameterProvider;
     private ProcessPool|null $processPool = null;
 
     public function __construct(
