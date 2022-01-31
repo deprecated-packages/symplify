@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Console\Output;
 
 use Nette\Utils\Json;
-use Symfony\Component\Console\Command\Command;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
@@ -27,7 +26,8 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     private const FILES = 'files';
 
     public function __construct(
-        private EasyCodingStandardStyle $easyCodingStandardStyle
+        private EasyCodingStandardStyle $easyCodingStandardStyle,
+        private ExitCodeResolver $exitCodeResolver
     ) {
     }
 
@@ -36,8 +36,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
         $json = $this->createJsonContent($errorAndDiffResult);
         $this->easyCodingStandardStyle->writeln($json);
 
-        $errorCount = $errorAndDiffResult->getErrorCount();
-        return $errorCount === 0 ? Command::SUCCESS : Command::FAILURE;
+        return $this->exitCodeResolver->resolve($errorAndDiffResult, $configuration);
     }
 
     public function getName(): string
