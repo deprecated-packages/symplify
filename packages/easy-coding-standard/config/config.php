@@ -30,6 +30,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // how many files are processed in single process
     $parameters->set(Option::PARALLEL_JOB_SIZE, 60);
     $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, 16);
+    $parameters->set(Option::PARALLEL_TIMEOUT_IN_SECONDS, 120);
+    $parameters->set(Option::PARALLEL_SYSTEM_ERROR_COUNT_LIMIT, 50);
 
     $parameters->set(Option::PATHS, []);
     $parameters->set(Option::FILE_EXTENSIONS, ['php']);

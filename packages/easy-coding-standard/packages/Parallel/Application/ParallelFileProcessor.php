@@ -37,16 +37,6 @@ use Throwable;
  */
 final class ParallelFileProcessor
 {
-    /**
-     * @var int
-     */
-    public const TIMEOUT_IN_SECONDS = 60;
-
-    /**
-     * @var int
-     */
-    private const SYSTEM_ERRORS_COUNT_LIMIT = 50;
-
     private ProcessPool|null $processPool = null;
 
     public function __construct(
@@ -128,6 +118,11 @@ final class ParallelFileProcessor
             $this->processPool->quitAll();
         };
 
+        $timeoutInSeconds = $this->parameterProvider->provideIntParameter(Option::PARALLEL_TIMEOUT_IN_SECONDS);
+        $systemErrorCountLimit = $this->parameterProvider->provideIntParameter(
+            Option::PARALLEL_SYSTEM_ERROR_COUNT_LIMIT
+        );
+
         for ($i = 0; $i < $numberOfProcesses; ++$i) {
             // nothing else to process, stop now
             if ($jobs === []) {
@@ -146,7 +141,7 @@ final class ParallelFileProcessor
                 $serverPort,
             );
 
-            $parallelProcess = new ParallelProcess($workerCommandLine, $streamSelectLoop, self::TIMEOUT_IN_SECONDS);
+            $parallelProcess = new ParallelProcess($workerCommandLine, $streamSelectLoop, $timeoutInSeconds);
             $parallelProcess->start(
                 // 1. callable on data
                 function (array $json) use (
@@ -158,7 +153,8 @@ final class ParallelFileProcessor
                     $postFileCallback,
                     &$systemErrorsCount,
                     &$reachedInternalErrorsCountLimit,
-                    $processIdentifier
+                    $processIdentifier,
+                    $systemErrorCountLimit
                 ): void {
 
                     // decode arrays to objects
@@ -185,7 +181,7 @@ final class ParallelFileProcessor
                     }
 
                     $systemErrorsCount += $json[Bridge::SYSTEM_ERRORS_COUNT];
-                    if ($systemErrorsCount >= self::SYSTEM_ERRORS_COUNT_LIMIT) {
+                    if ($systemErrorsCount >= $systemErrorCountLimit) {
                         $reachedInternalErrorsCountLimit = true;
                         $this->processPool->quitAll();
                     }
@@ -228,7 +224,7 @@ final class ParallelFileProcessor
         if ($reachedSystemErrorsCountLimit) {
             $systemErrors[] = sprintf(
                 'Reached system errors count limit of %d, exiting...',
-                self::SYSTEM_ERRORS_COUNT_LIMIT
+                $systemErrorCountLimit
             );
         }
 
