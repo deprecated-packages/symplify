@@ -105,6 +105,21 @@ return [
             return $content;
         },
 
+        // unprefix string class names to ignore, to keep original class names
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'packages/ActiveClass/Filtering/PossiblyUnusedClassesFilter.php')) {
+                return $content;
+            }
+
+            return Strings::replace($content, '#DEFAULT_TYPES_TO_SKIP = (?<content>.*?);#', function (array $match) use (
+                $prefix
+            ) {
+                // remove prefix from there
+                return 'DEFAULT_TYPES_TO_SKIP = ' .
+                    Strings::replace($match['content'], '#' . $prefix . '\\#', '') . ';';
+            });
+        },
+
         // unprefixed ContainerConfigurator
         function (string $filePath, string $prefix, string $content): string {
             // keep vendor prefixed the prefixed file loading; not part of public API
