@@ -116,7 +116,7 @@ return [
             ) {
                 // remove prefix from there
                 return 'DEFAULT_TYPES_TO_SKIP = ' .
-                    Strings::replace($match['content'], '#' . $prefix . '\\#', '') . ';';
+                    Strings::replace($match['content'], '#' . $prefix . '\\\\#', '') . ';';
             });
         },
 
