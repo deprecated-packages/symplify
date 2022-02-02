@@ -2,18 +2,11 @@
 
 declare(strict_types=1);
 
-use PHPStan\Rules\Rule;
 use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
-use PHPStan\Command\ErrorFormatter\ErrorFormatter;
-use PhpCsFixer\Fixer\FixerInterface;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
@@ -45,17 +38,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $parameters->set(Option::TYPES_TO_SKIP, [
         ConfigurableRuleInterface::class,
-        Rule::class,
         MalformWorkerInterface::class,
-        FixerInterface::class,
-        BundleInterface::class,
-        TestCase::class,
-        Command::class,
         SetList::class,
         // part of tests
         SomeFile::class,
         Application::class,
-        KernelInterface::class,
         TwigTemplateAnalyzerInterface::class,
         LatteTemplateAnalyzerInterface::class,
         CompilerPassInterface::class,
@@ -68,7 +55,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ServiceOptionsKeyYamlToPhpFactoryInterface::class,
         DynamicMethodReturnTypeExtension::class,
         DynamicFunctionReturnTypeExtension::class,
-        ErrorFormatter::class,
         RoutingCaseConverterInterface::class,
         CategoryInfererInterface::class,
         DocumentedRuleInterface::class,

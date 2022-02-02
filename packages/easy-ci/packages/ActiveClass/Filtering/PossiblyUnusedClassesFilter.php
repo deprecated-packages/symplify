@@ -10,6 +10,24 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class PossiblyUnusedClassesFilter
 {
+    /**
+     * These class types are used by some kind of collector pattern. Either loaded magically, registered only in config,
+     * an entry point or a tagged extensions.
+     *
+     * @var string[]
+     */
+    private const DEFAULT_TYPES_TO_SKIP = [
+        'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
+        'Symfony\Component\HttpKernel\Bundle\BundleInterface',
+        'Symfony\Component\HttpKernel\KernelInterface',
+        'Symfony\Component\Console\Command\Command',
+        'Twig\Extension\ExtensionInterface',
+        'PhpCsFixer\Fixer\FixerInterface',
+        'PHPUnit\Framework\TestCase',
+        'PHPStan\Rules\Rule',
+        'PHPStan\Command\ErrorFormatter\ErrorFormatter',
+    ];
+
     public function __construct(
         private ParameterProvider $parameterProvider
     ) {
@@ -25,6 +43,8 @@ final class PossiblyUnusedClassesFilter
         $possiblyUnusedFilesWithClasses = [];
 
         $typesToSkip = $this->parameterProvider->provideArrayParameter(Option::TYPES_TO_SKIP);
+
+        $typesToSkip = array_merge($typesToSkip, self::DEFAULT_TYPES_TO_SKIP);
 
         foreach ($filesWithClasses as $fileWithClass) {
             if (in_array($fileWithClass->getClassName(), $usedNames, true)) {
