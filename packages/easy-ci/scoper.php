@@ -111,7 +111,7 @@ return [
                 return $content;
             }
 
-            return Strings::replace($content, '#DEFAULT_TYPES_TO_SKIP = (?<content>.*?);#', function (array $match) use (
+            return Strings::replace($content, '#DEFAULT_TYPES_TO_SKIP = (?<content>.*?)\;#ms', function (array $match) use (
                 $prefix
             ) {
                 // remove prefix from there
