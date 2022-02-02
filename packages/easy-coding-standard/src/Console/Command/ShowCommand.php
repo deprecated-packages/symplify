@@ -51,6 +51,12 @@ final class ShowCommand extends AbstractSymplifyCommand
         );
         $this->easyCodingStandardStyle->success($successMessage);
 
-        return self::SUCCESS;
+        $this->easyCodingStandardStyle->error(
+            'The "show" command is deprecated and will be removed, as it was used only for more output on Rector run. Use the "--debug" option and process command for debugging output instead.'
+        );
+        // to spot the error message
+        sleep(3);
+
+        return self::FAILURE;
     }
 }
