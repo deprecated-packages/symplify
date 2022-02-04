@@ -21,7 +21,7 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Anonymous variables in a property fetch can lead to false dead property. Make sure the variable type is known';
+    public const ERROR_MESSAGE = 'Anonymous variables in a property fetch can lead to false dead property. Make sure the variable type is known for property `$%s`.';
 
     /**
      * @return array<class-string<Node>>
@@ -46,7 +46,7 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        return [sprintf(self::ERROR_MESSAGE, $node->name)];
     }
 
     public function getRuleDefinition(): RuleDefinition
