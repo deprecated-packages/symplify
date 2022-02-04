@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\MixedType;
@@ -20,7 +21,7 @@ final class NoMixedMethodCallerRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Anonymous variables in a method call can lead to false dead methods. Make sure the variable type is known';
+    public const ERROR_MESSAGE = 'Anonymous variables in a method call can lead to false dead methods. Make sure the variable type is known in method name `%s()`.';
 
     /**
      * @return array<class-string<Node>>
@@ -41,7 +42,9 @@ final class NoMixedMethodCallerRule extends AbstractSymplifyRule
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $name = $node->name instanceof Expr ? $node->name->name : $node->name;
+
+        return [sprintf(self::ERROR_MESSAGE, $name)];
     }
 
     public function getRuleDefinition(): RuleDefinition
