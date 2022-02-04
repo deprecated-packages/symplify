@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\MixedType;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -42,7 +42,8 @@ final class NoMixedMethodCallerRule extends AbstractSymplifyRule
             return [];
         }
 
-        $name = $node->name instanceof Expr ? $node->name->name : $node->name;
+        /** @var string $name */
+        $name = $node->name instanceof Variable ? $node->name->name : $node->name;
 
         return [sprintf(self::ERROR_MESSAGE, $name)];
     }
