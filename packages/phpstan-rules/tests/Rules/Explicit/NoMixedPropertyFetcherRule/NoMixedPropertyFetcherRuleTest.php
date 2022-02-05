@@ -25,10 +25,13 @@ final class NoMixedPropertyFetcherRuleTest extends AbstractServiceAwareRuleTestC
 
     public function provideData(): Iterator
     {
-        $message = sprintf(NoMixedPropertyFetcherRule::ERROR_MESSAGE, 'name').
-
+        yield [__DIR__ . '/Fixture/SkipDynamicNameWithKnownType.php', []];
         yield [__DIR__ . '/Fixture/SkipKnownFetcherType.php', []];
-        yield [__DIR__ . '/Fixture/SkipDynamicName.php', []];
+
+        $message = sprintf(NoMixedPropertyFetcherRule::ERROR_MESSAGE, '$unknownType');
+        yield [__DIR__ . '/Fixture/DynamicName.php', [[$message, 13]]];
+
+        $message = sprintf(NoMixedPropertyFetcherRule::ERROR_MESSAGE, '$unknownType');
         yield [__DIR__ . '/Fixture/UnknownPropertyFetcher.php', [[$message, 11]]];
     }
 

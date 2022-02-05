@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedMethodCallerRule\Fixture;
 
-final class UnknownCallerType
+final class MagicMethodName
 {
-    public function run($mixedType)
+    public function run($someType, $magic)
     {
-        $mixedType->call();
+        $someType->$magic();
     }
 }
