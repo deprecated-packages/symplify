@@ -586,3 +586,6 @@ parameters:
         -
             message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
             path: packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
+
+        # not useful
+        - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
