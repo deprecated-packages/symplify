@@ -27,7 +27,11 @@ final class NoMixedMethodCallerRuleTest extends AbstractServiceAwareRuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipKnownCallerType.php', []];
 
-        yield [__DIR__ . '/Fixture/UnknownCallerType.php', [[NoMixedMethodCallerRule::ERROR_MESSAGE, 11]]];
+        $errorMessage = sprintf(NoMixedMethodCallerRule::ERROR_MESSAGE, '$someType');
+        yield [__DIR__ . '/Fixture/MagicMethodName.php', [[$errorMessage, 11]]];
+
+        $errorMessage = sprintf(NoMixedMethodCallerRule::ERROR_MESSAGE, '$mixedType');
+        yield [__DIR__ . '/Fixture/UnknownCallerType.php', [[$errorMessage, 11]]];
     }
 
     protected function getRule(): Rule

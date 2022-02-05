@@ -6,13 +6,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule\
 
 use Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule\Source\KnownType;
 
-final class SkipDynamicName
+final class SkipDynamicNameWithKnownType
 {
-    public function run($unknownType)
-    {
-        $unknownType->{$name};
-    }
-
     public function runOnType(KnownType $knownType)
     {
         $knownType->{$name};

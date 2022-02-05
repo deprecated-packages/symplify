@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule\Fixture;
 
-final class UnknownPropertyFetcher
+use Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule\Source\KnownType;
+
+final class DynamicName
 {
     public function run($unknownType)
     {
-        $unknownType->name;
+        $unknownType->{$name};
     }
 }

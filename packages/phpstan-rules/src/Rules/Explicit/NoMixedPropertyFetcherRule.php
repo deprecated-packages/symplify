@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\MixedType;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
@@ -21,7 +21,12 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Anonymous variables in a property fetch can lead to false dead property. Make sure the variable type is known';
+    public const ERROR_MESSAGE = 'Anonymous variables in a "%s->..." property fetch can lead to false dead property. Make sure the variable type is known';
+
+    public function __construct(
+        private Standard $standard,
+    ) {
+    }
 
     /**
      * @return array<class-string<Node>>
@@ -42,11 +47,9 @@ final class NoMixedPropertyFetcherRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($node->name instanceof Expr) {
-            return [];
-        }
+        $printedVar = $this->standard->prettyPrintExpr($node->var);
 
-        return [self::ERROR_MESSAGE];
+        return [sprintf(self::ERROR_MESSAGE, $printedVar)];
     }
 
     public function getRuleDefinition(): RuleDefinition
