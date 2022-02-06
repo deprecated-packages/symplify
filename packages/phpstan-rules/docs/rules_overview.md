@@ -2961,7 +2961,7 @@ $filePath = __DIR__ . '/existing_location.txt';
 
 ## NoMixedMethodCallerRule
 
-Anonymous variables in a method call can lead to false dead methods. Make sure the variable type is known
+Anonymous variable in a `%s->...()` method call can lead to false dead methods. Make sure the variable type is known
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule`](../src/Rules/Explicit/NoMixedMethodCallerRule.php)
 
@@ -2989,7 +2989,7 @@ function run(KnownType $knownType)
 
 ## NoMixedPropertyFetcherRule
 
-Anonymous variables in a property fetch can lead to false dead property. Make sure the variable type is known
+Anonymous variables in a "%s->..." property fetch can lead to false dead property. Make sure the variable type is known
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule`](../src/Rules/Explicit/NoMixedPropertyFetcherRule.php)
 
