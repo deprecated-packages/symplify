@@ -99,7 +99,7 @@ class SomeClass extends SomeParentClass
 {
     public function go()
     {
-        $tihs->run();
+        $this->run();
     }
 }
 CODE_SAMPLE
