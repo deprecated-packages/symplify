@@ -26,6 +26,8 @@ final class NoMixedMethodCallerRuleTest extends AbstractServiceAwareRuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipKnownCallerType.php', []];
+        
+        yield [__DIR__ . '/Fixture/SkipClosure.php', []];
 
         $errorMessage = sprintf(NoMixedMethodCallerRule::ERROR_MESSAGE, '$someType');
         yield [__DIR__ . '/Fixture/MagicMethodName.php', [[$errorMessage, 11]]];
