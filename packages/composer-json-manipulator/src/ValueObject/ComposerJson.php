@@ -40,7 +40,7 @@ final class ComposerJson
     /**
      * @var string|string[]|null
      */
-    private $license;
+    private array|string|null $license = null;
 
     private ?string $minimumStability = null;
 
