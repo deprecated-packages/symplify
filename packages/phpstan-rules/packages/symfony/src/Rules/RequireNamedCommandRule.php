@@ -6,12 +6,14 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -26,9 +28,15 @@ final class RequireNamedCommandRule extends AbstractSymplifyRule
      */
     public const ERROR_MESSAGE = 'The command is missing $this->setName("...") in configure() method';
 
+    /**
+     * @var string
+     */
+    private const COMMAND_ATTRIBUTE = 'Symfony\Component\Console\Attribute\AsCommand';
+
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
+        private AttributeFinder $attributeFinder,
     ) {
     }
 
@@ -55,6 +63,10 @@ final class RequireNamedCommandRule extends AbstractSymplifyRule
         }
 
         if ($this->containsSetNameMethodCall($node)) {
+            return [];
+        }
+
+        if ($this->hasAsCommandAttribute($node)) {
             return [];
         }
 
@@ -122,5 +134,15 @@ CODE_SAMPLE
         }
 
         return $classReflection->isSubclassOf(Command::class);
+    }
+
+    private function hasAsCommandAttribute(Node $node): bool
+    {
+        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
+        if (! $class instanceof Class_) {
+            return false;
+        }
+
+        return  $this->attributeFinder->hasAttribute($class, self::COMMAND_ATTRIBUTE);
     }
 }
