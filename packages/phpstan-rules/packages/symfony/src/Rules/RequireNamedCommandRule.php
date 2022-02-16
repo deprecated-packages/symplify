@@ -143,6 +143,6 @@ CODE_SAMPLE
             return false;
         }
 
-        return  $this->attributeFinder->hasAttribute($class, self::COMMAND_ATTRIBUTE);
+        return $this->attributeFinder->hasAttribute($class, self::COMMAND_ATTRIBUTE);
     }
 }
