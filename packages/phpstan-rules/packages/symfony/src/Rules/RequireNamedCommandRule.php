@@ -136,9 +136,9 @@ CODE_SAMPLE
         return $classReflection->isSubclassOf(Command::class);
     }
 
-    private function hasAsCommandAttribute(ClassMethod $node): bool
+    private function hasAsCommandAttribute(ClassMethod $classMethod): bool
     {
-        $class = $this->simpleNodeFinder->findFirstParentByType($node, Class_::class);
+        $class = $this->simpleNodeFinder->findFirstParentByType($classMethod, Class_::class);
         if (! $class instanceof Class_) {
             return false;
         }
