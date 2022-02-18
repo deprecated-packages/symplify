@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use PHPStan\PhpDocParser\Ast\Node as PhpDocNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
 use Serializable;
@@ -118,16 +119,18 @@ CODE_SAMPLE
     {
         $hasArrayShapeNode = false;
 
-        $this->phpDocNodeTraverser->traverseWithCallable($simplePhpDocNode, '', function ($node) use (
-            &$hasArrayShapeNode
-        ) {
-            if ($node instanceof ArrayShapeNode) {
-                $hasArrayShapeNode = true;
-                return PhpDocNodeTraverser::STOP_TRAVERSAL;
-            }
+        $this->phpDocNodeTraverser->traverseWithCallable(
+            $simplePhpDocNode,
+            '',
+            function (PhpDocNode $node) use (&$hasArrayShapeNode): int|PhpDocNode {
+                if ($node instanceof ArrayShapeNode) {
+                    $hasArrayShapeNode = true;
+                    return PhpDocNodeTraverser::STOP_TRAVERSAL;
+                }
 
-            return $node;
-        });
+                return $node;
+            }
+        );
 
         return $hasArrayShapeNode;
     }

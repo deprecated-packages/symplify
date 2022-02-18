@@ -88,6 +88,9 @@ final class PhpDocNodeTraverser
         }
     }
 
+    /**
+     * @param callable(Node $node): (int|null|Node) $callable
+     */
     public function traverseWithCallable(Node $node, string $docContent, callable $callable): Node
     {
         $callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable, $docContent);

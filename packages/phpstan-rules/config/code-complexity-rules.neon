@@ -1,5 +1,9 @@
 services:
     -
+        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
+        tags: [phpstan.rules.rule]
+
+    -
         class: Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
         tags: [phpstan.rules.rule]
 
