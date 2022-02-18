@@ -1,4 +1,4 @@
-# 134 Rules Overview
+# 135 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2953,6 +2953,37 @@ $filePath = __DIR__ . '/missing_location.txt';
 
 ```php
 $filePath = __DIR__ . '/existing_location.txt';
+```
+
+:+1:
+
+<br>
+
+## NoMixedCallableRule
+
+Make callable of param more explicit
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule`](../src/Rules/Explicit/NoMixedCallableRule.php)
+
+```php
+function run(callable $callable)
+{
+    return $callable(100);
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @param callable(): int $callable
+ */
+function run(callable $callable): int
+{
+    return $callable(100);
+}
 ```
 
 :+1:
