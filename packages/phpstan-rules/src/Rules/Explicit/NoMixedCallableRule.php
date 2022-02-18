@@ -33,6 +33,7 @@ final class NoMixedCallableRule extends AbstractSymplifyRule
 
     /**
      * @param Variable $node
+     * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {

@@ -61,6 +61,7 @@ final class ArrayAnalyzer
 
     /**
      * @param Tokens<Token> $tokens
+     * @param callable(Token $token, int $i, Tokens $tokens): void $callable
      */
     public function traverseArrayWithoutNesting(Tokens $tokens, BlockInfo $blockInfo, callable $callable): void
     {

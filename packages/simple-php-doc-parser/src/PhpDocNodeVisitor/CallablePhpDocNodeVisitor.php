@@ -9,10 +9,13 @@ use PHPStan\PhpDocParser\Ast\Node;
 final class CallablePhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
     /**
-     * @var callable
+     * @var callable(Node, string|null): (int|null|Node)
      */
     private $callable;
 
+    /**
+     * @param callable(Node $callable, string|null $docContent): (int|null|Node) $callable
+     */
     public function __construct(
         callable $callable,
         private ?string $docContent
