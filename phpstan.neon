@@ -50,6 +50,8 @@ parameters:
     level: 8
     reportUnmatchedIgnoredErrors: false
 
+    
+
     parallel:
         # to prevent full thread lagging pc
         maximumNumberOfProcesses: 15
