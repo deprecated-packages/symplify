@@ -6,9 +6,9 @@ namespace Symplify\MonorepoBuilder\Kernel;
 
 use Psr\Container\ContainerInterface;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
-use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
+use Symplify\PackageBuilder\ValueObject\ConsoleColorDiffConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class MonorepoBuilderKernel extends AbstractSymplifyKernel

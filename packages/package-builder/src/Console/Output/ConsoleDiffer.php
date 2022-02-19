@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsoleColorDiff\Console\Output;
+namespace Symplify\PackageBuilder\Console\Output;
 
 use SebastianBergmann\Diff\Differ;
-use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
+use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
 
 /**
  * @api

@@ -41,10 +41,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
 - [Config Transformer](https://github.com/symplify/config-transformer)
 
-## For CLI App Developers
-
-- [Console Color Diff](https://github.com/symplify/console-color-diff)
-
 ## For Any Developer
 
 - [Git Wrapper](https://github.com/symplify/git-wrapper)

@@ -16,7 +16,6 @@
         "symplify/package-builder": "^10.1",
         "symplify/composer-json-manipulator": "^10.1",
         "symplify/smart-file-system": "^10.1",
-        "symplify/console-color-diff": "^10.1",
         "symplify/symplify-kernel": "^10.1"
     },
     "require-dev": {

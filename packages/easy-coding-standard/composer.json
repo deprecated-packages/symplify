@@ -18,7 +18,6 @@
         "symfony/process": "^5.4|^6.0",
         "symplify/autowire-array-parameter": "^10.1",
         "symplify/coding-standard": "^10.1",
-        "symplify/console-color-diff": "^10.1",
         "symplify/easy-parallel": "^10.1",
         "symplify/easy-testing": "^10.1",
         "symplify/package-builder": "^10.1",

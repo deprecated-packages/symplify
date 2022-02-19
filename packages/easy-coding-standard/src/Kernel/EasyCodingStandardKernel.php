@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\AutowireArrayParameter\DependencyInjection\CompilerPass\AutowireArrayParameterCompilerPass;
 use Symplify\CodingStandard\ValueObject\CodingStandardConfig;
-use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\EasyCodingStandard\Contract\Console\Output\OutputFormatterInterface;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\ConflictingCheckersCompilerPass;
 use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\FixerWhitespaceConfigCompilerPass;
@@ -19,6 +18,7 @@ use Symplify\EasyCodingStandard\DependencyInjection\CompilerPass\RemoveMutualChe
 use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
 use Symplify\EasyParallel\ValueObject\EasyParallelConfig;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
+use Symplify\PackageBuilder\ValueObject\ConsoleColorDiffConfig;
 use Symplify\Skipper\ValueObject\SkipperConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 

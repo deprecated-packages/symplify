@@ -7,10 +7,10 @@ namespace Symplify\MonorepoBuilder\Testing;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
 use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerJsonSymlinker;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
+use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 

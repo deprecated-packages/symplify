@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsoleColorDiff\Tests\Console\Formatter;
+namespace Symplify\PackageBuilder\Tests\Console\Formatter;
 
 use Iterator;
 use Nette\Utils\FileSystem;
 use PHPUnit\Framework\TestCase;
-use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
+use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
 
 final class ColorConsoleDiffFormatterTest extends TestCase
 {
