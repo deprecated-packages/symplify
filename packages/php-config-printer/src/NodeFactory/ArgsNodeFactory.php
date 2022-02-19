@@ -38,7 +38,8 @@ final class ArgsNodeFactory
     public function __construct(
         private StringExprResolver $stringExprResolver,
         private TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
-        private TaggedServiceResolver $taggedServiceResolver
+        private TaggedServiceResolver $taggedServiceResolver,
+        private NewValueObjectFactory $newValueObjectFactory,
     ) {
         $this->isPhpNamedArguments = PHP_VERSION_ID >= 80000;
     }
@@ -127,6 +128,10 @@ final class ArgsNodeFactory
         if (is_array($value)) {
             $arrayItems = $this->resolveArrayItems($value, $skipClassesToConstantReference);
             return new Array_($arrayItems);
+        }
+
+        if (is_object($value)) {
+            return $this->newValueObjectFactory->create($value);
         }
 
         return BuilderHelpers::normalizeValue($value);

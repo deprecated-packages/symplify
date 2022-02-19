@@ -65,7 +65,6 @@
     "conflict": {
         "symplify/easy-coding-standard": "<10.0.24",
         "symplify/easy-testing": "<10.0.24",
-        "symplify/symfony-php-config": "<10.0.24",
         "symplify/php-config-printer": "<10.0.24",
         "symplify/autowire-array-parameter": "<10.0.24",
         "symplify/markdown-diff": "<10.0.24",
