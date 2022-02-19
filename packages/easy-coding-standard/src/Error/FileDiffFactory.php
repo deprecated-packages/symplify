@@ -6,8 +6,8 @@ namespace Symplify\EasyCodingStandard\Error;
 
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpCsFixer\Fixer\FixerInterface;
-use Symplify\ConsoleColorDiff\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
+use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileDiffFactory

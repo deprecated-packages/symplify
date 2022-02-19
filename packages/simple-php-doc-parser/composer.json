@@ -37,7 +37,6 @@
         "symplify/rule-doc-generator-contracts": "<10.0.24",
         "symplify/symfony-php-config": "<10.0.24",
         "symplify/php-config-printer": "<10.0.24",
-        "symplify/console-color-diff": "<10.0.24",
         "symplify/autowire-array-parameter": "<10.0.24",
         "symplify/markdown-diff": "<10.0.24",
         "symplify/amnesia": "<10.0.24",

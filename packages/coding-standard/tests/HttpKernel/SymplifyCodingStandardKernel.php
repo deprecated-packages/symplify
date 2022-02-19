@@ -6,8 +6,8 @@ namespace Symplify\CodingStandard\Tests\HttpKernel;
 
 use Psr\Container\ContainerInterface;
 use Symplify\CodingStandard\ValueObject\CodingStandardConfig;
-use Symplify\ConsoleColorDiff\ValueObject\ConsoleColorDiffConfig;
 use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
+use Symplify\PackageBuilder\ValueObject\ConsoleColorDiffConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class SymplifyCodingStandardKernel extends AbstractSymplifyKernel

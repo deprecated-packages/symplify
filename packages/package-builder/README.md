@@ -114,6 +114,26 @@ This will make sure, that `PhpCsFixer\Fixer\FixerInterface` instances are always
 
 That's all :)
 
+### Show Diff in Console Colors
+
+```php
+use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
+
+class SomeCommand
+{
+    public function __construct(
+        private ConsoleDiffer $consoleDiffer
+    ) {
+    }
+
+    public function run(): void
+    {
+        // prints colored diff to the console output
+        $this->consoleDiffer->diff('oldContent', 'newContent');
+    }
+}
+```
+
 <br>
 
 ## Report Issues

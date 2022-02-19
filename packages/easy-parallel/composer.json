@@ -59,7 +59,6 @@
         "symplify/composer-json-manipulator": "<10.0.24",
         "symplify/smart-file-system": "<10.0.24",
         "symplify/monorepo-builder": "<10.0.24",
-        "symplify/console-color-diff": "<10.0.24",
         "symplify/symplify-kernel": "<10.0.24",
         "symplify/neon-config-dumper": "<10.0.24"
     },

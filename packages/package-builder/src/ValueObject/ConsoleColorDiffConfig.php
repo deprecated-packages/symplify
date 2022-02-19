@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ConsoleColorDiff\ValueObject;
+namespace Symplify\PackageBuilder\ValueObject;
 
 /**
  * @api
