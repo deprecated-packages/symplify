@@ -48,7 +48,7 @@ final class GitProcess extends Process
     }
 
     /**
-     * @param null|callable(int $type, mixed $data): bool $callback
+     * @param callable(int $callback, mixed $data): bool | null $callback
      */
     public function start(?callable $callback = null, array $env = []): void
     {
@@ -64,7 +64,7 @@ final class GitProcess extends Process
     }
 
     /**
-     * @param null|callable(int $type, mixed $data): bool $callback
+     * @param callable(int $callback, mixed $data): bool | null $callback
      */
     public function wait(?callable $callback = null): int
     {
