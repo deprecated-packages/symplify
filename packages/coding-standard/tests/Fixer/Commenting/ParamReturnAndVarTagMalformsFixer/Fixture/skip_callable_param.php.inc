@@ -8,7 +8,6 @@ final class SkipCallableParam
 {
     /**
      * @param callable(int $stepCount): void $postFileCallback Used for progress bar jump
-     * @return mixed[]
      */
     public function findFirst(
         Schedule $schedule,
