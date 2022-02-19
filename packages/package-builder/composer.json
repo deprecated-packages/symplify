@@ -9,8 +9,8 @@
         "symfony/console": "^5.4|^6.0",
         "symfony/dependency-injection": "^5.4|^6.0",
         "symfony/finder": "^5.4|^6.0",
-        "symplify/symplify-kernel": "^10.0.24",
-        "symplify/easy-testing": "^10.0.24",
+        "symplify/symplify-kernel": "^10.1",
+        "symplify/easy-testing": "^10.1",
         "nette/neon": "^3.3.2"
     },
     "require-dev": {
