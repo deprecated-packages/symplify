@@ -50,7 +50,8 @@ parameters:
     level: 8
     reportUnmatchedIgnoredErrors: false
 
-    
+    # requires exact closure types
+    checkMissingCallableSignature: true
 
     parallel:
         # to prevent full thread lagging pc
