@@ -592,3 +592,6 @@ parameters:
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
+
+        # string array callables
+        - '#Property Symplify\\LattePHPStanCompiler\\Latte\\Filters\\FilterMatcher\:\:\$defaultFilters type has no signature specified for callable#'

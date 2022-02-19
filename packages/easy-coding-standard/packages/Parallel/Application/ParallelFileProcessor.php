@@ -52,13 +52,13 @@ final class ParallelFileProcessor
     }
 
     /**
-     * @param Closure(int): void|null $postFileCallback Used for progress bar jump
+     * @param callable(int $stepCount): void $postFileCallback Used for progress bar jump
      * @return mixed[]
      */
     public function check(
         Schedule $schedule,
         string $mainScript,
-        Closure $postFileCallback,
+        callable $postFileCallback,
         ?string $projectConfigFile,
         InputInterface $input
     ): array {
