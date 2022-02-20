@@ -133,10 +133,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
         tags: [phpstan.rules.rule]
 
