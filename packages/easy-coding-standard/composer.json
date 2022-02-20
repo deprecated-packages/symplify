@@ -7,7 +7,7 @@
     ],
     "require": {
         "php": ">=8.0",
-        "composer/xdebug-handler": "^2.0|^3.0",
+        "composer/xdebug-handler": "^3.0",
         "friendsofphp/php-cs-fixer": "^3.6",
         "nette/utils": "^3.2",
         "squizlabs/php_codesniffer": "^3.6",
