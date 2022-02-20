@@ -16,14 +16,6 @@ includes:
     - packages/phpstan-latte-rules/config/rules.neon
 
 services:
-    -
-        class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            newTypesByInterface:
-                Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface: Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample
-
-
     # cognitive complexity
     -
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule

@@ -1,4 +1,4 @@
-# 128 Rules Overview
+# 127 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1689,54 +1689,6 @@ class SomeClass
             100 => ['yes'],
             default => ['no'],
         };
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## IfImplementsInterfaceThenNewTypeRule
-
-Class that implements specific interface, must use related class in `new SomeClass`
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule`](../src/Rules/IfImplementsInterfaceThenNewTypeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\IfImplementsInterfaceThenNewTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            newTypesByInterface:
-                ConfigurableRuleInterface: ConfiguredCodeSample
-```
-
-↓
-
-```php
-class SomeRule implements ConfigurableRuleInterface
-{
-    public function some()
-    {
-        $codeSample = new CodeSample();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeRule implements ConfigurableRuleInterface
-{
-    public function some()
-    {
-        $configuredCodeSample = new ConfiguredCodeSample();
     }
 }
 ```

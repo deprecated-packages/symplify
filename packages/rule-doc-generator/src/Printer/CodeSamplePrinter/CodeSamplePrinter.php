@@ -66,18 +66,18 @@ final class CodeSamplePrinter
                 ConfigurableRuleInterface::class
             );
             throw new ConfigurationBoundException($errorMessage);
-        } else {
-            if (! is_a($ruleDefinition->getRuleClass(), ConfigurableRuleInterface::class, true)) {
-                return;
-            }
-
-            $errorMessage = sprintf(
-                'The "%s" rule implements "%s" and code sample must be "%s"',
-                $ruleDefinition->getRuleClass(),
-                ConfigurableRuleInterface::class,
-                ConfiguredCodeSample::class,
-            );
-            throw new ConfigurationBoundException($errorMessage);
         }
+
+        if (! is_a($ruleDefinition->getRuleClass(), ConfigurableRuleInterface::class, true)) {
+            return;
+        }
+
+        $errorMessage = sprintf(
+            'The "%s" rule implements "%s" and code sample must be "%s"',
+            $ruleDefinition->getRuleClass(),
+            ConfigurableRuleInterface::class,
+            ConfiguredCodeSample::class,
+        );
+        throw new ConfigurationBoundException($errorMessage);
     }
 }
