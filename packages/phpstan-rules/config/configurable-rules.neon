@@ -101,11 +101,3 @@ services:
         arguments:
             constantArgByNewByType:
                 Symfony\Component\Console\Input\InputOption: [0, 2]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - Symfony\Component\Console\Command\Command
-                - Symfony\Bundle\FrameworkBundle\Controller\AbstractController
