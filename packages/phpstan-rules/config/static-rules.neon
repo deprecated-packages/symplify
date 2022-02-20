@@ -86,10 +86,6 @@ services:
         class: Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
         tags: [phpstan.rules.rule]
 
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule
-        tags: [phpstan.rules.rule]
-
     # dead-code
     -
         class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule

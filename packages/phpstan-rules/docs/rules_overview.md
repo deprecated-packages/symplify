@@ -1,4 +1,4 @@
-# 134 Rules Overview
+# 132 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1553,40 +1553,6 @@ class SomeClass implements RepositoryAwareInterface
     public function getRepository()
     {
         // ....
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenReturnValueOfIncludeOnceRule
-
-Cannot return include_once/require_once
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenReturnValueOfIncludeOnceRule`](../src/Rules/ForbiddenReturnValueOfIncludeOnceRule.php)
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return require_once 'Test.php';
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        require_once 'Test.php';
     }
 }
 ```
