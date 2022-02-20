@@ -23,12 +23,6 @@ services:
             newTypesByInterface:
                 Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface: Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample
 
-    -
-        class: Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            interfacesByNewTypes:
-                Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample: Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface
 
     # cognitive complexity
     -

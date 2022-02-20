@@ -1,4 +1,4 @@
-# 129 Rules Overview
+# 128 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1737,54 +1737,6 @@ class SomeRule implements ConfigurableRuleInterface
     public function some()
     {
         $configuredCodeSample = new ConfiguredCodeSample();
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## IfNewTypeThenImplementInterfaceRule
-
-Class must implement "%s" interface
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule`](../src/Rules/IfNewTypeThenImplementInterfaceRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\IfNewTypeThenImplementInterfaceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            interfacesByNewTypes:
-                ConfiguredCodeSample: ConfiguredRuleInterface
-```
-
-↓
-
-```php
-class SomeRule
-{
-    public function run()
-    {
-        return new ConfiguredCodeSample('...');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeRule implements ConfiguredRuleInterface
-{
-    public function run()
-    {
-        return new ConfiguredCodeSample('...');
     }
 }
 ```
