@@ -199,38 +199,6 @@ class SomeTest
 
 <br>
 
-## CheckReferencedClassInAnnotationRule
-
-Class "%s" used in annotation is missing
-
-- class: [`Symplify\PHPStanRules\Rules\Missing\CheckReferencedClassInAnnotationRule`](../src/Rules/Missing/CheckReferencedClassInAnnotationRule.php)
-
-```php
-/**
- * @SomeAnnotation(value=MissingClass::class)
- */
-class SomeClass
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-/**
- * @SomeAnnotation(value=ExistingClass::class)
- */
-class SomeClass
-{
-}
-```
-
-:+1:
-
-<br>
-
 ## CheckRequiredInterfaceInContractNamespaceRule
 
 Interface must be located in "Contract" namespace
