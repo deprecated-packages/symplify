@@ -1,4 +1,4 @@
-# 135 Rules Overview
+# 134 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -873,53 +873,6 @@ final class SomeClass
     {
         return new Person('John', 'Dope');
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenAttributteArgumentRule
-
-Attribute key "%s" cannot be used
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule`](../src/Rules/ForbiddenAttributteArgumentRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            argumentsByAttributes:
-                Doctrine\ORM\Mapping\Entity:
-                    - repositoryClass
-```
-
-↓
-
-```php
-use Doctrine\ORM\Mapping\Entity;
-
-#[Entity(repositoryClass: SomeRepository::class)]
-class SomeClass
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Doctrine\ORM\Mapping\Entity;
-
-#[Entity]
-class SomeClass
-{
 }
 ```
 

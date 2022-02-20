@@ -4,14 +4,6 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAttributteArgumentRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            argumentsByAttributes:
-                Doctrine\ORM\Mapping\Entity:
-                    - repositoryClass
-
-    -
         class: Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
         tags: [phpstan.rules.rule]
 
