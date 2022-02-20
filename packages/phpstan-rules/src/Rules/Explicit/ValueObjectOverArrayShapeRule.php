@@ -55,9 +55,6 @@ function createConfiguration()
 CODE_SAMPLE
              ,
                 <<<'CODE_SAMPLE'
-/**
- * @return array{line: int}
- */
 function createConfiguration()
 {
     return new Configuration(100);

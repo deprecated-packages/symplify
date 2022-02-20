@@ -1,4 +1,4 @@
-# 130 Rules Overview
+# 129 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4824,9 +4824,6 @@ function createConfiguration()
 <br>
 
 ```php
-/**
- * @return array{line: int}
- */
 function createConfiguration()
 {
     return new Configuration(100);
