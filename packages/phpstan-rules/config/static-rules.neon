@@ -121,10 +121,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
         tags: [phpstan.rules.rule]
 

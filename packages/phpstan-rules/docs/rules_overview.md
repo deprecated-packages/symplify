@@ -1,4 +1,4 @@
-# 132 Rules Overview
+# 130 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1435,69 +1435,6 @@ final class SomeRector implements RectorInterface
 
 <br>
 
-## ForbiddenPrivateMethodByTypeRule
-
-Private method in is not allowed here - it should only delegate to others. Decouple the private method to a new service class
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule`](../src/Rules/ForbiddenPrivateMethodByTypeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenPrivateMethodByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - Command
-```
-
-↓
-
-```php
-class SomeCommand extends Command
-{
-    public function run()
-    {
-        $this->somePrivateMethod();
-    }
-
-    private function somePrivateMethod()
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeCommand extends Command
-{
-    /**
-     * @var ExternalService
-     */
-    private $externalService;
-
-    public function __construct(ExternalService $externalService)
-    {
-        $this->externalService = $externalService;
-    }
-
-    public function run()
-    {
-        $this->externalService->someMethod();
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenProtectedPropertyRule
 
 Property with protected modifier is not allowed. Use interface contract method instead
@@ -2688,28 +2625,6 @@ final class HelpfulName
         // ...
     }
 }
-```
-
-:+1:
-
-<br>
-
-## NoMaskWithoutSprintfRule
-
-Missing `sprintf()` function for a mask
-
-- class: [`Symplify\PHPStanRules\Rules\NoMaskWithoutSprintfRule`](../src/Rules/NoMaskWithoutSprintfRule.php)
-
-```php
-return 'Hey %s';
-```
-
-:x:
-
-<br>
-
-```php
-return sprintf('Hey %s', 'Matthias');
 ```
 
 :+1:
