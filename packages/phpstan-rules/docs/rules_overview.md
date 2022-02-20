@@ -1304,38 +1304,6 @@ final class SomeClass extends TestCase
 
 <br>
 
-## ForbiddenNestedForeachWithEmptyStatementRule
-
-Nested foreach with empty statement is not allowed
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNestedForeachWithEmptyStatementRule`](../src/Rules/ForbiddenNestedForeachWithEmptyStatementRule.php)
-
-```php
-$collectedFileErrors = [];
-
-foreach ($errors as $fileErrors) {
-    foreach ($fileErrors as $fileError) {
-        $collectedFileErrors[] = $fileError;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-$collectedFileErrors = [];
-
-foreach ($fileErrors as $fileError) {
-    $collectedFileErrors[] = $fileError;
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenNodeRule
 
 "%s" is forbidden to use
