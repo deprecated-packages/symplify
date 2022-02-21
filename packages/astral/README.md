@@ -185,10 +185,10 @@ Register config in your `config/config.php`:
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\Astral\PhpDocParser\ValueObject\SimplePhpDocParserConfig;
+use Symplify\Astral\ValueObject\AstralConfig;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SimplePhpDocParserConfig::FILE_PATH);
+    $containerConfigurator->import(AstralConfig::FILE_PATH);
 };
 ```
 
