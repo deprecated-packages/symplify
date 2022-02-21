@@ -66,7 +66,6 @@ services:
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ClassMethodReturnTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer

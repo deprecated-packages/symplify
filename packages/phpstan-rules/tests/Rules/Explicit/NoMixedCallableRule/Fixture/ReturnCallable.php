@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedCallableRule\Fixture;
 
-final class SkipParamDefinedCallable
+final class ReturnCallable
 {
     /**
-     * @param callable(array $callable): mixed $callable
+     * @param callable(): int $callable
      */
-    public function run(callable $callable, $value)
+    public function run(callable $callable, $value): callable
     {
         return $callable($value);
     }

@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 
@@ -24,7 +25,7 @@ abstract class AbstractSymplifyRule implements Rule, ManyNodeRuleInterface, Docu
     }
 
     /**
-     * @return mixed[]
+     * @return string[]|RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
