@@ -164,7 +164,7 @@ parameters:
            message: '#Use explicit return value over magic &reference#'
            paths:
                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-               - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+               - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message: '#Instead of container injection, use specific service#'
@@ -247,7 +247,7 @@ parameters:
             paths:
                  - packages/git-wrapper/src/GitWorkingCopy.php
                  # traversing is complex operatoin
-                 - packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+                 - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
         -
@@ -345,20 +345,20 @@ parameters:
 
         -
             message: '#Use void instead of modify and return self object#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message: '#Use explicit names over dynamic ones#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message:  '#Use separate function calls with readable variable names#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message: '#Parameter "docContent" cannot be nullable#'
             paths:
-                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
+                 - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
@@ -415,8 +415,8 @@ parameters:
             path: packages/*/src/ValueObject/*
 
         -
-            message: '#Cognitive complexity for "Symplify\\SimplePhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
-            path: packages/simple-php-doc-parser/src/PhpDocNodeTraverser.php
+            message: '#Cognitive complexity for "Symplify\\Astral\\PhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
+            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         # command cast of string
         -
@@ -437,7 +437,7 @@ parameters:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
-                 - packages/simple-php-doc-parser/src/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
+                 - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/git-wrapper/src/Event/AbstractGitEvent.php
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php

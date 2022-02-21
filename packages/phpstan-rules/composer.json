@@ -12,7 +12,6 @@
         "symplify/astral": "^10.1",
         "symplify/composer-json-manipulator": "^10.1",
         "symplify/package-builder": "^10.1",
-        "symplify/simple-php-doc-parser": "^10.1",
         "symplify/smart-file-system": "^10.1",
         "symplify/rule-doc-generator-contracts": "^10.1",
         "webmozart/assert": "^1.10"

@@ -9,6 +9,8 @@
         "symfony/dependency-injection": "^5.4|^6.0",
         "symplify/smart-file-system": "^10.1",
         "phpstan/phpstan": "^1.4.6",
+        "phpstan/phpdoc-parser": "^1.2",
+        "symfony/config": "^5.4|^6.0",
         "nikic/php-parser": "^4.13.2",
         "symplify/package-builder": "^10.1",
         "symplify/symplify-kernel": "^10.1"
@@ -43,7 +45,6 @@
         "symplify/phpstan-rules": "<10.0.25",
         "symplify/easy-testing": "<10.0.25",
         "symplify/rule-doc-generator-contracts": "<10.0.25",
-        "symplify/simple-php-doc-parser": "<10.0.25",
         "symplify/php-config-printer": "<10.0.25",
         "symplify/markdown-diff": "<10.0.25",
         "symplify/amnesia": "<10.0.25",

@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping\Entity;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
+use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
-use Symplify\SimplePhpDocParser\SimplePhpDocParser;
-use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class EntityClassDetector
 {
