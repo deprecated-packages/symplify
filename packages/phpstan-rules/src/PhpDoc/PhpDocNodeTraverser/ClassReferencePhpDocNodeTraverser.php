@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser;
 
 use PHPStan\Reflection\ClassReflection;
+use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
+use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PHPStanRules\PhpDoc\ClassReferencePhpDocNodeVisitor;
-use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
-use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 final class ClassReferencePhpDocNodeTraverser
 {

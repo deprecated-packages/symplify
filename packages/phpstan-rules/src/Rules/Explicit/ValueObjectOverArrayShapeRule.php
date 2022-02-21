@@ -14,13 +14,13 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
 use Serializable;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
+use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
+use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SimplePhpDocParser\PhpDocNodeTraverser;
-use Symplify\SimplePhpDocParser\SimplePhpDocParser;
-use Symplify\SimplePhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ValueObjectOverArrayShapeRule\ValueObjectOverArrayShapeRuleTest

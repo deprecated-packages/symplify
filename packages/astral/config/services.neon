@@ -25,3 +25,9 @@ services:
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
 
     - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
+
+    # phpstan doc parser
+    - PHPStan\PhpDocParser\Lexer\Lexer
+    - PHPStan\PhpDocParser\Parser\ConstExprParser
+    - PHPStan\PhpDocParser\Parser\PhpDocParser
+    - PHPStan\PhpDocParser\Parser\TypeParser

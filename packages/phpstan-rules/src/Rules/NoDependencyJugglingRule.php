@@ -35,7 +35,7 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
      */
     private const ALLOWED_PROPERTY_TYPES = [
         'PhpParser\NodeVisitor',
-        'Symplify\SimplePhpDocParser\Contract\PhpDocNodeVisitorInterface',
+        'Symplify\Astral\PhpDocParser\Contract\PhpDocNodeVisitorInterface',
     ];
 
     /**

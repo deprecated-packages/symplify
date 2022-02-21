@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 use PhpParser\ConstExprEvaluator;
 use PhpParser\NodeFinder;
+use PHPStan\PhpDocParser\Lexer\Lexer;
+use PHPStan\PhpDocParser\Parser\ConstExprParser;
+use PHPStan\PhpDocParser\Parser\PhpDocParser;
+use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\Astral\PhpParser\SmartPhpParserFactory;
@@ -24,6 +28,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             __DIR__ . '/../src/ValueObject',
             __DIR__ . '/../src/NodeVisitor',
             __DIR__ . '/../src/PhpParser/SmartPhpParser.php',
+            __DIR__ . '/../src/PhpDocParser/PhpDocNodeVisitor/CallablePhpDocNodeVisitor.php',
         ]);
 
     $services->set(SmartPhpParser::class)
@@ -32,4 +37,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(ConstExprEvaluator::class);
     $services->set(TypeChecker::class);
     $services->set(NodeFinder::class);
+
+    // phpdoc parser
+    $services->set(PhpDocParser::class);
+    $services->set(Lexer::class);
+    $services->set(TypeParser::class);
+    $services->set(ConstExprParser::class);
 };

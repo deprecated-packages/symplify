@@ -179,6 +179,106 @@ $simpleCallableNodeTraverser->traverseNodesWithCallable($classMethod, function (
 });
 ```
 
+### 5. Register Config
+
+Register config in your `config/config.php`:
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\Astral\PhpDocParser\ValueObject\SimplePhpDocParserConfig;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->import(SimplePhpDocParserConfig::FILE_PATH);
+};
+```
+
+### 6. Usage of `SimplePhpDocParser`
+
+Required services `Symplify\Astral\PhpDocParser\SimplePhpDocParser` in constructor, where you need it, and use it:
+
+```php
+use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\Type\TypeNode;
+use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
+
+final class SomeClass
+{
+    public function __construct(
+        private SimplePhpDocParser $simplePhpDocParser
+    ) {
+    }
+
+    public function some(): void
+    {
+        $docBlock = '/** @param int $name */';
+
+        /** @var PhpDocNode $phpDocNode */
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($docBlock);
+
+        // param extras
+
+        /** @var TypeNode $nameParamType */
+        $nameParamType = $simplePhpDocNode->getParamType('name');
+
+        /** @var ParamTagValueNode $nameParamTagValueNode */
+        $nameParamTagValueNode = $simplePhpDocNode->getParam('name');
+    }
+}
+```
+
+## 4. Traverse Nodes with `PhpDocNodeTraverser`
+
+```php
+use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
+use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
+use Symplify\Astral\PhpDocParser\PhpDocNodeVisitor\AbstractPhpDocNodeVisitor;
+use Symplify\Astral\PhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisitor;
+
+$phpDocNodeTraverser = new PhpDocNodeTraverser();
+$phpDocNode = new PhpDocNode([new PhpDocTagNode('@var', new VarTagValueNode(new IdentifierTypeNode('string')))]);
+
+// A. you can use callable to traverse
+$callable = function (Node $node): Node {
+    if (! $node instanceof VarTagValueNode) {
+        return $node;
+    }
+
+    $node->type = new IdentifierTypeNode('int');
+    return $node;
+};
+
+$callablePhpDocNodeVisitor = new CallablePhpDocNodeVisitor($callable, null);
+$phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
+
+// B. or class that extends AbstractPhpDocNodeVisitor
+final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
+{
+    /**
+     * @return Node|int|null
+     */
+    public function enterNode(Node $node)
+    {
+        if (! $node instanceof VarTagValueNode) {
+            return $node;
+        }
+
+        $node->type = new IdentifierTypeNode('int');
+        return $node;
+    }
+}
+
+$integerPhpDocNodeVisitor = new IntegerPhpDocNodeVisitor();
+$phpDocNodeTraverser->addPhpDocNodeVisitor($integerPhpDocNodeVisitor);
+
+// then traverse the main node
+$phpDocNodeTraverser->traverse($phpDocNode);
+```
+
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
