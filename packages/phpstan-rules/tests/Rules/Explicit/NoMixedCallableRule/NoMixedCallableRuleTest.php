@@ -25,10 +25,17 @@ final class NoMixedCallableRuleTest extends AbstractServiceAwareRuleTestCase
 
     public function provideData(): Iterator
     {
+        // variable
         yield [__DIR__ . '/Fixture/MixedCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 11]]];
-
+        yield [__DIR__ . '/Fixture/NullableMixedCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/UnionMixedCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/SkipReturnDefinedCallable.php', []];
         yield [__DIR__ . '/Fixture/SkipParamDefinedCallable.php', []];
+
+        // class method return
+        yield [__DIR__ . '/Fixture/ReturnCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/NullableReturnCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 12]]];
+        yield [__DIR__ . '/Fixture/DocOnlyNullableReturnCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 13]]];
     }
 
     protected function getRule(): Rule

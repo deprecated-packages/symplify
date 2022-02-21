@@ -569,3 +569,21 @@ parameters:
 
         # string array callables
         - '#Property Symplify\\LattePHPStanCompiler\\Latte\\Filters\\FilterMatcher\:\:\$defaultFilters type has no signature specified for callable#'
+
+        # invalid PHPStan type - it alwasy requires 2 types to traverse with callable
+        -
+            message: '#Callable callable\(PHPStan\\Type\\Type\)\: PHPStan\\Type\\Type invoked with 2 parameters, 1 required#'
+            path: packages/phpstan-rules/src/Rules/Explicit/NoMixedCallableRule.php
+
+        # weird stringable callable
+        -
+            message: '#Make callable type explicit\. Here is how\: https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#callables#'
+            paths:
+                 - packages/latte-phpstan-compiler/src/Latte/Filters/FilterMatcher.php
+                 # callable value resolving
+                 - packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
+
+        # callable value resolving
+        -
+            message: '#Use explicit names over dynamic ones#'
+            path: packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php

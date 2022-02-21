@@ -6,9 +6,13 @@ namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\CallableType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\Type;
+use PHPStan\Type\TypeTraverser;
+use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -21,39 +25,54 @@ final class NoMixedCallableRule extends AbstractSymplifyRule
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Make callable of param more explicit';
+    public const ERROR_MESSAGE = 'Make callable type explicit. Here is how: https://phpstan.org/writing-php-code/phpdoc-types#callables';
+
+    public function __construct(
+        private ClassMethodReturnTypeResolver $classMethodReturnTypeResolver,
+    ) {
+    }
 
     /**
      * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
-        return [Variable::class];
+        return [Variable::class, ClassMethod::class];
     }
 
     /**
-     * @param Variable $node
+     * @param Variable|ClassMethod $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
     {
-        $variableType = $scope->getType($node);
-        if (! $variableType instanceof CallableType) {
-            return [];
+        if ($node instanceof ClassMethod) {
+            $elementType = $this->classMethodReturnTypeResolver->resolve($node, $scope);
+        } else {
+            $elementType = $scope->getType($node);
         }
 
-        // some params are defined, good
-        if ($variableType->getParameters() !== []) {
-            return [];
-        }
+        $ruleErrors = [];
 
-        if ($variableType->getReturnType() instanceof MixedType) {
-            return [self::ERROR_MESSAGE];
-        }
+        TypeTraverser::map($elementType, function (Type $type, callable $callable) use (&$ruleErrors): Type {
+            if (! $type instanceof CallableType) {
+                return $callable($type, $callable);
+            }
 
-        // check non-empty params also
+            // some params are defined, good
+            if ($type->getParameters() !== []) {
+                return $callable($type, $callable);
+            }
 
-        return [];
+            if (! $type->getReturnType() instanceof MixedType) {
+                return $callable($type, $callable);
+            }
+
+            $ruleErrors[] = self::ERROR_MESSAGE;
+            return $callable($type, $callable);
+        });
+
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition

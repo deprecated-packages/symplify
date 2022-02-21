@@ -12,8 +12,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassMethodNode;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\PHPStanRules\TypeAnalyzer\ClassMethodReturnTypeAnalyzer;
 use Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer;
 use Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -33,7 +33,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
         private SimpleNameResolver $simpleNameResolver,
         private NativePropertyFetchTypeResolver $nativePropertyFetchTypeResolver,
         private PropertyFetchTypeAnalyzer $propertyFetchTypeAnalyzer,
-        private ClassMethodReturnTypeAnalyzer $classMethodReturnTypeAnalyzer,
+        private ClassMethodReturnTypeResolver $classMethodReturnTypeResolver,
     ) {
     }
 
@@ -68,11 +68,7 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
             return [];
         }
 
-        $classMethodReturnType = $this->classMethodReturnTypeAnalyzer->resolve($classMethod, $scope);
-        if (! $classMethodReturnType instanceof Type) {
-            return [];
-        }
-
+        $classMethodReturnType = $this->classMethodReturnTypeResolver->resolve($classMethod, $scope);
         if ($propertyType->isSuperTypeOf($classMethodReturnType)->yes()) {
             return [];
         }
