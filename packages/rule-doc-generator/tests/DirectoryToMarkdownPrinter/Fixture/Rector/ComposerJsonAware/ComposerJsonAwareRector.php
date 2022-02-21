@@ -10,7 +10,7 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ComposerJsonAwareCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class ComposerJsonAwareRector implements RectorInterface, ConfigurableRuleInterface
+final class ComposerJsonAwareRector implements RectorInterface
 {
     public function getRuleDefinition(): RuleDefinition
     {

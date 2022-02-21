@@ -5,11 +5,12 @@ namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rec
 
 use PHPStan\Type\ObjectType;
 use Rector\Core\Contract\Rector\RectorInterface;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Source\SomeValueObjectWrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class WithPHPStanTypeObject implements RectorInterface
+final class WithPHPStanTypeObject implements RectorInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
