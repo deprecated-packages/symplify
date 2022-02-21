@@ -442,11 +442,6 @@ parameters:
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
-        # strict api : maybe allow ~1 private method
-        -
-            message: '#Private method in is not allowed here \- it should only delegate to others\. Decouple the private method to a new service class#'
-            path: packages/config-transformer/src/Command/SwitchFormatCommand.php
-
         # paralell
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
 
