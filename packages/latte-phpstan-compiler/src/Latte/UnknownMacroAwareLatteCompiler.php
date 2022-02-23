@@ -95,7 +95,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
      * @internal
      * @override
      */
-    public function writeAttrsMacro(string $html): void
+    public function writeAttrsMacro(string $html, ?bool $empty = null): void
     {
         $htmlNode = $this->privatesAccessor->getPrivatePropertyOfClass($this, 'htmlNode', HtmlNode::class);
 
@@ -106,7 +106,7 @@ final class UnknownMacroAwareLatteCompiler extends Compiler
             $this->latteMacroFaker->fakeAttrMacro($this, $this->nativeMacrosNames, $macroName);
         }
 
-        parent::writeAttrsMacro($html);
+        parent::writeAttrsMacro($html, $empty);
     }
 
     private function installDefaultMacros(self $compiler): void
