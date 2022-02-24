@@ -171,6 +171,9 @@ CODE_SAMPLE
         return $matches[self::INDENTATION_PART] ?? '';
     }
 
+    /**
+     * @param array<int, string> $docBlockLines
+     */
     private function formatLinesAsDocBlockContent(array $docBlockLines, string $indentationString): string
     {
         foreach ($docBlockLines as $index => $docBlockLine) {
@@ -184,6 +187,7 @@ CODE_SAMPLE
     }
 
     /**
+     * @param array<string> $descriptionLines
      * @return array<string>
      */
     private function extractParagraphsFromDescriptionLines(array $descriptionLines): array

@@ -23,6 +23,9 @@ final class RoutingConfiguratorReturnClosureFactory
     ) {
     }
 
+    /**
+     * @param mixed[] $arrayData
+     */
     public function createFromArrayData(array $arrayData): Return_
     {
         $stmts = $this->createClosureStmts($arrayData);
@@ -31,6 +34,7 @@ final class RoutingConfiguratorReturnClosureFactory
     }
 
     /**
+     * @param mixed[] $arrayData
      * @return mixed[]
      */
     private function createClosureStmts(array $arrayData): array
@@ -40,6 +44,7 @@ final class RoutingConfiguratorReturnClosureFactory
     }
 
     /**
+     * @param mixed[] $yamlData
      * @return mixed[]
      */
     private function removeEmptyValues(array $yamlData): array

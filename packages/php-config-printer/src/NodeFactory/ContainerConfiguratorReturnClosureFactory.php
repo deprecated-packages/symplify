@@ -40,6 +40,7 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
+     * @param mixed[] $yamlData
      * @return Stmt[]
      */
     private function createClosureStmts(array $yamlData): array
@@ -98,7 +99,8 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @return mixed[]
+     * @param Expression[] $nodes
+     * @return Expression[]
      */
     private function createInitializeNode(string $key, array $nodes): array
     {

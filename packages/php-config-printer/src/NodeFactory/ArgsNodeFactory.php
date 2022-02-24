@@ -137,6 +137,9 @@ final class ArgsNodeFactory
         return BuilderHelpers::normalizeValue($value);
     }
 
+    /**
+     * @param mixed[] $values
+     */
     private function resolveExprFromArray(array $values): Array_
     {
         $arrayItems = [];

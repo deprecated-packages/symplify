@@ -98,6 +98,9 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $args;
     }
 
+    /**
+     * @param mixed[] $arguments
+     */
     private function shouldSkipDefaultValue(string $name, mixed $value, array $arguments): bool
     {
         // skip default value for "ignore_errors"

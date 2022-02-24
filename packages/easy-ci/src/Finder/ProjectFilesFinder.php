@@ -15,6 +15,7 @@ final class ProjectFilesFinder
     }
 
     /**
+     * @param string[] $sources
      * @return SmartFileInfo[]
      */
     public function find(array $sources): array

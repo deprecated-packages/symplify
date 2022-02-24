@@ -15,6 +15,8 @@ final class SortedParameterMerger
     }
 
     /**
+     * @param mixed[] $firstArray
+     * @param mixed[] $secondArray
      * @return mixed[]
      */
     public function mergeRecursiveAndSort(array $firstArray, array $secondArray): array
@@ -25,6 +27,8 @@ final class SortedParameterMerger
     }
 
     /**
+     * @param mixed[] $firstArray
+     * @param mixed[] $secondArray
      * @return mixed[]
      */
     public function mergeAndSort(array $firstArray, array $secondArray): array

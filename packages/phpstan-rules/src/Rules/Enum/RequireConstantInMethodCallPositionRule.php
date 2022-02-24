@@ -28,7 +28,7 @@ final class RequireConstantInMethodCallPositionRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Parameter argument on position %d must use constant';
 
     /**
-     * @param array<class-string, mixed[]> $requiredConstantInMethodCall
+     * @param array<class-string, array<string, int[]>> $requiredConstantInMethodCall
      */
     public function __construct(
         private PositionMatcher $positionMatcher,
@@ -95,7 +95,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<class-string, mixed[]> $config
+     * @param array<class-string, array<string, int[]>> $config
      * @return string[]
      */
     private function getErrorMessages(MethodCall $methodCall, Scope $scope, array $config): array

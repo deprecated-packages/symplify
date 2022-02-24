@@ -17,7 +17,8 @@ final class PositionMatcher
 
     /**
      * @param class-string $desiredType
-     * @return mixed|null
+     * @param array<string, int[]> $positionsByMethods
+     * @return int[]|null
      */
     public function matchPositions(
         MethodCall $methodCall,

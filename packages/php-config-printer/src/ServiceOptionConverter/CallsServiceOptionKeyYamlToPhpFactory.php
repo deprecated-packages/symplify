@@ -16,6 +16,11 @@ final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYa
     ) {
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed|mixed[] $yaml
+     * @param mixed $values
+     */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
         return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml, false);
