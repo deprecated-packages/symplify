@@ -1817,7 +1817,7 @@ Use another value object over array with string-keys and objects, array<string, 
 ```php
 final class SomeClass
 {
-    public getItems()
+    public function getItems()
     {
         return $this->getValues();
     }
@@ -1838,7 +1838,7 @@ final class SomeClass
 ```php
 final class SomeClass
 {
-    public getItems()
+    public function getItems()
     {
         return $this->getValues();
     }

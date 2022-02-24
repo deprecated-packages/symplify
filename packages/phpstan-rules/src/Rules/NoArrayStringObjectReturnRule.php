@@ -63,7 +63,7 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    public getItems()
+    public function getItems()
     {
         return $this->getValues();
     }
@@ -80,7 +80,7 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 final class SomeClass
 {
-    public getItems()
+    public function getItems()
     {
         return $this->getValues();
     }
