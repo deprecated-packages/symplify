@@ -21,7 +21,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter
     - Symplify\PHPStanRules\NodeAnalyzer\ConstructorDefinedPropertyNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Doctrine\EntityClassDetector
     - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer

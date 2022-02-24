@@ -1,4 +1,4 @@
-# 126 Rules Overview
+# 124 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2749,34 +2749,6 @@ final class SomeClass
 final class SomeClass
 {
     private array $property = [];
-}
-```
-
-:+1:
-
-<br>
-
-## NoNullablePropertyRule
-
-Use required typed property over of nullable property
-
-- class: [`Symplify\PHPStanRules\Rules\NoNullablePropertyRule`](../src/Rules/NoNullablePropertyRule.php)
-
-```php
-final class SomeClass
-{
-    private ?DateTime $property = null;
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    private DateTime $property;
 }
 ```
 

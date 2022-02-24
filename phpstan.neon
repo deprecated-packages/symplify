@@ -391,8 +391,6 @@ parameters:
             paths:
                 - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
 
-        - '#Use required typed property over of nullable property#'
-
         -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
