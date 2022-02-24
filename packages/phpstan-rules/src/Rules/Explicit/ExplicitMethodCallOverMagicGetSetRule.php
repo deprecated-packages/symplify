@@ -50,10 +50,12 @@ final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-class MagicCallsObject
+use Nette\SmartObject;
+
+final class MagicObject
 {
     // adds magic __get() and __set() methods
-    use \Nette\SmartObject;
+    use SmartObject;
 
     private $name;
 
@@ -69,10 +71,12 @@ $magicObject->name;
 CODE_SAMPLE
             ,
                 <<<'CODE_SAMPLE'
-class MagicCallsObject
+use Nette\SmartObject;
+
+final class MagicObject
 {
     // adds magic __get() and __set() methods
-    use \Nette\SmartObject;
+    use SmartObject;
 
     private $name;
 

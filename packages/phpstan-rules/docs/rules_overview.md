@@ -679,10 +679,12 @@ Instead of magic property "%s" access use direct explicit `"%s->%s()"` method ca
 - class: [`Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule`](../src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php)
 
 ```php
-class MagicCallsObject
+use Nette\SmartObject;
+
+final class MagicObject
 {
     // adds magic __get() and __set() methods
-    use \Nette\SmartObject;
+    use SmartObject;
 
     private $name;
 
@@ -702,10 +704,12 @@ $magicObject->name;
 <br>
 
 ```php
-class MagicCallsObject
+use Nette\SmartObject;
+
+final class MagicObject
 {
     // adds magic __get() and __set() methods
-    use \Nette\SmartObject;
+    use SmartObject;
 
     private $name;
 
