@@ -3812,60 +3812,6 @@ class SomeClass
 
 <br>
 
-## RequireDataProviderTestMethodRule
-
-The `"%s()"` method must use data provider
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classesRequiringDataProvider:
-                - *RectorTestCase
-```
-
-↓
-
-```php
-class SomeRectorTestCase extends RectorTestCase
-{
-    public function test()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeRectorTestCase extends RectorTestCase
-{
-    /**
-     * @dataProvider provideData()
-     */
-    public function test($value)
-    {
-    }
-
-    public function provideData()
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireExceptionNamespaceRule
 
 `Exception` must be located in "Exception" namespace
@@ -4050,7 +3996,7 @@ final class IssueControl extends Control
 
 ## RequireStringArgumentInConstructorRule
 
-Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
+Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class". It prevent scoping of the class in building prefixed package.
 
 :wrench: **configure it!**
 
