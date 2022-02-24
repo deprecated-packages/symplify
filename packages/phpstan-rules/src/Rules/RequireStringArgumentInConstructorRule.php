@@ -26,7 +26,7 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Use quoted string in constructor "new %s()" argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.';
+    public const ERROR_MESSAGE = 'Use quoted string in constructor "new %s()" argument on position %d instead of "::class". It prevent scoping of the class in building prefixed package.';
 
     /**
      * @param array<class-string, array<int>> $stringArgPositionsByType

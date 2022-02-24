@@ -3996,7 +3996,7 @@ final class IssueControl extends Control
 
 ## RequireStringArgumentInConstructorRule
 
-Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class. It prevent scoping of the class in building prefixed package.
+Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class". It prevent scoping of the class in building prefixed package.
 
 :wrench: **configure it!**
 
