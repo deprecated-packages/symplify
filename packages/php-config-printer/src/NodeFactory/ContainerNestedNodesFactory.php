@@ -15,6 +15,7 @@ final class ContainerNestedNodesFactory
     }
 
     /**
+     * @param mixed[] $nestedValues
      * @return Expression[]
      */
     public function createFromValues(array $nestedValues, string $key, int|string $nestedKey): array

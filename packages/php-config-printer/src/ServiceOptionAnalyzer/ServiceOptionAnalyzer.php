@@ -6,6 +6,9 @@ namespace Symplify\PhpConfigPrinter\ServiceOptionAnalyzer;
 
 final class ServiceOptionAnalyzer
 {
+    /**
+     * @param array<string|int, mixed> $data
+     */
     public function hasNamedArguments(array $data): bool
     {
         if ($data === []) {

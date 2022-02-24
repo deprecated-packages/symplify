@@ -9,6 +9,7 @@ use PhpCsFixer\Doctrine\Annotation\Token as DoctrineAnnotationToken;
 use PhpCsFixer\Doctrine\Annotation\Tokens as DoctrineAnnotationTokens;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceUseAnalysis;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
@@ -122,6 +123,7 @@ CODE_SAMPLE
 
     /**
      * @param DoctrineAnnotationTokens<DoctrineAnnotationToken> $doctrineAnnotationTokens
+     * @param NamespaceUseAnalysis[] $useDeclarations
      */
     private function fixAnnotations(DoctrineAnnotationTokens $doctrineAnnotationTokens, array $useDeclarations): void
     {

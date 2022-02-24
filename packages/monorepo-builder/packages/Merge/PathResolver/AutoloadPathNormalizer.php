@@ -32,6 +32,7 @@ final class AutoloadPathNormalizer
     }
 
     /**
+     * @param mixed[] $autoloadArray
      * @return mixed[]
      */
     private function normalizeAutoloadArray(SmartFileInfo $packageFile, array $autoloadArray): array

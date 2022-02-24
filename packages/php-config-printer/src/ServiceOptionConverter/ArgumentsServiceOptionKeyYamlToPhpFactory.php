@@ -18,6 +18,11 @@ final class ArgumentsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
     ) {
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed|mixed[] $yaml
+     * @param mixed $values
+     */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
         if (! $this->serviceOptionAnalyzer->hasNamedArguments($yaml)) {

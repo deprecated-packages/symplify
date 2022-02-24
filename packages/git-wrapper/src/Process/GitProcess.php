@@ -49,6 +49,7 @@ final class GitProcess extends Process
 
     /**
      * @param callable(int $callback, mixed $data): bool | null $callback
+     * @param mixed[] $env
      */
     public function start(?callable $callback = null, array $env = []): void
     {

@@ -25,6 +25,9 @@ abstract class AbstractComposerJsonDecoratorTest extends AbstractKernelTestCase
         $this->trioFixtureSplitter = new TrioFixtureSplitter();
     }
 
+    /**
+     * @param array<string, mixed>|SmartFileInfo|string $source
+     */
     protected function createComposerJson(array | SmartFileInfo | string $source): ComposerJson
     {
         if (is_string($source) && ! file_exists($source)) {

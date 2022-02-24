@@ -44,6 +44,9 @@ final class LatteMacroFaker
         }
     }
 
+    /**
+     * @param string[] $nativeMacrosNames
+     */
     public function fakeAttrMacro(Compiler $compiler, array $nativeMacrosNames, string $name): void
     {
         // avoid override native n:macro

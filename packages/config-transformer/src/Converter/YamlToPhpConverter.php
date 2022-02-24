@@ -48,6 +48,9 @@ final class YamlToPhpConverter
         return $this->convertYamlArray($yamlArray);
     }
 
+    /**
+     * @param array<string, mixed> $yamlArray
+     */
     public function convertYamlArray(array $yamlArray): string
     {
         if ($this->isRouteYaml($yamlArray)) {

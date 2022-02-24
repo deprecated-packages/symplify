@@ -319,9 +319,6 @@ parameters:
             paths:
                 - packages/easy-coding-standard/bin/ecs.php
 
-        # resolve later
-        - '#Method (.*?) with no value type specified in iterable type array#'
-
         # wrong keys
         - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
         -
@@ -522,11 +519,6 @@ parameters:
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
         - '#Cognitive complexity for "Symplify\\EasyParallel\\CommandLine\\WorkerCommandLineFactory\:\:mirrorCommandOptions\(\)" is 10, keep it under 8#'
-
-        # DX of rearely used parameters
-        -
-            message: '#Parameter "(.*?)" cannot have default value#'
-            path: packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
 
         # already @var typed and checked
         -

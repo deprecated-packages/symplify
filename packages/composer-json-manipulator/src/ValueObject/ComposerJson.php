@@ -52,7 +52,7 @@ final class ComposerJson
     private array $repositories = [];
 
     /**
-     * @var array<string, mixed>
+     * @var array<string, string>
      */
     private array $require = [];
 
@@ -67,7 +67,7 @@ final class ComposerJson
     private array $extra = [];
 
     /**
-     * @var array<string, mixed>
+     * @var array<string, string>
      */
     private array $requireDev = [];
 
@@ -150,7 +150,7 @@ final class ComposerJson
     }
 
     /**
-     * @param mixed[] $require
+     * @param array<string, string> $require
      */
     public function setRequire(array $require): void
     {
@@ -203,6 +203,9 @@ final class ComposerJson
         return $this->requireDev;
     }
 
+    /**
+     * @param array<string, string> $requireDev
+     */
     public function setRequireDev(array $requireDev): void
     {
         $this->requireDev = $this->sortPackagesIfNeeded($requireDev);
@@ -827,6 +830,7 @@ final class ComposerJson
     }
 
     /**
+     * @param array<string, string> $packages
      * @return array<string, string>
      */
     private function sortPackagesIfNeeded(array $packages): array
@@ -839,6 +843,9 @@ final class ComposerJson
         return $packages;
     }
 
+    /**
+     * @param string[] $items
+     */
     private function findPosition(string $key, array $items): int | string | bool
     {
         return array_search($key, $items, true);

@@ -42,6 +42,9 @@ final class ConstantPathTwigTemplateAnalyzer implements TwigTemplateAnalyzerInte
         return $templateErrors;
     }
 
+    /**
+     * @param array<int|string, mixed> $match
+     */
     private function resolveLineNumber(SmartFileInfo $fileInfo, array $match): int
     {
         $length = $match[0][1];

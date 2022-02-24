@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\Sorter;
 final class YamlArgumentSorter
 {
     /**
+     * @param mixed[] $arrayToSort
      * @param array<string, mixed> $inOrderKeys Pass array of keys to sort if exists or an associative array following this logic [$key => $valueIfNotExists]
      *
      * @return mixed[]
@@ -32,6 +33,9 @@ final class YamlArgumentSorter
         return $argumentsInOrder;
     }
 
+    /**
+     * @param mixed[] $array
+     */
     private function isAssociativeArray(array $array): bool
     {
         $zeroToItemCount = range(0, count($array) - 1);

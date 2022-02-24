@@ -17,7 +17,8 @@ final class PositionMatcher
 
     /**
      * @param class-string $desiredType
-     * @return mixed|null
+     * @param array<string, int[]> $positionsByMethods
+     * @return int[]|null
      */
     public function matchPositions(
         MethodCall $methodCall,
@@ -25,7 +26,7 @@ final class PositionMatcher
         string $desiredType,
         array $positionsByMethods,
         string $methodName
-    ) {
+    ): ?array {
         if (! $this->containsTypeAnalyser->containsExprType($methodCall->var, $scope, $desiredType)) {
             return null;
         }

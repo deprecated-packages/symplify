@@ -35,6 +35,8 @@ final class AutoBindNodeFactory
      * ->autowire()
      * ->autoconfigure()
      * ->bind()
+     *
+     * @param mixed[] $yaml
      */
     public function createAutoBindCalls(array $yaml, MethodCall $methodCall, string $type): MethodCall
     {
@@ -68,6 +70,9 @@ final class AutoBindNodeFactory
         return $methodCall;
     }
 
+    /**
+     * @param mixed[] $bindValues
+     */
     private function createBindMethodCall(MethodCall $methodCall, array $bindValues): MethodCall
     {
         foreach ($bindValues as $key => $value) {

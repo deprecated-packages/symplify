@@ -61,6 +61,7 @@ final class LinkNodeVisitor extends NodeVisitorAbstract implements LatteToPhpCom
     }
 
     /**
+     * @param array<string, mixed> $attributes
      * @return Node[]|null
      */
     private function prepareNodes(MethodCall $methodCall, array $attributes): ?array

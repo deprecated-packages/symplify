@@ -21,6 +21,7 @@ final class SingleServicePhpNodeFactory
 
     /**
      * @see https://symfony.com/doc/current/service_container/injection_types.html
+     * @param array<string, mixed> $properties
      */
     public function createProperties(MethodCall $methodCall, array $properties): MethodCall
     {
@@ -102,6 +103,9 @@ final class SingleServicePhpNodeFactory
         return new MethodCall($methodCall, 'call', $args);
     }
 
+    /**
+     * @param mixed[] $calls
+     */
     private function createConfigureMethodCall(array $calls, MethodCall $methodCall): MethodCall
     {
         $args = [];

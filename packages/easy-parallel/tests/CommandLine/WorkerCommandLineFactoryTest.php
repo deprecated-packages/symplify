@@ -116,6 +116,9 @@ final class WorkerCommandLineFactoryTest extends TestCase
         return $inputDefinition;
     }
 
+    /**
+     * @param string[] $cliInputOptions
+     */
     private function createExpectedCommandLinesString(array $cliInputOptions): string
     {
         $commandLineString = "'" . PHP_BINARY . "' '" . self::DUMMY_MAIN_SCRIPT . "'";

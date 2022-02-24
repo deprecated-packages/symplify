@@ -16,6 +16,11 @@ final class DeprecatedServiceOptionKeyYamlToPhpFactory implements ServiceOptions
     ) {
     }
 
+    /**
+     * @param mixed $key
+     * @param mixed|mixed[] $yaml
+     * @param mixed $values
+     */
     public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
     {
         // the old, simple format

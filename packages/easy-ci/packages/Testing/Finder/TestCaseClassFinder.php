@@ -9,6 +9,7 @@ use Nette\Loaders\RobotLoader;
 final class TestCaseClassFinder
 {
     /**
+     * @param string[] $directories
      * @return array<string, string>
      */
     public function findInDirectories(array $directories): array

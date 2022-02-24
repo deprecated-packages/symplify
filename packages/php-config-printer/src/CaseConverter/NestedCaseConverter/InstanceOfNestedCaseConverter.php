@@ -22,6 +22,9 @@ final class InstanceOfNestedCaseConverter
     ) {
     }
 
+    /**
+     * @param mixed[] $values
+     */
     public function convertToMethodCall(string $key, array $values): Expression
     {
         $classConstFetch = $this->commonNodeFactory->createClassReference($key);

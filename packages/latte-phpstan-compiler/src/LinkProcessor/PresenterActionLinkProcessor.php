@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\LattePHPStanCompiler\LinkProcessor;
 
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
@@ -30,6 +31,8 @@ final class PresenterActionLinkProcessor implements LinkProcessorInterface
     }
 
     /**
+     * @param Arg[] $linkParams
+     * @param array<string, mixed> $attributes
      * @return Expression[]
      */
     public function createLinkExpressions(string $targetName, array $linkParams, array $attributes): array

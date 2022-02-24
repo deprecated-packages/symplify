@@ -116,7 +116,11 @@ final class File extends BaseFile
     /**
      * Delegate to addError().
      *
-     * {@inheritdoc}
+     * @param string $error
+     * @param int $stackPtr
+     * @param mixed $code
+     * @param mixed[] $data
+     * @param int $severity
      */
     public function addFixableError($error, $stackPtr, $code, $data = [], $severity = 0): bool
     {
@@ -126,6 +130,14 @@ final class File extends BaseFile
         return ! $this->shouldSkipError($error, $code, $data);
     }
 
+    /**
+     * @param string $error
+     * @param int $stackPtr
+     * @param string $code
+     * @param mixed[] $data
+     * @param mixed $severity
+     * @param bool $fixable
+     */
     public function addError($error, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
         if ($this->shouldSkipError($error, $code, $data)) {
@@ -138,7 +150,7 @@ final class File extends BaseFile
     /**
      * Allow only specific classes
      *
-     * {@inheritdoc}
+     * @param mixed $data
      */
     public function addWarning($warning, $stackPtr, $code, $data = [], $severity = 0, $fixable = false): bool
     {
@@ -166,7 +178,14 @@ final class File extends BaseFile
     /**
      * Delegated from addError().
      *
-     * {@inheritdoc}
+     * @param bool $isError
+     * @param string $message
+     * @param int $line
+     * @param mixed $column
+     * @param mixed $sniffClassOrCode
+     * @param mixed $data
+     * @param mixed $severity
+     * @param bool $isFixable
      */
     protected function addMessage(
         $isError,
