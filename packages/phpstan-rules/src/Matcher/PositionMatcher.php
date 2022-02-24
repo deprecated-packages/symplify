@@ -26,7 +26,7 @@ final class PositionMatcher
         string $desiredType,
         array $positionsByMethods,
         string $methodName
-    ) {
+    ): ?array {
         if (! $this->containsTypeAnalyser->containsExprType($methodCall->var, $scope, $desiredType)) {
             return null;
         }
