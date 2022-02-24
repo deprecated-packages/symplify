@@ -1988,38 +1988,6 @@ throw new FileNotFoundException('...');
 
 <br>
 
-## NoDefaultParameterValueRule
-
-Parameter "%s" cannot have default value
-
-- class: [`Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule`](../src/Rules/NoDefaultParameterValueRule.php)
-
-```php
-class SomeClass
-{
-    public function run($value = true): void
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run($value): void
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoDependencyJugglingRule
 
 Use dependency injection instead of dependency juggling
