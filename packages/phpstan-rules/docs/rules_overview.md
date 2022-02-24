@@ -3812,60 +3812,6 @@ class SomeClass
 
 <br>
 
-## RequireDataProviderTestMethodRule
-
-The `"%s()"` method must use data provider
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule`](../src/Rules/RequireDataProviderTestMethodRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireDataProviderTestMethodRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classesRequiringDataProvider:
-                - *RectorTestCase
-```
-
-↓
-
-```php
-class SomeRectorTestCase extends RectorTestCase
-{
-    public function test()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeRectorTestCase extends RectorTestCase
-{
-    /**
-     * @dataProvider provideData()
-     */
-    public function test($value)
-    {
-    }
-
-    public function provideData()
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireExceptionNamespaceRule
 
 `Exception` must be located in "Exception" namespace
