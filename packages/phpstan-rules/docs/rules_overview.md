@@ -1,4 +1,4 @@
-# 124 Rules Overview
+# 123 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3162,40 +3162,6 @@ final class SomeClass
 final class SomeClass
 {
     private $customFileNames = [];
-}
-```
-
-:+1:
-
-<br>
-
-## NoSuffixValueObjectClassRule
-
-Value Object class name "%s" must be without "ValueObject" suffix.
-
-- class: [`Symplify\PHPStanRules\Rules\NoSuffixValueObjectClassRule`](../src/Rules/NoSuffixValueObjectClassRule.php)
-
-```php
-class SomeValueObject
-{
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class Some
-{
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
 }
 ```
 
