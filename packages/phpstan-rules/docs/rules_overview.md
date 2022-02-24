@@ -1,4 +1,4 @@
-# 122 Rules Overview
+# 121 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4467,46 +4467,6 @@ return match($key) {
     2 => 200,
     default => 300,
 };
-```
-
-:+1:
-
-<br>
-
-## TooDeepNewClassNestingRule
-
-new <class> is limited to %d "new <class>(new <class>))" nesting to each other. You have %d nesting.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule`](../src/Rules/TooDeepNewClassNestingRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\TooDeepNewClassNestingRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxNewClassNesting: 2
-```
-
-↓
-
-```php
-$someObject = new A(
-    new B(
-        new C()
-    )
-);
-```
-
-:x:
-
-<br>
-
-```php
-$firstObject = new B(new C());
-$someObject = new A($firstObject);
 ```
 
 :+1:
