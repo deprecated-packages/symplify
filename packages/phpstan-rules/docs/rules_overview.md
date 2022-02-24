@@ -1,4 +1,4 @@
-# 123 Rules Overview
+# 122 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3151,38 +3151,6 @@ final class SomeClass
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoSetterOnServiceRule
-
-Do not use setter on a service
-
-- class: [`Symplify\PHPStanRules\Rules\NoSetterOnServiceRule`](../src/Rules/NoSetterOnServiceRule.php)
-
-```php
-class SomeService
-{
-    public function setSomeValue($value)
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeEntity
-{
-    public function setSomeValue($value)
-    {
     }
 }
 ```
