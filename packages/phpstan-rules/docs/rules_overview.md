@@ -1025,6 +1025,52 @@ class SomeClass
 
 <br>
 
+## ForbiddenFinalClassMockRule
+
+Class "%s" is mocked, but is final. It might crash
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenFinalClassMockRule`](../src/Rules/ForbiddenFinalClassMockRule.php)
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeTest extends TestCase
+{
+    public function test()
+    {
+        $this->getMockBuilder(SomeClass::clas);
+    }
+}
+
+final class SomeClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeTest extends TestCase
+{
+    public function test()
+    {
+        $this->getMockBuilder(SomeClass::clas);
+    }
+}
+
+class SomeClass
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenForeachEmptyMissingArrayRule
 
 Foreach over empty missing array is not allowed. Use isset check early instead.

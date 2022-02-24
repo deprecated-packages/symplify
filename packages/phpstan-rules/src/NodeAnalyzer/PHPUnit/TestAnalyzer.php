@@ -39,6 +39,16 @@ final class TestAnalyzer
         return $this->isTestClassMethod($scope, $classMethod);
     }
 
+    public function isInTest(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        return $classReflection->isSubclassOf('PHPUnit\Framework\TestCase');
+    }
+
     private function isPublicClassMethod(FunctionLike $functionLike, ClassReflection $classReflection): bool
     {
         if (! $functionLike instanceof ClassMethod) {
