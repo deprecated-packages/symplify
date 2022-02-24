@@ -1,4 +1,4 @@
-# 127 Rules Overview
+# 126 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1611,49 +1611,6 @@ $this->someService->process($value, ...);
 
 <br>
 
-## ForbiddenTraitUseRule
-
-Trait "%s" cannot be used in the code
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule`](../src/Rules/ForbiddenTraitUseRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenTraitUseRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTraits:
-                - Nette\SmartObject
-```
-
-↓
-
-```php
-use Nette\SmartObject;
-
-class SomeClass
-{
-    use SmartObject;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-}
-```
-
-:+1:
-
-<br>
-
 ## IfElseToMatchSpotterRule
 
 If/else construction can be replace with more robust `match()`
@@ -2635,7 +2592,7 @@ $filePath = __DIR__ . '/existing_location.txt';
 
 ## NoMixedCallableRule
 
-Make callable of param more explicit
+Make callable type explicit. Here is how: https://phpstan.org/writing-php-code/phpdoc-types#callables
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule`](../src/Rules/Explicit/NoMixedCallableRule.php)
 
