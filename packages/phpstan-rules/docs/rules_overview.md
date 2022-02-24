@@ -4495,53 +4495,6 @@ $someObject = new A($firstObject);
 
 <br>
 
-## TooLongVariableRule
-
-Variable "$%s" is too long with %d chars. Narrow it under %d chars
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\TooLongVariableRule`](../src/Rules/TooLongVariableRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\TooLongVariableRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxVariableLength: 10
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return $superLongVariableName;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return $shortName;
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## UppercaseConstantRule
 
 Constant "%s" must be uppercase
