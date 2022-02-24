@@ -9,7 +9,6 @@ includes:
     - code-complexity-rules.neon
     - forbidden-static-rules.neon
     - doctrine-rules.neon
-    - size-rules.neon
     - regex-rules.neon
     - symfony-rules.neon
     - test-rules.neon
