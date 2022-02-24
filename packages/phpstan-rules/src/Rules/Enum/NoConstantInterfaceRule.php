@@ -51,7 +51,7 @@ interface SomeContract
 {
     public const YES = 'yes';
 
-    public const NO = 'ne';
+    public const NO = 'no';
 }
 CODE_SAMPLE
                 ,
@@ -60,7 +60,7 @@ class SomeValues
 {
     public const YES = 'yes';
 
-    public const NO = 'ne';
+    public const NO = 'no';
 }
 CODE_SAMPLE
             ),

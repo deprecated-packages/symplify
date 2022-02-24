@@ -1925,7 +1925,7 @@ interface SomeContract
 {
     public const YES = 'yes';
 
-    public const NO = 'ne';
+    public const NO = 'no';
 }
 ```
 
@@ -1938,7 +1938,7 @@ class SomeValues
 {
     public const YES = 'yes';
 
-    public const NO = 'ne';
+    public const NO = 'no';
 }
 ```
 
