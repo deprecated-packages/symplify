@@ -32,10 +32,6 @@ services:
         tags: [phpstan.rules.rule]
 
     -
-        class: Symplify\PHPStanRules\Rules\NoDefaultParameterValueRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule
         tags: [phpstan.rules.rule]
 
