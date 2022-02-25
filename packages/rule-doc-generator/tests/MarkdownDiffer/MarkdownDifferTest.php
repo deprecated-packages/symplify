@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MarkdownDiff\Tests\Differ;
+namespace Symplify\RuleDocGenerator\Tests\MarkdownDiffer;
 
-use Symplify\MarkdownDiff\Differ\MarkdownDiffer;
-use Symplify\MarkdownDiff\Tests\HttpKernel\MarkdownDiffKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
+use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
+use Symplify\RuleDocGenerator\MarkdownDiffer\MarkdownDiffer;
 
 final class MarkdownDifferTest extends AbstractKernelTestCase
 {
@@ -14,7 +14,7 @@ final class MarkdownDifferTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(MarkdownDiffKernel::class);
+        $this->bootKernel(RuleDocGeneratorKernel::class);
 
         $this->markdownDiffer = $this->getService(MarkdownDiffer::class);
     }

@@ -86,7 +86,6 @@
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
-            "Symplify\\MarkdownDiff\\": "packages/markdown-diff/src",
             "Symplify\\MonorepoBuilder\\": [
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
@@ -145,7 +144,6 @@
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
-            "Symplify\\MarkdownDiff\\Tests\\": "packages/markdown-diff/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": [
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
@@ -185,7 +183,6 @@
         "symplify/easy-testing": "10.1.0",
         "symplify/git-wrapper": "10.1.0",
         "symplify/latte-phpstan-compiler": "10.1.0",
-        "symplify/markdown-diff": "10.1.0",
         "symplify/monorepo-builder": "10.1.0",
         "symplify/neon-config-dumper": "10.1.0",
         "symplify/package-builder": "10.1.0",

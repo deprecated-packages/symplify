@@ -14,9 +14,10 @@
         "nette/robot-loader": "^3.4",
         "symplify/symplify-kernel": "^10.2",
         "symplify/rule-doc-generator-contracts": "^10.2",
-        "symplify/markdown-diff": "^10.2",
         "symplify/package-builder": "^10.2",
         "nette/neon": "^3.3.2",
+        "nette/utils": "^3.2",
+        "sebastian/diff": "^4.0",
         "symplify/php-config-printer": "^10.2",
         "symplify/smart-file-system": "^10.2"
     },

@@ -60,7 +60,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/git-wrapper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/latte-phpstan-compiler --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/markdown-diff --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/php-config-printer --ansi

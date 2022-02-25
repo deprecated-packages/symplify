@@ -62,7 +62,6 @@
         "symplify/easy-ci": "<10.1.0",
         "symplify/coding-standard": "<10.1.0",
         "symplify/package-builder": "<10.0.9",
-        "symplify/markdown-diff": "<10.1.0",
         "symplify/phpstan-latte-rules": "<10.1.0",
         "symplify/easy-parallel": "<10.1.0",
         "symplify/neon-config-dumper": "<10.1.0"
