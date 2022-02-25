@@ -5,8 +5,8 @@
     "keywords": ["git", "git wrapper", "cli"],
     "require": {
         "php": ">=8.0",
-        "symfony/process": "^5.4|^6.0",
-        "symfony/event-dispatcher": "^5.4|^6.0",
+        "symfony/process": "^6.0",
+        "symfony/event-dispatcher": "^6.0",
         "nette/utils": "^3.2"
     },
     "require-dev": {

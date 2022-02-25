@@ -17,7 +17,7 @@
         "doctrine/orm": "^2.10",
         "symplify/symplify-kernel": "^10.2",
         "symplify/smart-file-system": "^10.2",
-        "symfony/framework-bundle": "^5.4|^6.0",
+        "symfony/framework-bundle": "^6.0",
         "symplify/easy-coding-standard": "^10.2",
         "phpunit/phpunit": "^9.5",
         "symplify/rule-doc-generator": "^10.2"
