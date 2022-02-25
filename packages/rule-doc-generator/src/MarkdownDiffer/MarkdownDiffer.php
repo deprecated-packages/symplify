@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MarkdownDiff\Differ;
+namespace Symplify\RuleDocGenerator\MarkdownDiffer;
 
 use Nette\Utils\Strings;
 use SebastianBergmann\Diff\Differ;
 
 /**
- * @see \Symplify\MarkdownDiff\Tests\Differ\MarkdownDifferTest
+ * @see \Symplify\RuleDocGenerator\Tests\MarkdownDiffer\MarkdownDifferTest
  */
 final class MarkdownDiffer
 {

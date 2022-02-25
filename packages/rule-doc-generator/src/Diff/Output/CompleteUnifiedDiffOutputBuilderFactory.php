@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MarkdownDiff\Diff\Output;
+namespace Symplify\RuleDocGenerator\Diff\Output;
 
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
