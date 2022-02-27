@@ -1,4 +1,4 @@
-# 121 Rules Overview
+# 120 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
