@@ -97,6 +97,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ArraySyntaxFixer::class => [__DIR__ . '/src/NewCode'],
     ]);
 
+    // bear in mind that this will override SetList skips if one was previously imported
     $parameters->set(Option::SKIP, [
         // skip paths with legacy code
         __DIR__ . '/packages/*/src/Legacy',
