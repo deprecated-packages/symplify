@@ -16,7 +16,7 @@ final class NoUnusedNetteCreateComponentMethodRuleTest extends AbstractServiceAw
 {
     /**
      * @dataProvider provideData()
-     * @param array<string|string[]|int[]> $expectedErrorsWithLines
+     * @param mixed[] $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

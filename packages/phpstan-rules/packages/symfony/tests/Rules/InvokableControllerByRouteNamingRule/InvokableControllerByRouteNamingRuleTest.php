@@ -16,7 +16,7 @@ final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwar
 {
     /**
      * @dataProvider provideData()
-     * @param array<int|string> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

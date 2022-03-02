@@ -15,7 +15,7 @@ use Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule;
 final class ForbiddenArrayWithStringKeysRulePhp80Test extends AbstractServiceAwareRuleTestCase
 {
     /**
-     * @param array<int|string> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      * @dataProvider provideData()
      */
     public function test(string $filePath, array $expectedErrorMessagesWithLines): void

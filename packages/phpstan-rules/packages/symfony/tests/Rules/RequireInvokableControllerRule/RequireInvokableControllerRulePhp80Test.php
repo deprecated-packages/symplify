@@ -16,7 +16,7 @@ final class RequireInvokableControllerRulePhp80Test extends AbstractServiceAware
 {
     /**
      * @dataProvider provideData()
-     * @param array<int|string> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {

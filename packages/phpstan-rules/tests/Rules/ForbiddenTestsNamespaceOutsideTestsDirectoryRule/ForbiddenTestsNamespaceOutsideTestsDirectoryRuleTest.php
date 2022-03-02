@@ -16,7 +16,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstrac
 {
     /**
      * @dataProvider provideData()
-     * @param array<string|int> $expectedErrorsWithLines
+     * @param mixed[] $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

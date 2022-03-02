@@ -16,7 +16,7 @@ final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRul
 {
     /**
      * @dataProvider provideDataForTest()
-     * @param array<string|int> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function test(string $filePath, array $expectedErrorMessagesWithLines): void
     {

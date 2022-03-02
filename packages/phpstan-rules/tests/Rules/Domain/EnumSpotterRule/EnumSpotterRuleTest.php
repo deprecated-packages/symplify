@@ -17,7 +17,7 @@ final class EnumSpotterRuleTest extends AbstractServiceAwareRuleTestCase
     /**
      * @dataProvider provideData()
      * @param string[] $filePaths
-     * @param array<string|int> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(array $filePaths, array $expectedErrorMessagesWithLines): void
     {

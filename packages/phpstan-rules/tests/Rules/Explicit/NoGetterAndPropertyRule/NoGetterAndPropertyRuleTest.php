@@ -16,7 +16,7 @@ final class NoGetterAndPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param array<int, mixed[]> $expectedErrorsWithLines
+     * @param mixed[] $expectedErrorsWithLines
      */
     public function testRule(string $filePath, array $expectedErrorsWithLines): void
     {

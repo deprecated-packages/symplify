@@ -548,3 +548,7 @@ parameters:
         -
             message: '#Use explicit names over dynamic ones#'
             path: packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
+
+        -
+            message: '#Cannot cast array\|bool\|float\|int\|string\|UnitEnum\|null to string#'
+            path:  packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php

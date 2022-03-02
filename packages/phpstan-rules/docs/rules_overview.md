@@ -3899,7 +3899,7 @@ final class SomeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param array<string|int> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
@@ -3929,7 +3929,7 @@ final class SomeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param array<string|int> $expectedErrorMessagesWithLines
+     * @param mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
