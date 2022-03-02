@@ -98,6 +98,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     // bear in mind that this will override SetList skips if one was previously imported
+    // this is result of design decision in symfony https://github.com/symfony/symfony/issues/26713
     $parameters->set(Option::SKIP, [
         // skip paths with legacy code
         __DIR__ . '/packages/*/src/Legacy',
