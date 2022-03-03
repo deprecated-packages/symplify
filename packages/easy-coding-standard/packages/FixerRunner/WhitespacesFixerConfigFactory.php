@@ -11,6 +11,10 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class WhitespacesFixerConfigFactory
 {
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_VALUES = ['tab', 'spaces', Spacing::TWO_SPACES, Spacing::FOUR_SPACES, Spacing::ONE_TAB];
     public function __construct(
         private ParameterProvider $parameterProvider
     ) {
@@ -42,13 +46,11 @@ final class WhitespacesFixerConfigFactory
             return Spacing::FOUR_SPACES;
         }
 
-        $allowedValues = ['tab', 'spaces', Spacing::TWO_SPACES, Spacing::FOUR_SPACES, Spacing::ONE_TAB];
-
         throw new WhitespaceConfigurationException(sprintf(
             'Value "%s" is not supported in "parameters > indentation".%sUse one of: "%s".',
             $indentation,
             PHP_EOL,
-            implode('", "', $allowedValues)
+            implode('", "', self::ALLOWED_VALUES)
         ));
     }
 
