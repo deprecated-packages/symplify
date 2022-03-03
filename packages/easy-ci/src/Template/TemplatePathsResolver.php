@@ -60,20 +60,29 @@ final class TemplatePathsResolver
     private function findBundlePrefix(SmartFileInfo $templateFileInfo): string
     {
         $templateRealPath = $templateFileInfo->getRealPath();
+
+        $bundleFileInfo = null;
         $currentDirectory = dirname($templateRealPath);
+        do {
+            /** @var string[] $foundFiles */
+            $foundFiles = glob($currentDirectory . '/*Bundle.php');
+            if ($foundFiles !== []) {
+                $bundleFileRealPath = $foundFiles[0];
 
-        /** @var string[] $foundFiles */
-        $foundFiles = glob($currentDirectory . '/*Bundle.php');
-        if ($foundFiles !== []) {
-            $bundleFileRealPath = $foundFiles[0];
+                $match = Strings::match($bundleFileRealPath, self::BUNDLE_NAME_REGEX);
+                if (! isset($match['bundle_name'])) {
+                    throw new ShouldNotHappenException();
+                }
 
-            $match = Strings::match($bundleFileRealPath, self::BUNDLE_NAME_REGEX);
-            if (! isset($match['bundle_name'])) {
-                throw new ShouldNotHappenException();
+                return $match['bundle_name'];
             }
 
-            return $match['bundle_name'];
-        }
+            $currentDirectory = dirname($currentDirectory);
+            // root dir, stop!
+            if ($currentDirectory === '/') {
+                break;
+            }
+        } while ($bundleFileInfo === null);
 
         throw new ShouldNotHappenException();
     }
