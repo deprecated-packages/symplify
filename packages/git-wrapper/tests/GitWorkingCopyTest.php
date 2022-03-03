@@ -51,6 +51,13 @@ CODE_SAMPLE;
     private string $currentUserName;
 
     private string $currentUserEmail;
+    /**
+     * @var array<string, string|true>
+     */
+    private const OPTIONS = [
+        '-f' => true,
+        '-m' => 'remote-branch',
+    ];
 
     /**
      * Creates and initializes the local repository used for testing.
@@ -763,12 +770,7 @@ CODE_SAMPLE;
 
         $gitWorkingCopy = $this->getWorkingCopy();
 
-        $options = [
-            '-f' => true,
-            '-m' => 'remote-branch',
-        ];
-
-        $gitWorkingCopy->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR, $options);
+        $gitWorkingCopy->addRemote('remote', 'file://' . self::REMOTE_REPO_DIR, self::OPTIONS);
 
         $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote/HEAD']);
         $gitWorkingCopy->run(CommandName::REV_PARSE, ['remote-tag']);
