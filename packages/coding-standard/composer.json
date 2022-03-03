@@ -6,21 +6,21 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "friendsofphp/php-cs-fixer": "^3.6",
-        "symplify/symplify-kernel": "^10.1.1",
-        "symplify/package-builder": "^10.1.1",
-        "symplify/autowire-array-parameter": "^10.1.1",
-        "symplify/rule-doc-generator-contracts": "^10.1.1"
+        "symplify/symplify-kernel": "^10.2",
+        "symplify/package-builder": "^10.2",
+        "symplify/autowire-array-parameter": "^10.2",
+        "symplify/rule-doc-generator-contracts": "^10.2"
     },
     "require-dev": {
         "nette/application": "^3.1",
         "nette/bootstrap": "^3.1",
         "doctrine/orm": "^2.10",
-        "symplify/symplify-kernel": "^10.1.1",
-        "symplify/smart-file-system": "^10.1.1",
+        "symplify/symplify-kernel": "^10.2",
+        "symplify/smart-file-system": "^10.2",
         "symfony/framework-bundle": "^5.4|^6.0",
-        "symplify/easy-coding-standard": "^10.1.1",
+        "symplify/easy-coding-standard": "^10.2",
         "phpunit/phpunit": "^9.5",
-        "symplify/rule-doc-generator": "^10.1.1"
+        "symplify/rule-doc-generator": "^10.2"
     },
     "autoload": {
         "psr-4": {
