@@ -48,10 +48,6 @@ CODE_SAMPLE;
      */
     private const ADD_ME_REGEX = '#A\\s+add\\.me#s';
 
-    private string $currentUserName;
-
-    private string $currentUserEmail;
-
     /**
      * @var array<string, string|true>
      */
@@ -59,6 +55,10 @@ CODE_SAMPLE;
         '-f' => true,
         '-m' => 'remote-branch',
     ];
+
+    private string $currentUserName;
+
+    private string $currentUserEmail;
 
     /**
      * Creates and initializes the local repository used for testing.

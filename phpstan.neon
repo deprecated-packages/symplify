@@ -148,8 +148,6 @@ parameters:
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
 
-        - '#Method Symplify(.*?)provide(.*?) return type has no value type specified in iterable type Iterator#'
-
         -
             message: '#Do not use trait#'
             paths:
@@ -261,15 +259,6 @@ parameters:
             paths:
                 - packages/git-wrapper/src/GitWrapper.php
                 - packages/git-wrapper/src/GitCommand.php
-
-        -
-            message: '#Do not use setter on a service#'
-            paths:
-                # manually created value objects mostly
-                - packages/git-wrapper/src/*
-                # workaround for node visitor
-                - packages/latte-phpstan-compiler/src/NodeVisitor/TemplateIncludesNameNodeVisitor.php
-                - packages/latte-phpstan-compiler/src/NodeVisitor/ParentLayoutNameNodeVisitor.php
 
         -
             message: '#Spread operator is not allowed#'
@@ -411,11 +400,6 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\Astral\\PhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
             path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-
-        # command cast of string
-        -
-            message: '#Cannot cast array\|bool\|float\|int\|string\|null to string#'
-            path: packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
 
         - '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ArgsNodeFactory\:\:createFromValues\(\)" is 13, keep it under 8#'
 
