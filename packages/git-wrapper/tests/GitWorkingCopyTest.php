@@ -51,6 +51,7 @@ CODE_SAMPLE;
     private string $currentUserName;
 
     private string $currentUserEmail;
+
     /**
      * @var array<string, string|true>
      */
