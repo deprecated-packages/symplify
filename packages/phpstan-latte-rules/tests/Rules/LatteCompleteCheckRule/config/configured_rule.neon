@@ -6,13 +6,9 @@ parameters:
     checkThisOnly: false
     checkArgumentsPassedByReference: true
     checkMissingTypehints: true
-    checkNeverInGenericReturnType: true
     checkExtraArguments: true
     checkFunctionNameCase: true
     reportMagicMethods: true
-
-    # this is not propagates in test case for some reason, so must be set manually
-    checkArgumentTypes: true
 
     presenterFactoryMapping:
         *: Symplify\PHPStanLatteRules\Tests\Rules\LatteCompleteCheckRule\Source\*Presenter

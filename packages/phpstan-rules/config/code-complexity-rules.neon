@@ -1,84 +1,21 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenNamedArgumentsRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoTraitRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoPostIncPostDecRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoDynamicNameRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenNamedArgumentsRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
+    - Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule
+    - Symplify\PHPStanRules\Rules\NoTraitRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
+    - Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
+    - Symplify\PHPStanRules\Rules\NoPostIncPostDecRule
+    - Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
+    - Symplify\PHPStanRules\Rules\NoDynamicNameRule
+    - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+    - Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
