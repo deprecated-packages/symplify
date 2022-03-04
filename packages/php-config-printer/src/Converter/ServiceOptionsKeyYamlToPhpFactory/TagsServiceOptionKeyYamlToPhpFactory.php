@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\Converter\ServiceOptionsKeyYamlToPhpFactory;
 
+use Nette\Utils\Arrays;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
@@ -47,14 +48,15 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
             }
 
             $args = [];
-            foreach ($yamlLine as $singleNestedKey => $singleNestedValue) {
+            $flattenedYmlLine = Arrays::flatten($yamlLine, true);
+            foreach ($flattenedYmlLine as $singleNestedKey => $singleNestedValue) {
                 if ($singleNestedKey === 'name') {
                     $args[] = new Arg(BuilderHelpers::normalizeValue($singleNestedValue));
-                    unset($yamlLine[$singleNestedKey]);
+                    unset($flattenedYmlLine[$singleNestedKey]);
                 }
             }
 
-            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($yamlLine);
+            $restArgs = $this->argsNodeFactory->createFromValuesAndWrapInArray($flattenedYmlLine);
             $args = array_merge($args, $restArgs);
 
             $methodCall = new MethodCall($methodCall, self::TAG, $args);
