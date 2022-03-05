@@ -536,3 +536,15 @@ parameters:
         -
             message: '#Cannot cast array\|bool\|float\|int\|string\|UnitEnum\|null to string#'
             path:  packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
+
+        -
+            message: '#Add explicit array type to assigned "\$definitions" expression#'
+            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        -
+            message: '#Add explicit array type to assigned "\$excludeValue" expression#'
+            path: packages/php-config-printer/src/NodeFactory/Service/ServicesPhpNodeFactory.php
+
+        -
+            message: '#Add explicit array type to assigned "\$methodCall\->args" expression#'
+            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php

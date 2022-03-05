@@ -18,7 +18,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class JsonFileManager
 {
     /**
-     * @var mixed[]
+     * @var array<string, mixed[]>
      */
     private array $cachedJSONFiles = [];
 

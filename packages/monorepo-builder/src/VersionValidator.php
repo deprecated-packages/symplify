@@ -82,8 +82,8 @@ final class VersionValidator
     }
 
     /**
-     * @param mixed[] $packageVersionsPerFile
-     * @return mixed[]
+     * @param array<string, array<string, string>> $packageVersionsPerFile
+     * @return array<string, array<string, string>>
      */
     private function filterConflictingPackageVersionsPerFile(array $packageVersionsPerFile): array
     {

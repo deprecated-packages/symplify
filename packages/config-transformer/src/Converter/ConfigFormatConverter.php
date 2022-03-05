@@ -71,6 +71,7 @@ final class ConfigFormatConverter
         }
 
         // 2. append extension yaml too
+        /** @var array<string, string[]> $extensionsConfigs */
         $extensionsConfigs = $this->privatesAccessor->getPrivateProperty($containerBuilder, 'extensionConfigs');
         foreach ($extensionsConfigs as $namespace => $configs) {
             $mergedConfig = [];
@@ -93,6 +94,7 @@ final class ConfigFormatConverter
             return $dumpedYaml;
         }
 
+        /** @var array<string, mixed> $yamlArray */
         $yamlArray = Yaml::parse($dumpedYaml, Yaml::PARSE_CUSTOM_TAGS);
         $yamlArray['imports'] = array_merge($yamlArray['imports'] ?? [], $collectedXmlImports);
 
