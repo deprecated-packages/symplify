@@ -94,8 +94,8 @@ final class ConfigFormatConverter
             return $dumpedYaml;
         }
 
-        $yamlArray = Yaml::parse($dumpedYaml, Yaml::PARSE_CUSTOM_TAGS);
         /** @var array<string, mixed> $yamlArray */
+        $yamlArray = Yaml::parse($dumpedYaml, Yaml::PARSE_CUSTOM_TAGS);
         $yamlArray['imports'] = array_merge($yamlArray['imports'] ?? [], $collectedXmlImports);
 
         return $this->dumpYaml($yamlArray);
