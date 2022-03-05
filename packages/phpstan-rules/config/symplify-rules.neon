@@ -4,13 +4,13 @@ includes:
 
     # 2. prepared sets
     - spotter-rules.neon
-    - nette-rules.neon
+    - ../packages/nette/config/nette-rules.neon
     - array-rules.neon
     - code-complexity-rules.neon
     - forbidden-static-rules.neon
     - doctrine-rules.neon
     - regex-rules.neon
-    - symfony-rules.neon
+    - ../packages/symfony/config/symfony-rules.neon
     - test-rules.neon
     - services-rules.neon
     - naming-rules.neon
