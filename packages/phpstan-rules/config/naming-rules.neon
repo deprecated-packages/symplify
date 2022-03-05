@@ -1,40 +1,11 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\SuffixInterfaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\SuffixTraitRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\PrefixAbstractClassRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\UppercaseConstantRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule
+    - Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule
+    - Symplify\PHPStanRules\Rules\NoVoidGetterMethodRule
+    - Symplify\PHPStanRules\Rules\SuffixInterfaceRule
+    - Symplify\PHPStanRules\Rules\SuffixTraitRule
+    - Symplify\PHPStanRules\Rules\PrefixAbstractClassRule
+    - Symplify\PHPStanRules\Rules\UppercaseConstantRule
+    - Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
+    - Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule
+    - Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule

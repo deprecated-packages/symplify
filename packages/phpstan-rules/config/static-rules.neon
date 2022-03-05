@@ -1,142 +1,71 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
+    - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
 
     # domain
-    -
-        class: Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoNestedFuncCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
+    - Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule
+    - Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule
+    - Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule
+    - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
+    - Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
+    - Symplify\PHPStanRules\Rules\NoNestedFuncCallRule
+    - Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule
+    - Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule
+    - Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule
+    - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
 
     # paths
-    -
-        class: Symplify\PHPStanRules\Rules\NoMissingDirPathRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\NoMissingDirPathRule
+    - Symplify\PHPStanRules\Rules\NoAbstractMethodRule
+    - Symplify\PHPStanRules\Rules\NoReferenceRule
+    - Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
 
-    -
-        class: Symplify\PHPStanRules\Rules\NoAbstractMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoReferenceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoArrayAccessOnObjectRule
-        tags: [phpstan.rules.rule]
-
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule
+    - Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
 
     # dead-code
-    -
-        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
+    - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
+    - Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
 
     # explicit naming
-    -
-        class: Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
+    - Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
+    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
+    - Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
+    - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
+    - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
+    - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
+    - Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
+    - Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
 
     # comlexity
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
 
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
+    - Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
+    - Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
+    - Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
+    - Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
+    - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
+    - Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
+    - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
+    - Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
+    - Symplify\PHPStanRules\Rules\NoEmptyClassRule
+
+    # naming
+    - Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
+    - Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
+    - Symplify\PHPStanRules\Rules\ConstantMapRuleRule
+    - Symplify\PHPStanRules\Rules\NoMagicClosureRule
+    - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
+    - Symplify\PHPStanRules\Rules\RequireAttributeNameRule
+    - Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
+
+services:
     -
         class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
         tags: [phpstan.rules.rule]
@@ -144,76 +73,3 @@ services:
             allowedVariableNames:
                 - position
                 - positions
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoEmptyClassRule
-        tags: [phpstan.rules.rule]
-
-    # naming
-    -
-        class: Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ConstantMapRuleRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoMagicClosureRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\RequireAttributeNameRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
-        tags: [phpstan.rules.rule]
