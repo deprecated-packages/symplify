@@ -16,7 +16,7 @@ final class MissplacedSkipPrefixResolver
 {
     /**
      * @param SmartFileInfo[] $fixtureFileInfos
-     * @return array<string, SmartFileInfo[]>
+     * @return array{incorrect_skips: SmartFileInfo[], missing_skips: SmartFileInfo[]}
      */
     public function resolve(array $fixtureFileInfos): array
     {
@@ -37,7 +37,6 @@ final class MissplacedSkipPrefixResolver
 
             if (! $hasNameSkipStart && ! $hasSplitLine) {
                 $invalidFileInfos['missing_skips'][] = $fixtureFileInfo;
-                continue;
             }
         }
 

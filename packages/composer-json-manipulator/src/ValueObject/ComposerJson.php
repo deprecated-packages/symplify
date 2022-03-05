@@ -181,7 +181,7 @@ final class ComposerJson
     }
 
     /**
-     * @return array<string, string>
+     * @return array{php?: string}
      */
     public function getRequirePhp(): array
     {
