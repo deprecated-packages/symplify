@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\SnippetFormatter\Application;
 use PhpCsFixer\Differ\DifferInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Reporter\SnippetReporter;
@@ -51,35 +52,33 @@ final class SnippetFormatterApplication
         $errorsAndDiffs = [];
 
         foreach ($fileInfos as $fileInfo) {
-            $errorsAndDiffs = array_merge(
-                $errorsAndDiffs,
-                $this->processFileInfoWithPattern($fileInfo, $snippetPattern, $kind, $configuration)
-            );
+            $fileDiff = $this->processFileInfoWithPattern($fileInfo, $snippetPattern, $kind, $configuration);
+            if ($fileDiff instanceof FileDiff) {
+                $errorsAndDiffs[Bridge::FILE_DIFFS][] = $fileDiff;
+            }
+
             $this->symfonyStyle->progressAdvance();
         }
 
         return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 
-    /**
-     * @return array<string, array<FileDiff>>
-     */
     private function processFileInfoWithPattern(
         SmartFileInfo $phpFileInfo,
         string $snippetPattern,
         string $kind,
         Configuration $configuration
-    ): array {
+    ): ?FileDiff {
         $fixedContent = $this->snippetFormatter->format($phpFileInfo, $snippetPattern, $kind, $configuration);
 
         $originalContent = $phpFileInfo->getContents();
         if ($phpFileInfo->getContents() === $fixedContent) {
             // nothing has changed
-            return [];
+            return null;
         }
 
         if (! $configuration->isFixer()) {
-            return [];
+            return null;
         }
 
         $this->smartFileSystem->dumpFile($phpFileInfo->getPathname(), $fixedContent);
@@ -87,16 +86,12 @@ final class SnippetFormatterApplication
         $diff = $this->differ->diff($originalContent, $fixedContent);
         $consoleFormattedDiff = $this->colorConsoleDiffFormatter->format($diff);
 
-        $fileDiff = new FileDiff(
+        return new FileDiff(
             $phpFileInfo->getRelativeFilePathFromCwd(),
             $diff,
             $consoleFormattedDiff,
             // @todo
             []
         );
-
-        return [
-            'files_diffs' => [$fileDiff],
-        ];
     }
 }

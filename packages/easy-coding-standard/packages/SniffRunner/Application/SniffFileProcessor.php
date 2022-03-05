@@ -74,7 +74,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return array<string, array<FileDiff|CodingStandardError>>
+     * @return array{file_diffs?: FileDiff[], coding_standard_errors?: CodingStandardError[]}
      */
     public function processFile(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {

@@ -70,7 +70,7 @@ final class JsonOutputFormatter implements OutputFormatterInterface
     }
 
     /**
-     * @return mixed[]
+     * @return array{totals: array{errors: int, diffs: int}, files: string[]}
      */
     private function createBaseErrorsJson(ErrorAndDiffResult $errorAndDiffResult): array
     {

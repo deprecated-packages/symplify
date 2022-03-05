@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyTesting;
 
 use Nette\Utils\Strings;
+use Symplify\EasyTesting\ValueObject\IncorrectAndMissingSkips;
 use Symplify\EasyTesting\ValueObject\Prefix;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -16,14 +17,11 @@ final class MissplacedSkipPrefixResolver
 {
     /**
      * @param SmartFileInfo[] $fixtureFileInfos
-     * @return array<string, SmartFileInfo[]>
      */
-    public function resolve(array $fixtureFileInfos): array
+    public function resolve(array $fixtureFileInfos): IncorrectAndMissingSkips
     {
-        $invalidFileInfos = [
-            'incorrect_skips' => [],
-            'missing_skips' => [],
-        ];
+        $incorrectSkips = [];
+        $missingSkips = [];
 
         foreach ($fixtureFileInfos as $fixtureFileInfo) {
             $hasNameSkipStart = $this->hasNameSkipStart($fixtureFileInfo);
@@ -31,17 +29,16 @@ final class MissplacedSkipPrefixResolver
             $hasSplitLine = (bool) Strings::match($fileContents, SplitLine::SPLIT_LINE_REGEX);
 
             if ($hasNameSkipStart && $hasSplitLine) {
-                $invalidFileInfos['incorrect_skips'][] = $fixtureFileInfo;
+                $incorrectSkips[] = $fixtureFileInfo;
                 continue;
             }
 
             if (! $hasNameSkipStart && ! $hasSplitLine) {
-                $invalidFileInfos['missing_skips'][] = $fixtureFileInfo;
-                continue;
+                $missingSkips[] = $fixtureFileInfo;
             }
         }
 
-        return $invalidFileInfos;
+        return new IncorrectAndMissingSkips($incorrectSkips, $missingSkips);
     }
 
     private function hasNameSkipStart(SmartFileInfo $fixtureFileInfo): bool

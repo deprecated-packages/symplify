@@ -50,7 +50,7 @@ final class EasyCodingStandardApplication
     }
 
     /**
-     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
+     * @return array{coding_standard_errors?: CodingStandardError[], file_diffs?: FileDiff[], system_errors?: SystemError[]|string[], system_errors_count?: int}
      */
     public function run(Configuration $configuration, InputInterface $input): array
     {
@@ -125,7 +125,7 @@ final class EasyCodingStandardApplication
 
     /**
      * @param SmartFileInfo[] $fileInfos
-     * @return array<string, array<SystemError|FileDiff|CodingStandardError>>
+     * @return array{coding_standard_errors: CodingStandardError[], file_diffs: FileDiff[], system_errors: SystemError[], system_errors_count: int}
      */
     private function processFoundFiles(array $fileInfos, Configuration $configuration): array
     {

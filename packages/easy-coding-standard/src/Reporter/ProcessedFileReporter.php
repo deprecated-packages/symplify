@@ -20,14 +20,14 @@ final class ProcessedFileReporter
     }
 
     /**
-     * @param array<string, array<SystemError|FileDiff|CodingStandardError>> $errorsAndDiffs
+     * @param array{system_errors?: SystemError[]|string[], file_diffs?: FileDiff[], coding_standard_errors?: CodingStandardError[], system_errors_count?: int} $errorsAndDiffs
      */
     public function report(array $errorsAndDiffs, Configuration $configuration): int
     {
         $outputFormat = $configuration->getOutputFormat();
         $outputFormatter = $this->outputFormatterCollector->getByName($outputFormat);
 
-        /** @var SystemError[] $systemErrors */
+        /** @var SystemError[]|string[] $systemErrors */
         $systemErrors = $errorsAndDiffs[Bridge::SYSTEM_ERRORS] ?? [];
 
         /** @var FileDiff[] $fileDiffs */

@@ -77,7 +77,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     }
 
     /**
-     * @return array<string, FileDiff[]>
+     * @return array{file_diffs?: FileDiff[]}
      */
     public function processFile(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {

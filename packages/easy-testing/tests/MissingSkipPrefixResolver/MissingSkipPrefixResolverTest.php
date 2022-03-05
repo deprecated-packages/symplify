@@ -25,8 +25,8 @@ final class MissingSkipPrefixResolverTest extends AbstractKernelTestCase
     public function test(): void
     {
         $fileInfos = $this->fixtureFinder->find([__DIR__ . '/Fixture']);
-        $invalidFileInfos = $this->missplacedSkipPrefixResolver->resolve($fileInfos);
+        $incorrectAndMissingSkips = $this->missplacedSkipPrefixResolver->resolve($fileInfos);
 
-        $this->assertCount(2, $invalidFileInfos);
+        $this->assertSame(2, $incorrectAndMissingSkips->getFileCount());
     }
 }

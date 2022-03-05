@@ -43,7 +43,7 @@ final class CodingStandardError implements SerializableInterface
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{line: int, message: string, checker_class: string, relative_file_path: string}
      */
     public function jsonSerialize(): array
     {
