@@ -14,6 +14,7 @@ use PHPStan\Type\UnionType;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,7 +31,7 @@ final class NoMissingArrayShapeReturnArrayRule extends AbstractSymplifyRule
     public function __construct(
         private SimpleNodeFinder $simpleNodeFinder,
         private ClassMethodReturnTypeResolver $classMethodReturnTypeResolver,
-        private \Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector $arrayShapeDetector
+        private ArrayShapeDetector $arrayShapeDetector
     ) {
     }
 

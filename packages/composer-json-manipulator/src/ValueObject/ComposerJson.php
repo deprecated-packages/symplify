@@ -181,22 +181,7 @@ final class ComposerJson
     }
 
     /**
-     * @return array{php?: string}
-     */
-    public function getRequirePhp(): array
-    {
-        $requiredPhpVersion = $this->require[self::PHP] ?? null;
-        if ($requiredPhpVersion === null) {
-            return [];
-        }
-
-        return [
-            self::PHP => $requiredPhpVersion,
-        ];
-    }
-
-    /**
-     * @return mixed[]
+     * @return array<string, string>
      */
     public function getRequireDev(): array
     {

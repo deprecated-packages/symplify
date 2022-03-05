@@ -21,7 +21,7 @@ final class SingleFileProcessor
     }
 
     /**
-     * @return array<string, array<FileDiff|CodingStandardError>>
+     * @return array{file_diffs?: FileDiff[], coding_standard_errors?: CodingStandardError[]}
      */
     public function processFileInfo(SmartFileInfo $smartFileInfo, Configuration $configuration): array
     {

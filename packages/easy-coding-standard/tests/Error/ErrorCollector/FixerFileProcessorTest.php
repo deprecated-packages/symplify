@@ -32,8 +32,7 @@ final class FixerFileProcessorTest extends AbstractKernelTestCase
         $fileInfo = new SmartFileInfo(__DIR__ . '/ErrorCollectorSource/NotPsr2Class.php.inc');
         $errorsAndFileDiffs = $this->fixerFileProcessor->processFile($fileInfo, $configuration);
 
-        $errors = $errorsAndFileDiffs[Bridge::CODING_STANDARD_ERRORS] ?? [];
-        $this->assertCount(0, $errors);
+        $this->assertArrayNotHasKey(Bridge::CODING_STANDARD_ERRORS, $errorsAndFileDiffs);
 
         $fileDiffs = $errorsAndFileDiffs[Bridge::FILE_DIFFS] ?? [];
         $this->assertCount(1, $fileDiffs);
