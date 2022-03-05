@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\NodeFactory\Service;
 
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
@@ -48,6 +49,7 @@ final class ServicesPhpNodeFactory
             $exclude = [$exclude];
         }
 
+        /** @var array<int, Expr> $excludeValue */
         $excludeValue = [];
         foreach ($exclude as $key => $singleExclude) {
             $excludeValue[$key] = $this->commonNodeFactory->createAbsoluteDirExpr($singleExclude);

@@ -33,7 +33,7 @@ final class GitWrapper
     /**
      * Environment variables defined in the scope of the Git command.
      *
-     * @var string[]
+     * @var array<string, string>
      */
     private array $env = [];
 

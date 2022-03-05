@@ -27,7 +27,7 @@ final class ServiceConfigurationDecorator
     }
 
     /**
-     * @param mixed[] $configuration
+     * @param array<string, mixed> $configuration
      * @return mixed[]
      */
     private function decorateClassConstantKeys(array $configuration, string $class): array

@@ -38,8 +38,8 @@ final class StringFormatConverter
     }
 
     /**
-     * @param mixed[] $items
-     * @return mixed[]
+     * @param array<int|string, mixed> $items
+     * @return array<int|string, mixed>
      */
     public function camelCaseToUnderscoreInArrayKeys(array $items): array
     {

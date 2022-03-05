@@ -232,7 +232,7 @@ final class GitWorkingCopy
      * This is synonymous with `git push --tags origin`.
      *
      * @param string $repository The destination of the push operation, which is either a URL or name of the remote.
-     * @param mixed[] $options
+     * @param array<string, string> $options
      */
     public function pushTags(string $repository = 'origin', array $options = []): string
     {
@@ -245,7 +245,7 @@ final class GitWorkingCopy
      *
      * This is synonymous with `git fetch --all`.
      *
-     * @param mixed[] $options
+     * @param array<string, string> $options
      */
     public function fetchAll(array $options = []): string
     {
@@ -258,7 +258,7 @@ final class GitWorkingCopy
      *
      * This is synonymous with `git checkout -b`.
      *
-     * @param mixed[] $options
+     * @param array<string, string> $options
      */
     public function checkoutNewBranch(string $branch, array $options = []): string
     {
@@ -269,7 +269,7 @@ final class GitWorkingCopy
     /**
      * Adds a remote to the repository.
      *
-     * @param mixed[] $options An associative array of options, with the following keys:
+     * @param array<string, mixed> $options An associative array of options, with the following keys:
      * - -f: Boolean, set to true to run git fetch immediately after the
      * remote is set up. Defaults to false.
      * - --tags: Boolean. By default only the tags from the fetched branches

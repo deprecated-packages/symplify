@@ -27,7 +27,7 @@ final class GitCommand
     private bool $executeRaw = false;
 
     /**
-     * @var mixed[]
+     * @var array<string, mixed>
      */
     private array $options = [];
 
