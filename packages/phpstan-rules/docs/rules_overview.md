@@ -1,4 +1,4 @@
-# 121 Rules Overview
+# 122 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2579,6 +2579,37 @@ final class AssertMirror extends TestCase
         $value = 200;
         $this->assertSame(1, $value);
     }
+}
+```
+
+:+1:
+
+<br>
+
+## NoMissingArrayShapeReturnArrayRule
+
+Complete known array shape to the method `@return` type
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMissingArrayShapeReturnArrayRule`](../src/Rules/Explicit/NoMissingArrayShapeReturnArrayRule.php)
+
+```php
+function run(string $name)
+{
+    return ['name' => $name];
+}
+```
+
+:x:
+
+<br>
+
+```php
+/**
+ * @return array{name: string}
+ */
+function run(string $name)
+{
+    return ['name' => $name];
 }
 ```
 
