@@ -29,6 +29,7 @@ final class NoMixedArrayDimFetchRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/ReportUntypedArray.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipTypedArray.php', []];
+        yield [__DIR__ . '/Fixture/SkipString.php', []];
     }
 
     protected function getRule(): Rule

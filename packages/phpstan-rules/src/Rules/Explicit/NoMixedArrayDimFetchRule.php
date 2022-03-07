@@ -67,14 +67,10 @@ final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
             return [];
         }
 
-        $rootDimFetch = $scope->getType($arrayDimFetch->var);
+        $rootDimFetchType = $scope->getType($arrayDimFetch->var);
 
         // skip complex types for now
-        if ($rootDimFetch instanceof UnionType || $rootDimFetch instanceof IntersectionType) {
-            return [];
-        }
-
-        if ($rootDimFetch instanceof ArrayType && ! $rootDimFetch->getKeyType() instanceof MixedType) {
+        if ($this->shouldSkipRootDimFetchType($rootDimFetchType)) {
             return [];
         }
 
@@ -114,5 +110,26 @@ class SomeClass
 CODE_SAMPLE
         ),
         ]);
+    }
+
+    private function shouldSkipRootDimFetchType(\PHPStan\Type\Type $rootDimFetchType): bool
+    {
+        if ($rootDimFetchType instanceof UnionType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof IntersectionType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof \PHPStan\Type\StringType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof ArrayType && ! $rootDimFetchType->getKeyType() instanceof MixedType) {
+            return true;
+        }
+
+        return false;
     }
 }
