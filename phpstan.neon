@@ -540,10 +540,6 @@ parameters:
             path: packages/php-config-printer/src/NodeFactory/Service/ServicesPhpNodeFactory.php
 
         -
-            message: '#Add explicit array type to assigned "\$methodCall\->args" expression#'
-            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
-
-        -
             message: '#Instead of array shape, use value object with specific types in constructor and getters#'
             paths:
                 # json serialize on purpose
@@ -552,8 +548,7 @@ parameters:
                 - packages/easy-coding-standard/src/Reporter/ProcessedFileReporter.php
                 - packages/easy-coding-standard/src/*FileProcessor.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
-                - packages/easy-coding-standard/packages/SniffRunner/Application/SniffFileProcessor.php
-                - packages/easy-coding-standard/packages/FixerRunner/Application/FixerFileProcessor.php
+                - packages/easy-coding-standard/packages/*Runner/Application/*FileProcessor.php
                 # yaml array map
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
