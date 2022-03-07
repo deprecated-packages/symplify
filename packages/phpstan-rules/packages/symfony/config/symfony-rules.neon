@@ -5,7 +5,6 @@ rules:
     - Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule
     - Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
     - Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule
-    - Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule
 
 services:
     -
