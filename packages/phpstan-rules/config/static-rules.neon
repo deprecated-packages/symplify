@@ -47,7 +47,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
     - Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
-    - Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule
     - Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
     - Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
     - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
@@ -60,7 +59,6 @@ rules:
     - Symplify\PHPStanRules\Rules\NoMagicClosureRule
     - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
     - Symplify\PHPStanRules\Rules\RequireAttributeNameRule
-    - Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule
 
 services:
     -
