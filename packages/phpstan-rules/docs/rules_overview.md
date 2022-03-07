@@ -1,4 +1,4 @@
-# 119 Rules Overview
+# 118 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -855,56 +855,6 @@ $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
     // ...
 }
-```
-
-:+1:
-
-<br>
-
-## ForbiddenComplexFuncCallRule
-
-Do not use "%s" function with complex content, make it more readable with extracted method or single-line statement
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule`](../src/Rules/ForbiddenComplexFuncCallRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenComplexFuncCallRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenComplexFunctions:
-                - array_filter
-
-            maximumStmtCount: 2
-```
-
-↓
-
-```php
-$filteredElements = array_filter($elemnets, function ($item) {
-    if ($item) {
-        return true;
-    }
-
-    if ($item === null) {
-        return true;
-    }
-
-    return false;
-};
-```
-
-:x:
-
-<br>
-
-```php
-$filteredElements = array_filter($elemnets, function ($item) {
-    return $item instanceof KeepItSimple;
-};
 ```
 
 :+1:
