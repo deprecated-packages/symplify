@@ -1,4 +1,4 @@
-# 122 Rules Overview
+# 119 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -426,74 +426,6 @@ class SomeClass
         }
 
         return 200;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## DifferentMethodNameToParameterRule
-
-Method name should be different to its parameter name, in a verb form
-
-- class: [`Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule`](../src/Rules/DifferentMethodNameToParameterRule.php)
-
-```php
-class SomeClass
-{
-    public function apple(string $apple)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function eatApple(string $apple)
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## DifferentMethodNameToReturnTypeRule
-
-Method name should be different to its return type, in a verb form
-
-- class: [`Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule`](../src/Rules/Naming/DifferentMethodNameToReturnTypeRule.php)
-
-```php
-class SomeClass
-{
-    public function apple(): Apple
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function getApple(): Apple
-    {
-        // ...
     }
 }
 ```
@@ -3952,72 +3884,6 @@ $inputOption = new InputOption('name', null, 2);
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
-```
-
-:+1:
-
-<br>
-
-## RequireSkipPrefixForRuleSkippedFixtureRule
-
-Skipped tested file must start with "Skip" prefix
-
-- class: [`Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`](../src/Rules/RequireSkipPrefixForRuleSkippedFixtureRule.php)
-
-```php
-use PHPStan\Testing\RuleTestCase;
-
-final class SomeRuleTest extends RuleTestCase
-{
-    /**
-     * @dataProvider provideData()
-     * @param mixed[] $expectedErrorMessagesWithLines
-     */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
-    {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
-    }
-
-    public function provideData(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/NewWithInterface.php', []];
-    }
-
-    protected function getRule(): Rule
-    {
-        return new SomeRule());
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPStan\Testing\RuleTestCase;
-
-final class SomeRuleTest extends RuleTestCase
-{
-    /**
-     * @dataProvider provideData()
-     * @param mixed[] $expectedErrorMessagesWithLines
-     */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
-    {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
-    }
-
-    public function provideData(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/SkipNewWithInterface.php', []];
-    }
-
-    protected function getRule(): Rule
-    {
-        return new SomeRule());
-    }
-}
 ```
 
 :+1:

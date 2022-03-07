@@ -548,7 +548,7 @@ parameters:
                 - packages/easy-coding-standard/src/Reporter/ProcessedFileReporter.php
                 - packages/easy-coding-standard/src/*FileProcessor.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
-                - packages/easy-coding-standard/packages/*Runner/Application/*FileProcessor.php
+                - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 # yaml array map
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
@@ -560,3 +560,8 @@ parameters:
 
         # messy array shapes - possibly value objects?
         - '#Method Symplify\\EasyCodingStandard\\Application\\(.*?)FileProcessor\:\:processFileInfo\(\) should return (.*?)#'
+
+        # false positive, as just checked by phpunit
+        -
+            message: '#Offset (.*?)file_diffs(.*?) does not exist on (.*?) array<Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff>#'
+            path:  packages/easy-coding-standard/tests/Error/ErrorCollector/FixerFileProcessorTest.php

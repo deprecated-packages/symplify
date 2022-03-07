@@ -53,12 +53,9 @@ rules:
     - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
     - Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
     - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
-    - Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
     - Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
     # naming
-    - Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
-    - Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule
     - Symplify\PHPStanRules\Rules\ConstantMapRuleRule
     - Symplify\PHPStanRules\Rules\NoMagicClosureRule
     - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
