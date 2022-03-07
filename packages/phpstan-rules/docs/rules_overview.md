@@ -1,4 +1,4 @@
-# 122 Rules Overview
+# 121 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3952,72 +3952,6 @@ $inputOption = new InputOption('name', null, 2);
 use Symfony\Component\Console\Input\InputOption;
 
 $inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
-```
-
-:+1:
-
-<br>
-
-## RequireSkipPrefixForRuleSkippedFixtureRule
-
-Skipped tested file must start with "Skip" prefix
-
-- class: [`Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule`](../src/Rules/RequireSkipPrefixForRuleSkippedFixtureRule.php)
-
-```php
-use PHPStan\Testing\RuleTestCase;
-
-final class SomeRuleTest extends RuleTestCase
-{
-    /**
-     * @dataProvider provideData()
-     * @param mixed[] $expectedErrorMessagesWithLines
-     */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
-    {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
-    }
-
-    public function provideData(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/NewWithInterface.php', []];
-    }
-
-    protected function getRule(): Rule
-    {
-        return new SomeRule());
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPStan\Testing\RuleTestCase;
-
-final class SomeRuleTest extends RuleTestCase
-{
-    /**
-     * @dataProvider provideData()
-     * @param mixed[] $expectedErrorMessagesWithLines
-     */
-    public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
-    {
-        $this->analyse([$filePath], $expectedErrorMessagesWithLines);
-    }
-
-    public function provideData(): Iterator
-    {
-        yield [__DIR__ . '/Fixture/SkipNewWithInterface.php', []];
-    }
-
-    protected function getRule(): Rule
-    {
-        return new SomeRule());
-    }
-}
 ```
 
 :+1:

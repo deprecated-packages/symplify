@@ -53,7 +53,6 @@ rules:
     - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
     - Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
     - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
-    - Symplify\PHPStanRules\Rules\RequireSkipPrefixForRuleSkippedFixtureRule
     - Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
     # naming
