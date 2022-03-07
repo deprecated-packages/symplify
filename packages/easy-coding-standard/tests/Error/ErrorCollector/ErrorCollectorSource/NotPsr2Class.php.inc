@@ -2,7 +2,9 @@
 
 namespace Symplify\EasyCodingStandard\Tests\Error\ErrorCollector\ErrorCollectorSource;
 
-abstract class SomeClassTest
+use PHPUnit\Framework\TestCase;
+
+abstract class SomeClassTest extends TestCase
 {
     public function test()
     {
@@ -11,11 +13,5 @@ abstract class SomeClassTest
                         ]  ;
 
         $this->assertEquals('', '');
-        // $this->assertEquals('', '');
-        // $this->assertEquals('', '');
-        // $this->assertEquals('', '');
-        // $this->assertEquals('', '');
     }
-
-    const VALUE = '1000';
 }
