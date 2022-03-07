@@ -1,4 +1,4 @@
-# 121 Rules Overview
+# 120 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -426,40 +426,6 @@ class SomeClass
         }
 
         return 200;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## DifferentMethodNameToParameterRule
-
-Method name should be different to its parameter name, in a verb form
-
-- class: [`Symplify\PHPStanRules\Rules\DifferentMethodNameToParameterRule`](../src/Rules/DifferentMethodNameToParameterRule.php)
-
-```php
-class SomeClass
-{
-    public function apple(string $apple)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function eatApple(string $apple)
-    {
-        // ...
     }
 }
 ```
