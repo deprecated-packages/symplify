@@ -44,7 +44,11 @@ final class PackageProvider
         $json = $this->jsonFileManager->loadFromFileInfo($smartFileInfo);
 
         if (! isset($json['name'])) {
-            throw new ShouldNotHappenException();
+            $errorMessage = sprintf(
+                'Package "name" is missing in "composer.json" for "%s"',
+                $smartFileInfo->getRelativeFilePathFromCwd()
+            );
+            throw new ShouldNotHappenException($errorMessage);
         }
 
         return (string) $json['name'];
