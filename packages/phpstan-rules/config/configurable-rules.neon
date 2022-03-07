@@ -18,10 +18,6 @@ services:
             minNameLength: 2
 
     -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
-        tags: [phpstan.rules.rule]
-
-    -
         class: Symplify\PHPStanRules\Rules\ForbiddenNodeRule
         tags: [phpstan.rules.rule]
         arguments:

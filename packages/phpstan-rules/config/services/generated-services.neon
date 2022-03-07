@@ -66,9 +66,7 @@ services:
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ForbiddenAllowedTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
     - Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver
-    - Symplify\PHPStanRules\TypeResolver\NullableTypeResolver
