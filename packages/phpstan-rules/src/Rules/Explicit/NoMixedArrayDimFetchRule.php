@@ -71,10 +71,13 @@ final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
             return [];
         }
 
+<<<<<<< HEAD
         if ($this->isExternalClass($arrayDimFetch, $scope)) {
             return [];
         }
 
+=======
+>>>>>>> [PHPStanRules] Skip string in NoMixedArrayDimFetchRule
         $rootDimFetchType = $scope->getType($arrayDimFetch->var);
 
         // skip complex types for now
@@ -120,6 +123,7 @@ CODE_SAMPLE
         ]);
     }
 
+<<<<<<< HEAD
     private function shouldSkipRootDimFetchType(Type $type): bool
     {
         if ($type instanceof UnionType) {
@@ -165,5 +169,26 @@ CODE_SAMPLE
         }
 
         return str_contains($fileName, '/vendor/');
+=======
+    private function shouldSkipRootDimFetchType(\PHPStan\Type\Type $rootDimFetchType): bool
+    {
+        if ($rootDimFetchType instanceof UnionType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof IntersectionType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof \PHPStan\Type\StringType) {
+            return true;
+        }
+
+        if ($rootDimFetchType instanceof ArrayType && ! $rootDimFetchType->getKeyType() instanceof MixedType) {
+            return true;
+        }
+
+        return false;
+>>>>>>> [PHPStanRules] Skip string in NoMixedArrayDimFetchRule
     }
 }

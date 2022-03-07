@@ -30,7 +30,10 @@ final class NoMixedArrayDimFetchRuleTest extends AbstractServiceAwareRuleTestCas
 
         yield [__DIR__ . '/Fixture/SkipTypedArray.php', []];
         yield [__DIR__ . '/Fixture/SkipString.php', []];
+<<<<<<< HEAD
         yield [__DIR__ . '/Fixture/SkipExternalPhpParser.php', []];
+=======
+>>>>>>> [PHPStanRules] Skip string in NoMixedArrayDimFetchRule
     }
 
     protected function getRule(): Rule
