@@ -56,7 +56,6 @@ rules:
     - Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
     # naming
-    - Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule
     - Symplify\PHPStanRules\Rules\ConstantMapRuleRule
     - Symplify\PHPStanRules\Rules\NoMagicClosureRule
     - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule

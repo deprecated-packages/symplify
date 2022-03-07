@@ -1,4 +1,4 @@
-# 120 Rules Overview
+# 119 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -426,40 +426,6 @@ class SomeClass
         }
 
         return 200;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## DifferentMethodNameToReturnTypeRule
-
-Method name should be different to its return type, in a verb form
-
-- class: [`Symplify\PHPStanRules\Rules\Naming\DifferentMethodNameToReturnTypeRule`](../src/Rules/Naming/DifferentMethodNameToReturnTypeRule.php)
-
-```php
-class SomeClass
-{
-    public function apple(): Apple
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function getApple(): Apple
-    {
-        // ...
     }
 }
 ```
