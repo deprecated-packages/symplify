@@ -1,4 +1,4 @@
-# 117 Rules Overview
+# 112 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -861,94 +861,6 @@ foreach ($arg as $key => $item) {
 
 <br>
 
-## ForbiddenFinalClassMockRule
-
-Class "%s" is mocked, but is final. It might crash
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenFinalClassMockRule`](../src/Rules/ForbiddenFinalClassMockRule.php)
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class SomeTest extends TestCase
-{
-    public function test()
-    {
-        $this->getMockBuilder(SomeClass::clas);
-    }
-}
-
-final class SomeClass
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class SomeTest extends TestCase
-{
-    public function test()
-    {
-        $this->getMockBuilder(SomeClass::clas);
-    }
-}
-
-class SomeClass
-{
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenForeachEmptyMissingArrayRule
-
-Foreach over empty missing array is not allowed. Use isset check early instead.
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenForeachEmptyMissingArrayRule`](../src/Rules/ForbiddenForeachEmptyMissingArrayRule.php)
-
-```php
-final class SomeClass
-{
-    public function run(): void
-    {
-        foreach ($data ?? [] as $value) {
-            // ...
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run(): void
-    {
-        if (! isset($data)) {
-            return;
-        }
-
-        foreach ($data as $value) {
-            // ...
-        }
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ForbiddenFuncCallRule
 
 Function `"%s()"` cannot be used/left in the code
@@ -1059,29 +971,6 @@ class SomeClass
         return mt_rand(0, 100);
     }
 }
-```
-
-:+1:
-
-<br>
-
-## ForbiddenMethodCallOnNewRule
-
-Method call on new expression is not allowed.
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenMethodCallOnNewRule`](../src/Rules/ForbiddenMethodCallOnNewRule.php)
-
-```php
-(new SomeClass())->run();
-```
-
-:x:
-
-<br>
-
-```php
-$someClass = new SomeClass();
-$someClass->run();
 ```
 
 :+1:
@@ -1216,59 +1105,6 @@ return @strlen('...');
 
 ```php
 return strlen('...');
-```
-
-:+1:
-
-<br>
-
-## ForbiddenNullableParameterRule
-
-Parameter "%s" cannot be nullable
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule`](../src/Rules/ForbiddenNullableParameterRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenNullableParameterRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - PhpParser\Node
-
-            allowedTypes:
-                - PhpParser\Node\Scalar\String_
-```
-
-↓
-
-```php
-use PhpParser\Node;
-
-class SomeClass
-{
-    public function run(?Node $node = null): void
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PhpParser\Node;
-
-class SomeClass
-{
-    public function run(Node $node): void
-    {
-    }
-}
 ```
 
 :+1:
@@ -1804,40 +1640,6 @@ final class SomeTest
     public function setUp()
     {
         // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoContainerInjectionInConstructorRule
-
-Instead of container injection, use specific service
-
-- class: [`Symplify\PHPStanRules\Rules\NoContainerInjectionInConstructorRule`](../src/Rules/NoContainerInjectionInConstructorRule.php)
-
-```php
-class SomeClass
-{
-    public function __construct(ContainerInterface $container)
-    {
-        $this->someDependency = $container->get('...');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function __construct(SomeDependency $someDependency)
-    {
-        $this->someDependency = $someDependency;
     }
 }
 ```
