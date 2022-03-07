@@ -71,19 +71,10 @@ final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
             return [];
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> [PHPStanRules] Skip on node
         if ($this->isExternalClass($arrayDimFetch, $scope)) {
             return [];
         }
 
-<<<<<<< HEAD
-=======
->>>>>>> [PHPStanRules] Skip string in NoMixedArrayDimFetchRule
-=======
->>>>>>> [PHPStanRules] Skip on node
         $rootDimFetchType = $scope->getType($arrayDimFetch->var);
 
         // skip complex types for now
@@ -129,8 +120,6 @@ CODE_SAMPLE
         ]);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     private function shouldSkipRootDimFetchType(Type $type): bool
     {
         if ($type instanceof UnionType) {
@@ -176,59 +165,5 @@ CODE_SAMPLE
         }
 
         return str_contains($fileName, '/vendor/');
-=======
-    private function shouldSkipRootDimFetchType(\PHPStan\Type\Type $rootDimFetchType): bool
-=======
-    private function shouldSkipRootDimFetchType(Type $type): bool
->>>>>>> [PHPStanRules] Skip on node
-    {
-        if ($type instanceof UnionType) {
-            return true;
-        }
-
-        if ($type instanceof IntersectionType) {
-            return true;
-        }
-
-        if ($type instanceof StringType) {
-            return true;
-        }
-
-        return $type instanceof ArrayType && ! $type->getKeyType() instanceof MixedType;
-    }
-
-    private function isExternalClass(ArrayDimFetch $arrayDimFetch, Scope $scope): bool
-    {
-        if (! $arrayDimFetch->var instanceof PropertyFetch) {
-            return false;
-        }
-
-        $propertyFetch = $arrayDimFetch->var;
-
-        $propertyFetcherType = $scope->getType($propertyFetch->var);
-        if (! $propertyFetcherType instanceof ObjectType) {
-            return false;
-        }
-
-        $classReflection = $propertyFetcherType->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return true;
-        }
-
-        if ($classReflection->isInternal()) {
-            return true;
-        }
-
-<<<<<<< HEAD
-        return false;
->>>>>>> [PHPStanRules] Skip string in NoMixedArrayDimFetchRule
-=======
-        $fileName = $classReflection->getFileName();
-        if ($fileName === null) {
-            return false;
-        }
-
-        return str_contains($fileName, '/vendor/');
->>>>>>> [PHPStanRules] Skip on node
     }
 }
