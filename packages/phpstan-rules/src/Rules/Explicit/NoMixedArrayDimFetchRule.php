@@ -11,9 +11,13 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -67,6 +71,10 @@ final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
             return [];
         }
 
+        if ($this->isExternalClass($arrayDimFetch, $scope)) {
+            return [];
+        }
+
         $rootDimFetchType = $scope->getType($arrayDimFetch->var);
 
         // skip complex types for now
@@ -112,24 +120,50 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipRootDimFetchType(\PHPStan\Type\Type $rootDimFetchType): bool
+    private function shouldSkipRootDimFetchType(Type $type): bool
     {
-        if ($rootDimFetchType instanceof UnionType) {
+        if ($type instanceof UnionType) {
             return true;
         }
 
-        if ($rootDimFetchType instanceof IntersectionType) {
+        if ($type instanceof IntersectionType) {
             return true;
         }
 
-        if ($rootDimFetchType instanceof \PHPStan\Type\StringType) {
+        if ($type instanceof StringType) {
             return true;
         }
 
-        if ($rootDimFetchType instanceof ArrayType && ! $rootDimFetchType->getKeyType() instanceof MixedType) {
+        return $type instanceof ArrayType && ! $type->getKeyType() instanceof MixedType;
+    }
+
+    private function isExternalClass(ArrayDimFetch $arrayDimFetch, Scope $scope): bool
+    {
+        if (! $arrayDimFetch->var instanceof PropertyFetch) {
+            return false;
+        }
+
+        $propertyFetch = $arrayDimFetch->var;
+
+        $propertyFetcherType = $scope->getType($propertyFetch->var);
+        if (! $propertyFetcherType instanceof ObjectType) {
+            return false;
+        }
+
+        $classReflection = $propertyFetcherType->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return true;
         }
 
-        return false;
+        if ($classReflection->isInternal()) {
+            return true;
+        }
+
+        $fileName = $classReflection->getFileName();
+        if ($fileName === null) {
+            return false;
+        }
+
+        return str_contains($fileName, '/vendor/');
     }
 }
