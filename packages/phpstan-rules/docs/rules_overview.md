@@ -1,4 +1,4 @@
-# 118 Rules Overview
+# 117 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -854,56 +854,6 @@ foreach ($this->getData($arg) as $key => $item) {
 $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
     // ...
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenDependencyByTypeRule
-
-Object instance of "%s" is forbidden to be passed to constructor
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule`](../src/Rules/ForbiddenDependencyByTypeRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ForbiddenDependencyByTypeRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            forbiddenTypes:
-                - EntityManager
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function __construct(
-        private EntityManager $entityManager
-    ) {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function __construct(
-        private ProductRepository $productRepository
-    ) {
-        // ...
-    }
 }
 ```
 
