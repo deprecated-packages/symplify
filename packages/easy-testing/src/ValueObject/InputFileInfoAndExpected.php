@@ -8,12 +8,9 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class InputFileInfoAndExpected
 {
-    /**
-     * @param mixed $expected
-     */
     public function __construct(
         private SmartFileInfo $inputFileInfo,
-        private $expected
+        private mixed $expected
     ) {
     }
 
@@ -32,10 +29,7 @@ final class InputFileInfoAndExpected
         return $this->inputFileInfo->getRealPath();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExpected()
+    public function getExpected(): mixed
     {
         return $this->expected;
     }

@@ -75,5 +75,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         // adopted 3rd party package - keep API compatible
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
+
+        // false positive on "locale" string
+        \Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector::class => [
+            __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
+        ],
     ]);
 };

@@ -45,9 +45,6 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::IMPORTS;
     }
 
-    /**
-     * @param mixed|mixed[] $values
-     */
     public function convertToMethodCall(mixed $key, mixed $values): Expression
     {
         if (is_array($values)) {
@@ -125,10 +122,7 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $arguments[YamlKey::IGNORE_ERRORS] === false;
     }
 
-    /**
-     * @return mixed|string
-     */
-    private function replaceImportedFileSuffix(mixed $value)
+    private function replaceImportedFileSuffix(mixed $value): mixed
     {
         if (! is_string($value)) {
             return $value;

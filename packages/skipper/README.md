@@ -108,10 +108,7 @@ final class SomeClass
         $this->skipper = $skipper;
     }
 
-    /**
-     * @param string|object $element
-     */
-    public function run($element, SmartFileInfo $fileInfo): void
+    public function run(string|object $element, SmartFileInfo $fileInfo): void
     {
         // 1. skip the element?
         $shouldBeSkipped = $this->skipper->shouldSkipElement($element);

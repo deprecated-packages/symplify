@@ -22,10 +22,7 @@ final class ControllerContentResolver
     ) {
     }
 
-    /**
-     * @param mixed $values
-     */
-    public function resolveFromRouteAndArgument(string $routeName, Route $route, $values): ?string
+    public function resolveFromRouteAndArgument(string $routeName, Route $route, mixed $values): ?string
     {
         $controllerCallable = $this->controllerMatcher->matchRouteToControllerAndMethod($route);
         if (! class_exists($controllerCallable->getClass())) {

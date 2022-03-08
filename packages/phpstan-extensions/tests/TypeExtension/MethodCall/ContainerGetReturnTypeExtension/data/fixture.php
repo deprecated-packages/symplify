@@ -8,7 +8,7 @@ use function PHPStan\Testing\assertType;
 
 class SomeClass
 {
-    public function run(ContainerInterface $container)
+    public function run(ContainerInterface $container): void
     {
         $services = $container->get(ExternalService::class);
         assertType(ExternalService::class, $services);

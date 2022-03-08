@@ -54,6 +54,9 @@ final class PhpParserPhpConfigPrinter extends Standard
         parent::__construct();
     }
 
+    /**
+     * @param Node\Stmt[] $stmts
+     */
     public function prettyPrintFile(array $stmts): string
     {
         $stmts = $this->importFullyQualifiedNamesNodeTraverser->traverseNodes($stmts);

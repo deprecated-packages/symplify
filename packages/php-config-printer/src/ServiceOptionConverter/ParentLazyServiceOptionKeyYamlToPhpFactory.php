@@ -12,13 +12,12 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class ParentLazyServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         $method = $key;
         $methodCall = new MethodCall($methodCall, $method);
         $methodCall->args[] = new Arg(BuilderHelpers::normalizeValue($values[$key]));

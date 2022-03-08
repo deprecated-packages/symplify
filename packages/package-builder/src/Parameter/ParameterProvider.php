@@ -33,9 +33,8 @@ final class ParameterProvider
 
     /**
      * @api
-     * @return mixed|null
      */
-    public function provideParameter(string $name)
+    public function provideParameter(string $name): mixed
     {
         return $this->parameters[$name] ?? null;
     }

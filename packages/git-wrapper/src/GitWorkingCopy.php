@@ -393,10 +393,8 @@ final class GitWorkingCopy
 
     /**
      * @code $git->apply('the/file/to/read/the/patch/from');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function apply(...$argsOrOptions): string
+    public function apply(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::APPLY, $argsOrOptions);
     }
@@ -406,10 +404,8 @@ final class GitWorkingCopy
      *
      * @code $git->bisect('good', '2.6.13-rc2');
      * $git->bisect('view', ['stat' => true]);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function bisect(...$argsOrOptions): string
+    public function bisect(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::BISECT, $argsOrOptions);
     }
@@ -417,20 +413,16 @@ final class GitWorkingCopy
     /**
      * @code $git->branch('my2.6.14', 'v2.6.14');
      * $git->branch('origin/html', 'origin/man', ['d' => true, 'r' => 'origin/todo']);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function branch(...$argsOrOptions): string
+    public function branch(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::BRANCH, $argsOrOptions);
     }
 
     /**
      * @code $git->checkout('new-branch', ['b' => true]);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function checkout(...$argsOrOptions): string
+    public function checkout(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::CHECKOUT, $argsOrOptions);
     }
@@ -454,10 +446,8 @@ final class GitWorkingCopy
      *
      * @code $git->commit('My commit message');
      * $git->commit('Makefile', ['m' => 'My commit message']);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function commit(...$argsOrOptions): string
+    public function commit(mixed ...$argsOrOptions): string
     {
         if (isset($argsOrOptions[0]) && is_string($argsOrOptions[0]) && ! isset($argsOrOptions[1])) {
             $argsOrOptions[0] = [
@@ -472,10 +462,8 @@ final class GitWorkingCopy
     /**
      * @code $git->config('user.email', 'testing@email.com');
      * $git->config('user.name', 'Chris Pliakas');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function config(...$argsOrOptions): string
+    public function config(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::CONFIG, $argsOrOptions);
     }
@@ -483,10 +471,8 @@ final class GitWorkingCopy
     /**
      * @code $git->diff();
      * $git->diff('topic', 'master');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function diff(...$argsOrOptions): string
+    public function diff(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::DIFF, $argsOrOptions);
     }
@@ -496,9 +482,8 @@ final class GitWorkingCopy
      * $git->fetch(['all' => true]);
      *
      * @api
-     * @param mixed ...$argsOrOptions
      */
-    public function fetch(...$argsOrOptions): string
+    public function fetch(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::FETCH, $argsOrOptions);
     }
@@ -507,10 +492,8 @@ final class GitWorkingCopy
      * Print lines matching a pattern.
      *
      * @code $git->grep('time_t', '--', '*.[ch]');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function grep(...$argsOrOptions): string
+    public function grep(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::GREP, $argsOrOptions);
     }
@@ -531,20 +514,16 @@ final class GitWorkingCopy
     /**
      * @code $git->log(['no-merges' => true]);
      * $git->log('v2.6.12..', 'include/scsi', 'drivers/scsi');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function log(...$argsOrOptions): string
+    public function log(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::LOG, $argsOrOptions);
     }
 
     /**
      * @code $git->merge('fixes', 'enhancements');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function merge(...$argsOrOptions): string
+    public function merge(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::MERGE, $argsOrOptions);
     }
@@ -562,50 +541,40 @@ final class GitWorkingCopy
 
     /**
      * @code $git->pull('upstream', 'master');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function pull(...$argsOrOptions): string
+    public function pull(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::PULL, $argsOrOptions);
     }
 
     /**
      * @code $git->push('upstream', 'master');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function push(...$argsOrOptions): string
+    public function push(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::PUSH, $argsOrOptions);
     }
 
     /**
      * @code $git->rebase('subsystem@{1}', ['onto' => 'subsystem']);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function rebase(...$argsOrOptions): string
+    public function rebase(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::REBASE, $argsOrOptions);
     }
 
     /**
      * @code $git->remote('add', 'upstream', 'git://github.com/symplify/git-wrapper.git');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function remote(...$argsOrOptions): string
+    public function remote(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::REMOTE, $argsOrOptions);
     }
 
     /**
      * @code $git->reset(['hard' => true]);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function reset(...$argsOrOptions): string
+    public function reset(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::RESET, $argsOrOptions);
     }
@@ -634,40 +603,32 @@ final class GitWorkingCopy
 
     /**
      * @code $git->status(['s' => true]);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function status(...$argsOrOptions): string
+    public function status(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::STATUS, $argsOrOptions);
     }
 
     /**
      * @code $git->tag('v1.0.0');
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function tag(...$argsOrOptions): string
+    public function tag(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::TAG, $argsOrOptions);
     }
 
     /**
      * @code $git->clean('-d', '-f');
-     *
-     * @param string ...$argsOrOptions
      */
-    public function clean(...$argsOrOptions): string
+    public function clean(string ...$argsOrOptions): string
     {
         return $this->run(CommandName::CLEAN, $argsOrOptions);
     }
 
     /**
      * @code $git->archive('HEAD', ['o' => '/path/to/archive']);
-     *
-     * @param mixed ...$argsOrOptions
      */
-    public function archive(...$argsOrOptions): string
+    public function archive(mixed ...$argsOrOptions): string
     {
         return $this->run(CommandName::ARCHIVE, $argsOrOptions);
     }

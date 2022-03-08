@@ -36,13 +36,12 @@ final class DecoratesServiceOptionKeyYamlToPhpFactory implements ServiceOptionsK
     ) {
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         $arguments = $this->yamlArgumentSorter->sortArgumentsByKeyIfExists($values, [
             self::DECORATION_INNER_NAME => null,
             self::DECORATION_PRIORITY => 0,

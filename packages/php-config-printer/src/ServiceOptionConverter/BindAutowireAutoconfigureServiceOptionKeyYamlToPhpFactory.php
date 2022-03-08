@@ -22,13 +22,12 @@ final class BindAutowireAutoconfigureServiceOptionKeyYamlToPhpFactory implements
     ) {
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         $method = $key;
         if ($key === 'shared') {
             $method = 'share';

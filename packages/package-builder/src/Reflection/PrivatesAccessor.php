@@ -31,10 +31,7 @@ final class PrivatesAccessor
         throw new InvalidPrivatePropertyTypeException($errorMessage);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPrivateProperty(object $object, string $propertyName)
+    public function getPrivateProperty(object $object, string $propertyName): mixed
     {
         $propertyReflection = $this->resolvePropertyReflection($object, $propertyName);
         $propertyReflection->setAccessible(true);

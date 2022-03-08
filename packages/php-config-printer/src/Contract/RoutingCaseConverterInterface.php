@@ -8,13 +8,7 @@ use PhpParser\Node\Stmt\Expression;
 
 interface RoutingCaseConverterInterface
 {
-    /**
-     * @param mixed $values
-     */
-    public function match(string $key, $values): bool;
+    public function match(string $key, mixed $values): bool;
 
-    /**
-     * @param mixed $values
-     */
-    public function convertToMethodCall(string $key, $values): Expression;
+    public function convertToMethodCall(string $key, mixed $values): Expression;
 }

@@ -29,7 +29,7 @@ final class AssignedParametersVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): null|Node
     {
         if (! $node instanceof Assign) {
             return null;

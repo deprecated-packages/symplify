@@ -32,9 +32,8 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
 
     /**
      * @param ClassConstFetch $expr
-     * @return null|string|mixed
      */
-    public function resolve(Expr $expr, string $currentFilePath)
+    public function resolve(Expr $expr, string $currentFilePath): mixed
     {
         $className = $this->simpleNameResolver->getName($expr->class);
 

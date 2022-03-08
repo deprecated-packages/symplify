@@ -10,6 +10,9 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class SkipperKernel extends AbstractSymplifyKernel
 {
+    /**
+     * @param string[] $configFiles
+     */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = SkipperConfig::FILE_PATH;

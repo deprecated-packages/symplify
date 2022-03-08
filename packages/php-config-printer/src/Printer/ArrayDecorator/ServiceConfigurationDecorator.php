@@ -13,11 +13,7 @@ final class ServiceConfigurationDecorator
     ) {
     }
 
-    /**
-     * @param mixed|mixed[] $configuration
-     * @return mixed|mixed[]
-     */
-    public function decorate($configuration, string $class, bool $shouldUseConfigureMethod)
+    public function decorate(mixed $configuration, string $class, bool $shouldUseConfigureMethod): mixed
     {
         if (! is_array($configuration)) {
             return $configuration;

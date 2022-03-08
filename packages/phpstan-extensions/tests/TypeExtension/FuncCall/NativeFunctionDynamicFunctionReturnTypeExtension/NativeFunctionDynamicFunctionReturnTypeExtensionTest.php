@@ -18,10 +18,8 @@ final class NativeFunctionDynamicFunctionReturnTypeExtensionTest extends TypeInf
 
     /**
      * @dataProvider dataAsserts()
-     *
-     * @param mixed ...$args
      */
-    public function testAsserts(string $assertType, string $file, ...$args): void
+    public function testAsserts(string $assertType, string $file, mixed ...$args): void
     {
         $this->assertFileAsserts($assertType, $file, ...$args);
     }

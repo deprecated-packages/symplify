@@ -52,10 +52,9 @@ final class RemoveExcludedCheckersCompilerPass implements CompilerPassInterface
     }
 
     /**
-     * @param mixed $value
      * @return class-string|null
      */
-    private function matchFullClassSkip(int|string $key, $value): ?string
+    private function matchFullClassSkip(int|string $key, mixed $value): ?string
     {
         // "SomeClass::class" => null
         if (is_string($key) && class_exists($key) && $value === null) {

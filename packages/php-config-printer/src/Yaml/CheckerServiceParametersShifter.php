@@ -207,10 +207,7 @@ final class CheckerServiceParametersShifter
         return in_array($key, self::SERVICE_KEYWORDS, true);
     }
 
-    /**
-     * @return mixed|mixed[]|string
-     */
-    private function escapeValue(mixed $value)
+    private function escapeValue(mixed $value): mixed
     {
         if (! is_array($value) && ! is_string($value)) {
             return $value;

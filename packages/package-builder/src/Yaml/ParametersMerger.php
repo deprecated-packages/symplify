@@ -11,10 +11,8 @@ final class ParametersMerger
      *
      * @autor David Grudl (https://davidgrudl.com)
      * @source https://github.com/nette/di/blob/8eb90721a131262f17663e50aee0032a62d0ef08/src/DI/Config/Helpers.php#L31
-     *
-     * @return mixed[]|mixed
      */
-    public function merge($left, $right)
+    public function merge(mixed $left, mixed $right): mixed
     {
         if (is_array($left) && is_array($right)) {
             return $this->mergeLeftToRightWithCallable(
@@ -39,10 +37,8 @@ final class ParametersMerger
      * The same as above, just with the case if both values being non-array, it will combined them to array:
      *
      * $this->mergeWithCombine(1, 2); // [1, 2]
-     *
-     * @return mixed[]|mixed
      */
-    public function mergeWithCombine($left, $right)
+    public function mergeWithCombine(mixed $left, mixed $right): mixed
     {
         if (is_array($left) && is_array($right)) {
             return $this->mergeLeftToRightWithCallable(
@@ -64,6 +60,8 @@ final class ParametersMerger
     }
 
     /**
+     * @param array<int|string, mixed> $left
+     * @param array<int|string, mixed> $right
      * @return mixed[]
      */
     private function mergeLeftToRightWithCallable(array $left, array $right, callable $mergeCallback): array

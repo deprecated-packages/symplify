@@ -10,6 +10,9 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class AstralKernel extends AbstractSymplifyKernel
 {
+    /**
+     * @param string[] $configFiles
+     */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = AstralConfig::FILE_PATH;

@@ -12,6 +12,9 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class SymplifyCodingStandardKernel extends AbstractSymplifyKernel
 {
+    /**
+     * @param string[] $configFiles
+     */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = EasyCodingStandardConfig::FILE_PATH;

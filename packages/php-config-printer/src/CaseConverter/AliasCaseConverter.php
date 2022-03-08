@@ -113,10 +113,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         return new MethodCall(new Variable(VariableName::SERVICES), MethodName::ALIAS, $args);
     }
 
-    /**
-     * @param mixed $values
-     */
-    private function createFromClassLike(string $key, $values, Variable $servicesVariable): Expression
+    private function createFromClassLike(string $key, mixed $values, Variable $servicesVariable): Expression
     {
         $classReference = $this->commonNodeFactory->createClassReference($key);
 

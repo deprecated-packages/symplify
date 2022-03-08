@@ -117,10 +117,7 @@ final class ContainerConfiguratorReturnClosureFactory
         return $nodes;
     }
 
-    /**
-     * @param mixed|mixed[] $nestedValues
-     */
-    private function resolveExpression(string $key, int | string $nestedKey, $nestedValues): ?Expression
+    private function resolveExpression(string $key, int | string $nestedKey, mixed $nestedValues): ?Expression
     {
         foreach ($this->caseConverters as $caseConverter) {
             if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
