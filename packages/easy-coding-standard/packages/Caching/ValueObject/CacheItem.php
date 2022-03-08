@@ -10,12 +10,9 @@ namespace Symplify\EasyCodingStandard\Caching\ValueObject;
  */
 final class CacheItem
 {
-    /**
-     * @param mixed $data
-     */
     public function __construct(
         private string $variableKey,
-        private $data
+        private mixed $data
     ) {
     }
 
@@ -32,10 +29,7 @@ final class CacheItem
         return $this->variableKey === $variableKey;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }

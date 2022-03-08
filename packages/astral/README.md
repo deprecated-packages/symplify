@@ -57,7 +57,7 @@ final class SomeRule
     ) {
     }
 
-    public function process(Node $node)
+    public function process(Node $node): void
     {
         if ($node instanceof MethodCall) {
             $callerName = $this->simpleNameResolver->getName($node->var);
@@ -98,7 +98,7 @@ final class SomeRule
     ) {
     }
 
-    public function process(Node $node, Scope $scope)
+    public function process(Node $node, Scope $scope): void
     {
         if ($node instanceof Assign && $node->expr instanceof LNumber) {
             $resolvedValue = $this->nodeValueResolver->resolve($node->expr, $scope->getFile());
@@ -258,10 +258,7 @@ $phpDocNodeTraverser->addPhpDocNodeVisitor($callablePhpDocNodeVisitor);
 // B. or class that extends AbstractPhpDocNodeVisitor
 final class IntegerPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
 {
-    /**
-     * @return Node|int|null
-     */
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): Node|int|null
     {
         if (! $node instanceof VarTagValueNode) {
             return $node;

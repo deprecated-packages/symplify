@@ -55,10 +55,7 @@ final class NodeValueResolver
         $this->nodeValueResolvers[] = new FuncCallValueResolver($this->simpleNameResolver, $this->constExprEvaluator);
     }
 
-    /**
-     * @return array|bool|float|int|mixed|string|null
-     */
-    public function resolveWithScope(Expr $expr, Scope $scope)
+    public function resolveWithScope(Expr $expr, Scope $scope): mixed
     {
         $this->currentFilePath = $scope->getFile();
 
@@ -79,10 +76,7 @@ final class NodeValueResolver
         return null;
     }
 
-    /**
-     * @return array|bool|float|int|mixed|string|null
-     */
-    public function resolve(Expr $expr, string $filePath)
+    public function resolve(Expr $expr, string $filePath): mixed
     {
         $this->currentFilePath = $filePath;
 
@@ -93,10 +87,7 @@ final class NodeValueResolver
         }
     }
 
-    /**
-     * @return mixed|string|int|bool|null
-     */
-    private function resolveByNode(Expr $expr)
+    private function resolveByNode(Expr $expr): mixed
     {
         if ($this->currentFilePath === null) {
             throw new ShouldNotHappenException();

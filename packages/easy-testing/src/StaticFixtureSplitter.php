@@ -107,9 +107,6 @@ final class StaticFixtureSplitter
         return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBaseName);
     }
 
-    /**
-     * @return mixed|int|float
-     */
     private static function retypeExpected(mixed $expected): mixed
     {
         if (! is_numeric(trim($expected))) {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\RoutingCaseConverter;
 
-use locale;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
@@ -17,7 +16,7 @@ use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
 {
     /**
-     * @var string[]|class-string<locale>[]
+     * @var string[]
      */
     private const NESTED_KEYS = [
         'name_prefix',
@@ -85,15 +84,12 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
     /**
      * @param mixed[] $values
      */
-    public function match(string $key, $values): bool
+    public function match(string $key, mixed $values): bool
     {
         return isset($values[self::RESOURCE]);
     }
 
-    /**
-     * @param mixed $values
-     */
-    public function convertToMethodCall(string $key, $values): Expression
+    public function convertToMethodCall(string $key, mixed $values): Expression
     {
         $variable = new Variable(VariableName::ROUTING_CONFIGURATOR);
 
@@ -129,10 +125,9 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
 
     /**
      * @param string[] $argsNames
-     * @param mixed $values
      * @return Arg[]
      */
-    private function createAddArgs(array $argsNames, $values): array
+    private function createAddArgs(array $argsNames, mixed $values): array
     {
         $argumentValues = [];
 

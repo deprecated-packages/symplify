@@ -36,13 +36,10 @@ final class GitCommand
      */
     private array $args = [];
 
-    /**
-     * @param mixed ...$argsOrOptions
-     */
     public function __construct(
         //  The command being run, e.g. "clone", "commit", etc.
         private string $command = '',
-        ...$argsOrOptions,
+        mixed ...$argsOrOptions,
     ) {
         foreach ($argsOrOptions as $argOrOption) {
             if (is_array($argOrOption)) {
@@ -125,9 +122,8 @@ final class GitCommand
 
     /**
      * @api
-     * @return mixed
      */
-    public function getOption(string $option, mixed $default = null)
+    public function getOption(string $option, mixed $default = null): mixed
     {
         return $this->options[$option] ?? $default;
     }

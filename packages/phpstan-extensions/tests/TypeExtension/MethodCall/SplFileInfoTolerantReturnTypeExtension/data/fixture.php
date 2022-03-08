@@ -7,7 +7,7 @@ use function PHPStan\Testing\assertType;
 
 class SomeClass
 {
-    public function run(SplFileInfo $splFileInfo)
+    public function run(SplFileInfo $splFileInfo): void
     {
         $realPath = $splFileInfo->getRealPath();
         assertType('string', $realPath);

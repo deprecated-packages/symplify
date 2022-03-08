@@ -18,10 +18,8 @@ final class SplFileInfoTolerantReturnTypeExtensionTest extends TypeInferenceTest
 
     /**
      * @dataProvider dataAsserts()
-     *
-     * @param mixed ...$args
      */
-    public function testAsserts(string $assertType, string $file, ...$args): void
+    public function testAsserts(string $assertType, string $file, mixed ...$args): void
     {
         $this->assertFileAsserts($assertType, $file, ...$args);
     }

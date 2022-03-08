@@ -41,7 +41,7 @@ final class ParentConnectingPhpDocNodeVisitor extends AbstractPhpDocNodeVisitor
     /**
      * @return null|int|\PhpParser\Node|Node[] Replacement node (or special return
      */
-    public function leaveNode(Node $node)
+    public function leaveNode(Node $node): int|\PhpParser\Node|array|null
     {
         array_pop($this->stack);
         return null;

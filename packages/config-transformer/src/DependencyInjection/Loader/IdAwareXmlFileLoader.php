@@ -50,11 +50,14 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         $this->privatesCaller = new PrivatesCaller();
     }
 
+    /**
+     * @param string|string[]|null $exclude
+     */
     public function import(
-        $resource,
-        $type = null,
-        $ignoreErrors = false,
-        $sourceResource = null,
+        mixed $resource,
+        string $type = null,
+        bool|string $ignoreErrors = false,
+        string $sourceResource = null,
         $exclude = null
     ): mixed {
         $this->xmlImportCollector->addImport($resource, $ignoreErrors);

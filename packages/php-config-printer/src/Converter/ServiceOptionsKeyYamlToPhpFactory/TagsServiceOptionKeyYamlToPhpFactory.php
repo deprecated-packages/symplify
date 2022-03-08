@@ -25,13 +25,12 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
     ) {
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yamlLines
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yamlLines, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yamlLines,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         if ($this->isSingleLineYamlLines($yamlLines)) {
             /** @var string[] $yamlLines */
             $string = new String_($yamlLines[0]);

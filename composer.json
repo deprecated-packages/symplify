@@ -58,6 +58,7 @@
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
         "rector/rector": "dev-main",
+        "slevomat/coding-standard": "^7.0",
         "symfony/framework-bundle": "^5.4|^6.0",
         "symfony/twig-bundle": "^5.4|^6.0",
         "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0",
@@ -230,7 +231,8 @@
         "platform-check": false,
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "cweagans/composer-patches": true
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": false
         }
     },
     "minimum-stability": "dev",

@@ -496,7 +496,7 @@ final class ComposerJson
     /**
      * @return string|string[]|null
      */
-    public function getLicense()
+    public function getLicense(): string|array|null
     {
         return $this->license;
     }

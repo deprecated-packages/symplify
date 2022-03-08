@@ -9,6 +9,9 @@ use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class PackageBuilderTestKernel extends AbstractSymplifyKernel
 {
+    /**
+     * @param string[] $configFiles
+     */
     public function createFromConfigs(array $configFiles): ContainerInterface
     {
         $configFiles[] = __DIR__ . '/../config/test_config.php';

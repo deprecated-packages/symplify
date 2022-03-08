@@ -17,13 +17,12 @@ final class SharedPublicServiceOptionKeyYamlToPhpFactory implements ServiceOptio
     ) {
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         if ($key === 'public') {
             if ($yaml === false) {
                 return new MethodCall($methodCall, 'private');

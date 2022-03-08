@@ -34,18 +34,12 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
     ) {
     }
 
-    /**
-     * @param mixed $values
-     */
-    public function match(string $key, $values): bool
+    public function match(string $key, mixed $values): bool
     {
         return isset($values[self::PATH]);
     }
 
-    /**
-     * @param mixed $values
-     */
-    public function convertToMethodCall(string $key, $values): Expression
+    public function convertToMethodCall(string $key, mixed $values): Expression
     {
         $variable = new Variable(VariableName::ROUTING_CONFIGURATOR);
 
@@ -74,10 +68,9 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
     }
 
     /**
-     * @param mixed $values
      * @return Arg[]
      */
-    private function createAddArgs(string $key, $values): array
+    private function createAddArgs(string $key, mixed $values): array
     {
         $argumentValues = [];
         $argumentValues[] = $key;

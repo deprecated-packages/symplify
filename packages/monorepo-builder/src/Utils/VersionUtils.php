@@ -15,7 +15,7 @@ final class VersionUtils
 {
     private string $packageAliasFormat;
 
-    public function __construct(ParameterProvider $parameterProvider,)
+    public function __construct(ParameterProvider $parameterProvider)
     {
         $this->packageAliasFormat = $parameterProvider->provideStringParameter(Option::PACKAGE_ALIAS_FORMAT);
     }

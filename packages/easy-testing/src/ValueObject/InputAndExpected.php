@@ -6,12 +6,9 @@ namespace Symplify\EasyTesting\ValueObject;
 
 final class InputAndExpected
 {
-    /**
-     * @param mixed $expected
-     */
     public function __construct(
         private string $input,
-        private $expected
+        private mixed $expected
     ) {
     }
 
@@ -20,10 +17,7 @@ final class InputAndExpected
         return $this->input;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getExpected()
+    public function getExpected(): mixed
     {
         return $this->expected;
     }

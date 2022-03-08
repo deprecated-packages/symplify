@@ -16,13 +16,12 @@ final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements Servi
     ) {
     }
 
-    /**
-     * @param mixed|mixed[] $yaml
-     * @param mixed $key
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         $args = $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml);
         return new MethodCall($methodCall, 'factory', $args);
     }

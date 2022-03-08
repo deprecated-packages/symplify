@@ -21,13 +21,17 @@ final class ClassNameNodeVisitor extends NodeVisitorAbstract
 
     private string|null $className = null;
 
-    public function beforeTraverse(array $nodes)
+    /**
+     * @param Node\Stmt[] $nodes
+     * @return Node\Stmt[]
+     */
+    public function beforeTraverse(array $nodes): array
     {
         $this->className = null;
         return $nodes;
     }
 
-    public function enterNode(Node $node)
+    public function enterNode(Node $node): ?int
     {
         if (! $node instanceof ClassLike) {
             return null;

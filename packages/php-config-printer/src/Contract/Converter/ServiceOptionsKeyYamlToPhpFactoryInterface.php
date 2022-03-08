@@ -8,12 +8,12 @@ use PhpParser\Node\Expr\MethodCall;
 
 interface ServiceOptionsKeyYamlToPhpFactoryInterface
 {
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall;
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall;
 
     public function isMatch(mixed $key, mixed $values): bool;
 }

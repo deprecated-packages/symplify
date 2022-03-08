@@ -16,13 +16,12 @@ final class DeprecatedServiceOptionKeyYamlToPhpFactory implements ServiceOptions
     ) {
     }
 
-    /**
-     * @param mixed $key
-     * @param mixed|mixed[] $yaml
-     * @param mixed $values
-     */
-    public function decorateServiceMethodCall($key, $yaml, $values, MethodCall $methodCall): MethodCall
-    {
+    public function decorateServiceMethodCall(
+        mixed $key,
+        mixed $yaml,
+        mixed $values,
+        MethodCall $methodCall
+    ): MethodCall {
         // the old, simple format
         if (! is_array($yaml)) {
             $args = $this->argsNodeFactory->createFromValues([$yaml]);

@@ -101,11 +101,8 @@ final class ArgsNodeFactory
         throw new NotImplementedYetException();
     }
 
-    /**
-     * @param mixed $value
-     */
     public function resolveExpr(
-        $value,
+        mixed $value,
         bool $skipServiceReference = false,
         bool $skipClassesToConstantReference = false
     ): Expr {

@@ -14,9 +14,8 @@ final class PrivatesCaller
 {
     /**
      * @param mixed[] $arguments
-     * @return mixed
      */
-    public function callPrivateMethod(object | string $object, string $methodName, array $arguments)
+    public function callPrivateMethod(object | string $object, string $methodName, array $arguments): mixed
     {
         if (is_string($object)) {
             $reflectionClass = new ReflectionClass($object);
@@ -28,10 +27,7 @@ final class PrivatesCaller
         return $methodReflection->invokeArgs($object, $arguments);
     }
 
-    /**
-     * @return mixed
-     */
-    public function callPrivateMethodWithReference(object | string $object, string $methodName, mixed $argument)
+    public function callPrivateMethodWithReference(object | string $object, string $methodName, mixed $argument): mixed
     {
         if (is_string($object)) {
             $reflectionClass = new ReflectionClass($object);
