@@ -5,8 +5,8 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0",
-        "phpstan/phpstan": "^1.4.6",
-        "latte/latte": "^2.10",
+        "phpstan/phpstan": "^1.4.8",
+        "latte/latte": "^2.11",
         "symplify/astral": "^10.2",
         "symplify/rule-doc-generator-contracts": "^10.2",
         "symplify/package-builder": "^10.2",

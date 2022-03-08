@@ -8,7 +8,7 @@
         "nette/utils": "^3.2",
         "symplify/astral": "^10.2",
         "symplify/package-builder": "^10.2",
-        "phpstan/phpstan": "^1.4.6"
+        "phpstan/phpstan": "^1.4.8"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

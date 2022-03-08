@@ -20,7 +20,7 @@
         "symplify/symplify-kernel": "^10.2"
     },
     "require-dev": {
-        "latte/latte": "^2.10",
+        "latte/latte": "^2.11",
         "nette/application": "^3.1",
         "phpunit/phpunit": "^9.5"
     },
