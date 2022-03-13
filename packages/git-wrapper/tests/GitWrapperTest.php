@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\GitWrapper\Tests;
 
+use Symplify\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWorkingCopy;
@@ -206,6 +207,6 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $this->assertNull($invader->call($this->gitWrapper));
 
         $this->gitWrapper->streamOutput();
-        $this->assertNotNull($invader->call($this->gitWrapper));
+        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $invader->call($this->gitWrapper));
     }
 }
