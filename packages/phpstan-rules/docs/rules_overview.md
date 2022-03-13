@@ -1,4 +1,4 @@
-# 112 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -222,46 +222,6 @@ namespace App\Contract\Repository;
 
 interface ProductRepositoryInterface
 {
-}
-```
-
-:+1:
-
-<br>
-
-## CheckRequiredMethodNamingRule
-
-Autowired/inject method name `"%s()"` must respect "autowire/inject(*)" name
-
-- class: [`Symplify\PHPStanRules\Rules\CheckRequiredMethodNamingRule`](../src/Rules/CheckRequiredMethodNamingRule.php)
-
-```php
-use Symfony\Contracts\Service\Attribute\Required;
-
-final class SomeClass
-{
-    #[Required]
-    public function install(...)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Contracts\Service\Attribute\Required;
-
-final class SomeClass
-{
-    #[Required]
-    public function autowire(...)
-    {
-        // ...
-    }
 }
 ```
 
