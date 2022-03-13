@@ -452,6 +452,9 @@ CODE_SAMPLE;
 
         $this->assertEmpty($empty);
 
+        $gitWrapper->streamOutput(true);
+        $git->status();
+
         stream_filter_remove($stdoutSuppress);
     }
 

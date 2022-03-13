@@ -198,15 +198,4 @@ final class GitWrapperTest extends AbstractGitWrapperTestCase
         $gitWorkingCopy = $this->gitWrapper->cloneRepository('file:///' . $this->randomString());
         $this->assertTrue($gitWorkingCopy->isCloned());
     }
-
-    public function testToggleStreamOutput(): void
-    {
-        $invader = (fn() => $this->outputEventSubscriber);
-
-        $this->gitWrapper->streamOutput(false);
-        $this->assertNull($invader->call($this->gitWrapper));
-
-        $this->gitWrapper->streamOutput();
-        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $invader->call($this->gitWrapper));
-    }
 }
