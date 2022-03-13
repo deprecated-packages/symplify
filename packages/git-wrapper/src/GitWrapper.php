@@ -182,7 +182,7 @@ final class GitWrapper
 
         if (! $streamOutput && $this->outputEventSubscriber !== null) {
             $this->removeOutputEventSubscriber($this->outputEventSubscriber);
-            unset($this->outputEventSubscriber);
+            $this->outputEventSubscriber = null;
         }
     }
 
