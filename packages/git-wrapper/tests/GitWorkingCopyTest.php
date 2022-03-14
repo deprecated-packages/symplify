@@ -471,8 +471,9 @@ CODE_SAMPLE;
         $git->status();
 
         $invader = (fn() => $this->outputEventSubscriber);
+        $outputEventSubscriber = $invader->call($this->gitWrapper);
 
-        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $invader->call($this->gitWrapper));
+        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $outputEventSubscriber);
     }
 
     public function testCommitWithAuthor(): void
