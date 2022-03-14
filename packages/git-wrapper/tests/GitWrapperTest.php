@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\GitWrapper\Tests;
 
-use Symplify\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitCommand;
 use Symplify\GitWrapper\GitWorkingCopy;
