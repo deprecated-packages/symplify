@@ -8,6 +8,7 @@ use Iterator;
 use Nette\Utils\Strings;
 use OndraM\CiDetector\CiDetector;
 use Symfony\Component\Process\Process;
+use Symplify\GitWrapper\EventSubscriber\StreamOutputEventSubscriber;
 use Symplify\GitWrapper\Exception\GitException;
 use Symplify\GitWrapper\GitBranches;
 use Symplify\GitWrapper\GitCommits;
@@ -452,10 +453,25 @@ CODE_SAMPLE;
 
         $this->assertEmpty($empty);
 
+        stream_filter_remove($stdoutSuppress);
+    }
+
+    public function testToggleStreamOutput(): void
+    {
+        $git = $this->getWorkingCopy();
+        $gitWrapper = $git->getWrapper();
+
         $gitWrapper->streamOutput(true);
         $git->status();
 
-        stream_filter_remove($stdoutSuppress);
+        $gitWrapper->streamOutput(false);
+        $git->status();
+
+        $gitWrapper->streamOutput(true);
+        $git->status();
+
+        $invader = (fn() => $this->outputEventSubscriber);
+        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $invader->call($this->gitWrapper));
     }
 
     public function testCommitWithAuthor(): void
