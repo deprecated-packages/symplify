@@ -470,6 +470,7 @@ CODE_SAMPLE;
         $gitWrapper->streamOutput(true);
         $git->status();
 
+        /* @phpstan-ignore-next-line */
         $invader = (fn() => $this->outputEventSubscriber);
         $this->assertInstanceOf(StreamOutputEventSubscriber::class, $invader->call($this->gitWrapper));
     }
