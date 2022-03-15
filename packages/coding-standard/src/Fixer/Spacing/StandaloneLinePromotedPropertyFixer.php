@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
+use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -28,7 +29,7 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
     private const ERROR_MESSAGE = 'Promoted property should be on standalone line';
 
     public function __construct(
-        private \Symplify\CodingStandard\TokenAnalyzer\ParamNewliner $paramNewliner
+        private ParamNewliner $paramNewliner
     ) {
     }
 

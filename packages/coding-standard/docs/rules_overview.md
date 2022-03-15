@@ -1,4 +1,4 @@
-# 15 Rules Overview
+# 16 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -273,6 +273,27 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 +,
      1000
  ];
+```
+
+<br>
+
+## StandaloneLineConstructorParamFixer
+
+Constructor property should be on standalone line
+
+- class: [`Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer`](../src/Fixer/Spacing/StandaloneLineConstructorParamFixer.php)
+
+```diff
+ final class PromotedProperties
+ {
+-    public function __construct(public int $age, private string $name)
+-    {
++    public function __construct(
++        public int $age,
++        private string $name
++    ) {
+     }
+ }
 ```
 
 <br>
