@@ -11,10 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
-use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
-use Symplify\CodingStandard\TokenRunner\Enum\LineKind;
-use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\TokensNewliner;
-use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -31,8 +28,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
     private const ERROR_MESSAGE = 'Constructor property should be on standalone line';
 
     public function __construct(
-        private BlockFinder $blockFinder,
-        private TokensNewliner $tokensNewliner
+        private ParamNewliner $paramNewliner
     ) {
     }
 
@@ -78,7 +74,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
                 continue;
             }
 
-            $this->processConstructorFunction($tokens, $position);
+            $this->paramNewliner->processFunction($tokens, $position);
         }
     }
 
@@ -107,19 +103,6 @@ final class PromotedProperties
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param Tokens<Token> $tokens
-     */
-    private function processConstructorFunction(Tokens $tokens, int $position): void
-    {
-        $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
-        if (! $blockInfo instanceof BlockInfo) {
-            return;
-        }
-
-        $this->tokensNewliner->breakItems($blockInfo, $tokens, LineKind::CALLS);
     }
 
     /**

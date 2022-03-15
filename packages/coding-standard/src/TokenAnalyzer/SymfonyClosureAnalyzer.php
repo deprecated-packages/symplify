@@ -14,8 +14,7 @@ final class SymfonyClosureAnalyzer
      */
     private array $symfonyClosureContainerConfiguratorFunctionTokens = [];
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->symfonyClosureContainerConfiguratorFunctionTokens = [
             new Token('('),
             new Token([T_STRING, 'ContainerConfigurator']),
