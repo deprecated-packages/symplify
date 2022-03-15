@@ -476,8 +476,8 @@ CODE_SAMPLE;
         $gitWrapper->streamOutput(true);
         $git->status();
 
-        $outputEventSubscriber = $this->privateAccessor->getPrivateProperty($gitWrapper, 'outputEventSubscriber');
-        $this->assertInstanceOf(StreamOutputEventSubscriber::class, $outputEventSubscriber);
+        $outputEventSubscriber = $this->privateAccessor->getPrivatePropertyOfClass($gitWrapper, 'outputEventSubscriber', StreamOutputEventSubscriber::class);
+        $this->assertNotNull$outputEventSubscriber);
     }
 
     public function testCommitWithAuthor(): void
