@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
-use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\StandaloneLinePromotedPropertyFixer\StandaloneLinePromotedPropertyFixerTest
+ * @see \Symplify\CodingStandard\Tests\Fixer\Spacing\StandaloneLineConstructorParamFixer\StandaloneLineConstructorParamFixerTest
  */
-final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
+final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer implements DocumentedRuleInterface
 {
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Promoted property should be on standalone line';
+    private const ERROR_MESSAGE = 'Constructor property should be on standalone line';
 
     public function __construct(
         private ParamNewliner $paramNewliner
@@ -53,11 +52,7 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
      */
     public function isCandidate(Tokens $tokens): bool
     {
-        return $tokens->isAnyTokenKindsFound([
-            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PUBLIC,
-            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PROTECTED,
-            CT::T_CONSTRUCTOR_PROPERTY_PROMOTION_PRIVATE,
-        ]);
+        return $tokens->isTokenKindFound(T_FUNCTION);
     }
 
     /**
@@ -70,7 +65,7 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
             /** @var Token $token */
             $token = $tokens[$position];
 
-            if (! $token->isGivenKind([T_FUNCTION])) {
+            if (! $token->isGivenKind(T_FUNCTION)) {
                 continue;
             }
 
