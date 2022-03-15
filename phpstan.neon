@@ -142,6 +142,11 @@ parameters:
                 - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
 
         -
+            message: '#Access to an undefined property Symplify\\GitWrapper\\Tests\\GitWorkingCopyTest\:\:\$outputEventSubscriber#'
+            paths:
+                - packages/git-wrapper/tests/GitWorkingCopyTest.php
+
+        -
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
