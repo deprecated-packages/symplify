@@ -467,6 +467,7 @@ CODE_SAMPLE;
         $gitWrapper = $git->getWrapper();
 
         $gitWrapper->streamOutput(true);
+
         $git->status();
 
         $gitWrapper->streamOutput(false);
