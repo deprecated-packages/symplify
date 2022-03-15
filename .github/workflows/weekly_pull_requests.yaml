@@ -6,7 +6,10 @@ on:
         -   cron: "0 0 * * 0"
 
 jobs:
-    daily_pull_requests:
+    weekly_pull_requests:
+        # Don't run on forks.
+        if: github.repository == 'symplify/symplify'
+        
         strategy:
             fail-fast: false
             matrix:
