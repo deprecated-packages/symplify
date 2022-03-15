@@ -16,6 +16,7 @@ use Symplify\GitWrapper\GitWorkingCopy;
 use Symplify\GitWrapper\Tests\EventSubscriber\Source\TestGitOutputEventSubscriber;
 use Symplify\GitWrapper\Tests\Source\StreamSuppressFilter;
 use Symplify\GitWrapper\ValueObject\CommandName;
+use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
 final class GitWorkingCopyTest extends AbstractGitWrapperTestCase
 {
@@ -60,6 +61,8 @@ CODE_SAMPLE;
     private string $currentUserName;
 
     private string $currentUserEmail;
+
+    private PrivatesAccessor $privateAccessor;
 
     /**
      * Creates and initializes the local repository used for testing.
@@ -113,6 +116,8 @@ CODE_SAMPLE;
         $gitWorkingCopy->pushTags();
 
         $this->smartFileSystem->remove(self::DIRECTORY);
+
+        $this->privateAccessor = new PrivatesAccessor();
     }
 
     /**
@@ -462,6 +467,7 @@ CODE_SAMPLE;
         $gitWrapper = $git->getWrapper();
 
         $gitWrapper->streamOutput(true);
+
         $git->status();
 
         $gitWrapper->streamOutput(false);
@@ -470,9 +476,7 @@ CODE_SAMPLE;
         $gitWrapper->streamOutput(true);
         $git->status();
 
-        $invader = (fn() => $this->outputEventSubscriber);
-        $outputEventSubscriber = $invader->call($this->gitWrapper);
-
+        $outputEventSubscriber = $this->privateAccessor->getPrivateProperty($gitWrapper, 'outputEventSubscriber');
         $this->assertInstanceOf(StreamOutputEventSubscriber::class, $outputEventSubscriber);
     }
 
