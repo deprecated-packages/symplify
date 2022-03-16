@@ -7,7 +7,6 @@ use SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
-use Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -66,6 +65,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             // breaks interface contract
             __DIR__ . '/packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
         ],
-        StandaloneLineConstructorParamFixer::class,
     ]);
 };
