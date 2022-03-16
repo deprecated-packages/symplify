@@ -15,6 +15,7 @@ use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer;
 use Symplify\CodingStandard\TokenAnalyzer\FunctionCallNameMatcher;
+use Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
@@ -69,7 +70,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
         private LineLengthTransformer $lineLengthTransformer,
         private BlockFinder $blockFinder,
         private FunctionCallNameMatcher $functionCallNameMatcher,
-        private \Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver $methodNameResolver,
+        private MethodNameResolver $methodNameResolver,
         private ?StandaloneLineConstructorParamFixer $standaloneLineConstructorParamFixer = null
     ) {
     }

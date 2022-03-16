@@ -14,6 +14,8 @@ use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer;
+use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Exception\Configuration\ConflictingCheckersLoadedException;
 
 final class ConflictingCheckersCompilerPass implements CompilerPassInterface
@@ -24,6 +26,7 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
      * @var string[][]
      */
     private const CONFLICTING_CHECKER_GROUPS = [
+        [StandaloneLineConstructorParamFixer::class, StandaloneLinePromotedPropertyFixer::class],
         ['SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff', YodaStyleFixer::class],
         [LowerCaseConstantSniff::class, UpperCaseConstantSniff::class],
         [ConstantCaseFixer::class, UpperCaseConstantSniff::class],

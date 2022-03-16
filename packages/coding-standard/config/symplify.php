@@ -19,7 +19,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FinalInternalClassFixer::class);
 
     $services->load('Symplify\CodingStandard\Fixer\\', __DIR__ . '/../src/Fixer')
-        ->exclude([__DIR__ . '/../src/Fixer/Annotation']);
+        ->exclude([
+            __DIR__ . '/../src/Fixer/Annotation',
+            __DIR__ . '/../src/Fixer/Spacing/StandaloneLineConstructorParamFixer.php',
+        ]);
 
     $services->set(GeneralPhpdocAnnotationRemoveFixer::class)
         ->call('configure', [[

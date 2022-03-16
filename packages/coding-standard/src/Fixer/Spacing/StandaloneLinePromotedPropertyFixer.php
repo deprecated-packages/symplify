@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
-use Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver;
-use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -14,6 +12,8 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver;
+use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
