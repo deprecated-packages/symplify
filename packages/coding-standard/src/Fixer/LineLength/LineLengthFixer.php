@@ -13,10 +13,12 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer;
 use Symplify\CodingStandard\TokenAnalyzer\FunctionCallNameMatcher;
 use Symplify\CodingStandard\TokenRunner\Analyzer\FixerAnalyzer\BlockFinder;
 use Symplify\CodingStandard\TokenRunner\Transformer\FixerTransformer\LineLengthTransformer;
 use Symplify\CodingStandard\TokenRunner\ValueObject\BlockInfo;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -66,7 +68,9 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
     public function __construct(
         private LineLengthTransformer $lineLengthTransformer,
         private BlockFinder $blockFinder,
-        private FunctionCallNameMatcher $functionCallNameMatcher
+        private FunctionCallNameMatcher $functionCallNameMatcher,
+        private \Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver $methodNameResolver,
+        private ?StandaloneLineConstructorParamFixer $standaloneLineConstructorParamFixer = null
     ) {
     }
 
@@ -228,6 +232,13 @@ CODE_SAMPLE
         $blockInfo = $this->blockFinder->findInTokensByEdge($tokens, $position);
         if (! $blockInfo instanceof BlockInfo) {
             return;
+        }
+
+        // @todo is __construct() class method and is newline parma enabled? → skip it
+        if ($this->standaloneLineConstructorParamFixer) {
+            if ($this->methodNameResolver->isMethodName($tokens, $position, MethodName::CONSTRUCTOR)) {
+                return;
+            }
         }
 
         if ($this->shouldSkip($tokens, $blockInfo)) {
