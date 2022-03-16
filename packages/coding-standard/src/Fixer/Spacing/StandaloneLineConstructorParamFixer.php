@@ -35,7 +35,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
     }
 
     /**
-     * Must run after
+     * Must run before
      *
      * @see BracesFixer::getPriority()
      */
