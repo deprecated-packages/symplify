@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Fixer\Basic\BracesFixer;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ReturnTypeHintSniff;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -65,5 +66,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             // breaks interface contract
             __DIR__ . '/packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php',
         ],
+        BracesFixer::class,
     ]);
 };
