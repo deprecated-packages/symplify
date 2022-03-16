@@ -48,12 +48,12 @@ abstract class AbstractSymplifyFixer implements FixerInterface
      */
     protected function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
     {
-        $nextMeaninfulTokenPosition = $tokens->getNextMeaningfulToken($index);
-        if ($nextMeaninfulTokenPosition === null) {
+        $nextMeaningfulTokenPosition = $tokens->getNextMeaningfulToken($index);
+        if ($nextMeaningfulTokenPosition === null) {
             return null;
         }
 
-        return $tokens[$nextMeaninfulTokenPosition];
+        return $tokens[$nextMeaningfulTokenPosition];
     }
 
     /**

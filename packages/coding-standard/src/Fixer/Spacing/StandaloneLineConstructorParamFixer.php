@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver;
 use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -25,15 +26,16 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = 'Constructor property should be on standalone line';
+    private const ERROR_MESSAGE = 'Constructor param should be on a standalone line to ease git diffs on new dependency';
 
     public function __construct(
-        private ParamNewliner $paramNewliner
+        private ParamNewliner $paramNewliner,
+        private MethodNameResolver $methodNameResolver
     ) {
     }
 
     /**
-     * Must run before
+     * Must run after
      *
      * @see BracesFixer::getPriority()
      */
@@ -69,8 +71,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
                 continue;
             }
 
-            $functionName = $this->getFunctionName($tokens, $position);
-            if ($functionName !== MethodName::CONSTRUCTOR) {
+            if (! $this->methodNameResolver->isMethodName($tokens, $position, MethodName::CONSTRUCTOR)) {
                 continue;
             }
 
@@ -103,18 +104,5 @@ final class PromotedProperties
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param Tokens<Token> $tokens
-     */
-    private function getFunctionName(Tokens $tokens, int $position): ?string
-    {
-        $nextToken = $this->getNextMeaningfulToken($tokens, $position);
-        if (! $nextToken instanceof Token) {
-            return null;
-        }
-
-        return $nextToken->getContent();
     }
 }

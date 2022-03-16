@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\CodingStandard\Fixer\Spacing;
 
-use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
@@ -13,6 +12,8 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenAnalyzer\Naming\MethodNameResolver;
+use Symplify\CodingStandard\TokenAnalyzer\ParamNewliner;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -29,7 +30,8 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
     private const ERROR_MESSAGE = 'Promoted property should be on standalone line';
 
     public function __construct(
-        private ParamNewliner $paramNewliner
+        private ParamNewliner $paramNewliner,
+        private MethodNameResolver $methodNameResolver
     ) {
     }
 
@@ -74,8 +76,7 @@ final class StandaloneLinePromotedPropertyFixer extends AbstractSymplifyFixer im
                 continue;
             }
 
-            $functionName = $this->getFunctionName($tokens, $position);
-            if ($functionName !== MethodName::CONSTRUCTOR) {
+            if (! $this->methodNameResolver->isMethodName($tokens, $position, MethodName::CONSTRUCTOR)) {
                 continue;
             }
 
@@ -108,18 +109,5 @@ final class PromotedProperties
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param Tokens<Token> $tokens
-     */
-    private function getFunctionName(Tokens $tokens, int $position): ?string
-    {
-        $nextToken = $this->getNextMeaningfulToken($tokens, $position);
-        if (! $nextToken instanceof Token) {
-            return null;
-        }
-
-        return $nextToken->getContent();
     }
 }
