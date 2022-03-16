@@ -168,7 +168,7 @@ CODE_SAMPLE
     /**
      * Must run before
      *
-     * @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer
+     * @see \PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer::getPriority()
      */
     public function getPriority(): int
     {

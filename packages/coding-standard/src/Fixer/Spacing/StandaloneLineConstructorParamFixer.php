@@ -39,7 +39,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
      */
     public function getPriority(): int
     {
-        return 40;
+        return 30;
     }
 
     public function getDefinition(): FixerDefinitionInterface
