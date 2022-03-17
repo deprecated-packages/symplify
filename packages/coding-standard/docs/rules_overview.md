@@ -279,7 +279,7 @@ Add space after nowdoc and heredoc keyword, to prevent bugs on PHP 7.2 and lower
 
 ## StandaloneLineConstructorParamFixer
 
-Constructor property should be on standalone line
+Constructor param should be on a standalone line to ease git diffs on new dependency
 
 - class: [`Symplify\CodingStandard\Fixer\Spacing\StandaloneLineConstructorParamFixer`](../src/Fixer/Spacing/StandaloneLineConstructorParamFixer.php)
 

@@ -34,7 +34,7 @@ services:
 
 parameters:
     level: 8
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     # requires exact closure types
     checkMissingCallableSignature: true

@@ -1,4 +1,4 @@
-# 3 Rules Overview
+# 2 Rules Overview
 
 ## NoChainMethodCallRule
 
@@ -37,36 +37,6 @@ $this->runThat();
 
 $fluentClass = new AllowedFluent();
 $fluentClass->one()->two();
-```
-
-:+1:
-
-<br>
-
-## NoElseAndElseIfRule
-
-Do not use "else/elseif". Refactor to early return
-
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoElseAndElseIfRule`](../packages/object-calisthenics/src/Rules/NoElseAndElseIfRule.php)
-
-```php
-if (...) {
-    return 1;
-} else {
-    return 2;
-}
-```
-
-:x:
-
-<br>
-
-```php
-if (...) {
-    return 1;
-}
-
-return 2;
 ```
 
 :+1:
