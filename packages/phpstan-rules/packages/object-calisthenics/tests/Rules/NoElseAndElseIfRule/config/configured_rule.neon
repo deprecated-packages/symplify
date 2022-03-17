@@ -1,3 +1,0 @@
-includes:
-    - ../../../../../../tests/config/included_services.neon
-    - ../../../../../../packages/object-calisthenics/config/object-calisthenics-rules.neon
