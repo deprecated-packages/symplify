@@ -63,6 +63,10 @@ final class LineLengthCloserTransformer
             return false;
         }
 
+        if ($previousPreviousToken->isArray() && trim($previousPreviousToken->getContent()) === '') {
+            return false;
+        }
+
         return ! $previousPreviousToken->isGivenKind([CT::T_ARRAY_SQUARE_BRACE_CLOSE, CT::T_ARRAY_SQUARE_BRACE_OPEN]);
     }
 }
