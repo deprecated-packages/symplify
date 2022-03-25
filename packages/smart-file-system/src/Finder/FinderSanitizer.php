@@ -16,7 +16,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class FinderSanitizer
 {
     /**
-     * @param NetteFinder|SymfonyFinder|SplFileInfo[]|SymfonySplFileInfo[]|string[] $files
+     * @param NetteFinder<SplFileInfo>|SymfonyFinder<SymfonySplFileInfo>|SplFileInfo[]|SymfonySplFileInfo[]|string[] $files
      * @return SmartFileInfo[]
      */
     public function sanitize(NetteFinder | SymfonyFinder | array $files): array
