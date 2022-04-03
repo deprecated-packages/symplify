@@ -112,12 +112,8 @@ CODE_SAMPLE
         }
 
         $lastChar = Strings::substring($patternWithoutModifiers, -1, 1);
-        if ($firstChar !== $lastChar) {
-            return false;
-        }
-
         // this is probably a regex
-        return true;
+        return $firstChar === $lastChar;
     }
 
     private function hasDocBlockWithRegexLink(ClassConst $classConst): bool
