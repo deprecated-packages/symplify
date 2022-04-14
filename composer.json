@@ -174,7 +174,7 @@
     "extra": {
         "patches": {
             "symfony/dependency-injection": [
-                "patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
+                "https://raw.githubusercontent.com/symplify/ecs-vendor-patches/main/patches/symfony-php-config-loader.patch"
             ]
         }
     },
