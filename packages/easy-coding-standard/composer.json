@@ -58,7 +58,12 @@
     },
     "config": {
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": false,
+        "config": {
+            "allow-plugins": {
+                "cweagans/composer-patches": true
+            }
+        }
     },
     "conflict": {
         "symplify/astral": "<10.1.4",

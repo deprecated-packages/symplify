@@ -38,6 +38,11 @@
         },
         "enable-patching": true
     },
+    "config": {
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
+    },
     "conflict": {
         "symplify/astral": "<10.1.4",
         "symplify/composer-json-manipulator": "<10.1.4",
