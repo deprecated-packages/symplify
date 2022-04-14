@@ -119,13 +119,13 @@ CODE_SAMPLE
         $this->phpDocNodeTraverser->traverseWithCallable(
             $simplePhpDocNode,
             '',
-            function (PhpDocNode $node) use (&$hasArrayShapeNode): int|PhpDocNode {
-                if ($node instanceof ArrayShapeNode) {
+            function (PhpDocNode $phpDocNode) use (&$hasArrayShapeNode): int|PhpDocNode {
+                if ($phpDocNode instanceof ArrayShapeNode) {
                     $hasArrayShapeNode = true;
                     return PhpDocNodeTraverser::STOP_TRAVERSAL;
                 }
 
-                return $node;
+                return $phpDocNode;
             }
         );
 

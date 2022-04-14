@@ -10,16 +10,13 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
-    $services = $ecsConfig->services();
-    $services->set(LineLengthFixer::class);
+    $ecsConfig->rule(LineLengthFixer::class);
+    $ecsConfig->rule(ParameterTypeHintSniff::class);
+    $ecsConfig->rule(ReturnTypeHintSniff::class);
 
-    $services->set(ParameterTypeHintSniff::class);
-    $services->set(ReturnTypeHintSniff::class);
-
-    $services->set(DoctrineAnnotationNestedBracketsFixer::class)
-        ->call('configure', [[
-            DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['Doctrine\ORM\JoinColumns'],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(DoctrineAnnotationNestedBracketsFixer::class, [
+        DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['Doctrine\ORM\JoinColumns'],
+    ]);
 
     $ecsConfig->sets([
         SetList::CLEAN_CODE,
