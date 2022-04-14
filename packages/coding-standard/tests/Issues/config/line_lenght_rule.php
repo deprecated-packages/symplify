@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (\Symplify\EasyCodingStandard\Config\ECSConfig $ecsConfig): void {
+return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(LineLengthFixer::class);
 };
