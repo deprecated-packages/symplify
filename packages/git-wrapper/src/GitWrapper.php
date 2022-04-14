@@ -81,7 +81,7 @@ final class GitWrapper
      * Returns an environment variable that is defined only in the scope of the Git command.
      *
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     * @param mixed $default The value returned if the environment variable is not set, defaults to null.
+     * @param mixed|null $default The value returned if the environment variable is not set, defaults to null.
      */
     public function getEnvVar(string $var, mixed $default = null): mixed
     {
@@ -226,7 +226,7 @@ final class GitWrapper
      * Clone a repository into a new directory. Use @see GitWorkingCopy::cloneRepository() instead for more readable
      * code.
      *
-     * @param string $directory The directory that the repository will be cloned into. If null is
+     * @param string|null $directory The directory that the repository will be cloned into. If null is
      * passed, the directory will be generated from the URL with @see GitStrings::parseRepositoryName().
      * @param mixed[] $options
      */

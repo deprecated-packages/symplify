@@ -24,6 +24,7 @@
         "symplify/skipper": "^10.2",
         "symplify/smart-file-system": "^10.2",
         "symplify/symplify-kernel": "^10.2",
+        "symplify/vendor-patches": "^10.2",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -48,11 +49,21 @@
     "extra": {
         "branch-alias": {
             "dev-main": "10.2-dev"
+        },
+        "patches": {
+            "symfony/dependency-injection": [
+                "https://raw.githubusercontent.com/symplify/ecs-vendor-patches/main/patches/symfony-php-config-loader.patch"
+            ]
         }
     },
     "config": {
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": false,
+        "config": {
+            "allow-plugins": {
+                "cweagans/composer-patches": true
+            }
+        }
     },
     "conflict": {
         "symplify/astral": "<10.1.4",

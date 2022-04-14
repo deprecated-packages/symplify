@@ -171,6 +171,13 @@
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
+    "extra": {
+        "patches": {
+            "symfony/dependency-injection": [
+                "https://raw.githubusercontent.com/symplify/ecs-vendor-patches/main/patches/symfony-php-config-loader.patch"
+            ]
+        }
+    },
     "replace": {
         "symplify/amnesia": "10.1.4",
         "symplify/astral": "10.1.4",

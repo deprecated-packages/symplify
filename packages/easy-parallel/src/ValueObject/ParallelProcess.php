@@ -27,7 +27,7 @@ final class ParallelProcess
     private Encoder $encoder;
 
     /**
-     * @var resource
+     * @var resource|null
      */
     private $stdErr;
 
@@ -73,6 +73,10 @@ final class ParallelProcess
         $this->onError = $onError;
 
         $this->process->on(ReactEvent::EXIT, function ($exitCode) use ($onExit): void {
+            if ($this->stdErr === null) {
+                throw new ParallelShouldNotHappenException();
+            }
+
             $this->cancelTimer();
 
             rewind($this->stdErr);
@@ -129,14 +133,14 @@ final class ParallelProcess
         });
         $this->encoder = $encoder;
 
-        $decoder->on(ReactEvent::ERROR, function (Throwable $error): void {
+        $decoder->on(ReactEvent::ERROR, function (Throwable $throwable): void {
             $onError = $this->onError;
-            $onError($error);
+            $onError($throwable);
         });
 
-        $encoder->on(ReactEvent::ERROR, function (Throwable $error): void {
+        $encoder->on(ReactEvent::ERROR, function (Throwable $throwable): void {
             $onError = $this->onError;
-            $onError($error);
+            $onError($throwable);
         });
     }
 

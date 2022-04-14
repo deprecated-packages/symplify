@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(MethodChainingNewlineFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(MethodChainingNewlineFixer::class);
 };

@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::ARRAY);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->sets([SetList::ARRAY]);
 
-    $services = $containerConfigurator->services();
-    $services->set(LineLengthFixer::class);
+    $ecsConfig->rule(LineLengthFixer::class);
 };

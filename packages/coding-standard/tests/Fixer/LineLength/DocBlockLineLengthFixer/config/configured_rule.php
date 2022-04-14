@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(DocBlockLineLengthFixer::class)
-        ->call('configure', [[
-            DocBlockLineLengthFixer::LINE_LENGTH => 40,
-        ]]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(DocBlockLineLengthFixer::class, [
+        DocBlockLineLengthFixer::LINE_LENGTH => 40,
+    ]);
 };
