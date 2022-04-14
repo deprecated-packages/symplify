@@ -8,12 +8,6 @@ includes:
 
     - packages/phpstan-rules/packages/symfony/config/services.neon
     - packages/phpstan-rules/packages/nette/config/services.neon
-    - packages/latte-phpstan-compiler/config/services.neon
-    - packages/template-phpstan-compiler/config/services.neon
-
-    # latte testing
-    - packages/phpstan-latte-rules/config/services.neon
-    - packages/phpstan-latte-rules/config/rules.neon
 
 services:
     # cognitive complexity
@@ -495,7 +489,6 @@ parameters:
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Complete known array shape to the method @return type#'
