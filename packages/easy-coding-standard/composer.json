@@ -24,6 +24,7 @@
         "symplify/skipper": "^10.2",
         "symplify/smart-file-system": "^10.2",
         "symplify/symplify-kernel": "^10.2",
+        "symplify/vendor-patches": "^10.2",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -48,6 +49,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "10.2-dev"
+        },
+        "patches": {
+            "symfony/dependency-injection": [
+                "patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
+            ]
         }
     },
     "config": {

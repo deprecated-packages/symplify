@@ -502,3 +502,8 @@ parameters:
         -
             message: '#Offset (.*?)file_diffs(.*?) does not exist on (.*?) array<Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff>#'
             path:  packages/easy-coding-standard/tests/Error/ErrorCollector/FixerFileProcessorTest.php
+
+        # false positive sa checked before
+        -
+            message: '#Parameter \#1 \$stream of function (.*?) expects resource, resource\|null given#'
+            path: packages/easy-parallel/src/ValueObject/ParallelProcess.php
