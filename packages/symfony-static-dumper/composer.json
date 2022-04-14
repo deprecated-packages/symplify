@@ -12,10 +12,10 @@
         "symfony/config": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/routing": "^6.0",
-        "symplify/autowire-array-parameter": "^10.2",
-        "symplify/package-builder": "^10.2",
-        "symplify/symplify-kernel": "^10.2",
-        "symplify/smart-file-system": "^10.2"
+        "symplify/autowire-array-parameter": "^10.3",
+        "symplify/package-builder": "^10.3",
+        "symplify/symplify-kernel": "^10.3",
+        "symplify/smart-file-system": "^10.3"
     },
     "require-dev": {
         "doctrine/annotations": "^1.13",
@@ -38,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "10.2-dev"
+            "dev-main": "10.3-dev"
         }
     },
     "conflict": {
