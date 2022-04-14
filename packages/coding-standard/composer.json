@@ -35,7 +35,8 @@
     "extra": {
         "branch-alias": {
             "dev-main": "10.2-dev"
-        }
+        },
+        "enable-patching": true
     },
     "conflict": {
         "symplify/astral": "<10.1.4",
