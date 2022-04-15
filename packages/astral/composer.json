@@ -8,7 +8,7 @@
         "nette/utils": "^3.2",
         "symfony/dependency-injection": "^6.0",
         "symplify/smart-file-system": "^10.3",
-        "phpstan/phpstan": "^1.4.8",
+        "phpstan/phpstan": "^1.5.6",
         "phpstan/phpdoc-parser": "^1.2",
         "symfony/config": "^6.0",
         "nikic/php-parser": "^4.13.2",
@@ -35,6 +35,7 @@
         },
         "phpstan": {
             "includes": [
+                "config/config.neon",
                 "config/services.neon"
             ]
         }

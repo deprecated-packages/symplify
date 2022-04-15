@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0",
-        "phpstan/phpstan": "^1.4.8",
+        "phpstan/phpstan": "^1.5.6",
         "latte/latte": "^2.11",
         "symplify/astral": "^10.3",
         "symplify/rule-doc-generator-contracts": "^10.3",
@@ -38,6 +38,7 @@
         },
         "phpstan": {
             "includes": [
+                "config/config.neon",
                 "config/rules.neon",
                 "config/services.neon"
             ]
