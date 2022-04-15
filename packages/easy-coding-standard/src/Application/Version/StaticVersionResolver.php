@@ -24,6 +24,7 @@ final class StaticVersionResolver
      * @var string
      */
     public const RELEASE_DATE = '@release_date@';
+
     /**
      * @var string
      */
