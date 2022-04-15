@@ -52,33 +52,28 @@ final class ECSConfig extends ContainerConfigurator
 
     /**
      * @param class-string<Sniff|FixerInterface> $checkerClass
+     * @param array<string, mixed> $configuration See: https://mlocati.github.io/php-cs-fixer-configurator/
      */
-    public function rule(string $checkerClass): void
+    public function rule(string $checkerClass, ?array $configuration = []): void
     {
         $this->isCheckerClass($checkerClass);
+        $service = $this->services()->set($checkerClass);
 
-        $services = $this->services();
-        $services->set($checkerClass);
+        if (!empty($configuration) && is_a($checkerClass, FixerInterface::class, true)) {
+            Assert::isAnyOf($checkerClass, [ConfigurableFixerInterface::class, ConfigurableRuleInterface::class]);
+
+            $service->call('configure', [$configuration]);
+        }
     }
 
     /**
      * @param class-string $checkerClass
      * @param mixed[] $configuration
+     * @deprecated
      */
     public function ruleWithConfiguration(string $checkerClass, array $configuration): void
     {
-        $this->isCheckerClass($checkerClass);
-
-        $services = $this->services();
-
-        $service = $services->set($checkerClass);
-        if (is_a($checkerClass, FixerInterface::class, true)) {
-            Assert::isAnyOf($checkerClass, [ConfigurableFixerInterface::class, ConfigurableRuleInterface::class]);
-
-            $service->call('configure', [$configuration]);
-        }
-
-        // @todo
+        $this->rule($checkerClass, $configuration);
     }
 
     /**
