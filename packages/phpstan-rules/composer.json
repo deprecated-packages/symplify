@@ -8,7 +8,7 @@
         "nikic/php-parser": "^4.13.2",
         "nette/utils": "^3.2",
         "phpstan/phpdoc-parser": "^1.2",
-        "phpstan/phpstan": "^1.4.8",
+        "phpstan/phpstan": "^1.5.6",
         "symplify/astral": "^10.3",
         "symplify/composer-json-manipulator": "^10.3",
         "symplify/package-builder": "^10.3",
@@ -54,6 +54,7 @@
         },
         "phpstan": {
             "includes": [
+                "config/config.neon",
                 "config/services/services.neon",
                 "packages/cognitive-complexity/config/cognitive-complexity-services.neon",
                 "packages/symfony/config/services.neon",
