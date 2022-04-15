@@ -54,7 +54,7 @@ final class ECSConfig extends ContainerConfigurator
      * @param class-string<Sniff|FixerInterface> $checkerClass
      * @param array<string, mixed> $configuration See: https://mlocati.github.io/php-cs-fixer-configurator/
      */
-    public function rule(string $checkerClass, ?array $configuration = []): void
+    public function rule(string $checkerClass, array $configuration = []): void
     {
         $this->isCheckerClass($checkerClass);
         $service = $this->services()->set($checkerClass);
