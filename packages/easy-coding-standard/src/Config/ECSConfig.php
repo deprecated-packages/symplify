@@ -69,7 +69,7 @@ final class ECSConfig extends ContainerConfigurator
     /**
      * @param class-string $checkerClass
      * @param mixed[] $configuration
-     * @deprecated
+     * @deprecated Use `rule()` instead
      */
     public function ruleWithConfiguration(string $checkerClass, array $configuration): void
     {
