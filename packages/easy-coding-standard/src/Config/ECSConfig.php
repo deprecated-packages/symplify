@@ -123,6 +123,7 @@ final class ECSConfig extends ContainerConfigurator
      */
     private function isCheckerClass(string $checkerClass): void
     {
+        Assert::classExists($checkerClass);
         Assert::isAnyOf($checkerClass, [Sniff::class, FixerInterface::class]);
     }
 }

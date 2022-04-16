@@ -2,16 +2,12 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
+return static function (ECSConfig $ecsConfig): void {
     # A. monorepo
-    $containerConfigurator->import(__DIR__ . '/../../../coding-standard/config/symplify.php', null, 'not_found');
+    $ecsConfig->import(__DIR__ . '/../../../coding-standard/config/symplify.php', null, 'not_found');
 
     # B. installed as dependency
-    $containerConfigurator->import(
-        __DIR__ . '/../../vendor/symplify/coding-standard/config/symplify.php',
-        null,
-        'not_found'
-    );
+    $ecsConfig->import(__DIR__ . '/../../vendor/symplify/coding-standard/config/symplify.php', null, 'not_found');
 };

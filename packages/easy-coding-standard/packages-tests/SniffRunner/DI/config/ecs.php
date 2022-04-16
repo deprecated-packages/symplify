@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\DI\Source\AnotherSniff;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(AnotherSniff::class)
-        ->property('lineLimit', 15)
-        ->property('absoluteLineLimit', [
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(AnotherSniff::class, [
+        'lineLimit' => 15,
+        'absoluteLineLimit' => [
             // just test array of annotations
             '@author',
-        ]);
+        ],
+    ]);
 };

@@ -9,6 +9,10 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class AnotherSniff implements Sniff
 {
+    public $lineLimit;
+
+    public $absoluteLineLimit;
+
     public function register()
     {
         return [T_WHILE];

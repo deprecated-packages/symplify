@@ -2,27 +2,21 @@
 
 declare(strict_types=1);
 
-use Rector\Core\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
-
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
 
-    $services = $containerConfigurator->services();
+    $rectorConfig->ruleWithConfiguration(DowngradeParameterTypeWideningRector::class, [
+        LoaderInterface::class => ['load'],
+        Loader::class => ['import'],
+    ]);
 
-    $services->set(DowngradeParameterTypeWideningRector::class)
-        ->configure([
-            LoaderInterface::class => ['load'],
-            Loader::class => ['import'],
-        ]);
-
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::SKIP, [
+    $rectorConfig->skip([
         '*/Tests/*',
         '*/tests/*',
         __DIR__ . '/../../tests',

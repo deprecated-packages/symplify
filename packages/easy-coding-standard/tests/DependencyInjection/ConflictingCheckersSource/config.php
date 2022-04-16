@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
-use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseConstantSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(DisallowYodaComparisonSniff::class);
-    $services->set(YodaStyleFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(LowerCaseConstantSniff::class);
+    $ecsConfig->rule(UpperCaseConstantSniff::class);
 };
