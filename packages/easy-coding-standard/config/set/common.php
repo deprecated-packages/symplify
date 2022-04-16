@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/common/*.php');
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->import(__DIR__ . '/common/*.php');
 };

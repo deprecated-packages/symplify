@@ -33,58 +33,59 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\StringNotation\StringLineEndingFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(CommentToPhpdocFixer::class);
-    $services->set(DirConstantFixer::class);
-    $services->set(EregToPregFixer::class);
-    $services->set(ErrorSuppressionFixer::class);
-    $services->set(FinalInternalClassFixer::class);
-    $services->set(FopenFlagOrderFixer::class);
-    $services->set(FopenFlagsFixer::class)
-        ->call('configure', [[
-            'b_mode' => false,
-        ]]);
-    $services->set(FunctionToConstantFixer::class)
-        ->call('configure', [[
-            'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
-        ]]);
-    $services->set(ImplodeCallFixer::class);
-    $services->set(IsNullFixer::class);
-    $services->set(LogicalOperatorsFixer::class);
-    $services->set(ModernizeTypesCastingFixer::class);
-    $services->set(NativeConstantInvocationFixer::class)
-        ->call('configure', [[
-            'fix_built_in' => false,
-            'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'],
-            'scope' => 'namespaced',
-        ]]);
-    $services->set(NativeFunctionInvocationFixer::class)
-        ->call('configure', [[
-            'include' => ['@compiler_optimized'],
-            'scope' => 'namespaced',
-            'strict' => true,
-        ]]);
-    $services->set(NoAliasFunctionsFixer::class)
-        ->call('configure', [[
-            'sets' => ['@all'],
-        ]]);
-    $services->set(NoHomoglyphNamesFixer::class);
-    $services->set(NoUnneededFinalMethodFixer::class);
-    $services->set(NoUnreachableDefaultArgumentValueFixer::class);
-    $services->set(NoUnsetOnPropertyFixer::class);
-    $services->set(NonPrintableCharacterFixer::class);
-    $services->set(PhpUnitConstructFixer::class);
-    $services->set(PhpUnitMockShortWillReturnFixer::class);
-    $services->set(PhpUnitSetUpTearDownVisibilityFixer::class);
-    $services->set(PhpUnitStrictFixer::class);
-    $services->set(PhpUnitTestAnnotationFixer::class);
-    $services->set(PhpUnitTestCaseStaticMethodCallsFixer::class);
-    $services->set(SelfAccessorFixer::class);
-    $services->set(SetTypeToCastFixer::class);
-    $services->set(StrictComparisonFixer::class);
-    $services->set(StrictParamFixer::class);
-    $services->set(StringLineEndingFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(CommentToPhpdocFixer::class);
+    $ecsConfig->rule(DirConstantFixer::class);
+    $ecsConfig->rule(EregToPregFixer::class);
+    $ecsConfig->rule(ErrorSuppressionFixer::class);
+    $ecsConfig->rule(FinalInternalClassFixer::class);
+    $ecsConfig->rule(FopenFlagOrderFixer::class);
+
+    $ecsConfig->ruleWithConfiguration(FopenFlagsFixer::class, [
+        'b_mode' => false,
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(FunctionToConstantFixer::class, [
+        'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
+    ]);
+
+    $ecsConfig->rule(ImplodeCallFixer::class);
+    $ecsConfig->rule(IsNullFixer::class);
+    $ecsConfig->rule(LogicalOperatorsFixer::class);
+    $ecsConfig->rule(ModernizeTypesCastingFixer::class);
+
+    $ecsConfig->ruleWithConfiguration(NativeConstantInvocationFixer::class, [
+        'fix_built_in' => false,
+        'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'],
+        'scope' => 'namespaced',
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(NativeFunctionInvocationFixer::class, [
+        'include' => ['@compiler_optimized'],
+        'scope' => 'namespaced',
+        'strict' => true,
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(NoAliasFunctionsFixer::class, [
+        'sets' => ['@all'],
+    ]);
+
+    $ecsConfig->rule(NoHomoglyphNamesFixer::class);
+    $ecsConfig->rule(NoUnneededFinalMethodFixer::class);
+    $ecsConfig->rule(NoUnreachableDefaultArgumentValueFixer::class);
+    $ecsConfig->rule(NoUnsetOnPropertyFixer::class);
+    $ecsConfig->rule(NonPrintableCharacterFixer::class);
+    $ecsConfig->rule(PhpUnitConstructFixer::class);
+    $ecsConfig->rule(PhpUnitMockShortWillReturnFixer::class);
+    $ecsConfig->rule(PhpUnitSetUpTearDownVisibilityFixer::class);
+    $ecsConfig->rule(PhpUnitStrictFixer::class);
+    $ecsConfig->rule(PhpUnitTestAnnotationFixer::class);
+    $ecsConfig->rule(PhpUnitTestCaseStaticMethodCallsFixer::class);
+    $ecsConfig->rule(SelfAccessorFixer::class);
+    $ecsConfig->rule(SetTypeToCastFixer::class);
+    $ecsConfig->rule(StrictComparisonFixer::class);
+    $ecsConfig->rule(StrictParamFixer::class);
+    $ecsConfig->rule(StringLineEndingFixer::class);
 };

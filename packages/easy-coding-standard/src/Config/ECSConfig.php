@@ -62,6 +62,16 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
+     * @param array<class-string<Sniff|FixerInterface>> $checkerClasses
+     */
+    public function rules(array $checkerClasses): void
+    {
+        foreach ($checkerClasses as $checkerClass) {
+            $this->rule($checkerClass);
+        }
+    }
+
+    /**
      * @param class-string $checkerClass
      * @param mixed[] $configuration
      */
@@ -85,6 +95,27 @@ final class ECSConfig extends ContainerConfigurator
                 $service->property($propertyName, $value);
             }
         }
+    }
+
+    /**
+     * @param Option::INDENTATION_* $indentation
+     */
+    public function indentation(string $indentation): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::INDENTATION, $indentation);
+    }
+
+    public function lineEnding(string $lineEnding): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::LINE_ENDING, $lineEnding);
+    }
+
+    public function parallel(): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::PARALLEL, true);
     }
 
     /**

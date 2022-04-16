@@ -9,31 +9,27 @@ use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(NoWhitespaceBeforeCommaInArrayFixer::class);
-    $services->set(ArrayOpenerAndCloserNewlineFixer::class);
-    $services->set(ArrayIndentationFixer::class);
-    $services->set(TrimArraySpacesFixer::class);
-    $services->set(WhitespaceAfterCommaInArrayFixer::class);
-    $services->set(ArrayListItemNewlineFixer::class);
-    $services->set(StandaloneLineInMultilineArrayFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(NoWhitespaceBeforeCommaInArrayFixer::class);
+    $ecsConfig->rule(ArrayOpenerAndCloserNewlineFixer::class);
+    $ecsConfig->rule(ArrayIndentationFixer::class);
+    $ecsConfig->rule(TrimArraySpacesFixer::class);
+    $ecsConfig->rule(WhitespaceAfterCommaInArrayFixer::class);
+    $ecsConfig->rule(ArrayListItemNewlineFixer::class);
+    $ecsConfig->rule(StandaloneLineInMultilineArrayFixer::class);
+    $ecsConfig->rule(NoTrailingCommaInSinglelineArrayFixer::class);
 
     // commas
-    $services->set(TrailingCommaInMultilineFixer::class)
-        ->call('configure', [[
-            'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, [
+        'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
+    ]);
 
-    $services->set(NoTrailingCommaInSinglelineArrayFixer::class);
-
-    $services->set(ArraySyntaxFixer::class)
-        ->call('configure', [[
-            'syntax' => 'short',
-        ]]);
+    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
+        'syntax' => 'short',
+    ]);
 };

@@ -24,74 +24,53 @@ use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/php_cs_fixer/php-cs-fixer-psr2.php');
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->import(__DIR__ . '/php_cs_fixer/php-cs-fixer-psr2.php');
 
-    $services->set(EncodingFixer::class);
-    $services->set(FullOpeningTagFixer::class);
+    $ecsConfig->rule(EncodingFixer::class);
+    $ecsConfig->rule(FullOpeningTagFixer::class);
+    $ecsConfig->rule(LowercaseCastFixer::class);
+    $ecsConfig->rule(ShortScalarCastFixer::class);
+    $ecsConfig->rule(BlankLineAfterOpeningTagFixer::class);
+    $ecsConfig->rule(NoLeadingImportSlashFixer::class);
+    $ecsConfig->rule(NewWithBracesFixer::class);
 
-    $services->set(LowercaseCastFixer::class);
+    $ecsConfig->ruleWithConfiguration(OrderedImportsFixer::class, [
+        'imports_order' => ['class', 'function', 'const'],
+    ]);
 
-    $services->set(ShortScalarCastFixer::class);
+    $ecsConfig->ruleWithConfiguration(DeclareEqualNormalizeFixer::class, [
+        'space' => 'none',
+    ]);
 
-    $services->set(BlankLineAfterOpeningTagFixer::class);
+    $ecsConfig->ruleWithConfiguration(BracesFixer::class, [
+        'allow_single_line_closure' => false,
+        'position_after_functions_and_oop_constructs' => 'next',
+        'position_after_control_structures' => 'same',
+        'position_after_anonymous_constructs' => 'same',
+    ]);
 
-    $services->set(NoLeadingImportSlashFixer::class);
+    $ecsConfig->ruleWithConfiguration(VisibilityRequiredFixer::class, [
+        'elements' => ['const', 'method', 'property'],
+    ]);
 
-    $services->set(OrderedImportsFixer::class)
-        ->call('configure', [[
-            'imports_order' => ['class', 'function', 'const'],
-        ]]);
+    $ecsConfig->rule(BinaryOperatorSpacesFixer::class);
+    $ecsConfig->rule(NoBlankLinesAfterClassOpeningFixer::class);
+    $ecsConfig->rule(TernaryOperatorSpacesFixer::class);
+    $ecsConfig->rule(UnaryOperatorSpacesFixer::class);
+    $ecsConfig->rule(ReturnTypeDeclarationFixer::class);
+    $ecsConfig->rule(NoTrailingWhitespaceFixer::class);
 
-    $services->set(DeclareEqualNormalizeFixer::class)
-        ->call('configure', [[
-            'space' => 'none',
-        ]]);
+    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
+        'spacing' => 'one',
+    ]);
 
-    $services->set(NewWithBracesFixer::class);
+    $ecsConfig->rule(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
+    $ecsConfig->rule(NoWhitespaceBeforeCommaInArrayFixer::class);
+    $ecsConfig->rule(WhitespaceAfterCommaInArrayFixer::class);
 
-    $services->set(BracesFixer::class)
-        ->call('configure', [[
-            'allow_single_line_closure' => false,
-            'position_after_functions_and_oop_constructs' => 'next',
-            'position_after_control_structures' => 'same',
-            'position_after_anonymous_constructs' => 'same',
-        ]]);
-
-    $services->set(NoBlankLinesAfterClassOpeningFixer::class);
-
-    $services->set(VisibilityRequiredFixer::class)
-        ->call('configure', [[
-            'elements' => ['const', 'method', 'property'],
-        ]]);
-
-    $services->set(BinaryOperatorSpacesFixer::class);
-
-    $services->set(TernaryOperatorSpacesFixer::class);
-
-    $services->set(UnaryOperatorSpacesFixer::class);
-
-    $services->set(ReturnTypeDeclarationFixer::class);
-
-    $services->set(NoTrailingWhitespaceFixer::class);
-
-    $services->set(ConcatSpaceFixer::class)
-        ->call('configure', [[
-            'spacing' => 'one',
-        ]]);
-
-    $services->set(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
-
-    $services->set(NoWhitespaceBeforeCommaInArrayFixer::class);
-
-    $services->set(WhitespaceAfterCommaInArrayFixer::class);
-
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::SKIP, [SingleImportPerStatementFixer::class]);
+    $ecsConfig->skip([SingleImportPerStatementFixer::class]);
 };
