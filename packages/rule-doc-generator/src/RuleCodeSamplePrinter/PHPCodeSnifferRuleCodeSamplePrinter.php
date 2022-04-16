@@ -7,12 +7,16 @@ namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\BadGoodCodeSamplePrinter;
+use Symplify\RuleDocGenerator\RuleCodeSamplePrinter\ConfiguredRuleCustomPrinter\ECSConfigConfiguredRuleCustomPrinter;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class PHPCodeSnifferRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
     public function __construct(
-        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
+        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter,
+        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
+        private ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter
     ) {
     }
 
@@ -27,6 +31,14 @@ final class PHPCodeSnifferRuleCodeSamplePrinter implements RuleCodeSamplePrinter
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
+        if ($codeSample instanceof ConfiguredCodeSample) {
+            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample(
+                $ruleDefinition,
+                $codeSample,
+                $this->ecsConfigConfiguredRuleCustomPrinter
+            );
+        }
+
         return $this->badGoodCodeSamplePrinter->print($codeSample);
     }
 }
