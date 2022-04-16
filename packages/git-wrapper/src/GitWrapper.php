@@ -81,7 +81,7 @@ final class GitWrapper
      * Returns an environment variable that is defined only in the scope of the Git command.
      *
      * @param string $var The name of the environment variable, e.g. "HOME", "GIT_SSH".
-     * @param mixed|null $default The value returned if the environment variable is not set, defaults to null.
+     * @param mixed $default The value returned if the environment variable is not set, defaults to null.
      */
     public function getEnvVar(string $var, mixed $default = null): mixed
     {
