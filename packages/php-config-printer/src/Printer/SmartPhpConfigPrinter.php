@@ -53,20 +53,17 @@ final class SmartPhpConfigPrinter
     private function createServiceConfiguration(
         array $configuration,
         string $class,
-        bool $shouldUseConfigureMethod
+        bool $shouldUseConfigClass
     ): array {
-        if ($shouldUseConfigureMethod) {
-            $configuration = $this->serviceConfigurationDecorator->decorate(
-                $configuration,
-                $class,
-                $shouldUseConfigureMethod
-            );
+        if ($shouldUseConfigClass) {
+            $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class);
+
             return [
                 'configure' => $configuration,
             ];
         }
 
-        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class, false);
+        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class);
         return [
             'calls' => [['configure', [$configuration]]],
         ];

@@ -13,14 +13,13 @@ Some change
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\ConfigurableRector;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(ConfigurableRector::class)
-        ->configure(['key' => 'value', 'second_key' => 'second_value']);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->ruleWithConfiguration(ConfigurableRector::class, [
+        ['key' => 'value', 'second_key' => 'second_value']
+    );
 };
 ```
 
@@ -47,15 +46,12 @@ Some change
 declare(strict_types=1);
 
 use PHPStan\Type\ObjectType;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\WithPHPStanTypeObject;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Source\SomeValueObjectWrapper;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(WithPHPStanTypeObject::class)
-        ->configure([new SomeValueObjectWrapper(new ObjectType('SomeObject'))]);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->ruleWithConfiguration(WithPHPStanTypeObject::class, [new SomeValueObjectWrapper(new ObjectType('SomeObject'))]);
 };
 ```
 

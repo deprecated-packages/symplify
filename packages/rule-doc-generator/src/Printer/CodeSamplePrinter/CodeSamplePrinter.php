@@ -27,7 +27,7 @@ final class CodeSamplePrinter
     /**
      * @return string[]
      */
-    public function print(RuleDefinition $ruleDefinition, bool $shouldUseConfigureMethod): array
+    public function print(RuleDefinition $ruleDefinition): array
     {
         $lines = [];
 
@@ -39,7 +39,7 @@ final class CodeSamplePrinter
                     continue;
                 }
 
-                $newLines = $ruleCodeSamplePrinter->print($codeSample, $ruleDefinition, $shouldUseConfigureMethod);
+                $newLines = $ruleCodeSamplePrinter->print($codeSample, $ruleDefinition);
                 $lines = array_merge($lines, $newLines);
                 break;
             }

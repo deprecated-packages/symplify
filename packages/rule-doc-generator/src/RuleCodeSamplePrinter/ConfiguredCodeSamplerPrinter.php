@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 
 use Symplify\PhpConfigPrinter\Printer\SmartPhpConfigPrinter;
+use Symplify\RuleDocGenerator\Contract\Printer\ConfiguredRuleCustomPrinterInterface;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
 use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -25,9 +26,13 @@ final class ConfiguredCodeSamplerPrinter
     public function printConfiguredCodeSample(
         RuleDefinition $ruleDefinition,
         ConfiguredCodeSample $configuredCodeSample,
-        bool $shouldUseConfigureMethod
+        ConfiguredRuleCustomPrinterInterface|null $configuredRuleCustomPrinter = null
     ): array {
         $lines = [];
+
+        // if use it
+        dump($configuredRuleCustomPrinter->printConfigureService($ruleDefinition, $configuredCodeSample));
+        die;
 
         $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices(
             [

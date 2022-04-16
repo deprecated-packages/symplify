@@ -62,8 +62,7 @@ final class GenerateCommand extends AbstractSymplifyCommand
         $markdownFileContent = $this->directoryToMarkdownPrinter->print(
             $markdownFileDirectory,
             $paths,
-            $shouldCategorize,
-            $shouldUseConfigureMethod
+            $shouldCategorize
         );
 
         $this->smartFileSystem->dumpFile($outputFilePath, $markdownFileContent);

@@ -18,7 +18,8 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     public function __construct(
         private DiffCodeSamplePrinter $diffCodeSamplePrinter,
         private MarkdownCodeWrapper $markdownCodeWrapper,
-        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter
+        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
+        private RectorConfigConfiguredRuleCustomPrinter $rectorConfigConfiguredRuleCustomPrinter
     ) {
     }
 
@@ -31,11 +32,8 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
     /**
      * @return string[]
      */
-    public function print(
-        CodeSampleInterface $codeSample,
-        RuleDefinition $ruleDefinition,
-        bool $shouldUseConfigureMethod
-    ): array {
+    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
+    {
         if ($codeSample instanceof ExtraFileCodeSample) {
             return $this->printExtraFileCodeSample($codeSample);
         }
@@ -48,7 +46,7 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
             return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample(
                 $ruleDefinition,
                 $codeSample,
-                $shouldUseConfigureMethod
+                $this->rectorConfigConfiguredRuleCustomPrinter
             );
         }
 

@@ -27,17 +27,10 @@ final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInte
     /**
      * @return mixed[]|string[]
      */
-    public function print(
-        CodeSampleInterface $codeSample,
-        RuleDefinition $ruleDefinition,
-        bool $shouldUseConfigureMethod
-    ): array {
+    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
+    {
         if ($codeSample instanceof ConfiguredCodeSample) {
-            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample(
-                $ruleDefinition,
-                $codeSample,
-                $shouldUseConfigureMethod
-            );
+            return $this->configuredCodeSamplerPrinter->printConfiguredCodeSample($ruleDefinition, $codeSample,);
         }
 
         return $this->diffCodeSamplePrinter->print($codeSample);

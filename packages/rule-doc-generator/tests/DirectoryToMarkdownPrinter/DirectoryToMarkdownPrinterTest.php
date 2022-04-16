@@ -29,18 +29,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
      * @dataProvider provideDataPHPCSFixer()
      * @dataProvider provideDataRector()
      */
-    public function test(
-        string $directory,
-        string $expectedFile,
-        bool $shouldCategorize = false,
-        bool $enabledConfigureMethod = false
-    ): void {
-        $fileContent = $this->directoryToMarkdownPrinter->print(
-            __DIR__,
-            [$directory],
-            $shouldCategorize,
-            $enabledConfigureMethod
-        );
+    public function test(string $directory, string $expectedFile, bool $shouldCategorize = false): void
+    {
+        $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize,);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);

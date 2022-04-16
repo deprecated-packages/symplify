@@ -30,11 +30,8 @@ final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfa
     /**
      * @return string[]
      */
-    public function print(
-        CodeSampleInterface $codeSample,
-        RuleDefinition $ruleDefinition,
-        bool $shouldUseConfigureMethod
-    ): array {
+    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
+    {
         if ($codeSample instanceof ConfiguredCodeSample) {
             return $this->printConfigurableCodeSample($codeSample, $ruleDefinition);
         }
