@@ -31,7 +31,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
      */
     public function test(string $directory, string $expectedFile, bool $shouldCategorize = false): void
     {
-        $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize,);
+        $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
         StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
@@ -68,7 +68,6 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
             __DIR__ . '/Fixture/Rector/Configurable',
             __DIR__ . '/Expected/rector/configurable_rector_content.md',
             false,
-            true,
         ];
         yield [
             __DIR__ . '/Fixture/Rector/ComposerJsonAware',
