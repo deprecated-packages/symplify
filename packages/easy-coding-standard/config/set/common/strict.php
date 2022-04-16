@@ -6,13 +6,11 @@ use PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(StrictComparisonFixer::class);
-    $services->set(IsNullFixer::class);
-    $services->set(StrictParamFixer::class);
-    $services->set(DeclareStrictTypesFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(StrictComparisonFixer::class);
+    $ecsConfig->rule(IsNullFixer::class);
+    $ecsConfig->rule(StrictParamFixer::class);
+    $ecsConfig->rule(DeclareStrictTypesFixer::class);
 };

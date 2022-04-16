@@ -9,28 +9,20 @@ use PhpCsFixer\Fixer\ControlStructure\NoUnneededCurlyBracesFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
 use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(ParamReturnAndVarTagMalformsFixer::class);
 
-    $services->set(ParamReturnAndVarTagMalformsFixer::class);
+    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
+        'syntax' => 'short',
+    ]);
 
-    $services->set(ArraySyntaxFixer::class)
-        ->call('configure', [[
-            'syntax' => 'short',
-        ]]);
-
-    $services->set(NoUnusedImportsFixer::class);
-
-    $services->set(OrderedImportsFixer::class);
-
-    $services->set(NoEmptyStatementFixer::class);
-
-    $services->set(ProtectedToPrivateFixer::class);
-
-    $services->set(NoUnneededControlParenthesesFixer::class);
-
-    $services->set(NoUnneededCurlyBracesFixer::class);
+    $ecsConfig->rule(NoUnusedImportsFixer::class);
+    $ecsConfig->rule(OrderedImportsFixer::class);
+    $ecsConfig->rule(NoEmptyStatementFixer::class);
+    $ecsConfig->rule(ProtectedToPrivateFixer::class);
+    $ecsConfig->rule(NoUnneededControlParenthesesFixer::class);
+    $ecsConfig->rule(NoUnneededCurlyBracesFixer::class);
 };

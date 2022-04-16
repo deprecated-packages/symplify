@@ -21,43 +21,44 @@ use PhpCsFixer\Fixer\LanguageConstruct\IsNullFixer;
 use PhpCsFixer\Fixer\Naming\NoHomoglyphNamesFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(DirConstantFixer::class);
-    $services->set(EregToPregFixer::class);
-    $services->set(ErrorSuppressionFixer::class);
-    $services->set(FopenFlagOrderFixer::class);
-    $services->set(FopenFlagsFixer::class)
-        ->call('configure', [[
-            'b_mode' => false,
-        ]]);
-    $services->set(FunctionToConstantFixer::class)
-        ->call('configure', [[
-            'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
-        ]]);
-    $services->set(ImplodeCallFixer::class);
-    $services->set(IsNullFixer::class);
-    $services->set(ModernizeTypesCastingFixer::class);
-    $services->set(NativeConstantInvocationFixer::class)
-        ->call('configure', [[
-            'fix_built_in' => false,
-            'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'],
-            'scope' => 'namespaced',
-        ]]);
-    $services->set(NativeFunctionInvocationFixer::class)
-        ->call('configure', [[
-            'include' => [NativeFunctionInvocationFixer::SET_COMPILER_OPTIMIZED],
-            'scope' => 'namespaced',
-            'strict' => true,
-        ]]);
-    $services->set(NoAliasFunctionsFixer::class);
-    $services->set(NoHomoglyphNamesFixer::class);
-    $services->set(NoUnneededFinalMethodFixer::class);
-    $services->set(NonPrintableCharacterFixer::class);
-    $services->set(PhpUnitConstructFixer::class);
-    $services->set(PhpUnitMockShortWillReturnFixer::class);
-    $services->set(SelfAccessorFixer::class);
-    $services->set(SetTypeToCastFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(DirConstantFixer::class);
+    $ecsConfig->rule(EregToPregFixer::class);
+    $ecsConfig->rule(ErrorSuppressionFixer::class);
+    $ecsConfig->rule(FopenFlagOrderFixer::class);
+
+    $ecsConfig->ruleWithConfiguration(FopenFlagsFixer::class, [
+        'b_mode' => false,
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(FunctionToConstantFixer::class, [
+        'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
+    ]);
+
+    $ecsConfig->rule(ImplodeCallFixer::class);
+    $ecsConfig->rule(IsNullFixer::class);
+    $ecsConfig->rule(ModernizeTypesCastingFixer::class);
+
+    $ecsConfig->ruleWithConfiguration(NativeConstantInvocationFixer::class, [
+        'fix_built_in' => false,
+        'include' => ['DIRECTORY_SEPARATOR', 'PHP_SAPI', 'PHP_VERSION_ID'],
+        'scope' => 'namespaced',
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(NativeFunctionInvocationFixer::class, [
+        'include' => [NativeFunctionInvocationFixer::SET_COMPILER_OPTIMIZED],
+        'scope' => 'namespaced',
+        'strict' => true,
+    ]);
+
+    $ecsConfig->rule(NoAliasFunctionsFixer::class);
+    $ecsConfig->rule(NoHomoglyphNamesFixer::class);
+    $ecsConfig->rule(NoUnneededFinalMethodFixer::class);
+    $ecsConfig->rule(NonPrintableCharacterFixer::class);
+    $ecsConfig->rule(PhpUnitConstructFixer::class);
+    $ecsConfig->rule(PhpUnitMockShortWillReturnFixer::class);
+    $ecsConfig->rule(SelfAccessorFixer::class);
+    $ecsConfig->rule(SetTypeToCastFixer::class);
 };

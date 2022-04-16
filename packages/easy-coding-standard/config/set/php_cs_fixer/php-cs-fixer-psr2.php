@@ -27,64 +27,40 @@ use PhpCsFixer\Fixer\Whitespace\LineEndingFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesInsideParenthesisFixer;
 use PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer;
 use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(EncodingFixer::class);
+    $ecsConfig->rule(FullOpeningTagFixer::class);
+    $ecsConfig->rule(BlankLineAfterNamespaceFixer::class);
+    $ecsConfig->rule(BracesFixer::class);
+    $ecsConfig->rule(ClassDefinitionFixer::class);
+    $ecsConfig->rule(ConstantCaseFixer::class);
+    $ecsConfig->rule(ElseifFixer::class);
+    $ecsConfig->rule(FunctionDeclarationFixer::class);
+    $ecsConfig->rule(IndentationTypeFixer::class);
+    $ecsConfig->rule(LineEndingFixer::class);
+    $ecsConfig->rule(LowercaseKeywordsFixer::class);
 
-    $services->set(EncodingFixer::class);
+    $ecsConfig->ruleWithConfiguration(MethodArgumentSpaceFixer::class, [
+        'on_multiline' => 'ensure_fully_multiline',
+    ]);
 
-    $services->set(FullOpeningTagFixer::class);
+    $ecsConfig->rule(NoBreakCommentFixer::class);
+    $ecsConfig->rule(NoClosingTagFixer::class);
+    $ecsConfig->rule(NoSpacesAfterFunctionNameFixer::class);
+    $ecsConfig->rule(NoSpacesInsideParenthesisFixer::class);
+    $ecsConfig->rule(NoTrailingWhitespaceFixer::class);
+    $ecsConfig->rule(NoTrailingWhitespaceInCommentFixer::class);
+    $ecsConfig->rule(SingleBlankLineAtEofFixer::class);
 
-    $services->set(BlankLineAfterNamespaceFixer::class);
+    $ecsConfig->ruleWithConfiguration(SingleClassElementPerStatementFixer::class, [
+        'elements' => ['property'],
+    ]);
 
-    $services->set(BracesFixer::class);
-
-    $services->set(ClassDefinitionFixer::class);
-
-    $services->set(ConstantCaseFixer::class);
-
-    $services->set(ElseifFixer::class);
-
-    $services->set(FunctionDeclarationFixer::class);
-
-    $services->set(IndentationTypeFixer::class);
-
-    $services->set(LineEndingFixer::class);
-
-    $services->set(LowercaseKeywordsFixer::class);
-
-    $services->set(MethodArgumentSpaceFixer::class)
-        ->call('configure', [[
-            'on_multiline' => 'ensure_fully_multiline',
-        ]]);
-
-    $services->set(NoBreakCommentFixer::class);
-
-    $services->set(NoClosingTagFixer::class);
-
-    $services->set(NoSpacesAfterFunctionNameFixer::class);
-
-    $services->set(NoSpacesInsideParenthesisFixer::class);
-
-    $services->set(NoTrailingWhitespaceFixer::class);
-
-    $services->set(NoTrailingWhitespaceInCommentFixer::class);
-
-    $services->set(SingleBlankLineAtEofFixer::class);
-
-    $services->set(SingleClassElementPerStatementFixer::class)
-        ->call('configure', [[
-            'elements' => ['property'],
-        ]]);
-
-    $services->set(SingleImportPerStatementFixer::class);
-
-    $services->set(SingleLineAfterImportsFixer::class);
-
-    $services->set(SwitchCaseSemicolonToColonFixer::class);
-
-    $services->set(SwitchCaseSpaceFixer::class);
-
-    $services->set(VisibilityRequiredFixer::class);
+    $ecsConfig->rule(SingleImportPerStatementFixer::class);
+    $ecsConfig->rule(SingleLineAfterImportsFixer::class);
+    $ecsConfig->rule(SwitchCaseSemicolonToColonFixer::class);
+    $ecsConfig->rule(SwitchCaseSpaceFixer::class);
+    $ecsConfig->rule(VisibilityRequiredFixer::class);
 };

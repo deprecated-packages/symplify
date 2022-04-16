@@ -17,54 +17,38 @@ use PhpCsFixer\Fixer\Operator\StandardizeIncrementFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
 use PhpCsFixer\Fixer\StringNotation\ExplicitStringVariableFixer;
 use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\EasyCodingStandard\ValueObject\Option;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(PhpUnitMethodCasingFixer::class);
+    $ecsConfig->rule(FunctionToConstantFixer::class);
+    $ecsConfig->rule(ExplicitStringVariableFixer::class);
+    $ecsConfig->rule(ExplicitIndirectVariableFixer::class);
 
-    $services->set(PhpUnitMethodCasingFixer::class);
+    $ecsConfig->ruleWithConfiguration(SingleClassElementPerStatementFixer::class, [
+        'elements' => ['const', 'property'],
+    ]);
 
-    $services->set(FunctionToConstantFixer::class);
+    $ecsConfig->rule(NewWithBracesFixer::class);
 
-    $services->set(ExplicitStringVariableFixer::class);
+    $ecsConfig->ruleWithConfiguration(ClassDefinitionFixer::class, [
+        'single_line' => true,
+    ]);
 
-    $services->set(ExplicitIndirectVariableFixer::class);
+    $ecsConfig->rule(StandardizeIncrementFixer::class);
+    $ecsConfig->rule(SelfAccessorFixer::class);
+    $ecsConfig->rule(MagicConstantCasingFixer::class);
+    $ecsConfig->rule(AssignmentInConditionSniff::class);
+    $ecsConfig->rule(NoUselessElseFixer::class);
+    $ecsConfig->rule(SingleQuoteFixer::class);
 
-    $services->set(SingleClassElementPerStatementFixer::class)
-        ->call('configure', [[
-            'elements' => ['const', 'property'],
-        ]]);
+    $ecsConfig->ruleWithConfiguration(YodaStyleFixer::class, [
+        'equal' => false,
+        'identical' => false,
+        'less_and_greater' => false,
+    ]);
 
-    $services->set(NewWithBracesFixer::class);
+    $ecsConfig->rule(OrderedClassElementsFixer::class);
 
-    $services->set(ClassDefinitionFixer::class)
-        ->call('configure', [[
-            'single_line' => true,
-        ]]);
-
-    $services->set(StandardizeIncrementFixer::class);
-
-    $services->set(SelfAccessorFixer::class);
-
-    $services->set(MagicConstantCasingFixer::class);
-
-    $services->set(AssignmentInConditionSniff::class);
-
-    $services->set(NoUselessElseFixer::class);
-
-    $services->set(SingleQuoteFixer::class);
-
-    $services->set(YodaStyleFixer::class)
-        ->call('configure', [[
-            'equal' => false,
-            'identical' => false,
-            'less_and_greater' => false,
-        ]]);
-
-    $services->set(OrderedClassElementsFixer::class);
-
-    $parameters = $containerConfigurator->parameters();
-
-    $parameters->set(Option::SKIP, [AssignmentInConditionSniff::class . '.FoundInWhileCondition']);
+    $ecsConfig->skip([AssignmentInConditionSniff::class . '.FoundInWhileCondition']);
 };

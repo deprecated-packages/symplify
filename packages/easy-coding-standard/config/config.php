@@ -8,10 +8,10 @@ use PhpCsFixer\Differ\UnifiedDiffer;
 use PhpCsFixer\WhitespacesFixerConfig;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 use Symplify\EasyCodingStandard\Caching\Cache;
 use Symplify\EasyCodingStandard\Caching\CacheFactory;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyleFactory;
 use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
@@ -26,8 +26,8 @@ use Symplify\SmartFileSystem\Finder\SmartFinder;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+return static function (ECSConfig $ecsConfig): void {
+    $parameters = $ecsConfig->parameters();
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
 
@@ -49,12 +49,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, 16);
     $parameters->set(Option::PARALLEL_TIMEOUT_IN_SECONDS, 120);
 
-    $parameters->set(Option::PATHS, []);
+    $ecsConfig->paths([]);
     $parameters->set(Option::FILE_EXTENSIONS, ['php']);
 
     $parameters->set('env(TEST_SUFFIX)', '');
 
-    $services = $containerConfigurator->services();
+    $services = $ecsConfig->services();
     $services->defaults()
         ->public()
         ->autowire()

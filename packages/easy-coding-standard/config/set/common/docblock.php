@@ -13,29 +13,24 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimConsecutiveBlankLineSeparationFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(PhpdocLineSpanFixer::class);
+    $ecsConfig->rule(NoTrailingWhitespaceInCommentFixer::class);
+    $ecsConfig->rule(PhpdocTrimConsecutiveBlankLineSeparationFixer::class);
+    $ecsConfig->rule(PhpdocTrimFixer::class);
+    $ecsConfig->rule(NoEmptyPhpdocFixer::class);
+    $ecsConfig->rule(PhpdocNoEmptyReturnFixer::class);
+    $ecsConfig->rule(PhpdocIndentFixer::class);
+    $ecsConfig->rule(PhpdocTypesFixer::class);
+    $ecsConfig->rule(PhpdocReturnSelfReferenceFixer::class);
+    $ecsConfig->rule(PhpdocVarWithoutNameFixer::class);
+    $ecsConfig->rule(RemoveUselessDefaultCommentFixer::class);
 
-    $services->set(PhpdocLineSpanFixer::class);
-    $services->set(NoTrailingWhitespaceInCommentFixer::class);
-    $services->set(PhpdocTrimConsecutiveBlankLineSeparationFixer::class);
-    $services->set(PhpdocTrimFixer::class);
-    $services->set(NoEmptyPhpdocFixer::class);
-    $services->set(PhpdocNoEmptyReturnFixer::class);
-    $services->set(PhpdocIndentFixer::class);
-    $services->set(PhpdocTypesFixer::class);
-    $services->set(PhpdocReturnSelfReferenceFixer::class);
-    $services->set(PhpdocVarWithoutNameFixer::class);
-    $services->set(RemoveUselessDefaultCommentFixer::class);
-
-    $services->set(NoSuperfluousPhpdocTagsFixer::class)
-        ->call('configure', [
-            [
-                'remove_inheritdoc' => true,
-                'allow_mixed' => true,
-            ],
-        ]);
+    $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, [
+        'remove_inheritdoc' => true,
+        'allow_mixed' => true,
+    ]);
 };

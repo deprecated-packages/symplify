@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Basic\EncodingFixer;
 use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(EncodingFixer::class);
-    $services->set(FullOpeningTagFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(EncodingFixer::class);
+    $ecsConfig->rule(FullOpeningTagFixer::class);
 };

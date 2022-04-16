@@ -23,75 +23,55 @@ use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Spacing\NewlineServiceDefinitionConfigFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(StandaloneLinePromotedPropertyFixer::class);
+    $ecsConfig->rule(BlankLineAfterOpeningTagFixer::class);
+    $ecsConfig->rule(NewlineServiceDefinitionConfigFixer::class);
+    $ecsConfig->rule(MethodChainingIndentationFixer::class);
 
-    $services->set(StandaloneLinePromotedPropertyFixer::class);
+    $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
+        'elements' => [
+            'const' => 'one',
+            'property' => 'one',
+            'method' => 'one',
+        ],
+    ]);
 
-    $services->set(BlankLineAfterOpeningTagFixer::class);
+    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
+        'spacing' => 'one',
+    ]);
 
-    $services->set(NewlineServiceDefinitionConfigFixer::class);
+    $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
 
-    $services->set(MethodChainingIndentationFixer::class);
+    $ecsConfig->ruleWithConfiguration(SuperfluousWhitespaceSniff::class, [
+        'ignoreBlankLines' => false,
+    ]);
 
-    $services->set(ClassAttributesSeparationFixer::class)
-        ->call('configure', [[
-            'elements' => [
-                'const' => 'one',
-                'property' => 'one',
-                'method' => 'one',
-            ],
-        ]]);
+    $ecsConfig->rule(CastSpacesFixer::class);
 
-    $services->set(ConcatSpaceFixer::class)
-        ->call('configure', [[
-            'spacing' => 'one',
-        ]]);
+    $ecsConfig->ruleWithConfiguration(BinaryOperatorSpacesFixer::class, [
+        'operators' => [
+            '=>' => 'single_space',
+            '=' => 'single_space',
+        ],
+    ]);
 
-    $services->set(NotOperatorWithSuccessorSpaceFixer::class);
-
-    $services->set(SuperfluousWhitespaceSniff::class)
-        ->property('ignoreBlankLines', false);
-
-    $services->set(CastSpacesFixer::class);
-
-    $services->set(BinaryOperatorSpacesFixer::class)
-        ->call('configure', [[
-            'operators' => [
-                '=>' => 'single_space',
-                '=' => 'single_space',
-            ],
-        ]]);
-
-    $services->set(ClassAttributesSeparationFixer::class);
-
-    $services->set(SingleTraitInsertPerStatementFixer::class);
-
-    $services->set(FunctionTypehintSpaceFixer::class);
-
-    $services->set(NoBlankLinesAfterClassOpeningFixer::class);
-
-    $services->set(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
-
-    $services->set(PhpdocSingleLineVarSpacingFixer::class);
-
-    $services->set(NoLeadingNamespaceWhitespaceFixer::class);
-
-    $services->set(NoSpacesAroundOffsetFixer::class);
-
-    $services->set(NoWhitespaceInBlankLineFixer::class);
-
-    $services->set(ReturnTypeDeclarationFixer::class);
-
-    $services->set(SpaceAfterSemicolonFixer::class);
-
-    $services->set(TernaryOperatorSpacesFixer::class);
-
-    $services->set(MethodArgumentSpaceFixer::class);
-
-    $services->set(LanguageConstructSpacingSniff::class);
+    $ecsConfig->rule(ClassAttributesSeparationFixer::class);
+    $ecsConfig->rule(SingleTraitInsertPerStatementFixer::class);
+    $ecsConfig->rule(FunctionTypehintSpaceFixer::class);
+    $ecsConfig->rule(NoBlankLinesAfterClassOpeningFixer::class);
+    $ecsConfig->rule(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
+    $ecsConfig->rule(PhpdocSingleLineVarSpacingFixer::class);
+    $ecsConfig->rule(NoLeadingNamespaceWhitespaceFixer::class);
+    $ecsConfig->rule(NoSpacesAroundOffsetFixer::class);
+    $ecsConfig->rule(NoWhitespaceInBlankLineFixer::class);
+    $ecsConfig->rule(ReturnTypeDeclarationFixer::class);
+    $ecsConfig->rule(SpaceAfterSemicolonFixer::class);
+    $ecsConfig->rule(TernaryOperatorSpacesFixer::class);
+    $ecsConfig->rule(MethodArgumentSpaceFixer::class);
+    $ecsConfig->rule(LanguageConstructSpacingSniff::class);
 };
