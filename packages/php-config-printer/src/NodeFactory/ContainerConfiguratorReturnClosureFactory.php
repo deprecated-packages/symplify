@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\VariableMethodName;
@@ -31,10 +32,10 @@ final class ContainerConfiguratorReturnClosureFactory
     /**
      * @param array<string, mixed[]> $arrayData
      */
-    public function createFromYamlArray(array $arrayData): Return_
+    public function createFromYamlArray(array $arrayData, string $containerConfiguratorClass = ContainerConfigurator::class): Return_
     {
         $stmts = $this->createClosureStmts($arrayData);
-        $closure = $this->configuratorClosureNodeFactory->createContainerClosureFromStmts($stmts);
+        $closure = $this->configuratorClosureNodeFactory->createContainerClosureFromStmts($stmts, $containerConfiguratorClass);
 
         return new Return_($closure);
     }

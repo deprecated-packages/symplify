@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\PhpParser\NodeFactory;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
@@ -33,9 +34,9 @@ final class ConfiguratorClosureNodeFactory
     /**
      * @param Stmt[] $stmts
      */
-    public function createContainerClosureFromStmts(array $stmts): Closure
+    public function createContainerClosureFromStmts(array $stmts, string $containerConfiguratorClass): Closure
     {
-        $param = $this->createContainerConfiguratorParam();
+        $param = $this->createContainerConfiguratorParam($containerConfiguratorClass);
         return $this->createClosureFromParamAndStmts($param, $stmts);
     }
 
@@ -48,11 +49,16 @@ final class ConfiguratorClosureNodeFactory
         return $this->createClosureFromParamAndStmts($param, $stmts);
     }
 
-    private function createContainerConfiguratorParam(): Param
+    private function createContainerConfiguratorParam(string $containerConfiguratorClass): Param
     {
-        $containerConfiguratorVariable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
+        $shortClassName = Strings::after($containerConfiguratorClass, '\\', -1);
+        $variableName = strtolower($shortClassName);
 
-        return new Param($containerConfiguratorVariable, null, new FullyQualified(ContainerConfigurator::class));
+        // @todo resolve name from type
+        $containerConfiguratorVariable = new Variable($variableName);
+
+        $paramType = new FullyQualified($containerConfiguratorClass);
+        return new Param($containerConfiguratorVariable, null, $paramType);
     }
 
     private function createRoutingConfiguratorParam(): Param
