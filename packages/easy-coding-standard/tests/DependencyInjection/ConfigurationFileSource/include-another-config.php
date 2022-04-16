@@ -3,11 +3,9 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ClassNotation\ClassDefinitionFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/simple-config.php');
-
-    $services = $containerConfigurator->services();
-    $services->set(ClassDefinitionFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->import(__DIR__ . '/simple-config.php');
+    $ecsConfig->rule(ClassDefinitionFixer::class);
 };

@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(PhpUnitStrictFixer::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(PhpUnitStrictFixer::class);
 };

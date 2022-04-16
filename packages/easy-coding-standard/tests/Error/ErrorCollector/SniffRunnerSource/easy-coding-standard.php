@@ -3,9 +3,8 @@
 declare(strict_types=1);
 
 use PHP_CodeSniffer\Standards\Generic\Sniffs\Arrays\ArrayIndentSniff;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-    $services->set(ArrayIndentSniff::class);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->rule(ArrayIndentSniff::class);
 };

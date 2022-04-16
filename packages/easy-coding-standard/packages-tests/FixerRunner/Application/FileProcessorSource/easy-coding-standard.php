@@ -6,19 +6,17 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays\ArrayDeclarationSniff;
 use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
 use PhpCsFixer\Fixer\Basic\EncodingFixer;
 use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
+return static function (ECSConfig $ecsConfig): void {
     // priority 0 - lower last
-    $services->set(NoTrailingCommaInSinglelineArrayFixer::class);
+    $ecsConfig->rule(NoTrailingCommaInSinglelineArrayFixer::class);
 
-    $services->set(ArrayDeclarationSniff::class);
+    $ecsConfig->rule(ArrayDeclarationSniff::class);
 
     // priority 100 - higher first
-    $services->set(EncodingFixer::class);
+    $ecsConfig->rule(EncodingFixer::class);
 
     // priority 98
-    $services->set(FullOpeningTagFixer::class);
+    $ecsConfig->rule(FullOpeningTagFixer::class);
 };
