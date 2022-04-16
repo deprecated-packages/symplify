@@ -13,9 +13,5 @@ interface RuleCodeSamplePrinterInterface
     /**
      * @return string[]
      */
-    public function print(
-        CodeSampleInterface $codeSample,
-        RuleDefinition $ruleDefinition,
-        bool $shouldUseConfigureMethod
-    ): array;
+    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array;
 }

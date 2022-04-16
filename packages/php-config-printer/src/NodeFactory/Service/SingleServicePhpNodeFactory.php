@@ -37,12 +37,8 @@ final class SingleServicePhpNodeFactory
      * @param mixed[] $calls
      * @see https://symfony.com/doc/current/service_container/injection_types.html
      */
-    public function createCalls(MethodCall $methodCall, array $calls, bool $shouldUseConfigureMethod): MethodCall
+    public function createCalls(MethodCall $methodCall, array $calls): MethodCall
     {
-        if ($shouldUseConfigureMethod) {
-            return $this->createConfigureMethodCall($calls, $methodCall);
-        }
-
         foreach ($calls as $call) {
             $methodCall = $this->createCallMethodCall($call, $methodCall);
         }
@@ -101,19 +97,5 @@ final class SingleServicePhpNodeFactory
         }
 
         return new MethodCall($methodCall, 'call', $args);
-    }
-
-    /**
-     * @param mixed[] $calls
-     */
-    private function createConfigureMethodCall(array $calls, MethodCall $methodCall): MethodCall
-    {
-        $args = [];
-
-        $argumentsExpr = $this->argsNodeFactory->resolveExpr($calls);
-
-        $args[] = new Arg($argumentsExpr);
-
-        return new MethodCall($methodCall, 'configure', $args);
     }
 }

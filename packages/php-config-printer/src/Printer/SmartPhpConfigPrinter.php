@@ -24,18 +24,14 @@ final class SmartPhpConfigPrinter
     /**
      * @param array<string, mixed> $configuredServices
      */
-    public function printConfiguredServices(array $configuredServices, bool $shouldUseConfigureMethod): string
+    public function printConfiguredServices(array $configuredServices): string
     {
         $servicesWithConfigureCalls = [];
         foreach ($configuredServices as $service => $configuration) {
             if ($configuration === null) {
                 $servicesWithConfigureCalls[$service] = null;
             } else {
-                $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration(
-                    $configuration,
-                    $service,
-                    $shouldUseConfigureMethod
-                );
+                $servicesWithConfigureCalls[$service] = $this->createServiceConfiguration($configuration, $service);
             }
         }
 
@@ -48,25 +44,11 @@ final class SmartPhpConfigPrinter
 
     /**
      * @param mixed[] $configuration
-     * @return array{configure: mixed[]}|array{calls: mixed[]}
+     * @return array{calls: mixed[]}
      */
-    private function createServiceConfiguration(
-        array $configuration,
-        string $class,
-        bool $shouldUseConfigureMethod
-    ): array {
-        if ($shouldUseConfigureMethod) {
-            $configuration = $this->serviceConfigurationDecorator->decorate(
-                $configuration,
-                $class,
-                $shouldUseConfigureMethod
-            );
-            return [
-                'configure' => $configuration,
-            ];
-        }
-
-        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class, false);
+    private function createServiceConfiguration(array $configuration, string $class): array
+    {
+        $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $class);
         return [
             'calls' => [['configure', [$configuration]]],
         ];

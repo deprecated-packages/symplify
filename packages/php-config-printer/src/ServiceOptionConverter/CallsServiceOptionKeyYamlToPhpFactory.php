@@ -22,7 +22,7 @@ final class CallsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYa
         mixed $values,
         MethodCall $methodCall
     ): MethodCall {
-        return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml, false);
+        return $this->singleServicePhpNodeFactory->createCalls($methodCall, $yaml);
     }
 
     public function isMatch(mixed $key, mixed $values): bool

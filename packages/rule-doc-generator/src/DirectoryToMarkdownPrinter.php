@@ -26,12 +26,8 @@ final class DirectoryToMarkdownPrinter
     /**
      * @param string[] $directories
      */
-    public function print(
-        string $workingDirectory,
-        array $directories,
-        bool $shouldCategorize,
-        bool $shouldUseConfigureMethod
-    ): string {
+    public function print(string $workingDirectory, array $directories, bool $shouldCategorize): string
+    {
         // 1. collect documented rules in provided path
         $documentedRuleClasses = $this->classByTypeFinder->findByType(
             $workingDirectory,
@@ -56,11 +52,7 @@ final class DirectoryToMarkdownPrinter
 
         // 3. print rule definitions to markdown lines
         $this->symfonyStyle->note('Printing rule definitions');
-        $markdownLines = $this->ruleDefinitionsPrinter->print(
-            $ruleDefinitions,
-            $shouldCategorize,
-            $shouldUseConfigureMethod
-        );
+        $markdownLines = $this->ruleDefinitionsPrinter->print($ruleDefinitions, $shouldCategorize);
 
         $fileContent = '';
         foreach ($markdownLines as $markdownLine) {

@@ -23,10 +23,10 @@ CODE_SAMPLE
 after
 CODE_SAMPLE
                 ,
-                [
+                [[
                     'key' => 'value',
                     'second_key' => 'second_value',
-                ]
+                ]]
             )
         ]);
     }

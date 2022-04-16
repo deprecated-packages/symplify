@@ -25,11 +25,8 @@ final class PHPCodeSnifferRuleCodeSamplePrinter implements RuleCodeSamplePrinter
     /**
      * @return string[]
      */
-    public function print(
-        CodeSampleInterface $codeSample,
-        RuleDefinition $ruleDefinition,
-        bool $shouldUseConfigureMethod
-    ): array {
+    public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
+    {
         return $this->badGoodCodeSamplePrinter->print($codeSample);
     }
 }

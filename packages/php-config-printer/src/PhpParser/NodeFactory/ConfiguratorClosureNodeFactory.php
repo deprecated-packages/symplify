@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\PhpParser\NodeFactory;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
@@ -16,7 +17,6 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
@@ -33,9 +33,9 @@ final class ConfiguratorClosureNodeFactory
     /**
      * @param Stmt[] $stmts
      */
-    public function createContainerClosureFromStmts(array $stmts): Closure
+    public function createContainerClosureFromStmts(array $stmts, string $containerConfiguratorClass): Closure
     {
-        $param = $this->createContainerConfiguratorParam();
+        $param = $this->createContainerConfiguratorParam($containerConfiguratorClass);
         return $this->createClosureFromParamAndStmts($param, $stmts);
     }
 
@@ -48,11 +48,14 @@ final class ConfiguratorClosureNodeFactory
         return $this->createClosureFromParamAndStmts($param, $stmts);
     }
 
-    private function createContainerConfiguratorParam(): Param
+    private function createContainerConfiguratorParam(string $containerConfiguratorClass): Param
     {
-        $containerConfiguratorVariable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
+        $variableName = $this->resolveVariableNameFromType($containerConfiguratorClass);
 
-        return new Param($containerConfiguratorVariable, null, new FullyQualified(ContainerConfigurator::class));
+        $containerConfiguratorVariable = new Variable($variableName);
+
+        $fullyQualified = new FullyQualified($containerConfiguratorClass);
+        return new Param($containerConfiguratorVariable, null, $fullyQualified);
     }
 
     private function createRoutingConfiguratorParam(): Param
@@ -236,5 +239,15 @@ final class ConfiguratorClosureNodeFactory
         }
 
         return $extensionName;
+    }
+
+    private function resolveVariableNameFromType(string $containerConfiguratorClass): string
+    {
+        $shortClassName = Strings::after($containerConfiguratorClass, '\\', -1);
+        if (! is_string($shortClassName)) {
+            $shortClassName = $containerConfiguratorClass;
+        }
+
+        return lcfirst($shortClassName);
     }
 }
