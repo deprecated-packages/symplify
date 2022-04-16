@@ -78,7 +78,13 @@ final class ECSConfig extends ContainerConfigurator
             $service->call('configure', [$configuration]);
         }
 
-        // @todo
+        if (is_a($checkerClass, Sniff::class, true)) {
+            foreach ($configuration as $propertyName => $value) {
+                Assert::propertyExists($checkerClass, $propertyName);
+
+                $service->property($propertyName, $value);
+            }
+        }
     }
 
     /**
