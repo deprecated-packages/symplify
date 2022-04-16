@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\ControlStructure\YodaStyleFixer;
-use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowYodaComparisonSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\LowerCaseConstantSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\UpperCaseConstantSniff;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(DisallowYodaComparisonSniff::class);
-    $ecsConfig->rule(YodaStyleFixer::class);
+    $ecsConfig->rule(LowerCaseConstantSniff::class);
+    $ecsConfig->rule(UpperCaseConstantSniff::class);
 };
