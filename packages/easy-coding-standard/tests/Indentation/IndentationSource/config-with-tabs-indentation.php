@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $services = $ecsConfig->services();
     $services->set(IndentationTypeFixer::class)
         ->public();
 
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::INDENTATION, Option::INDENTATION_TAB);
+    $ecsConfig->indentation(Option::INDENTATION_TAB);
 };
