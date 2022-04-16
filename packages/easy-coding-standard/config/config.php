@@ -28,6 +28,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ECSConfig $ecsConfig): void {
     $parameters = $ecsConfig->parameters();
+
+    // @todo turn these into methods :)
     $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);
     $parameters->set(Option::LINE_ENDING, PHP_EOL);
 
