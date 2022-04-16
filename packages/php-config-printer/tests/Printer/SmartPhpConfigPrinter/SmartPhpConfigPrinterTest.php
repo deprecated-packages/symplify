@@ -28,7 +28,7 @@ final class SmartPhpConfigPrinterTest extends AbstractKernelTestCase
      */
     public function test(array $services, string $expectedContentFilePath): void
     {
-        $printedContent = $this->smartPhpConfigPrinter->printConfiguredServices($services, false);
+        $printedContent = $this->smartPhpConfigPrinter->printConfiguredServices($services);
         $this->assertStringEqualsFile($expectedContentFilePath, $printedContent, $expectedContentFilePath);
     }
 

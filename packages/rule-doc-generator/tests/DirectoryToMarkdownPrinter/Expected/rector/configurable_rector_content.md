@@ -17,9 +17,7 @@ use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\ConfigurableRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(ConfigurableRector::class, [
-        ['key' => 'value', 'second_key' => 'second_value']
-    );
+    $rectorConfig->ruleWithConfiguration(ConfigurableRector::class, [['key' => 'value', 'second_key' => 'second_value']]);
 };
 ```
 

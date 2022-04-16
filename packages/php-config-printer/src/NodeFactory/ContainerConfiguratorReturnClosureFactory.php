@@ -32,10 +32,16 @@ final class ContainerConfiguratorReturnClosureFactory
     /**
      * @param array<string, mixed[]> $arrayData
      */
-    public function createFromYamlArray(array $arrayData, string $containerConfiguratorClass = ContainerConfigurator::class): Return_
-    {
+    public function createFromYamlArray(
+        array $arrayData,
+        string $containerConfiguratorClass = ContainerConfigurator::class
+    ): Return_ {
         $stmts = $this->createClosureStmts($arrayData);
-        $closure = $this->configuratorClosureNodeFactory->createContainerClosureFromStmts($stmts, $containerConfiguratorClass);
+
+        $closure = $this->configuratorClosureNodeFactory->createContainerClosureFromStmts(
+            $stmts,
+            $containerConfiguratorClass
+        );
 
         return new Return_($closure);
     }

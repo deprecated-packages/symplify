@@ -17,7 +17,6 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
@@ -51,14 +50,12 @@ final class ConfiguratorClosureNodeFactory
 
     private function createContainerConfiguratorParam(string $containerConfiguratorClass): Param
     {
-        $shortClassName = Strings::after($containerConfiguratorClass, '\\', -1);
-        $variableName = strtolower($shortClassName);
+        $variableName = $this->resolveVariableNameFromType($containerConfiguratorClass);
 
-        // @todo resolve name from type
         $containerConfiguratorVariable = new Variable($variableName);
 
-        $paramType = new FullyQualified($containerConfiguratorClass);
-        return new Param($containerConfiguratorVariable, null, $paramType);
+        $fullyQualified = new FullyQualified($containerConfiguratorClass);
+        return new Param($containerConfiguratorVariable, null, $fullyQualified);
     }
 
     private function createRoutingConfiguratorParam(): Param
@@ -242,5 +239,15 @@ final class ConfiguratorClosureNodeFactory
         }
 
         return $extensionName;
+    }
+
+    private function resolveVariableNameFromType(string $containerConfiguratorClass): string
+    {
+        $shortClassName = Strings::after($containerConfiguratorClass, '\\', -1);
+        if (! is_string($shortClassName)) {
+            $shortClassName = $containerConfiguratorClass;
+        }
+
+        return lcfirst($shortClassName);
     }
 }

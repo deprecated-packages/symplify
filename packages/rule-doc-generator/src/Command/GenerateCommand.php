@@ -39,15 +39,12 @@ final class GenerateCommand extends AbstractSymplifyCommand
             getcwd() . '/docs/rules_overview.md'
         );
         $this->addOption(Option::CATEGORIZE, null, InputOption::VALUE_NONE, 'Group in categories');
-        $this->addOption(Option::CONFIGURE_METHOD, null, InputOption::VALUE_NONE, 'Use configure() method in configs');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $paths = (array) $input->getArgument(Option::PATHS);
         $shouldCategorize = (bool) $input->getOption(Option::CATEGORIZE);
-
-        $shouldUseConfigureMethod = (bool) $input->getOption(Option::CONFIGURE_METHOD);
 
         // dump markdown file
         $outputFilePath = (string) $input->getOption(Option::OUTPUT_FILE);

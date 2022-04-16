@@ -7,7 +7,7 @@ namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 use Rector\Config\RectorConfig;
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
-use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
+use Symplify\RuleDocGenerator\CaseConverter\RectorRuleCaseConverter;
 use Symplify\RuleDocGenerator\Contract\Printer\ConfiguredRuleCustomPrinterInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,12 +24,13 @@ final class RectorConfigConfiguredRuleCustomPrinter implements ConfiguredRuleCus
         RuleDefinition $ruleDefinition,
         ConfiguredCodeSample $configuredCodeSample
     ): string {
-        dump($ruleDefinition);
-        dump($configuredCodeSample);
-
         $return = $this->containerConfiguratorReturnClosureFactory->createFromYamlArray([
-            YamlKey::SERVICES => [],
-            // @todo
+            RectorRuleCaseConverter::NAME => [
+                [
+                    'class' => $ruleDefinition->getRuleClass(),
+                    'configuration' => $configuredCodeSample->getConfiguration(),
+                ],
+            ],
         ], RectorConfig::class);
 
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);

@@ -31,15 +31,18 @@ final class ConfiguredCodeSamplerPrinter
         $lines = [];
 
         // if use it
-        dump($configuredRuleCustomPrinter->printConfigureService($ruleDefinition, $configuredCodeSample));
-        die;
-
-        $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices(
-            [
-                $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
-            ],
-            $shouldUseConfigureMethod
-        );
+        if ($configuredRuleCustomPrinter instanceof ConfiguredRuleCustomPrinterInterface) {
+            $configPhpCode = $configuredRuleCustomPrinter->printConfigureService(
+                $ruleDefinition,
+                $configuredCodeSample
+            );
+        } else {
+            $configPhpCode = $this->smartPhpConfigPrinter->printConfiguredServices(
+                [
+                    $ruleDefinition->getRuleClass() => $configuredCodeSample->getConfiguration(),
+                ],
+            );
+        }
 
         $lines[] = $this->markdownCodeWrapper->printPhpCode($configPhpCode);
 
