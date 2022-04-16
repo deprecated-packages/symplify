@@ -104,4 +104,25 @@ final class ECSConfig extends ContainerConfigurator
     {
         Assert::isAnyOf($checkerClass, [Sniff::class, FixerInterface::class]);
     }
+
+    /**
+     * @param Option::INDENTATION_* $indentation
+     */
+    public function indentation(string $indentation): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::INDENTATION, $indentation);
+    }
+
+    public function lineEnding(string $lineEnding): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::LINE_ENDING, $lineEnding);
+    }
+
+    public function parallel(): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::PARALLEL, true);
+    }
 }

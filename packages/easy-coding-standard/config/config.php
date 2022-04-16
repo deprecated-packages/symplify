@@ -29,14 +29,15 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ECSConfig $ecsConfig): void {
     $parameters = $ecsConfig->parameters();
 
-    // @todo turn these into methods :)
-    $parameters->set(Option::INDENTATION, Option::INDENTATION_SPACES);
-    $parameters->set(Option::LINE_ENDING, PHP_EOL);
+    $ecsConfig->indentation(Option::INDENTATION_SPACES);
+    $ecsConfig->lineEnding(PHP_EOL);
 
     $cacheDirectory = sys_get_temp_dir() . '/changed_files_detector%env(TEST_SUFFIX)%';
     if (StaticVersionResolver::PACKAGE_VERSION !== '@package_version@') {
         $cacheDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
     }
+
+    // @todo turn these into methods :)
 
     $parameters->set(Option::CACHE_DIRECTORY, $cacheDirectory);
 
@@ -44,7 +45,7 @@ return static function (ECSConfig $ecsConfig): void {
     $parameters->set(Option::CACHE_NAMESPACE, $cacheNamespace);
 
     // parallel
-    $parameters->set(Option::PARALLEL, true);
+    $ecsConfig->parallel();
 
     // how many files are processed in single process
     $parameters->set(Option::PARALLEL_JOB_SIZE, 60);
