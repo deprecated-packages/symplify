@@ -98,14 +98,6 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
-     * @param class-string $checkerClass
-     */
-    private function isCheckerClass(string $checkerClass): void
-    {
-        Assert::isAnyOf($checkerClass, [Sniff::class, FixerInterface::class]);
-    }
-
-    /**
      * @param Option::INDENTATION_* $indentation
      */
     public function indentation(string $indentation): void
@@ -124,5 +116,13 @@ final class ECSConfig extends ContainerConfigurator
     {
         $parameters = $this->parameters();
         $parameters->set(Option::PARALLEL, true);
+    }
+
+    /**
+     * @param class-string $checkerClass
+     */
+    private function isCheckerClass(string $checkerClass): void
+    {
+        Assert::isAnyOf($checkerClass, [Sniff::class, FixerInterface::class]);
     }
 }
