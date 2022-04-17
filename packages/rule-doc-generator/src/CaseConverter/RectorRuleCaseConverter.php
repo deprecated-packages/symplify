@@ -13,6 +13,7 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
+use Symplify\PhpConfigPrinter\Printer\ArrayDecorator\ServiceConfigurationDecorator;
 
 final class RectorRuleCaseConverter implements CaseConverterInterface
 {
@@ -23,6 +24,7 @@ final class RectorRuleCaseConverter implements CaseConverterInterface
 
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory,
+        private ServiceConfigurationDecorator $serviceConfigurationDecorator
     ) {
     }
 
@@ -42,6 +44,7 @@ final class RectorRuleCaseConverter implements CaseConverterInterface
         $methodName = $configuration ? 'ruleWithConfiguration' : 'rule';
 
         if ($configuration) {
+            $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $rectorClass);
             $array = $this->argsNodeFactory->createFromValues($configuration);
             $args[] = new Arg(new Array_($array));
         }

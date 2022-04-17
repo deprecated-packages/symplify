@@ -19,6 +19,7 @@ use PhpParser\Node\Stmt\Expression;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\PhpConfigPrinter\Naming\VariableNameResolver;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 
 final class ConfiguratorClosureNodeFactory
@@ -26,7 +27,7 @@ final class ConfiguratorClosureNodeFactory
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private NodeValueResolver $nodeValueResolver,
-        private \Symplify\PhpConfigPrinter\Naming\VariableNameResolver $variableNameResolver,
+        private VariableNameResolver $variableNameResolver,
     ) {
     }
 
