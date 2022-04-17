@@ -41,7 +41,6 @@ return static function (ECSConfig $ecsConfig): void {
 
         // PHP 8 only
         __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
-        __DIR__ . '/packages/latte-phpstan-compiler/tests/LatteToPhpCompiler/Fixture*',
 
         // slevomat cs
         ParameterTypeHintSniff::class => [

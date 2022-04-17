@@ -59,12 +59,10 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/git-wrapper --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/latte-phpstan-compiler --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/php-config-printer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-latte-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
@@ -72,7 +70,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/smart-file-system --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symplify-kernel --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/template-phpstan-compiler --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/vendor-patches --ansi
 
                     -

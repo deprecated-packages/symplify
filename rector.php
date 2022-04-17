@@ -7,7 +7,6 @@ use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
-use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -65,11 +64,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
-
-        // on purpose Latte macro magic
-        SymplifyQuoteEscapeRector::class => [
-            __DIR__ . '/packages/latte-phpstan-compiler/src/Latte/Macros/LatteMacroFaker.php',
-        ],
 
         // adopted 3rd party package - keep API compatible
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],

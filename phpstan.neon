@@ -201,7 +201,6 @@ parameters:
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
                 - packages/easy-ci/src/Latte/LatteTemplateAnalyzer/MissingClassStaticCallLatteAnalyzer.php
-                - packages/latte-phpstan-compiler/src/LinkProcessor/PresenterActionLinkProcessor.php
                 # look for parent method
                 - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
 
@@ -461,7 +460,6 @@ parameters:
         -
             message: '#Make callable type explicit\. Here is how\: https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#callables#'
             paths:
-                 - packages/latte-phpstan-compiler/src/Latte/Filters/FilterMatcher.php
                  # callable value resolving
                  - packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
 
