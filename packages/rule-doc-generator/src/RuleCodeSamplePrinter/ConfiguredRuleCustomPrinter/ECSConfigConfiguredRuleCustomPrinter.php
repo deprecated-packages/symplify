@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter\ConfiguredRuleCustomPrinter;
 
-use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
 use Symplify\RuleDocGenerator\CaseConverter\ECSRuleCaseConverter;
@@ -31,7 +30,7 @@ final class ECSConfigConfiguredRuleCustomPrinter implements ConfiguredRuleCustom
                     'configuration' => $configuredCodeSample->getConfiguration(),
                 ],
             ],
-        ], ECSConfig::class);
+        ], 'Symplify\EasyCodingStandard\Config\ECSConfig');
 
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
     }

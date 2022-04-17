@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\PhpParser\NodeFactory;
 
-use Nette\Utils\Strings;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
@@ -27,6 +26,7 @@ final class ConfiguratorClosureNodeFactory
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private NodeValueResolver $nodeValueResolver,
+        private \Symplify\PhpConfigPrinter\Naming\VariableNameResolver $variableNameResolver,
     ) {
     }
 
@@ -50,7 +50,7 @@ final class ConfiguratorClosureNodeFactory
 
     private function createContainerConfiguratorParam(string $containerConfiguratorClass): Param
     {
-        $variableName = $this->resolveVariableNameFromType($containerConfiguratorClass);
+        $variableName = $this->variableNameResolver->resolveFromType($containerConfiguratorClass);
 
         $containerConfiguratorVariable = new Variable($variableName);
 
@@ -239,15 +239,5 @@ final class ConfiguratorClosureNodeFactory
         }
 
         return $extensionName;
-    }
-
-    private function resolveVariableNameFromType(string $containerConfiguratorClass): string
-    {
-        $shortClassName = Strings::after($containerConfiguratorClass, '\\', -1);
-        if (! is_string($shortClassName)) {
-            $shortClassName = $containerConfiguratorClass;
-        }
-
-        return lcfirst($shortClassName);
     }
 }

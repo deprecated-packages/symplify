@@ -7,6 +7,7 @@ namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\BadGoodCodeSamplePrinter;
+use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
 use Symplify\RuleDocGenerator\RuleCodeSamplePrinter\ConfiguredRuleCustomPrinter\ECSConfigConfiguredRuleCustomPrinter;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -16,7 +17,8 @@ final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
     public function __construct(
         private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter,
         private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
-        private ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter
+        private ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter,
+        private DiffCodeSamplePrinter $diffCodeSamplePrinter
     ) {
     }
 
@@ -43,6 +45,10 @@ final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
             );
         }
 
-        return $this->badGoodCodeSamplePrinter->print($codeSample);
+        if (is_a($ruleDefinition->getRuleClass(), 'PHP_CodeSniffer\Sniffs\Sniff', true)) {
+            return $this->badGoodCodeSamplePrinter->print($codeSample);
+        }
+
+        return $this->diffCodeSamplePrinter->print($codeSample);
     }
 }
