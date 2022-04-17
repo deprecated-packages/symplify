@@ -8,16 +8,18 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Php\PhpMethodReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenParamTypeRemovalRule\ForbiddenParamTypeRemovalRuleTest
  */
-final class ForbiddenParamTypeRemovalRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class ForbiddenParamTypeRemovalRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

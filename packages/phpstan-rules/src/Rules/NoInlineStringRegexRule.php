@@ -7,19 +7,22 @@ namespace Symplify\PHPStanRules\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\NoInlineStringRegexRuleTest
  */
-final class NoInlineStringRegexRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class NoInlineStringRegexRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -37,7 +40,7 @@ final class NoInlineStringRegexRule implements \PHPStan\Rules\Rule, \Symplify\Ru
      */
     public function getNodeType(): string
     {
-        return Node\Expr\CallLike::class;
+        return CallLike::class;
     }
 
     /**

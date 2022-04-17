@@ -20,16 +20,18 @@ use PhpParser\Node\Stmt\While_;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassMethodNode;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\NoPropertySetOverrideRule\NoPropertySetOverrideRuleTest
  */
-final class NoPropertySetOverrideRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class NoPropertySetOverrideRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

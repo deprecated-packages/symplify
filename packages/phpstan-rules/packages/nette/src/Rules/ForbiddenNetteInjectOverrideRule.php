@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\ForbiddenNetteInjectOverrideRule\ForbiddenNetteInjectOverrideRuleTest
  */
-final class ForbiddenNetteInjectOverrideRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class ForbiddenNetteInjectOverrideRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

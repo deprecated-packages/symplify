@@ -11,8 +11,10 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -29,7 +31,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  *
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
  */
-final class FunctionLikeCognitiveComplexityRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleinterface, ConfigurableRuleInterface
+final class FunctionLikeCognitiveComplexityRule implements Rule, DocumentedRuleinterface, ConfigurableRuleInterface
 {
     /**
      * @var string

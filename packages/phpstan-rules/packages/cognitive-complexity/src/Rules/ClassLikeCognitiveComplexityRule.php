@@ -7,6 +7,8 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\Enum_;
+use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
@@ -55,11 +57,11 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($node instanceof Node\Stmt\Interface_) {
+        if ($node instanceof Interface_) {
             return [];
         }
 
-        if ($node instanceof Node\Stmt\Enum_) {
+        if ($node instanceof Enum_) {
             return [];
         }
 

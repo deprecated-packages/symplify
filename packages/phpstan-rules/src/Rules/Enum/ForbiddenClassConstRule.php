@@ -7,16 +7,18 @@ namespace Symplify\PHPStanRules\Rules\Enum;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Enum\ForbiddenClassConstRule\ForbiddenClassConstRuleTest
  */
-final class ForbiddenClassConstRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
+final class ForbiddenClassConstRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string

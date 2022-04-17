@@ -11,6 +11,7 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\IntersectionType;
@@ -22,13 +23,14 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\VerbosityLevel;
 use Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder;
 use Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\CheckTypehintCallerTypeRuleTest
  */
-final class CheckTypehintCallerTypeRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class CheckTypehintCallerTypeRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

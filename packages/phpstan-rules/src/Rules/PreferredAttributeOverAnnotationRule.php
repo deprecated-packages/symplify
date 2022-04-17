@@ -11,13 +11,14 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\Routing\Annotation\Route;
 use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
+use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredAttributeOverAnnotationRule\PreferredAttributeOverAnnotationRuleTest
  */
-final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule
+final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
 {
     /**
      * @var string

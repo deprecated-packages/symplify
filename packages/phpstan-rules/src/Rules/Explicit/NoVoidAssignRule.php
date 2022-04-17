@@ -12,16 +12,18 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\VoidType;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\Reflection\MethodCallParser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoVoidAssignRule\NoVoidAssignRuleTest
  */
-final class NoVoidAssignRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class NoVoidAssignRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

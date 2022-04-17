@@ -13,10 +13,10 @@ interface ManyNodeRuleInterface
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeType(): string;
+    public function getNodeTypes(): array;
 
     /**
      * @return array<string|RuleError>
      */
-    public function processNode(Node $node, Scope $scope): array;
+    public function process(Node $node, Scope $scope): array;
 }

@@ -12,12 +12,12 @@ use Symplify\PHPStanRules\Contract\ManyNodeRuleInterface;
 
 final class SkipParentMethod implements ManyNodeRuleInterface
 {
-    public function getNodeType(): string
+    public function getNodeTypes(): array
     {
         return [Array_::class, New_::class];
     }
 
-    public function processNode(Node $node, Scope $scope): array
+    public function process(Node $node, Scope $scope): array
     {
     }
 }

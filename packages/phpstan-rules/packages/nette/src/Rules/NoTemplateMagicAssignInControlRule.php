@@ -10,14 +10,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoTemplateMagicAssignInControlRule\NoTemplateMagicAssignInControlRuleTest
  */
-final class NoTemplateMagicAssignInControlRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class NoTemplateMagicAssignInControlRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string

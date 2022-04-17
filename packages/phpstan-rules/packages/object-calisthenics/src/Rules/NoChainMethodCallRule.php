@@ -15,6 +15,7 @@ use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\TrinaryLogic;
 use Symfony\Component\DependencyInjection\Alias;
@@ -27,6 +28,7 @@ use Symfony\Component\String\AbstractString;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use TwitterAPIExchange;
@@ -36,7 +38,7 @@ use TwitterAPIExchange;
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\NoChainMethodCallRuleTest
  */
-final class NoChainMethodCallRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleinterface, ConfigurableRuleInterface
+final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, ConfigurableRuleInterface
 {
     /**
      * @var string

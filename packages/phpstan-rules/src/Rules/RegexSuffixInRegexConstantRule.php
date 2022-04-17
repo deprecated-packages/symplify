@@ -7,19 +7,22 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RegexSuffixInRegexConstantRule\RegexSuffixInRegexConstantRuleTest
  */
-final class RegexSuffixInRegexConstantRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class RegexSuffixInRegexConstantRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -37,7 +40,7 @@ final class RegexSuffixInRegexConstantRule implements \PHPStan\Rules\Rule, \Symp
      */
     public function getNodeType(): string
     {
-        return Expr\CallLike::class;
+        return CallLike::class;
     }
 
     /**

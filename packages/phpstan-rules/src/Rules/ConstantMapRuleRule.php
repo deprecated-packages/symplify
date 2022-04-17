@@ -9,15 +9,17 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\ConditionCounter;
 use Symplify\PHPStanRules\NodeAnalyzer\IfReturnAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ConstantMapRuleRule\ConstantMapRuleRuleTest
  */
-final class ConstantMapRuleRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
+final class ConstantMapRuleRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
