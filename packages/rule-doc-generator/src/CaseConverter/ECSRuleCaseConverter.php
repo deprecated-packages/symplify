@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\CaseConverter;
 
 use PhpParser\Node\Arg;
-use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
@@ -42,8 +41,8 @@ final class ECSRuleCaseConverter implements CaseConverterInterface
         $methodName = $configuration ? 'ruleWithConfiguration' : 'rule';
 
         if ($configuration) {
-            $array = $this->argsNodeFactory->createFromValues($configuration);
-            $args[] = new Arg(new Array_($array));
+            $array = $this->argsNodeFactory->resolveExprFromArray($configuration);
+            $args[] = new Arg($array);
         }
 
         $ruleMethodCall = new MethodCall(new Variable(self::NAME), $methodName, $args);

@@ -137,7 +137,7 @@ final class ArgsNodeFactory
     /**
      * @param mixed[] $values
      */
-    private function resolveExprFromArray(array $values): Array_
+    public function resolveExprFromArray(array $values): Array_
     {
         $arrayItems = [];
         foreach ($values as $key => $value) {
