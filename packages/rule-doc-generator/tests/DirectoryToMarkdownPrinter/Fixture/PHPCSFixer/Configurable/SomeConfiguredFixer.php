@@ -14,6 +14,11 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class SomeConfiguredFixer extends AbstractFixer implements DocumentedRuleInterface, ConfigurableRuleInterface
 {
+    /**
+     * @var string
+     */
+    public const LOCAL_CONSTANT = 'local_constant_value';
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition('Some description', [
@@ -26,7 +31,7 @@ CODE_SAMPLE
 good code
 CODE_SAMPLE
                 , [
-                    'key' => 'value',
+                    self::LOCAL_CONSTANT => 'value',
                 ]
             )
         ]);

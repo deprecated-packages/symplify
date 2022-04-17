@@ -52,6 +52,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
     public function provideDataPHPCSFixer(): Iterator
     {
         yield [__DIR__ . '/Fixture/PHPCSFixer/Standard', __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md'];
+
         yield [
             __DIR__ . '/Fixture/PHPCSFixer/Configurable',
             __DIR__ . '/Expected/php-cs-fixer/configurable_phpcsfixer_content.md',

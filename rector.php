@@ -4,57 +4,55 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
+use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\CodingStyle\Rector\String_\SymplifyQuoteEscapeRector;
-use Rector\Core\Configuration\Option;
+use Rector\Config\RectorConfig;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(SetList::CODE_QUALITY);
-    $containerConfigurator->import(SetList::DEAD_CODE);
+return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->sets([
+        SetList::CODE_QUALITY,
+        SetList::DEAD_CODE,
+        LevelSetList::UP_TO_PHP_80,
+        SetList::CODING_STYLE,
+        SetList::TYPE_DECLARATION,
+        SetList::TYPE_DECLARATION_STRICT,
+        SetList::NAMING,
+        SetList::PRIVATIZATION,
+        SetList::EARLY_RETURN,
+        PHPUnitSetList::PHPUNIT_CODE_QUALITY,
+    ]);
 
-    $containerConfigurator->import(LevelSetList::UP_TO_PHP_80);
-    $containerConfigurator->import(SetList::CODING_STYLE);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION);
-    $containerConfigurator->import(SetList::TYPE_DECLARATION_STRICT);
-    $containerConfigurator->import(SetList::NAMING);
-    $containerConfigurator->import(SetList::PRIVATIZATION);
-    $containerConfigurator->import(SetList::EARLY_RETURN);
-    $containerConfigurator->import(PHPUnitSetList::PHPUNIT_CODE_QUALITY);
+    $rectorConfig->ruleWithConfiguration(StringClassNameToClassConstantRector::class, [
+        'Error',
+        'Exception',
+        'Dibi\Connection',
+        'Doctrine\ORM\EntityManagerInterface',
+        'Doctrine\ORM\EntityManager',
+        'Nette\*',
+        'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+        'PHPUnit\Framework\TestCase',
+        'Symplify\EasyCodingStandard\Config\ECSConfig',
+        'Rector\Config\RectorConfig',
+    ]);
 
-    $services = $containerConfigurator->services();
+    $rectorConfig->ruleWithConfiguration(PreferThisOrSelfMethodCallRector::class, [
+        TestCase::class => PreferenceSelfThis::PREFER_THIS(),
+    ]);
 
-    $services->set(StringClassNameToClassConstantRector::class)
-        ->configure([
-            'Error',
-            'Exception',
-            'Dibi\Connection',
-            'Doctrine\ORM\EntityManagerInterface',
-            'Doctrine\ORM\EntityManager',
-            'Nette\*',
-            'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
-            'PHPUnit\Framework\TestCase',
-        ]);
+    $rectorConfig->paths([__DIR__ . '/packages']);
 
-    $services->set(PreferThisOrSelfMethodCallRector::class)
-        ->configure([
-            TestCase::class => PreferenceSelfThis::PREFER_THIS(),
-        ]);
+    $rectorConfig->parallel();
+    $rectorConfig->importNames();
 
-    $parameters = $containerConfigurator->parameters();
+    $rectorConfig->autoloadPaths([__DIR__ . '/tests/bootstrap.php']);
 
-    $parameters->set(Option::PARALLEL, true);
-    $parameters->set(Option::AUTO_IMPORT_NAMES, true);
-    $parameters->set(Option::AUTOLOAD_PATHS, [__DIR__ . '/tests/bootstrap.php']);
-
-    $parameters->set(Option::PATHS, [__DIR__ . '/packages']);
-
-    $parameters->set(Option::SKIP, [
+    $rectorConfig->skip([
         '*/scoper.php',
         '*/vendor/*',
         '*/init/*',
@@ -77,7 +75,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
 
         // false positive on "locale" string
-        \Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector::class => [
+        VarConstantCommentRector::class => [
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
         ],
     ]);

@@ -52,16 +52,13 @@ Docblock lenght should fit expected width
 - class: [`Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer`](../src/Fixer/LineLength/DocBlockLineLengthFixer.php)
 
 ```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\DocBlockLineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(DocBlockLineLengthFixer::class)
-        ->call('configure', [[
-            DocBlockLineLengthFixer::LINE_LENGTH => 40,
-        ]]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(DocBlockLineLengthFixer::class, [
+        DocBlockLineLengthFixer::LINE_LENGTH => 40,
+    ]);
 };
 ```
 
@@ -89,16 +86,13 @@ Adds nested curly brackets to defined annotations, see https://github.com/doctri
 - class: [`Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer`](../src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php)
 
 ```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(DoctrineAnnotationNestedBracketsFixer::class)
-        ->call('configure', [[
-            DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation'],
-        ]]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(DoctrineAnnotationNestedBracketsFixer::class, [
+        DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation'],
+    ]);
 };
 ```
 
@@ -126,16 +120,13 @@ Array items, method parameters, method call arguments, new arguments should be o
 - class: [`Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer`](../src/Fixer/LineLength/LineLengthFixer.php)
 
 ```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(LineLengthFixer::class)
-        ->call('configure', [[
-            LineLengthFixer::LINE_LENGTH => 40,
-        ]]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(LineLengthFixer::class, [
+        LineLengthFixer::LINE_LENGTH => 40,
+    ]);
 };
 ```
 
@@ -344,16 +335,13 @@ Use configured nowdoc and heredoc keyword
 - class: [`Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer`](../src/Fixer/Naming/StandardizeHereNowDocKeywordFixer.php)
 
 ```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\Fixer\Naming\StandardizeHereNowDocKeywordFixer;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(StandardizeHereNowDocKeywordFixer::class)
-        ->call('configure', [[
-            StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
-        ]]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(StandardizeHereNowDocKeywordFixer::class, [
+        StandardizeHereNowDocKeywordFixer::KEYWORD => 'CODE_SNIPPET',
+    ]);
 };
 ```
 

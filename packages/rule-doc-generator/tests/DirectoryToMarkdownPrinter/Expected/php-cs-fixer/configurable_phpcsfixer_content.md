@@ -13,14 +13,11 @@ Some description
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\Configurable\SomeConfiguredFixer;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->set(SomeConfiguredFixer::class)
-        ->call('configure', [['key' => 'value']]);
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->ruleWithConfiguration(SomeConfiguredFixer::class, [SomeConfiguredFixer::LOCAL_CONSTANT => 'value']);
 };
 ```
 
