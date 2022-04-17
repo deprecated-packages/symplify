@@ -17,7 +17,7 @@ final class ScalarValueResolver
     }
 
     /**
-     * @param array<Arg|VariadicPlaceholder> $args
+     * @param array<Arg> $args
      * @return mixed[]
      */
     public function resolveValuesCountFromArgs(array $args, Scope $scope): array

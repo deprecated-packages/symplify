@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 110 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2579,44 +2579,6 @@ class SomeClass extends Printer
 ```php
 class SomeClass extends Printer
 {
-}
-```
-
-:+1:
-
-<br>
-
-## NoPostIncPostDecRule
-
-Post operation are forbidden, as they make 2 values at the same line. Use pre instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoPostIncPostDecRule`](../src/Rules/NoPostIncPostDecRule.php)
-
-```php
-class SomeClass
-{
-    public function run($value = 1)
-    {
-        // 1 ... 0
-        if ($value--) {
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run($value = 1)
-    {
-        // 0
-        if (--$value) {
-        }
-    }
 }
 ```
 

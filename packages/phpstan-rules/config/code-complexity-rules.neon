@@ -16,7 +16,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
     - Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
-    - Symplify\PHPStanRules\Rules\NoPostIncPostDecRule
     - Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
     - Symplify\PHPStanRules\Rules\NoDynamicNameRule
     - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule

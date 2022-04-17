@@ -5,24 +5,26 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule\ForbiddenThisArgumentRuleTest
  */
-final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
+final class ForbiddenThisArgumentRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -50,28 +52,28 @@ final class ForbiddenThisArgumentRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class, FuncCall::class, StaticCall::class];
+        return CallLike::class;
     }
 
     /**
-     * @param MethodCall|FuncCall|StaticCall $node
+     * @param CallLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof MethodCall && ! $node instanceof FuncCall && ! $node instanceof StaticCall) {
+            return [];
+        }
+
         if ($this->shouldSkip($node, $scope)) {
             return [];
         }
 
-        foreach ($node->args as $arg) {
-            if (! $arg instanceof Arg) {
-                continue;
-            }
-
+        foreach ($node->getArgs() as $arg) {
             $argType = $scope->getType($arg->value);
             if (! $argType instanceof ThisType) {
                 continue;
