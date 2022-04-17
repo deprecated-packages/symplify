@@ -86,17 +86,14 @@
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
-            "Symplify\\LattePHPStanCompiler\\": "packages/latte-phpstan-compiler/src",
             "Symplify\\MonorepoBuilder\\": [
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
             ],
             "Symplify\\NeonConfigDumper\\": "packages/neon-config-dumper/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
-            "Symplify\\PHPStanLatteRules\\": "packages/phpstan-latte-rules/src",
             "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
-            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\": "packages/phpstan-rules/packages/latte-phpstan-printer/src",
             "Symplify\\PHPStanRules\\Nette\\": "packages/phpstan-rules/packages/nette/src",
             "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
             "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/symfony/src",
@@ -112,7 +109,6 @@
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
-            "Symplify\\TemplatePHPStanCompiler\\": "packages/template-phpstan-compiler/src",
             "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
         }
     },
