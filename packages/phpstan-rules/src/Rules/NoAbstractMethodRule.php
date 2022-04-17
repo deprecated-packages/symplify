@@ -21,7 +21,7 @@ final class NoAbstractMethodRule implements \PHPStan\Rules\Rule, \Symplify\RuleD
     public const ERROR_MESSAGE = 'Use explicit interface contract or a service over unclear abstract methods';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

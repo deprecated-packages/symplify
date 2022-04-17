@@ -31,7 +31,7 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypess(): array
+    public function getNodeTypes(): array
     {
         return [Property::class, ClassMethod::class];
     }

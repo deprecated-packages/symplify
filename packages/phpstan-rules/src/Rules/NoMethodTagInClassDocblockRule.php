@@ -31,7 +31,7 @@ final class NoMethodTagInClassDocblockRule implements \PHPStan\Rules\Rule, \Symp
     private const METHOD_TAG_REGEX = '#\*\s+@method\s+.*\n?#';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

@@ -32,7 +32,7 @@ final class RequireNativeArraySymfonyRenderCallRule implements \PHPStan\Rules\Ru
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

@@ -40,7 +40,7 @@ final class CheckClassNamespaceFollowPsr4Rule implements \PHPStan\Rules\Rule, \S
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

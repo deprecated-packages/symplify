@@ -45,7 +45,7 @@ final class ForbiddenNodeRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocG
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

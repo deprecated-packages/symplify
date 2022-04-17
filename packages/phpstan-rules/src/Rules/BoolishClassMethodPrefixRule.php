@@ -37,7 +37,7 @@ final class BoolishClassMethodPrefixRule implements \PHPStan\Rules\Rule, \Sympli
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

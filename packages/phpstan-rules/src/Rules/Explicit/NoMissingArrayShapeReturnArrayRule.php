@@ -35,7 +35,7 @@ final class NoMissingArrayShapeReturnArrayRule implements \PHPStan\Rules\Rule, \
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

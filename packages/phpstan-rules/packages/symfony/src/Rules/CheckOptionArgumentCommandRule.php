@@ -30,7 +30,7 @@ final class CheckOptionArgumentCommandRule implements \PHPStan\Rules\Rule, \Symp
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

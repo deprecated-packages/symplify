@@ -34,7 +34,7 @@ final class NoEmptyClassRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGe
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

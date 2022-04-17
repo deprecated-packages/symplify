@@ -42,7 +42,7 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

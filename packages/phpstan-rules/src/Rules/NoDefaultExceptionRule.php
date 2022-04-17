@@ -29,7 +29,7 @@ final class NoDefaultExceptionRule implements \PHPStan\Rules\Rule, \Symplify\Rul
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

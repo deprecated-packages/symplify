@@ -25,7 +25,7 @@ final class SwitchToMatchSpotterRule implements \PHPStan\Rules\Rule, \Symplify\R
     public const ERROR_MESSAGE = 'Switch construction can be replace with more robust match()';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

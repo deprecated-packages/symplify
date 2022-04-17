@@ -21,7 +21,7 @@ final class UppercaseConstantRule implements \PHPStan\Rules\Rule, \Symplify\Rule
     public const ERROR_MESSAGE = 'Constant "%s" must be uppercase';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

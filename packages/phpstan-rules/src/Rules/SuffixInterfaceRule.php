@@ -22,7 +22,7 @@ final class SuffixInterfaceRule implements \PHPStan\Rules\Rule, \Symplify\RuleDo
     public const ERROR_MESSAGE = 'Interface must be suffixed with "Interface" exclusively';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

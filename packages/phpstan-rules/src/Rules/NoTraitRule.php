@@ -21,7 +21,7 @@ final class NoTraitRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerat
     public const ERROR_MESSAGE = 'Do not use trait, extract to a service and dependency injection instead';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

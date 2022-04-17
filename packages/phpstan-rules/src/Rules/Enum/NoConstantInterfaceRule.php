@@ -21,7 +21,7 @@ final class NoConstantInterfaceRule implements \PHPStan\Rules\Rule, \Symplify\Ru
     public const ERROR_MESSAGE = 'Reserve interface for contract only. Move constant holder to a class soon-to-be Enum';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

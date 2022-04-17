@@ -26,7 +26,7 @@ final class NoArrayStringObjectReturnRule implements \PHPStan\Rules\Rule, \Sympl
     public const ERROR_MESSAGE = 'Use another value object over array with string-keys and objects, array<string, ValueObject>';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

@@ -21,7 +21,7 @@ final class SingleNetteInjectMethodRule implements \PHPStan\Rules\Rule, \Symplif
     public const ERROR_MESSAGE = 'Use single inject*() class method per class';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

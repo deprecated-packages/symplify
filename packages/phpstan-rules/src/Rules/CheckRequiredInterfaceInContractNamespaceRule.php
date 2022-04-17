@@ -30,7 +30,7 @@ final class CheckRequiredInterfaceInContractNamespaceRule implements \PHPStan\Ru
     private const A_CONTRACT_NAMESPACE_REGEX = '#\bContract\b#';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

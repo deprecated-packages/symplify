@@ -29,7 +29,7 @@ final class NoFuncCallInMethodCallRule implements \PHPStan\Rules\Rule, \Symplify
     private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir'];
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

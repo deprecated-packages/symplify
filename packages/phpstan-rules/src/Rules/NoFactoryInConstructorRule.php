@@ -62,7 +62,7 @@ final class NoFactoryInConstructorRule implements \PHPStan\Rules\Rule, \Symplify
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

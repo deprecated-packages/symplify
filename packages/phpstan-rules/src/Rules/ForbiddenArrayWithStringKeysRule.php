@@ -57,7 +57,7 @@ final class ForbiddenArrayWithStringKeysRule implements \PHPStan\Rules\Rule, \Sy
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

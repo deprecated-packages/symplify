@@ -39,7 +39,7 @@ final class RequireStringArgumentInConstructorRule implements \PHPStan\Rules\Rul
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

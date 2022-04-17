@@ -23,7 +23,7 @@ final class NoMagicClosureRule implements \PHPStan\Rules\Rule, \Symplify\RuleDoc
     public const ERROR_MESSAGE = 'There should be no empty class';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

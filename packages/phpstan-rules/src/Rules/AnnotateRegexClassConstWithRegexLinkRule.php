@@ -30,7 +30,7 @@ final class AnnotateRegexClassConstWithRegexLinkRule implements \PHPStan\Rules\R
     private const ALL_MODIFIERS = 'imsxeADSUXJu';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

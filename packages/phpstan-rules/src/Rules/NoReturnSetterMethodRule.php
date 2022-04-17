@@ -39,7 +39,7 @@ final class NoReturnSetterMethodRule implements \PHPStan\Rules\Rule, \Symplify\R
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

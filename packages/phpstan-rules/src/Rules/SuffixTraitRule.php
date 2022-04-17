@@ -22,7 +22,7 @@ final class SuffixTraitRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGen
     public const ERROR_MESSAGE = 'Trait must be suffixed by "Trait" exclusively';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {

@@ -28,7 +28,7 @@ final class ForbiddenAnonymousClassRule implements \PHPStan\Rules\Rule, \Symplif
     private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {
