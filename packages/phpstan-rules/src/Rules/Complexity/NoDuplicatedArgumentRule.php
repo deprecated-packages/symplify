@@ -11,15 +11,17 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\NoDuplicatedArgumentRule\NoDuplicatedArgumentRuleTest
  */
-final class NoDuplicatedArgumentRule extends AbstractSymplifyRule
+final class NoDuplicatedArgumentRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
