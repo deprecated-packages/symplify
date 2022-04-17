@@ -8,16 +8,17 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenArrayMethodCallRule\ForbiddenArrayMethodCallRuleTest
  */
-final class ForbiddenArrayMethodCallRule extends AbstractSymplifyRule
+final class ForbiddenArrayMethodCallRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,18 +31,18 @@ final class ForbiddenArrayMethodCallRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Array_::class];
+        return Array_::class;
     }
 
     /**
      * @param Array_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (count($node->items) !== 2) {
             return [];
