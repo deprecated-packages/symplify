@@ -282,9 +282,6 @@ parameters:
             paths:
                 -  packages/phpstan-rules/tests/Rules
 
-
-        - '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
-
         -
              message: '#Do not compare call directly, use a variable assign#'
              paths:
@@ -386,9 +383,6 @@ parameters:
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
 
-        # useless generics
-        - '#Method Symplify\\(.*?)\:\:__construct\(\) has parameter \$rules with generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
         # parallel
         - '#popen(.*?)" is forbidden to use#'
 
@@ -430,9 +424,6 @@ parameters:
                  - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
                  - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
 
-        # false positive, due to scoped autoload of rector.php
-        - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ServiceConfigurator\:\:configure\(\)#'
-
         # is never string
         - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
@@ -447,9 +438,6 @@ parameters:
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
-
-        # string array callables
-        - '#Property Symplify\\LattePHPStanCompiler\\Latte\\Filters\\FilterMatcher\:\:\$defaultFilters type has no signature specified for callable#'
 
         # invalid PHPStan type - it alwasy requires 2 types to traverse with callable
         -
@@ -491,7 +479,6 @@ parameters:
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Complete known array shape to the method @return type#'
