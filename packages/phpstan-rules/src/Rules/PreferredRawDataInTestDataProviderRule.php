@@ -12,15 +12,17 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredRawDataInTestDataProviderRule\PreferredRawDataInTestDataProviderRuleTest
  */
-final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
+final class PreferredRawDataInTestDataProviderRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -39,18 +41,18 @@ final class PreferredRawDataInTestDataProviderRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $dataProviderMethodName = $this->matchDataProviderMethodName($node);
         if ($dataProviderMethodName === null) {

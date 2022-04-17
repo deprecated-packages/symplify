@@ -15,6 +15,7 @@ use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\TrinaryLogic;
 use Symfony\Component\DependencyInjection\Alias;
@@ -26,8 +27,8 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\String\AbstractString;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use TwitterAPIExchange;
@@ -37,7 +38,7 @@ use TwitterAPIExchange;
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\NoChainMethodCallRuleTest
  */
-final class NoChainMethodCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -90,18 +91,18 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof MethodCall) {
             return [];

@@ -9,8 +9,10 @@ use PhpParser\Node\Expr\ErrorSuppress;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
@@ -19,7 +21,7 @@ use Webmozart\Assert\Assert;
  * @template T of Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  */
-final class ForbiddenNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -45,17 +47,17 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Node::class];
+        return Node::class;
     }
 
     /**
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         foreach ($this->forbiddenNodes as $forbiddenNode) {
             if (! is_a($node, $forbiddenNode, true)) {

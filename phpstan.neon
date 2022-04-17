@@ -497,3 +497,13 @@ parameters:
         -
             message: '#Parameter \#1 \$stream of function (.*?) expects resource, resource\|null given#'
             path: packages/easy-parallel/src/ValueObject/ParallelProcess.php
+
+        # false positives
+        - '#Undefined property\: (.*?)\:\:\$attrGroups#'
+        # needless generics
+        - '#Class Symplify\\PHPStanRules\\(.*?)Rule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
+
+        # cache false positive
+        -
+            message: '#PHPDoc tag @return with type array<class\-string<PhpParser\\Node>> is incompatible with native type string#'
+            path: packages/phpstan-rules/src/Rules/ExclusiveNamespaceRule.php

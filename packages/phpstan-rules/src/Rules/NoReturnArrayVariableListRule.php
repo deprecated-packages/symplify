@@ -12,15 +12,17 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Rules\Rule;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule\NoReturnArrayVariableListRuleTest
  */
-final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
+final class NoReturnArrayVariableListRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -39,18 +41,18 @@ final class NoReturnArrayVariableListRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Return_::class];
+        return Return_::class;
     }
 
     /**
      * @param Return_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($scope, $node)) {
             return [];

@@ -10,17 +10,18 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\RequireNativeArraySymfonyRenderCallRule\RequireNativeArraySymfonyRenderCallRuleTest
  */
-final class RequireNativeArraySymfonyRenderCallRule extends AbstractSymplifyRule
+final class RequireNativeArraySymfonyRenderCallRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,18 +34,18 @@ final class RequireNativeArraySymfonyRenderCallRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->name, 'render')) {
             return [];

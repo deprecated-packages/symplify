@@ -8,18 +8,19 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\FunctionLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInstanceRule\ForbiddenSameNamedNewInstanceRuleTest
  */
-final class ForbiddenSameNamedNewInstanceRule extends AbstractSymplifyRule
+final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -55,18 +56,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FunctionLike::class];
+        return FunctionLike::class;
     }
 
     /**
      * @param FunctionLike $node
      * @return string[]|RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         // allow in test case methods, possibly to compare reults
         if ($this->testAnalyzer->isTestClassMethod($scope, $node)) {

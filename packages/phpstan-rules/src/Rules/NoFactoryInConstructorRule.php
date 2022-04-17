@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
@@ -20,13 +21,14 @@ use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule\NoFactoryInConstructorRuleTest
  */
-final class NoFactoryInConstructorRule extends AbstractSymplifyRule
+final class NoFactoryInConstructorRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -62,18 +64,18 @@ final class NoFactoryInConstructorRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->methodNodeAnalyser->isInConstructor($scope)) {
             return [];

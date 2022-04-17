@@ -8,18 +8,19 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Enum\EnumConstantAnalyzer;
 use Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher;
 use Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Enum\EmbeddedEnumClassConstSpotterRule\EmbeddedEnumClassConstSpotterRuleTest
  */
-final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class EmbeddedEnumClassConstSpotterRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -38,18 +39,18 @@ final class EmbeddedEnumClassConstSpotterRule extends AbstractSymplifyRule imple
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node)) {
             return [];

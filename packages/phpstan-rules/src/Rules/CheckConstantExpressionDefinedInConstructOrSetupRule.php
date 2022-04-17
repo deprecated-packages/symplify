@@ -12,19 +12,21 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\For_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeFinder\StatementFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule\CheckConstantExpressionDefinedInConstructOrSetupRuleTest
  */
-final class CheckConstantExpressionDefinedInConstructOrSetupRule extends AbstractSymplifyRule
+final class CheckConstantExpressionDefinedInConstructOrSetupRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -40,18 +42,18 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule extends Abstrac
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof Variable) {
             return [];

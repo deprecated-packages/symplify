@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule\PrefixAbstractClassRuleTest
  */
-final class PrefixAbstractClassRule extends AbstractSymplifyRule
+final class PrefixAbstractClassRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,18 +30,18 @@ final class PrefixAbstractClassRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classReflection = $node->getClassReflection();
         if ($classReflection->isAnonymous()) {

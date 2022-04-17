@@ -11,14 +11,15 @@ use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 use Symplify\PHPStanRules\ValueObject\Spotter\ReturnAndAssignBranchCounts;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -27,7 +28,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\Spotter\IfElseToMatchSpotterRule\IfElseToMatchSpotterRuleTest
  */
-final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
+final class IfElseToMatchSpotterRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -43,18 +44,18 @@ final class IfElseToMatchSpotterRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [If_::class];
+        return If_::class;
     }
 
     /**
      * @param If_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkipIf($node)) {
             return [];

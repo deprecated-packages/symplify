@@ -8,17 +8,19 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Composer\ClassNamespaceMatcher;
 use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
 use Symplify\PHPStanRules\Composer\Psr4PathValidator;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule\CheckClassNamespaceFollowPsr4RuleTest
  */
-final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
+final class CheckClassNamespaceFollowPsr4Rule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -40,18 +42,18 @@ final class CheckClassNamespaceFollowPsr4Rule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->autoloadPsr4Paths === []) {
             return [];

@@ -10,15 +10,17 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
  */
-final class NoMultiArrayAssignRule extends AbstractSymplifyRule
+final class NoMultiArrayAssignRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,18 +33,18 @@ final class NoMultiArrayAssignRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof ArrayDimFetch) {
             return [];

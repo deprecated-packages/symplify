@@ -10,19 +10,20 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\InvokableControllerByRouteNamingRule\InvokableControllerByRouteNamingRuleTest
  */
-final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
+final class InvokableControllerByRouteNamingRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -42,18 +43,18 @@ final class InvokableControllerByRouteNamingRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->symfonyControllerAnalyzer->isInControllerClass($scope)) {
             return [];

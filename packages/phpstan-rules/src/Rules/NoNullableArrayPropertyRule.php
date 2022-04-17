@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\NoNullableArrayPropertyRuleTest
  */
-final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
+final class NoNullableArrayPropertyRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,18 +30,18 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Property::class];
+        return Property::class;
     }
 
     /**
      * @param Property $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->type instanceof NullableType) {
             return [];

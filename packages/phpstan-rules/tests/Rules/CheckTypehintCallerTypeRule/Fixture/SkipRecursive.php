@@ -13,7 +13,7 @@ class SkipRecursive
     /**
      * @param SomeStaticCall|MethodCall $node
      */
-    public function process(Node $node)
+    public function processNode(Node $node)
     {
         $this->run($node);
     }

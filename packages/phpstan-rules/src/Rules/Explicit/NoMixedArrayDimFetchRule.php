@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
@@ -19,7 +20,7 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -28,7 +29,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedArrayDimFetchRule\NoMixedArrayDimFetchRuleTest
  */
-final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
+final class NoMixedArrayDimFetchRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -43,18 +44,18 @@ final class NoMixedArrayDimFetchRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof ArrayDimFetch) {
             return [];

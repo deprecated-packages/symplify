@@ -8,18 +8,20 @@ use PhpParser\Node;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\ExclusiveDependencyRuleTest
  */
-final class ExclusiveDependencyRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ExclusiveDependencyRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -37,18 +39,18 @@ final class ExclusiveDependencyRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->name, MethodName::CONSTRUCTOR)) {
             return [];

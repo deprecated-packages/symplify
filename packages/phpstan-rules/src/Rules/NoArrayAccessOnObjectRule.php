@@ -7,16 +7,17 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
-
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayAccessOnObjectRule\NoArrayAccessOnObjectRuleTest
  */
-final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
+final class NoArrayAccessOnObjectRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -34,18 +35,18 @@ final class NoArrayAccessOnObjectRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ArrayDimFetch::class];
+        return ArrayDimFetch::class;
     }
 
     /**
      * @param ArrayDimFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $varStaticType = $scope->getType($node->var);
 

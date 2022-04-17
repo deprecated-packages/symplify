@@ -19,13 +19,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Naming\ClassToSuffixResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ClassNameRespectsParentSuffixRule\ClassNameRespectsParentSuffixRuleTest
  */
-final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ClassNameRespectsParentSuffixRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -64,18 +65,18 @@ final class ClassNameRespectsParentSuffixRule extends AbstractSymplifyRule imple
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Class_::class];
+        return Class_::class;
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $className = $this->simpleNameResolver->getName($node);
         if ($className === null) {

@@ -10,18 +10,19 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenInlineClassMethodRule\ForbiddenInlineClassMethodRuleTest
  */
-final class ForbiddenInlineClassMethodRule extends AbstractSymplifyRule
+final class ForbiddenInlineClassMethodRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -35,18 +36,18 @@ final class ForbiddenInlineClassMethodRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classLike = $node->getOriginalNode();
         if (! $classLike instanceof Class_) {

@@ -8,23 +8,25 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\Switch_;
 use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedAssignRule\ForbiddenSameNamedAssignRuleTest
  */
-final class ForbiddenSameNamedAssignRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenSameNamedAssignRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -65,19 +67,23 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Function_::class];
+        return FunctionLike::class;
     }
 
     /**
-     * @param ClassMethod|Function_ $node
+     * @param FunctionLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_) {
+            return [];
+        }
+
         // allow in test case methods, possibly to compare reults
         if ($this->testAnalyzer->isTestClassMethod($scope, $node)) {
             return [];

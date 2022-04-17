@@ -10,19 +10,20 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\ValueObject\Duplicates\DuplicatedStringArg;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule\EnumSpotterRuleTest
  */
-final class EnumSpotterRule extends AbstractSymplifyRule
+final class EnumSpotterRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -69,18 +70,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkip($node, $scope)) {
             return [];

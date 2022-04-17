@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNestedCallInAssertMethodCallRule\ForbiddenNestedCallInAssertMethodCallRuleTest
  */
-final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRule
+final class ForbiddenNestedCallInAssertMethodCallRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -29,18 +31,18 @@ final class ForbiddenNestedCallInAssertMethodCallRule extends AbstractSymplifyRu
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $methodName = $this->simpleNameResolver->getName($node->name);
         if ($methodName === null) {

@@ -9,13 +9,15 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\FileNode;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\ForbiddenMultipleClassLikeInOneFileRuleTest
  */
-final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
+final class ForbiddenMultipleClassLikeInOneFileRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,18 +30,18 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FileNode::class];
+        return FileNode::class;
     }
 
     /**
      * @param FileNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         /** @var ClassLike[] $classLikes */
         $classLikes = $this->nodeFinder->findInstanceOf($node->getNodes(), ClassLike::class);

@@ -12,17 +12,18 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\VoidType;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\Reflection\MethodCallParser;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoVoidAssignRule\NoVoidAssignRuleTest
  */
-final class NoVoidAssignRule extends AbstractSymplifyRule
+final class NoVoidAssignRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -72,18 +73,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $assignedExprType = $scope->getType($node->expr);
         if ($assignedExprType instanceof VoidType) {

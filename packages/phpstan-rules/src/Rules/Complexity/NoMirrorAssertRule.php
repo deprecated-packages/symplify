@@ -9,17 +9,18 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\NoMirrorAssertRule\NoMirrorAssertRuleTest
  */
-final class NoMirrorAssertRule extends AbstractSymplifyRule
+final class NoMirrorAssertRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -66,18 +67,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]|RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         // allow in test case methods, possibly to compare reults
         if (! $this->testAnalyzer->isInTestClassMethod($scope, $node)) {

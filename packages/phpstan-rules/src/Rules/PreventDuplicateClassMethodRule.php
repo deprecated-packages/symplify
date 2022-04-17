@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -15,13 +16,14 @@ use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
  */
-final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -52,18 +54,18 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {

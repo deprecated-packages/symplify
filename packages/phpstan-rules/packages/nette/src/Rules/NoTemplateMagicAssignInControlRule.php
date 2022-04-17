@@ -10,15 +10,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoTemplateMagicAssignInControlRule\NoTemplateMagicAssignInControlRuleTest
  */
-final class NoTemplateMagicAssignInControlRule extends AbstractSymplifyRule
+final class NoTemplateMagicAssignInControlRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,18 +32,18 @@ final class NoTemplateMagicAssignInControlRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->netteTypeAnalyzer->isTemplateMagicPropertyType($node->var, $scope)) {
             return [];

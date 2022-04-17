@@ -8,15 +8,17 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ExclusiveNamespaceRule\ExclusiveNamespaceRuleTest
  */
-final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ExclusiveNamespaceRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -45,18 +47,18 @@ final class ExclusiveNamespaceRule extends AbstractSymplifyRule implements Confi
     }
 
     /**
-     * @return class-string<Node>[]
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classLikeName = $this->simpleNameResolver->getName($node);
         if ($classLikeName === null) {

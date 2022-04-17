@@ -7,15 +7,17 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use ReflectionMethod;
 use Symplify\PHPStanRules\Exception\NotImplementedException;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventParentMethodVisibilityOverrideRule\PreventParentMethodVisibilityOverrideRuleTest
  */
-final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRule
+final class PreventParentMethodVisibilityOverrideRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -23,18 +25,18 @@ final class PreventParentMethodVisibilityOverrideRule extends AbstractSymplifyRu
     public const ERROR_MESSAGE = 'Change "%s()" method visibility to "%s" to respect parent method visibility.';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($scope->getClassReflection() === null) {
             return [];

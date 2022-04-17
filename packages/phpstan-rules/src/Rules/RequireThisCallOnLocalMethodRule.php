@@ -9,15 +9,17 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireThisCallOnLocalMethodRule\RequireThisCallOnLocalMethodRuleTest
  */
-final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
+final class RequireThisCallOnLocalMethodRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,18 +33,18 @@ final class RequireThisCallOnLocalMethodRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [StaticCall::class];
+        return StaticCall::class;
     }
 
     /**
      * @param StaticCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->class, 'self')) {
             return [];

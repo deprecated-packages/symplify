@@ -6,26 +6,28 @@ namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use JsonSerializable;
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\Node as PhpDocNode;
 use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use Serializable;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
 use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PackageBuilder\ValueObject\MethodName;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ValueObjectOverArrayShapeRule\ValueObjectOverArrayShapeRuleTest
  */
-final class ValueObjectOverArrayShapeRule extends AbstractSymplifyRule
+final class ValueObjectOverArrayShapeRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -78,19 +80,23 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Function_::class];
+        return FunctionLike::class;
     }
 
     /**
-     * @param ClassMethod|Function_ $node
+     * @param FunctionLike $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_) {
+            return [];
+        }
+
         $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
         if (! $simplePhpDocNode instanceof SimplePhpDocNode) {
             return [];

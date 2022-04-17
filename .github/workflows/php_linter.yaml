@@ -1,0 +1,25 @@
+name: PHP Linter
+
+on:
+    push:
+        branches:
+            - main
+        tags:
+            - '*'
+
+jobs:
+    lint_php:
+        runs-on: ubuntu-latest
+        steps:
+            -
+                uses: actions/checkout@v2
+
+            # required for matrix of packages set
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.0
+                    coverage: none
+
+                -   run: composer require php-parallel-lint/php-parallel-lint
+
+                -   run: vendor/bin/parallel-lint packages

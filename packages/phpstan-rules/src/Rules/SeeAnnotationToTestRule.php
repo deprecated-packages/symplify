@@ -14,17 +14,19 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\PhpDoc\PhpDocResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\SeeAnnotationToTestRuleTest
  */
-final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class SeeAnnotationToTestRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -44,18 +46,18 @@ final class SeeAnnotationToTestRule extends AbstractSymplifyRule implements Conf
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classReflection = $node->getClassReflection();
         if ($this->shouldSkipClassReflection($classReflection)) {

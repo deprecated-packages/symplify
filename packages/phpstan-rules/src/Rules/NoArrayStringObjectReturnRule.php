@@ -8,17 +8,19 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoArrayStringObjectReturnRule\NoArrayStringObjectReturnRuleTest
  */
-final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
+final class NoArrayStringObjectReturnRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -26,18 +28,18 @@ final class NoArrayStringObjectReturnRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use another value object over array with string-keys and objects, array<string, ValueObject>';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Return_::class];
+        return Return_::class;
     }
 
     /**
      * @param Return_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($node->expr === null) {
             return [];

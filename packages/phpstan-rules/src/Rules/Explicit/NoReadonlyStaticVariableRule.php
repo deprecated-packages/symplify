@@ -10,20 +10,21 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Static_;
 use PhpParser\Node\Stmt\StaticVar;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\WriteVariableAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoReadonlyStaticVariableRule\NoReadonlyStaticVariableRuleTest
  */
-final class NoReadonlyStaticVariableRule extends AbstractSymplifyRule
+final class NoReadonlyStaticVariableRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -68,18 +69,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         /** @var Static_[] $statics */
         $statics = $this->simpleNodeFinder->findByType($node, Static_::class);

@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Throwable;
@@ -16,7 +18,7 @@ use Throwable;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
  */
-final class NoDefaultExceptionRule extends AbstractSymplifyRule
+final class NoDefaultExceptionRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -29,18 +31,18 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Throw_::class];
+        return Throw_::class;
     }
 
     /**
      * @param Throw_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $thrownExpr = $node->expr;
         if (! $thrownExpr instanceof New_) {

@@ -7,19 +7,22 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RegexSuffixInRegexConstantRule\RegexSuffixInRegexConstantRuleTest
  */
-final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
+final class RegexSuffixInRegexConstantRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,24 +36,28 @@ final class RegexSuffixInRegexConstantRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [StaticCall::class, FuncCall::class];
+        return CallLike::class;
     }
 
     /**
-     * @param StaticCall|FuncCall $node
+     * @param Expr\CallLike $node
      * @return mixed[]|string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($node instanceof FuncCall) {
             return $this->processFuncCall($node);
         }
 
-        return $this->processStaticCall($node);
+        if ($node instanceof StaticCall) {
+            return $this->processStaticCall($node);
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition

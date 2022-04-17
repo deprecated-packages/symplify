@@ -8,13 +8,15 @@ use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenAnonymousClassRule\ForbiddenAnonymousClassRuleTest
  */
-final class ForbiddenAnonymousClassRule extends AbstractSymplifyRule
+final class ForbiddenAnonymousClassRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,18 +30,18 @@ final class ForbiddenAnonymousClassRule extends AbstractSymplifyRule
     private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Class_::class];
+        return Class_::class;
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $shortClassName = $node->name;
         $class = (string) $shortClassName;

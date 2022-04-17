@@ -11,16 +11,18 @@ use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
  */
-final class NoMissingDirPathRule extends AbstractSymplifyRule
+final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -45,17 +47,17 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Dir::class];
+        return Dir::class;
     }
 
     /**
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Concat) {

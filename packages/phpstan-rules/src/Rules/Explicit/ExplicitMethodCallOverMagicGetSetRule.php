@@ -11,18 +11,19 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule\ExplicitMethodCallOverMagicGetSetRuleTest
  */
-final class ExplicitMethodCallOverMagicGetSetRule extends AbstractSymplifyRule
+final class ExplicitMethodCallOverMagicGetSetRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -96,18 +97,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [PropertyFetch::class];
+        return PropertyFetch::class;
     }
 
     /**
      * @param PropertyFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         // skip local "$this" calls
         if ($this->isVariableThis($node->var)) {

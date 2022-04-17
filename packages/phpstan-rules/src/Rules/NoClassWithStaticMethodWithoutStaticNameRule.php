@@ -11,15 +11,17 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStaticNameRule\NoClassWithStaticMethodWithoutStaticNameRuleTest
  */
-final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplifyRule
+final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -43,18 +45,18 @@ final class NoClassWithStaticMethodWithoutStaticNameRule extends AbstractSymplif
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Class_::class];
+        return Class_::class;
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->isClassWithStaticMethod($node)) {
             return [];

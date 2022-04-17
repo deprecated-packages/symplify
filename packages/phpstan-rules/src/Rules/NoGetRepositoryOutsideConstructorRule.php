@@ -8,16 +8,18 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRule\NoGetRepositoryOutsideConstructorRuleTest
  */
-final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
+final class NoGetRepositoryOutsideConstructorRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,18 +32,18 @@ final class NoGetRepositoryOutsideConstructorRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->name, 'getRepository')) {
             return [];

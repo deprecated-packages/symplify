@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMagicClosureRule\NoMagicClosureRuleTest
  */
-final class NoMagicClosureRule extends AbstractSymplifyRule
+final class NoMagicClosureRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -23,18 +25,18 @@ final class NoMagicClosureRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'There should be no empty class';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Closure::class];
+        return Closure::class;
     }
 
     /**
      * @param Closure $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Expression) {

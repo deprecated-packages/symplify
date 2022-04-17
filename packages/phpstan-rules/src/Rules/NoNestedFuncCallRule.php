@@ -8,14 +8,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNestedFuncCallRule\NoNestedFuncCallRuleTest
  */
-final class NoNestedFuncCallRule extends AbstractSymplifyRule
+final class NoNestedFuncCallRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -48,18 +50,18 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FuncCall::class];
+        return FuncCall::class;
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $rootFuncCallName = $this->simpleNameResolver->getName($node);
         $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);

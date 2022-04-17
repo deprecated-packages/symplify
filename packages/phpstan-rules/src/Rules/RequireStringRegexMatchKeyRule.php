@@ -14,16 +14,18 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\ScopeTypes;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringRegexMatchKeyRule\RequireStringRegexMatchKeyRuleTest
  */
-final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
+final class RequireStringRegexMatchKeyRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -38,18 +40,18 @@ final class RequireStringRegexMatchKeyRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkipExpr($node->expr)) {
             return [];

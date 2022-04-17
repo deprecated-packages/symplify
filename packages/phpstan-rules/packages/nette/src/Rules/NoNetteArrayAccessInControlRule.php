@@ -7,16 +7,17 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteArrayAccessInControlRule\NoNetteArrayAccessInControlRuleTest
  */
-final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
+final class NoNetteArrayAccessInControlRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,18 +31,18 @@ final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ArrayDimFetch::class];
+        return ArrayDimFetch::class;
     }
 
     /**
      * @param ArrayDimFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
             return [];

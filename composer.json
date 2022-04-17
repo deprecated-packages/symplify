@@ -58,11 +58,12 @@
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
         "rector/rector": "dev-main",
-        "slevomat/coding-standard": "^7.0",
+        "php-parallel-lint/php-parallel-lint": "^1.3",
+        "slevomat/coding-standard": "^7.1",
         "symfony/framework-bundle": "^6.0",
         "symfony/twig-bundle": "^6.0",
         "timeweb/phpstan-enum": "dev-22-upgrade-phpstan-to-1.0",
-        "tracy/tracy": "^2.8"
+        "tracy/tracy": "^2.9"
     },
     "autoload": {
         "files": [
@@ -212,13 +213,13 @@
             "vendor/bin/phpstan analyse --memory-limit=-1 --error-format symplify --ansi"
         ],
         "docs": [
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md",
-            "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src --output-file packages/phpstan-rules/docs/rules_overview.md",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/cognitive-complexity/src --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/object-calisthenics/src --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/nette/src --output-file packages/phpstan-rules/docs/nette_rules_overview.md",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony/src  --output-file packages/phpstan-rules/docs/symfony_overview.md"
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
+            "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src --output-file packages/phpstan-rules/docs/rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/cognitive-complexity/src --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/object-calisthenics/src --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/nette/src --output-file packages/phpstan-rules/docs/nette_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony/src  --output-file packages/phpstan-rules/docs/symfony_overview.md --ansi"
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",

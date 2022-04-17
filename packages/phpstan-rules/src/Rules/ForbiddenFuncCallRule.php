@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use SimpleXMLElement;
@@ -16,13 +17,14 @@ use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
 use Symplify\PHPStanRules\ValueObject\Configuration\RequiredWithMessage;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
  */
-final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenFuncCallRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -41,18 +43,18 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FuncCall::class];
+        return FuncCall::class;
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $funcName = $this->simpleNameResolver->getName($node);
         if ($funcName === null) {

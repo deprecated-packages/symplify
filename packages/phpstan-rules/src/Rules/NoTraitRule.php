@@ -7,13 +7,15 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoTraitRule\NoTraitRuleTest
  */
-final class NoTraitRule extends AbstractSymplifyRule
+final class NoTraitRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -21,18 +23,18 @@ final class NoTraitRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Do not use trait, extract to a service and dependency injection instead';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Trait_::class];
+        return Trait_::class;
     }
 
     /**
      * @param Trait_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         return [self::ERROR_MESSAGE];
     }

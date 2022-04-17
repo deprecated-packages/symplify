@@ -7,13 +7,15 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\UppercaseConstantRule\UppercaseConstantRuleTest
  */
-final class UppercaseConstantRule extends AbstractSymplifyRule
+final class UppercaseConstantRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -21,18 +23,18 @@ final class UppercaseConstantRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Constant "%s" must be uppercase';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassConst::class];
+        return ClassConst::class;
     }
 
     /**
      * @param ClassConst $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         foreach ($node->consts as $const) {
             $constantName = (string) $const->name;

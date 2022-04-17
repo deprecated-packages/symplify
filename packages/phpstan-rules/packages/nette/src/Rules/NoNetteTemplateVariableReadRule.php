@@ -10,17 +10,18 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\Unset_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRule\NoNetteTemplateVariableReadRuleTest
  */
-final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
+final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -34,18 +35,18 @@ final class NoNetteTemplateVariableReadRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [PropertyFetch::class];
+        return PropertyFetch::class;
     }
 
     /**
      * @param PropertyFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
             return [];

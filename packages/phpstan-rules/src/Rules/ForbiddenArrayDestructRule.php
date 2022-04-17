@@ -13,15 +13,17 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayDestructRule\ForbiddenArrayDestructRuleTest
  */
-final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
+final class ForbiddenArrayDestructRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -41,18 +43,18 @@ final class ForbiddenArrayDestructRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Assign::class];
+        return Assign::class;
     }
 
     /**
      * @param Assign $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof Array_) {
             return [];

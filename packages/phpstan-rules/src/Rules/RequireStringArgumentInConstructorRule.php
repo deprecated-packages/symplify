@@ -10,9 +10,11 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -21,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInConstructorRule\RequireStringArgumentInConstructorRuleTest
  */
-final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class RequireStringArgumentInConstructorRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -39,18 +41,18 @@ final class RequireStringArgumentInConstructorRule extends AbstractSymplifyRule 
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [New_::class];
+        return New_::class;
     }
 
     /**
      * @param New_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $errorMessages = [];
 

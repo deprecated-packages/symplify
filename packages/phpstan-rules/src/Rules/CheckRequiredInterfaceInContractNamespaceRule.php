@@ -9,14 +9,16 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\CheckRequiredInterfaceInContractNamespaceRuleTest
  */
-final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSymplifyRule
+final class CheckRequiredInterfaceInContractNamespaceRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,18 +32,18 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     private const A_CONTRACT_NAMESPACE_REGEX = '#\bContract\b#';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Interface_::class];
+        return Interface_::class;
     }
 
     /**
      * @param Interface_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         /** @var Namespace_|null $namespace */
         $namespace = $node->getAttribute(AttributeKey::PARENT);

@@ -7,15 +7,17 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ValueObject\Regex;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule\CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest
  */
-final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymplifyRule
+final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,18 +30,18 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymp
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Namespace_::class];
+        return Namespace_::class;
     }
 
     /**
      * @param Namespace_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->simpleNameResolver->isNameMatch($node, Regex::TESTS_PART_REGEX)) {
             return [];

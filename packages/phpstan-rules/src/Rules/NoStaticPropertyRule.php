@@ -9,17 +9,19 @@ use PhpParser\Node\Expr\StaticPropertyFetch;
 use PHPStan\Analyser\Scope;
 use PHPStan\DependencyInjection\Container;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule\NoStaticPropertyRuleTest
  */
-final class NoStaticPropertyRule extends AbstractSymplifyRule
+final class NoStaticPropertyRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -37,18 +39,18 @@ final class NoStaticPropertyRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [StaticPropertyFetch::class];
+        return StaticPropertyFetch::class;
     }
 
     /**
      * @param StaticPropertyFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->isAbstractTestCase($scope)) {
             return [];

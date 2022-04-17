@@ -10,13 +10,15 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoFuncCallInMethodCallRule\NoFuncCallInMethodCallRuleTest
  */
-final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
+final class NoFuncCallInMethodCallRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -29,18 +31,18 @@ final class NoFuncCallInMethodCallRule extends AbstractSymplifyRule
     private const ALLOWED_FUNC_CALL_NAMES = ['getcwd', 'sys_get_temp_dir'];
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $messages = [];
 

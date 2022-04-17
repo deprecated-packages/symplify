@@ -8,13 +8,15 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\SuffixTraitRule\SuffixTraitRuleTest
  */
-final class SuffixTraitRule extends AbstractSymplifyRule
+final class SuffixTraitRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -22,18 +24,18 @@ final class SuffixTraitRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Trait must be suffixed by "Trait" exclusively';
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $traitName = (string) $node->name;
         if (\str_ends_with($traitName, 'Trait')) {

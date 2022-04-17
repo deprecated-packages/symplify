@@ -7,14 +7,15 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use PHPStan\Rules\Rule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenNamedArgumentsRule\ForbiddenNamedArgumentsRuleTest
  */
-final class ForbiddenNamedArgumentsRule extends AbstractSymplifyRule
+final class ForbiddenNamedArgumentsRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @todo exception for attributes!
@@ -39,18 +40,18 @@ CODE_SAMPLE
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [CallLike::class];
+        return CallLike::class;
     }
 
     /**
      * @param CallLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         foreach ($node->getArgs() as $arg) {
             if ($arg->name === null) {

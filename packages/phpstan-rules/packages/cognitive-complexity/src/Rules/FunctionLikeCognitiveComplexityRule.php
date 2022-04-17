@@ -11,8 +11,8 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -31,7 +31,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
  *
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\FunctionLikeCognitiveComplexityRule\FunctionLikeCognitiveComplexityRuleTest
  */
-final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface, ConfigurableRuleInterface
+final class FunctionLikeCognitiveComplexityRule implements Rule, DocumentedRuleinterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -45,19 +45,23 @@ final class FunctionLikeCognitiveComplexityRule extends AbstractSymplifyRule imp
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Function_::class];
+        return FunctionLike::class;
     }
 
     /**
-     * @param Function_|ClassMethod $node
+     * @param FunctionLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_) {
+            return [];
+        }
+
         $functionLikeCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeFunctionLike($node);
         if ($functionLikeCognitiveComplexity <= $this->maxMethodCognitiveComplexity) {
             return [];
