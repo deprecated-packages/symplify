@@ -27,6 +27,9 @@ services:
                 - PhpParser\Node\Expr\ErrorSuppress
                 - PhpParser\Node\Scalar\Encapsed
                 - PhpParser\Node\Scalar\EncapsedStringPart
+                # use pre* nodes instead
+                - PhpParser\Node\Expr\PostInc
+                - PhpParser\Node\Expr\PostDec
 
     -
         class: Symplify\PHPStanRules\Rules\PreferredClassRule

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
@@ -13,7 +14,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,24 +35,28 @@ final class NoDuplicatedArgumentRule implements Rule, DocumentedRuleInterface
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class, StaticCall::class, FuncCall::class];
+        return CallLike::class;
     }
 
     /**
      * @param MethodCall|StaticCall|FuncCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof MethodCall && ! $node instanceof FuncCall && ! $node instanceof StaticCall) {
+            return [];
+        }
+
         if ($this->shouldSkip($node, $scope)) {
             return [];
         }
 
-        $countValues = $this->scalarValueResolver->resolveValuesCountFromArgs($node->args, $scope);
+        $countValues = $this->scalarValueResolver->resolveValuesCountFromArgs($node->getArgs(), $scope);
 
         // each of kind
         if ($countValues === []) {
