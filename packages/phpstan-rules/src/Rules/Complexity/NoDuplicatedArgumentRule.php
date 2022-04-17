@@ -43,7 +43,7 @@ final class NoDuplicatedArgumentRule implements Rule, DocumentedRuleInterface
     }
 
     /**
-     * @param MethodCall|StaticCall|FuncCall $node
+     * @param CallLike $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
