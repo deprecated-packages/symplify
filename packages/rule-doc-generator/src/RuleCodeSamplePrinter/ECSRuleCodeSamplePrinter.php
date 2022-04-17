@@ -6,15 +6,15 @@ namespace Symplify\RuleDocGenerator\RuleCodeSamplePrinter;
 
 use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
-use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\DiffCodeSamplePrinter;
+use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\BadGoodCodeSamplePrinter;
 use Symplify\RuleDocGenerator\RuleCodeSamplePrinter\ConfiguredRuleCustomPrinter\ECSConfigConfiguredRuleCustomPrinter;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
+final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
     public function __construct(
-        private DiffCodeSamplePrinter $diffCodeSamplePrinter,
+        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter,
         private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
         private ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter
     ) {
@@ -23,11 +23,15 @@ final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInte
     public function isMatch(string $class): bool
     {
         /** @noRector */
+        if (is_a($class, 'PHP_CodeSniffer\Sniffs\Sniff', true)) {
+            return true;
+        }
+
         return is_a($class, 'PhpCsFixer\Fixer\FixerInterface', true);
     }
 
     /**
-     * @return mixed[]|string[]
+     * @return string[]
      */
     public function print(CodeSampleInterface $codeSample, RuleDefinition $ruleDefinition): array
     {
@@ -39,6 +43,6 @@ final class PHPCSFixerRuleCodeSamplePrinter implements RuleCodeSamplePrinterInte
             );
         }
 
-        return $this->diffCodeSamplePrinter->print($codeSample);
+        return $this->badGoodCodeSamplePrinter->print($codeSample);
     }
 }
