@@ -140,14 +140,12 @@
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
-            "Symplify\\LattePHPStanCompiler\\Tests\\": "packages/latte-phpstan-compiler/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": [
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
             ],
             "Symplify\\NeonConfigDumper\\Tests\\": "packages/neon-config-dumper/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
-            "Symplify\\PHPStanLatteRules\\Tests\\": "packages/phpstan-latte-rules/tests",
             "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
             "Symplify\\PHPStanRules\\LattePHPStanPrinter\\Tests\\": "packages/phpstan-rules/packages/latte-phpstan-printer/tests",
             "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/phpstan-rules/packages/nette/tests",
@@ -163,7 +161,6 @@
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
-            "Symplify\\TemplatePHPStanCompiler\\Tests\\": "packages/template-phpstan-compiler/tests",
             "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
         }
     },
