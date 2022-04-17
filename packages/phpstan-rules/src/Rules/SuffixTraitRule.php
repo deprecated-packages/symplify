@@ -14,7 +14,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\SuffixTraitRule\SuffixTraitRuleTest
  */
-final class SuffixTraitRule extends AbstractSymplifyRule
+final class SuffixTraitRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -24,16 +24,16 @@ final class SuffixTraitRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $traitName = (string) $node->name;
         if (\str_ends_with($traitName, 'Trait')) {

@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule\NoNullableArrayPropertyRuleTest
  */
-final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
+final class NoNullableArrayPropertyRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,16 +30,16 @@ final class NoNullableArrayPropertyRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Property::class];
+        return Property::class;
     }
 
     /**
      * @param Property $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->type instanceof NullableType) {
             return [];

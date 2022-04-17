@@ -9,14 +9,13 @@ use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule\NoInjectOnFinalRuleTest
  */
-final class NoInjectOnFinalRule extends AbstractSymplifyRule
+final class NoInjectOnFinalRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -60,16 +59,16 @@ CODE_SAMPLE
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Property::class];
+        return Property::class;
     }
 
     /**
      * @param Property $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->netteInjectAnalyzer->isInjectProperty($node)) {
             return [];

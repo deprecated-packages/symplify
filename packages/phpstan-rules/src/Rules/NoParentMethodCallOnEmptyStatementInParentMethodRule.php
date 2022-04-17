@@ -19,7 +19,7 @@ use Throwable;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule\NoParentMethodCallOnEmptyStatementInParentMethodRuleTest
  */
-final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends AbstractSymplifyRule
+final class NoParentMethodCallOnEmptyStatementInParentMethodRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -35,16 +35,16 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRule extends Abstrac
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [StaticCall::class];
+        return StaticCall::class;
     }
 
     /**
      * @param StaticCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isName($node->class, 'parent')) {
             return [];

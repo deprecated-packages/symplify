@@ -40,7 +40,7 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeTypes(): string
     {
         return [Class_::class, Property::class, ClassMethod::class];
     }

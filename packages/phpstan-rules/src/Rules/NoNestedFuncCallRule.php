@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoNestedFuncCallRule\NoNestedFuncCallRuleTest
  */
-final class NoNestedFuncCallRule extends AbstractSymplifyRule
+final class NoNestedFuncCallRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -50,16 +50,16 @@ final class NoNestedFuncCallRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FuncCall::class];
+        return FuncCall::class;
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $rootFuncCallName = $this->simpleNameResolver->getName($node);
         $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);

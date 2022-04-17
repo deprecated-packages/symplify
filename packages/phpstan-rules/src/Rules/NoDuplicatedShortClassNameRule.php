@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\NoDuplicatedShortClassNameRuleTest
  */
-final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class NoDuplicatedShortClassNameRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -51,16 +51,16 @@ final class NoDuplicatedShortClassNameRule extends AbstractSymplifyRule implemen
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $className = $this->simpleNameResolver->getName($node);
         if ($className === null) {

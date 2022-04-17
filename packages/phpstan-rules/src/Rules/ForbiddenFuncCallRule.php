@@ -22,7 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule\ForbiddenFuncCallRuleTest
  */
-final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenFuncCallRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -43,16 +43,16 @@ final class ForbiddenFuncCallRule extends AbstractSymplifyRule implements Config
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FuncCall::class];
+        return FuncCall::class;
     }
 
     /**
      * @param FuncCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $funcName = $this->simpleNameResolver->getName($node);
         if ($funcName === null) {

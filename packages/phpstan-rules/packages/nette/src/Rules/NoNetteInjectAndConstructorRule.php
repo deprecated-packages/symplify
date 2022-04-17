@@ -10,14 +10,13 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteInjectAndConstructorRule\NoNetteInjectAndConstructorRuleTest
  */
-final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
+final class NoNetteInjectAndConstructorRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -32,16 +31,16 @@ final class NoNetteInjectAndConstructorRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Class_::class];
+        return Class_::class;
     }
 
     /**
      * @param Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($node->isAbstract()) {
             return [];

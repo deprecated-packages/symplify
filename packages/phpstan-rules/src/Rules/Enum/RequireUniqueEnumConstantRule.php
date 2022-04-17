@@ -10,14 +10,13 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Enum\RequireUniqueEnumConstantRule\RequireUniqueEnumConstantRuleTest
  */
-final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
+final class RequireUniqueEnumConstantRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,16 +32,16 @@ final class RequireUniqueEnumConstantRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->enumAnalyzer->detect($scope, $node->getOriginalNode())) {
             return [];

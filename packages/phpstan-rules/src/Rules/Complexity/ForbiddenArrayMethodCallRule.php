@@ -8,17 +8,15 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PHPStan\Analyser\Scope;
-use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenArrayMethodCallRule\ForbiddenArrayMethodCallRuleTest
  */
-final class ForbiddenArrayMethodCallRule implements Rule, DocumentedRuleInterface
+final class ForbiddenArrayMethodCallRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string

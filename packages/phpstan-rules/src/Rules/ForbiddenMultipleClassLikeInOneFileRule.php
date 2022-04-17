@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileRule\ForbiddenMultipleClassLikeInOneFileRuleTest
  */
-final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
+final class ForbiddenMultipleClassLikeInOneFileRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,16 +30,16 @@ final class ForbiddenMultipleClassLikeInOneFileRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FileNode::class];
+        return FileNode::class;
     }
 
     /**
      * @param FileNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         /** @var ClassLike[] $classLikes */
         $classLikes = $this->nodeFinder->findInstanceOf($node->getNodes(), ClassLike::class);

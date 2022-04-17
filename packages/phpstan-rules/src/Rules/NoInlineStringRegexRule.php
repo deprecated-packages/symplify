@@ -19,7 +19,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule\NoInlineStringRegexRuleTest
  */
-final class NoInlineStringRegexRule extends AbstractSymplifyRule
+final class NoInlineStringRegexRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -35,22 +35,26 @@ final class NoInlineStringRegexRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [StaticCall::class, FuncCall::class];
+        return Node\Expr\CallLike::class;
     }
 
     /**
-     * @param StaticCall|FuncCall $node
+     * @param Node\Expr\CallLike $node
      * @return mixed[]|string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($node instanceof FuncCall) {
             return $this->processRegexFuncCall($node);
         }
 
-        return $this->processRegexStaticCall($node);
+        if ($node instanceof StaticCall) {
+            return $this->processRegexStaticCall($node);
+        }
+
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition

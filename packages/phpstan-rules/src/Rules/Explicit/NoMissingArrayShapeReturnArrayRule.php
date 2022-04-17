@@ -13,7 +13,6 @@ use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\UnionType;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -21,7 +20,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoMissingArrayShapeReturnArrayRule\NoMissingArrayShapeReturnArrayRuleTest
  */
-final class NoMissingArrayShapeReturnArrayRule extends AbstractSymplifyRule
+final class NoMissingArrayShapeReturnArrayRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -38,16 +37,16 @@ final class NoMissingArrayShapeReturnArrayRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Return_::class];
+        return Return_::class;
     }
 
     /**
      * @param Return_ $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->expr instanceof Expr) {
             return [];

@@ -49,7 +49,7 @@ final class RequireConstantInAttributeArgumentRule extends AbstractSymplifyRule 
      * @param ClassMethod|Property|Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $errorMessages = [];
 

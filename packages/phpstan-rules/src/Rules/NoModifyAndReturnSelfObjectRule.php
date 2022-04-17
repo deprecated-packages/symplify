@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoModifyAndReturnSelfObjectRule\NoModifyAndReturnSelfObjectRuleTest
  */
-final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
+final class NoModifyAndReturnSelfObjectRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -43,16 +43,16 @@ final class NoModifyAndReturnSelfObjectRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Return_::class];
+        return Return_::class;
     }
 
     /**
      * @param Return_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->expr instanceof Variable) {
             return [];

@@ -13,7 +13,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\UppercaseConstantRule\UppercaseConstantRuleTest
  */
-final class UppercaseConstantRule extends AbstractSymplifyRule
+final class UppercaseConstantRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -23,16 +23,16 @@ final class UppercaseConstantRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassConst::class];
+        return ClassConst::class;
     }
 
     /**
      * @param ClassConst $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         foreach ($node->consts as $const) {
             $constantName = (string) $const->name;

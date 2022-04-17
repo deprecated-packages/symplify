@@ -7,14 +7,13 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\ClassMethodsNode;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\SingleNetteInjectMethodRule\SingleNetteInjectMethodRuleTest
  */
-final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
+final class SingleNetteInjectMethodRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -24,16 +23,16 @@ final class SingleNetteInjectMethodRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethodsNode::class];
+        return ClassMethodsNode::class;
     }
 
     /**
      * @param ClassMethodsNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (count($node->getMethods()) < 2) {
             return [];

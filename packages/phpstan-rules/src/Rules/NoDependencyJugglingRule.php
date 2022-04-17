@@ -23,7 +23,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDependencyJugglingRule\NoDependencyJugglingRuleTest
  */
-final class NoDependencyJugglingRule extends AbstractSymplifyRule
+final class NoDependencyJugglingRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -64,16 +64,16 @@ final class NoDependencyJugglingRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [PropertyFetch::class];
+        return PropertyFetch::class;
     }
 
     /**
      * @param PropertyFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkipPropertyFetch($node, $scope)) {
             return [];

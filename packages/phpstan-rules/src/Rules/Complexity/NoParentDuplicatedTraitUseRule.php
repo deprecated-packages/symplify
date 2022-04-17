@@ -9,14 +9,13 @@ use PhpParser\Node\Stmt\TraitUse;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\NoParentDuplicatedTraitUseRule\NoParentDuplicatedTraitUseRuleTest
  */
-final class NoParentDuplicatedTraitUseRule extends AbstractSymplifyRule
+final class NoParentDuplicatedTraitUseRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,16 +30,16 @@ final class NoParentDuplicatedTraitUseRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [TraitUse::class];
+        return TraitUse::class;
     }
 
     /**
      * @param TraitUse $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $parentUsedTraitNames = $this->resolveParentClassUsedTraitNames($scope);
         if ($parentUsedTraitNames === []) {

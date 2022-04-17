@@ -16,14 +16,13 @@ use PHPStan\Type\TypeWithClassName;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule\RequireSpecificReturnTypeOverAbstractRuleTest
  */
-final class RequireSpecificReturnTypeOverAbstractRule extends AbstractSymplifyRule
+final class RequireSpecificReturnTypeOverAbstractRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -76,16 +75,16 @@ CODE_SAMPLE
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->returnType instanceof FullyQualified) {
             return [];

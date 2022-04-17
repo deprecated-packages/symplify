@@ -23,14 +23,13 @@ use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\NoPropertySetOverrideRule\NoPropertySetOverrideRuleTest
  */
-final class NoPropertySetOverrideRule extends AbstractSymplifyRule
+final class NoPropertySetOverrideRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -46,16 +45,16 @@ final class NoPropertySetOverrideRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassMethodNode::class];
+        return InClassMethodNode::class;
     }
 
     /**
      * @param InClassMethodNode $node
      * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classMethod = $node->getOriginalNode();
 

@@ -19,7 +19,7 @@ use Webmozart\Assert\Assert;
  * @template T of Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  */
-final class ForbiddenNodeRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ForbiddenNodeRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -47,15 +47,15 @@ final class ForbiddenNodeRule extends AbstractSymplifyRule implements Configurab
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Node::class];
+        return Node::class;
     }
 
     /**
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         foreach ($this->forbiddenNodes as $forbiddenNode) {
             if (! is_a($node, $forbiddenNode, true)) {

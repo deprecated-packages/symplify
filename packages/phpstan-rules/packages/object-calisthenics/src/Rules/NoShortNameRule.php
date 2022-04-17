@@ -16,7 +16,6 @@ use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
-use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -25,7 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoShortNameRule\NoShortNameRuleTest
  */
-final class NoShortNameRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class NoShortNameRule extends AbstractSymplifyRule
 {
     /**
      * @var string

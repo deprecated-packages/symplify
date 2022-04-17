@@ -20,7 +20,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule\NoMissingDirPathRuleTest
  */
-final class NoMissingDirPathRule extends AbstractSymplifyRule
+final class NoMissingDirPathRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -47,15 +47,15 @@ final class NoMissingDirPathRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Dir::class];
+        return Dir::class;
     }
 
     /**
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Concat) {

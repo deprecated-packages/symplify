@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
  */
-final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class PreventDuplicateClassMethodRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -54,16 +54,16 @@ final class PreventDuplicateClassMethodRule extends AbstractSymplifyRule impleme
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class];
+        return ClassMethod::class;
     }
 
     /**
      * @param ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $className = $this->simpleNameResolver->getClassNameFromScope($scope);
         if ($className === null) {

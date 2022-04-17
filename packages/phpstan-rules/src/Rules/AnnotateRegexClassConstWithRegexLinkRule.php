@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\AnnotateRegexClassConstWithRegexLinkRule\AnnotateRegexClassConstWithRegexLinkRuleTest
  */
-final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRule
+final class AnnotateRegexClassConstWithRegexLinkRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -32,16 +32,16 @@ final class AnnotateRegexClassConstWithRegexLinkRule extends AbstractSymplifyRul
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassConst::class];
+        return ClassConst::class;
     }
 
     /**
      * @param ClassConst $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (count($node->consts) !== 1) {
             return [];

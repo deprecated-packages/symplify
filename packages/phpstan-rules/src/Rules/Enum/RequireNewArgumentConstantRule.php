@@ -11,7 +11,6 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Analyser\Scope;
 use Symfony\Component\Console\Input\InputOption;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -19,7 +18,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Enum\RequireNewArgumentConstantRule\RequireNewArgumentConstantRuleTest
  */
-final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class RequireNewArgumentConstantRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -37,16 +36,16 @@ final class RequireNewArgumentConstantRule extends AbstractSymplifyRule implemen
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [New_::class];
+        return New_::class;
     }
 
     /**
      * @param New_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $class = $node->class;
         if (! $class instanceof FullyQualified) {

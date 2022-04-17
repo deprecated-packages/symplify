@@ -12,14 +12,13 @@ use PHPStan\Rules\RuleError;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInstanceRule\ForbiddenSameNamedNewInstanceRuleTest
  */
-final class ForbiddenSameNamedNewInstanceRule extends AbstractSymplifyRule
+final class ForbiddenSameNamedNewInstanceRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -57,16 +56,16 @@ CODE_SAMPLE
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [FunctionLike::class];
+        return FunctionLike::class;
     }
 
     /**
      * @param FunctionLike $node
      * @return string[]|RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         // allow in test case methods, possibly to compare reults
         if ($this->testAnalyzer->isTestClassMethod($scope, $node)) {

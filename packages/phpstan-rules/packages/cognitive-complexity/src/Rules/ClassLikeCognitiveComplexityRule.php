@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
-use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -22,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCognitiveComplexityRule\ClassLikeCognitiveComplexityRuleTest
  */
-final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implements DocumentedRuleInterface, ConfigurableRuleInterface
+final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -45,17 +44,25 @@ final class ClassLikeCognitiveComplexityRule extends AbstractSymplifyRule implem
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Class_::class, Trait_::class];
+        return ClassLike::class;
     }
 
     /**
-     * @param Class_|Trait_ $node
+     * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if ($node instanceof Node\Stmt\Interface_) {
+            return [];
+        }
+
+        if ($node instanceof Node\Stmt\Enum_) {
+            return [];
+        }
+
         if ($this->scoreCompositionOverInheritance) {
             $measuredCognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($node);
         } else {

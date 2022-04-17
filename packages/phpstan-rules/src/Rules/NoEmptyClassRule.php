@@ -20,7 +20,7 @@ use Throwable;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoEmptyClassRule\NoEmptyClassRuleTest
  */
-final class NoEmptyClassRule extends AbstractSymplifyRule
+final class NoEmptyClassRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -36,16 +36,16 @@ final class NoEmptyClassRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassNode::class];
+        return InClassNode::class;
     }
 
     /**
      * @param InClassNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classLike = $node->getOriginalNode();
         if ($classLike->stmts !== []) {

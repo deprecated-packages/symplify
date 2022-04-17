@@ -15,7 +15,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMagicClosureRule\NoMagicClosureRuleTest
  */
-final class NoMagicClosureRule extends AbstractSymplifyRule
+final class NoMagicClosureRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -25,16 +25,16 @@ final class NoMagicClosureRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Closure::class];
+        return Closure::class;
     }
 
     /**
      * @param Closure $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $parent = $node->getAttribute(AttributeKey::PARENT);
         if (! $parent instanceof Expression) {

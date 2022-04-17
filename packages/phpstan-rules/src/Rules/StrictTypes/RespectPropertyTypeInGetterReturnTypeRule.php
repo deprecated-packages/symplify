@@ -13,7 +13,6 @@ use PHPStan\Node\InClassMethodNode;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\PHPStanRules\TypeAnalyzer\PropertyFetchTypeAnalyzer;
 use Symplify\PHPStanRules\TypeResolver\NativePropertyFetchTypeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -22,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule\RespectPropertyTypeInGetterReturnTypeRuleTest
  */
-final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRule
+final class RespectPropertyTypeInGetterReturnTypeRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -40,16 +39,16 @@ final class RespectPropertyTypeInGetterReturnTypeRule extends AbstractSymplifyRu
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [InClassMethodNode::class];
+        return InClassMethodNode::class;
     }
 
     /**
      * @param InClassMethodNode $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classMethod = $node->getOriginalNode();
 

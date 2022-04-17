@@ -13,7 +13,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoTraitRule\NoTraitRuleTest
  */
-final class NoTraitRule extends AbstractSymplifyRule
+final class NoTraitRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -23,16 +23,16 @@ final class NoTraitRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Trait_::class];
+        return Trait_::class;
     }
 
     /**
      * @param Trait_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         return [self::ERROR_MESSAGE];
     }

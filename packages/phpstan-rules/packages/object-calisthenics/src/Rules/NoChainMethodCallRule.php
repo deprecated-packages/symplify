@@ -26,7 +26,6 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\String\AbstractString;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,7 +36,7 @@ use TwitterAPIExchange;
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\NoChainMethodCallRuleTest
  */
-final class NoChainMethodCallRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class NoChainMethodCallRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleinterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -92,16 +91,16 @@ final class NoChainMethodCallRule extends AbstractSymplifyRule implements Config
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [MethodCall::class];
+        return MethodCall::class;
     }
 
     /**
      * @param MethodCall $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof MethodCall) {
             return [];

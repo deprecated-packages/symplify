@@ -16,7 +16,7 @@ use Throwable;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoDefaultExceptionRule\NoDefaultExceptionRuleTest
  */
-final class NoDefaultExceptionRule extends AbstractSymplifyRule
+final class NoDefaultExceptionRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,16 +31,16 @@ final class NoDefaultExceptionRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Throw_::class];
+        return Throw_::class;
     }
 
     /**
      * @param Throw_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $thrownExpr = $node->expr;
         if (! $thrownExpr instanceof New_) {

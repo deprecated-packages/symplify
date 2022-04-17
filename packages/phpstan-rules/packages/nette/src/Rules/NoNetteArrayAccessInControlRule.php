@@ -9,14 +9,13 @@ use PhpParser\Node\Expr\ArrayDimFetch;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteArrayAccessInControlRule\NoNetteArrayAccessInControlRuleTest
  */
-final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
+final class NoNetteArrayAccessInControlRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -32,16 +31,16 @@ final class NoNetteArrayAccessInControlRule extends AbstractSymplifyRule
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ArrayDimFetch::class];
+        return ArrayDimFetch::class;
     }
 
     /**
      * @param ArrayDimFetch $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
             return [];

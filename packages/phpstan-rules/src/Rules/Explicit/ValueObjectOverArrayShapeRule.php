@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use JsonSerializable;
+use PhpParser\Builder\FunctionLike;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
@@ -18,14 +19,13 @@ use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
 use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PackageBuilder\ValueObject\MethodName;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ValueObjectOverArrayShapeRule\ValueObjectOverArrayShapeRuleTest
  */
-final class ValueObjectOverArrayShapeRule extends AbstractSymplifyRule
+final class ValueObjectOverArrayShapeRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -80,17 +80,21 @@ CODE_SAMPLE
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Function_::class];
+        return Node\FunctionLike::class;
     }
 
     /**
-     * @param ClassMethod|Function_ $node
+     * @param FunctionLike $node
      * @return mixed[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_) {
+            return [];
+        }
+
         $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
         if (! $simplePhpDocNode instanceof SimplePhpDocNode) {
             return [];

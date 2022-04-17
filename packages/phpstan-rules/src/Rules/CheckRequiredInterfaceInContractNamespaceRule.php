@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\CheckRequiredInterfaceInContractNamespaceRuleTest
  */
-final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSymplifyRule
+final class CheckRequiredInterfaceInContractNamespaceRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -32,16 +32,16 @@ final class CheckRequiredInterfaceInContractNamespaceRule extends AbstractSympli
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Interface_::class];
+        return Interface_::class;
     }
 
     /**
      * @param Interface_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         /** @var Namespace_|null $namespace */
         $namespace = $node->getAttribute(AttributeKey::PARENT);

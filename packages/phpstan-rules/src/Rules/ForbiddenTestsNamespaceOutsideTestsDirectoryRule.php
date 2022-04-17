@@ -16,7 +16,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule\ForbiddenTestsNamespaceOutsideTestsDirectoryRuleTest
  */
-final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSymplifyRule
+final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule implements \PHPStan\Rules\Rule, \Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface
 {
     /**
      * @var string
@@ -37,16 +37,16 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule extends AbstractSym
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Namespace_::class];
+        return Namespace_::class;
     }
 
     /**
      * @param Namespace_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         if (! $this->simpleNameResolver->isNameMatch($node, Regex::TESTS_PART_REGEX)) {
             return [];
