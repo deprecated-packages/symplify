@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use PhpParser\Node;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRule\CheckAttributteArgumentClassExistsRuleTest
  */
-final class CheckAttributteArgumentClassExistsRule extends AbstractSymplifyRule
+final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule implements DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,48 +29,36 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractSymplifyRule
         private SimpleNameResolver $simpleNameResolver,
         private NodeValueResolver $nodeValueResolver,
         private ReflectionProvider $reflectionProvider,
-        private NodeFinder $nodeFinder
     ) {
     }
 
     /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
-    {
-        return [Class_::class, Property::class, ClassMethod::class];
-    }
-
-    /**
-     * @param Class_|Property|ClassMethod $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processAttribute(Attribute $attribute, Scope $scope): array
     {
-        /** @var Attribute[] $attributes */
-        $attributes = $this->nodeFinder->findInstanceOf($node, Attribute::class);
+        $errors = [];
 
-        foreach ($attributes as $attribute) {
-            foreach ($attribute->args as $arg) {
-                $value = $arg->value;
-                if (! $this->isClassConstFetch($value)) {
-                    continue;
-                }
-
-                $classConstValue = $this->nodeValueResolver->resolve($value, $scope->getFile());
-                if ($classConstValue === null) {
-                    return [self::ERROR_MESSAGE];
-                }
-
-                if ($this->reflectionProvider->hasClass($classConstValue)) {
-                    continue;
-                }
-
-                return [self::ERROR_MESSAGE];
+        foreach ($attribute->args as $arg) {
+            $value = $arg->value;
+            if (! $this->isClassConstFetch($value)) {
+                continue;
             }
+
+            $classConstValue = $this->nodeValueResolver->resolve($value, $scope->getFile());
+            if ($classConstValue === null) {
+                $errors[] = self::ERROR_MESSAGE;
+                continue;
+            }
+
+            if ($this->reflectionProvider->hasClass($classConstValue)) {
+                continue;
+            }
+
+            $errors[] = self::ERROR_MESSAGE;
         }
 
-        return [];
+        return $errors;
     }
 
     public function getRuleDefinition(): RuleDefinition
