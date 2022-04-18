@@ -356,6 +356,7 @@ parameters:
                  - packages/git-wrapper/src/Event/AbstractGitEvent.php
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
+                 - packages/phpstan-rules/src/Rules/AbstractAttributeRule.php
 
         # paralell
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
