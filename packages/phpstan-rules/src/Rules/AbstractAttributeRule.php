@@ -14,7 +14,7 @@ use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Contract\AttributeRuleInterface;
 
 /**
- * @template-implements Rule<\PhpParser\Node>
+ * @template-implements Rule<Node>
  */
 abstract class AbstractAttributeRule implements Rule, AttributeRuleInterface
 {
