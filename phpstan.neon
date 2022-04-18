@@ -1,6 +1,6 @@
 conditionalTags:
-	PhpParser\NodeVisitor\NodeConnectingVisitor:
-		phpstan.parser.richParserNodeVisitor: true
+    PhpParser\NodeVisitor\NodeConnectingVisitor:
+        phpstan.parser.richParserNodeVisitor: true
 
 includes:
     - packages/astral/config/services.neon
