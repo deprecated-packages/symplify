@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedMethodCallerRule\Fix
 
 use Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedMethodCallerRule\Source\KnownType;
 
-final class MagicMethodName
+final class SkipStaticVar
 {
     public function run()
     {
