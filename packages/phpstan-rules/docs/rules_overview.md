@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -330,6 +330,98 @@ class Some extends Command
 
 ```php
 class SomeCommand extends Command
+{
+}
+```
+
+:+1:
+
+<br>
+
+## ClassNamespaceGuardRule
+
+Define in which namespaces (using *, ** or ? glob-like pattern matching) can classes extending specified class or implementing specified interface exist
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule`](../src/Rules/ClassNamespaceGuardRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            guards:
+                Symfony\Component\Form\FormTypeInterface:
+                    - App\Form\**
+```
+
+↓
+
+```php
+namespace App;
+
+// AbstractType implements \Symfony\Component\Form\FormTypeInterface
+use Symfony\Component\Form\AbstractType;
+
+class UserForm extends AbstractType
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+namespace App\Form;
+
+use Symfony\Component\Form\AbstractType;
+
+class UserForm extends AbstractType
+{
+}
+```
+
+:+1:
+
+<br>
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            guards:
+                Throwable:
+                    - App\Exception\**
+                    - App\Services\**
+```
+
+↓
+
+```php
+namespace App;
+
+use Exception;
+
+class ProductNotFoundException extends Exception
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+namespace App\Exception;
+
+use Exception;
+
+class ProductNotFoundException extends Exception
 {
 }
 ```

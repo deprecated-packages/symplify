@@ -1,0 +1,18 @@
+includes:
+    - ../../../config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            guards:
+                Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Source\Symfony\Component\Form\FormTypeInterface:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Form\**
+                Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Source\Symfony\Component\Console\Command\Command:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Command\**
+                Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Source\App\Component\ParamConverter\RequestInterface:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Model\**\Request\**
+                Throwable:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Exception\**
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Services\**
