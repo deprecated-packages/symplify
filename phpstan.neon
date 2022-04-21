@@ -143,6 +143,7 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
+                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php # 46
 
         -
             message: '#Do not use trait#'
@@ -165,6 +166,7 @@ parameters:
             paths:
                 - packages/package-builder/src/Parameter/ParameterProvider.php # 26
                 - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
+                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php #30
 
         # exceptions to get file
         -
@@ -396,6 +398,24 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Parallel\\Application\\ParallelFileProcessor\:\:check\(\)" is \d+, keep it under 8#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+
+        # complex search for possible directories
+        -
+            message: '#Cognitive complexity for "Symplify\\PHPStanRules\\Finder\\ClassLikeNameFinder\:\:getPossibleDirectoriesForNamespace\(\)" is 13, keep it under 8#'
+            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+
+        # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
+        -
+            message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
+            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+
+        -
+            message:  '#Class cognitive complexity is 26, keep it under 25#'
+            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+
+        -
+            message:  '#Class cognitive complexity is 17, keep it under 16#'
+            path: packages/phpstan-rules/src/Rules/ClassNamespaceGuardRule.php
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 

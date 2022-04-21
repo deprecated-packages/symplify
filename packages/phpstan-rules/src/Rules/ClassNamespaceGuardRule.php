@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Nette\Utils\Json;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
+use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Throwable;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\ClassNamespaceGuardRuleTest
@@ -30,6 +33,8 @@ final class ClassNamespaceGuardRule extends AbstractSymplifyRule implements Conf
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private ReflectionProvider $reflectionProvider,
+        private ClassLikeNameMatcher $classLikeNameMatcher,
+        private ClassLikeNameFinder $classLikeNameFinder,
         private array $guards
     ) {
     }
@@ -58,28 +63,19 @@ final class ClassNamespaceGuardRule extends AbstractSymplifyRule implements Conf
             return [];
         }
 
-        foreach ($this->guards as $type => $allowedNamespacePatterns) {
-            $classReflection = $this->reflectionProvider->getClass($classLikeName);
-
-            if (! $classReflection->isSubclassOf($type)) {
+        $classReflection = $this->reflectionProvider->getClass($classLikeName);
+        foreach ($this->guards as $guardedTypeOrNamespacePattern => $allowedNamespacePatterns) {
+            if (! $this->isSubjectToGuardedTypeOrNamespacePattern($classReflection, $guardedTypeOrNamespacePattern)) {
                 continue;
             }
 
-            $isInAllowedNamespace = false;
-            foreach ($allowedNamespacePatterns as $allowedNamespacePattern) {
-                if ($this->isClassLikeNameMatchedAgainstPattern($classLikeName, $allowedNamespacePattern)) {
-                    $isInAllowedNamespace = true;
-                    break;
-                }
-            }
-
-            if (! $isInAllowedNamespace) {
+            if (! $this->isInAllowedNamespace($allowedNamespacePatterns, $classLikeName)) {
+                $nativeReflectionClass = $classReflection->getNativeReflection();
                 $errorMessage = sprintf(
                     self::ERROR_MESSAGE,
                     $classLikeName,
-                    json_encode($allowedNamespacePatterns, JSON_THROW_ON_ERROR),
-                    $classReflection->getNativeReflection()
-                        ->getNamespaceName(),
+                    Json::encode($allowedNamespacePatterns, JSON_THROW_ON_ERROR),
+                    $nativeReflectionClass->getNamespaceName(),
                 );
 
                 return [$errorMessage];
@@ -122,47 +118,92 @@ CODE_SAMPLE
             ),
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-namespace App;
+namespace App\Services;
 
-use Exception;
+use App\Component\PriceEngine\PriceProviderInterface;
 
-class ProductNotFoundException extends Exception
+class CustomerProductProvider extends PriceProviderInterface
 {
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-namespace App\Exception;
+namespace App\Component\PriceEngineImpl;
 
-use Exception;
+use App\Component\PriceEngine\PriceProviderInterface;
 
-class ProductNotFoundException extends Exception
+class CustomerProductProvider extends PriceProviderInterface
 {
 }
 CODE_SAMPLE
                 ,
                 [
                     'guards' => [
-                        Throwable::class => ['App\Exception\**', 'App\Services\**'],
+                        'App\Component\PriceEngine\**' => [
+                            'App\Component\PriceEngine\**',
+                            'App\Component\PriceEngineImpl\**',
+                        ],
                     ],
                 ]
             ),
         ]);
     }
 
-    private function isClassLikeNameMatchedAgainstPattern(string $className, string $namespaceWildcardPattern): bool
-    {
-        $regex = preg_replace_callback(
-            '#\*{1,2}|\?|[\\\^$.[\]|():+{}=!<>\-\#]#',
-            fn (array $matches): string => match ($matches[0]) {
-            '**' => '.*',
-            '*' => '[^\\\\]*',
-            '?' => '[^\\\\]',
-            default => '\\' . $matches[0],
-        },
-            $namespaceWildcardPattern
+    private function isSubjectToGuardedTypeOrNamespacePattern(
+        ClassReflection $classReflection,
+        string $guardedTypeOrNamespacePattern,
+    ): bool {
+        $isGuardedSubjectNamespacePattern = str_contains($guardedTypeOrNamespacePattern, '*') || str_contains(
+            $guardedTypeOrNamespacePattern,
+            '?'
         );
+        $isGuardedSubjectType = ! $isGuardedSubjectNamespacePattern;
 
-        return (bool) preg_match('/^' . $regex . '$/s', $className);
+        if ($isGuardedSubjectType && ! $classReflection->isSubclassOf($guardedTypeOrNamespacePattern)) {
+            return false;
+        }
+
+        if ($isGuardedSubjectNamespacePattern) {
+            $isGuardedSubjectSubclassOfGuardedPattern = $this->isSubjectSubclassOfGuardedPattern(
+                $guardedTypeOrNamespacePattern,
+                $classReflection
+            );
+
+            if (! $isGuardedSubjectSubclassOfGuardedPattern) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function isSubjectSubclassOfGuardedPattern(
+        string $guardedTypeOrNamespacePattern,
+        ClassReflection $classReflection
+    ): bool {
+        $classLikeNames = $this->classLikeNameFinder->getClassLikeNamesMatchingNamespacePattern(
+            $guardedTypeOrNamespacePattern
+        );
+        foreach ($classLikeNames as $classLikeName) {
+            if ($classReflection->isSubclassOf($classLikeName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isInAllowedNamespace(mixed $allowedNamespacePatterns, string $classLikeName): bool
+    {
+        foreach ($allowedNamespacePatterns as $allowedNamespacePattern) {
+            if ($this->classLikeNameMatcher->isClassLikeNameMatchedAgainstPattern(
+                $classLikeName,
+                $allowedNamespacePattern
+            )) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

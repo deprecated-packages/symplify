@@ -395,19 +395,19 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             guards:
-                Throwable:
-                    - App\Exception\**
-                    - App\Services\**
+                App\Component\PriceEngine\**:
+                    - App\Component\PriceEngine\**
+                    - App\Component\PriceEngineImpl\**
 ```
 
 ↓
 
 ```php
-namespace App;
+namespace App\Services;
 
-use Exception;
+use App\Component\PriceEngine\PriceProviderInterface;
 
-class ProductNotFoundException extends Exception
+class CustomerProductProvider extends PriceProviderInterface
 {
 }
 ```
@@ -417,11 +417,11 @@ class ProductNotFoundException extends Exception
 <br>
 
 ```php
-namespace App\Exception;
+namespace App\Component\PriceEngineImpl;
 
-use Exception;
+use App\Component\PriceEngine\PriceProviderInterface;
 
-class ProductNotFoundException extends Exception
+class CustomerProductProvider extends PriceProviderInterface
 {
 }
 ```

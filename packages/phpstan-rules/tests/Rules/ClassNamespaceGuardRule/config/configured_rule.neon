@@ -16,3 +16,6 @@ services:
                 Throwable:
                     - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Exception\**
                     - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Services\**
+                Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\**:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\**
+                    - Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngineImpl\**
