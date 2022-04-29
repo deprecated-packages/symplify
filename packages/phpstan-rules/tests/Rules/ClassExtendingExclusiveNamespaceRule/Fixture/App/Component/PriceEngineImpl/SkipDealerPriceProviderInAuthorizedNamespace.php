@@ -4,7 +4,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule
 
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
 
-class SkipDistributorPriceProviderInAuthorizedNamespace implements PriceProviderInterface
+class SkipDealerPriceProviderInAuthorizedNamespace implements PriceProviderInterface
 {
 
 }

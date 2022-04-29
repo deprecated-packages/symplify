@@ -52,11 +52,11 @@ final class ClassExtendingExclusiveNamespaceRuleTest extends AbstractServiceAwar
             [],
         ];
         yield [
-            __DIR__ . '/Fixture/App/Component/PriceEngineImpl/SkipDistributorPriceProviderInAuthorizedNamespace.php',
+            __DIR__ . '/Fixture/App/Component/PriceEngineImpl/SkipDealerPriceProviderInAuthorizedNamespace.php',
             [],
         ];
         yield [
-            __DIR__ . '/Fixture/App/Component/PriceEngineImpl/SkipDistributorProductProviderInAuthorizedNamespace.php',
+            __DIR__ . '/Fixture/App/Component/PriceEngineImpl/SkipDealerProductProviderInAuthorizedNamespace.php',
             [],
         ];
 
@@ -86,8 +86,9 @@ final class ClassExtendingExclusiveNamespaceRuleTest extends AbstractServiceAwar
                     sprintf(
                         ClassExtendingExclusiveNamespaceRule::ERROR_MESSAGE,
                         FormInUnauthorizedNamespace::class,
-                        Json::encode([
-                            'Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Form\**', ]
+                        Json::encode(
+                            [
+                                'Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Form\**', ]
                         ),
                         (new ReflectionClass(FormInUnauthorizedNamespace::class))->getNamespaceName(),
                     ),

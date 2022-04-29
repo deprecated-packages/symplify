@@ -17,8 +17,8 @@ use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixtu
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\SkipFallbackPriceProviderInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerPriceProviderInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerProductProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorPriceProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorProductProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDealerPriceProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDealerProductProviderInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Customer\Request\SkipCustomerRequestModelInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Order\Request\SkipOrderRequestModelInAuthorizedNamespace;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -74,8 +74,8 @@ final class ClassLikeNameFinderTest extends TestCase
                 SkipFallbackPriceProviderInAuthorizedNamespace::class,
                 SkipCustomerPriceProviderInAuthorizedNamespace::class,
                 SkipCustomerProductProviderInAuthorizedNamespace::class,
-                SkipDistributorPriceProviderInAuthorizedNamespace::class,
-                SkipDistributorProductProviderInAuthorizedNamespace::class,
+                SkipDealerPriceProviderInAuthorizedNamespace::class,
+                SkipDealerProductProviderInAuthorizedNamespace::class,
             ],
         ];
 
@@ -100,7 +100,7 @@ final class ClassLikeNameFinderTest extends TestCase
             '**\Skip*Price*',
             [
                 SkipCustomerPriceProviderInAuthorizedNamespace::class,
-                SkipDistributorPriceProviderInAuthorizedNamespace::class,
+                SkipDealerPriceProviderInAuthorizedNamespace::class,
                 SkipFallbackPriceProviderInAuthorizedNamespace::class,
             ],
         ];
@@ -109,7 +109,7 @@ final class ClassLikeNameFinderTest extends TestCase
             '**\S??p*Price*',
             [
                 SkipCustomerPriceProviderInAuthorizedNamespace::class,
-                SkipDistributorPriceProviderInAuthorizedNamespace::class,
+                SkipDealerPriceProviderInAuthorizedNamespace::class,
                 SkipFallbackPriceProviderInAuthorizedNamespace::class,
             ],
         ];
