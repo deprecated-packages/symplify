@@ -34,6 +34,17 @@ return [
         // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
     ],
     'patchers' => [
+        // unprefix strings used for config printing
+        // fixes https://github.com/symplify/symplify/issues/3976
+        function (string $filePath, string $prefix, string $content): string {
+            if (! Strings::match($filePath, '#Symplify\/PhpConfigPrinter\/ValueObject\/FunctionName\.php#')) {
+                return $content;
+            }
+
+            $pattern = sprintf('#public const (.*?) = \'%s\\\\\\\\#', $prefix);
+
+            return Strings::replace($content, $pattern, 'public const $1 = \'');
+        },
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
         function (string $filePath, string $prefix, string $content): string {
