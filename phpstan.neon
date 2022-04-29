@@ -415,7 +415,7 @@ parameters:
 
         -
             message:  '#Class cognitive complexity is 17, keep it under 16#'
-            path: packages/phpstan-rules/src/Rules/ClassNamespaceGuardRule.php
+            path: packages/phpstan-rules/src/Rules/ClassExtendingExclusiveNamespaceRule.php
 
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 

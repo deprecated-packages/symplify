@@ -298,58 +298,18 @@ class SomeClass
 
 <br>
 
-## ClassNameRespectsParentSuffixRule
-
-Class should have suffix "%s" to respect parent type
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`](../src/Rules/ClassNameRespectsParentSuffixRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            parentClasses:
-                - Symfony\Component\Console\Command\Command
-```
-
-↓
-
-```php
-class Some extends Command
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeCommand extends Command
-{
-}
-```
-
-:+1:
-
-<br>
-
-## ClassNamespaceGuardRule
+## ClassExtendingExclusiveNamespaceRule
 
 Define in which namespaces (using *, ** or ? glob-like pattern matching) can classes extending specified class or implementing specified interface exist
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule`](../src/Rules/ClassNamespaceGuardRule.php)
+- class: [`Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule`](../src/Rules/ClassExtendingExclusiveNamespaceRule.php)
 
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule
+        class: Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule
         tags: [phpstan.rules.rule]
         arguments:
             guards:
@@ -391,7 +351,7 @@ class UserForm extends AbstractType
 ```yaml
 services:
     -
-        class: Symplify\PHPStanRules\Rules\ClassNamespaceGuardRule
+        class: Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule
         tags: [phpstan.rules.rule]
         arguments:
             guards:
@@ -422,6 +382,46 @@ namespace App\Component\PriceEngineImpl;
 use App\Component\PriceEngine\PriceProviderInterface;
 
 class CustomerProductProvider extends PriceProviderInterface
+{
+}
+```
+
+:+1:
+
+<br>
+
+## ClassNameRespectsParentSuffixRule
+
+Class should have suffix "%s" to respect parent type
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule`](../src/Rules/ClassNameRespectsParentSuffixRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassNameRespectsParentSuffixRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            parentClasses:
+                - Symfony\Component\Console\Command\Command
+```
+
+↓
+
+```php
+class Some extends Command
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeCommand extends Command
 {
 }
 ```

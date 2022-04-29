@@ -1,0 +1,21 @@
+includes:
+    - ../../../config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            guards:
+                Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Source\Symfony\Component\Form\FormTypeInterface:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Form\**
+                Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Source\Symfony\Component\Console\Command\Command:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Command\**
+                Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Source\App\Component\ParamConverter\RequestInterface:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\**\Request\**
+                Throwable:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Exception\**
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Services\**
+                Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\**:
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\**
+                    - Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\**

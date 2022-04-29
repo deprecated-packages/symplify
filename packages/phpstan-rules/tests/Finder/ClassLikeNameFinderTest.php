@@ -12,15 +12,15 @@ use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
 use Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver;
 use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
 use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\ProductProviderInterface;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\SkipFallbackPriceProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerPriceProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerProductProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorPriceProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorProductProviderInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Model\Customer\Request\SkipCustomerRequestModelInAuthorizedNamespace;
-use Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Model\Order\Request\SkipOrderRequestModelInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\ProductProviderInterface;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\SkipFallbackPriceProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerPriceProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipCustomerProductProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorPriceProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDistributorProductProviderInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Customer\Request\SkipCustomerRequestModelInAuthorizedNamespace;
+use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Order\Request\SkipOrderRequestModelInAuthorizedNamespace;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ClassLikeNameFinderTest extends TestCase
@@ -58,7 +58,7 @@ final class ClassLikeNameFinderTest extends TestCase
     public function provideData(): Iterator
     {
         yield 'it should find all classes in PriceEngine directory' => [
-            'Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\Component\PriceEngine\**',
+            'Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\**',
             [
                 PriceProviderInterface::class,
                 ProductProviderInterface::class,
@@ -67,7 +67,7 @@ final class ClassLikeNameFinderTest extends TestCase
         ];
 
         yield 'it should find all classes in PriceEngine and PriceEngineImpl directory' => [
-            'Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\*\PriceEngine**',
+            'Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\*\PriceEngine**',
             [
                 PriceProviderInterface::class,
                 ProductProviderInterface::class,
@@ -80,7 +80,7 @@ final class ClassLikeNameFinderTest extends TestCase
         ];
 
         yield 'it should find all classes in Model\Customer\Request and Model\Order\Request directories' => [
-            'Symplify\PHPStanRules\Tests\Rules\ClassNamespaceGuardRule\Fixture\App\**\Request\**',
+            'Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\**\Request\**',
             [
                 SkipCustomerRequestModelInAuthorizedNamespace::class,
                 SkipOrderRequestModelInAuthorizedNamespace::class,
