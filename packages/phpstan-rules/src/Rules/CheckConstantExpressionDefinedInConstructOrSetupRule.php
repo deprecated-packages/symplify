@@ -60,6 +60,9 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRule implements Rule
         }
 
         $parent = $node->getAttribute(AttributeKey::PARENT);
+
+        dump(array_keys($node->getAttributes()));
+
         if (! $parent instanceof Node) {
             return [];
         }
