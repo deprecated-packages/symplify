@@ -9,7 +9,7 @@ use Iterator;
 use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
+use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\PreferredClassRule;
 
 /**

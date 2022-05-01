@@ -529,3 +529,7 @@ parameters:
         -
             message: '#PHPDoc tag @return with type array<class\-string<PhpParser\\Node>> is incompatible with native type string#'
             path: packages/phpstan-rules/src/Rules/ExclusiveNamespaceRule.php
+
+        -
+            message: '#Class has a static method must so must contains "Static" in its name#'
+            path: packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
