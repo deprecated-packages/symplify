@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Rector\CodingStyle\Enum\PreferenceSelfThis;
 use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
 use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
-use Rector\CodingStyle\Rector\MethodCall\PreferThisOrSelfMethodCallRector;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -38,10 +37,6 @@ return static function (RectorConfig $rectorConfig): void {
         'PHPUnit\Framework\TestCase',
         'Symplify\EasyCodingStandard\Config\ECSConfig',
         'Rector\Config\RectorConfig',
-    ]);
-
-    $rectorConfig->ruleWithConfiguration(PreferThisOrSelfMethodCallRector::class, [
-        TestCase::class => PreferenceSelfThis::PREFER_THIS(),
     ]);
 
     $rectorConfig->paths([__DIR__ . '/packages']);
