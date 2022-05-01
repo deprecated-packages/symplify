@@ -8,10 +8,8 @@ use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
-use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
-use Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver;
+use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
-use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\ProductProviderInterface;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\SkipFallbackPriceProviderInAuthorizedNamespace;
@@ -21,7 +19,6 @@ use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixtu
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngineImpl\SkipDealerProductProviderInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Customer\Request\SkipCustomerRequestModelInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Order\Request\SkipOrderRequestModelInAuthorizedNamespace;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ClassLikeNameFinderTest extends TestCase
 {
@@ -29,11 +26,10 @@ final class ClassLikeNameFinderTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->classLikeNameFinder = new ClassLikeNameFinder(
-            new ClassLikeNameMatcher(),
-            new ComposerAutoloadResolver(new SmartFileSystem()),
-            new ComposerVendorAutoloadResolver()
-        );
+        $phpStanContainerFactory = new PHPStanContainerFactory();
+        $container = $phpStanContainerFactory->createContainer([__DIR__ . '/../config/included_services.neon']);
+
+        $this->classLikeNameFinder = $container->getByType(ClassLikeNameFinder::class);
     }
 
     /**
