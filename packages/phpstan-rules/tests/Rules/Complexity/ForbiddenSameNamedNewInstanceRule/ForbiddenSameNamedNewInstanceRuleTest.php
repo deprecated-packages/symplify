@@ -32,11 +32,16 @@ final class ForbiddenSameNamedNewInstanceRuleTest extends AbstractServiceAwareRu
         yield [__DIR__ . '/Fixture/SameObjectAssigns.php', [[$errorMessage, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenSameNamedNewInstanceRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenSameNamedNewInstanceRule::class);
     }
 }

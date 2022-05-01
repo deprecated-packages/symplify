@@ -34,11 +34,16 @@ final class NoNetteTemplateVariableReadRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/ReadUsage.php', [[NoNetteTemplateVariableReadRule::ERROR_MESSAGE, 13]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoNetteTemplateVariableReadRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoNetteTemplateVariableReadRule::class);
     }
 }

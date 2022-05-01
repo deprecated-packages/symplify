@@ -32,11 +32,16 @@ final class RequireConstantInAttributeArgumentRuleTest extends AbstractServiceAw
         yield [__DIR__ . '/Fixture/AttributeWithString.php', [[$errorMessage, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireConstantInAttributeArgumentRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireConstantInAttributeArgumentRule::class);
     }
 }

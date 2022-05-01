@@ -34,11 +34,16 @@ final class ForbiddenNamedArgumentsRuleTest extends AbstractServiceAwareRuleTest
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenNamedArgumentsRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenNamedArgumentsRule::class);
     }
 }

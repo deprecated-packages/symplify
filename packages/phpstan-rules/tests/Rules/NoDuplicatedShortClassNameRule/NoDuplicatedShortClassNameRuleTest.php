@@ -59,11 +59,16 @@ final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleT
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoDuplicatedShortClassNameRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoDuplicatedShortClassNameRule::class);
     }
 }

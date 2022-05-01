@@ -74,11 +74,16 @@ final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends Abs
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            CheckConstantExpressionDefinedInConstructOrSetupRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(CheckConstantExpressionDefinedInConstructOrSetupRule::class);
     }
 }

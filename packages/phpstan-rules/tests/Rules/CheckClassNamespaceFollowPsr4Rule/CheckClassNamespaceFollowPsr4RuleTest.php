@@ -45,11 +45,16 @@ final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRu
         yield [__DIR__ . '/Fixture/MissingFixtureNamespaceClass.php', [[$errorMessage, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            CheckClassNamespaceFollowPsr4Rule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(CheckClassNamespaceFollowPsr4Rule::class);
     }
 }

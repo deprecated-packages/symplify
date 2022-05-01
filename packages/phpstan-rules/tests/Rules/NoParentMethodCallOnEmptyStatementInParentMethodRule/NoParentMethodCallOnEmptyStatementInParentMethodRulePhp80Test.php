@@ -31,11 +31,16 @@ final class NoParentMethodCallOnEmptyStatementInParentMethodRulePhp80Test extend
         yield [__DIR__ . '/FixturePhp80/SkipPromotedParentProperty.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoParentMethodCallOnEmptyStatementInParentMethodRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoParentMethodCallOnEmptyStatementInParentMethodRule::class);
     }
 }

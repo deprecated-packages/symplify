@@ -33,11 +33,16 @@ final class RegexSuffixInRegexConstantRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/DifferentSuffix.php', [[$errorMessage, 15]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RegexSuffixInRegexConstantRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RegexSuffixInRegexConstantRule::class);
     }
 }

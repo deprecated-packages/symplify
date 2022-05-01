@@ -39,11 +39,16 @@ final class NoMissingArrayShapeReturnArrayRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/SkipUnionOfArrayShapes.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoMissingArrayShapeReturnArrayRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoMissingArrayShapeReturnArrayRule::class);
     }
 }

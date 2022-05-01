@@ -532,4 +532,7 @@ parameters:
 
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
-            path: packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+            paths:
+                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
+                - packages/phpstan-rules/tests
+                - packages/phpstan-rules/packages

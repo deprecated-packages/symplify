@@ -32,11 +32,16 @@ final class NoParentDuplicatedTraitUseRuleTest extends AbstractServiceAwareRuleT
         yield [__DIR__ . '/Fixture/DuplicatedParentTrait.php', [[$errorMessage, 12]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoParentDuplicatedTraitUseRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoParentDuplicatedTraitUseRule::class);
     }
 }

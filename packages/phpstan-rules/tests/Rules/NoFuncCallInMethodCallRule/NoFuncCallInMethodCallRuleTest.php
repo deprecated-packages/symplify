@@ -32,11 +32,16 @@ final class NoFuncCallInMethodCallRuleTest extends AbstractServiceAwareRuleTestC
         yield [__DIR__ . '/Fixture/SkipNamespacedFunction.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoFuncCallInMethodCallRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoFuncCallInMethodCallRule::class);
     }
 }

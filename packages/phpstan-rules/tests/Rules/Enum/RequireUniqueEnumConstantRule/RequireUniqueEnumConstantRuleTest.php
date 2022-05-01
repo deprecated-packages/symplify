@@ -32,11 +32,16 @@ final class RequireUniqueEnumConstantRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipValidEnum.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireUniqueEnumConstantRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireUniqueEnumConstantRule::class);
     }
 }

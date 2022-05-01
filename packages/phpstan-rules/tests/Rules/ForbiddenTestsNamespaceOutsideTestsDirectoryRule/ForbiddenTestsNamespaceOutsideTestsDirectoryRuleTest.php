@@ -31,11 +31,16 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRuleTest extends Abstrac
         yield [__DIR__ . '/Fixture/tests/SkipTestsNamespaceInsideTestsDirectoryClass.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenTestsNamespaceOutsideTestsDirectoryRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenTestsNamespaceOutsideTestsDirectoryRule::class);
     }
 }

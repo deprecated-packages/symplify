@@ -33,11 +33,16 @@ final class RequireSpecificReturnTypeOverAbstractRuleTest extends AbstractServic
         yield [__DIR__ . '/Fixture/SomeAbstractReturnType.php', [[$errorMessage, 12]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireSpecificReturnTypeOverAbstractRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireSpecificReturnTypeOverAbstractRule::class);
     }
 }

@@ -33,11 +33,16 @@ final class NoTemplateMagicAssignInControlRuleTest extends AbstractServiceAwareR
         yield [__DIR__ . '/Fixture/SkipControlApply.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoTemplateMagicAssignInControlRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoTemplateMagicAssignInControlRule::class);
     }
 }

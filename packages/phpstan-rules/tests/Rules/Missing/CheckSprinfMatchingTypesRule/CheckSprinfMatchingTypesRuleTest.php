@@ -33,11 +33,16 @@ final class CheckSprinfMatchingTypesRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/SkipErrorType.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            CheckSprinfMatchingTypesRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(CheckSprinfMatchingTypesRule::class);
     }
 }

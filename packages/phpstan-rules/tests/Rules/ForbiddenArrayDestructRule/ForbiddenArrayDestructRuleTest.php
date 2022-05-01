@@ -32,11 +32,16 @@ final class ForbiddenArrayDestructRuleTest extends AbstractServiceAwareRuleTestC
         yield [__DIR__ . '/Fixture/SkipExternalReturnArray.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenArrayDestructRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenArrayDestructRule::class);
     }
 }

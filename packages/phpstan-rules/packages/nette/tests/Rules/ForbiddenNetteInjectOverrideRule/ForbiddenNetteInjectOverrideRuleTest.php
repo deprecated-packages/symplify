@@ -49,11 +49,16 @@ final class ForbiddenNetteInjectOverrideRuleTest extends AbstractServiceAwareRul
         yield [__DIR__ . '/Fixture/SkipCurrentMethodInject.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenNetteInjectOverrideRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenNetteInjectOverrideRule::class);
     }
 }
