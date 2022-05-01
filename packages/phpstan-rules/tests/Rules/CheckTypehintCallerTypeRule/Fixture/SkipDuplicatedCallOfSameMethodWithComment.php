@@ -7,16 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckTypehintCallerTypeRule\Fixture;
 use PHPStan\Node\FileNode;
 use Rector\Core\PhpParser\Node\CustomNode\FileWithoutNamespace;
 
-final class SkipDuplicatedCallOfSameMethodWithComment
+final class SkipDuplicatedCallOfSameMethodWithComment2
 {
     public function firstMethod()
     {
         $this->printFile(new FileWithoutNamespace([]));
     }
 
-    /**
-     * @param FileWithoutNamespace|FileNode $node
-     */
     private function printFile(\PhpParser\Node $node)
     {
     }

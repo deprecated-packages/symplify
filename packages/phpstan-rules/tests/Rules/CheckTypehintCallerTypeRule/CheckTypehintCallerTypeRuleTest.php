@@ -9,13 +9,13 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Param;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckTypehintCallerTypeRule>
+ * @extends RuleTestCase<CheckTypehintCallerTypeRule>
  */
-final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckTypehintCallerTypeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -52,11 +52,16 @@ final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/DoubleShot.php', [[$argErrorMessage, 15], [$paramErrorMessage, 15]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            CheckTypehintCallerTypeRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(CheckTypehintCallerTypeRule::class);
     }
 }
