@@ -41,11 +41,16 @@ final class NoArrayStringObjectReturnRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipArrayFilter.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoArrayStringObjectReturnRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoArrayStringObjectReturnRule::class);
     }
 }

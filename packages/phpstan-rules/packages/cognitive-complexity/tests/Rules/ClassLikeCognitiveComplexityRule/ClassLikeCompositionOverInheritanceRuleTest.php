@@ -35,11 +35,16 @@ final class ClassLikeCompositionOverInheritanceRuleTest extends AbstractServiceA
         yield [__DIR__ . '/Fixture/NonFinalClass.php', [[$errorMessage, 9]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_composition_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ClassLikeCognitiveComplexityRule::class,
-            __DIR__ . '/config/configured_composition_rule.neon'
-        );
+        return self::getContainer()->getByType(ClassLikeCognitiveComplexityRule::class);
     }
 }

@@ -29,11 +29,16 @@ final class RequireExceptionNamespaceRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/Exception/SkipCorrectException.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireExceptionNamespaceRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireExceptionNamespaceRule::class);
     }
 }

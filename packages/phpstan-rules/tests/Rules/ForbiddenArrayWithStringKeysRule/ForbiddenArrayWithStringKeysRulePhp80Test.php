@@ -31,11 +31,16 @@ final class ForbiddenArrayWithStringKeysRulePhp80Test extends AbstractServiceAwa
         yield [__DIR__ . '/FixturePhp80/SkipAttributeArrayKey.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenArrayWithStringKeysRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenArrayWithStringKeysRule::class);
     }
 }

@@ -33,11 +33,16 @@ final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleT
         ]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireNewArgumentConstantRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireNewArgumentConstantRule::class);
     }
 }

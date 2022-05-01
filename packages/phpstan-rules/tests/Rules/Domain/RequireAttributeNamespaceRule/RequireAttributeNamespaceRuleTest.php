@@ -29,11 +29,16 @@ final class RequireAttributeNamespaceRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/Attribute/SkipCorrectAttribute.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireAttributeNamespaceRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireAttributeNamespaceRule::class);
     }
 }

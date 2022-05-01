@@ -52,11 +52,16 @@ final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareR
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoProtectedElementInFinalClassRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoProtectedElementInFinalClassRule::class);
     }
 }

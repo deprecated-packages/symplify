@@ -33,11 +33,16 @@ final class NoNetteDoubleTemplateAssignRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/DoubleAssignPresenter.php', [[$errorMessage, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoNetteDoubleTemplateAssignRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoNetteDoubleTemplateAssignRule::class);
     }
 }

@@ -40,11 +40,16 @@ final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRule
         yield [__DIR__ . '/Fixture/NoClone.php', [[NoModifyAndReturnSelfObjectRule::ERROR_MESSAGE, 15]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoModifyAndReturnSelfObjectRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoModifyAndReturnSelfObjectRule::class);
     }
 }

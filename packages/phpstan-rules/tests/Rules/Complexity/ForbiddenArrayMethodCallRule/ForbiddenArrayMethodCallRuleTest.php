@@ -29,11 +29,16 @@ final class ForbiddenArrayMethodCallRuleTest extends AbstractServiceAwareRuleTes
         yield [__DIR__ . '/Fixture/ReturnCallable.php', [[ForbiddenArrayMethodCallRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenArrayMethodCallRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenArrayMethodCallRule::class);
     }
 }

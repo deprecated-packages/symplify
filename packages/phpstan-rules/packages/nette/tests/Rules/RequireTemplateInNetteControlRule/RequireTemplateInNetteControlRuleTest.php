@@ -34,11 +34,16 @@ final class RequireTemplateInNetteControlRuleTest extends AbstractServiceAwareRu
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireTemplateInNetteControlRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireTemplateInNetteControlRule::class);
     }
 }

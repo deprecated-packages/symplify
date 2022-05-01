@@ -46,11 +46,16 @@ final class ForbiddenFuncCallRuleWithDeprecationsTest extends AbstractServiceAwa
         yield [__DIR__ . '/Fixture/SkipPropertyExistsOnXml.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule_with_deprecations.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenFuncCallRule::class,
-            __DIR__ . '/config/configured_rule_with_deprecations.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenFuncCallRule::class);
     }
 }

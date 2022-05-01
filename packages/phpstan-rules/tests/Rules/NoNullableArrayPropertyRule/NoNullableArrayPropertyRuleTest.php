@@ -32,11 +32,16 @@ final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/NullableArrayProperty.php', [[NoNullableArrayPropertyRule::ERROR_MESSAGE, 9]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            NoNullableArrayPropertyRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(NoNullableArrayPropertyRule::class);
     }
 }

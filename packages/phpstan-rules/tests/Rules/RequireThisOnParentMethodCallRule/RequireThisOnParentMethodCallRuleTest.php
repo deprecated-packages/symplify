@@ -37,11 +37,16 @@ final class RequireThisOnParentMethodCallRuleTest extends AbstractServiceAwareRu
         ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireThisOnParentMethodCallRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireThisOnParentMethodCallRule::class);
     }
 }

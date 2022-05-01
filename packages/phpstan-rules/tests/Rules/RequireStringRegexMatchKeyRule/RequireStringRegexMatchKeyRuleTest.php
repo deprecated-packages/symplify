@@ -37,11 +37,16 @@ final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleT
             [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]], ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireStringRegexMatchKeyRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireStringRegexMatchKeyRule::class);
     }
 }

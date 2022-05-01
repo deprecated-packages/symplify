@@ -32,11 +32,16 @@ final class PreventParentMethodVisibilityOverrideRuleTest extends AbstractServic
         yield [__DIR__ . '/Fixture/ClassWithOverridingVisibility.php', [[$errorMessage, 9]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            PreventParentMethodVisibilityOverrideRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(PreventParentMethodVisibilityOverrideRule::class);
     }
 }

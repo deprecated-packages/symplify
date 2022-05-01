@@ -33,11 +33,16 @@ final class PreferredAttributeOverAnnotationRuleTest extends AbstractServiceAwar
         yield [__DIR__ . '/Fixture/SomeAnnotatedController.php', [[$errorMessage, 14]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            PreferredAttributeOverAnnotationRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(PreferredAttributeOverAnnotationRule::class);
     }
 }

@@ -29,11 +29,16 @@ final class ForbiddenAnonymousClassRuleTest extends AbstractServiceAwareRuleTest
         yield [__DIR__ . '/Fixture/AnonymousClass.php', [[ForbiddenAnonymousClassRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            ForbiddenAnonymousClassRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(ForbiddenAnonymousClassRule::class);
     }
 }

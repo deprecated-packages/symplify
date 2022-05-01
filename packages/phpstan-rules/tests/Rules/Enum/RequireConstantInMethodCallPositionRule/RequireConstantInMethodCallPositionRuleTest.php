@@ -46,11 +46,16 @@ final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceA
         yield [__DIR__ . '/Fixture/IntersectionNode.php', [[$errorMessage, 17]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            RequireConstantInMethodCallPositionRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(RequireConstantInMethodCallPositionRule::class);
     }
 }

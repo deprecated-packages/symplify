@@ -36,11 +36,16 @@ final class AnnotateRegexClassConstWithRegexLinkRuleTest extends AbstractService
         yield [__DIR__ . '/Fixture/SkipPlaceholder.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(
-            AnnotateRegexClassConstWithRegexLinkRule::class,
-            __DIR__ . '/config/configured_rule.neon'
-        );
+        return self::getContainer()->getByType(AnnotateRegexClassConstWithRegexLinkRule::class);
     }
 }
