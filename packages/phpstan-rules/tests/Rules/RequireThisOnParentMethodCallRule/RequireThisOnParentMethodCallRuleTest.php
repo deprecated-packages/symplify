@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireThisOnParentMethodCallRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireThisOnParentMethodCallRule>
  */
-final class RequireThisOnParentMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireThisOnParentMethodCallRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

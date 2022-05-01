@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedAssignR
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenSameNamedAssignRule>
  */
-final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenSameNamedAssignRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

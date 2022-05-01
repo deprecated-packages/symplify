@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckSymfonyConfigDefaultsRu
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckSymfonyConfigDefaultsRule>
  */
-final class CheckSymfonyConfigDefaultsRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckSymfonyConfigDefaultsRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

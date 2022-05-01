@@ -9,12 +9,13 @@ use Iterator;
 use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\PreferredClassRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<PreferredClassRule>
  */
-final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class PreferredClassRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

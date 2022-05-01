@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\InvokableControllerByRouteNa
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<InvokableControllerByRouteNamingRule>
  */
-final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwareRuleTestCase
+final class InvokableControllerByRouteNamingRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoMagicClosureRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoMagicClosureRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoMagicClosureRule>
  */
-final class NoMagicClosureRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMagicClosureRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

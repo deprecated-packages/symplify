@@ -61,6 +61,9 @@ final class VersionUtilsTest extends AbstractKernelTestCase
         $this->assertSame($expectedVersion, $requiredVersion);
     }
 
+    /**
+     * @return \Iterator<string[]>
+     */
     public function provideDataForRequiredVersion(): Iterator
     {
         yield ['v4.0.0', '^4.0'];

@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoReadonlyStaticVariableRul
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoReadonlyStaticVariableRule>
  */
-final class NoReadonlyStaticVariableRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoReadonlyStaticVariableRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMissingArrayShapeReturnAr
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Explicit\NoMissingArrayShapeReturnArrayRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoMissingArrayShapeReturnArrayRule>
  */
-final class NoMissingArrayShapeReturnArrayRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMissingArrayShapeReturnArrayRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()
