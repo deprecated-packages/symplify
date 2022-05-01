@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDependencyJugglingRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoDependencyJugglingRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoDependencyJugglingRule>
  */
-final class NoDependencyJugglingRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoDependencyJugglingRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

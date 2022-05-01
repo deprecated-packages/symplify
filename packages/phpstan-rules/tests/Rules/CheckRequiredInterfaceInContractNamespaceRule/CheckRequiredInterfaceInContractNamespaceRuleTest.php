@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractName
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckRequiredInterfaceInContractNamespaceRule>
  */
-final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

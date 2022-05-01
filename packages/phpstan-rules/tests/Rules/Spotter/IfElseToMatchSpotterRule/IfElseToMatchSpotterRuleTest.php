@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\Spotter\IfElseToMatchSpotterRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<IfElseToMatchSpotterRule>
  */
-final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

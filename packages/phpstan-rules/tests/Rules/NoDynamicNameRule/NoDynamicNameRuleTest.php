@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicNameRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoDynamicNameRule>
  */
-final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

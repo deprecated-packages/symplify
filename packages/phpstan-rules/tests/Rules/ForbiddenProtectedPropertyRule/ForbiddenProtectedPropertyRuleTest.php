@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenProtectedPropertyRule>
  */
-final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

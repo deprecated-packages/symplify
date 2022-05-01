@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\ExplicitMethodCallOverMagic
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ExplicitMethodCallOverMagicGetSetRule>
  */
-final class ExplicitMethodCallOverMagicGetSetRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class ExplicitMethodCallOverMagicGetSetRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
