@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\SingleNetteInjectMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SingleNetteInjectMethodRule>
+ * @extends RuleTestCase<SingleNetteInjectMethodRule>
  */
-final class SingleNetteInjectMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class SingleNetteInjectMethodRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

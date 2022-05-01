@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenAnonymousClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenAnonymousClassRule>
+ * @extends RuleTestCase<ForbiddenAnonymousClassRule>
  */
-final class ForbiddenAnonymousClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenAnonymousClassRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

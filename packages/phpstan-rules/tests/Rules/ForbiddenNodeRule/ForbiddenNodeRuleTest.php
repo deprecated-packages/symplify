@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNodeRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenNodeRule>
+ * @extends RuleTestCase<ForbiddenNodeRule>
  */
-final class ForbiddenNodeRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenNodeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -31,8 +31,16 @@ final class ForbiddenNodeRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/EmptyCall.php', [[$errorMessage, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenNodeRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ForbiddenNodeRule::class);
     }
 }

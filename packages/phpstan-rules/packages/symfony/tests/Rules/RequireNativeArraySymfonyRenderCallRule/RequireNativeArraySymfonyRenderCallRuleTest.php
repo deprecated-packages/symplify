@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireNativeArraySymfonyRen
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireNativeArraySymfonyRenderCallRule>
+ * @extends RuleTestCase<RequireNativeArraySymfonyRenderCallRule>
  */
-final class RequireNativeArraySymfonyRenderCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireNativeArraySymfonyRenderCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

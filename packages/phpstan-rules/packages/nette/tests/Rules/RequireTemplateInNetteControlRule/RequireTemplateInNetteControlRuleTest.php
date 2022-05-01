@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\RequireTemplateInNetteControlR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireTemplateInNetteControlRule>
+ * @extends RuleTestCase<RequireTemplateInNetteControlRule>
  */
-final class RequireTemplateInNetteControlRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireTemplateInNetteControlRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

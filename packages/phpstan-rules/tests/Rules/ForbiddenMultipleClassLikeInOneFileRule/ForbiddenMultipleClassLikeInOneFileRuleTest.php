@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenMultipleClassLikeInOneFileR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenMultipleClassLikeInOneFileRule>
+ * @extends RuleTestCase<ForbiddenMultipleClassLikeInOneFileRule>
  */
-final class ForbiddenMultipleClassLikeInOneFileRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenMultipleClassLikeInOneFileRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\EmbeddedEnumClassConstSpotterRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<EmbeddedEnumClassConstSpotterRule>
+ * @extends RuleTestCase<EmbeddedEnumClassConstSpotterRule>
  */
-final class EmbeddedEnumClassConstSpotterRuleTest extends AbstractServiceAwareRuleTestCase
+final class EmbeddedEnumClassConstSpotterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

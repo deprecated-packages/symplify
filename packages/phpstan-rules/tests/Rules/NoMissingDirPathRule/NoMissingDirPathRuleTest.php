@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoMissingDirPathRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMissingDirPathRule>
+ * @extends RuleTestCase<NoMissingDirPathRule>
  */
-final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMissingDirPathRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -38,8 +38,16 @@ final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipFileExistsFuncCallOneLayerAbove.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoMissingDirPathRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoMissingDirPathRule::class);
     }
 }

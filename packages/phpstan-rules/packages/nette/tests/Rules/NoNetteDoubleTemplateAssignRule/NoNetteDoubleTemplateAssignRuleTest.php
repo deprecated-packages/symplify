@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteDoubleTemplateAssignRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoNetteDoubleTemplateAssignRule>
+ * @extends RuleTestCase<NoNetteDoubleTemplateAssignRule>
  */
-final class NoNetteDoubleTemplateAssignRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoNetteDoubleTemplateAssignRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

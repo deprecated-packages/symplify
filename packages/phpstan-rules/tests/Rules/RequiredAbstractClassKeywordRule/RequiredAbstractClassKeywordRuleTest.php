@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequiredAbstractClassKeywordRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequiredAbstractClassKeywordRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequiredAbstractClassKeywordRule>
+ * @extends RuleTestCase<RequiredAbstractClassKeywordRule>
  */
-final class RequiredAbstractClassKeywordRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequiredAbstractClassKeywordRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoReturnSetterMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoReturnSetterMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoReturnSetterMethodRule>
+ * @extends RuleTestCase<NoReturnSetterMethodRule>
  */
-final class NoReturnSetterMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoReturnSetterMethodRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class NoReturnSetterMethodRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipSetUp.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoReturnSetterMethodRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoReturnSetterMethodRule::class);
     }
 }

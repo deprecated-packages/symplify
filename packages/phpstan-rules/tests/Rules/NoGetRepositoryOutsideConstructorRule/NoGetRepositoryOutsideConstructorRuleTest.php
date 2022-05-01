@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoGetRepositoryOutsideConstructorRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoGetRepositoryOutsideConstructorRule>
+ * @extends RuleTestCase<NoGetRepositoryOutsideConstructorRule>
  */
-final class NoGetRepositoryOutsideConstructorRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoGetRepositoryOutsideConstructorRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

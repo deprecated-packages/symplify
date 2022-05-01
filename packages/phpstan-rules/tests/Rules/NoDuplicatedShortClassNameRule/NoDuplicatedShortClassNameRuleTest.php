@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDuplicatedShortClassNameRule;
 use Symplify\PHPStanRules\Tests\Rules\NoDuplicatedShortClassNameRule\Fixture\Nested\SameShortName;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDuplicatedShortClassNameRule>
+ * @extends RuleTestCase<NoDuplicatedShortClassNameRule>
  */
-final class NoDuplicatedShortClassNameRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoDuplicatedShortClassNameRuleTest extends RuleTestCase
 {
     /**
      * @param string[] $filePaths

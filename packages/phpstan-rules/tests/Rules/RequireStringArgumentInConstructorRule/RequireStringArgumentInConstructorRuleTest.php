@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInConstructorRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule;
 use Symplify\PHPStanRules\Tests\Rules\RequireStringArgumentInConstructorRule\Source\AlwaysCallMeWithString;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireStringArgumentInConstructorRule>
+ * @extends RuleTestCase<RequireStringArgumentInConstructorRule>
  */
-final class RequireStringArgumentInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireStringArgumentInConstructorRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCall
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoChainMethodCallRule>
+ * @extends RuleTestCase<NoChainMethodCallRule>
  */
-final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoChainMethodCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/standalone_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoChainMethodCallRule::class, __DIR__ . '/config/standalone_rule.neon');
+        return self::getContainer()->getByType(NoChainMethodCallRule::class);
     }
 }

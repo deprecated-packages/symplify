@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireNamedCommandRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireNamedCommandRule>
+ * @extends RuleTestCase<RequireNamedCommandRule>
  */
-final class RequireNamedCommandRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireNamedCommandRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class RequireNamedCommandRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/MissingNameCommand.php', [[RequireNamedCommandRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(RequireNamedCommandRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(RequireNamedCommandRule::class);
     }
 }

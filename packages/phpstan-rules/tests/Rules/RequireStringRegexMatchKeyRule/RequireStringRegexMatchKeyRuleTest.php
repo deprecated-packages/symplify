@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireStringRegexMatchKeyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireStringRegexMatchKeyRule>
+ * @extends RuleTestCase<RequireStringRegexMatchKeyRule>
  */
-final class RequireStringRegexMatchKeyRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireStringRegexMatchKeyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

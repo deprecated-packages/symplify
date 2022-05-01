@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\ForbiddenNetteInjectOverrideRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenNetteInjectOverrideRule>
+ * @extends RuleTestCase<ForbiddenNetteInjectOverrideRule>
  */
-final class ForbiddenNetteInjectOverrideRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenNetteInjectOverrideRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedCallableRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMixedCallableRule>
+ * @extends RuleTestCase<NoMixedCallableRule>
  */
-final class NoMixedCallableRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMixedCallableRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -38,8 +38,16 @@ final class NoMixedCallableRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/DocOnlyNullableReturnCallable.php', [[NoMixedCallableRule::ERROR_MESSAGE, 13]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoMixedCallableRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoMixedCallableRule::class);
     }
 }

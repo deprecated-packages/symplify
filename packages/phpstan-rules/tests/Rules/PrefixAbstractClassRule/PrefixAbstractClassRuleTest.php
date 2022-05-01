@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\PrefixAbstractClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\PrefixAbstractClassRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PrefixAbstractClassRule>
+ * @extends RuleTestCase<PrefixAbstractClassRule>
  */
-final class PrefixAbstractClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class PrefixAbstractClassRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class PrefixAbstractClassRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeAbstractClass.php', [[$errorMessage, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(PrefixAbstractClassRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(PrefixAbstractClassRule::class);
     }
 }

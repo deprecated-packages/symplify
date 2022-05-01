@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDefaultExceptionRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use RuntimeException;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDefaultExceptionRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDefaultExceptionRule>
+ * @extends RuleTestCase<NoDefaultExceptionRule>
  */
-final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoDefaultExceptionRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class NoDefaultExceptionRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/ThrowGenericException.php', [[$errorMessage, 13]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoDefaultExceptionRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoDefaultExceptionRule::class);
     }
 }

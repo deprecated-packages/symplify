@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoFactoryInConstructorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoFactoryInConstructorRule>
+ * @extends RuleTestCase<NoFactoryInConstructorRule>
  */
-final class NoFactoryInConstructorRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoFactoryInConstructorRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

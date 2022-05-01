@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenFuncCallRule>
+ * @extends RuleTestCase<ForbiddenFuncCallRule>
  */
-final class ForbiddenFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenFuncCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -40,8 +40,16 @@ final class ForbiddenFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipPropertyExistsOnXml.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenFuncCallRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ForbiddenFuncCallRule::class);
     }
 }

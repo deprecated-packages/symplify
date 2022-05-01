@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOv
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule;
 use Symplify\PHPStanRules\Tests\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule\Source\SpecificControl;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireSpecificReturnTypeOverAbstractRule>
+ * @extends RuleTestCase<RequireSpecificReturnTypeOverAbstractRule>
  */
-final class RequireSpecificReturnTypeOverAbstractRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireSpecificReturnTypeOverAbstractRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

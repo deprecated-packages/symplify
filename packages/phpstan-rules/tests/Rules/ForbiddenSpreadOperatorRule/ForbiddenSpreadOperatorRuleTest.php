@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenSpreadOperatorRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenSpreadOperatorRule>
+ * @extends RuleTestCase<ForbiddenSpreadOperatorRule>
  */
-final class ForbiddenSpreadOperatorRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenSpreadOperatorRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

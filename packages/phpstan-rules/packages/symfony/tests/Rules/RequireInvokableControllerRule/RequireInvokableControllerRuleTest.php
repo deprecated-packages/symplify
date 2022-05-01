@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireInvokableControllerRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireInvokableControllerRule>
+ * @extends RuleTestCase<RequireInvokableControllerRule>
  */
-final class RequireInvokableControllerRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireInvokableControllerRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

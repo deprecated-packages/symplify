@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoTraitRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoTraitRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoTraitRule>
+ * @extends RuleTestCase<NoTraitRule>
  */
-final class NoTraitRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoTraitRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -31,8 +31,16 @@ final class NoTraitRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeTrait.php', [[NoTraitRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoTraitRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoTraitRule::class);
     }
 }

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckNotTestsNamespaceOutsideTestsDi
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckNotTestsNamespaceOutsideTestsDirectoryRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckNotTestsNamespaceOutsideTestsDirectoryRule>
+ * @extends RuleTestCase<CheckNotTestsNamespaceOutsideTestsDirectoryRule>
  */
-final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

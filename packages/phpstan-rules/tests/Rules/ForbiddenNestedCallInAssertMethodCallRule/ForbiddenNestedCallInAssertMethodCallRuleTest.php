@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenNestedCallInAssertMethodCal
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenNestedCallInAssertMethodCallRule>
+ * @extends RuleTestCase<ForbiddenNestedCallInAssertMethodCallRule>
  */
-final class ForbiddenNestedCallInAssertMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenNestedCallInAssertMethodCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoShortNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoShortNameRule>
+ * @extends RuleTestCase<NoShortNameRule>
  */
-final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoShortNameRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -41,8 +41,16 @@ final class NoShortNameRuleTest extends AbstractServiceAwareRuleTestCase
             [[$errorMessage, 11], [$errorMessage, 13], [$errorMessage, 15]], ];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoShortNameRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoShortNameRule::class);
     }
 }

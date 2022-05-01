@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoBinaryOpCallCompareRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoBinaryOpCallCompareRule>
+ * @extends RuleTestCase<NoBinaryOpCallCompareRule>
  */
-final class NoBinaryOpCallCompareRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoBinaryOpCallCompareRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class NoBinaryOpCallCompareRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/SkipFuncCallCount.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoBinaryOpCallCompareRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoBinaryOpCallCompareRule::class);
     }
 }

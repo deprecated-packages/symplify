@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenInlineClassMetho
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenInlineClassMethodRule>
+ * @extends RuleTestCase<ForbiddenInlineClassMethodRule>
  */
-final class ForbiddenInlineClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenInlineClassMethodRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\NoAbstractRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoAbstractRule>
+ * @extends RuleTestCase<NoAbstractRule>
  */
-final class NoAbstractRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoAbstractRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,8 +30,16 @@ final class NoAbstractRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/AbstractClass.php', [[NoAbstractRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoAbstractRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoAbstractRule::class,);
     }
 }

@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\NoParentDuplicatedTraitUs
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule;
 use Symplify\PHPStanRules\Tests\Rules\Complexity\NoParentDuplicatedTraitUseRule\Source\SomeTrait;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoParentDuplicatedTraitUseRule>
+ * @extends RuleTestCase<NoParentDuplicatedTraitUseRule>
  */
-final class NoParentDuplicatedTraitUseRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoParentDuplicatedTraitUseRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

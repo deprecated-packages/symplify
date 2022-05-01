@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Domain\RequireAttributeNamespaceRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Domain\RequireAttributeNamespaceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireAttributeNamespaceRule>
+ * @extends RuleTestCase<RequireAttributeNamespaceRule>
  */
-final class RequireAttributeNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireAttributeNamespaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

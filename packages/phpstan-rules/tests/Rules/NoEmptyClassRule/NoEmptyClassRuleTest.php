@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoEmptyClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoEmptyClassRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoEmptyClassRule>
+ * @extends RuleTestCase<NoEmptyClassRule>
  */
-final class NoEmptyClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoEmptyClassRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -37,8 +37,16 @@ final class NoEmptyClassRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeEmptyClass.php', [[NoEmptyClassRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoEmptyClassRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoEmptyClassRule::class);
     }
 }

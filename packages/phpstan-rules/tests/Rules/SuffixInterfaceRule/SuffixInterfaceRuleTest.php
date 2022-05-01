@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\SuffixInterfaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\SuffixInterfaceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SuffixInterfaceRule>
+ * @extends RuleTestCase<SuffixInterfaceRule>
  */
-final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class SuffixInterfaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,8 +30,16 @@ final class SuffixInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/NotAnInterface.php', [[SuffixInterfaceRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SuffixInterfaceRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(SuffixInterfaceRule::class);
     }
 }

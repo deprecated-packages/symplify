@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\BoolishClassMethodPrefixRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<BoolishClassMethodPrefixRule>
+ * @extends RuleTestCase<BoolishClassMethodPrefixRule>
  */
-final class BoolishClassMethodPrefixRuleTest extends AbstractServiceAwareRuleTestCase
+final class BoolishClassMethodPrefixRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

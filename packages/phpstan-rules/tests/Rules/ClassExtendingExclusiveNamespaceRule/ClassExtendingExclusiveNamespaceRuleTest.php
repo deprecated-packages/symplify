@@ -7,8 +7,8 @@ namespace Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule
 use Iterator;
 use Nette\Utils\Json;
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use ReflectionClass;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\CommandInUnauthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceProviderInUnauthorizedNamespace;
@@ -18,9 +18,9 @@ use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixtu
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Order\OrderRequestModelInUnauthorizedNamespace;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ClassExtendingExclusiveNamespaceRule>
+ * @extends RuleTestCase<ClassExtendingExclusiveNamespaceRule>
  */
-final class ClassExtendingExclusiveNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class ClassExtendingExclusiveNamespaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoNestedFuncCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNestedFuncCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoNestedFuncCallRule>
+ * @extends RuleTestCase<NoNestedFuncCallRule>
  */
-final class NoNestedFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoNestedFuncCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -34,8 +34,16 @@ final class NoNestedFuncCallRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipAssert.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoNestedFuncCallRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoNestedFuncCallRule::class);
     }
 }

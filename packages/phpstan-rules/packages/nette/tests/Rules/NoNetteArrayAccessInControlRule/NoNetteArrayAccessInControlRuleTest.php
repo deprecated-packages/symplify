@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteArrayAccessInControlRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoNetteArrayAccessInControlRule>
+ * @extends RuleTestCase<NoNetteArrayAccessInControlRule>
  */
-final class NoNetteArrayAccessInControlRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoNetteArrayAccessInControlRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

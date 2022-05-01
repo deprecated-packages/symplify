@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoClassWithStaticMethodWithoutStatic
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoClassWithStaticMethodWithoutStaticNameRule>
+ * @extends RuleTestCase<NoClassWithStaticMethodWithoutStaticNameRule>
  */
-final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoClassWithStaticMethodWithoutStaticNameRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

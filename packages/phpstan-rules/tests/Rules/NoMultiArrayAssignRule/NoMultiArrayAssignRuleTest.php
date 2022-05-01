@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMultiArrayAssignRule>
+ * @extends RuleTestCase<NoMultiArrayAssignRule>
  */
-final class NoMultiArrayAssignRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMultiArrayAssignRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class NoMultiArrayAssignRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipEmptyDimAssign.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoMultiArrayAssignRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoMultiArrayAssignRule::class);
     }
 }

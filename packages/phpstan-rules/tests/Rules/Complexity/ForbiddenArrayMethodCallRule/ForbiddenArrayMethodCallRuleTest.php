@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenArrayMethodCallR
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenArrayMethodCallRule>
+ * @extends RuleTestCase<ForbiddenArrayMethodCallRule>
  */
-final class ForbiddenArrayMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenArrayMethodCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

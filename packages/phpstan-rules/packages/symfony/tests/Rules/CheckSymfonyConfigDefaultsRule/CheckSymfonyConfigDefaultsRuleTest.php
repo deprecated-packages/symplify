@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckSymfonyConfigDefaultsRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckSymfonyConfigDefaultsRule>
+ * @extends RuleTestCase<CheckSymfonyConfigDefaultsRule>
  */
-final class CheckSymfonyConfigDefaultsRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckSymfonyConfigDefaultsRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

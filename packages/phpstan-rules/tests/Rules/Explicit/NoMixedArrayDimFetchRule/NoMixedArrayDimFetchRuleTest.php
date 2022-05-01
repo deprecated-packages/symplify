@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedArrayDimFetchRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\NoMixedArrayDimFetchRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMixedArrayDimFetchRule>
+ * @extends RuleTestCase<NoMixedArrayDimFetchRule>
  */
-final class NoMixedArrayDimFetchRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMixedArrayDimFetchRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class NoMixedArrayDimFetchRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipExternalPhpParser.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoMixedArrayDimFetchRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoMixedArrayDimFetchRule::class);
     }
 }

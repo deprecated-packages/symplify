@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\ValueObjectOverArrayShapeRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ValueObjectOverArrayShapeRule>
+ * @extends RuleTestCase<ValueObjectOverArrayShapeRule>
  */
-final class ValueObjectOverArrayShapeRuleTest extends AbstractServiceAwareRuleTestCase
+final class ValueObjectOverArrayShapeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class ValueObjectOverArrayShapeRuleTest extends AbstractServiceAwareRuleTe
         yield [__DIR__ . '/Fixture/SkipConstructorAsIntroData.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ValueObjectOverArrayShapeRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ValueObjectOverArrayShapeRule::class);
     }
 }

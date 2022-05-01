@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Spotter\IfElseToMatchSpotterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<IfElseToMatchSpotterRule>
+ * @extends RuleTestCase<IfElseToMatchSpotterRule>
  */
-final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCase
+final class IfElseToMatchSpotterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -49,8 +49,16 @@ final class IfElseToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/LaterReturnDefault.php', [[IfElseToMatchSpotterRule::ERROR_MESSAGE, 12]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(IfElseToMatchSpotterRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(IfElseToMatchSpotterRule::class);
     }
 }

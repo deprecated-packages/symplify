@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckClassNamespaceFollowPsr4Rule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckClassNamespaceFollowPsr4Rule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckClassNamespaceFollowPsr4Rule>
+ * @extends RuleTestCase<CheckClassNamespaceFollowPsr4Rule>
  */
-final class CheckClassNamespaceFollowPsr4RuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckClassNamespaceFollowPsr4RuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

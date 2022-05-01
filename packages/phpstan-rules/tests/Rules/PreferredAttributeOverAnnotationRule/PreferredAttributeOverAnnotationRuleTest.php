@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreferredAttributeOverAnnotationRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
+use PHPStan\Testing\RuleTestCase;
 use Symfony\Component\Routing\Annotation\Route;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PreferredAttributeOverAnnotationRule>
+ * @extends RuleTestCase<PreferredAttributeOverAnnotationRule>
  */
-final class PreferredAttributeOverAnnotationRuleTest extends AbstractServiceAwareRuleTestCase
+final class PreferredAttributeOverAnnotationRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractName
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckRequiredInterfaceInContractNamespaceRule>
+ * @extends RuleTestCase<CheckRequiredInterfaceInContractNamespaceRule>
  */
-final class CheckRequiredInterfaceInContractNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckRequiredInterfaceInContractNamespaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

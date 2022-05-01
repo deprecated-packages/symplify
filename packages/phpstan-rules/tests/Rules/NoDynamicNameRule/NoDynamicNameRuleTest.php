@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDynamicNameRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDynamicNameRule>
+ * @extends RuleTestCase<NoDynamicNameRule>
  */
-final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoDynamicNameRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -41,8 +41,16 @@ final class NoDynamicNameRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipImmediatelyInvokedFunctionExpression.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoDynamicNameRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoDynamicNameRule::class);
     }
 }
