@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireNewArgumentConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireNewArgumentConstantRule>
+ * @extends RuleTestCase<RequireNewArgumentConstantRule>
  */
-final class RequireNewArgumentConstantRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireNewArgumentConstantRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

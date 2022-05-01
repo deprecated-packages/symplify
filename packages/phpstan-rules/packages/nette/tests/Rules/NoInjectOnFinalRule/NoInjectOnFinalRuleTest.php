@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoInjectOnFinalRule>
+ * @extends RuleTestCase<NoInjectOnFinalRule>
  */
-final class NoInjectOnFinalRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoInjectOnFinalRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -36,8 +36,16 @@ final class NoInjectOnFinalRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/InjectAttributeWithParent.php', [[NoInjectOnFinalRule::ERROR_MESSAGE, 15]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoInjectOnFinalRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoInjectOnFinalRule::class);
     }
 }

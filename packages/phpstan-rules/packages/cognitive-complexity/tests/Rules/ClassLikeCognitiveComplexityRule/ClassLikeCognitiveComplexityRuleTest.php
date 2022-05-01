@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Tests\Rules\ClassLikeCogniti
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ClassLikeCognitiveComplexityRule>
+ * @extends RuleTestCase<ClassLikeCognitiveComplexityRule>
  */
-final class ClassLikeCognitiveComplexityRuleTest extends AbstractServiceAwareRuleTestCase
+final class ClassLikeCognitiveComplexityRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideDataForTest()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\UppercaseConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\UppercaseConstantRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<UppercaseConstantRule>
+ * @extends RuleTestCase<UppercaseConstantRule>
  */
-final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
+final class UppercaseConstantRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class UppercaseConstantRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/ConstantLower.php', [[$errorMessage, 9]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(UppercaseConstantRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(UppercaseConstantRule::class);
     }
 }

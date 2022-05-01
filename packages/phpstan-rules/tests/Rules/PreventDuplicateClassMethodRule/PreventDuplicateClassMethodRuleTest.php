@@ -6,14 +6,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
 use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\DifferentMethodName1;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PreventDuplicateClassMethodRule>
+ * @extends RuleTestCase<PreventDuplicateClassMethodRule>
  */
-final class PreventDuplicateClassMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class PreventDuplicateClassMethodRuleTest extends RuleTestCase
 {
     /**
      * @param string[] $filePaths

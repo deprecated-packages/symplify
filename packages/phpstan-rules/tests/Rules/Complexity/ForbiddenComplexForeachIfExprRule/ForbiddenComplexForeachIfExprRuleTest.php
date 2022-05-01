@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenComplexForeachIf
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenComplexForeachIfExprRule>
+ * @extends RuleTestCase<ForbiddenComplexForeachIfExprRule>
  */
-final class ForbiddenComplexForeachIfExprRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenComplexForeachIfExprRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

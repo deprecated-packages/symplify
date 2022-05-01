@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\ExplicitMethodCallOverMagic
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ExplicitMethodCallOverMagicGetSetRule>
+ * @extends RuleTestCase<ExplicitMethodCallOverMagicGetSetRule>
  */
-final class ExplicitMethodCallOverMagicGetSetRuleTest extends AbstractServiceAwareRuleTestCase
+final class ExplicitMethodCallOverMagicGetSetRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

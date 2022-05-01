@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveNamespaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ExclusiveNamespaceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ExclusiveNamespaceRule>
+ * @extends RuleTestCase<ExclusiveNamespaceRule>
  */
-final class ExclusiveNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class ExclusiveNamespaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -39,8 +39,16 @@ final class ExclusiveNamespaceRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipNotMatched.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ExclusiveNamespaceRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ExclusiveNamespaceRule::class);
     }
 }

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoTemplateMagicAssignInControl
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoTemplateMagicAssignInControlRule>
+ * @extends RuleTestCase<NoTemplateMagicAssignInControlRule>
  */
-final class NoTemplateMagicAssignInControlRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoTemplateMagicAssignInControlRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

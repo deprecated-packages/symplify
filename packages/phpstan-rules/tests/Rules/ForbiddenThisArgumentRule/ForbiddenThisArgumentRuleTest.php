@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenThisArgumentRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenThisArgumentRule>
+ * @extends RuleTestCase<ForbiddenThisArgumentRule>
  */
-final class ForbiddenThisArgumentRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenThisArgumentRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -37,8 +37,16 @@ final class ForbiddenThisArgumentRuleTest extends AbstractServiceAwareRuleTestCa
         yield [__DIR__ . '/Fixture/ArgInFuncCall.php', [[ForbiddenThisArgumentRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenThisArgumentRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ForbiddenThisArgumentRule::class);
     }
 }

@@ -13,6 +13,8 @@ use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
 /**
  * @template TRule of \PHPStan\Rules\Rule
  * @template-extends RuleTestCase<TRule>
+ *
+ * @deprecated Use getAdditionalConfigFiles() RuleTestCase and self::getContainer->getByType() instead
  */
 abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
 {

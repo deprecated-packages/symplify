@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoInlineStringRegexRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoInlineStringRegexRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoInlineStringRegexRule>
+ * @extends RuleTestCase<NoInlineStringRegexRule>
  */
-final class NoInlineStringRegexRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoInlineStringRegexRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -37,8 +37,16 @@ final class NoInlineStringRegexRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipNetteUtilsStringsConstRegex.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoInlineStringRegexRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoInlineStringRegexRule::class);
     }
 }

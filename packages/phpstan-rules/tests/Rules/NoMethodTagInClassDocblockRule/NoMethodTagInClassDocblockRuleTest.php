@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoMethodTagInClassDocblockRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMethodTagInClassDocblockRule>
+ * @extends RuleTestCase<NoMethodTagInClassDocblockRule>
  */
-final class NoMethodTagInClassDocblockRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMethodTagInClassDocblockRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoMixedPropertyFetcherRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoMixedPropertyFetcherRule>
+ * @extends RuleTestCase<NoMixedPropertyFetcherRule>
  */
-final class NoMixedPropertyFetcherRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMixedPropertyFetcherRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,8 +35,16 @@ final class NoMixedPropertyFetcherRuleTest extends AbstractServiceAwareRuleTestC
         yield [__DIR__ . '/Fixture/UnknownPropertyFetcher.php', [[$message, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoMixedPropertyFetcherRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoMixedPropertyFetcherRule::class);
     }
 }

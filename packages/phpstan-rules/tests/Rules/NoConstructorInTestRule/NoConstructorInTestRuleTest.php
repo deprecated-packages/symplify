@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoConstructorInTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoConstructorInTestRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoConstructorInTestRule>
+ * @extends RuleTestCase<NoConstructorInTestRule>
  */
-final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoConstructorInTestRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -29,8 +29,16 @@ final class NoConstructorInTestRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/Test2/SomeTest.php', [[NoConstructorInTestRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoConstructorInTestRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoConstructorInTestRule::class);
     }
 }

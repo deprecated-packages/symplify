@@ -6,15 +6,15 @@ namespace Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\SeeAnnotationToTestRule;
 use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithoutSee;
 use Symplify\PHPStanRules\Tests\Rules\SeeAnnotationToTestRule\Fixture\RuleWithSeeRandom;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SeeAnnotationToTestRule>
+ * @extends RuleTestCase<SeeAnnotationToTestRule>
  */
-final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
+final class SeeAnnotationToTestRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -36,8 +36,16 @@ final class SeeAnnotationToTestRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipDeprecatedRuleWithoutSee.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SeeAnnotationToTestRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(SeeAnnotationToTestRule::class);
     }
 }

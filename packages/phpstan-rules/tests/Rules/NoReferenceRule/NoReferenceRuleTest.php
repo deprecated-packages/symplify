@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoReferenceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoReferenceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoReferenceRule>
+ * @extends RuleTestCase<NoReferenceRule>
  */
-final class NoReferenceRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoReferenceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,8 +35,16 @@ final class NoReferenceRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipParentMethodWithReference.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoReferenceRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoReferenceRule::class);
     }
 }

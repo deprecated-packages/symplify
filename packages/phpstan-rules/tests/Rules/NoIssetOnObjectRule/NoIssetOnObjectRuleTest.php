@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoIssetOnObjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoIssetOnObjectRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoIssetOnObjectRule>
+ * @extends RuleTestCase<NoIssetOnObjectRule>
  */
-final class NoIssetOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoIssetOnObjectRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -31,8 +31,16 @@ final class NoIssetOnObjectRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipIssetOnArrayNestedOnObject.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoIssetOnObjectRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoIssetOnObjectRule::class);
     }
 }

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\PreventDoubleSetParameterRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<PreventDoubleSetParameterRule>
+ * @extends RuleTestCase<PreventDoubleSetParameterRule>
  */
-final class PreventDoubleSetParameterRuleTest extends AbstractServiceAwareRuleTestCase
+final class PreventDoubleSetParameterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

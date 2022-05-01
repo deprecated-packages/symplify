@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\CheckOptionArgumentCommandRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckOptionArgumentCommandRule>
+ * @extends RuleTestCase<CheckOptionArgumentCommandRule>
  */
-final class CheckOptionArgumentCommandRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckOptionArgumentCommandRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoGetterAndPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoGetterAndPropertyRule>
+ * @extends RuleTestCase<NoGetterAndPropertyRule>
  */
-final class NoGetterAndPropertyRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoGetterAndPropertyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,8 +35,16 @@ final class NoGetterAndPropertyRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipProtectedProperty.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoGetterAndPropertyRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoGetterAndPropertyRule::class);
     }
 }

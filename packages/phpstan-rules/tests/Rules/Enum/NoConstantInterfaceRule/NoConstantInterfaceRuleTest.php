@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\NoConstantInterfaceRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoConstantInterfaceRule>
+ * @extends RuleTestCase<NoConstantInterfaceRule>
  */
-final class NoConstantInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoConstantInterfaceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -29,8 +29,16 @@ final class NoConstantInterfaceRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/InterfaceWithConstants.php', [[NoConstantInterfaceRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoConstantInterfaceRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoConstantInterfaceRule::class);
     }
 }

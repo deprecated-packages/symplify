@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoStaticPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoStaticPropertyRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoStaticPropertyRule>
+ * @extends RuleTestCase<NoStaticPropertyRule>
  */
-final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoStaticPropertyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -44,8 +44,16 @@ final class NoStaticPropertyRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeStaticPropertyWithoutModifier.php', [[NoStaticPropertyRule::ERROR_MESSAGE, 19]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoStaticPropertyRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoStaticPropertyRule::class);
     }
 }

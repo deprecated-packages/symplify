@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoFuncCallInMethodCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoFuncCallInMethodCallRule>
+ * @extends RuleTestCase<NoFuncCallInMethodCallRule>
  */
-final class NoFuncCallInMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoFuncCallInMethodCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

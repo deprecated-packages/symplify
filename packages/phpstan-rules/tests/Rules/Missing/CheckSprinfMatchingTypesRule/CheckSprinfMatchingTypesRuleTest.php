@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprinfMatchingTypesRule
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckSprinfMatchingTypesRule>
+ * @extends RuleTestCase<CheckSprinfMatchingTypesRule>
  */
-final class CheckSprinfMatchingTypesRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

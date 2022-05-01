@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoParentMethodCallOnEmptyStatementIn
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoParentMethodCallOnEmptyStatementInParentMethodRule>
+ * @extends RuleTestCase<NoParentMethodCallOnEmptyStatementInParentMethodRule>
  */
-final class NoParentMethodCallOnEmptyStatementInParentMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoParentMethodCallOnEmptyStatementInParentMethodRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

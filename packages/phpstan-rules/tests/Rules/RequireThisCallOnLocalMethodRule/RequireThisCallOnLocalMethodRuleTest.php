@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireThisCallOnLocalMethodRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireThisCallOnLocalMethodRule>
+ * @extends RuleTestCase<RequireThisCallOnLocalMethodRule>
  */
-final class RequireThisCallOnLocalMethodRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireThisCallOnLocalMethodRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Spotter\SwitchToMatchSpotterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Spotter\SwitchToMatchSpotterRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SwitchToMatchSpotterRule>
+ * @extends RuleTestCase<SwitchToMatchSpotterRule>
  */
-final class SwitchToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCase
+final class SwitchToMatchSpotterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,8 +30,16 @@ final class SwitchToMatchSpotterRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/ReturnAndException.php', [[SwitchToMatchSpotterRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SwitchToMatchSpotterRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(SwitchToMatchSpotterRule::class);
     }
 }

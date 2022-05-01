@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\SuffixTraitRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\SuffixTraitRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<SuffixTraitRule>
+ * @extends RuleTestCase<SuffixTraitRule>
  */
-final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
+final class SuffixTraitRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -31,8 +31,16 @@ final class SuffixTraitRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeNotTrait.php', [[SuffixTraitRule::ERROR_MESSAGE, 7]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(SuffixTraitRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(SuffixTraitRule::class);
     }
 }

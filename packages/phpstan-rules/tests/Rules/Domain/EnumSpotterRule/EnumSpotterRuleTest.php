@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Domain\EnumSpotterRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<EnumSpotterRule>
+ * @extends RuleTestCase<EnumSpotterRule>
  */
-final class EnumSpotterRuleTest extends AbstractServiceAwareRuleTestCase
+final class EnumSpotterRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -35,8 +35,16 @@ final class EnumSpotterRuleTest extends AbstractServiceAwareRuleTestCase
         yield [[__DIR__ . '/Fixture/SkipNotRepeatedUse.php'], []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(EnumSpotterRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(EnumSpotterRule::class);
     }
 }

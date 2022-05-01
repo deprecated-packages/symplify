@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\DibiMaskMatchesVariableTypeRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<DibiMaskMatchesVariableTypeRule>
+ * @extends RuleTestCase<DibiMaskMatchesVariableTypeRule>
  */
-final class DibiMaskMatchesVariableTypeRuleTest extends AbstractServiceAwareRuleTestCase
+final class DibiMaskMatchesVariableTypeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

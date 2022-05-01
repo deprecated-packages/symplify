@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoReturnArrayVariableListRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoReturnArrayVariableListRule>
+ * @extends RuleTestCase<NoReturnArrayVariableListRule>
  */
-final class NoReturnArrayVariableListRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoReturnArrayVariableListRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoDynamicPropertyOnStaticCallRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoDynamicPropertyOnStaticCallRule>
+ * @extends RuleTestCase<NoDynamicPropertyOnStaticCallRule>
  */
-final class NoDynamicPropertyOnStaticCallRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoDynamicPropertyOnStaticCallRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

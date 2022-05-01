@@ -7,14 +7,14 @@ namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule;
 use Doctrine\ORM\EntityManager;
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ExclusiveDependencyRule;
 use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\AllowedEventSubscriber;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ExclusiveDependencyRule>
+ * @extends RuleTestCase<ExclusiveDependencyRule>
  */
-final class ExclusiveDependencyRuleTest extends AbstractServiceAwareRuleTestCase
+final class ExclusiveDependencyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -44,8 +44,16 @@ final class ExclusiveDependencyRuleTest extends AbstractServiceAwareRuleTestCase
 //        yield [__DIR__ . '/Fixture/WarnController.php', [[$errorMessage, 16]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ExclusiveDependencyRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ExclusiveDependencyRule::class);
     }
 }

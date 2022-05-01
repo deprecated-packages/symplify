@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoNullableArrayPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoNullableArrayPropertyRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoNullableArrayPropertyRule>
+ * @extends RuleTestCase<NoNullableArrayPropertyRule>
  */
-final class NoNullableArrayPropertyRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoNullableArrayPropertyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

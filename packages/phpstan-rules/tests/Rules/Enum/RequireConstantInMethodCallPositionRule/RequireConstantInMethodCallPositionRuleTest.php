@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireConstantInMethodCallPosi
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireConstantInMethodCallPositionRule>
+ * @extends RuleTestCase<RequireConstantInMethodCallPositionRule>
  */
-final class RequireConstantInMethodCallPositionRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireConstantInMethodCallPositionRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

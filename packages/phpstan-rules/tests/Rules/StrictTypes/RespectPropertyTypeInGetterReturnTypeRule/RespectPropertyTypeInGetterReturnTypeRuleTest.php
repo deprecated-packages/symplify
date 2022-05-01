@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\StrictTypes\RespectPropertyTypeInGet
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RespectPropertyTypeInGetterReturnTypeRule>
+ * @extends RuleTestCase<RespectPropertyTypeInGetterReturnTypeRule>
  */
-final class RespectPropertyTypeInGetterReturnTypeRuleTest extends AbstractServiceAwareRuleTestCase
+final class RespectPropertyTypeInGetterReturnTypeRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

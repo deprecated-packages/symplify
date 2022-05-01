@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireAttributeNameRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireAttributeNameRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireAttributeNameRule>
+ * @extends RuleTestCase<RequireAttributeNameRule>
  */
-final class RequireAttributeNameRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireAttributeNameRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -30,8 +30,16 @@ final class RequireAttributeNameRuleTest extends AbstractServiceAwareRuleTestCas
         yield [__DIR__ . '/Fixture/SkipDefaultName.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(RequireAttributeNameRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(RequireAttributeNameRule::class);
     }
 }

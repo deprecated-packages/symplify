@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\RequireUniqueEnumConstantRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireUniqueEnumConstantRule>
+ * @extends RuleTestCase<RequireUniqueEnumConstantRule>
  */
-final class RequireUniqueEnumConstantRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireUniqueEnumConstantRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

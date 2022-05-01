@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\NoVoidAssignRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoVoidAssignRule>
+ * @extends RuleTestCase<NoVoidAssignRule>
  */
-final class NoVoidAssignRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoVoidAssignRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -36,8 +36,16 @@ final class NoVoidAssignRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SomeVoidAssign.php', [[NoVoidAssignRule::ERROR_MESSAGE, 11]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(NoVoidAssignRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(NoVoidAssignRule::class);
     }
 }

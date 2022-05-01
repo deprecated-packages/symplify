@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenNamedArgumentsRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenNamedArgumentsRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenNamedArgumentsRule>
+ * @extends RuleTestCase<ForbiddenNamedArgumentsRule>
  */
-final class ForbiddenNamedArgumentsRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenNamedArgumentsRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

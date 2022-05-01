@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireConstantInAttributeArgumentRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<RequireConstantInAttributeArgumentRule>
+ * @extends RuleTestCase<RequireConstantInAttributeArgumentRule>
  */
-final class RequireConstantInAttributeArgumentRuleTest extends AbstractServiceAwareRuleTestCase
+final class RequireConstantInAttributeArgumentRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

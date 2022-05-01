@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRu
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\CheckAttributteArgumentClassExistsRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<CheckAttributteArgumentClassExistsRule>
+ * @extends RuleTestCase<CheckAttributteArgumentClassExistsRule>
  */
-final class CheckAttributteArgumentClassExistsRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckAttributteArgumentClassExistsRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInst
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenSameNamedNewInstanceRule>
+ * @extends RuleTestCase<ForbiddenSameNamedNewInstanceRule>
  */
-final class ForbiddenSameNamedNewInstanceRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenSameNamedNewInstanceRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

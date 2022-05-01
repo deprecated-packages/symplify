@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteInjectAndConstructorRul
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoNetteInjectAndConstructorRule>
+ * @extends RuleTestCase<NoNetteInjectAndConstructorRule>
  */
-final class NoNetteInjectAndConstructorRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoNetteInjectAndConstructorRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

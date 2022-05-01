@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenProtectedPropertyRule>
+ * @extends RuleTestCase<ForbiddenProtectedPropertyRule>
  */
-final class ForbiddenProtectedPropertyRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenProtectedPropertyRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\ValidNetteInjectRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ValidNetteInjectRule>
+ * @extends RuleTestCase<ValidNetteInjectRule>
  */
-final class ValidNetteInjectRuleTest extends AbstractServiceAwareRuleTestCase
+final class ValidNetteInjectRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -32,8 +32,16 @@ final class ValidNetteInjectRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/PrivateInjectAttribute.php', [[ValidNetteInjectRule::ERROR_MESSAGE, 14]]];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ValidNetteInjectRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ValidNetteInjectRule::class);
     }
 }

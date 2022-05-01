@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenParamTypeRemovalRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenParamTypeRemovalRule>
+ * @extends RuleTestCase<ForbiddenParamTypeRemovalRule>
  */
-final class ForbiddenParamTypeRemovalRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenParamTypeRemovalRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()

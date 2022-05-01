@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<NoProtectedElementInFinalClassRule>
+ * @extends RuleTestCase<NoProtectedElementInFinalClassRule>
  */
-final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
 {
     /**
      * @param string[] $filePaths

@@ -6,13 +6,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Enum\ForbiddenClassConstRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule;
 
 /**
- * @extends AbstractServiceAwareRuleTestCase<ForbiddenClassConstRule>
+ * @extends RuleTestCase<ForbiddenClassConstRule>
  */
-final class ForbiddenClassConstRuleTest extends AbstractServiceAwareRuleTestCase
+final class ForbiddenClassConstRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -33,8 +33,16 @@ final class ForbiddenClassConstRuleTest extends AbstractServiceAwareRuleTestCase
         yield [__DIR__ . '/Fixture/SkipMinMaxConstantSuffix.php', []];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
     protected function getRule(): Rule
     {
-        return $this->getRuleFromConfig(ForbiddenClassConstRule::class, __DIR__ . '/config/configured_rule.neon');
+        return self::getContainer()->getByType(ForbiddenClassConstRule::class);
     }
 }
