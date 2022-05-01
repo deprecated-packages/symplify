@@ -26,7 +26,11 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
      */
     public static function getAdditionalConfigFiles(): array
     {
-        return [__DIR__ . '/../../config/bleeding-edge-enable-connecting-node-visitor.neon'];
+        $parentConfigs = parent::getAdditionalConfigFiles();
+        return array_merge(
+            $parentConfigs,
+            [__DIR__ . '/../../config/bleeding-edge-enable-connecting-node-visitor.neon']
+        );
     }
 
     /**
