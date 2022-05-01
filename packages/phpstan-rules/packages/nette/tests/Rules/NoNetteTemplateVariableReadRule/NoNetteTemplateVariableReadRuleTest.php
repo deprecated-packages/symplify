@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRul
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoNetteTemplateVariableReadRule>
  */
-final class NoNetteTemplateVariableReadRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoNetteTemplateVariableReadRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

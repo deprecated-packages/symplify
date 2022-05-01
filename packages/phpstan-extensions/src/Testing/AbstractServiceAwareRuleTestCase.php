@@ -9,7 +9,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanExtensions\Exception\SwappedArgumentsException;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 
 /**
  * @template TRule of \PHPStan\Rules\Rule
@@ -27,14 +26,7 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
      */
     public static function getAdditionalConfigFiles(): array
     {
-        if (is_subclass_of(static::class, RuleRequiresNodeConnectingVisitorInterface::class)) {
-            return [
-                ...parent::getAdditionalConfigFiles(),
-                __DIR__ . '/../../config/bleeding-edge-enable-connecting-node-visitor.neon',
-            ];
-        }
-
-        return parent::getAdditionalConfigFiles();
+        return [__DIR__ . '/../../config/bleeding-edge-enable-connecting-node-visitor.neon'];
     }
 
     /**

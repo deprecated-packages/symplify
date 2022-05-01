@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\NoPropertySetOverrideRule
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoPropertySetOverrideRule>
  */
-final class NoPropertySetOverrideRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoPropertySetOverrideRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

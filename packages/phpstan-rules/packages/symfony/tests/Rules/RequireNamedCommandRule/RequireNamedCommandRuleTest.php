@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Symfony\Tests\Rules\RequireNamedCommandRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireNamedCommandRule>
  */
-final class RequireNamedCommandRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class RequireNamedCommandRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

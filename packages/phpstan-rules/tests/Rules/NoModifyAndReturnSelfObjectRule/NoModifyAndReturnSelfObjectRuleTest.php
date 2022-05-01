@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoModifyAndReturnSelfObjectRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoModifyAndReturnSelfObjectRule>
  */
-final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoModifyAndReturnSelfObjectRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

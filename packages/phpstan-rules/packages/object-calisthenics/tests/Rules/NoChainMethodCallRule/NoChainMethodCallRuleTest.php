@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCall
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoChainMethodCallRule>
  */
-final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoChainMethodCallRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

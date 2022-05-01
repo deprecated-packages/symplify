@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoMissingDirPathRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoMissingDirPathRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoMissingDirPathRule>
  */
-final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class NoMissingDirPathRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

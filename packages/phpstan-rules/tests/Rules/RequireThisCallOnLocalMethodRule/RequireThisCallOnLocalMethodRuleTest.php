@@ -7,13 +7,12 @@ namespace Symplify\PHPStanRules\Tests\Rules\RequireThisCallOnLocalMethodRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<RequireThisCallOnLocalMethodRule>
  */
-final class RequireThisCallOnLocalMethodRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class RequireThisCallOnLocalMethodRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()

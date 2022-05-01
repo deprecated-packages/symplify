@@ -10,13 +10,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Param;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
-use Symplify\PHPStanExtensions\Testing\Contract\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\CheckTypehintCallerTypeRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckTypehintCallerTypeRule>
  */
-final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
+final class CheckTypehintCallerTypeRuleTest extends AbstractServiceAwareRuleTestCase
 {
     /**
      * @dataProvider provideData()
