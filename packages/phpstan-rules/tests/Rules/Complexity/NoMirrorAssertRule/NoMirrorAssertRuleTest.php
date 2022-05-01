@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\NoMirrorAssertRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoMirrorAssertRule>
  */
-final class NoMirrorAssertRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoMirrorAssertRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

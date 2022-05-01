@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<ForbiddenArrayWithStringKeysRule>
  */
-final class ForbiddenArrayWithStringKeysRulePhp80Test extends AbstractServiceAwareRuleTestCase
+final class ForbiddenArrayWithStringKeysRulePhp80Test extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @param mixed[] $expectedErrorMessagesWithLines

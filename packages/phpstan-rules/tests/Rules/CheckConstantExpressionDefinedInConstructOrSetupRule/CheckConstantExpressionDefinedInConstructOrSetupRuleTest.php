@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\CheckConstantExpressionDefinedInCons
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<CheckConstantExpressionDefinedInConstructOrSetupRule>
  */
-final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends AbstractServiceAwareRuleTestCase
+final class CheckConstantExpressionDefinedInConstructOrSetupRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @dataProvider provideData()

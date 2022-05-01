@@ -1,11 +1,14 @@
 services:
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
+    - Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
+    - Symplify\PHPStanRules\Finder\ClassLikeNameFinder
     - Symplify\PHPStanRules\Location\DirectoryChecker
     - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
+    - Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
     - Symplify\PHPStanRules\Naming\AssignToVariableChecker

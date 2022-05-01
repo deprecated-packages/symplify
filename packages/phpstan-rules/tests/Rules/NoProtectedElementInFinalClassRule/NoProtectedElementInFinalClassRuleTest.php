@@ -7,12 +7,13 @@ namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule;
 use Iterator;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanExtensions\Testing\AbstractServiceAwareRuleTestCase;
+use Symplify\PHPStanExtensions\Testing\RuleRequiresNodeConnectingVisitorInterface;
 use Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule;
 
 /**
  * @extends AbstractServiceAwareRuleTestCase<NoProtectedElementInFinalClassRule>
  */
-final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareRuleTestCase
+final class NoProtectedElementInFinalClassRuleTest extends AbstractServiceAwareRuleTestCase implements RuleRequiresNodeConnectingVisitorInterface
 {
     /**
      * @param string[] $filePaths

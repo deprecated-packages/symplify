@@ -15,9 +15,9 @@ final class ContainerBuilderFactoryTest extends TestCase
     {
         $containerBuilderFactory = new ContainerBuilderFactory(new ParameterMergingLoaderFactory());
 
-        $container = $containerBuilderFactory->create([__DIR__ . '/config/some_services.php'], [], []);
+        $containerBuilder = $containerBuilderFactory->create([__DIR__ . '/config/some_services.php'], [], []);
 
-        $hasSmartFileSystemService = $container->has(SmartFileSystem::class);
+        $hasSmartFileSystemService = $containerBuilder->has(SmartFileSystem::class);
         $this->assertTrue($hasSmartFileSystemService);
     }
 }
