@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Privatization\NoPublicPropertyByTypeRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            classTypes:
+                - Symplify\PHPStanRules\Tests\Rules\Privatization\NoPublicPropertyByTypeRule\Source\NoPublicPropertiesInterface
+
