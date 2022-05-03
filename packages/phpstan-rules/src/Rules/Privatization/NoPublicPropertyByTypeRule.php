@@ -114,8 +114,8 @@ CODE_SAMPLE
             return false;
         }
 
-        foreach ($this->classTypes as $typeWithoutPublicProperty) {
-            if (! $classReflection->isSubclassOf($typeWithoutPublicProperty)) {
+        foreach ($this->classTypes as $classType) {
+            if (! $classReflection->isSubclassOf($classType)) {
                 continue;
             }
 
