@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
@@ -70,7 +71,12 @@ final class NoNestedFuncCallRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
-        foreach ($node->args as $arg) {
+        foreach ($node->getArgs() as $arg) {
+            // avoid nesting checks, e.g. usort()
+            if ($arg->value instanceof Closure) {
+                continue;
+            }
+
             /** @var FuncCall[] $nestedFuncCalls */
             $nestedFuncCalls = $this->nodeFinder->findInstanceOf($arg, FuncCall::class);
 
