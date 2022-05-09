@@ -27,11 +27,12 @@ final class NoNestedFuncCallRuleTest extends RuleTestCase
     {
         yield [__DIR__ . '/Fixture/NestedYourself.php', [[NoNestedFuncCallRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/NestedFuncCall.php', [[NoNestedFuncCallRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/NestedArrayFilter.php', [[NoNestedFuncCallRule::ERROR_MESSAGE, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipNonNested.php', []];
         yield [__DIR__ . '/Fixture/SkipCount.php', []];
         yield [__DIR__ . '/Fixture/SkipAssert.php', []];
+        yield [__DIR__ . '/Fixture/SkipUsort.php', []];
+        yield [__DIR__ . '/Fixture/SkipNestedArrayFilter.php', []];
     }
 
     /**

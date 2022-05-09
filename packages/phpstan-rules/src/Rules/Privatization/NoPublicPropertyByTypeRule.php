@@ -62,17 +62,6 @@ final class NoPublicPropertyByTypeRule implements Rule, DocumentedRuleInterface,
         return [self::ERROR_MESSAGE];
     }
 
-    private function hasClassPublicProperties(Class_ $class): bool
-    {
-        foreach ($class->getProperties() as $property) {
-            if ($property->isPublic()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
@@ -101,6 +90,17 @@ CODE_SAMPLE
                 ]
             ),
         ]);
+    }
+
+    private function hasClassPublicProperties(Class_ $class): bool
+    {
+        foreach ($class->getProperties() as $property) {
+            if ($property->isPublic()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function isClassMatch(Scope $scope): bool
