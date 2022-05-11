@@ -22,7 +22,7 @@ final class NoMagicClosureRule implements Rule, DocumentedRuleInterface
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'There should be no empty class';
+    public const ERROR_MESSAGE = 'There should be no magic closure, use class object design instead';
 
     /**
      * @return class-string<Node>
