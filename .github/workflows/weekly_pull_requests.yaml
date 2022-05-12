@@ -9,7 +9,7 @@ jobs:
     weekly_pull_requests:
         # Don't run on forks.
         if: github.repository == 'symplify/symplify'
-        
+
         strategy:
             fail-fast: false
             matrix:
@@ -27,8 +27,6 @@ jobs:
         name: ${{ matrix.actions.name }}
 
         runs-on: ubuntu-latest
-        # don't run this action on forks
-        if: github.repository_owner == 'symplify'
 
         steps:
             -
