@@ -10,17 +10,19 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
 use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\ClassExtendingExclusiveNamespaceRuleTest
  */
-final class ClassExtendingExclusiveNamespaceRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class ClassExtendingExclusiveNamespaceRule implements ConfigurableRuleInterface, Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -40,18 +42,18 @@ final class ClassExtendingExclusiveNamespaceRule extends AbstractSymplifyRule im
     }
 
     /**
-     * @return class-string<Node>[]
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassLike::class];
+        return ClassLike::class;
     }
 
     /**
      * @param ClassLike $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $classLikeName = $this->simpleNameResolver->getName($node);
         if ($classLikeName === null) {
