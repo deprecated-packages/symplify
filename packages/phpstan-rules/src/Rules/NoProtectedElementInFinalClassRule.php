@@ -12,6 +12,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -43,7 +44,7 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
 
     /**
      * @param InClassNode $node
-     * @return string[]
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -56,37 +57,10 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
             return [];
         }
 
-        $errorMessages = [];
+        $propertyErrorMessages = $this->processProperties($classLike->getProperties(), $scope);
+        $classMethodErrorMessages = $this->processClassMethods($classLike->getMethods(), $scope);
 
-        foreach ($classLike->getProperties() as $property) {
-            if (! $property->isProtected()) {
-                continue;
-            }
-
-            if ($this->skipProperty($property, $scope)) {
-                continue;
-            }
-
-            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-                ->line($property->getLine())
-                ->build();
-        }
-
-        foreach ($classLike->getMethods() as $method) {
-            if (! $method->isProtected()) {
-                continue;
-            }
-
-            if ($this->shouldSkipClassMethod($method, $scope)) {
-                continue;
-            }
-
-            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-                ->line($method->getLine())
-                ->build();
-        }
-
-        return $errorMessages;
+        return array_merge($propertyErrorMessages, $classMethodErrorMessages);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -114,6 +88,29 @@ CODE_SAMPLE
         ]);
     }
 
+    /**
+     * @param ClassMethod[] $classMethods
+     * @return RuleError[]
+     */
+    public function processClassMethods(array $classMethods, Scope $scope): array
+    {
+        $errorMessages = [];
+
+        foreach ($classMethods as $classMethod) {
+            if (! $classMethod->isProtected()) {
+                continue;
+            }
+
+            if ($this->shouldSkipClassMethod($classMethod, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = $this->createErrorMessageWithLine($classMethod);
+        }
+
+        return $errorMessages;
+    }
+
     private function shouldSkipClassMethod(ClassMethod $classMethod, Scope $scope): bool
     {
         // is Symfony Kernel required magic method?
@@ -125,7 +122,7 @@ CODE_SAMPLE
         return $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName);
     }
 
-    private function skipProperty(Property $property, Scope $scope): bool
+    private function shouldSkipProperty(Property $property, Scope $scope): bool
     {
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
@@ -141,15 +138,6 @@ CODE_SAMPLE
         }
 
         return false;
-//
-//        $extends = $class->extends;
-//        if (! $extends instanceof Name) {
-//            return false;
-//        }
-//
-//        /** @var string $propertyName */
-//        $propertyName = $this->simpleNameResolver->getName($property);
-//        return $this->doesPropertyExistInParentClass($extends, $propertyName);
     }
 
     private function isSymfonyMicroKernelRequired(ClassMethod $classMethod, Scope $scope): bool
@@ -164,5 +152,35 @@ CODE_SAMPLE
         }
 
         return $classReflection->hasTraitUse(MicroKernelTrait::class);
+    }
+
+    /**
+     * @param Property[] $properties
+     * @return RuleError[]
+     */
+    private function processProperties(array $properties, Scope $scope): array
+    {
+        $errorMessages = [];
+
+        foreach ($properties as $property) {
+            if (! $property->isProtected()) {
+                continue;
+            }
+
+            if ($this->shouldSkipProperty($property, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = $this->createErrorMessageWithLine($property);
+        }
+
+        return $errorMessages;
+    }
+
+    private function createErrorMessageWithLine(Node $node): RuleError
+    {
+        return RuleErrorBuilder::message(self::ERROR_MESSAGE)
+            ->line($node->getLine())
+            ->build();
     }
 }

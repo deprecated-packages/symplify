@@ -27,8 +27,8 @@ services:
         arguments:
             maxClassCognitiveComplexity: 25
             limitsByTypes:
-                PHPStan\Rules\Rule: 16
-                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 16
+                PHPStan\Rules\Rule: 18
+                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 18
 
 parameters:
     level: 8
@@ -413,10 +413,6 @@ parameters:
             message:  '#Class cognitive complexity is 26, keep it under 25#'
             path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
 
-        -
-            message:  '#Class cognitive complexity is 17, keep it under 16#'
-            path: packages/phpstan-rules/src/Rules/ClassExtendingExclusiveNamespaceRule.php
-
         - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
 
         # false positive
@@ -499,7 +495,6 @@ parameters:
                 - packages/easy-coding-standard/src/*FileProcessor.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
-                - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
@@ -520,15 +515,8 @@ parameters:
             message: '#Parameter \#1 \$stream of function (.*?) expects resource, resource\|null given#'
             path: packages/easy-parallel/src/ValueObject/ParallelProcess.php
 
-        # false positives
-        - '#Undefined property\: (.*?)\:\:\$attrGroups#'
         # needless generics
         - '#Class Symplify\\PHPStanRules\\(.*?)Rule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
-        # cache false positive
-        -
-            message: '#PHPDoc tag @return with type array<class\-string<PhpParser\\Node>> is incompatible with native type string#'
-            path: packages/phpstan-rules/src/Rules/ExclusiveNamespaceRule.php
 
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
