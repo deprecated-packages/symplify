@@ -7,18 +7,20 @@ namespace Symplify\PHPStanRules\Rules;
 use Attribute;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireAttributeNameRule\RequireAttributeNameRuleTest
  */
-final class RequireAttributeNameRule extends AbstractSymplifyRule
+final class RequireAttributeNameRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -31,12 +33,9 @@ final class RequireAttributeNameRule extends AbstractSymplifyRule
     ) {
     }
 
-    /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Property::class, Class_::class];
+        return Class_::class;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -71,12 +70,14 @@ CODE_SAMPLE
     }
 
     /**
-     * @param ClassMethod|Property|Class_ $node
-     * @return string[]
+     * @param Class_ $node
+     * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        $attributes = $this->attributeFinder->findAttributes($node);
+        $attributes = $this->attributeFinder->findInClass($node);
+
+        $ruleErrors = [];
 
         foreach ($attributes as $attribute) {
             if ($this->simpleNameResolver->isName($attribute->name, Attribute::class)) {
@@ -88,10 +89,12 @@ CODE_SAMPLE
                     continue;
                 }
 
-                return [self::ERROR_MESSAGE];
+                $ruleErrors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                    ->line($attribute->getLine())
+                    ->build();
             }
         }
 
-        return [];
+        return $ruleErrors;
     }
 }
