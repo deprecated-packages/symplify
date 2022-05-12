@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprinfMatchingTypesRule\Fixture;
+namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprintfMatchingTypesRule\Fixture;
 
-use Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprinfMatchingTypesRule\Source\SomeToString;
+use Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprintfMatchingTypesRule\Source\SomeToString;
 
 final class SkipToString
 {

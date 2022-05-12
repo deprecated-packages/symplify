@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprinfMatchingTypesRule;
+namespace Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprintfMatchingTypesRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule;
+use Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule;
 
 /**
- * @extends RuleTestCase<CheckSprinfMatchingTypesRule>
+ * @extends RuleTestCase<CheckSprintfMatchingTypesRule>
  */
-final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
+final class CheckSprintfMatchingTypesRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
@@ -25,9 +25,12 @@ final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/MissMatchSprinft.php', [[CheckSprinfMatchingTypesRule::ERROR_MESSAGE, 11]]];
+        yield [
+            __DIR__ . '/Fixture/MissMatchSprintf.php',
+            [[CheckSprintfMatchingTypesRule::ERROR_MESSAGE, 11]]
+        ];
 
-        yield [__DIR__ . '/Fixture/SkipCorrectSprinft.php', []];
+        yield [__DIR__ . '/Fixture/SkipCorrectSprintf.php', []];
         yield [__DIR__ . '/Fixture/SkipCorrectForeachKey.php', []];
         yield [__DIR__ . '/Fixture/SkipToString.php', []];
         yield [__DIR__ . '/Fixture/SkipErrorType.php', []];
@@ -44,6 +47,6 @@ final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(CheckSprinfMatchingTypesRule::class);
+        return self::getContainer()->getByType(CheckSprintfMatchingTypesRule::class);
     }
 }

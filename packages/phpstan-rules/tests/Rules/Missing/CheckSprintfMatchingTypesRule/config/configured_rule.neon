@@ -3,5 +3,5 @@ includes:
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
+        class: Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
         tags: [phpstan.rules.rule]
