@@ -34,6 +34,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
         'PHPUnit\Framework\TestCase',
         'Symplify\EasyCodingStandard\Config\ECSConfig',
+        'Symfony\Contracts\Service\Attribute\Required',
         'Rector\Config\RectorConfig',
     ]);
 

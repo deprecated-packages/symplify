@@ -8,7 +8,6 @@ use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use Symfony\Contracts\Service\Attribute\Required;
 use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class AutowiredMethodPropertyAnalyzer
@@ -28,18 +27,24 @@ final class AutowiredMethodPropertyAnalyzer
     {
         $docComment = $stmt->getDocComment();
         if (! $docComment instanceof Doc) {
-            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
+            return $this->hasAttributes(
+                $stmt,
+                ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
+            );
         }
 
         if (! (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
-            return $this->hasAttributes($stmt, [Required::class, 'Nette\DI\Attributes\Inject']);
+            return $this->hasAttributes(
+                $stmt,
+                ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
+            );
         }
 
         return true;
     }
 
     /**
-     * @param class-string[] $attributeClasses
+     * @param string[] $attributeClasses
      */
     private function hasAttributes(ClassMethod | Property $stmt, array $attributeClasses): bool
     {

@@ -20,20 +20,34 @@ final class AttributeFinder
     ) {
     }
 
+    /**
+     * @return Attribute[]
+     */
+    public function findAttributes(ClassMethod | Property | ClassLike | Param $node): array
+    {
+        $attributes = [];
+
+        /** @var AttributeGroup $attrGroup */
+        foreach ($node->attrGroups as $attrGroup) {
+            $attributes = array_merge($attributes, $attrGroup->attrs);
+        }
+
+        return $attributes;
+    }
+
     public function findAttribute(
         ClassMethod | Property | ClassLike | Param $node,
         string $desiredAttributeClass
     ): ?Attribute {
-        /** @var AttributeGroup $attrGroup */
-        foreach ($node->attrGroups as $attrGroup) {
-            foreach ($attrGroup->attrs as $attribute) {
-                if (! $attribute->name instanceof FullyQualified) {
-                    continue;
-                }
+        $attributes = $this->findAttributes($node);
 
-                if ($this->simpleNameResolver->isName($attribute->name, $desiredAttributeClass)) {
-                    return $attribute;
-                }
+        foreach ($attributes as $attribute) {
+            if (! $attribute->name instanceof FullyQualified) {
+                continue;
+            }
+
+            if ($this->simpleNameResolver->isName($attribute->name, $desiredAttributeClass)) {
+                return $attribute;
             }
         }
 

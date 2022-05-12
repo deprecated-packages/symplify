@@ -1,4 +1,9 @@
 rules:
+    - Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule
+    - Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
+    - Symplify\PHPStanRules\Rules\NoDependencyJugglingRule
+
+    - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
     - Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
     - Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
     - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule

@@ -41,7 +41,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
     - Symplify\PHPStanRules\NodeAnalyzer\TypeNodeAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\WriteVariableAnalyzer
-    - Symplify\PHPStanRules\NodeFinder\AttrFinder
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
