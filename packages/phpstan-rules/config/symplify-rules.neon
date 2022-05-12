@@ -3,7 +3,6 @@ includes:
     - static-rules.neon
 
     # 2. prepared sets
-    - spotter-rules.neon
     - ../packages/nette/config/nette-rules.neon
     - array-rules.neon
     - code-complexity-rules.neon
@@ -12,9 +11,7 @@ includes:
     - regex-rules.neon
     - ../packages/symfony/config/symfony-rules.neon
     - test-rules.neon
-    - services-rules.neon
     - naming-rules.neon
-    - string-to-constant-rules.neon
 
     # 3. custom symplify configuratoin
     - configurable-rules.neon
