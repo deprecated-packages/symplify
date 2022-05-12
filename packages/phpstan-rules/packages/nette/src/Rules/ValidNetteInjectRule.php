@@ -9,9 +9,13 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use PHPStan\Rules\RuleError;
 =======
 >>>>>>> [PHPStanRules] Make ValidNetteInjectRule use directly Rule interface
+=======
+use PHPStan\Rules\RuleError;
+>>>>>>> remove unused ClassReflectionResolver
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -41,10 +45,14 @@ final class ValidNetteInjectRule implements Rule, DocumentedRuleInterface
     /**
      * @param Class_ $node
 <<<<<<< HEAD
+<<<<<<< HEAD
      * @return RuleError[]
 =======
      * @return string[]
 >>>>>>> [PHPStanRules] Make ValidNetteInjectRule use directly Rule interface
+=======
+     * @return RuleError[]
+>>>>>>> remove unused ClassReflectionResolver
      */
     public function processNode(Node $node, Scope $scope): array
     {
