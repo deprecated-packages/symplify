@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer;
-use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\ValidNetteInjectRule\ValidNetteInjectRuleTest
  */
-final class ValidNetteInjectRule extends AbstractSymplifyRule
+final class ValidNetteInjectRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -28,29 +29,35 @@ final class ValidNetteInjectRule extends AbstractSymplifyRule
     ) {
     }
 
-    /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Property::class, ClassMethod::class];
+        return Class_::class;
     }
 
     /**
-     * @param Property|ClassMethod $node
+     * @param Class_ $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->autowiredMethodPropertyAnalyzer->detect($node)) {
-            return [];
+        $ruleErrors = [];
+
+        $propertiesAndClassMethods = array_merge($node->getProperties(), $node->getMethods());
+        foreach ($propertiesAndClassMethods as $propertyOrClassMethod) {
+            if (! $this->autowiredMethodPropertyAnalyzer->detect($propertyOrClassMethod)) {
+                continue;
+            }
+
+            if ($propertyOrClassMethod->isPublic()) {
+                continue;
+            }
+
+            $ruleErrors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($propertyOrClassMethod->getLine())
+                ->build();
         }
 
-        if ($node->isPublic()) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition
