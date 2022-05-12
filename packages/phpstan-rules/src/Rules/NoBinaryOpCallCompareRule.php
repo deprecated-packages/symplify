@@ -13,14 +13,16 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoBinaryOpCallCompareRule\NoBinaryOpCallCompareRuleTest
  */
-final class NoBinaryOpCallCompareRule extends AbstractSymplifyRule
+final class NoBinaryOpCallCompareRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,19 +35,23 @@ final class NoBinaryOpCallCompareRule extends AbstractSymplifyRule
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return class-string<Node>
      */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Identical::class, NotIdentical::class];
+        return BinaryOp::class;
     }
 
     /**
      * @param BinaryOp $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node instanceof Identical && ! $node instanceof NotIdentical) {
+            return [];
+        }
+
         if ($node->left instanceof MethodCall && $node->right instanceof MethodCall) {
             return [];
         }
