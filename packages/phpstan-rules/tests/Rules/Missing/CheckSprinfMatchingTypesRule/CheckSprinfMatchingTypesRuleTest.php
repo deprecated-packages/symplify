@@ -16,7 +16,7 @@ final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param mixed[] $expectedErrorMessagesWithLines
+     * @param        mixed[] $expectedErrorMessagesWithLines
      */
     public function testRule(string $filePath, array $expectedErrorMessagesWithLines): void
     {
@@ -31,6 +31,7 @@ final class CheckSprinfMatchingTypesRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipCorrectForeachKey.php', []];
         yield [__DIR__ . '/Fixture/SkipToString.php', []];
         yield [__DIR__ . '/Fixture/SkipErrorType.php', []];
+        yield [__DIR__ . '/Fixture/SkipValidTernary.php', []];
     }
 
     /**
