@@ -6,19 +6,21 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
-use Symfony\Component\Routing\Annotation\Route;
+use PHPStan\Node\InClassNode;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredAttributeOverAnnotationRule\PreferredAttributeOverAnnotationRuleTest
  */
-final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class PreferredAttributeOverAnnotationRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
@@ -34,33 +36,42 @@ final class PreferredAttributeOverAnnotationRule extends AbstractSymplifyRule im
     ) {
     }
 
-    /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Property::class, Class_::class];
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod|Property|Class_ $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        $classAnnotations = $this->classAnnotationResolver->resolveClassAnnotations($node, $scope);
-        if ($classAnnotations === []) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        $matchedAnnotations = array_intersect($classAnnotations, $this->annotations);
+        $targetNodes = array_merge($classLike->getProperties(), $classLike->getMethods(), [$classLike]);
 
-        $errorsMessages = [];
-        foreach ($matchedAnnotations as $matchedAnnotation) {
-            $errorsMessages[] = sprintf(self::ERROR_MESSAGE, $matchedAnnotation);
+        $ruleErrors = [];
+
+        foreach ($targetNodes as $targetNode) {
+            $classAnnotations = $this->classAnnotationResolver->resolveClassAnnotations($targetNode, $scope);
+            if ($classAnnotations === []) {
+                continue;
+            }
+
+            $matchedAnnotations = array_intersect($classAnnotations, $this->annotations);
+
+            foreach ($matchedAnnotations as $matchedAnnotation) {
+                $ruleErrors[] = RuleErrorBuilder::message(sprintf(self::ERROR_MESSAGE, $matchedAnnotation))
+                    ->line($targetNode->getLine())
+                    ->build();
+            }
         }
 
-        return $errorsMessages;
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -94,7 +105,7 @@ class SomeController
 CODE_SAMPLE
                 ,
                 [
-                    'annotations' => [Route::class],
+                    'annotations' => ['Symfony\Component\Routing\Annotation\Route'],
                 ]
             ),
         ]);

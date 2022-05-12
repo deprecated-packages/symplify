@@ -10,13 +10,11 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
-use Symplify\PHPStanRules\Reflection\ClassReflectionResolver;
 
 final class ClassAnnotationResolver
 {
     public function __construct(
         private SimplePhpDocParser $simplePhpDocParser,
-        private ClassReflectionResolver $classReflectionResolver,
         private ClassReferencePhpDocNodeTraverser $classReferencePhpDocNodeTraverser
     ) {
     }
@@ -31,7 +29,7 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $classReflection = $this->classReflectionResolver->resolve($scope, $node);
+        $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
             return [];
         }
