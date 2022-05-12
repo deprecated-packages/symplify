@@ -156,6 +156,6 @@ CODE_SAMPLE
         }
 
         $uniqueVaribleName = $uniqueVaribleNames[0];
-        return $this->assignAnalyzer->isVarialeNameBeingAssigned($classMethod, $uniqueVaribleName);
+        return $this->assignAnalyzer->isVariableNameBeingAssigned($classMethod, $uniqueVaribleName);
     }
 }

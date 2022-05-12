@@ -3,13 +3,13 @@ includes:
     - static-rules.neon
 
     # 2. prepared sets
-    - ../packages/nette/config/nette-rules.neon
     - array-rules.neon
     - code-complexity-rules.neon
     - forbidden-static-rules.neon
     - doctrine-rules.neon
     - regex-rules.neon
     - ../packages/symfony/config/symfony-rules.neon
+    - ../packages/nette/config/nette-rules.neon
     - test-rules.neon
     - naming-rules.neon
 

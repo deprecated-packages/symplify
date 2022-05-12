@@ -27,7 +27,7 @@ final class AssignAnalyzer
     ) {
     }
 
-    public function isVarialeNameBeingAssigned(ClassMethod $classMethod, string $variableName): bool
+    public function isVariableNameBeingAssigned(ClassMethod $classMethod, string $variableName): bool
     {
         /** @var Assign[] $assigns */
         $assigns = $this->simpleNodeFinder->findByType($classMethod, Assign::class);
