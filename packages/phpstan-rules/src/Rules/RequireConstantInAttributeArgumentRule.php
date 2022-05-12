@@ -9,19 +9,22 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Component\Routing\Annotation\Route;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireConstantInAttributeArgumentRule\RequireConstantInAttributeArgumentRuleTest
  */
-final class RequireConstantInAttributeArgumentRule extends AbstractSymplifyRule implements ConfigurableRuleInterface
+final class RequireConstantInAttributeArgumentRule implements ConfigurableRuleInterface, Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -33,35 +36,35 @@ final class RequireConstantInAttributeArgumentRule extends AbstractSymplifyRule 
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
+        private AttributeFinder $attributeFinder,
         private array $attributeWithNames
     ) {
     }
 
-    /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [ClassMethod::class, Property::class, Class_::class];
+        return Class_::class;
     }
 
     /**
-     * @param ClassMethod|Property|Class_ $node
-     * @return string[]
+     * @param Class_ $node
+     * @return RuleError[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
         $errorMessages = [];
 
-        foreach ($node->attrGroups as $attrGroup) {
-            foreach ($attrGroup->attrs as $attribute) {
-                $errorMessage = $this->processAttribute($attribute);
-                if ($errorMessage === null) {
-                    continue;
-                }
+        $attributes = $this->attributeFinder->findInClass($node);
 
-                $errorMessages[] = $errorMessage;
+        foreach ($attributes as $attribute) {
+            $errorMessage = $this->processAttribute($attribute);
+            if ($errorMessage === null) {
+                continue;
             }
+
+            $errorMessages[] = RuleErrorBuilder::message($errorMessage)
+                ->line($attribute->getLine())
+                ->build();
         }
 
         return $errorMessages;

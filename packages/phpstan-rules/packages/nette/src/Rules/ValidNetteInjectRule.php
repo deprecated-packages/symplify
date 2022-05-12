@@ -44,6 +44,7 @@ final class ValidNetteInjectRule implements Rule, DocumentedRuleInterface
         $ruleErrors = [];
 
         $propertiesAndClassMethods = array_merge($node->getProperties(), $node->getMethods());
+
         foreach ($propertiesAndClassMethods as $propertyAndClassMethod) {
             if (! $this->autowiredMethodPropertyAnalyzer->detect($propertyAndClassMethod)) {
                 continue;

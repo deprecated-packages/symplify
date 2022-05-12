@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use PhpParser\Node\Attribute;
-use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -23,11 +23,25 @@ final class AttributeFinder
     /**
      * @return Attribute[]
      */
+    public function findInClass(Class_ $class): array
+    {
+        $attributes = [];
+
+        $targetNodes = array_merge($class->getMethods(), $class->getProperties(), [$class]);
+        foreach ($targetNodes as $targetNode) {
+            $attributes = array_merge($attributes, $this->findAttributes($targetNode));
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * @return Attribute[]
+     */
     public function findAttributes(ClassMethod | Property | ClassLike | Param $node): array
     {
         $attributes = [];
 
-        /** @var AttributeGroup $attrGroup */
         foreach ($node->attrGroups as $attrGroup) {
             $attributes = array_merge($attributes, $attrGroup->attrs);
         }
