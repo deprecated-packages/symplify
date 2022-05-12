@@ -18,3 +18,19 @@ includes:
 
     # 3. custom symplify configuratoin
     - configurable-rules.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Enum\RequireConstantInMethodCallPositionRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            requiredConstantInMethodCall:
+                Symfony\Component\Console\Command\Command:
+                    addArgument: [0]
+                    addOption: [0]
+                Symfony\Component\Console\Input\InputInterface:
+                    getOption: [0]
+                    getArgument: [0]
+                PhpParser\Node:
+                    getAttribute: [0]
+                    setAttribute: [0]
