@@ -30,21 +30,6 @@ $autoloadIncluder->autoloadProjectAutoloaderFile('/../../autoload.php');
 $autoloadIncluder->includeDependencyOrRepositoryVendorAutoloadIfExists();
 $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
 
-try {
-    $input = new ArgvInput();
-    $ecsContainerFactory = new EasyCodingStandardContainerFactory();
-    $container = $ecsContainerFactory->createFromFromInput($input);
-} catch (Throwable $throwable) {
-    $symfonyStyleFactory = new SymfonyStyleFactory();
-    $symfonyStyle = $symfonyStyleFactory->create();
-    $symfonyStyle->error($throwable->getMessage());
-    $symfonyStyle->writeln($throwable->getTraceAsString());
-    exit(Command::FAILURE);
-}
-
-$application = $container->get(EasyCodingStandardConsoleApplication::class);
-exit($application->run());
-
 /**
  * Inspired by https://github.com/rectorphp/rector/pull/2373/files#diff-0fc04a2bb7928cac4ae339d5a8bf67f3
  */
@@ -133,3 +118,18 @@ final class AutoloadIncluder
         require_once $file;
     }
 }
+
+try {
+    $input = new ArgvInput();
+    $ecsContainerFactory = new EasyCodingStandardContainerFactory();
+    $container = $ecsContainerFactory->createFromFromInput($input);
+} catch (Throwable $throwable) {
+    $symfonyStyleFactory = new SymfonyStyleFactory();
+    $symfonyStyle = $symfonyStyleFactory->create();
+    $symfonyStyle->error($throwable->getMessage());
+    $symfonyStyle->writeln($throwable->getTraceAsString());
+    exit(Command::FAILURE);
+}
+
+$application = $container->get(EasyCodingStandardConsoleApplication::class);
+exit($application->run());
