@@ -38,7 +38,7 @@ final class AutoloadIncluder
     /**
      * @var string[]
      */
-    private $alreadyLoadedAutoloadFiles = [];
+    private array $alreadyLoadedAutoloadFiles = [];
 
     public function includeCwdVendorAutoloadIfExists(): void
     {
@@ -114,7 +114,12 @@ final class AutoloadIncluder
             return;
         }
 
-        $this->alreadyLoadedAutoloadFiles[] = realpath($file);
+        $realpath = realpath($file);
+        if (! is_string($realpath)) {
+            return;
+        }
+
+        $this->alreadyLoadedAutoloadFiles[] = $realpath;
         require_once $file;
     }
 }
