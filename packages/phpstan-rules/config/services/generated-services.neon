@@ -61,7 +61,6 @@ services:
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\Printer\NodeComparator
-    - Symplify\PHPStanRules\Reflection\ClassReflectionResolver
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PHPStanRules\Reflection\PropertyAnalyzer
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
