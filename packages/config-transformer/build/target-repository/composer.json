@@ -3,7 +3,7 @@
     "description": "Prefixed version of Symfony YAML/XML to PHP/YAML config converter",
     "license": "MIT",
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "bin": [
         "bin/config-transformer"

@@ -3,7 +3,7 @@
     "description": "Toolkit of commands that should not be missed in you CI",
     "license": "MIT",
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "bin": [
         "bin/easy-ci"
