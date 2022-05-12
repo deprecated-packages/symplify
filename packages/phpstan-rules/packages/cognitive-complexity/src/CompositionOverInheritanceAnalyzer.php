@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
- * @see Symplify\PHPStanRules\CognitiveComplexity\Tests\CompositionOverInheritanceAnalyzer\CompositionOverInheritanceAnalyzerTest;
+ * @see \Symplify\PHPStanRules\CognitiveComplexity\Tests\CompositionOverInheritanceAnalyzer\CompositionOverInheritanceAnalyzerTest
  */
 final class CompositionOverInheritanceAnalyzer
 {

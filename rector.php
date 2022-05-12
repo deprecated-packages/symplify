@@ -41,6 +41,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([__DIR__ . '/packages']);
 
     $rectorConfig->parallel();
+
     $rectorConfig->importNames();
 
     $rectorConfig->autoloadPaths([__DIR__ . '/tests/bootstrap.php']);
