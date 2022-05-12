@@ -229,11 +229,11 @@ interface ProductRepositoryInterface
 
 <br>
 
-## CheckSprinfMatchingTypesRule
+## CheckSprintfMatchingTypesRule
 
 `sprintf()` call mask types does not match provided arguments types
 
-- class: [`Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule`](../src/Rules/Missing/CheckSprinfMatchingTypesRule.php)
+- class: [`Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule`](../src/Rules/Missing/CheckSprintfMatchingTypesRule.php)
 
 ```php
 echo sprintf('My name is %s and I have %d children', 10, 'Tomas');

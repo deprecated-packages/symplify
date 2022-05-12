@@ -21,11 +21,11 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprinfMatchingTypesRule\CheckSprinfMatchingTypesRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\Missing\CheckSprintfMatchingTypesRule\CheckSprintfMatchingTypesRuleTest
  *
  * @inspiration by https://github.com/phpstan/phpstan-src/blob/master/src/Rules/Functions/PrintfParametersRule.php
  */
-final class CheckSprinfMatchingTypesRule implements Rule, DocumentedRuleInterface
+final class CheckSprintfMatchingTypesRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -54,7 +54,7 @@ final class CheckSprinfMatchingTypesRule implements Rule, DocumentedRuleInterfac
     }
 
     /**
-     * @param FuncCall $node
+     * @param  FuncCall $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
@@ -98,7 +98,8 @@ final class CheckSprinfMatchingTypesRule implements Rule, DocumentedRuleInterfac
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, [
+        return new RuleDefinition(
+            self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
 echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
@@ -109,11 +110,12 @@ CODE_SAMPLE
 echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
 CODE_SAMPLE
             ),
-        ]);
+            ]
+        );
     }
 
     /**
-     * @see https://github.com/phpstan/phpstan-src/blob/e10a7aac373e8b6f21b430034fc693300c2bbb69/src/Rules/Functions/PrintfParametersRule.php#L105-L115
+     * @see    https://github.com/phpstan/phpstan-src/blob/e10a7aac373e8b6f21b430034fc693300c2bbb69/src/Rules/Functions/PrintfParametersRule.php#L105-L115
      * @return string[]
      */
     private function resolveSpecifierMatches(ConstantStringType $constantStringType): array
