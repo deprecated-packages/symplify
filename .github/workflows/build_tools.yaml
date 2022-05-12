@@ -71,6 +71,7 @@ jobs:
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
             # remove test files
             -   run: rm -rf ${{ matrix.tools.directory }}-build/tests
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/packages-tests
 
             # 3. downgrade
             -   run: sh packages/${{ matrix.tools.directory }}/build/downgrade-${{ matrix.tools.directory }}.sh ${{ matrix.tools.directory }}-build
