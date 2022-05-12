@@ -36,7 +36,7 @@ $autoloadIncluder->includePhpCodeSnifferAutoloadIfNotInPharAndInitliazeTokens();
 final class AutoloadIncluder
 {
     /**
-     * @var string
+     * @var string[]
      */
     private const POSSIBLE_AUTOLOAD_PATHS = [
         // after split package
