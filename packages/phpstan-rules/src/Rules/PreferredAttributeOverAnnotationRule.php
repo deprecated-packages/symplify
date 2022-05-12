@@ -106,7 +106,7 @@ class SomeController
 CODE_SAMPLE
                 ,
                 [
-                    'annotations' => [Route::class],
+                    'annotations' => ['Symfony\Component\Routing\Annotation\Route'],
                 ]
             ),
         ]);
