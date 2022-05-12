@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Symfony\Component\Routing\Annotation\Route;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
@@ -12,6 +11,7 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
+use Symfony\Component\Routing\Annotation\Route;
 use Symplify\PHPStanRules\PhpDoc\ClassAnnotationResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;

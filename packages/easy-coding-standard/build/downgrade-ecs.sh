@@ -31,6 +31,7 @@ BUILD_DIRECTORY=$1
 note "Running downgrade in '$BUILD_DIRECTORY' directory\n"
 
 # 2. provide directories to downgrade, joined by spaces to run at once
+# @todo possibly join to one directory
 directories="vendor/symfony vendor/psr;vendor/symplify config bin src packages;vendor/composer;vendor/doctrine vendor/friendsofphp vendor/nette;vendor/php-cs-fixer vendor/squizlabs vendor/react vendor/clue"
 
 # split array see https://stackoverflow.com/a/1407098/1348344
@@ -47,4 +48,4 @@ done
 
 # CONFIRMED: give time to print all the files, before the next process takes over newly printed content
 # avoids bugs like these half of files done, next half waiting https://github.com/rectorphp/rector-src/runs/2565478682
-sleep 20
+sleep 5

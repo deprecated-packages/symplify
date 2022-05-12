@@ -16,8 +16,8 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->skip([
-        '*/Tests/*',
         '*/tests/*',
+        '*/Tests/*',
         __DIR__ . '/../../tests',
         # missing "optional" dependency and never used here
         '*/symfony/framework-bundle/KernelBrowser.php',
