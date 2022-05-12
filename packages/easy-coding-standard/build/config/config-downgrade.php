@@ -12,7 +12,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Contracts\Service\Attribute\Required;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
+    $rectorConfig->sets([DowngradeLevelSetList::DOWN_TO_PHP_71]);
 
     $rectorConfig->ruleWithConfiguration(DowngradeParameterTypeWideningRector::class, [
         LoaderInterface::class => ['load'],

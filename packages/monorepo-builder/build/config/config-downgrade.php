@@ -3,18 +3,10 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\DowngradePhp72\Rector\ClassMethod\DowngradeParameterTypeWideningRector;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
-use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\Config\Loader\LoaderInterface;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->import(DowngradeLevelSetList::DOWN_TO_PHP_71);
-
-    $rectorConfig->ruleWithConfiguration(DowngradeParameterTypeWideningRector::class, [
-        LoaderInterface::class => ['load'],
-        Loader::class => ['import'],
-    ]);
+    $rectorConfig->sets([DowngradeLevelSetList::DOWN_TO_PHP_72]);
 
     $rectorConfig->skip([
         '*/Tests/*',
