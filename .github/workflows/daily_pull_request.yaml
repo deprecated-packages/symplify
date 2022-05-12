@@ -29,9 +29,6 @@ jobs:
 
         runs-on: ubuntu-latest
 
-        # don't run this action on forks
-        if: github.repository_owner == 'symplify'
-
         steps:
             -
                 uses: actions/checkout@v2
@@ -61,7 +58,7 @@ jobs:
                     branch: ${{ matrix.actions.branch }}
                     title: '[automated] ${{ matrix.actions.name }}'
                     delete-branch: true
-                    
+
             -
                 name: Enable Pull Request Automerge
                 if: steps.cpr.outputs.pull-request-operation == 'created'
