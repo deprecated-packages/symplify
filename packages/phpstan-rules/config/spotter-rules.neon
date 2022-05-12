@@ -1,2 +1,0 @@
-rules:
-    - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule

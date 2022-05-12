@@ -1,4 +1,5 @@
 rules:
+    - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
     - Symplify\PHPStanRules\Rules\Missing\CheckSprinfMatchingTypesRule
     - Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
     - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
