@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeFinder\AttrFinder;
+use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -26,7 +26,7 @@ final class RequireAttributeNameRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Attribute must have all names explicitly defined';
 
     public function __construct(
-        private AttrFinder $attrFinder,
+        private AttributeFinder $attributeFinder,
         private SimpleNameResolver $simpleNameResolver
     ) {
     }
@@ -76,14 +76,14 @@ CODE_SAMPLE
      */
     public function process(Node $node, Scope $scope): array
     {
-        $attrs = $this->attrFinder->extra($node);
+        $attributes = $this->attributeFinder->findAttributes($node);
 
-        foreach ($attrs as $attr) {
-            if ($this->simpleNameResolver->isName($attr->name, Attribute::class)) {
+        foreach ($attributes as $attribute) {
+            if ($this->simpleNameResolver->isName($attribute->name, Attribute::class)) {
                 continue;
             }
 
-            foreach ($attr->args as $arg) {
+            foreach ($attribute->args as $arg) {
                 if ($arg->name !== null) {
                     continue;
                 }
