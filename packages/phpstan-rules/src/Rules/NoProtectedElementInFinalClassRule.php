@@ -5,24 +5,25 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
  */
-final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
+final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -32,42 +33,60 @@ final class NoProtectedElementInFinalClassRule extends AbstractSymplifyRule
     public function __construct(
         private ParentMethodAnalyser $parentMethodAnalyser,
         private SimpleNameResolver $simpleNameResolver,
-        private ReflectionProvider $reflectionProvider
     ) {
     }
 
-    /**
-     * @return array<class-string<Node>>
-     */
-    public function getNodeTypes(): array
+    public function getNodeType(): string
     {
-        return [Property::class, ClassMethod::class];
+        return InClassNode::class;
     }
 
     /**
-     * @param Property|ClassMethod $node
+     * @param InClassNode $node
      * @return string[]
      */
-    public function process(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if (! $parent instanceof Class_) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        if (! $parent->isFinal()) {
+        if (! $classLike->isFinal()) {
             return [];
         }
 
-        if (! $node->isProtected()) {
-            return [];
+        $errorMessages = [];
+
+        foreach ($classLike->getProperties() as $property) {
+            if (! $property->isProtected()) {
+                continue;
+            }
+
+            if ($this->skipProperty($property, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($property->getLine())
+                ->build();
         }
 
-        if ($node instanceof ClassMethod) {
-            return $this->processClassMethod($node, $scope);
+        foreach ($classLike->getMethods() as $method) {
+            if (! $method->isProtected()) {
+                continue;
+            }
+
+            if ($this->shouldSkipClassMethod($method, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($method->getLine())
+                ->build();
         }
 
-        return $this->processProperty($parent, $node);
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -95,47 +114,42 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isPropertyExistInParentClass(Name $name, string $propertyName): bool
-    {
-        $classReflection = $this->reflectionProvider->getClass((string) $name);
-        return $classReflection->hasProperty($propertyName);
-    }
-
-    /**
-     * @return string[]
-     */
-    private function processClassMethod(ClassMethod $classMethod, Scope $scope): array
+    private function shouldSkipClassMethod(ClassMethod $classMethod, Scope $scope): bool
     {
         // is Symfony Kernel required magic method?
         if ($this->isSymfonyMicroKernelRequired($classMethod, $scope)) {
-            return [];
+            return true;
         }
 
         $methodName = (string) $classMethod->name;
-        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName);
     }
 
-    /**
-     * @return string[]
-     */
-    private function processProperty(Class_ $class, Property $property): array
+    private function skipProperty(Property $property, Scope $scope): bool
     {
-        $extends = $class->extends;
-        if (! $extends instanceof Name) {
-            return [self::ERROR_MESSAGE];
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
         }
 
-        /** @var string $propertyName */
-        $propertyName = $this->simpleNameResolver->getName($property);
-        if ($this->isPropertyExistInParentClass($extends, $propertyName)) {
-            return [];
+        $propertyName = (string) $property->props[0]->name;
+
+        foreach ($classReflection->getParents() as $parentClassReflection) {
+            if ($parentClassReflection->hasProperty($propertyName)) {
+                return true;
+            }
         }
 
-        return [self::ERROR_MESSAGE];
+        return false;
+//
+//        $extends = $class->extends;
+//        if (! $extends instanceof Name) {
+//            return false;
+//        }
+//
+//        /** @var string $propertyName */
+//        $propertyName = $this->simpleNameResolver->getName($property);
+//        return $this->doesPropertyExistInParentClass($extends, $propertyName);
     }
 
     private function isSymfonyMicroKernelRequired(ClassMethod $classMethod, Scope $scope): bool
