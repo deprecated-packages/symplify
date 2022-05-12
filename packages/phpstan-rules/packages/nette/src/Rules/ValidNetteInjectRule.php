@@ -44,17 +44,17 @@ final class ValidNetteInjectRule implements Rule, DocumentedRuleInterface
         $ruleErrors = [];
 
         $propertiesAndClassMethods = array_merge($node->getProperties(), $node->getMethods());
-        foreach ($propertiesAndClassMethods as $propertyOrClassMethod) {
-            if (! $this->autowiredMethodPropertyAnalyzer->detect($propertyOrClassMethod)) {
+        foreach ($propertiesAndClassMethods as $propertyAndClassMethod) {
+            if (! $this->autowiredMethodPropertyAnalyzer->detect($propertyAndClassMethod)) {
                 continue;
             }
 
-            if ($propertyOrClassMethod->isPublic()) {
+            if ($propertyAndClassMethod->isPublic()) {
                 continue;
             }
 
             $ruleErrors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
-                ->line($propertyOrClassMethod->getLine())
+                ->line($propertyAndClassMethod->getLine())
                 ->build();
         }
 
