@@ -8,15 +8,15 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([__DIR__ . '/src', __DIR__ . '/tests']);
 
-    $services = $ecsConfig->services();
-    $services->set(ArraySyntaxFixer::class)
-        ->call('configure', [[
-            'syntax' => 'short',
-        ]]);
+    $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
+        'syntax' => 'short',
+    ]);
 
-    // run and fix, one by one
-    // $containerConfigurator->import(SetList::SPACES);
-    // $containerConfigurator->import(SetList::ARRAY);
-    // $containerConfigurator->import(SetList::DOCBLOCK);
-    // $containerConfigurator->import(SetList::PSR_12);
+    $ecsConfig->sets([
+        // run and fix, one by one
+        // SetList::SPACES,
+        // SetList::ARRAY,
+        // SetList::DOCBLOCK,
+        // SetList::PSR_12,
+    ]);
 };

@@ -59,7 +59,8 @@ final class ECSConfig extends ContainerConfigurator
         $this->isCheckerClass($checkerClass);
 
         $services = $this->services();
-        $services->set($checkerClass);
+        $services->set($checkerClass)
+            ->public();
     }
 
     /**
