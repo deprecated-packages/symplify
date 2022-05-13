@@ -15,14 +15,16 @@ use Symplify\CodingStandard\Fixer\ArrayNotation\StandaloneLineInMultilineArrayFi
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(NoWhitespaceBeforeCommaInArrayFixer::class);
-    $ecsConfig->rule(ArrayOpenerAndCloserNewlineFixer::class);
-    $ecsConfig->rule(ArrayIndentationFixer::class);
-    $ecsConfig->rule(TrimArraySpacesFixer::class);
-    $ecsConfig->rule(WhitespaceAfterCommaInArrayFixer::class);
-    $ecsConfig->rule(ArrayListItemNewlineFixer::class);
-    $ecsConfig->rule(StandaloneLineInMultilineArrayFixer::class);
-    $ecsConfig->rule(NoTrailingCommaInSinglelineArrayFixer::class);
+    $ecsConfig->rules([
+        NoWhitespaceBeforeCommaInArrayFixer::class,
+        ArrayOpenerAndCloserNewlineFixer::class,
+        ArrayIndentationFixer::class,
+        TrimArraySpacesFixer::class,
+        WhitespaceAfterCommaInArrayFixer::class,
+        ArrayListItemNewlineFixer::class,
+        StandaloneLineInMultilineArrayFixer::class,
+        NoTrailingCommaInSinglelineArrayFixer::class,
+    ]);
 
     // commas
     $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, [

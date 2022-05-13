@@ -17,17 +17,19 @@ use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(PhpdocLineSpanFixer::class);
-    $ecsConfig->rule(NoTrailingWhitespaceInCommentFixer::class);
-    $ecsConfig->rule(PhpdocTrimConsecutiveBlankLineSeparationFixer::class);
-    $ecsConfig->rule(PhpdocTrimFixer::class);
-    $ecsConfig->rule(NoEmptyPhpdocFixer::class);
-    $ecsConfig->rule(PhpdocNoEmptyReturnFixer::class);
-    $ecsConfig->rule(PhpdocIndentFixer::class);
-    $ecsConfig->rule(PhpdocTypesFixer::class);
-    $ecsConfig->rule(PhpdocReturnSelfReferenceFixer::class);
-    $ecsConfig->rule(PhpdocVarWithoutNameFixer::class);
-    $ecsConfig->rule(RemoveUselessDefaultCommentFixer::class);
+    $ecsConfig->rules([
+        PhpdocLineSpanFixer::class,
+        NoTrailingWhitespaceInCommentFixer::class,
+        PhpdocTrimConsecutiveBlankLineSeparationFixer::class,
+        PhpdocTrimFixer::class,
+        NoEmptyPhpdocFixer::class,
+        PhpdocNoEmptyReturnFixer::class,
+        PhpdocIndentFixer::class,
+        PhpdocTypesFixer::class,
+        PhpdocReturnSelfReferenceFixer::class,
+        PhpdocVarWithoutNameFixer::class,
+        RemoveUselessDefaultCommentFixer::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, [
         'remove_inheritdoc' => true,

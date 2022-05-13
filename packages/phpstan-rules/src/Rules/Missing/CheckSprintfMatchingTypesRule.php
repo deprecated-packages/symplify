@@ -99,17 +99,18 @@ final class CheckSprintfMatchingTypesRule implements Rule, DocumentedRuleInterfa
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            self::ERROR_MESSAGE, [
-            new CodeSample(
-                <<<'CODE_SAMPLE'
+            self::ERROR_MESSAGE,
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
 echo sprintf('My name is %s and I have %d children', 10, 'Tomas');
 
 CODE_SAMPLE
-                ,
-                <<<'CODE_SAMPLE'
+                    ,
+                    <<<'CODE_SAMPLE'
 echo sprintf('My name is %s and I have %d children', 'Tomas', 10);
 CODE_SAMPLE
-            ),
+                ),
             ]
         );
     }

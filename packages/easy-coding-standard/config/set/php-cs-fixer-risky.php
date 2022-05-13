@@ -27,7 +27,6 @@ use PhpCsFixer\Fixer\Operator\LogicalOperatorsFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitSetUpTearDownVisibilityFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
@@ -80,7 +79,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rule(PhpUnitConstructFixer::class);
     $ecsConfig->rule(PhpUnitMockShortWillReturnFixer::class);
     $ecsConfig->rule(PhpUnitSetUpTearDownVisibilityFixer::class);
-    $ecsConfig->rule(PhpUnitStrictFixer::class);
     $ecsConfig->rule(PhpUnitTestAnnotationFixer::class);
     $ecsConfig->rule(PhpUnitTestCaseStaticMethodCallsFixer::class);
     $ecsConfig->rule(SelfAccessorFixer::class);

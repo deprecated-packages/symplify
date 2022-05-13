@@ -24,11 +24,6 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(DirConstantFixer::class);
-    $ecsConfig->rule(EregToPregFixer::class);
-    $ecsConfig->rule(ErrorSuppressionFixer::class);
-    $ecsConfig->rule(FopenFlagOrderFixer::class);
-
     $ecsConfig->ruleWithConfiguration(FopenFlagsFixer::class, [
         'b_mode' => false,
     ]);
@@ -36,10 +31,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(FunctionToConstantFixer::class, [
         'functions' => ['get_called_class', 'get_class', 'get_class_this', 'php_sapi_name', 'phpversion', 'pi'],
     ]);
-
-    $ecsConfig->rule(ImplodeCallFixer::class);
-    $ecsConfig->rule(IsNullFixer::class);
-    $ecsConfig->rule(ModernizeTypesCastingFixer::class);
 
     $ecsConfig->ruleWithConfiguration(NativeConstantInvocationFixer::class, [
         'fix_built_in' => false,
@@ -53,12 +44,21 @@ return static function (ECSConfig $ecsConfig): void {
         'strict' => true,
     ]);
 
-    $ecsConfig->rule(NoAliasFunctionsFixer::class);
-    $ecsConfig->rule(NoHomoglyphNamesFixer::class);
-    $ecsConfig->rule(NoUnneededFinalMethodFixer::class);
-    $ecsConfig->rule(NonPrintableCharacterFixer::class);
-    $ecsConfig->rule(PhpUnitConstructFixer::class);
-    $ecsConfig->rule(PhpUnitMockShortWillReturnFixer::class);
-    $ecsConfig->rule(SelfAccessorFixer::class);
-    $ecsConfig->rule(SetTypeToCastFixer::class);
+    $ecsConfig->rules([
+        ImplodeCallFixer::class,
+        IsNullFixer::class,
+        ModernizeTypesCastingFixer::class,
+        NoAliasFunctionsFixer::class,
+        NoHomoglyphNamesFixer::class,
+        NoUnneededFinalMethodFixer::class,
+        NonPrintableCharacterFixer::class,
+        PhpUnitConstructFixer::class,
+        PhpUnitMockShortWillReturnFixer::class,
+        SelfAccessorFixer::class,
+        SetTypeToCastFixer::class,
+        DirConstantFixer::class,
+        EregToPregFixer::class,
+        ErrorSuppressionFixer::class,
+        FopenFlagOrderFixer::class,
+    ]);
 };

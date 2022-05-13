@@ -30,13 +30,15 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->import(__DIR__ . '/php_cs_fixer/php-cs-fixer-psr2.php');
 
-    $ecsConfig->rule(EncodingFixer::class);
-    $ecsConfig->rule(FullOpeningTagFixer::class);
-    $ecsConfig->rule(LowercaseCastFixer::class);
-    $ecsConfig->rule(ShortScalarCastFixer::class);
-    $ecsConfig->rule(BlankLineAfterOpeningTagFixer::class);
-    $ecsConfig->rule(NoLeadingImportSlashFixer::class);
-    $ecsConfig->rule(NewWithBracesFixer::class);
+    $ecsConfig->rules([
+        EncodingFixer::class,
+        FullOpeningTagFixer::class,
+        LowercaseCastFixer::class,
+        ShortScalarCastFixer::class,
+        BlankLineAfterOpeningTagFixer::class,
+        NoLeadingImportSlashFixer::class,
+        NewWithBracesFixer::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(OrderedImportsFixer::class, [
         'imports_order' => ['class', 'function', 'const'],

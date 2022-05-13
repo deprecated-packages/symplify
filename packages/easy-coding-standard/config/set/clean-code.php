@@ -13,16 +13,17 @@ use Symplify\CodingStandard\Fixer\Commenting\ParamReturnAndVarTagMalformsFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(ParamReturnAndVarTagMalformsFixer::class);
-
     $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',
     ]);
 
-    $ecsConfig->rule(NoUnusedImportsFixer::class);
-    $ecsConfig->rule(OrderedImportsFixer::class);
-    $ecsConfig->rule(NoEmptyStatementFixer::class);
-    $ecsConfig->rule(ProtectedToPrivateFixer::class);
-    $ecsConfig->rule(NoUnneededControlParenthesesFixer::class);
-    $ecsConfig->rule(NoUnneededCurlyBracesFixer::class);
+    $ecsConfig->rules([
+        ParamReturnAndVarTagMalformsFixer::class,
+        NoUnusedImportsFixer::class,
+        OrderedImportsFixer::class,
+        NoEmptyStatementFixer::class,
+        ProtectedToPrivateFixer::class,
+        NoUnneededControlParenthesesFixer::class,
+        NoUnneededCurlyBracesFixer::class,
+    ]);
 };
