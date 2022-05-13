@@ -20,35 +20,34 @@ use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(PhpUnitMethodCasingFixer::class);
-    $ecsConfig->rule(FunctionToConstantFixer::class);
-    $ecsConfig->rule(ExplicitStringVariableFixer::class);
-    $ecsConfig->rule(ExplicitIndirectVariableFixer::class);
+    $ecsConfig->rules([
+        PhpUnitMethodCasingFixer::class,
+        FunctionToConstantFixer::class,
+        ExplicitStringVariableFixer::class,
+        ExplicitIndirectVariableFixer::class,
+        NewWithBracesFixer::class,
+        StandardizeIncrementFixer::class,
+        SelfAccessorFixer::class,
+        MagicConstantCasingFixer::class,
+        AssignmentInConditionSniff::class,
+        NoUselessElseFixer::class,
+        SingleQuoteFixer::class,
+        OrderedClassElementsFixer::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(SingleClassElementPerStatementFixer::class, [
         'elements' => ['const', 'property'],
     ]);
 
-    $ecsConfig->rule(NewWithBracesFixer::class);
-
     $ecsConfig->ruleWithConfiguration(ClassDefinitionFixer::class, [
         'single_line' => true,
     ]);
-
-    $ecsConfig->rule(StandardizeIncrementFixer::class);
-    $ecsConfig->rule(SelfAccessorFixer::class);
-    $ecsConfig->rule(MagicConstantCasingFixer::class);
-    $ecsConfig->rule(AssignmentInConditionSniff::class);
-    $ecsConfig->rule(NoUselessElseFixer::class);
-    $ecsConfig->rule(SingleQuoteFixer::class);
 
     $ecsConfig->ruleWithConfiguration(YodaStyleFixer::class, [
         'equal' => false,
         'identical' => false,
         'less_and_greater' => false,
     ]);
-
-    $ecsConfig->rule(OrderedClassElementsFixer::class);
 
     $ecsConfig->skip([AssignmentInConditionSniff::class . '.FoundInWhileCondition']);
 };

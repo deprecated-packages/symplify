@@ -28,10 +28,28 @@ use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(StandaloneLinePromotedPropertyFixer::class);
-    $ecsConfig->rule(BlankLineAfterOpeningTagFixer::class);
-    $ecsConfig->rule(NewlineServiceDefinitionConfigFixer::class);
-    $ecsConfig->rule(MethodChainingIndentationFixer::class);
+    $ecsConfig->rules([
+        StandaloneLinePromotedPropertyFixer::class,
+        BlankLineAfterOpeningTagFixer::class,
+        NewlineServiceDefinitionConfigFixer::class,
+        MethodChainingIndentationFixer::class,
+        NotOperatorWithSuccessorSpaceFixer::class,
+        CastSpacesFixer::class,
+        ClassAttributesSeparationFixer::class,
+        SingleTraitInsertPerStatementFixer::class,
+        FunctionTypehintSpaceFixer::class,
+        NoBlankLinesAfterClassOpeningFixer::class,
+        NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
+        PhpdocSingleLineVarSpacingFixer::class,
+        NoLeadingNamespaceWhitespaceFixer::class,
+        NoSpacesAroundOffsetFixer::class,
+        NoWhitespaceInBlankLineFixer::class,
+        ReturnTypeDeclarationFixer::class,
+        SpaceAfterSemicolonFixer::class,
+        TernaryOperatorSpacesFixer::class,
+        MethodArgumentSpaceFixer::class,
+        LanguageConstructSpacingSniff::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
         'elements' => [
@@ -45,13 +63,9 @@ return static function (ECSConfig $ecsConfig): void {
         'spacing' => 'one',
     ]);
 
-    $ecsConfig->rule(NotOperatorWithSuccessorSpaceFixer::class);
-
     $ecsConfig->ruleWithConfiguration(SuperfluousWhitespaceSniff::class, [
         'ignoreBlankLines' => false,
     ]);
-
-    $ecsConfig->rule(CastSpacesFixer::class);
 
     $ecsConfig->ruleWithConfiguration(BinaryOperatorSpacesFixer::class, [
         'operators' => [
@@ -59,19 +73,4 @@ return static function (ECSConfig $ecsConfig): void {
             '=' => 'single_space',
         ],
     ]);
-
-    $ecsConfig->rule(ClassAttributesSeparationFixer::class);
-    $ecsConfig->rule(SingleTraitInsertPerStatementFixer::class);
-    $ecsConfig->rule(FunctionTypehintSpaceFixer::class);
-    $ecsConfig->rule(NoBlankLinesAfterClassOpeningFixer::class);
-    $ecsConfig->rule(NoSinglelineWhitespaceBeforeSemicolonsFixer::class);
-    $ecsConfig->rule(PhpdocSingleLineVarSpacingFixer::class);
-    $ecsConfig->rule(NoLeadingNamespaceWhitespaceFixer::class);
-    $ecsConfig->rule(NoSpacesAroundOffsetFixer::class);
-    $ecsConfig->rule(NoWhitespaceInBlankLineFixer::class);
-    $ecsConfig->rule(ReturnTypeDeclarationFixer::class);
-    $ecsConfig->rule(SpaceAfterSemicolonFixer::class);
-    $ecsConfig->rule(TernaryOperatorSpacesFixer::class);
-    $ecsConfig->rule(MethodArgumentSpaceFixer::class);
-    $ecsConfig->rule(LanguageConstructSpacingSniff::class);
 };
