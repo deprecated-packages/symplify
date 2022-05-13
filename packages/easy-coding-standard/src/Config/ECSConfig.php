@@ -66,6 +66,9 @@ final class ECSConfig extends ContainerConfigurator
      */
     public function rules(array $checkerClasses): void
     {
+        // ensure all rules are registered exactly once
+        Assert::uniqueValues($checkerClasses);
+
         foreach ($checkerClasses as $checkerClass) {
             $this->rule($checkerClass);
         }

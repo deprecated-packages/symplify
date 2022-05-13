@@ -30,37 +30,37 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(EncodingFixer::class);
-    $ecsConfig->rule(FullOpeningTagFixer::class);
-    $ecsConfig->rule(BlankLineAfterNamespaceFixer::class);
-    $ecsConfig->rule(BracesFixer::class);
-    $ecsConfig->rule(ClassDefinitionFixer::class);
-    $ecsConfig->rule(ConstantCaseFixer::class);
-    $ecsConfig->rule(ElseifFixer::class);
-    $ecsConfig->rule(FunctionDeclarationFixer::class);
-    $ecsConfig->rule(IndentationTypeFixer::class);
-    $ecsConfig->rule(LineEndingFixer::class);
-    $ecsConfig->rule(LowercaseKeywordsFixer::class);
+    $ecsConfig->rules([
+        EncodingFixer::class,
+        FullOpeningTagFixer::class,
+        BlankLineAfterNamespaceFixer::class,
+        BracesFixer::class,
+        ClassDefinitionFixer::class,
+        ConstantCaseFixer::class,
+        ElseifFixer::class,
+        FunctionDeclarationFixer::class,
+        IndentationTypeFixer::class,
+        LineEndingFixer::class,
+        LowercaseKeywordsFixer::class,
+        NoBreakCommentFixer::class,
+        NoClosingTagFixer::class,
+        NoSpacesAfterFunctionNameFixer::class,
+        NoSpacesInsideParenthesisFixer::class,
+        NoTrailingWhitespaceFixer::class,
+        NoTrailingWhitespaceInCommentFixer::class,
+        SingleBlankLineAtEofFixer::class,
+        SingleImportPerStatementFixer::class,
+        SingleLineAfterImportsFixer::class,
+        SwitchCaseSemicolonToColonFixer::class,
+        SwitchCaseSpaceFixer::class,
+        VisibilityRequiredFixer::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(MethodArgumentSpaceFixer::class, [
         'on_multiline' => 'ensure_fully_multiline',
     ]);
 
-    $ecsConfig->rule(NoBreakCommentFixer::class);
-    $ecsConfig->rule(NoClosingTagFixer::class);
-    $ecsConfig->rule(NoSpacesAfterFunctionNameFixer::class);
-    $ecsConfig->rule(NoSpacesInsideParenthesisFixer::class);
-    $ecsConfig->rule(NoTrailingWhitespaceFixer::class);
-    $ecsConfig->rule(NoTrailingWhitespaceInCommentFixer::class);
-    $ecsConfig->rule(SingleBlankLineAtEofFixer::class);
-
     $ecsConfig->ruleWithConfiguration(SingleClassElementPerStatementFixer::class, [
         'elements' => ['property'],
     ]);
-
-    $ecsConfig->rule(SingleImportPerStatementFixer::class);
-    $ecsConfig->rule(SingleLineAfterImportsFixer::class);
-    $ecsConfig->rule(SwitchCaseSemicolonToColonFixer::class);
-    $ecsConfig->rule(SwitchCaseSpaceFixer::class);
-    $ecsConfig->rule(VisibilityRequiredFixer::class);
 };

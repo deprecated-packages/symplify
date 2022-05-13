@@ -138,23 +138,13 @@ use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(AlignMultilineCommentFixer::class);
-    $ecsConfig->rule(ArrayIndentationFixer::class);
-
     $ecsConfig->ruleWithConfiguration(ArraySyntaxFixer::class, [
         'syntax' => 'short',
     ]);
 
-    $ecsConfig->rule(BinaryOperatorSpacesFixer::class);
-    $ecsConfig->rule(BlankLineAfterNamespaceFixer::class);
-    $ecsConfig->rule(BlankLineAfterOpeningTagFixer::class);
-    $ecsConfig->rule(BlankLineBeforeStatementFixer::class);
-
     $ecsConfig->ruleWithConfiguration(BracesFixer::class, [
         'allow_single_line_closure' => true,
     ]);
-
-    $ecsConfig->rule(CastSpacesFixer::class);
 
     $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
         'elements' => [
@@ -326,9 +316,18 @@ return static function (ECSConfig $ecsConfig): void {
         'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
     ]);
 
-    $ecsConfig->rule(TrimArraySpacesFixer::class);
-    $ecsConfig->rule(UnaryOperatorSpacesFixer::class);
-    $ecsConfig->rule(VisibilityRequiredFixer::class);
-    $ecsConfig->rule(WhitespaceAfterCommaInArrayFixer::class);
-    $ecsConfig->rule(YodaStyleFixer::class);
+    $ecsConfig->rules([
+        TrimArraySpacesFixer::class,
+        UnaryOperatorSpacesFixer::class,
+        VisibilityRequiredFixer::class,
+        WhitespaceAfterCommaInArrayFixer::class,
+        YodaStyleFixer::class,
+        BinaryOperatorSpacesFixer::class,
+        BlankLineAfterNamespaceFixer::class,
+        BlankLineAfterOpeningTagFixer::class,
+        BlankLineBeforeStatementFixer::class,
+        CastSpacesFixer::class,
+        AlignMultilineCommentFixer::class,
+        ArrayIndentationFixer::class,
+    ]);
 };

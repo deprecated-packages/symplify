@@ -25,10 +25,7 @@ final class CheckSprintfMatchingTypesRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [
-            __DIR__ . '/Fixture/MissMatchSprintf.php',
-            [[CheckSprintfMatchingTypesRule::ERROR_MESSAGE, 11]]
-        ];
+        yield [__DIR__ . '/Fixture/MissMatchSprintf.php', [[CheckSprintfMatchingTypesRule::ERROR_MESSAGE, 11]]];
 
         yield [__DIR__ . '/Fixture/SkipCorrectSprintf.php', []];
         yield [__DIR__ . '/Fixture/SkipCorrectForeachKey.php', []];

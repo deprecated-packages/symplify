@@ -9,8 +9,10 @@ use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(StrictComparisonFixer::class);
-    $ecsConfig->rule(IsNullFixer::class);
-    $ecsConfig->rule(StrictParamFixer::class);
-    $ecsConfig->rule(DeclareStrictTypesFixer::class);
+    $ecsConfig->rules([
+        StrictComparisonFixer::class,
+        IsNullFixer::class,
+        StrictParamFixer::class,
+        DeclareStrictTypesFixer::class,
+    ]);
 };
