@@ -184,6 +184,12 @@ final class File extends BaseFile
             return false;
         }
 
+        // hardcode skip the PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff.FoundInWhileCondition
+        // as the only code is passed and this rule does not make sense
+        if ($sniffClassOrCode === 'FoundInWhileCondition') {
+            return false;
+        }
+
         $message = $data !== [] ? vsprintf($message, $data) : $message;
 
         $checkerClass = $this->resolveFullyQualifiedCode($sniffClassOrCode);
