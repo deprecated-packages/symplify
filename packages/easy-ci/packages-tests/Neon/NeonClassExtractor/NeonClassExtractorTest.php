@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Tests\Neon\NeonClassExtractor;
 
+use Iterator;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyCI\Neon\NeonClassExtractor;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -27,7 +28,10 @@ final class NeonClassExtractorTest extends TestCase
         $this->assertSame($expectedClasses, $extractedClasses);
     }
 
-    public function provideData(): \Iterator
+    /**
+     * @return Iterator<array<int, string[]>|SmartFileInfo[]>
+     */
+    public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/some_services.neon'), ['App\FirstService']];
 

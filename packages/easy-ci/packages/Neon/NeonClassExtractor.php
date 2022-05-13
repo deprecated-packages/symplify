@@ -29,6 +29,15 @@ final class NeonClassExtractor
         return array_merge($classKeyClassNames, $stringStaticCallReferences, $servicesKeyList);
     }
 
+    private function isServiceListNode(ArrayItemNode $arrayItemNode): bool
+    {
+        if ($this->hasKeyValue($arrayItemNode, 'services')) {
+            return true;
+        }
+
+        return $this->hasKeyValue($arrayItemNode, 'rules');
+    }
+
     private function hasKeyValue(ArrayItemNode $arrayItemNode, string $value): bool
     {
         if (! $arrayItemNode->key instanceof LiteralNode) {
@@ -124,7 +133,7 @@ final class NeonClassExtractor
                 return null;
             }
 
-            if (! $this->hasKeyValue($node, 'services') && ! $this->hasKeyValue($node, 'rules')) {
+            if (! $this->isServiceListNode($node)) {
                 return null;
             }
 
