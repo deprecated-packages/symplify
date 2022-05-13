@@ -48,6 +48,4 @@ return static function (ECSConfig $ecsConfig): void {
         'identical' => false,
         'less_and_greater' => false,
     ]);
-
-    $ecsConfig->skip([AssignmentInConditionSniff::class . '.FoundInWhileCondition']);
 };
