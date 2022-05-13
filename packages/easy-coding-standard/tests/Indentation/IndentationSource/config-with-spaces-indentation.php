@@ -7,9 +7,6 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ECSConfig $ecsConfig): void {
-    $services = $ecsConfig->services();
-    $services->set(IndentationTypeFixer::class)
-        ->public();
-
+    $ecsConfig->rule(IndentationTypeFixer::class);
     $ecsConfig->indentation(Option::INDENTATION_SPACES);
 };
