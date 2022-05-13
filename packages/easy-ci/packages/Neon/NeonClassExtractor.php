@@ -110,7 +110,7 @@ final class NeonClassExtractor
     }
 
     /**
-     * Finds "services: - <className>"
+     * Finds "services: - <className>" Finds "rules: - <className>"
      *
      * @return string[]
      */
@@ -124,7 +124,7 @@ final class NeonClassExtractor
                 return null;
             }
 
-            if (! $this->hasKeyValue($node, 'services')) {
+            if (! $this->hasKeyValue($node, 'services') && ! $this->hasKeyValue($node, 'rules')) {
                 return null;
             }
 
