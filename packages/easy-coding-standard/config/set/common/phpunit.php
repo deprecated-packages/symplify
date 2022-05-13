@@ -7,6 +7,5 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestAnnotationFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(PhpUnitTestAnnotationFixer::class);
-    $ecsConfig->rule(PhpUnitSetUpTearDownVisibilityFixer::class);
+    $ecsConfig->rules([PhpUnitTestAnnotationFixer::class, PhpUnitSetUpTearDownVisibilityFixer::class]);
 };

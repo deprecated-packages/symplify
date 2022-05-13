@@ -11,6 +11,7 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Webmozart\Assert\Assert;
+use Webmozart\Assert\InvalidArgumentException;
 
 /**
  * @api
@@ -66,8 +67,7 @@ final class ECSConfig extends ContainerConfigurator
      */
     public function rules(array $checkerClasses): void
     {
-        // ensure all rules are registered exactly once
-        Assert::uniqueValues($checkerClasses);
+        $this->ensureCheckerClassesAreUnique($checkerClasses);
 
         foreach ($checkerClasses as $checkerClass) {
             $this->rule($checkerClass);
@@ -128,5 +128,27 @@ final class ECSConfig extends ContainerConfigurator
     {
         Assert::classExists($checkerClass);
         Assert::isAnyOf($checkerClass, [Sniff::class, FixerInterface::class]);
+    }
+
+    /**
+     * @param string[] $checkerClasses
+     */
+    private function ensureCheckerClassesAreUnique(array $checkerClasses): void
+    {
+        // ensure all rules are registered exactly once
+        $checkerClassToCount = array_count_values($checkerClasses);
+        $duplicatedCheckerClassToCount = array_filter($checkerClassToCount, fn (int $count): bool => $count > 1);
+
+        if ($duplicatedCheckerClassToCount === []) {
+            return;
+        }
+
+        $duplicatedCheckerClasses = array_flip($duplicatedCheckerClassToCount);
+
+        $errorMessage = sprintf(
+            'There are duplicated classes in $rectorConfig->rules(): "%s". Make them unique to avoid unexpected behavior.',
+            implode('", "', $duplicatedCheckerClasses)
+        );
+        throw new InvalidArgumentException($errorMessage);
     }
 }

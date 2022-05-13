@@ -8,7 +8,9 @@ use PhpCsFixer\Fixer\NamespaceNotation\SingleBlankLineBeforeNamespaceFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->rule(NoUnusedImportsFixer::class);
-    $ecsConfig->rule(OrderedImportsFixer::class);
-    $ecsConfig->rule(SingleBlankLineBeforeNamespaceFixer::class);
+    $ecsConfig->rules([
+        NoUnusedImportsFixer::class,
+        OrderedImportsFixer::class,
+        SingleBlankLineBeforeNamespaceFixer::class,
+    ]);
 };
