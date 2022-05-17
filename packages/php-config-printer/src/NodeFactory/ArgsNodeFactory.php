@@ -14,6 +14,7 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Yaml\Tag\TaggedValue;
 use Symplify\PhpConfigPrinter\Exception\NotImplementedYetException;
 use Symplify\PhpConfigPrinter\ExprResolver\StringExprResolver;
@@ -74,7 +75,14 @@ final class ArgsNodeFactory
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
 
                 if (! is_int($key) && $this->isPhpNamedArguments) {
-                    $args[] = new Arg($expr, false, false, [], new Identifier($key));
+                    if (is_string($key)) {
+                        dump($key);
+                        dump($expr);
+                        //die;
+                        $args[$key] = new Arg($expr);
+                    } else {
+                        $args[] = new Arg($expr, false, false, [], new Identifier($key));
+                    }
                 } else {
                     $args[] = new Arg($expr);
                 }
