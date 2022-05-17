@@ -21,7 +21,10 @@ CODE_SAMPLE
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE,
-                ['view' => 'Laravel\\Templating\\render']
+                [
+                    'view' => 'Laravel\\Templating\\render',
+                    'redirect' => 'Some\\Redirector\\redirect',
+                ]
             )
         ]);
     }

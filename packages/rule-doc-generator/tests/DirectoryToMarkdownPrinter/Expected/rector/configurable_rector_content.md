@@ -47,7 +47,7 @@ use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\DirectConfiguredStringKeyRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(DirectConfiguredStringKeyRector::class, ['view' => 'Laravel\Templating\render']);
+    $rectorConfig->ruleWithConfiguration(DirectConfiguredStringKeyRector::class, ['view' => 'Laravel\Templating\render', 'redirect' => 'Some\Redirector\redirect']);
 };
 ```
 
