@@ -10,8 +10,8 @@
         "symfony/console": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/finder": "^6.0",
-        "symplify/symplify-kernel": "^10.2.6",
-        "symplify/easy-testing": "^10.2.6",
+        "symplify/symplify-kernel": "^10.3",
+        "symplify/easy-testing": "^10.3",
         "nette/neon": "^3.3.3"
     },
     "require-dev": {
