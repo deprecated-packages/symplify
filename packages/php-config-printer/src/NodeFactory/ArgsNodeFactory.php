@@ -61,23 +61,42 @@ final class ArgsNodeFactory
     }
 
     /**
+     * @param Arg[] $args
      * @return Arg[]
+     */
+    private function resolveArgs(array $args, mixed $key, Expr $expr, bool $isForConfig): array
+    {
+        if (is_string($key) && $isForConfig) {
+            $key = $this->resolveExpr($key);
+            $args[] = new Arg(new ArrayItem($expr, $key));
+
+            return $args;
+        }
+
+        if (! is_int($key) && $this->isPhpNamedArguments) {
+            $args[] = new Arg($expr, false, false, [], new Identifier($key));
+
+            return $args;
+        }
+
+        $args[] = new Arg($expr);
+        return $args;
+    }
+
+    /**
+     * @return mixed[]|Arg[]
      */
     public function createFromValues(
         mixed $values,
         bool $skipServiceReference = false,
-        bool $skipClassesToConstantReference = false
+        bool $skipClassesToConstantReference = false,
+        bool $isForConfig = false
     ): array {
         if (is_array($values)) {
             $args = [];
             foreach ($values as $key => $value) {
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
-
-                if (! is_int($key) && $this->isPhpNamedArguments) {
-                    $args[] = new Arg($expr, false, false, [], new Identifier($key));
-                } else {
-                    $args[] = new Arg($expr);
-                }
+                $args = $this->resolveArgs($args, $key, $expr, $isForConfig);
             }
 
             return $args;

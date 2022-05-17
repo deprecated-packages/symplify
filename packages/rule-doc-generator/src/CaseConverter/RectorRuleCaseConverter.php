@@ -45,7 +45,7 @@ final class RectorRuleCaseConverter implements CaseConverterInterface
 
         if ($configuration) {
             $configuration = $this->serviceConfigurationDecorator->decorate($configuration, $rectorClass);
-            $array = $this->argsNodeFactory->createFromValues($configuration);
+            $array = $this->argsNodeFactory->createFromValues($configuration, false, false, true);
             $args[] = new Arg(new Array_($array));
         }
 
