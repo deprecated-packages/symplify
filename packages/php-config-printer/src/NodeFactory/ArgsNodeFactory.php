@@ -62,6 +62,7 @@ final class ArgsNodeFactory
 
     /**
      * @param Arg[] $args
+     * @return \Arg[]|Arg[]
      */
     private function resolveArgs(array $args, mixed $key, Expr $expr, bool $isForConfig): array
     {
@@ -83,7 +84,7 @@ final class ArgsNodeFactory
     }
 
     /**
-     * @return Arg[]
+     * @return mixed[]|Arg[]
      */
     public function createFromValues(
         mixed $values,
