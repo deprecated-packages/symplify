@@ -66,23 +66,27 @@ final class ArgsNodeFactory
     public function createFromValues(
         mixed $values,
         bool $skipServiceReference = false,
-        bool $skipClassesToConstantReference = false
+        bool $skipClassesToConstantReference = false,
+        bool $isForConfig = false
     ): array {
         if (is_array($values)) {
             $args = [];
             foreach ($values as $key => $value) {
                 $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
 
-                if (! is_int($key) && $this->isPhpNamedArguments) {
-                    if (is_string($key)) {
-                        $key = $this->resolveExpr($key);
-                        $args[] = new Arg(new ArrayItem($expr, $key));
-                    } else {
-                        $args[] = new Arg($expr, false, false, [], new Identifier($key));
-                    }
-                } else {
-                    $args[] = new Arg($expr);
+                if (is_string($key) && $isForConfig) {
+                    $key = $this->resolveExpr($key);
+                    $args[] = new Arg(new ArrayItem($expr, $key));
+
+                    continue;
                 }
+
+                if (! is_int($key) && $this->isPhpNamedArguments) {
+                    $args[] = new Arg($expr, false, false, [], new Identifier($key));
+                    continue;
+                }
+
+                $args[] = new Arg($expr);
             }
 
             return $args;
