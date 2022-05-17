@@ -125,7 +125,7 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
 
     /**
      * @param string[] $argsNames
-     * @return Arg[]
+     * @return \Arg[]|Arg[]|Arg[]
      */
     private function createAddArgs(array $argsNames, mixed $values): array
     {

@@ -68,7 +68,7 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
     }
 
     /**
-     * @return Arg[]
+     * @return \Arg[]|Arg[]|Arg[]
      */
     private function createAddArgs(string $key, mixed $values): array
     {
