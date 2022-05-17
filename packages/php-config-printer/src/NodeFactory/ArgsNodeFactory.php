@@ -62,7 +62,7 @@ final class ArgsNodeFactory
 
     /**
      * @param Arg[] $args
-     * @return \Arg[]|Arg[]
+     * @return Arg[]
      */
     private function resolveArgs(array $args, mixed $key, Expr $expr, bool $isForConfig): array
     {
