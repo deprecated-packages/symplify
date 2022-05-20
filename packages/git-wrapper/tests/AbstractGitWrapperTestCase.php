@@ -49,6 +49,8 @@ abstract class AbstractGitWrapperTestCase extends TestCase
     {
         $this->smartFileSystem = new SmartFileSystem();
         $this->gitWrapper = new GitWrapper('git');
+        // ensure proper locale on non-english environments for tests analyzing git command output
+        $this->gitWrapper->setEnvVar('LC_ALL', 'C');
     }
 
     protected function registerAndReturnEventSubscriber(): TestEventSubscriber
