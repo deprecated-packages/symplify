@@ -1,0 +1,25 @@
+{
+    "provide": {
+        "my/simple-merge": "1.0",
+        "my/merge-with-star": "1.0",
+        "my/merge-duplicates-and-spaces": "1.0 | 2.0",
+        "my/no-merge": "1.0"
+    }
+}
+-----
+{
+    "provide": {
+        "my/simple-merge": "2.0",
+        "my/merge-with-star": "*",
+        "my/merge-duplicates-and-spaces": "1.0 | 2.0 | 3.0"
+    }
+}
+-----
+{
+    "provide": {
+        "my/simple-merge": "1.0|2.0",
+        "my/merge-with-star": "*",
+        "my/merge-duplicates-and-spaces": "1.0|2.0|3.0",
+        "my/no-merge": "1.0"
+    }
+}
