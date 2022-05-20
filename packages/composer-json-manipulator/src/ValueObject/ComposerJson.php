@@ -129,6 +129,11 @@ final class ComposerJson
 
     private ?string $version = null;
 
+    /**
+     * @var array<string, string>
+     */
+    private array $provide = [];
+
     public function __construct()
     {
         $this->composerPackageSorter = new ComposerPackageSorter();
@@ -409,6 +414,7 @@ final class ComposerJson
             ComposerJsonSection::CONFIG => $this->config,
             ComposerJsonSection::REPLACE => $this->replace,
             ComposerJsonSection::CONFLICT => $this->conflicts,
+            ComposerJsonSection::PROVIDE => $this->provide,
             ComposerJsonSection::VERSION => $this->version,
         ]);
 
@@ -834,5 +840,33 @@ final class ComposerJson
     private function findPosition(string $key, array $items): int | string | bool
     {
         return array_search($key, $items, true);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getProvide(): array
+    {
+        return $this->provide;
+    }
+
+    public function isProvidePackageSet(string $packageName): bool
+    {
+        return isset($this->provide[$packageName]);
+    }
+
+    /**
+     * @param array<string, string> $provide
+     */
+    public function setProvide(array $provide): void
+    {
+        ksort($provide);
+
+        $this->provide = $provide;
+    }
+
+    public function setProvidePackage(string $packageName, string $version): void
+    {
+        $this->provide[$packageName] = $version;
     }
 }
