@@ -7,6 +7,7 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
 use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
@@ -30,7 +31,11 @@ final class EasyCodingStandardContainerFactory
             $inputConfigFiles[] = $rootECSConfig;
         }
 
+        /** @var ContainerBuilder $container */
         $container = $easyCodingStandardKernel->createFromConfigs($inputConfigFiles);
+
+        $deprecationReporter = new DeprecationReporter();
+        $deprecationReporter->reportDeprecatedSets($container, $input);
 
         $this->reportOldContainerConfiguratorConfig($inputConfigFiles, $container);
 
