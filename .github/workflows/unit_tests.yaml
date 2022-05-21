@@ -7,6 +7,9 @@ env:
     # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
     COMPOSER_ROOT_VERSION: "dev-main"
 
+permissions:
+  contents: read
+
 jobs:
     unit_tests:
         runs-on: ubuntu-latest

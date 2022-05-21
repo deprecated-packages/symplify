@@ -4,8 +4,13 @@ on:
     schedule:
         - cron: '0 * * * *'
 
+permissions:
+  contents: read
+
 jobs:
     lock:
+        permissions:
+          contents: none
         runs-on: ubuntu-latest
         # don't run this action on forks
         if: github.repository_owner == 'symplify'

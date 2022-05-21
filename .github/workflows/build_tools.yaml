@@ -21,8 +21,13 @@ env:
     # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
     COMPOSER_ROOT_VERSION: "dev-main"
 
+permissions:
+  contents: read
+
 jobs:
     build_tools:
+        permissions:
+          contents: write  # for Git to git push
         strategy:
             fail-fast: false
             matrix:

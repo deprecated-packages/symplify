@@ -7,6 +7,9 @@ env:
     # see https://github.com/composer/composer/issues/9368#issuecomment-718112361
     COMPOSER_ROOT_VERSION: "dev-main"
 
+permissions:
+  contents: read
+
 jobs:
     provide_packages_json:
         # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
