@@ -48,14 +48,14 @@ final class ConflictingCheckersCompilerPass implements CompilerPassInterface
             }
 
             throw new ConflictingCheckersLoadedException(sprintf(
-                'Checkers "%s" mutually exclude each other. Use only one or exclude ' . 'the unwanted one in "parameters > skip" in your config.',
+                'Checkers "%s" mutually exclude each other. Use only one of them or exclude the unwanted one in "$ecsConfig->skip(...)" in your config.',
                 implode('" and "', $viceVersaMatchingCheckerGroup)
             ));
         }
     }
 
     /**
-     * @param mixed[]  $checkers
+     * @param mixed[] $checkers
      * @param string[] $matchingCheckerGroup
      */
     private function isMatch(array $checkers, array $matchingCheckerGroup): bool

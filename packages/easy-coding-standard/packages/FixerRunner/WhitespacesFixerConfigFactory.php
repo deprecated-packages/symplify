@@ -48,7 +48,7 @@ final class WhitespacesFixerConfigFactory
         }
 
         throw new WhitespaceConfigurationException(sprintf(
-            'Value "%s" is not supported in "parameters > indentation".%sUse one of: "%s".',
+            'Value "%s" is not supported in "$ecsConfig->indentation(...)".%sUse one of: "%s".',
             $indentation,
             PHP_EOL,
             implode('", "', self::ALLOWED_VALUES)

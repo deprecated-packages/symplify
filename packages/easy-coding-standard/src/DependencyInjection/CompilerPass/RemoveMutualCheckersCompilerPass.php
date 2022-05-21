@@ -126,7 +126,6 @@ final class RemoveMutualCheckersCompilerPass implements CompilerPassInterface
 
     /**
      * @param string[] $checkers
-     *
      * @return string[]
      */
     private function resolveCheckersToRemove(array $checkers): array
