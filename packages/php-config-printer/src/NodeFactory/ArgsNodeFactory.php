@@ -61,29 +61,6 @@ final class ArgsNodeFactory
     }
 
     /**
-     * @param Arg[] $args
-     * @return Arg[]
-     */
-    private function resolveArgs(array $args, mixed $key, Expr $expr, bool $isForConfig): array
-    {
-        if (is_string($key) && $isForConfig) {
-            $key = $this->resolveExpr($key);
-            $args[] = new Arg(new ArrayItem($expr, $key));
-
-            return $args;
-        }
-
-        if (! is_int($key) && $this->isPhpNamedArguments) {
-            $args[] = new Arg($expr, false, false, [], new Identifier($key));
-
-            return $args;
-        }
-
-        $args[] = new Arg($expr);
-        return $args;
-    }
-
-    /**
      * @return mixed[]|Arg[]
      */
     public function createFromValues(
@@ -173,6 +150,29 @@ final class ArgsNodeFactory
         }
 
         return new Array_($arrayItems);
+    }
+
+    /**
+     * @param Arg[] $args
+     * @return Arg[]
+     */
+    private function resolveArgs(array $args, mixed $key, Expr $expr, bool $isForConfig): array
+    {
+        if (is_string($key) && $isForConfig) {
+            $key = $this->resolveExpr($key);
+            $args[] = new Arg(new ArrayItem($expr, $key));
+
+            return $args;
+        }
+
+        if (! is_int($key) && $this->isPhpNamedArguments) {
+            $args[] = new Arg($expr, false, false, [], new Identifier($key));
+
+            return $args;
+        }
+
+        $args[] = new Arg($expr);
+        return $args;
     }
 
     private function createServiceReferenceFromTaggedValue(TaggedValue $taggedValue): Expr

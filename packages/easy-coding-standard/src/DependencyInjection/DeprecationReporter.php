@@ -6,8 +6,9 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class DeprecationReporter
 {
@@ -28,36 +29,21 @@ final class DeprecationReporter
             return;
         }
 
-        $foundDeprecatedSets = [];
-
-        foreach ($containerBuilder->getResources() as $resource) {
-            if (! $resource instanceof FileResource) {
-                continue;
-            }
-
-            foreach (self::DEPRECATED_SETS_BY_FILE_PATHS as $setFilePath => $setName) {
-                if (! str_ends_with($resource->getResource(), $setFilePath)) {
-                    continue;
-                }
-
-                $foundDeprecatedSets[] = $setName;
-            }
-        }
+        $foundDeprecatedSets = $this->findDeprecatedSets($containerBuilder);
 
         if ($foundDeprecatedSets === []) {
             return;
         }
 
-        $this->reportFoundSets($foundDeprecatedSets);
+        $this->reportFoundSets($foundDeprecatedSets, $containerBuilder);
     }
 
     /**
      * @param string[] $setNames
      */
-    private function reportFoundSets(array $setNames): void
+    private function reportFoundSets(array $setNames, ContainerInterface $container): void
     {
-        $symfonyStyleFactory = new SymfonyStyleFactory();
-        $symfonyStyle = $symfonyStyleFactory->create();
+        $symfonyStyle = $container->get(SymfonyStyle::class);
 
         foreach ($setNames as $setName) {
             $deprecatedMessage = sprintf(
@@ -70,5 +56,29 @@ final class DeprecationReporter
 
         // to make deprecation noticeable
         sleep(3);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function findDeprecatedSets(ContainerBuilder $containerBuilder): array
+    {
+        $deprecatedSets = [];
+
+        foreach ($containerBuilder->getResources() as $resource) {
+            if (! $resource instanceof FileResource) {
+                continue;
+            }
+
+            foreach (self::DEPRECATED_SETS_BY_FILE_PATHS as $setFilePath => $setName) {
+                if (! str_ends_with($resource->getResource(), $setFilePath)) {
+                    continue;
+                }
+
+                $deprecatedSets[] = $setName;
+            }
+        }
+
+        return $deprecatedSets;
     }
 }

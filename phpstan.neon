@@ -524,3 +524,10 @@ parameters:
                 - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
                 - packages/phpstan-rules/tests
                 - packages/phpstan-rules/packages
+
+        # use as narrow container type as possible
+        -
+            message: '#Parameter (.*?) should use "Symfony\\Component\\DependencyInjection\\ContainerBuilder" type as the only type passed to this method#'
+            paths:
+                 - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
+                 - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
