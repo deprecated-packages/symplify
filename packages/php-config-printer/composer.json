@@ -7,11 +7,11 @@
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
         "symfony/yaml": "^6.0",
-        "symplify/astral": "^10.2.7",
-        "symplify/symplify-kernel": "^10.2.7"
+        "symplify/astral": "^10.3",
+        "symplify/symplify-kernel": "^10.3"
     },
     "require-dev": {
-        "symplify/easy-testing": "^10.2.7",
+        "symplify/easy-testing": "^10.3",
         "phpunit/phpunit": "^9.5"
     },
     "autoload": {
