@@ -112,7 +112,7 @@ final class ComposerJsonSection
     /**
      * @var string
      */
-    public const PROVIDES = 'provides';
+    public const PROVIDE = 'provide';
 
     /**
      * @var string

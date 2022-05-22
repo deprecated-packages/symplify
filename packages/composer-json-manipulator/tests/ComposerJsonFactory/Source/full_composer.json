@@ -27,6 +27,9 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "provide": {
+        "psr/log-implementation": "3.0.0"
+    },
     "replace": {
         "symplify/package-builder": "self.version"
     },

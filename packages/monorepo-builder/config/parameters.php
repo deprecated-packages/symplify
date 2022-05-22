@@ -42,7 +42,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ComposerJsonSection::AUTOLOAD,
         ComposerJsonSection::AUTOLOAD_DEV,
         ComposerJsonSection::REPOSITORIES,
-        ComposerJsonSection::PROVIDES,
+        ComposerJsonSection::PROVIDE,
         ComposerJsonSection::CONFLICT,
         ComposerJsonSection::REPLACE,
         ComposerJsonSection::SCRIPTS,
