@@ -361,7 +361,7 @@ final class ComposerJson
     }
 
     /**
-     * @return string[]
+     * @return array<string, string>
      */
     public function getReplace(): array
     {
@@ -374,7 +374,7 @@ final class ComposerJson
     }
 
     /**
-     * @param string[] $replace
+     * @param array<string, string> $replace
      */
     public function setReplace(array $replace): void
     {
