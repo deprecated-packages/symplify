@@ -42,27 +42,27 @@ final class MergeCommand extends AbstractSymplifyCommand
 
         $this->conflictingVersionsGuard->ensureNoConflictingPackageVersions();
 
-        $mainComposerJsonFilePath = getcwd() . '/composer.json';
-        $mainComposerJson = $this->getMainComposerJson($mainComposerJsonFilePath);
+        $rootComposerJsonFilePath = getcwd() . '/composer.json';
+        $rootComposerJson = $this->getRootComposerJson($rootComposerJsonFilePath);
         $packageFileInfos = $this->composerJsonProvider->getPackagesComposerFileInfos();
 
         $this->mergedAndDecoratedComposerJsonFactory->createFromRootConfigAndPackageFileInfos(
-            $mainComposerJson,
+            $rootComposerJson,
             $packageFileInfos
         );
 
-        $this->jsonFileManager->printComposerJsonToFilePath($mainComposerJson, $mainComposerJsonFilePath);
-        $this->symfonyStyle->success('Main "composer.json" was updated.');
+        $this->jsonFileManager->printComposerJsonToFilePath($rootComposerJson, $rootComposerJsonFilePath);
+        $this->symfonyStyle->success('Root "composer.json" was updated.');
 
         return self::SUCCESS;
     }
 
-    private function getMainComposerJson(string $mainComposerJsonFilePath): ComposerJson
+    private function getRootComposerJson(string $rootComposerJsonFilePath): ComposerJson
     {
-        $mainComposerJson = $this->composerJsonFactory->createFromFilePath($mainComposerJsonFilePath);
-        // ignore "provide" section in current main composer.json
-        $mainComposerJson->setProvide([]);
+        $rootComposerJson = $this->composerJsonFactory->createFromFilePath($rootComposerJsonFilePath);
+        // ignore "provide" section in current root composer.json
+        $rootComposerJson->setProvide([]);
 
-        return $mainComposerJson;
+        return $rootComposerJson;
     }
 }
