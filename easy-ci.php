@@ -36,6 +36,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
         SetList::class,
+        \Symplify\MonorepoBuilder\Config\MBConfig::class,
         // part of tests
         SomeFile::class,
         Application::class,
