@@ -759,6 +759,34 @@ final class ComposerJson
         return array_keys($this->require);
     }
 
+    /**
+     * @return array<string, string>
+     */
+    public function getProvide(): array
+    {
+        return $this->provide;
+    }
+
+    public function isProvidePackageSet(string $packageName): bool
+    {
+        return isset($this->provide[$packageName]);
+    }
+
+    /**
+     * @param array<string, string> $provide
+     */
+    public function setProvide(array $provide): void
+    {
+        ksort($provide);
+
+        $this->provide = $provide;
+    }
+
+    public function setProvidePackage(string $packageName, string $version): void
+    {
+        $this->provide[$packageName] = $version;
+    }
+
     private function moveValueToBack(string $valueName): void
     {
         $key = array_search($valueName, $this->orderedKeys, true);
@@ -840,33 +868,5 @@ final class ComposerJson
     private function findPosition(string $key, array $items): int | string | bool
     {
         return array_search($key, $items, true);
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getProvide(): array
-    {
-        return $this->provide;
-    }
-
-    public function isProvidePackageSet(string $packageName): bool
-    {
-        return isset($this->provide[$packageName]);
-    }
-
-    /**
-     * @param array<string, string> $provide
-     */
-    public function setProvide(array $provide): void
-    {
-        ksort($provide);
-
-        $this->provide = $provide;
-    }
-
-    public function setProvidePackage(string $packageName, string $version): void
-    {
-        $this->provide[$packageName] = $version;
     }
 }
