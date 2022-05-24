@@ -10,10 +10,11 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
+use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
-use ReflectionClass;
 use ReflectionMethod;
 use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector;
@@ -121,7 +122,7 @@ final class NetteInjectAnalyzer
     }
 
     private function isPropertyInjectedInClassMethod(
-        ReflectionClass $reflectionClass,
+        ReflectionClass|ReflectionEnum $reflectionClass,
         PropertyFetch $propertyFetch
     ): bool {
         $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
