@@ -23,6 +23,18 @@ final class MBConfig extends ContainerConfigurator
         $parameters->set(Option::PACKAGE_DIRECTORIES, $packageDirectories);
     }
 
+    /**
+     * @param string[] $packageDirectories
+     */
+    public function packageDirectoriesExcludes(array $packageDirectories): void
+    {
+        Assert::allString($packageDirectories);
+        Assert::allFileExists($packageDirectories);
+
+        $parameters = $this->parameters();
+        $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, $packageDirectories);
+    }
+
     public function defaultBranch(string $defaultBranch): void
     {
         $parameters = $this->parameters();
@@ -41,6 +53,17 @@ final class MBConfig extends ContainerConfigurator
     }
 
     /**
+     * @param array<string, mixed> $dataToAppend
+     */
+    public function dataToAppend(array $dataToAppend): void
+    {
+        Assert::allString(array_keys($dataToAppend));
+
+        $parameters = $this->parameters();
+        $parameters->set(Option::DATA_TO_APPEND, $dataToAppend);
+    }
+
+    /**
      * @param array<class-string<ReleaseWorkerInterface>> $workerClasses
      */
     public function workers(array $workerClasses): void
@@ -53,5 +76,11 @@ final class MBConfig extends ContainerConfigurator
         foreach ($workerClasses as $workerClass) {
             $services->set($workerClass);
         }
+    }
+
+    public function packageAliasFormat(string $packageAliasFormat): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::PACKAGE_ALIAS_FORMAT, $packageAliasFormat);
     }
 }
