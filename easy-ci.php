@@ -8,6 +8,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
+use Symplify\EasyCI\Config\EasyCIConfig;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
 use Symplify\EasyCI\ValueObject\Option;
@@ -27,8 +28,8 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+return static function (EasyCIConfig $easyCIConfig): void {
+    $parameters = $easyCIConfig->parameters();
 
     $parameters->set(Option::EXCLUDED_CHECK_PATHS, ['Fixture', 'Source', 'tests', 'stubs', 'templates']);
 

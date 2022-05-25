@@ -14,11 +14,6 @@ final class Option
     /**
      * @var string
      */
-    public const FIX = 'fix';
-
-    /**
-     * @var string
-     */
     public const LINE_LIMIT = 'line-limit';
 
     /**
