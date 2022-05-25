@@ -3,22 +3,23 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\Config\MBConfig;
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+return static function (MBConfig $mbConfig): void {
+    $parameters = $mbConfig->parameters();
 
     $parameters->set('env(GITHUB_TOKEN)', null);
     $parameters->set(Option::GITHUB_TOKEN, '%env(GITHUB_TOKEN)%');
-    $parameters->set(Option::PACKAGE_DIRECTORIES, []);
-    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, []);
-    $parameters->set(Option::DATA_TO_APPEND, []);
-    $parameters->set(Option::DATA_TO_REMOVE, []);
+
+    $mbConfig->packageDirectories([]);
+    $mbConfig->packageDirectoriesExcludes([]);
+    $mbConfig->dataToAppend([]);
+    $mbConfig->dataToRemove([]);
 
     $parameters->set(Option::EXCLUDE_PACKAGE_VERSION_CONFLICTS, []);
 
@@ -26,13 +27,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::STAGES_TO_ALLOW_EXISTING_TAG, []);
 
     // for back compatibility, better switch to "main"
-    $parameters->set(Option::DEFAULT_BRANCH_NAME, 'master');
+    $mbConfig->defaultBranch('master');
 
-    $parameters->set(Option::ROOT_DIRECTORY, getcwd());
-    $parameters->set(Option::PACKAGE_ALIAS_FORMAT, '<major>.<minor>-dev');
-    $parameters->set(Option::INLINE_SECTIONS, ['keywords']);
+    $mbConfig->packageAliasFormat('<major>.<minor>-dev');
 
-    $parameters->set(Option::SECTION_ORDER, [
+    $mbConfig->composerInlineSections(['keywords']);
+
+    $mbConfig->composerSectionOrder([
         ComposerJsonSection::NAME,
         ComposerJsonSection::TYPE,
         ComposerJsonSection::DESCRIPTION,
@@ -58,7 +59,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ComposerJsonSection::EXTRA,
     ]);
 
-    $services = $containerConfigurator->services();
+    $services = $mbConfig->services();
 
     $services->defaults()
         ->public()
