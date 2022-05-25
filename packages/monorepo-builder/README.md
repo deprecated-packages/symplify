@@ -49,8 +49,8 @@ vendor/bin/monorepo-builder merge
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
 ```php
-use Symplify\MonorepoBuilder\Config\MBConfig;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\Config\MBConfig;
 
 return static function (MBConfig $mbConfig): void {
     // where are the packages located?

@@ -26,47 +26,48 @@ final class Option
 
     /**
      * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const DEFAULT_BRANCH_NAME = 'default_branch_name';
 
     /**
      * @var string
-     * @api
-     */
-    public const ROOT_DIRECTORY = 'root_directory';
-
-    /**
-     * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const DATA_TO_REMOVE = 'data_to_remove';
 
     /**
      * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const PACKAGE_DIRECTORIES = 'package_directories';
 
     /**
      * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const PACKAGE_DIRECTORIES_EXCLUDES = 'package_directories_excludes';
 
     /**
      * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const DATA_TO_APPEND = 'data_to_append';
 
     /**
      * @var string
+     * @deprecated Use MBConfig instead
      * @api
      */
     public const PACKAGE_ALIAS_FORMAT = 'package_alias_format';
 
     /**
+     * @deprecated Use MBConfig
      * @var string
      * @api
      */
@@ -77,18 +78,6 @@ final class Option
      * @api
      */
     public const SECTION_ORDER = 'section_order';
-
-    /**
-     * @api
-     * @var string
-     */
-    public const SUBSPLIT_CACHE_DIRECTORY = 'subsplit_cache_directory';
-
-    /**
-     * @api
-     * @var string
-     */
-    public const REPOSITORY = 'repository';
 
     /**
      * @api

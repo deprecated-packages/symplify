@@ -6,11 +6,10 @@ use PHPStan\Type\DynamicFunctionReturnTypeExtension;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\CodingStandard\TokenRunner\Contract\DocBlock\MalformWorkerInterface;
+use Symplify\EasyCI\Config\EasyCIConfig;
 use Symplify\EasyCI\Latte\Contract\LatteTemplateAnalyzerInterface;
 use Symplify\EasyCI\Twig\Contract\TwigTemplateAnalyzerInterface;
-use Symplify\EasyCI\ValueObject\Option;
 use Symplify\EasyCodingStandard\Tests\SniffRunner\Application\FixerSource\SomeFile;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 use Symplify\MonorepoBuilder\Contract\Git\TagResolverInterface;
@@ -27,16 +26,13 @@ use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
 use Symplify\Skipper\Contract\SkipVoterInterface;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+return static function (EasyCIConfig $easyCIConfig): void {
+    $easyCIConfig->excludeCheckPaths(['Fixture', 'Source', 'tests', 'stubs', 'templates']);
 
-    $parameters->set(Option::EXCLUDED_CHECK_PATHS, ['Fixture', 'Source', 'tests', 'stubs', 'templates']);
-
-    $parameters->set(Option::TYPES_TO_SKIP, [
+    $easyCIConfig->typesToSkip([
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
         SetList::class,
-        \Symplify\MonorepoBuilder\Config\MBConfig::class,
         // part of tests
         SomeFile::class,
         Application::class,
@@ -57,5 +53,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         DocumentedRuleInterface::class,
         CodeSampleInterface::class,
         TagResolverInterface::class,
+        \Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator::class,
     ]);
 };

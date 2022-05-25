@@ -17,7 +17,8 @@
         "symplify/composer-json-manipulator": "^10.3",
         "symplify/package-builder": "^10.3",
         "symplify/smart-file-system": "^10.3",
-        "symplify/symplify-kernel": "^10.3"
+        "symplify/symplify-kernel": "^10.3",
+        "symplify/vendor-patches": "^10.3"
     },
     "require-dev": {
         "latte/latte": "^2.11",
@@ -43,6 +44,11 @@
     "extra": {
         "branch-alias": {
             "dev-main": "10.3-dev"
+        },
+        "patches": {
+            "symfony/dependency-injection": [
+                "https://raw.githubusercontent.com/symplify/ecs-vendor-patches/main/patches/generic-php-config-loader.patch"
+            ]
         }
     },
     "conflict": {
