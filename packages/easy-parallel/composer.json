@@ -8,7 +8,7 @@
         "react/child-process": "^0.6.4",
         "react/event-loop": "^1.3",
         "react/socket": "^1.11",
-        "symfony/console": "^6.0",
+        "symfony/console": "^6.1",
         "symplify/package-builder": "^10.3"
     },
     "require-dev": {

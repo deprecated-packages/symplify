@@ -5,13 +5,13 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=8.0",
-        "symfony/console": "^6.0",
-        "symfony/filesystem": "^6.0",
-        "symfony/finder": "^6.0",
-        "symfony/http-foundation": "^6.0",
-        "symfony/config": "^6.0",
-        "symfony/dependency-injection": "^6.0",
-        "symfony/routing": "^6.0",
+        "symfony/console": "^6.1",
+        "symfony/filesystem": "^6.1",
+        "symfony/finder": "^6.1",
+        "symfony/http-foundation": "^6.1",
+        "symfony/config": "^6.1",
+        "symfony/dependency-injection": "^6.1",
+        "symfony/routing": "^6.1",
         "symplify/autowire-array-parameter": "^10.3",
         "symplify/package-builder": "^10.3",
         "symplify/symplify-kernel": "^10.3",
@@ -22,8 +22,8 @@
         "doctrine/cache": "^1.12",
         "phpstan/phpstan": "^1.7.1",
         "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/twig-bundle": "^6.0"
+        "symfony/framework-bundle": "^6.1",
+        "symfony/twig-bundle": "^6.1"
     },
     "autoload": {
         "psr-4": {

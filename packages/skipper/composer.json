@@ -5,10 +5,10 @@
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
-        "symfony/config": "^6.0",
-        "symfony/dependency-injection": "^6.0",
-        "symfony/finder": "^6.0",
-        "symfony/filesystem": "^6.0",
+        "symfony/config": "^6.1",
+        "symfony/dependency-injection": "^6.1",
+        "symfony/finder": "^6.1",
+        "symfony/filesystem": "^6.1",
         "symplify/package-builder": "^10.3",
         "symplify/symplify-kernel": "^10.3",
         "symplify/smart-file-system": "^10.3"
