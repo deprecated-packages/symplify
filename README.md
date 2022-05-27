@@ -26,7 +26,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## For Symfony
 
-- [Amnesia](https://github.com/symplify/amnesia)
 - [Autowire Array Parameter](https://github.com/symplify/autowire-array-parameter)
 - [PHP Config Printer](https://github.com/symplify/php-config-printer)
 
