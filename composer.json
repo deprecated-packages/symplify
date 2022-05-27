@@ -66,11 +66,7 @@
         "tracy/tracy": "^2.9"
     },
     "autoload": {
-        "files": [
-            "packages/amnesia/src/Functions/env.php"
-        ],
         "psr-4": {
-            "Symplify\\Amnesia\\": "packages/amnesia/src",
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\CodingStandard\\": "packages/coding-standard/src",
@@ -173,7 +169,6 @@
         }
     },
     "replace": {
-        "symplify/amnesia": "10.2.7",
         "symplify/astral": "10.2.7",
         "symplify/autowire-array-parameter": "10.2.7",
         "symplify/coding-standard": "10.2.7",
