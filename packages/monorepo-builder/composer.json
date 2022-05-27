@@ -6,7 +6,7 @@
         "bin/monorepo-builder"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
         "phar-io/version": "^3.2",
         "symfony/finder": "^6.1",

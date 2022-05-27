@@ -6,7 +6,7 @@
         "bin/config-transformer"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-dom": "*",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",

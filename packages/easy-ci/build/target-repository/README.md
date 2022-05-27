@@ -74,7 +74,7 @@ jobs:
             -   uses: actions/checkout@v2
             -   uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
+                    php-version: 8.1
 
             -   uses: "ramsey/composer-install@v1"
 

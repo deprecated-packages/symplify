@@ -3,7 +3,7 @@
     "description": "Skip files by rule class, directory, file or fnmatch",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
         "symfony/config": "^6.1",
         "symfony/dependency-injection": "^6.1",

@@ -3,7 +3,7 @@
     "description": "Little tool to dump neon config files with services",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
         "symfony/console": "^6.1",

@@ -6,7 +6,7 @@
         "bin/ecs"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "composer/xdebug-handler": "^3.0",
         "friendsofphp/php-cs-fixer": "^3.8",
         "nette/utils": "^3.2",
