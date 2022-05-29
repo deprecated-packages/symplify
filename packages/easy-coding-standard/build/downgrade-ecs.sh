@@ -27,25 +27,9 @@ BUILD_DIRECTORY=$1
 
 #---------------------------------------------
 
-# 1. downgrade it
 note "Running downgrade in '$BUILD_DIRECTORY' directory\n"
 
-# 2. provide directories to downgrade, joined by spaces to run at once
-# @todo possibly join to one directory
-#directories="vendor/symfony vendor/psr;vendor/symplify config bin src packages;vendor/composer;vendor/doctrine vendor/friendsofphp vendor/nette;vendor/php-cs-fixer vendor/squizlabs vendor/react vendor/clue"
+php -d memory_limit=-1 vendor/bin/rector process $BUILD_DIRECTORY --config packages/easy-coding-standard/build/config/config-downgrade.php -a $BUILD_DIRECTORY/vendor/autoload.php --ansi
 
-# split array see https://stackoverflow.com/a/1407098/1348344
-export IFS=";"
-
-# 4. downgrade the directories
-#for directory in $directories; do
-#    note "Downgrading '$directory' directory\n"
-
-    # --working-dir is needed, so "SKIP" parameter is applied in absolute path of nested directory
-    php -d memory_limit=-1 vendor/bin/rector process $BUILD_DIRECTORY --config packages/easy-coding-standard/build/config/config-downgrade.php -a $BUILD_DIRECTORY/vendor/autoload.php --ansi
-#done
-
-
-# CONFIRMED: give time to print all the files, before the next process takes over newly printed content
-# avoids bugs like these half of files done, next half waiting https://github.com/rectorphp/rector-src/runs/2565478682
-sleep 5
+# give time to print all the files, before the next process takes over newly printed content
+sleep 2
