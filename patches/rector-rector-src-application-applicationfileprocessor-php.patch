@@ -1,11 +1,19 @@
 --- /dev/null
 +++ ../src/Application/ApplicationFileProcessor.php
-@@ -256,6 +256,8 @@
-      */
-     private function resolveCalledRectorBinary() : ?string
-     {
-+        dump($_SERVER);
-+
+@@ -259,11 +259,11 @@
          if (!isset($_SERVER[self::ARGV][0])) {
              return null;
          }
+-        $potentialEcsBinaryPath = $_SERVER[self::ARGV][0];
+-        if (!\file_exists($potentialEcsBinaryPath)) {
+-            return null;
+-        }
+-        return $potentialEcsBinaryPath;
++        return $_SERVER[self::ARGV][0];
++//        if (!\file_exists($potentialEcsBinaryPath)) {
++//            return null;
++//        }
++//        return $potentialEcsBinaryPath;
+     }
+     /**
+      * @param File[] $files
