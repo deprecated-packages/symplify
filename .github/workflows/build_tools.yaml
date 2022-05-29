@@ -74,7 +74,10 @@ jobs:
             -   run: rm -rf ${{ matrix.tools.directory }}-build/packages-tests
 
             # 3. downgrade
-            -   run: sh packages/${{ matrix.tools.directory }}/build/downgrade-${{ matrix.tools.directory }}.sh ${{ matrix.tools.directory }}-build
+            #-   run: sh packages/${{ matrix.tools.directory }}/build/downgrade-${{ matrix.tools.directory }}.sh ${{ matrix.tools.directory }}-build
+
+            # 3. downgrade directly
+            -   run: vendor/bin/rector process ${{ matrix.tools.directory }} --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}/vendor/autoload.php --ansi
 
             # 4. prefix
             -   run: sh packages/${{ matrix.tools.directory }}/build/build-${{ matrix.tools.directory }}-scoped.sh ${{ matrix.tools.directory }}-build ${{ matrix.tools.directory }}-prefixed-downgraded
