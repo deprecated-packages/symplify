@@ -76,7 +76,10 @@
     },
     "config": {
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": false,
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

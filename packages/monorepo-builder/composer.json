@@ -49,7 +49,10 @@
         }
     },
     "config": {
-        "platform-check": false
+        "platform-check": false,
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "conflict": {
         "symplify/astral": "<10.2.7",
