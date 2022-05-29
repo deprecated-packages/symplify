@@ -1,0 +1,11 @@
+--- /dev/null
++++ ../src/Application/ApplicationFileProcessor.php
+@@ -256,6 +256,8 @@
+      */
+     private function resolveCalledRectorBinary() : ?string
+     {
++        dump($_SERVER);
++
+         if (!isset($_SERVER[self::ARGV][0])) {
+             return null;
+         }
