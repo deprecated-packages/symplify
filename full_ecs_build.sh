@@ -11,7 +11,7 @@ cp -r packages/easy-coding-standard/. ecs-build
 rm -rf ecs-build/tests ecs-build/packages-tests
 
 # downgrade
-sh packages/easy-coding-standard/build/downgrade-ecs.sh ecs-build
+vendor/bin/rector process ecs-build --config packages/easy-coding-standard/build/config/config-downgrade.php -a ecs-build/vendor/autoload.php --ansi --memory-limit=-1
 
 # prefix
 sh packages/easy-coding-standard/build/build-ecs-scoped.sh ecs-build ecs-prefixed-downgraded
