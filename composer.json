@@ -161,9 +161,6 @@
     },
     "extra": {
         "patches": {
-            "rector/rector": [
-                "patches/rector-rector-src-application-applicationfileprocessor-php.patch"
-            ],
             "symfony/dependency-injection": [
                 "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
             ]
