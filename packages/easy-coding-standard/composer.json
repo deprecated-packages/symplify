@@ -52,7 +52,7 @@
         },
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/symplify/ecs-vendor-patches/main/patches/generic-php-config-loader.patch"
+                "https://raw.githubusercontent.com/symplify/patch-files/main/patches/generic-php-config-loader.patch"
             ]
         }
     },
