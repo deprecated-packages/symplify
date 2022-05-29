@@ -4,16 +4,12 @@
          if (!isset($_SERVER[self::ARGV][0])) {
              return null;
          }
--        $potentialEcsBinaryPath = $_SERVER[self::ARGV][0];
--        if (!\file_exists($potentialEcsBinaryPath)) {
--            return null;
--        }
--        return $potentialEcsBinaryPath;
-+        return $_SERVER[self::ARGV][0];
-+//        if (!\file_exists($potentialEcsBinaryPath)) {
-+//            return null;
-+//        }
-+//        return $potentialEcsBinaryPath;
++        var_dump($_SERVER[self::ARGV);
+         $potentialEcsBinaryPath = $_SERVER[self::ARGV][0];
+         if (!\file_exists($potentialEcsBinaryPath)) {
+             return null;
+         }
+         return $potentialEcsBinaryPath;
      }
      /**
       * @param File[] $files
