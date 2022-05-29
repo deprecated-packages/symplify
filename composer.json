@@ -82,7 +82,6 @@
             ],
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
-            "Symplify\\GitWrapper\\": "packages/git-wrapper/src",
             "Symplify\\MonorepoBuilder\\": [
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
@@ -136,7 +135,6 @@
             ],
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
-            "Symplify\\GitWrapper\\Tests\\": "packages/git-wrapper/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": [
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
@@ -181,7 +179,6 @@
         "symplify/easy-coding-standard": "10.2.7",
         "symplify/easy-parallel": "10.2.7",
         "symplify/easy-testing": "10.2.7",
-        "symplify/git-wrapper": "10.2.7",
         "symplify/monorepo-builder": "10.2.7",
         "symplify/neon-config-dumper": "10.2.7",
         "symplify/package-builder": "10.2.7",

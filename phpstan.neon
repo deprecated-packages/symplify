@@ -228,44 +228,11 @@ parameters:
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
-                 - packages/git-wrapper/src/GitWorkingCopy.php
                  # traversing is complex operatoin
                  - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
-        -
-            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
-            paths:
-                # manually created value objects mostly
-                - packages/git-wrapper/src/*
-
-        -
-            message: '#Spread operator is not allowed#'
-            paths:
-                - packages/git-wrapper/src
-
         - '#Method "needsMerge\(\)" returns bool type, so the name should start with is/has/was#'
-
-        -
-            message: '#Use value object over multi array assign#'
-            paths:
-                - packages/git-wrapper/src/GitWorkingCopy.php
-
-        -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/git-wrapper/src/GitWorkingCopy.php
-                - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
-
-        -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/git-wrapper/src/GitBranches.php
-
-        -
-            message: '#Use explicit names over dynamic ones#'
-            paths:
-                - packages/git-wrapper/src/EventSubscriber/GitLoggerEventSubscriber.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
 
@@ -355,7 +322,6 @@ parameters:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
                  - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
-                 - packages/git-wrapper/src/Event/AbstractGitEvent.php
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
                  - packages/phpstan-rules/src/Rules/AbstractAttributeRule.php
@@ -367,7 +333,6 @@ parameters:
              message: '#Class has a static method must so must contains "Static" in its name#'
              paths:
                  - packages/package-builder/src/Console/Command/CommandNaming.php
-                 - packages/git-wrapper/src/Strings/GitStrings.php
                  - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
 
         # on purpose, to make service a simple as possible

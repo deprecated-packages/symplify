@@ -53,7 +53,6 @@
         "symplify/skipper": "<10.2.7",
         "symplify/smart-file-system": "<9.4.70",
         "symplify/symfony-static-dumper": "<10.2.7",
-        "symplify/git-wrapper": "<10.2.7",
         "symplify/symplify-kernel": "<9.4.70",
         "symplify/monorepo-builder": "<10.2.7",
         "symplify/config-transformer": "<10.2.7",
