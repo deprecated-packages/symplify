@@ -61,9 +61,6 @@ return static function (RectorConfig $rectorConfig): void {
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
 
-        // adopted 3rd party package - keep API compatible
-        UnSpreadOperatorRector::class => [__DIR__ . '/packages/git-wrapper'],
-
         // false positive on "locale" string
         VarConstantCommentRector::class => [
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
