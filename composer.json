@@ -58,7 +58,7 @@
         "phpstan/phpstan-strict-rules": "^1.1",
         "phpunit/phpunit": "^9.5",
         "psr/log": "^1.1",
-        "rector/rector": "dev-main#5c55299",
+        "rector/rector": "dev-main#15bac77",
         "slevomat/coding-standard": "^7.1",
         "symfony/framework-bundle": "^6.0",
         "symfony/twig-bundle": "^6.0",
