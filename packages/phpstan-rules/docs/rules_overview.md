@@ -314,7 +314,7 @@ services:
         arguments:
             guards:
                 Symfony\Component\Form\FormTypeInterface:
-                    - App\Form\**
+                    - 'App\Form\**'
 ```
 
 ↓
@@ -355,9 +355,9 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             guards:
-                App\Component\PriceEngine\**:
-                    - App\Component\PriceEngine\**
-                    - App\Component\PriceEngineImpl\**
+                'App\Component\PriceEngine\**':
+                    - 'App\Component\PriceEngine\**'
+                    - 'App\Component\PriceEngineImpl\**'
 ```
 
 ↓
@@ -576,10 +576,9 @@ services:
         arguments:
             allowedExclusiveDependencyInTypes:
                 Doctrine\ORM\EntityManager:
-                    - *Repository
-
+                    - '*Repository'
                 Doctrine\ORM\EntityManagerInterface:
-                    - *Repository
+                    - '*Repository'
 ```
 
 ↓
@@ -962,7 +961,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             forbiddenFunctions:
-                dump: seems you missed some debugging function
+                dump: 'seems you missed some debugging function'
 ```
 
 ↓
