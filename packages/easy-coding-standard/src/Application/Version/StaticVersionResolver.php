@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Application\Version;
 
 use DateTime;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Process\Process;
 use Symplify\EasyCodingStandard\Exception\VersionException;
 
 /**
