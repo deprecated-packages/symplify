@@ -15,7 +15,6 @@
         "symfony/console": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/finder": "^6.0",
-        "symfony/process": "^6.0",
         "symplify/autowire-array-parameter": "^10.3",
         "symplify/coding-standard": "^10.3",
         "symplify/easy-parallel": "^10.3",
@@ -24,7 +23,6 @@
         "symplify/skipper": "^10.3",
         "symplify/smart-file-system": "^10.3",
         "symplify/symplify-kernel": "^10.3",
-        "symplify/vendor-patches": "^10.3",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -47,6 +45,7 @@
         }
     },
     "extra": {
+        "enable-patching": true,
         "branch-alias": {
             "dev-main": "10.3-dev"
         },
