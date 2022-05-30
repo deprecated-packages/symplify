@@ -64,6 +64,12 @@
             }
         }
     },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*"
+    },
     "conflict": {
         "symplify/astral": "<10.2.7",
         "symplify/composer-json-manipulator": "<10.2.7",
