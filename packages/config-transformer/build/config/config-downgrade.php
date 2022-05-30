@@ -6,6 +6,8 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->parallel();
+
     $rectorConfig->sets([DowngradeLevelSetList::DOWN_TO_PHP_72]);
 
     $rectorConfig->skip([
@@ -17,11 +19,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/symfony/http-kernel/HttpKernelBrowser.php',
         '*/symfony/cache/*',
         // fails on DOMCaster
-        '*/symfony/var-dumper/*',
-        '*/symfony/var-exporter/*',
-        '*/symfony/error-handler/*',
-        '*/symfony/event-dispatcher/*',
-        '*/symfony/event-dispatcher-contracts/*',
         '*/symfony/http-foundation/*',
     ]);
 };

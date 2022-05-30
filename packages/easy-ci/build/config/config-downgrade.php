@@ -7,6 +7,8 @@ use Rector\DowngradePhp81\Rector\Array_\DowngradeArraySpreadStringKeyRector;
 use Rector\Set\ValueObject\DowngradeLevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->parallel();
+
     $rectorConfig->sets([DowngradeLevelSetList::DOWN_TO_PHP_72]);
 
     $rectorConfig->skip([
