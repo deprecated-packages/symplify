@@ -52,7 +52,7 @@ jobs:
             # 2. prepare build directory
             -   run: cp -r packages/easy-coding-standard/. ecs-build
             # remove test files
-            -   run: rm -rf ecs-build/tests ecs-build/packages/changed-files-detector/tests ecs-build/packages/configuration/tests ecs-build/packages/fixer-runner/tests ecs-build/packages/sniff-runner/tests ecs-build/packages/snippet-formatter/tests
+            -   run: rm -rf ecs-build/tests ecs-build/packages/changed-files-detector/tests ecs-build/packages/configuration/tests ecs-build/packages/fixer-runner/tests ecs-build/packages/sniff-runner/tests ecs-build/packages/snippet-formatter/tests ecs-build/vendor/symfony/event-dispatcher
 
             # 3. downgrade with Rector
             -   run: vendor/bin/rector process ecs-build --config packages/easy-coding-standard/build/config/config-downgrade.php -a ecs-build/vendor/autoload.php --ansi
