@@ -9,6 +9,8 @@ use Rector\Set\ValueObject\DowngradeLevelSetList;
 use Symfony\Contracts\Service\Attribute\Required;
 
 return static function (RectorConfig $rectorConfig): void {
+    $rectorConfig->parallel();
+
     $rectorConfig->sets([DowngradeLevelSetList::DOWN_TO_PHP_72]);
 
     $rectorConfig->ruleWithConfiguration(DowngradeAttributeToAnnotationRector::class, [
