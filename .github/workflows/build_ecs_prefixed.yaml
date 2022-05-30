@@ -46,6 +46,9 @@ jobs:
             # 1. install package dependencies
             -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/easy-coding-standard/composer.json --ansi
 
+            # invoke patches first, @see https://twitter.com/VotrubaT/status/1531197495224721408
+            -
+                run: composer install --working-dir packages/easy-coding-standard --ansi
             -
                 run: composer install --working-dir packages/easy-coding-standard --ansi --no-dev
 
