@@ -72,6 +72,12 @@
         "symplify/easy-parallel": "<10.2.7",
         "symplify/neon-config-dumper": "<10.2.7"
     },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*"
+    },
     "config": {
         "sort-packages": true,
         "platform-check": false,

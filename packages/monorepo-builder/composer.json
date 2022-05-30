@@ -55,6 +55,12 @@
             "cweagans/composer-patches": true
         }
     },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*"
+    },
     "conflict": {
         "symplify/astral": "<10.2.7",
         "symplify/easy-coding-standard": "<10.2.7",
