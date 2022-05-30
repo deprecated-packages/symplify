@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Neon;
+namespace Symplify\RuleDocGenerator\Printer;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @api
- */
 final class NeonPrinter
 {
     /**
