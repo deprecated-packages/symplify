@@ -15,7 +15,6 @@
         "symplify/symplify-kernel": "^10.3",
         "symplify/rule-doc-generator-contracts": "^10.3",
         "symplify/package-builder": "^10.3",
-        "nette/neon": "^3.3.3",
         "nette/utils": "^3.2",
         "sebastian/diff": "^4.0",
         "symplify/php-config-printer": "^10.3",
