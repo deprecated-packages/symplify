@@ -9,6 +9,7 @@
         "php": ">=8.0",
         "composer/semver": "^3.2",
         "nette/robot-loader": "^3.4",
+        "nette/neon": "^3.3.3",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
         "symfony/console": "^6.0",

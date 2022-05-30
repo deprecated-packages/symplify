@@ -16,6 +16,7 @@
         "myclabs/php-enum": "^1.8",
         "nette/application": "^3.1",
         "nette/di": "^3.0",
+        "nette/neon": "^3.3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
@@ -163,7 +164,8 @@
             "symfony/dependency-injection": [
                 "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
             ]
-        }
+        },
+        "enable-patching": true
     },
     "replace": {
         "symplify/astral": "10.2.7",
