@@ -26,7 +26,8 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "cweagans/composer-patches": "^1.7"
     },
     "autoload": {
         "psr-4": {
