@@ -167,6 +167,10 @@
         "enable-patching": true
     },
     "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*",
         "symplify/astral": "10.2.7",
         "symplify/autowire-array-parameter": "10.2.7",
         "symplify/coding-standard": "10.2.7",
