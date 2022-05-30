@@ -21,6 +21,7 @@
         "symplify/symplify-kernel": "^10.3"
     },
     "require-dev": {
+        "cweagans/composer-patches": "^1.7.2",
         "latte/latte": "^2.11",
         "nette/application": "^3.1",
         "phpunit/phpunit": "^9.5"
