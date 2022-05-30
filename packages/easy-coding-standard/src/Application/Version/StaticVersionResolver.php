@@ -26,44 +26,49 @@ final class StaticVersionResolver
     public const RELEASE_DATE = '@release_date@';
 
     /**
-     * @var string
+     * @var int
      */
-    private const GIT = 'git';
+    private const SUCCESS_CODE = 0;
 
     public static function resolvePackageVersion(): string
     {
-        $pointsAtProcess = new Process([self::GIT, 'tag', '--points-at'], __DIR__);
-        if ($pointsAtProcess->run() !== Command::SUCCESS) {
+        // resolve current tag
+        exec('git tag --points-at', $tagExecOutput, $tagExecResultCode);
+
+        if ($tagExecResultCode !== self::SUCCESS_CODE) {
             throw new VersionException(
-                'You must ensure to run compile from composer git repository clone and that git binary is available.'
+                'Ensure to run compile from composer git repository clone and that git binary is available.'
             );
         }
 
-        $tag = trim($pointsAtProcess->getOutput());
-        if ($tag !== '' && $tag !== '0') {
-            return $tag;
+        if ($tagExecOutput !== []) {
+            $tag = $tagExecOutput[0];
+            if ($tag !== '') {
+                return $tag;
+            }
         }
 
-        $process = new Process([self::GIT, 'log', '--pretty="%H"', '-n1', 'HEAD'], __DIR__);
-        if ($process->run() !== Command::SUCCESS) {
+        exec('git log --pretty="%H" -n1 HEAD', $commitHashExecOutput, $commitHashResultCode);
+
+        if ($commitHashResultCode !== self::SUCCESS_CODE) {
             throw new VersionException(
-                'You must ensure to run compile from composer git repository clone and that git binary is available.'
+                'Ensure to run compile from composer git repository clone and that git binary is available.'
             );
         }
 
-        $version = trim($process->getOutput());
+        $version = trim($commitHashExecOutput[0]);
         return trim($version, '"');
     }
 
     public static function resolverReleaseDateTime(): DateTime
     {
-        $process = new Process([self::GIT, 'log', '-n1', '--pretty=%ci', 'HEAD'], __DIR__);
-        if ($process->run() !== Command::SUCCESS) {
+        exec('git log -n1 --pretty=%ci HEAD', $output, $resultCode);
+        if ($resultCode !== self::SUCCESS_CODE) {
             throw new VersionException(
-                'You must ensure to run compile from composer git repository clone and that git binary is available.'
+                'Ensure to run compile from composer git repository clone and that git binary is available.'
             );
         }
 
-        return new DateTime(trim($process->getOutput()));
+        return new DateTime(trim($output[0]));
     }
 }
