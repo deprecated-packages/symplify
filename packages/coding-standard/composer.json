@@ -36,7 +36,12 @@
         "branch-alias": {
             "dev-main": "10.3-dev"
         },
-        "enable-patching": true
+        "enable-patching": true,
+        "patches": {
+            "symfony/dependency-injection": [
+                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+            ]
+        }
     },
     "config": {
         "allow-plugins": {
