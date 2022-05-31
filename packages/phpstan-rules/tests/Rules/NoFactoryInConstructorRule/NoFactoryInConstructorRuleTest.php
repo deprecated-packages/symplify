@@ -42,6 +42,8 @@ final class NoFactoryInConstructorRuleTest extends RuleTestCase
         ];
 
         yield [__DIR__ . '/Fixture/SkipParameterProvider.php', []];
+
+        yield [__DIR__ . '/Fixture/SkipValueObject.php', []];
     }
 
     /**

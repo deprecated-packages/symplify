@@ -144,7 +144,12 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->arrayStringAndFnMatcher->isMatch($type->getClassName(), self::ALLOWED_TYPES);
+        $allowedTypesAndSkippedClassNames = array_merge(
+            self::ALLOWED_TYPES,
+            self::SKIP_CLASS_NAMES
+        );
+
+        return $this->arrayStringAndFnMatcher->isMatch($type->getClassName(), $allowedTypesAndSkippedClassNames);
     }
 
     private function isInAllowedClass(Scope $scope): bool
