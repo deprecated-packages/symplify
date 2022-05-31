@@ -100,6 +100,8 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
             CT::T_USE_LAMBDA,
             // "new"
             T_NEW,
+            // "#["
+            T_ATTRIBUTE,
         ]);
     }
 
@@ -119,7 +121,7 @@ final class LineLengthFixer extends AbstractSymplifyFixer implements Configurabl
             }
 
             // opener
-            if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+            if ($token->isGivenKind([T_ATTRIBUTE, T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
                 $this->processFunctionOrArray($tokens, $position);
                 continue;
             }

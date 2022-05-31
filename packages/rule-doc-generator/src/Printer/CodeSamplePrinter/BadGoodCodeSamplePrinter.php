@@ -19,6 +19,12 @@ final class BadGoodCodeSamplePrinter
      */
     public function print(CodeSampleInterface $codeSample): array
     {
-        return [$this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode()), ':x:', '<br>', $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode()), ':+1:'];
+        return [
+            $this->markdownCodeWrapper->printPhpCode($codeSample->getBadCode()),
+            ':x:',
+            '<br>',
+            $this->markdownCodeWrapper->printPhpCode($codeSample->getGoodCode()),
+            ':+1:',
+        ];
     }
 }
