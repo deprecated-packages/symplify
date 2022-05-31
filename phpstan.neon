@@ -493,3 +493,6 @@ parameters:
         -
             message: '#Class Symfony\\Contracts\\Service\\Attribute\\Required is not an Attribute class#'
             path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
+        -
+            message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
+            path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php

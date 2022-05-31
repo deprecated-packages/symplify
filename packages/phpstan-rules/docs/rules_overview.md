@@ -1,4 +1,4 @@
-# 112 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -423,62 +423,6 @@ class Some extends Command
 ```php
 class SomeCommand extends Command
 {
-}
-```
-
-:+1:
-
-<br>
-
-## ConstantMapRuleRule
-
-Static constant map should be extracted from this method
-
-- class: [`Symplify\PHPStanRules\Rules\ConstantMapRuleRule`](../src/Rules/ConstantMapRuleRule.php)
-
-```php
-class SomeClass
-{
-    public function run($value)
-    {
-        if ($value instanceof SomeType) {
-            return 100;
-        }
-
-        if ($value instanceof AnotherType) {
-            return 1000;
-        }
-
-        return 200;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    /**
-     * @var array<string, int>
-     */
-    private const TYPE_TO_VALUE = [
-        SomeType::class => 100,
-        AnotherType::class => 1000,
-    ];
-
-    public function run($value)
-    {
-        foreach (self::TYPE_TO_VALUE as $type => $value) {
-            if (is_a($value, $type, true)) {
-                return $value;
-            }
-        }
-
-        return 200;
-    }
 }
 ```
 
