@@ -47,23 +47,19 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
      */
     private function createCompilerPasses(): array
     {
-        $compilerPasses = [];
-
-        // cleanup
-        $compilerPasses[] = new RemoveExcludedCheckersCompilerPass();
-        $compilerPasses[] = new RemoveMutualCheckersCompilerPass();
-        $compilerPasses[] = new ConflictingCheckersCompilerPass();
-
-        // autowire
-        $compilerPasses[] = new AutowireInterfacesCompilerPass([
-            FixerInterface::class,
-            Sniff::class,
-            OutputFormatterInterface::class,
-        ]);
-
-        $compilerPasses[] = new FixerWhitespaceConfigCompilerPass();
-        $compilerPasses[] = new AutowireArrayParameterCompilerPass();
-
-        return $compilerPasses;
+        return [
+            // cleanup
+            new RemoveExcludedCheckersCompilerPass(),
+            new RemoveMutualCheckersCompilerPass(),
+            new ConflictingCheckersCompilerPass(),
+            // autowire
+            new AutowireInterfacesCompilerPass([
+                FixerInterface::class,
+                Sniff::class,
+                OutputFormatterInterface::class,
+            ]),
+            new FixerWhitespaceConfigCompilerPass(),
+            new AutowireArrayParameterCompilerPass(),
+        ];
     }
 }

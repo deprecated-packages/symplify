@@ -8,8 +8,8 @@
     "require": {
         "php": ">=8.0",
         "composer/semver": "^3.2",
-        "nette/robot-loader": "^3.4",
         "nette/neon": "^3.3.3",
+        "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.13.2",
         "symfony/console": "^6.0",
@@ -21,7 +21,7 @@
         "symplify/symplify-kernel": "^10.3"
     },
     "require-dev": {
-        "cweagans/composer-patches": "^1.7.2",
+        "cweagans/composer-patches": "^1.7",
         "latte/latte": "^2.11",
         "nette/application": "^3.1",
         "phpunit/phpunit": "^9.5"
