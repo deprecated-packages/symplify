@@ -144,10 +144,7 @@ CODE_SAMPLE
             return false;
         }
 
-        $allowedTypesAndSkippedClassNames = array_merge(
-            self::ALLOWED_TYPES,
-            self::SKIP_CLASS_NAMES
-        );
+        $allowedTypesAndSkippedClassNames = array_merge(self::ALLOWED_TYPES, self::SKIP_CLASS_NAMES);
 
         return $this->arrayStringAndFnMatcher->isMatch($type->getClassName(), $allowedTypesAndSkippedClassNames);
     }

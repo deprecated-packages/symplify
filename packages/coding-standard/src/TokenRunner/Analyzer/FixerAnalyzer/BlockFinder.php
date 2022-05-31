@@ -29,7 +29,7 @@ final class BlockFinder
     /**
      * @var string[]
      */
-    private const START_EDGES = ['(', '[', '{', '#['];
+    private const START_EDGES = ['(', '[', '{'];
 
     /**
      * Accepts position to both start and end token, e.g. (, ), [, ], {, } also to: "array"(, "function" ...(, "use"(,
@@ -51,7 +51,7 @@ final class BlockFinder
             $token = $tokens[$position];
         }
 
-        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
+        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW, T_ATTRIBUTE])) {
             $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
             /** @var Token $token */
             $token = $tokens[$position];

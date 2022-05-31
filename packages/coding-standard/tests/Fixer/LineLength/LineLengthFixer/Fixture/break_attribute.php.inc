@@ -1,16 +1,11 @@
 <?php
 
-#[SomeObject($someLongArgument, $someLongArgument, $anotherLongArgument, $anotherLongArgument, $passTheLimit)]
+#[SomeObject($someLongArgument, $someLongArgument, $anotherLongArgument, $anotherLongArgument, $passTheLimit, $passTheLimit, $passTheLimit)]
 class SomeClass
 {
 
 }
 
-#[SomeObject($someLongArgument, $someLongArgument, $anotherLongArgument, $anotherLongArgument, $limits)]
-class SomeClass
-{
-
-}
 ?>
 -----
 <?php
@@ -20,6 +15,8 @@ class SomeClass
     $someLongArgument,
     $anotherLongArgument,
     $anotherLongArgument,
+    $passTheLimit,
+    $passTheLimit,
     $passTheLimit
 )]
 class SomeClass
@@ -27,9 +24,4 @@ class SomeClass
 
 }
 
-#[SomeObject($someLongArgument, $someLongArgument, $anotherLongArgument, $anotherLongArgument, $limits)]
-class SomeClass
-{
-
-}
 ?>
