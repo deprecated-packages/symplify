@@ -132,6 +132,8 @@ parameters:
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
+                # direct string printer
+                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
 
         -
             message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
@@ -486,3 +488,8 @@ parameters:
             paths:
                  - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
                  - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
+
+        # false positive since PHPStan 1.7.6
+        -
+            message: '#Class Symfony\\Contracts\\Service\\Attribute\\Required is not an Attribute class#'
+            path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
