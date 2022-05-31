@@ -9,7 +9,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
     - Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
     - Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
-    - Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule
     - Symplify\PHPStanRules\Rules\NoTraitRule
     - Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule
     - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
