@@ -148,7 +148,7 @@ parameters:
                 - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php # 46
 
         -
-            message: '#Do not use trait#'
+            message: '#is forbidden to use#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
