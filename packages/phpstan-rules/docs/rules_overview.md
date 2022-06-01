@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 109 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2507,43 +2507,6 @@ final class SomeClass
 
 <br>
 
-## NoParentDuplicatedTraitUseRule
-
-The "%s" trait is already used in parent class. Remove it here
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\NoParentDuplicatedTraitUseRule`](../src/Rules/Complexity/NoParentDuplicatedTraitUseRule.php)
-
-```php
-class ParentClass
-{
-    use SomeTrait;
-}
-
-class SomeClass extends ParentClass
-{
-    use SomeTrait;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class ParentClass
-{
-    use SomeTrait;
-}
-
-class SomeClass extends ParentClass
-{
-}
-```
-
-:+1:
-
-<br>
-
 ## NoParentMethodCallOnEmptyStatementInParentMethodRule
 
 Do not call parent method if parent method is empty
@@ -2890,38 +2853,6 @@ final class SomeClass
 final class SomeClass
 {
     private $customFileNames = [];
-}
-```
-
-:+1:
-
-<br>
-
-## NoTraitRule
-
-Do not use trait, extract to a service and dependency injection instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoTraitRule`](../src/Rules/NoTraitRule.php)
-
-```php
-trait SomeTrait
-{
-    public function run()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeService
-{
-    public function run(...)
-    {
-    }
 }
 ```
 
