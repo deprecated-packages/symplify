@@ -81,7 +81,7 @@ final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
         $realDirectory = dirname($scope->getFile());
         $fileRealPath = $realDirectory . $relativeDirPath;
 
-        if (file_exists($fileRealPath)) {
+        if (is_file($fileRealPath)) {
             return [];
         }
 
