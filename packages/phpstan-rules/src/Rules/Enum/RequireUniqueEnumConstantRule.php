@@ -94,8 +94,8 @@ CODE_SAMPLE
     }
 
     /**
-     * @param scalar[] $values
-     * @return scalar[]
+     * @param array<string|int> $values
+     * @return array<string|int>
      */
     private function filterDuplicatedValues(array $values): array
     {
@@ -114,7 +114,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @return scalar[]
+     * @return array<int|float|bool|string>
      */
     private function resolveClassConstantValues(ClassLike $classLike, Scope $scope): array
     {

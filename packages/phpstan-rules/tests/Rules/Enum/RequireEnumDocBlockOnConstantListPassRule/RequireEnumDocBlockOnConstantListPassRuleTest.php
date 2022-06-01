@@ -25,9 +25,27 @@ final class RequireEnumDocBlockOnConstantListPassRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipWithEnumLikeType.php', []];
+        yield [__DIR__ . '/Fixture/SkipMoreStrings.php', []];
+        yield [__DIR__ . '/Fixture/SkipExternalCarWithType.php', []];
+        yield [__DIR__ . '/Fixture/SkipClassConstReference.php', []];
+        yield [__DIR__ . '/Fixture/SkipSelfReference.php', []];
+        yield [__DIR__ . '/Fixture/SkipParameterProvider.php', []];
+
         yield [
             __DIR__ . '/Fixture/ClassWithoutParamEnumType.php',
-            [[RequireEnumDocBlockOnConstantListPassRule::ERROR_MESSAGE, 9]], ];
+            [[RequireEnumDocBlockOnConstantListPassRule::ERROR_MESSAGE, 13]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/OnePositionCovered.php',
+            [[RequireEnumDocBlockOnConstantListPassRule::ERROR_MESSAGE, 13]],
+        ];
+
+        yield [
+            __DIR__ . '/Fixture/ExternalNoType.php',
+            [[RequireEnumDocBlockOnConstantListPassRule::ERROR_MESSAGE, 15]],
+        ];
     }
 
     /**

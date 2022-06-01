@@ -14,6 +14,7 @@ rules:
     - Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
     - Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule
+    # - Symplify\PHPStanRules\Rules\Enum\RequireEnumDocBlockOnConstantListPassRule
     - Symplify\PHPStanRules\Rules\NoFuncCallInMethodCallRule
     - Symplify\PHPStanRules\Rules\NoDynamicNameRule
     - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule

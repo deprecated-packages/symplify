@@ -106,6 +106,9 @@ final class StringExprResolver
         return interface_exists($value);
     }
 
+    /**
+     * @param FunctionName::* $functionName
+     */
     private function resolveServiceReferenceExpr(
         string $value,
         bool $skipServiceReference,

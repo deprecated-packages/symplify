@@ -98,9 +98,11 @@ final class PropertyFetchTypeAnalyzer
                 continue;
             }
 
-            $parametersAcceptor = ParametersAcceptorSelector::selectSingle($assignMethodReflection->getVariants());
+            $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle(
+                $assignMethodReflection->getVariants()
+            );
 
-            foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
+            foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflection) {
                 if (! $parameterReflection instanceof PhpParameterReflection) {
                     continue;
                 }

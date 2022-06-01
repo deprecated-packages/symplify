@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Reflection;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpMethodReflection;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StaticType;
@@ -15,6 +16,28 @@ use PHPStan\Type\TypeWithClassName;
 final class MethodCallNodeAnalyzer
 {
     public function resolveMethodCallReflection(MethodCall $methodCall, Scope $scope): ?PhpMethodReflection
+    {
+        $callerClassReflection = $this->resolveCallerClassReflection($scope, $methodCall);
+
+        if (! $callerClassReflection instanceof ClassReflection) {
+            return null;
+        }
+
+        if (! $methodCall->name instanceof Identifier) {
+            return null;
+        }
+
+        $methodName = $methodCall->name->toString();
+
+        $methodReflection = $callerClassReflection->getMethod($methodName, $scope);
+        if (! $methodReflection instanceof PhpMethodReflection) {
+            return null;
+        }
+
+        return $methodReflection;
+    }
+
+    private function resolveCallerClassReflection(Scope $scope, MethodCall $methodCall): ?ClassReflection
     {
         $callerType = $scope->getType($methodCall->var);
         if (! $callerType instanceof TypeWithClassName) {
@@ -29,18 +52,6 @@ final class MethodCallNodeAnalyzer
             return null;
         }
 
-        $callerClassReflection = $callerType->getClassReflection();
-        if (! $methodCall->name instanceof Identifier) {
-            return null;
-        }
-
-        $methodName = $methodCall->name->toString();
-
-        $methodReflection = $callerClassReflection->getMethod($methodName, $scope);
-        if (! $methodReflection instanceof PhpMethodReflection) {
-            return null;
-        }
-
-        return $methodReflection;
+        return $callerType->getClassReflection();
     }
 }

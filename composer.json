@@ -214,7 +214,8 @@
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --dry-run --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
-        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
+        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
+        "dump-phpstan-services": "php packages/neon-config-dumper/bin/neon-config-dumper.php packages/phpstan-rules/src --output-file packages/phpstan-rules/config/services/generated-services.neon"
     },
     "config": {
         "sort-packages": true,
