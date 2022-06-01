@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Command\Command;
+use PHPStan\Type\Type;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -44,14 +48,14 @@ final class RequireEnumDocBlockOnConstantListPassRule implements Rule, Documente
         RectorConfig::class,
         ECSConfig::class,
         ParametersConfigurator::class,
-        \Symplify\Astral\Naming\SimpleNameResolver::class,
+        SimpleNameResolver::class,
         // set get option
-        \Symfony\Component\Console\Input\InputInterface::class,
-        \Symfony\Component\Console\Command\Command::class,
+        InputInterface::class,
+        Command::class,
         // attributes
-        \PhpParser\Node::class,
+        Node::class,
         \PHPStan\PhpDocParser\Ast\Node::class,
-        \PHPStan\Type\Type::class,
+        Type::class,
     ];
 
     public function __construct(
@@ -158,7 +162,7 @@ CODE_SAMPLE
     /**
      * @return array<int, ParameterReflection>
      */
-    private function resolveParameterReflections(MethodCall $methodCall, Scope $scope): mixed
+    private function resolveParameterReflections(MethodCall $methodCall, Scope $scope): array
     {
         $phpMethodReflection = $this->methodCallNodeAnalyzer->resolveMethodCallReflection($methodCall, $scope);
         if (! $phpMethodReflection instanceof PhpMethodReflection) {
@@ -177,7 +181,7 @@ CODE_SAMPLE
             }
         }
 
-        $parametersAcceptor = ParametersAcceptorSelector::selectSingle($phpMethodReflection->getVariants());
-        return $parametersAcceptor->getParameters();
+        $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($phpMethodReflection->getVariants());
+        return $parametersAcceptorWithPhpDocs->getParameters();
     }
 }
