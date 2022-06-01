@@ -1,0 +1,46 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Symplify\PHPStanRules\Reflection;
+
+use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\Php\PhpMethodReflection;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\StaticType;
+use PHPStan\Type\TypeWithClassName;
+
+final class MethodCallNodeAnalyzer
+{
+    public function resolveMethodCallReflection(MethodCall $methodCall, Scope $scope): ?PhpMethodReflection
+    {
+        $callerType = $scope->getType($methodCall->var);
+        if (! $callerType instanceof TypeWithClassName) {
+            return null;
+        }
+
+        if ($callerType instanceof StaticType) {
+            $callerType = $callerType->getStaticObjectType();
+        }
+
+        if (! $callerType instanceof ObjectType) {
+            return null;
+        }
+
+        $callerClassReflection = $callerType->getClassReflection();
+        if (! $methodCall->name instanceof Identifier) {
+            return null;
+        }
+
+        $methodName = $methodCall->name->toString();
+
+        $methodReflection = $callerClassReflection->getMethod($methodName, $scope);
+        if (! $methodReflection instanceof PhpMethodReflection) {
+            return null;
+        }
+
+        return $methodReflection;
+    }
+}
