@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Enum;
 
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Command\Command;
-use PHPStan\Type\Type;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
@@ -17,8 +13,13 @@ use PHPStan\Reflection\Php\PhpMethodReflection;
 use PHPStan\Reflection\Php\PhpParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\StringType;
+use PHPStan\Type\Type;
 use Rector\Config\RectorConfig;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver;
 use Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer;
@@ -56,6 +57,7 @@ final class RequireEnumDocBlockOnConstantListPassRule implements Rule, Documente
         Node::class,
         \PHPStan\PhpDocParser\Ast\Node::class,
         Type::class,
+        ParameterBagInterface::class,
     ];
 
     public function __construct(

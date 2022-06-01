@@ -9,6 +9,7 @@ use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\SniffRunner\Application\SniffFileProcessor;
 use Symplify\EasyCodingStandard\SnippetFormatter\Provider\CurrentParentFileInfoProvider;
 use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -61,6 +62,10 @@ final class SnippetFormatter
     ) {
     }
 
+    /**
+     * @param SnippetPattern::* $snippetRegex
+     * @param SnippetKind::* $kind
+     */
     public function format(
         SmartFileInfo $fileInfo,
         string $snippetRegex,

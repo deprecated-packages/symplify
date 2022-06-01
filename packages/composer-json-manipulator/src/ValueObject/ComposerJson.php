@@ -787,6 +787,9 @@ final class ComposerJson
         $this->provide[$packageName] = $version;
     }
 
+    /**
+     * @param ComposerJsonSection::* $valueName
+     */
     private function moveValueToBack(string $valueName): void
     {
         $key = array_search($valueName, $this->orderedKeys, true);
