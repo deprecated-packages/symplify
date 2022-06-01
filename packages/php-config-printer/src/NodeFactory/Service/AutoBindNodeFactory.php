@@ -37,6 +37,7 @@ final class AutoBindNodeFactory
      * ->bind()
      *
      * @param mixed[] $yaml
+     * @param AutoBindNodeFactory::* $type
      */
     public function createAutoBindCalls(array $yaml, MethodCall $methodCall, string $type): MethodCall
     {

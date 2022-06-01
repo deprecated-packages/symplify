@@ -11,6 +11,8 @@ use Symplify\EasyCodingStandard\Parallel\ValueObject\Bridge;
 use Symplify\EasyCodingStandard\Reporter\ProcessedFileReporter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
 use Symplify\EasyCodingStandard\SnippetFormatter\Reporter\SnippetReporter;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
+use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
 use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
@@ -32,6 +34,8 @@ final class SnippetFormatterApplication
 
     /**
      * @param SmartFileInfo[] $fileInfos
+     * @param SnippetPattern::* $snippetPattern
+     * @param SnippetKind::* $kind
      */
     public function processFileInfosWithSnippetPattern(
         Configuration $configuration,
@@ -63,6 +67,10 @@ final class SnippetFormatterApplication
         return $this->processedFileReporter->report($errorsAndDiffs, $configuration);
     }
 
+    /**
+     * @param SnippetPattern::* $snippetPattern
+     * @param SnippetKind::* $kind
+     */
     private function processFileInfoWithPattern(
         SmartFileInfo $phpFileInfo,
         string $snippetPattern,

@@ -6,11 +6,13 @@ namespace Symplify\CodingStandard\TokenAnalyzer\Naming;
 
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
+use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class MethodNameResolver
 {
     /**
      * @param Tokens<Token> $tokens
+     * @param MethodName::* $desiredMethodName
      */
     public function isMethodName(Tokens $tokens, int $position, string $desiredMethodName): bool
     {
