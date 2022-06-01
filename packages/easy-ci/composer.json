@@ -14,11 +14,11 @@
         "nikic/php-parser": "^4.14.0",
         "symfony/console": "^6.0",
         "symfony/dependency-injection": "^6.0",
-        "symplify/astral": "^10.2.8",
-        "symplify/composer-json-manipulator": "^10.2.8",
-        "symplify/package-builder": "^10.2.8",
-        "symplify/smart-file-system": "^10.2.8",
-        "symplify/symplify-kernel": "^10.2.8"
+        "symplify/astral": "^10.3",
+        "symplify/composer-json-manipulator": "^10.3",
+        "symplify/package-builder": "^10.3",
+        "symplify/smart-file-system": "^10.3",
+        "symplify/symplify-kernel": "^10.3"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
