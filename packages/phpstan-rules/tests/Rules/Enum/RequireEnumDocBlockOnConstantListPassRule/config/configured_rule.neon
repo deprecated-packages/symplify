@@ -1,0 +1,5 @@
+rules:
+    - Symplify\PHPStanRules\Rules\Enum\RequireEnumDocBlockOnConstantListPassRule
+
+includes:
+    - ../../../../config/included_services.neon

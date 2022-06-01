@@ -4,11 +4,11 @@ services:
     - Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
-    - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
     - Symplify\PHPStanRules\Finder\ClassLikeNameFinder
+    - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
     - Symplify\PHPStanRules\Location\DirectoryChecker
-    - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher
+    - Symplify\PHPStanRules\Matcher\ObjectTypeMatcher
     - Symplify\PHPStanRules\Matcher\PositionMatcher
     - Symplify\PHPStanRules\Matcher\SharedNamePrefixMatcher
     - Symplify\PHPStanRules\Naming\AssignToVariableChecker
@@ -29,6 +29,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\InitializedExprAnalyzer
+    - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
@@ -58,6 +59,7 @@ services:
     - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\Printer\NodeComparator
+    - Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PHPStanRules\Reflection\PropertyAnalyzer
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer

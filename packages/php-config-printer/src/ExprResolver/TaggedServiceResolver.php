@@ -18,7 +18,10 @@ final class TaggedServiceResolver
     public function resolve(TaggedValue $taggedValue): Expr
     {
         $serviceName = $taggedValue->getValue()['class'];
-        $functionName = FunctionName::INLINE_SERVICE;
-        return $this->serviceReferenceExprResolver->resolveServiceReferenceExpr($serviceName, false, $functionName);
+        return $this->serviceReferenceExprResolver->resolveServiceReferenceExpr(
+            $serviceName,
+            false,
+            FunctionName::INLINE_SERVICE
+        );
     }
 }

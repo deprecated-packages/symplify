@@ -95,6 +95,9 @@ final class ContainerConfiguratorReturnClosureFactory
         return $nodes;
     }
 
+    /**
+     * @param VariableMethodName::* $variableMethodName
+     */
     private function createInitializeAssign(string $variableMethodName): Expression
     {
         $servicesVariable = new Variable($variableMethodName);

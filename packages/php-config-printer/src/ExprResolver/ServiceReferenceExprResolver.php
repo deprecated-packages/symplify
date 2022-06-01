@@ -8,6 +8,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name\FullyQualified;
+use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 
 final class ServiceReferenceExprResolver
 {
@@ -16,6 +17,9 @@ final class ServiceReferenceExprResolver
     ) {
     }
 
+    /**
+     * @param FunctionName::* $functionName
+     */
     public function resolveServiceReferenceExpr(
         string $value,
         bool $skipServiceReference,

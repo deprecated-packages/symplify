@@ -496,3 +496,9 @@ parameters:
         -
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
+
+        # scalar type skip
+        -
+            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
+            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
+        - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
