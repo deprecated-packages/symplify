@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules\Enum;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\Php\PhpMethodReflection;
@@ -14,13 +15,9 @@ use PHPStan\Reflection\Php\PhpParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
-use Rector\Config\RectorConfig;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ParametersConfigurator;
+use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver;
 use Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -46,17 +43,8 @@ final class RequireEnumDocBlockOnConstantListPassRule implements Rule, Documente
      */
     private const SKIPPED_CLASS_TYPES = [
         'Symplify\PackageBuilder\Parameter\ParameterProvider',
-        RectorConfig::class,
-        ECSConfig::class,
-        ParametersConfigurator::class,
+        AbstractConfigurator::class,
         SimpleNameResolver::class,
-        // set get option
-        InputInterface::class,
-        Command::class,
-        // attributes
-        Node::class,
-        \PHPStan\PhpDocParser\Ast\Node::class,
-        Type::class,
         ParameterBagInterface::class,
     ];
 
@@ -172,18 +160,41 @@ CODE_SAMPLE
         }
 
         // is skipped type?
-        $declaringClassReflection = $phpMethodReflection->getDeclaringClass();
-        foreach (self::SKIPPED_CLASS_TYPES as $skippedClassType) {
-            if ($declaringClassReflection->isSubclassOf($skippedClassType)) {
-                return [];
-            }
-
-            if ($skippedClassType === $declaringClassReflection->getName()) {
-                return [];
-            }
+        if ($this->shouldSkipClass($phpMethodReflection->getDeclaringClass())) {
+            return [];
         }
 
         $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($phpMethodReflection->getVariants());
         return $parametersAcceptorWithPhpDocs->getParameters();
+    }
+
+    private function shouldSkipClass(ClassReflection $classReflection): bool
+    {
+        if ($classReflection->isInternal()) {
+            return true;
+        }
+
+        $filename = $classReflection->getFileName();
+        if (! is_string($filename)) {
+            return true;
+        }
+
+        // skip vendor classes, as we cannot change them
+        if (str_contains($filename, '/vendor/')) {
+            return true;
+        }
+
+        foreach (self::SKIPPED_CLASS_TYPES as $skippedClassType) {
+            // skip vendor class, as we can't reach it
+            if ($classReflection->isSubclassOf($skippedClassType)) {
+                return true;
+            }
+
+            if ($skippedClassType === $classReflection->getName()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
