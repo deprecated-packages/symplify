@@ -23,6 +23,7 @@ final class BlockFinder
         ']' => Tokens::BLOCK_TYPE_ARRAY_SQUARE_BRACE,
         '{' => Tokens::BLOCK_TYPE_CURLY_BRACE,
         '}' => Tokens::BLOCK_TYPE_CURLY_BRACE,
+        '#[' => Tokens::BLOCK_TYPE_ATTRIBUTE,
     ];
 
     /**
@@ -43,6 +44,10 @@ final class BlockFinder
             return null;
         }
 
+        if ($token->isGivenKind(T_ATTRIBUTE)) {
+            return $this->createAttributeBlockInfo($tokens, $position);
+        }
+
         // shift "array" to "(", event its position
         if ($token->isGivenKind(T_ARRAY)) {
             $position = $tokens->getNextMeaningfulToken($position);
@@ -50,7 +55,7 @@ final class BlockFinder
             $token = $tokens[$position];
         }
 
-        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW, T_ATTRIBUTE])) {
+        if ($token->isGivenKind([T_FUNCTION, CT::T_USE_LAMBDA, T_NEW])) {
             $position = $tokens->getNextTokenOfKind($position, ['(', ';']);
             /** @var Token $token */
             $token = $tokens[$position];
@@ -132,5 +137,22 @@ final class BlockFinder
         }
 
         return new BlockInfo($blockStart, $blockEnd);
+    }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function createAttributeBlockInfo(Tokens $tokens, int $position): ?BlockInfo
+    {
+        // find optional attribute opener, "#[Some()]"
+        $openerPosition = $tokens->getNextTokenOfKind($position, ['(']);
+        if (is_int($openerPosition)) {
+            $position = $openerPosition;
+        }
+
+        /** @var Token $token */
+        $token = $tokens[$position];
+
+        return $this->createBlockInfo($token, $position, $tokens, Tokens::BLOCK_TYPE_ATTRIBUTE);
     }
 }
