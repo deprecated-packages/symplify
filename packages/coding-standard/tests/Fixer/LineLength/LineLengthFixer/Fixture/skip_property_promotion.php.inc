@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\FixturePhp80;
+namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer\Fixture;
 
 final class SkipPropertyPromotion
 {
