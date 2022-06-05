@@ -14,6 +14,7 @@ use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
@@ -69,7 +70,7 @@ final class ValueObjectDestructRule implements Rule, DocumentedRuleInterface
 
             $publicMethodsNames = $this->resolveClassPublicMethodNames($className);
 
-            if (array_intersect($methodNames, $publicMethodsNames) === $publicMethodsNames) {
+            if (count($methodNames) === count($publicMethodsNames)) {
                 return [self::ERROR_MESSAGE];
             }
         }
@@ -79,7 +80,39 @@ final class ValueObjectDestructRule implements Rule, DocumentedRuleInterface
 
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition(self::ERROR_MESSAGE, []);
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+new CodeSample(
+    <<<'CODE_SAMPLE'
+final class UsingPublicMethods
+{
+    public function run(SomeValueObject $someValueObject)
+    {
+        $this->process($someValueObject->getName(), $someValueObject->getSurname());
+    }
+
+    private function process(string $getName, string $getSurname)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+    ,
+<<<'CODE_SAMPLE'
+final class UsingPublicMethods
+{
+    public function run(SomeValueObject $someValueObject)
+    {
+        $this->process($someValueObject);
+    }
+
+    private function process(SomeValueObject $someValueObject)
+    {
+        // ...
+    }
+}
+CODE_SAMPLE
+)
+        ]);
     }
 
     /**
