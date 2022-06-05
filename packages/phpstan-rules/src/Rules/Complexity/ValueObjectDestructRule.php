@@ -81,8 +81,8 @@ final class ValueObjectDestructRule implements Rule, DocumentedRuleInterface
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
-new CodeSample(
-    <<<'CODE_SAMPLE'
+            new CodeSample(
+                <<<'CODE_SAMPLE'
 final class UsingPublicMethods
 {
     public function run(SomeValueObject $someValueObject)
@@ -96,8 +96,8 @@ final class UsingPublicMethods
     }
 }
 CODE_SAMPLE
-    ,
-<<<'CODE_SAMPLE'
+                ,
+                <<<'CODE_SAMPLE'
 final class UsingPublicMethods
 {
     public function run(SomeValueObject $someValueObject)
@@ -111,7 +111,7 @@ final class UsingPublicMethods
     }
 }
 CODE_SAMPLE
-)
+            ),
         ]);
     }
 
