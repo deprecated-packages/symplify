@@ -55,7 +55,7 @@ final class DeprecationReporter
         }
 
         // to make deprecation noticeable
-        sleep(3);
+        sleep(10);
     }
 
     /**
