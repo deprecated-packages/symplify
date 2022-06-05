@@ -125,10 +125,10 @@ CODE_SAMPLE
         }
 
         $classReflection = $this->reflectionProvider->getClass($className);
-        $nativeClassReflection = $classReflection->getNativeReflection();
+        $nativeReflection = $classReflection->getNativeReflection();
 
         $publicMethodsNames = [];
-        foreach ($nativeClassReflection->getMethods() as $reflectionMethod) {
+        foreach ($nativeReflection->getMethods() as $reflectionMethod) {
             if ($reflectionMethod->isConstructor()) {
                 continue;
             }
