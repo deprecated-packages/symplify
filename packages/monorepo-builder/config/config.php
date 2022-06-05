@@ -63,8 +63,7 @@ return static function (MBConfig $mbConfig): void {
 
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->load('Symplify\MonorepoBuilder\\', __DIR__ . '/../packages')
         ->exclude([

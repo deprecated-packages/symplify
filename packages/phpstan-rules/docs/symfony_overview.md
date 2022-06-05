@@ -1,4 +1,4 @@
-# 7 Rules Overview
+# 6 Rules Overview
 
 ## CheckOptionArgumentCommandRule
 
@@ -38,44 +38,6 @@ class SomeClass extends Command
         $source = $input->getArgument('source');
     }
 }
-```
-
-:+1:
-
-<br>
-
-## CheckSymfonyConfigDefaultsRule
-
-`autowire()`, `autoconfigure()`, and `public()` are required in config service
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckSymfonyConfigDefaultsRule`](../packages/symfony/src/Rules/CheckSymfonyConfigDefaultsRule.php)
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public();
-};
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
-
-    $services->defaults()
-        ->public()
-        ->autowire()
-        ->autoconfigure();
-};
 ```
 
 :+1:

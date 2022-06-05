@@ -9,7 +9,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->autowire()
-        ->autoconfigure()
         ->public();
 
     $services->load('Symplify\AutowireArrayParameter\Tests\Source\\', __DIR__ . '/../Source');

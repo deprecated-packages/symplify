@@ -20,8 +20,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->load('Symplify\ComposerJsonManipulator\\', __DIR__ . '/../src');
 

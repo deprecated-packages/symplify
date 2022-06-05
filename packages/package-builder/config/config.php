@@ -15,8 +15,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->set(ColorConsoleDiffFormatter::class);
     $services->set(ConsoleDiffer::class);
