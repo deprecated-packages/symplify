@@ -60,8 +60,7 @@ return static function (ECSConfig $ecsConfig): void {
     $services = $ecsConfig->services();
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->load('Symplify\EasyCodingStandard\\', __DIR__ . '/../src')
         ->exclude([

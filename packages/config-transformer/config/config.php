@@ -18,8 +18,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->load('Symplify\ConfigTransformer\\', __DIR__ . '/../src')
         ->exclude([

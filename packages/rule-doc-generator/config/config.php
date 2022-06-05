@@ -19,8 +19,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autowire();
 
     $services->load('Symplify\RuleDocGenerator\\', __DIR__ . '/../src')
         ->exclude([__DIR__ . '/../src/Kernel', __DIR__ . '/../src/ValueObject']);

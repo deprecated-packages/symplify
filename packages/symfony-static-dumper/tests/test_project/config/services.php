@@ -13,8 +13,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
     $services->defaults()
         ->public()
-        ->autowire()
-        ->autoconfigure();
+        ->autoconfigure()
+        ->autowire();
 
     $services->load('Symplify\SymfonyStaticDumper\Tests\TestProject\\', __DIR__ . '/../src')
         ->exclude([__DIR__ . '/../src/Kernel']);
