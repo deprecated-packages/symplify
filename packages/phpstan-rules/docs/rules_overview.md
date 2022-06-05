@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4076,6 +4076,50 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
+}
+```
+
+:+1:
+
+<br>
+
+## ValueObjectDestructRule
+
+Instead of calling all public methods of value object, pass it directly
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\ValueObjectDestructRule`](../src/Rules/Complexity/ValueObjectDestructRule.php)
+
+```php
+final class UsingPublicMethods
+{
+    public function run(SomeValueObject $someValueObject)
+    {
+        $this->process($someValueObject->getName(), $someValueObject->getSurname());
+    }
+
+    private function process(string $getName, string $getSurname)
+    {
+        // ...
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class UsingPublicMethods
+{
+    public function run(SomeValueObject $someValueObject)
+    {
+        $this->process($someValueObject);
+    }
+
+    private function process(SomeValueObject $someValueObject)
+    {
+        // ...
+    }
 }
 ```
 
