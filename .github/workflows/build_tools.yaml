@@ -41,9 +41,9 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            # make dev build run a bit to avoid collission with tagged build
+            # make tagged run a bit to avoid collission with tagged build
             -
-                if: "!startsWith(github.ref, 'refs/tags/')"
+                if: "startsWith(github.ref, 'refs/tags/')"
                 run: sleep 20
 
             -
