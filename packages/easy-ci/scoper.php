@@ -20,6 +20,11 @@ return [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
+        'vendor/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'vendor/symfony/polyfill-intl-normalizer/bootstrap80.php',
+        'vendor/symfony/polyfill-mbstring/bootstrap.php',
+        'vendor/symfony/polyfill-mbstring/bootstrap80.php',
+        'vendor/symfony/polyfill-php80/bootstrap.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
