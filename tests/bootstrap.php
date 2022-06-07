@@ -13,10 +13,6 @@ if (defined('T_MATCH') === false) {
     define('T_MATCH', 5005);
 }
 
-if (! defined('T_ANON_CLASS')) {
-    define('T_ANON_CLASS', 6000);
-}
-
 // required for PHP_CodeSniffer in packages/EasyCodingStandard/tests/*
 if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
     define('PHP_CODESNIFFER_VERBOSITY', 0);

@@ -11,9 +11,6 @@ require_once __DIR__ . '/../vendor/squizlabs/php_codesniffer/autoload.php';
 if (! defined('T_MATCH')) {
     define('T_MATCH', 5000);
 }
-if (! defined('T_ANON_CLASS')) {
-    define('T_ANON_CLASS', 6000);
-}
 
 // required for PHP_CodeSniffer in packages/EasyCodingStandard/tests/*
 if (! defined('PHP_CODESNIFFER_VERBOSITY')) {

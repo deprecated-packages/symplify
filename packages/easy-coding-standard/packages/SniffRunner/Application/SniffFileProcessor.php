@@ -132,10 +132,6 @@ final class SniffFileProcessor implements FileProcessorInterface
                 define('T_MATCH', 5000);
             }
 
-            if (! defined('T_ANON_CLASS')) {
-                define('T_ANON_CLASS', 6000);
-            }
-
             define('PHP_CODESNIFFER_VERBOSITY', 0);
             new Tokens();
         }
