@@ -9,6 +9,33 @@ require __DIR__ . '/vendor/autoload.php';
 
 $timestamp = (new DateTime('now'))->format('Ymd');
 
+use Isolated\Symfony\Component\Finder\Finder;
+
+// excluding polyfills in generic way
+// @see https://github.com/humbug/php-scoper/blob/cb23986d9309a10eaa284242f2169723af4e4a7e/docs/further-reading.md#further-reading
+
+$polyfillsBootstraps = array_map(
+    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
+    iterator_to_array(
+        Finder::create()
+            ->files()
+            ->in(__DIR__ . '/vendor/symfony/polyfill-*')
+            ->name('bootstrap*.php'),
+        false,
+    ),
+);
+
+$polyfillsStubs = array_map(
+    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
+    iterator_to_array(
+        Finder::create()
+            ->files()
+            ->in(__DIR__ . '/vendor/symfony/polyfill-*/Resources/stubs')
+            ->name('*.php'),
+        false,
+    ),
+);
+
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'ECSPrefix' . $timestamp,
@@ -19,27 +46,17 @@ return [
         '#^Symplify\\\\CodingStandard#',
         '#^PhpCsFixer#',
         '#^PHP_CodeSniffer#',
+        '#^Symfony\\\\Polyfill#'
+    ],
+    'exclude-constants' => [
+        // Symfony global constants
+        '#^SYMFONY\_[\p{L}_]+$#',
     ],
     'expose-constants' => ['__ECS_RUNNING__'],
 
     'exclude-files' => [
-        // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
-        // these paths are relative to this file location, so it should be in the root directory
-        'vendor/symfony/deprecation-contracts/function.php',
-        'vendor/symfony/polyfill-intl-normalizer/bootstrap.php',
-        'vendor/symfony/polyfill-intl-normalizer/bootstrap80.php',
-        'vendor/symfony/polyfill-mbstring/bootstrap.php',
-        'vendor/symfony/polyfill-mbstring/bootstrap80.php',
-        'vendor/symfony/polyfill-php80/bootstrap.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/Attribute.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/ValueError.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
-    ],
-
-    'expose-functions' => [
-        'fdiv', 'preg_last_error_msg', 'str_contains', 'str_starts_with', 'str_ends_with', 'get_debug_type', 'get_resource_id',
+        ...$polyfillsBootstraps,
+        ...$polyfillsStubs,
     ],
 
     // expose
