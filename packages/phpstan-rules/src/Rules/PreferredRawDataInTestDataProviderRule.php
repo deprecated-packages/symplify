@@ -12,9 +12,13 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ThisType;
-use Symplify\Astral\ValueObject\AttributeKey;
+use PHPUnit\Framework\TestCase;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -45,30 +49,51 @@ final class PreferredRawDataInTestDataProviderRule implements Rule, DocumentedRu
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $dataProviderMethodName = $this->matchDataProviderMethodName($node);
-        if ($dataProviderMethodName === null) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        $classMethod = $this->findDataProviderClassMethod($node, $dataProviderMethodName);
-        if (! $classMethod instanceof ClassMethod) {
+        if (! $classReflection->isSubclassOf(TestCase::class)) {
             return [];
         }
 
-        if ($this->isSkipped($classMethod, $scope)) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        $errorMessages = [];
+
+        foreach ($classLike->getMethods() as $classMethod) {
+            if (! $classMethod->isPublic()) {
+                continue;
+            }
+
+            $dataProviderClassMethod = $this->matchDataProviderMethodName($classLike, $classMethod);
+            if (! $dataProviderClassMethod instanceof ClassMethod) {
+                continue;
+            }
+
+            if ($this->isSkipped($dataProviderClassMethod, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($dataProviderClassMethod->getLine())
+                ->build();
+        }
+
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -80,7 +105,7 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 {
     private $data;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->data = true;
     }
@@ -107,7 +132,7 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->obj = new stdClass;
     }
@@ -131,17 +156,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function findDataProviderClassMethod(ClassMethod $classMethod, string $methodName): ?ClassMethod
-    {
-        $class = $classMethod->getAttribute(AttributeKey::PARENT);
-        if (! $class instanceof Class_) {
-            return null;
-        }
-
-        return $class->getMethod($methodName);
-    }
-
-    private function matchDataProviderMethodName(ClassMethod $classMethod): ?string
+    private function matchDataProviderMethodName(Class_ $class, ClassMethod $classMethod): ?ClassMethod
     {
         $docComment = $classMethod->getDocComment();
         if (! $docComment instanceof Doc) {
@@ -153,7 +168,8 @@ CODE_SAMPLE
             return null;
         }
 
-        return $match['dataProviderMethod'];
+        $dataProviderMethodName = $match['dataProviderMethod'];
+        return $class->getMethod($dataProviderMethodName);
     }
 
     private function isSkipped(ClassMethod $classMethod, Scope $scope): bool
