@@ -26,11 +26,9 @@ return [
         'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     ],
     'exclude-namespaces' => [
-        // needed for autoload, that is not prefixed, since it's in bin/* file
-        '#^Symplify\MonorepoBuilder\*#',
+        '#^Symplify\\\\MonorepoBuilder#',
         // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
-        '#^PharIo\Version\*#',
-        // needed by the monorepo-builder command (avoid failing with a "class not found" error)
+        '#^PharIo\\\\Version#',
     ],
     'expose-classes' => [
         // part of public interface of configs.php
