@@ -6,7 +6,34 @@ use Nette\Utils\Strings;
 
 require __DIR__ . '/vendor/autoload.php';
 
-$timestamp = (new DateTime('now'))->format('Ymd');
+$nowDateTime = new DateTime('now');
+$timestamp = $nowDateTime->format('Ymd');
+
+// @see https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md
+use Isolated\Symfony\Component\Finder\Finder;
+
+$polyfillsBootstraps = array_map(
+    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
+    iterator_to_array(
+        Finder::create()
+            ->files()
+            ->in(__DIR__ . '/vendor/symfony/polyfill-*')
+            ->name('bootstrap*.php'),
+        false,
+    ),
+);
+
+$polyfillsStubs = array_map(
+    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
+    iterator_to_array(
+        Finder::create()
+            ->files()
+            ->in(__DIR__ . '/vendor/symfony/polyfill-*/Resources/stubs')
+            ->name('*.php'),
+        false,
+    ),
+);
+
 
 // see https://github.com/humbug/php-scoper
 return [
@@ -15,21 +42,17 @@ return [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ],
-    'exclude-namespaces' => ['#^Symplify\\\\EasyCI#'],
+    'expose-constants' => ['#^SYMFONY\_[\p{L}_]+$#'],
+    'exclude-namespaces' => [
+        '#^Symplify\\\\EasyCI#',
+        '#^Symfony\\\\Polyfill#',
+    ],
     'exclude-files' => [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
-        'vendor/symfony/polyfill-intl-normalizer/bootstrap.php',
-        'vendor/symfony/polyfill-intl-normalizer/bootstrap80.php',
-        'vendor/symfony/polyfill-mbstring/bootstrap.php',
-        'vendor/symfony/polyfill-mbstring/bootstrap80.php',
-        'vendor/symfony/polyfill-php80/bootstrap.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/Attribute.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/ValueError.php',
-        'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        ...$polyfillsBootstraps,
+        ...$polyfillsStubs,
     ],
     'patchers' => [
         // scope symfony configs

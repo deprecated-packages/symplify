@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
+use Isolated\Symfony\Component\Finder\Finder;
 use Nette\Utils\Strings;
-use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 
 require __DIR__ . '/vendor/autoload.php';
 
 $timestamp = (new DateTime('now'))->format('Ymd');
 
-use Isolated\Symfony\Component\Finder\Finder;
+use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 
 // excluding polyfills in generic way
 // @see https://github.com/humbug/php-scoper/blob/cb23986d9309a10eaa284242f2169723af4e4a7e/docs/further-reading.md#further-reading
@@ -46,7 +46,7 @@ return [
         '#^Symplify\\\\CodingStandard#',
         '#^PhpCsFixer#',
         '#^PHP_CodeSniffer#',
-        '#^Symfony\\\\Polyfill#'
+        '#^Symfony\\\\Polyfill#',
     ],
     'exclude-constants' => [
         // Symfony global constants
@@ -56,10 +56,7 @@ return [
     ],
     'expose-constants' => ['__ECS_RUNNING__'],
 
-    'exclude-files' => [
-        ...$polyfillsBootstraps,
-        ...$polyfillsStubs,
-    ],
+    'exclude-files' => [...$polyfillsBootstraps, ...$polyfillsStubs],
 
     // expose
     'expose-classes' => [
