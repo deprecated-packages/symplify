@@ -7,62 +7,43 @@ use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
 
 require __DIR__ . '/vendor/autoload.php';
 
-/**
- * @see https://regex101.com/r/LMDq0p/1
- * @var string
- */
-const POLYFILL_FILE_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/bootstrap(.*?)\.php#';
-
-/**
- * @see https://regex101.com/r/RBZ0bN/1
- * @var string
- */
-const POLYFILL_STUBS_NAME_REGEX = '#vendor\/symfony\/polyfill\-(.*)\/Resources\/stubs#';
-
 $timestamp = (new DateTime('now'))->format('Ymd');
 
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'ECSPrefix' . $timestamp,
-    'files-whitelist' => [
+
+    // excluded
+    'excluded-namespaces' => [
+        '#^Symplify\EasyCodingStandard#',
+        '#^Symplify\CodingStandardx',
+        '#^PhpCsFixer#',
+        '#^PHP_CodeSniffer#',
+    ],
+    'excluded-files' => [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
-        // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
+        'vendor/symfony/polyfill-intl-normalizer/bootstrap.php',
+        'vendor/symfony/polyfill-intl-normalizer/bootstrap80.php',
+        'vendor/symfony/polyfill-mbstring/bootstrap.php',
+        'vendor/symfony/polyfill-mbstring/bootstrap80.php',
+        'vendor/symfony/polyfill-php80/bootstrap.php',
+        'vendor/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'vendor/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'vendor/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+        'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     ],
 
-    'whitelist' => [
-        // needed for autoload, that is not prefixed, since it's in bin/* file
-        'Symplify\EasyCodingStandard\*',
-        'Symplify\CodingStandard\*',
-        'PhpCsFixer\*',
-        'PHP_CodeSniffer\*',
+    // expose
+    'expose-classes' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'Symplify\SmartFileSystem\SmartFileInfo',
     ],
+
     'patchers' => [
-        // unprefix polyfill functions
-        // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
-                return $content;
-            }
-
-            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-        },
-        // remove namespace frompoly fill stubs
-        function (string $filePath, string $prefix, string $content): string {
-            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
-                return $content;
-            }
-
-            // remove alias to class have origina PHP names - fix in
-            $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
-
-            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-        },
-
         // scope symfony configs
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {
@@ -82,27 +63,6 @@ return [
                     return 'load(\'' . $prefix . '\Symplify\\' . $match['package_name'];
                 }
             );
-
-            return $content;
-        },
-
-        // fixes https://github.com/symplify/symplify/issues/3102
-        function (string $filePath, string $prefix, string $content): string {
-            if (! str_contains($filePath, 'vendor/')) {
-                return $content;
-            }
-
-            // @see https://regex101.com/r/lBV8IO/2
-            $fqcnReservedPattern = sprintf('#(\\\\)?%s\\\\(parent|self|static)#m', $prefix);
-            $matches = Strings::matchAll($content, $fqcnReservedPattern);
-
-            if (! $matches) {
-                return $content;
-            }
-
-            foreach ($matches as $match) {
-                $content = str_replace($match[0], $match[2], $content);
-            }
 
             return $content;
         },
@@ -132,15 +92,6 @@ return [
                 '@package_version@' => StaticVersionResolver::resolvePackageVersion(),
                 '@release_date@' => $releaseDateTime->format('Y-m-d H:i:s'),
             ]);
-        },
-
-        // unprefixed ContainerConfigurator
-        function (string $filePath, string $prefix, string $content): string {
-            return Strings::replace(
-                $content,
-                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
-                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
-            );
         },
     ],
 ];
