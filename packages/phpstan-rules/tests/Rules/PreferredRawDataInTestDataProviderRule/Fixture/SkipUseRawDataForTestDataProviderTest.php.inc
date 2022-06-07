@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\PreferredRawDataInTestDataProviderRule\Fixture;
 
+use PHPUnit\Framework\TestCase;
 use stdClass;
 
-final class SkipUseRawDataForTestDataProviderTest
+final class SkipUseRawDataForTestDataProviderTest extends TestCase
 {
     private $obj;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->obj = new stdClass;
     }

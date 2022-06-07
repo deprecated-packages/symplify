@@ -26,11 +26,11 @@ final class PreferredRawDataInTestDataProviderRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipNoDataProviderTest.php', []];
-        yield [__DIR__ . '/Fixture/SkipUseRawDataForTestDataProviderTest.php', []];
+        yield [__DIR__ . '/Fixture/SkipUseRawDataForTestDataProviderTest.php.inc', []];
 
         yield [
-            __DIR__ . '/Fixture/UseDataFromSetupInTestDataProviderTest.php',
-            [[PreferredRawDataInTestDataProviderRule::ERROR_MESSAGE, 24]],
+            __DIR__ . '/Fixture/UseDataFromSetupInTestDataProviderTest.php.inc',
+            [[PreferredRawDataInTestDataProviderRule::ERROR_MESSAGE, 18]],
         ];
     }
 
