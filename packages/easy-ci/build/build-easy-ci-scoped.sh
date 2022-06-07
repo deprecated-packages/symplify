@@ -31,7 +31,7 @@ note "Starts"
 
 # 2. scope it
 note "Running scoper with '$RESULT_DIRECTORY' output directory"
-wget https://github.com/humbug/php-scoper/releases/download/0.14.0/php-scoper.phar -N --no-verbose
+wget https://github.com/humbug/php-scoper/releases/download/0.17.2/php-scoper.phar -N --no-verbose
 
 # create directory
 mkdir "$RESULT_DIRECTORY" -p
