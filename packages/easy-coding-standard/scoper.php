@@ -30,12 +30,14 @@ return [
         'vendor/symfony/polyfill-intl-normalizer/bootstrap80.php',
         'vendor/symfony/polyfill-mbstring/bootstrap.php',
         'vendor/symfony/polyfill-mbstring/bootstrap80.php',
-        'vendor/symfony/polyfill-php80/bootstrap.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+    ],
+    'exclude-functions' => [
+        'fdiv', 'preg_last_error_msg', 'str_contains', 'str_starts_with', 'str_ends_with', 'get_debug_type', 'get_resource_id',
     ],
 
     // expose
