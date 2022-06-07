@@ -51,30 +51,33 @@ final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
      */
     public function getNodeType(): string
     {
-        return Dir::class;
+        return Concat::class;
     }
 
     /**
+     * @param Concat $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
+        if (! $node->left instanceof Dir) {
+            return [];
+        }
+
+        if (! $node->right instanceof String_) {
+            return [];
+        }
+
+        // avoid chained concats
         $parent = $node->getAttribute(AttributeKey::PARENT);
-        if (! $parent instanceof Concat) {
+        if ($parent instanceof Concat) {
             return [];
         }
 
-        $parentParent = $parent->getAttribute(AttributeKey::PARENT);
-        if ($parentParent instanceof Concat) {
-            return [];
-        }
+        $string = $node->right;
+        $relativeDirPath = $string->value;
 
-        if (! $parent->right instanceof String_) {
-            return [];
-        }
-
-        $relativeDirPath = $parent->right->value;
-        if ($this->shouldSkip($relativeDirPath, $parent, $scope)) {
+        if ($this->shouldSkip($relativeDirPath, $node, $scope)) {
             return [];
         }
 
