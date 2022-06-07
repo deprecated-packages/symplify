@@ -10,7 +10,7 @@ $timestamp = (new DateTime('now'))->format('Ymd');
 
 // see https://github.com/humbug/php-scoper
 return [
-    'prefix' => 'ConfigTransformer' . $timestamp . random_int(0, 10),
+    'prefix' => 'ConfigTransformer' . $timestamp,
     'expose-classes' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
