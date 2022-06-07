@@ -24,15 +24,15 @@ $timestamp = (new DateTime('now'))->format('Ymd');
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'ECSPrefix' . $timestamp,
-//    'files-whitelist' => [
-//
-//        // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
-//    ],
+    //    'files-whitelist' => [
+    //
+    //        // for package versions - https://github.com/symplify/easy-coding-standard-prefixed/runs/2176047833
+    //    ],
 
-//    'whitelist' => [
-//        // needed for autoload, that is not prefixed, since it's in bin/* file
-//
-//    ],
+    //    'whitelist' => [
+    //        // needed for autoload, that is not prefixed, since it's in bin/* file
+    //
+    //    ],
     'exclude-namespaces' => [
         '#^Symplify\EasyCodingStandard#',
         '#^Symplify\CodingStandardx',
@@ -59,24 +59,24 @@ return [
     'patchers' => [
         // unprefix polyfill functions
         // @see https://github.com/humbug/php-scoper/issues/440#issuecomment-795160132
-//        function (string $filePath, string $prefix, string $content): string {
-//            if (! Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
-//                return $content;
-//            }
-//
-//            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-//        },
-//        // remove namespace frompoly fill stubs
-//        function (string $filePath, string $prefix, string $content): string {
-//            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
-//                return $content;
-//            }
-//
-//            // remove alias to class have origina PHP names - fix in
-//            $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
-//
-//            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
-//        },
+        //        function (string $filePath, string $prefix, string $content): string {
+        //            if (! Strings::match($filePath, POLYFILL_FILE_NAME_REGEX)) {
+        //                return $content;
+        //            }
+        //
+        //            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
+        //        },
+        //        // remove namespace frompoly fill stubs
+        //        function (string $filePath, string $prefix, string $content): string {
+        //            if (! Strings::match($filePath, POLYFILL_STUBS_NAME_REGEX)) {
+        //                return $content;
+        //            }
+        //
+        //            // remove alias to class have origina PHP names - fix in
+        //            $content = Strings::replace($content, '#\\\\class_alias(.*?);#', '');
+        //
+        //            return Strings::replace($content, '#namespace ' . $prefix . ';#', '');
+        //        },
 
         // scope symfony configs
         function (string $filePath, string $prefix, string $content): string {
@@ -101,26 +101,26 @@ return [
             return $content;
         },
 
-//        // fixes https://github.com/symplify/symplify/issues/3102
-//        function (string $filePath, string $prefix, string $content): string {
-//            if (! str_contains($filePath, 'vendor/')) {
-//                return $content;
-//            }
-//
-//            // @see https://regex101.com/r/lBV8IO/2
-//            $fqcnReservedPattern = sprintf('#(\\\\)?%s\\\\(parent|self|static)#m', $prefix);
-//            $matches = Strings::matchAll($content, $fqcnReservedPattern);
-//
-//            if (! $matches) {
-//                return $content;
-//            }
-//
-//            foreach ($matches as $match) {
-//                $content = str_replace($match[0], $match[2], $content);
-//            }
-//
-//            return $content;
-//        },
+        //        // fixes https://github.com/symplify/symplify/issues/3102
+        //        function (string $filePath, string $prefix, string $content): string {
+        //            if (! str_contains($filePath, 'vendor/')) {
+        //                return $content;
+        //            }
+        //
+        //            // @see https://regex101.com/r/lBV8IO/2
+        //            $fqcnReservedPattern = sprintf('#(\\\\)?%s\\\\(parent|self|static)#m', $prefix);
+        //            $matches = Strings::matchAll($content, $fqcnReservedPattern);
+        //
+        //            if (! $matches) {
+        //                return $content;
+        //            }
+        //
+        //            foreach ($matches as $match) {
+        //                $content = str_replace($match[0], $match[2], $content);
+        //            }
+        //
+        //            return $content;
+        //        },
 
         // fixes https://github.com/symplify/symplify/issues/3205
         function (string $filePath, string $prefix, string $content): string {
@@ -150,12 +150,12 @@ return [
         },
 
         // unprefixed ContainerConfigurator
-//        function (string $filePath, string $prefix, string $content): string {
-//            return Strings::replace(
-//                $content,
-//                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
-//                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
-//            );
-//        },
+        //        function (string $filePath, string $prefix, string $content): string {
+        //            return Strings::replace(
+        //                $content,
+        //                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
+        //                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+        //            );
+        //        },
     ],
 ];
