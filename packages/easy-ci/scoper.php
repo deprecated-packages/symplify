@@ -11,12 +11,12 @@ $timestamp = (new DateTime('now'))->format('Ymd');
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'EasyCI' . $timestamp,
-    'expose-classes' => [
+    'exposed-classes' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ],
     'exclude-namespaces' => ['#^Symplify\EasyCI\*#'],
-    'excluded-files' => [
+    'exclude-files' => [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',

@@ -11,7 +11,7 @@ $timestamp = (new DateTime('now'))->format('Ymd');
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'MonorepoBuilder' . $timestamp,
-    'excluded-files' => [
+    'exclude-files' => [
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
         'vendor/symfony/polyfill-intl-normalizer/bootstrap.php',
@@ -32,7 +32,7 @@ return [
         '#^PharIo\Version\*#',
         // needed by the monorepo-builder command (avoid failing with a "class not found" error)
     ],
-    'expose-classes' => [
+    'exposed-classes' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
