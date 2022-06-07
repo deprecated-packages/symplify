@@ -104,6 +104,10 @@ final class AutoloadIncluder
             define('T_MATCH', 5000);
         }
 
+        if (! defined('T_ANON_CLASS')) {
+            define('T_ANON_CLASS', 6000);
+        }
+
         new Tokens();
     }
 
