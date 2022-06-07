@@ -9,13 +9,13 @@ use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMagicClosureRule\NoMagicClosureRuleTest
+ * @implements Rule<Expression>
  */
 final class NoMagicClosureRule implements Rule, DocumentedRuleInterface
 {
@@ -29,17 +29,16 @@ final class NoMagicClosureRule implements Rule, DocumentedRuleInterface
      */
     public function getNodeType(): string
     {
-        return Closure::class;
+        return Expression::class;
     }
 
     /**
-     * @param Closure $node
+     * @param Expression $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if (! $parent instanceof Expression) {
+        if (! $node->expr instanceof Closure) {
             return [];
         }
 
