@@ -6,10 +6,10 @@ namespace Symplify\EasyCodingStandard\DependencyInjection;
 
 use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Exception\DeprecatedException;
 use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 
 final class EasyCodingStandardContainerFactory
@@ -37,7 +37,7 @@ final class EasyCodingStandardContainerFactory
         $deprecationReporter = new DeprecationReporter();
         $deprecationReporter->reportDeprecatedSets($container, $input);
 
-        $this->reportOldContainerConfiguratorConfig($inputConfigFiles, $container);
+        $this->reportOldContainerConfiguratorConfig($inputConfigFiles);
 
         if ($inputConfigFiles !== []) {
             // for cache invalidation on config change
@@ -52,7 +52,7 @@ final class EasyCodingStandardContainerFactory
     /**
      * @param string[] $inputConfigFiles
      */
-    private function reportOldContainerConfiguratorConfig(array $inputConfigFiles, ContainerInterface $container): void
+    private function reportOldContainerConfiguratorConfig(array $inputConfigFiles): void
     {
         foreach ($inputConfigFiles as $inputConfigFile) {
             // warning about old syntax before ECSConfig
@@ -61,19 +61,13 @@ final class EasyCodingStandardContainerFactory
                 continue;
             }
 
-            /** @var SymfonyStyle $symfonyStyle */
-            $symfonyStyle = $container->get(SymfonyStyle::class);
-
-            // @todo add link to blog post after release
             $warningMessage = sprintf(
-                'Your "%s" config is using old syntax with "ContainerConfigurator".%sPlease upgrade to "ECSConfig" that allows better autocomplete and future standard.',
+                'Your "%s" config is using old "ContainerConfigurator".%sUpgrade to "ECSConfig" that allows better autocomplete and future standard. See https://tomasvotruba.com/blog/new-in-ecs-simpler-config/',
                 $inputConfigFile,
                 PHP_EOL,
             );
-            $symfonyStyle->warning($warningMessage);
 
-            // to make message noticeable
-            sleep(10);
+            throw new DeprecatedException($warningMessage);
         }
     }
 }
