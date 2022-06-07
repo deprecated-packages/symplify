@@ -14,7 +14,7 @@ return [
     'prefix' => 'ECSPrefix' . $timestamp,
 
     // excluded
-    'excluded-namespace' => [
+    'exclude-namespaces' => [
         '#^Symplify\EasyCodingStandard#',
         '#^Symplify\CodingStandardx',
         '#^PhpCsFixer#',

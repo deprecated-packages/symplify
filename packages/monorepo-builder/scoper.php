@@ -25,7 +25,7 @@ return [
         'vendor/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'vendor/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     ],
-    'excluded-namespace' => [
+    'exclude-namespaces' => [
         // needed for autoload, that is not prefixed, since it's in bin/* file
         '#^Symplify\MonorepoBuilder\*#',
         // part of public API in \Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface
