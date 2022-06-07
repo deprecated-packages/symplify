@@ -11,7 +11,7 @@ $timestamp = (new DateTime('now'))->format('Ymd');
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'EasyCI' . $timestamp,
-    'exposed-classes' => [
+    'expose-classes' => [
         // part of public interface of configs.php
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ],
