@@ -17,7 +17,7 @@ return [
     ],
 
     // excluded
-    'excluded-namespaces' => ['#^Symplify\ConfigTransformer#'],
+    'excluded-namespace' => ['#^Symplify\ConfigTransformer#'],
     'excluded-files' => [
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
