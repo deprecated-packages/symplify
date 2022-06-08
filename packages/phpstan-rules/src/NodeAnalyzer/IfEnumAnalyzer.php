@@ -6,25 +6,23 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\If_;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\Astral\ValueObject\AttributeKey;
+use PhpParser\NodeFinder;
 
 final class IfEnumAnalyzer
 {
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder
+        private NodeFinder $nodeFinder
     ) {
     }
 
-    public function isMultipleIf(Node $node): bool
+    public function isMultipleIf(Node $node, Node $parentNode): bool
     {
         if (! $node instanceof If_) {
             return false;
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-
-        $ifs = $this->simpleNodeFinder->findByType($parent, If_::class);
+        /** @var If_[] $ifs */
+        $ifs = $this->nodeFinder->findInstanceOf($parentNode, If_::class);
 
         // might be dangerous
         return count($ifs) > 1;

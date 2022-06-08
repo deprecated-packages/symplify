@@ -71,7 +71,7 @@ final class IfElseToMatchSpotterRule implements Rule, DocumentedRuleInterface
             }
 
             // is multiple if with same variable - skip it, we need else/if here
-            if ($this->ifEnumAnalyzer->isMultipleIf($branch)) {
+            if ($this->ifEnumAnalyzer->isMultipleIf($branch, $node)) {
                 return [];
             }
 
