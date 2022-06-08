@@ -28,7 +28,6 @@ final class NoChainMethodCallRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/ChainMethodCall.php', [[NoChainMethodCallRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/SkipSymfonyConfig.php', []];
         yield [__DIR__ . '/Fixture/SkipExtraAllowedClass.php', []];
-        yield [__DIR__ . '/Fixture/SkipNullsafeCalls.php', []];
         yield [__DIR__ . '/Fixture/SkipTrinaryLogic.php', []];
     }
 

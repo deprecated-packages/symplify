@@ -11,8 +11,6 @@ use PharIo\Version\Version;
 use PharIo\Version\VersionNumber;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\NullsafeMethodCall;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\PassedByReference;
 use PHPStan\Rules\Rule;
@@ -25,7 +23,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\String\AbstractString;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -37,6 +34,7 @@ use TwitterAPIExchange;
  * @see https://github.com/object-calisthenics/phpcs-calisthenics-rules#5-use-only-one-object-operator---per-statement
  *
  * @see \Symplify\PHPStanRules\ObjectCalisthenics\Tests\Rules\NoChainMethodCallRule\NoChainMethodCallRuleTest
+ * @implements Rule<MethodCall>
  */
 final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, ConfigurableRuleInterface
 {
@@ -108,10 +106,6 @@ final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, Conf
             return [];
         }
 
-        if ($this->isNullsafeMethodCall($node)) {
-            return [];
-        }
-
         if ($this->shouldSkipType($scope, $node)) {
             return [];
         }
@@ -152,19 +146,5 @@ CODE_SAMPLE
         }
 
         return $this->objectTypeMatcher->isExprTypes($methodCall->var, $scope, $this->allowedChainTypes);
-    }
-
-    private function isNullsafeMethodCall(MethodCall $methodCall): bool
-    {
-        $parent = $methodCall->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof NullsafeMethodCall) {
-            return true;
-        }
-
-        if (! $parent instanceof Return_) {
-            return false;
-        }
-
-        return $parent->expr instanceof NullsafeMethodCall;
     }
 }
