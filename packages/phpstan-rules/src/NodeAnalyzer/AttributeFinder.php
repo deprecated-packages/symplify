@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\NodeAnalyzer;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -18,21 +17,6 @@ final class AttributeFinder
     public function __construct(
         private SimpleNameResolver $simpleNameResolver
     ) {
-    }
-
-    /**
-     * @return Attribute[]
-     */
-    public function findInClass(Class_ $class): array
-    {
-        $attributes = [];
-
-        $targetNodes = array_merge($class->getMethods(), $class->getProperties(), [$class]);
-        foreach ($targetNodes as $targetNode) {
-            $attributes = array_merge($attributes, $this->findAttributes($targetNode));
-        }
-
-        return $attributes;
     }
 
     /**

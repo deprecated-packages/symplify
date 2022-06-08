@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
@@ -43,11 +42,11 @@ final class RequireConstantInAttributeArgumentRule implements ConfigurableRuleIn
 
     public function getNodeType(): string
     {
-        return Class_::class;
+        return Node\AttributeGroup::class;
     }
 
     /**
-     * @param Class_ $node
+     * @param Node\AttributeGroup $node
      * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
