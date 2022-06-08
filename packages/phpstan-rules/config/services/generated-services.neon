@@ -29,7 +29,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\InitializedExprAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\MethodCallArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
