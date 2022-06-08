@@ -512,3 +512,7 @@ parameters:
         -
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Identifier\|null#'
             path: packages/phpstan-rules/src/Rules/RequireConstantInAttributeArgumentRule.php
+
+        -
+            message: '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoMultiArrayAssignRule\:\:processNode\(\)" is 11, keep it under 8#'
+            path: packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
