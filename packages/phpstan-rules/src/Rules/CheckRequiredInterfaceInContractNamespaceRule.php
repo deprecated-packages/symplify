@@ -7,16 +7,15 @@ namespace Symplify\PHPStanRules\Rules;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Interface_;
-use PhpParser\Node\Stmt\Namespace_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckRequiredInterfaceInContractNamespaceRule\CheckRequiredInterfaceInContractNamespaceRuleTest
+ * @implements Rule<Interface_>
  */
 final class CheckRequiredInterfaceInContractNamespaceRule implements Rule, DocumentedRuleInterface
 {
@@ -45,14 +44,12 @@ final class CheckRequiredInterfaceInContractNamespaceRule implements Rule, Docum
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        /** @var Namespace_|null $namespace */
-        $namespace = $node->getAttribute(AttributeKey::PARENT);
-        if (! $namespace instanceof Namespace_) {
+        $namespace = $scope->getNamespace();
+        if ($namespace === null) {
             return [];
         }
 
-        $namespaceName = (string) $namespace->name;
-        if (Strings::match($namespaceName, self::A_CONTRACT_NAMESPACE_REGEX)) {
+        if (Strings::match($namespace, self::A_CONTRACT_NAMESPACE_REGEX)) {
             return [];
         }
 
