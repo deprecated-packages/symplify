@@ -18,16 +18,16 @@ final class AnnotationAttributeDetector
     }
 
     public function hasNodeAnnotationOrAttribute(
-        ClassMethod | Property $node,
+        Property $property,
         string $annotationName,
         string $attributeClass
     ): bool {
-        $phpDocTagNodes = $this->barePhpDocParser->parseNodeToPhpDocTagNodes($node);
+        $phpDocTagNodes = $this->barePhpDocParser->parseNodeToPhpDocTagNodes($property);
         if ($this->hasPhpDocTagNodeName($phpDocTagNodes, $annotationName)) {
             return true;
         }
 
-        return $this->hasAttributeClass($node, $attributeClass);
+        return $this->hasAttributeClass($property, $attributeClass);
     }
 
     private function hasAttributeClass(ClassMethod | Property $node, string $attributeClass): bool

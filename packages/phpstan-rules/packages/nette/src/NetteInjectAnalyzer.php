@@ -13,12 +13,10 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
-use PHPStan\Reflection\PropertyReflection;
 use ReflectionMethod;
 use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector;
 use Symplify\PHPStanRules\Printer\NodeComparator;
-use Symplify\PHPStanRules\Reflection\PropertyAnalyzer;
 
 final class NetteInjectAnalyzer
 {
@@ -33,7 +31,6 @@ final class NetteInjectAnalyzer
     private const INJECT_ATTRIBUTE_CLASS = 'Nette\DI\Attributes\Inject';
 
     public function __construct(
-        private PropertyAnalyzer $propertyAnalyzer,
         private AnnotationAttributeDetector $annotationAttributeDetector,
         private ReflectionParser $reflectionParser,
         private NodeFinder $nodeFinder,
@@ -97,26 +94,14 @@ final class NetteInjectAnalyzer
         }
 
         $methodName = $classMethod->name->toString();
-        if (\str_starts_with($methodName, 'inject')) {
-            return true;
-        }
-
-        return $this->annotationAttributeDetector->hasNodeAnnotationOrAttribute(
-            $classMethod,
-            self::INJECT,
-            self::INJECT_ATTRIBUTE_CLASS
-        );
+        return \str_starts_with($methodName, 'inject');
     }
 
     private function hasPropertyReflectionInjectAnnotationAttribute(
-        PropertyReflection $propertyReflection,
+        PhpPropertyReflection $propertyReflection,
         PropertyFetch $propertyFetch,
         ClassReflection $classReflection
     ): bool {
-        if (! $propertyReflection instanceof PhpPropertyReflection) {
-            return false;
-        }
-
         $property = $this->reflectionParser->parsePropertyReflection($propertyReflection->getNativeReflection());
         if (! $property instanceof Property) {
             return false;
