@@ -159,10 +159,10 @@ parameters:
                 - packages/smart-file-system/src/SmartFileInfo.php # 122
 
         -
-           message: '#Use explicit return value over magic &reference#'
-           paths:
-               - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-               - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+            message: '#Use explicit return value over magic &reference#'
+            paths:
+                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
+                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
@@ -173,10 +173,10 @@ parameters:
 
         # exceptions to get file
         -
-             message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
-             paths:
-                 - packages/easy-parallel/src/CpuCoreCountProvider.php
-                 - packages/smart-file-system/src/SmartFileSystem.php
+            message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
+            paths:
+                - packages/easy-parallel/src/CpuCoreCountProvider.php
+                - packages/smart-file-system/src/SmartFileSystem.php
 
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
@@ -247,14 +247,12 @@ parameters:
                 -  packages/phpstan-rules/tests/Rules
 
         -
-             message: '#Do not compare call directly, use a variable assign#'
-             paths:
-                 - packages/easy-ci/src/Git/ConflictResolver.php
+            message: '#Do not compare call directly, use a variable assign#'
+            paths:
+                - packages/easy-ci/src/Git/ConflictResolver.php
 
         # known types
         - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
-         # node finder generics meshup
-        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findFirstByType\(\) should return T of PhpParser\\Node\|null but returns PhpParser\\Node\|null#'
 
         -
             message: '#Use void instead of modify and return self object#'
@@ -323,10 +321,10 @@ parameters:
         - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
 
         -
-             message: '#Class has a static method must so must contains "Static" in its name#'
-             paths:
-                 - packages/package-builder/src/Console/Command/CommandNaming.php
-                 - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
+            message: '#Class has a static method must so must contains "Static" in its name#'
+            paths:
+                - packages/package-builder/src/Console/Command/CommandNaming.php
+                - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
 
         # on purpose, to make service a simple as possible
         -
@@ -396,8 +394,8 @@ parameters:
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
             paths:
-                 - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
-                 - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
+                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
+                - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
 
         # is never string
         - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
@@ -423,8 +421,8 @@ parameters:
         -
             message: '#Make callable type explicit\. Here is how\: https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#callables#'
             paths:
-                 # callable value resolving
-                 - packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
+                # callable value resolving
+                - packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
 
         # callable value resolving
         -
@@ -487,13 +485,8 @@ parameters:
         -
             message: '#Parameter (.*?) should use "Symfony\\Component\\DependencyInjection\\ContainerBuilder" type as the only type passed to this method#'
             paths:
-                 - packages/easy-coding-standard/src/DependencyInjection/EasyCodingStandardContainerFactory.php
-                 - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
+                - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
 
-        # false positive since PHPStan 1.7.6
-        -
-            message: '#Class Symfony\\Contracts\\Service\\Attribute\\Required is not an Attribute class#'
-            path: packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
         -
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php

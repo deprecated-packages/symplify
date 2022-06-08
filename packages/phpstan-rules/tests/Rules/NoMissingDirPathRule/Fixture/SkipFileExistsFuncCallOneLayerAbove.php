@@ -8,8 +8,8 @@ final class SkipFileExistsFuncCallOneLayerAbove
 {
     public function run()
     {
-        if (file_exists(__DIR__ . '/not_here.php')) {
-            require_once __DIR__ . '/not_here.php';
+        if (file_exists(__DIR__ . '/really_not_here.php')) {
+            require_once __DIR__ . '/really_not_here.php';
         }
     }
 }

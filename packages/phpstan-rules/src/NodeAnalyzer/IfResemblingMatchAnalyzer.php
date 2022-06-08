@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\ArrayDimFetch;
-use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Expr\BinaryOp\Identical;
-use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
@@ -20,7 +17,6 @@ final class IfResemblingMatchAnalyzer
 {
     public function __construct(
         private Standard $printerStandard,
-        private NodeFinder $nodeFinder,
         private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }

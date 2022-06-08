@@ -9,12 +9,16 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\NodeFinder;
+use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPUnit\Framework\TestCase;
-use Symplify\Astral\ValueObject\AttributeKey;
-use Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer;
+use Symplify\PHPStanRules\NodeVisitor\FlatConcatFindingNodeVisitor;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -41,55 +45,70 @@ final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
      */
     private const BRACKET_PATH_REGEX = '#\{(.*?)\}#';
 
-    public function __construct(
-        private FileExistFuncCallAnalyzer $fileExistFuncCallAnalyzer
-    ) {
-    }
-
     /**
      * @return class-string<Node>
      */
     public function getNodeType(): string
     {
-        return Concat::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param Concat $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->left instanceof Dir) {
+        $classLike = $node->getOriginalNode();
+
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        if (! $node->right instanceof String_) {
+        // test fixture can exist or not, better skip this case to avoid false positives
+        if ($classReflection->isSubclassOf(TestCase::class)) {
             return [];
         }
 
-        // avoid chained concats
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof Concat) {
-            return [];
+        // mimics node finding visitors of NodeFinder with ability to stop traversing deeper
+        $nodeTraverser = new NodeTraverser();
+        $flatConcatFindingNodeVisitor = new FlatConcatFindingNodeVisitor();
+        $nodeTraverser->addVisitor($flatConcatFindingNodeVisitor);
+        $nodeTraverser->traverse($classLike->stmts);
+
+        $concats = $flatConcatFindingNodeVisitor->getFoundNodes();
+        $errorMessages = [];
+
+        foreach ($concats as $concat) {
+            if (! $concat->left instanceof Dir) {
+                return [];
+            }
+
+            if (! $concat->right instanceof String_) {
+                return [];
+            }
+
+            $string = $concat->right;
+            $relativeDirPath = $string->value;
+
+            if ($this->shouldSkip($relativeDirPath, $concat, $scope)) {
+                continue;
+            }
+
+            $realDirectory = dirname($scope->getFile());
+            $fileRealPath = $realDirectory . $relativeDirPath;
+
+            if (file_exists($fileRealPath)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(sprintf(self::ERROR_MESSAGE, $relativeDirPath))
+                ->line($concat->getLine())
+                ->build();
         }
 
-        $string = $node->right;
-        $relativeDirPath = $string->value;
-
-        if ($this->shouldSkip($relativeDirPath, $node, $scope)) {
-            return [];
-        }
-
-        $realDirectory = dirname($scope->getFile());
-        $fileRealPath = $realDirectory . $relativeDirPath;
-
-        if (file_exists($fileRealPath)) {
-            return [];
-        }
-
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $relativeDirPath);
-        return [$errorMessage];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -107,17 +126,6 @@ CODE_SAMPLE
         ]);
     }
 
-    private function isPartOfPHPUnit(Scope $scope): bool
-    {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
-        $className = $classReflection->getName();
-        return is_a($className, TestCase::class, true);
-    }
-
     private function shouldSkip(string $relativeDirPath, Concat $concat, Scope $scope): bool
     {
         // is vendor autolaod? it yet to be exist
@@ -129,18 +137,7 @@ CODE_SAMPLE
             return true;
         }
 
-        if ($this->isPartOfPHPUnit($scope)) {
-            return true;
-        }
-
-        if ($this->fileExistFuncCallAnalyzer->isBeingCheckedIfExists($concat)) {
-            return true;
-        }
-
-        if (Strings::match($relativeDirPath, self::BRACKET_PATH_REGEX)) {
-            return true;
-        }
-
-        return $this->fileExistFuncCallAnalyzer->hasParentIfWithFileExistCheck($concat);
+        $bracketMatches = Strings::match($relativeDirPath, self::BRACKET_PATH_REGEX);
+        return $bracketMatches !== null;
     }
 }
