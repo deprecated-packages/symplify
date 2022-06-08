@@ -18,16 +18,6 @@ final class SimpleNodeFinder
     /**
      * @template T of Node
      * @param class-string<T> $nodeClass
-     * @return T|null
-     */
-    public function findFirstByType(Node $node, string $nodeClass): Node|null
-    {
-        return $this->nodeFinder->findFirstInstanceOf($node, $nodeClass);
-    }
-
-    /**
-     * @template T of Node
-     * @param class-string<T> $nodeClass
      * @return T[]
      */
     public function findByType(Node $node, string $nodeClass): array

@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 109 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -118,48 +118,6 @@ namespace Foo\Bar;
 
 class Baz
 {
-}
-```
-
-:+1:
-
-<br>
-
-## CheckConstantExpressionDefinedInConstructOrSetupRule
-
-Move constant expression to `__construct()`, `setUp()` method or constant
-
-- class: [`Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule`](../src/Rules/CheckConstantExpressionDefinedInConstructOrSetupRule.php)
-
-```php
-class SomeClass
-{
-    public function someMethod()
-    {
-        $mainPath = getcwd() . '/absolute_path';
-        return __DIR__ . $mainPath;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $mainPath;
-
-    public function __construct()
-    {
-        $this->mainPath = getcwd() . '/absolute_path';
-    }
-
-    public function someMethod()
-    {
-        return $this->mainPath;
-    }
 }
 ```
 

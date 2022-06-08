@@ -11,6 +11,7 @@ use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
@@ -19,6 +20,7 @@ final class IfResemblingMatchAnalyzer
 {
     public function __construct(
         private Standard $printerStandard,
+        private NodeFinder $nodeFinder,
         private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }
@@ -60,7 +62,8 @@ final class IfResemblingMatchAnalyzer
         $printedReturnExpr = $this->printerStandard->prettyPrintExpr($returnExpr);
 
         foreach ($ifsAndCondExprs as $ifAndCondExpr) {
-            $assign = $this->simpleNodeFinder->findFirstByType($ifAndCondExpr->getStmt(), Assign::class);
+            /** @var Assign|null $assign */
+            $assign = $this->nodeFinder->findFirstInstanceOf($ifAndCondExpr->getStmt(), Assign::class);
             if ($assign instanceof Assign) {
                 $assignVar = $assign->var;
                 while ($assignVar instanceof ArrayDimFetch) {

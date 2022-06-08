@@ -41,7 +41,6 @@ services:
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
     - Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder
-    - Symplify\PHPStanRules\NodeFinder\StatementFinder
     - Symplify\PHPStanRules\ParentClassMethodNodeResolver
     - Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
