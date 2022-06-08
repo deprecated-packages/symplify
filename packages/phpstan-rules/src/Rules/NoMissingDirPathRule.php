@@ -92,7 +92,7 @@ final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
             $string = $concat->right;
             $relativeDirPath = $string->value;
 
-            if ($this->shouldSkip($relativeDirPath, $concat, $scope)) {
+            if ($this->shouldSkip($relativeDirPath)) {
                 continue;
             }
 
@@ -126,7 +126,7 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkip(string $relativeDirPath, Concat $concat, Scope $scope): bool
+    private function shouldSkip(string $relativeDirPath): bool
     {
         // is vendor autolaod? it yet to be exist
         if (Strings::match($relativeDirPath, self::VENDOR_REGEX)) {
