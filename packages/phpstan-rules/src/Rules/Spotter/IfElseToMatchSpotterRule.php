@@ -15,7 +15,6 @@ use PHPStan\Rules\Rule;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 use Symplify\PHPStanRules\ValueObject\Spotter\ReturnAndAssignBranchCounts;
@@ -39,7 +38,6 @@ final class IfElseToMatchSpotterRule implements Rule, DocumentedRuleInterface
         private IfElseBranchAnalyzer $ifElseBranchAnalyzer,
         private IfResemblingMatchAnalyzer $ifResemblingMatchAnalyzer,
         private CacheIfAnalyzer $cacheIfAnalyzer,
-        private IfEnumAnalyzer $ifEnumAnalyzer
     ) {
     }
 
@@ -57,21 +55,22 @@ final class IfElseToMatchSpotterRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkipIf($node)) {
+        // always need else
+        if (! $node->else instanceof Else_) {
             return [];
         }
 
-        $branches = $this->mergeIfBranches($node);
+        // at least 3 options in total, so we don't match simple if/else
+        if ($node->elseifs === []) {
+            return [];
+        }
+
+        $branches = $this->mergeIfElseBranches($node);
 
         $ifsAndConds = [];
         foreach ($branches as $branch) {
             // must be exactly single item
             if (count($branch->stmts) !== 1) {
-                return [];
-            }
-
-            // is multiple if with same variable - skip it, we need else/if here
-            if ($this->ifEnumAnalyzer->isMultipleIf($branch, $node)) {
                 return [];
             }
 
@@ -147,17 +146,6 @@ CODE_SAMPLE
         return $returnAndAssignBranchCounts->getReturnTypeCount() === $branchCount;
     }
 
-    private function shouldSkipIf(If_ $if): bool
-    {
-        if ($if->else === null) {
-            // is followed by return?
-            $next = $if->getAttribute(AttributeKey::NEXT);
-            return ! $next instanceof Return_;
-        }
-
-        return $if->elseifs === [];
-    }
-
     /**
      * @param IfAndCondExpr[] $ifsAndCondExprs
      */
@@ -183,7 +171,7 @@ CODE_SAMPLE
     /**
      * @return array<If_|Else_|ElseIf_>
      */
-    private function mergeIfBranches(If_ $if): array
+    private function mergeIfElseBranches(If_ $if): array
     {
         // all branches must have return or assign - at the same time
 
