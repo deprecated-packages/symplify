@@ -54,7 +54,6 @@ rules:
     - Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
     - Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule
     - Symplify\PHPStanRules\Rules\CheckRequiredInterfaceInContractNamespaceRule
-    - Symplify\PHPStanRules\Rules\CheckConstantExpressionDefinedInConstructOrSetupRule
     - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
     - Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
