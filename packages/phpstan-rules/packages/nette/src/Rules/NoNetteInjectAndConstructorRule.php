@@ -17,6 +17,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteInjectAndConstructorRule\NoNetteInjectAndConstructorRuleTest
+ * @implements Rule<Class_>
  */
 final class NoNetteInjectAndConstructorRule implements Rule, DocumentedRuleInterface
 {

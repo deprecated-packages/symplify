@@ -1,7 +1,5 @@
 includes:
     - ../../../config/config_tests.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule

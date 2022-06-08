@@ -26,13 +26,8 @@ final class ForbiddenNetteInjectOverrideRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [
-            __DIR__ . '/Fixture/OverrideInjectedVariable.php',
-            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 17]],
-        ];
-
-        yield [
             __DIR__ . '/Fixture/OverrideParentInject.php',
-            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 13]],
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 14]],
         ];
 
         yield [
@@ -42,7 +37,7 @@ final class ForbiddenNetteInjectOverrideRuleTest extends RuleTestCase
 
         yield [
             __DIR__ . '/Fixture/OverrideParentInjectClassMethodAttribute.php',
-            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 13]],
+            [[ForbiddenNetteInjectOverrideRule::ERROR_MESSAGE, 14]],
         ];
 
         yield [__DIR__ . '/Fixture/SkipNonInjectAssign.php', []];
