@@ -37,7 +37,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             oldToPreferredClasses:
-                SplFileInfo: 'Symplify\SmartFileSystem\SmartFileInfo'
                 DateTime: 'Nette\Utils\DateTime'
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
                 # smart file system
