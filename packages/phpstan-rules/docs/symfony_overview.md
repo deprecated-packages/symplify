@@ -1,4 +1,4 @@
-# 6 Rules Overview
+# 5 Rules Overview
 
 ## CheckOptionArgumentCommandRule
 
@@ -36,44 +36,6 @@ class SomeClass extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $source = $input->getArgument('source');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## InvokableControllerByRouteNamingRule
-
-Use controller class name based on route name instead
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\InvokableControllerByRouteNamingRule`](../packages/symfony/src/Rules/InvokableControllerByRouteNamingRule.php)
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SecurityController extends AbstractController
-{
-    #[Route(path: '/logout', name: 'logout')]
-    public function __invoke(): Response
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class LogoutController extends AbstractController
-{
-    #[Route(path: '/logout', name: 'logout')]
-    public function __invoke(): Response
-    {
     }
 }
 ```
