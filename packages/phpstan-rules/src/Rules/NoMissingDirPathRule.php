@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeFinder;
