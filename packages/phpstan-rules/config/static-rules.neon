@@ -5,7 +5,6 @@ rules:
 
     - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
     - Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
-    - Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule
     - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
 
     # domain

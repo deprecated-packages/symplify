@@ -1,4 +1,4 @@
-# 109 Rules Overview
+# 108 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2613,43 +2613,6 @@ final class Person extends Entity
     public function getName()
     {
         return $this->name;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoReadonlyStaticVariableRule
-
-Avoid using static variables, as they can change. Use class constant instead
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoReadonlyStaticVariableRule`](../src/Rules/Explicit/NoReadonlyStaticVariableRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        static $list = [1, 2, 3];
-
-        return $list;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    private const LIST = [1, 2, 3];
-    public function run()
-    {
-        return self::LIST;
     }
 }
 ```
