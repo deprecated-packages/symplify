@@ -41,7 +41,6 @@ services:
     - Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodResolver
     - Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver
-    - Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard
     - Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard
     - Symplify\PHPStanRules\ParentMethodAnalyser
     - Symplify\PHPStanRules\PhpDoc\AnnotationAttributeDetector

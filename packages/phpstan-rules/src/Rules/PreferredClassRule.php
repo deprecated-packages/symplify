@@ -14,7 +14,6 @@ use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use SplFileInfo;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ParentGuard\ParentParamTypeGuard;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,7 +34,6 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
      */
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private ParentParamTypeGuard $parentParamTypeGuard,
         private array $oldToPreferredClasses
     ) {
     }
@@ -151,10 +149,6 @@ CODE_SAMPLE
      */
     private function processClassName(string $className, Node $node, Scope $scope): array
     {
-        if ($this->parentParamTypeGuard->isRequiredByContract($node, $scope)) {
-            return [];
-        }
-
         foreach ($this->oldToPreferredClasses as $oldClass => $prefferedClass) {
             if ($className !== $oldClass) {
                 continue;

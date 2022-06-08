@@ -34,7 +34,6 @@ final class PreferredClassRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SomeStaticCall.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipPreferredExtendingTheOldOne.php', []];
-        yield [__DIR__ . '/Fixture/SkipRequiredByContract.php', []];
     }
 
     /**
