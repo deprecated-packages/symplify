@@ -6,19 +6,18 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Attribute;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\AttributeGroup;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireAttributeNameRule\RequireAttributeNameRuleTest
+ * @implements Rule<AttributeGroup>
  */
 final class RequireAttributeNameRule implements Rule, DocumentedRuleInterface
 {
@@ -27,15 +26,9 @@ final class RequireAttributeNameRule implements Rule, DocumentedRuleInterface
      */
     public const ERROR_MESSAGE = 'Attribute must have all names explicitly defined';
 
-    public function __construct(
-        private AttributeFinder $attributeFinder,
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function getNodeType(): string
     {
-        return Class_::class;
+        return AttributeGroup::class;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -70,17 +63,16 @@ CODE_SAMPLE
     }
 
     /**
-     * @param Class_ $node
+     * @param AttributeGroup $node
      * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $attributes = $this->attributeFinder->findInClass($node);
-
         $ruleErrors = [];
 
-        foreach ($attributes as $attribute) {
-            if ($this->simpleNameResolver->isName($attribute->name, Attribute::class)) {
+        foreach ($node->attrs as $attribute) {
+            $attributeName = $attribute->name->toString();
+            if ($attributeName === Attribute::class) {
                 continue;
             }
 

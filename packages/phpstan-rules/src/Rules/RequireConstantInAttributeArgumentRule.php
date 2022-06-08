@@ -6,16 +6,14 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
-use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Component\Routing\Annotation\Route;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -35,36 +33,43 @@ final class RequireConstantInAttributeArgumentRule implements ConfigurableRuleIn
      * @param array<string, string[]> $attributeWithNames
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-        private AttributeFinder $attributeFinder,
         private array $attributeWithNames
     ) {
     }
 
     public function getNodeType(): string
     {
-        return Class_::class;
+        return AttributeGroup::class;
     }
 
     /**
-     * @param Class_ $node
+     * @param AttributeGroup $node
      * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
         $errorMessages = [];
 
-        $attributes = $this->attributeFinder->findInClass($node);
+        foreach ($node->attrs as $attribute) {
+            $attributeClassName = $attribute->name->toString();
 
-        foreach ($attributes as $attribute) {
-            $errorMessage = $this->processAttribute($attribute);
-            if ($errorMessage === null) {
+            $checkedNames = $this->attributeWithNames[$attributeClassName] ?? null;
+            if ($checkedNames === null) {
                 continue;
             }
 
-            $errorMessages[] = RuleErrorBuilder::message($errorMessage)
-                ->line($attribute->getLine())
-                ->build();
+            foreach ($attribute->args as $arg) {
+                if (! $this->isDesiredArgumentNameWithoutClassConst($arg, $checkedNames)) {
+                    continue;
+                }
+
+                $argumentName = $arg->name->toString();
+
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $argumentName);
+                $errorMessages[] = RuleErrorBuilder::message($errorMessage)
+                    ->line($attribute->getLine())
+                    ->build();
+            }
         }
 
         return $errorMessages;
@@ -107,41 +112,20 @@ CODE_SAMPLE
         ]);
     }
 
-    private function processAttribute(Attribute $attribute): ?string
-    {
-        $attributeClassName = $this->simpleNameResolver->getName($attribute);
-
-        foreach ($this->attributeWithNames as $checkedAttribute => $checkedNames) {
-            if ($checkedAttribute !== $attributeClassName) {
-                continue;
-            }
-
-            foreach ($attribute->args as $arg) {
-                $argumentName = $this->simpleNameResolver->getName($arg);
-                if ($argumentName === null) {
-                    continue;
-                }
-
-                if ($this->shouldSkipArgument($checkedNames, $argumentName, $arg)) {
-                    continue;
-                }
-
-                return sprintf(self::ERROR_MESSAGE, $argumentName);
-            }
-        }
-
-        return null;
-    }
-
     /**
      * @param string[] $checkedNames
      */
-    private function shouldSkipArgument(array $checkedNames, string $argumentName, Arg $arg): bool
+    private function isDesiredArgumentNameWithoutClassConst(Arg $arg, array $checkedNames): bool
     {
-        if (! in_array($argumentName, $checkedNames, true)) {
-            return true;
+        if (! $arg->name instanceof Identifier) {
+            return false;
         }
 
-        return $arg->value instanceof ClassConstFetch;
+        $argumentName = $arg->name->toString();
+        if (! in_array($argumentName, $checkedNames, true)) {
+            return false;
+        }
+
+        return ! $arg->value instanceof ClassConstFetch;
     }
 }

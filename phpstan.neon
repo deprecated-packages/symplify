@@ -514,3 +514,8 @@ parameters:
             paths:
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/DiffCodeSamplePrinter.php
                 - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
+
+        # known value
+        -
+            message: '#Cannot call method toString\(\) on PhpParser\\Node\\Identifier\|null#'
+            path: packages/phpstan-rules/src/Rules/RequireConstantInAttributeArgumentRule.php
