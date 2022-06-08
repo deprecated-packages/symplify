@@ -2,7 +2,6 @@ rules:
     - Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule
     - Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule
     - Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
-    - Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
 
 services:
     -

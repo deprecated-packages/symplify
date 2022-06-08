@@ -1,48 +1,4 @@
-# 5 Rules Overview
-
-## CheckOptionArgumentCommandRule
-
-Argument and options "%s" got confused
-
-- class: [`Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule`](../packages/symfony/src/Rules/CheckOptionArgumentCommandRule.php)
-
-```php
-class SomeClass extends Command
-{
-    protected function configure(): void
-    {
-        $this->addOption('source');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $source = $input->getArgument('source');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass extends Command
-{
-    protected function configure(): void
-    {
-        $this->addArgument('source');
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $source = $input->getArgument('source');
-    }
-}
-```
-
-:+1:
-
-<br>
+# 4 Rules Overview
 
 ## PreventDoubleSetParameterRule
 

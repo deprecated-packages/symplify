@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 
@@ -18,22 +17,7 @@ final class MethodCallNodeFinder
         private SimpleNodeFinder $simpleNodeFinder,
         private NodeFinder $nodeFinder,
         private NodeComparator $nodeComparator,
-        private SimpleNameResolver $simpleNameResolver
     ) {
-    }
-
-    /**
-     * @return MethodCall[]
-     */
-    public function findByName(Node $node, string $methodName): array
-    {
-        return $this->nodeFinder->find([$node], function (Node $node) use ($methodName): bool {
-            if (! $node instanceof MethodCall) {
-                return false;
-            }
-
-            return $this->simpleNameResolver->isName($node->name, $methodName);
-        });
     }
 
     /**

@@ -1,7 +1,0 @@
-includes:
-    - ../../../../../../tests/config/included_services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\CheckOptionArgumentCommandRule
-        tags: [phpstan.rules.rule]
