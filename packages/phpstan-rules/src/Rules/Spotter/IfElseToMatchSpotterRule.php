@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Spotter;
 
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
-use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer;
 use Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer;
@@ -147,28 +144,6 @@ CODE_SAMPLE
     }
 
     /**
-     * @param IfAndCondExpr[] $ifsAndCondExprs
-     */
-    private function shouldSkipForConflictingReturn(If_ $if, array $ifsAndCondExprs): bool
-    {
-        if ($if->else !== null) {
-            return false;
-        }
-
-        $next = $if->getAttribute(AttributeKey::NEXT);
-        if (! $next instanceof Return_) {
-            return false;
-        }
-
-        $returnExpr = $next->expr;
-        if (! $returnExpr instanceof Expr) {
-            return false;
-        }
-
-        return ! $this->ifResemblingMatchAnalyzer->isReturnExprSameVariableAsAssigned($returnExpr, $ifsAndCondExprs);
-    }
-
-    /**
      * @return array<If_|Else_|ElseIf_>
      */
     private function mergeIfElseBranches(If_ $if): array
@@ -193,10 +168,6 @@ CODE_SAMPLE
             return true;
         }
 
-        if ($this->cacheIfAnalyzer->isDefaultNullAssign($if)) {
-            return true;
-        }
-
-        return $this->shouldSkipForConflictingReturn($if, $ifsAndConds);
+        return $this->cacheIfAnalyzer->isDefaultNullAssign($if);
     }
 }

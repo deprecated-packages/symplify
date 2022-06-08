@@ -54,36 +54,6 @@ final class IfResemblingMatchAnalyzer
         return count($uniqueComparedExprContent) === 1;
     }
 
-    /**
-     * @param IfAndCondExpr[] $ifsAndCondExprs
-     */
-    public function isReturnExprSameVariableAsAssigned(Expr $returnExpr, array $ifsAndCondExprs): bool
-    {
-        $printedReturnExpr = $this->printerStandard->prettyPrintExpr($returnExpr);
-
-        foreach ($ifsAndCondExprs as $ifAndCondExpr) {
-            /** @var Assign|null $assign */
-            $assign = $this->nodeFinder->findFirstInstanceOf($ifAndCondExpr->getStmt(), Assign::class);
-            if ($assign instanceof Assign) {
-                $assignVar = $assign->var;
-                while ($assignVar instanceof ArrayDimFetch) {
-                    $assignVar = $assignVar->var;
-                }
-
-                $printedAssignVar = $this->printerStandard->prettyPrintExpr($assignVar);
-                if ($printedAssignVar === $printedReturnExpr) {
-                    continue;
-                }
-
-                return false;
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
     private function hasExclusivelyCompare(BooleanOr $booleanOr): bool
     {
         if (! $this->isIdenticalOrEqual($booleanOr->left)) {
