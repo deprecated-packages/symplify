@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 110 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2584,33 +2584,6 @@ class SomeClass extends Printer
 
 <br>
 
-## NoPropertySetOverrideRule
-
-Property set "%s" is overridden.
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule`](../src/Rules/Complexity/NoPropertySetOverrideRule.php)
-
-```php
-$someObject = new SomeClass();
-$someObject->name = 'First value';
-
-// ...
-$someObject->name = 'Second value';
-```
-
-:x:
-
-<br>
-
-```php
-$someObject = new SomeClass();
-$someObject->name = 'First value';
-```
-
-:+1:
-
-<br>
-
 ## NoProtectedElementInFinalClassRule
 
 Instead of protected element in final class use private element or contract method
@@ -3051,7 +3024,7 @@ final class UseDataFromSetupInTestDataProviderTest extends TestCase
 {
     private $data;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->data = true;
     }
@@ -3082,7 +3055,7 @@ final class UseRawDataForTestDataProviderTest
 {
     private $obj;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->obj = new stdClass;
     }
