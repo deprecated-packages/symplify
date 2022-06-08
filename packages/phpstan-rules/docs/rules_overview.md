@@ -1,4 +1,4 @@
-# 108 Rules Overview
+# 107 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1824,44 +1824,6 @@ class SomeClass
 {
     public function getSome()
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoFactoryInConstructorRule
-
-Do not use factory/method call in constructor. Put factory in config and get service with dependency injection
-
-- class: [`Symplify\PHPStanRules\Rules\NoFactoryInConstructorRule`](../src/Rules/NoFactoryInConstructorRule.php)
-
-```php
-class SomeClass
-{
-    private $someDependency;
-
-    public function __construct(SomeFactory $factory)
-    {
-        $this->someDependency = $factory->build();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $someDependency;
-
-    public function __construct(SomeDependency $someDependency)
-    {
-        $this->someDependency = $someDependency;
     }
 }
 ```

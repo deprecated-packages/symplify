@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Reflection;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
-use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class MethodNodeAnalyser
 {
@@ -43,15 +42,5 @@ final class MethodNodeAnalyser
         }
 
         return null;
-    }
-
-    public function isInConstructor(Scope $scope): bool
-    {
-        $reflectionFunction = $scope->getFunction();
-        if (! $reflectionFunction instanceof MethodReflection) {
-            return false;
-        }
-
-        return $reflectionFunction->getName() === MethodName::CONSTRUCTOR;
     }
 }
