@@ -6,12 +6,11 @@ namespace Symplify\PHPStanRules\Nette;
 
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionClass;
-use PHPStan\BetterReflection\Reflection\Adapter\ReflectionEnum;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use PHPStan\Reflection\PropertyReflection;
@@ -42,33 +41,34 @@ final class NetteInjectAnalyzer
     ) {
     }
 
-    public function isParentInjectPropertyFetch(PropertyFetch $propertyFetch, Scope $scope): bool
-    {
-        $propertyReflection = $this->propertyAnalyzer->matchPropertyReflection($propertyFetch, $scope);
-
-        if (! $propertyReflection instanceof PropertyReflection) {
+    /**
+     * @param ClassReflection[] $parentClassReflections
+     */
+    public function isParentInjectPropertyFetch(
+        PropertyFetch $propertyFetch,
+        Scope $scope,
+        array $parentClassReflections
+    ): bool {
+        $propertyFetchName = $propertyFetch->name;
+        if (! $propertyFetchName instanceof Identifier) {
             return false;
         }
 
-        if ($this->hasPropertyReflectionInjectAnnotationAttribute($propertyReflection)) {
-            return true;
-        }
+        $propertyName = $propertyFetchName->name;
 
-        $declaringClassReflection = $propertyReflection->getDeclaringClass();
-
-        $currentClassReflection = $scope->getClassReflection();
-        if (! $currentClassReflection instanceof ClassReflection) {
-            return false;
-        }
-
-        // is defined in another class
-        foreach ($declaringClassReflection->getAncestors() as $ancestorClassReflection) {
-            if ($currentClassReflection->getName() === $ancestorClassReflection->getName()) {
+        foreach ($parentClassReflections as $parentClassReflection) {
+            if (! $parentClassReflection->hasNativeProperty($propertyName)) {
                 continue;
             }
 
-            $nativeClassReflection = $ancestorClassReflection->getNativeReflection();
-            if ($this->isPropertyInjectedInClassMethod($nativeClassReflection, $propertyFetch)) {
+            /** @var PhpPropertyReflection $propertyReflection */
+            $propertyReflection = $parentClassReflection->getProperty($propertyName, $scope);
+
+            if ($this->hasPropertyReflectionInjectAnnotationAttribute(
+                $propertyReflection,
+                $propertyFetch,
+                $parentClassReflection
+            )) {
                 return true;
             }
         }
@@ -78,7 +78,8 @@ final class NetteInjectAnalyzer
 
     public function isInjectProperty(Property $property): bool
     {
-        if (! $property->isPublic()) {
+        // not possible to inject private property
+        if ($property->isPrivate()) {
             return false;
         }
 
@@ -107,8 +108,11 @@ final class NetteInjectAnalyzer
         );
     }
 
-    private function hasPropertyReflectionInjectAnnotationAttribute(PropertyReflection $propertyReflection): bool
-    {
+    private function hasPropertyReflectionInjectAnnotationAttribute(
+        PropertyReflection $propertyReflection,
+        PropertyFetch $propertyFetch,
+        ClassReflection $classReflection
+    ): bool {
         if (! $propertyReflection instanceof PhpPropertyReflection) {
             return false;
         }
@@ -118,15 +122,25 @@ final class NetteInjectAnalyzer
             return false;
         }
 
-        return $this->isInjectProperty($property);
+        if ($this->isInjectProperty($property)) {
+            return true;
+        }
+
+        return $this->isPropertyInjectedInClassMethod($classReflection, $propertyFetch);
     }
 
     private function isPropertyInjectedInClassMethod(
-        ReflectionClass|ReflectionEnum $reflectionClass,
+        ClassReflection $classReflection,
         PropertyFetch $propertyFetch
     ): bool {
-        $reflectionMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+        $nativeClassReflection = $classReflection->getNativeReflection();
+
+        $reflectionMethods = $nativeClassReflection->getMethods(ReflectionMethod::IS_PUBLIC);
         foreach ($reflectionMethods as $reflectionMethod) {
+            if (! str_starts_with($reflectionMethod->getName(), 'inject')) {
+                continue;
+            }
+
             $classMethod = $this->reflectionParser->parseMethodReflection($reflectionMethod);
             if (! $classMethod instanceof ClassMethod) {
                 continue;
