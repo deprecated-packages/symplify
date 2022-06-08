@@ -20,6 +20,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRule\NoNetteTemplateVariableReadRuleTest
+ * @implements Rule<PropertyFetch>
  */
 final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInterface
 {

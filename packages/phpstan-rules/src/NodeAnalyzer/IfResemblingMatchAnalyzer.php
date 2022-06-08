@@ -13,13 +13,15 @@ use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Expr\BinaryOp\Identical;
 use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
+use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 
 final class IfResemblingMatchAnalyzer
 {
     public function __construct(
         private Standard $printerStandard,
-        private NodeFinder $nodeFinder
+        private NodeFinder $nodeFinder,
+        private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }
 
