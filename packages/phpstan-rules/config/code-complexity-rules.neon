@@ -5,7 +5,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
     - Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenNamedArgumentsRule
-    - Symplify\PHPStanRules\Rules\Complexity\NoPropertySetOverrideRule
     - Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule
     - Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
     - Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
