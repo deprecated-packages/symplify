@@ -54,7 +54,6 @@ services:
     - Symplify\PHPStanRules\PhpDoc\ClassReferencePhpDocNodeVisitor
     - Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser
     - Symplify\PHPStanRules\PhpDoc\PhpDocResolver
-    - Symplify\PHPStanRules\PhpParser\FileExistFuncCallAnalyzer
     - Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer
