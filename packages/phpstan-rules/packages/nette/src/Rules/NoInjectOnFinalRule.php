@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Nette\NetteInjectAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -16,6 +19,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Nette\Tests\Rules\NoInjectOnFinalRule\NoInjectOnFinalRuleTest
+ * @implements Rule<InClassNode>
  */
 final class NoInjectOnFinalRule implements Rule, DocumentedRuleInterface
 {
@@ -63,16 +67,21 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return Property::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param Property $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->netteInjectAnalyzer->isInjectProperty($node)) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
+            return [];
+        }
+
+        if (! $classLike->isFinal()) {
             return [];
         }
 
@@ -81,10 +90,18 @@ CODE_SAMPLE
             return [];
         }
 
-        if (! $classReflection->isFinal()) {
-            return [];
+        $errorMessage = [];
+
+        foreach ($classLike->getProperties() as $property) {
+            if (! $this->netteInjectAnalyzer->isInjectProperty($property)) {
+                continue;
+            }
+
+            $errorMessage[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($property->getLine())
+                ->build();
         }
 
-        return [self::ERROR_MESSAGE];
+        return $errorMessage;
     }
 }
