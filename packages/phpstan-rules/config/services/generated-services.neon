@@ -26,7 +26,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\IfEnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\InitializedExprAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver

@@ -25,8 +25,6 @@ foreach ($fileInfos as $fileInfo) {
         continue;
     }
 
-    dump($fileInfo->getRealPath());
-
     // 2. detect rule class name from the test
     $baseRuleDirectory = dirname($fileInfo->getPath());
 

@@ -1,48 +1,18 @@
-services:
+rules:
     # dibi
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
-        tags: [phpstan.rules.rule]
-
+    - Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
     # templates
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
-        tags: [phpstan.rules.rule]
-
+    - Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule
+    - Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
+    - Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
     # components
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
-        tags: [phpstan.rules.rule]
-
+    - Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
     # inject
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
-        tags: [phpstan.rules.rule]
+    - Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
+    - Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
+    - Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
+    - Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
+    - Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
 
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
-        tags: [phpstan.rules.rule]
-
-    -
-        class: Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule
-        tags: [phpstan.rules.rule]
+    # requires parent node
+    - Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule
