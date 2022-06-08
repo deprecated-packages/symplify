@@ -53,7 +53,7 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
     public function process(Node $node, Scope $scope): array
     {
         if ($node instanceof New_) {
-            return $this->processNew($node, $scope);
+            return $this->processNew($node);
         }
 
         if ($node instanceof Class_) {
@@ -61,10 +61,10 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
         }
 
         if ($node instanceof StaticCall) {
-            return $this->processStaticCall($node, $scope);
+            return $this->processStaticCall($node);
         }
 
-        return $this->processClassName($node->toString(), $node, $scope);
+        return $this->processClassName($node->toString());
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -105,14 +105,14 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processNew(New_ $new, Scope $scope): array
+    private function processNew(New_ $new): array
     {
         $className = $this->simpleNameResolver->getName($new->class);
         if ($className === null) {
             return [];
         }
 
-        return $this->processClassName($className, $new, $scope);
+        return $this->processClassName($className);
     }
 
     /**
@@ -147,7 +147,7 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processClassName(string $className, Node $node, Scope $scope): array
+    private function processClassName(string $className): array
     {
         foreach ($this->oldToPreferredClasses as $oldClass => $prefferedClass) {
             if ($className !== $oldClass) {
@@ -164,7 +164,7 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processStaticCall(StaticCall $staticCall, Scope $scope): array
+    private function processStaticCall(StaticCall $staticCall): array
     {
         if ($staticCall->class instanceof Expr) {
             return [];
@@ -172,6 +172,6 @@ CODE_SAMPLE
 
         $className = (string) $staticCall->class;
 
-        return $this->processClassName($className, $staticCall, $scope);
+        return $this->processClassName($className);
     }
 }
