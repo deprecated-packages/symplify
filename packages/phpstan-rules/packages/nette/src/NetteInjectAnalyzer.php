@@ -98,11 +98,11 @@ final class NetteInjectAnalyzer
     }
 
     private function hasPropertyReflectionInjectAnnotationAttribute(
-        PhpPropertyReflection $propertyReflection,
+        PhpPropertyReflection $phpPropertyReflection,
         PropertyFetch $propertyFetch,
         ClassReflection $classReflection
     ): bool {
-        $property = $this->reflectionParser->parsePropertyReflection($propertyReflection->getNativeReflection());
+        $property = $this->reflectionParser->parsePropertyReflection($phpPropertyReflection->getNativeReflection());
         if (! $property instanceof Property) {
             return false;
         }
@@ -118,9 +118,9 @@ final class NetteInjectAnalyzer
         ClassReflection $classReflection,
         PropertyFetch $propertyFetch
     ): bool {
-        $nativeClassReflection = $classReflection->getNativeReflection();
+        $nativeReflection = $classReflection->getNativeReflection();
 
-        $reflectionMethods = $nativeClassReflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        $reflectionMethods = $nativeReflection->getMethods(ReflectionMethod::IS_PUBLIC);
         foreach ($reflectionMethods as $reflectionMethod) {
             if (! str_starts_with($reflectionMethod->getName(), 'inject')) {
                 continue;
