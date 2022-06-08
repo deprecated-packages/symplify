@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Stmt\Class_;
+use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,9 +31,9 @@ final class NoMirrorAssertRule implements Rule, DocumentedRuleInterface
     public const ERROR_MESSAGE = 'The assert is tautology that compares to itself. Fix it to different values';
 
     public function __construct(
-        private TestAnalyzer $testAnalyzer,
         private Standard $standard,
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -71,51 +74,67 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param MethodCall $node
-     * @return string[]|RuleError[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        // allow in test case methods, possibly to compare reults
-        if (! $this->testAnalyzer->isInTestClassMethod($scope, $node)) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
-        // compare 1st and 2nd value
-        if (count($node->args) < 2) {
+        if (! $classReflection->isSubclassOf('PHPUnit\Framework\TestCase')) {
             return [];
         }
 
-        // only "assert*" methods
-        if (! $this->simpleNameResolver->isName($node->name, 'assert*')) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        $firstArgOrVariadicPlaceholder = $node->args[0];
-        if (! $firstArgOrVariadicPlaceholder instanceof Arg) {
-            return [];
+        $errorMessages = [];
+
+        /** @var MethodCall[] $methodCalls */
+        $methodCalls = $this->nodeFinder->findInstanceOf($classLike->stmts, MethodCall::class);
+        foreach ($methodCalls as $methodCall) {
+
+            // compare 1st and 2nd value
+            if (count($methodCall->getArgs()) < 2) {
+                continue;
+            }
+
+            // only "assert*" methods
+            if (! $this->simpleNameResolver->isName($methodCall->name, 'assert*')) {
+                continue;
+            }
+
+            if (! $this->areFirstAndSecondArgTheSame($methodCall)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($methodCall->getLine())
+                ->build();
         }
 
-        $firstArgValue = $firstArgOrVariadicPlaceholder->value;
+        return $errorMessages;
+    }
 
-        $secondArgOrVariadicPlaceholder = $node->args[1];
-        if (! $secondArgOrVariadicPlaceholder instanceof Arg) {
-            return [];
-        }
+    private function areFirstAndSecondArgTheSame(MethodCall $methodCall): bool
+    {
+        $args = $methodCall->getArgs();
 
-        $secondArgValue = $secondArgOrVariadicPlaceholder->value;
+        $firstArgValue = $args[0]->value;
+        $secondArgValue = $args[1]->value;
 
         $firstArgValueContent = $this->standard->prettyPrintExpr($firstArgValue);
         $secondArgValueContent = $this->standard->prettyPrintExpr($secondArgValue);
 
-        if ($firstArgValueContent !== $secondArgValueContent) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $firstArgValueContent === $secondArgValueContent;
     }
 }
