@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
@@ -18,7 +17,6 @@ use Symplify\PackageBuilder\ValueObject\MethodName;
 final class DependencyNodeAnalyzer
 {
     public function __construct(
-        private NodeFinder $nodeFinder,
         private SimpleNameResolver $simpleNameResolver,
         private SimpleNodeFinder $simpleNodeFinder,
         private AutowiredMethodPropertyAnalyzer $autowiredMethodPropertyAnalyzer
@@ -37,7 +35,7 @@ final class DependencyNodeAnalyzer
         }
 
         /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($classMethod, Assign::class);
+        $assigns = $this->simpleNodeFinder->findByType($classMethod, Assign::class);
         if ($assigns === []) {
             return false;
         }
@@ -50,21 +48,18 @@ final class DependencyNodeAnalyzer
         /** @var string $propertyName */
         $propertyName = $this->simpleNameResolver->getName($property);
 
-        /** @var PropertyFetch[] $propertyFetches */
-        $propertyFetches = $this->simpleNodeFinder->findByType($class, PropertyFetch::class);
-        foreach ($propertyFetches as $propertyFetch) {
-            if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {
-                continue;
-            }
+        foreach ($class->getMethods() as $classMethod) {
+            /** @var PropertyFetch[] $propertyFetches */
+            $propertyFetches = $this->simpleNodeFinder->findByType($classMethod, PropertyFetch::class);
 
-            // is inside autowired class method?
-            $classMethod = $this->simpleNodeFinder->findFirstParentByType($propertyFetch, ClassMethod::class);
-            if (! $classMethod instanceof ClassMethod) {
-                continue;
-            }
+            foreach ($propertyFetches as $propertyFetch) {
+                if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {
+                    continue;
+                }
 
-            if ($this->autowiredMethodPropertyAnalyzer->detect($classMethod)) {
-                return true;
+                if ($this->autowiredMethodPropertyAnalyzer->detect($classMethod)) {
+                    return true;
+                }
             }
         }
 
