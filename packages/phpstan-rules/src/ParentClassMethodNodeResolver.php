@@ -44,6 +44,9 @@ final class ParentClassMethodNodeResolver
         }
 
         // all parent classes and interfaces
-        return array_filter($mainClassReflection->getAncestors(), fn(ClassReflection $classReflection): bool => $classReflection !== $mainClassReflection);
+        return array_filter(
+            $mainClassReflection->getAncestors(),
+            fn (ClassReflection $classReflection): bool => $classReflection !== $mainClassReflection
+        );
     }
 }
