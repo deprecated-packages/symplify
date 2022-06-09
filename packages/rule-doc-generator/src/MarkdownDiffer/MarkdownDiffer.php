@@ -9,7 +9,7 @@ use SebastianBergmann\Diff\Differ;
 
 /**
  * @see \Symplify\RuleDocGenerator\Tests\MarkdownDiffer\MarkdownDifferTest
- */
+ * @see \Symplify\RuleDocGenerator\Tests\MarkdownDiffer\MarkdownDifferTest*/
 final class MarkdownDiffer
 {
     /**

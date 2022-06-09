@@ -10,7 +10,7 @@ use Throwable;
 
 /**
  * @see \Symplify\RuleDocGenerator\Tests\Text\KeywordHighlighterTest
- */
+ * @see \Symplify\RuleDocGenerator\Tests\Text\KeywordHighlighterTest*/
 final class KeywordHighlighter
 {
     /**
