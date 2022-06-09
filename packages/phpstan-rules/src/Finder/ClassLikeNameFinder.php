@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Finder\ClassLikeNameFinderTest
- */
+ * @see \Symplify\PHPStanRules\Tests\Finder\ClassLikeNameFinderTest*/
 final class ClassLikeNameFinder
 {
     /**

@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Matcher\ClassLikeNameMatcherTest
- */
+ * @see \Symplify\PHPStanRules\Tests\Matcher\ClassLikeNameMatcherTest*/
 final class ClassLikeNameMatcher
 {
     /**

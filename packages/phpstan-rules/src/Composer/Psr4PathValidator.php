@@ -9,7 +9,7 @@ use Symplify\PHPStanRules\ValueObject\ClassNamespaceAndDirectory;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Composer\Psr4PathValidatorTest
- */
+ * @see \Symplify\PHPStanRules\Tests\Composer\Psr4PathValidatorTest*/
 final class Psr4PathValidator
 {
     public function isClassNamespaceCorrect(

@@ -8,16 +8,12 @@ use Nette\Utils\Strings;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Naming\ClassToSuffixResolverTest
- */
+ * @see \Symplify\PHPStanRules\Tests\Naming\ClassToSuffixResolverTest*/
 final class ClassToSuffixResolver
 {
     public function resolveFromClass(string $parentClass): string
     {
-        if (! \str_contains($parentClass, '\\')) {
-            $expectedSuffix = $parentClass;
-        } else {
-            $expectedSuffix = (string) Strings::after($parentClass, '\\', -1);
-        }
+        $expectedSuffix = \str_contains($parentClass, '\\') ? (string) Strings::after($parentClass, '\\', -1) : $parentClass;
 
         $expectedSuffix = $this->removeAbstractInterfacePrefixSuffix($expectedSuffix);
 
