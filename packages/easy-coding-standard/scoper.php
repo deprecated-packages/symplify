@@ -53,6 +53,8 @@ return [
         '#^SYMFONY\_[\p{L}_]+$#',
         // TOKENS from code sniffer - https://github.com/symplify/easy-coding-standard/blob/main/vendor/squizlabs/php_codesniffer/src/Util/Tokens.php
         '#^T_(.*?)#',
+        'PHP_CODESNIFFER_CBF',
+        'PHP_CODESNIFFER_VERBOSITY',
     ],
     'expose-constants' => ['__ECS_RUNNING__'],
 
