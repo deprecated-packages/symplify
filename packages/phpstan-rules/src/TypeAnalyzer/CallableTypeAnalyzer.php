@@ -29,10 +29,6 @@ final class CallableTypeAnalyzer
             return true;
         }
 
-        if ($unwrappedNameStaticType instanceof ObjectType && $unwrappedNameStaticType->getClassName() === Closure::class) {
-            return true;
-        }
-
         return $this->isInvokableObjectType($unwrappedNameStaticType);
     }
 
