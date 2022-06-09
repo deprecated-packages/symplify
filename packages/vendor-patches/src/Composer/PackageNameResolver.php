@@ -12,7 +12,7 @@ use Symplify\VendorPatches\FileSystem\PathResolver;
 
 /**
  * @see \Symplify\VendorPatches\Tests\Composer\PackageNameResolverTest
- */
+ * @see \Symplify\VendorPatches\Tests\Composer\PackageNameResolverTest*/
 final class PackageNameResolver
 {
     public function __construct(

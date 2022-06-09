@@ -12,7 +12,7 @@ use Symplify\VendorPatches\ValueObject\OldAndNewFileInfo;
 
 /**
  * @see \Symplify\VendorPatches\Tests\Differ\PatchDifferTest
- */
+ * @see \Symplify\VendorPatches\Tests\Differ\PatchDifferTest*/
 final class PatchDiffer
 {
     /**
