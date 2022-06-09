@@ -10,7 +10,7 @@ use Symplify\SymfonyStaticDumper\FileSystem\AssetsCopier;
 
 /**
  * @see \Symplify\SymfonyStaticDumper\Tests\Application\SymfonyStaticDumperApplicationTest
- */
+ * @see \Symplify\SymfonyStaticDumper\Tests\Application\SymfonyStaticDumperApplicationTest*/
 final class SymfonyStaticDumperApplication
 {
     public function __construct(

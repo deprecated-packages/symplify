@@ -11,7 +11,7 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @see \Symplify\SymfonyStaticDumper\Tests\FileSystem\AssetsCopierTest
- */
+ * @see \Symplify\SymfonyStaticDumper\Tests\FileSystem\AssetsCopierTest*/
 final class AssetsCopier
 {
     public function __construct(

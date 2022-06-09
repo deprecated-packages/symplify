@@ -10,7 +10,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 /**
  * @see \Symplify\SymfonyStaticDumper\Tests\Routing\RoutesProviderTest
- */
+ * @see \Symplify\SymfonyStaticDumper\Tests\Routing\RoutesProviderTest*/
 final class RoutesProvider
 {
     /**
