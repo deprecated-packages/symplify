@@ -1,7 +1,5 @@
 includes:
     - ../../../../config/included_services.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\Explicit\RequireSpecificReturnTypeOverAbstractRule

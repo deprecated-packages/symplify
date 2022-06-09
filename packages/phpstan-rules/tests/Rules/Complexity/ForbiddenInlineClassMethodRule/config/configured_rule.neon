@@ -1,7 +1,5 @@
 includes:
     - ../../../../config/included_services.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule

@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/included_services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
@@ -5,6 +8,3 @@ services:
         arguments:
             classTypes:
                 - Symplify\PHPStanRules\Tests\Rules\Enum\ForbiddenClassConstRule\Source\AbstractEntity
-
-includes:
-    - ../../../../config/included_services.neon

@@ -1,3 +1,6 @@
+includes:
+    - ../../../../config/included_services.neon
+
 services:
     -
         class: Symplify\PHPStanRules\Rules\Enum\EmbeddedEnumClassConstSpotterRule
@@ -5,6 +8,3 @@ services:
         arguments:
             parentTypes:
                 - Symplify\PHPStanRules\Tests\Rules\Enum\EmbeddedEnumClassConstSpotterRule\Source\SomeParentObject
-
-includes:
-    - ../../../../config/included_services.neon
