@@ -18,11 +18,9 @@ final class ParentLazyServiceOptionKeyYamlToPhpFactory implements ServiceOptions
         mixed $values,
         MethodCall $methodCall
     ): MethodCall {
-        $method = $key;
-        $methodCall = new MethodCall($methodCall, $method);
-        $methodCall->args[] = new Arg(BuilderHelpers::normalizeValue($values[$key]));
+        $args = [new Arg(BuilderHelpers::normalizeValue($values[$key]))];
 
-        return $methodCall;
+        return new MethodCall($methodCall, $key, $args);
     }
 
     public function isMatch(mixed $key, mixed $values): bool

@@ -516,3 +516,11 @@ parameters:
         -
             message: '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoMultiArrayAssignRule\:\:processNode\(\)" is 11, keep it under 8#'
             path: packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
+
+        # nesting on purpose
+        -
+            message: '#New objects with "\$methodCall" name are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
+            paths:
+                - packages/php-config-printer/src/*Converter/*
+                - packages/php-config-printer/src/NodeFactory/Service/SingleServicePhpNodeFactory.php
+                - packages/php-config-printer/src/NodeFactory/Service/AutoBindNodeFactory.php

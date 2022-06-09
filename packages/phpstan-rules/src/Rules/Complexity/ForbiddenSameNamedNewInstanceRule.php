@@ -8,19 +8,22 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInstanceRule\ForbiddenSameNamedNewInstanceRuleTest
- * @implements Rule<Assign>
+ * @implements Rule<Expression>
  */
 final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInterface
 {
@@ -60,31 +63,20 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return Node\Stmt\Expression::class;
+        return Expression::class;
     }
 
     /**
-     * @param Node\Stmt\Expression $node
+     * @param Expression $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-
-        // skip tests, are easier to re-use variable there
-        if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(TestCase::class)) {
-            return [];
-        }
-
-        // only available on stmt
-        $parentStmtTypes = $node->getAttribute('parentStmtTypes');
-
-        // skip in foreach, as nesting might be on purpose
-        if (in_array(Node\Stmt\Foreach_::class, $parentStmtTypes, true)) {
-            return [];
-        }
-
         if (! $node->expr instanceof Assign) {
+            return [];
+        }
+
+        if ($this->shouldSkip($scope, $node)) {
             return [];
         }
 
@@ -115,5 +107,29 @@ CODE_SAMPLE
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, '$' . $variableName);
         return [$errorMessage];
+    }
+
+    private function shouldSkip(Scope $scope, Expression $expression): bool
+    {
+        if ($this->isNestedInForeach($expression)) {
+            return true;
+        }
+
+        $classReflection = $scope->getClassReflection();
+
+        // skip tests, are easier to re-use variable there
+        return $classReflection instanceof ClassReflection && $classReflection->isSubclassOf(TestCase::class);
+    }
+
+    private function isNestedInForeach(Expression $expression): bool
+    {
+        // only available on stmt
+        $parentStmtTypes = $expression->getAttribute(AttributeKey::PARENT_STMT_TYPES);
+        if (! is_array($parentStmtTypes)) {
+            return false;
+        }
+
+        // skip in foreach, as nesting might be on purpose
+        return in_array(Foreach_::class, $parentStmtTypes, true);
     }
 }
