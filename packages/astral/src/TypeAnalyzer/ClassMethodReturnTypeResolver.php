@@ -32,7 +32,6 @@ final class ClassMethodReturnTypeResolver
         }
 
         $classReflection = $scope->getClassReflection();
-
         if (! $classReflection instanceof ClassReflection) {
             return new MixedType();
         }

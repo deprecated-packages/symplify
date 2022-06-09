@@ -1,5 +1,4 @@
 rules:
-    - Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule
     - Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
 
     - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
