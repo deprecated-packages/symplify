@@ -57,13 +57,13 @@ final class CheckTypehintCallerTypeRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $type = $scope->getType($node->var);
-        if (! $type instanceof ThisType) {
+        $args = $node->getArgs();
+        if ($args === []) {
             return [];
         }
 
-        $args = $node->args;
-        if ($args === []) {
+        $type = $scope->getType($node->var);
+        if (! $type instanceof ThisType) {
             return [];
         }
 
@@ -111,17 +111,17 @@ CODE_SAMPLE
     }
 
     /**
-     * @param array<Arg|Node\VariadicPlaceholder> $args
+     * @param Arg[] $args
      * @return RuleError[]
      */
     private function validateArgVsParamTypes(array $args, MethodCall $methodCall, Scope $scope): array
     {
-        $methodCallUses = $this->methodCallNodeFinder->findUsages($methodCall);
+        $methodCallUses = $this->methodCallNodeFinder->findUsages($methodCall, $scope);
         if (count($methodCallUses) > 1) {
             return [];
         }
 
-        $classMethod = $this->classMethodNodeFinder->findByMethodCall($methodCall);
+        $classMethod = $this->classMethodNodeFinder->findByMethodCall($methodCall, $scope);
         if (! $classMethod instanceof ClassMethod) {
             return [];
         }

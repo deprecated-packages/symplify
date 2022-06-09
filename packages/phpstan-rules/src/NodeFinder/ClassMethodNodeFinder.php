@@ -7,20 +7,27 @@ namespace Symplify\PHPStanRules\NodeFinder;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use Symplify\Astral\Reflection\ReflectionParser;
 
 final class ClassMethodNodeFinder
 {
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
-        private SimpleNameResolver $simpleNameResolver
+        private SimpleNameResolver $simpleNameResolver,
+        private ReflectionParser $reflectionParser,
     ) {
     }
 
-    public function findByMethodCall(MethodCall $methodCall): ?ClassMethod
+    public function findByMethodCall(MethodCall $methodCall, Scope $scope): ?ClassMethod
     {
-        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return null;
+        }
+
+        $class = $this->reflectionParser->parseClassReflection($classReflection);
         if (! $class instanceof Class_) {
             return null;
         }

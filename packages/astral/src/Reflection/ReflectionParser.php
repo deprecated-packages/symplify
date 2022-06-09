@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use ReflectionClass;
 use ReflectionMethod;
@@ -21,6 +22,11 @@ use Throwable;
  */
 final class ReflectionParser
 {
+    /**
+     * @var array<string, Class_>
+     */
+    private array $classesByFilename = [];
+
     public function __construct(
         private SmartPhpParser $smartPhpParser,
         private NodeFinder $nodeFinder
@@ -64,6 +70,16 @@ final class ReflectionParser
         return $class->getProperty($reflectionProperty->getName());
     }
 
+    public function parseClassReflection(ClassReflection $classReflection): ?Class_
+    {
+        $filename = $classReflection->getFileName();
+        if ($filename === null) {
+            return null;
+        }
+
+        return $this->parseFilenameToClass($filename);
+    }
+
     private function parseNativeClassReflection(ReflectionClass $reflectionClass): ?Class_
     {
         $fileName = $reflectionClass->getFileName();
@@ -76,6 +92,10 @@ final class ReflectionParser
 
     private function parseFilenameToClass(string $fileName): Class_|null
     {
+        if (isset($this->classesByFilename[$fileName])) {
+            return $this->classesByFilename[$fileName];
+        }
+
         try {
             $stmts = $this->smartPhpParser->parseFile($fileName);
         } catch (Throwable) {
@@ -87,6 +107,8 @@ final class ReflectionParser
         if (! $class instanceof Class_) {
             return null;
         }
+
+        $this->classesByFilename[$fileName] = $class;
 
         return $class;
     }
