@@ -27,12 +27,12 @@ final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, Configur
     public const ERROR_MESSAGE = '"%s" is forbidden to use';
 
     /**
-     * @var array<class-string<\PhpParser\Node>>
+     * @var array<class-string<Node>>
      */
     private array $forbiddenNodes = [];
 
     /**
-     * @param array<class-string<\PhpParser\Node>> $forbiddenNodes
+     * @param array<class-string<Node>> $forbiddenNodes
      */
     public function __construct(
         private Standard $standard,
