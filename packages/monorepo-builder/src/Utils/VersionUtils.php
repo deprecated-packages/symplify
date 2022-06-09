@@ -10,7 +10,7 @@ use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Utils\VersionUtilsTest
- */
+ * @see \Symplify\MonorepoBuilder\Tests\Utils\VersionUtilsTest*/
 final class VersionUtils
 {
     private string $packageAliasFormat;

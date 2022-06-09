@@ -8,7 +8,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Testing\PathResolver\PackagePathResolverTest
- */
+ * @see \Symplify\MonorepoBuilder\Tests\Testing\PathResolver\PackagePathResolverTest*/
 final class PackagePathResolver
 {
     /**

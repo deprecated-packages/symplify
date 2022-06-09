@@ -9,7 +9,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Merge\PathResolver\AutoloadPathNormalizerTest
- */
+ * @see \Symplify\MonorepoBuilder\Tests\Merge\PathResolver\AutoloadPathNormalizerTest*/
 final class AutoloadPathNormalizer
 {
     /**
