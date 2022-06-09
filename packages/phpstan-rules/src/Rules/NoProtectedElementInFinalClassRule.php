@@ -117,6 +117,7 @@ CODE_SAMPLE
         if ($this->isSymfonyMicroKernelRequired($classMethod, $scope)) {
             return true;
         }
+
         return $this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope);
     }
 
