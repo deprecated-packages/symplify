@@ -6,11 +6,9 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\ErrorSuppress;
-use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -20,6 +18,7 @@ use Webmozart\Assert\Assert;
 /**
  * @template T of Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
+ * @implements Rule<Node>
  */
 final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
@@ -29,16 +28,15 @@ final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, Configur
     public const ERROR_MESSAGE = '"%s" is forbidden to use';
 
     /**
-     * @var class-string<T>[]
+     * @var array<class-string<T>>
      */
     private array $forbiddenNodes = [];
 
     /**
-     * @param class-string<T>[] $forbiddenNodes
+     * @param array<class-string<T>> $forbiddenNodes
      */
     public function __construct(
         private Standard $standard,
-        private SimpleNodeFinder $simpleNodeFinder,
         array $forbiddenNodes
     ) {
         Assert::allIsAOf($forbiddenNodes, Node::class);
@@ -61,10 +59,6 @@ final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, Configur
     {
         foreach ($this->forbiddenNodes as $forbiddenNode) {
             if (! is_a($node, $forbiddenNode, true)) {
-                continue;
-            }
-
-            if ($this->hasIntentionallyDocComment($node)) {
                 continue;
             }
 
@@ -94,24 +88,5 @@ CODE_SAMPLE
                 ]
             ),
         ]);
-    }
-
-    private function hasIntentionallyDocComment(Node $node): bool
-    {
-        if (! $node instanceof Stmt) {
-            $node = $this->simpleNodeFinder->findFirstParentByType($node, Stmt::class);
-        }
-
-        if (! $node instanceof Stmt) {
-            return false;
-        }
-
-        foreach ($node->getComments() as $comment) {
-            if (\str_contains($comment->getText(), 'intention')) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
