@@ -117,8 +117,6 @@ CODE_SAMPLE
         if ($this->isSymfonyMicroKernelRequired($classMethod, $scope)) {
             return true;
         }
-
-        $methodName = (string) $classMethod->name;
         return $this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope);
     }
 

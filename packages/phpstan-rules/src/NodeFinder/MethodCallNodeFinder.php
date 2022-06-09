@@ -32,12 +32,12 @@ final class MethodCallNodeFinder
             return [];
         }
 
-        $class = $this->reflectionParser->parseClassReflection($classReflection);
-        if (! $class instanceof Class_) {
+        $classLike = $this->reflectionParser->parseClassReflection($classReflection);
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        return $this->nodeFinder->find($class, function (Node $node) use ($methodCall): bool {
+        return $this->nodeFinder->find($classLike, function (Node $node) use ($methodCall): bool {
             if (! $node instanceof MethodCall) {
                 return false;
             }
