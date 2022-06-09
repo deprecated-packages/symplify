@@ -18,7 +18,6 @@ use PHPStan\Type\UnionType;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\FuncCallValueResolver;
@@ -37,22 +36,21 @@ final class NodeValueResolver
     private UnionTypeValueResolver $unionTypeValueResolver;
 
     /**
-     * @var array<NodeValueResolverInterface>
+     * @var NodeValueResolverInterface[]
      */
     private array $nodeValueResolvers = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-        private TypeChecker $typeChecker,
-        SimpleNodeFinder $simpleNodeFinder,
+        SimpleNameResolver $simpleNameResolver,
+        private TypeChecker $typeChecker
     ) {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
         $this->unionTypeValueResolver = new UnionTypeValueResolver();
 
-        $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($this->simpleNameResolver, $simpleNodeFinder);
-        $this->nodeValueResolvers[] = new ConstFetchValueResolver($this->simpleNameResolver);
+        $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($simpleNameResolver);
+        $this->nodeValueResolvers[] = new ConstFetchValueResolver($simpleNameResolver);
         $this->nodeValueResolvers[] = new MagicConstValueResolver();
-        $this->nodeValueResolvers[] = new FuncCallValueResolver($this->simpleNameResolver, $this->constExprEvaluator);
+        $this->nodeValueResolvers[] = new FuncCallValueResolver($simpleNameResolver, $this->constExprEvaluator);
     }
 
     public function resolveWithScope(Expr $expr, Scope $scope): mixed

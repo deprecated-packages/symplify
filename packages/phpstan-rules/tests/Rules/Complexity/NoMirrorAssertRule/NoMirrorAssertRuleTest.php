@@ -25,10 +25,12 @@ final class NoMirrorAssertRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipDifferentConstant.php', []];
         yield [__DIR__ . '/Fixture/SkipDifferentAssert.php', []];
         yield [__DIR__ . '/Fixture/SkipNoTestCase.php', []];
         yield [__DIR__ . '/Fixture/SkipNonAssertMirror.php', []];
 
+        yield [__DIR__ . '/Fixture/SameConstant.php', [[NoMirrorAssertRule::ERROR_MESSAGE, 15]]];
         yield [__DIR__ . '/Fixture/AssertMirror.php', [[NoMirrorAssertRule::ERROR_MESSAGE, 13]]];
     }
 

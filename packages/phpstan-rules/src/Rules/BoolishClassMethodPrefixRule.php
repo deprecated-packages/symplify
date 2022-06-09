@@ -107,8 +107,8 @@ CODE_SAMPLE
             return true;
         }
 
-        $methodReflection = $classReflection->getNativeMethod($classMethodName);
-        $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())
+        $extendedMethodReflection = $classReflection->getNativeMethod($classMethodName);
+        $returnType = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants())
             ->getReturnType();
 
         if (! $returnType instanceof BooleanType && ! $this->areOnlyBoolReturnNodes($returns, $scope)) {
