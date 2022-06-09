@@ -35,7 +35,6 @@
         },
         "phpstan": {
             "includes": [
-                "config/config.neon",
                 "config/services.neon"
             ]
         }
