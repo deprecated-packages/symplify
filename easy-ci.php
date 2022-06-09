@@ -54,5 +54,6 @@ return static function (EasyCIConfig $easyCIConfig): void {
         CodeSampleInterface::class,
         TagResolverInterface::class,
         \Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator::class,
+        \PhpParser\NodeVisitorAbstract::class,
     ]);
 };

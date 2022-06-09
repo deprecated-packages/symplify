@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRul
 
 use Nette\Application\UI\Control;
 
-final class SkipUnset extends Control
+final class AvoidUnset extends Control
 {
     public function run()
     {

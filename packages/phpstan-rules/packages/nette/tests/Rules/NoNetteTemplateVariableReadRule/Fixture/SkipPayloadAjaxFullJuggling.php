@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Nette\Tests\Rules\NoNetteTemplateVariableReadRul
 
 use Nette\Application\UI\Presenter;
 
-abstract class SkipPayloadAjaxJuggling extends Presenter
+abstract class SkipPayloadAjaxFullJuggling extends Presenter
 {
     public function render()
     {
-        $this->payload->key = $this->template->key;
+        $this->payload = $this->template;
     }
 }

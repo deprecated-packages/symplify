@@ -8,3 +8,8 @@ services:
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
+
+    -
+        class: Symplify\PHPStanRules\NodeVisitor\AssignedToPropertyNodeVisitor
+        tags:
+            - phpstan.parser.richParserNodeVisitor
