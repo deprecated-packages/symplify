@@ -28,10 +28,14 @@ final class NoNetteTemplateVariableReadRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipNoControl.php', []];
         yield [__DIR__ . '/Fixture/SkipFlashes.php', []];
-        yield [__DIR__ . '/Fixture/SkipUnset.php', []];
         yield [__DIR__ . '/Fixture/SkipPayloadAjaxJuggling.php', []];
+        yield [__DIR__ . '/Fixture/SkipPayloadAjaxFullJuggling.php', []];
 
-        yield [__DIR__ . '/Fixture/ReadUsage.php', [[NoNetteTemplateVariableReadRule::ERROR_MESSAGE, 13]]];
+        $errorMessage = sprintf(NoNetteTemplateVariableReadRule::ERROR_MESSAGE, 'whatever', 'whatever');
+        yield [__DIR__ . '/Fixture/AvoidUnset.php', [[$errorMessage, 13]]];
+
+        $errorMessage = sprintf(NoNetteTemplateVariableReadRule::ERROR_MESSAGE, 'value', 'value');
+        yield [__DIR__ . '/Fixture/ReadUsage.php', [[$errorMessage, 13]]];
     }
 
     /**

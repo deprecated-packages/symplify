@@ -73,4 +73,9 @@ final class AttributeKey
      * @var string
      */
     public const PHPSTAN_CACHE_PRINTER = 'phpstan_cache_printer';
+
+    /**
+     * @var string
+     */
+    public const ASSIGNED_TO = 'assigned_to';
 }

@@ -6,9 +6,7 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
-use PhpParser\Node\Stmt\Unset_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -27,7 +25,7 @@ final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInter
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Avoid $this->template->variable for read access, as it can be defined anywhere. Use local $variable instead';
+    public const ERROR_MESSAGE = 'Avoid "$this->template->%s" for read access, as it can be defined anywhere. Use local "$%s" variable instead';
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
@@ -49,28 +47,31 @@ final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInter
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
-            return [];
-        }
-
         if (! $this->isThisPropertyFetch($node->var, 'template')) {
             return [];
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof Assign && $parent->var === $node) {
+        if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
             return [];
         }
 
-        if ($parent === []) {
+        if ($this->simpleNameResolver->isName($node->name, 'flashes')) {
             return [];
         }
 
-        if ($this->shouldSkip($parent, $node)) {
+        $assignedToVar = $node->getAttribute(AttributeKey::ASSIGNED_TO);
+        if ($assignedToVar instanceof Expr && $this->isPayloadAjaxJuggling($assignedToVar)) {
             return [];
         }
 
-        return [self::ERROR_MESSAGE];
+        if ($scope->isInExpressionAssign($node)) {
+            return [];
+        }
+
+        $templateVariableName = $this->simpleNameResolver->getName($node->name);
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, $templateVariableName, $templateVariableName);
+        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -119,33 +120,12 @@ CODE_SAMPLE
         return $this->simpleNameResolver->isName($expr->name, $propertyName);
     }
 
-    private function shouldSkip(Node $parentNode, PropertyFetch $propertyFetch): bool
+    private function isPayloadAjaxJuggling(Expr $expr): bool
     {
-        if ($parentNode instanceof Unset_) {
-            return true;
-        }
-
-        // flashes are allowed
-        if ($this->simpleNameResolver->isNames($propertyFetch->name, ['flashes'])) {
-            return true;
-        }
-
-        // payload ajax juggling
-        // is: $this->payload->xyz = $this->template->xyz
-        return $this->isPayloadAjaxJuggling($parentNode);
-    }
-
-    private function isPayloadAjaxJuggling(Node $node): bool
-    {
-        if (! $node instanceof Assign) {
+        if (! $expr instanceof PropertyFetch) {
             return false;
         }
 
-        if (! $node->var instanceof PropertyFetch) {
-            return false;
-        }
-
-        $propertyFetch = $node->var;
-        return $this->isThisPropertyFetch($propertyFetch->var, 'payload');
+        return $this->isThisPropertyFetch($expr->var, 'payload');
     }
 }

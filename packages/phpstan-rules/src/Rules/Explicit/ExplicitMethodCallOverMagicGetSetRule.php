@@ -6,7 +6,6 @@ namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
@@ -130,8 +129,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $parent = $node->getAttribute(AttributeKey::PARENT);
-        if ($parent instanceof Assign && $parent->var === $node) {
+        if ($scope->isInExpressionAssign($node)) {
             return $this->processSetterMethodCall($node, $callerClassReflection, $propertyName);
         }
 
