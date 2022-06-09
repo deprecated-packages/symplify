@@ -19,7 +19,7 @@ use Symplify\PhpConfigPrinter\Dummy\YamlContentProvider;
  * @see https://github.com/symfony/symfony/pull/18626/files
  *
  * @see \Symplify\PhpConfigPrinter\Tests\NodeFactory\ConstantNodeFactoryTest
- */
+ * @see \Symplify\PhpConfigPrinter\Tests\NodeFactory\ConstantNodeFactoryTest*/
 final class ConstantNodeFactory
 {
     public function __construct(
