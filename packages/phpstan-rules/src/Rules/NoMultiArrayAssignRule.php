@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
@@ -49,7 +50,7 @@ final class NoMultiArrayAssignRule implements Rule, DocumentedRuleInterface
     public function processNode(Node $node, Scope $scope): array
     {
         // check all of stmts aware nodes, see https://github.com/nikic/PHP-Parser/pull/836
-        if (! $node instanceof Stmt\ClassMethod && ! $node instanceof Function_ && ! $node instanceof Closure && ! $node instanceof If_ && ! $node instanceof Else_) {
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_ && ! $node instanceof Closure && ! $node instanceof If_ && ! $node instanceof Else_) {
             return [];
         }
 
