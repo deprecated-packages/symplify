@@ -1,4 +1,4 @@
-# 107 Rules Overview
+# 105 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1625,39 +1625,6 @@ throw new FileNotFoundException('...');
 
 <br>
 
-## NoDependencyJugglingRule
-
-Use dependency injection instead of dependency juggling
-
-- class: [`Symplify\PHPStanRules\Rules\NoDependencyJugglingRule`](../src/Rules/NoDependencyJugglingRule.php)
-
-```php
-public function __construct(
-    private $service
-) {
-}
-
-public function run($someObject)
-{
-    return $someObject->someMethod($this->service);
-}
-```
-
-:x:
-
-<br>
-
-```php
-public function run($someObject)
-{
-    return $someObject->someMethod();
-}
-```
-
-:+1:
-
-<br>
-
 ## NoDuplicatedArgumentRule
 
 This call has duplicate argument
@@ -2309,41 +2276,6 @@ function run($unknownType)
 function run(KnownType $knownType)
 {
     return $knownType->name;
-}
-```
-
-:+1:
-
-<br>
-
-## NoModifyAndReturnSelfObjectRule
-
-Use void instead of modify and return self object
-
-- class: [`Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule`](../src/Rules/NoModifyAndReturnSelfObjectRule.php)
-
-```php
-final class SomeClass
-{
-    public function modify(ComposerJson $composerJson): ComposerJson
-    {
-        $composerJson->addPackage('some-package');
-        return $composerJson;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function modify(ComposerJson $composerJson): void
-    {
-        $composerJson->addPackage('some-package');
-    }
 }
 ```
 
