@@ -12,12 +12,13 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\ValueObject\ScopeTypes;
+use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -35,7 +36,7 @@ final class RequireStringRegexMatchKeyRule implements Rule, DocumentedRuleInterf
     public function __construct(
         private NodeFinder $nodeFinder,
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder
+        private ReflectionParser $reflectionParser,
     ) {
     }
 
@@ -61,12 +62,17 @@ final class RequireStringRegexMatchKeyRule implements Rule, DocumentedRuleInterf
             return [];
         }
 
-        $scopeNode = $this->simpleNodeFinder->findFirstParentByTypes($node, ScopeTypes::STMT_TYPES);
-        if (! $scopeNode instanceof Node) {
+        $functionReflection = $scope->getFunction();
+        if (! $functionReflection instanceof MethodReflection) {
             return [];
         }
 
-        $usedAsArrayDimFetches = $this->findVariableArrayDimFetches($scopeNode, $node->var);
+        $classMethod = $this->reflectionParser->parseMethodReflection($functionReflection);
+        if (! $classMethod instanceof ClassMethod) {
+            return [];
+        }
+
+        $usedAsArrayDimFetches = $this->findVariableArrayDimFetches($classMethod, $node->var);
         if ($usedAsArrayDimFetches === []) {
             return [];
         }
@@ -118,14 +124,14 @@ CODE_SAMPLE
     /**
      * @return ArrayDimFetch[]
      */
-    private function findVariableArrayDimFetches(Node $node, Variable $variable): array
+    private function findVariableArrayDimFetches(ClassMethod $classMethod, Variable $variable): array
     {
         $variableName = $this->simpleNameResolver->getName($variable);
         if ($variableName === null) {
             return [];
         }
 
-        return $this->nodeFinder->find($node, function (Node $node) use ($variableName): bool {
+        return $this->nodeFinder->find($classMethod, function (Node $node) use ($variableName): bool {
             if (! $node instanceof ArrayDimFetch) {
                 return false;
             }
