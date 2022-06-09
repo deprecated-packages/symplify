@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use JsonSerializable;
 use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
@@ -138,11 +139,13 @@ CODE_SAMPLE
     {
         $classReflection = $scope->getClassReflection();
         if ($classReflection instanceof ClassReflection) {
-            if ($classReflection->isSubclassOf(\JsonSerializable::class)) {
+            if ($classReflection->isSubclassOf(JsonSerializable::class)) {
                 return true;
             }
-
-            if (str_contains($classReflection->getName(), 'json') || str_contains(
+            if (str_contains($classReflection->getName(), 'json')) {
+                return true;
+            }
+            if (str_contains(
                 $classReflection->getName(),
                 'Json'
             )) {
@@ -156,12 +159,7 @@ CODE_SAMPLE
         if (\str_contains($filePath, 'scoper')) {
             return true;
         }
-
         // skip Symfony bundles.php
-        if (\str_ends_with($filePath, 'bundles.php')) {
-            return true;
-        }
-
-        return false;
+        return \str_ends_with($filePath, 'bundles.php');
     }
 }
