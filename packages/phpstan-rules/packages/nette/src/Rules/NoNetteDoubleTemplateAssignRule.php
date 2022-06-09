@@ -176,6 +176,7 @@ CODE_SAMPLE
 
             $assigns[] = $stmt->expr;
         }
+
         return $assigns;
     }
 }
