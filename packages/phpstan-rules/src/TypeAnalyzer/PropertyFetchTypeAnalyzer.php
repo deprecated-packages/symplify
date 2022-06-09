@@ -27,15 +27,10 @@ final class PropertyFetchTypeAnalyzer
     /**
      * @return Type[]
      */
-    public function resolveAssignedTypes(PropertyFetch $propertyFetch, string $propertyFetchName, Scope $scope): array
+    public function resolveAssignedTypes(string $propertyFetchName, Scope $scope, Class_ $class): array
     {
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        $class = $this->simpleNodeFinder->findFirstParentByType($propertyFetch, Class_::class);
-        if (! $class instanceof Class_) {
             return [];
         }
 
@@ -54,7 +49,6 @@ final class PropertyFetchTypeAnalyzer
             }
 
             // scope does not work here as different class method
-
             $assignedClassMethod = $this->simpleNodeFinder->findFirstParentByType($assign, ClassMethod::class);
             if (! $assignedClassMethod instanceof ClassMethod) {
                 return [];

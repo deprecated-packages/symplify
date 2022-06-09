@@ -6,11 +6,13 @@ namespace Symplify\PHPStanRules\Rules\StrictTypes;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
-use PHPStan\Node\InClassMethodNode;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Type;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
@@ -22,6 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule\RespectPropertyTypeInGetterReturnTypeRuleTest
+ * @implements Rule<InClassNode>
  */
 final class RespectPropertyTypeInGetterReturnTypeRule implements Rule, DocumentedRuleInterface
 {
@@ -43,51 +46,54 @@ final class RespectPropertyTypeInGetterReturnTypeRule implements Rule, Documente
      */
     public function getNodeType(): string
     {
-        return InClassMethodNode::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param InClassMethodNode $node
+     * @param InClassNode $node
      * @return mixed[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classMethod = $node->getOriginalNode();
-
-        $propertyFetch = $this->matchOnlyStmtReturnPropertyFetch($classMethod);
-        if (! $propertyFetch instanceof PropertyFetch) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
-        if ($propertyFetchName === null) {
-            return [];
-        }
+        $errorMessages = [];
 
-        $propertyType = $this->nativePropertyFetchTypeResolver->resolve($propertyFetch, $scope);
-        if (! $propertyType instanceof Type) {
-            return [];
-        }
-
-        $classMethodReturnType = $this->classMethodReturnTypeResolver->resolve($classMethod, $scope);
-        if ($propertyType->isSuperTypeOf($classMethodReturnType)->yes()) {
-            return [];
-        }
-
-        // is type one of assigned? Its correct
-        $assignedTypes = $this->propertyFetchTypeAnalyzer->resolveAssignedTypes(
-            $propertyFetch,
-            $propertyFetchName,
-            $scope
-        );
-
-        foreach ($assignedTypes as $assignedType) {
-            if ($classMethodReturnType->accepts($assignedType, false)->yes()) {
-                return [];
+        foreach ($classLike->getMethods() as $classMethod) {
+            $propertyFetch = $this->matchOnlyStmtReturnPropertyFetch($classMethod);
+            if (! $propertyFetch instanceof PropertyFetch) {
+                continue;
             }
+
+            $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
+            if ($propertyFetchName === null) {
+                continue;
+            }
+
+            $propertyType = $this->nativePropertyFetchTypeResolver->resolve($propertyFetch, $scope);
+            if (! $propertyType instanceof Type) {
+                continue;
+            }
+
+            $classMethodReturnType = $this->classMethodReturnTypeResolver->resolve($classMethod, $scope);
+            if ($propertyType->isSuperTypeOf($classMethodReturnType)->yes()) {
+                continue;
+            }
+
+            // is type one of assigned? Its correct
+            if ($this->isOneofAssignedTypes($propertyFetch, $scope, $classLike, $classMethodReturnType)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($classMethod->getLine())
+                ->build();
         }
 
-        return [self::ERROR_MESSAGE];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -151,5 +157,28 @@ CODE_SAMPLE
         }
 
         return $onlyStmt->expr;
+    }
+
+    private function isOneofAssignedTypes(
+        PropertyFetch $propertyFetch,
+        Scope $scope,
+        Class_ $classLike,
+        Type $classMethodReturnType
+    ): bool {
+        $propertyFetchName = $this->simpleNameResolver->getName($propertyFetch->name);
+
+        $assignedTypes = $this->propertyFetchTypeAnalyzer->resolveAssignedTypes(
+            $propertyFetchName,
+            $scope,
+            $classLike
+        );
+
+        foreach ($assignedTypes as $assignedType) {
+            if ($classMethodReturnType->accepts($assignedType, false)->yes()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
