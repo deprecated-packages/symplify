@@ -6,7 +6,6 @@ namespace Symplify\Astral\NodeFinder;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
-use Symplify\Astral\ValueObject\AttributeKey;
 
 /**
  * @api
@@ -43,52 +42,5 @@ final class SimpleNodeFinder
         }
 
         return false;
-    }
-
-    /**
-     * @see https://phpstan.org/blog/generics-in-php-using-phpdocs for template
-     *
-     * @deprecated In PHPStan 1.7 were parent nodes removed, to improve performnace. This method will follow. Make use of custom node visitor or re-hook rule to the parent node directly.
-     *
-     * @template T of Node
-     * @param class-string<T> $nodeClass
-     * @return T|null
-     */
-    public function findFirstParentByType(Node $node, string $nodeClass): ?Node
-    {
-        $node = $node->getAttribute(AttributeKey::PARENT);
-
-        while ($node instanceof Node) {
-            if (is_a($node, $nodeClass, true)) {
-                return $node;
-            }
-
-            $node = $node->getAttribute(AttributeKey::PARENT);
-        }
-
-        return null;
-    }
-
-    /**
-     * @deprecated In PHPStan 1.7 were parent nodes removed, to improve performnace. This method will follow. Make use of custom node visitor or re-hook rule to the parent node directly.
-     *
-     * @template T of Node
-     * @param array<class-string<T>&class-string<Node>> $nodeTypes
-     * @return T|null
-     */
-    public function findFirstParentByTypes(Node $node, array $nodeTypes): ?Node
-    {
-        $node = $node->getAttribute(AttributeKey::PARENT);
-        while ($node instanceof Node) {
-            foreach ($nodeTypes as $nodeType) {
-                if (is_a($node, $nodeType)) {
-                    return $node;
-                }
-            }
-
-            $node = $node->getAttribute(AttributeKey::PARENT);
-        }
-
-        return null;
     }
 }
