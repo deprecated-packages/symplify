@@ -66,6 +66,8 @@ final class SimpleNodeFinder
     }
 
     /**
+     * @deprecated In PHPStan 1.7 were parent nodes removed, to improve performnace. This method will follow. Make use of custom node visitor or re-hook rule to the parent node directly.
+     *
      * @template T of Node
      * @param array<class-string<T>&class-string<Node>> $nodeTypes
      * @return T|null
