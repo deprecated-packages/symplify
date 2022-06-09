@@ -62,14 +62,12 @@ final class CompositionOverInheritanceAnalyzer
     {
         $traitComplexity = 0;
 
-        if ($class->stmts) {
-            foreach ($class->stmts as $stmt) {
-                // trait-use can only appear as the very first statement in a class
-                if ($stmt instanceof TraitUse) {
-                    $traitComplexity += count($stmt->traits) * self::TRAIT_SCORE;
-                } else {
-                    break;
-                }
+        foreach ($class->stmts as $stmt) {
+            // trait-use can only appear as the very first statement in a class
+            if ($stmt instanceof TraitUse) {
+                $traitComplexity += count($stmt->traits) * self::TRAIT_SCORE;
+            } else {
+                break;
             }
         }
 

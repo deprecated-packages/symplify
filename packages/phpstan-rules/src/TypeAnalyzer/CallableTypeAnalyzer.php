@@ -29,11 +29,15 @@ final class CallableTypeAnalyzer
             return true;
         }
 
-        if ($unwrappedNameStaticType instanceof ObjectType && $unwrappedNameStaticType->getClassName() === Closure::class) {
-            return true;
+        if (!$unwrappedNameStaticType instanceof ObjectType) {
+            return $this->isInvokableObjectType($unwrappedNameStaticType);
         }
 
-        return $this->isInvokableObjectType($unwrappedNameStaticType);
+        if ($unwrappedNameStaticType->getClassName() !== Closure::class) {
+            return $this->isInvokableObjectType($unwrappedNameStaticType);
+        }
+
+        return true;
     }
 
     private function isInvokableObjectType(Type $type): bool
