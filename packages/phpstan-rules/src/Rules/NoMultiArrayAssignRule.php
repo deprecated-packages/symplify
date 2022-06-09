@@ -4,14 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\If_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\ValueObject\AttributeKey;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -19,6 +25,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\NoMultiArrayAssignRule\NoMultiArrayAssignRuleTest
+ * @implements Rule<Node>
  */
 final class NoMultiArrayAssignRule implements Rule, DocumentedRuleInterface
 {
@@ -32,35 +39,49 @@ final class NoMultiArrayAssignRule implements Rule, DocumentedRuleInterface
     ) {
     }
 
-    /**
-     * @return class-string<Node>
-     */
     public function getNodeType(): string
     {
-        return Assign::class;
+        return Node::class;
     }
 
     /**
-     * @param Assign $node
-     * @return string[]
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->var instanceof ArrayDimFetch) {
+        // check all of stmts aware nodes, see https://github.com/nikic/PHP-Parser/pull/836
+        if (! $node instanceof ClassMethod && ! $node instanceof Function_ && ! $node instanceof Closure && ! $node instanceof If_ && ! $node instanceof Else_) {
             return [];
         }
 
-        // is previous array dim assign too? - print the exprt conteont
-        $previousArrayDimFetch = $this->matchParentArrayDimFetch($node);
-        if (! $previousArrayDimFetch instanceof ArrayDimFetch) {
-            return [];
+        foreach ((array) $node->stmts as $key => $stmt) {
+            $firstArrayDimFetch = $this->matchAssignToArrayDimFetch($stmt);
+            if (! $firstArrayDimFetch instanceof ArrayDimFetch) {
+                continue;
+            }
+
+            $nextStmt = $node->stmts[$key + 1] ?? null;
+            if (! $nextStmt instanceof Stmt) {
+                return [];
+            }
+
+            $secondArrayDimFetch = $this->matchAssignToArrayDimFetch($nextStmt);
+            if (! $secondArrayDimFetch instanceof ArrayDimFetch) {
+                continue;
+            }
+
+            if (! $this->haveSameArrayDimFetchNonEmptyRoot($firstArrayDimFetch, $secondArrayDimFetch)) {
+                continue;
+            }
+
+            $ruleError = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($nextStmt->getLine())
+                ->build();
+
+            return [$ruleError];
         }
 
-        if (! $this->haveSameArrayDimFetchNonEmptyRoot($node->var, $previousArrayDimFetch)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -105,27 +126,21 @@ CODE_SAMPLE
         return $arrayDimFetch;
     }
 
-    private function matchParentArrayDimFetch(Assign $assign): ?Expr
+    private function matchAssignToArrayDimFetch(Stmt $stmt): ?ArrayDimFetch
     {
-        $parent = $assign->getAttribute(AttributeKey::PARENT);
-        if (! $parent instanceof Expression) {
+        if (! $stmt instanceof Expression) {
             return null;
         }
 
-        $previous = $parent->getAttribute(AttributeKey::PREVIOUS);
-        if (! $previous instanceof Expression) {
+        if (! $stmt->expr instanceof Assign) {
             return null;
         }
 
-        if (! $previous->expr instanceof Assign) {
+        $assign = $stmt->expr;
+        if (! $assign->var instanceof ArrayDimFetch) {
             return null;
         }
 
-        $previousAssign = $previous->expr;
-        if (! $previousAssign->var instanceof ArrayDimFetch) {
-            return null;
-        }
-
-        return $previousAssign->var;
+        return $assign->var;
     }
 }
