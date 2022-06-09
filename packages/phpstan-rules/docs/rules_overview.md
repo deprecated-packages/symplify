@@ -1,4 +1,4 @@
-# 105 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1131,44 +1131,6 @@ class SomeClass implements RepositoryAwareInterface
         // ....
     }
 }
-```
-
-:+1:
-
-<br>
-
-## ForbiddenSameNamedAssignRule
-
-Variables "%s" are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule`](../src/Rules/Complexity/ForbiddenSameNamedAssignRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedAssignRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedVariableNames:
-                - position
-```
-
-↓
-
-```php
-$value = 1000;
-$value = 2000;
-```
-
-:x:
-
-<br>
-
-```php
-$value = 1000;
-$anotherValue = 2000;
 ```
 
 :+1:
@@ -3660,54 +3622,6 @@ class AbstractClass
 ```php
 abstract class AbstractClass
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RespectPropertyTypeInGetterReturnTypeRule
-
-This getter method does not respect property type
-
-- class: [`Symplify\PHPStanRules\Rules\StrictTypes\RespectPropertyTypeInGetterReturnTypeRule`](../src/Rules/StrictTypes/RespectPropertyTypeInGetterReturnTypeRule.php)
-
-```php
-final class SomeClass
-{
-    private $value = [];
-
-    public function setValues(array $values)
-    {
-        $this->values = $values;
-    }
-
-    public function getValues(): array|null
-    {
-        return $this->values;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    private $value = [];
-
-    public function setValues(array $values)
-    {
-        $this->values = $values;
-    }
-
-    public function getValues(): array
-    {
-        return $this->values;
-    }
 }
 ```
 

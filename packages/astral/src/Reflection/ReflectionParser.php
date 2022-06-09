@@ -50,7 +50,7 @@ final class ReflectionParser
         return $class->getMethod($methodReflection->getName());
     }
 
-    public function parseMethodReflection(ReflectionMethod $reflectionMethod): ?ClassMethod
+    public function parseMethodReflection(ReflectionMethod|MethodReflection $reflectionMethod): ?ClassMethod
     {
         $class = $this->parseNativeClassReflection($reflectionMethod->getDeclaringClass());
         if (! $class instanceof Class_) {
@@ -80,10 +80,14 @@ final class ReflectionParser
         return $this->parseFilenameToClass($filename);
     }
 
-    private function parseNativeClassReflection(ReflectionClass $reflectionClass): ?Class_
+    private function parseNativeClassReflection(ReflectionClass|ClassReflection $reflectionClass): ?Class_
     {
         $fileName = $reflectionClass->getFileName();
         if ($fileName === false) {
+            return null;
+        }
+
+        if ($fileName === null) {
             return null;
         }
 

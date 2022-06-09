@@ -27,7 +27,6 @@ final class RequireStringRegexMatchKeyRuleTest extends RuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipNotUsed.php', []];
         yield [__DIR__ . '/Fixture/SkipStringDim.php', []];
-        yield [__DIR__ . '/Fixture/SkipNotRegexMatchResult.php', []];
 
         yield [__DIR__ . '/Fixture/NumericDim.php', [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
         yield [__DIR__ . '/Fixture/NumericDimDirectNext.php', [[RequireStringRegexMatchKeyRule::ERROR_MESSAGE, 15]]];
