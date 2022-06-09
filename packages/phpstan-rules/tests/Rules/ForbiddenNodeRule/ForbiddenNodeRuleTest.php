@@ -25,8 +25,6 @@ final class ForbiddenNodeRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/SkipCommentIntentionally.php', []];
-
         $errorMessage = sprintf(ForbiddenNodeRule::ERROR_MESSAGE, 'empty($value)');
         yield [__DIR__ . '/Fixture/EmptyCall.php', [[$errorMessage, 11]]];
     }
