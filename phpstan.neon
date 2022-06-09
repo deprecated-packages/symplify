@@ -1,7 +1,3 @@
-conditionalTags:
-    PhpParser\NodeVisitor\NodeConnectingVisitor:
-        phpstan.parser.richParserNodeVisitor: true
-
 includes:
     - packages/astral/config/services.neon
     - packages/phpstan-extensions/config/config.neon
@@ -32,7 +28,11 @@ services:
 
 parameters:
     level: 8
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
+
+    featureToggles:
+        # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
+        nodeConnectingVisitorCompatibility: false
 
     # requires exact closure types
     checkMissingCallableSignature: true
@@ -48,7 +48,6 @@ parameters:
 
     excludePaths:
         - */scoper.php
-        - *scoper.inc.php
 
         # parallel
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
@@ -94,7 +93,6 @@ parameters:
         - '*/tests/**/Source/*'
         - '*/tests/**/Fixture/*'
         - '*/tests/**/Fixture*/*'
-        - */vendor/*
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*
@@ -137,12 +135,6 @@ parameters:
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
 
         -
-            message: '#Instead of "SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-            paths:
-                - packages/smart-file-system/src/Finder/FinderSanitizer.php
-                - packages/smart-file-system/tests/Finder/FinderSanitizer/FinderSanitizerTest.php
-
-        -
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
@@ -163,13 +155,6 @@ parameters:
             paths:
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
                 - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-
-        -
-            message: '#Do not use factory/method call in constructor\. Put factory in config and get service with dependency injection#'
-            paths:
-                - packages/package-builder/src/Parameter/ParameterProvider.php # 26
-                - packages/phpstan-rules/src/Rules/CheckClassNamespaceFollowPsr4Rule.php #31
-                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php #30
 
         # exceptions to get file
         -
@@ -218,14 +203,8 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
-        # manually constructored for Symfony compiler pass, before DI is created
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findByName\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
         # false positive - lost type on array-merge
         - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
-
-        # required complexity, as get/set methods for API of composer.json
-        - '#Cognitive complexity for "Symplify\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is \d+, keep it under 8#'
 
         - '#\$this as argument is not allowed\. Refactor method to service composition#'
         -
@@ -251,13 +230,6 @@ parameters:
             paths:
                 - packages/easy-ci/src/Git/ConflictResolver.php
 
-        # known types
-        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node\> but returns array<PhpParser\\Node\>#'
-
-        -
-            message: '#Use void instead of modify and return self object#'
-            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-
         -
             message: '#Use explicit names over dynamic ones#'
             path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
@@ -267,10 +239,6 @@ parameters:
             path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
-
-        # some bug
-        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\ForbiddenNodeRule\\ForbiddenNodeRuleTest\:\:getRule\(\) return type with generic class Symplify\\PHPStanRules\\Rules\\ForbiddenNodeRule does not specify its types\: T#'
-
 
         -
             message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
@@ -317,9 +285,6 @@ parameters:
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
                  - packages/phpstan-rules/src/Rules/AbstractAttributeRule.php
 
-        # paralell
-        - '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Application\\EasyCodingStandardApplication\:\:run\(\)" is 9, keep it under 8#'
-
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
             paths:
@@ -350,15 +315,17 @@ parameters:
             message: '#Use value object over return of values#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
-        # complex worker pool logic
         -
-            message: '#Cognitive complexity for "Symplify\\EasyCodingStandard\\Parallel\\Application\\ParallelFileProcessor\:\:check\(\)" is \d+, keep it under 8#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
-
-        # complex search for possible directories
-        -
-            message: '#Cognitive complexity for "Symplify\\PHPStanRules\\Finder\\ClassLikeNameFinder\:\:getPossibleDirectoriesForNamespace\(\)" is 13, keep it under 8#'
-            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+            message: '#Cognitive complexity for "(.*?)" is \d+, keep it under 8#'
+            paths:
+                # complex worker pool logic
+                - packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
+                # complex search for possible directories
+                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+                - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
+                - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
+                - packages/composer-json-manipulator/src/ComposerJsonFactory.php
+                - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
 
         # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
         -
@@ -368,10 +335,6 @@ parameters:
         -
             message:  '#Class cognitive complexity is 26, keep it under 25#'
             path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
-
-        - '#(.*?) is not covered by backward compatibility promise\. The (.*?) might change in a minor PHPStan version#'
-
-        # false positive
 
         # known realpath() checked with file_exist right above
         -
@@ -388,7 +351,7 @@ parameters:
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
 
         -
-            message: '#Cannot call method (.*?)\(\) on Symplify\\EasyParallel\\ValueObject\\ProcessPool\|null#'
+            message: '#Cannot call method (.*?) on Symplify\\EasyParallel\\ValueObject\\ProcessPool\|null#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         -
@@ -402,12 +365,6 @@ parameters:
         - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
-        - '#Cognitive complexity for "Symplify\\EasyParallel\\CommandLine\\WorkerCommandLineFactory\:\:mirrorCommandOptions\(\)" is 10, keep it under 8#'
-
-        # already @var typed and checked
-        -
-            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            path: packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
@@ -477,7 +434,6 @@ parameters:
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
             paths:
-                - packages/phpstan-extensions/src/Testing/AbstractServiceAwareRuleTestCase.php
                 - packages/phpstan-rules/tests
                 - packages/phpstan-rules/packages
 
@@ -513,14 +469,19 @@ parameters:
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Identifier\|null#'
             path: packages/phpstan-rules/src/Rules/RequireConstantInAttributeArgumentRule.php
 
-        -
-            message: '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoMultiArrayAssignRule\:\:processNode\(\)" is 11, keep it under 8#'
-            path: packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
-
         # nesting on purpose
         -
             message: '#New objects with "\$methodCall" name are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
             paths:
                 - packages/php-config-printer/src/*Converter/*
-                - packages/php-config-printer/src/NodeFactory/Service/SingleServicePhpNodeFactory.php
-                - packages/php-config-printer/src/NodeFactory/Service/AutoBindNodeFactory.php
+
+        # tests
+        -
+            message: '#Creating new PHPStan\\(.*?) is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
+            paths:
+                - packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
+
+        # cached parser
+        -
+            message: '#Creating new PHPStan\\Parser\\SimpleParser is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
+            path: packages/astral/src/PhpParser/SmartPhpParserFactory.php

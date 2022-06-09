@@ -1,3 +1,8 @@
+parameters:
+    featureToggles:
+        # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
+        nodeConnectingVisitorCompatibility: false
+
 includes:
     - generated-services.neon
 

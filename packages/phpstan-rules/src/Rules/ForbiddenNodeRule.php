@@ -16,7 +16,6 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 use Webmozart\Assert\Assert;
 
 /**
- * @template T of Node
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenNodeRule\ForbiddenNodeRuleTest
  * @implements Rule<Node>
  */
@@ -28,12 +27,12 @@ final class ForbiddenNodeRule implements Rule, DocumentedRuleInterface, Configur
     public const ERROR_MESSAGE = '"%s" is forbidden to use';
 
     /**
-     * @var array<class-string<T>>
+     * @var array<class-string<\PhpParser\Node>>
      */
     private array $forbiddenNodes = [];
 
     /**
-     * @param array<class-string<T>> $forbiddenNodes
+     * @param array<class-string<\PhpParser\Node>> $forbiddenNodes
      */
     public function __construct(
         private Standard $standard,
