@@ -8,12 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\UnionType;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -32,7 +32,7 @@ final class NoMissingArrayShapeReturnArrayRule implements Rule, DocumentedRuleIn
     public const ERROR_MESSAGE = 'Complete known array shape to the method @return type';
 
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
         private ClassMethodReturnTypeResolver $classMethodReturnTypeResolver,
         private ArrayShapeDetector $arrayShapeDetector
     ) {
@@ -55,7 +55,7 @@ final class NoMissingArrayShapeReturnArrayRule implements Rule, DocumentedRuleIn
         $errorMessages = [];
 
         /** @var Return_[] $returns */
-        $returns = $this->simpleNodeFinder->findByType($node, Return_::class);
+        $returns = $this->nodeFinder->findInstanceOf($node, Return_::class);
 
         foreach ($returns as $return) {
             if (! $return->expr instanceof Expr) {

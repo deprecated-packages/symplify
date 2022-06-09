@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
+use PHPStan\Type\Constant\ConstantStringType;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -18,6 +21,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\PreventDoubleSetParameterRule\PreventDoubleSetParameterRuleTest
+ *
+ * @implements Rule<Closure>
  */
 final class PreventDoubleSetParameterRule implements Rule, DocumentedRuleInterface
 {
@@ -34,7 +39,7 @@ final class PreventDoubleSetParameterRule implements Rule, DocumentedRuleInterfa
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
         private SymfonyPhpConfigClosureAnalyzer $symfonyPhpConfigClosureAnalyzer,
-        private NodeValueResolver $nodeValueResolver
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -43,46 +48,53 @@ final class PreventDoubleSetParameterRule implements Rule, DocumentedRuleInterfa
      */
     public function getNodeType(): string
     {
-        return MethodCall::class;
+        return Closure::class;
     }
 
     /**
-     * @param MethodCall $node
-     * @return string[]
+     * @param Closure $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->symfonyPhpConfigClosureAnalyzer->isSymfonyPhpConfigScope($scope)) {
+        if (! $this->symfonyPhpConfigClosureAnalyzer->isSymfonyPhpConfig($node)) {
             return [];
         }
 
-        if (! $this->simpleNameResolver->isName($node->name, 'set')) {
-            return [];
+        /** @var MethodCall[] $methodCalls */
+        $methodCalls = $this->nodeFinder->findInstanceOf($node, MethodCall::class);
+
+        $errorMessages = [];
+
+        foreach ($methodCalls as $methodCall) {
+            if (! $this->simpleNameResolver->isName($methodCall->name, 'set')) {
+                continue;
+            }
+
+            if (! $this->simpleNameResolver->isName($methodCall->var, 'parameters')) {
+                continue;
+            }
+
+            $firstArg = $methodCall->getArgs()[0];
+            $firstArgType = $scope->getType($firstArg->value);
+
+            if (! $firstArgType instanceof ConstantStringType) {
+                continue;
+            }
+
+            $setParameterName = $firstArgType->getValue();
+            $previousSetParameterNames = $this->setParametersNamesByFile[$scope->getFile()] ?? [];
+
+            if (in_array($setParameterName, $previousSetParameterNames, true)) {
+                $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                    ->line($methodCall->getLine())
+                    ->build();
+            }
+
+            $this->setParametersNamesByFile[$scope->getFile()][] = $setParameterName;
         }
 
-        if (! $this->simpleNameResolver->isName($node->var, 'parameters')) {
-            return [];
-        }
-
-        $argOrVariadicPlaceholder = $node->args[0];
-        if (! $argOrVariadicPlaceholder instanceof Arg) {
-            return [];
-        }
-
-        $setParameterName = $this->nodeValueResolver->resolve($argOrVariadicPlaceholder->value, $scope->getFile());
-        if ($setParameterName === null) {
-            return [];
-        }
-
-        $previousSetParameterNames = $this->setParametersNamesByFile[$scope->getFile()] ?? [];
-
-        if (in_array($setParameterName, $previousSetParameterNames, true)) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        $this->setParametersNamesByFile[$scope->getFile()][] = $setParameterName;
-
-        return [];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition

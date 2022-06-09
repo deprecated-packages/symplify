@@ -11,7 +11,6 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\Php\PhpMethodReflection;
-use PHPStan\Reflection\Php\PhpParameterReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
@@ -79,10 +78,6 @@ final class RequireEnumDocBlockOnConstantListPassRule implements Rule, Documente
         foreach ($parameterReflections as $position => $parameterReflection) {
             // is desired arg position?
             if (! in_array($position, $classConstFetchArgPositions, true)) {
-                continue;
-            }
-
-            if (! $parameterReflection instanceof PhpParameterReflection) {
                 continue;
             }
 

@@ -8,13 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Return_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,7 +30,7 @@ final class ForbiddenInlineClassMethodRule implements Rule, DocumentedRuleInterf
     public const ERROR_MESSAGE = 'Method "%s()" only calling another method call and has no added value. Use the inlined call instead';
 
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
         private SimpleNameResolver $simpleNameResolver
     ) {
     }
@@ -131,7 +131,7 @@ CODE_SAMPLE
     private function findMethodCalls(Class_ $class, string $methodName): array
     {
         /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->simpleNodeFinder->findByType($class, MethodCall::class);
+        $methodCalls = $this->nodeFinder->findInstanceOf($class, MethodCall::class);
 
         $usedMethodCalls = [];
         foreach ($methodCalls as $methodCall) {

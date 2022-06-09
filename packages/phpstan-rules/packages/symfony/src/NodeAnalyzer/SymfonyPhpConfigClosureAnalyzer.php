@@ -4,32 +4,38 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer;
 
-use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\Native\NativeParameterReflection;
-use PHPStan\Type\ObjectType;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use PhpParser\Node\Expr\Closure;
+use PhpParser\Node\Name;
+use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class SymfonyPhpConfigClosureAnalyzer
 {
-    public function isSymfonyPhpConfigScope(Scope $scope): bool
+    public function __construct(
+        private SimpleNameResolver $simpleNameResolver
+    ) {
+    }
+
+    public function isSymfonyPhpConfig(Closure $closure): bool
     {
-        // we are in a closure
-        if ($scope->getAnonymousFunctionReflection() === null) {
+        $params = $closure->params;
+        if (count($params) !== 1) {
             return false;
         }
 
-        $anonymousFunctionReflection = $scope->getAnonymousFunctionReflection();
-        if (count($anonymousFunctionReflection->getParameters()) !== 1) {
+        $param = $params[0];
+        if (! $param->type instanceof Name) {
             return false;
         }
 
-        /** @var NativeParameterReflection $onlyParameter */
-        $onlyParameter = $anonymousFunctionReflection->getParameters()[0];
-        $onlyParameterType = $onlyParameter->getType();
+        $paramType = $this->simpleNameResolver->getName($param->type);
+        if (! is_string($paramType)) {
+            return false;
+        }
 
-        $containerConfiguratorObjectType = new ObjectType(ContainerConfigurator::class);
-
-        return $onlyParameterType->isSuperTypeOf($containerConfiguratorObjectType)
-            ->yes();
+        return is_a(
+            $paramType,
+            'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+            true
+        );
     }
 }

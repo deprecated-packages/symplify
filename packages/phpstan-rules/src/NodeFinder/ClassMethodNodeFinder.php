@@ -27,8 +27,8 @@ final class ClassMethodNodeFinder
             return null;
         }
 
-        $class = $this->reflectionParser->parseClassReflection($classReflection);
-        if (! $class instanceof Class_) {
+        $classLike = $this->reflectionParser->parseClassReflection($classReflection);
+        if (! $classLike instanceof Class_) {
             return null;
         }
 
@@ -39,7 +39,7 @@ final class ClassMethodNodeFinder
         }
 
         /** @var ClassMethod|null $classMethod */
-        $classMethod = $class->getMethod($methodCallName);
+        $classMethod = $classLike->getMethod($methodCallName);
         if (! $classMethod instanceof ClassMethod) {
             return null;
         }

@@ -9,15 +9,15 @@ use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\NodeFinder;
 use PhpParser\PrettyPrinter\Standard;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\ValueObject\Spotter\IfAndCondExpr;
 
 final class IfResemblingMatchAnalyzer
 {
     public function __construct(
         private Standard $printerStandard,
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -75,7 +75,7 @@ final class IfResemblingMatchAnalyzer
     private function hasExclusiveIdenticalorEqual(BinaryOp $binaryOp): bool
     {
         // has only ==, === and || binaries?
-        $nestedBinaryOps = $this->simpleNodeFinder->findByType($binaryOp, BinaryOp::class);
+        $nestedBinaryOps = $this->nodeFinder->findInstanceOf($binaryOp, BinaryOp::class);
 
         foreach ($nestedBinaryOps as $nestedBinaryOp) {
             if ($nestedBinaryOp instanceof Identical) {

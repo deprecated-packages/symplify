@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,7 +30,7 @@ final class NoReferenceRule extends AbstractSymplifyRule
     public const ERROR_MESSAGE = 'Use explicit return value over magic &reference';
 
     public function __construct(
-        private ParentMethodAnalyser $parentMethodAnalyser
+        private ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
     ) {
     }
 
@@ -108,7 +108,9 @@ CODE_SAMPLE
 
         // has parent method? → skip it as enforced by parent
         $methodName = (string) $node->name;
-        if ($this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName)) {
+
+        $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod($scope, $methodName);
+        if ($parentClassMethod instanceof ClassMethod) {
             return [];
         }
 

@@ -4,31 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules;
 
-use PhpParser\Node;
-use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use ReflectionMethod;
-use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\Astral\Reflection\ReflectionParser;
-use Throwable;
 
 final class ParentClassMethodNodeResolver
 {
     public function __construct(
-        private SmartPhpParser $smartPhpParser,
-        private NodeFinder $nodeFinder,
         private ReflectionParser $reflectionParser
     ) {
     }
 
     public function resolveParentClassMethod(Scope $scope, string $methodName): ?ClassMethod
     {
-        /** @var ClassReflection[] $parentClassReflections */
         $parentClassReflections = $this->getParentClassReflections($scope);
+
         foreach ($parentClassReflections as $parentClassReflection) {
             if (! $parentClassReflection->hasMethod($methodName)) {
                 continue;
@@ -42,79 +34,16 @@ final class ParentClassMethodNodeResolver
     }
 
     /**
-     * @return Param[]
-     */
-    public function resolveParentClassMethodParams(Scope $scope, string $methodName): array
-    {
-        /** @var ClassReflection[] $parentClassReflections */
-        $parentClassReflections = $this->getParentClassIncludeInterfaceReflections($scope);
-
-        foreach ($parentClassReflections as $parentClassReflection) {
-            $parentClassNodes = $this->resolveClassNodes($parentClassReflection);
-            if ($parentClassNodes === []) {
-                continue;
-            }
-
-            /** @var ClassLike[] $classes */
-            $classes = $this->nodeFinder->findInstanceOf($parentClassNodes, ClassLike::class);
-            if ($classes === []) {
-                continue;
-            }
-
-            foreach ($classes as $class) {
-                $classMethod = $class->getMethod($methodName);
-                if (! $classMethod instanceof ClassMethod) {
-                    continue;
-                }
-
-                return $classMethod->params;
-            }
-        }
-
-        return [];
-    }
-
-    /**
      * @return ClassReflection[]
      */
     private function getParentClassReflections(Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
+        $mainClassReflection = $scope->getClassReflection();
+        if (! $mainClassReflection instanceof ClassReflection) {
             return [];
         }
 
-        return $classReflection->getParents();
-    }
-
-    /**
-     * @return ClassReflection[]
-     */
-    private function getParentClassIncludeInterfaceReflections(Scope $scope): array
-    {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
-        return array_merge($classReflection->getParents(), $classReflection->getInterfaces());
-    }
-
-    /**
-     * @return Node[]
-     */
-    private function resolveClassNodes(ClassReflection $parentClassReflection): array
-    {
-        try {
-            $parentClassFileName = $parentClassReflection->getFileName();
-            if ($parentClassFileName === null) {
-                return [];
-            }
-
-            return $this->smartPhpParser->parseFile($parentClassFileName);
-        } catch (Throwable) {
-            // not reachable
-            return [];
-        }
+        // all parent classes and interfaces
+        return array_filter($mainClassReflection->getAncestors(), fn(ClassReflection $classReflection): bool => $classReflection !== $mainClassReflection);
     }
 }

@@ -2,7 +2,5 @@ includes:
     - ../../../../../../tests/config/included_services.neon
     - ../../../../../../packages/symfony/config/services.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule

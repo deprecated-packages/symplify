@@ -24,18 +24,6 @@ abstract class AbstractServiceAwareRuleTestCase extends RuleTestCase
     private static array $containersByConfig = [];
 
     /**
-     * @return string[]
-     */
-    public static function getAdditionalConfigFiles(): array
-    {
-        $parentConfigs = parent::getAdditionalConfigFiles();
-        return array_merge(
-            $parentConfigs,
-            [__DIR__ . '/../../config/bleeding-edge-enable-connecting-node-visitor.neon']
-        );
-    }
-
-    /**
      * @param class-string<TRule> $ruleClass
      * @return TRule
      */

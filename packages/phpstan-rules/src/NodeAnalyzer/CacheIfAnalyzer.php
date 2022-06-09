@@ -11,12 +11,12 @@ use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\Empty_;
 use PhpParser\Node\Expr\Isset_;
 use PhpParser\Node\Stmt\If_;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use PhpParser\NodeFinder;
 
 final class CacheIfAnalyzer
 {
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -26,12 +26,19 @@ final class CacheIfAnalyzer
             return false;
         }
 
-        $binaryOps = $this->simpleNodeFinder->findByType($if->cond, BinaryOp::class);
+        /** @var BinaryOp[] $binaryOps */
+        $binaryOps = $this->nodeFinder->findInstanceOf($if->cond, BinaryOp::class);
         if ($this->hasIdenticalToNull($binaryOps)) {
             return true;
         }
 
-        return $this->simpleNodeFinder->hasByTypes($if->cond, [Empty_::class, Isset_::class]);
+        $empty = $this->nodeFinder->findFirstInstanceOf($if->cond, Empty_::class);
+        if ($empty instanceof Empty_) {
+            return true;
+        }
+
+        $isset = $this->nodeFinder->findFirstInstanceOf($if->cond, Isset_::class);
+        return $isset instanceof Isset_;
     }
 
     /**

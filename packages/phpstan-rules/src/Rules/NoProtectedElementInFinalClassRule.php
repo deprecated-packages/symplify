@@ -16,7 +16,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,8 +32,8 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
     public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
     public function __construct(
-        private ParentMethodAnalyser $parentMethodAnalyser,
         private SimpleNameResolver $simpleNameResolver,
+        private ParentClassMethodGuard $parentClassMethodGuard
     ) {
     }
 
@@ -118,8 +118,7 @@ CODE_SAMPLE
             return true;
         }
 
-        $methodName = (string) $classMethod->name;
-        return $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName);
+        return $this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope);
     }
 
     private function shouldSkipProperty(Property $property, Scope $scope): bool
