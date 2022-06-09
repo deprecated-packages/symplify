@@ -9,7 +9,10 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -18,6 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\RequireThisCallOnLocalMethodRule\RequireThisCallOnLocalMethodRuleTest
+ * @implements Rule<InClassNode>
  */
 final class RequireThisCallOnLocalMethodRule implements Rule, DocumentedRuleInterface
 {
@@ -37,29 +41,44 @@ final class RequireThisCallOnLocalMethodRule implements Rule, DocumentedRuleInte
      */
     public function getNodeType(): string
     {
-        return StaticCall::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param StaticCall $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node->class, 'self')) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        $classMethod = $this->getClassMethodInCurrentClass($node);
-        if (! $classMethod instanceof ClassMethod) {
-            return [];
+        $errorMessages = [];
+
+        /** @var StaticCall[] $staticCalls */
+        $staticCalls = $this->simpleNodeFinder->findByType($classLike, StaticCall::class);
+        foreach ($staticCalls as $staticCall) {
+            if (! $this->simpleNameResolver->isName($staticCall->class, 'self')) {
+                continue;
+            }
+
+            $classMethod = $this->getClassMethodInCurrentClass($staticCall, $classLike);
+            if (! $classMethod instanceof ClassMethod) {
+                continue;
+            }
+
+            if ($classMethod->isStatic()) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($staticCall->getLine())
+                ->build();
         }
 
-        if ($classMethod->isStatic()) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -97,13 +116,8 @@ CODE_SAMPLE
         ]);
     }
 
-    private function getClassMethodInCurrentClass(StaticCall $staticCall): ?ClassMethod
+    private function getClassMethodInCurrentClass(StaticCall $staticCall, Class_ $class): ?ClassMethod
     {
-        $class = $this->simpleNodeFinder->findFirstParentByType($staticCall, Class_::class);
-        if (! $class instanceof Class_) {
-            return null;
-        }
-
         $staticCallName = $this->simpleNameResolver->getName($staticCall->name);
         if ($staticCallName === null) {
             return null;
