@@ -8,15 +8,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Else_;
-use PhpParser\Node\Stmt\ElseIf_;
-use PhpParser\Node\Stmt\If_;
-use PhpParser\NodeFinder;
+use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -33,8 +29,6 @@ final class NoNetteDoubleTemplateAssignRule implements Rule, DocumentedRuleInter
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private NodeFinder $nodeFinder,
-        private SimpleNodeFinder $simpleNodeFinder
     ) {
     }
 
@@ -57,12 +51,12 @@ final class NoNetteDoubleTemplateAssignRule implements Rule, DocumentedRuleInter
             return [];
         }
 
-        if (! is_a($classReflection->getName(), 'Nette\Application\UI\Presenter', true)) {
+        if (! $classReflection->isSubclassOf('Nette\Application\UI\Presenter')) {
             return [];
         }
 
-        /** @var Assign[] $assigns */
-        $assigns = $this->nodeFinder->findInstanceOf($node, Assign::class);
+        // work only with single root assigns, as nesting can be hard to handle
+        $assigns = $this->findFirstLevelAssigns($node);
 
         $duplicatedVariableNames = $this->resolveDuplicatedTemplateVariableNames($assigns);
         if ($duplicatedVariableNames === []) {
@@ -140,14 +134,6 @@ CODE_SAMPLE
                 continue;
             }
 
-            $parentScopeNode = $this->simpleNodeFinder->findFirstParentByTypes(
-                $assign,
-                [ClassMethod::class, If_::class, Else_::class, ElseIf_::class]
-            );
-            if (! $parentScopeNode instanceof ClassMethod) {
-                continue;
-            }
-
             if (in_array($variableName, $assignedTemplateVariableNames, true)) {
                 $duplicatedTemplateNames[] = $variableName;
             }
@@ -170,5 +156,26 @@ CODE_SAMPLE
         }
 
         return $assignedVar;
+    }
+
+    /**
+     * @return Assign[]
+     */
+    private function findFirstLevelAssigns(ClassMethod $classMethod): array
+    {
+        $assigns = [];
+
+        foreach ((array) $classMethod->stmts as $stmt) {
+            if (! $stmt instanceof Expression) {
+                continue;
+            }
+
+            if (! $stmt->expr instanceof Assign) {
+                continue;
+            }
+
+            $assigns[] = $stmt->expr;
+        }
+        return $assigns;
     }
 }
