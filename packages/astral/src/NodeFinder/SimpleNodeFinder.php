@@ -8,6 +8,9 @@ use PhpParser\Node;
 use PhpParser\NodeFinder;
 use Symplify\Astral\ValueObject\AttributeKey;
 
+/**
+ * @api
+ */
 final class SimpleNodeFinder
 {
     public function __construct(

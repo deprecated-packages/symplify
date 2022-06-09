@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\NodeValue\NodeValueResolver;
 
+use PhpParser\ConstExprEvaluationException;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
-use PhpParser\Node\Stmt\ClassLike;
 use ReflectionClassConstant;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 
 /**
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
@@ -21,7 +20,6 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
     ) {
     }
 
@@ -38,12 +36,8 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
         $className = $this->simpleNameResolver->getName($expr->class);
 
         if ($className === 'self') {
-            $classLike = $this->simpleNodeFinder->findFirstParentByType($expr, ClassLike::class);
-            if (! $classLike instanceof ClassLike) {
-                return null;
-            }
-
-            $className = $this->simpleNameResolver->getName($classLike);
+            // unable to resolve
+            throw new ConstExprEvaluationException('Unable to resolve self class constant');
         }
 
         if ($className === null) {
