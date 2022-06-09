@@ -5,7 +5,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInst
 
 use PhpParser\Node\Expr\ArrayDimFetch;
 
-final class SkipForeachAssign
+final class SkipForeachVariableAssign
 {
     public function run(ArrayDimFetch $arrayDimFetch)
     {

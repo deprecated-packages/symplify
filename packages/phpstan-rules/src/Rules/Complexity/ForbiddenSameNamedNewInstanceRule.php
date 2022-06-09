@@ -60,11 +60,11 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return Assign::class;
+        return Node\Stmt\Expression::class;
     }
 
     /**
-     * @param Assign $node
+     * @param Node\Stmt\Expression $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
@@ -76,16 +76,34 @@ CODE_SAMPLE
             return [];
         }
 
-        if (! $node->var instanceof Variable) {
+        // only available on stmt
+        $parentStmtTypes = $node->getAttribute('parentStmtTypes');
+
+        // skip in foreach, as nesting might be on purpose
+        if (in_array(Node\Stmt\Foreach_::class, $parentStmtTypes, true)) {
             return [];
         }
 
-        if (! $node->expr instanceof New_) {
+        if (! $node->expr instanceof Assign) {
+            return [];
+        }
+
+        $assign = $node->expr;
+
+        if (! $assign->var instanceof Variable) {
+            return [];
+        }
+
+        if (! $assign->expr instanceof New_) {
             return [];
         }
 
         // is type already defined?
-        $variableName = $this->simpleNameResolver->getName($node->var);
+        $variableName = $this->simpleNameResolver->getName($assign->var);
+        if (! is_string($variableName)) {
+            return [];
+        }
+
         if (! $scope->hasVariableType($variableName)->yes()) {
             return [];
         }
