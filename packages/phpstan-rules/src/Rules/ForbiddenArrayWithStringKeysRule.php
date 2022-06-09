@@ -142,13 +142,12 @@ CODE_SAMPLE
             if ($classReflection->isSubclassOf(JsonSerializable::class)) {
                 return true;
             }
+
             if (str_contains($classReflection->getName(), 'json')) {
                 return true;
             }
-            if (str_contains(
-                $classReflection->getName(),
-                'Json'
-            )) {
+
+            if (str_contains($classReflection->getName(), 'Json')) {
                 return true;
             }
         }
@@ -159,6 +158,7 @@ CODE_SAMPLE
         if (\str_contains($filePath, 'scoper')) {
             return true;
         }
+
         // skip Symfony bundles.php
         return \str_ends_with($filePath, 'bundles.php');
     }

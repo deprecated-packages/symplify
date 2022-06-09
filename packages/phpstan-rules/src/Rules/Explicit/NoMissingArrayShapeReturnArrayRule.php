@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\UnionType;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -21,6 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\NoMissingArrayShapeReturnArrayRule\NoMissingArrayShapeReturnArrayRuleTest
+ * @implements Rule<ClassMethod>
  */
 final class NoMissingArrayShapeReturnArrayRule implements Rule, DocumentedRuleInterface
 {
@@ -41,39 +43,44 @@ final class NoMissingArrayShapeReturnArrayRule implements Rule, DocumentedRuleIn
      */
     public function getNodeType(): string
     {
-        return Return_::class;
+        return ClassMethod::class;
     }
 
     /**
-     * @param Return_ $node
+     * @param ClassMethod $node
      * @return mixed[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->expr instanceof Expr) {
-            return [];
+        $errorMessages = [];
+
+        /** @var Return_[] $returns */
+        $returns = $this->simpleNodeFinder->findByType($node, Return_::class);
+
+        foreach ($returns as $return) {
+            if (! $return->expr instanceof Expr) {
+                continue;
+            }
+
+            if (! $this->arrayShapeDetector->isTypeArrayShapeCandidate($return->expr, $scope)) {
+                continue;
+            }
+
+            // skip event subscriber static method
+            if ($node->name->toString() === 'getSubscribedEvents') {
+                return [];
+            }
+
+            if ($this->hasClassMethodReturnConstantArrayType($node, $scope)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($return->getLine())
+                ->build();
         }
 
-        if (! $this->arrayShapeDetector->isTypeArrayShapeCandidate($node->expr, $scope)) {
-            return [];
-        }
-
-        $parentClassMethod = $this->simpleNodeFinder->findFirstParentByType($node, ClassMethod::class);
-        if (! $parentClassMethod instanceof ClassMethod) {
-            return [];
-        }
-
-        // skip event subscriber static method
-        $methodName = $parentClassMethod->name->toString();
-        if ($methodName === 'getSubscribedEvents') {
-            return [];
-        }
-
-        if ($this->hasClassMethodReturnConstantArrayType($parentClassMethod, $scope)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition
