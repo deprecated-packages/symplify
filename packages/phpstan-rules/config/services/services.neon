@@ -13,3 +13,7 @@ services:
         class: Symplify\PHPStanRules\NodeVisitor\AssignedToPropertyNodeVisitor
         tags:
             - phpstan.parser.richParserNodeVisitor
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor\NullsafeCheckedNodeVisitor
+        tags:
+            - phpstan.parser.richParserNodeVisitor
