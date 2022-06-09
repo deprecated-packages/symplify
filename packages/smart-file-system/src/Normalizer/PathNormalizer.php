@@ -14,7 +14,7 @@ use Nette\Utils\Strings;
  * with custom modifications
  *
  * @see \Symplify\SmartFileSystem\Tests\Normalizer\PathNormalizerTest
- */
+ * @see \Symplify\SmartFileSystem\Tests\Normalizer\PathNormalizerTest*/
 final class PathNormalizer
 {
     /**
