@@ -24,7 +24,7 @@ final class PublicClassReflectionAnalyzer
             return false;
         }
 
-        $methodReflection = $classReflection->getNativeMethod($getterMethodName);
-        return $methodReflection->isPublic();
+        $extendedMethodReflection = $classReflection->getNativeMethod($getterMethodName);
+        return $extendedMethodReflection->isPublic();
     }
 }
