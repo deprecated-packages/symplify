@@ -8,13 +8,15 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
+use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 
 final class MethodCallNodeFinder
 {
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
+        private ReflectionParser $reflectionParser,
         private NodeFinder $nodeFinder,
         private NodeComparator $nodeComparator,
     ) {
@@ -23,9 +25,14 @@ final class MethodCallNodeFinder
     /**
      * @return MethodCall[]
      */
-    public function findUsages(MethodCall $methodCall): array
+    public function findUsages(MethodCall $methodCall, Scope $scope): array
     {
-        $class = $this->simpleNodeFinder->findFirstParentByType($methodCall, Class_::class);
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        $class = $this->reflectionParser->parseClassReflection($classReflection);
         if (! $class instanceof Class_) {
             return [];
         }
