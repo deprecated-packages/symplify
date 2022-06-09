@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\Configurator\RouteConfigurator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\String\AbstractString;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -103,6 +104,12 @@ final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, Conf
     public function processNode(Node $node, Scope $scope): array
     {
         if (! $node->var instanceof MethodCall) {
+            return [];
+        }
+
+        // skip nullsafe chain
+        $isNullsafeChecked = (bool) $node->var->getAttribute(AttributeKey::NULLSAFE_CHECKED);
+        if ($isNullsafeChecked) {
             return [];
         }
 
