@@ -9,8 +9,10 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -21,13 +23,15 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Symfony\Tests\Rules\RequireNamedCommandRule\RequireNamedCommandRuleTest
+ *
+ * @implements Rule<InClassNode>
  */
 final class RequireNamedCommandRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'The command is missing $this->setName("...") in configure() method';
+    public const ERROR_MESSAGE = 'The command is missing $this->setName("...") or [#AsCommand] attribute to set the name';
 
     /**
      * @var string
@@ -46,28 +50,29 @@ final class RequireNamedCommandRule implements Rule, DocumentedRuleInterface
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node, 'configure')) {
-            return [];
-        }
-
         if (! $this->isInNonAbstractCommand($scope)) {
             return [];
         }
 
-        if ($this->containsSetNameMethodCall($node)) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        if ($this->hasAsCommandAttribute($node)) {
+        if ($this->attributeFinder->hasAttribute($classLike, self::COMMAND_ATTRIBUTE)) {
+            return [];
+        }
+
+        if ($this->hasConfigureClassMethodWithSetName($classLike)) {
             return [];
         }
 
@@ -104,10 +109,10 @@ CODE_SAMPLE
         ]);
     }
 
-    private function containsSetNameMethodCall(ClassMethod|Node $node): bool
+    private function containsSetNameMethodCall(ClassMethod $classMethod): bool
     {
         /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->simpleNodeFinder->findByType($node, MethodCall::class);
+        $methodCalls = $this->simpleNodeFinder->findByType($classMethod, MethodCall::class);
         foreach ($methodCalls as $methodCall) {
             if (! $this->simpleNameResolver->isName($methodCall->var, 'this')) {
                 continue;
@@ -137,13 +142,13 @@ CODE_SAMPLE
         return $classReflection->isSubclassOf(Command::class);
     }
 
-    private function hasAsCommandAttribute(ClassMethod $classMethod): bool
+    private function hasConfigureClassMethodWithSetName(Class_ $class): bool
     {
-        $class = $this->simpleNodeFinder->findFirstParentByType($classMethod, Class_::class);
-        if (! $class instanceof Class_) {
+        $configureClassMethod = $class->getMethod('configure');
+        if (! $configureClassMethod instanceof ClassMethod) {
             return false;
         }
 
-        return $this->attributeFinder->hasAttribute($class, self::COMMAND_ATTRIBUTE);
+        return $this->containsSetNameMethodCall($configureClassMethod);
     }
 }

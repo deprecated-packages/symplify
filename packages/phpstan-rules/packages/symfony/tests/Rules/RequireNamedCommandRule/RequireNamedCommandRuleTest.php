@@ -29,7 +29,11 @@ final class RequireNamedCommandRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipAbstractMissingNameCommand.php', []];
         yield [__DIR__ . '/Fixture/SkipAttributeNamedCommand.php', []];
 
-        yield [__DIR__ . '/Fixture/MissingNameCommand.php', [[RequireNamedCommandRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/MissingNameCommand.php', [[RequireNamedCommandRule::ERROR_MESSAGE, 9]]];
+        yield [
+            __DIR__ . '/Fixture/MissingNameCommandWithoutConfigureMethod.php',
+            [[RequireNamedCommandRule::ERROR_MESSAGE, 9]],
+        ];
     }
 
     /**
