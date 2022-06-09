@@ -12,7 +12,7 @@ use Symplify\EasyCodingStandard\ValueObject\Error\ErrorAndDiffResult;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Console\Output\JsonOutputFormatterTest
- */
+ * @see \Symplify\EasyCodingStandard\Tests\Console\Output\JsonOutputFormatterTest*/
 final class JsonOutputFormatter implements OutputFormatterInterface
 {
     /**

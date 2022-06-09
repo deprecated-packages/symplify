@@ -21,7 +21,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\SniffRunner\ValueObject\FileTest
- */
+ * @see \Symplify\EasyCodingStandard\Tests\SniffRunner\ValueObject\FileTest*/
 final class File extends BaseFile
 {
     /**

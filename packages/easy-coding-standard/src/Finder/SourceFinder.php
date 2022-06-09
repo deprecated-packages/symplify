@@ -12,7 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\Finder\SourceFinderTest
- */
+ * @see \Symplify\EasyCodingStandard\Tests\Finder\SourceFinderTest*/
 final class SourceFinder
 {
     /**

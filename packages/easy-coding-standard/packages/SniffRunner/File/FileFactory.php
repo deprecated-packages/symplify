@@ -13,7 +13,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCodingStandard\Tests\SniffRunner\File\FileFactoryTest
- */
+ * @see \Symplify\EasyCodingStandard\Tests\SniffRunner\File\FileFactoryTest*/
 final class FileFactory
 {
     public function __construct(
