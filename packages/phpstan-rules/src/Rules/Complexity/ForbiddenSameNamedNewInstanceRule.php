@@ -6,19 +6,21 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
+use PHPStan\Type\ObjectType;
+use PHPUnit\Framework\TestCase;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInstanceRule\ForbiddenSameNamedNewInstanceRuleTest
+ * @implements Rule<Assign>
  */
 final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInterface
 {
@@ -28,9 +30,7 @@ final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInt
     public const ERROR_MESSAGE = 'New objects with "%s" name are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.';
 
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
-        private TestAnalyzer $testAnalyzer,
-        private AssignAnalyzer $assignAnalyzer
+        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -60,51 +60,42 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return FunctionLike::class;
+        return Assign::class;
     }
 
     /**
-     * @param FunctionLike $node
-     * @return string[]|RuleError[]
+     * @param Assign $node
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        // allow in test case methods, possibly to compare reults
-        if ($this->testAnalyzer->isTestClassMethod($scope, $node)) {
+        $classReflection = $scope->getClassReflection();
+
+        // skip tests, are easier to re-use variable there
+        if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(TestCase::class)) {
             return [];
         }
 
-        /** @var Assign[] $assigns */
-        $assigns = $this->simpleNodeFinder->findByType($node, Assign::class);
-
-        $exclusivelyNewAssignsByVariableNames = $this->assignAnalyzer->resolveExclusivelyNewAssignsByVariableNames(
-            $assigns
-        );
-
-        $overridenVariableNames = $this->resolveOverridenVariableNames($exclusivelyNewAssignsByVariableNames);
-        if ($overridenVariableNames === []) {
+        if (! $node->var instanceof Variable) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overridenVariableNames));
+        if (! $node->expr instanceof New_) {
+            return [];
+        }
+
+        // is type already defined?
+        $variableName = $this->simpleNameResolver->getName($node->var);
+        if (! $scope->hasVariableType($variableName)->yes()) {
+            return [];
+        }
+
+        $exprType = $scope->getType($node->expr);
+        if (! $exprType instanceof ObjectType) {
+            return [];
+        }
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, '$' . $variableName);
         return [$errorMessage];
-    }
-
-    /**
-     * @param array<string, Assign[]> $assignsByVariableNames
-     * @return string[]
-     */
-    private function resolveOverridenVariableNames(array $assignsByVariableNames): array
-    {
-        $overriddenVariableNames = [];
-        foreach ($assignsByVariableNames as $variableName => $assigns) {
-            if (count($assigns) < 2) {
-                continue;
-            }
-
-            $overriddenVariableNames[] = $variableName;
-        }
-
-        return $overriddenVariableNames;
     }
 }
