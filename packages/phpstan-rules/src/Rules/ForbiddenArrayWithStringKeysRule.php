@@ -14,7 +14,6 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ArrayType;
 use Symplify\PackageBuilder\ValueObject\MethodName;
-use Symplify\PHPStanRules\Naming\AssignToVariableChecker;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -39,16 +38,9 @@ final class ForbiddenArrayWithStringKeysRule implements Rule, DocumentedRuleInte
      */
     private const TEST_FILE_REGEX = '#(Test|TestCase)\.php$#';
 
-    /**
-     * @see https://regex101.com/r/TOKYyM/1
-     * @var string
-     */
-    private const ARRAY_CONFIGURATION_NAMES_REGEX = '#(yaml|json|neon)#i';
-
     public function __construct(
         private ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
         private ArrayAnalyzer $arrayAnalyzer,
-        private AssignToVariableChecker $assignToVariableChecker
     ) {
     }
 
@@ -70,11 +62,7 @@ final class ForbiddenArrayWithStringKeysRule implements Rule, DocumentedRuleInte
             return [];
         }
 
-        if ($this->shouldSkipClass($scope)) {
-            return [];
-        }
-
-        if ($this->shouldSkipArray($node->expr, $scope)) {
+        if ($this->shouldSkip($scope)) {
             return [];
         }
 
@@ -121,18 +109,18 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipArray(Array_ $array, Scope $scope): bool
+    private function shouldSkip(Scope $scope): bool
     {
+        if ($this->shouldSkipClass($scope)) {
+            return true;
+        }
+
         if (Strings::match($scope->getFile(), self::TEST_FILE_REGEX)) {
             return true;
         }
 
         // skip examples in Rector::getDefinition() method
-        if (in_array($scope->getFunctionName(), ['getDefinition', MethodName::CONSTRUCTOR], true)) {
-            return true;
-        }
-
-        return $this->assignToVariableChecker->isAssignToVariableRegex($array, self::ARRAY_CONFIGURATION_NAMES_REGEX);
+        return in_array($scope->getFunctionName(), ['getDefinition', MethodName::CONSTRUCTOR], true);
     }
 
     private function shouldSkipClass(Scope $scope): bool
