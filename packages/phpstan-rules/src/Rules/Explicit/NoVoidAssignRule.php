@@ -11,10 +11,10 @@ use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\VoidType;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\Astral\Reflection\MethodCallParser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -32,7 +32,7 @@ final class NoVoidAssignRule implements Rule, DocumentedRuleInterface
 
     public function __construct(
         private MethodCallParser $methodCallParser,
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
     ) {
     }
 
@@ -115,7 +115,13 @@ CODE_SAMPLE
         }
 
         // is not void
-        if ($this->simpleNodeFinder->hasByTypes($classMethod, [Return_::class, Yield_::class])) {
+        $return = $this->nodeFinder->findFirstInstanceOf($classMethod, Return_::class);
+        if ($return instanceof Return_) {
+            return [];
+        }
+
+        $yield = $this->nodeFinder->findFirstInstanceOf($classMethod, Yield_::class);
+        if ($yield instanceof Yield_) {
             return [];
         }
 

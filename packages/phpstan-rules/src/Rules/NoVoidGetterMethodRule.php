@@ -9,11 +9,11 @@ use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,9 +28,20 @@ final class NoVoidGetterMethodRule implements Rule, DocumentedRuleInterface
      */
     public const ERROR_MESSAGE = 'Getter method must return something, not void';
 
+    /**
+     * @var array<class-string<Node>>
+     */
+    private const STOPPING_TYPES = [
+        Return_::class,
+        Yield_::class,
+        // possibly unneded contract override
+        Throw_::class,
+        Node\Stmt\Throw_::class,
+    ];
+
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder
+        private NodeFinder $nodeFinder
     ) {
     }
 
@@ -105,13 +116,14 @@ CODE_SAMPLE
             return true;
         }
 
-        return ! $this->simpleNodeFinder->hasByTypes($classMethod, [
-            Return_::class,
-            Yield_::class,
-            // possibly unneded contract override
-            Throw_::class,
-            Node\Stmt\Throw_::class,
-        ]);
+        foreach (self::STOPPING_TYPES as $stoppingType) {
+            $foundNode = $this->nodeFinder->findFirstInstanceOf($classMethod, $stoppingType);
+            if ($foundNode instanceof Node) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function hasClassMethodVoidReturnType(ClassMethod $classMethod): bool

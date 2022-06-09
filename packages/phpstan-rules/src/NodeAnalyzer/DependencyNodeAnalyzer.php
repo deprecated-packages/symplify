@@ -10,15 +10,15 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
+use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer
 {
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
+        private NodeFinder $nodeFinder,
         private AutowiredMethodPropertyAnalyzer $autowiredMethodPropertyAnalyzer
     ) {
     }
@@ -35,7 +35,7 @@ final class DependencyNodeAnalyzer
         }
 
         /** @var Assign[] $assigns */
-        $assigns = $this->simpleNodeFinder->findByType($classMethod, Assign::class);
+        $assigns = $this->nodeFinder->findInstanceOf($classMethod, Assign::class);
         if ($assigns === []) {
             return false;
         }
@@ -50,7 +50,7 @@ final class DependencyNodeAnalyzer
 
         foreach ($class->getMethods() as $classMethod) {
             /** @var PropertyFetch[] $propertyFetches */
-            $propertyFetches = $this->simpleNodeFinder->findByType($classMethod, PropertyFetch::class);
+            $propertyFetches = $this->nodeFinder->findInstanceOf($classMethod, PropertyFetch::class);
 
             foreach ($propertyFetches as $propertyFetch) {
                 if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {

@@ -8,13 +8,13 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -39,8 +39,8 @@ final class RequireNamedCommandRule implements Rule, DocumentedRuleInterface
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
         private AttributeFinder $attributeFinder,
+        private NodeFinder $nodeFinder
     ) {
     }
 
@@ -111,7 +111,8 @@ CODE_SAMPLE
     private function containsSetNameMethodCall(ClassMethod $classMethod): bool
     {
         /** @var MethodCall[] $methodCalls */
-        $methodCalls = $this->simpleNodeFinder->findByType($classMethod, MethodCall::class);
+        $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
+
         foreach ($methodCalls as $methodCall) {
             if (! $this->simpleNameResolver->isName($methodCall->var, 'this')) {
                 continue;
