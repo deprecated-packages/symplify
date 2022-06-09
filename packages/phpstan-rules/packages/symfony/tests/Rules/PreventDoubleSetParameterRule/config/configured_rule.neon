@@ -4,6 +4,6 @@ includes:
 services:
     - Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyPhpConfigClosureAnalyzer
 
-    -
-        class: Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule
+

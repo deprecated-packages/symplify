@@ -6,6 +6,5 @@ services:
             minNameLength: 3
             allowedShortNames: ['id', 'to', 'up']
 
-    -
-        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule

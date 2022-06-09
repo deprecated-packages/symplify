@@ -28,7 +28,7 @@ services:
 
 parameters:
     level: 8
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
@@ -483,5 +483,7 @@ parameters:
 
         # cached parser
         -
-            message: '#Creating new PHPStan\\Parser\\SimpleParser is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
+            message: '#Creating new PHPStan(.*?) is not covered by backward compatibility promise#'
             path: packages/astral/src/PhpParser/SmartPhpParserFactory.php
+
+        - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
