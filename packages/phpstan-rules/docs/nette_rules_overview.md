@@ -230,7 +230,7 @@ class SomeClass
 
 ## NoNetteTemplateVariableReadRule
 
-Avoid `$this->template->variable` for read access, as it can be defined anywhere. Use local `$variable` instead
+Avoid "$this->template->%s" for read access, as it can be defined anywhere. Use local "$%s" variable instead
 
 - class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/nette/src/Rules/NoNetteTemplateVariableReadRule.php)
 

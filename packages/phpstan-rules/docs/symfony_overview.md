@@ -77,7 +77,7 @@ final class SomeController extends AbstractController
 
 ## RequireNamedCommandRule
 
-The command is missing `$this->setName("...")` in `configure()` method
+The command is missing `$this->setName("...")` or [#AsCommand] attribute to set the name
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule`](../packages/symfony/src/Rules/RequireNamedCommandRule.php)
 

@@ -29,7 +29,6 @@ rules:
     # dead-code
     - Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
     - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
-    - Symplify\PHPStanRules\Rules\NoModifyAndReturnSelfObjectRule
 
     # explicit naming
     - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
