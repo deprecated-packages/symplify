@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * @see \Symplify\Skipper\Tests\FileSystem\FnMatchPathNormalizerTest
- */
+ * @see \Symplify\Skipper\Tests\FileSystem\FnMatchPathNormalizerTest*/
 final class FnMatchPathNormalizer
 {
     /**
