@@ -6,19 +6,12 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
-use PhpParser\Node\Expr\New_;
-use PhpParser\Node\Expr\StaticCall;
-use PhpParser\Node\Stmt\ClassConst;
-use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ArrayType;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Naming\AssignToVariableChecker;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
@@ -29,6 +22,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenArrayWithStringKeysRule\ForbiddenArrayWithStringKeysRuleTest
+ *
+ * @implements Rule<Return_>
  */
 final class ForbiddenArrayWithStringKeysRule implements Rule, DocumentedRuleInterface
 {
@@ -51,8 +46,6 @@ final class ForbiddenArrayWithStringKeysRule implements Rule, DocumentedRuleInte
 
     public function __construct(
         private ParentMethodReturnTypeResolver $parentMethodReturnTypeResolver,
-        private SimpleNameResolver $simpleNameResolver,
-        private SimpleNodeFinder $simpleNodeFinder,
         private ArrayAnalyzer $arrayAnalyzer,
         private AssignToVariableChecker $assignToVariableChecker
     ) {
@@ -63,24 +56,28 @@ final class ForbiddenArrayWithStringKeysRule implements Rule, DocumentedRuleInte
      */
     public function getNodeType(): string
     {
-        return Array_::class;
+        return Return_::class;
     }
 
     /**
-     * @param Array_ $node
+     * @param Return_ $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($this->shouldSkipClass($scope, $node)) {
+        if (! $node->expr instanceof Array_) {
             return [];
         }
 
-        if ($this->shouldSkipArray($node, $scope)) {
+        if ($this->shouldSkipClass($scope)) {
             return [];
         }
 
-        if (! $this->arrayAnalyzer->isArrayWithStringKey($node)) {
+        if ($this->shouldSkipArray($node->expr, $scope)) {
+            return [];
+        }
+
+        if (! $this->arrayAnalyzer->isArrayWithStringKey($node->expr)) {
             return [];
         }
 
@@ -125,12 +122,6 @@ CODE_SAMPLE
 
     private function shouldSkipArray(Array_ $array, Scope $scope): bool
     {
-        // skip part of attribute
-        $parentAttribute = $this->simpleNodeFinder->findFirstParentByType($array, Attribute::class);
-        if ($parentAttribute instanceof Attribute) {
-            return true;
-        }
-
         if (Strings::match($scope->getFile(), self::TEST_FILE_REGEX)) {
             return true;
         }
@@ -140,26 +131,25 @@ CODE_SAMPLE
             return true;
         }
 
-        if ($this->assignToVariableChecker->isAssignToVariableRegex($array, self::ARRAY_CONFIGURATION_NAMES_REGEX)) {
-            return true;
+        return $this->assignToVariableChecker->isAssignToVariableRegex($array, self::ARRAY_CONFIGURATION_NAMES_REGEX);
+    }
+
+    private function shouldSkipClass(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection instanceof ClassReflection) {
+            if ($classReflection->isSubclassOf(\JsonSerializable::class)) {
+                return true;
+            }
+
+            if (str_contains($classReflection->getName(), 'json') || str_contains(
+                $classReflection->getName(),
+                'Json'
+            )) {
+                return true;
+            }
         }
 
-        return $this->isPartOfClassConstOrNew($array);
-    }
-
-    private function isPartOfClassConstOrNew(Array_ $array): bool
-    {
-        return (bool) $this->simpleNodeFinder->findFirstParentByTypes($array, [
-            ClassConst::class,
-            New_::class,
-            MethodCall::class,
-            StaticCall::class,
-            FuncCall::class,
-        ]);
-    }
-
-    private function shouldSkipClass(Scope $scope, Array_ $array): bool
-    {
         $filePath = $scope->getFile();
 
         // php-scoper config, it return magic array by design
@@ -172,15 +162,6 @@ CODE_SAMPLE
             return true;
         }
 
-        $classMethod = $this->simpleNodeFinder->findFirstParentByType($array, ClassMethod::class);
-        if (! $classMethod instanceof ClassMethod) {
-            return false;
-        }
-
-        /** @var string $classMethodName */
-        $classMethodName = $this->simpleNameResolver->getName($classMethod);
-
-        $match = Strings::match($classMethodName, self::ARRAY_CONFIGURATION_NAMES_REGEX);
-        return $match !== null;
+        return false;
     }
 }
