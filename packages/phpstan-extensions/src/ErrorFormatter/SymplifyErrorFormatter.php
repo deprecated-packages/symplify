@@ -16,7 +16,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\PHPStanExtensions\Tests\ErrorFormatter\SymplifyErrorFormatterTest
- */
+ * @see \Symplify\PHPStanExtensions\Tests\ErrorFormatter\SymplifyErrorFormatterTest*/
 final class SymplifyErrorFormatter implements ErrorFormatter
 {
     /**
