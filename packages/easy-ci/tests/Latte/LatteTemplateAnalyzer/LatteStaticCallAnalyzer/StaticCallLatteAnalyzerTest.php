@@ -22,8 +22,7 @@ final class StaticCallLatteAnalyzerTest extends AbstractKernelTestCase
     }
 
     /**
-     * @dataProvider provideData()
-     */
+     * @dataProvider provideData()*/
     public function test(
         SmartFileInfo $fileInfo,
         int $expectedClassMethodCount,

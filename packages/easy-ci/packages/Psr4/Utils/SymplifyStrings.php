@@ -8,7 +8,7 @@ use Nette\Utils\Strings;
 
 /**
  * @see \Symplify\EasyCI\Tests\Psr4\Utils\SymplifyStringsTest
- */
+ * @see \Symplify\EasyCI\Tests\Psr4\Utils\SymplifyStringsTest*/
 final class SymplifyStrings
 {
     private ?int $lastSlashPosition = null;

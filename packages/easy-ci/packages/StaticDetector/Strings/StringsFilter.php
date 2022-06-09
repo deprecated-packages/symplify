@@ -6,7 +6,7 @@ namespace Symplify\EasyCI\StaticDetector\Strings;
 
 /**
  * @see \Symplify\EasyCI\Tests\StaticDetector\Strings\StringsFilterTest
- */
+ * @see \Symplify\EasyCI\Tests\StaticDetector\Strings\StringsFilterTest*/
 final class StringsFilter
 {
     /**

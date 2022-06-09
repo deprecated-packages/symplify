@@ -14,7 +14,7 @@ use Symplify\EasyCI\ValueObject\PhpVersionList;
 
 /**
  * @see \Symplify\EasyCI\Tests\Composer\SupportedPhpVersionResolverTest
- */
+ * @see \Symplify\EasyCI\Tests\Composer\SupportedPhpVersionResolverTest*/
 final class SupportedPhpVersionResolver
 {
     public function __construct(

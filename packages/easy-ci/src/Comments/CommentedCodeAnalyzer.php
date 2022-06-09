@@ -8,7 +8,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\EasyCI\Tests\Comments\CommentedCodeAnalyzerTest
- */
+ * @see \Symplify\EasyCI\Tests\Comments\CommentedCodeAnalyzerTest*/
 final class CommentedCodeAnalyzer
 {
     /**
