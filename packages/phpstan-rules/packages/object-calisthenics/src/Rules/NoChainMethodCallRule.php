@@ -109,7 +109,7 @@ final class NoChainMethodCallRule implements Rule, DocumentedRuleinterface, Conf
 
         // skip nullsafe chain
         $isNullsafeChecked = (bool) $node->var->getAttribute(AttributeKey::NULLSAFE_CHECKED);
-        if ($isNullsafeChecked === true) {
+        if ($isNullsafeChecked) {
             return [];
         }
 
