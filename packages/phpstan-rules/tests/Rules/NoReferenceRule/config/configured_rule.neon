@@ -1,7 +1,5 @@
 includes:
     - ../../../config/included_services.neon
 
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\NoReferenceRule
-        tags: [phpstan.rules.rule]
+rules:
+    - Symplify\PHPStanRules\Rules\NoReferenceRule

@@ -33,11 +33,11 @@ final class NoDynamicNameRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/DynamicPropertyFetch.php', [[NoDynamicNameRule::ERROR_MESSAGE, 10]]];
         yield [__DIR__ . '/Fixture/DynamicClassOnStaticPropertyFetch.php', [[NoDynamicNameRule::ERROR_MESSAGE, 10]]];
 
+        yield [__DIR__ . '/Fixture/SkipObjectClassOnPhp8.php', []];
         yield [__DIR__ . '/Fixture/SkipInvokable.php', []];
         yield [__DIR__ . '/Fixture/SkipClosure.php', []];
         yield [__DIR__ . '/Fixture/SkipCallable.php', []];
         yield [__DIR__ . '/Fixture/SkipNullableClosure.php', []];
-        yield [__DIR__ . '/Fixture/SkipForeachVariable.php', []];
         yield [__DIR__ . '/Fixture/SkipImmediatelyInvokedFunctionExpression.php', []];
     }
 

@@ -72,7 +72,7 @@ final class NoDynamicNameRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($this->callableTypeAnalyzer->isClosureOrCallableType($scope, $node->name, $node)) {
+        if ($this->callableTypeAnalyzer->isClosureOrCallableType($scope, $node->name)) {
             return [];
         }
 
