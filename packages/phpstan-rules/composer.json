@@ -54,7 +54,6 @@
         },
         "phpstan": {
             "includes": [
-                "config/config.neon",
                 "config/services/services.neon",
                 "packages/cognitive-complexity/config/cognitive-complexity-services.neon",
                 "packages/symfony/config/services.neon",
