@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Property;
+use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentPropertyGuard;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -16,6 +19,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\ForbiddenProtectedPropertyRule\ForbiddenProtectedPropertyRuleTest
+ *
+ * @implements Rule<InClassNode>
  */
 final class ForbiddenProtectedPropertyRule implements Rule, DocumentedRuleInterface
 {
@@ -31,32 +36,45 @@ final class ForbiddenProtectedPropertyRule implements Rule, DocumentedRuleInterf
     }
 
     /**
-     * @return class-string<Node>
+     * @return class-string<InClassNode>
      */
     public function getNodeType(): string
     {
-        return Property::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param Property $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node->isProtected()) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        if ($this->parentPropertyGuard->isPropertyGuarded($node, $scope)) {
-            return [];
+        $errorMessages = [];
+
+        foreach ($classLike->getProperties() as $property) {
+            if (! $property->isProtected()) {
+                continue;
+            }
+
+            if ($this->parentPropertyGuard->isPropertyGuarded($property, $scope)) {
+                continue;
+            }
+
+            if ($this->protectedAnalyzer->isProtectedPropertyOrClassConstAllowed($property, $classLike)) {
+                continue;
+            }
+
+            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($property->getLine())
+                ->build();
         }
 
-        if ($this->protectedAnalyzer->isProtectedPropertyOrClassConstAllowed($node)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $errorMessages;
     }
 
     public function getRuleDefinition(): RuleDefinition

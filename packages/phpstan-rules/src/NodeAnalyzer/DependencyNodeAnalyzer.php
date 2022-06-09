@@ -8,10 +8,8 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\Trait_;
 use PhpParser\NodeFinder;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeFinder\SimpleNodeFinder;
@@ -27,18 +25,13 @@ final class DependencyNodeAnalyzer
     ) {
     }
 
-    public function isInsideAbstractClassAndPassedAsDependency(Property $property): bool
+    public function isInsideAbstractClassAndPassedAsDependency(Property $property, Class_ $class): bool
     {
-        $classLike = $this->simpleNodeFinder->findFirstParentByType($property, Class_::class);
-        if (! $classLike instanceof Class_) {
+        if (! $class->isAbstract()) {
             return false;
         }
 
-        if (! $classLike->isAbstract()) {
-            return false;
-        }
-
-        $classMethod = $classLike->getMethod(MethodName::CONSTRUCTOR) ?? $classLike->getMethod(MethodName::SET_UP);
+        $classMethod = $class->getMethod(MethodName::CONSTRUCTOR) ?? $class->getMethod(MethodName::SET_UP);
         if (! $classMethod instanceof ClassMethod) {
             return false;
         }
@@ -52,18 +45,13 @@ final class DependencyNodeAnalyzer
         return $this->isBeingAssignedInAssigns($property, $assigns);
     }
 
-    public function isInsideClassAndAutowiredMethod(Property $property): bool
+    public function isInsideClassAndAutowiredMethod(Property $property, Class_ $class): bool
     {
-        $classLike = $this->simpleNodeFinder->findFirstParentByType($property, ClassLike::class);
-        if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
-            return false;
-        }
-
         /** @var string $propertyName */
         $propertyName = $this->simpleNameResolver->getName($property);
 
         /** @var PropertyFetch[] $propertyFetches */
-        $propertyFetches = $this->simpleNodeFinder->findByType($classLike, PropertyFetch::class);
+        $propertyFetches = $this->simpleNodeFinder->findByType($class, PropertyFetch::class);
         foreach ($propertyFetches as $propertyFetch) {
             if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {
                 continue;

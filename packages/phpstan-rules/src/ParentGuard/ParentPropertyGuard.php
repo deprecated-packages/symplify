@@ -29,7 +29,7 @@ final class ParentPropertyGuard
         }
 
         foreach ($classReflection->getParents() as $parentClassReflectoin) {
-            if (! $parentClassReflectoin->hasProperty($propertyName)) {
+            if (! $parentClassReflectoin->hasNativeProperty($propertyName)) {
                 continue;
             }
 
