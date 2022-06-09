@@ -10,7 +10,7 @@ use Symfony\Component\Console\Command\Command;
 /**
  * @api
  * @see \Symplify\PackageBuilder\Tests\Console\Command\CommandNamingTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Console\Command\CommandNamingTest*/
 final class CommandNaming
 {
     /**

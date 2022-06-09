@@ -11,7 +11,7 @@ use Symplify\PackageBuilder\Exception\MissingPrivatePropertyException;
 /**
  * @api
  * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesAccessorTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Reflection\PrivatesAccessorTest*/
 final class PrivatesAccessor
 {
     /**

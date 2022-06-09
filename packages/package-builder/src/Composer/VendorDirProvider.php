@@ -10,7 +10,7 @@ use ReflectionClass;
 /**
  * @api
  * @see \Symplify\PackageBuilder\Tests\Composer\VendorDirProviderTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Composer\VendorDirProviderTest*/
 final class VendorDirProvider
 {
     public function provide(): string

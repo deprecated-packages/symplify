@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 /**
  * @api
  * @see \Symplify\PackageBuilder\Tests\Parameter\ParameterProviderTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Parameter\ParameterProviderTest*/
 final class ParameterProvider
 {
     /**

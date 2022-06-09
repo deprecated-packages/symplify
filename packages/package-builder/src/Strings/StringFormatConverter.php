@@ -9,7 +9,7 @@ use Nette\Utils\Strings;
 /**
  * @api
  * @see \Symplify\PackageBuilder\Tests\Strings\StringFormatConverterTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Strings\StringFormatConverterTest*/
 final class StringFormatConverter
 {
     /**

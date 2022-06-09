@@ -12,7 +12,7 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
  * used as standalone class, without need to require whole package by Dariusz Rumiński <dariusz.ruminski@gmail.com>
  *
  * @see \Symplify\PackageBuilder\Tests\Console\Formatter\ColorConsoleDiffFormatterTest
- */
+ * @see \Symplify\PackageBuilder\Tests\Console\Formatter\ColorConsoleDiffFormatterTest*/
 final class ColorConsoleDiffFormatter
 {
     /**
