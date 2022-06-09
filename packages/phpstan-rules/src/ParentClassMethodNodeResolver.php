@@ -38,11 +38,16 @@ final class ParentClassMethodNodeResolver
      */
     private function getParentClassReflections(Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
+        $mainClassReflection = $scope->getClassReflection();
+        if (! $mainClassReflection instanceof ClassReflection) {
             return [];
         }
 
-        return $classReflection->getParents();
+        // all parent classes and interfaces
+        return array_filter($mainClassReflection->getAncestors(), function (ClassReflection $classReflection) use (
+            $mainClassReflection
+        ) {
+            return $classReflection !== $mainClassReflection;
+        });
     }
 }

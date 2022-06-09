@@ -9,12 +9,13 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
 use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
-use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -36,7 +37,7 @@ final class NoReturnArrayVariableListRule implements Rule, DocumentedRuleInterfa
     private const TESTS_DIRECTORY_REGEX = '#\/Tests\/#i';
 
     public function __construct(
-        private ParentMethodAnalyser $parentMethodAnalyser
+        private ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
     ) {
     }
 
@@ -132,7 +133,12 @@ CODE_SAMPLE
 
         $functionLike = $scope->getFunction();
         if ($functionLike instanceof MethodReflection) {
-            return $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $functionLike->getName());
+            $parentClassMethod = $this->parentClassMethodNodeResolver->resolveParentClassMethod(
+                $scope,
+                $functionLike->getName()
+            );
+
+            return $parentClassMethod instanceof ClassMethod;
         }
 
         return false;

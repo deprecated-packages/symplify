@@ -16,7 +16,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\PHPStanRules\ParentMethodAnalyser;
+use Symplify\PHPStanRules\ParentClassMethodNodeResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -32,8 +32,8 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
     public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
     public function __construct(
-        private ParentMethodAnalyser $parentMethodAnalyser,
         private SimpleNameResolver $simpleNameResolver,
+        private ParentClassMethodNodeResolver $parentClassMethodNodeResolver,
     ) {
     }
 
@@ -119,7 +119,7 @@ CODE_SAMPLE
         }
 
         $methodName = (string) $classMethod->name;
-        return $this->parentMethodAnalyser->hasParentClassMethodWithSameName($scope, $methodName);
+        return $this->hasParentClassMethodWithSameName($scope, $methodName);
     }
 
     private function shouldSkipProperty(Property $property, Scope $scope): bool
@@ -182,5 +182,24 @@ CODE_SAMPLE
         return RuleErrorBuilder::message(self::ERROR_MESSAGE)
             ->line($node->getLine())
             ->build();
+    }
+
+    private function hasParentClassMethodWithSameName(Scope $scope, string $methodName): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        /** @var ClassReflection[] $parentClassLikeReflections */
+        $parentClassLikeReflections = array_merge($classReflection->getParents(), $classReflection->getInterfaces());
+
+        foreach ($parentClassLikeReflections as $parentClassLikeReflection) {
+            if ($parentClassLikeReflection->hasMethod($methodName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

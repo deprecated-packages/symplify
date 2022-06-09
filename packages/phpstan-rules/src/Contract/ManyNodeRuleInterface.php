@@ -8,6 +8,9 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleError;
 
+/**
+ * @deprecated Make use of native Rule interfaces, to keep the complexity simple
+ */
 interface ManyNodeRuleInterface
 {
     /**
