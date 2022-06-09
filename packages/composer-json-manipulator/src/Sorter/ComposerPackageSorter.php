@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
  * Mostly inspired by https://github.com/composer/composer/blob/master/src/Composer/Json/JsonManipulator.php
  *
  * @see \Symplify\ComposerJsonManipulator\Tests\Sorter\ComposerPackageSorterTest
- */
+ * @see \Symplify\ComposerJsonManipulator\Tests\Sorter\ComposerPackageSorterTest*/
 final class ComposerPackageSorter
 {
     /**

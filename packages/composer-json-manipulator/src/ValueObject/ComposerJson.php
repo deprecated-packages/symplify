@@ -13,7 +13,7 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 /**
  * @api
  * @see \Symplify\ComposerJsonManipulator\Tests\ValueObject\ComposerJsonTest
- */
+ * @see \Symplify\ComposerJsonManipulator\Tests\ValueObject\ComposerJsonTest*/
 final class ComposerJson
 {
     /**
