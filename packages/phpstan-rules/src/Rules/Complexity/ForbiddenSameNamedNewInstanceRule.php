@@ -6,19 +6,24 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
-use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use PHPStan\Rules\RuleError;
-use Symplify\Astral\NodeFinder\SimpleNodeFinder;
-use Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer;
-use Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer;
+use PHPStan\Type\ObjectType;
+use PHPUnit\Framework\TestCase;
+use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\Complexity\ForbiddenSameNamedNewInstanceRule\ForbiddenSameNamedNewInstanceRuleTest
+ * @implements Rule<Expression>
  */
 final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInterface
 {
@@ -28,9 +33,7 @@ final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInt
     public const ERROR_MESSAGE = 'New objects with "%s" name are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.';
 
     public function __construct(
-        private SimpleNodeFinder $simpleNodeFinder,
-        private TestAnalyzer $testAnalyzer,
-        private AssignAnalyzer $assignAnalyzer
+        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -60,51 +63,73 @@ CODE_SAMPLE
      */
     public function getNodeType(): string
     {
-        return FunctionLike::class;
+        return Expression::class;
     }
 
     /**
-     * @param FunctionLike $node
-     * @return string[]|RuleError[]
+     * @param Expression $node
+     * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        // allow in test case methods, possibly to compare reults
-        if ($this->testAnalyzer->isTestClassMethod($scope, $node)) {
+        if (! $node->expr instanceof Assign) {
             return [];
         }
 
-        /** @var Assign[] $assigns */
-        $assigns = $this->simpleNodeFinder->findByType($node, Assign::class);
-
-        $exclusivelyNewAssignsByVariableNames = $this->assignAnalyzer->resolveExclusivelyNewAssignsByVariableNames(
-            $assigns
-        );
-
-        $overridenVariableNames = $this->resolveOverridenVariableNames($exclusivelyNewAssignsByVariableNames);
-        if ($overridenVariableNames === []) {
+        if ($this->shouldSkip($scope, $node)) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, implode('", "', $overridenVariableNames));
+        $assign = $node->expr;
+
+        if (! $assign->var instanceof Variable) {
+            return [];
+        }
+
+        if (! $assign->expr instanceof New_) {
+            return [];
+        }
+
+        // is type already defined?
+        $variableName = $this->simpleNameResolver->getName($assign->var);
+        if (! is_string($variableName)) {
+            return [];
+        }
+
+        if (! $scope->hasVariableType($variableName)->yes()) {
+            return [];
+        }
+
+        $exprType = $scope->getType($node->expr);
+        if (! $exprType instanceof ObjectType) {
+            return [];
+        }
+
+        $errorMessage = sprintf(self::ERROR_MESSAGE, '$' . $variableName);
         return [$errorMessage];
     }
 
-    /**
-     * @param array<string, Assign[]> $assignsByVariableNames
-     * @return string[]
-     */
-    private function resolveOverridenVariableNames(array $assignsByVariableNames): array
+    private function shouldSkip(Scope $scope, Expression $expression): bool
     {
-        $overriddenVariableNames = [];
-        foreach ($assignsByVariableNames as $variableName => $assigns) {
-            if (count($assigns) < 2) {
-                continue;
-            }
-
-            $overriddenVariableNames[] = $variableName;
+        if ($this->isNestedInForeach($expression)) {
+            return true;
         }
 
-        return $overriddenVariableNames;
+        $classReflection = $scope->getClassReflection();
+
+        // skip tests, are easier to re-use variable there
+        return $classReflection instanceof ClassReflection && $classReflection->isSubclassOf(TestCase::class);
+    }
+
+    private function isNestedInForeach(Expression $expression): bool
+    {
+        // only available on stmt
+        $parentStmtTypes = $expression->getAttribute(AttributeKey::PARENT_STMT_TYPES);
+        if (! is_array($parentStmtTypes)) {
+            return false;
+        }
+
+        // skip in foreach, as nesting might be on purpose
+        return in_array(Foreach_::class, $parentStmtTypes, true);
     }
 }

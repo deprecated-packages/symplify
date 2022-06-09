@@ -27,9 +27,11 @@ final class ForbiddenSameNamedNewInstanceRuleTest extends RuleTestCase
     {
         yield [__DIR__ . '/Fixture/SkipDifferentNames.php', []];
         yield [__DIR__ . '/Fixture/SkipNonObjectAssigns.php', []];
+        yield [__DIR__ . '/Fixture/SkipForeachNewNesting.php', []];
+        yield [__DIR__ . '/Fixture/SkipForeachVariableAssign.php', []];
 
         $errorMessage = sprintf(ForbiddenSameNamedNewInstanceRule::ERROR_MESSAGE, '$someProduct');
-        yield [__DIR__ . '/Fixture/SameObjectAssigns.php', [[$errorMessage, 11]]];
+        yield [__DIR__ . '/Fixture/SameObjectAssigns.php', [[$errorMessage, 14]]];
     }
 
     /**

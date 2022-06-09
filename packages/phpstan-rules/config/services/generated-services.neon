@@ -14,7 +14,6 @@ services:
     - Symplify\PHPStanRules\Naming\BoolishNameAnalyser
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\AssignAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
     - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer
@@ -24,9 +23,7 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\InitializedExprAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver
-    - Symplify\PHPStanRules\NodeAnalyzer\PHPUnit\TestAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ProtectedAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
