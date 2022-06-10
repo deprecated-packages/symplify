@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\CognitiveComplexity\Rules\ClassLikeCogniti
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Rules\ClassLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule;
 
 /**
  * @extends RuleTestCase<ClassLikeCognitiveComplexityRule>

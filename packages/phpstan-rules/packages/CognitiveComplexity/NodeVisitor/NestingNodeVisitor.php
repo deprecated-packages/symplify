@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
-use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
-use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Ternary;
@@ -17,6 +15,8 @@ use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\PackageBuilder\Php\TypeChecker;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 
 final class NestingNodeVisitor extends NodeVisitorAbstract
 {

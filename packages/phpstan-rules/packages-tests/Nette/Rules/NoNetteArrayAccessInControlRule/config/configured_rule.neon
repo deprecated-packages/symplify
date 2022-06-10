@@ -1,6 +1,6 @@
 includes:
-    - ../../../../../../tests/config/included_services.neon
-    - ../../../../../../packages/nette/config/services.neon
+    - ../../../../../tests/config/included_services.neon
+    - ../../../../../config/packages/nette/services.neon
 
 rules:
     - Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule

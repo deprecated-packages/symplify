@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
-use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
-use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 
 final class ComplexityNodeVisitor extends NodeVisitorAbstract
 {

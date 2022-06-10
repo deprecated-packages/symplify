@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 
-use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
-use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -15,6 +13,8 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
+use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;

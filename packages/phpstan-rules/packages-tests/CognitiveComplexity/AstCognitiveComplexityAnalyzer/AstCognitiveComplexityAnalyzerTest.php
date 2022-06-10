@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 
-use AstCognitiveComplexityAnalyzer;
 use Iterator;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -15,6 +14,7 @@ use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 

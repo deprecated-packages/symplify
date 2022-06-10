@@ -91,6 +91,7 @@
                 "packages/phpstan-rules/packages",
                 "packages/phpstan-rules/src"
             ],
+            "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/Symfony",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -138,7 +139,7 @@
             "Symplify\\NeonConfigDumper\\Tests\\": "packages/neon-config-dumper/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\Tests\\": [
-                "packages/phpstan-rules/packages",
+                "packages/phpstan-rules/packages-tests",
                 "packages/phpstan-rules/tests"
             ],
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
@@ -203,10 +204,10 @@
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src --output-file packages/phpstan-rules/docs/rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/cognitive-complexity/src --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/object-calisthenics/src --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/nette/src --output-file packages/phpstan-rules/docs/nette_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony/src  --output-file packages/phpstan-rules/docs/symfony_overview.md --ansi"
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/CognitiveComplexity --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/ObjectCalisthenics --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/Nette --output-file packages/phpstan-rules/docs/nette_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/Symfony  --output-file packages/phpstan-rules/docs/symfony_overview.md --ansi"
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",

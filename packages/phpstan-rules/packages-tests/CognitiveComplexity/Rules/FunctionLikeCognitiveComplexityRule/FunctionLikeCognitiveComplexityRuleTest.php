@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\Tests\CognitiveComplexity\Rules\FunctionLikeCogn
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Rules\FunctionLikeCognitiveComplexityRule;
+use Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule;
 use Symplify\PHPStanRules\Tests\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule\Fixture\ClassMethodOverComplicated;
 use Symplify\PHPStanRules\Tests\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule\Fixture\VideoRepository;
 

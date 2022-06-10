@@ -34,7 +34,7 @@
             "tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php"
         ],
         "psr-4": {
-            "Symplify\\PHPStanRules\\Tests\\": ["tests", "packages"]
+            "Symplify\\PHPStanRules\\Tests\\": ["tests", "packages-tests"]
         },
         "classmap": [
             "stubs"

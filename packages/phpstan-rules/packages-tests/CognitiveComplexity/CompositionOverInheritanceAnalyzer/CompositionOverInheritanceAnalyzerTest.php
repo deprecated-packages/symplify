@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 
-use CompositionOverInheritanceAnalyzer;
 use Iterator;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
@@ -14,6 +13,7 @@ use PHPStan\DependencyInjection\ContainerFactory;
 use PHPUnit\Framework\TestCase;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
+use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
