@@ -4,3 +4,4 @@
 .travis.yml export-
 phpunit.xml export-ignore
 *.md export-ignore
+/packages-tests export-ignore

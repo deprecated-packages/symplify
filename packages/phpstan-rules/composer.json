@@ -26,11 +26,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\PHPStanRules\\": "src",
-            "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/cognitive-complexity/src",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/object-calisthenics/src",
-            "Symplify\\PHPStanRules\\Symfony\\": "packages/symfony/src",
-            "Symplify\\PHPStanRules\\Nette\\": "packages/nette/src"
+            "Symplify\\PHPStanRules\\": ["src", "packages"]
         }
     },
     "autoload-dev": {
@@ -38,11 +34,7 @@
             "tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php"
         ],
         "psr-4": {
-            "Symplify\\PHPStanRules\\Tests\\": "tests",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/object-calisthenics/tests",
-            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/cognitive-complexity/tests",
-            "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/nette/tests",
-            "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/symfony/tests"
+            "Symplify\\PHPStanRules\\Tests\\": ["tests", "packages"]
         },
         "classmap": [
             "stubs"
