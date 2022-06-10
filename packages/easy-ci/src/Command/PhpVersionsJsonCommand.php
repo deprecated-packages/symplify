@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCI\Composer\SupportedPhpVersionResolver;
 use Symplify\EasyCI\Exception\ShouldNotHappenException;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 {
@@ -28,7 +27,7 @@ final class PhpVersionsJsonCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('php-versions-json');
 
         $this->addArgument(
             self::COMPOSER_JSON_FILE_PATH,

@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\NeonConfigDumper\Application\NeonConfigDumper;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class DumpCommand extends Command
@@ -36,7 +35,7 @@ final class DumpCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('dump');
         $this->setDescription('Dump services from specific directory to specific service file');
 
         $this->addArgument(self::ARGUMENT_SOURCE, InputArgument::REQUIRED, 'Path to directory to look for services');

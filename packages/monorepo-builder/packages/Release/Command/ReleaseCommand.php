@@ -18,7 +18,6 @@ use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\MonorepoBuilder\ValueObject\File;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class ReleaseCommand extends AbstractSymplifyCommand
 {
@@ -34,7 +33,7 @@ final class ReleaseCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('release');
         $this->setDescription('Perform release process with set Release Workers.');
 
         $description = sprintf(

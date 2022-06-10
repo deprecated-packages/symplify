@@ -12,7 +12,6 @@ use Symplify\EasyCI\StaticDetector\Output\StaticReportReporter;
 use Symplify\EasyCI\StaticDetector\StaticScanner;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class DetectStaticCommand extends AbstractSymplifyCommand
 {
@@ -26,7 +25,7 @@ final class DetectStaticCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('detect-static');
 
         $this->addArgument(
             Option::SOURCES,

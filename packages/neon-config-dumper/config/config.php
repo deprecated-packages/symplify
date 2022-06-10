@@ -10,7 +10,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 use Symplify\EasyCI\ActiveClass\ClassNameResolver;
 use Symplify\EasyCI\ActiveClass\NodeDecorator\FullyQualifiedNameNodeDecorator;
 use Symplify\NeonConfigDumper\Command\DumpCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -38,5 +37,5 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Application::class)
         ->public()
         ->call('add', [service(DumpCommand::class)])
-        ->call('setDefaultCommand', [CommandNaming::classToName(DumpCommand::class), true]);
+        ->call('setDefaultCommand', ['dump', true]);
 };

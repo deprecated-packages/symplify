@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\EasyCI\Finder\ProjectFilesFinder;
 use Symplify\EasyCI\Resolver\TooLongFilesResolver;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\ValueObject\Option;
 
 final class ValidateFileLengthCommand extends Command
@@ -26,7 +25,7 @@ final class ValidateFileLengthCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('validate-file-length');
 
         $this->setDescription('[CI] Make sure the file path length are not breaking normal Windows max length');
         $this->addArgument(Option::SOURCES, InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'Path to project');
