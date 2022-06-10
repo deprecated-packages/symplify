@@ -54,6 +54,9 @@
         "symplify/easy-parallel": "<10.3.0",
         "symplify/neon-config-dumper": "<10.3.0"
     },
+    "config": {
+        "platform-check": false
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
