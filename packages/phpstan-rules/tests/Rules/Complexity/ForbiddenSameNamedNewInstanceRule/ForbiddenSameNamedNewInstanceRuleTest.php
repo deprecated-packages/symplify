@@ -26,6 +26,7 @@ final class ForbiddenSameNamedNewInstanceRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipDifferentNames.php', []];
+        yield [__DIR__ . '/Fixture/SkipNullDefaultAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipNonObjectAssigns.php', []];
         yield [__DIR__ . '/Fixture/SkipForeachNewNesting.php', []];
         yield [__DIR__ . '/Fixture/SkipForeachVariableAssign.php', []];

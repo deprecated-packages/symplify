@@ -13,6 +13,7 @@ use PhpParser\Node\Stmt\Foreach_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -97,6 +98,11 @@ CODE_SAMPLE
         }
 
         if (! $scope->hasVariableType($variableName)->yes()) {
+            return [];
+        }
+
+        $variableType = $scope->getVariableType($variableName);
+        if ($variableType instanceof NullType) {
             return [];
         }
 
