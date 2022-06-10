@@ -11,7 +11,6 @@ use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Twig\TwigTemplateProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
 {
@@ -24,7 +23,7 @@ final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('check-twig-template');
 
         $this->addArgument(
             Option::SOURCES,

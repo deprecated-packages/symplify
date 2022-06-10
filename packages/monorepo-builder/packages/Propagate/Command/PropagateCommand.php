@@ -11,7 +11,6 @@ use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Propagate\VersionPropagator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class PropagateCommand extends AbstractSymplifyCommand
@@ -26,7 +25,7 @@ final class PropagateCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('propagate');
         $this->setDescription(
             'Propagate versions from root "composer.json" to all packages, the opposite of "merge" command'
         );

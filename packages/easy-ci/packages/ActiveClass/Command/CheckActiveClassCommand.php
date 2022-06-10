@@ -14,7 +14,6 @@ use Symplify\EasyCI\ActiveClass\Finder\ClassNamesFinder;
 use Symplify\EasyCI\ActiveClass\Reporting\UnusedClassReporter;
 use Symplify\EasyCI\ActiveClass\UseImportsResolver;
 use Symplify\EasyCI\ValueObject\Option;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
 
@@ -34,7 +33,7 @@ final class CheckActiveClassCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('check-active-class');
         $this->setDescription('Check classes that are not used in any config and in the code');
 
         $this->addArgument(

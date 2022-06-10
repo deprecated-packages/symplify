@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\ValueObject\Option;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -24,7 +23,7 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('generate');
         $this->setDescription('Generated Markdown documentation based on documented rules found in directory');
         $this->addArgument(
             Option::PATHS,

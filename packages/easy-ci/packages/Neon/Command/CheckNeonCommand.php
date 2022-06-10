@@ -11,7 +11,6 @@ use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\Neon\Application\NeonFilesProcessor;
 use Symplify\EasyCI\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class CheckNeonCommand extends AbstractSymplifyCommand
 {
@@ -24,7 +23,7 @@ final class CheckNeonCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('check-neon');
 
         $this->addArgument(
             Option::SOURCES,

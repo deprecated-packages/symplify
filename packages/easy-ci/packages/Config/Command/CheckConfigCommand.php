@@ -11,7 +11,6 @@ use Symplify\EasyCI\Config\Application\ClassAndConstantExistanceFileProcessor;
 use Symplify\EasyCI\Console\Output\FileErrorsReporter;
 use Symplify\EasyCI\ValueObject\ConfigFileSuffixes;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\PackageBuilder\ValueObject\Option;
 
 final class CheckConfigCommand extends AbstractSymplifyCommand
@@ -25,7 +24,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('check-config');
 
         $this->setDescription('Check NEON and YAML configs for existing classes and class constants');
         $this->addArgument(

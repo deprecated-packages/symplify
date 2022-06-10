@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
@@ -31,7 +30,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 
     protected function configure(): void
     {
-        $this->setName(CommandNaming::classToName(self::class));
+        $this->setName('dump-static-site');
         $this->setDescription('Dump website to static HTML and CSS in the output directory');
     }
 
