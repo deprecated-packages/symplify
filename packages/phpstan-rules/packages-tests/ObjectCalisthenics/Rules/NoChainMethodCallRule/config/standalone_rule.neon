@@ -1,0 +1,10 @@
+includes:
+    - ../../../../../tests/config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedChainTypes:
+                - Symplify\PHPStanRules\Tests\ObjectCalisthenics\Rules\NoChainMethodCallRule\Source\SomeAllowedFluent

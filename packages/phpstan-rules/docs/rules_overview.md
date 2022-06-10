@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 102 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2603,48 +2603,6 @@ final class SomeClass
 final class SomeClass
 {
     private $customFileNames = [];
-}
-```
-
-:+1:
-
-<br>
-
-## NoVoidAssignRule
-
-Assign of void value is not allowed, as it can lead to unexpected results
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoVoidAssignRule`](../src/Rules/Explicit/NoVoidAssignRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $value = $this->getNothing();
-    }
-
-    public function getNothing(): void
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $this->getNothing();
-    }
-
-    public function getNothing(): void
-    {
-    }
 }
 ```
 

@@ -1,5 +1,0 @@
-includes:
-    - ../../../../../../tests/config/included_services.neon
-
-rules:
-    - Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule

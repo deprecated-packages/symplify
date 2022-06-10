@@ -6,7 +6,7 @@ Cognitive complexity of class/trait must be under specific limit
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/ClassLikeCognitiveComplexityRule.php)
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/ClassLikeCognitiveComplexityRule.php)
 
 ```yaml
 services:
@@ -132,7 +132,7 @@ Cognitive complexity of function/method must be under specific limit
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/cognitive-complexity/src/Rules/FunctionLikeCognitiveComplexityRule.php)
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/FunctionLikeCognitiveComplexityRule.php)
 
 ```yaml
 services:

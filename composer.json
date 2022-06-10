@@ -87,13 +87,11 @@
             ],
             "Symplify\\NeonConfigDumper\\": "packages/neon-config-dumper/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
-            "Symplify\\PHPStanRules\\": "packages/phpstan-rules/src",
-            "Symplify\\PHPStanRules\\CognitiveComplexity\\": "packages/phpstan-rules/packages/cognitive-complexity/src",
-            "Symplify\\PHPStanRules\\Nette\\": "packages/phpstan-rules/packages/nette/src",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\": "packages/phpstan-rules/packages/object-calisthenics/src",
-            "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/symfony/src",
-            "Symplify\\PHPStanRules\\TwigPHPStanPrinter\\": "packages/phpstan-rules/packages/twig-phpstan-printer/src",
-            "Symplify\\PHPUnitUpgrader\\": "packages/phpunit-upgrader/src",
+            "Symplify\\PHPStanRules\\": [
+                "packages/phpstan-rules/packages",
+                "packages/phpstan-rules/src"
+            ],
+            "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/Symfony",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -140,13 +138,10 @@
             ],
             "Symplify\\NeonConfigDumper\\Tests\\": "packages/neon-config-dumper/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
-            "Symplify\\PHPStanRules\\CognitiveComplexity\\Tests\\": "packages/phpstan-rules/packages/cognitive-complexity/tests",
-            "Symplify\\PHPStanRules\\LattePHPStanPrinter\\Tests\\": "packages/phpstan-rules/packages/latte-phpstan-printer/tests",
-            "Symplify\\PHPStanRules\\Nette\\Tests\\": "packages/phpstan-rules/packages/nette/tests",
-            "Symplify\\PHPStanRules\\ObjectCalisthenics\\Tests\\": "packages/phpstan-rules/packages/object-calisthenics/tests",
-            "Symplify\\PHPStanRules\\Symfony\\Tests\\": "packages/phpstan-rules/packages/symfony/tests",
-            "Symplify\\PHPStanRules\\Tests\\": "packages/phpstan-rules/tests",
-            "Symplify\\PHPUnitUpgrader\\Tests\\": "packages/phpunit-upgrader/tests",
+            "Symplify\\PHPStanRules\\Tests\\": [
+                "packages/phpstan-rules/packages-tests",
+                "packages/phpstan-rules/tests"
+            ],
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
@@ -159,14 +154,18 @@
         }
     },
     "extra": {
+        "enable-patching": true,
         "patches": {
             "symfony/dependency-injection": [
                 "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
             ]
-        },
-        "enable-patching": true
+        }
     },
     "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*",
         "symplify/astral": "10.3.0",
         "symplify/autowire-array-parameter": "10.3.0",
         "symplify/coding-standard": "10.3.0",
@@ -205,10 +204,10 @@
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
             "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src --output-file packages/phpstan-rules/docs/rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/cognitive-complexity/src --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/object-calisthenics/src --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/nette/src --output-file packages/phpstan-rules/docs/nette_rules_overview.md --ansi",
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/symfony/src  --output-file packages/phpstan-rules/docs/symfony_overview.md --ansi"
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/CognitiveComplexity --output-file packages/phpstan-rules/docs/cognitive_complexity_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/ObjectCalisthenics --output-file packages/phpstan-rules/docs/object_calisthenics_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/Nette --output-file packages/phpstan-rules/docs/nette_rules_overview.md --ansi",
+            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/packages/Symfony  --output-file packages/phpstan-rules/docs/symfony_overview.md --ansi"
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",

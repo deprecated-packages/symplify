@@ -4,7 +4,7 @@
 
 Modifier "%s" is not matching passed variable type "%s". The "%s" type is expected - see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule`](../packages/nette/src/Rules/DibiMaskMatchesVariableTypeRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule`](../packages/Nette/Rules/DibiMaskMatchesVariableTypeRule.php)
 
 ```php
 $database->query('INSERT INTO table %v', 'string');
@@ -26,7 +26,7 @@ $database->query('INSERT INTO table %v', ['name' => 'Matthias']);
 
 Assign to already injected property is not allowed
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/nette/src/Rules/ForbiddenNetteInjectOverrideRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/Nette/Rules/ForbiddenNetteInjectOverrideRule.php)
 
 ```php
 use Nette\DI\Attributes\Inject;
@@ -78,7 +78,7 @@ final class SomeChild extends AbstractParent
 
 Use constructor on final classes, instead of property injection
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/nette/src/Rules/NoInjectOnFinalRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/Nette/Rules/NoInjectOnFinalRule.php)
 
 ```php
 use Nette\DI\Attributes\Inject;
@@ -112,7 +112,7 @@ abstract class SomePresenter
 
 Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule`](../packages/nette/src/Rules/NoNetteArrayAccessInControlRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule`](../packages/Nette/Rules/NoNetteArrayAccessInControlRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -150,7 +150,7 @@ class SomeClass extends Presenter
 
 Avoid double template variable override of "%s"
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule`](../packages/nette/src/Rules/NoNetteDoubleTemplateAssignRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule`](../packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -189,7 +189,7 @@ class SomeClass extends Presenter
 
 Use either `__construct()` or @inject, not both together
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule`](../packages/nette/src/Rules/NoNetteInjectAndConstructorRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule`](../packages/Nette/Rules/NoNetteInjectAndConstructorRule.php)
 
 ```php
 class SomeClass
@@ -232,7 +232,7 @@ class SomeClass
 
 Avoid "$this->template->%s" for read access, as it can be defined anywhere. Use local "$%s" variable instead
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/nette/src/Rules/NoNetteTemplateVariableReadRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/Nette/Rules/NoNetteTemplateVariableReadRule.php)
 
 ```php
 use Nette\Application\UI\Presenter;
@@ -272,7 +272,7 @@ class SomeClass extends Presenter
 
 Instead of magic template assign use `render()` param and explicit variable
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule`](../packages/nette/src/Rules/NoTemplateMagicAssignInControlRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule`](../packages/Nette/Rules/NoTemplateMagicAssignInControlRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -314,7 +314,7 @@ final class SomeControl extends Control
 
 Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/nette/src/Rules/RequireTemplateInNetteControlRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/Nette/Rules/RequireTemplateInNetteControlRule.php)
 
 ```php
 use Nette\Application\UI\Control;
@@ -351,7 +351,7 @@ final class SomeControl extends Control
 
 Use single inject*() class method per class
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/nette/src/Rules/SingleNetteInjectMethodRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/Nette/Rules/SingleNetteInjectMethodRule.php)
 
 ```php
 class SomeClass
@@ -401,7 +401,7 @@ class SomeClass
 
 Property with `@inject` annotation or #[Nette\DI\Attributes\Inject] attribute must be public
 
-- class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/nette/src/Rules/ValidNetteInjectRule.php)
+- class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/Nette/Rules/ValidNetteInjectRule.php)
 
 ```php
 use Nette\DI\Attributes\Inject;

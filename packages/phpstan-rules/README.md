@@ -37,7 +37,7 @@ includes:
 
 ```yaml
 includes:
-    - vendor/symplify/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - vendor/symplify/phpstan-rules/config/packages/cognitive-complexity/cognitive-complexity-services.neon
 
 services:
 

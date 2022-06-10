@@ -1,0 +1,12 @@
+includes:
+    - ../../../../../config/packages/cognitive-complexity/cognitive-complexity-services.neon
+    - ../../../../../tests/config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 50
+            limitsByTypes:
+                Symfony\Component\Console\Command\Command: 5

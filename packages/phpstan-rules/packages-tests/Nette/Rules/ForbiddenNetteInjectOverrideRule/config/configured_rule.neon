@@ -1,0 +1,6 @@
+includes:
+    - ../../../../../config/packages/nette/services.neon
+    - ../../../../../tests/config/included_services.neon
+
+rules:
+    - Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule

@@ -6,7 +6,7 @@ Do not use chained method calls. Put each on separated lines.
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](../packages/object-calisthenics/src/Rules/NoChainMethodCallRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](../packages/ObjectCalisthenics/Rules/NoChainMethodCallRule.php)
 
 ```yaml
 services:
@@ -49,7 +49,7 @@ Do not name "%s", shorter than %d chars
 
 :wrench: **configure it!**
 
-- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](../packages/object-calisthenics/src/Rules/NoShortNameRule.php)
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](../packages/ObjectCalisthenics/Rules/NoShortNameRule.php)
 
 ```yaml
 services:
