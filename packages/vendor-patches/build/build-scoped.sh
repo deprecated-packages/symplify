@@ -37,7 +37,7 @@ wget https://github.com/humbug/php-scoper/releases/download/0.17.2/php-scoper.ph
 mkdir "$RESULT_DIRECTORY" -p
 
 # Work around possible PHP memory limits
-php -d memory_limit=-1 php-scoper.phar add-prefix bin config src packages vendor composer.json --output-dir "../$RESULT_DIRECTORY" --config scoper.php --force --ansi --working-dir "$BUILD_DIRECTORY"
+php -d memory_limit=-1 php-scoper.phar add-prefix bin config src vendor composer.json --output-dir "../$RESULT_DIRECTORY" --config scoper.php --force --ansi --working-dir "$BUILD_DIRECTORY"
 
 note "Show prefixed files in '$RESULT_DIRECTORY'"
 ls -l $RESULT_DIRECTORY
@@ -46,7 +46,7 @@ note "Dumping Composer Autoload"
 composer dump-autoload --working-dir "$RESULT_DIRECTORY" --ansi --classmap-authoritative --no-dev
 
 # make bin/monorepo-builder runnable without "php"
-chmod 777 "$RESULT_DIRECTORY/bin/monorepo-builder"
-chmod 777 "$RESULT_DIRECTORY/bin/monorepo-builder.php"
+chmod 777 "$RESULT_DIRECTORY/bin/vendor-patches"
+chmod 777 "$RESULT_DIRECTORY/bin/vendor-patches.php"
 
 note "Finished"

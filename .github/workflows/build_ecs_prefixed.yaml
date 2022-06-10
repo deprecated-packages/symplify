@@ -61,7 +61,7 @@ jobs:
             -   run: vendor/bin/rector process ecs-build --config packages/easy-coding-standard/build/config/config-downgrade.php -a ecs-build/vendor/autoload.php --ansi
 
             # 4. prefix
-            -   run: sh packages/easy-coding-standard/build/build-ecs-scoped.sh ecs-build ecs-prefixed-downgraded
+            -   run: sh packages/easy-coding-standard/build/build-scoped.sh ecs-build ecs-prefixed-downgraded
 
             -   run: chmod 777 ./ecs-prefixed-downgraded/bin/ecs
 
