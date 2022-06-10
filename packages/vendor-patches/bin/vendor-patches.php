@@ -20,5 +20,12 @@ foreach ($possibleAutoloadPaths as $possibleAutoloadPath) {
     require_once $possibleAutoloadPath;
 }
 
+
+$scoperAutoloadFilepath = __DIR__ . '/../vendor/scoper-autoload.php';
+if (file_exists($scoperAutoloadFilepath)) {
+    require_once $scoperAutoloadFilepath;
+}
+
+
 $kernelBootAndApplicationRun = new KernelBootAndApplicationRun(VendorPatchesKernel::class);
 $kernelBootAndApplicationRun->run();
