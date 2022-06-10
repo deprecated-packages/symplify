@@ -35,8 +35,12 @@ final class GenerateCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $vendorDirectory = $this->vendorDirProvider->provide();
-        $oldAndNewFileInfos = $this->oldToNewFilesFinder->find($vendorDirectory);
+        $projectVendorDirectory = getcwd() . '/vendor';
+        if (! file_exists($projectVendorDirectory)) {
+            $projectVendorDirectory = $this->vendorDirProvider->provide();
+        }
+
+        $oldAndNewFileInfos = $this->oldToNewFilesFinder->find($projectVendorDirectory);
 
         $composerExtraPatches = [];
         $addedPatchFilesByPackageName = [];
