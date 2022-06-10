@@ -42,6 +42,7 @@ final class ForbiddenNetteInjectOverrideRuleTest extends RuleTestCase
 
         yield [__DIR__ . '/Fixture/SkipNonInjectAssign.php', []];
         yield [__DIR__ . '/Fixture/SkipCurrentMethodInject.php', []];
+        yield [__DIR__ . '/Fixture/SkipParentAnnotatedProperty.php', []];
     }
 
     /**
