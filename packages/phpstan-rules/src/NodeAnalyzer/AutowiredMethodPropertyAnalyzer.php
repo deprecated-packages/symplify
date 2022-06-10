@@ -33,25 +33,25 @@ final class AutowiredMethodPropertyAnalyzer
             );
         }
 
-        if (! (bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
-            return $this->hasAttributes(
-                $stmt,
-                ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
-            );
+        if ((bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
+            return true;
         }
 
-        return true;
+        return $this->hasAttributes(
+            $stmt,
+            ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
+        );
     }
 
     /**
-     * @param string[] $attributeClasses
+     * @param string[] $desiredAttributeClasses
      */
-    private function hasAttributes(ClassMethod | Property $stmt, array $attributeClasses): bool
+    private function hasAttributes(ClassMethod | Property $stmt, array $desiredAttributeClasses): bool
     {
         foreach ($stmt->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
                 $attributeName = $this->simpleNameResolver->getName($attribute->name);
-                if (in_array($attributeName, $attributeClasses, true)) {
+                if (in_array($attributeName, $desiredAttributeClasses, true)) {
                     return true;
                 }
             }

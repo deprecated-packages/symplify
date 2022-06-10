@@ -34,7 +34,7 @@ final class NetteInjectAnalyzer
         private AnnotationAttributeDetector $annotationAttributeDetector,
         private ReflectionParser $reflectionParser,
         private NodeFinder $nodeFinder,
-        private NodeComparator $nodeComparator
+        private NodeComparator $nodeComparator,
     ) {
     }
 
@@ -58,8 +58,11 @@ final class NetteInjectAnalyzer
                 continue;
             }
 
-            /** @var PhpPropertyReflection $propertyReflection */
-            $propertyReflection = $parentClassReflection->getProperty($propertyName, $scope);
+            $propertyReflection = $parentClassReflection->getNativeProperty($propertyName);
+            // we can skip annotated like property-read
+            if (! $propertyReflection instanceof PhpPropertyReflection) {
+                continue;
+            }
 
             if ($this->hasPropertyReflectionInjectAnnotationAttribute(
                 $propertyReflection,
