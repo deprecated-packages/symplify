@@ -3,11 +3,11 @@ includes:
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
-    - packages/phpstan-rules/packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - packages/phpstan-rules/config/packages/cognitive-complexity/cognitive-complexity-services.neon
     - packages/phpstan-rules/config/services/services.neon
 
-    - packages/phpstan-rules/packages/symfony/config/services.neon
-    - packages/phpstan-rules/packages/nette/config/services.neon
+    - packages/phpstan-rules/config/packages/symfony/services.neon
+    - packages/phpstan-rules/config/packages/nette/services.neon
 
 services:
     # cognitive complexity

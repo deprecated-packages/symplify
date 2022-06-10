@@ -1,5 +1,5 @@
 includes:
-    - ../../../../../packages/cognitive-complexity/config/cognitive-complexity-rules.neon
-    - ../../../../../packages/cognitive-complexity/config/cognitive-complexity-services.neon
+    - ../../../../../config/packages/cognitive-complexity/cognitive-complexity-rules.neon
+    - ../../../../../config/packages/cognitive-complexity/cognitive-complexity-services.neon
     - ../../../../../config/services/services.neon
     - ../../../../../../../packages/astral/config/services.neon

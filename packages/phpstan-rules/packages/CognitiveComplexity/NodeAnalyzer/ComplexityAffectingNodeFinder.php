@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NodeAnalyzer;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\BooleanAnd;

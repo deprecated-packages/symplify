@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NodeTraverser;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeTraverser;
 
-use NodeVisitor\ComplexityNodeVisitor;
-use NodeVisitor\NestingNodeVisitor;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\ComplexityNodeVisitor;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor\NestingNodeVisitor;
 use PhpParser\NodeTraverser;
 
 final class ComplexityNodeTraverserFactory

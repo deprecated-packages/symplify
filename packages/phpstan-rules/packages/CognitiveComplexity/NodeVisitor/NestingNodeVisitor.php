@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NodeVisitor;
+namespace Symplify\PHPStanRules\CognitiveComplexity\NodeVisitor;
 
-use DataCollector\CognitiveComplexityDataCollector;
-use NodeAnalyzer\ComplexityAffectingNodeFinder;
+use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
+use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Ternary;
