@@ -4,7 +4,7 @@
 
 Set param value is overriden. Merge it to previous set above
 
-- class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/symfony/src/Rules/PreventDoubleSetParameterRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/Symfony/Rules/PreventDoubleSetParameterRule.php)
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -39,7 +39,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
 Use invokable controller with `__invoke()` method instead of named action method
 
-- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/symfony/src/Rules/RequireInvokableControllerRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/Symfony/Rules/RequireInvokableControllerRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,7 +79,7 @@ final class SomeController extends AbstractController
 
 The command is missing `$this->setName("...")` or [#AsCommand] attribute to set the name
 
-- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule`](../packages/symfony/src/Rules/RequireNamedCommandRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule`](../packages/Symfony/Rules/RequireNamedCommandRule.php)
 
 ```php
 use Symfony\Component\Console\Command\Command;
@@ -116,7 +116,7 @@ final class SomeCommand extends Command
 
 Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
 
-- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/symfony/src/Rules/RequireNativeArraySymfonyRenderCallRule.php)
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/Symfony/Rules/RequireNativeArraySymfonyRenderCallRule.php)
 
 ```php
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
