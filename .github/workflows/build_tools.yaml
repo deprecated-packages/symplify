@@ -30,12 +30,18 @@ jobs:
                     -
                         name: 'Config Transformer'
                         directory: 'config-transformer'
+
                     -
                         name: 'Monorepo Builder'
                         directory: 'monorepo-builder'
+
                     -
                         name: 'Easy CI'
                         directory: 'easy-ci'
+
+                    -
+                        name: 'Vendor Patches'
+                        directory: 'vendor-patches'
 
         name: 'Build ${{ matrix.tools.name }}'
         runs-on: ubuntu-latest

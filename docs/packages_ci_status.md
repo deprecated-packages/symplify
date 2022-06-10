@@ -25,3 +25,10 @@
 
 * https://github.com/symplify/easy-ci
 * ![](https://github.com/symplify/easy-ci/actions/workflows/bare_run.yaml/badge.svg)
+
+<br>
+
+## Vendor Patches
+
+* https://github.com/symplify/vendor-patches
+* ![](https://github.com/symplify/vendor-patches/actions/workflows/bare_run.yaml/badge.svg)
