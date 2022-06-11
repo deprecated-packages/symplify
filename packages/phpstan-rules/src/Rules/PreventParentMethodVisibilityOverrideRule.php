@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -120,7 +121,7 @@ CODE_SAMPLE
 
     private function isClassMethodCompatibleWithParentReflectionMethod(
         ClassMethod $classMethod,
-        MethodReflection $methodReflection
+        ExtendedMethodReflection $methodReflection
     ): bool {
         if ($methodReflection->isPublic() && $classMethod->isPublic()) {
             return true;
@@ -139,7 +140,7 @@ CODE_SAMPLE
         return $classMethod->isPrivate();
     }
 
-    private function resolveReflectionMethodVisibilityAsStrings(MethodReflection $reflectionMethod): string
+    private function resolveReflectionMethodVisibilityAsStrings(ExtendedMethodReflection $reflectionMethod): string
     {
         if ($reflectionMethod->isPublic()) {
             return 'public';
