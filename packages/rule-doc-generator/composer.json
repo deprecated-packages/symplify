@@ -12,13 +12,13 @@
         "symfony/string": "^6.0",
         "symfony/translation-contracts": "^3.0",
         "nette/robot-loader": "^3.4",
-        "symplify/symplify-kernel": "^10.3.2",
-        "symplify/rule-doc-generator-contracts": "^10.3.2",
-        "symplify/package-builder": "^10.3.2",
+        "symplify/symplify-kernel": "^10.4",
+        "symplify/rule-doc-generator-contracts": "^10.4",
+        "symplify/package-builder": "^10.4",
         "nette/utils": "^3.2",
         "sebastian/diff": "^4.0",
-        "symplify/php-config-printer": "^10.3.2",
-        "symplify/smart-file-system": "^10.3.2"
+        "symplify/php-config-printer": "^10.4",
+        "symplify/smart-file-system": "^10.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
