@@ -54,8 +54,8 @@
             "includes": [
                 "config/services/services.neon",
                 "config/packages/cognitive-complexity/cognitive-complexity-services.neon",
-                "packages/symfony/config/services.neon",
-                "packages/nette/config/services.neon"
+                "config/packages/symfony/services.neon",
+                "config/packages/nette/services.neon"
             ]
         }
     },
