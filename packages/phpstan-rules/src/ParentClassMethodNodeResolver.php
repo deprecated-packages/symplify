@@ -28,7 +28,7 @@ final class ParentClassMethodNodeResolver
                 continue;
             }
 
-            $parentMethodReflection = $this->reflectionProvider->getClass($parentClassReflection->getName())->getMethod($methodName);
+            $parentMethodReflection = $this->reflectionProvider->getClass($parentClassReflection->getName())->getMethod($methodName, $scope);
             return $this->reflectionParser->parseMethodReflection($parentMethodReflection);
         }
 
