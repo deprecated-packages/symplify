@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
-use ReflectionMethod;
-use Symplify\PHPStanRules\Exception\NotImplementedException;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,6 +23,12 @@ final class PreventParentMethodVisibilityOverrideRule implements Rule, Documente
      * @var string
      */
     public const ERROR_MESSAGE = 'Change "%s()" method visibility to "%s" to respect parent method visibility.';
+
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    )
+    {
+    }
 
     /**
      * @return class-string<Node>
@@ -50,12 +56,18 @@ final class PreventParentMethodVisibilityOverrideRule implements Rule, Documente
 
         $methodName = (string) $node->name;
         foreach ($parentClassNames as $parentClassName) {
-            if (! method_exists($parentClassName, $methodName)) {
+            if (!$this->reflectionProvider->hasClass($parentClassName)) {
                 continue;
             }
 
-            // must be manual ReflectionMethod, as PHPStan does not provide "isProtected()" method
-            $parentReflectionMethod = new ReflectionMethod($parentClassName, $methodName);
+            $parentClassReflection = $this->reflectionProvider->getClass($parentClassName);
+
+            if (!$parentClassReflection->hasMethod($methodName))
+            {
+                continue;
+            }
+
+            $parentReflectionMethod = $parentClassReflection->getMethod($methodName, $scope);
             if ($this->isClassMethodCompatibleWithParentReflectionMethod($node, $parentReflectionMethod)) {
                 return [];
             }
@@ -110,37 +122,35 @@ CODE_SAMPLE
 
     private function isClassMethodCompatibleWithParentReflectionMethod(
         ClassMethod $classMethod,
-        ReflectionMethod $reflectionMethod
+        MethodReflection $methodReflection
     ): bool {
-        if ($reflectionMethod->isPublic() && $classMethod->isPublic()) {
+        if ($methodReflection->isPublic() && $classMethod->isPublic()) {
             return true;
         }
 
-        if ($reflectionMethod->isProtected() && $classMethod->isProtected()) {
+        // see https://github.com/phpstan/phpstan/discussions/7456#discussioncomment-2927978
+        $isProtectedMethod = !$methodReflection->isPublic() && !$methodReflection->isPrivate();
+        if ($isProtectedMethod && $classMethod->isProtected()) {
             return true;
         }
 
-        if (! $reflectionMethod->isPrivate()) {
+        if (! $methodReflection->isPrivate()) {
             return false;
         }
 
         return $classMethod->isPrivate();
     }
 
-    private function resolveReflectionMethodVisibilityAsStrings(ReflectionMethod $reflectionMethod): string
+    private function resolveReflectionMethodVisibilityAsStrings(MethodReflection $reflectionMethod): string
     {
         if ($reflectionMethod->isPublic()) {
             return 'public';
-        }
-
-        if ($reflectionMethod->isProtected()) {
-            return 'protected';
         }
 
         if ($reflectionMethod->isPrivate()) {
             return 'private';
         }
 
-        throw new NotImplementedException();
+        return 'protected';
     }
 }
