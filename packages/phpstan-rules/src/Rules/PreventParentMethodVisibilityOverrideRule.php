@@ -120,7 +120,7 @@ CODE_SAMPLE
 
     private function isClassMethodCompatibleWithParentReflectionMethod(
         ClassMethod $classMethod,
-        ExtendedMethodReflection $methodReflection
+        MethodReflection $methodReflection
     ): bool {
         if ($methodReflection->isPublic() && $classMethod->isPublic()) {
             return true;
