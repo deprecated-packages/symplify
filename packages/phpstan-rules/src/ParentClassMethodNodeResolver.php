@@ -7,13 +7,14 @@ namespace Symplify\PHPStanRules;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use ReflectionMethod;
+use PHPStan\Reflection\ReflectionProvider;
 use Symplify\Astral\Reflection\ReflectionParser;
 
 final class ParentClassMethodNodeResolver
 {
     public function __construct(
-        private ReflectionParser $reflectionParser
+        private ReflectionParser $reflectionParser,
+        private ReflectionProvider $reflectionProvider
     ) {
     }
 
@@ -26,7 +27,8 @@ final class ParentClassMethodNodeResolver
                 continue;
             }
 
-            $parentMethodReflection = new ReflectionMethod($parentClassReflection->getName(), $methodName);
+            $classReflection = $this->reflectionProvider->getClass($parentClassReflection->getName());
+            $parentMethodReflection = $classReflection->getMethod($methodName, $scope);
             return $this->reflectionParser->parseMethodReflection($parentMethodReflection);
         }
 
