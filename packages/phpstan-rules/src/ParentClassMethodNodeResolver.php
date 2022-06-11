@@ -8,7 +8,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
-use ReflectionMethod;
 use Symplify\Astral\Reflection\ReflectionParser;
 
 final class ParentClassMethodNodeResolver
