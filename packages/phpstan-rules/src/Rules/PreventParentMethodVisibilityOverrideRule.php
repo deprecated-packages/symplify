@@ -26,8 +26,7 @@ final class PreventParentMethodVisibilityOverrideRule implements Rule, Documente
 
     public function __construct(
         private ReflectionProvider $reflectionProvider
-    )
-    {
+    ) {
     }
 
     /**
@@ -56,14 +55,13 @@ final class PreventParentMethodVisibilityOverrideRule implements Rule, Documente
 
         $methodName = (string) $node->name;
         foreach ($parentClassNames as $parentClassName) {
-            if (!$this->reflectionProvider->hasClass($parentClassName)) {
+            if (! $this->reflectionProvider->hasClass($parentClassName)) {
                 continue;
             }
 
             $parentClassReflection = $this->reflectionProvider->getClass($parentClassName);
 
-            if (!$parentClassReflection->hasMethod($methodName))
-            {
+            if (! $parentClassReflection->hasMethod($methodName)) {
                 continue;
             }
 
@@ -122,14 +120,14 @@ CODE_SAMPLE
 
     private function isClassMethodCompatibleWithParentReflectionMethod(
         ClassMethod $classMethod,
-        MethodReflection $methodReflection
+        ExtendedMethodReflection $methodReflection
     ): bool {
         if ($methodReflection->isPublic() && $classMethod->isPublic()) {
             return true;
         }
 
         // see https://github.com/phpstan/phpstan/discussions/7456#discussioncomment-2927978
-        $isProtectedMethod = !$methodReflection->isPublic() && !$methodReflection->isPrivate();
+        $isProtectedMethod = ! $methodReflection->isPublic() && ! $methodReflection->isPrivate();
         if ($isProtectedMethod && $classMethod->isProtected()) {
             return true;
         }
