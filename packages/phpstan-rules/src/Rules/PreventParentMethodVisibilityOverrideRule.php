@@ -120,32 +120,32 @@ CODE_SAMPLE
 
     private function isClassMethodCompatibleWithParentReflectionMethod(
         ClassMethod $classMethod,
-        ExtendedMethodReflection $methodReflection
+        ExtendedMethodReflection $extendedMethodReflection
     ): bool {
-        if ($methodReflection->isPublic() && $classMethod->isPublic()) {
+        if ($extendedMethodReflection->isPublic() && $classMethod->isPublic()) {
             return true;
         }
 
         // see https://github.com/phpstan/phpstan/discussions/7456#discussioncomment-2927978
-        $isProtectedMethod = ! $methodReflection->isPublic() && ! $methodReflection->isPrivate();
+        $isProtectedMethod = ! $extendedMethodReflection->isPublic() && ! $extendedMethodReflection->isPrivate();
         if ($isProtectedMethod && $classMethod->isProtected()) {
             return true;
         }
 
-        if (! $methodReflection->isPrivate()) {
+        if (! $extendedMethodReflection->isPrivate()) {
             return false;
         }
 
         return $classMethod->isPrivate();
     }
 
-    private function resolveReflectionMethodVisibilityAsStrings(ExtendedMethodReflection $reflectionMethod): string
+    private function resolveReflectionMethodVisibilityAsStrings(ExtendedMethodReflection $extendedMethodReflection): string
     {
-        if ($reflectionMethod->isPublic()) {
+        if ($extendedMethodReflection->isPublic()) {
             return 'public';
         }
 
-        if ($reflectionMethod->isPrivate()) {
+        if ($extendedMethodReflection->isPrivate()) {
             return 'private';
         }
 
