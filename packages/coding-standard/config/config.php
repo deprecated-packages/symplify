@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $services = $containerConfigurator->services();
+return static function (ECSConfig $ecsConfig): void {
+    $services = $ecsConfig->services();
 
     $services->defaults()
         ->public()
