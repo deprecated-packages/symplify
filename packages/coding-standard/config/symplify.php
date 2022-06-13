@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ClassNotation\FinalInternalClassFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(__DIR__ . '/config.php');
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->import(__DIR__ . '/config.php');
 
-    $services = $containerConfigurator->services();
+    $services = $ecsConfig->services();
 
     $services->defaults()
         ->public()
