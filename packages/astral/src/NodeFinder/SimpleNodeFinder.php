@@ -10,7 +10,7 @@ use Symplify\Astral\ValueObject\AttributeKey;
 
 /**
  * @api
- * @deprecated This services does not bring any value after PHPStan 1.7 without parent nodes. Make use of NodeFinder, or hook to parent node instead.
+ * @deprecated use a custom AST Visitor instead, see https://phpstan.org/blog/preprocessing-ast-for-custom-rules
  */
 final class SimpleNodeFinder
 {
