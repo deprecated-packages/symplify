@@ -139,7 +139,9 @@ CODE_SAMPLE
         return $classMethod->isPrivate();
     }
 
-    private function resolveReflectionMethodVisibilityAsStrings(ExtendedMethodReflection $extendedMethodReflection): string
+    private function resolveReflectionMethodVisibilityAsStrings(
+        ExtendedMethodReflection $extendedMethodReflection
+    ): string
     {
         if ($extendedMethodReflection->isPublic()) {
             return 'public';

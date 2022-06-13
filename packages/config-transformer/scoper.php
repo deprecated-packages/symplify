@@ -66,5 +66,19 @@ return [
 
             return Strings::replace($content, $pattern, 'public const $1 = \'');
         },
+
+        // unprefix strings class, used for node factory
+        // fixes https://github.com/symplify/symplify/issues/3976
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'src/NodeFactory/ContainerConfiguratorReturnClosureFactory.php')) {
+                return $content;
+            }
+
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
+                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+            );
+        },
     ],
 ];
