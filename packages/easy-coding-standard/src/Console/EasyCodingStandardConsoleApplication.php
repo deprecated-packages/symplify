@@ -29,7 +29,7 @@ final class EasyCodingStandardConsoleApplication extends Application
         // @see https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming/
         $this->addCommands($commands);
 
-        $this->setDefaultCommand(CommandNaming::classToName(CheckCommand::class));
+        $this->setDefaultCommand('check');
     }
 
     public function doRun(InputInterface $input, OutputInterface $output): int
