@@ -1,0 +1,24 @@
+framework:
+    test: false
+
+when@test:
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Config\FrameworkConfig;
+
+return static function (FrameworkConfig $framework, ContainerConfigurator $container) {
+    $framework->test(false);
+
+    if ('test' === $container->env()) {
+    $framework->test(true);
+    $framework->session()->storageFactoryId('session.storage.mock_file');
+    }
+};
