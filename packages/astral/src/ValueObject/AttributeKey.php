@@ -6,18 +6,9 @@ namespace Symplify\Astral\ValueObject;
 
 /**
  * @api
- * @deprecated use a custom AST Visitor instead, see https://phpstan.org/blog/preprocessing-ast-for-custom-rules
  */
 final class AttributeKey
 {
-    /**
-     * Convention key name in php-parser and PHPStan for parent node
-     *
-     * @var string
-     * @deprecated Use hook to parent node
-     */
-    public const PARENT = 'parent';
-
     /**
      * Used in php-paser, do not change
      *
@@ -30,24 +21,6 @@ final class AttributeKey
      * @var string
      */
     public const REFERENCED_CLASSES = 'referenced_classes';
-
-    /**
-     * Do not change, part of internal PHPStan naming
-     *
-     * @api
-     * @var string
-     * @deprecated Use hook to parent node
-     */
-    public const PREVIOUS = 'previous';
-
-    /**
-     * Do not change, part of internal PHPStan naming
-     *
-     * @api
-     * @var string
-     * @deprecated Use hook to parent node
-     */
-    public const NEXT = 'next';
 
     /**
      * PHPStan @api Do not change, part of internal PHPStan naming
