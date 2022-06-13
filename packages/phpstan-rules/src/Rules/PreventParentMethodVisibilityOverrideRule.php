@@ -141,8 +141,7 @@ CODE_SAMPLE
 
     private function resolveReflectionMethodVisibilityAsStrings(
         ExtendedMethodReflection $extendedMethodReflection
-    ): string
-    {
+    ): string {
         if ($extendedMethodReflection->isPublic()) {
             return 'public';
         }
