@@ -60,7 +60,7 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
     private function isNonNameNode(Name $name): bool
     {
         // skip nodes that are not part of class names
-        $parent = $name->getAttribute(AttributeKey::PARENT);
+        $parent = $name->getAttribute("parent");
         if ($parent instanceof Namespace_) {
             return true;
         }
