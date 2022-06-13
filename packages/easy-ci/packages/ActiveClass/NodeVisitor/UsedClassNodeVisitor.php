@@ -10,7 +10,6 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\ValueObject\AttributeKey;
 
 final class UsedClassNodeVisitor extends NodeVisitorAbstract
 {
@@ -60,7 +59,7 @@ final class UsedClassNodeVisitor extends NodeVisitorAbstract
     private function isNonNameNode(Name $name): bool
     {
         // skip nodes that are not part of class names
-        $parent = $name->getAttribute("parent");
+        $parent = $name->getAttribute('parent');
         if ($parent instanceof Namespace_) {
             return true;
         }
