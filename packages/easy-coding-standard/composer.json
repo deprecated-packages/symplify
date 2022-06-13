@@ -15,14 +15,14 @@
         "symfony/console": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/finder": "^6.0",
-        "symplify/autowire-array-parameter": "^11.0",
-        "symplify/coding-standard": "^11.0",
-        "symplify/easy-parallel": "^11.0",
-        "symplify/easy-testing": "^11.0",
-        "symplify/package-builder": "^11.0",
-        "symplify/skipper": "^11.0",
-        "symplify/smart-file-system": "^11.0",
-        "symplify/symplify-kernel": "^11.0",
+        "symplify/autowire-array-parameter": "^11.1",
+        "symplify/coding-standard": "^11.1",
+        "symplify/easy-parallel": "^11.1",
+        "symplify/easy-testing": "^11.1",
+        "symplify/package-builder": "^11.1",
+        "symplify/skipper": "^11.1",
+        "symplify/smart-file-system": "^11.1",
+        "symplify/symplify-kernel": "^11.1",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
@@ -48,7 +48,7 @@
     "extra": {
         "enable-patching": true,
         "branch-alias": {
-            "dev-main": "10.4-dev"
+            "dev-main": "11.1-dev"
         },
         "patches": {
             "symfony/dependency-injection": [
