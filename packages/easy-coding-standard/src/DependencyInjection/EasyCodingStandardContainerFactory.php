@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\DependencyInjection;
 
-use Nette\Utils\FileSystem;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
-use Symplify\EasyCodingStandard\Exception\DeprecatedException;
 use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
 
 final class EasyCodingStandardContainerFactory
@@ -34,11 +32,6 @@ final class EasyCodingStandardContainerFactory
         /** @var ContainerBuilder $container */
         $container = $easyCodingStandardKernel->createFromConfigs($inputConfigFiles);
 
-        $deprecationReporter = new DeprecationReporter();
-        $deprecationReporter->reportDeprecatedSets($container, $input);
-
-        $this->reportOldContainerConfiguratorConfig($inputConfigFiles);
-
         if ($inputConfigFiles !== []) {
             // for cache invalidation on config change
             /** @var ChangedFilesDetector $changedFilesDetector */
@@ -47,27 +40,5 @@ final class EasyCodingStandardContainerFactory
         }
 
         return $container;
-    }
-
-    /**
-     * @param string[] $inputConfigFiles
-     */
-    private function reportOldContainerConfiguratorConfig(array $inputConfigFiles): void
-    {
-        foreach ($inputConfigFiles as $inputConfigFile) {
-            // warning about old syntax before ECSConfig
-            $fileContents = FileSystem::read($inputConfigFile);
-            if (! str_contains($fileContents, 'ContainerConfigurator $containerConfigurator')) {
-                continue;
-            }
-
-            $warningMessage = sprintf(
-                'Your "%s" config is using old "ContainerConfigurator".%sUpgrade to "ECSConfig" that allows better autocomplete and future standard. See https://tomasvotruba.com/blog/new-in-ecs-simpler-config/',
-                $inputConfigFile,
-                PHP_EOL,
-            );
-
-            throw new DeprecatedException($warningMessage);
-        }
     }
 }

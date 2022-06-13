@@ -7,26 +7,12 @@ namespace Symplify\PHPStanExtensions\Tests\ErrorFormatter;
 use Iterator;
 use PHPStan\Analyser\Error;
 use PHPStan\Command\AnalysisResult;
-use PHPUnit\Framework\TestCase;
-use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
+use PHPStan\Testing\PHPStanTestCase;
 use Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter;
 use Symplify\PHPStanExtensions\Tests\ErrorFormatter\Source\DummyOutput;
 
-final class SymplifyErrorFormatterTest extends TestCase
+final class SymplifyErrorFormatterTest extends PHPStanTestCase
 {
-    private SymplifyErrorFormatter $symplifyErrorFormatter;
-
-    private DummyOutput $dummyOutput;
-
-    protected function setUp(): void
-    {
-        $phpStanContainerFactory = new PHPStanContainerFactory();
-        $container = $phpStanContainerFactory->createContainer([__DIR__ . '/../../config/config.neon']);
-
-        $this->symplifyErrorFormatter = $container->getByType(SymplifyErrorFormatter::class);
-        $this->dummyOutput = new DummyOutput();
-    }
-
     /**
      * @dataProvider provideData()
      * @param Error[] $errors
@@ -35,9 +21,12 @@ final class SymplifyErrorFormatterTest extends TestCase
     {
         $analysisResult = new AnalysisResult($errors, [], [], [], false, null, false);
 
-        $this->symplifyErrorFormatter->formatErrors($analysisResult, $this->dummyOutput);
+        $symplifyErrorFormatter = self::getContainer()->getByType(SymplifyErrorFormatter::class);
+        $dummyOutput = new DummyOutput();
 
-        $bufferedContent = $this->dummyOutput->getBufferedContent();
+        $symplifyErrorFormatter->formatErrors($analysisResult, $dummyOutput);
+
+        $bufferedContent = $dummyOutput->getBufferedContent();
         $this->assertStringMatchesFormatFile($expectedFile, $bufferedContent);
     }
 
@@ -51,5 +40,13 @@ final class SymplifyErrorFormatterTest extends TestCase
             new Error('The identical message', 'another_some_file.php'),
         ];
         yield [$sameMessageErrors, __DIR__ . '/Fixture/expected_single_message_many_files_report.txt'];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/../../config/config.neon'];
     }
 }

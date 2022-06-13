@@ -12,10 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Application\Version\StaticVersionResolver;
-use Symplify\EasyCodingStandard\Console\Command\CheckCommand;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Option;
-use Symplify\PackageBuilder\Console\Command\CommandNaming;
 
 final class EasyCodingStandardConsoleApplication extends Application
 {
@@ -29,7 +27,7 @@ final class EasyCodingStandardConsoleApplication extends Application
         // @see https://tomasvotruba.com/blog/2020/10/26/the-bullet-proof-symfony-command-naming/
         $this->addCommands($commands);
 
-        $this->setDefaultCommand(CommandNaming::classToName(CheckCommand::class));
+        $this->setDefaultCommand('check');
     }
 
     public function doRun(InputInterface $input, OutputInterface $output): int

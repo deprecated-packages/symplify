@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Finder;
 
 use Iterator;
-use PHPUnit\Framework\TestCase;
+use PHPStan\Testing\PHPStanTestCase;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
-use Symplify\PHPStanExtensions\DependencyInjection\PHPStanContainerFactory;
 use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\ProductProviderInterface;
@@ -20,25 +19,17 @@ use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixtu
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Customer\Request\SkipCustomerRequestModelInAuthorizedNamespace;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Model\Order\Request\SkipOrderRequestModelInAuthorizedNamespace;
 
-final class ClassLikeNameFinderTest extends TestCase
+final class ClassLikeNameFinderTest extends PHPStanTestCase
 {
-    private ClassLikeNameFinder $classLikeNameFinder;
-
-    protected function setUp(): void
-    {
-        $phpStanContainerFactory = new PHPStanContainerFactory();
-        $container = $phpStanContainerFactory->createContainer([__DIR__ . '/../config/included_services.neon']);
-
-        $this->classLikeNameFinder = $container->getByType(ClassLikeNameFinder::class);
-    }
-
     /**
      * @dataProvider provideData()
      * @param string[] $expectedClassLikeNames
      */
     public function test(string $namespaceWildcardPattern, array $expectedClassLikeNames): void
     {
-        $actualClassLikeNames = $this->classLikeNameFinder->getClassLikeNamesMatchingNamespacePattern(
+        $classLikeNameFinder = self::getContainer()->getByType(ClassLikeNameFinder::class);
+
+        $actualClassLikeNames = $classLikeNameFinder->getClassLikeNamesMatchingNamespacePattern(
             $namespaceWildcardPattern
         );
 
@@ -114,5 +105,13 @@ final class ClassLikeNameFinderTest extends TestCase
             'Symfony\Component\Finder\**\*Exception',
             [AccessDeniedException::class, DirectoryNotFoundException::class],
         ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/../config/included_services.neon'];
     }
 }

@@ -63,7 +63,6 @@ return [
     // expose
     'expose-classes' => [
         // part of public interface of configs.php
-        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'Symplify\SmartFileSystem\SmartFileInfo',
     ],
 

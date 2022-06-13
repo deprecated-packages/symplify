@@ -495,3 +495,9 @@ parameters:
         -
             message: '#Parameter argument on position 0 must use constant#'
             path:  packages/easy-ci/packages/ActiveClass/NodeVisitor/UsedClassNodeVisitor.php
+
+        # static parent method
+        -
+            message: '#Class has a static method must so must contains "Static" in its name#'
+            path:  packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
+
