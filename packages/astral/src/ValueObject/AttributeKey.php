@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\Astral\ValueObject;
 
 /**
+ * @api
  * @deprecated use a custom AST Visitor instead, see https://phpstan.org/blog/preprocessing-ast-for-custom-rules
  */
 final class AttributeKey
