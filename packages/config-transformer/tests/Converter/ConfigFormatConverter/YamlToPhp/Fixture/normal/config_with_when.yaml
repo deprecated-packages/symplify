@@ -18,7 +18,7 @@ return static function (FrameworkConfig $framework, ContainerConfigurator $conta
     $framework->test(false);
 
     if ('test' === $container->env()) {
-    $framework->test(true);
-    $framework->session()->storageFactoryId('session.storage.mock_file');
+        $framework->test(true);
+        $framework->session()->storageFactoryId('session.storage.mock_file');
     }
 };
