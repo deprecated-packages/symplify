@@ -7,7 +7,7 @@ use Isolated\Symfony\Component\Finder\Finder;
 require __DIR__ . '/vendor/autoload.php';
 
 $nowDateTime = new DateTime('now');
-$timestamp = $nowDateTime->format('Ymd');
+$timestamp = $nowDateTime->format('Ym');
 
 // @see https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md
 use Nette\Utils\Strings;
