@@ -487,3 +487,6 @@ parameters:
             path: packages/astral/src/PhpParser/SmartPhpParserFactory.php
 
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
+
+        # ignore known type
+        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node> but returns array<PhpParser\\Node>#'
