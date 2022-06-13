@@ -52,6 +52,7 @@ return [
     'expose-classes' => [
         // part of public interface of configs.php
         'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
+        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ],
     'patchers' => [
         // scope symfony configs

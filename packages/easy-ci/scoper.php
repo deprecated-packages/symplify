@@ -38,6 +38,10 @@ $polyfillsStubs = array_map(
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'EasyCI' . $timestamp,
+    'expose-classes' => [
+        // part of public interface of configs.php
+        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+    ],
     'expose-constants' => ['#^SYMFONY\_[\p{L}_]+$#'],
     'exclude-namespaces' => ['#^Symplify\\\\EasyCI#', '#^Symfony\\\\Polyfill#'],
     'exclude-files' => [
