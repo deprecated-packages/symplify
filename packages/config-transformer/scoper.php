@@ -36,10 +36,6 @@ $polyfillsStubs = array_map(
 // see https://github.com/humbug/php-scoper
 return [
     'prefix' => 'ConfigTransformer' . $timestamp,
-    'expose-classes' => [
-        // part of public interface of configs.php
-        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
-    ],
     'expose-constants' => ['#^SYMFONY\_[\p{L}_]+$#'],
 
     // excluded
