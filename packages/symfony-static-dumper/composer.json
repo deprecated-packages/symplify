@@ -12,10 +12,10 @@
         "symfony/config": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symfony/routing": "^6.0",
-        "symplify/autowire-array-parameter": "^11.0.2",
-        "symplify/package-builder": "^11.0.2",
-        "symplify/symplify-kernel": "^11.0.2",
-        "symplify/smart-file-system": "^11.0.2"
+        "symplify/autowire-array-parameter": "^11.1",
+        "symplify/package-builder": "^11.1",
+        "symplify/symplify-kernel": "^11.1",
+        "symplify/smart-file-system": "^11.1"
     },
     "require-dev": {
         "doctrine/annotations": "^1.13",
