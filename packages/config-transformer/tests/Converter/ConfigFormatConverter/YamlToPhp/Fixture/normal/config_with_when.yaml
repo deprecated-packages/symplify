@@ -12,13 +12,11 @@ when@test:
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Config\FrameworkConfig;
 
-return static function (FrameworkConfig $framework, ContainerConfigurator $container) {
-    $framework->test(false);
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->extension('framework', ['test' => false]);
 
-    if ('test' === $container->env()) {
-        $framework->test(true);
-        $framework->session()->storageFactoryId('session.storage.mock_file');
+    if ('test' === $containerConfigurator->env()) {
+        $containerConfigurator->extension('framework' => ['test' => true, 'session' => ['storage_factory_id' => 'session.storage.factory.mock_file']]);
     }
 };

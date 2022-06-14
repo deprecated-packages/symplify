@@ -53,8 +53,6 @@ final class YamlToPhpConverter
      */
     public function convertYamlArray(array $yamlArray): string
     {
-        dump($yamlArray);
-
         if ($this->isRouteYaml($yamlArray)) {
             $return = $this->routingConfiguratorReturnClosureFactory->createFromArrayData($yamlArray);
         } else {
