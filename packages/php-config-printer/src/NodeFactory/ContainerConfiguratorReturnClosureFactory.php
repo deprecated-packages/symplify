@@ -105,10 +105,10 @@ final class ContainerConfiguratorReturnClosureFactory
     {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
-            $containerConfigurator = new Variable(VariableName::CONTAINER_CONFIGURATOR);
+            $variable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
             $identical = new Identical(
                 new String_($explodeAt[1]),
-                new MethodCall($containerConfigurator, 'env')
+                new MethodCall($variable, 'env')
             );
 
             $expr = $expression->expr;
@@ -124,7 +124,7 @@ final class ContainerConfiguratorReturnClosureFactory
 
             $newExpression = new Expression(
                 new MethodCall(
-                    $containerConfigurator,
+                    $variable,
                     'extension',
                     [
                         new Arg(new String_('framework')),
