@@ -71,7 +71,7 @@ return [
             }
 
             return str_replace(
-                $prefix . '\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ContainerConfigurator#',
+                $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
                 'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
                 $content
             );
