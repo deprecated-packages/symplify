@@ -111,6 +111,7 @@ final class ContainerConfiguratorReturnClosureFactory
                             $containerConfigurator,
                             'extension',
                             [
+                                new String_('framework')
                             ]
                         )
                     );
