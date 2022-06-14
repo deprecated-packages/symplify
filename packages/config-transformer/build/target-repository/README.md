@@ -27,18 +27,6 @@ vendor/bin/config-transformer switch-format config/packages/config-transformer.y
 
 The input file will be deleted automatically.
 
-## Configuration
-
-With `--target-symfony-version`/`-s` option you specify, what Symfony features should be used (3.2 is used by default).
-
-```bash
-vendor/bin/config-transformer switch-format app/config -s 3.3
-```
-
-*Note: Symfony YAML parser removes all comments, so be sure to go through files and add still-relevant comments manually.*
-
-<br>
-
 ## Report Issues
 
 In case you are experiencing a bug or want to request a new feature head over to the [Symplify monorepo issue tracker](https://github.com/symplify/symplify/issues)
