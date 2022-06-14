@@ -70,10 +70,10 @@ return [
                 return $content;
             }
 
-            return Strings::replace(
-                $content,
-                '#' . $prefix . '\\\\Symfony\\\\Component\\\\DependencyInjection\\\\Loader\\\\Configurator\\\\ContainerConfigurator#',
-                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator'
+            return str_replace(
+                $prefix . '\\Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\ContainerConfigurator#',
+                'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
+                $content
             );
         },
     ],
