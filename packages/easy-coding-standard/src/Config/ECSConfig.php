@@ -39,6 +39,15 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
+     * @param mixed[] $onlys
+     */
+    public function only(array $onlys): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::ONLY, $onlys);
+    }
+
+    /**
      * @param string[] $sets
      */
     public function sets(array $sets): void
