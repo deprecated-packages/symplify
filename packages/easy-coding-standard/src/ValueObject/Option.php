@@ -42,12 +42,13 @@ final class Option
      * Alias for SOURCE
      *
      * @api
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::paths()
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::paths()
      * @var string
      */
     public const PATHS = self::SOURCE;
 
     /**
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::paths()
      * @var string
      */
     public const SOURCE = 'source';
@@ -60,7 +61,7 @@ final class Option
     public const ONLY = 'only';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::cacheDirectory()
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::cacheDirectory()
      * @var string
      */
     public const CACHE_DIRECTORY = 'cache_directory';
@@ -84,7 +85,7 @@ final class Option
     public const CACHE_NAMESPACE = 'cache_namespace';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::fileExtensions()
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::fileExtensions()
      * @var string
      */
     public const FILE_EXTENSIONS = 'file_extensions';
@@ -122,28 +123,26 @@ final class Option
     public const CONFIG = 'config';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallelJobSize()
+     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
      * @var string
      */
     public const PARALLEL_JOB_SIZE = 'parallel_job_size';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallelPort()
      * @var string
      */
     public const PARALLEL_PORT = 'port';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallelIdentifier()
      * @var string
      */
     public const PARALLEL_IDENTIFIER = 'identifier';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallelMaxNumberOfProcesses()
+     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
      * @var string
      */
-    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
+    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max_number_of_processes';
 
     /**
      * @var string
@@ -151,8 +150,8 @@ final class Option
     public const MEMORY_LIMIT = 'memory-limit';
 
     /**
-     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallelTimeoutInSeconds()
+     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
      * @var string
      */
-    public const PARALLEL_TIMEOUT_IN_SECONDS = 'parallel-timeout-in-seconds';
+    public const PARALLEL_TIMEOUT_IN_SECONDS = 'parallel_timeout_in_seconds';
 }

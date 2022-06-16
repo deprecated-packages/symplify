@@ -35,8 +35,6 @@ return static function (ECSConfig $ecsConfig): void {
         $cacheDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
     }
 
-    // @todo turn these into methods :)
-
     $ecsConfig->cacheDirectory($cacheDirectory);
 
     $cacheNamespace = str_replace(DIRECTORY_SEPARATOR, '_', getcwd());
