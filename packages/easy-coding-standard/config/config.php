@@ -43,11 +43,6 @@ return static function (ECSConfig $ecsConfig): void {
     // parallel
     $ecsConfig->parallel();
 
-    // how many files are processed in single process
-    $ecsConfig->parallelJobSize(60);
-    $ecsConfig->parallelMaxNumberOfProcesses(16);
-    $ecsConfig->parallelTimeoutInSeconds(120);
-
     $ecsConfig->paths([]);
     $ecsConfig->fileExtensions(['php']);
 
