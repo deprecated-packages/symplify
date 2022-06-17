@@ -85,19 +85,17 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ECSConfig $ecsConfig): void {
-    $parameters = $ecsConfig->parameters();
-
     // alternative to CLI arguments, easier to maintain and extend
-    $parameters->set(Option::PATHS, [__DIR__ . '/src', __DIR__ . '/tests']);
+    $ecsConfig->paths([__DIR__ . '/src', __DIR__ . '/tests']);
 
     // run single rule only on specific path
-    $parameters->set(Option::ONLY, [
+    $ecsConfig->only([
         ArraySyntaxFixer::class => [__DIR__ . '/src/NewCode'],
     ]);
 
     // bear in mind that this will override SetList skips if one was previously imported
     // this is result of design decision in symfony https://github.com/symfony/symfony/issues/26713
-    $parameters->set(Option::SKIP, [
+    $ecsConfig->skip([
         // skip paths with legacy code
         __DIR__ . '/packages/*/src/Legacy',
 
@@ -120,21 +118,21 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // scan other file extendsions; [default: [php]]
-    $parameters->set(Option::FILE_EXTENSIONS, ['php', 'phpt']);
+    $ecsConfig->fileExtensions(['php', 'phpt']);
 
     // configure cache paths & namespace - useful for Gitlab CI caching, where getcwd() produces always different path
     // [default: sys_get_temp_dir() . '/_changed_files_detector_tests']
-    $parameters->set(Option::CACHE_DIRECTORY, '.ecs_cache');
+    $ecsConfig->cacheDirectory('.ecs_cache');
 
     // [default: \Nette\Utils\Strings::webalize(getcwd())']
-    $parameters->set(Option::CACHE_NAMESPACE, 'my_project_namespace');
+    $ecsConfig->cacheNamespace('my_project_namespace');
 
     // indent and tabs/spaces
     // [default: spaces]
-    $parameters->set(Option::INDENTATION, 'tab');
+    $ecsConfig->indentation('tab');
 
     // [default: PHP_EOL]; other options: "\n"
-    $parameters->set(Option::LINE_ENDING, "\r\n");
+    $ecsConfig->lineEnding("\r\n");
 };
 ```
 
@@ -153,9 +151,7 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ECSConfig $ecsConfig): void {
-    $parameters = $ecsConfig->parameters();
-
-    $parameters->set(Option::PARALLEL, true);
+    $ecsConfig->parallel();
 };
 ```
 

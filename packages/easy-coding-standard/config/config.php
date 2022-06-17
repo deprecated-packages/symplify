@@ -27,8 +27,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ECSConfig $ecsConfig): void {
-    $parameters = $ecsConfig->parameters();
-
     $ecsConfig->indentation(Option::INDENTATION_SPACES);
     $ecsConfig->lineEnding(PHP_EOL);
 
@@ -37,24 +35,18 @@ return static function (ECSConfig $ecsConfig): void {
         $cacheDirectory .= '_' . StaticVersionResolver::PACKAGE_VERSION;
     }
 
-    // @todo turn these into methods :)
-
-    $parameters->set(Option::CACHE_DIRECTORY, $cacheDirectory);
+    $ecsConfig->cacheDirectory($cacheDirectory);
 
     $cacheNamespace = str_replace(DIRECTORY_SEPARATOR, '_', getcwd());
-    $parameters->set(Option::CACHE_NAMESPACE, $cacheNamespace);
+    $ecsConfig->cacheNamespace($cacheNamespace);
 
     // parallel
     $ecsConfig->parallel();
 
-    // how many files are processed in single process
-    $parameters->set(Option::PARALLEL_JOB_SIZE, 60);
-    $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, 16);
-    $parameters->set(Option::PARALLEL_TIMEOUT_IN_SECONDS, 120);
-
     $ecsConfig->paths([]);
-    $parameters->set(Option::FILE_EXTENSIONS, ['php']);
+    $ecsConfig->fileExtensions(['php']);
 
+    $parameters = $ecsConfig->parameters();
     $parameters->set('env(TEST_SUFFIX)', '');
 
     $services = $ecsConfig->services();
