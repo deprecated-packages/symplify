@@ -142,7 +142,7 @@ final class Option
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
      * @var string
      */
-    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max_number_of_processes';
+    public const PARALLEL_MAX_NUMBER_OF_PROCESSES = 'max-number-of-processes';
 
     /**
      * @var string
@@ -153,5 +153,5 @@ final class Option
      * @see \Symplify\EasyCodingStandard\Config\ECSConfig::parallel()
      * @var string
      */
-    public const PARALLEL_TIMEOUT_IN_SECONDS = 'parallel_timeout_in_seconds';
+    public const PARALLEL_TIMEOUT_IN_SECONDS = 'parallel-timeout-in-seconds';
 }
