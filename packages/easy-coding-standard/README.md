@@ -82,7 +82,6 @@ Configuration can be extended with many options. Here is list of them with examp
 ```php
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ECSConfig $ecsConfig): void {
     // alternative to CLI arguments, easier to maintain and extend
@@ -148,7 +147,6 @@ How to enable it?
 
 ```php
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Option;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->parallel();
