@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
@@ -43,11 +44,11 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
      */
     public function getNodeTypes(): array
     {
-        return [New_::class, Name::class, Class_::class, StaticCall::class];
+        return [New_::class, Name::class, Class_::class, StaticCall::class, Instanceof_::class];
     }
 
     /**
-     * @param New_|Name|Class_|StaticCall $node
+     * @param New_|Name|Class_|StaticCall|Instanceof_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -60,8 +61,8 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
             return $this->processClass($node);
         }
 
-        if ($node instanceof StaticCall) {
-            return $this->processStaticCall($node);
+        if ($node instanceof StaticCall || $node instanceof Instanceof_) {
+            return $this->processExprWithClass($node);
         }
 
         return $this->processClassName($node->toString());
@@ -164,14 +165,13 @@ CODE_SAMPLE
     /**
      * @return string[]
      */
-    private function processStaticCall(StaticCall $staticCall): array
+    private function processExprWithClass(StaticCall|Instanceof_ $node): array
     {
-        if ($staticCall->class instanceof Expr) {
+        if ($node->class instanceof Expr) {
             return [];
         }
 
-        $className = (string) $staticCall->class;
-
+        $className = (string) $node->class;
         return $this->processClassName($className);
     }
 }

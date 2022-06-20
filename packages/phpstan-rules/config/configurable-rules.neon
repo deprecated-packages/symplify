@@ -37,6 +37,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             oldToPreferredClasses:
+                PHPStan\Node\ClassMethod: 'PhpParser\Node\Stmt\ClassMethod'
                 DateTime: 'Nette\Utils\DateTime'
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
                 # smart file system
