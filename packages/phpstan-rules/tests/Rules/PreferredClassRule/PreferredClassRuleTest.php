@@ -10,6 +10,8 @@ use Nette\Utils\DateTime;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\PreferredClassRule;
+use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Fixture\SkipPreferredExtendingTheOldOne;
+use Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\Source\AbstractNotWhatYouWant;
 
 /**
  * @extends RuleTestCase<PreferredClassRule>
@@ -32,6 +34,13 @@ final class PreferredClassRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/ClassExtendingOld.php', [[$errorMessage, 9]]];
         yield [__DIR__ . '/Fixture/ClassMethodParameterUsingOld.php', [[$errorMessage, 11]]];
         yield [__DIR__ . '/Fixture/SomeStaticCall.php', [[$errorMessage, 13]]];
+
+        $errorMessage = sprintf(
+            PreferredClassRule::ERROR_MESSAGE,
+            AbstractNotWhatYouWant::class,
+            SkipPreferredExtendingTheOldOne::class
+        );
+        yield [__DIR__ . '/Fixture/InstanceOfName.php', [[$errorMessage, 13]]];
 
         yield [__DIR__ . '/Fixture/SkipPreferredExtendingTheOldOne.php', []];
     }
