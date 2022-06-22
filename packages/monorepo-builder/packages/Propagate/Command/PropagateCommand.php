@@ -11,6 +11,7 @@ use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Propagate\VersionPropagator;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -30,14 +31,14 @@ final class PropagateCommand extends AbstractSymplifyCommand
         $this->setDescription(
             'Propagate versions from root "composer.json" to all packages, the opposite of "merge" command'
         );
-        $this->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Report conflict on missing types');
+        $this->addOption(Option::DRY_RUN, null, InputOption::VALUE_NONE, 'Report conflict on missing types');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
-        $isDryRun = (bool) $input->getOption('dry-run');
+        $isDryRun = (bool) $input->getOption(Option::DRY_RUN);
 
         foreach ($this->composerJsonProvider->getPackageComposerJsons() as $packageComposerJson) {
             $originalPackageComposerJson = clone $packageComposerJson;
