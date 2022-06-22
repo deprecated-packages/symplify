@@ -31,6 +31,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Doctrine\ORM\EntityManager',
         'Nette\*',
         'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+        'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
         'PHPUnit\Framework\TestCase',
         'Symplify\EasyCodingStandard\Config\ECSConfig',
         'Symfony\Contracts\Service\Attribute\Required',
