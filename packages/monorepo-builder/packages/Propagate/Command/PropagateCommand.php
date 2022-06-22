@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Propagate\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
@@ -29,17 +30,19 @@ final class PropagateCommand extends AbstractSymplifyCommand
         $this->setDescription(
             'Propagate versions from root "composer.json" to all packages, the opposite of "merge" command'
         );
+        $this->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Report conflict on missing types');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
 
+        $isDryRun = (bool) $input->getOption('dry-run');
+
         foreach ($this->composerJsonProvider->getPackageComposerJsons() as $packageComposerJson) {
             $originalPackageComposerJson = clone $packageComposerJson;
 
             $this->versionPropagator->propagate($rootComposerJson, $packageComposerJson);
-
             if ($originalPackageComposerJson->getJsonArray() === $packageComposerJson->getJsonArray()) {
                 continue;
             }
@@ -47,6 +50,11 @@ final class PropagateCommand extends AbstractSymplifyCommand
             $packageFileInfo = $packageComposerJson->getFileInfo();
             if (! $packageFileInfo instanceof SmartFileInfo) {
                 throw new ShouldNotHappenException();
+            }
+
+            if ($isDryRun) {
+                $this->symfonyStyle->error('Run "composer propagate" to update package versions');
+                return self::FAILURE;
             }
 
             $this->jsonFileManager->printComposerJsonToFilePath($packageComposerJson, $packageFileInfo->getRealPath());

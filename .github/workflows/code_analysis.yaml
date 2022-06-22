@@ -21,6 +21,10 @@ jobs:
                         run: vendor/bin/parallel-lint packages ecs.php rector.php monorepo-builder.php
 
                     -
+                        name: 'Root composer.json and packages are Synced'
+                        run: packages/monorepo-builder/bin/monorepo-builder propagate --ansi --dry-run
+
+                    -
                         name: 'PHPStan'
                         run: composer phpstan
 
