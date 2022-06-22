@@ -17,6 +17,10 @@ jobs:
             matrix:
                 actions:
                     -
+                        name: 'Lint PHP'
+                        run: vendor/bin/parallel-lint packages ecs.php rector.php monorepo-builder.php
+
+                    -
                         name: 'PHPStan'
                         run: composer phpstan
 
