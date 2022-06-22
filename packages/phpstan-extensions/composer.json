@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0",
-        "phpstan/phpstan": "^1.7.12",
+        "phpstan/phpstan": "^1.7.15",
         "symplify/package-builder": "^11.1",
         "symplify/smart-file-system": "^11.1",
         "symplify/astral": "^11.1"
