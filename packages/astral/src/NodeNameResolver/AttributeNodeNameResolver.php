@@ -18,7 +18,7 @@ final class AttributeNodeNameResolver implements NodeNameResolverInterface
     /**
      * @param Attribute $node
      */
-    public function resolve(Node $node): ?string
+    public function resolve(Node $node): string
     {
         return $node->name->toString();
     }

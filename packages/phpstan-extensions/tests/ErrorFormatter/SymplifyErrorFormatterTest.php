@@ -5,41 +5,40 @@ declare(strict_types=1);
 namespace Symplify\PHPStanExtensions\Tests\ErrorFormatter;
 
 use Iterator;
-use PHPStan\Analyser\Error;
-use PHPStan\Command\AnalysisResult;
-use PHPStan\Testing\PHPStanTestCase;
+use PHPStan\Testing\ErrorFormatterTestCase;
 use Symplify\PHPStanExtensions\ErrorFormatter\SymplifyErrorFormatter;
-use Symplify\PHPStanExtensions\Tests\ErrorFormatter\Source\DummyOutput;
 
-final class SymplifyErrorFormatterTest extends PHPStanTestCase
+/**
+ * @see https://github.com/phpstan/phpstan-src/blob/1.8.x/tests/PHPStan/Command/ErrorFormatter/RawErrorFormatterTest.php
+ */
+final class SymplifyErrorFormatterTest extends ErrorFormatterTestCase
 {
     /**
      * @dataProvider provideData()
-     * @param Error[] $errors
      */
-    public function testSingleFileSingleError(array $errors, string $expectedFile): void
-    {
-        $analysisResult = new AnalysisResult($errors, [], [], [], false, null, false);
-
+    public function testFormatErrors(
+        string $message,
+        int $expectedExitCode,
+        int $numFileErrors,
+        int $numGenericErrors,
+        string $expectedOutputFile,
+    ): void {
         $symplifyErrorFormatter = self::getContainer()->getByType(SymplifyErrorFormatter::class);
-        $dummyOutput = new DummyOutput();
 
-        $symplifyErrorFormatter->formatErrors($analysisResult, $dummyOutput);
+        $analysisResult = $this->getAnalysisResult($numFileErrors, $numGenericErrors);
+        $resultCode = $symplifyErrorFormatter->formatErrors($analysisResult, $this->getOutput(),);
 
-        $bufferedContent = $dummyOutput->getBufferedContent();
-        $this->assertStringMatchesFormatFile($expectedFile, $bufferedContent);
+        $this->assertSame($expectedExitCode, $resultCode);
+
+        $this->assertStringMatchesFormatFile($expectedOutputFile, $this->getOutputContent());
     }
 
+    /**
+     * @return Iterator<mixed>
+     */
     public function provideData(): Iterator
     {
-        $errors = [new Error('Some message', 'some_file.php', 55)];
-        yield [$errors, __DIR__ . '/Fixture/expected_single_error_report.txt'];
-
-        $sameMessageErrors = [
-            new Error('The identical message', 'some_file.php'),
-            new Error('The identical message', 'another_some_file.php'),
-        ];
-        yield [$sameMessageErrors, __DIR__ . '/Fixture/expected_single_message_many_files_report.txt'];
+        yield ['Some message', 1, 1, 1, __DIR__ . '/Fixture/expected_single_message_many_files_report.txt'];
     }
 
     /**

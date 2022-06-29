@@ -18,7 +18,7 @@ final class ConstFetchNodeNameResolver implements NodeNameResolverInterface
     /**
      * @param ConstFetch $node
      */
-    public function resolve(Node $node): ?string
+    public function resolve(Node $node): string
     {
         return $node->name->toString();
     }

@@ -18,7 +18,7 @@ final class ClassMethodNodeNameResolver implements NodeNameResolverInterface
     /**
      * @param ClassMethod $node
      */
-    public function resolve(Node $node): ?string
+    public function resolve(Node $node): string
     {
         return $node->name->toString();
     }

@@ -503,3 +503,6 @@ parameters:
             message: '#Class has a static method must so must contains "Static" in its name#'
             path:  packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
 
+        # test case
+        - '#Calling PHPStan\\Testing\\ErrorFormatterTestCase\:\:get(.*?)\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
+        - '#Extending PHPStan\\Testing\\ErrorFormatterTestCase is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
