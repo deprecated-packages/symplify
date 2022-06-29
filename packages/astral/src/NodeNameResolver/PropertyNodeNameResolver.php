@@ -18,7 +18,7 @@ final class PropertyNodeNameResolver implements NodeNameResolverInterface
     /**
      * @param Property $node
      */
-    public function resolve(Node $node): ?string
+    public function resolve(Node $node): string
     {
         $propertyProperty = $node->props[0];
         return (string) $propertyProperty->name;

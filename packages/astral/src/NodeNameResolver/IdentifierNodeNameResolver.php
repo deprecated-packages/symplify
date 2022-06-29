@@ -23,7 +23,7 @@ final class IdentifierNodeNameResolver implements NodeNameResolverInterface
     /**
      * @param Identifier|Name $node
      */
-    public function resolve(Node $node): ?string
+    public function resolve(Node $node): string
     {
         return (string) $node;
     }
