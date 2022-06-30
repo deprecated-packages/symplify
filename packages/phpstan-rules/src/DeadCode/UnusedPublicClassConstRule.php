@@ -41,8 +41,8 @@ final class UnusedPublicClassConstRule implements Rule
         $ruleErrors = [];
 
         foreach ($publicClassLikeConstCollector as $filePath => $declarationsGroups) {
-            foreach ($declarationsGroups as $declarations) {
-                foreach ($declarations as [$className, $constantName, $line]) {
+            foreach ($declarationsGroups as $declarationGroup) {
+                foreach ($declarationGroup as [$className, $constantName, $line]) {
                     if ($this->isClassConstantUsed($className, $constantName, $classConstFetchCollector)) {
                         continue;
                     }

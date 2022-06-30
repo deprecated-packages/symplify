@@ -10,6 +10,7 @@ namespace Symplify\SymfonyStaticDumper\ValueObject;
 final class SymfonyStaticDumperConfig
 {
     /**
+     * @api
      * @var string
      */
     public const FILE_PATH = __DIR__ . '/../../config/config.php';

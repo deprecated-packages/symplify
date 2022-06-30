@@ -50,12 +50,11 @@ final class PublicClassLikeConstCollector implements Collector
 
     private function isApiDoc(ClassConst $classConst): bool
     {
-        if (! $classConst->getDocComment() instanceof Doc) {
+        $docComment = $classConst->getDocComment();
+        if (! $docComment instanceof Doc) {
             return false;
         }
 
-        $docCommentText = $classConst->getDocComment()
-            ->getText();
-        return str_contains($docCommentText, '@api');
+        return str_contains($docComment->getText(), '@api');
     }
 }
