@@ -1,0 +1,3 @@
+# these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
+rules:
+    - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
