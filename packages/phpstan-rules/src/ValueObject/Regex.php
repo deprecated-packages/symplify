@@ -11,10 +11,4 @@ final class Regex
      * @var string
      */
     public const TESTS_PART_REGEX = '#(\\\\Tests\\\\|\\\\Tests$)#';
-
-    /**
-     * @see https://regex101.com/r/zyZ9KJ/1
-     * @var string
-     */
-    public const VALUE_OBJECT_REGEX = '#\bValueObject\b#';
 }
