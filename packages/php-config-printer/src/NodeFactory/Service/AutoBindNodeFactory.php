@@ -7,13 +7,11 @@ namespace Symplify\PhpConfigPrinter\NodeFactory\Service;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Converter\ServiceOptionsKeyYamlToPhpFactory\TagsServiceOptionKeyYamlToPhpFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
-use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class AutoBindNodeFactory
 {
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
         private ArgsNodeFactory $argsNodeFactory,
         private TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
     ) {
