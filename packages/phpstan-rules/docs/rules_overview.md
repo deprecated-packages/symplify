@@ -1,4 +1,4 @@
-# 102 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3709,6 +3709,56 @@ return match($key) {
     2 => 200,
     default => 300,
 };
+```
+
+:+1:
+
+<br>
+
+## UnusedPublicClassConstRule
+
+Class constant "%s" is never used
+
+- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule`](../src/DeadCode/UnusedPublicClassConstRule.php)
+
+```php
+final class Direction
+{
+    public LEFT = 'left';
+
+    public RIGHT = 'right';
+
+    public STOP = 'stop';
+}
+
+if ($direction === Direction::LEFT) {
+    echo 'left';
+}
+
+if ($direction === Direction::RIGHT) {
+    echo 'right';
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Direction
+{
+    public LEFT = 'left';
+
+    public RIGHT = 'right';
+}
+
+if ($direction === Direction::LEFT) {
+    echo 'left';
+}
+
+if ($direction === Direction::RIGHT) {
+    echo 'right';
+}
 ```
 
 :+1:

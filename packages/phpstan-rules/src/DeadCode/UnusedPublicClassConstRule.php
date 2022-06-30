@@ -13,11 +13,14 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Collector\ClassConstFetchCollector;
 use Symplify\PHPStanRules\Collector\PublicClassLikeConstCollector;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\UnusedPublicClassConstRuleTest
  */
-final class UnusedPublicClassConstRule implements Rule
+final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -59,6 +62,49 @@ final class UnusedPublicClassConstRule implements Rule
         }
 
         return $ruleErrors;
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+final class Direction
+{
+    public LEFT = 'left';
+
+    public RIGHT = 'right';
+
+    public STOP = 'stop';
+}
+
+if ($direction === Direction::LEFT) {
+    echo 'left';
+}
+
+if ($direction === Direction::RIGHT) {
+    echo 'right';
+}
+CODE_SAMPLE
+,
+                <<<'CODE_SAMPLE'
+final class Direction
+{
+    public LEFT = 'left';
+
+    public RIGHT = 'right';
+}
+
+if ($direction === Direction::LEFT) {
+    echo 'left';
+}
+
+if ($direction === Direction::RIGHT) {
+    echo 'right';
+}
+CODE_SAMPLE
+            ),
+        ]);
     }
 
     /**
