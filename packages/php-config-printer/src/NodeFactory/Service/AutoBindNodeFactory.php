@@ -76,7 +76,6 @@ final class AutoBindNodeFactory
             return new MethodCall($methodCall, YamlKey::AUTOWIRE);
         }
 
-        // skip default false
         return $methodCall;
     }
 

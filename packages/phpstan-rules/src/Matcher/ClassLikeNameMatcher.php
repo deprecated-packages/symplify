@@ -15,7 +15,7 @@ final class ClassLikeNameMatcher
      * @see https://regex101.com/r/uIS9Je/1
      * @var string
      */
-    public const REGEX_FOR_WILDCARD_TO_REGEX = '#\*{1,2}|\?|[\\\^$.[\]|():+{}=!<>\-\#]#';
+    private const REGEX_FOR_WILDCARD_TO_REGEX = '#\*{1,2}|\?|[\\\^$.[\]|():+{}=!<>\-\#]#';
 
     public function isClassLikeNameMatchedAgainstPattern(string $classLikeName, string $namespaceWildcardPattern): bool
     {

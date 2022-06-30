@@ -12,6 +12,7 @@ includes:
     - packages/nette/nette-rules.neon
     - test-rules.neon
     - naming-rules.neon
+    - collector-rules.neon
 
     # 3. custom symplify configuratoin
     - configurable-rules.neon
