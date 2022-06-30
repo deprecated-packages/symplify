@@ -35,6 +35,9 @@ final class UnusedPublicClassConstRuleTest extends RuleTestCase
         $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'UNUSED');
         yield [[__DIR__ . '/Fixture/UnusedPublicConstantFromInterface.php'], [[$errorMessage, 9]]];
 
+        $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'LOCALLY_ONLY');
+        yield [[__DIR__ . '/Fixture/LocallyUsedPublicConstant.php'], [[$errorMessage, 9]]];
+
         yield [[__DIR__ . '/Fixture/SkipApiPublicConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPrivateConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipApiClassPublicConstant.php'], []];
