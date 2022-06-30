@@ -9,10 +9,5 @@ final class File
     /**
      * @var string
      */
-    public const COMPOSER_JSON = 'composer.json';
-
-    /**
-     * @var string
-     */
     public const CONFIG = 'monorepo-builder.php';
 }
