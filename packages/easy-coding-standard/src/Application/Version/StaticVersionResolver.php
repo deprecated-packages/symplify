@@ -14,9 +14,16 @@ use Symplify\EasyCodingStandard\Exception\VersionException;
 final class StaticVersionResolver
 {
     /**
+     * @api
      * @var string
      */
     public const PACKAGE_VERSION = '@package_version@';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const RELEASE_DATE = '@release_date@';
 
     /**
      * @var int
