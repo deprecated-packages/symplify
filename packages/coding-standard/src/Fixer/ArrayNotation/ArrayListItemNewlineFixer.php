@@ -112,6 +112,11 @@ CODE_SAMPLE
                     return;
                 }
 
+                $lookaheadPosition = $tokens->getNonWhitespaceSibling($position, 1, " \t\r\0\x0B");
+                if ($lookaheadPosition !== null && $tokens[$lookaheadPosition]->isGivenKind(T_COMMENT)) {
+                    return;
+                }
+
                 $tokens->ensureWhitespaceAtIndex($nextTokenPosition, 0, $this->whitespacesFixerConfig->getLineEnding());
             }
         );
