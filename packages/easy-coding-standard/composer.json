@@ -59,10 +59,8 @@
     "config": {
         "sort-packages": true,
         "platform-check": false,
-        "config": {
-            "allow-plugins": {
-                "cweagans/composer-patches": true
-            }
+        "allow-plugins": {
+            "cweagans/composer-patches": true
         }
     },
     "replace": {
