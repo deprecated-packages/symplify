@@ -91,7 +91,7 @@ final class BlockFinder
         return new BlockInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
-    public function getBlockTypeByContent(string $content): int
+    private function getBlockTypeByContent(string $content): int
     {
         if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
             return self::CONTENT_TO_BLOCK_TYPE[$content];
