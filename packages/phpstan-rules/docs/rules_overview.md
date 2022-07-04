@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2314,53 +2314,6 @@ final class SomeClass
 final class SomeClass
 {
     private array $property = [];
-}
-```
-
-:+1:
-
-<br>
-
-## NoParentMethodCallOnEmptyStatementInParentMethodRule
-
-Do not call parent method if parent method is empty
-
-- class: [`Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule`](../src/Rules/NoParentMethodCallOnEmptyStatementInParentMethodRule.php)
-
-```php
-class ParentClass
-{
-    public function someMethod()
-    {
-    }
-}
-
-class SomeClass extends ParentClass
-{
-    public function someMethod()
-    {
-        parent::someMethod();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class ParentClass
-{
-    public function someMethod()
-    {
-    }
-}
-
-class SomeClass extends ParentClass
-{
-    public function someMethod()
-    {
-    }
 }
 ```
 
