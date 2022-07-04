@@ -63,10 +63,19 @@ final class PublicClassMethodCollector implements Collector
             return null;
         }
 
-        if ($classReflection->getInterfaces() !== []) {
-            return null;
-        }
+        $methodName = $node->name->toString();
 
-        return [$classReflection->getName(), $node->name->toString(), $node->getLine()];
+        // is this method required by parent contract? skip it
+        foreach ($classReflection->getInterfaces() as $parentInterfaceReflection) {
+            if ($parentInterfaceReflection->hasMethod($methodName)) {
+                return null;
+            }
+        }
+//
+//        if ($classReflection->getInterfaces() !== []) {
+//            return null;
+//        }
+
+        return [$classReflection->getName(), $methodName, $node->getLine()];
     }
 }
