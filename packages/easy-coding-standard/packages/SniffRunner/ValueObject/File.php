@@ -20,6 +20,7 @@ use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
+ * @api
  * @see \Symplify\EasyCodingStandard\Tests\SniffRunner\ValueObject\FileTest
  */
 final class File extends BaseFile

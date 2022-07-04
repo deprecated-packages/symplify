@@ -520,3 +520,8 @@ parameters:
             path: packages/phpstan-rules/src/Collector/PublicClassLikeConstCollector.php
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
+
+        # silent configure method
+        -
+            message: '#Class method "configure\(\)" is never used#'
+            path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
