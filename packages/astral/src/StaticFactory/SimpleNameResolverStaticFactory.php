@@ -22,6 +22,9 @@ use Symplify\Astral\NodeNameResolver\PropertyNodeNameResolver;
  */
 final class SimpleNameResolverStaticFactory
 {
+    /**
+     * @api
+     */
     public static function create(): SimpleNameResolver
     {
         $nameResolvers = [

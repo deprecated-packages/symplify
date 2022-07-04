@@ -19,10 +19,15 @@ final class AttributeFinder
     ) {
     }
 
+    public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
+    {
+        return (bool) $this->findAttribute($node, $desiredAttributeClass);
+    }
+
     /**
      * @return Attribute[]
      */
-    public function findAttributes(ClassMethod | Property | ClassLike | Param $node): array
+    private function findAttributes(ClassMethod | Property | ClassLike | Param $node): array
     {
         $attributes = [];
 
@@ -31,11 +36,6 @@ final class AttributeFinder
         }
 
         return $attributes;
-    }
-
-    public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
-    {
-        return (bool) $this->findAttribute($node, $desiredAttributeClass);
     }
 
     private function findAttribute(

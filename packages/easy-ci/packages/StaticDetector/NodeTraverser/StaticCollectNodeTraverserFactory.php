@@ -16,6 +16,9 @@ final class StaticCollectNodeTraverserFactory
     ) {
     }
 
+    /**
+     * @api
+     */
     public function create(): StaticCollectNodeTraverser
     {
         $staticCollectNodeTraverser = new StaticCollectNodeTraverser();

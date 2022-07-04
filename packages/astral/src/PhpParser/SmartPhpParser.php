@@ -9,6 +9,8 @@ use PHPStan\Parser\Parser;
 
 /**
  * @see \Symplify\Astral\PhpParser\SmartPhpParserFactory
+ *
+ * @api
  */
 final class SmartPhpParser
 {

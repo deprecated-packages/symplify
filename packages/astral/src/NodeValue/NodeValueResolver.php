@@ -12,9 +12,6 @@ use PhpParser\Node\Expr\Instanceof_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
-use PHPStan\Analyser\Scope;
-use PHPStan\Type\ConstantScalarType;
-use PHPStan\Type\UnionType;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -33,8 +30,6 @@ final class NodeValueResolver
 
     private ?string $currentFilePath = null;
 
-    private UnionTypeValueResolver $unionTypeValueResolver;
-
     /**
      * @var NodeValueResolverInterface[]
      */
@@ -45,33 +40,11 @@ final class NodeValueResolver
         private TypeChecker $typeChecker
     ) {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
-        $this->unionTypeValueResolver = new UnionTypeValueResolver();
 
         $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($simpleNameResolver);
         $this->nodeValueResolvers[] = new ConstFetchValueResolver($simpleNameResolver);
         $this->nodeValueResolvers[] = new MagicConstValueResolver();
         $this->nodeValueResolvers[] = new FuncCallValueResolver($simpleNameResolver, $this->constExprEvaluator);
-    }
-
-    public function resolveWithScope(Expr $expr, Scope $scope): mixed
-    {
-        $this->currentFilePath = $scope->getFile();
-
-        try {
-            return $this->constExprEvaluator->evaluateDirectly($expr);
-        } catch (ConstExprEvaluationException) {
-        }
-
-        $exprType = $scope->getType($expr);
-        if ($exprType instanceof ConstantScalarType) {
-            return $exprType->getValue();
-        }
-
-        if ($exprType instanceof UnionType) {
-            return $this->unionTypeValueResolver->resolveConstantTypes($exprType);
-        }
-
-        return null;
     }
 
     public function resolve(Expr $expr, string $filePath): mixed

@@ -8,8 +8,8 @@ use Iterator;
 use PHPStan\Collectors\Collector;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanRules\Collector\ClassConstFetchCollector;
-use Symplify\PHPStanRules\Collector\PublicClassLikeConstCollector;
+use Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector;
+use Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector;
 use Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule;
 
 /**
@@ -57,7 +57,8 @@ final class UnusedPublicClassConstRuleTest extends RuleTestCase
      */
     protected function getCollectors(): array
     {
-        return [new ClassConstFetchCollector(), new PublicClassLikeConstCollector()];
+        $publicClassLikeConstCollector = self::getContainer()->getByType(PublicClassLikeConstCollector::class);
+        return [new ClassConstFetchCollector(), $publicClassLikeConstCollector];
     }
 
     protected function getRule(): Rule

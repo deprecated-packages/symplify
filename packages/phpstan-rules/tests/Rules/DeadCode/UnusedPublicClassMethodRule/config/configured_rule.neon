@@ -1,0 +1,11 @@
+includes:
+    - ../../../../config/included_services.neon
+
+rules:
+    - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector
+        tags:
+            - phpstan.collector
