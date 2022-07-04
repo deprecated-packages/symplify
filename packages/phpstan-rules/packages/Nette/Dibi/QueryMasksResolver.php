@@ -67,7 +67,7 @@ final class QueryMasksResolver
     /**
      * @return string[]
      */
-    public function resolveMasksFromString(string $queryString): array
+    private function resolveMasksFromString(string $queryString): array
     {
         // compare only if string contains masks
         if (! str_contains($queryString, '%')) {
