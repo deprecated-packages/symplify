@@ -51,9 +51,9 @@ final class PublicClassMethodCollector implements Collector
             return null;
         }
 
-        if ($classReflection->getParents() !== []) {
-            return null;
-        }
+//        if ($classReflection->getParents() !== []) {
+//            return null;
+//        }
 
         $methodName = $node->name->toString();
 
