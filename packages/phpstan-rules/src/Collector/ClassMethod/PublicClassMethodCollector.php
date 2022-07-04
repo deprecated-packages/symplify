@@ -62,6 +62,7 @@ final class PublicClassMethodCollector implements Collector
             if ($parentInterfaceReflection->hasMethod($methodName)) {
                 return null;
             }
+<<<<<<< HEAD
         }
 
         return [$classReflection->getName(), $methodName, $node->getLine()];
@@ -75,8 +76,18 @@ final class PublicClassMethodCollector implements Collector
 
         if ($classMethod->isStatic()) {
             return true;
+=======
+>>>>>>> [PHPStanRules] Check interface methods over the contract
         }
+//
+//        if ($classReflection->getInterfaces() !== []) {
+//            return null;
+//        }
 
+<<<<<<< HEAD
         return ! $classMethod->isPublic();
+=======
+        return [$classReflection->getName(), $methodName, $node->getLine()];
+>>>>>>> [PHPStanRules] Check interface methods over the contract
     }
 }
