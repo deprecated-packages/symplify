@@ -33,7 +33,12 @@ final class AttributeFinder
         return $attributes;
     }
 
-    public function findAttribute(
+    public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
+    {
+        return (bool) $this->findAttribute($node, $desiredAttributeClass);
+    }
+
+    private function findAttribute(
         ClassMethod | Property | ClassLike | Param $node,
         string $desiredAttributeClass
     ): ?Attribute {
@@ -50,10 +55,5 @@ final class AttributeFinder
         }
 
         return null;
-    }
-
-    public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
-    {
-        return (bool) $this->findAttribute($node, $desiredAttributeClass);
     }
 }
