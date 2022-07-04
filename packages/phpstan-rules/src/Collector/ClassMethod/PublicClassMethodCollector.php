@@ -32,15 +32,7 @@ final class PublicClassMethodCollector implements Collector
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
-        if ($node->isMagic()) {
-            return null;
-        }
-
-        if ($node->isStatic()) {
-            return null;
-        }
-
-        if (! $node->isPublic()) {
+        if ($this->shouldSkipClassMethod($node)) {
             return null;
         }
 
@@ -73,5 +65,18 @@ final class PublicClassMethodCollector implements Collector
         }
 
         return [$classReflection->getName(), $methodName, $node->getLine()];
+    }
+
+    private function shouldSkipClassMethod(ClassMethod $classMethod): bool
+    {
+        if ($classMethod->isMagic()) {
+            return true;
+        }
+
+        if ($classMethod->isStatic()) {
+            return true;
+        }
+
+        return ! $classMethod->isPublic();
     }
 }
