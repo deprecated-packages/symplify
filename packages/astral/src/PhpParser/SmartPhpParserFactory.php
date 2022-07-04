@@ -16,11 +16,12 @@ use PHPStan\Parser\SimpleParser;
  *
  * @see https://github.com/rectorphp/rector/issues/6744#issuecomment-950282826
  * @see https://github.com/phpstan/phpstan-src/blob/99e4ae0dced58fe0be7a7aec3168a5e9d639240a/conf/config.neon#L1669-L1691
- *
- * @api
  */
 final class SmartPhpParserFactory
 {
+    /**
+     * @api
+     */
     public function create(): SmartPhpParser
     {
         $nativePhpParser = $this->createNativePhpParser();
