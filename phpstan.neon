@@ -411,6 +411,7 @@ parameters:
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
+                - packages/phpstan-rules/src/Collector/*
 
         -
             message: '#Complete known array shape to the method @return type#'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Collector;
+namespace Symplify\PHPStanRules\Collector\ClassConst;
 
 use PhpParser\Comment\Doc;
 use PhpParser\Node;

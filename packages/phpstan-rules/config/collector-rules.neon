@@ -1,3 +1,25 @@
 # these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
 rules:
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
+    - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector
+        tags:
+            - phpstan.collector
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector
+        tags:
+            - phpstan.collector
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector
+        tags:
+            - phpstan.collector
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector
+        tags:
+            - phpstan.collector

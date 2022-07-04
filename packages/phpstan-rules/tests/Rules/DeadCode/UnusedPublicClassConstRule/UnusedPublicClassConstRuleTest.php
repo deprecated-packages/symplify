@@ -8,8 +8,8 @@ use Iterator;
 use PHPStan\Collectors\Collector;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanRules\Collector\ClassConstFetchCollector;
-use Symplify\PHPStanRules\Collector\PublicClassLikeConstCollector;
+use Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector;
+use Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector;
 use Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule;
 
 /**
