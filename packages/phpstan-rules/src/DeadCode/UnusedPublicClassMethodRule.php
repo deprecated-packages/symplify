@@ -115,11 +115,6 @@ CODE_SAMPLE
         $publicMethodReference = $className . '::' . $constantName;
         $usedClassMethods = Arrays::flatten($usedClassMethods);
 
-//        dump($publicMethodReference);
-//        dump($usedClassMethods);
-//        dump(in_array($publicMethodReference, $usedClassMethods, true));
-//        die;
-
         return in_array($publicMethodReference, $usedClassMethods, true);
     }
 }

@@ -40,6 +40,11 @@ final class PublicClassMethodCollector implements Collector
             return null;
         }
 
+        // skip interface as required, traits as unable to detect for sure
+        if (! $classReflection->isClass()) {
+            return null;
+        }
+
         if ($classReflection->getParents() !== []) {
             return null;
         }

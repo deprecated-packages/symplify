@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3758,6 +3758,58 @@ if ($direction === Direction::LEFT) {
 
 if ($direction === Direction::RIGHT) {
     echo 'right';
+}
+```
+
+:+1:
+
+<br>
+
+## UnusedPublicClassMethodRule
+
+Class method `"%s()"` is never used
+
+- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule`](../src/DeadCode/UnusedPublicClassMethodRule.php)
+
+```php
+final class Car
+{
+    public function turn()
+    {
+    }
+
+    public function stay()
+    {
+    }
+}
+
+final class Driver
+{
+    public function driveCar(Car $car)
+    {
+        $car->turn();
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Car
+{
+    public function turn()
+    {
+    }
+}
+
+final class Driver
+{
+    public function driveCar(Car $car)
+    {
+        $car->turn();
+    }
 }
 ```
 

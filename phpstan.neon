@@ -513,7 +513,8 @@ parameters:
         - '#Extending PHPStan\\Testing\\ErrorFormatterTestCase is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
 
         # collector metadata
-        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\UnusedPublicClassConstRule\\UnusedPublicClassConstRuleTest\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
+        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
+
         -
             message: '#Instead of array shape, use value object with specific types in constructor and getters#'
             path: packages/phpstan-rules/src/Collector/PublicClassLikeConstCollector.php
