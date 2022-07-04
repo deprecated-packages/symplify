@@ -53,6 +53,9 @@ final class NodeValueResolver
         $this->nodeValueResolvers[] = new FuncCallValueResolver($simpleNameResolver, $this->constExprEvaluator);
     }
 
+    /**
+     * @api
+     */
     public function resolveWithScope(Expr $expr, Scope $scope): mixed
     {
         $this->currentFilePath = $scope->getFile();

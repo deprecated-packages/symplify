@@ -6,6 +6,9 @@ namespace Symplify\EasyTesting\ValueObject;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @api
+ */
 final class InputFileInfoAndExpectedFileInfo
 {
     public function __construct(

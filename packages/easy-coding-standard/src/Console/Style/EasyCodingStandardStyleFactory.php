@@ -22,6 +22,9 @@ final class EasyCodingStandardStyleFactory
         $this->privatesCaller = new PrivatesCaller();
     }
 
+    /**
+     * @api
+     */
     public function create(): EasyCodingStandardStyle
     {
         $argvInput = new ArgvInput();

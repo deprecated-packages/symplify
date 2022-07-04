@@ -514,6 +514,8 @@ parameters:
 
         # collector metadata
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
+        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{non\-empty\-string\}#'
+        - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\PublicClassMethodCollector\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{class\-string, string, int\}#'
 
         -
             message: '#Instead of array shape, use value object with specific types in constructor and getters#'

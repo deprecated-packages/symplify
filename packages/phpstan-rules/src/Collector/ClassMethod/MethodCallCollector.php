@@ -10,10 +10,11 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\Type\ThisType;
+use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
 
 /**
- * @implements Collector<MethodCall, array<string[]>>
+ * @implements Collector<MethodCall, array<string>|null>
  */
 final class MethodCallCollector implements Collector
 {
@@ -33,6 +34,11 @@ final class MethodCallCollector implements Collector
         }
 
         $callerType = $scope->getType($node->var);
+
+        // remove optional nullable type
+        if (TypeCombinator::containsNull($callerType)) {
+            $callerType = TypeCombinator::removeNull($callerType);
+        }
 
         // skip self calls, as external is needed to make the method public
         if ($callerType instanceof ThisType) {

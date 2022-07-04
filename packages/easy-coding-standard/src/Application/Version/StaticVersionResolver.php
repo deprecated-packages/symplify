@@ -30,6 +30,9 @@ final class StaticVersionResolver
      */
     private const SUCCESS_CODE = 0;
 
+    /**
+     * @api
+     */
     public static function resolvePackageVersion(): string
     {
         // resolve current tag

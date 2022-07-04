@@ -3,3 +3,9 @@ includes:
 
 rules:
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector
+        tags:
+            - phpstan.collector

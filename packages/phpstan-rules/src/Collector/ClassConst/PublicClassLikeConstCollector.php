@@ -4,19 +4,23 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\ClassConst;
 
-use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
-use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Reflection\ClassReflection;
+use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
 
 /**
  * @implements Collector<ClassConst, array<array{class-string, string, int}>>
  */
 final class PublicClassLikeConstCollector implements Collector
 {
+    public function __construct(
+        private ApiDocStmtAnalyzer $apiDocStmtAnalyzer
+    ) {
+    }
+
     public function getNodeType(): string
     {
         return ClassConst::class;
@@ -37,7 +41,7 @@ final class PublicClassLikeConstCollector implements Collector
             return null;
         }
 
-        if ($this->isApiDoc($node, $classReflection)) {
+        if ($this->apiDocStmtAnalyzer->isApiDoc($node, $classReflection)) {
             return null;
         }
 
@@ -47,22 +51,5 @@ final class PublicClassLikeConstCollector implements Collector
         }
 
         return $constantNames;
-    }
-
-    private function isApiDoc(ClassConst $classConst, ClassReflection $classReflection): bool
-    {
-        if ($classReflection->getResolvedPhpDoc() instanceof ResolvedPhpDocBlock) {
-            $resolvedPhpDoc = $classReflection->getResolvedPhpDoc();
-            if (str_contains($resolvedPhpDoc->getPhpDocString(), '@api')) {
-                return true;
-            }
-        }
-
-        $docComment = $classConst->getDocComment();
-        if (! $docComment instanceof Doc) {
-            return false;
-        }
-
-        return str_contains($docComment->getText(), '@api');
     }
 }

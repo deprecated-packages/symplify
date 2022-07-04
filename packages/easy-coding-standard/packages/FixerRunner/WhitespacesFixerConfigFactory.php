@@ -9,6 +9,9 @@ use Symplify\EasyCodingStandard\Exception\Configuration\WhitespaceConfigurationE
 use Symplify\EasyCodingStandard\FixerRunner\ValueObject\Spacing;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
+/**
+ * @api
+ */
 final class WhitespacesFixerConfigFactory
 {
     /**

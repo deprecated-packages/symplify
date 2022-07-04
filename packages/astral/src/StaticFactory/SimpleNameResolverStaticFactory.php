@@ -19,6 +19,8 @@ use Symplify\Astral\NodeNameResolver\PropertyNodeNameResolver;
 /**
  * This would be normally handled by standard Symfony or Nette DI, but PHPStan does not use any of those, so we have to
  * make it manually.
+ *
+ * @api
  */
 final class SimpleNameResolverStaticFactory
 {

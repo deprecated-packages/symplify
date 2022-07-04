@@ -30,7 +30,7 @@ final class MethodNameResolver
     /**
      * @param Tokens<Token> $tokens
      */
-    public function getMethodName(Tokens $tokens, int $position): ?string
+    private function getMethodName(Tokens $tokens, int $position): ?string
     {
         /** @var Token $currentToken */
         $currentToken = $tokens[$position];

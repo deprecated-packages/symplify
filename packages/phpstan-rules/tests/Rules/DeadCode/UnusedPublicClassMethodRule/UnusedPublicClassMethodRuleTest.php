@@ -32,9 +32,16 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
         $errorMessage = sprintf(UnusedPublicClassMethodRule::ERROR_MESSAGE, 'runHere');
         yield [[__DIR__ . '/Fixture/LocallyUsedPublicMethod.php'], [[$errorMessage, 14]]];
 
+        yield [[__DIR__ . '/Fixture/SkipStaticPublicMethod.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipPublicApiClassMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipInterfaceMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPrivateClassMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipUsedPublicMethod.php', __DIR__ . '/Source/ClassMethodCaller.php'], []];
+
+        yield [[
+            __DIR__ . '/Fixture/SkipNullableUsedPublicMethod.php', __DIR__ . '/Source/NullableClassMethodCaller.php', ],
+            [],
+        ];
     }
 
     /**
@@ -50,7 +57,8 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
      */
     protected function getCollectors(): array
     {
-        return [new MethodCallCollector(), new PublicClassMethodCollector()];
+        $publicClassMethodCollector = self::getContainer()->getByType(PublicClassMethodCollector::class);
+        return [new MethodCallCollector(), $publicClassMethodCollector];
     }
 
     protected function getRule(): Rule
