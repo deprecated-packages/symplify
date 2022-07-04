@@ -21,13 +21,4 @@ final class BlockInfo
     {
         return $this->end;
     }
-
-    public function contains(int $position): bool
-    {
-        if ($position < $this->start) {
-            return false;
-        }
-
-        return $position <= $this->end;
-    }
 }

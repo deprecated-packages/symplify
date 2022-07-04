@@ -8,6 +8,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
+/**
+ * @api
+ */
 final class MethodNameResolver
 {
     /**
