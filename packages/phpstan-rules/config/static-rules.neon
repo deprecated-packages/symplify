@@ -26,7 +26,6 @@ rules:
     - Symplify\PHPStanRules\Rules\BoolishClassMethodPrefixRule
 
     # dead-code
-    - Symplify\PHPStanRules\Rules\NoParentMethodCallOnEmptyStatementInParentMethodRule
     - Symplify\PHPStanRules\Rules\NoIssetOnObjectRule
 
     # explicit naming
