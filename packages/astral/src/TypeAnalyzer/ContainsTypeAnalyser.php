@@ -31,20 +31,6 @@ final class ContainsTypeAnalyser
     }
 
     /**
-     * @param class-string[] $types
-     */
-    public function containsTypeExprTypes(Type $exprType, array $types): bool
-    {
-        foreach ($types as $type) {
-            if ($this->containsTypeExprType($exprType, $type)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @param class-string $type
      */
     public function containsTypeExprType(Type $exprType, string $type): bool
