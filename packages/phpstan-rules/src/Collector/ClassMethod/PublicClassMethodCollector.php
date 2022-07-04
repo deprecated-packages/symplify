@@ -61,12 +61,17 @@ final class PublicClassMethodCollector implements Collector
 
         $methodName = $node->name->toString();
 
+<<<<<<< HEAD
         // is this method required by parent contract? skip it
         foreach ($classReflection->getInterfaces() as $parentInterfaceReflection) {
             if ($parentInterfaceReflection->hasMethod($methodName)) {
                 return null;
             }
 <<<<<<< HEAD
+=======
+        if ($this->isUsedByParentClassOrInterface($classReflection, $methodName)) {
+            return null;
+>>>>>>> add parent test case method override
         }
 
         return [$classReflection->getName(), $methodName, $node->getLine()];
@@ -113,6 +118,24 @@ final class PublicClassMethodCollector implements Collector
 
         foreach (self::SKIPPED_TYPES as $skippedType) {
             if ($classReflection->isSubclassOf($skippedType)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function isUsedByParentClassOrInterface(ClassReflection $classReflection, string $methodName): bool
+    {
+        // is this method required by parent contract? skip it
+        foreach ($classReflection->getInterfaces() as $parentInterfaceReflection) {
+            if ($parentInterfaceReflection->hasMethod($methodName)) {
+                return true;
+            }
+        }
+
+        foreach ($classReflection->getParents() as $parentClassReflection) {
+            if ($parentClassReflection->hasMethod($methodName)) {
                 return true;
             }
         }
