@@ -17,6 +17,14 @@ use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
  */
 final class PublicClassMethodCollector implements Collector
 {
+    /**
+     * @var string[]
+     */
+    private const SKIPPED_TYPES = [
+        TestCase::class,
+        \Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator::class,
+    ];
+
     public function __construct(
         private ApiDocStmtAnalyzer $apiDocStmtAnalyzer
     ) {
@@ -47,18 +55,9 @@ final class PublicClassMethodCollector implements Collector
             return null;
         }
 
-        if ($classReflection->isSubclassOf(TestCase::class)) {
+        if ($this->skipClassReflection($classReflection)) {
             return null;
         }
-
-        // skip interface as required, traits as unable to detect for sure
-        if (! $classReflection->isClass()) {
-            return null;
-        }
-
-//        if ($classReflection->getParents() !== []) {
-//            return null;
-//        }
 
         $methodName = $node->name->toString();
 
@@ -103,5 +102,21 @@ final class PublicClassMethodCollector implements Collector
         }
 
         return ! $classMethod->isPublic();
+    }
+
+    private function skipClassReflection(ClassReflection $classReflection): bool
+    {
+        // skip interface as required, traits as unable to detect for sure
+        if (! $classReflection->isClass()) {
+            return true;
+        }
+
+        foreach (self::SKIPPED_TYPES as $skippedType) {
+            if ($classReflection->isSubclassOf($skippedType)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
