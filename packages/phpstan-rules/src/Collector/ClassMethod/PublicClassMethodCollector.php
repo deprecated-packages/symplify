@@ -71,10 +71,6 @@ final class PublicClassMethodCollector implements Collector
                 return null;
             }
         }
-//
-//        if ($classReflection->getInterfaces() !== []) {
-//            return null;
-//        }
 
         return [$classReflection->getName(), $methodName, $node->getLine()];
     }

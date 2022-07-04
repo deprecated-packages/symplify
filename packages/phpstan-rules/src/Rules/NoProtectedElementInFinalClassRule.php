@@ -92,7 +92,7 @@ CODE_SAMPLE
      * @param ClassMethod[] $classMethods
      * @return RuleError[]
      */
-    public function processClassMethods(array $classMethods, Scope $scope): array
+    private function processClassMethods(array $classMethods, Scope $scope): array
     {
         $errorMessages = [];
 

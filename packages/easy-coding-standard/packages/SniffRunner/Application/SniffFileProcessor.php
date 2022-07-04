@@ -56,7 +56,7 @@ final class SniffFileProcessor implements FileProcessorInterface
         }
     }
 
-    public function addSniff(Sniff $sniff): void
+    private function addSniff(Sniff $sniff): void
     {
         $this->sniffs[] = $sniff;
         $tokens = $sniff->register();
