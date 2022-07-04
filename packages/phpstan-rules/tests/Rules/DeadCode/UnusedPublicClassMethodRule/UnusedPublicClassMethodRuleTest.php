@@ -35,6 +35,7 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
         yield [[__DIR__ . '/Fixture/SkipStaticPublicMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPublicApiClassMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipInterfaceMethod.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipImplementsInterfaceCoveredByContract.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPrivateClassMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipUsedPublicMethod.php', __DIR__ . '/Source/ClassMethodCaller.php'], []];
 
