@@ -43,15 +43,6 @@ final class BarePhpDocParser
         return $this->resolvePhpDocTagNodes($phpDocNode);
     }
 
-    /**
-     * @return PhpDocTagNode[]
-     */
-    public function parseDocBlockToPhpDocTagNodes(string $docBlock): array
-    {
-        $phpDocNode = $this->parseDocBlock($docBlock);
-        return $this->resolvePhpDocTagNodes($phpDocNode);
-    }
-
     private function parseDocBlock(string $docBlock): PhpDocNode
     {
         $tokens = $this->lexer->tokenize($docBlock);
