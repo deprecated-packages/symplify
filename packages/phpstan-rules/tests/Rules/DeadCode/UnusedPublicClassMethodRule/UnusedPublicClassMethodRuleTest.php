@@ -35,6 +35,9 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
         $errorMessage = sprintf(UnusedPublicClassMethodRule::ERROR_MESSAGE, 'extraMethod');
         yield [[__DIR__ . '/Fixture/InterfaceWithExtraMethod.php'], [[$errorMessage, 15]]];
 
+        // public methods expected
+        yield [[__DIR__ . '/Fixture/SkipTestPublicMethod.php'], []];
+
         yield [[__DIR__ . '/Fixture/SkipStaticPublicMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPublicApiClassMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipInterfaceMethod.php'], []];

@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\Reflection\ClassReflection;
+use PHPUnit\Framework\TestCase;
 use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
 
 /**
@@ -43,6 +44,10 @@ final class PublicClassMethodCollector implements Collector
         }
 
         if ($this->apiDocStmtAnalyzer->isApiDoc($node, $classReflection)) {
+            return null;
+        }
+
+        if ($classReflection->isSubclassOf(TestCase::class)) {
             return null;
         }
 
