@@ -79,15 +79,24 @@ final class PublicClassMethodCollector implements Collector
 =======
 >>>>>>> [PHPStanRules] Check interface methods over the contract
         }
-//
-//        if ($classReflection->getInterfaces() !== []) {
-//            return null;
-//        }
 
 <<<<<<< HEAD
         return ! $classMethod->isPublic();
 =======
         return [$classReflection->getName(), $methodName, $node->getLine()];
 >>>>>>> [PHPStanRules] Check interface methods over the contract
+    }
+
+    private function shouldSkipClassMethod(ClassMethod $classMethod): bool
+    {
+        if ($classMethod->isMagic()) {
+            return true;
+        }
+
+        if ($classMethod->isStatic()) {
+            return true;
+        }
+
+        return ! $classMethod->isPublic();
     }
 }
