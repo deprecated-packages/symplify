@@ -465,6 +465,10 @@ parameters:
             paths:
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/DiffCodeSamplePrinter.php
                 - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
+                # /vendor api
+                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php
+                - packages/coding-standard/src/Fixer/Spacing/MethodChainingNewlineFixer.php
+                - packages/coding-standard/src/TokenRunner/Transformer/FixerTransformer/LineLengthTransformer.php
 
         # known value
         -
