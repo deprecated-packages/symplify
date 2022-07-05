@@ -53,6 +53,13 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
             __DIR__ . '/Fixture/SkipNullableUsedPublicMethod.php', __DIR__ . '/Source/NullableClassMethodCaller.php', ],
             [],
         ];
+
+        // parent abstract method used by child call
+        yield [[
+            __DIR__ . '/Fixture/SkipChildUsedPublicMethod.php',
+            __DIR__ . '/Source/Repository/AbstractRepository.php',
+            __DIR__ . '/Source/Repository/ChildRepository.php',
+        ], []];
     }
 
     /**
@@ -69,7 +76,9 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
     protected function getCollectors(): array
     {
         $publicClassMethodCollector = self::getContainer()->getByType(PublicClassMethodCollector::class);
-        return [new MethodCallCollector(), $publicClassMethodCollector];
+        $methodCallCollector = self::getContainer()->getByType(MethodCallCollector::class);
+
+        return [$methodCallCollector, $publicClassMethodCollector];
     }
 
     protected function getRule(): Rule
