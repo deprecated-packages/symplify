@@ -31,7 +31,7 @@ final class MethodCallCollector implements Collector
 
     /**
      * @param MethodCall $node
-     * @return array<array{class-string, string, int}>|null
+     * @return string[]|null
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
@@ -59,19 +59,31 @@ final class MethodCallCollector implements Collector
         $className = $callerType->getClassName();
         $methodName = $node->name->toString();
 
-        $classMethodReferences = [];
-
-        if ($this->reflectionProvider->hasClass($className)) {
-            $classReflection = $this->reflectionProvider->getClass($className);
-
-            foreach ($classReflection->getParents() as $parentClassReflection) {
-                if ($parentClassReflection->hasNativeMethod($methodName)) {
-                    $classMethodReferences[] = $parentClassReflection->getName() . '::' . $methodName;
-                }
-            }
-        }
+        $classMethodReferences = $this->findParentClassMethodReferences($className, $methodName);
 
         $classMethodReferences[] = $className . '::' . $methodName;
+
+        return $classMethodReferences;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function findParentClassMethodReferences(string $className, string $methodName): array
+    {
+
+        if (! $this->reflectionProvider->hasClass($className)) {
+            return [];
+        }
+
+        $classReflection = $this->reflectionProvider->getClass($className);
+
+        $classMethodReferences = [];
+        foreach ($classReflection->getParents() as $parentClassReflection) {
+            if ($parentClassReflection->hasNativeMethod($methodName)) {
+                $classMethodReferences[] = $parentClassReflection->getName() . '::' . $methodName;
+            }
+        }
 
         return $classMethodReferences;
     }
