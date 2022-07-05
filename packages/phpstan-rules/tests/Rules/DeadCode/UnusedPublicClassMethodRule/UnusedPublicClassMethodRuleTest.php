@@ -76,7 +76,9 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
     protected function getCollectors(): array
     {
         $publicClassMethodCollector = self::getContainer()->getByType(PublicClassMethodCollector::class);
-        return [new MethodCallCollector(), $publicClassMethodCollector];
+        $methodCallCollector = self::getContainer()->getByType(MethodCallCollector::class);
+
+        return [$methodCallCollector, $publicClassMethodCollector];
     }
 
     protected function getRule(): Rule

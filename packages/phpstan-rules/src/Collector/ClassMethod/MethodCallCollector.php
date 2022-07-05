@@ -9,6 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
+use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
@@ -18,6 +19,11 @@ use PHPStan\Type\TypeWithClassName;
  */
 final class MethodCallCollector implements Collector
 {
+    public function __construct(
+        private ReflectionProvider $reflectionProvider
+    ) {
+    }
+
     public function getNodeType(): string
     {
         return MethodCall::class;
@@ -49,7 +55,24 @@ final class MethodCallCollector implements Collector
             return null;
         }
 
+        // move to the class where method is defined, e.g. parent class defines the method, so it should be checked there
+        $className = $callerType->getClassName();
         $methodName = $node->name->toString();
-        return [$callerType->getClassName() . '::' . $methodName];
+
+        $classMethodReferences = [];
+
+        if ($this->reflectionProvider->hasClass($className)) {
+            $classReflection = $this->reflectionProvider->getClass($className);
+
+            foreach ($classReflection->getParents() as $parentClassReflection) {
+                if ($parentClassReflection->hasNativeMethod($methodName)) {
+                    $classMethodReferences[] = $parentClassReflection->getName() . '::' . $methodName;
+                }
+            }
+        }
+
+        $classMethodReferences[] = $className . '::' . $methodName;
+
+        return $classMethodReferences;
     }
 }
