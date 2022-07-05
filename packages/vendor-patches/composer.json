@@ -29,6 +29,7 @@
         }
     },
     "extra": {
+        "enable-patching": true,
         "branch-alias": {
             "dev-main": "11.1-dev"
         }
@@ -55,7 +56,10 @@
         "symplify/neon-config-dumper": "<11.0.8"
     },
     "config": {
-        "platform-check": false
+        "platform-check": false,
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

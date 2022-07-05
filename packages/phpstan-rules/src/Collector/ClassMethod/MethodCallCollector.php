@@ -71,7 +71,6 @@ final class MethodCallCollector implements Collector
      */
     private function findParentClassMethodReferences(string $className, string $methodName): array
     {
-
         if (! $this->reflectionProvider->hasClass($className)) {
             return [];
         }
