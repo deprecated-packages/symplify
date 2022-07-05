@@ -29,6 +29,7 @@
         }
     },
     "extra": {
+        "enable-patching": true,
         "branch-alias": {
             "dev-main": "11.1-dev"
         }
