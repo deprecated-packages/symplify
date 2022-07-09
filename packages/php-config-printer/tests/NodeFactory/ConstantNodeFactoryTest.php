@@ -48,7 +48,7 @@ final class ConstantNodeFactoryTest extends TestCase
         $constFetch = $this->constantNodeFactory->createConstantIfValue(PHP_VERSION);
         $this->assertInstanceOf(ConstFetch::class, $constFetch);
         /** @var ConstFetch $constFetch */
-        $this->assertSame($constFetch->name->toString(), 'PHP_VERSION');
+        $this->assertSame('PHP_VERSION', $constFetch->name->toString());
 
         error_reporting($previousLevel);
     }

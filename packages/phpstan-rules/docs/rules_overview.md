@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2527,6 +2527,46 @@ final class SomeClass
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoRightPHPUnitAssertScalarRule
+
+The compare assert arguments are switched. Move the expected value to the 1st left
+
+- class: [`Symplify\PHPStanRules\Rules\PHPUnit\NoRightPHPUnitAssertScalarRule`](../src/Rules/PHPUnit/NoRightPHPUnitAssertScalarRule.php)
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeFlippedAssert extends TestCase
+{
+    public function test()
+    {
+        $value = 1000;
+        $this->assertSame($value, 10);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeFlippedAssert extends TestCase
+{
+    public function test()
+    {
+        $value = 1000;
+        $this->assertSame(10, $value);
     }
 }
 ```

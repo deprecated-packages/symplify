@@ -17,7 +17,6 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
 {
     /**
      * @dataProvider provideData
-     * @covers ::merge
      */
     public function testFixture(SmartFileInfo $fixtureFileInfo): void
     {
@@ -25,8 +24,8 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
         $mainComposerJson = $this->createComposerJson($trioContent->getFirstValue());
         $packageComposerJson = $this->createComposerJson($trioContent->getSecondValue());
 
-        $subject = new MinimalStabilityKeyMerger();
-        $subject->merge($mainComposerJson, $packageComposerJson);
+        $minimalStabilityKeyMerger = new MinimalStabilityKeyMerger();
+        $minimalStabilityKeyMerger->merge($mainComposerJson, $packageComposerJson);
 
         $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $mainComposerJson);
     }
@@ -36,9 +35,6 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
      */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(
-            __DIR__ . '/Fixture/MinimalStability',
-            '*.json'
-        );
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture/MinimalStability', '*.json');
     }
 }

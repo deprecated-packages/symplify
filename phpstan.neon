@@ -133,6 +133,7 @@ parameters:
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 # direct string printer
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
+                - packages/phpstan-rules/packages/Symfony/Rules/TwigPublicCallableExistsRule.php
 
         -
             message: '#Do not use static property#'
@@ -525,3 +526,4 @@ parameters:
         -
             message: '#Class method "configure\(\)" is never used#'
             path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
+
