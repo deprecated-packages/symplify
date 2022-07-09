@@ -11,7 +11,7 @@ use PharIo\Version\PreReleaseSuffix;
 
 final class MinimalStabilityKeyMerger implements ComposerKeyMergerInterface
 {
-    public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson) : void
+    public function merge(ComposerJson $mainComposerJson, ComposerJson $newComposerJson): void
     {
         try {
             $newStability = new PreReleaseSuffix((string)$newComposerJson->getMinimumStability());
