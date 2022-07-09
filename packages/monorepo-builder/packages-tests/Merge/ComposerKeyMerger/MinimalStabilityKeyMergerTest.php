@@ -24,8 +24,8 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
         $mainComposerJson = $this->createComposerJson($trioContent->getFirstValue());
         $packageComposerJson = $this->createComposerJson($trioContent->getSecondValue());
 
-        $subject = new MinimalStabilityKeyMerger();
-        $subject->merge($mainComposerJson, $packageComposerJson);
+        $minimalStabilityKeyMerger = new MinimalStabilityKeyMerger();
+        $minimalStabilityKeyMerger->merge($mainComposerJson, $packageComposerJson);
 
         $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $mainComposerJson);
     }
