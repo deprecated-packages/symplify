@@ -17,7 +17,6 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
 {
     /**
      * @dataProvider provideData
-     * @covers ::merge
      */
     public function testFixture(SmartFileInfo $fixtureFileInfo): void
     {
@@ -36,9 +35,6 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
      */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(
-            __DIR__ . '/Fixture/MinimalStability',
-            '*.json'
-        );
+        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture/MinimalStability', '*.json');
     }
 }
