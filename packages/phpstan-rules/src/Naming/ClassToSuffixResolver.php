@@ -13,7 +13,11 @@ final class ClassToSuffixResolver
 {
     public function resolveFromClass(string $parentClass): string
     {
-        $expectedSuffix = \str_contains($parentClass, '\\') ? (string) Strings::after($parentClass, '\\', -1) : $parentClass;
+        $expectedSuffix = \str_contains($parentClass, '\\') ? (string) Strings::after(
+            $parentClass,
+            '\\',
+            -1
+        ) : $parentClass;
 
         $expectedSuffix = $this->removeAbstractInterfacePrefixSuffix($expectedSuffix);
 
