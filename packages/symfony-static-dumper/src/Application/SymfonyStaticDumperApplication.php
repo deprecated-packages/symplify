@@ -20,9 +20,9 @@ final class SymfonyStaticDumperApplication
     ) {
     }
 
-    public function run(string $publicDirectory, string $outputDirectory): void
+    public function run(string $publicDirectory, string $outputDirectory, bool $wdpOnly = false): void
     {
-        $this->controllerDumper->dump($outputDirectory);
+        $this->controllerDumper->dump($outputDirectory, $wdpOnly);
 
         $message = sprintf('Files generated to "%s"', $outputDirectory);
         $this->symfonyStyle->success($message);

@@ -25,10 +25,14 @@ final class ControllerDumper
     ) {
     }
 
-    public function dump(string $outputDirectory): void
+    public function dump(string $outputDirectory, bool $wpdOnly): void
     {
-        $this->dumpControllerWithoutParametersContents($outputDirectory);
-        $this->dumpControllerWithParametersContents($outputDirectory);
+        if ($wpdOnly) {
+            $this->dumpControllerWithParametersContents($outputDirectory);
+        } else {
+            $this->dumpControllerWithoutParametersContents($outputDirectory);
+            $this->dumpControllerWithParametersContents($outputDirectory);
+        }
     }
 
     private function dumpControllerWithoutParametersContents(string $outputDirectory): void
