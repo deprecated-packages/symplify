@@ -1,4 +1,4 @@
-# 4 Rules Overview
+# 5 Rules Overview
 
 ## PreventDoubleSetParameterRule
 
@@ -146,6 +146,55 @@ class SomeController extends AbstractController
         return $this->render('...', [
             'name' => 'John'
         ]);
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## TwigPublicCallableExistsRule
+
+The callable method [$this, "%s"] was not found
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\TwigPublicCallableExistsRule`](../packages/Symfony/Rules/TwigPublicCallableExistsRule.php)
+
+```php
+use Twig\Extension\AbstractExtension;
+use Twig_SimpleFunction;
+
+final class TwigExtensionWithMissingCallable extends AbstractExtension
+{
+    public function getFunctions()
+    {
+        return [
+            new Twig_SimpleFunction('someFunctionName', [$this, 'someMethod']),
+        ];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Twig\Extension\AbstractExtension;
+use Twig_SimpleFunction;
+
+final class TwigExtensionWithMissingCallable extends AbstractExtension
+{
+    public function getFunctions()
+    {
+        return [
+            new Twig_SimpleFunction('someFunctionName', [$this, 'someMethod']),
+        ];
+    }
+
+    public function someMethod()
+    {
+        // ...
     }
 }
 ```
