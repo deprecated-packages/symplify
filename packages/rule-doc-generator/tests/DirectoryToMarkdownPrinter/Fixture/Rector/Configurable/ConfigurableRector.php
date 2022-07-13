@@ -18,7 +18,7 @@ final class ConfigurableRector implements RectorInterface, ConfigurableRuleInter
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE

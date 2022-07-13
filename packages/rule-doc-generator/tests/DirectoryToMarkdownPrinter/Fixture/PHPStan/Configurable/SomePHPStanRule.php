@@ -30,7 +30,7 @@ final class SomePHPStanRule implements Rule, DocumentedRuleInterface, Configurab
                 <<<'CODE_SAMPLE'
 bad code
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 good code
 CODE_SAMPLE

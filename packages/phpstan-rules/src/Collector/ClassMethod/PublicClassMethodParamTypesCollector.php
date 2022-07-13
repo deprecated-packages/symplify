@@ -11,15 +11,17 @@ use PHPStan\Collectors\Collector;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Matcher\Collector\PublicClassMethodMatcher;
 use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
+use Symplify\PHPStanRules\Printer\CollectorMetadataPrinter;
 
 /**
- * @implements Collector<ClassMethod, array{class-string, string, int}|null>
+ * @implements Collector<ClassMethod, array{class-string, string, string, int}|null>
  */
-final class PublicClassMethodCollector implements Collector
+final class PublicClassMethodParamTypesCollector implements Collector
 {
     public function __construct(
         private ApiDocStmtAnalyzer $apiDocStmtAnalyzer,
         private PublicClassMethodMatcher $publicClassMethodMatcher,
+        private CollectorMetadataPrinter $collectorMetadataPrinter
     ) {
     }
 
@@ -30,10 +32,14 @@ final class PublicClassMethodCollector implements Collector
 
     /**
      * @param ClassMethod $node
-     * @return array<array{class-string, string, int}>|null
+     * @return array{class-string, string, string, int}|null
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
+        if ($node->params === []) {
+            return null;
+        }
+
         if ($this->publicClassMethodMatcher->shouldSkipClassMethod($node)) {
             return null;
         }
@@ -59,6 +65,8 @@ final class PublicClassMethodCollector implements Collector
             return null;
         }
 
-        return [$classReflection->getName(), $methodName, $node->getLine()];
+        $printedParamTypesString = $this->collectorMetadataPrinter->printParamTypesToString($node);
+
+        return [$classReflection->getName(), $methodName, $printedParamTypesString, $node->getLine()];
     }
 }
