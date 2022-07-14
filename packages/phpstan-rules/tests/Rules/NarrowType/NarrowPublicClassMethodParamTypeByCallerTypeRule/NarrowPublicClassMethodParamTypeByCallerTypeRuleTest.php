@@ -66,6 +66,12 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/MixedAndString/ThirdCaller.php',
         ], []];
 
+        // skip api
+        yield [[
+            __DIR__ . '/Fixture/SkipApiMarked.php',
+            __DIR__ . '/Source/ExpectedNodeApi/CallWithProperty.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',
