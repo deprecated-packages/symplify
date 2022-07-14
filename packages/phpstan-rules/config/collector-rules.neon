@@ -2,7 +2,7 @@
 rules:
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
-    # - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
+    - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
 
 services:
     # for UnusedPublicClassConstRule

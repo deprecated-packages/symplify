@@ -52,6 +52,20 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedClassString/SecondTypedCaller.php',
         ], []];
 
+        // skip everything in case of values is mixed
+        yield [[
+            __DIR__ . '/Fixture/SkipMixedAndString.php',
+            __DIR__ . '/Source/MixedAndString/FirstCaller.php',
+            __DIR__ . '/Source/MixedAndString/SecondCaller.php',
+        ], []];
+
+        // skip int + string values
+        yield [[
+            __DIR__ . '/Fixture/SkipMixedAndString.php',
+            __DIR__ . '/Source/MixedAndString/FirstCaller.php',
+            __DIR__ . '/Source/MixedAndString/ThirdCaller.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',

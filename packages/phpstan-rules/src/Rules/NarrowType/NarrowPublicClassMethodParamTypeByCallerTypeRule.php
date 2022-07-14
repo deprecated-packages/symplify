@@ -12,6 +12,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodParamTypesCollector;
 use Symplify\PHPStanRules\Collector\MethodCall\MethodCallArgTypesCollector;
+use Symplify\PHPStanRules\Enum\Types\ResolvedTypes;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -57,8 +58,17 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRule implements Rule, Do
                     continue;
                 }
 
-                $uniqueCollectedArgTypesString = $collectedArgTypes[0];
+                // we need exactly one type
+                if (count($collectedArgTypes) !== 1) {
+                    continue;
+                }
 
+                // one of the arg types could not be resolved, we're not sure
+                if (in_array(ResolvedTypes::UNKNOWN_TYPES, $collectedArgTypes, true)) {
+                    continue;
+                }
+
+                $uniqueCollectedArgTypesString = $collectedArgTypes[0];
                 if ($paramTypesString === $uniqueCollectedArgTypesString) {
                     continue;
                 }
@@ -133,6 +143,11 @@ CODE_SAMPLE
             foreach ($methodCallArgTypes as [$classMethodReference, $argTypesString]) {
                 $classMethodReferenceToTypes[$classMethodReference][] = $argTypesString;
             }
+        }
+
+        // resolve unique values
+        foreach ($classMethodReferenceToTypes as $key => $value) {
+            $classMethodReferenceToTypes[$key] = array_unique($value);
         }
 
         return $classMethodReferenceToTypes;
