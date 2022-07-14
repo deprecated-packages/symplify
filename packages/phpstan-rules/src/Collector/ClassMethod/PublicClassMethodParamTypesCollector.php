@@ -66,7 +66,6 @@ final class PublicClassMethodParamTypesCollector implements Collector
         }
 
         $printedParamTypesString = $this->collectorMetadataPrinter->printParamTypesToString($node);
-
         return [$classReflection->getName(), $methodName, $printedParamTypesString, $node->getLine()];
     }
 }
