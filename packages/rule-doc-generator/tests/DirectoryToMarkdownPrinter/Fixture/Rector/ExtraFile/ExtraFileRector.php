@@ -17,11 +17,11 @@ final class ExtraFileRector implements RectorInterface
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 extra file
 CODE_SAMPLE

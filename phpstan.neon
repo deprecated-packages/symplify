@@ -527,3 +527,4 @@ parameters:
             message: '#Class method "configure\(\)" is never used#'
             path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
 
+        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\NarrowType\\NarrowPublicClassMethodParamTypeByCallerTypeRule\\NarrowPublicClassMethodParamTypeByCallerTypeRuleTest\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'

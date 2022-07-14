@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 105 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1279,6 +1279,58 @@ class SomeClass
             100 => ['yes'],
             default => ['no'],
         };
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NarrowPublicClassMethodParamTypeByCallerTypeRule
+
+Parameters should use "%s" types as the only types passed to this method
+
+- class: [`Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule`](../src/Rules/NarrowType/NarrowPublicClassMethodParamTypeByCallerTypeRule.php)
+
+```php
+use PhpParser\Node\Expr\MethodCall;
+
+final class SomeClass
+{
+    public function run(SomeService $someService, MethodCall $methodCall)
+    {
+        $someService->isCheck($node);
+    }
+}
+
+final class SomeService
+{
+    public function isCheck($methodCall)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PhpParser\Node\Expr\MethodCall;
+
+final class SomeClass
+{
+    public function run(SomeService $someService, MethodCall $methodCall)
+    {
+        $someService->isCheck($node);
+    }
+}
+
+final class SomeService
+{
+    public function isCheck(MethodCall $methodCall)
+    {
     }
 }
 ```

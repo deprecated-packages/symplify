@@ -55,3 +55,6 @@ services:
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
+    - Symplify\PHPStanRules\Matcher\Collector\PublicClassMethodMatcher
+    - Symplify\PHPStanRules\Matcher\ClassMethodCallReferenceResolver
+    - Symplify\PHPStanRules\Printer\CollectorMetadataPrinter
