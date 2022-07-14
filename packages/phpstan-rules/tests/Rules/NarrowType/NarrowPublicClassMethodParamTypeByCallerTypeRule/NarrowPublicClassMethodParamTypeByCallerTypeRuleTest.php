@@ -66,6 +66,13 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/MixedAndString/ThirdCaller.php',
         ], []];
 
+        // skip nullable compare
+        yield [[
+            __DIR__ . '/Fixture/SkipNullableCompare.php',
+            __DIR__ . '/Source/NullableParam/FirstNullable.php',
+            __DIR__ . '/Source/NullableParam/SecondNullable.php',
+        ], []];
+
         // skip api
         yield [[
             __DIR__ . '/Fixture/SkipApiMarked.php',

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Printer;
 
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
 use PhpParser\PrettyPrinter\Standard;
@@ -64,7 +66,13 @@ final class CollectorMetadataPrinter
                 continue;
             }
 
-            $printedParamType = $this->printerStandard->prettyPrint([$param->type]);
+            $paramType = $param->type;
+            if ($paramType instanceof NullableType) {
+                // unite to phpstan type
+                $paramType = new UnionType([$paramType->type, new Identifier('null')]);
+            }
+
+            $printedParamType = $this->printerStandard->prettyPrint([$paramType]);
             $printedParamType = ltrim($printedParamType, '\\');
 
             $printedParamTypes[] = $printedParamType;
