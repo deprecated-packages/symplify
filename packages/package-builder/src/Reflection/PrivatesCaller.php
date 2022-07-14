@@ -13,6 +13,7 @@ use ReflectionMethod;
 final class PrivatesCaller
 {
     /**
+     * @api
      * @param mixed[] $arguments
      */
     public function callPrivateMethod(object | string $object, string $methodName, array $arguments): mixed
@@ -27,6 +28,9 @@ final class PrivatesCaller
         return $methodReflection->invokeArgs($object, $arguments);
     }
 
+    /**
+     * @api
+     */
     public function callPrivateMethodWithReference(object | string $object, string $methodName, mixed $argument): mixed
     {
         if (is_string($object)) {

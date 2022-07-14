@@ -35,6 +35,9 @@ final class AstCognitiveComplexityAnalyzer
         return $totalCognitiveComplexity;
     }
 
+    /**
+     * @api
+     */
     public function analyzeFunctionLike(Function_ | ClassMethod $functionLike): int
     {
         $this->cognitiveComplexityDataCollector->reset();
