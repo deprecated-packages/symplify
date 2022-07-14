@@ -97,7 +97,7 @@ $value = <<<'CODE_SNIPPET'
 ...
 'CODE_SNIPPET'
 CODE_SAMPLE
-,
+                ,
                 [
                     self::KEYWORD => 'CODE_SNIPPET',
                 ]

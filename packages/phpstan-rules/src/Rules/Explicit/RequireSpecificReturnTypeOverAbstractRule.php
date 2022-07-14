@@ -56,7 +56,7 @@ final class IssueControl extends Control
 {
 }
 CODE_SAMPLE
-             ,
+                ,
                 <<<'CODE_SAMPLE'
 final class IssueControlFactory
 {

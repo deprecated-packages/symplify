@@ -144,9 +144,9 @@ if ($simple == true) {
     $doSomething = true;
 }
 if ($expr1) {
-    // if body
+// if body
 } elseif ($expr2) {
-    // elseif body
+// elseif body
 } else {
     // else body
 }
@@ -154,7 +154,7 @@ if (
     $expr1
     && $expr2
 ) {
-    // if body
+// if body
 } elseif (
     $expr3
     && $expr4
@@ -249,5 +249,5 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
 new class($a, $b, $c) extends SomeExtendedClass implements
     \ArrayAccess,
     \Countable {
-    // Body
-};
+        // Body
+    };

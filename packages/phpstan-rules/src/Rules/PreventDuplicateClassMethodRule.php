@@ -133,7 +133,7 @@ class SomeClass
 }
 }
 CODE_SAMPLE
-        ,
+                ,
                 [
                     'minimumLineCount' => 3,
                 ]

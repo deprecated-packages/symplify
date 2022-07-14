@@ -10,7 +10,7 @@
         "composer/semver": "^3.3",
         "composer/xdebug-handler": "^3.0",
         "cweagans/composer-patches": "^1.7",
-        "friendsofphp/php-cs-fixer": "^3.8",
+        "friendsofphp/php-cs-fixer": "^3.9.3",
         "j7mbo/twitter-api-php": "^1.0.6",
         "latte/latte": "^2.11",
         "myclabs/php-enum": "^1.8",
