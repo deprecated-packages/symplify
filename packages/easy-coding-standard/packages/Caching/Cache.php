@@ -16,7 +16,7 @@ final class Cache
     /**
      * @api
      */
-    public function load(string $key, string $variableKey): mixed
+    public function load(string $key, string $variableKey): ?string
     {
         return $this->fileCacheStorage->load($key, $variableKey);
     }

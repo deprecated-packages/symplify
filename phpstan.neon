@@ -122,18 +122,12 @@ parameters:
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
         -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-
-        -
             message: '#Use value object over return of values#'
             paths:
                 # Symfony API
                 - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 # direct string printer
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
-                - packages/phpstan-rules/packages/Symfony/Rules/TwigPublicCallableExistsRule.php
 
         -
             message: '#Do not use static property#'
@@ -145,11 +139,6 @@ parameters:
             message: '#is forbidden to use#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-
-        -
-            message: '#Do not call parent method if parent method is empty#'
-            paths:
-                - packages/smart-file-system/src/SmartFileInfo.php # 122
 
         -
             message: '#Use explicit return value over magic &reference#'
@@ -180,9 +169,15 @@ parameters:
 
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
-            path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
+            paths:
+                - packages/smart-file-system/src/Normalizer/PathNormalizer.php
+                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            path: packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
@@ -192,8 +187,6 @@ parameters:
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
                 - packages/easy-ci/src/Latte/LatteTemplateAnalyzer/MissingClassStaticCallLatteAnalyzer.php
-                # look for parent method
-                - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
@@ -289,7 +282,6 @@ parameters:
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
             paths:
-                - packages/package-builder/src/Console/Command/CommandNaming.php
                 - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
 
         # on purpose, to make service a simple as possible
@@ -439,12 +431,6 @@ parameters:
                 - packages/phpstan-rules/tests
                 - packages/phpstan-rules/packages
 
-        # use as narrow container type as possible
-        -
-            message: '#Parameter (.*?) should use "Symfony\\Component\\DependencyInjection\\ContainerBuilder" type as the only type passed to this method#'
-            paths:
-                - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
-
         -
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
@@ -481,21 +467,12 @@ parameters:
             paths:
                 - packages/php-config-printer/src/*Converter/*
 
-        # tests
-        -
-            message: '#Creating new PHPStan\\(.*?) is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
-            paths:
-                - packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
-
         # cached parser
         -
             message: '#Creating new PHPStan(.*?) is not covered by backward compatibility promise#'
             path: packages/astral/src/PhpParser/SmartPhpParserFactory.php
 
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
-
-        # ignore known type
-        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node> but returns array<PhpParser\\Node>#'
 
         # single constant
         -
@@ -513,12 +490,7 @@ parameters:
 
         # collector metadata
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
-        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{non\-empty\-string\}#'
         - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\PublicClassMethodCollector\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{class\-string, string, int\}#'
-
-        -
-            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-            path: packages/phpstan-rules/src/Collector/PublicClassLikeConstCollector.php
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
 

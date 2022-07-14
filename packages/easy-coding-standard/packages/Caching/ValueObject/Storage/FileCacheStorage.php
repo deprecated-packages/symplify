@@ -22,7 +22,7 @@ final class FileCacheStorage
     ) {
     }
 
-    public function load(string $key, string $variableKey): mixed
+    public function load(string $key, string $variableKey): ?string
     {
         $cacheFilePaths = $this->getCacheFilePaths($key);
         $filePath = $cacheFilePaths->getFilePath();
