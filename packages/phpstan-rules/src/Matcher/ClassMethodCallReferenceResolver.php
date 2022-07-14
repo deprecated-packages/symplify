@@ -22,8 +22,6 @@ final class ClassMethodCallReferenceResolver
 
         $callerType = $scope->getType($methodCall->var);
 
-        // @todo add resolver of class + method
-
         // remove optional nullable type
         if (TypeCombinator::containsNull($callerType)) {
             $callerType = TypeCombinator::removeNull($callerType);

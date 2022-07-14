@@ -8,7 +8,7 @@ use ReflectionClass;
 
 final class ConstantNameFromValueResolver
 {
-    public function resolveFromValueAndClass(mixed $constantValue, string $class): ?string
+    public function resolveFromValueAndClass(int|string $constantValue, string $class): ?string
     {
         $reflectionClass = new ReflectionClass($class);
 

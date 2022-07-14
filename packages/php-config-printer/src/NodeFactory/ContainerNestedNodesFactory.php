@@ -15,6 +15,7 @@ final class ContainerNestedNodesFactory
     }
 
     /**
+     * @api
      * @param mixed[] $nestedValues
      * @return Expression[]
      */

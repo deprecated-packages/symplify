@@ -6,11 +6,17 @@ namespace Symplify\PHPStanRules\Printer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\UnionType;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
+use PHPStan\Type\BooleanType;
 use PHPStan\Type\ClassStringType;
+use PHPStan\Type\ClosureType;
+use PHPStan\Type\IntegerRangeType;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\Type;
 use PHPStan\Type\VerbosityLevel;
 use Symplify\PHPStanRules\Enum\Types\ResolvedTypes;
 
@@ -35,15 +41,15 @@ final class CollectorMetadataPrinter
                 return ResolvedTypes::UNKNOWN_TYPES;
             }
 
-            if ($argType instanceof ClassStringType) {
-                $stringArgType = 'string';
-            } elseif ($argType instanceof ArrayType) {
-                $stringArgType = 'array';
-            } else {
-                $stringArgType = $argType->describe(VerbosityLevel::typeOnly());
+            if ($argType instanceof IntersectionType) {
+                return ResolvedTypes::UNKNOWN_TYPES;
             }
 
-            $stringArgTypes[] = $stringArgType;
+            if ($argType instanceof UnionType) {
+                return ResolvedTypes::UNKNOWN_TYPES;
+            }
+
+            $stringArgTypes[] = $this->printTypeToString($argType);
         }
 
         return implode('|', $stringArgTypes);
@@ -65,5 +71,30 @@ final class CollectorMetadataPrinter
         }
 
         return implode('|', $printedParamTypes);
+    }
+
+    private function printTypeToString(Type $type): string
+    {
+        if ($type instanceof ClassStringType) {
+            return 'string';
+        }
+
+        if ($type instanceof ArrayType) {
+            return 'array';
+        }
+
+        if ($type instanceof BooleanType) {
+            return 'bool';
+        }
+
+        if ($type instanceof IntegerRangeType) {
+            return 'int';
+        }
+
+        if ($type instanceof ClosureType) {
+            return 'callable';
+        }
+
+        return $type->describe(VerbosityLevel::typeOnly());
     }
 }

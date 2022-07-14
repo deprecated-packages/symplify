@@ -20,6 +20,7 @@ final class ClassAnnotationResolver
     }
 
     /**
+     * @api
      * @return string[]
      */
     public function resolveClassAnnotations(Node $node, Scope $scope): array

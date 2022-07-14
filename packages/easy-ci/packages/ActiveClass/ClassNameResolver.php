@@ -41,9 +41,12 @@ final class ClassNameResolver
         return $classNames;
     }
 
-    public function resolveFromFromFileInfo(SmartFileInfo|SplFileInfo $phpFileInfo): ?string
+    /**
+     * @api
+     */
+    public function resolveFromFromFileInfo(SmartFileInfo|SplFileInfo $fileInfo): ?string
     {
-        $stmts = $this->parser->parse($phpFileInfo->getContents());
+        $stmts = $this->parser->parse($fileInfo->getContents());
         if ($stmts === null) {
             return null;
         }
