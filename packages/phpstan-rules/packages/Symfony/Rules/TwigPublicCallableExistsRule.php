@@ -90,7 +90,7 @@ final class TwigExtensionWithMissingCallable extends AbstractExtension
     }
 }
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 use Twig\Extension\AbstractExtension;
 use Twig_SimpleFunction;

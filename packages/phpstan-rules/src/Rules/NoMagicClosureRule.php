@@ -56,7 +56,7 @@ final class NoMagicClosureRule implements Rule, DocumentedRuleInterface
     // ...
 })
 CODE_SAMPLE
-    ,
+                    ,
                     <<<'CODE_SAMPLE'
 final class HelpfulName
 {

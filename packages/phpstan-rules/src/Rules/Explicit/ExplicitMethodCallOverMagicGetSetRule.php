@@ -69,7 +69,7 @@ $magicObject = new MagicObject();
 // magic re-directed to method
 $magicObject->name;
 CODE_SAMPLE
-            ,
+                ,
                 <<<'CODE_SAMPLE'
 use Nette\SmartObject;
 

@@ -96,7 +96,7 @@ class SomeClass
     return echo '...';
 }
 CODE_SAMPLE
-            ,
+                ,
                 [
                     'forbiddenFunctions' => ['eval'],
                 ]
@@ -116,7 +116,7 @@ class SomeClass
     return true;
 }
 CODE_SAMPLE
-            ,
+                ,
                 [
                     'forbiddenFunctions' => [
                         'dump' => 'seems you missed some debugging function',

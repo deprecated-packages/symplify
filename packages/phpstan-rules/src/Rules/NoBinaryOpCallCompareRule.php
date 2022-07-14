@@ -77,7 +77,7 @@ final class NoBinaryOpCallCompareRule implements Rule, DocumentedRuleInterface
 return array_filter($items, function ($item) {
 }) !== [];
 CODE_SAMPLE
-    ,
+                    ,
                     <<<'CODE_SAMPLE'
 $values = array_filter($items, function ($item) {
 });

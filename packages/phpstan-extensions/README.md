@@ -79,7 +79,7 @@ $kernel->boot();
 $kernel->getContainer();
 // Reality: ContainerInterface ✅
 $kernel->getContainer();
- // Reality: ContainerInterface ✅
+// Reality: ContainerInterface ✅
 ```
 
 #### `Symplify\PHPStanExtensions\ReturnTypeExtension\SplFileInfoTolerantReturnTypeExtension`

@@ -86,7 +86,7 @@ if ($direction === Direction::RIGHT) {
     echo 'right';
 }
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 final class Direction
 {

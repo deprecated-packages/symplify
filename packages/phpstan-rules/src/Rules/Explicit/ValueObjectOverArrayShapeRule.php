@@ -55,7 +55,7 @@ function createConfiguration()
     return ['line' => 100];
 }
 CODE_SAMPLE
-             ,
+                ,
                 <<<'CODE_SAMPLE'
 function createConfiguration()
 {

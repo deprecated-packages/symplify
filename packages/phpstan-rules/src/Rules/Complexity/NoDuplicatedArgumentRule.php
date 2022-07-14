@@ -79,7 +79,7 @@ final class NoDuplicatedArgumentRule implements Rule, DocumentedRuleInterface
                 <<<'CODE_SAMPLE'
 function run($one, $one);
 CODE_SAMPLE
-    ,
+                ,
                 <<<'CODE_SAMPLE'
 function run($one, $two);
 CODE_SAMPLE

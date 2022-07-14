@@ -44,7 +44,7 @@ final class SomeProduct
     }
 }
 CODE_SAMPLE
-             ,
+                ,
                 <<<'CODE_SAMPLE'
 final class SomeProduct
 {
