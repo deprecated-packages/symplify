@@ -12,6 +12,7 @@ use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodParamTypesCollector;
 use Symplify\PHPStanRules\Collector\MethodCall\MethodCallArgTypesCollector;
+use Symplify\PHPStanRules\Enum\Types\ResolvedTypes;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -50,14 +51,15 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRule implements Rule, Do
 
         foreach ($publicClassMethodCollector as $filePath => $declarations) {
             foreach ($declarations as [$className, $methodName, $paramTypesString, $line]) {
-                $currentClassMethodReference = $className . '::' . $methodName;
+                $uniqueCollectedArgTypesString = $this->resolveUniqueArgTypesString(
+                    $classMethodReferenceToArgTypes,
+                    $className,
+                    $methodName
+                );
 
-                $collectedArgTypes = $classMethodReferenceToArgTypes[$currentClassMethodReference] ?? null;
-                if ($collectedArgTypes === null) {
+                if ($uniqueCollectedArgTypesString === null) {
                     continue;
                 }
-
-                $uniqueCollectedArgTypesString = $collectedArgTypes[0];
 
                 if ($paramTypesString === $uniqueCollectedArgTypesString) {
                     continue;
@@ -135,6 +137,39 @@ CODE_SAMPLE
             }
         }
 
+        // resolve unique values
+        foreach ($classMethodReferenceToTypes as $key => $value) {
+            $classMethodReferenceToTypes[$key] = array_unique($value);
+        }
+
         return $classMethodReferenceToTypes;
+    }
+
+    /**
+     * @param array<string, string[]> $classMethodReferenceToArgTypes
+     */
+    private function resolveUniqueArgTypesString(
+        array $classMethodReferenceToArgTypes,
+        string $className,
+        string $methodName
+    ): ?string {
+        $currentClassMethodReference = $className . '::' . $methodName;
+
+        $collectedArgTypes = $classMethodReferenceToArgTypes[$currentClassMethodReference] ?? null;
+        if ($collectedArgTypes === null) {
+            return null;
+        }
+
+        // we need exactly one type
+        if (count($collectedArgTypes) !== 1) {
+            return null;
+        }
+
+        // one of the arg types could not be resolved, we're not sure
+        if (in_array(ResolvedTypes::UNKNOWN_TYPES, $collectedArgTypes, true)) {
+            return null;
+        }
+
+        return $collectedArgTypes[0];
     }
 }

@@ -10,9 +10,9 @@ use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\ClassStringType;
-use PHPStan\Type\Constant\ConstantArrayType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\VerbosityLevel;
+use Symplify\PHPStanRules\Enum\Types\ResolvedTypes;
 
 final class CollectorMetadataPrinter
 {
@@ -23,7 +23,7 @@ final class CollectorMetadataPrinter
         $this->printerStandard = new Standard();
     }
 
-    public function printArgTypesAsString(MethodCall $methodCall, Scope $scope): ?string
+    public function printArgTypesAsString(MethodCall $methodCall, Scope $scope): string
     {
         $stringArgTypes = [];
 
@@ -32,7 +32,7 @@ final class CollectorMetadataPrinter
 
             // we have no idea, nothing we can do
             if ($argType instanceof MixedType) {
-                return null;
+                return ResolvedTypes::UNKNOWN_TYPES;
             }
 
             if ($argType instanceof ClassStringType) {
