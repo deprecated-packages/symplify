@@ -57,21 +57,13 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRule implements Rule, Do
                     continue;
                 }
 
-                $uniqueCollectedArgTypes = array_unique($collectedArgTypes);
-
-                // we require only exact one type
-                if (count($uniqueCollectedArgTypes) !== 1) {
-                    continue;
-                }
-
-                $uniqueCollectedArgTypesString = $uniqueCollectedArgTypes[0];
+                $uniqueCollectedArgTypesString = $collectedArgTypes[0];
 
                 if ($paramTypesString === $uniqueCollectedArgTypesString) {
                     continue;
                 }
 
-                // @todo
-                $errorMessage = sprintf(self::ERROR_MESSAGE, implode('|', $uniqueCollectedArgTypes));
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $uniqueCollectedArgTypesString);
                 $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
                     ->file($filePath)
                     ->line($line)

@@ -118,7 +118,7 @@ CODE_SAMPLE
             return true;
         }
 
-        return $this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope);
+        return $this->parentClassMethodGuard->isClassMethodGuardedByParentClassMethod($classMethod, $scope);
     }
 
     private function shouldSkipProperty(Property $property, Scope $scope): bool

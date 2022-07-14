@@ -82,7 +82,6 @@ final class ForbiddenNetteInjectOverrideRule implements Rule, DocumentedRuleInte
             $propertyFetch = $assign->var;
             if (! $this->netteInjectAnalyzer->isParentInjectPropertyFetch(
                 $propertyFetch,
-                $scope,
                 $parentClassReflections
             )) {
                 continue;
