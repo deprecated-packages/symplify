@@ -31,10 +31,25 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
     {
         yield [[__DIR__ . '/Fixture/SkipNonPublicClassMethod.php'], []];
 
+        // skip expected scalar type
         yield [[
             __DIR__ . '/Fixture/SkipProperlyFilledParamType.php',
             __DIR__ . '/Source/ExpectedType/FirstTypedCaller.php',
             __DIR__ . '/Source/ExpectedType/SecondTypedCaller.php',
+        ], []];
+
+        // skip expected object type
+        yield [[
+            __DIR__ . '/Fixture/SkipExpectedClassType.php',
+            __DIR__ . '/Source/ExpectedClassType/FirstClassTypedCaller.php',
+            __DIR__ . '/Source/ExpectedClassType/SecondClassTypedCaller.php',
+        ], []];
+
+        // skip class-string
+        yield [[
+            __DIR__ . '/Fixture/SkipClassStringPassed.php',
+            __DIR__ . '/Source/ExpectedClassString/FirstTypedCaller.php',
+            __DIR__ . '/Source/ExpectedClassString/SecondTypedCaller.php',
         ], []];
 
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');

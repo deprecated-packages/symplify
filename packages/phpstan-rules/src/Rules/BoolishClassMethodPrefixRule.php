@@ -97,7 +97,7 @@ CODE_SAMPLE
         /** @var string $classMethodName */
         $classMethodName = $this->simpleNameResolver->getName($classMethod);
 
-        if ($this->parentClassMethodGuard->isFunctionLikeProtected($classMethod, $scope)) {
+        if ($this->parentClassMethodGuard->isClassMethodGuardedByParentClassMethod($classMethod, $scope)) {
             return true;
         }
 

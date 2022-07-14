@@ -8,6 +8,10 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\ClassStringType;
+use PHPStan\Type\Constant\ConstantArrayType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\VerbosityLevel;
 
 final class CollectorMetadataPrinter
@@ -19,13 +23,27 @@ final class CollectorMetadataPrinter
         $this->printerStandard = new Standard();
     }
 
-    public function printArgTypesAsString(MethodCall $methodCall, Scope $scope): string
+    public function printArgTypesAsString(MethodCall $methodCall, Scope $scope): ?string
     {
         $stringArgTypes = [];
 
         foreach ($methodCall->getArgs() as $arg) {
             $argType = $scope->getType($arg->value);
-            $stringArgTypes[] = $argType->describe(VerbosityLevel::typeOnly());
+
+            // we have no idea, nothing we can do
+            if ($argType instanceof MixedType) {
+                return null;
+            }
+
+            if ($argType instanceof ClassStringType) {
+                $stringArgType = 'string';
+            } elseif ($argType instanceof ArrayType) {
+                $stringArgType = 'array';
+            } else {
+                $stringArgType = $argType->describe(VerbosityLevel::typeOnly());
+            }
+
+            $stringArgTypes[] = $stringArgType;
         }
 
         return implode('|', $stringArgTypes);
@@ -40,7 +58,10 @@ final class CollectorMetadataPrinter
                 continue;
             }
 
-            $printedParamTypes[] = $this->printerStandard->prettyPrint([$param->type]);
+            $printedParamType = $this->printerStandard->prettyPrint([$param->type]);
+            $printedParamType = ltrim($printedParamType, '\\');
+
+            $printedParamTypes[] = $printedParamType;
         }
 
         return implode('|', $printedParamTypes);

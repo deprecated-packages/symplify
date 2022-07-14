@@ -10,7 +10,6 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\Php\PhpPropertyReflection;
 use ReflectionMethod;
@@ -41,11 +40,8 @@ final class NetteInjectAnalyzer
     /**
      * @param ClassReflection[] $parentClassReflections
      */
-    public function isParentInjectPropertyFetch(
-        PropertyFetch $propertyFetch,
-        Scope $scope,
-        array $parentClassReflections
-    ): bool {
+    public function isParentInjectPropertyFetch(PropertyFetch $propertyFetch, array $parentClassReflections): bool
+    {
         $propertyFetchName = $propertyFetch->name;
         if (! $propertyFetchName instanceof Identifier) {
             return false;
