@@ -73,12 +73,24 @@ final class CollectorMetadataPrinter
             }
 
             $printedParamType = $this->printerStandard->prettyPrint([$paramType]);
-            $printedParamType = ltrim($printedParamType, '\\');
+            $printedParamType = $this->resolvePrintedFullyQualifiedType($printedParamType);
 
             $printedParamTypes[] = $printedParamType;
         }
 
         return implode('|', $printedParamTypes);
+    }
+
+    private function resolvePrintedFullyQualifiedType(string $printedParamType): string
+    {
+        $pipedType = explode('|', $printedParamType);
+        $newPrintedParamType = '';
+
+        foreach ($pipedType as $singlePipedType) {
+            $newPrintedParamType .=  ltrim($singlePipedType, '\\') . '|';
+        }
+
+        return rtrim($newPrintedParamType, '|');
     }
 
     private function printTypeToString(Type $type): string
