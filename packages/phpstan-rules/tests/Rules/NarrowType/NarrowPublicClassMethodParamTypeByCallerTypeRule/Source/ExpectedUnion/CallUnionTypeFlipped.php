@@ -13,10 +13,10 @@ final class CallUnionTypeFlipped
     /**
      * @param StaticCall[]|MethodCall[] $data
      */
-    public function run(SkipEqualUnionType $skipFlippedUnionType, array $data): void
+    public function run(SkipEqualUnionType $skipEqualUnionType, array $data): void
     {
         foreach ($data as $value) {
-            $skipFlippedUnionType->run($value);
+            $skipEqualUnionType->run($value);
         }
     }
 }
