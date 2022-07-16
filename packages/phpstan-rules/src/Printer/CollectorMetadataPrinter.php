@@ -74,6 +74,7 @@ final class CollectorMetadataPrinter
 
             $printedParamType = $this->printerStandard->prettyPrint([$paramType]);
             $printedParamType = ltrim($printedParamType, '\\');
+            $printedParamType = str_replace('|\\', '|', $printedParamType);
 
             $printedParamTypes[] = $printedParamType;
         }
