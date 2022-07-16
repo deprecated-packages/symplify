@@ -144,9 +144,9 @@ if ($simple == true) {
     $doSomething = true;
 }
 if ($expr1) {
-// if body
+    // if body
 } elseif ($expr2) {
-// elseif body
+    // elseif body
 } else {
     // else body
 }
@@ -154,7 +154,7 @@ if (
     $expr1
     && $expr2
 ) {
-// if body
+    // if body
 } elseif (
     $expr3
     && $expr4
