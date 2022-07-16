@@ -79,6 +79,18 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedNodeApi/CallWithProperty.php',
         ], []];
 
+        // skip equal union type
+        yield [[
+            __DIR__ . '/Fixture/SkipEqualUnionType.php',
+            __DIR__ . '/Source/ExpectedUnion/CallUnionType.php',
+        ], []];
+
+        // skip equal union type
+        yield [[
+            __DIR__ . '/Fixture/SkipEqualUnionType.php',
+            __DIR__ . '/Source/ExpectedUnion/CallUnionTypeFlipped.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',
