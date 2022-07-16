@@ -54,7 +54,6 @@ final class CollectorMetadataPrinter
             $stringArgTypes[] = $this->printTypeToString($argType);
         }
 
-        sort($stringArgTypes);
         return implode('|', $stringArgTypes);
     }
 
