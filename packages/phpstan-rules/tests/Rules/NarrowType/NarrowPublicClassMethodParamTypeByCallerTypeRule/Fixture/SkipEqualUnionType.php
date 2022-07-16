@@ -15,6 +15,13 @@ final class SkipEqualUnionType
 
     public function runTernary(StaticCall|MethodCall $obj)
     {
+        return $obj instanceof StaticCall
+            ? $obj->class
+            : $obj->var;
+    }
+
+    public function runTernaryFlipped(StaticCall|MethodCall $obj)
+    {
         return $obj instanceof MethodCall
             ? $obj->var
             : $obj->class;
