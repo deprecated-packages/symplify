@@ -5,6 +5,7 @@
     bootstrap="tests/bootstrap.php"
     colors="true"
     verbose="true"
+    convertDeprecationsToExceptions="true"
 >
     <coverage processUncoveredFiles="true">
         <include>
