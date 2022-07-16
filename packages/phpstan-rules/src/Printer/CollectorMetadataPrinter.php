@@ -72,6 +72,10 @@ final class CollectorMetadataPrinter
                 $paramType = new UnionType([$paramType->type, new Identifier('null')]);
             }
 
+            if ($paramType instanceof UnionType) {
+                $paramType = $this->resolveSortedUnionType($paramType);
+            }
+
             $printedParamType = $this->printerStandard->prettyPrint([$paramType]);
             $printedParamType = ltrim($printedParamType, '\\');
             $printedParamType = str_replace('|\\', '|', $printedParamType);
@@ -80,6 +84,24 @@ final class CollectorMetadataPrinter
         }
 
         return implode('|', $printedParamTypes);
+    }
+
+    private function resolveSortedUnionType(UnionType $unionType): UnionType
+    {
+        $typeNames = [];
+
+        foreach ($unionType->types as $type) {
+            $typeNames[] = (string) $type;
+        }
+
+        sort($typeNames);
+
+        $types = [];
+        foreach ($typeNames as $typeName) {
+            $types[] = new Identifier($typeName);
+        }
+
+        return new UnionType($types);
     }
 
     private function printTypeToString(Type $type): string

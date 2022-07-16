@@ -85,10 +85,22 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedUnion/CallUnionType.php',
         ], []];
 
-        // skip equal union type
+        // skip equal union type flipped
         yield [[
             __DIR__ . '/Fixture/SkipEqualUnionType.php',
             __DIR__ . '/Source/ExpectedUnion/CallUnionTypeFlipped.php',
+        ], []];
+
+        // skip equal union type ternary if else
+        yield [[
+            __DIR__ . '/Fixture/SkipEqualUnionType.php',
+            __DIR__ . '/Source/ExpectedUnion/CallUnionTypeTernaryIfElse.php',
+        ], []];
+
+        // skip equal union type ternary if else flipped
+        yield [[
+            __DIR__ . '/Fixture/SkipEqualUnionType.php',
+            __DIR__ . '/Source/ExpectedUnion/CallUnionTypeTernaryIfElseFlipped.php',
         ], []];
 
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
