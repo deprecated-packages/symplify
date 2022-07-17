@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Printer;
 
+use PHPStan\Type\ThisType;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\NullableType;
@@ -18,6 +19,7 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType as PHPStanUnionType;
 use PHPStan\Type\VerbosityLevel;
@@ -50,6 +52,10 @@ final class CollectorMetadataPrinter
 
             if ($argType instanceof PHPStanUnionType) {
                 return ResolvedTypes::UNKNOWN_TYPES;
+            }
+
+            if ($argType instanceof ThisType) {
+                $argType = new ObjectType($argType->getClassName());
             }
 
             $stringArgTypes[] = $this->printTypeToString($argType);

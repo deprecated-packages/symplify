@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule;
 
+use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\ExpectedThisType\CallByThisFromInterface;
 use Iterator;
 use PhpParser\Node\Param;
 use PHPStan\Collectors\Collector;
@@ -109,12 +110,25 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedUnion/CallUnionArrayType.php',
         ], []];
 
+        // skip this passed exact type
+        yield [[
+            __DIR__ . '/Fixture/SkipThisPassedExactType.php',
+            __DIR__ . '/Source/ExpectedThisType/CallByThis.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',
             __DIR__ . '/Source/FirstCaller.php',
             __DIR__ . '/Source/SecondCaller.php',
         ], [[$argErrorMessage, 9]]];
+
+        // this passed from interface
+        $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, CallByThisFromInterface::class);
+        yield [[
+            __DIR__ . '/Fixture/ThisPassedFromInterface.php',
+            __DIR__ . '/Source/ExpectedThisType/CallByThisFromInterface.php',
+        ], [[$argErrorMessage, 11]]];
     }
 
     /**
