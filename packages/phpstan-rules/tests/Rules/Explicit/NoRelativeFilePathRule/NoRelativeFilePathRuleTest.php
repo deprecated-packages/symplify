@@ -25,6 +25,8 @@ final class NoRelativeFilePathRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipMaskFinder.php', []];
+        yield [__DIR__ . '/Fixture/SkipStrEndsWith.php', []];
         yield [__DIR__ . '/Fixture/SkipRegexConsts.php', []];
         yield [__DIR__ . '/Fixture/SkipHereNowDoc.php', []];
         yield [__DIR__ . '/Fixture/SkipNoFileBefore.php', []];

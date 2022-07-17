@@ -507,3 +507,13 @@ parameters:
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
                 - packages/smart-file-system/tests/Finder/FinderSanitizer/*
+                - packages/phpstan-rules/tests/Rules/NoMissingDirPathRule/NoMissingDirPathRuleTest.php
+                - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
+                - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
+                - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
+                - packages/phpstan-rules/tests/Rules/Explicit/NoRelativeFilePathRule/NoRelativeFilePathRuleTest.php
+                - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
+                # should be improved
+                - packages/monorepo-builder/src/ValueObject/File.php
+                - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
+                - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php

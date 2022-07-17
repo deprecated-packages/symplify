@@ -113,7 +113,11 @@ CODE_SAMPLE
             return false;
         }
 
-        if (in_array($pathInfo['filename'], ['', '*'], true)) {
+        if ($pathInfo['filename'] === '') {
+            return false;
+        }
+
+        if (str_contains($pathInfo['filename'], '*')) {
             return false;
         }
 
