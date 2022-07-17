@@ -120,12 +120,7 @@ CODE_SAMPLE
         if (str_contains($pathInfo['filename'], '*')) {
             return false;
         }
-
         // only letters
-        if (! ctype_alpha($fileExtension)) {
-            return false;
-        }
-
-        return true;
+        return ctype_alpha($fileExtension);
     }
 }
