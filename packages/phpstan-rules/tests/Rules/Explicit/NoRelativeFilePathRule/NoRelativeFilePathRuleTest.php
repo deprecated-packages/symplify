@@ -25,11 +25,17 @@ final class NoRelativeFilePathRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipMaskFinder.php', []];
+        yield [__DIR__ . '/Fixture/SkipStrEndsWith.php', []];
+        yield [__DIR__ . '/Fixture/SkipRegexConsts.php', []];
+        yield [__DIR__ . '/Fixture/SkipHereNowDoc.php', []];
+        yield [__DIR__ . '/Fixture/SkipNoFileBefore.php', []];
         yield [__DIR__ . '/Fixture/SkipAbsoluteFilePath.php', []];
         yield [__DIR__ . '/Fixture/SkipSimpleString.php', []];
         yield [__DIR__ . '/Fixture/SkipNotAFileExtension.php', []];
 
-        yield [__DIR__ . '/Fixture/RelativeFilePath.php', [[NoRelativeFilePathRule::ERROR_MESSAGE, 11]]];
+        $errorMessage = sprintf(NoRelativeFilePathRule::ERROR_MESSAGE, 'some_relative_path.txt');
+        yield [__DIR__ . '/Fixture/RelativeFilePath.php', [[$errorMessage, 11]]];
     }
 
     /**

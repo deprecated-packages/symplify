@@ -19,3 +19,4 @@ rules:
     - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
     - Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
     - Symplify\PHPStanRules\Rules\Complexity\ValueObjectDestructRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoRelativeFilePathRule

@@ -10,7 +10,6 @@ use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -45,34 +44,18 @@ final class NoRelativeFilePathRule implements Rule, DocumentedRuleInterface
     public function processNode(Node $node, Scope $scope): array
     {
         $classLike = $node->getOriginalNode();
-
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
         $strings = $this->findBareStrings($classLike);
 
         $errorMessages = [];
 
         foreach ($strings as $string) {
             // is it a file string?
-            $pathInfo = pathinfo($string->value);
-            if (! isset($pathInfo['extension'])) {
+            if (! $this->isFileString($string)) {
                 continue;
             }
 
-            $fileExtension = $pathInfo['extension'];
-
-            if (strlen($fileExtension) > 3) {
-                continue;
-            }
-
-            if (strlen($fileExtension) < 3) {
-                continue;
-            }
-
-            $errorMessages[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+            $errorMessage = sprintf(self::ERROR_MESSAGE, $string->value);
+            $errorMessages[] = RuleErrorBuilder::message($errorMessage)
                 ->line($string->getLine())
                 ->build();
         }
@@ -111,5 +94,34 @@ CODE_SAMPLE
         $nodeTraverser->traverse($classLike->stmts);
 
         return $stringOutsideConcatFindingNodeVisitor->getFoundNodes();
+    }
+
+    private function isFileString(String_ $string): bool
+    {
+        $pathInfo = pathinfo($string->value);
+        if (! isset($pathInfo['extension'])) {
+            return false;
+        }
+
+        $fileExtension = $pathInfo['extension'];
+
+        if (strlen($fileExtension) > 3) {
+            return false;
+        }
+
+        if (strlen($fileExtension) < 3) {
+            return false;
+        }
+
+        if ($pathInfo['filename'] === '') {
+            return false;
+        }
+
+        if (str_contains($pathInfo['filename'], '*')) {
+            return false;
+        }
+
+        // only letters
+        return ctype_alpha($fileExtension);
     }
 }
