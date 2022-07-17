@@ -109,6 +109,12 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedUnion/CallUnionArrayType.php',
         ], []];
 
+        // skip this passed by interface
+        yield [[
+            __DIR__ . '/Fixture/SkipThisPassedByInterface.php',
+            __DIR__ . '/Source/ExpectedThisType/CallByThis.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',
