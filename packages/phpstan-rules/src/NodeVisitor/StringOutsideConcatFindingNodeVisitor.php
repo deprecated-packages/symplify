@@ -46,6 +46,13 @@ final class StringOutsideConcatFindingNodeVisitor extends NodeVisitorAbstract
             return null;
         }
 
+        $stringKind = $node->getAttribute('kind');
+
+        // skip here/now docs, not a file
+        if (in_array($stringKind, [String_::KIND_HEREDOC, String_::KIND_NOWDOC], true)) {
+            return null;
+        }
+
         $this->foundNodes[] = $node;
         return null;
     }

@@ -500,3 +500,10 @@ parameters:
             path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
 
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\NarrowType\\NarrowPublicClassMethodParamTypeByCallerTypeRule\\NarrowPublicClassMethodParamTypeByCallerTypeRuleTest\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
+
+        # relative file path resolving tests
+        -
+            message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
+            paths:
+                - packages/smart-file-system/tests/SmartFileInfo/*
+                - packages/smart-file-system/tests/Finder/FinderSanitizer/*
