@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Fixture;
 
+use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 
@@ -25,5 +26,12 @@ final class SkipEqualUnionType
         return $obj instanceof MethodCall
             ? $obj->var
             : $obj->class;
+    }
+
+    /**
+     * @param Node[]|Node $node
+     */
+    public function runArrayTyped(array | Node $node)
+    {
     }
 }
