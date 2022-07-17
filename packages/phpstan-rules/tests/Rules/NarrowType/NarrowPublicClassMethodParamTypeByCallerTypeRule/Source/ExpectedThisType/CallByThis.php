@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\ExpectedThisType;
 
-use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Fixture\SkipThisPassedByInterface;
-use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\SomeInterface;
+use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Fixture\SkipThisPassedExactType;
 
-final class CallByThis implements SomeInterface
+final class CallByThis
 {
-    public function run(SkipThisPassedByInterface $skipThisPassedByInterface): void
+    public function run(SkipThisPassedExactType $skipThisPassedExactType): void
     {
-        $skipThisPassedByInterface->run($this);
+        $skipThisPassedExactType->run($this);
     }
 }

@@ -109,9 +109,9 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedUnion/CallUnionArrayType.php',
         ], []];
 
-        // skip this passed by interface
+        // skip this passed exact type
         yield [[
-            __DIR__ . '/Fixture/SkipThisPassedByInterface.php',
+            __DIR__ . '/Fixture/SkipThisPassedExactType.php',
             __DIR__ . '/Source/ExpectedThisType/CallByThis.php',
         ], []];
 
