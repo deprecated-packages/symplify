@@ -121,6 +121,13 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/FirstCaller.php',
             __DIR__ . '/Source/SecondCaller.php',
         ], [[$argErrorMessage, 9]]];
+
+        // this passed from interface
+        $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\ExpectedThisType\CallByThisFromInterface');
+        yield [[
+            __DIR__ . '/Fixture/ThisPassedFromInterface.php',
+            __DIR__ . '/Source/ExpectedThisType/CallByThisFromInterface.php',
+        ], [[$argErrorMessage, 11]]];
     }
 
     /**
