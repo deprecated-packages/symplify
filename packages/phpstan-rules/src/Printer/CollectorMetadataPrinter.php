@@ -19,6 +19,7 @@ use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
+use PHPStan\Type\UnionType as PHPStanUnionType;
 use PHPStan\Type\VerbosityLevel;
 use Symplify\PHPStanRules\Enum\Types\ResolvedTypes;
 
@@ -47,7 +48,7 @@ final class CollectorMetadataPrinter
                 return ResolvedTypes::UNKNOWN_TYPES;
             }
 
-            if ($argType instanceof UnionType) {
+            if ($argType instanceof PHPStanUnionType) {
                 return ResolvedTypes::UNKNOWN_TYPES;
             }
 
