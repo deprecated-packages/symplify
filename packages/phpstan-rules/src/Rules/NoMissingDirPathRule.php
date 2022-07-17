@@ -17,6 +17,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPUnit\Framework\TestCase;
+use Symplify\PHPStanRules\NodeAnalyzer\FileCheckingFuncCallAnalyzer;
 use Symplify\PHPStanRules\NodeVisitor\FlatConcatFindingNodeVisitor;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -72,7 +73,8 @@ final class NoMissingDirPathRule implements Rule, DocumentedRuleInterface
 
         // mimics node finding visitors of NodeFinder with ability to stop traversing deeper
         $nodeTraverser = new NodeTraverser();
-        $flatConcatFindingNodeVisitor = new FlatConcatFindingNodeVisitor();
+        $flatConcatFindingNodeVisitor = new FlatConcatFindingNodeVisitor(new FileCheckingFuncCallAnalyzer());
+
         $nodeTraverser->addVisitor($flatConcatFindingNodeVisitor);
         $nodeTraverser->traverse($classLike->stmts);
 

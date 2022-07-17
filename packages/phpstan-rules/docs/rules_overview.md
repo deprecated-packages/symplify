@@ -1,4 +1,4 @@
-# 105 Rules Overview
+# 106 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2509,6 +2509,28 @@ class SomeClass
         return $value;
     }
 }
+```
+
+:+1:
+
+<br>
+
+## NoRelativeFilePathRule
+
+Relative file path "%s" is not allowed, use absolute one with __DIR__
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoRelativeFilePathRule`](../src/Rules/Explicit/NoRelativeFilePathRule.php)
+
+```php
+$filePath = 'some_file.txt';
+```
+
+:x:
+
+<br>
+
+```php
+$filePath = __DIR__ . '/some_file.txt';
 ```
 
 :+1:

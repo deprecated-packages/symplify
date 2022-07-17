@@ -6,14 +6,15 @@ namespace Symplify\PHPStanRules\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use Symplify\PHPStanRules\NodeAnalyzer\FileCheckingFuncCallAnalyzer;
 
-final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
+final class StringOutsideConcatFindingNodeVisitor extends NodeVisitorAbstract
 {
     /**
-     * @var Concat[]
+     * @var String_[]
      */
     private array $foundNodes = [];
 
@@ -37,16 +38,12 @@ final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
-        if (! $node instanceof Concat) {
-            return null;
-        }
-
-        if ($node->left instanceof Concat) {
+        if ($node instanceof Concat) {
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
-        if ($node->right instanceof Concat) {
-            return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
+        if (! $node instanceof String_) {
+            return null;
         }
 
         $this->foundNodes[] = $node;
@@ -54,7 +51,7 @@ final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
     }
 
     /**
-     * @return Concat[]
+     * @return String_[]
      */
     public function getFoundNodes(): array
     {
