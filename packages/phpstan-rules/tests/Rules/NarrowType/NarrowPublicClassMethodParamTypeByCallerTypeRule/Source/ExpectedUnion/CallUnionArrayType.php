@@ -18,4 +18,14 @@ final class CallUnionTypeArrayType
 
         $skipEqualUnionType->runArrayTyped($node);
     }
+
+    public function run2(SkipEqualUnionType $skipEqualUnionType, Node $node): void
+    {
+        /** @var Node[]|Node $node */
+        $node = rand(0, 1)
+            ? $node
+            : [$node];
+
+        $skipEqualUnionType->runArrayTyped2($node);
+    }
 }

@@ -34,4 +34,11 @@ final class SkipEqualUnionType
     public function runArrayTyped(array | Node $node)
     {
     }
+
+    /**
+     * @param array<Node>|Node $node
+     */
+    public function runArrayTyped2(array | Node $node)
+    {
+    }
 }
