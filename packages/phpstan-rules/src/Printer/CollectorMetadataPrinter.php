@@ -18,6 +18,7 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\IntegerRangeType;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType as PHPStanUnionType;
 use PHPStan\Type\VerbosityLevel;
@@ -50,6 +51,10 @@ final class CollectorMetadataPrinter
 
             if ($argType instanceof PHPStanUnionType) {
                 return ResolvedTypes::UNKNOWN_TYPES;
+            }
+
+            if ($argType instanceof \PHPStan\Type\ThisType) {
+                $argType = new ObjectType($argType->getClassName());
             }
 
             $stringArgTypes[] = $this->printTypeToString($argType);

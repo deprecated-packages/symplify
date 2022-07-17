@@ -65,6 +65,10 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRule implements Rule, Do
                     continue;
                 }
 
+                if (is_a($uniqueCollectedArgTypesString, $paramTypesString,true)) {
+                    continue;
+                }
+
                 $errorMessage = sprintf(self::ERROR_MESSAGE, $uniqueCollectedArgTypesString);
                 $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
                     ->file($filePath)
