@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Printer;
 
+use PHPStan\Type\ThisType;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\NullableType;
@@ -53,7 +54,7 @@ final class CollectorMetadataPrinter
                 return ResolvedTypes::UNKNOWN_TYPES;
             }
 
-            if ($argType instanceof \PHPStan\Type\ThisType) {
+            if ($argType instanceof ThisType) {
                 $argType = new ObjectType($argType->getClassName());
             }
 
