@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule;
 
-use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\ExpectedThisType\CallByThisFromInterface;
 use Iterator;
 use PhpParser\Node\Param;
 use PHPStan\Collectors\Collector;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule;
+use Symplify\PHPStanRules\Tests\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule\Source\ExpectedThisType\CallByThisFromInterface;
 
 /**
  * @extends RuleTestCase<NarrowPublicClassMethodParamTypeByCallerTypeRule>
@@ -124,7 +124,10 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
         ], [[$argErrorMessage, 9]]];
 
         // this passed from interface
-        $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, CallByThisFromInterface::class);
+        $argErrorMessage = sprintf(
+            NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE,
+            CallByThisFromInterface::class
+        );
         yield [[
             __DIR__ . '/Fixture/ThisPassedFromInterface.php',
             __DIR__ . '/Source/ExpectedThisType/CallByThisFromInterface.php',
