@@ -103,7 +103,7 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedUnion/CallUnionTypeTernaryIfElseFlipped.php',
         ], []];
 
-        // skip equal union type ternary if else flipped
+        // skip equal union type array typed
         yield [[
             __DIR__ . '/Fixture/SkipEqualUnionType.php',
             __DIR__ . '/Source/ExpectedUnion/CallUnionArrayType.php',
