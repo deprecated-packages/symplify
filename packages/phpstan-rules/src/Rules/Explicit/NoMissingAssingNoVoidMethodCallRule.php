@@ -13,6 +13,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VoidType;
 use Symfony\Component\Finder\Finder;
@@ -126,6 +127,10 @@ CODE_SAMPLE
         }
 
         // 2. filter skipped call return types
+        if ($methodCallReturnType instanceof ThisType) {
+            $methodCallReturnType = $methodCallReturnType->getStaticObjectType();
+        }
+
         if ($methodCallReturnType instanceof ObjectType) {
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
