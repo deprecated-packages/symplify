@@ -20,3 +20,4 @@ rules:
     - Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
     - Symplify\PHPStanRules\Rules\Complexity\ValueObjectDestructRule
     - Symplify\PHPStanRules\Rules\Explicit\NoRelativeFilePathRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoMissingAssingNoVoidMethodCallRule
