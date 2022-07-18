@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\MethodCall;
 
+<<<<<<< HEAD
 use DateTimeInterface;
+=======
+>>>>>>> [PHPStanRules] Enable the no assign fluent
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PharIo\Version\Version;
@@ -37,14 +40,36 @@ final class AllowedChainCallSkipper
         AbstractString::class,
         // php-scoper finder
         'Isolated\Symfony\Component\Finder\Finder',
+<<<<<<< HEAD
+=======
+        \React\ChildProcess\Process::class,
+        \Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface::class,
+>>>>>>> [PHPStanRules] Enable the no assign fluent
         Definition::class,
         VersionNumber::class,
         Version::class,
         RouteCollection::class,
+<<<<<<< HEAD
         'Stringy\Stringy',
         // also trinary logic ↓
         PassedByReference::class,
         DateTimeInterface::class,
+=======
+        \Symfony\Component\Process\Process::class,
+        \Symfony\Component\HttpFoundation\Request::class,
+        \Symplify\MonorepoBuilder\Release\Process\ProcessRunner::class,
+        \Symfony\Component\Console\Command\Command::class,
+        \Latte\Engine::class,
+        \Symfony\Component\HttpFoundation\RequestStack::class,
+        'Stringy\Stringy',
+        // also trinary logic ↓
+        PassedByReference::class,
+        \DOMElement::class,
+        \DateTimeInterface::class,
+        \Symplify\Astral\PhpDocParser\Contract\PhpDocNodeVisitorInterface::class,
+        \Clue\React\NDJson\Encoder::class,
+        \Nette\Loaders\RobotLoader::class,
+>>>>>>> [PHPStanRules] Enable the no assign fluent
         // Doctrine
         QueryBuilder::class,
         Query::class,
@@ -60,7 +85,11 @@ final class AllowedChainCallSkipper
     }
 
     /**
+<<<<<<< HEAD
      * @param class-string[] $extraAllowedTypes
+=======
+     * @param string[] $extraAllowedTypes
+>>>>>>> [PHPStanRules] Enable the no assign fluent
      */
     public function isAllowedFluentMethodCall(Scope $scope, MethodCall $methodCall, array $extraAllowedTypes = []): bool
     {

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+<<<<<<< HEAD
 use Symfony\Component\Finder\Finder;
+=======
+>>>>>>> [PHPStanRules] Enable the no assign fluent
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Expression;
@@ -13,9 +16,17 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\MixedType;
+<<<<<<< HEAD
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VoidType;
+=======
+use PHPStan\Type\NeverType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use PHPStan\Type\VoidType;
+use Symfony\Component\Finder\Finder;
+>>>>>>> [PHPStanRules] Enable the no assign fluent
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -38,8 +49,16 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      */
     private const SKIPPED_TYPES = [
         NodeTraverser::class,
+<<<<<<< HEAD
         Finder::class,
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
+=======
+        \Nette\Neon\Traverser::class,
+        Finder::class,
+        'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
+        'PhpCsFixer\Tokenizer\Tokens',
+        \PHP_CodeSniffer\Fixer::class,
+>>>>>>> [PHPStanRules] Enable the no assign fluent
     ];
 
     public function __construct(
@@ -72,6 +91,13 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
             return [];
         }
 
+<<<<<<< HEAD
+=======
+        if ($methodCallReturnType instanceof NeverType) {
+            return [];
+        }
+
+>>>>>>> [PHPStanRules] Enable the no assign fluent
         if ($this->isFluentMethodCall($methodCallReturnType, $scope, $methodCall)) {
             return [];
         }
@@ -126,9 +152,13 @@ CODE_SAMPLE
             return true;
         }
 
+<<<<<<< HEAD
         // 2. filter skipped call return types
         if ($methodCallReturnType instanceof ObjectType) {
 
+=======
+        if ($methodCallReturnType instanceof ObjectType) {
+>>>>>>> [PHPStanRules] Enable the no assign fluent
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
             if ($currentClassReflection instanceof ClassReflection) {

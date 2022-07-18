@@ -57,7 +57,7 @@ final class ComposerJsonRepositoriesUpdater
             $symlink
         );
 
-        $newComposerJsonContents = $this->jsonFileManager->printJsonToFileInfo(
+        $newComposerJsonContents = $this->jsonFileManager->printJsonToFileInfoAndReturn(
             $decoreatedPackageComposerJson,
             $packageFileInfo
         );

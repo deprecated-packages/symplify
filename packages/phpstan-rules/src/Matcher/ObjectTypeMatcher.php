@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Matcher;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\IntersectionType;
 use PHPStan\Type\ObjectType;
 
 final class ObjectTypeMatcher
@@ -16,6 +17,17 @@ final class ObjectTypeMatcher
     public function isExprTypes(Expr $expr, Scope $scope, array $types): bool
     {
         $exprType = $scope->getType($expr);
+
+        if ($exprType instanceof IntersectionType) {
+            // resolve nested generics to object type
+            foreach ($exprType->getTypes() as $intersectionedType) {
+                if ($intersectionedType instanceof ObjectType) {
+                    $exprType = $intersectionedType;
+                    break;
+                }
+            }
+        }
+
         if (! $exprType instanceof ObjectType) {
             return false;
         }
