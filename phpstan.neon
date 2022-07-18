@@ -28,7 +28,7 @@ services:
 
 parameters:
     level: 8
-#    reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
