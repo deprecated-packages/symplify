@@ -14,6 +14,7 @@ final class AllowedChainCallSkipper
      * @var array<class-string|string>
      */
     private const ALLOWED_CHAIN_TYPES = [
+        'PhpParser\Builder',
         'DateTimeInterface',
         'Doctrine\ORM\Query',
         'Doctrine\ORM\QueryBuilder',
