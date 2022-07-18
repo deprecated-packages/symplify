@@ -8,6 +8,7 @@ use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\IntersectionType;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 
 final class ObjectTypeMatcher
 {
@@ -18,16 +19,7 @@ final class ObjectTypeMatcher
     {
         $exprType = $scope->getType($expr);
 
-        if ($exprType instanceof IntersectionType) {
-            // resolve nested generics to object type
-            foreach ($exprType->getTypes() as $intersectionedType) {
-                if ($intersectionedType instanceof ObjectType) {
-                    $exprType = $intersectionedType;
-                    break;
-                }
-            }
-        }
-
+        $exprType = $this->resolveIntersectionedExprType($exprType);
         if (! $exprType instanceof ObjectType) {
             return false;
         }
@@ -39,5 +31,22 @@ final class ObjectTypeMatcher
         }
 
         return false;
+    }
+
+    private function resolveIntersectionedExprType(Type $type): Type
+    {
+        if (! $type instanceof IntersectionType) {
+            return $type;
+        }
+
+        // resolve nested generics to object type
+        foreach ($type->getTypes() as $intersectionedType) {
+            if ($intersectionedType instanceof ObjectType) {
+                return $intersectionedType;
+            }
+        }
+
+        // fallback
+        return $type;
     }
 }

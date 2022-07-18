@@ -519,17 +519,17 @@ parameters:
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
 
         # resolve next PR
-<<<<<<< HEAD
         - '#Method call return value that should be used, but is not#'
-
-        - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
-=======
-#        - '#Method call return value that should be used, but is not#'
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
         # false positive on commands
         -
             message: '#Method call return value that should be used, but is not#'
-            path: "*Command.php"
->>>>>>> [PHPStanRules] Enable the no assign fluent
+            paths:
+                 - "*Command.php"
+                 # to validate input
+                 - packages/easy-ci/src/Composer/SupportedPhpVersionResolver.php
+                 # skip edge case
+                 - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
+                 - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php

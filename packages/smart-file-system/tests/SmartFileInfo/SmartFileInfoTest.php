@@ -55,7 +55,7 @@ final class SmartFileInfoTest extends TestCase
         $smartFileInfo = new SmartFileInfo(__FILE__);
 
         $this->expectException(DirectoryNotFoundException::class);
-        $relativeFilePath = $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
+        $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
     }
 
     public function testDoesFnmatch(): void

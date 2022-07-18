@@ -4,29 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-<<<<<<< HEAD
-use Symfony\Component\Finder\Finder;
-=======
->>>>>>> [PHPStanRules] Enable the no assign fluent
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\MixedType;
-<<<<<<< HEAD
-use PHPStan\Type\ObjectType;
-use PHPStan\Type\Type;
-use PHPStan\Type\VoidType;
-=======
 use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VoidType;
 use Symfony\Component\Finder\Finder;
->>>>>>> [PHPStanRules] Enable the no assign fluent
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -48,17 +37,12 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      * @var string[]
      */
     private const SKIPPED_TYPES = [
-        NodeTraverser::class,
-<<<<<<< HEAD
         Finder::class,
+        'PhpParser\NodeTraverser',
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
-=======
-        \Nette\Neon\Traverser::class,
-        Finder::class,
-        'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
+        'Nette\Neon\Traverser',
+        'PHP_CodeSniffer\Fixer',
         'PhpCsFixer\Tokenizer\Tokens',
-        \PHP_CodeSniffer\Fixer::class,
->>>>>>> [PHPStanRules] Enable the no assign fluent
     ];
 
     public function __construct(
@@ -87,22 +71,11 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
         $methodCall = $node->expr;
         $methodCallReturnType = $scope->getType($methodCall);
 
-        if ($methodCallReturnType instanceof VoidType) {
+        if ($this->isVoidishType($methodCallReturnType)) {
             return [];
         }
 
-<<<<<<< HEAD
-=======
-        if ($methodCallReturnType instanceof NeverType) {
-            return [];
-        }
-
->>>>>>> [PHPStanRules] Enable the no assign fluent
         if ($this->isFluentMethodCall($methodCallReturnType, $scope, $methodCall)) {
-            return [];
-        }
-
-        if ($methodCallReturnType instanceof MixedType) {
             return [];
         }
 
@@ -152,13 +125,8 @@ CODE_SAMPLE
             return true;
         }
 
-<<<<<<< HEAD
         // 2. filter skipped call return types
         if ($methodCallReturnType instanceof ObjectType) {
-
-=======
-        if ($methodCallReturnType instanceof ObjectType) {
->>>>>>> [PHPStanRules] Enable the no assign fluent
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
             if ($currentClassReflection instanceof ClassReflection) {
@@ -167,5 +135,18 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function isVoidishType(Type $type): bool
+    {
+        if ($type instanceof VoidType) {
+            return true;
+        }
+
+        if ($type instanceof NeverType) {
+            return true;
+        }
+
+        return $type instanceof MixedType;
     }
 }
