@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer\MethodCall;
 
+use DateTimeInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PharIo\Version\Version;
@@ -43,7 +44,7 @@ final class AllowedChainCallSkipper
         'Stringy\Stringy',
         // also trinary logic ↓
         PassedByReference::class,
-        \DateTimeInterface::class,
+        DateTimeInterface::class,
         // Doctrine
         QueryBuilder::class,
         Query::class,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+use Symfony\Component\Finder\Finder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Expression;
@@ -37,7 +38,7 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      */
     private const SKIPPED_TYPES = [
         NodeTraverser::class,
-        \Symfony\Component\Finder\Finder::class,
+        Finder::class,
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
     ];
 
