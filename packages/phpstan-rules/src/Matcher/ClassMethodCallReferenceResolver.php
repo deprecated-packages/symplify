@@ -7,7 +7,6 @@ namespace Symplify\PHPStanRules\Matcher;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\ThisType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\PHPStanRules\ValueObject\MethodCallReference;
@@ -25,11 +24,6 @@ final class ClassMethodCallReferenceResolver
         // remove optional nullable type
         if (TypeCombinator::containsNull($callerType)) {
             $callerType = TypeCombinator::removeNull($callerType);
-        }
-
-        // skip self calls, as external is needed to make the method public
-        if ($callerType instanceof ThisType) {
-            return null;
         }
 
         if (! $callerType instanceof TypeWithClassName) {
