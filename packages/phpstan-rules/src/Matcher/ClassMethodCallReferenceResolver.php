@@ -14,7 +14,7 @@ use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 
 final class ClassMethodCallReferenceResolver
 {
-    public function resolve(MethodCall $methodCall, Scope $scope): ?MethodCallReference
+    public function resolve(MethodCall $methodCall, Scope $scope, bool $allowThisType): ?MethodCallReference
     {
         if ($methodCall->name instanceof Expr) {
             return null;
@@ -27,8 +27,7 @@ final class ClassMethodCallReferenceResolver
             $callerType = TypeCombinator::removeNull($callerType);
         }
 
-        // skip self calls, as external is needed to make the method public
-        if ($callerType instanceof ThisType) {
+        if (! $allowThisType && $callerType instanceof ThisType) {
             return null;
         }
 
