@@ -47,6 +47,7 @@ final class AllowedChainCallSkipper
         'DateTimeInterface',
         'Symplify\Astral\PhpDocParser\Contract\PhpDocNodeVisitorInterface',
         'Clue\React\NDJson\Encoder',
+        'React\Promise\Promise',
         'Nette\Loaders\RobotLoader',
     ];
 
