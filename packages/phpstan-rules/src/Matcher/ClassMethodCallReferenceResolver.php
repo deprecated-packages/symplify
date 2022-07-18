@@ -7,13 +7,14 @@ namespace Symplify\PHPStanRules\Matcher;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ThisType;
 use PHPStan\Type\TypeCombinator;
 use PHPStan\Type\TypeWithClassName;
 use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 
 final class ClassMethodCallReferenceResolver
 {
-    public function resolve(MethodCall $methodCall, Scope $scope): ?MethodCallReference
+    public function resolve(MethodCall $methodCall, Scope $scope, bool $allowThisType): ?MethodCallReference
     {
         if ($methodCall->name instanceof Expr) {
             return null;
@@ -24,6 +25,10 @@ final class ClassMethodCallReferenceResolver
         // remove optional nullable type
         if (TypeCombinator::containsNull($callerType)) {
             $callerType = TypeCombinator::removeNull($callerType);
+        }
+
+        if (! $allowThisType && $callerType instanceof ThisType) {
+            return null;
         }
 
         if (! $callerType instanceof TypeWithClassName) {
