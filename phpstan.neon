@@ -517,3 +517,8 @@ parameters:
                 - packages/monorepo-builder/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
+
+        # resolve next PR
+        - '#Method call return value that should be used, but is not#'
+
+        - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
