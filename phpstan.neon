@@ -28,7 +28,7 @@ services:
 
 parameters:
     level: 8
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
@@ -171,7 +171,6 @@ parameters:
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
                 - packages/smart-file-system/src/Normalizer/PathNormalizer.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
@@ -196,9 +195,6 @@ parameters:
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
-        # false positive - lost type on array-merge
-        - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         - '#\$this as argument is not allowed\. Refactor method to service composition#'
         -
@@ -401,8 +397,8 @@ parameters:
                 - packages/easy-coding-standard/src/*FileProcessor.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/phpstan-rules/src/Collector/*
+                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Complete known array shape to the method @return type#'
@@ -506,20 +502,14 @@ parameters:
             message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
-                - packages/smart-file-system/tests/Finder/FinderSanitizer/*
-                - packages/phpstan-rules/tests/Rules/NoMissingDirPathRule/NoMissingDirPathRuleTest.php
                 - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
-                - packages/phpstan-rules/tests/Rules/Explicit/NoRelativeFilePathRule/NoRelativeFilePathRuleTest.php
                 - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
                 # should be improved
                 - packages/monorepo-builder/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
-
-        # resolve next PR
-        - '#Method call return value that should be used, but is not#'
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
@@ -527,9 +517,8 @@ parameters:
         -
             message: '#Method call return value that should be used, but is not#'
             paths:
-                 - "*Command.php"
-                 # to validate input
                  - packages/easy-ci/src/Composer/SupportedPhpVersionResolver.php
+                 - packages/smart-file-system/tests/SmartFileInfo/SmartFileInfoTest.php
                  # skip edge case
                  - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
                  - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php

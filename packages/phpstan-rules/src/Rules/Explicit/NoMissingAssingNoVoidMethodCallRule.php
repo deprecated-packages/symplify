@@ -16,7 +16,6 @@ use PHPStan\Type\ObjectType;
 use PHPStan\Type\ThisType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VoidType;
-use Symfony\Component\Finder\Finder;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -38,7 +37,7 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      * @var string[]
      */
     private const SKIPPED_TYPES = [
-        Finder::class,
+        'Symfony\Component\Finder\Finder',
         'PhpParser\NodeTraverser',
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
         'Nette\Neon\Traverser',
@@ -135,11 +134,14 @@ CODE_SAMPLE
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
             if ($currentClassReflection instanceof ClassReflection) {
-                return $currentClassReflection->getName() === $methodCallReturnType->getClassName();
+                if ($currentClassReflection->getName() === $methodCallReturnType->getClassName()) {
+                    return true;
+                }
             }
         }
 
-        return false;
+        $callerType = $scope->getType($methodCall->var);
+        return $callerType->equals($methodCallReturnType);
     }
 
     private function isVoidishType(Type $type): bool
