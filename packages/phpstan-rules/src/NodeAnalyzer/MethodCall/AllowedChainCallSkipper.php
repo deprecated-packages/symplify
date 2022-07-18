@@ -42,6 +42,7 @@ final class AllowedChainCallSkipper
         'Symfony\Component\HttpFoundation\Request',
         'Symplify\MonorepoBuilder\Release\Process\ProcessRunner',
         'Symfony\Component\Console\Command\Command',
+        'Symfony\Component\Console\Application',
         'Symfony\Component\HttpFoundation\RequestStack',
         'PHPStan\PhpDocParser\Parser\TokenIterator',
         'DOMElement',
