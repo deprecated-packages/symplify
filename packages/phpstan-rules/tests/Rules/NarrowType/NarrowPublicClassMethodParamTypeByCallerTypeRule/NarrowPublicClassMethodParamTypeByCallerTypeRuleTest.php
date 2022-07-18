@@ -116,6 +116,12 @@ final class NarrowPublicClassMethodParamTypeByCallerTypeRuleTest extends RuleTes
             __DIR__ . '/Source/ExpectedThisType/CallByThis.php',
         ], []];
 
+        // skip used internally for second type
+        yield [[
+            __DIR__ . '/Fixture/SkipUsedInternallyForSecondType.php',
+            __DIR__ . '/Source/ExpectedType/OnlyFirstTypeCalledOutside.php',
+        ], []];
+
         $argErrorMessage = sprintf(NarrowPublicClassMethodParamTypeByCallerTypeRule::ERROR_MESSAGE, 'int');
         yield [[
             __DIR__ . '/Fixture/PublicDoubleShot.php',

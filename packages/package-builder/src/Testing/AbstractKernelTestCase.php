@@ -32,7 +32,7 @@ abstract class AbstractKernelTestCase extends TestCase
      * @param class-string<KernelInterface|LightKernelInterface> $kernelClass
      * @param string[]|SmartFileInfo[] $configs
      */
-    protected function bootKernelWithConfigs(string $kernelClass, array $configs): KernelInterface|LightKernelInterface
+    protected function bootKernelWithConfigs(string $kernelClass, array $configs): void
     {
         // unwrap file infos to real paths
         $configFilePaths = $this->resolveConfigFilePaths($configs);
@@ -44,8 +44,6 @@ abstract class AbstractKernelTestCase extends TestCase
 
         static::$kernel = $bootedKernel;
         self::$container = $bootedKernel->getContainer();
-
-        return $bootedKernel;
     }
 
     /**
