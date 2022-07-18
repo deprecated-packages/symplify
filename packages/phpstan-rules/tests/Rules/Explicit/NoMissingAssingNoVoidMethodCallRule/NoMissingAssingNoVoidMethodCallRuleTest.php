@@ -27,11 +27,13 @@ final class NoMissingAssingNoVoidMethodCallRuleTest extends RuleTestCase
     {
         yield [__DIR__ . '/Fixture/ReturnedNoVoid.php', [[NoMissingAssingNoVoidMethodCallRule::ERROR_MESSAGE, 11]]];
 
+        yield [__DIR__ . '/Fixture/SkipTokens.php', []];
         yield [__DIR__ . '/Fixture/SkipReturnedNoVoid.php', []];
         yield [__DIR__ . '/Fixture/SkipFluentOutsideOnPurpose.php', []];
         yield [__DIR__ . '/Fixture/SkipSymfonyContainerConfigurator.php', []];
         yield [__DIR__ . '/Fixture/SkipDefaultSymfonyAutowire.php', []];
         yield [__DIR__ . '/Fixture/SkipNodeTraverser.php', []];
+        yield [__DIR__ . '/Fixture/SkipCommandOptions.php', []];
     }
 
     /**

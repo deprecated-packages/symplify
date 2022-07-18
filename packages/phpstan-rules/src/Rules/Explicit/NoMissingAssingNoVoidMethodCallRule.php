@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-use Symfony\Component\Finder\Finder;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\Expression;
-use PhpParser\NodeTraverser;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\MixedType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\VoidType;
+use Symfony\Component\Finder\Finder;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -37,9 +37,12 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      * @var string[]
      */
     private const SKIPPED_TYPES = [
-        NodeTraverser::class,
         Finder::class,
+        'PhpParser\NodeTraverser',
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
+        'Nette\Neon\Traverser',
+        'PHP_CodeSniffer\Fixer',
+        'PhpCsFixer\Tokenizer\Tokens',
     ];
 
     public function __construct(
@@ -68,15 +71,11 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
         $methodCall = $node->expr;
         $methodCallReturnType = $scope->getType($methodCall);
 
-        if ($methodCallReturnType instanceof VoidType) {
+        if ($this->isVoidishType($methodCallReturnType)) {
             return [];
         }
 
         if ($this->isFluentMethodCall($methodCallReturnType, $scope, $methodCall)) {
-            return [];
-        }
-
-        if ($methodCallReturnType instanceof MixedType) {
             return [];
         }
 
@@ -128,7 +127,6 @@ CODE_SAMPLE
 
         // 2. filter skipped call return types
         if ($methodCallReturnType instanceof ObjectType) {
-
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
             if ($currentClassReflection instanceof ClassReflection) {
@@ -137,5 +135,18 @@ CODE_SAMPLE
         }
 
         return false;
+    }
+
+    private function isVoidishType(Type $type): bool
+    {
+        if ($type instanceof VoidType) {
+            return true;
+        }
+
+        if ($type instanceof NeverType) {
+            return true;
+        }
+
+        return $type instanceof MixedType;
     }
 }
