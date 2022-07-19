@@ -34,12 +34,6 @@ final class SnippetFormatter
     private const OPENING_TAG_REGEX = '#^\<\?php\n#ms';
 
     /**
-     * @see https://regex101.com/r/MJTq5C/3
-     * @var string
-     */
-    private const OPENING_TAG_HERENOWDOC_REGEX = '#^\<\?php\n#ms';
-
-    /**
      * @var string
      */
     private const CONTENT = 'content';
@@ -129,7 +123,7 @@ final class SnippetFormatter
             return $this->resolveMarkdownFileContent($changedFileContent);
         }
 
-        return Strings::replace($changedFileContent, self::OPENING_TAG_HERENOWDOC_REGEX, '$1');
+        return Strings::replace($changedFileContent, self::OPENING_TAG_REGEX, '$1');
     }
 
     /**
