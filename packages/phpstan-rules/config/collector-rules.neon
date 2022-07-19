@@ -3,8 +3,15 @@ rules:
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
     - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
 
 services:
+    # for NoDuplicatedVariableCasingNameRule
+    -
+        class: Symplify\PHPStanRules\Collector\Variable\VariableNameCollector
+        tags:
+            - phpstan.collector
+
     # for UnusedPublicClassConstRule
     -
         class: Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector
