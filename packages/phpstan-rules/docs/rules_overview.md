@@ -1,4 +1,4 @@
-# 106 Rules Overview
+# 108 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1716,6 +1716,50 @@ class AnotherClass
 
 <br>
 
+## NoDuplicatedVariableCasingNameRule
+
+Lowered variable "%s" is used in various-cased names: "%s", unite it to one
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule`](../src/Rules/Explicit/NoDuplicatedVariableCasingNameRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $run = 1;
+    }
+
+    public function go()
+    {
+        $ruN = 2;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $run = 1;
+    }
+
+    public function go()
+    {
+        $run = 2;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoDynamicNameRule
 
 Use explicit names over dynamic ones
@@ -2140,6 +2184,50 @@ function run(string $name)
 function run(string $name)
 {
     return ['name' => $name];
+}
+```
+
+:+1:
+
+<br>
+
+## NoMissingAssingNoVoidMethodCallRule
+
+Method call return value that should be used, but is not
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMissingAssingNoVoidMethodCallRule`](../src/Rules/Explicit/NoMissingAssingNoVoidMethodCallRule.php)
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $this->getResult();
+    }
+
+    private function getResult()
+    {
+        return [];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return $this->getResult();
+    }
+
+    private function getResult()
+    {
+        return [];
+    }
 }
 ```
 
