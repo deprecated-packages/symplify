@@ -1,4 +1,4 @@
-# 108 Rules Overview
+# 110 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1661,6 +1661,39 @@ function run($one, $two);
 
 <br>
 
+## NoDuplicatedRegexRule
+
+The "%s" constant contains duplicated regex "%s". Instead of duplicated regexes, extract domain regexes together to save maintenance
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule`](../src/Rules/Domain/NoDuplicatedRegexRule.php)
+
+```php
+class SomeClass
+{
+    private const CLASS_NAME_REGEX = '#[\w\\]+#';
+}
+
+class AnotherClass
+{
+    private const DIFFERENT_NAME_REGEX = '#[\w\\]+#';
+}
+```
+
+:x:
+
+<br>
+
+```php
+class ClassRegexRecipies
+{
+    private const NAME_REGEX = '#[\w\\]+#';
+}
+```
+
+:+1:
+
+<br>
+
 ## NoDuplicatedShortClassNameRule
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
@@ -1709,6 +1742,52 @@ namespace App\Nested;
 
 class AnotherClass
 {
+}
+```
+
+:+1:
+
+<br>
+
+## NoDuplicatedTraitMethodNameRule
+
+Method name `"%s()"` is used in multiple traits. Make it it unique to avoid conflicts
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule`](../src/Rules/Complexity/NoDuplicatedTraitMethodNameRule.php)
+
+```php
+trait FirstTrait
+{
+    public function run()
+    {
+    }
+}
+
+trait SecondTrait
+{
+    public function run()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+trait FirstTrait
+{
+    public function run()
+    {
+    }
+}
+
+trait SecondTrait
+{
+    public function fly()
+    {
+    }
 }
 ```
 

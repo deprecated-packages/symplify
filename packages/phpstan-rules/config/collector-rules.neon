@@ -43,3 +43,7 @@ services:
     -
         class: Symplify\PHPStanRules\Collector\MethodCall\MethodCallArgTypesCollector
         tags: [phpstan.collector]
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassLike\TraitMethodNameCollector
+        tags: [phpstan.collector]
