@@ -1,0 +1,12 @@
+includes:
+    - ../../../../config/included_services.neon
+
+services:
+    -
+        class: Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
+        tags: [phpstan.rules.rule]
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassLike\TraitMethodNameCollector
+        tags: [phpstan.collector]
+

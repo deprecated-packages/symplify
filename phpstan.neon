@@ -524,3 +524,6 @@ parameters:
         -
             message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
             path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
+
+        # mixed collector arrays
+        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)NameCollector\:\:processNode\(\) should return (.*?)#'
