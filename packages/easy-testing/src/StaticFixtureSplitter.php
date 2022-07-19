@@ -102,9 +102,9 @@ final class StaticFixtureSplitter
     {
         $hash = Strings::substring(md5($smartFileInfo->getRealPath()), -20);
 
-        $fileBaseName = $smartFileInfo->getBasename('.inc');
+        $fileBasename = $smartFileInfo->getBasename('.inc');
 
-        return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBaseName);
+        return self::getTemporaryPath() . sprintf('/%s_%s_%s', $prefix, $hash, $fileBasename);
     }
 
     private static function retypeExpected(mixed $expected): mixed
