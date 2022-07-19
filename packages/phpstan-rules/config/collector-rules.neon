@@ -5,6 +5,7 @@ rules:
     - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
     - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
     - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
 
 services:
     # for NoDuplicatedRegexRule
