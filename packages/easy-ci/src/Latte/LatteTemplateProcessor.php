@@ -24,12 +24,13 @@ final class LatteTemplateProcessor
      */
     public function analyzeFileInfos(array $fileInfos): array
     {
-        $TemplateErrors = [];
+        $templateErrors = [];
+
         foreach ($this->latteAnalyzers as $latteAnalyzer) {
             $currentTemplateErrors = $latteAnalyzer->analyze($fileInfos);
-            $TemplateErrors = array_merge($TemplateErrors, $currentTemplateErrors);
+            $templateErrors = array_merge($templateErrors, $currentTemplateErrors);
         }
 
-        return $TemplateErrors;
+        return $templateErrors;
     }
 }

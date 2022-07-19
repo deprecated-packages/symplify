@@ -11,6 +11,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Collector\Variable\VariableNameCollector;
+use Symplify\PHPStanRules\ValueObject\VariableNameMetadata;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -82,10 +83,15 @@ CODE_SAMPLE
         $variableMetadataByVariableNames = [];
         $ruleErrors = [];
 
-        foreach ($variableNamesGroups as $filename => $variableNameGroups) {
+        foreach ($variableNamesGroups as $filePath => $variableNameGroups) {
             foreach ($variableNameGroups as [$variableName, $line]) {
                 // keep only unique names
-                $variableMetadataByVariableNames[$variableName] = [$variableName, $filename, $line];
+                /** @var string $variableName */
+                $variableMetadataByVariableNames[$variableName] = new VariableNameMetadata(
+                    $variableName,
+                    $filePath,
+                    $line
+                );
             }
         }
 
@@ -94,16 +100,17 @@ CODE_SAMPLE
             $variableMetadataByVariableLowercasedName[strtolower($variableName)][] = $variableMetadata;
         }
 
-        foreach ($variableMetadataByVariableLowercasedName as $lowercasedName => $differentCasingVariables) {
-            if (count($differentCasingVariables) === 1) {
+        foreach ($variableMetadataByVariableLowercasedName as $lowercasedName => $variableNameMetadatas) {
+            if (count($variableNameMetadatas) === 1) {
                 continue;
             }
 
-            foreach ($differentCasingVariables as [$variableName, $filePath, $position]) {
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $lowercasedName, $variableName);
+            /** @var VariableNameMetadata $variableNameMetadata */
+            foreach ($variableNameMetadatas as $variableNameMetadata) {
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $lowercasedName, $variableNameMetadata->getVariableName());
                 $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
-                    ->line($position)
-                    ->file($filePath)
+                    ->file($variableNameMetadata->getFilePath())
+                    ->line($variableNameMetadata->getLineNumber())
                     ->build();
             }
         }

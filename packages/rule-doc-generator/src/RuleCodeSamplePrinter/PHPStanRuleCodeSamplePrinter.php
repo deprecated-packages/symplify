@@ -48,7 +48,7 @@ final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfa
     ): array {
         $lines = [];
 
-        $phpstanNeon = [
+        $phpStanNeon = [
             'services' => [
                 [
                     'class' => $ruleDefinition->getRuleClass(),
@@ -58,7 +58,7 @@ final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfa
             ],
         ];
 
-        $printedNeon = $this->neonPrinter->printNeon($phpstanNeon);
+        $printedNeon = $this->neonPrinter->printNeon($phpStanNeon);
         $lines[] = $this->markdownCodeWrapper->printYamlCode($printedNeon);
 
         $lines[] = '↓';

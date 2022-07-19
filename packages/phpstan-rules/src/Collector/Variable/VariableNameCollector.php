@@ -11,7 +11,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 
 /**
- * @implements Collector<Variable, array{string, int}|null>
+ * @implements Collector<Variable, array<string, array{string, int}>|null>
  */
 final class VariableNameCollector implements Collector
 {

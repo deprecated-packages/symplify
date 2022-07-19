@@ -67,9 +67,10 @@ final class ClassLikeNameFinder
         $classLikeNames = [];
 
         foreach ($finderFiles as $finderFile) {
-            $realpath = $finderFile->getRealpath();
-            $classLikeName = basename($realpath, '.php');
-            $src = file_get_contents($realpath);
+            $realPath = $finderFile->getRealpath();
+            $classLikeName = basename($realPath, '.php');
+
+            $src = file_get_contents($realPath);
             if (! $src) {
                 continue;
             }
