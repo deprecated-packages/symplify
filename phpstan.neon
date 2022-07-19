@@ -431,10 +431,6 @@ parameters:
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
 
-        # scalar type skip
-        -
-            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
         - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
 
         # open api
@@ -522,3 +518,9 @@ parameters:
                  # skip edge case
                  - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
                  - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
+
+        -
+            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
+            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
