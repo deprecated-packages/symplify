@@ -9,6 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -22,12 +23,6 @@ final class ForbiddenAnonymousClassRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Anonymous class is not allowed.';
-
-    /**
-     * @see https://regex101.com/r/ChpDsj/1
-     * @var string
-     */
-    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
      * @return class-string<Node>
@@ -45,7 +40,7 @@ final class ForbiddenAnonymousClassRule implements Rule, DocumentedRuleInterface
     {
         $shortClassName = $node->name;
         $class = (string) $shortClassName;
-        if (Strings::match($class, self::ANONYMOUS_CLASS_REGEX)) {
+        if (Strings::match($class, SimpleNameResolver::ANONYMOUS_CLASS_REGEX)) {
             return [self::ERROR_MESSAGE];
         }
 
