@@ -133,10 +133,8 @@ CODE_SAMPLE
         if ($methodCallReturnType instanceof ObjectType) {
             // 3. skip self static call
             $currentClassReflection = $scope->getClassReflection();
-            if ($currentClassReflection instanceof ClassReflection) {
-                if ($currentClassReflection->getName() === $methodCallReturnType->getClassName()) {
-                    return true;
-                }
+            if ($currentClassReflection instanceof ClassReflection && $currentClassReflection->getName() === $methodCallReturnType->getClassName()) {
+                return true;
             }
         }
 
