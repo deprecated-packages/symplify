@@ -51,7 +51,7 @@ final class TraitMethodNameCollector implements Collector
                 $nativeTraitReflection = $traitReflection->getNativeReflection();
 
                 foreach ($nativeTraitReflection->getMethods() as $methodReflection) {
-                    $traitClassMethodNames[] = $methodReflection->name;
+                    $traitClassMethodNames[] = $methodReflection->getName();
                 }
             }
         }
