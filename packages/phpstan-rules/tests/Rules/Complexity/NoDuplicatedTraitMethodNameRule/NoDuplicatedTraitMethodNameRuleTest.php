@@ -12,7 +12,11 @@ use Symplify\PHPStanRules\Collector\ClassLike\TraitMethodNameCollector;
 use Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule;
 
 /**
+<<<<<<< HEAD
  * @extends RuleTestCase<NoDuplicatedTraitMethodNameRule>
+=======
+ * @extends RuleTestCase<\Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule>
+>>>>>>> [PHPStanRules] Add NoDuplicatedTraitMethodNameRule
  */
 final class NoDuplicatedTraitMethodNameRuleTest extends RuleTestCase
 {

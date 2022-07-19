@@ -51,7 +51,11 @@ final class TraitMethodNameCollector implements Collector
                 $nativeTraitReflection = $traitReflection->getNativeReflection();
 
                 foreach ($nativeTraitReflection->getMethods() as $methodReflection) {
+<<<<<<< HEAD
                     $traitClassMethodNames[] = $methodReflection->getName();
+=======
+                    $traitClassMethodNames[] = $methodReflection->name;
+>>>>>>> [PHPStanRules] Add NoDuplicatedTraitMethodNameRule
                 }
             }
         }
