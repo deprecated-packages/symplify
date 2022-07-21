@@ -11,7 +11,7 @@
         "symplify/astral": "^11.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5.21"
     },
     "autoload": {
         "psr-4": {

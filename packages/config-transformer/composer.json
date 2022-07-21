@@ -18,8 +18,8 @@
         "symplify/symplify-kernel": "^11.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^6.0",
+        "phpunit/phpunit": "^9.5.21",
+        "symfony/framework-bundle": "^6.0.10",
         "symplify/easy-testing": "^11.1"
     },
     "autoload": {

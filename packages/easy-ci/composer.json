@@ -24,7 +24,7 @@
         "cweagans/composer-patches": "^1.7",
         "latte/latte": "^2.11",
         "nette/application": "^3.1",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5.21"
     },
     "autoload": {
         "psr-4": {
