@@ -18,12 +18,12 @@
         "symplify/smart-file-system": "^11.1"
     },
     "require-dev": {
-        "doctrine/annotations": "^1.13",
-        "doctrine/cache": "^1.12",
+        "doctrine/annotations": "^1.13.3",
+        "doctrine/cache": "^1.13",
         "phpstan/phpstan": "^1.8.1",
-        "phpunit/phpunit": "^9.5",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/twig-bundle": "^6.0"
+        "phpunit/phpunit": "^9.5.21",
+        "symfony/framework-bundle": "^6.0.10",
+        "symfony/twig-bundle": "^6.0.8"
     },
     "autoload": {
         "psr-4": {

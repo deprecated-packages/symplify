@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5.21"
     },
     "autoload": {
         "psr-4": {

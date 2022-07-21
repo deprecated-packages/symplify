@@ -20,9 +20,9 @@
         "symplify/easy-testing": "^11.1",
         "symplify/phpstan-extensions": "^11.1",
         "symplify/rule-doc-generator": "^11.1",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^9.5.21",
         "myclabs/php-enum": "^1.8",
-        "symfony/framework-bundle": "^6.0"
+        "symfony/framework-bundle": "^6.0.10"
     },
     "autoload": {
         "psr-4": {
