@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
+use Nette\Utils\Json;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\Assign;
@@ -94,14 +96,18 @@ final class ContainerConfiguratorReturnClosureFactory
                     continue;
                 }
 
-                $this->resolveExpressionWhenAtEnv($expression, $key, $nodes);
+                $lastNode = end($nodes);
+                $node = $this->resolveExpressionWhenAtEnv($expression, $key, $lastNode);
+                if ($node) {
+                    $nodes[] = $node;
+                }
             }
         }
 
         return $nodes;
     }
 
-    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, array &$nodes): void
+    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Stmt|false $lastNode): Expression|If_|null
     {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
@@ -114,7 +120,8 @@ final class ContainerConfiguratorReturnClosureFactory
 
             $args = $expr->getArgs();
 
-            if (! isset($args[1]) || ! $args[1]->value instanceof Array_ || ! isset($args[1]->value->items[0]) || ! $args[1]->value->items[0] instanceof ArrayItem) {
+            if (! isset($args[1]) || ! $args[1]->value instanceof Array_ || ! isset($args[1]->value->items[0])
+                || ! $args[1]->value->items[0] instanceof ArrayItem || ! isset($args[1]->value->items[0]->key)) {
                 throw new ShouldNotHappenException();
             }
 
@@ -122,28 +129,30 @@ final class ContainerConfiguratorReturnClosureFactory
                 new MethodCall(
                     $variable,
                     'extension',
-                    [new Arg(new String_($args[1]->value->items[0]->key->value)), new Arg($args[1]->value->items[0]->value)]
+                    [new Arg($args[1]->value->items[0]->key), new Arg($args[1]->value->items[0]->value)]
                 )
             );
-            $lastNode = end($nodes);
-            if ($lastNode instanceof If_ && $lastNode->cond instanceof Identical
-                && $lastNode->cond->left instanceof String_
-                && $lastNode->cond->left->value === $explodeAt[1]
-                && $lastNode->cond->right instanceof MethodCall
-                && $lastNode->cond->right->var instanceof Variable
-                && $lastNode->cond->right->var->name === $variable->name
+            $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
+            if ($lastNode instanceof If_ && $this->isSameCond($lastNode->cond, $identical)
             ) {
-                $if = $lastNode;
-                $if->stmts[] = $newExpression;
+                $lastNode->stmts[] = $newExpression;
+                return null;
             } else {
-                $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
                 $if = new If_($identical);
                 $if->stmts = [$newExpression];
-                $nodes[] = $if;
+                return $if;
             }
-        } else {
-            $nodes[] = $expression;
         }
+        return $expression;
+    }
+
+    private function isSameCond(Expr $node1, Identical $node2): bool {
+        if ($node1 instanceof Identical) {
+            $val1 = Json::encode($node1);
+            $val2 = Json::encode($node2);
+            return $val1 === $val2;
+        }
+        return false;
     }
 
     /**
