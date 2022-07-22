@@ -169,13 +169,13 @@ CODE_SAMPLE
             return true;
         }
 
-        $filename = $classReflection->getFileName();
-        if (! is_string($filename)) {
+        $fileName = $classReflection->getFileName();
+        if (! is_string($fileName)) {
             return true;
         }
 
         // skip vendor classes, as we cannot change them
-        if (str_contains($filename, '/vendor/')) {
+        if (str_contains($fileName, '/vendor/')) {
             return true;
         }
 

@@ -20,6 +20,9 @@ final class BarePhpDocParser
     ) {
     }
 
+    /**
+     * @api
+     */
     public function parseNode(Node $node): ?PhpDocNode
     {
         $docComment = $node->getDocComment();
@@ -31,6 +34,7 @@ final class BarePhpDocParser
     }
 
     /**
+     * @api
      * @return PhpDocTagNode[]
      */
     public function parseNodeToPhpDocTagNodes(Node $node): array

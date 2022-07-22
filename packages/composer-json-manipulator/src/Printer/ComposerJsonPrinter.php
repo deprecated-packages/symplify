@@ -23,12 +23,13 @@ final class ComposerJsonPrinter
         return $this->jsonFileManager->encodeJsonToFileContent($composerJson->getJsonArray());
     }
 
-    public function print(ComposerJson $composerJson, string | SmartFileInfo $targetFile): string
+    public function print(ComposerJson $composerJson, string | SmartFileInfo $targetFile): void
     {
         if (is_string($targetFile)) {
-            return $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $targetFile);
+            $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $targetFile);
+            return;
         }
 
-        return $this->jsonFileManager->printJsonToFileInfo($composerJson->getJsonArray(), $targetFile);
+        $this->jsonFileManager->printJsonToFileInfo($composerJson->getJsonArray(), $targetFile);
     }
 }

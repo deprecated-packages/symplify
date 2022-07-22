@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 110 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1287,6 +1287,58 @@ class SomeClass
 
 <br>
 
+## NarrowPublicClassMethodParamTypeByCallerTypeRule
+
+Parameters should use "%s" types as the only types passed to this method
+
+- class: [`Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule`](../src/Rules/NarrowType/NarrowPublicClassMethodParamTypeByCallerTypeRule.php)
+
+```php
+use PhpParser\Node\Expr\MethodCall;
+
+final class SomeClass
+{
+    public function run(SomeService $someService, MethodCall $methodCall)
+    {
+        $someService->isCheck($node);
+    }
+}
+
+final class SomeService
+{
+    public function isCheck($methodCall)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PhpParser\Node\Expr\MethodCall;
+
+final class SomeClass
+{
+    public function run(SomeService $someService, MethodCall $methodCall)
+    {
+        $someService->isCheck($node);
+    }
+}
+
+final class SomeService
+{
+    public function isCheck(MethodCall $methodCall)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoAbstractMethodRule
 
 Use explicit interface contract or a service over unclear abstract methods
@@ -1609,6 +1661,39 @@ function run($one, $two);
 
 <br>
 
+## NoDuplicatedRegexRule
+
+The "%s" constant contains duplicated regex "%s". Instead of duplicated regexes, extract domain regexes together to save maintenance
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule`](../src/Rules/Domain/NoDuplicatedRegexRule.php)
+
+```php
+class SomeClass
+{
+    private const CLASS_NAME_REGEX = '#[\w\\]+#';
+}
+
+class AnotherClass
+{
+    private const DIFFERENT_NAME_REGEX = '#[\w\\]+#';
+}
+```
+
+:x:
+
+<br>
+
+```php
+class ClassRegexRecipies
+{
+    private const NAME_REGEX = '#[\w\\]+#';
+}
+```
+
+:+1:
+
+<br>
+
 ## NoDuplicatedShortClassNameRule
 
 Class with base "%s" name is already used in "%s". Use unique name to make classes easy to recognize
@@ -1657,6 +1742,96 @@ namespace App\Nested;
 
 class AnotherClass
 {
+}
+```
+
+:+1:
+
+<br>
+
+## NoDuplicatedTraitMethodNameRule
+
+Method name `"%s()"` is used in multiple traits. Make it it unique to avoid conflicts
+
+- class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule`](../src/Rules/Complexity/NoDuplicatedTraitMethodNameRule.php)
+
+```php
+trait FirstTrait
+{
+    public function run()
+    {
+    }
+}
+
+trait SecondTrait
+{
+    public function run()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+trait FirstTrait
+{
+    public function run()
+    {
+    }
+}
+
+trait SecondTrait
+{
+    public function fly()
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoDuplicatedVariableCasingNameRule
+
+Lowered variable "%s" is used in various-cased names: "%s", unite it to one
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule`](../src/Rules/Explicit/NoDuplicatedVariableCasingNameRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $run = 1;
+    }
+
+    public function go()
+    {
+        $ruN = 2;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        $run = 1;
+    }
+
+    public function go()
+    {
+        $run = 2;
+    }
 }
 ```
 
@@ -2095,6 +2270,50 @@ function run(string $name)
 
 <br>
 
+## NoMissingAssingNoVoidMethodCallRule
+
+Method call return value that should be used, but is not
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMissingAssingNoVoidMethodCallRule`](../src/Rules/Explicit/NoMissingAssingNoVoidMethodCallRule.php)
+
+```php
+class SomeClass
+{
+    public function run()
+    {
+        $this->getResult();
+    }
+
+    private function getResult()
+    {
+        return [];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+        return $this->getResult();
+    }
+
+    private function getResult()
+    {
+        return [];
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoMissingDirPathRule
 
 The path "%s" was not found
@@ -2463,6 +2682,28 @@ class SomeClass
 
 <br>
 
+## NoRelativeFilePathRule
+
+Relative file path "%s" is not allowed, use absolute one with __DIR__
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\NoRelativeFilePathRule`](../src/Rules/Explicit/NoRelativeFilePathRule.php)
+
+```php
+$filePath = 'some_file.txt';
+```
+
+:x:
+
+<br>
+
+```php
+$filePath = __DIR__ . '/some_file.txt';
+```
+
+:+1:
+
+<br>
+
 ## NoReturnArrayVariableListRule
 
 Use value object over return of values
@@ -2527,6 +2768,46 @@ final class SomeClass
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoRightPHPUnitAssertScalarRule
+
+The compare assert arguments are switched. Move the expected value to the 1st left
+
+- class: [`Symplify\PHPStanRules\Rules\PHPUnit\NoRightPHPUnitAssertScalarRule`](../src/Rules/PHPUnit/NoRightPHPUnitAssertScalarRule.php)
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeFlippedAssert extends TestCase
+{
+    public function test()
+    {
+        $value = 1000;
+        $this->assertSame($value, 10);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use PHPUnit\Framework\TestCase;
+
+final class SomeFlippedAssert extends TestCase
+{
+    public function test()
+    {
+        $value = 1000;
+        $this->assertSame(10, $value);
     }
 }
 ```

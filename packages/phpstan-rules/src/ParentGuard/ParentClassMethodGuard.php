@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\ParentGuard;
 
-use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\ClassMethod;
-use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Php\PhpMethodReflection;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -20,13 +18,9 @@ final class ParentClassMethodGuard
     ) {
     }
 
-    public function isFunctionLikeProtected(ClassMethod | Function_ | Closure $functionLike, Scope $scope): bool
+    public function isClassMethodGuardedByParentClassMethod(ClassMethod $classMethod, Scope $scope): bool
     {
-        if (! $functionLike instanceof ClassMethod) {
-            return false;
-        }
-
-        $classMethodName = $this->simpleNameResolver->getName($functionLike);
+        $classMethodName = $this->simpleNameResolver->getName($classMethod);
         if ($classMethodName === null) {
             return false;
         }

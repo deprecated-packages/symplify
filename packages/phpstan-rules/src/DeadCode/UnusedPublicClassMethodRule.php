@@ -86,7 +86,7 @@ final class Driver
     }
 }
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 final class Car
 {

@@ -19,7 +19,7 @@ final class ComposerJsonAwareRector implements RectorInterface
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE

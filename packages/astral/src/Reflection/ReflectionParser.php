@@ -72,12 +72,12 @@ final class ReflectionParser
 
     public function parseClassReflection(ClassReflection $classReflection): ?ClassLike
     {
-        $filename = $classReflection->getFileName();
-        if ($filename === null) {
+        $fileName = $classReflection->getFileName();
+        if ($fileName === null) {
             return null;
         }
 
-        return $this->parseFilenameToClass($filename);
+        return $this->parseFilenameToClass($fileName);
     }
 
     private function parseNativeClassReflection(ReflectionClass|ClassReflection $reflectionClass): ?ClassLike

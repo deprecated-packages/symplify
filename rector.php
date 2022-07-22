@@ -40,9 +40,7 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->paths([__DIR__ . '/packages']);
-
     $rectorConfig->parallel();
-
     $rectorConfig->importNames();
 
     $rectorConfig->autoloadPaths([__DIR__ . '/tests/bootstrap.php']);
@@ -64,6 +62,11 @@ return static function (RectorConfig $rectorConfig): void {
         // false positive on "locale" string
         VarConstantCommentRector::class => [
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
+        ],
+
+        // keep classes utouched, to avoid prefixing and renames
+        StringClassNameToClassConstantRector::class => [
+            __DIR__ . '/packages/phpstan-rules/src/NodeAnalyzer/MethodCall/AllowedChainCallSkipper.php',
         ],
     ]);
 };

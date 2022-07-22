@@ -86,7 +86,7 @@ function run(callable $callable)
     return $callable(100);
 }
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 /**
  * @param callable(): int $callable

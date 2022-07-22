@@ -17,7 +17,7 @@ final class SomeWhiteSpaceCodeSampleRector implements RectorInterface
 before
 
 CODE_SAMPLE
-                ,
+,
                 <<<'CODE_SAMPLE'
 after
 

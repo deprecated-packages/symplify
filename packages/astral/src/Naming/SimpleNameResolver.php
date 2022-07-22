@@ -23,7 +23,7 @@ final class SimpleNameResolver
      * @see https://regex101.com/r/ChpDsj/1
      * @var string
      */
-    private const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
+    public const ANONYMOUS_CLASS_REGEX = '#^AnonymousClass[\w+]#';
 
     /**
      * @param NodeNameResolverInterface[] $nodeNameResolvers
@@ -135,6 +135,9 @@ final class SimpleNameResolver
         return $classReflection->getName();
     }
 
+    /**
+     * @api
+     */
     public function isNameMatch(Node $node, string $desiredNameRegex): bool
     {
         $name = $this->getName($node);

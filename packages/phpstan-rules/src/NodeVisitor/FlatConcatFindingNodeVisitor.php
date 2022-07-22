@@ -6,11 +6,9 @@ namespace Symplify\PHPStanRules\NodeVisitor;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Concat;
-use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Name;
-use PhpParser\Node\Stmt\If_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
+use Symplify\PHPStanRules\NodeAnalyzer\FileCheckingFuncCallAnalyzer;
 
 final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
 {
@@ -18,6 +16,11 @@ final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
      * @var Concat[]
      */
     private array $foundNodes = [];
+
+    public function __construct(
+        private FileCheckingFuncCallAnalyzer $fileCheckingFuncCallAnalyzer
+    ) {
+    }
 
     /**
      * @param Node[] $nodes
@@ -30,7 +33,7 @@ final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
 
     public function enterNode(Node $node)
     {
-        if ($this->isFileCheckingFuncCall($node)) {
+        if ($this->fileCheckingFuncCallAnalyzer->isFileExistCheck($node)) {
             return NodeTraverser::DONT_TRAVERSE_CHILDREN;
         }
 
@@ -56,25 +59,5 @@ final class FlatConcatFindingNodeVisitor extends NodeVisitorAbstract
     public function getFoundNodes(): array
     {
         return $this->foundNodes;
-    }
-
-    private function isFileCheckingFuncCall(Node $node): bool
-    {
-        if (! $node instanceof If_) {
-            return false;
-        }
-
-        if (! $node->cond instanceof FuncCall) {
-            return false;
-        }
-
-        $funcCallCond = $node->cond;
-        if (! $funcCallCond->name instanceof Name) {
-            return false;
-        }
-
-        $funcCallName = $funcCallCond->name->toString();
-
-        return in_array($funcCallName, ['is_file', 'file_exists', 'is_dir'], true);
     }
 }

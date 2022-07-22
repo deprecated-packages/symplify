@@ -2,24 +2,49 @@
 rules:
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule
     - Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule
+    - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
+    - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
+    - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
 
 services:
+    # for NoDuplicatedRegexRule
+    -
+        class: Symplify\PHPStanRules\Collector\ClassConst\RegexClassConstCollector
+        tags: [phpstan.collector]
+
+    # for NoDuplicatedVariableCasingNameRule
+    -
+        class: Symplify\PHPStanRules\Collector\Variable\VariableNameCollector
+        tags: [phpstan.collector]
+
+    # for UnusedPublicClassConstRule
     -
         class: Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector
-        tags:
-            - phpstan.collector
+        tags: [phpstan.collector]
 
     -
         class: Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector
-        tags:
-            - phpstan.collector
+        tags: [phpstan.collector]
 
+    # for UnusedPublicClassMethodRule
     -
         class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector
-        tags:
-            - phpstan.collector
+        tags: [phpstan.collector]
 
     -
         class: Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector
-        tags:
-            - phpstan.collector
+        tags: [phpstan.collector]
+
+    # for NarrowPublicClassMethodParamTypeByCallerTypeRule
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodParamTypesCollector
+        tags: [phpstan.collector]
+
+    -
+        class: Symplify\PHPStanRules\Collector\MethodCall\MethodCallArgTypesCollector
+        tags: [phpstan.collector]
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassLike\TraitMethodNameCollector
+        tags: [phpstan.collector]

@@ -8,6 +8,7 @@ rules:
     - Symplify\PHPStanRules\Rules\Explicit\NoGetterAndPropertyRule
     - Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule
     - Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule
+    - Symplify\PHPStanRules\Rules\PHPUnit\NoRightPHPUnitAssertScalarRule
     - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule
     - Symplify\PHPStanRules\Rules\Complexity\NoAbstractRule
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenInlineClassMethodRule
@@ -18,3 +19,5 @@ rules:
     - Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
     - Symplify\PHPStanRules\Rules\ForbiddenNestedCallInAssertMethodCallRule
     - Symplify\PHPStanRules\Rules\Complexity\ValueObjectDestructRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoRelativeFilePathRule
+    - Symplify\PHPStanRules\Rules\Explicit\NoMissingAssingNoVoidMethodCallRule

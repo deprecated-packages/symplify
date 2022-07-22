@@ -23,6 +23,9 @@ final class StaticCallNodeAnalyzer
     ) {
     }
 
+    /**
+     * @api
+     */
     public function isAbstractMethodStaticCall(Expr $expr, Scope $scope): bool
     {
         if (! $expr instanceof StaticCall) {

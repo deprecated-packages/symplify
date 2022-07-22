@@ -122,11 +122,6 @@ parameters:
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
         -
-            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-
-        -
             message: '#Use value object over return of values#'
             paths:
                 # Symfony API
@@ -144,11 +139,6 @@ parameters:
             message: '#is forbidden to use#'
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-
-        -
-            message: '#Do not call parent method if parent method is empty#'
-            paths:
-                - packages/smart-file-system/src/SmartFileInfo.php # 122
 
         -
             message: '#Use explicit return value over magic &reference#'
@@ -179,9 +169,14 @@ parameters:
 
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
-            path: 'packages/smart-file-system/src/Normalizer/PathNormalizer.php'
+            paths:
+                - packages/smart-file-system/src/Normalizer/PathNormalizer.php
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
+
+        -
+            message: '#Array with keys is not allowed\. Use value object to pass data instead#'
+            path: packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
@@ -191,8 +186,6 @@ parameters:
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 # existing method call validator
                 - packages/easy-ci/src/Latte/LatteTemplateAnalyzer/MissingClassStaticCallLatteAnalyzer.php
-                # look for parent method
-                - packages/phpstan-rules/src/Rules/PreventParentMethodVisibilityOverrideRule.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
@@ -202,9 +195,6 @@ parameters:
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
-        # false positive - lost type on array-merge
-        - '#Property Symplify\\PHPStanRules\\ObjectCalisthenics\\Rules\\NoChainMethodCallRule\:\:\$allowedChainTypes \(array<class\-string\>\) does not accept array<string\>#'
 
         - '#\$this as argument is not allowed\. Refactor method to service composition#'
         -
@@ -288,7 +278,6 @@ parameters:
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
             paths:
-                - packages/package-builder/src/Console/Command/CommandNaming.php
                 - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
 
         # on purpose, to make service a simple as possible
@@ -362,7 +351,7 @@ parameters:
 
         # is never string
         - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
-        - '#"@file_get_contents\(\$filename\)" is forbidden to use#'
+        - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
 
@@ -408,8 +397,8 @@ parameters:
                 - packages/easy-coding-standard/src/*FileProcessor.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/phpstan-rules/src/Collector/*
+                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 
         -
             message: '#Complete known array shape to the method @return type#'
@@ -438,20 +427,10 @@ parameters:
                 - packages/phpstan-rules/tests
                 - packages/phpstan-rules/packages
 
-        # use as narrow container type as possible
-        -
-            message: '#Parameter (.*?) should use "Symfony\\Component\\DependencyInjection\\ContainerBuilder" type as the only type passed to this method#'
-            paths:
-                - packages/easy-coding-standard/src/DependencyInjection/DeprecationReporter.php
-
         -
             message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
 
-        # scalar type skip
-        -
-            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
         - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
 
         # open api
@@ -480,21 +459,12 @@ parameters:
             paths:
                 - packages/php-config-printer/src/*Converter/*
 
-        # tests
-        -
-            message: '#Creating new PHPStan\\(.*?) is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
-            paths:
-                - packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
-
         # cached parser
         -
             message: '#Creating new PHPStan(.*?) is not covered by backward compatibility promise#'
             path: packages/astral/src/PhpParser/SmartPhpParserFactory.php
 
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
-
-        # ignore known type
-        - '#Method Symplify\\Astral\\NodeFinder\\SimpleNodeFinder\:\:findByType\(\) should return array<T of PhpParser\\Node> but returns array<PhpParser\\Node>#'
 
         # single constant
         -
@@ -512,12 +482,7 @@ parameters:
 
         # collector metadata
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
-        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{non\-empty\-string\}#'
         - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\PublicClassMethodCollector\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{class\-string, string, int\}#'
-
-        -
-            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-            path: packages/phpstan-rules/src/Collector/PublicClassLikeConstCollector.php
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
 
@@ -525,3 +490,43 @@ parameters:
         -
             message: '#Class method "configure\(\)" is never used#'
             path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
+
+        - '#Method (.*?)::getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
+
+        # relative file path resolving tests
+        -
+            message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
+            paths:
+                - packages/smart-file-system/tests/SmartFileInfo/*
+                - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
+                - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
+                - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
+                - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
+                # should be improved
+                - packages/monorepo-builder/src/ValueObject/File.php
+                - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
+                - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
+
+        - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
+
+        # false positive on commands
+        -
+            message: '#Method call return value that should be used, but is not#'
+            paths:
+                 - packages/easy-ci/src/Composer/SupportedPhpVersionResolver.php
+                 - packages/smart-file-system/tests/SmartFileInfo/SmartFileInfoTest.php
+                 # skip edge case
+                 - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
+                 - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
+
+        - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
+
+        -
+            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
+            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
+
+        # mixed collector arrays
+        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)NameCollector\:\:processNode\(\) should return (.*?)#'
+
+        # partial enum
+        - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:(getBlockTypeByContent|getBlockTypeByToken)\(\) never returns \d+ so it can be removed from the return type#'

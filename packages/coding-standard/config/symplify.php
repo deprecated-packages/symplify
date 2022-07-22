@@ -10,7 +10,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->import(__DIR__ . '/config.php');
 
     $services = $ecsConfig->services();
-
     $services->defaults()
         ->public()
         ->autowire();

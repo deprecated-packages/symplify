@@ -21,9 +21,9 @@
         "symplify/smart-file-system": "^11.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "phpstan/phpstan": "^1.8",
-        "friendsofphp/php-cs-fixer": "^3.8"
+        "phpunit/phpunit": "^9.5.21",
+        "friendsofphp/php-cs-fixer": "^3.9.5",
+        "phpstan/phpstan": "^1.8.1"
     },
     "autoload": {
         "psr-4": {

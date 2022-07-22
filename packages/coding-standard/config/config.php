@@ -20,6 +20,7 @@ return static function (ECSConfig $ecsConfig): void {
             __DIR__ . '/../src/TokenRunner/ValueObject',
             __DIR__ . '/../src/TokenRunner/Exception',
             __DIR__ . '/../src/Fixer',
+            __DIR__ . '/../src/Exception',
             __DIR__ . '/../src/ValueObject',
         ]);
 

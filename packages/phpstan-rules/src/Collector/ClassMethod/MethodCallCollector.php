@@ -10,9 +10,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\Reflection\ReflectionProvider;
-use PHPStan\Type\ThisType;
-use PHPStan\Type\TypeCombinator;
-use PHPStan\Type\TypeWithClassName;
+use Symplify\PHPStanRules\Matcher\ClassMethodCallReferenceResolver;
+use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 
 /**
  * @implements Collector<MethodCall, array<string>|null>
@@ -20,7 +19,8 @@ use PHPStan\Type\TypeWithClassName;
 final class MethodCallCollector implements Collector
 {
     public function __construct(
-        private ReflectionProvider $reflectionProvider
+        private ReflectionProvider $reflectionProvider,
+        private ClassMethodCallReferenceResolver $classMethodCallReferenceResolver,
     ) {
     }
 
@@ -39,28 +39,15 @@ final class MethodCallCollector implements Collector
             return null;
         }
 
-        $callerType = $scope->getType($node->var);
-
-        // remove optional nullable type
-        if (TypeCombinator::containsNull($callerType)) {
-            $callerType = TypeCombinator::removeNull($callerType);
-        }
-
-        // skip self calls, as external is needed to make the method public
-        if ($callerType instanceof ThisType) {
+        $classMethodCallReference = $this->classMethodCallReferenceResolver->resolve($node, $scope, false);
+        if (! $classMethodCallReference instanceof MethodCallReference) {
             return null;
         }
 
-        if (! $callerType instanceof TypeWithClassName) {
-            return null;
-        }
-
-        // move to the class where method is defined, e.g. parent class defines the method, so it should be checked there
-        $className = $callerType->getClassName();
-        $methodName = $node->name->toString();
+        $className = $classMethodCallReference->getClass();
+        $methodName = $classMethodCallReference->getMethod();
 
         $classMethodReferences = $this->findParentClassMethodReferences($className, $methodName);
-
         $classMethodReferences[] = $className . '::' . $methodName;
 
         return $classMethodReferences;

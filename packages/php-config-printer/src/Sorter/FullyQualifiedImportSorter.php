@@ -25,9 +25,9 @@ final class FullyQualifiedImportSorter
      */
     public function sortImports(array $imports): array
     {
-        $sortByFullQualifiedCallback = static fn (FullyQualifiedImport $left, FullyQualifiedImport $right): int => strcmp(
-            $left->getFullyQualified(),
-            $right->getFullyQualified()
+        $sortByFullQualifiedCallback = static fn (FullyQualifiedImport $firstFullyQualifiedImport, FullyQualifiedImport $secondFullyQualifiedImport): int => strcmp(
+            $firstFullyQualifiedImport->getFullyQualified(),
+            $secondFullyQualifiedImport->getFullyQualified()
         );
         usort($imports, $sortByFullQualifiedCallback);
 

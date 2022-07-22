@@ -249,5 +249,5 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
 new class($a, $b, $c) extends SomeExtendedClass implements
     \ArrayAccess,
     \Countable {
-    // Body
-};
+        // Body
+    };

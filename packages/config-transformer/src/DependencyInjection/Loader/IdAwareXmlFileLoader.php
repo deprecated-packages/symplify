@@ -75,7 +75,10 @@ final class IdAwareXmlFileLoader extends XmlFileLoader
         // mostly mimics parseFileToDOM(), just without validation, that often breaks due to missing extension
         $domDocument = $this->parseFileToDOMWithoutValidation($path);
 
-        $this->container->fileExists($path);
+        // file not found
+        if (! $this->container->fileExists($path)) {
+            return null;
+        }
 
         $defaults = $this->privatesCaller->callPrivateMethod($this, 'getServiceDefaults', [$domDocument, $path]);
         $this->processAnonymousServices($domDocument, $path);

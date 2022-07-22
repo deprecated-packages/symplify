@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\NodeAnalyzer;
 
+use Latte\Engine;
 use Nette\Application\UI\Template;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
@@ -17,9 +18,10 @@ use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 final class NetteTypeAnalyzer
 {
     /**
-     * @var array<class-string<Template>>
+     * @var array<class-string<Engine|Template>>
      */
     private const TEMPLATE_TYPES = [
+        'Latte\Engine',
         'Nette\Application\UI\Template',
         'Nette\Application\UI\ITemplate',
         'Nette\Bridges\ApplicationLatte\Template',

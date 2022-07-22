@@ -52,8 +52,9 @@ final class SmartFileInfoTest extends TestCase
 
     public function testRelativeToDirException(): void
     {
-        $this->expectException(DirectoryNotFoundException::class);
         $smartFileInfo = new SmartFileInfo(__FILE__);
+
+        $this->expectException(DirectoryNotFoundException::class);
         $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
     }
 
