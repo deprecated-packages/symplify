@@ -30,8 +30,8 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         $this->setDescription('Dump website to static HTML and CSS in the output directory');
 
         // Adding arguments options for the main command
-        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory relative to the root project directory');
-        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory relative to the execution of the comand');
+        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory relative to the root project directory', './public');
+        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory relative to the execution of the comand', './output');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -51,7 +51,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
     {
         $projectDir = (string) $this->parameterBag->get('kernel.project_dir');
 
-        return $inputDir ? $projectDir . $inputDir : $projectDir . '/public';
+            return $inputDir ? $projectDir . $inputDir : $projectDir . '/public';
     }
 
     protected function getOutputDirectory($outputDir): string
