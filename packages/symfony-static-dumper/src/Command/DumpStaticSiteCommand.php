@@ -30,32 +30,22 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         $this->setDescription('Dump website to static HTML and CSS in the output directory');
 
         // Adding arguments options for the main command
-        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory relative to the root project directory', './public');
-        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory relative to the execution of the comand', './output');
+        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory absolute to the root of the project', '/public');
+        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory absolute to the execution of the comand', '/output');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $publicDirectory = $this->getPublicDirectory($input->getOption('public-dir'));
-        $outputDirectory = $this->getOutputDirectory($input->getOption('output-dir'));
-        
+    {   
+        $projectDir = (string) $this->parameterBag->get('kernel.project_dir');
+
+        $this->publicDirectory = $projectDir . $input->getOption('public-dir');
+        $this->outputDirectory = getcwd() . $input->getOption('output-dir');
+
         $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->run($publicDirectory, $outputDirectory);
+        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory, $input->getOption('wdp-only'));
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
         return self::SUCCESS;
-    }
-
-    protected function getPublicDirectory($inputDir): string
-    {
-        $projectDir = (string) $this->parameterBag->get('kernel.project_dir');
-
-            return $inputDir ? $projectDir . $inputDir : $projectDir . '/public';
-    }
-
-    protected function getOutputDirectory($outputDir): string
-    {
-        return getcwd() . ( $outputDir ? $outputDir : '/output');
     }
 }
