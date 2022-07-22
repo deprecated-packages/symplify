@@ -94,19 +94,18 @@ final class ContainerConfiguratorReturnClosureFactory
                     continue;
                 }
 
-                $nodes[] = $this->resolveExpressionWhenAtEnv($expression, $key);
+                $this->resolveExpressionWhenAtEnv($expression, $key, $nodes);
             }
         }
 
         return $nodes;
     }
 
-    private function resolveExpressionWhenAtEnv(Expression $expression, string $key): Expression|If_
+    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, array &$nodes): void
     {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
             $variable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
-            $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
 
             $expr = $expression->expr;
             if (! $expr instanceof MethodCall) {
@@ -123,16 +122,28 @@ final class ContainerConfiguratorReturnClosureFactory
                 new MethodCall(
                     $variable,
                     'extension',
-                    [new Arg(new String_('framework')), new Arg($args[1]->value->items[0]->value)]
+                    [new Arg(new String_($args[1]->value->items[0]->key->value)), new Arg($args[1]->value->items[0]->value)]
                 )
             );
-            $if = new If_($identical);
-            $if->stmts = [$newExpression];
-
-            return $if;
+            $lastNode = end($nodes);
+            if ($lastNode instanceof If_ && $lastNode->cond instanceof Identical
+                && $lastNode->cond->left instanceof String_
+                && $lastNode->cond->left->value === $explodeAt[1]
+                && $lastNode->cond->right instanceof MethodCall
+                && $lastNode->cond->right->var instanceof Variable
+                && $lastNode->cond->right->var->name === $variable->name
+            ) {
+                $if = $lastNode;
+                $if->stmts[] = $newExpression;
+            } else {
+                $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
+                $if = new If_($identical);
+                $if->stmts = [$newExpression];
+                $nodes[] = $if;
+            }
+        } else {
+            $nodes[] = $expression;
         }
-
-        return $expression;
     }
 
     /**

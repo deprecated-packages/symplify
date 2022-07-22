@@ -34,13 +34,15 @@ final class ConstantNodeFactory
     {
         if (\str_contains($value, '::')) {
             [$class, $constant] = explode('::', $value);
+            if (class_exists($class)) {
 
-            // not uppercase → probably not a constant
-            if (strtoupper($constant) !== $constant) {
-                return null;
+                // not uppercase → probably not a constant
+                if (strtoupper($constant) !== $constant) {
+                    return null;
+                }
+
+                return new ClassConstFetch(new FullyQualified($class), $constant);
             }
-
-            return new ClassConstFetch(new FullyQualified($class), $constant);
         }
 
         $definedConstants = get_defined_constants();

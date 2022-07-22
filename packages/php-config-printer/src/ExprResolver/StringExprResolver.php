@@ -40,34 +40,36 @@ final class StringExprResolver
             return new String_($value);
         }
 
-        $constFetch = $this->constantNodeFactory->createConstantIfValue($value);
-        if ($constFetch !== null) {
-            return $constFetch;
+        if (!(\str_starts_with('%', $value) && \str_ends_with('%', $value))) {
+
+            $constFetch = $this->constantNodeFactory->createConstantIfValue($value);
+            if ($constFetch !== null) {
+                return $constFetch;
+            }
+
+            // do not print "\n" as empty space, but use string value instead
+            if (in_array($value, ["\r", "\n", "\r\n"], true)) {
+                return $this->keepNewline($value);
+            }
+
+            $value = ltrim($value, '\\');
+            if ($this->isClassType($value)) {
+                return $this->resolveClassType($skipClassesToConstantReference, $value);
+            }
+
+            if (\str_starts_with($value, '@=')) {
+                $value = ltrim($value, '@=');
+                $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
+                $args = [new Arg($expr)];
+
+                return new FuncCall(new FullyQualified(FunctionName::EXPR), $args);
+            }
+
+            // is service reference
+            if (\str_starts_with($value, '@') && !$this->isFilePath($value)) {
+                return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
+            }
         }
-
-        // do not print "\n" as empty space, but use string value instead
-        if (in_array($value, ["\r", "\n", "\r\n"], true)) {
-            return $this->keepNewline($value);
-        }
-
-        $value = ltrim($value, '\\');
-        if ($this->isClassType($value)) {
-            return $this->resolveClassType($skipClassesToConstantReference, $value);
-        }
-
-        if (\str_starts_with($value, '@=')) {
-            $value = ltrim($value, '@=');
-            $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
-            $args = [new Arg($expr)];
-
-            return new FuncCall(new FullyQualified(FunctionName::EXPR), $args);
-        }
-
-        // is service reference
-        if (\str_starts_with($value, '@') && ! $this->isFilePath($value)) {
-            return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
-        }
-
         return BuilderHelpers::normalizeValue($value);
     }
 
