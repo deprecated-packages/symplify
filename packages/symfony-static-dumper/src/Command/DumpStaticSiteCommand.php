@@ -42,7 +42,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         $this->outputDirectory = getcwd() . $input->getOption('output-dir');
 
         $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory, $input->getOption('wdp-only'));
+        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory);
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
