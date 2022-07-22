@@ -36,11 +36,11 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->publicDirectory = $this->getPublicDirectory($input->getOption('public-dir'));
-        $this->outputDirectory = $this->getOutputDirectory($input->getOption('output-dir'));
+        $publicDirectory = $this->getPublicDirectory($input->getOption('public-dir'));
+        $outputDirectory = $this->getOutputDirectory($input->getOption('output-dir'));
         
         $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory);
+        $this->symfonyStaticDumperApplication->run($publicDirectory, $outputDirectory);
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
