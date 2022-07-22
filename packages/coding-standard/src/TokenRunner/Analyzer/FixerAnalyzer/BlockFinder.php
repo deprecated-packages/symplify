@@ -91,6 +91,9 @@ final class BlockFinder
         return new BlockInfo($blockStart, $tokens->findBlockEnd($blockType, $blockStart));
     }
 
+    /**
+     * @return Tokens::BLOCK_TYPE_*
+     */
     private function getBlockTypeByContent(string $content): int
     {
         if (isset(self::CONTENT_TO_BLOCK_TYPE[$content])) {
@@ -105,6 +108,9 @@ final class BlockFinder
         ));
     }
 
+    /**
+     * @return Tokens::BLOCK_TYPE_*
+     */
     private function getBlockTypeByToken(Token $token): int
     {
         if ($token->isArray()) {
@@ -120,6 +126,7 @@ final class BlockFinder
 
     /**
      * @param Tokens<Token> $tokens
+     * @param Tokens::BLOCK_TYPE_* $blockType
      */
     private function createBlockInfo(Token $token, int $position, Tokens $tokens, int $blockType): ?BlockInfo
     {
