@@ -10,6 +10,7 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -89,7 +90,10 @@ final class ConfigLoader
         $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
         $checkerTolerantYamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator());
 
+        $directoryLoader = new DirectoryLoader($containerBuilder, new FileLocator());
+
         return new DelegatingLoader(new LoaderResolver([
+            $directoryLoader,
             $globFileLoader,
             $phpFileLoader,
             $checkerTolerantYamlFileLoader,
