@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
+use Nette\Utils\Json;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\Assign;
@@ -74,15 +76,7 @@ final class ContainerConfiguratorReturnClosureFactory
             $nodes = $this->createInitializeNode($key, $nodes);
 
             foreach ($values as $nestedKey => $nestedValues) {
-                $nestedNodes = [];
-
-                if (is_array($nestedValues)) {
-                    $nestedNodes = $this->containerNestedNodesFactory->createFromValues(
-                        $nestedValues,
-                        $key,
-                        $nestedKey
-                    );
-                }
+                $nestedNodes = $this->processNestedNodes($key, $nestedKey, $nestedValues);
 
                 if ($nestedNodes !== []) {
                     $nodes = array_merge($nodes, $nestedNodes);
@@ -94,19 +88,38 @@ final class ContainerConfiguratorReturnClosureFactory
                     continue;
                 }
 
-                $nodes[] = $this->resolveExpressionWhenAtEnv($expression, $key);
+                $lastNode = end($nodes);
+                $node = $this->resolveExpressionWhenAtEnv($expression, $key, $lastNode);
+                if ($node !== null) {
+                    $nodes[] = $node;
+                }
             }
         }
 
         return $nodes;
     }
 
-    private function resolveExpressionWhenAtEnv(Expression $expression, string $key): Expression|If_
+    /**
+     * @return Expression[]|mixed[]
+     */
+    private function processNestedNodes(string $key, int|string $nestedKey, mixed $nestedValues): array
+    {
+        if (is_array($nestedValues)) {
+            return $this->containerNestedNodesFactory->createFromValues(
+                $nestedValues,
+                $key,
+                $nestedKey
+            );
+        }
+
+        return [];
+    }
+
+    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Expression|If_|bool $lastNode): Expression|If_|null
     {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
             $variable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
-            $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
 
             $expr = $expression->expr;
             if (! $expr instanceof MethodCall) {
@@ -115,7 +128,8 @@ final class ContainerConfiguratorReturnClosureFactory
 
             $args = $expr->getArgs();
 
-            if (! isset($args[1]) || ! $args[1]->value instanceof Array_ || ! isset($args[1]->value->items[0]) || ! $args[1]->value->items[0] instanceof ArrayItem) {
+            if (! isset($args[1]) || ! $args[1]->value instanceof Array_ || ! isset($args[1]->value->items[0])
+                || ! $args[1]->value->items[0] instanceof ArrayItem || $args[1]->value->items[0]->key === null) {
                 throw new ShouldNotHappenException();
             }
 
@@ -123,16 +137,32 @@ final class ContainerConfiguratorReturnClosureFactory
                 new MethodCall(
                     $variable,
                     'extension',
-                    [new Arg(new String_('framework')), new Arg($args[1]->value->items[0]->value)]
+                    [new Arg($args[1]->value->items[0]->key), new Arg($args[1]->value->items[0]->value)]
                 )
             );
+            $identical = new Identical(new String_($explodeAt[1]), new MethodCall($variable, 'env'));
+            if ($lastNode instanceof If_ && $this->isSameCond($lastNode->cond, $identical)
+            ) {
+                $lastNode->stmts[] = $newExpression;
+                return null;
+            }
+
             $if = new If_($identical);
             $if->stmts = [$newExpression];
-
             return $if;
         }
 
         return $expression;
+    }
+
+    private function isSameCond(Expr $expr, Identical $identical): bool {
+        if ($expr instanceof Identical) {
+            $val1 = Json::encode($expr);
+            $val2 = Json::encode($identical);
+            return $val1 === $val2;
+        }
+
+        return false;
     }
 
     /**
