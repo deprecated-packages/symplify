@@ -76,15 +76,7 @@ final class ContainerConfiguratorReturnClosureFactory
             $nodes = $this->createInitializeNode($key, $nodes);
 
             foreach ($values as $nestedKey => $nestedValues) {
-                $nestedNodes = [];
-
-                if (is_array($nestedValues)) {
-                    $nestedNodes = $this->containerNestedNodesFactory->createFromValues(
-                        $nestedValues,
-                        $key,
-                        $nestedKey
-                    );
-                }
+                $nestedNodes = $this->processNestedNodes($key, $nestedKey, $nestedValues);
 
                 if ($nestedNodes !== []) {
                     $nodes = array_merge($nodes, $nestedNodes);
@@ -105,6 +97,27 @@ final class ContainerConfiguratorReturnClosureFactory
         }
 
         return $nodes;
+    }
+
+    /**
+     * @param string $key
+     * @param string|int $nestedKey
+     * @param mixed $nestedValues
+     * @return Expression[]
+     */
+    private function processNestedNodes(string $key, int|string $nestedKey, mixed $nestedValues): array
+    {
+        $nestedNodes = [];
+
+        if (is_array($nestedValues)) {
+            $nestedNodes = $this->containerNestedNodesFactory->createFromValues(
+                $nestedValues,
+                $key,
+                $nestedKey
+            );
+        }
+
+        return $nestedNodes;
     }
 
     private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Stmt|false $lastNode): Expression|If_|null

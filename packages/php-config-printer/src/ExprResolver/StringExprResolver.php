@@ -16,6 +16,8 @@ use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
+use function str_contains;
+use function str_starts_with;
 
 final class StringExprResolver
 {
@@ -40,37 +42,43 @@ final class StringExprResolver
             return new String_($value);
         }
 
-        if (!(\str_starts_with('%', $value) && \str_ends_with('%', $value))) {
+        if (str_starts_with($value, '%const(')) {
+            $const = substr($value, 7, -2);
+            return $this->constantNodeFactory->createConstant($const);
+        }
+        $ret = $this->constantNodeFactory->createClassConstantIfValue($value);
+        if ($ret) {
+            return $ret;
+        }
 
-            $constFetch = $this->constantNodeFactory->createConstantIfValue($value);
-            if ($constFetch !== null) {
-                return $constFetch;
-            }
+        // do not print "\n" as empty space, but use string value instead
+        if (in_array($value, ["\r", "\n", "\r\n"], true)) {
+            return $this->keepNewline($value);
+        }
 
-            // do not print "\n" as empty space, but use string value instead
-            if (in_array($value, ["\r", "\n", "\r\n"], true)) {
-                return $this->keepNewline($value);
-            }
+        $value = ltrim($value, '\\');
+        if ($this->isClassType($value)) {
+            return $this->resolveClassType($skipClassesToConstantReference, $value);
+        }
 
-            $value = ltrim($value, '\\');
-            if ($this->isClassType($value)) {
-                return $this->resolveClassType($skipClassesToConstantReference, $value);
-            }
+        if (str_starts_with($value, '@=')) {
+            return $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
+        }
 
-            if (\str_starts_with($value, '@=')) {
-                $value = ltrim($value, '@=');
-                $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
-                $args = [new Arg($expr)];
-
-                return new FuncCall(new FullyQualified(FunctionName::EXPR), $args);
-            }
-
-            // is service reference
-            if (\str_starts_with($value, '@') && !$this->isFilePath($value)) {
-                return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
-            }
+        // is service reference
+        if (str_starts_with($value, '@') && !$this->isFilePath($value)) {
+            return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
         }
         return BuilderHelpers::normalizeValue($value);
+    }
+
+    private function resolveExpr(string $value, bool $skipServiceReference, bool $skipClassesToConstantReference): FuncCall
+    {
+        $value = ltrim($value, '@=');
+        $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
+        $args = [new Arg($expr)];
+
+        return new FuncCall(new FullyQualified(FunctionName::EXPR), $args);
     }
 
     private function keepNewline(string $value): String_

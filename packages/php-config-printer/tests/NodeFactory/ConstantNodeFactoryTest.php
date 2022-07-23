@@ -4,52 +4,41 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\Tests\NodeFactory;
 
+use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPUnit\Framework\TestCase;
-use Symplify\PhpConfigPrinter\Dummy\YamlContentProvider;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
 
 final class ConstantNodeFactoryTest extends TestCase
 {
     private ConstantNodeFactory $constantNodeFactory;
 
-    private YamlContentProvider $yamlContentProvider;
-
     protected function setUp(): void
     {
-        $this->yamlContentProvider = new YamlContentProvider();
-        $this->constantNodeFactory = new ConstantNodeFactory($this->yamlContentProvider);
+        $this->constantNodeFactory = new ConstantNodeFactory();
     }
 
-    public function testThatDeprecatedPHPConstantExists(): void
-    {
-        $previousLevel = error_reporting(E_ALL & ~E_DEPRECATED);
-
-        $value = constant('PGSQL_LIBPQ_VERSION_STR');
-
-        $this->assertNotEmpty($value);
-
-        error_reporting($previousLevel);
-    }
 
     public function testConstantFetchNode(): void
     {
-        $this->yamlContentProvider->setContent(
-            <<<CODE_SAMPLE
-            services:
-                My\Service:
-                    arguments:
-                        - !php/const PHP_VERSION
-            CODE_SAMPLE
-        );
-
-        $previousLevel = error_reporting(E_ALL);
-
-        $constFetch = $this->constantNodeFactory->createConstantIfValue(PHP_VERSION);
+        $constFetch = $this->constantNodeFactory->createConstant('PHP_VERSION');
         $this->assertInstanceOf(ConstFetch::class, $constFetch);
         /** @var ConstFetch $constFetch */
         $this->assertSame('PHP_VERSION', $constFetch->name->toString());
+    }
 
-        error_reporting($previousLevel);
+    public function testClassConstantFetchNode(): void
+    {
+        $constFetch = $this->constantNodeFactory->createConstant('SomeClass::TEST');
+        $this->assertInstanceOf(ClassConstFetch::class, $constFetch);
+        /** @var ClassConstFetch $constFetch */
+        /** @var Identifier $class */
+        $class = $constFetch->class;
+        /** @var Name $name */
+        $name = $constFetch->name;
+        $this->assertSame('SomeClass', $class->toString());
+        $this->assertSame('TEST', $name->toString());
     }
 }
