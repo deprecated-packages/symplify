@@ -1,0 +1,30 @@
+framework:
+    test: false
+
+when@test:
+    not_framework:
+        other_test: true
+    framework:
+        test: true
+        session:
+            storage_factory_id: session.storage.factory.mock_file
+when@prod:
+    oky:
+        dokky: false
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->extension('framework', ['test' => false]);
+    if ('test' === $containerConfigurator->env()) {
+        $containerConfigurator->extension('not_framework', ['other_test' => true]);
+        $containerConfigurator->extension('framework', ['test' => true, 'session' => ['storage_factory_id' => 'session.storage.factory.mock_file']]);
+    }
+    if ('prod' === $containerConfigurator->env()) {
+        $containerConfigurator->extension('oky', ['dokky' => false]);
+    }
+};
