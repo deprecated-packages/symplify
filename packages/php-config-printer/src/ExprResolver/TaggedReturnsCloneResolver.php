@@ -20,12 +20,12 @@ final class TaggedReturnsCloneResolver
     {
         $serviceName = $taggedValue->getValue()[0];
 
-        $funcCall = $this->serviceReferenceExprResolver->resolveServiceReferenceExpr(
+        $expr = $this->serviceReferenceExprResolver->resolveServiceReferenceExpr(
             $serviceName,
             false,
             FunctionName::SERVICE
         );
 
-        return new Array_([new ArrayItem($funcCall)]);
+        return new Array_([new ArrayItem($expr)]);
     }
 }

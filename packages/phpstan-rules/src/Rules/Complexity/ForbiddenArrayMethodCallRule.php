@@ -48,8 +48,8 @@ final class ForbiddenArrayMethodCallRule implements Rule, DocumentedRuleInterfac
             return [];
         }
 
-        $classType = $this->resolveFirstArrayItemClassType($node, $scope);
-        if (! $classType instanceof TypeWithClassName) {
+        $typeWithClassName = $this->resolveFirstArrayItemClassType($node, $scope);
+        if (! $typeWithClassName instanceof TypeWithClassName) {
             return [];
         }
 
@@ -59,7 +59,7 @@ final class ForbiddenArrayMethodCallRule implements Rule, DocumentedRuleInterfac
         }
 
         // does method exist?
-        if (! $classType->hasMethod($methodName)->yes()) {
+        if (! $typeWithClassName->hasMethod($methodName)->yes()) {
             return [];
         }
 

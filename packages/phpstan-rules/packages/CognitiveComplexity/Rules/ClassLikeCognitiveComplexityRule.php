@@ -7,8 +7,6 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
-use PhpParser\Node\Stmt\Enum_;
-use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
@@ -28,7 +26,7 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = '%s cognitive complexity is %d, keep it under %d';
+    public const ERROR_MESSAGE = 'Class %s cognitive complexity is %d, keep it under %d';
 
     /**
      * @param array<string, int> $limitsByTypes
@@ -57,11 +55,7 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($node instanceof Interface_) {
-            return [];
-        }
-
-        if ($node instanceof Enum_) {
+        if (! $node instanceof Class_) {
             return [];
         }
 
@@ -76,8 +70,7 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
             return [];
         }
 
-        $type = $node instanceof Class_ ? 'Class' : 'Trait';
-        $message = sprintf(self::ERROR_MESSAGE, $type, $measuredCognitiveComplexity, $allowedCognitiveComplexity);
+        $message = sprintf(self::ERROR_MESSAGE, $measuredCognitiveComplexity, $allowedCognitiveComplexity);
 
         return [$message];
     }
@@ -182,9 +175,9 @@ CODE_SAMPLE
         );
     }
 
-    private function resolveAllowedCognitiveComplexity(ClassLike $classLike): int
+    private function resolveAllowedCognitiveComplexity(Class_ $class): int
     {
-        $className = $this->simpleNameResolver->getName($classLike);
+        $className = $this->simpleNameResolver->getName($class);
         if ($className === null) {
             return $this->maxClassCognitiveComplexity;
         }

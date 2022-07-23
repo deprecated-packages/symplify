@@ -21,7 +21,7 @@ final class TypeAwareNodeFinder
      * @param class-string<TNode> $type
      * @return TNode|null
      */
-    public function findFirstInstanceOf(array|Node $nodes, string $type)
+    public function findFirstInstanceOf(array|Node $nodes, string $type): ?Node
     {
         return $this->nodeFinder->findFirstInstanceOf($nodes, $type);
     }

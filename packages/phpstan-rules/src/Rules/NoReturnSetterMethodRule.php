@@ -9,11 +9,11 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -36,7 +36,7 @@ final class NoReturnSetterMethodRule implements Rule, DocumentedRuleInterface
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private NodeFinder $nodeFinder
+        private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
 
@@ -117,14 +117,14 @@ CODE_SAMPLE
     private function hasReturnReturnFunctionLike(ClassMethod $classMethod): bool
     {
         /** @var Return_[] $returns */
-        $returns = $this->nodeFinder->findInstanceOf($classMethod, Return_::class);
+        $returns = $this->typeAwareNodeFinder->findInstanceOf($classMethod, Return_::class);
         foreach ($returns as $return) {
             if ($return->expr !== null) {
                 return true;
             }
         }
 
-        $yield = $this->nodeFinder->findFirstInstanceOf($classMethod, Yield_::class);
+        $yield = $this->typeAwareNodeFinder->findFirstInstanceOf($classMethod, Yield_::class);
         return $yield instanceof Yield_;
     }
 }

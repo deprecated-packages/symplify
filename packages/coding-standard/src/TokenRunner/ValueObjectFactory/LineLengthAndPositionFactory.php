@@ -27,7 +27,7 @@ final class LineLengthAndPositionFactory
 
             $explode = explode("\n", $tokens[$currentPosition]->getContent());
             // string precedes current token, so we are interested in end part only
-            if ($explode !== []) {
+            if ($explode !== false) {
                 $lastSection = end($explode);
                 $length += strlen($lastSection);
             }
