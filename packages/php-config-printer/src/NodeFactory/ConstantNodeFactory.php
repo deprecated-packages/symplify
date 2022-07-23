@@ -21,19 +21,23 @@ final class ConstantNodeFactory
     public function createClassConstantIfValue(string $value, bool $checkExistence = true): ?ClassConstFetch {
         if ( ! str_starts_with($value, '%') && str_contains($value, '::')) {
             [$class, $constant] = explode('::', $value);
+            if (!$checkExistence) {
+                return new ClassConstFetch(new FullyQualified($class), $constant);
+            }
 
-            if (!$checkExistence || class_exists($class)) {
+            if (class_exists($class)) {
                 return new ClassConstFetch(new FullyQualified($class), $constant);
             }
         }
+
         return null;
     }
 
     public function createConstant(string $value): ConstFetch|ClassConstFetch
     {
-        $ret = $this->createClassConstantIfValue($value, false);
-        if ($ret) {
-            return $ret;
+        $classConstFetch = $this->createClassConstantIfValue($value, false);
+        if ($classConstFetch !== null) {
+            return $classConstFetch;
         }
 
         return new ConstFetch(new Name($value));

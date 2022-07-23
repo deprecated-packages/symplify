@@ -90,7 +90,7 @@ final class ContainerConfiguratorReturnClosureFactory
 
                 $lastNode = end($nodes);
                 $node = $this->resolveExpressionWhenAtEnv($expression, $key, $lastNode);
-                if ($node) {
+                if ($node !== null) {
                     $nodes[] = $node;
                 }
             }
@@ -100,27 +100,22 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @param string $key
-     * @param string|int $nestedKey
-     * @param mixed $nestedValues
-     * @return Expression[]
+     * @return Expression[]|mixed[]
      */
     private function processNestedNodes(string $key, int|string $nestedKey, mixed $nestedValues): array
     {
-        $nestedNodes = [];
-
         if (is_array($nestedValues)) {
-            $nestedNodes = $this->containerNestedNodesFactory->createFromValues(
+            return $this->containerNestedNodesFactory->createFromValues(
                 $nestedValues,
                 $key,
                 $nestedKey
             );
         }
 
-        return $nestedNodes;
+        return [];
     }
 
-    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Stmt|false $lastNode): Expression|If_|null
+    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Expression|If_|bool $lastNode): Expression|If_|null
     {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
@@ -134,7 +129,7 @@ final class ContainerConfiguratorReturnClosureFactory
             $args = $expr->getArgs();
 
             if (! isset($args[1]) || ! $args[1]->value instanceof Array_ || ! isset($args[1]->value->items[0])
-                || ! $args[1]->value->items[0] instanceof ArrayItem || ! isset($args[1]->value->items[0]->key)) {
+                || ! $args[1]->value->items[0] instanceof ArrayItem || $args[1]->value->items[0]->key === null) {
                 throw new ShouldNotHappenException();
             }
 
@@ -150,21 +145,23 @@ final class ContainerConfiguratorReturnClosureFactory
             ) {
                 $lastNode->stmts[] = $newExpression;
                 return null;
-            } else {
-                $if = new If_($identical);
-                $if->stmts = [$newExpression];
-                return $if;
             }
+
+            $if = new If_($identical);
+            $if->stmts = [$newExpression];
+            return $if;
         }
+
         return $expression;
     }
 
-    private function isSameCond(Expr $node1, Identical $node2): bool {
-        if ($node1 instanceof Identical) {
-            $val1 = Json::encode($node1);
-            $val2 = Json::encode($node2);
+    private function isSameCond(Expr $expr, Identical $identical): bool {
+        if ($expr instanceof Identical) {
+            $val1 = Json::encode($expr);
+            $val2 = Json::encode($identical);
             return $val1 === $val2;
         }
+
         return false;
     }
 

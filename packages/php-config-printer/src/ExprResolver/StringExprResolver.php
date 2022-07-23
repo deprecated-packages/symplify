@@ -46,6 +46,7 @@ final class StringExprResolver
             $const = substr($value, 7, -2);
             return $this->constantNodeFactory->createConstant($const);
         }
+
         $ret = $this->constantNodeFactory->createClassConstantIfValue($value);
         if ($ret) {
             return $ret;
@@ -69,6 +70,7 @@ final class StringExprResolver
         if (str_starts_with($value, '@') && !$this->isFilePath($value)) {
             return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
         }
+
         return BuilderHelpers::normalizeValue($value);
     }
 
