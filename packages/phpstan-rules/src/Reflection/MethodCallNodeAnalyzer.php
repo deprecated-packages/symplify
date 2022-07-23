@@ -29,12 +29,12 @@ final class MethodCallNodeAnalyzer
 
         $methodName = $methodCall->name->toString();
 
-        $methodReflection = $callerClassReflection->getMethod($methodName, $scope);
-        if (! $methodReflection instanceof PhpMethodReflection) {
+        $extendedMethodReflection = $callerClassReflection->getMethod($methodName, $scope);
+        if (! $extendedMethodReflection instanceof PhpMethodReflection) {
             return null;
         }
 
-        return $methodReflection;
+        return $extendedMethodReflection;
     }
 
     private function resolveCallerClassReflection(Scope $scope, MethodCall $methodCall): ?ClassReflection

@@ -11,13 +11,13 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Nop;
-use PhpParser\NodeFinder;
+use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class EmptyLineNodeDecorator
 {
     public function __construct(
-        private NodeFinder $nodeFinder
+        private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
 
@@ -26,7 +26,7 @@ final class EmptyLineNodeDecorator
      */
     public function decorate(array $stmts): void
     {
-        $closure = $this->nodeFinder->findFirstInstanceOf($stmts, Closure::class);
+        $closure = $this->typeAwareNodeFinder->findFirstInstanceOf($stmts, Closure::class);
         if (! $closure instanceof Closure) {
             throw new ShouldNotHappenException();
         }

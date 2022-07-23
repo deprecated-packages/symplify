@@ -54,7 +54,7 @@ final class NoMixedCallableRule extends AbstractSymplifyRule
 
         $ruleErrors = [];
 
-        TypeTraverser::map($elementType, function (Type $type, callable $callable) use (&$ruleErrors): Type {
+        TypeTraverser::map($elementType, static function (Type $type, callable $callable) use (&$ruleErrors): Type {
             if (! $type instanceof CallableType) {
                 return $callable($type, $callable);
             }

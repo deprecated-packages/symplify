@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\CognitiveComplexity;
 
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\TraitUse;
 
 /**
@@ -33,27 +32,22 @@ final class CompositionOverInheritanceAnalyzer
     ) {
     }
 
-    public function analyzeClassLike(ClassLike $classLike): int
+    public function analyzeClassLike(Class_ $class): int
     {
-        $totalCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($classLike);
-
-        // traits don't define isFinal()
-        if (! $classLike instanceof Class_) {
-            return $totalCognitiveComplexity;
-        }
+        $totalCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($class);
 
         // non final classes are more complex
-        if (! $classLike->isFinal()) {
+        if (! $class->isFinal()) {
             $totalCognitiveComplexity += self::NON_FINAL_CLASS_SCORE;
         }
 
         // classes extending from another are more complex
-        if ($classLike->extends !== null) {
+        if ($class->extends !== null) {
             $totalCognitiveComplexity += self::INHERITANCE_CLASS_SCORE;
         }
 
         // classes using traits are more complex
-        $totalCognitiveComplexity += $this->analyzeTraitUses($classLike);
+        $totalCognitiveComplexity += $this->analyzeTraitUses($class);
 
         return $totalCognitiveComplexity;
     }

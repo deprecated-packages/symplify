@@ -32,7 +32,7 @@ final class DocBlockLinesFactory
 
         $docBlockLines = $this->splitToLines($docBlock);
         $docBlockLines = array_map(
-            function (string $line): string {
+            static function (string $line): string {
                 $noWhitespace = Strings::trim($line, Strings::TRIM_CHARACTERS);
                 // Remove asterisks on the left side, plus additional whitespace
                 return ltrim($noWhitespace, Strings::TRIM_CHARACTERS . '*');

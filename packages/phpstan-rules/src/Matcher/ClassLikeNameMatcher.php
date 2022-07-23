@@ -22,7 +22,7 @@ final class ClassLikeNameMatcher
         $regex = Strings::replace(
             $namespaceWildcardPattern,
             self::REGEX_FOR_WILDCARD_TO_REGEX,
-            fn (array $matches): string => match ($matches[0]) {
+            static fn (array $matches): string => match ($matches[0]) {
                 '**' => '.*',
                 '*' => '[^\\\\]*',
                 '?' => '[^\\\\]',

@@ -56,7 +56,7 @@ final class ClassLikeNameFinder
 
         $narrowedNamespace = $this->getNarrowedNamespaceForSearch($namespacePattern);
         $possibleDirectories = $this->getPossibleDirectoriesForNamespace($narrowedNamespace);
-        $keepExistingDirectoriesCallback = fn (string $directory): bool => is_dir($directory);
+        $keepExistingDirectoriesCallback = static fn (string $directory): bool => is_dir($directory);
         $filteredPossibleDirectories = array_filter($possibleDirectories, $keepExistingDirectoriesCallback);
 
         if ($filteredPossibleDirectories === []) {

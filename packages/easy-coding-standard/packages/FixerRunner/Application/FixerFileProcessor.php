@@ -166,8 +166,7 @@ final class FixerFileProcessor implements FileProcessorInterface
     {
         usort(
             $fixers,
-            fn (FixerInterface $firstFixer, FixerInterface $secondFixer): int =>
-                $secondFixer->getPriority() <=> $firstFixer->getPriority()
+            static fn (FixerInterface $firstFixer, FixerInterface $secondFixer): int => $secondFixer->getPriority() <=> $firstFixer->getPriority()
         );
 
         return $fixers;

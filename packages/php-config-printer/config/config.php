@@ -10,6 +10,7 @@ use Symfony\Component\Yaml\Parser;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
+use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
@@ -29,6 +30,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Parser::class);
     $services->set(BuilderFactory::class);
     $services->set(ParentConnectingVisitor::class);
+    $services->set(TypeAwareNodeFinder::class);
 
     $services->set(TypeChecker::class);
     $services->set(NodeValueResolver::class);

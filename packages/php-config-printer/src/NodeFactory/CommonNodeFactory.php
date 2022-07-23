@@ -27,12 +27,12 @@ final class CommonNodeFactory
             $argument = '/' . $argument;
         }
 
-        $argumentValue = BuilderHelpers::normalizeValue($argument);
-        if ($argumentValue instanceof String_) {
-            return new Concat(new Dir(), $argumentValue);
+        $expr = BuilderHelpers::normalizeValue($argument);
+        if ($expr instanceof String_) {
+            return new Concat(new Dir(), $expr);
         }
 
-        return $argumentValue;
+        return $expr;
     }
 
     public function createClassReference(string $className): ClassConstFetch

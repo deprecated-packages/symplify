@@ -28,7 +28,7 @@ final class StaticReport
         // sort from most called, to least called - the latter is easier to remove, so put low-hanging fruit first
         usort(
             $staticClassMethodsWithStaticCalls,
-            fn (StaticClassMethodWithStaticCalls $firstStaticClassMethodWithStaticCalls, StaticClassMethodWithStaticCalls $secondStaticClassMethodWithStaticCalls): int => $secondStaticClassMethodWithStaticCalls->getStaticCallsCount() <=> $firstStaticClassMethodWithStaticCalls->getStaticCallsCount()
+            static fn (StaticClassMethodWithStaticCalls $firstStaticClassMethodWithStaticCalls, StaticClassMethodWithStaticCalls $secondStaticClassMethodWithStaticCalls): int => $secondStaticClassMethodWithStaticCalls->getStaticCallsCount() <=> $firstStaticClassMethodWithStaticCalls->getStaticCallsCount()
         );
 
         $this->staticClassMethodsWithStaticCalls = $staticClassMethodsWithStaticCalls;

@@ -64,7 +64,7 @@ final class AstCognitiveComplexityAnalyzerTest extends TestCase
         $nodeFinder = new NodeFinder();
         $firstFunctionlike = $nodeFinder->findFirst(
             (array) $nodes,
-            fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
+            static fn (Node $node): bool => $node instanceof ClassMethod || $node instanceof Function_
         );
 
         if ($firstFunctionlike instanceof ClassMethod) {

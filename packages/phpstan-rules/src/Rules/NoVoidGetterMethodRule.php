@@ -9,11 +9,11 @@ use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Yield_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
-use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -41,7 +41,7 @@ final class NoVoidGetterMethodRule implements Rule, DocumentedRuleInterface
 
     public function __construct(
         private SimpleNameResolver $simpleNameResolver,
-        private NodeFinder $nodeFinder
+        private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
 
@@ -117,7 +117,7 @@ CODE_SAMPLE
         }
 
         foreach (self::STOPPING_TYPES as $stoppingType) {
-            $foundNode = $this->nodeFinder->findFirstInstanceOf($classMethod, $stoppingType);
+            $foundNode = $this->typeAwareNodeFinder->findFirstInstanceOf($classMethod, $stoppingType);
             if ($foundNode instanceof Node) {
                 return false;
             }

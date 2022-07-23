@@ -37,7 +37,7 @@ final class ReturnNodeFinder
     {
         $returns = [];
 
-        $this->simpleCallableNodeTraverser->traverseNodesWithCallable((array) $classMethod->stmts, function (
+        $this->simpleCallableNodeTraverser->traverseNodesWithCallable((array) $classMethod->stmts, static function (
             Node $node
         ) use (&$returns) {
             // skip different scope

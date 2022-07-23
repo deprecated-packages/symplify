@@ -35,7 +35,9 @@ final class ArrayAnalyzer
         }
 
         $itemCount = 1;
-        $this->traverseArrayWithoutNesting($tokens, $blockInfo, function (Token $token) use (&$itemCount): void {
+        $this->traverseArrayWithoutNesting($tokens, $blockInfo, static function (Token $token) use (
+            &$itemCount
+        ): void {
             if ($token->getContent() === ',') {
                 ++$itemCount;
             }
@@ -50,7 +52,9 @@ final class ArrayAnalyzer
     public function isIndexedList(Tokens $tokens, BlockInfo $blockInfo): bool
     {
         $isIndexedList = false;
-        $this->traverseArrayWithoutNesting($tokens, $blockInfo, function (Token $token) use (&$isIndexedList): void {
+        $this->traverseArrayWithoutNesting($tokens, $blockInfo, static function (Token $token) use (
+            &$isIndexedList
+        ): void {
             if ($token->isGivenKind(T_DOUBLE_ARROW)) {
                 $isIndexedList = true;
             }
