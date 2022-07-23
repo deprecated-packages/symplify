@@ -9,11 +9,11 @@ services:
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\FakeGuzzle;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\Source\SomeService;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('some_class', \Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\Source\SomeService::class)
-        ->autowiringTypes(\Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\Source\SomeService);
+    $services->set('some_class', SomeService::class)
+        ->autowiringTypes(SomeService::class);
 };

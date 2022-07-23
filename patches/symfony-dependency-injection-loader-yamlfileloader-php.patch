@@ -1,0 +1,10 @@
+--- /dev/null
++++ ../Loader/YamlFileLoader.php
+@@ -63,6 +63,7 @@
+         'autowire' => 'autowire',
+         'autoconfigure' => 'autoconfigure',
+         'bind' => 'bind',
++        'autowiring_types' => 'autowiring_types',
+     ];
+ 
+     private const PROTOTYPE_KEYWORDS = [

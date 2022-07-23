@@ -20,7 +20,6 @@ final class ConstantNodeFactoryTest extends TestCase
         $this->constantNodeFactory = new ConstantNodeFactory();
     }
 
-
     public function testConstantFetchNode(): void
     {
         $constFetch = $this->constantNodeFactory->createConstant('PHP_VERSION');

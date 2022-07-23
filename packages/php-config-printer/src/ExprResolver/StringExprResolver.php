@@ -16,7 +16,6 @@ use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\ConstantNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
-use function str_contains;
 use function str_starts_with;
 
 final class StringExprResolver
@@ -67,14 +66,18 @@ final class StringExprResolver
         }
 
         // is service reference
-        if (str_starts_with($value, '@') && !$this->isFilePath($value)) {
+        if (str_starts_with($value, '@') && ! $this->isFilePath($value)) {
             return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
         }
 
         return BuilderHelpers::normalizeValue($value);
     }
 
-    private function resolveExpr(string $value, bool $skipServiceReference, bool $skipClassesToConstantReference): FuncCall
+    private function resolveExpr(
+        string $value,
+        bool $skipServiceReference,
+        bool $skipClassesToConstantReference
+    ): FuncCall
     {
         $value = ltrim($value, '@=');
         $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);

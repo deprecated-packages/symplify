@@ -68,6 +68,7 @@ final class CheckerServiceParametersShifter
         'autowire',
         'autoconfigure',
         'bind',
+        'autowiring_types',
     ];
 
     private StringFormatConverter $stringFormatConverter;
