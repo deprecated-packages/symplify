@@ -63,7 +63,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function provideDataEcs(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*.yaml');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*');
     }
 
     /**
