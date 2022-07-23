@@ -125,12 +125,11 @@ CODE_SAMPLE
         $this->phpDocNodeTraverser->traverseWithCallable(
             $simplePhpDocNode,
             '',
-            function (PhpDocNode $phpDocNode) use (&$hasArrayShapeNode): int|PhpDocNode {
+            static function (PhpDocNode $phpDocNode) use (&$hasArrayShapeNode): int|PhpDocNode {
                 if ($phpDocNode instanceof ArrayShapeNode) {
                     $hasArrayShapeNode = true;
                     return PhpDocNodeTraverser::STOP_TRAVERSAL;
                 }
-
                 return $phpDocNode;
             }
         );

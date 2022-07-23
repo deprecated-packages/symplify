@@ -78,7 +78,7 @@ final class StaticCallLatteAnalyzer implements LatteTemplateAnalyzerInterface
     {
         return array_filter(
             $matches,
-            fn (array $match): bool => ! in_array($match[self::CLASS_NAME_PART], [
+            static fn (array $match): bool => ! in_array($match[self::CLASS_NAME_PART], [
                 // keep strings, to avoid prefixing
                 'Nette\Utils\Strings',
                 'Nette\Utils\DateTime',

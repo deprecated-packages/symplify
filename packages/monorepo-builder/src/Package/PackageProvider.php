@@ -33,7 +33,7 @@ final class PackageProvider
 
         usort(
             $packages,
-            fn (Package $firstPackage, Package $secondPackage): int => $firstPackage->getShortName() <=> $secondPackage->getShortName()
+            static fn (Package $firstPackage, Package $secondPackage): int => $firstPackage->getShortName() <=> $secondPackage->getShortName()
         );
 
         return $packages;

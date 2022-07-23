@@ -32,11 +32,10 @@ final class JsonInliner
         foreach ($inlineSections as $inlineSection) {
             $pattern = '#("' . preg_quote($inlineSection, '#') . '": )\[(.*?)\](,)#ms';
 
-            $jsonContent = Strings::replace($jsonContent, $pattern, function (array $match): string {
+            $jsonContent = Strings::replace($jsonContent, $pattern, static function (array $match): string {
                 $inlined = Strings::replace($match[2], self::SPACE_REGEX, ' ');
                 $inlined = trim($inlined);
                 $inlined = '[' . $inlined . ']';
-
                 return $match[1] . $inlined . $match[3];
             });
         }

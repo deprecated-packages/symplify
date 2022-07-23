@@ -25,7 +25,7 @@ final class ParamNameReferenceMalformWorker implements MalformWorkerInterface
         return Strings::replace(
             $docContent,
             self::PARAM_NAME_REGEX,
-            fn ($match): string => $match['param'] . $match['paramName']
+            static fn ($match): string => $match['param'] . $match['paramName']
         );
     }
 }

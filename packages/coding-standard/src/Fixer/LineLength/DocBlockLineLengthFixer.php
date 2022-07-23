@@ -208,7 +208,7 @@ CODE_SAMPLE
             }
         }
 
-        return array_map(fn (array $lines): string => implode(' ', $lines), $paragraphLines);
+        return array_map(static fn (array $lines): string => implode(' ', $lines), $paragraphLines);
     }
 
     /**

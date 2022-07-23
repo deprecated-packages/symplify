@@ -105,18 +105,17 @@ final class ContainerConfiguratorReturnClosureFactory
     private function processNestedNodes(string $key, int|string $nestedKey, mixed $nestedValues): array
     {
         if (is_array($nestedValues)) {
-            return $this->containerNestedNodesFactory->createFromValues(
-                $nestedValues,
-                $key,
-                $nestedKey
-            );
+            return $this->containerNestedNodesFactory->createFromValues($nestedValues, $key, $nestedKey);
         }
 
         return [];
     }
 
-    private function resolveExpressionWhenAtEnv(Expression $expression, string $key, Expression|If_|bool $lastNode): Expression|If_|null
-    {
+    private function resolveExpressionWhenAtEnv(
+        Expression $expression,
+        string $key,
+        Expression|If_|bool $lastNode
+    ): Expression|If_|null {
         $explodeAt = explode('@', $key);
         if (str_starts_with($key, 'when@') && count($explodeAt) === 2) {
             $variable = new Variable(VariableName::CONTAINER_CONFIGURATOR);
@@ -155,7 +154,8 @@ final class ContainerConfiguratorReturnClosureFactory
         return $expression;
     }
 
-    private function isSameCond(Expr $expr, Identical $identical): bool {
+    private function isSameCond(Expr $expr, Identical $identical): bool
+    {
         if ($expr instanceof Identical) {
             $val1 = Json::encode($expr);
             $val2 = Json::encode($identical);

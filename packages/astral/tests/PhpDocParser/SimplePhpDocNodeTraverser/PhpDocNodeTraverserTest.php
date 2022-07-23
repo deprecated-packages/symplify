@@ -33,11 +33,10 @@ final class PhpDocNodeTraverserTest extends AbstractKernelTestCase
         $varTagValueNode = new VarTagValueNode(new IdentifierTypeNode('string'), '', '');
         $phpDocNode = new PhpDocNode([new PhpDocTagNode('@var', $varTagValueNode)]);
 
-        $this->phpDocNodeTraverser->traverseWithCallable($phpDocNode, '', function (Node $node): Node {
+        $this->phpDocNodeTraverser->traverseWithCallable($phpDocNode, '', static function (Node $node): Node {
             if (! $node instanceof VarTagValueNode) {
                 return $node;
             }
-
             $node->description = self::SOME_DESCRIPTION;
             return $node;
         });

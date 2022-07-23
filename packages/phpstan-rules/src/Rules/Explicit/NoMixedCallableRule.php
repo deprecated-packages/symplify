@@ -54,20 +54,17 @@ final class NoMixedCallableRule extends AbstractSymplifyRule
 
         $ruleErrors = [];
 
-        TypeTraverser::map($elementType, function (Type $type, callable $callable) use (&$ruleErrors): Type {
+        TypeTraverser::map($elementType, static function (Type $type, callable $callable) use (&$ruleErrors): Type {
             if (! $type instanceof CallableType) {
                 return $callable($type, $callable);
             }
-
             // some params are defined, good
             if ($type->getParameters() !== []) {
                 return $callable($type, $callable);
             }
-
             if (! $type->getReturnType() instanceof MixedType) {
                 return $callable($type, $callable);
             }
-
             $ruleErrors[] = self::ERROR_MESSAGE;
             return $callable($type, $callable);
         });
