@@ -130,6 +130,7 @@ CODE_SAMPLE
                     $hasArrayShapeNode = true;
                     return PhpDocNodeTraverser::STOP_TRAVERSAL;
                 }
+
                 return $phpDocNode;
             }
         );

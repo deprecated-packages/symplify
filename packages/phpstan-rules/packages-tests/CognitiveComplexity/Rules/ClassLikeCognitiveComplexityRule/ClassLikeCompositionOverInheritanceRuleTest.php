@@ -25,13 +25,13 @@ final class ClassLikeCompositionOverInheritanceRuleTest extends RuleTestCase
 
     public function provideDataForTest(): Iterator
     {
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 54, 50);
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 54, 50);
         yield [__DIR__ . '/Fixture/ClassWithManyComplexMethods.php', [[$errorMessage, 7]]];
 
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 34, 5);
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 34, 5);
         yield [__DIR__ . '/Fixture/SimpleCommand.php', [[$errorMessage, 9]]];
 
-        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 'Class', 44, 5);
+        $errorMessage = sprintf(ClassLikeCognitiveComplexityRule::ERROR_MESSAGE, 44, 5);
         yield [__DIR__ . '/Fixture/NonFinalClass.php', [[$errorMessage, 9]]];
     }
 

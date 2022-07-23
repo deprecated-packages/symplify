@@ -60,6 +60,7 @@ final class SuperfluousReturnNameMalformWorker implements MalformWorkerInterface
                     if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
+
                     return $replacement;
                 }
             );

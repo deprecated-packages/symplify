@@ -56,15 +56,19 @@ final class ComposerPackageSorter
                     if ($name === 'php') {
                         return '0-' . $name;
                     }
+
                     if ($name === 'hhvm') {
                         return '0-' . $name;
                     }
+
                     if ($name === 'ext') {
                         return '1-' . $name;
                     }
+
                     if ($name === 'lib') {
                         return '2-' . $name;
                     }
+
                     return '3-' . $name;
                 }
             );

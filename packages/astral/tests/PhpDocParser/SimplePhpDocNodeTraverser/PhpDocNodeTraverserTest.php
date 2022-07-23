@@ -37,6 +37,7 @@ final class PhpDocNodeTraverserTest extends AbstractKernelTestCase
             if (! $node instanceof VarTagValueNode) {
                 return $node;
             }
+
             $node->description = self::SOME_DESCRIPTION;
             return $node;
         });

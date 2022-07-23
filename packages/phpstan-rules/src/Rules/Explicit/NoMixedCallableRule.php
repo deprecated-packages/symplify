@@ -58,13 +58,16 @@ final class NoMixedCallableRule extends AbstractSymplifyRule
             if (! $type instanceof CallableType) {
                 return $callable($type, $callable);
             }
+
             // some params are defined, good
             if ($type->getParameters() !== []) {
                 return $callable($type, $callable);
             }
+
             if (! $type->getReturnType() instanceof MixedType) {
                 return $callable($type, $callable);
             }
+
             $ruleErrors[] = self::ERROR_MESSAGE;
             return $callable($type, $callable);
         });

@@ -26,7 +26,7 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class %s cognitive complexity is %d, keep it under %d';
+    public const ERROR_MESSAGE = 'Class cognitive complexity is %d, keep it under %d';
 
     /**
      * @param array<string, int> $limitsByTypes

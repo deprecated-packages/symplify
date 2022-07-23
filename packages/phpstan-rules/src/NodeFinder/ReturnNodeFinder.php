@@ -44,12 +44,15 @@ final class ReturnNodeFinder
             if ($node instanceof FunctionLike) {
                 return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
             }
+
             if (! $node instanceof Return_) {
                 return null;
             }
+
             if ($node->expr === null) {
                 return null;
             }
+
             $returns[] = $node;
         });
 

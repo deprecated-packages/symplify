@@ -50,9 +50,11 @@ final class SuperfluousVarNameMalformWorker implements MalformWorkerInterface
                     if ($match['type'] !== []) {
                         $replacement .= $match['type'];
                     }
+
                     if (Strings::match($match['propertyName'], self::THIS_VARIABLE_REGEX)) {
                         return $match['tag'] . ' self';
                     }
+
                     return $replacement;
                 }
             );
