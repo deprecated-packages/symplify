@@ -1,5 +1,6 @@
 parameters:
     key: '%env(IS_WORKING)%'
+    another_key: '%env(string:default::CODE_EDITOR)%'
 -----
 <?php
 
@@ -11,4 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set('key', '%env(IS_WORKING)%');
+
+    $parameters->set('another_key', '%env(string:default::CODE_EDITOR)%');
 };
