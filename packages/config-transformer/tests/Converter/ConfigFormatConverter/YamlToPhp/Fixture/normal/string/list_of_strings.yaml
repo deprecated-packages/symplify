@@ -2,6 +2,7 @@ parameters:
     key:
         - hey
         - ::hi
+        - 'hi::'
 -----
 <?php
 
@@ -12,5 +13,5 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
-    $parameters->set('key', ['hey', '::hi']);
+    $parameters->set('key', ['hey', '::hi', 'hi::']);
 };

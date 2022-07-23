@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\Reflection;
 
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\NodeFinder;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 use Symplify\Astral\PhpParser\SmartPhpParser;
+use Symplify\Astral\TypeAwareNodeFinder;
 use Throwable;
 
 /**
@@ -29,25 +28,8 @@ final class ReflectionParser
 
     public function __construct(
         private SmartPhpParser $smartPhpParser,
-        private NodeFinder $nodeFinder
+        private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
-    }
-
-    public function parsePHPStanMethodReflection(MethodReflection $methodReflection): ?ClassMethod
-    {
-        $classReflection = $methodReflection->getDeclaringClass();
-
-        $fileName = $classReflection->getFileName();
-        if ($fileName === null) {
-            return null;
-        }
-
-        $class = $this->parseFilenameToClass($fileName);
-        if (! $class instanceof Node) {
-            return null;
-        }
-
-        return $class->getMethod($methodReflection->getName());
     }
 
     public function parseMethodReflection(ReflectionMethod|MethodReflection $reflectionMethod): ?ClassMethod
@@ -107,13 +89,13 @@ final class ReflectionParser
             return null;
         }
 
-        $class = $this->nodeFinder->findFirstInstanceOf($stmts, ClassLike::class);
-        if (! $class instanceof ClassLike) {
+        $classLike = $this->typeAwareNodeFinder->findFirstInstanceOf($stmts, ClassLike::class);
+        if (! $classLike instanceof ClassLike) {
             return null;
         }
 
-        $this->classesByFilename[$fileName] = $class;
+        $this->classesByFilename[$fileName] = $classLike;
 
-        return $class;
+        return $classLike;
     }
 }
