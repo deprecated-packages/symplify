@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
+use Nette\Utils\Strings;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
-use function str_contains;
-use function str_starts_with;
 
 /**
  * @see https://github.com/symfony/symfony/pull/18626/files
@@ -23,7 +22,7 @@ final class ConstantNodeFactory
      * @var string
      */
     private const CLASS_CONST_FETCH_REGEX = '#(.*?)::[A-Za-z_]#';
-    
+
     public function createClassConstantIfValue(string $value, bool $checkExistence = true): ?ClassConstFetch {
         $match = Strings::match($value, self::CLASS_CONST_FETCH_REGEX);
         if ($match !== null) {

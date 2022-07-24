@@ -4,14 +4,12 @@ parameters:
     line_ending: !php/const PHP_EOL
     older_line_ending: !php/const:PHP_EOL
     older_line_ending_with_space: !php/const: PHP_EOL
-    class_constant: !php/const Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest::TEST
 -----
 <?php
 
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
@@ -25,6 +23,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set('older_line_ending', PHP_EOL);
 
     $parameters->set('older_line_ending_with_space', PHP_EOL);
-
-    $parameters->set('class_constant', YamlToPhpTest::TEST);
 };
