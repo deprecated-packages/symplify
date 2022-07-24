@@ -9,9 +9,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ConfigTransformer\Configuration\ConfigurationFactory;
-use Symplify\ConfigTransformer\Converter\ConvertedContentFactory;
+use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
+use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\ConfigTransformer\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SmartFileSystem\SmartFileInfo;
@@ -21,7 +22,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
     public function __construct(
         private ConfigurationFactory $configurationFactory,
         private ConfigFileDumper $configFileDumper,
-        private ConvertedContentFactory $convertedContentFactory
+        private ConfigFormatConverter $configFormatConverter
     ) {
         parent::__construct();
     }
@@ -48,7 +49,8 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $fileInfos = $this->findFileInfos($configuration);
 
         foreach ($fileInfos as $fileInfo) {
-            $convertedContent = $this->convertedContentFactory->createFromFileInfo($fileInfo);
+            $convertedFileContent = $this->configFormatConverter->convert($fileInfo);
+            $convertedContent = new ConvertedContent($convertedFileContent, $fileInfo);
 
             $this->configFileDumper->dumpFile($convertedContent, $configuration);
 
