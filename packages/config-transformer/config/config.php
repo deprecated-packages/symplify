@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 use PhpParser\BuilderFactory;
 use PhpParser\NodeFinder;
+use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
 use Symplify\ConfigTransformer\Command\SwitchFormatCommand;
+use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
+use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemFilter;
@@ -31,6 +34,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // console
     $services->set(Application::class)
         ->call('add', [service(SwitchFormatCommand::class)]);
+
+    // color diff
+    $services->set(ConsoleDiffer::class);
+    $services->set(Differ::class);
+    $services->set(ColorConsoleDiffFormatter::class);
 
     $services->set(BuilderFactory::class);
     $services->set(NodeFinder::class);

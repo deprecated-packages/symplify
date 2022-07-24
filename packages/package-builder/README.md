@@ -117,9 +117,9 @@ That's all :)
 ### Show Diff in Console Colors
 
 ```php
-use Symplify\ConsoleColorDiff\Console\Output\ConsoleDiffer;
+use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;
 
-class SomeCommand
+final class SomeCommand
 {
     public function __construct(
         private ConsoleDiffer $consoleDiffer
