@@ -32,10 +32,10 @@ final class ConfigLoader
     private const PHP_CONST_REGEX = '#!php/const[:\s]\s*(.*)(\s*)#';
 
     /**
-     * @see https://regex101.com/r/M0wxf2/1
+     * @see https://regex101.com/r/spi4ir/1
      * @var string
      */
-    private const UNQUOTED_PARAMETER_REGEX = '#(\w+:\s+)(\%(.*?)%)#';
+    private const UNQUOTED_PARAMETER_REGEX = '#(\w+:\s+)(\%(.*?)%)(.*?)?$#m';
 
     public function __construct(
         private IdAwareXmlFileLoaderFactory $idAwareXmlFileLoaderFactory,
@@ -59,7 +59,9 @@ final class ConfigLoader
         $content = Strings::replace(
             $content,
             self::UNQUOTED_PARAMETER_REGEX,
-            static fn (array $match): string => $match[1] . '"' . $match[2] . '"'
+            function (array $match): string {
+                return $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"';
+            }
         );
 
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {

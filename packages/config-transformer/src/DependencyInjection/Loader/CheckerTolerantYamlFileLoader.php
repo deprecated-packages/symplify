@@ -33,8 +33,6 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     protected function loadFile(string $file): array
     {
-        // extension has to be faked here, because loadFile will try to find them
-
         /** @var mixed[]|null $configuration */
         $configuration = parent::loadFile($file);
         if ($configuration === null) {

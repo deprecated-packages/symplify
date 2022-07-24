@@ -1,5 +1,6 @@
 parameters:
     key: %value%
+    nested: %kernel.cache_dir%/some_path
 -----
 <?php
 
@@ -11,4 +12,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
 
     $parameters->set('key', '%value%');
+
+    $parameters->set('nested', '%kernel.cache_dir%/some_path');
 };
