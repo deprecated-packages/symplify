@@ -6,7 +6,6 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter;
 
 use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
 use Symplify\ConfigTransformer\Kernel\ConfigTransformerKernel;
-use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureUpdater;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
@@ -16,8 +15,6 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
 {
     protected ConfigFormatConverter $configFormatConverter;
-
-//    protected Configuration $configuration;
 
     protected SmartFileSystem $smartFileSystem;
 
