@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\NodeVisitor;
 
+use PhpParser\Node\Name;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name\FullyQualified;
@@ -52,7 +53,7 @@ final class RefOrServiceFuncCallPrePrintNodeVisitor extends NodeVisitorAbstract 
             return null;
         }
 
-        if (! $node->name instanceof Node\Name) {
+        if (! $node->name instanceof Name) {
             return null;
         }
 
