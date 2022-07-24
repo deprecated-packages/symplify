@@ -59,9 +59,7 @@ final class ConfigLoader
         $content = Strings::replace(
             $content,
             self::UNQUOTED_PARAMETER_REGEX,
-            function (array $match): string {
-                return $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"';
-            }
+            static fn(array $match): string => $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"'
         );
 
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {
