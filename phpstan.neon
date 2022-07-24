@@ -399,6 +399,7 @@ parameters:
                 - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 - packages/phpstan-rules/src/Collector/*
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
+                - packages/config-transformer/src/Collector/XmlImportCollector.php
 
         -
             message: '#Complete known array shape to the method @return type#'

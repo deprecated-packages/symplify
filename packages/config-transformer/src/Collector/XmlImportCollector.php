@@ -9,7 +9,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class XmlImportCollector
 {
     /**
-     * @var array<string, array<string, mixed>>|string[]
+     * @var array<array{resource: mixed, ignore_errors: bool|string}>
      */
     private array $imports = [];
 
@@ -22,7 +22,7 @@ final class XmlImportCollector
     }
 
     /**
-     * @return mixed[]
+     * @return array<array{resource: mixed, ignore_errors: bool|string}>
      */
     public function provide(): array
     {
