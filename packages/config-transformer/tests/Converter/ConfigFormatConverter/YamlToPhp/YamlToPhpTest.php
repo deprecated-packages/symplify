@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp;
 
 use Iterator;
+use Nette\Utils\FileSystem;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
@@ -38,6 +39,9 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
         require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
+        // for the "resource: items/"
+        FileSystem::createDir($temporaryPath . '/items');
+
         $this->doTestOutput($fixtureFileInfo);
     }
 
@@ -63,7 +67,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function provideDataEcs(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*.yaml');
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ecs', '*');
     }
 
     /**

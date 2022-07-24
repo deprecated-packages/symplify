@@ -34,7 +34,7 @@ final class MissingVarNameMalformWorker implements MalformWorkerInterface
         return Strings::replace(
             $docContent,
             self::VAR_WITHOUT_NAME_REGEX,
-            fn (array $match): string => $match['open'] . $match['type'] . ' ' . $nextVariableToken->getContent() . $match['close']
+            static fn (array $match): string => $match['open'] . $match['type'] . ' ' . $nextVariableToken->getContent() . $match['close']
         );
     }
 

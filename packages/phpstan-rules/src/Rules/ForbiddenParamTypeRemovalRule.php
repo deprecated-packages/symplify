@@ -50,8 +50,8 @@ final class ForbiddenParamTypeRemovalRule implements Rule, DocumentedRuleInterfa
         }
 
         $classMethodName = (string) $node->name;
-        $parentClassMethod = $this->methodNodeAnalyser->matchFirstParentClassMethod($scope, $classMethodName);
-        if (! $parentClassMethod instanceof PhpMethodReflection) {
+        $parentClassMethodReflection = $this->methodNodeAnalyser->matchFirstParentClassMethod($scope, $classMethodName);
+        if (! $parentClassMethodReflection instanceof PhpMethodReflection) {
             return [];
         }
 
@@ -60,7 +60,7 @@ final class ForbiddenParamTypeRemovalRule implements Rule, DocumentedRuleInterfa
                 continue;
             }
 
-            $parentParamType = $this->resolveParentParamType($parentClassMethod, $paramPosition);
+            $parentParamType = $this->resolveParentParamType($parentClassMethodReflection, $paramPosition);
             if ($parentParamType instanceof MixedType) {
                 continue;
             }

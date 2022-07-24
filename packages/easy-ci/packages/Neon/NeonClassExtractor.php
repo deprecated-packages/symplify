@@ -87,7 +87,7 @@ final class NeonClassExtractor
         $classNames = [];
 
         $traverser = new Traverser();
-        $traverser->traverse($node, function (Node $node) use (&$classNames) {
+        $traverser->traverse($node, static function (Node $node) use (&$classNames) {
             if (! $node instanceof LiteralNode) {
                 return null;
             }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\CognitiveComplexity;
 
-use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
@@ -25,10 +25,10 @@ final class AstCognitiveComplexityAnalyzer
     ) {
     }
 
-    public function analyzeClassLike(ClassLike $classLike): int
+    public function analyzeClassLike(Class_ $class): int
     {
         $totalCognitiveComplexity = 0;
-        foreach ($classLike->getMethods() as $classMethod) {
+        foreach ($class->getMethods() as $classMethod) {
             $totalCognitiveComplexity += $this->analyzeFunctionLike($classMethod);
         }
 

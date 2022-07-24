@@ -47,7 +47,7 @@ final class RuleDefinitionsResolver
     {
         usort(
             $ruleDefinitions,
-            fn (RuleDefinition $firstRuleDefinition, RuleDefinition $secondRuleDefinition): int => $firstRuleDefinition->getRuleShortClass() <=> $secondRuleDefinition->getRuleShortClass()
+            static fn (RuleDefinition $firstRuleDefinition, RuleDefinition $secondRuleDefinition): int => $firstRuleDefinition->getRuleShortClass() <=> $secondRuleDefinition->getRuleShortClass()
         );
 
         return $ruleDefinitions;

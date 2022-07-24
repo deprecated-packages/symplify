@@ -51,7 +51,7 @@ final class ComposerPackageSorter
             return Strings::replace(
                 $requirementName,
                 self::REQUIREMENT_TYPE_REGEX,
-                function (array $match): string {
+                static function (array $match): string {
                     $name = $match['name'];
                     if ($name === 'php') {
                         return '0-' . $name;

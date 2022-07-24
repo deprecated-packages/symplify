@@ -18,8 +18,15 @@ use function str_starts_with;
  */
 final class ConstantNodeFactory
 {
+    /**
+     * @see https://regex101.com/r/xrllDg/1
+     * @var string
+     */
+    private const CLASS_CONST_FETCH_REGEX = '#(.*?)::[A-Za-z_]#';
+    
     public function createClassConstantIfValue(string $value, bool $checkExistence = true): ?ClassConstFetch {
-        if ( ! str_starts_with($value, '%') && str_contains($value, '::')) {
+        $match = Strings::match($value, self::CLASS_CONST_FETCH_REGEX);
+        if ($match !== null) {
             [$class, $constant] = explode('::', $value);
             if (!$checkExistence) {
                 return new ClassConstFetch(new FullyQualified($class), $constant);
