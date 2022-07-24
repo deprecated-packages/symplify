@@ -1,0 +1,21 @@
+parameters:
+    class_constant: !php/const Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest::TEST
+    class: !php/const Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest::class
+    unexisting_constant: !php/const SomeClass::Constant
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlToPhp\YamlToPhpTest;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('class_constant', YamlToPhpTest::TEST);
+
+    $parameters->set('class', YamlToPhpTest::class);
+
+    $parameters->set('unexisting_constant', SomeClass::Constant);
+};
