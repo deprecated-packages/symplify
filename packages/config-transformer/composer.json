@@ -20,7 +20,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5.21",
         "symfony/framework-bundle": "^6.0.10",
-        "symplify/easy-testing": "^11.1"
+        "symplify/easy-testing": "^11.1",
+        "cweagans/composer-patches": "^1.7"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +43,14 @@
     "extra": {
         "branch-alias": {
             "dev-main": "11.1-dev"
-        }
+        },
+        "patches": {
+            "symfony/dependency-injection": [
+                "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch",
+                "patches/symfony-dependency-injection-definition-php.patch"
+            ]
+        },
+        "enable-patching": true
     },
     "conflict": {
         "symplify/astral": "<11.0.8",

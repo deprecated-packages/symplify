@@ -154,11 +154,13 @@
     },
     "extra": {
         "patches": {
+            "symfony/dependency-injection": [
+                "patches/symfony-dependency-injection-definition-php.patch",
+                "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch",
+                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+            ],
             "squizlabs/php_codesniffer": [
                 "patches/squizlabs-php-codesniffer-tests-standards-abstractsniffunittest-php.patch"
-            ],
-            "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
             ]
         },
         "enable-patching": true

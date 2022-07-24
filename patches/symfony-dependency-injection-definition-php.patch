@@ -1,0 +1,59 @@
+--- /dev/null
++++ ../Definition.php
+@@ -44,6 +44,7 @@
+     private array $changes = [];
+     private array $bindings = [];
+     private array $errors = [];
++    private $autowiringTypes = array();
+ 
+     protected $arguments = [];
+ 
+@@ -714,6 +715,48 @@
+     public function getConfigurator(): string|array|null
+     {
+         return $this->configurator;
++    }
++
++    /**
++     * Sets types that will default to this definition.
++     *
++     * @param string[] $types
++     *
++     * @return $this
++     */
++    public function setAutowiringTypes(array $types)
++    {
++        $this->autowiringTypes = array();
++
++        foreach ($types as $type) {
++            $this->autowiringTypes[$type] = true;
++        }
++
++        return $this;
++    }
++
++    /**
++     * Gets autowiring types that will default to this definition.
++     *
++     * @return string[]
++     */
++    public function getAutowiringTypes()
++    {
++        return array_keys($this->autowiringTypes);
++    }
++
++    /**
++     * Adds a type that will default to this definition.
++     *
++     * @param string $type
++     *
++     * @return $this
++     */
++    public function addAutowiringType($type)
++    {
++        $this->autowiringTypes[$type] = true;
++
++        return $this;
+     }
+ 
+     /**

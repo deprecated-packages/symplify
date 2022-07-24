@@ -23,11 +23,12 @@ final class ConstantNodeFactory
      */
     private const CLASS_CONST_FETCH_REGEX = '#(.*?)::[A-Za-z_]#';
 
-    public function createClassConstantIfValue(string $value, bool $checkExistence = true): ?ClassConstFetch {
+    public function createClassConstantIfValue(string $value, bool $checkExistence = true): ?ClassConstFetch
+    {
         $match = Strings::match($value, self::CLASS_CONST_FETCH_REGEX);
         if ($match !== null) {
             [$class, $constant] = explode('::', $value);
-            if (!$checkExistence) {
+            if (! $checkExistence) {
                 return new ClassConstFetch(new FullyQualified($class), $constant);
             }
 
@@ -42,7 +43,7 @@ final class ConstantNodeFactory
     public function createConstant(string $value): ConstFetch|ClassConstFetch
     {
         $classConstFetch = $this->createClassConstantIfValue($value, false);
-        if ($classConstFetch !== null) {
+        if ($classConstFetch instanceof ClassConstFetch) {
             return $classConstFetch;
         }
 
