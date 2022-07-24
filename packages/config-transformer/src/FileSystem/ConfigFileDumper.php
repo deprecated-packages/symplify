@@ -7,13 +7,15 @@ namespace Symplify\ConfigTransformer\FileSystem;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
+use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
 final class ConfigFileDumper
 {
     public function __construct(
         private SymfonyStyle $symfonyStyle,
-        private SmartFileSystem $smartFileSystem
+        private SmartFileSystem $smartFileSystem,
+        private ConsoleDiffer $consoleDiffer
     ) {
     }
 
@@ -25,24 +27,30 @@ final class ConfigFileDumper
 
         if ($configuration->isDryRun()) {
             $fileTitle = sprintf(
-                'File "%s" would be renamed to "%s" (--dry-run)',
+                'File "%s" would be renamed to "%s"',
                 $convertedContent->getOriginalRelativeFilePath(),
                 $convertedContent->getNewRelativeFilePath(),
             );
+            $this->symfonyStyle->title($fileTitle);
 
-            dump('@todo add diff!');
-            die;
+            $consoleDiff = $this->consoleDiffer->diff(
+                $convertedContent->getOriginalContent(),
+                $convertedContent->getConvertedContent()
+            );
+
+            $this->symfonyStyle->writeln($consoleDiff);
 
             return;
-        } else {
-            $fileTitle = sprintf(
-                'File "%s" was renamed to "%s"',
-                $convertedContent->getOriginalRelativeFilePath(),
-                $convertedContent->getNewRelativeFilePath(),
-            );
-
-            $this->symfonyStyle->title($fileTitle);
         }
+
+        // wet run - change the contents
+        $fileTitle = sprintf(
+            'File "%s" was renamed to "%s"',
+            $convertedContent->getOriginalRelativeFilePath(),
+            $convertedContent->getNewRelativeFilePath(),
+        );
+
+        $this->symfonyStyle->title($fileTitle);
 
         $this->smartFileSystem->dumpFile($newFileRealPath, $convertedContent->getConvertedContent());
     }

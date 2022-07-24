@@ -37,4 +37,9 @@ final class ConvertedContent
     {
         return $this->originalFileInfo->getRelativeFilePathFromCwd();
     }
+
+    public function getOriginalContent(): string
+    {
+        return $this->originalFileInfo->getContents();
+    }
 }
