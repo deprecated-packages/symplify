@@ -23,23 +23,27 @@ final class ConfigFileDumper
 
         $newFileRealPath = $originalFilePathWithoutSuffix . '.php';
 
-        $relativeFilePath = $this->getRelativePathOfNonExistingFile($newFileRealPath);
-
         if ($configuration->isDryRun()) {
-            $message = sprintf('File "%s" would be dumped (is --dry-run)', $relativeFilePath);
-            $this->symfonyStyle->note($message);
+            $fileTitle = sprintf(
+                'File "%s" would be renamed to "%s" (--dry-run)',
+                $convertedContent->getOriginalRelativeFilePath(),
+                $convertedContent->getNewRelativeFilePath(),
+            );
+
+            dump('@todo add diff!');
+            die;
+
             return;
+        } else {
+            $fileTitle = sprintf(
+                'File "%s" was renamed to "%s"',
+                $convertedContent->getOriginalRelativeFilePath(),
+                $convertedContent->getNewRelativeFilePath(),
+            );
+
+            $this->symfonyStyle->title($fileTitle);
         }
 
         $this->smartFileSystem->dumpFile($newFileRealPath, $convertedContent->getConvertedContent());
-
-        $message = sprintf('File "%s" was dumped', $relativeFilePath);
-        $this->symfonyStyle->note($message);
-    }
-
-    private function getRelativePathOfNonExistingFile(string $newFilePath): string
-    {
-        $relativeFilePath = $this->smartFileSystem->makePathRelative($newFilePath, getcwd());
-        return rtrim($relativeFilePath, '/');
     }
 }

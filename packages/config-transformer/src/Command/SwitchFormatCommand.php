@@ -35,7 +35,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
-            'Path to directory with configs'
+            'Path to directory/file with configs'
         );
 
         $this->addOption(Option::DRY_RUN, null, InputOption::VALUE_NONE, 'Dry run - no removal or config change');
