@@ -53,6 +53,8 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
             $this->configFileDumper->dumpFile($convertedContent, $configuration);
 
             $this->removeFileInfo($configuration, $fileInfo);
+
+            $this->symfonyStyle->newLine();
         }
 
         $successMessage = sprintf('Processed %d file(s) to "PHP" format, congrats!', count($fileInfos));
