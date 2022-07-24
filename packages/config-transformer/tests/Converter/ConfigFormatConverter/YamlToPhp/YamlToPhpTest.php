@@ -31,6 +31,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
     /**
      * @dataProvider provideData()
+     * @dataProvider provideDataWithPhpImported()
      */
     public function testNormal(SmartFileInfo $fixtureFileInfo): void
     {
@@ -44,6 +45,12 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         // for the "resource: packages/" and assetic import
         FileSystem::copy(__DIR__ . '/Fixture/normal/import_assetic/packages', $temporaryPath . '/packages');
+
+        // for the "resource: directory-with-php/" and PHP config import
+        FileSystem::copy(
+            __DIR__ . '/Fixture/skip-imported-php/directory-with-php',
+            $temporaryPath . '/directory-with-php'
+        );
 
         $this->doTestOutput($fixtureFileInfo);
     }
@@ -99,6 +106,14 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/normal', '*.yaml');
+    }
+
+    /**
+     * @return Iterator<mixed, SmartFileInfo[]>
+     */
+    public function provideDataWithPhpImported(): Iterator
+    {
+        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/skip-imported-php', '*.yaml');
     }
 
     /**

@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\CheckerTolerantYamlFileLoader;
+use Symplify\ConfigTransformer\DependencyInjection\Loader\SkippingPhpFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
 use Symplify\ConfigTransformer\Enum\Format;
 use Symplify\ConfigTransformer\Exception\NotImplementedYetException;
@@ -59,7 +60,7 @@ final class ConfigLoader
         $content = Strings::replace(
             $content,
             self::UNQUOTED_PARAMETER_REGEX,
-            static fn(array $match): string => $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"'
+            static fn (array $match): string => $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"'
         );
 
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {
@@ -104,7 +105,7 @@ final class ConfigLoader
     private function wrapToDelegatingLoader(Loader $loader, ContainerBuilder $containerBuilder): DelegatingLoader
     {
         $globFileLoader = new GlobFileLoader($containerBuilder, new FileLocator());
-        $phpFileLoader = new PhpFileLoader($containerBuilder, new FileLocator());
+        $skippingPhpFileLoader = new SkippingPhpFileLoader($containerBuilder, new FileLocator());
         $checkerTolerantYamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator());
 
         $directoryLoader = new DirectoryLoader($containerBuilder, new FileLocator());
@@ -112,7 +113,7 @@ final class ConfigLoader
         return new DelegatingLoader(new LoaderResolver([
             $directoryLoader,
             $globFileLoader,
-            $phpFileLoader,
+            $skippingPhpFileLoader,
             $checkerTolerantYamlFileLoader,
             $loader,
         ]));
