@@ -46,7 +46,8 @@
         },
         "patches": {
             "symfony/dependency-injection": [
-                "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch"
+                "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch",
+                "patches/symfony-dependency-injection-definition-php.patch"
             ]
         },
         "enable-patching": true

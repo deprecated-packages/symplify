@@ -77,8 +77,7 @@ final class StringExprResolver
         string $value,
         bool $skipServiceReference,
         bool $skipClassesToConstantReference
-    ): FuncCall
-    {
+    ): FuncCall {
         $value = ltrim($value, '@=');
         $expr = $this->resolve($value, $skipServiceReference, $skipClassesToConstantReference);
         $args = [new Arg($expr)];
