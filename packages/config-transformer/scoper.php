@@ -54,7 +54,7 @@ return [
         // unprefix strings used for config printing
         // fixes https://github.com/symplify/symplify/issues/3976
         function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, '#vendor/symplify/php-config-printer/src/ValueObject/FunctionName.php')) {
+            if (! str_ends_with($filePath, 'vendor/symplify/php-config-printer/src/ValueObject/FunctionName.php')) {
                 return $content;
             }
 
