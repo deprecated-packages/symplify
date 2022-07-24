@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
  */
 final class SkippingPhpFileLoader extends PhpFileLoader
 {
-    public function load(mixed $resource, string $type = null): mixed
+    public function load(mixed $resource, string $type = null): string
     {
         return '';
     }

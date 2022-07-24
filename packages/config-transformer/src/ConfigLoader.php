@@ -105,7 +105,7 @@ final class ConfigLoader
     private function wrapToDelegatingLoader(Loader $loader, ContainerBuilder $containerBuilder): DelegatingLoader
     {
         $globFileLoader = new GlobFileLoader($containerBuilder, new FileLocator());
-        $phpFileLoader = new SkippingPhpFileLoader($containerBuilder, new FileLocator());
+        $skippingPhpFileLoader = new SkippingPhpFileLoader($containerBuilder, new FileLocator());
         $checkerTolerantYamlFileLoader = new CheckerTolerantYamlFileLoader($containerBuilder, new FileLocator());
 
         $directoryLoader = new DirectoryLoader($containerBuilder, new FileLocator());
@@ -113,7 +113,7 @@ final class ConfigLoader
         return new DelegatingLoader(new LoaderResolver([
             $directoryLoader,
             $globFileLoader,
-            $phpFileLoader,
+            $skippingPhpFileLoader,
             $checkerTolerantYamlFileLoader,
             $loader,
         ]));
