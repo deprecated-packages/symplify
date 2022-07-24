@@ -9,10 +9,13 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\DeclareDeclare;
 use PhpParser\Node\Stmt\Nop;
+use PhpParser\NodeTraverser;
 use PhpParser\PrettyPrinter\Standard;
+use Symplify\PhpConfigPrinter\Contract\NodeVisitor\PrePrintNodeVisitorInterface;
 use Symplify\PhpConfigPrinter\NodeTraverser\ImportFullyQualifiedNamesNodeTraverser;
 use Symplify\PhpConfigPrinter\Printer\NodeDecorator\EmptyLineNodeDecorator;
 
@@ -47,20 +50,33 @@ final class PhpParserPhpConfigPrinter extends Standard
      */
     private const DECLARE_SPACE_STRICT_REGEX = '#declare \(strict#';
 
+    /**
+     * @param PrePrintNodeVisitorInterface[] $prePrintNodeVisitors
+     */
     public function __construct(
         private ImportFullyQualifiedNamesNodeTraverser $importFullyQualifiedNamesNodeTraverser,
-        private EmptyLineNodeDecorator $emptyLineNodeDecorator
+        private EmptyLineNodeDecorator $emptyLineNodeDecorator,
+        private array $prePrintNodeVisitors
     ) {
         parent::__construct();
     }
 
     /**
-     * @param Node\Stmt[] $stmts
+     * @param Stmt[] $stmts
      */
     public function prettyPrintFile(array $stmts): string
     {
         $stmts = $this->importFullyQualifiedNamesNodeTraverser->traverseNodes($stmts);
         $this->emptyLineNodeDecorator->decorate($stmts);
+
+        if ($this->prePrintNodeVisitors !== []) {
+            $nodeTraverser = new NodeTraverser();
+            foreach ($this->prePrintNodeVisitors as $prePrintNodeVisitor) {
+                $nodeTraverser->addVisitor($prePrintNodeVisitor);
+            }
+
+            $nodeTraverser->traverse($stmts);
+        }
 
         // adds "declare(strict_types=1);" to every file
         $stmts = $this->prependStrictTypesDeclare($stmts);
