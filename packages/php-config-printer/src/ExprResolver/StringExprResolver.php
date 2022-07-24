@@ -46,9 +46,9 @@ final class StringExprResolver
             return $this->constantNodeFactory->createConstant($const);
         }
 
-        $ret = $this->constantNodeFactory->createClassConstantIfValue($value);
-        if ($ret) {
-            return $ret;
+        $classConstFetch = $this->constantNodeFactory->createClassConstantIfValue($value);
+        if ($classConstFetch instanceof ClassConstFetch) {
+            return $classConstFetch;
         }
 
         // do not print "\n" as empty space, but use string value instead
