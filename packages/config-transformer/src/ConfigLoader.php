@@ -56,7 +56,11 @@ final class ConfigLoader
         $content = $smartFileInfo->getContents();
 
         // fake quoting of parameter, as it was removed in Symfony 3.1: https://symfony.com/blog/new-in-symfony-3-1-yaml-deprecations
-        $content = Strings::replace($content, self::UNQUOTED_PARAMETER_REGEX, static fn(array $match) => $match[1] . '"' . $match[2] . '"');
+        $content = Strings::replace(
+            $content,
+            self::UNQUOTED_PARAMETER_REGEX,
+            static fn (array $match): string => $match[1] . '"' . $match[2] . '"'
+        );
 
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {
             $content = Strings::replace(

@@ -7,6 +7,7 @@ namespace Symplify\ConfigTransformer\DependencyInjection\Loader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\PhpConfigPrinter\Yaml\CheckerServiceParametersShifter;
 
 /**
@@ -20,6 +21,10 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
     {
         $this->checkerServiceParametersShifter = new CheckerServiceParametersShifter();
 
+        // we need to fake extension before the file gets parsed, as
+        $extensionFaker = new ExtensionFaker();
+        $extensionFaker->fakeGenericExtensionsInContainerBuilder($containerBuilder);
+
         parent::__construct($containerBuilder, $fileLocator);
     }
 
@@ -28,6 +33,8 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
      */
     protected function loadFile(string $file): array
     {
+        // extension has to be faked here, because loadFile will try to find them
+
         /** @var mixed[]|null $configuration */
         $configuration = parent::loadFile($file);
         if ($configuration === null) {

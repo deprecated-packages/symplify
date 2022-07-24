@@ -42,6 +42,9 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         // for the "resource: items/"
         FileSystem::createDir($temporaryPath . '/items');
 
+        // for the "resource: packages/" and assetic import
+        FileSystem::copy(__DIR__ . '/Fixture/normal/import_assetic/packages', $temporaryPath . '/packages');
+
         $this->doTestOutput($fixtureFileInfo);
     }
 
