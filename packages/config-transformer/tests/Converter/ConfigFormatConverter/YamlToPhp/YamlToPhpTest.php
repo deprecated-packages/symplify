@@ -38,7 +38,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         // for imports
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
-        require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
+//        require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
         // for the "resource: items/"
         FileSystem::createDir($temporaryPath . '/items');
@@ -50,6 +50,11 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
         FileSystem::copy(
             __DIR__ . '/Fixture/skip-imported-php/directory-with-php',
             $temporaryPath . '/directory-with-php'
+        );
+
+        FileSystem::copy(
+            __DIR__ . '/Fixture/normal/directory-with-unquoted-strings',
+            $temporaryPath . '/directory-with-unquoted-strings'
         );
 
         $this->doTestOutput($fixtureFileInfo);

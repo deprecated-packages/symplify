@@ -1,5 +1,8 @@
 imports:
     - { resource: 'some_dir/config.php', ignore_errors: true }
+
+    - { resource: 'some_dir/next-config.php', ignore_errors: 'not_found' }
+
 -----
 <?php
 
@@ -9,4 +12,6 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(__DIR__ . '/some_dir/config.php', null, true);
+
+    $containerConfigurator->import(__DIR__ . '/some_dir/next-config.php', null, 'not_found');
 };
