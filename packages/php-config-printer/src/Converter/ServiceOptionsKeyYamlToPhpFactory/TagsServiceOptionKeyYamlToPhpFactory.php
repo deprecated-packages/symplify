@@ -95,7 +95,7 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
             return $args;
         }
 
-        if (count($secondArgValue->items) !== 0) {
+        if ($secondArgValue->items !== []) {
             return $args;
         }
 
