@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ConfigTransformer\NodeVisitor;
 
-use PhpParser\Node\Name;
 use PhpParser\Node;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
@@ -49,6 +49,10 @@ final class RefOrServiceFuncCallPrePrintNodeVisitor extends NodeVisitorAbstract 
 
     public function enterNode(Node $node): ?Node
     {
+        if ($this->shouldReplaceWithRef === false) {
+            return null;
+        }
+
         if (! $node instanceof FuncCall) {
             return null;
         }
