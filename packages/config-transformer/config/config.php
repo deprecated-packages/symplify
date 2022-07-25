@@ -8,13 +8,12 @@ use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
-use Symplify\ConfigTransformer\Command\SwitchFormatCommand;
+use Symplify\ConfigTransformer\Console\ConfigTransformerApplication;
 use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
 use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemFilter;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
@@ -32,8 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ]);
 
     // console
-    $services->set(Application::class)
-        ->call('add', [service(SwitchFormatCommand::class)]);
+    $services->alias(Application::class, ConfigTransformerApplication::class);
 
     // color diff
     $services->set(ConsoleDiffer::class);
