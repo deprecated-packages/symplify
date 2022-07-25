@@ -35,14 +35,10 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testNormal(SmartFileInfo $fixtureFileInfo): void
     {
-        if ($fixtureFileInfo->getRealPath() === __DIR__ . '/Fixture/normal/directory-with-unquoted-strings/parameters_unquoted.yaml') {
-            return;
-        }
-
         // for imports
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
-        require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
+//        require_once $temporaryPath . '/another_dir/SomeClass.php.inc';
 
         // for the "resource: items/"
         FileSystem::createDir($temporaryPath . '/items');
