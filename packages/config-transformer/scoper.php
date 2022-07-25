@@ -77,5 +77,19 @@ return [
                 $content
             );
         },
+
+        // unprefix strings class, used for node factory
+        // fixes https://github.com/symplify/symplify/issues/3976
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, '/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php')) {
+                return $content;
+            }
+
+            return str_replace(
+                $prefix . '\\\\Symfony\\\\Component\\\\Routing\\\\Loader\\\\Configurator\\\\RoutingConfigurator',
+                'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+                $content
+            );
+        },
     ],
 ];
