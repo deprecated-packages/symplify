@@ -7,12 +7,14 @@ namespace Symplify\PhpConfigPrinter\ServiceOptionConverter;
 use PhpParser\Node\Expr\MethodCall;
 use Symplify\PhpConfigPrinter\Contract\Converter\ServiceOptionsKeyYamlToPhpFactoryInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
+use Symplify\PhpConfigPrinter\ServiceOptionConverter\NodeModifier\SingleFactoryReferenceNodeModifier;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 
 final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory
+        private ArgsNodeFactory $argsNodeFactory,
+        private SingleFactoryReferenceNodeModifier $singleFactoryReferenceNodeModifier
     ) {
     }
 
@@ -23,6 +25,9 @@ final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements Servi
         MethodCall $methodCall
     ): MethodCall {
         $args = $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml);
+
+        $this->singleFactoryReferenceNodeModifier->modifyArgs($args);
+
         return new MethodCall($methodCall, 'factory', $args);
     }
 
