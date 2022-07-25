@@ -19,7 +19,7 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
     /**
      * @var FullyQualifiedImport[]
      */
-    private array $imports = [];
+    private array $fullyQualifiedImports = [];
 
     public function __construct(
         private ClassNaming $classNaming
@@ -32,7 +32,7 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
      */
     public function beforeTraverse(array $nodes): ?array
     {
-        $this->imports = [];
+        $this->fullyQualifiedImports = [];
 
         return null;
     }
@@ -56,13 +56,14 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
 
         $shortClassName = $this->classNaming->getShortName($fullyQualifiedName);
 
-        if ($parent instanceof FuncCall) {
-            $import = new FullyQualifiedImport(ImportType::FUNCTION_TYPE, $fullyQualifiedName);
-        } else {
-            $import = new FullyQualifiedImport(ImportType::CLASS_TYPE, $fullyQualifiedName);
+        // the short class name is already imported - avoid collision of 2 same shorts
+        if ($this->isFullyQualifiedImportsWithDifferentShortClassName($fullyQualifiedName)) {
+            return null;
         }
 
-        $this->imports[] = $import;
+        $type = $parent instanceof FuncCall ? ImportType::FUNCTION_TYPE : ImportType::CLASS_TYPE;
+
+        $this->fullyQualifiedImports[] = new FullyQualifiedImport($type, $fullyQualifiedName, $shortClassName);
 
         return new Name($shortClassName);
     }
@@ -70,8 +71,26 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
     /**
      * @return FullyQualifiedImport[]
      */
-    public function getImports(): array
+    public function getFullyQualifiedImports(): array
     {
-        return $this->imports;
+        // use unique items here, to provide every import only once and avoid duplicated uses
+        return array_unique($this->fullyQualifiedImports);
+    }
+
+    private function isFullyQualifiedImportsWithDifferentShortClassName(string $desiredFullyQualifiedName): bool
+    {
+        $desiredShortClassName = $this->classNaming->getShortName($desiredFullyQualifiedName);
+
+        foreach ($this->fullyQualifiedImports as $fullyQualifiedImport) {
+            if ($fullyQualifiedImport->getShortClassName() !== $desiredShortClassName) {
+                continue;
+            }
+
+            if ($desiredFullyQualifiedName !== $fullyQualifiedImport->getFullyQualified()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

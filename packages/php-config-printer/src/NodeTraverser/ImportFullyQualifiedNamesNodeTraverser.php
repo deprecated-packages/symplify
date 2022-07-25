@@ -34,7 +34,7 @@ final class ImportFullyQualifiedNamesNodeTraverser
     {
         $this->collectNameImportsFromNodes($nodes);
 
-        $imports = array_unique($this->importFullyQualifiedNamesNodeVisitor->getImports());
+        $imports = $this->importFullyQualifiedNamesNodeVisitor->getFullyQualifiedImports();
 
         return $this->addUseImportsToNamespace($nodes, $imports);
     }

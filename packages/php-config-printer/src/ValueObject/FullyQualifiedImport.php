@@ -8,9 +8,13 @@ use Stringable;
 
 final class FullyQualifiedImport implements Stringable
 {
+    /**
+     * @param ImportType::* $type
+     */
     public function __construct(
         private string $type,
         private string $fullyQualified,
+        private string $shortClassName
     ) {
     }
 
@@ -19,6 +23,9 @@ final class FullyQualifiedImport implements Stringable
         return $this->fullyQualified;
     }
 
+    /**
+     * @return ImportType::*
+     */
     public function getType(): string
     {
         return $this->type;
@@ -27,5 +34,10 @@ final class FullyQualifiedImport implements Stringable
     public function getFullyQualified(): string
     {
         return $this->fullyQualified;
+    }
+
+    public function getShortClassName(): string
+    {
+        return $this->shortClassName;
     }
 }
