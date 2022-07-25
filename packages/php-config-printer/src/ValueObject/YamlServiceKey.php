@@ -9,6 +9,11 @@ final class YamlServiceKey
     /**
      * @var string
      */
+    public const ABSTRACT = 'abstract';
+
+    /**
+     * @var string
+     */
     public const BIND = 'bind';
 
     /**

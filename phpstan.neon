@@ -545,3 +545,8 @@ parameters:
         -
             message: '#Parameters should use "PhpParser\\Node\\Expr\|string" types as the only types passed to this method#'
             path: packages/astral/src/TypeAwareNodeFinder.php
+
+        # on purpose as the "abstract" is the keyword of method name :)
+        -
+            message: '#Class name starting with "Abstract" must have an `abstract` keyword#'
+            path: packages/php-config-printer/src/ServiceOptionConverter/AbstractServiceOptionKeyYamlToPhpFactory.php
