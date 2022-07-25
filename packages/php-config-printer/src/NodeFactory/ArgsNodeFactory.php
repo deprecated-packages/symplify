@@ -33,7 +33,7 @@ final class ArgsNodeFactory
      */
     private const TAG_RETURNS_CLONE = 'returns_clone';
 
-    private bool $isPhpNamedArguments = false;
+    private bool $isPhpNamedArguments;
 
     public function __construct(
         private StringExprResolver $stringExprResolver,
@@ -136,10 +136,13 @@ final class ArgsNodeFactory
     public function resolveExprFromArray(array $values): Array_
     {
         $arrayItems = [];
+
+        $hasNaturalKeysOrder = $this->hasNaturalKeyOrder($values);
+
         foreach ($values as $key => $value) {
             $expr = is_array($value) ? $this->resolveExprFromArray($value) : $this->resolveExpr($value);
 
-            if (! is_int($key)) {
+            if (! is_int($key) || $hasNaturalKeysOrder === false) {
                 $keyExpr = $this->resolveExpr($key);
                 $arrayItem = new ArrayItem($expr, $keyExpr);
             } else {
@@ -222,5 +225,18 @@ final class ArgsNodeFactory
         }
 
         return $arrayItems;
+    }
+
+    /**
+     * Detects, if the array keys are implicit - natural order integers: 0, 1, 2, 3...
+     *
+     * @param array<mixed, mixed> $values
+     */
+    private function hasNaturalKeyOrder(array $values): bool
+    {
+        $valueCount = count($values);
+        $naturalOrderKeys = range(0, $valueCount - 1);
+
+        return $naturalOrderKeys === array_keys($values);
     }
 }
