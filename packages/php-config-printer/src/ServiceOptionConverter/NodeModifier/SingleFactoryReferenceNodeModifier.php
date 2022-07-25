@@ -18,6 +18,7 @@ final class SingleFactoryReferenceNodeModifier
 {
     /**
      * @see https://regex101.com/r/Smydt1/1
+     * @var string
      */
     private const SERVICE_METHOD_REGEX = '#(?<service_name>.*?)\:(?<method_name>\w+)#';
 
