@@ -142,7 +142,7 @@ final class ArgsNodeFactory
         foreach ($values as $key => $value) {
             $expr = is_array($value) ? $this->resolveExprFromArray($value) : $this->resolveExpr($value);
 
-            if (! is_int($key) || !$hasNaturalKeysOrder) {
+            if (! is_int($key) || ! $hasNaturalKeysOrder) {
                 $keyExpr = $this->resolveExpr($key);
                 $arrayItem = new ArrayItem($expr, $keyExpr);
             } else {
