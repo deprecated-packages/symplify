@@ -23,11 +23,7 @@ final class AbstractServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKe
         mixed $values,
         MethodCall $methodCall
     ): MethodCall {
-        if (is_bool($yaml)) {
-            $args = $this->argsNodeFactory->createFromValues([$yaml]);
-        } else {
-            $args = [];
-        }
+        $args = is_bool($yaml) ? $this->argsNodeFactory->createFromValues([$yaml]) : [];
 
         return new MethodCall($methodCall, new Identifier('abstract'), $args);
     }
