@@ -25,8 +25,6 @@ final class PossiblyUnusedClassesFilter
         // kernel
         'Symfony\Component\HttpKernel\Bundle\BundleInterface',
         'Symfony\Component\HttpKernel\KernelInterface',
-        // forms
-        'Symfony\Component\Form\AbstractType',
         // console
         'Symfony\Component\Console\Command\Command',
         'Twig\Extension\ExtensionInterface',
