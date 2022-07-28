@@ -61,7 +61,12 @@ final class YamlToPhpConverter
      */
     private function isRouteYaml(array $yamlLines, string $filePath): bool
     {
+        // if the paths contains this keyword, we assume it contains routes
         if (str_contains($filePath, 'routing')) {
+            return true;
+        }
+
+        if (str_contains($filePath, 'routes')) {
             return true;
         }
 
