@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\Exception\NotImplementedYetException;
@@ -45,7 +46,7 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::IMPORTS;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Stmt
     {
         if (is_array($values)) {
             $arguments = $this->yamlArgumentSorter->sortArgumentsByKeyIfExists($values, [

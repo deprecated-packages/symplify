@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\CaseConverter;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
@@ -20,7 +21,7 @@ final class NameOnlyServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Stmt
     {
         $classConstFetch = $this->commonNodeFactory->createClassReference($key);
         $setMethodCall = new MethodCall(new Variable(VariableName::SERVICES), 'set', [new Arg($classConstFetch)]);

@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\CaseConverter\NestedCaseConverter;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\Service\ServiceOptionNodeFactory;
@@ -25,7 +26,7 @@ final class InstanceOfNestedCaseConverter
     /**
      * @param mixed[] $values
      */
-    public function convertToMethodCall(string $key, array $values): Expression
+    public function convertToMethodCall(string $key, array $values): Stmt
     {
         $classConstFetch = $this->commonNodeFactory->createClassReference($key);
 

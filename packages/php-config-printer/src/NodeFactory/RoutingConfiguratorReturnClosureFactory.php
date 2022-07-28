@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
-use PhpParser\Node;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Return_;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
 use Symplify\PhpConfigPrinter\PhpParser\NodeFactory\ConfiguratorClosureNodeFactory;
@@ -30,17 +30,18 @@ final class RoutingConfiguratorReturnClosureFactory
     {
         $stmts = $this->createClosureStmts($arrayData);
         $closure = $this->containerConfiguratorClosureNodeFactory->createRoutingClosureFromStmts($stmts);
+
         return new Return_($closure);
     }
 
     /**
      * @param mixed[] $arrayData
-     * @return mixed[]
+     * @return Stmt[]
      */
-    private function createClosureStmts(array $arrayData): array
+    public function createClosureStmts(array $arrayData): array
     {
         $arrayData = $this->removeEmptyValues($arrayData);
-        return $this->createNodesFromCaseConverters($arrayData);
+        return $this->createStmtsFromCaseConverters($arrayData);
     }
 
     /**
@@ -54,31 +55,31 @@ final class RoutingConfiguratorReturnClosureFactory
 
     /**
      * @param mixed[] $arrayData
-     * @return Node[]
+     * @return Stmt[]
      */
-    private function createNodesFromCaseConverters(array $arrayData): array
+    private function createStmtsFromCaseConverters(array $arrayData): array
     {
-        $nodes = [];
+        $stmts = [];
 
         foreach ($arrayData as $key => $values) {
-            $expression = null;
+            $stmt = null;
 
             foreach ($this->routingCaseConverters as $routingCaseConverter) {
                 if (! $routingCaseConverter->match($key, $values)) {
                     continue;
                 }
 
-                $expression = $routingCaseConverter->convertToMethodCall($key, $values);
+                $stmt = $routingCaseConverter->convertToMethodCall($key, $values);
                 break;
             }
 
-            if ($expression === null) {
+            if ($stmt === null) {
                 continue;
             }
 
-            $nodes[] = $expression;
+            $stmts[] = $stmt;
         }
 
-        return $nodes;
+        return $stmts;
     }
 }
