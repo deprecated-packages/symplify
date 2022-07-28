@@ -38,7 +38,12 @@ final class CheckFileClassNameCommand extends AbstractSymplifyCommand
         $missMatchingClassNamesByFiles = [];
         foreach ($classesToFiles as $class => $file) {
             $fileBasename = pathinfo($file, PATHINFO_FILENAME);
-            $shortClassName = Strings::after($class, '\\', -1);
+            if (str_contains($class, '\\')) {
+                $shortClassName = Strings::after($class, '\\', -1);
+            } else {
+                // short, e.g. underscored namespace class; could stubs for PHPUnit_Framework_TestCase and so on
+                $shortClassName = $class;
+            }
 
             if ($shortClassName === $fileBasename) {
                 continue;
