@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCI\Testing;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-
 final class UnitTestFilter
 {
     /**
      * @var string[]|class-string<KernelTestCase>[]
      */
-    private const NON_UNIT_TEST_CASE_CLASSES = [KernelTestCase::class, 'Symfony\Component\Form\Test\TypeTestCase'];
+    private const NON_UNIT_TEST_CASE_CLASSES = [
+        'Symfony\Bundle\FrameworkBundle\Test\KernelTestCase',
+        'Symfony\Component\Form\Test\TypeTestCase',
+    ];
 
     /**
      * @param array<string, string> $testClassesToFilePaths
@@ -29,7 +29,7 @@ final class UnitTestFilter
 
     private function isUnitTest(string $class): bool
     {
-        if (! is_a($class, TestCase::class, true)) {
+        if (! is_a($class, 'PHPUnit\Framework\TestCase', true)) {
             return false;
         }
 

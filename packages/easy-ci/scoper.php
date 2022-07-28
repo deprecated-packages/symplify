@@ -77,7 +77,10 @@ return [
 
         // unprefix test case class names
         function (string $filePath, string $prefix, string $content): string {
-            if (! str_ends_with($filePath, 'packages/Testing/Autoloading/DualTestCaseAuloader.php')) {
+            if (
+                ! str_ends_with($filePath, 'packages/Testing/Autoloading/DualTestCaseAuloader.php') &&
+                ! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')
+            ) {
                 return $content;
             }
 
@@ -85,6 +88,25 @@ return [
                 $content,
                 '#' . $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
                 'PHPUnit\Framework\TestCase'
+            );
+        },
+
+        // unprefix kernerl test case class names
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')) {
+                return $content;
+            }
+
+            $content = Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Bundle\\\\FrameworkBundle\\\\Test\\\\KernelTestCase#',
+                'Symfony\Bundle\FrameworkBundle\Test\KernelTestCase'
+            );
+
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\Form\\\\Test\\\\TypeTestCase',
+                'Symfony\Component\Form\Test\TypeTestCase'
             );
         },
 
