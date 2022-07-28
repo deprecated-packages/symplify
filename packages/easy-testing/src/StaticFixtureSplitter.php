@@ -40,17 +40,23 @@ final class StaticFixtureSplitter
     public static function splitFileInfoToLocalInputAndExpectedFileInfos(
         SmartFileInfo $smartFileInfo,
         bool $autoloadTestFixture = false,
+        bool $preserveDirStructure = false
     ): InputFileInfoAndExpectedFileInfo {
         $inputAndExpected = self::splitFileInfoToInputAndExpected($smartFileInfo);
 
-        $inputFileInfo = self::createTemporaryFileInfo($smartFileInfo, dirname($smartFileInfo->getRealPath()).'/input', $inputAndExpected->getInput());
+        $dir = '';
+        if ($preserveDirStructure) {
+            $dir = explode('Fixture', $smartFileInfo->getRealPath(), 2);
+            $dir = isset($dir[1]) ? ltrim(dirname($dir[1]), '/\\') . '/' : '';
+        }
+        $inputFileInfo = self::createTemporaryFileInfo($smartFileInfo, $dir.'input', $inputAndExpected->getInput());
 
         // some files needs to be autoload to enable reflection
         if ($autoloadTestFixture) {
             require_once $inputFileInfo->getRealPath();
         }
 
-        $expectedFileInfo = self::createTemporaryFileInfo($smartFileInfo, dirname($smartFileInfo->getRealPath()).'/expected', $inputAndExpected->getExpected());
+        $expectedFileInfo = self::createTemporaryFileInfo($smartFileInfo, $dir.'expected', $inputAndExpected->getExpected());
 
         return new InputFileInfoAndExpectedFileInfo($inputFileInfo, $expectedFileInfo);
     }
