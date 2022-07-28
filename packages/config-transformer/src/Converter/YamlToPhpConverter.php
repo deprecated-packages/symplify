@@ -45,7 +45,6 @@ final class YamlToPhpConverter
      */
     public function convertYamlArray(array $yamlArray, string $filePath): string
     {
-        // @todo improve here
         if ($this->isRouteYaml($yamlArray, $filePath)) {
             $return = $this->routingConfiguratorReturnClosureFactory->createFromArrayData($yamlArray);
         } else {

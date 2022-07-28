@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\RoutingCaseConverter;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
@@ -89,7 +90,7 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
         return isset($values[self::RESOURCE]);
     }
 
-    public function convertToMethodCall(string $key, mixed $values): Expression
+    public function convertToMethodCall(string $key, mixed $values): Stmt
     {
         $variable = new Variable(VariableName::ROUTING_CONFIGURATOR);
 
