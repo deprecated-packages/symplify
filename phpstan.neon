@@ -55,7 +55,6 @@ parameters:
         - packages/easy-coding-standard/build/target-repository/tests
 
         # class aliasing for old PHPUnit test case
-        - packages/easy-ci/packages/Testing/Autoloading/DualTestCaseAuloader.php
         - packages/easy-ci/packages-tests/Testing/UnitTestFilePathsFinder/UnitTestFilePathsFinderTest.php
 
         - packages/easy-coding-standard/build/target-repository/bootstrap.php

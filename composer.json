@@ -64,6 +64,9 @@
         "tracy/tracy": "^2.9.4"
     },
     "autoload": {
+        "classmap": [
+            "packages/easy-ci/stubs"
+        ],
         "psr-4": {
             "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
@@ -153,19 +156,23 @@
         }
     },
     "extra": {
+        "enable-patching": true,
         "patches": {
             "symfony/dependency-injection": [
-                "patches/symfony-dependency-injection-definition-php.patch",
+                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch",
                 "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch",
-                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+                "patches/symfony-dependency-injection-definition-php.patch"
             ],
             "squizlabs/php_codesniffer": [
                 "patches/squizlabs-php-codesniffer-tests-standards-abstractsniffunittest-php.patch"
             ]
-        },
-        "enable-patching": true
+        }
     },
     "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-intl-grapheme": "*",
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*",
         "symplify/astral": "11.0.8",
         "symplify/autowire-array-parameter": "11.0.8",
         "symplify/coding-standard": "11.0.8",

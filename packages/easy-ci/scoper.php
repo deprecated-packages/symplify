@@ -48,6 +48,7 @@ return [
         // do not prefix "trigger_deprecation" from symfony - https://github.com/symfony/symfony/commit/0032b2a2893d3be592d4312b7b098fb9d71aca03
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
+        'stubs/PHPUnit/PHPUnit_Framework_TestCase.php',
         ...$polyfillsBootstraps,
         ...$polyfillsStubs,
     ],
@@ -73,6 +74,44 @@ return [
             );
 
             return $content;
+        },
+
+        // unprefix test case class names
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')) {
+                return $content;
+            }
+
+            $content = Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                'PHPUnit\Framework\TestCase'
+            );
+
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\PHPUnit_Framework_TestCase#',
+                'PHPUnit_Framework_TestCase'
+            );
+        },
+
+        // unprefix kernerl test case class names
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')) {
+                return $content;
+            }
+
+            $content = Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Bundle\\\\FrameworkBundle\\\\Test\\\\KernelTestCase#',
+                'Symfony\Bundle\FrameworkBundle\Test\KernelTestCase'
+            );
+
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\Symfony\\\\Component\\\\Form\\\\Test\\\\TypeTestCase',
+                'Symfony\Component\Form\Test\TypeTestCase'
+            );
         },
 
         // unprefix string class names to ignore, to keep original class names

@@ -35,10 +35,13 @@ final class CheckFileClassNameCommand extends AbstractSymplifyCommand
         $sources = (array) $input->getArgument(Option::SOURCES);
         $classesToFiles = $this->phpClassLoader->load($sources);
 
+        $message = sprintf('Analyzing %d classes', count($classesToFiles));
+        $this->symfonyStyle->note($message);
+
         $missMatchingClassNamesByFiles = [];
         foreach ($classesToFiles as $class => $file) {
             $fileBasename = pathinfo($file, PATHINFO_FILENAME);
-            $shortClassName = Strings::after($class, '\\', -1);
+            $shortClassName = str_contains($class, '\\') ? Strings::after($class, '\\', -1) : $class;
 
             if ($shortClassName === $fileBasename) {
                 continue;
