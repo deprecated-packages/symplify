@@ -26,11 +26,14 @@ final class ExtensionFaker
         'doctrine',
         'doctrine_migrations',
         'framework',
+        'hautelook_alice',
         'monolog',
+        'nelmio_alice',
         'router',
         'security',
         'twig',
         'web_profiler',
+        'zenstruck_foundry',
     ];
 
     public function fakeInContainerBuilder(ContainerBuilder $containerBuilder, string $yamlContent): void
