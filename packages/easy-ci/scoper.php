@@ -77,10 +77,7 @@ return [
 
         // unprefix test case class names
         function (string $filePath, string $prefix, string $content): string {
-            if (
-                ! str_ends_with($filePath, 'packages/Testing/Autoloading/DualTestCaseAuloader.php') &&
-                ! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')
-            ) {
+            if (! str_ends_with($filePath, 'packages/Testing/UnitTestFilter.php')) {
                 return $content;
             }
 
