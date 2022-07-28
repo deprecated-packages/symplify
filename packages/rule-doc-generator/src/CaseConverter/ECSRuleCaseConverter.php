@@ -33,7 +33,7 @@ final class ECSRuleCaseConverter implements CaseConverterInterface
         return $rootKey === self::NAME;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $rectorClass = $values['class'];
         $configuration = $values['configuration'] ?? null;

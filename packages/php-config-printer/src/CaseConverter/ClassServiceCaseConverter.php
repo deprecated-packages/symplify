@@ -23,7 +23,7 @@ final class ClassServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $args = $this->argsNodeFactory->createFromValues([$key, $values[YamlKey::CLASS_KEY]]);
         $methodCall = new MethodCall(new Variable(VariableName::SERVICES), MethodName::SET, $args);

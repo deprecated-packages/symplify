@@ -21,7 +21,7 @@ final class ServicesDefaultsCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $methodCall = new MethodCall($this->createServicesVariable(), MethodName::DEFAULTS);
 
