@@ -24,7 +24,7 @@ final class YamlToPhpConverterTest extends AbstractKernelTestCase
             'parameters' => [
                 'key' => 'value',
             ],
-        ]);
+        ], 'file_path.yaml');
 
         $this->assertStringEqualsFile(__DIR__ . '/Fixture/expected_parameters.php', $printedPhpConfigContent);
     }
