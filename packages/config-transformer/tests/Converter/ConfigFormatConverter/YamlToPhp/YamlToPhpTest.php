@@ -18,7 +18,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testRouting(SmartFileInfo $fileInfo): void
     {
-        $this->doTestOutput($fileInfo);
+        $this->doTestOutput($fileInfo, true);
     }
 
     /**

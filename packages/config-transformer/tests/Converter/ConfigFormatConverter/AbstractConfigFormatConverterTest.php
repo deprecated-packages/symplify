@@ -26,9 +26,9 @@ abstract class AbstractConfigFormatConverterTest extends AbstractKernelTestCase
         $this->smartFileSystem = $this->getService(SmartFileSystem::class);
     }
 
-    protected function doTestOutput(SmartFileInfo $fixtureFileInfo): void
+    protected function doTestOutput(SmartFileInfo $fixtureFileInfo, bool $preserveDirStructure = false): void
     {
-        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fixtureFileInfo);
+        $inputAndExpected = StaticFixtureSplitter::splitFileInfoToLocalInputAndExpectedFileInfos($fixtureFileInfo, false, $preserveDirStructure);
 
         $this->doTestFileInfo(
             $inputAndExpected->getInputFileInfo(),
