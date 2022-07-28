@@ -29,7 +29,7 @@ final class UnitTestFilter
 
     private function isUnitTest(string $class): bool
     {
-        if (! is_a($class, 'PHPUnit\Framework\TestCase', true)) {
+        if (! is_a($class, 'PHPUnit\Framework\TestCase', true) && ! is_a($class, 'PHPUnit_Framework_TestCase', true)) {
             return false;
         }
 
