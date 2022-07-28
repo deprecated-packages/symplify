@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
@@ -32,7 +33,7 @@ final class ECSRuleCaseConverter implements CaseConverterInterface
         return $rootKey === self::NAME;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Stmt
     {
         $rectorClass = $values['class'];
         $configuration = $values['configuration'] ?? null;

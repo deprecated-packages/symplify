@@ -7,6 +7,7 @@ namespace Symplify\PhpConfigPrinter\CaseConverter;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
@@ -35,7 +36,7 @@ final class ParameterCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::PARAMETERS;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Expression
+    public function convertToMethodCall(mixed $key, mixed $values): Stmt
     {
         if (is_string($values)) {
             $values = $this->prefixWithDirConstantIfExistingPath($values);

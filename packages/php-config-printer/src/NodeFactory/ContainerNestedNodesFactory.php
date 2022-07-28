@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
-use PhpParser\Node\Stmt\Expression;
+use PhpParser\Node\Stmt;
 use Symplify\PhpConfigPrinter\CaseConverter\NestedCaseConverter\InstanceOfNestedCaseConverter;
 
 final class ContainerNestedNodesFactory
@@ -17,23 +17,23 @@ final class ContainerNestedNodesFactory
     /**
      * @api
      * @param mixed[] $nestedValues
-     * @return Expression[]
+     * @return Stmt[]
      */
     public function createFromValues(array $nestedValues, string $key, int|string $nestedKey): array
     {
-        $nestedNodes = [];
+        $nestedStmts = [];
 
         foreach ($nestedValues as $subNestedKey => $subNestedValue) {
             if (! $this->instanceOfNestedCaseConverter->isMatch($key, $nestedKey)) {
                 continue;
             }
 
-            $nestedNodes[] = $this->instanceOfNestedCaseConverter->convertToMethodCall(
+            $nestedStmts[] = $this->instanceOfNestedCaseConverter->convertToMethodCall(
                 $subNestedKey,
                 $subNestedValue
             );
         }
 
-        return $nestedNodes;
+        return $nestedStmts;
     }
 }
