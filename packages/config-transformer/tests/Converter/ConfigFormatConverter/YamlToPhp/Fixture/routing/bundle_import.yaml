@@ -1,0 +1,13 @@
+bazinga_js_translation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
+return static function (RoutingConfigurator $routingConfigurator): void {
+    $routingConfigurator->import('@BazingaJsTranslationBundle/Resources/config/routing/routing.yml');
+};
