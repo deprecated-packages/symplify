@@ -23,7 +23,7 @@ final class ExtensionConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $args = $this->argsNodeFactory->createFromValues([
             $this->rootKey,

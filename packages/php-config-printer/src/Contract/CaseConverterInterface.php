@@ -10,5 +10,5 @@ interface CaseConverterInterface
 {
     public function match(string $rootKey, mixed $key, mixed $values): bool;
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt;
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt;
 }

@@ -36,7 +36,7 @@ final class ParameterCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::PARAMETERS;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         if (is_string($values)) {
             $values = $this->prefixWithDirConstantIfExistingPath($values);

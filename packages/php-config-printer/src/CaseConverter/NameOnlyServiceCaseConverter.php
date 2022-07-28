@@ -21,7 +21,7 @@ final class NameOnlyServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $classConstFetch = $this->commonNodeFactory->createClassReference($key);
         $setMethodCall = new MethodCall(new Variable(VariableName::SERVICES), 'set', [new Arg($classConstFetch)]);

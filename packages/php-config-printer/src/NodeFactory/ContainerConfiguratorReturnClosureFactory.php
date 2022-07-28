@@ -70,33 +70,33 @@ final class ContainerConfiguratorReturnClosureFactory
      */
     private function createStmtsFromCaseConverters(array $yamlData): array
     {
-        $nodes = [];
+        $stmts = [];
 
         foreach ($yamlData as $key => $values) {
-            $nodes = $this->createInitializeNode($key, $nodes);
+            $stmts = $this->createInitializeStmt($key, $stmts);
 
             foreach ($values as $nestedKey => $nestedValues) {
                 $nestedNodes = $this->processNestedNodes($key, $nestedKey, $nestedValues);
 
                 if ($nestedNodes !== []) {
-                    $nodes = array_merge($nodes, $nestedNodes);
+                    $stmts = array_merge($stmts, $nestedNodes);
                     continue;
                 }
 
-                $expression = $this->resolveExpression($key, $nestedKey, $nestedValues);
+                $expression = $this->resolveStmt($key, $nestedKey, $nestedValues);
                 if (! $expression instanceof Expression) {
                     continue;
                 }
 
-                $lastNode = end($nodes);
+                $lastNode = end($stmts);
                 $node = $this->resolveExpressionWhenAtEnv($expression, $key, $lastNode);
                 if ($node !== null) {
-                    $nodes[] = $node;
+                    $stmts[] = $node;
                 }
             }
         }
 
-        return $nodes;
+        return $stmts;
     }
 
     /**
@@ -184,25 +184,25 @@ final class ContainerConfiguratorReturnClosureFactory
     }
 
     /**
-     * @param Expression[]|If_[] $nodes
-     * @return Expression[]|If_[]
+     * @param Stmt[] $stmts
+     * @return Stmt[]
      */
-    private function createInitializeNode(string $key, array $nodes): array
+    private function createInitializeStmt(string $key, array $stmts): array
     {
         if ($key === YamlKey::SERVICES) {
-            $nodes[] = $this->createInitializeAssign(VariableMethodName::SERVICES);
-            return $nodes;
+            $stmts[] = $this->createInitializeAssign(VariableMethodName::SERVICES);
+            return $stmts;
         }
 
         if ($key === YamlKey::PARAMETERS) {
-            $nodes[] = $this->createInitializeAssign(VariableMethodName::PARAMETERS);
-            return $nodes;
+            $stmts[] = $this->createInitializeAssign(VariableMethodName::PARAMETERS);
+            return $stmts;
         }
 
-        return $nodes;
+        return $stmts;
     }
 
-    private function resolveExpression(string $key, int | string $nestedKey, mixed $nestedValues): ?Stmt
+    private function resolveStmt(string $key, int | string $nestedKey, mixed $nestedValues): ?Stmt
     {
         foreach ($this->caseConverters as $caseConverter) {
             if (! $caseConverter->match($key, $nestedKey, $nestedValues)) {
@@ -210,7 +210,7 @@ final class ContainerConfiguratorReturnClosureFactory
             }
 
             /** @var string $nestedKey */
-            return $caseConverter->convertToMethodCall($nestedKey, $nestedValues);
+            return $caseConverter->convertToMethodCallStmt($nestedKey, $nestedValues);
         }
 
         return null;

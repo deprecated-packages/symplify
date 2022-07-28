@@ -23,7 +23,7 @@ final class ConfiguredServiceCaseConverter implements CaseConverterInterface
     ) {
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         $valuesForArgs = [$key];
 

@@ -46,7 +46,7 @@ final class ImportCaseConverter implements CaseConverterInterface
         return $rootKey === YamlKey::IMPORTS;
     }
 
-    public function convertToMethodCall(mixed $key, mixed $values): Stmt
+    public function convertToMethodCallStmt(mixed $key, mixed $values): Stmt
     {
         if (is_array($values)) {
             $arguments = $this->yamlArgumentSorter->sortArgumentsByKeyIfExists($values, [
