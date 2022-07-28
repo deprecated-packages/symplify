@@ -18,7 +18,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rules([
         NoWhitespaceBeforeCommaInArrayFixer::class,
         ArrayOpenerAndCloserNewlineFixer::class,
-        ArrayIndentationFixer::class,
+//        ArrayIndentationFixer::class,
         TrimArraySpacesFixer::class,
         WhitespaceAfterCommaInArrayFixer::class,
         ArrayListItemNewlineFixer::class,
