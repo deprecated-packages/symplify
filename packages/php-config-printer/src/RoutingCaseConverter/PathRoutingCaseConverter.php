@@ -9,26 +9,12 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
+use Symplify\PhpConfigPrinter\Enum\RouteOption;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 
 final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
 {
-    /**
-     * @var string[]
-     */
-    private const NESTED_KEYS = ['controller', 'defaults', self::METHODS, 'requirements'];
-
-    /**
-     * @var string
-     */
-    private const PATH = 'path';
-
-    /**
-     * @var string
-     */
-    private const METHODS = 'methods';
-
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory
     ) {
@@ -36,7 +22,7 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
 
     public function match(string $key, mixed $values): bool
     {
-        return isset($values[self::PATH]);
+        return isset($values[RouteOption::PATH]);
     }
 
     public function convertToMethodCall(string $key, mixed $values): Expression
@@ -48,7 +34,7 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
         $args = $this->createAddArgs($key, $values);
         $methodCall = new MethodCall($variable, 'add', $args);
 
-        foreach (self::NESTED_KEYS as $nestedKey) {
+        foreach (RouteOption::ALL as $nestedKey) {
             if (! isset($values[$nestedKey])) {
                 continue;
             }
@@ -56,7 +42,7 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
             $nestedValues = $values[$nestedKey];
 
             // Transform methods as string GET|HEAD to array
-            if ($nestedKey === self::METHODS && is_string($nestedValues)) {
+            if ($nestedKey === RouteOption::METHODS && is_string($nestedValues)) {
                 $nestedValues = explode('|', $nestedValues);
             }
 
@@ -75,8 +61,8 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
         $argumentValues = [];
         $argumentValues[] = $key;
 
-        if (isset($values[self::PATH])) {
-            $argumentValues[] = $values[self::PATH];
+        if (isset($values[RouteOption::PATH])) {
+            $argumentValues[] = $values[RouteOption::PATH];
         }
 
         return $this->argsNodeFactory->createFromValues($argumentValues);

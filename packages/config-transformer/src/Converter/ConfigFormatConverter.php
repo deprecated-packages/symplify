@@ -45,14 +45,14 @@ final class ConfigFormatConverter
             $dumpedYaml = $containerBuilderAndFileContent->getFileContent();
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
-            return $this->yamlToPhpConverter->convert($dumpedYaml);
+            return $this->yamlToPhpConverter->convert($dumpedYaml, $smartFileInfo->getRealPath());
         }
 
         if ($smartFileInfo->getSuffix() === Format::XML) {
             $dumpedYaml = $this->dumpContainerBuilderToYaml($containerBuilder);
             $dumpedYaml = $this->decorateWithCollectedXmlImports($dumpedYaml);
 
-            return $this->yamlToPhpConverter->convert($dumpedYaml);
+            return $this->yamlToPhpConverter->convert($dumpedYaml, $smartFileInfo->getRealPath());
         }
 
         $message = sprintf('Suffix "%s" is not support yet', $smartFileInfo->getSuffix());
