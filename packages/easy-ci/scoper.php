@@ -75,6 +75,19 @@ return [
             return $content;
         },
 
+        // unprefix test case class names
+        function (string $filePath, string $prefix, string $content): string {
+            if (! str_ends_with($filePath, 'packages/Testing/Autoloading/DualTestCaseAuloader.php')) {
+                return $content;
+            }
+
+            return Strings::replace(
+                $content,
+                '#' . $prefix . '\\\\PHPUnit\\\\Framework\\\\TestCase#',
+                'PHPUnit\Framework\TestCase'
+            );
+        },
+
         // unprefix string class names to ignore, to keep original class names
         function (string $filePath, string $prefix, string $content): string {
             if (! str_ends_with($filePath, 'packages/ActiveClass/Filtering/PossiblyUnusedClassesFilter.php')) {
