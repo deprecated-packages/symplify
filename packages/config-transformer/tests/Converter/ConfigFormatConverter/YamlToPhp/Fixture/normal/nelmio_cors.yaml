@@ -9,9 +9,5 @@ declare(strict_types=1);
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->extension('nelmio_cors', [
-        'defaults' => [
-            'any_key' => 'any_key',
-        ],
-    ]);
+    $containerConfigurator->extension('nelmio_cors', ['defaults' => ['any_key' => 'any_value']]);
 };
