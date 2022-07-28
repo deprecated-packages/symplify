@@ -33,7 +33,7 @@ final class ExtensionFaker
         'security',
         'twig',
         'web_profiler',
-        'zenstruck_foundry'
+        'zenstruck_foundry',
     ];
 
     public function fakeInContainerBuilder(ContainerBuilder $containerBuilder, string $yamlContent): void
