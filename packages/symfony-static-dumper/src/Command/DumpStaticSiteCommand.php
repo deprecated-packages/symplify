@@ -7,7 +7,6 @@ namespace Symplify\SymfonyStaticDumper\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 
@@ -18,8 +17,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
     private string $outputDirectory;
 
     public function __construct(
-        private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
-        ParameterBagInterface $parameterBag
+        private SymfonyStaticDumperApplication $symfonyStaticDumperApplication
     ) {
         parent::__construct();
     }
@@ -30,22 +28,40 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         $this->setDescription('Dump website to static HTML and CSS in the output directory');
 
         // Adding arguments options for the main command
-        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory absolute to the root of the project', '/public');
-        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory absolute to the execution of the comand', '/output');
+        $this->addOption('public-dir', 'p', InputOption::VALUE_REQUIRED, 'Define the input public directory absolute to the root of the project', './public');
+        $this->addOption('output-dir', 'o', InputOption::VALUE_REQUIRED, 'Define the output directory absolute to the execution of the comand', './output');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {   
-        $projectDir = (string) $this->parameterBag->get('kernel.project_dir');
-
-        $this->publicDirectory = $projectDir . $input->getOption('public-dir');
-        $this->outputDirectory = getcwd() . $input->getOption('output-dir');
+        $this->publicDirectory = $this->parseInputPath($input->getOption('public-dir'));
+        $this->outputDirectory = $this->parseInputPath($input->getOption('output-dir'));
 
         $this->symfonyStyle->section('Dumping static website');
-        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory, $input->getOption('wdp-only'));
+        $this->symfonyStaticDumperApplication->run($this->publicDirectory, $this->outputDirectory);
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
 
         return self::SUCCESS;
     }
+
+    protected function parseInputPath($path): string
+    {
+        $output = '';
+        // check if path is absolute will false if relative
+        if (strpos($path, '/') === 0) {
+            $output = $path;
+        }
+        // check if path is relative 
+        if (strpos($path, '.') === 0) {
+            $output = getcwd() . ltrim($path, '.');
+        }
+        // check if path is neither will default to relative
+        if (strlen($output) == 0) {
+            $output = getcwd() . '/' . $path;
+        }
+        return  $output;
+    }
 }
+
+
