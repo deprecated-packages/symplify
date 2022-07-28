@@ -38,7 +38,7 @@ final class CheckFileClassNameCommand extends AbstractSymplifyCommand
         $missMatchingClassNamesByFiles = [];
         foreach ($classesToFiles as $class => $file) {
             $fileBasename = pathinfo($file, PATHINFO_FILENAME);
-            $shortClassName = Strings::after($class, '\\', -1);
+            $shortClassName = str_contains($class, '\\') ? Strings::after($class, '\\', -1) : $class;
 
             if ($shortClassName === $fileBasename) {
                 continue;

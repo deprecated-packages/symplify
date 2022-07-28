@@ -29,6 +29,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Dibi\Connection',
         'Doctrine\ORM\EntityManagerInterface',
         'Doctrine\ORM\EntityManager',
+        'PHPUnit_Framework_TestCase',
         'Nette\*',
         'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
