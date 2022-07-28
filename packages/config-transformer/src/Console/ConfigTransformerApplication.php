@@ -9,7 +9,8 @@ use Symplify\ConfigTransformer\Command\SwitchFormatCommand;
 
 final class ConfigTransformerApplication extends Application
 {
-    public function __construct(SwitchFormatCommand $switchFormatCommand) {
+    public function __construct(SwitchFormatCommand $switchFormatCommand)
+    {
         $this->addCommands([$switchFormatCommand]);
 
         parent::__construct();
