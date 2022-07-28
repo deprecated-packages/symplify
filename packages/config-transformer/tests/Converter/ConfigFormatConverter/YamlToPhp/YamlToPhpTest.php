@@ -33,7 +33,7 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
         foreach ([
             'my_app/config/routes.yaml' => true,
-            'my_app/config/routing.yml' => true,
+            'my_app/config/routing.yaml' => true,
             'my_app/config/routes/my_packages.yaml' => true,
             'my_app/config/routes/prod/some_prod_route.yaml' => true,
             'my_app/config/packages/routing.yaml' => false
