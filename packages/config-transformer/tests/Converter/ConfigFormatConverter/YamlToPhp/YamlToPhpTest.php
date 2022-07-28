@@ -6,6 +6,8 @@ namespace Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\YamlT
 
 use Iterator;
 use Nette\Utils\FileSystem;
+use ReflectionClass;
+use Symplify\ConfigTransformer\Converter\YamlToPhpConverter;
 use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\AbstractConfigFormatConverterTest;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
@@ -19,6 +21,26 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
     public function testRouting(SmartFileInfo $fileInfo): void
     {
         $this->doTestOutput($fileInfo, true);
+    }
+
+    public function testIsRouteYaml(): void
+    {
+        $class = new ReflectionClass(YamlToPhpConverter::class);
+        $instance = $class->newInstanceWithoutConstructor();
+        $method = $class->getMethod('isRouteYaml');
+        $method->setAccessible(true);
+        $call = fn (string $path) => $method->invokeArgs($instance, [$path]);
+
+        foreach ([
+            'my_app/config/routes.yaml' => true,
+            'my_app/config/routing.yml' => true,
+            'my_app/config/routes/my_packages.yaml' => true,
+            'my_app/config/routes/prod/some_prod_route.yaml' => true,
+            'my_app/config/packages/routing.yaml' => false
+        ] as $case => $expected) {
+            $res = $call($case);
+            $this->assertEquals($expected, $res);
+        }
     }
 
     /**
