@@ -6,7 +6,6 @@ namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
-use Symplify\PhpConfigPrinter\Enum\RouteOption;
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\RoutingConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
@@ -45,7 +44,7 @@ final class YamlToPhpConverter
      */
     public function convertYamlArray(array $yamlArray, string $filePath): string
     {
-        if ($this->isRouteYaml($yamlArray, $filePath)) {
+        if ($this->isRouteYaml($filePath)) {
             $return = $this->routingConfiguratorReturnClosureFactory->createFromArrayData($yamlArray);
         } else {
             $yamlArray = $this->checkerServiceParametersShifter->process($yamlArray);
@@ -55,28 +54,9 @@ final class YamlToPhpConverter
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
     }
 
-    /**
-     * @param array<string, mixed> $yamlLines
-     */
-    private function isRouteYaml(array $yamlLines, string $filePath): bool
+    private function isRouteYaml(string $filePath): bool
     {
         // if the paths contains this keyword, we assume it contains routes
-        if (str_contains($filePath, 'routing')) {
-            return true;
-        }
-
-        if (str_contains($filePath, 'routes')) {
-            return true;
-        }
-
-        foreach ($yamlLines as $yamlLine) {
-            foreach (RouteOption::ALL as $routeKey) {
-                if (isset($yamlLine[$routeKey])) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return str_contains($filePath, 'routing') || str_contains($filePath, 'routes');
     }
 }
