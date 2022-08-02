@@ -50,6 +50,7 @@ final class StaticFixtureSplitter
             $prefix = isset($dir[1]) ? dirname($dir[1]) . '/' : '';
             $prefix = ltrim($prefix, '/\\');
         }
+
         $inputFileInfo = self::createTemporaryFileInfo(
             $smartFileInfo,
             $prefix . 'input',
