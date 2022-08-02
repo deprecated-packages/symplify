@@ -43,6 +43,10 @@ final class RequireInvokableControllerRule implements Rule, DocumentedRuleInterf
      */
     public function processNode(Node $node, Scope $scope): array
     {
+        if ($node->isMagic()) {
+            return [];
+        }
+
         if (! $this->symfonyControllerAnalyzer->isInControllerClass($scope)) {
             return [];
         }
