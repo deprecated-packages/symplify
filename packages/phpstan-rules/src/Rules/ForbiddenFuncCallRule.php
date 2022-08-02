@@ -84,17 +84,11 @@ final class ForbiddenFuncCallRule implements Rule, DocumentedRuleInterface, Conf
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    return eval('...');
-}
+echo eval('...');
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    return echo '...';
-}
+echo '...';
 CODE_SAMPLE
                 ,
                 [
@@ -103,18 +97,12 @@ CODE_SAMPLE
             ),
             new ConfiguredCodeSample(
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    dump('hello world');
-    return true;
-}
+dump($value);
+echo $value;
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-class SomeClass
-{
-    return true;
-}
+echo $value;
 CODE_SAMPLE
                 ,
                 [
