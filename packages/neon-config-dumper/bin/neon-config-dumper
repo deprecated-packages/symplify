@@ -1,5 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-require_once __DIR__ . '/neon-config-dumper.php';
-

@@ -87,7 +87,6 @@
                 "packages/monorepo-builder/packages",
                 "packages/monorepo-builder/src"
             ],
-            "Symplify\\NeonConfigDumper\\": "packages/neon-config-dumper/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanRules\\": [
                 "packages/phpstan-rules/packages",
@@ -138,7 +137,6 @@
                 "packages/monorepo-builder/packages-tests",
                 "packages/monorepo-builder/tests"
             ],
-            "Symplify\\NeonConfigDumper\\Tests\\": "packages/neon-config-dumper/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\Tests\\": [
                 "packages/phpstan-rules/packages-tests",
@@ -179,7 +177,6 @@
         "symplify/easy-parallel": "11.0.9",
         "symplify/easy-testing": "11.0.9",
         "symplify/monorepo-builder": "11.0.9",
-        "symplify/neon-config-dumper": "11.0.9",
         "symplify/package-builder": "11.0.9",
         "symplify/php-config-printer": "11.0.9",
         "symplify/phpstan-extensions": "11.0.9",
@@ -216,8 +213,7 @@
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --dry-run --ansi",
         "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
-        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi",
-        "dump-phpstan-services": "php packages/neon-config-dumper/bin/neon-config-dumper.php packages/phpstan-rules/src --output-file packages/phpstan-rules/config/services/generated-services.neon"
+        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
     },
     "config": {
         "sort-packages": true,
