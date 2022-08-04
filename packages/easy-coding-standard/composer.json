@@ -80,8 +80,7 @@
         "symplify/symfony-static-dumper": "<11.0.9",
         "symplify/monorepo-builder": "<11.0.9",
         "symplify/config-transformer": "<11.0.9",
-        "symplify/easy-ci": "<11.0.9",
-        "symplify/neon-config-dumper": "<11.0.9"
+        "symplify/easy-ci": "<11.0.9"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
