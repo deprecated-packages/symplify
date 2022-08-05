@@ -31,7 +31,7 @@ final class AmbiguousServiceFilter
 
     /**
      * @param array<string, string> $serviceTypesByName
-     * @return string[]
+     * @return int[]|string[]
      */
     private function resolveAmbiguousTypes(array $serviceTypesByName): array
     {

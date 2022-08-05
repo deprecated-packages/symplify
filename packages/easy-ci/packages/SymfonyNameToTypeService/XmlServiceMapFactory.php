@@ -36,7 +36,7 @@ final class XmlServiceMapFactory
         foreach ($xml->services->service as $def) {
             /** @var SimpleXMLElement $attrs */
             $attrs = $def->attributes();
-            if (! isset($attrs->id)) {
+            if (! (property_exists($attrs, 'id') && $attrs->id !== null)) {
                 continue;
             }
 
@@ -58,12 +58,7 @@ final class XmlServiceMapFactory
         if ($type === '') {
             return true;
         }
-
         // skip core services, we won't touch those
-        if (Strings::match($type, self::SYMFONY_NAMESPACE_REGEX)) {
-            return true;
-        }
-
-        return false;
+        return (bool) Strings::match($type, self::SYMFONY_NAMESPACE_REGEX);
     }
 }

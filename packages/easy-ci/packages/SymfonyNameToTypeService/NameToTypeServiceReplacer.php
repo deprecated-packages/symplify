@@ -51,10 +51,12 @@ final class NameToTypeServiceReplacer
         // replace service string-names with type-names
         foreach ($serviceMap as $serviceName => $serviceType) {
             // skip command and controller
-            if (str_ends_with($serviceType, 'Command') || str_ends_with($serviceName, 'Controller')) {
+            if (str_ends_with($serviceType, 'Command')) {
                 continue;
             }
-
+            if (str_ends_with($serviceName, 'Controller')) {
+                continue;
+            }
             $regexesToReplaces = $this->createRegexesToReplaces($serviceName, $serviceType);
 
             foreach ($regexesToReplaces as $regexPattern => $replace) {
@@ -78,20 +80,20 @@ final class NameToTypeServiceReplacer
         $doubleQuotedServiceType = preg_quote($singleQuotedServiceType);
 
         // A. service name
-        $desiredPattern = '#\b(' . preg_quote($serviceName) . '):#ms';
+        $desiredPattern = '#\b(' . preg_quote($serviceName, '#') . '):#ms';
         $newTypeName = $singleQuotedServiceType . ':';
 
         $regexesToReplaces[$desiredPattern] = $newTypeName;
 
         // B. service alias
-        $quotedNamePattern = '#"(' . preg_quote($serviceName) . ')"#ms';
+        $quotedNamePattern = '#"(' . preg_quote($serviceName, '#') . ')"#ms';
         // double slashed is needed to keep in quoted string
         $newQuotedName = '"' . $doubleQuotedServiceType . '"';
 
         $regexesToReplaces[$quotedNamePattern] = $newQuotedName;
 
         // C. service reference
-        $nameReferencePattern = '#@(' . preg_quote($serviceName) . ')#ms';
+        $nameReferencePattern = '#@(' . preg_quote($serviceName, '#') . ')#ms';
         $newReferencedType = '@' . $doubleQuotedServiceType;
 
         $regexesToReplaces[$nameReferencePattern] = $newReferencedType;
