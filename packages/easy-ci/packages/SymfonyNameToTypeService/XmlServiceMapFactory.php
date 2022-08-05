@@ -58,6 +58,7 @@ final class XmlServiceMapFactory
         if ($type === '') {
             return true;
         }
+
         // skip core services, we won't touch those
         return (bool) Strings::match($type, self::SYMFONY_NAMESPACE_REGEX);
     }

@@ -54,9 +54,11 @@ final class NameToTypeServiceReplacer
             if (str_ends_with($serviceType, 'Command')) {
                 continue;
             }
+
             if (str_ends_with($serviceName, 'Controller')) {
                 continue;
             }
+
             $regexesToReplaces = $this->createRegexesToReplaces($serviceName, $serviceType);
 
             foreach ($regexesToReplaces as $regexPattern => $replace) {
