@@ -1,0 +1,14 @@
+services:
+    some.name:
+        class: "App\\SomeType"
+
+    replace_alias:
+        alias: "some.name"
+
+    another_services:
+        arguments:
+            0: "@some.name"
+
+framework:
+    session:
+        handler_id: "some.name"
