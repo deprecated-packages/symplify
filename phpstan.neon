@@ -549,3 +549,8 @@ parameters:
         -
             message: '#Class name starting with "Abstract" must have an `abstract` keyword#'
             path: packages/php-config-printer/src/ServiceOptionConverter/AbstractServiceOptionKeyYamlToPhpFactory.php
+
+        # not neccesary complexity
+        -
+            path: packages/easy-ci/packages/SymfonyNameToTypeService/NameToTypeServiceReplacer.php
+            message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'

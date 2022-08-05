@@ -1,0 +1,6 @@
+security:
+    firewalls:
+        main:
+            guard:
+                authenticators:
+                    - "security.token_authenticator"
