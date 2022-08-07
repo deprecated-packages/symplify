@@ -1,4 +1,4 @@
-# 9 Rules Overview
+# 8 Rules Overview
 
 ## DibiMaskMatchesVariableTypeRule
 
@@ -220,43 +220,6 @@ class SomeClass
     public function __construct($someType)
     {
         $this->someType = $someType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## RequireTemplateInNetteControlRule
-
-Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/Nette/Rules/RequireTemplateInNetteControlRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render('some_file.latte');
     }
 }
 ```

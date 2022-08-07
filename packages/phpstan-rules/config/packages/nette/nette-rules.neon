@@ -1,11 +1,13 @@
 rules:
     # dibi
     - Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
+
     # templates
-    - Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
     - Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
+
     # components
     - Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule
+
     # inject
     - Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule
     - Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
