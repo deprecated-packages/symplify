@@ -12,7 +12,6 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -35,7 +34,6 @@ final class NoReturnSetterMethodRule implements Rule, DocumentedRuleInterface
     private const SETTER_START_REGEX = '#^set[A-Z]#';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
@@ -63,11 +61,7 @@ final class NoReturnSetterMethodRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
-        $classMethodName = $this->simpleNameResolver->getName($node);
-        if ($classMethodName === null) {
-            return [];
-        }
-
+        $classMethodName = $node->name->toString();
         if ($classMethodName === 'setUp') {
             return [];
         }

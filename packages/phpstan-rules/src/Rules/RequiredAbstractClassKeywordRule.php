@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Name;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -43,7 +42,7 @@ final class RequiredAbstractClassKeywordRule implements Rule, DocumentedRuleInte
         }
 
         // skip anonymous class
-        if (! $node->name instanceof Name) {
+        if (! $node->name instanceof Identifier) {
             return [];
         }
 

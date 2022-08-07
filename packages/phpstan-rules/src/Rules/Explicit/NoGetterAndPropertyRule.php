@@ -9,7 +9,6 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,11 +22,6 @@ final class NoGetterAndPropertyRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'There are 2 way to get "%s" value: public property and getter now - pick one to avoid variant behavior.';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-    ) {
-    }
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -106,12 +100,8 @@ CODE_SAMPLE
                 continue;
             }
 
-            $propertyName = $this->simpleNameResolver->getName($property);
-            if ($propertyName === null) {
-                continue;
-            }
-
-            $propertyNames[] = $propertyName;
+            $propertyProperty = $property->props[0];
+            $propertyNames[] = $propertyProperty->name->toString();
         }
 
         return $propertyNames;
@@ -128,12 +118,7 @@ CODE_SAMPLE
                 continue;
             }
 
-            $methodName = $this->simpleNameResolver->getName($classMethod);
-            if ($methodName === null) {
-                continue;
-            }
-
-            $methodNames[] = $methodName;
+            $methodNames[] = $classMethod->name->toString();
         }
 
         return $methodNames;

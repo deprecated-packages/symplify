@@ -7,13 +7,13 @@ namespace Symplify\PHPStanRules\Rules\Domain;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
 use PHPUnit\Framework\TestCase;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver;
 use Symplify\PHPStanRules\ValueObject\Duplicates\DuplicatedStringArg;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -46,7 +46,6 @@ final class EnumSpotterRule implements Rule, DocumentedRuleInterface
     private array $stringValuesByUniqueId = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private DuplicatedStringArgValueResolver $duplicatedStringArgValueResolver,
         private int $repeatedCountThreshold = 5,
     ) {
@@ -87,8 +86,7 @@ CODE_SAMPLE
             return [];
         }
 
-        $methodName = $this->simpleNameResolver->getName($node->name);
-        if ($methodName === null) {
+        if (! $node->name instanceof Identifier) {
             return [];
         }
 
@@ -96,6 +94,8 @@ CODE_SAMPLE
         if (! $callerType instanceof TypeWithClassName) {
             return [];
         }
+
+        $methodName = $node->name->toString();
 
         $this->collectArgStringValues($node, $callerType, $methodName, self::MIN_STRING_LENGTH);
 

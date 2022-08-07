@@ -10,7 +10,6 @@ use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -56,11 +55,7 @@ final class NoMethodTagInClassDocblockRule implements Rule, DocumentedRuleInterf
         }
 
         // enums are the only exception for annotation
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
-
+        $classReflection = $node->getClassReflection();
         if ($classReflection->isSubclassOf(Enum::class)) {
             return [];
         }

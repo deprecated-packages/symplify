@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -58,7 +57,7 @@ final class RequireNamedCommandRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->isInNonAbstractCommand($scope)) {
+        if (! $this->isInNonAbstractCommand($node)) {
             return [];
         }
 
@@ -128,13 +127,9 @@ CODE_SAMPLE
         return false;
     }
 
-    private function isInNonAbstractCommand(Scope $scope): bool
+    private function isInNonAbstractCommand(InClassNode $inClassNode): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
+        $classReflection = $inClassNode->getClassReflection();
         if ($classReflection->isAbstract()) {
             return false;
         }

@@ -14,7 +14,6 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -36,7 +35,6 @@ final class NoShortNameRule extends AbstractSymplifyRule implements Configurable
      * @param string[] $allowedShortNames
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private int $minNameLength,
         private array $allowedShortNames = ['i', 'j', 'y', 'z']
     ) {
@@ -113,11 +111,11 @@ CODE_SAMPLE
      */
     private function processVariable(Variable $variable): array
     {
-        $variableName = $this->simpleNameResolver->getName($variable);
-        if ($variableName === null) {
+        if (! is_string($variable->name)) {
             return [];
         }
 
+        $variableName = $variable->name;
         if ($this->isNameValid($variableName)) {
             return [];
         }

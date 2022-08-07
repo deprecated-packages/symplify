@@ -11,10 +11,10 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
-use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use SplFileInfo;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -33,7 +33,6 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
      * @param string[] $oldToPreferredClasses
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private array $oldToPreferredClasses
     ) {
     }
@@ -43,11 +42,11 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
      */
     public function getNodeTypes(): array
     {
-        return [New_::class, Name::class, Class_::class, StaticCall::class, Instanceof_::class];
+        return [New_::class, Name::class, InClassNode::class, StaticCall::class, Instanceof_::class];
     }
 
     /**
-     * @param New_|Name|Class_|StaticCall|Instanceof_ $node
+     * @param New_|Name|InClassNode|StaticCall|Instanceof_ $node
      * @return string[]
      */
     public function process(Node $node, Scope $scope): array
@@ -56,7 +55,7 @@ final class PreferredClassRule extends AbstractSymplifyRule implements Configura
             return $this->processNew($node);
         }
 
-        if ($node instanceof Class_) {
+        if ($node instanceof InClassNode) {
             return $this->processClass($node);
         }
 
@@ -105,28 +104,31 @@ CODE_SAMPLE
      */
     private function processNew(New_ $new): array
     {
-        $className = $this->simpleNameResolver->getName($new->class);
-        if ($className === null) {
+        if (! $new->class instanceof Name) {
             return [];
         }
 
+        $className = $new->class->toString();
         return $this->processClassName($className);
     }
 
     /**
      * @return string[]
      */
-    private function processClass(Class_ $class): array
+    private function processClass(InClassNode $inClassNode): array
     {
-        if ($class->extends === null) {
+        $classReflection = $inClassNode->getClassReflection();
+
+        $parentClassReflection = $classReflection->getParentClass();
+        if (! $parentClassReflection instanceof ClassReflection) {
             return [];
         }
 
-        $className = $this->simpleNameResolver->getName($class);
+        $className = $classReflection->getName();
 
-        $parentClass = $class->extends->toString();
+        $parentClassName = $parentClassReflection->getName();
         foreach ($this->oldToPreferredClasses as $oldClass => $prefferedClass) {
-            if ($parentClass !== $oldClass) {
+            if ($parentClassName !== $oldClass) {
                 continue;
             }
 

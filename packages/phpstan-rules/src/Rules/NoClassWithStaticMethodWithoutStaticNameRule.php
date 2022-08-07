@@ -6,13 +6,16 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
+use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -49,21 +52,30 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule, Docume
      */
     public function getNodeType(): string
     {
-        return Class_::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->isClassWithStaticMethod($node)) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
+            return [];
+        }
+
+        if (! $classLike->name instanceof Identifier) {
+            return [];
+        }
+
+        if (! $this->isClassWithStaticMethod($classLike)) {
             return [];
         }
 
         // skip anonymous class
-        $shortClassName = (string) $node->name;
+        $shortClassName = $classLike->name->toString();
         if ($shortClassName === '') {
             return [];
         }
@@ -124,14 +136,14 @@ CODE_SAMPLE
         return false;
     }
 
-    private function shouldSkipClassName(Class_ $class): bool
+    private function shouldSkipClassName(InClassNode $inClassNode): bool
     {
-        $className = $this->simpleNameResolver->getName($class);
-        if ($className === null) {
-            return true;
-        }
+        $classReflection = $inClassNode->getClassReflection();
 
-        return $this->arrayStringAndFnMatcher->isMatchWithIsA($className, self::ALLOWED_CLASS_TYPES);
+        return $this->arrayStringAndFnMatcher->isMatchWithIsA(
+            $classReflection->getName(),
+            self::ALLOWED_CLASS_TYPES
+        );
     }
 
     private function isStaticConstructorOfValueObject(ClassMethod $classMethod): bool

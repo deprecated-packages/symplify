@@ -43,6 +43,9 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
         'Nette\Neon\Traverser',
         'PHP_CodeSniffer\Fixer',
         'PhpCsFixer\Tokenizer\Tokens',
+        'Latte\Engine',
+        'React\Promise\Promise',
+        'React\Promise\PromiseInterface',
     ];
 
     public function __construct(
@@ -130,12 +133,11 @@ CODE_SAMPLE
             $methodCallReturnType = $methodCallReturnType->getStaticObjectType();
         }
 
+        $currentClassReflection = $scope->getClassReflection();
+
         if ($methodCallReturnType instanceof ObjectType) {
             // 3. skip self static call
-            $currentClassReflection = $scope->getClassReflection();
-            if ($currentClassReflection instanceof ClassReflection && $currentClassReflection->getName() === $methodCallReturnType->getClassName()) {
-                return true;
-            }
+            return $currentClassReflection instanceof ClassReflection && $currentClassReflection->getName() === $methodCallReturnType->getClassName();
         }
 
         $callerType = $scope->getType($methodCall->var);

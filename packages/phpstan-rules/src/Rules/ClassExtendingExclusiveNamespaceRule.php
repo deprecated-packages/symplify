@@ -6,12 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Json;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
-use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
 use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -33,8 +31,6 @@ final class ClassExtendingExclusiveNamespaceRule implements ConfigurableRuleInte
      * @param array<string, array<string>> $guards
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-        private ReflectionProvider $reflectionProvider,
         private ClassLikeNameMatcher $classLikeNameMatcher,
         private ClassLikeNameFinder $classLikeNameFinder,
         private array $guards
@@ -46,26 +42,23 @@ final class ClassExtendingExclusiveNamespaceRule implements ConfigurableRuleInte
      */
     public function getNodeType(): string
     {
-        return ClassLike::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassLike $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classLikeName = $this->simpleNameResolver->getName($node);
-        if ($classLikeName === null) {
-            return [];
-        }
+        $classReflection = $node->getClassReflection();
+        $classLikeName = $classReflection->getName();
 
         $namespace = $scope->getNamespace();
         if ($namespace === null) {
             return [];
         }
 
-        $classReflection = $this->reflectionProvider->getClass($classLikeName);
         foreach ($this->guards as $guardedTypeOrNamespacePattern => $allowedNamespacePatterns) {
             if (! $this->isSubjectToGuardedTypeOrNamespacePattern($classReflection, $guardedTypeOrNamespacePattern)) {
                 continue;

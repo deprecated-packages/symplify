@@ -6,11 +6,11 @@ namespace Symplify\PHPStanRules\CognitiveComplexity\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -34,7 +34,6 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
     public function __construct(
         private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
         private CompositionOverInheritanceAnalyzer $compositionOverInheritanceAnalyzer,
-        private SimpleNameResolver $simpleNameResolver,
         private int $maxClassCognitiveComplexity = 50,
         private array $limitsByTypes = [],
         private bool $scoreCompositionOverInheritance = false
@@ -46,26 +45,29 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
      */
     public function getNodeType(): string
     {
-        return ClassLike::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassLike $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $node instanceof Class_) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
+        $classReflection = $node->getClassReflection();
+
         if ($this->scoreCompositionOverInheritance) {
-            $measuredCognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($node);
+            $measuredCognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($classLike);
         } else {
-            $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($node);
+            $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($classLike);
         }
 
-        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($node);
+        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($classReflection);
         if ($measuredCognitiveComplexity <= $allowedCognitiveComplexity) {
             return [];
         }
@@ -175,12 +177,9 @@ CODE_SAMPLE
         );
     }
 
-    private function resolveAllowedCognitiveComplexity(Class_ $class): int
+    private function resolveAllowedCognitiveComplexity(ClassReflection $classReflection): int
     {
-        $className = $this->simpleNameResolver->getName($class);
-        if ($className === null) {
-            return $this->maxClassCognitiveComplexity;
-        }
+        $className = $classReflection->getName();
 
         foreach ($this->limitsByTypes as $type => $limit) {
             if (is_a($className, $type, true)) {

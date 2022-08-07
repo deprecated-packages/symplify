@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
@@ -68,7 +69,11 @@ final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInter
             return [];
         }
 
-        $templateVariableName = $this->simpleNameResolver->getName($node->name);
+        if (! $node->name instanceof Identifier) {
+            return [];
+        }
+
+        $templateVariableName = $node->name->toString();
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $templateVariableName, $templateVariableName);
         return [$errorMessage];

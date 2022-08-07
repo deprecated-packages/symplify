@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\Trait_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -30,7 +29,6 @@ final class NoEmptyClassRule implements Rule, DocumentedRuleInterface
     public const ERROR_MESSAGE = 'There should be no empty class';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ReflectionProvider $reflectionProvider
     ) {
     }
@@ -55,11 +53,11 @@ final class NoEmptyClassRule implements Rule, DocumentedRuleInterface
         }
 
         // skip attribute
-        if ($this->isAttributeClass($scope)) {
+        if ($this->isAttributeClass($node)) {
             return [];
         }
 
-        if ($this->shouldSkipClassLike($classLike)) {
+        if ($this->shouldSkipClassLike($classLike, $node)) {
             return [];
         }
 
@@ -88,18 +86,14 @@ CODE_SAMPLE
         ]);
     }
 
-    private function shouldSkipClassLike(ClassLike $classLike): bool
+    private function shouldSkipClassLike(ClassLike $classLike, InClassNode $inClassNode): bool
     {
         if (! $classLike instanceof Class_ && ! $classLike instanceof Trait_) {
             return true;
         }
 
-        $className = $this->simpleNameResolver->getName($classLike);
-        if ($className === null) {
-            return true;
-        }
-
-        if (is_a($className, Throwable::class, true)) {
+        $classReflection = $inClassNode->getClassReflection();
+        if ($classReflection->isSubclassOf(Throwable::class)) {
             return true;
         }
 
@@ -124,26 +118,19 @@ CODE_SAMPLE
             return false;
         }
 
-        if ($classLike->extends === null) {
+        if (! $classLike->extends instanceof Name) {
             return false;
         }
 
-        $parentClass = $this->simpleNameResolver->getName($classLike->extends);
-        if ($parentClass === null) {
-            return false;
-        }
-
+        $parentClass = $classLike->extends->toString();
         $parentClassReflection = $this->reflectionProvider->getClass($parentClass);
+
         return $parentClassReflection->isAbstract();
     }
 
-    private function isAttributeClass(Scope $scope): bool
+    private function isAttributeClass(InClassNode $inClassNode): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
+        $classReflection = $inClassNode->getClassReflection();
         return $classReflection->isAttributeClass();
     }
 }

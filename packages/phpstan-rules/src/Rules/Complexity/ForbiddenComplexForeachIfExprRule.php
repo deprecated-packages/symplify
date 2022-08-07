@@ -10,6 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Do_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\For_;
@@ -20,7 +21,6 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\BooleanType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\PHPStanRules\Rules\AbstractSymplifyRule;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -49,7 +49,6 @@ final class ForbiddenComplexForeachIfExprRule extends AbstractSymplifyRule
     public function __construct(
         private NodeFinder $nodeFinder,
         private ContainsTypeAnalyser $containsTypeAnalyser,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -130,8 +129,12 @@ CODE_SAMPLE
     private function isAllowedCallerType(Scope $scope, StaticCall | MethodCall $node): bool
     {
         if ($node instanceof StaticCall) {
-            $className = $this->simpleNameResolver->getName($node->class);
-            return in_array($className, self::ALLOWED_CLASS_TYPES, true);
+            if ($node->class instanceof Name) {
+                $className = $node->class->toString();
+                return in_array($className, self::ALLOWED_CLASS_TYPES, true);
+            }
+
+            return false;
         }
 
         return $this->containsTypeAnalyser->containsExprTypes($node->var, $scope, self::ALLOWED_CLASS_TYPES);

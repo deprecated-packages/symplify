@@ -73,8 +73,7 @@ final class ForbiddenInlineClassMethodRule implements Rule, DocumentedRuleInterf
                 continue;
             }
 
-            /** @var string $methodName */
-            $methodName = $this->simpleNameResolver->getName($classMethod->name);
+            $methodName = $classMethod->name->toString();
 
             // this method is called just once in the rest of project
             $usedMethodCalls = $this->findMethodCalls($classLike, $methodName);
