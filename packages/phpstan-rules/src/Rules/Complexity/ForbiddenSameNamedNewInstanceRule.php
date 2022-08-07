@@ -16,7 +16,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPUnit\Framework\TestCase;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;

@@ -11,11 +11,12 @@ use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -37,7 +38,6 @@ final class ForbiddenArrayDestructRule implements Rule, DocumentedRuleInterface
     private const VENDOR_DIRECTORY_REGEX = '#/vendor/#';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ReflectionProvider $reflectionProvider
     ) {
     }
@@ -109,7 +109,7 @@ CODE_SAMPLE
     private function isAllowedCall(Assign $assign): bool
     {
         // "explode()" is allowed
-        if ($assign->expr instanceof FuncCall && $this->simpleNameResolver->isName($assign->expr->name, 'explode')) {
+        if ($assign->expr instanceof FuncCall && $assign->expr->name instanceof Name && $assign->expr->name->toString() === 'explode') {
             return true;
         }
 
@@ -118,7 +118,12 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->simpleNameResolver->isName($assign->expr->name, 'split');
+        $staticCall = $assign->expr;
+        if (! $staticCall->name instanceof Identifier) {
+            return false;
+        }
+
+        return $staticCall->name->toString() === 'split';
     }
 
     private function isVendorProvider(Assign $assign, Scope $scope): bool

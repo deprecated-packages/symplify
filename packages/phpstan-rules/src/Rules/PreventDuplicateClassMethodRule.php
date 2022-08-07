@@ -12,7 +12,6 @@ use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
@@ -47,7 +46,6 @@ final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInter
     private array $classMethodContents = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
         private TypeChecker $typeChecker,
         private int $minimumLineCount = 3
@@ -190,7 +188,7 @@ CODE_SAMPLE
 
     private function isConstructorOrInTestClass(ClassMethod $classMethod, string $className): bool
     {
-        if ($this->simpleNameResolver->isName($classMethod->name, MethodName::CONSTRUCTOR)) {
+        if ($classMethod->name->toString() === MethodName::CONSTRUCTOR) {
             return true;
         }
 

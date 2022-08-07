@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -13,7 +16,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use Symfony\Component\Console\Command\Command;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -37,7 +39,6 @@ final class RequireNamedCommandRule implements Rule, DocumentedRuleInterface
     private const COMMAND_ATTRIBUTE = 'Symfony\Component\Console\Attribute\AsCommand';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private AttributeFinder $attributeFinder,
         private NodeFinder $nodeFinder
     ) {
@@ -113,11 +114,15 @@ CODE_SAMPLE
         $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
 
         foreach ($methodCalls as $methodCall) {
-            if (! $this->simpleNameResolver->isName($methodCall->var, 'this')) {
+            if (! $this->isVariableThis($methodCall->var)) {
                 continue;
             }
 
-            if (! $this->simpleNameResolver->isName($methodCall->name, 'setName')) {
+            if (! $methodCall->name instanceof Identifier) {
+                continue;
+            }
+
+            if ($methodCall->name->toString() !== 'setName') {
                 continue;
             }
 
@@ -145,5 +150,18 @@ CODE_SAMPLE
         }
 
         return $this->containsSetNameMethodCall($configureClassMethod);
+    }
+
+    private function isVariableThis(Expr $expr): bool
+    {
+        if (! $expr instanceof Variable) {
+            return false;
+        }
+
+        if (! is_string($expr->name)) {
+            return false;
+        }
+
+        return $expr->name === 'this';
     }
 }

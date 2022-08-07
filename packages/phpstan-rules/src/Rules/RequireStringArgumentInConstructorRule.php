@@ -8,10 +8,10 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -34,7 +34,6 @@ final class RequireStringArgumentInConstructorRule implements Rule, DocumentedRu
      * @param array<class-string, array<int>> $stringArgPositionsByType
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ContainsTypeAnalyser $containsTypeAnalyser,
         private array $stringArgPositionsByType
     ) {
@@ -128,6 +127,11 @@ CODE_SAMPLE
             return true;
         }
 
-        return ! $this->simpleNameResolver->isName($classConstFetch->name, 'class');
+        if (! $classConstFetch->name instanceof Identifier) {
+            return true;
+        }
+
+        $classConstName = $classConstFetch->name->toString();
+        return $classConstName !== 'class';
     }
 }

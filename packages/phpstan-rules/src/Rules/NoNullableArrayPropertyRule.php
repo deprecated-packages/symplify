@@ -9,7 +9,6 @@ use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,11 +22,6 @@ final class NoNullableArrayPropertyRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Use required typed property over of nullable array property';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -47,8 +41,8 @@ final class NoNullableArrayPropertyRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
-        $type = $node->type->type;
-        if (! $this->simpleNameResolver->isName($type, 'array')) {
+        $typeName = $node->type->type->toString();
+        if ($typeName !== 'array') {
             return [];
         }
 

@@ -7,12 +7,12 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Throw_;
 use PhpParser\Node\Expr\Yield_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -40,7 +40,6 @@ final class NoVoidGetterMethodRule implements Rule, DocumentedRuleInterface
     ];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
@@ -72,7 +71,7 @@ final class NoVoidGetterMethodRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
-        if (! $this->simpleNameResolver->isName($node, 'get*')) {
+        if (! str_starts_with($node->name->toString(), 'get')) {
             return [];
         }
 
@@ -132,6 +131,10 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->simpleNameResolver->isName($classMethod->returnType, 'void');
+        if (! $classMethod->returnType instanceof Identifier) {
+            return false;
+        }
+
+        return $classMethod->returnType->toString() === 'void';
     }
 }

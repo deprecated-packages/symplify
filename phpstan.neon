@@ -197,11 +197,12 @@ parameters:
 
         - '#\$this as argument is not allowed\. Refactor method to service composition#'
         -
-            message: '#Class cognitive complexity is \d+, keep it under 25#'
+            message: '#Class cognitive complexity is \d+, keep it under \d+#'
             paths:
                  # traversing is complex operatoin
                  - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
+                 - packages/phpstan-rules/packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
 
@@ -349,7 +350,6 @@ parameters:
                 - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
 
         # is never string
-        - '#Parameter \#2 \$actualString of method PHPUnit\\Framework\\Assert\:\:assertStringEqualsFile\(\) expects string, string\|null given#'
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
 
         - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
@@ -525,9 +525,6 @@ parameters:
             message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
             path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
 
-        # mixed collector arrays
-        - '#Method Symplify\\PHPStanRules\\Collector\\(.*?)NameCollector\:\:processNode\(\) should return (.*?)#'
-
         # partial enum
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:(getBlockTypeByContent|getBlockTypeByToken)\(\) never returns \d+ so it can be removed from the return type#'
 
@@ -538,11 +535,6 @@ parameters:
 
         -
             message: '#Method Symplify\\Astral\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) should return \(TNode of PhpParser\\Node\)\|null but returns PhpParser\\Node\|null#'
-            path: packages/astral/src/TypeAwareNodeFinder.php
-
-        # false positive
-        -
-            message: '#Parameters should use "PhpParser\\Node\\Expr\|string" types as the only types passed to this method#'
             path: packages/astral/src/TypeAwareNodeFinder.php
 
         # on purpose as the "abstract" is the keyword of method name :)

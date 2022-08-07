@@ -15,7 +15,6 @@ use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Serializable;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
 use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
@@ -37,7 +36,6 @@ final class ValueObjectOverArrayShapeRule implements Rule, DocumentedRuleInterfa
     public function __construct(
         private SimplePhpDocParser $simplePhpDocParser,
         private PhpDocNodeTraverser $phpDocNodeTraverser,
-        private SimpleNameResolver $simpleNameResolver,
     ) {
     }
 
@@ -103,7 +101,7 @@ CODE_SAMPLE
         }
 
         // constructor is allowed, as API entrance
-        if ($node instanceof ClassMethod && $this->simpleNameResolver->isName($node, MethodName::CONSTRUCTOR)) {
+        if ($node instanceof ClassMethod && $node->name->toString() === MethodName::CONSTRUCTOR) {
             return [];
         }
 

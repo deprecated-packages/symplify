@@ -8,12 +8,12 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,11 +27,6 @@ final class RequireNativeArraySymfonyRenderCallRule implements Rule, DocumentedR
      * @var string
      */
     public const ERROR_MESSAGE = 'Second argument of $this->render("template.twig", [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -47,7 +42,11 @@ final class RequireNativeArraySymfonyRenderCallRule implements Rule, DocumentedR
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node->name, 'render')) {
+        if (! $node->name instanceof Identifier) {
+            return [];
+        }
+
+        if ($node->name->toString() !== 'render') {
             return [];
         }
 

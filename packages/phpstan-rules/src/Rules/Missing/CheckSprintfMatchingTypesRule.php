@@ -7,12 +7,11 @@ namespace Symplify\PHPStanRules\Rules\Missing;
 use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\Constant\ConstantStringType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver;
 use Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer;
 use Symplify\PHPStanRules\TypeResolver\ArgTypeResolver;
@@ -38,7 +37,6 @@ final class CheckSprintfMatchingTypesRule implements Rule, DocumentedRuleInterfa
     private const SPECIFIERS = '[bcdeEfFgGosuxX%s]';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private SprintfSpecifierTypeResolver $sprintfSpecifierTypeResolver,
         private MatchingTypeAnalyzer $matchingTypeAnalyzer,
         private ArgTypeResolver $argTypeResolver,
@@ -59,16 +57,18 @@ final class CheckSprintfMatchingTypesRule implements Rule, DocumentedRuleInterfa
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node, 'sprintf')) {
+        if (! $node->name instanceof Name) {
             return [];
         }
 
-        $argOrVariadicPlaceholder = $node->args[0];
-        if (! $argOrVariadicPlaceholder instanceof Arg) {
+        $funcCallName = $node->name->toString();
+        if ($funcCallName !== 'sprintf') {
             return [];
         }
 
-        $formatArgType = $scope->getType($argOrVariadicPlaceholder->value);
+        $firstArg = $node->getArgs()[0];
+        $formatArgType = $scope->getType($firstArg->value);
+
         if (! $formatArgType instanceof ConstantStringType) {
             return [];
         }
