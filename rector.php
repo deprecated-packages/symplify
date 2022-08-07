@@ -37,6 +37,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Symplify\EasyCodingStandard\Config\ECSConfig',
         'Symfony\Contracts\Service\Attribute\Required',
         'Symfony\Component\Routing\Annotation\Route',
+        'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
         'Rector\Config\RectorConfig',
     ]);
 

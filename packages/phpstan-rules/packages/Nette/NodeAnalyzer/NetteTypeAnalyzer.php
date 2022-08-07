@@ -9,7 +9,7 @@ use Nette\Application\UI\Template;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
 
 /**
@@ -29,7 +29,6 @@ final class NetteTypeAnalyzer
     ];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
@@ -63,22 +62,12 @@ final class NetteTypeAnalyzer
      */
     public function isInsideComponentContainer(Scope $scope): bool
     {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
         // this type has getComponent() method
-        return is_a($className, 'Nette\ComponentModel\Container', true);
-    }
-
-    public function isInsideControl(Scope $scope): bool
-    {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
-            return false;
-        }
-
-        return is_a($className, 'Nette\Application\UI\Control', true);
+        return $classReflection->isSubclassOf('Nette\ComponentModel\Container');
     }
 }

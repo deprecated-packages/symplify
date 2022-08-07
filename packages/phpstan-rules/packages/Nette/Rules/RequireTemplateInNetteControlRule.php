@@ -10,8 +10,10 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,7 +30,6 @@ final class RequireTemplateInNetteControlRule implements Rule, DocumentedRuleInt
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
     }
 
@@ -37,29 +38,39 @@ final class RequireTemplateInNetteControlRule implements Rule, DocumentedRuleInt
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->netteTypeAnalyzer->isInsideControl($scope)) {
+        $classReflection = $node->getClassReflection();
+        if (! $classReflection->isSubclassOf('Nette\Application\UI\Control')) {
             return [];
         }
 
-        $classMethodName = $node->name->toString();
-        if ($classMethodName !== 'render' && ! str_starts_with($classMethodName, 'render')) {
-            return [];
+        $classLike = $node->getOriginalNode();
+        foreach ($classLike->getMethods() as $classMethod) {
+            $classMethodName = $classMethod->name->toString();
+            if ($classMethodName !== 'render' && ! str_starts_with($classMethodName, 'render')) {
+                continue;
+            }
+
+            if ($this->hasTemplateSet($classMethod)) {
+                continue;
+            }
+
+            $ruleError = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($classMethod->getLine())
+                ->build();
+
+            return [$ruleError];
         }
 
-        if ($this->hasTemplateSet($node)) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return [];
     }
 
     public function getRuleDefinition(): RuleDefinition
