@@ -17,9 +17,7 @@ final class AttributeKey
     public const KIND = 'kind';
 
     /**
-     * PHPStan @api Do not change, part of internal PHPStan naming public const STATEMENT_DEPTH = 'statementDepth';
-     *
-     * /** Used by php-parser, do not change
+     * Used by php-parser, do not change
      *
      * @var string
      */

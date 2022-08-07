@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\Naming;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
@@ -60,6 +59,9 @@ final class SimpleNameResolver
         return null;
     }
 
+    /**
+     * @api
+     */
     public function isName(string | Node $node, string $desiredName): bool
     {
         $name = $this->getName($node);
@@ -72,31 +74,5 @@ final class SimpleNameResolver
         }
 
         return $name === $desiredName;
-    }
-
-    /**
-     * @api
-     */
-    public function areNamesEqual(Node $firstNode, Node $secondNode): bool
-    {
-        $firstName = $this->getName($firstNode);
-        if ($firstName === null) {
-            return false;
-        }
-
-        return $this->isName($secondNode, $firstName);
-    }
-
-    /**
-     * @api
-     */
-    public function isNameMatch(Node $node, string $desiredNameRegex): bool
-    {
-        $name = $this->getName($node);
-        if ($name === null) {
-            return false;
-        }
-
-        return (bool) Strings::match($name, $desiredNameRegex);
     }
 }

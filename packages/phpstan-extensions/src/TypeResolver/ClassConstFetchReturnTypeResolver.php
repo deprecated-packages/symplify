@@ -7,25 +7,17 @@ namespace Symplify\PHPStanExtensions\TypeResolver;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symplify\Astral\Exception\ShouldNotHappenException;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 
 final class ClassConstFetchReturnTypeResolver
 {
-    private SimpleNameResolver $simpleNameResolver;
-
-    public function __construct()
-    {
-        // intentionally manual here, to prevent double service registration caused by nette/di
-        $this->simpleNameResolver = SimpleNameResolverStaticFactory::create();
-    }
-
     public function resolve(MethodReflection $methodReflection, MethodCall $methodCall): Type
     {
         $returnType = ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
@@ -44,7 +36,11 @@ final class ClassConstFetchReturnTypeResolver
             return new MixedType();
         }
 
-        $className = $this->simpleNameResolver->getName($firstValue);
+        $className = null;
+        if ($firstValue->class instanceof Name && ($firstValue->name instanceof Identifier && $firstValue->name->toString() === 'class')) {
+            $className = $firstValue->class->toString();
+        }
+
         if ($className !== null) {
             return new ObjectType($className);
         }

@@ -10,7 +10,6 @@ use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
@@ -25,7 +24,6 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
     private const EXCLUDED_FUNC_NAMES = ['pg_*'];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ConstExprEvaluator $constExprEvaluator
     ) {
     }
@@ -40,7 +38,7 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
      */
     public function resolve(Expr $expr, string $currentFilePath): mixed
     {
-        if ($this->simpleNameResolver->isName($expr, 'getcwd')) {
+        if ($expr->name instanceof Name && $expr->name->toString() === 'getcwd') {
             return dirname($currentFilePath);
         }
 

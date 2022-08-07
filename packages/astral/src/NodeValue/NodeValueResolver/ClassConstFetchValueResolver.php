@@ -7,9 +7,10 @@ namespace Symplify\Astral\NodeValue\NodeValueResolver;
 use PhpParser\ConstExprEvaluationException;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use ReflectionClassConstant;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
@@ -18,11 +19,6 @@ use Symplify\Astral\Naming\SimpleNameResolver;
  */
 final class ClassConstFetchValueResolver implements NodeValueResolverInterface
 {
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-    ) {
-    }
-
     public function getType(): string
     {
         return ClassConstFetch::class;
@@ -33,22 +29,21 @@ final class ClassConstFetchValueResolver implements NodeValueResolverInterface
      */
     public function resolve(Expr $expr, string $currentFilePath): mixed
     {
-        $className = $this->simpleNameResolver->getName($expr->class);
+        if (! $expr->class instanceof Name) {
+            return null;
+        }
 
+        $className = $expr->class->toString();
         if ($className === 'self') {
             // unable to resolve
             throw new ConstExprEvaluationException('Unable to resolve self class constant');
         }
 
-        if ($className === null) {
+        if (! $expr->name instanceof Identifier) {
             return null;
         }
 
-        $constantName = $this->simpleNameResolver->getName($expr->name);
-        if ($constantName === null) {
-            return null;
-        }
-
+        $constantName = $expr->name->toString();
         if ($constantName === 'class') {
             return $className;
         }

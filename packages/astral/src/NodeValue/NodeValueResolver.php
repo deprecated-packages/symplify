@@ -14,7 +14,6 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
 use Symplify\Astral\Exception\ShouldNotHappenException;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\FuncCallValueResolver;
@@ -36,15 +35,14 @@ final class NodeValueResolver
     private array $nodeValueResolvers = [];
 
     public function __construct(
-        SimpleNameResolver $simpleNameResolver,
         private TypeChecker $typeChecker
     ) {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
 
-        $this->nodeValueResolvers[] = new ClassConstFetchValueResolver($simpleNameResolver);
-        $this->nodeValueResolvers[] = new ConstFetchValueResolver($simpleNameResolver);
+        $this->nodeValueResolvers[] = new ClassConstFetchValueResolver();
+        $this->nodeValueResolvers[] = new ConstFetchValueResolver();
         $this->nodeValueResolvers[] = new MagicConstValueResolver();
-        $this->nodeValueResolvers[] = new FuncCallValueResolver($simpleNameResolver, $this->constExprEvaluator);
+        $this->nodeValueResolvers[] = new FuncCallValueResolver($this->constExprEvaluator);
     }
 
     public function resolve(Expr $expr, string $filePath): mixed
