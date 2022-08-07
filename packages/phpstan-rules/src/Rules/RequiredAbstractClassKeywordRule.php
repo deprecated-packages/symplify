@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -22,11 +22,6 @@ final class RequiredAbstractClassKeywordRule implements Rule, DocumentedRuleInte
      * @var string
      */
     public const ERROR_MESSAGE = 'Class name starting with "Abstract" must have an `abstract` keyword';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -46,11 +41,12 @@ final class RequiredAbstractClassKeywordRule implements Rule, DocumentedRuleInte
             return [];
         }
 
-        $shortClassName = $this->simpleNameResolver->resolveShortNameFromNode($node);
-        if ($shortClassName === null) {
+        // skip anonymous class
+        if (! $node->name instanceof Identifier) {
             return [];
         }
 
+        $shortClassName = $node->name->toString();
         if (! \str_starts_with($shortClassName, 'Abstract')) {
             return [];
         }

@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,7 +25,6 @@ final class ForbiddenNestedCallInAssertMethodCallRule implements Rule, Documente
     public const ERROR_MESSAGE = 'Decouple method call in assert to standalone line to make test core more readable';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder
     ) {
     }
@@ -44,21 +43,21 @@ final class ForbiddenNestedCallInAssertMethodCallRule implements Rule, Documente
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $methodName = $this->simpleNameResolver->getName($node->name);
-        if ($methodName === null) {
+        if (! $node->name instanceof Identifier) {
             return [];
         }
 
+        $methodName = $node->name->toString();
         if ($this->shouldSkipMethodName($methodName, $node)) {
             return [];
         }
 
-        $argMethodCall = $this->nodeFinder->findFirstInstanceOf($node->args[1], MethodCall::class);
+        $argMethodCall = $this->nodeFinder->findFirstInstanceOf($node->getArgs()[1], MethodCall::class);
         if (! $argMethodCall instanceof MethodCall) {
             return [];
         }
 
-        if ($argMethodCall->args === []) {
+        if ($argMethodCall->getArgs() === []) {
             return [];
         }
 

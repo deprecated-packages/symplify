@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\NoEmptyClassRule\Source;
 
-abstract class AnInterface
+interface AnInterface
 {
 
 }

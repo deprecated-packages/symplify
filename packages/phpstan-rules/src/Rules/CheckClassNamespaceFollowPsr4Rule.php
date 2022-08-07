@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Composer\ClassNamespaceMatcher;
 use Symplify\PHPStanRules\Composer\ComposerAutoloadResolver;
 use Symplify\PHPStanRules\Composer\Psr4PathValidator;
@@ -33,7 +32,6 @@ final class CheckClassNamespaceFollowPsr4Rule implements Rule, DocumentedRuleInt
     private array $autoloadPsr4Paths = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         ComposerAutoloadResolver $composerAutoloadResolver,
         private Psr4PathValidator $psr4PathValidator,
         private ClassNamespaceMatcher $classNamespaceMatcher
@@ -59,7 +57,7 @@ final class CheckClassNamespaceFollowPsr4Rule implements Rule, DocumentedRuleInt
             return [];
         }
 
-        $namespaceBeforeClass = $this->resolveNamespaceBeforeClass($node);
+        $namespaceBeforeClass = $this->resolveNamespaceBeforeClass($node, $scope);
         if ($namespaceBeforeClass === null) {
             return [];
         }
@@ -117,23 +115,12 @@ CODE_SAMPLE
         ]);
     }
 
-    private function resolveNamespacePartOfClass(string $className, string $shortClassName): string
+    private function resolveNamespaceBeforeClass(ClassLike $classLike, Scope $scope): ?string
     {
-        return Strings::substring($className, 0, -strlen($shortClassName));
-    }
-
-    private function resolveNamespaceBeforeClass(ClassLike $classLike): ?string
-    {
-        $className = $this->simpleNameResolver->getName($classLike);
-        if ($className === null) {
+        if (! $classLike->name instanceof Identifier) {
             return null;
         }
 
-        $shortClassName = $this->simpleNameResolver->resolveShortNameFromNode($classLike);
-        if ($shortClassName === null) {
-            return null;
-        }
-
-        return $this->resolveNamespacePartOfClass($className, $shortClassName);
+        return $scope->getNamespace() . '\\';
     }
 }

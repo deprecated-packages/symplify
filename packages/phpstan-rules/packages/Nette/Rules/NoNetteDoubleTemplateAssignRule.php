@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
@@ -129,11 +130,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            $variableName = $this->simpleNameResolver->getName($templatePropertyFetch->name);
-            if ($variableName === null) {
+            if (! $templatePropertyFetch->name instanceof Identifier) {
                 continue;
             }
 
+            $variableName = $templatePropertyFetch->name->toString();
             if (in_array($variableName, $assignedTemplateVariableNames, true)) {
                 $duplicatedTemplateNames[] = $variableName;
             }

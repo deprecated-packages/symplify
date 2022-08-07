@@ -12,7 +12,6 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\BooleanType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Naming\BoolishNameAnalyser;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
 use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
@@ -31,7 +30,6 @@ final class BoolishClassMethodPrefixRule implements Rule, DocumentedRuleInterfac
     public const ERROR_MESSAGE = 'Method "%s()" returns bool type, so the name should start with is/has/was...';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private BoolishNameAnalyser $boolishNameAnalyser,
         private ReturnNodeFinder $returnNodeFinder,
         private ParentClassMethodGuard $parentClassMethodGuard
@@ -94,8 +92,7 @@ CODE_SAMPLE
 
     private function shouldSkip(ClassMethod $classMethod, Scope $scope, ClassReflection $classReflection): bool
     {
-        /** @var string $classMethodName */
-        $classMethodName = $this->simpleNameResolver->getName($classMethod);
+        $classMethodName = $classMethod->name->toString();
 
         if ($this->parentClassMethodGuard->isClassMethodGuardedByParentClassMethod($classMethod, $scope)) {
             return true;

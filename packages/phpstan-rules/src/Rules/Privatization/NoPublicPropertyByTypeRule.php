@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -46,7 +45,7 @@ final class NoPublicPropertyByTypeRule implements Rule, DocumentedRuleInterface,
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->isClassMatch($scope)) {
+        if (! $this->isClassMatch($node)) {
             return [];
         }
 
@@ -103,13 +102,9 @@ CODE_SAMPLE
         return false;
     }
 
-    private function isClassMatch(Scope $scope): bool
+    private function isClassMatch(InClassNode $inClassNode): bool
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return false;
-        }
-
+        $classReflection = $inClassNode->getClassReflection();
         if (! $classReflection->isClass()) {
             return false;
         }

@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -55,20 +55,18 @@ final class NoDuplicatedShortClassNameRule implements Rule, DocumentedRuleInterf
      */
     public function getNodeType(): string
     {
-        return ClassLike::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassLike $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $className = $this->simpleNameResolver->getName($node);
-        if ($className === null) {
-            return [];
-        }
+        $classReflection = $node->getClassReflection();
 
+        $className = $classReflection->getName();
         if ($this->isAllowedClass($className)) {
             return [];
         }

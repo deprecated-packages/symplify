@@ -14,7 +14,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeFinder\ReturnNodeFinder;
 use Symplify\PHPStanRules\Reflection\MethodNodeAnalyser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -34,7 +33,6 @@ final class RequireSpecificReturnTypeOverAbstractRule implements Rule, Documente
     public function __construct(
         private ReturnNodeFinder $returnNodeFinder,
         private MethodNodeAnalyser $methodNodeAnalyser,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -101,8 +99,7 @@ CODE_SAMPLE
             return [];
         }
 
-        /** @var string $methodName */
-        $methodName = $this->simpleNameResolver->getName($node);
+        $methodName = $node->name->toString();
         if ($this->methodNodeAnalyser->hasParentVendorLock($scope, $methodName)) {
             return [];
         }

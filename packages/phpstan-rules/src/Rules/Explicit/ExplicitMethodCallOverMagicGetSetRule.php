@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
@@ -119,10 +120,11 @@ CODE_SAMPLE
             return [];
         }
 
-        $propertyName = $this->simpleNameResolver->getName($node->name);
-        if ($propertyName === null) {
+        if (! $node->name instanceof Identifier) {
             return [];
         }
+
+        $propertyName = $node->name->toString();
 
         // has public native property?
         if ($this->publicClassReflectionAnalyzer->hasPublicNativeProperty($callerClassReflection, $propertyName)) {

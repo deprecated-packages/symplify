@@ -67,10 +67,10 @@ final class StaticCallNodeAnalyzer
     private function resolveStaticCallCallerType(StaticCall $staticCall, Scope $scope): Type
     {
         if ($staticCall->class instanceof Name) {
-            $className = $this->simpleNameResolver->getName($staticCall->class);
-            if ($className === null) {
-                return new MixedType();
-            }
+            $className = $staticCall->class->toString();
+//            if ($className === null) {
+//                return new MixedType();
+//            }
 
             return new ObjectType($className);
         }

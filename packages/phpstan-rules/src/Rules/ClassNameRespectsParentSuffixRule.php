@@ -10,13 +10,14 @@ use PhpCsFixer\Fixer\FixerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
 use Rector\Core\Rector\AbstractRector;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Naming\ClassToSuffixResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -58,7 +59,6 @@ final class ClassNameRespectsParentSuffixRule implements Rule, DocumentedRuleInt
      */
     public function __construct(
         private ClassToSuffixResolver $classToSuffixResolver,
-        private SimpleNameResolver $simpleNameResolver,
         array $parentClasses = [],
     ) {
         $this->parentClasses = array_merge($parentClasses, self::DEFAULT_PARENT_CLASSES);
@@ -69,25 +69,30 @@ final class ClassNameRespectsParentSuffixRule implements Rule, DocumentedRuleInt
      */
     public function getNodeType(): string
     {
-        return Class_::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param Class_ $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $className = $this->simpleNameResolver->getName($node);
-        if ($className === null) {
+        $classLike = $node->getOriginalNode();
+        if (! $classLike instanceof Class_) {
             return [];
         }
 
-        if ($node->isAbstract()) {
+        $classReflection = $node->getClassReflection();
+        if ($classReflection->isAbstract()) {
             return [];
         }
 
-        return $this->processClassNameAndShort($className);
+        if ($classReflection->isAnonymous()) {
+            return [];
+        }
+
+        return $this->processClassNameAndShort($classReflection);
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -116,15 +121,15 @@ CODE_SAMPLE
     /**
      * @return array<int, string>
      */
-    private function processClassNameAndShort(string $className): array
+    private function processClassNameAndShort(ClassReflection $classReflection): array
     {
         foreach ($this->parentClasses as $parentClass) {
-            if (! is_a($className, $parentClass, true)) {
+            if (! $classReflection->isSubclassOf($parentClass)) {
                 continue;
             }
 
             $expectedSuffix = $this->classToSuffixResolver->resolveFromClass($parentClass);
-            if (\str_ends_with($className, $expectedSuffix)) {
+            if (\str_ends_with($classReflection->getName(), $expectedSuffix)) {
                 return [];
             }
 

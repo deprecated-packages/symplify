@@ -11,7 +11,6 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
@@ -51,10 +50,7 @@ final class ForbiddenNetteInjectOverrideRule implements Rule, DocumentedRuleInte
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return [];
-        }
+        $classReflection = $node->getClassReflection();
 
         $classLike = $node->getOriginalNode();
         if (! $classLike instanceof Class_) {
