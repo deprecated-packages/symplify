@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Domain;
 
+use PhpParser\Node\Identifier;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\MethodCall;
@@ -85,7 +86,7 @@ CODE_SAMPLE
             return [];
         }
 
-        if (! $node->name instanceof Node\Identifier) {
+        if (! $node->name instanceof Identifier) {
             return [];
         }
 
