@@ -1,4 +1,4 @@
-# 11 Rules Overview
+# 9 Rules Overview
 
 ## DibiMaskMatchesVariableTypeRule
 
@@ -220,88 +220,6 @@ class SomeClass
     public function __construct($someType)
     {
         $this->someType = $someType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoNetteTemplateVariableReadRule
-
-Avoid "$this->template->%s" for read access, as it can be defined anywhere. Use local "$%s" variable instead
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteTemplateVariableReadRule`](../packages/Nette/Rules/NoNetteTemplateVariableReadRule.php)
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        if ($this->template->key === 'value') {
-            return;
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Presenter;
-
-class SomeClass extends Presenter
-{
-    public function render()
-    {
-        $this->template->key = 'value';
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoTemplateMagicAssignInControlRule
-
-Instead of magic template assign use `render()` param and explicit variable
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule`](../packages/Nette/Rules/NoTemplateMagicAssignInControlRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->value = 1000;
-
-        $this->template->render(__DIR__ . '/some_file.latte');
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render(__DIR__ . '/some_file.latte', [
-            'value' => 1000
-        ]);
     }
 }
 ```

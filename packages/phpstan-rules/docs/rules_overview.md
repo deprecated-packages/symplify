@@ -2935,7 +2935,7 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             oldToPreferredClasses:
-                SplFileInfo: Symplify\SmartFileSystem\SmartFileInfo
+                SplFileInfo: CustomFileInfo
 ```
 
 ↓
@@ -2955,13 +2955,11 @@ class SomeClass
 <br>
 
 ```php
-use Symplify\SmartFileSystem\SmartFileInfo;
-
 class SomeClass
 {
     public function run()
     {
-        return new SmartFileInfo('...');
+        return new CustomFileInfo('...');
     }
 }
 ```

@@ -2,7 +2,6 @@ rules:
     # dibi
     - Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
     # templates
-    - Symplify\PHPStanRules\Nette\Rules\NoTemplateMagicAssignInControlRule
     - Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
     - Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
     # components
