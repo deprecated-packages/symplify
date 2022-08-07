@@ -8,7 +8,6 @@ use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class AutowiredMethodPropertyAnalyzer
 {
@@ -17,11 +16,6 @@ final class AutowiredMethodPropertyAnalyzer
      * @see https://regex101.com/r/gn2P0C/1
      */
     private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@(required|inject)\n?#';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     public function detect(ClassMethod | Property $stmt): bool
     {
@@ -50,7 +44,8 @@ final class AutowiredMethodPropertyAnalyzer
     {
         foreach ($stmt->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
-                $attributeName = $this->simpleNameResolver->getName($attribute->name);
+                $attributeName = $attribute->name->toString();
+
                 if (in_array($attributeName, $desiredAttributeClasses, true)) {
                     return true;
                 }

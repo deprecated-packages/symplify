@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -32,7 +34,6 @@ final class ExclusiveDependencyRule implements Rule, DocumentedRuleInterface, Co
      * @param array<string, string[]> $allowedExclusiveDependencyInTypes
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
         private array $allowedExclusiveDependencyInTypes
     ) {
@@ -43,25 +44,25 @@ final class ExclusiveDependencyRule implements Rule, DocumentedRuleInterface, Co
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassMethodNode::class;
     }
 
     /**
-     * @param ClassMethod $node
+     * @param InClassMethodNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node->name, MethodName::CONSTRUCTOR)) {
+        $classMethod = $node->getOriginalNode();
+        if ($classMethod->name->toString() !== MethodName::CONSTRUCTOR) {
             return [];
         }
 
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
-            return [];
-        }
+        $methodReflection = $node->getMethodReflection();
+        $declaringClassReflection = $methodReflection->getDeclaringClass();
 
-        $paramTypes = $this->resolveParamTypes($node);
+        $className = $declaringClassReflection->getName();
+        $paramTypes = $this->resolveParamTypes($classMethod);
 
         foreach ($paramTypes as $paramType) {
             foreach ($this->allowedExclusiveDependencyInTypes as $dependencyType => $allowedTypes) {
@@ -148,12 +149,11 @@ CODE_SAMPLE
                 continue;
             }
 
-            $paramType = $this->simpleNameResolver->getName($param->type);
-            if ($paramType === null) {
+            if (! $param->type instanceof Identifier && ! $param->type instanceof Name) {
                 continue;
             }
 
-            $paramTypes[] = $paramType;
+            $paramTypes[] = $param->type->toString();
         }
 
         return $paramTypes;

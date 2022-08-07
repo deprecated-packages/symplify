@@ -6,15 +6,9 @@ namespace Symplify\PHPStanRules\Symfony\NodeAnalyzer;
 
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Name;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class SymfonyPhpConfigClosureAnalyzer
 {
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function isSymfonyPhpConfig(Closure $closure): bool
     {
         $params = $closure->params;
@@ -27,11 +21,7 @@ final class SymfonyPhpConfigClosureAnalyzer
             return false;
         }
 
-        $paramType = $this->simpleNameResolver->getName($param->type);
-        if (! is_string($paramType)) {
-            return false;
-        }
-
+        $paramType = $param->type->toString();
         return is_a(
             $paramType,
             'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',

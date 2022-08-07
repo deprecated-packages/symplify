@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -45,7 +45,6 @@ final class NoNestedFuncCallRule implements Rule, DocumentedRuleInterface
     ];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder
     ) {
     }
@@ -64,12 +63,16 @@ final class NoNestedFuncCallRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $rootFuncCallName = $this->simpleNameResolver->getName($node);
-        $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);
-
-        if ($this->simpleNameResolver->isName($node->name, 'assert')) {
+        if (! $node->name instanceof Name) {
             return [];
         }
+
+        $rootFuncCallName = $node->name->toString();
+        if ($rootFuncCallName === 'assert') {
+            return [];
+        }
+
+        $allowedNames = array_diff(self::ALLOWED_FUNC_NAMES, [$rootFuncCallName]);
 
         foreach ($node->getArgs() as $arg) {
             // avoid nesting checks, e.g. usort()
@@ -81,7 +84,12 @@ final class NoNestedFuncCallRule implements Rule, DocumentedRuleInterface
             $nestedFuncCalls = $this->nodeFinder->findInstanceOf($arg, FuncCall::class);
 
             foreach ($nestedFuncCalls as $nestedFuncCall) {
-                if ($this->simpleNameResolver->isNames($nestedFuncCall, $allowedNames)) {
+                if (! $nestedFuncCall->name instanceof Name) {
+                    continue;
+                }
+
+                $nestedFuncCallName = $nestedFuncCall->name->toString();
+                if (in_array($nestedFuncCallName, $allowedNames, true)) {
                     continue;
                 }
 

@@ -41,7 +41,7 @@ final class ExclusiveDependencyRuleTest extends RuleTestCase
         );
 
         yield [__DIR__ . '/Fixture/SomeController.php', [[$errorMessage, 9]]];
-//        yield [__DIR__ . '/Fixture/WarnController.php', [[$errorMessage, 16]]];
+        yield [__DIR__ . '/Fixture/WarnController.php', [[$errorMessage, 16]]];
     }
 
     /**

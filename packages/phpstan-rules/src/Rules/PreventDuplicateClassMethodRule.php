@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
@@ -58,31 +59,31 @@ final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInter
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassMethodNode::class;
     }
 
     /**
-     * @param ClassMethod $node
+     * @param InClassMethodNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $methodReflection = $node->getMethodReflection();
+        $declaringClassReflection = $methodReflection->getDeclaringClass();
+
+        $classMethod = $node->getOriginalNode();
+
+        $className = $declaringClassReflection->getName();
+        if ($this->shouldSkip($classMethod, $scope, $className)) {
             return [];
         }
 
-        if ($this->shouldSkip($node, $scope, $className)) {
-            return [];
-        }
-
-        /** @var string $classMethodName */
-        $classMethodName = $this->simpleNameResolver->getName($node);
+        $classMethodName = $classMethod->name->toString();
         if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS, true)) {
             return [];
         }
 
-        $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($node);
+        $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($classMethod);
 
         $validateDuplication = $this->validateDuplication($classMethodName, $printStmts);
         if ($validateDuplication !== []) {
