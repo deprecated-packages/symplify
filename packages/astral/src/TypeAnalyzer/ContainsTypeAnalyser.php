@@ -12,6 +12,9 @@ use PHPStan\Type\Type;
 use PHPStan\Type\TypeWithClassName;
 use PHPStan\Type\UnionType;
 
+/**
+ * @api
+ */
 final class ContainsTypeAnalyser
 {
     /**

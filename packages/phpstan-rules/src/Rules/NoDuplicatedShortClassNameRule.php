@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -45,7 +45,6 @@ final class NoDuplicatedShortClassNameRule implements Rule, DocumentedRuleInterf
     private array $declaredClassesByShortName = [];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private int $toleratedNestingLevel
     ) {
     }
@@ -71,7 +70,12 @@ final class NoDuplicatedShortClassNameRule implements Rule, DocumentedRuleInterf
             return [];
         }
 
-        $shortClassName = $this->simpleNameResolver->resolveShortName($className);
+        $classLike = $node->getOriginalNode();
+        if (! $classLike->name instanceof Identifier) {
+            return [];
+        }
+
+        $shortClassName = $classLike->name->toString();
 
         // make sure classes are unique
         $existingClassesByShortClassName = $this->resolveExistingClassesByShortClassName($shortClassName, $className);

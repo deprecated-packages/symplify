@@ -15,7 +15,6 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\ParentGuard\ParentClassMethodGuard;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -32,7 +31,6 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
     public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ParentClassMethodGuard $parentClassMethodGuard
     ) {
     }
@@ -141,7 +139,7 @@ CODE_SAMPLE
 
     private function isSymfonyMicroKernelRequired(ClassMethod $classMethod, Scope $scope): bool
     {
-        if (! $this->simpleNameResolver->isNames($classMethod, ['configureRoutes', 'configureContainer'])) {
+        if (! in_array($classMethod->name->toString(), ['configureRoutes', 'configureContainer'], true)) {
             return false;
         }
 

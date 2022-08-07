@@ -12,13 +12,11 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 
 final class DependencyNodeAnalyzer
 {
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder,
         private AutowiredMethodPropertyAnalyzer $autowiredMethodPropertyAnalyzer
     ) {
@@ -46,8 +44,8 @@ final class DependencyNodeAnalyzer
 
     public function isInsideClassAndAutowiredMethod(Property $property, Class_ $class): bool
     {
-        /** @var string $propertyName */
-        $propertyName = $this->simpleNameResolver->getName($property);
+        $propertyProperty = $property->props[0];
+        $propertyName = $propertyProperty->name->toString();
 
         foreach ($class->getMethods() as $classMethod) {
             /** @var PropertyFetch[] $propertyFetches */
@@ -91,11 +89,6 @@ final class DependencyNodeAnalyzer
 
     private function isPropertyFetchAndPropertyMatch(PropertyFetch $propertyFetch, Property $property): bool
     {
-        $assignedPropertyName = $this->simpleNameResolver->getName($property);
-        if ($assignedPropertyName === null) {
-            return false;
-        }
-
         if (! $this->isLocalPropertyFetch($propertyFetch)) {
             return false;
         }
@@ -103,6 +96,9 @@ final class DependencyNodeAnalyzer
         if (! $propertyFetch->name instanceof Identifier) {
             return false;
         }
+
+        $propertyProperty = $property->props[0];
+        $assignedPropertyName = $propertyProperty->name->toString();
 
         return $propertyFetch->name->toString() === $assignedPropertyName;
     }
@@ -113,7 +109,10 @@ final class DependencyNodeAnalyzer
             return false;
         }
 
-        $propertyVariableName = $this->simpleNameResolver->getName($propertyFetch->var);
-        return $propertyVariableName === 'this';
+        if (! is_string($propertyFetch->var->name)) {
+            return false;
+        }
+
+        return $propertyFetch->var->name === 'this';
     }
 }

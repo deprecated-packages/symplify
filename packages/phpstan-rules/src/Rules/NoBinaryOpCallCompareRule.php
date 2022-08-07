@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\Name;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp;
@@ -14,7 +15,6 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,11 +28,6 @@ final class NoBinaryOpCallCompareRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Do not compare call directly, use a variable assign';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -91,7 +86,12 @@ CODE_SAMPLE
     private function isForbiddenCall(Expr $expr): bool
     {
         if ($expr instanceof FuncCall) {
-            return ! $this->simpleNameResolver->isNames($expr, [
+            if (! $expr->name instanceof Name) {
+                return false;
+            }
+
+            $functionName = $expr->name->toString();
+            return ! in_array($functionName, [
                 'count',
                 'trim',
                 'getcwd',
@@ -104,7 +104,7 @@ CODE_SAMPLE
                 'strtolower',
                 'strtoupper',
                 'defined',
-            ]);
+            ], true);
         }
 
         return $expr instanceof StaticCall;

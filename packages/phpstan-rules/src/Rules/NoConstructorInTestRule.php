@@ -7,8 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -24,39 +26,36 @@ final class NoConstructorInTestRule implements Rule, DocumentedRuleInterface
      */
     public const ERROR_MESSAGE = 'Do not use constructor in tests. Move to setUp() method';
 
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     /**
      * @return class-string<Node>
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($node->name->toString() !== MethodName::CONSTRUCTOR) {
+        $classReflection = $node->getClassReflection();
+        if (! \str_ends_with($classReflection->getName(), 'Test')) {
             return [];
         }
 
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $classLike = $node->getOriginalNode();
+        $constructorClassMethod = $classLike->getMethod(MethodName::CONSTRUCTOR);
+        if (! $constructorClassMethod instanceof ClassMethod) {
             return [];
         }
 
-        if (! \str_ends_with($className, 'Test')) {
-            return [];
-        }
+        $ruleError = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+            ->line($constructorClassMethod->getLine())
+            ->build();
 
-        return [self::ERROR_MESSAGE];
+        return [$ruleError];
     }
 
     public function getRuleDefinition(): RuleDefinition

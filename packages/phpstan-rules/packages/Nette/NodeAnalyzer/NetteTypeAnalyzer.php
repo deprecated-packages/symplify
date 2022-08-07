@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral\NodeAnalyzer;
+namespace Symplify\PHPStanRules\Nette\NodeAnalyzer;
 
 use Latte\Engine;
 use Nette\Application\UI\Template;

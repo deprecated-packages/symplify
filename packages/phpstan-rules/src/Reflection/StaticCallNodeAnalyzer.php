@@ -6,20 +6,18 @@ namespace Symplify\PHPStanRules\Reflection;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\Php\PhpMethodReflection;
 use PHPStan\Reflection\ReflectionProvider;
-use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class StaticCallNodeAnalyzer
 {
     public function __construct(
         private ReflectionProvider $reflectionProvider,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -33,11 +31,12 @@ final class StaticCallNodeAnalyzer
         }
 
         $callerType = $this->resolveStaticCallCallerType($expr, $scope);
-        $methodName = $this->simpleNameResolver->getName($expr->name);
 
-        if ($methodName === null) {
+        if (! $expr->name instanceof Identifier) {
             return false;
         }
+
+        $methodName = $expr->name->toString();
 
         foreach ($callerType->getReferencedClasses() as $referencedClass) {
             if (! $this->reflectionProvider->hasClass($referencedClass)) {
@@ -68,10 +67,6 @@ final class StaticCallNodeAnalyzer
     {
         if ($staticCall->class instanceof Name) {
             $className = $staticCall->class->toString();
-//            if ($className === null) {
-//                return new MixedType();
-//            }
-
             return new ObjectType($className);
         }
 
