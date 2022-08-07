@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use PhpParser\Node\Name;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp;
@@ -85,7 +86,7 @@ CODE_SAMPLE
     private function isForbiddenCall(Expr $expr): bool
     {
         if ($expr instanceof FuncCall) {
-            if (! $expr->name instanceof Node\Name) {
+            if (! $expr->name instanceof Name) {
                 return false;
             }
 
