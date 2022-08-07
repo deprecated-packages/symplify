@@ -55,7 +55,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule implements Rule, Do
         }
 
         $matches = Strings::match($node->name->toString(), Regex::TESTS_PART_REGEX);
-        if ($matches !== null) {
+        if ($matches === null) {
             return [];
         }
 
