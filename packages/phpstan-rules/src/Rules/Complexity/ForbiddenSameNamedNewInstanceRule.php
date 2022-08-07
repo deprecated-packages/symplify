@@ -33,11 +33,6 @@ final class ForbiddenSameNamedNewInstanceRule implements Rule, DocumentedRuleInt
      */
     public const ERROR_MESSAGE = 'New objects with "%s" name are overridden. This can lead to unwanted bugs, please pick a different name to avoid it.';
 
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-    ) {
-    }
-
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(self::ERROR_MESSAGE, [
