@@ -55,11 +55,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule implements Rule, Do
         }
 
         $matches = Strings::match($node->name->toString(), Regex::TESTS_PART_REGEX);
-<<<<<<< HEAD
         if ($matches === null) {
-=======
-        if ($matches !== null) {
->>>>>>> move NetteTypeAnalyzer
             return [];
         }
 
