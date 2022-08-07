@@ -2,7 +2,7 @@
 
 ## PreventDoubleSetParameterRule
 
-Set param value is overriden. Merge it to previous set above
+Set param value is overridden. Merge it to previous set above
 
 - class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/Symfony/Rules/PreventDoubleSetParameterRule.php)
 

@@ -8,8 +8,8 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Variable;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanRules\Nette\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -23,11 +23,6 @@ final class NoNetteArrayAccessInControlRule implements Rule, DocumentedRuleInter
      * @var string
      */
     public const ERROR_MESSAGE = 'Avoid using magical unclear array access and use explicit "$this->getComponent()" instead';
-
-    public function __construct(
-        private NetteTypeAnalyzer $netteTypeAnalyzer
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -43,7 +38,13 @@ final class NoNetteArrayAccessInControlRule implements Rule, DocumentedRuleInter
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->netteTypeAnalyzer->isInsideComponentContainer($scope)) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return [];
+        }
+
+        // this type has getComponent() method
+        if (! $classReflection->isSubclassOf('Nette\ComponentModel\Container')) {
             return [];
         }
 
