@@ -9,8 +9,6 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Property;
-use PHPStan\Analyser\Scope;
-use PHPStan\Reflection\ClassReflection;
 use Symplify\Astral\Contract\NodeNameResolverInterface;
 
 /**
@@ -87,25 +85,6 @@ final class SimpleNameResolver
         }
 
         return $this->isName($secondNode, $firstName);
-    }
-
-    public function getClassNameFromScope(Scope $scope): ?string
-    {
-        if ($scope->isInTrait()) {
-            $traitReflection = $scope->getTraitReflection();
-            if (! $traitReflection instanceof ClassReflection) {
-                return null;
-            }
-
-            return $traitReflection->getName();
-        }
-
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return null;
-        }
-
-        return $classReflection->getName();
     }
 
     /**

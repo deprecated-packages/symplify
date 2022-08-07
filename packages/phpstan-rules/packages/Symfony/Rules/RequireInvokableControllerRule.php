@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Symfony\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Symfony\NodeAnalyzer\SymfonyControllerAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -34,33 +36,42 @@ final class RequireInvokableControllerRule implements Rule, DocumentedRuleInterf
      */
     public function getNodeType(): string
     {
-        return ClassMethod::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassMethod $node
-     * @return string[]
+     * @param InClassNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if ($node->isMagic()) {
+        $classReflection = $node->getClassReflection();
+        if (! $classReflection->isSubclassOf('Symfony\Bundle\FrameworkBundle\Controller\AbstractController')) {
             return [];
         }
 
-        if (! $this->symfonyControllerAnalyzer->isInControllerClass($scope)) {
-            return [];
+        $ruleErrors = [];
+
+        $classLike = $node->getOriginalNode();
+        foreach ($classLike->getMethods() as $classMethod) {
+            if (! $this->symfonyControllerAnalyzer->isControllerActionMethod($classMethod)) {
+                continue;
+            }
+
+            if ($classMethod->isMagic()) {
+                continue;
+            }
+
+            if ($classMethod->name->toString() === MethodName::INVOKE) {
+                continue;
+            }
+
+            $ruleErrors[] = RuleErrorBuilder::message(self::ERROR_MESSAGE)
+                ->line($classMethod->getLine())
+                ->build();
         }
 
-        if (! $this->symfonyControllerAnalyzer->isControllerActionMethod($node)) {
-            return [];
-        }
-
-        $classMethodName = (string) $node->name;
-        if ($classMethodName === MethodName::INVOKE) {
-            return [];
-        }
-
-        return [self::ERROR_MESSAGE];
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition
