@@ -18,7 +18,6 @@ use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreferredClassRule\PreferredClassRuleTest
@@ -83,20 +82,18 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-use Symplify\SmartFileSystem\SmartFileInfo;
-
 class SomeClass
 {
     public function run()
     {
-        return new SmartFileInfo('...');
+        return new CustomFileInfo('...');
     }
 }
 CODE_SAMPLE
                 ,
                 [
                     'oldToPreferredClasses' => [
-                        SplFileInfo::class => SmartFileInfo::class,
+                        SplFileInfo::class => 'CustomFileInfo',
                     ],
                 ]
             ),
