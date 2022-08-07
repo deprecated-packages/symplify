@@ -9,7 +9,6 @@ use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\EasyCI\StaticDetector\Collector\StaticNodeCollector;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
@@ -24,7 +23,6 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
 
     public function __construct(
         private StaticNodeCollector $staticNodeCollector,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -68,11 +66,6 @@ final class StaticCollectNodeVisitor extends NodeVisitorAbstract
         if ($this->currentClassLike === null) {
             $errorMessage = sprintf('Class not found for static call "%s"', $classMethodName);
             throw new ShouldNotHappenException($errorMessage);
-        }
-
-        $currentClassName = $this->simpleNameResolver->getName($this->currentClassLike);
-        if ($currentClassName === null) {
-            return;
         }
 
         $this->staticNodeCollector->addStaticClassMethod($classMethod, $this->currentClassLike);

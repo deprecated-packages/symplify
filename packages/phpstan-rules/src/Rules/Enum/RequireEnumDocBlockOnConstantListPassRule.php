@@ -16,7 +16,6 @@ use PHPStan\Type\StringType;
 use PHPStan\Type\Type;
 use Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver;
 use Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -43,7 +42,6 @@ final class RequireEnumDocBlockOnConstantListPassRule implements Rule, Documente
     private const SKIPPED_CLASS_TYPES = [
         'Symplify\PackageBuilder\Parameter\ParameterProvider',
         AbstractConfigurator::class,
-        SimpleNameResolver::class,
         ParameterBagInterface::class,
     ];
 

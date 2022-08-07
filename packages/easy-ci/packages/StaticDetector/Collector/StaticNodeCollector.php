@@ -10,7 +10,6 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\EasyCI\StaticDetector\ValueObject\StaticClassMethod;
 use Symplify\EasyCI\StaticDetector\ValueObject\StaticClassMethodWithStaticCalls;
 use Symplify\EasyCI\StaticDetector\ValueObject\StaticReport;
@@ -28,19 +27,14 @@ final class StaticNodeCollector
      */
     private array $staticCalls = [];
 
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function addStaticClassMethod(ClassMethod $classMethod, ClassLike $classLike): void
     {
-        $className = $this->simpleNameResolver->getName($classLike);
-        if ($className === null) {
+        if (! $classLike->namespacedName instanceof Name) {
             return;
         }
 
-        $methodName = (string) $classMethod->name;
+        $className = $classLike->namespacedName->toString();
+        $methodName = $classMethod->name->toString();
 
         $this->staticClassMethods[] = new StaticClassMethod($className, $methodName, $classMethod);
     }
@@ -107,7 +101,9 @@ final class StaticNodeCollector
     {
         $class = (string) $staticClassName;
         if (in_array($class, ['self', 'static'], true)) {
-            return (string) $this->simpleNameResolver->getName($classLike);
+            if ($classLike->namespacedName instanceof Name) {
+                return $classLike->namespacedName->toString();
+            }
         }
 
         if ($class === 'parent') {
