@@ -7,21 +7,13 @@ namespace Symplify\PHPStanRules\ParentGuard;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class ParentPropertyGuard
 {
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function isPropertyGuarded(Property $property, Scope $scope): bool
     {
-        $propertyName = $this->simpleNameResolver->getName($property);
-        if ($propertyName === null) {
-            return false;
-        }
+        $propertyProperty = $property->props[0];
+        $propertyName = $propertyProperty->name->toString();
 
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {

@@ -11,12 +11,11 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -33,11 +32,6 @@ final class ForbiddenThisArgumentRule implements Rule, DocumentedRuleInterface
     public const ERROR_MESSAGE = '$this as argument is not allowed. Refactor method to service composition';
 
     /**
-     * @var class-string<Kernel>[]
-     */
-    private const ALLOWED_PARENT_CLASSES = [Kernel::class];
-
-    /**
      * @var class-string<PrivatesCaller>[]
      */
     private const ALLOWED_CALLER_CLASSES = [
@@ -46,8 +40,6 @@ final class ForbiddenThisArgumentRule implements Rule, DocumentedRuleInterface
     ];
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-        private TypeChecker $typeChecker,
         private ContainsTypeAnalyser $containsTypeAnalyser
     ) {
     }
@@ -107,12 +99,12 @@ CODE_SAMPLE
 
     private function shouldSkipClass(Scope $scope): bool
     {
-        $className = $this->simpleNameResolver->getClassNameFromScope($scope);
-        if ($className === null) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return false;
         }
 
-        return $this->typeChecker->isInstanceOf($className, self::ALLOWED_PARENT_CLASSES);
+        return $classReflection->isSubclassOf(Kernel::class);
     }
 
     private function shouldSkip(MethodCall | FuncCall | StaticCall $node, Scope $scope): bool
