@@ -13,4 +13,3 @@ rules:
     - Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule
     - Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule
     - Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule
-    - Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule

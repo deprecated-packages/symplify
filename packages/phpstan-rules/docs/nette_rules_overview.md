@@ -1,4 +1,4 @@
-# 8 Rules Overview
+# 7 Rules Overview
 
 ## DibiMaskMatchesVariableTypeRule
 
@@ -220,56 +220,6 @@ class SomeClass
     public function __construct($someType)
     {
         $this->someType = $someType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## SingleNetteInjectMethodRule
-
-Use single inject*() class method per class
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/Nette/Rules/SingleNetteInjectMethodRule.php)
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectOne(Type $type)
-    {
-        $this->type = $type;
-    }
-
-    public function injectTwo(AnotherType $anotherType)
-    {
-        $this->anotherType = $anotherType;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectSomeClass(
-        Type $type,
-        AnotherType $anotherType
-    ) {
-        $this->type = $type;
-        $this->anotherType = $anotherType;
     }
 }
 ```
