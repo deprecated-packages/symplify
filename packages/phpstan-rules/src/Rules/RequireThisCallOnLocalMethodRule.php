@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
@@ -14,7 +16,6 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,7 +32,6 @@ final class RequireThisCallOnLocalMethodRule implements Rule, DocumentedRuleInte
     public const ERROR_MESSAGE = 'Use "$this-><method>()" instead of "self::<method>()" to call local method';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder
     ) {
     }
@@ -60,7 +60,12 @@ final class RequireThisCallOnLocalMethodRule implements Rule, DocumentedRuleInte
         /** @var StaticCall[] $staticCalls */
         $staticCalls = $this->nodeFinder->findInstanceOf($classLike, StaticCall::class);
         foreach ($staticCalls as $staticCall) {
-            if (! $this->simpleNameResolver->isName($staticCall->class, 'self')) {
+            if (! $staticCall->class instanceof Name) {
+                continue;
+            }
+
+            $staticCallClass = $staticCall->class->toString();
+            if ($staticCallClass !== 'self') {
                 continue;
             }
 
@@ -118,11 +123,11 @@ CODE_SAMPLE
 
     private function getClassMethodInCurrentClass(StaticCall $staticCall, Class_ $class): ?ClassMethod
     {
-        $staticCallName = $this->simpleNameResolver->getName($staticCall->name);
-        if ($staticCallName === null) {
+        if (! $staticCall->name instanceof Identifier) {
             return null;
         }
 
+        $staticCallName = $staticCall->name->toString();
         return $class->getMethod($staticCallName);
     }
 }

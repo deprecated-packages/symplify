@@ -126,10 +126,11 @@ CODE_SAMPLE
      */
     private function findVariableArrayDimFetches(ClassMethod $classMethod, Variable $variable): array
     {
-        $variableName = $this->simpleNameResolver->getName($variable);
-        if ($variableName === null) {
+        if (! is_string($variable->name)) {
             return [];
         }
+
+        $variableName = $variable->name;
 
         return $this->nodeFinder->find($classMethod, function (Node $node) use ($variableName): bool {
             if (! $node instanceof ArrayDimFetch) {

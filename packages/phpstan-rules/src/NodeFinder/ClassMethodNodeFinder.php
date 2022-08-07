@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeFinder;
 
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\Reflection\ReflectionParser;
 
 final class ClassMethodNodeFinder
 {
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private ReflectionParser $reflectionParser,
     ) {
     }
@@ -32,11 +31,11 @@ final class ClassMethodNodeFinder
             return null;
         }
 
-        /** @var string|null $methodCallName */
-        $methodCallName = $this->simpleNameResolver->getName($methodCall->name);
-        if ($methodCallName === null) {
+        if (! $methodCall->name instanceof Identifier) {
             return null;
         }
+
+        $methodCallName = $methodCall->name->toString();
 
         /** @var ClassMethod|null $classMethod */
         $classMethod = $classLike->getMethod($methodCallName);

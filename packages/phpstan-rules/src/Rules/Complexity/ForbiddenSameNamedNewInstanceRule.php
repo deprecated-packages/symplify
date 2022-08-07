@@ -91,12 +91,12 @@ CODE_SAMPLE
             return [];
         }
 
-        // is type already defined?
-        $variableName = $this->simpleNameResolver->getName($assign->var);
-        if (! is_string($variableName)) {
+        if (! is_string($assign->var->name)) {
             return [];
         }
 
+        // is type already defined?
+        $variableName = $assign->var->name;
         if (! $scope->hasVariableType($variableName)->yes()) {
             return [];
         }
