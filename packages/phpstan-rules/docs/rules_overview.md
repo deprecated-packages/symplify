@@ -835,10 +835,7 @@ services:
 ↓
 
 ```php
-class SomeClass
-{
-    return eval('...');
-}
+echo eval('...');
 ```
 
 :x:
@@ -846,10 +843,7 @@ class SomeClass
 <br>
 
 ```php
-class SomeClass
-{
-    return echo '...';
-}
+echo '...';
 ```
 
 :+1:
@@ -869,11 +863,8 @@ services:
 ↓
 
 ```php
-class SomeClass
-{
-    dump('hello world');
-    return true;
-}
+dump($value);
+echo $value;
 ```
 
 :x:
@@ -881,10 +872,7 @@ class SomeClass
 <br>
 
 ```php
-class SomeClass
-{
-    return true;
-}
+echo $value;
 ```
 
 :+1:
