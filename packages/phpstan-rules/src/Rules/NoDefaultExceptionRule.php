@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Throw_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,11 +24,6 @@ final class NoDefaultExceptionRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Use custom exceptions instead of native "%s"';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -49,21 +44,21 @@ final class NoDefaultExceptionRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
-        $className = $this->simpleNameResolver->getName($thrownExpr->class);
-        if ($className === null) {
+        if (! $thrownExpr->class instanceof Name) {
             return [];
         }
 
-        if (! is_a($className, Throwable::class, true)) {
+        $exceptionClassName = $thrownExpr->class->toString();
+        if (! is_a($exceptionClassName, Throwable::class, true)) {
             return [];
         }
 
         // fast way to detect native exceptions
-        if (\str_contains($className, '\\')) {
+        if (\str_contains($exceptionClassName, '\\')) {
             return [];
         }
 
-        return [sprintf(self::ERROR_MESSAGE, $className)];
+        return [sprintf(self::ERROR_MESSAGE, $exceptionClassName)];
     }
 
     public function getRuleDefinition(): RuleDefinition

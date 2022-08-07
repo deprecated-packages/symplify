@@ -7,12 +7,12 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeCombinator;
 use SimpleXMLElement;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter;
 use Symplify\PHPStanRules\ValueObject\Configuration\RequiredWithMessage;
@@ -37,7 +37,6 @@ final class ForbiddenFuncCallRule implements Rule, DocumentedRuleInterface, Conf
     public function __construct(
         private array $forbiddenFunctions,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher,
-        private SimpleNameResolver $simpleNameResolver,
         private RequiredWithMessageFormatter $requiredWithMessageFormatter,
     ) {
     }
@@ -56,10 +55,11 @@ final class ForbiddenFuncCallRule implements Rule, DocumentedRuleInterface, Conf
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $funcName = $this->simpleNameResolver->getName($node);
-        if ($funcName === null) {
+        if (! $node->name instanceof Name) {
             return [];
         }
+
+        $funcName = $node->name->toString();
 
         $requiredWithMessages = $this->requiredWithMessageFormatter->normalizeConfig($this->forbiddenFunctions);
         foreach ($requiredWithMessages as $requiredWithMessage) {

@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Rules;
 
 use Nette\Utils\Strings;
 use PhpParser\Node;
-use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
+use PHPStan\Node\InClassNode;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -41,7 +41,6 @@ final class ExclusiveNamespaceRule implements Rule, DocumentedRuleInterface, Con
      * @param string[] $namespaceParts
      */
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private array $namespaceParts
     ) {
     }
@@ -51,22 +50,24 @@ final class ExclusiveNamespaceRule implements Rule, DocumentedRuleInterface, Con
      */
     public function getNodeType(): string
     {
-        return ClassLike::class;
+        return InClassNode::class;
     }
 
     /**
-     * @param ClassLike $node
+     * @param InClassNode $node
      * @return string[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classLikeName = $this->simpleNameResolver->getName($node);
-        if ($classLikeName === null) {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
             return [];
         }
 
+        $className = $classReflection->getName();
+
         // skip interface and tests, except tests here
-        if (Strings::match($classLikeName, self::EXCLUDED_NAMESPACE_REGEX)) {
+        if (Strings::match($className, self::EXCLUDED_NAMESPACE_REGEX)) {
             return [];
         }
 
@@ -80,11 +81,11 @@ final class ExclusiveNamespaceRule implements Rule, DocumentedRuleInterface, Con
                 continue;
             }
 
-            if (Strings::match($classLikeName, self::EXCLUDED_SUFFIX_REGEX)) {
+            if (Strings::match($className, self::EXCLUDED_SUFFIX_REGEX)) {
                 continue;
             }
 
-            if (\str_ends_with($classLikeName, $namespacePart)) {
+            if (\str_ends_with($className, $namespacePart)) {
                 continue;
             }
 

@@ -7,9 +7,9 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,7 +26,6 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule
     public const ERROR_MESSAGE = 'Class was not found';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeValueResolver $nodeValueResolver,
         private ReflectionProvider $reflectionProvider,
     ) {
@@ -88,6 +87,10 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->simpleNameResolver->isName($expr->name, 'class');
+        if (! $expr->name instanceof Identifier) {
+            return false;
+        }
+
+        return $expr->name->toString() === 'class';
     }
 }
