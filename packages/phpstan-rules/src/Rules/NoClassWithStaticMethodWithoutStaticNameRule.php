@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
@@ -14,8 +15,6 @@ use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
-use Symplify\EasyCodingStandard\Parallel\ValueObject\Name;
 use Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -42,7 +41,6 @@ final class NoClassWithStaticMethodWithoutStaticNameRule implements Rule, Docume
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private SimpleNameResolver $simpleNameResolver,
         private ArrayStringAndFnMatcher $arrayStringAndFnMatcher
     ) {
     }
@@ -148,7 +146,7 @@ CODE_SAMPLE
 
     private function isStaticConstructorOfValueObject(ClassMethod $classMethod): bool
     {
-        return (bool) $this->nodeFinder->findFirst((array) $classMethod->stmts, function (Node $node): bool {
+        return (bool) $this->nodeFinder->findFirst((array) $classMethod->stmts, static function (Node $node): bool {
             if (! $node instanceof Return_) {
                 return false;
             }
@@ -158,7 +156,11 @@ CODE_SAMPLE
                 return false;
             }
 
-            return $this->simpleNameResolver->isName($returnedExpr->class, 'self');
+            if (! $returnedExpr->class instanceof Name) {
+                return false;
+            }
+
+            return $returnedExpr->class->toString() === 'self';
         });
     }
 }

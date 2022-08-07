@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -29,7 +29,6 @@ final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInter
     public const ERROR_MESSAGE = 'Avoid "$this->template->%s" for read access, as it can be defined anywhere. Use local "$%s" variable instead';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
     }
@@ -56,7 +55,11 @@ final class NoNetteTemplateVariableReadRule implements Rule, DocumentedRuleInter
             return [];
         }
 
-        if ($this->simpleNameResolver->isName($node->name, 'flashes')) {
+        if (! $node->name instanceof Identifier) {
+            return [];
+        }
+
+        if ($node->name->toString() === 'flashes') {
             return [];
         }
 
@@ -118,11 +121,23 @@ CODE_SAMPLE
             return false;
         }
 
-        if (! $this->simpleNameResolver->isName($expr->var, 'this')) {
+        if (! $expr->var instanceof Variable) {
             return false;
         }
 
-        return $this->simpleNameResolver->isName($expr->name, $propertyName);
+        if (! is_string($expr->var->name)) {
+            return false;
+        }
+
+        if ($expr->var->name !== 'this') {
+            return false;
+        }
+
+        if (! $expr->name instanceof Identifier) {
+            return false;
+        }
+
+        return $expr->name->toString() === $propertyName;
     }
 
     private function isPayloadAjaxJuggling(Expr $expr): bool

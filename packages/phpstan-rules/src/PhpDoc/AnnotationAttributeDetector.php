@@ -7,13 +7,11 @@ namespace Symplify\PHPStanRules\PhpDoc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class AnnotationAttributeDetector
 {
     public function __construct(
         private BarePhpDocParser $barePhpDocParser,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -34,7 +32,7 @@ final class AnnotationAttributeDetector
     {
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attribute) {
-                if ($this->simpleNameResolver->isName($attribute->name, $attributeClass)) {
+                if ($attribute->name->toString() === $attributeClass) {
                     return true;
                 }
             }

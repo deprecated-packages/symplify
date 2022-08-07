@@ -10,15 +10,9 @@ use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 final class AttributeFinder
 {
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function hasAttribute(ClassLike | ClassMethod | Property | Param $node, string $desiredAttributeClass): bool
     {
         return (bool) $this->findAttribute($node, $desiredAttributeClass);
@@ -49,7 +43,7 @@ final class AttributeFinder
                 continue;
             }
 
-            if ($this->simpleNameResolver->isName($attribute->name, $desiredAttributeClass)) {
+            if ($attribute->name->toString() === $desiredAttributeClass) {
                 return $attribute;
             }
         }

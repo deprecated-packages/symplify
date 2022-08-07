@@ -6,11 +6,11 @@ namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeAnalyzer\NetteTypeAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -27,7 +27,6 @@ final class RequireTemplateInNetteControlRule implements Rule, DocumentedRuleInt
     public const ERROR_MESSAGE = 'Set control template explicitly in $this->template->setFile(...) or $this->template->render(...)';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeFinder $nodeFinder,
         private NetteTypeAnalyzer $netteTypeAnalyzer
     ) {
@@ -51,7 +50,8 @@ final class RequireTemplateInNetteControlRule implements Rule, DocumentedRuleInt
             return [];
         }
 
-        if (! $this->simpleNameResolver->isNames($node, ['render', 'render*'])) {
+        $classMethodName = $node->name->toString();
+        if ($classMethodName !== 'render' && ! str_starts_with($classMethodName, 'render')) {
             return [];
         }
 
@@ -98,7 +98,12 @@ CODE_SAMPLE
         $methodCalls = $this->nodeFinder->findInstanceOf($classMethod, MethodCall::class);
 
         foreach ($methodCalls as $methodCall) {
-            if (! $this->simpleNameResolver->isNames($methodCall->name, ['setFile', 'render'])) {
+            if (! $methodCall->name instanceof Identifier) {
+                continue;
+            }
+
+            $methodCallName = $methodCall->name->toString();
+            if (! in_array($methodCallName, ['setFile', 'render'], true)) {
                 continue;
             }
 

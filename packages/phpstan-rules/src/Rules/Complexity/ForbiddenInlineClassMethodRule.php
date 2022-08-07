@@ -6,6 +6,8 @@ namespace Symplify\PHPStanRules\Rules\Complexity;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeFinder;
@@ -14,7 +16,6 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,7 +32,6 @@ final class ForbiddenInlineClassMethodRule implements Rule, DocumentedRuleInterf
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -134,12 +134,25 @@ CODE_SAMPLE
 
         $usedMethodCalls = [];
         foreach ($methodCalls as $methodCall) {
-            if (! $this->simpleNameResolver->isName($methodCall->name, $methodName)) {
+            if (! $methodCall->name instanceof Identifier) {
+                continue;
+            }
+
+            $methodCallName = $methodCall->name->toString();
+            if ($methodCallName !== $methodName) {
                 continue;
             }
 
             // is local variable?
-            if (! $this->simpleNameResolver->isName($methodCall->var, 'this')) {
+            if (! $methodCall->var instanceof Variable) {
+                continue;
+            }
+
+            if (! is_string($methodCall->var->name)) {
+                continue;
+            }
+
+            if ($methodCall->var->name !== 'this') {
                 continue;
             }
 

@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
-use Symplify\Astral\Naming\SimpleNameResolver;
+use PhpParser\Node\Name;
 
 final class RegexFuncCallAnalyzer
 {
@@ -21,17 +20,13 @@ final class RegexFuncCallAnalyzer
         'preg_replace_callback',
     ];
 
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function isRegexFuncCall(FuncCall $funcCall): bool
     {
-        if ($funcCall->name instanceof Expr) {
+        if (! $funcCall->name instanceof Name) {
             return false;
         }
 
-        return $this->simpleNameResolver->isNames($funcCall->name, self::FUNC_CALLS_WITH_FIRST_ARG_REGEX);
+        $funcCallName = $funcCall->name->toString();
+        return in_array($funcCallName, self::FUNC_CALLS_WITH_FIRST_ARG_REGEX, true);
     }
 }

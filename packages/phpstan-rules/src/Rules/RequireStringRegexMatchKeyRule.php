@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ArrayDimFetch;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -35,7 +35,6 @@ final class RequireStringRegexMatchKeyRule implements Rule, DocumentedRuleInterf
 
     public function __construct(
         private NodeFinder $nodeFinder,
-        private SimpleNameResolver $simpleNameResolver,
         private ReflectionParser $reflectionParser,
     ) {
     }
@@ -132,7 +131,7 @@ CODE_SAMPLE
 
         $variableName = $variable->name;
 
-        return $this->nodeFinder->find($classMethod, function (Node $node) use ($variableName): bool {
+        return $this->nodeFinder->find($classMethod, static function (Node $node) use ($variableName): bool {
             if (! $node instanceof ArrayDimFetch) {
                 return false;
             }
@@ -145,7 +144,11 @@ CODE_SAMPLE
                 return false;
             }
 
-            return $this->simpleNameResolver->isName($node->var, $variableName);
+            if (! is_string($node->var->name)) {
+                return false;
+            }
+
+            return $node->var->name === $variableName;
         });
     }
 
@@ -155,10 +158,18 @@ CODE_SAMPLE
             return true;
         }
 
-        if (! $this->simpleNameResolver->isName($expr->class, Strings::class)) {
+        if (! $expr->class instanceof Name) {
             return true;
         }
 
-        return ! $this->simpleNameResolver->isName($expr->name, 'match');
+        if ($expr->class->toString() !== 'Nette\Utils\Strings') {
+            return true;
+        }
+
+        if (! $expr->name instanceof Identifier) {
+            return true;
+        }
+
+        return $expr->name->toString() !== 'match';
     }
 }

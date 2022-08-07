@@ -43,7 +43,7 @@ final class NoConstructorInTestRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node, MethodName::CONSTRUCTOR)) {
+        if ($node->name->toString() !== MethodName::CONSTRUCTOR) {
             return [];
         }
 

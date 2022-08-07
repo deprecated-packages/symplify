@@ -7,10 +7,10 @@ namespace Symplify\PHPStanRules\Rules;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ObjectType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,11 +26,6 @@ final class NoGetRepositoryOutsideConstructorRule implements Rule, DocumentedRul
      */
     public const ERROR_MESSAGE = 'Do not use "$entityManager->getRepository()" outside of the constructor of repository service or setUp() method in test case';
 
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     /**
      * @return class-string<Node>
      */
@@ -45,7 +40,12 @@ final class NoGetRepositoryOutsideConstructorRule implements Rule, DocumentedRul
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (! $this->simpleNameResolver->isName($node->name, 'getRepository')) {
+        if (! $node->name instanceof Identifier) {
+            return [];
+        }
+
+        $methodName = $node->name->toString();
+        if ($methodName !== 'getRepository') {
             return [];
         }
 

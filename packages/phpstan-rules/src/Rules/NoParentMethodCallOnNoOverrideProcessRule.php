@@ -6,11 +6,12 @@ namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Printer\NodeComparator;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -27,7 +28,6 @@ final class NoParentMethodCallOnNoOverrideProcessRule implements Rule, Documente
     public const ERROR_MESSAGE = 'Do not call parent method if no override process';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeComparator $nodeComparator
     ) {
     }
@@ -90,11 +90,19 @@ CODE_SAMPLE
 
     private function isParentSelfMethodStaticCall(StaticCall $staticCall, ClassMethod $classMethod): bool
     {
-        if (! $this->simpleNameResolver->isName($staticCall->class, 'parent')) {
+        if (! $staticCall->class instanceof Name) {
             return false;
         }
 
-        return $this->simpleNameResolver->areNamesEqual($staticCall->name, $classMethod->name);
+        if ($staticCall->class->toString() !== 'parent') {
+            return false;
+        }
+
+        if (! $staticCall->name instanceof Identifier) {
+            return false;
+        }
+
+        return $staticCall->name->toString() === $classMethod->name->toString();
     }
 
     private function resolveOnlyNode(ClassMethod $classMethod): ?Node

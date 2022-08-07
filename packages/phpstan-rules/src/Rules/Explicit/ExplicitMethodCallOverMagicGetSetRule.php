@@ -13,7 +13,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\ValueObject\AttributeKey;
 use Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
@@ -41,7 +40,6 @@ final class ExplicitMethodCallOverMagicGetSetRule implements Rule, DocumentedRul
     private const SET_METHOD_NAME = '__set';
 
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private PublicClassReflectionAnalyzer $publicClassReflectionAnalyzer
     ) {
     }
@@ -210,6 +208,10 @@ CODE_SAMPLE
             return false;
         }
 
-        return $this->simpleNameResolver->isName($expr, 'this');
+        if (! is_string($expr->name)) {
+            return false;
+        }
+
+        return $expr->name === 'this';
     }
 }

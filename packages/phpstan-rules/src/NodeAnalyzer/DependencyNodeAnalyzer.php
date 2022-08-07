@@ -54,7 +54,11 @@ final class DependencyNodeAnalyzer
             $propertyFetches = $this->nodeFinder->findInstanceOf($classMethod, PropertyFetch::class);
 
             foreach ($propertyFetches as $propertyFetch) {
-                if (! $this->simpleNameResolver->isName($propertyFetch->name, $propertyName)) {
+                if (! $propertyFetch->name instanceof Identifier) {
+                    continue;
+                }
+
+                if ($propertyFetch->name->toString() !== $propertyName) {
                     continue;
                 }
 

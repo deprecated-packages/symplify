@@ -11,7 +11,6 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\UnionType;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -28,7 +27,6 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
 
     public function __construct(
         private StaticCallNodeAnalyzer $staticCallNodeAnalyzer,
-        private SimpleNameResolver $simpleNameResolver
     ) {
     }
 
@@ -54,7 +52,7 @@ final class NoDynamicPropertyOnStaticCallRule extends AbstractSymplifyRule
             return [];
         }
 
-        if ($node->name instanceof Identifier && $this->simpleNameResolver->isName($node->name, 'class')) {
+        if ($node->name instanceof Identifier && $node->name->toString() === 'class') {
             return [];
         }
 

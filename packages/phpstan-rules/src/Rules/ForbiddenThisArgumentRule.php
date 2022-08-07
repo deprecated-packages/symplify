@@ -9,6 +9,7 @@ use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
@@ -121,7 +122,11 @@ CODE_SAMPLE
         }
 
         if ($node instanceof FuncCall) {
-            return $this->simpleNameResolver->isName($node, 'method_exists');
+            if (! $node->name instanceof Name) {
+                return false;
+            }
+
+            return $node->name->toString() === 'method_exists';
         }
 
         return false;

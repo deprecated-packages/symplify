@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Nette\Rules;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -27,11 +28,6 @@ final class NoNetteDoubleTemplateAssignRule implements Rule, DocumentedRuleInter
      * @var string
      */
     public const ERROR_MESSAGE = 'Avoid double template variable override of "%s"';
-
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -108,11 +104,15 @@ CODE_SAMPLE
         }
 
         $nestedPropertyFetch = $propertyFetch->var;
-        if (! $this->simpleNameResolver->isName($nestedPropertyFetch->var, 'this')) {
+        if (! $this->isVariableName($nestedPropertyFetch->var, 'this')) {
             return false;
         }
 
-        return $this->simpleNameResolver->isName($nestedPropertyFetch->name, 'template');
+        if (! $nestedPropertyFetch->name instanceof Identifier) {
+            return false;
+        }
+
+        return $nestedPropertyFetch->name->toString() === 'template';
     }
 
     /**
@@ -179,5 +179,18 @@ CODE_SAMPLE
         }
 
         return $assigns;
+    }
+
+    private function isVariableName(Expr $expr, string $variableName): bool
+    {
+        if (! $expr instanceof Variable) {
+            return false;
+        }
+
+        if (! is_string($expr->name)) {
+            return false;
+        }
+
+        return $expr->name === $variableName;
     }
 }
