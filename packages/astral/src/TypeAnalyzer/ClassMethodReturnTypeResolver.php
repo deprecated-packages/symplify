@@ -11,25 +11,15 @@ use PHPStan\Reflection\FunctionVariant;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
-use Symplify\Astral\Exception\ShouldNotHappenException;
-use Symplify\Astral\Naming\SimpleNameResolver;
 
 /**
  * @api
  */
 final class ClassMethodReturnTypeResolver
 {
-    public function __construct(
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
     public function resolve(ClassMethod $classMethod, Scope $scope): Type
     {
-        $methodName = $this->simpleNameResolver->getName($classMethod);
-        if (! is_string($methodName)) {
-            throw new ShouldNotHappenException();
-        }
+        $methodName = $classMethod->name->toString();
 
         $classReflection = $scope->getClassReflection();
         if (! $classReflection instanceof ClassReflection) {

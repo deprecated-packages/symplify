@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # 7 Rules Overview
-=======
-# 9 Rules Overview
->>>>>>> [PHPStanRules] Remove NoTemplateMagicAssignInControlRule, never used in practise
-=======
-# 8 Rules Overview
->>>>>>> [PHPtanRules] Remove RequireTemplateInNetteControlRule, never used in real project
 
 ## DibiMaskMatchesVariableTypeRule
 
@@ -236,99 +228,6 @@ class SomeClass
 
 <br>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-## RequireTemplateInNetteControlRule
-
-Set control template explicitly in `$this->template->setFile(...)` or `$this->template->render(...)`
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule`](../packages/Nette/Rules/RequireTemplateInNetteControlRule.php)
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Application\UI\Control;
-
-final class SomeControl extends Control
-{
-    public function render()
-    {
-        $this->template->render('some_file.latte');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-=======
->>>>>>> [PHPtanRules] Remove RequireTemplateInNetteControlRule, never used in real project
-## SingleNetteInjectMethodRule
-
-Use single inject*() class method per class
-
-- class: [`Symplify\PHPStanRules\Nette\Rules\SingleNetteInjectMethodRule`](../packages/Nette/Rules/SingleNetteInjectMethodRule.php)
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectOne(Type $type)
-    {
-        $this->type = $type;
-    }
-
-    public function injectTwo(AnotherType $anotherType)
-    {
-        $this->anotherType = $anotherType;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    private $type;
-
-    private $anotherType;
-
-    public function injectSomeClass(
-        Type $type,
-        AnotherType $anotherType
-    ) {
-        $this->type = $type;
-        $this->anotherType = $anotherType;
-    }
-}
-```
-
-:+1:
-
-<br>
-
->>>>>>> [PHPStanRules] Remove NoTemplateMagicAssignInControlRule, never used in practise
 ## ValidNetteInjectRule
 
 Property with `@inject` annotation or #[Nette\DI\Attributes\Inject] attribute must be public

@@ -3,13 +3,6 @@ rules:
     - Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule
 
     # templates
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    - Symplify\PHPStanRules\Nette\Rules\RequireTemplateInNetteControlRule
->>>>>>> [PHPStanRules] Remove NoTemplateMagicAssignInControlRule, never used in practise
-=======
->>>>>>> [PHPtanRules] Remove RequireTemplateInNetteControlRule, never used in real project
     - Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule
 
     # components
