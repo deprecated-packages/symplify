@@ -21,4 +21,4 @@ jobs:
             # get current dev-main version
             -   run: composer require symplify/phpstan-rules:@dev --dev
 
-            -   run: vendor/bin/phpstan analyze src --config phpstan-for-tests.neon
+            -   run: vendor/bin/phpstan analyze src-for-tests/SomeClass.php --configuration phpstan-for-tests.neon
