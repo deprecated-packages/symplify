@@ -16,14 +16,14 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rules([
-//        NoWhitespaceBeforeCommaInArrayFixer::class,
+        NoWhitespaceBeforeCommaInArrayFixer::class,
         ArrayOpenerAndCloserNewlineFixer::class,
-//        ArrayIndentationFixer::class,
-//        TrimArraySpacesFixer::class,
-//        WhitespaceAfterCommaInArrayFixer::class,
-//        ArrayListItemNewlineFixer::class,
-//        StandaloneLineInMultilineArrayFixer::class,
-//        NoTrailingCommaInSinglelineArrayFixer::class,
+        ArrayIndentationFixer::class,
+        TrimArraySpacesFixer::class,
+        WhitespaceAfterCommaInArrayFixer::class,
+        ArrayListItemNewlineFixer::class,
+        StandaloneLineInMultilineArrayFixer::class,
+        NoTrailingCommaInSinglelineArrayFixer::class,
     ]);
 
     // commas

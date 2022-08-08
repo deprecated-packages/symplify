@@ -13,6 +13,7 @@ declare(strict_types=1);
 $test = [
 'key' => [
 'keyA' => 'valueA'
-]];
+]
+];
 
 ?>
