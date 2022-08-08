@@ -5,24 +5,18 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
 use PhpParser\Node\Arg;
-use PhpParser\Node\VariadicPlaceholder;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use PHPStan\Type\ConstantScalarType;
 
 final class ScalarValueResolver
 {
-    public function __construct(
-        private NodeValueResolver $nodeValueResolver
-    ) {
-    }
-
     /**
      * @param array<Arg> $args
      * @return mixed[]
      */
     public function resolveValuesCountFromArgs(array $args, Scope $scope): array
     {
-        $resolveValues = $this->resolvedValues($args, $scope->getFile());
+        $resolveValues = $this->resolvedValues($args, $scope);
 
         // filter out false/true values
         $resolvedValuesWithoutBool = \array_filter(
@@ -37,10 +31,10 @@ final class ScalarValueResolver
     }
 
     /**
-     * @param array<Arg|VariadicPlaceholder> $args
+     * @param array<Arg> $args
      * @return mixed[]
      */
-    private function resolvedValues(array $args, string $filePath): array
+    private function resolvedValues(array $args, Scope $scope): array
     {
         $passedValues = [];
         foreach ($args as $arg) {
@@ -48,16 +42,16 @@ final class ScalarValueResolver
                 continue;
             }
 
-            $resolvedValue = $this->nodeValueResolver->resolve($arg->value, $filePath);
+            $valueType = $scope->getType($arg->value);
+            if (! $valueType instanceof ConstantScalarType) {
+                continue;
+            }
+
+            $resolvedValue = $valueType->getValue();
 
             // skip simple values
             if ($resolvedValue === '') {
                 continue;
-            }
-
-            // unwrap single array item
-            if (\is_array($resolvedValue) && \count($resolvedValue) === 1) {
-                $resolvedValue = \array_pop($resolvedValue);
             }
 
             $passedValues[] = $resolvedValue;

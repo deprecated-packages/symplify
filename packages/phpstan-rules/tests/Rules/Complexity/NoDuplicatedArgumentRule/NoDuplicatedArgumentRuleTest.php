@@ -31,9 +31,7 @@ final class NoDuplicatedArgumentRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipFunctionExprName.php', []];
         yield [__DIR__ . '/Fixture/SkipFunctionExprName.php', []];
 
-        yield [__DIR__ . '/Fixture/TranslateFunction.php', [[NoDuplicatedArgumentRule::ERROR_MESSAGE, 11]]];
         yield [__DIR__ . '/Fixture/DuplicatedCall.php', [[NoDuplicatedArgumentRule::ERROR_MESSAGE, 11]]];
-        yield [__DIR__ . '/Fixture/DuplicatedCallWithArray.php', [[NoDuplicatedArgumentRule::ERROR_MESSAGE, 11]]];
     }
 
     /**

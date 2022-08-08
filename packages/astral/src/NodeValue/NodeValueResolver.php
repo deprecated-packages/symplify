@@ -51,6 +51,9 @@ final class NodeValueResolver
         $this->nodeValueResolvers[] = new FuncCallValueResolver($this->constExprEvaluator);
     }
 
+    /**
+     * @deprecated Use Scope->getType() with constant types instead
+     */
     public function resolve(Expr $expr, string $filePath): mixed
     {
         $this->currentFilePath = $filePath;

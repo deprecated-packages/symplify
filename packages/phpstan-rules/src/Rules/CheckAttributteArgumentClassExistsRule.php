@@ -10,7 +10,7 @@ use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use PHPStan\Type\Constant\ConstantStringType;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -26,7 +26,6 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule
     public const ERROR_MESSAGE = 'Class was not found';
 
     public function __construct(
-        private NodeValueResolver $nodeValueResolver,
         private ReflectionProvider $reflectionProvider,
     ) {
     }
@@ -44,13 +43,13 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule
                 continue;
             }
 
-            $classConstValue = $this->nodeValueResolver->resolve($value, $scope->getFile());
-            if ($classConstValue === null) {
+            $valueType = $scope->getType($value);
+            if (! $valueType instanceof ConstantStringType) {
                 $errors[] = self::ERROR_MESSAGE;
                 continue;
             }
 
-            if ($this->reflectionProvider->hasClass($classConstValue)) {
+            if ($this->reflectionProvider->hasClass($valueType->getValue())) {
                 continue;
             }
 

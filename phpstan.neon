@@ -546,4 +546,6 @@ parameters:
 
         -
             message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
+            paths:
+                - packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
+                - packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php

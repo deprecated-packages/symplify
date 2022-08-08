@@ -9,7 +9,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use PHPStan\Type\Constant\ConstantStringType;
 
 /**
  * E.g. from "INSERT %s %v" Will extact: s, v
@@ -22,11 +22,6 @@ final class QueryMasksResolver
      */
     private const MASK_REGEX = '#(?<mask>%\w+)\b#';
 
-    public function __construct(
-        private NodeValueResolver $nodeValueResolver,
-    ) {
-    }
-
     /**
      * @return string[]
      */
@@ -37,12 +32,13 @@ final class QueryMasksResolver
             return [];
         }
 
-        $queryString = $this->nodeValueResolver->resolve($firstArg->value, $scope->getFile());
-        if (! is_string($queryString)) {
+        $queryStringType = $scope->getType($firstArg->value);
+        if (! $queryStringType instanceof ConstantStringType) {
             return [];
         }
 
-        return $this->resolveMasksFromString($queryString);
+        $queryStringValue = $queryStringType->getValue();
+        return $this->resolveMasksFromString($queryStringValue);
     }
 
     public function resolveSingleQueryMask(Expr|null $expr, Scope $scope): ?string
@@ -51,7 +47,12 @@ final class QueryMasksResolver
             return null;
         }
 
-        $dimValue = $this->nodeValueResolver->resolve($expr, $scope->getFile());
+        $exprType = $scope->getType($expr);
+        if (! $exprType instanceof ConstantStringType) {
+            return null;
+        }
+
+        $dimValue = $exprType->getValue();
         if (! is_string($dimValue)) {
             return null;
         }
