@@ -12,8 +12,7 @@ jobs:
                 php_version: ['7.2', '7.3', '7.4', '8.0']
 
         steps:
-            -   run: composer require phpstan/phpstan --dev
-            -   run: composer require phpstan/extension-installer --dev
+            -   run: composer require phpstan/phpstan phpstan/extension-installer --dev
 
             # get current dev-main version
             -   run: composer require symplify/phpstan-rules:@dev --dev
