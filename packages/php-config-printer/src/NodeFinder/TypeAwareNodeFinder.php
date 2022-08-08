@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral;
+namespace Symplify\PhpConfigPrinter\NodeFinder;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 
 /**
- * @todo remove after https://github.com/nikic/PHP-Parser/pull/869 is released
  * @api
+ * @todo remove after https://github.com/nikic/PHP-Parser/pull/869 is released
  */
 final class TypeAwareNodeFinder
 {

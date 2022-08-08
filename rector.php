@@ -59,6 +59,8 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/packages/monorepo-builder/templates',
         // test fixtures
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
+        __DIR__ . '/packages/phpstan-rules/build/*',
+
         // many false positives related to file class autoload
         __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
 
