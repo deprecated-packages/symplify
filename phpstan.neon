@@ -554,3 +554,8 @@ parameters:
         -
             message: '#Parameter argument on position 0 must use constant#'
             path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
+
+        # missing generics in php-parser, will be fixed in - https://github.com/nikic/PHP-Parser/pull/869
+        - '#Method Symplify\\PHPStanRules\\Finder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) should return \(TNode of PhpParser\\Node\)\|null but returns PhpParser\\Node\|null#'
+        - '#Method Symplify\\PHPStanRules\\Finder\\TypeAwareNodeFinder\:\:findInstanceOf\(\) should return array<TNode of PhpParser\\Node> but returns array<PhpParser\\Node>#'
+

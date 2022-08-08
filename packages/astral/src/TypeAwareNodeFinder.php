@@ -7,6 +7,9 @@ namespace Symplify\Astral;
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 
+/**
+ * @api
+ */
 final class TypeAwareNodeFinder
 {
     public function __construct(

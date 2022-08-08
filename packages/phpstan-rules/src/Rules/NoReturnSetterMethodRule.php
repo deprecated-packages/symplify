@@ -110,7 +110,6 @@ CODE_SAMPLE
 
     private function hasReturnReturnFunctionLike(ClassMethod $classMethod): bool
     {
-        /** @var Return_[] $returns */
         $returns = $this->typeAwareNodeFinder->findInstanceOf($classMethod, Return_::class);
         foreach ($returns as $return) {
             if ($return->expr !== null) {
