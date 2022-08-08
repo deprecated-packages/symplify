@@ -8,18 +8,13 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\Node\InClassNode;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use PHPStan\Type\Constant\ConstantStringType;
 
 /**
  * @implements Collector<InClassNode, array<array{string, string, int}>>
  */
 final class RegexClassConstCollector implements Collector
 {
-    public function __construct(
-        private NodeValueResolver $nodeValueResolver
-    ) {
-    }
-
     public function getNodeType(): string
     {
         return InClassNode::class;
@@ -48,11 +43,12 @@ final class RegexClassConstCollector implements Collector
                 continue;
             }
 
-            $resolvedValue = $this->nodeValueResolver->resolve($constConst->value, $scope->getFile());
-            if (! is_string($resolvedValue)) {
+            $constValueType = $scope->getType($constConst->value);
+            if (! $constValueType instanceof ConstantStringType) {
                 continue;
             }
 
+            $resolvedValue = $constValueType->getValue();
             $collectedConstants[] = [$constantName, $resolvedValue, $constConst->getLine()];
         }
 
