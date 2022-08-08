@@ -6,14 +6,6 @@ rules:
 
 services:
     -
-        class: Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            attributeWithNames:
-                Symfony\Component\Routing\Annotation\Route:
-                    - name
-
-    -
         class: Symplify\PHPStanRules\Rules\PreferredAttributeOverAnnotationRule
         tags: [phpstan.rules.rule]
         arguments:

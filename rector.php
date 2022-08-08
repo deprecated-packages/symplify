@@ -39,6 +39,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Symfony\Component\Routing\Annotation\Route',
         'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
         'Rector\Config\RectorConfig',
+        'Symplify\PackageBuilder\Reflection\PrivatesCaller',
     ]);
 
     $rectorConfig->paths([__DIR__ . '/packages']);
