@@ -1,4 +1,4 @@
-# 106 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1864,40 +1864,6 @@ final class SomeClass
 
 <br>
 
-## NoGetRepositoryOutsideConstructorRule
-
-Do not use `"$entityManager->getRepository()"` outside of the constructor of repository service or `setUp()` method in test case
-
-- class: [`Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
-
-```php
-final class SomeController
-{
-    public function someAction(EntityManager $entityManager): void
-    {
-        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeRepository
-{
-    public function __construct(EntityManager $entityManager): void
-    {
-        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoGetterAndPropertyRule
 
 There are 2 way to get "%s" value: public property and getter now - pick one to avoid variant behavior.
@@ -3147,59 +3113,6 @@ final class SomeAttribute
 
 <br>
 
-## RequireConstantInAttributeArgumentRule
-
-Argument "%s" must be a constant
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule`](../src/Rules/RequireConstantInAttributeArgumentRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            attributeWithNames:
-                Symfony\Component\Routing\Annotation\Route:
-                    - name
-```
-
-↓
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeClass
-{
-    #[Route(path: '/archive', name: 'blog_archive')]
-    public function __invoke()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeClass
-{
-    #[Route(path: '/archive', name: RouteName::BLOG_ARCHIVE)]
-    public function __invoke()
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireConstantInMethodCallPositionRule
 
 Parameter argument on position %d must use constant
@@ -3422,55 +3335,6 @@ final class IssueControlFactory
 
 final class IssueControl extends Control
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RequireStringArgumentInConstructorRule
-
-Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class". It prevent scoping of the class in building prefixed package.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule`](../src/Rules/RequireStringArgumentInConstructorRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            stringArgPositionsByType:
-                SomeClass:
-                    - 0
-```
-
-↓
-
-```php
-class AnotherClass
-{
-    public function run()
-    {
-        new SomeClass(YetAnotherClass:class);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class AnotherClass
-{
-    public function run()
-    {
-        new SomeClass('YetAnotherClass');
-    }
 }
 ```
 
