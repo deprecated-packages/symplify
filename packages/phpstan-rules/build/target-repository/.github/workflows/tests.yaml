@@ -21,4 +21,11 @@ jobs:
             # get current dev-main version
             -   run: composer require symplify/phpstan-rules:@dev --dev
 
-            -   run: vendor/bin/phpstan analyze src-for-tests/SomeClass.php --configuration phpstan-for-tests.neon
+            # prepare local files
+            -   run: wget https://raw.githubusercontent.com/symplify/phpstan-rules/main/phpstan-for-tests.neon
+            -   run: wget https://raw.githubusercontent.com/symplify/phpstan-rules/main/src-for-tests/SomeClass.php
+
+            -   run: vendor/bin/phpstan analyze SomeClass.php --configuration phpstan-for-tests.neon
+
+
+

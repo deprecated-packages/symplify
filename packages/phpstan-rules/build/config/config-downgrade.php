@@ -13,6 +13,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->ruleWithConfiguration(RemoveInterfacesRector::class, [
         'Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface',
+        'Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface',
     ]);
 
     $rectorConfig->skip(['*/Tests/*', '*/tests/*', __DIR__ . '/../../tests']);
