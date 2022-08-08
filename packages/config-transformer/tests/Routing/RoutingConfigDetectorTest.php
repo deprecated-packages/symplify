@@ -26,6 +26,9 @@ final class RoutingConfigDetectorTest extends TestCase
         $this->assertSame($expectedResult, $isRoutingFilePath);
     }
 
+    /**
+     * @return Iterator<string[]|bool[]>
+     */
     public function provideData(): Iterator
     {
         yield ['my_app/config/routes.yaml', true];
