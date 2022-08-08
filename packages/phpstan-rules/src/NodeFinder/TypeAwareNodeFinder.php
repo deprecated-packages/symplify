@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral;
+namespace Symplify\PHPStanRules\NodeFinder;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
+use Symplify\PHPStanRules\Finder\class;
 
-/**
- * @api
- */
 final class TypeAwareNodeFinder
 {
     public function __construct(

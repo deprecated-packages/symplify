@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Finder;
+namespace Symplify\PHPStanRules\NodeFinder;
 
 use Nette\Utils\Strings;
 use Symfony\Component\Finder\Finder;
@@ -11,7 +11,7 @@ use Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver;
 use Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Finder\ClassLikeNameFinderTest
+ * @see \Symplify\PHPStanRules\Tests\NodeFinder\ClassLikeNameFinderTest
  */
 final class ClassLikeNameFinder
 {

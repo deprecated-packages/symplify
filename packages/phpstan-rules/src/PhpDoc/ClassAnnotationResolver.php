@@ -8,8 +8,8 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
+use Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser;
 
 final class ClassAnnotationResolver
 {
@@ -25,8 +25,8 @@ final class ClassAnnotationResolver
      */
     public function resolveClassAnnotations(Node $node, Scope $scope): array
     {
-        $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
-        if (! $simplePhpDocNode instanceof PhpDocNode) {
+        $phpDocNode = $this->simplePhpDocParser->parseNode($node);
+        if (! $phpDocNode instanceof PhpDocNode) {
             return [];
         }
 
@@ -35,10 +35,10 @@ final class ClassAnnotationResolver
             return [];
         }
 
-        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($simplePhpDocNode, $classReflection);
+        $this->classReferencePhpDocNodeTraverser->decoratePhpDocNode($phpDocNode, $classReflection);
 
         $classAnnotations = [];
-        foreach ($simplePhpDocNode->getTags() as $phpDocTagNode) {
+        foreach ($phpDocNode->getTags() as $phpDocTagNode) {
             $classAnnotations[] = $phpDocTagNode->name;
         }
 

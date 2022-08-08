@@ -10,7 +10,7 @@ use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeTraverser;
-use Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser;
+use Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser;
 
 final class ReturnNodeFinder
 {

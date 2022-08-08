@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Return_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\TypeAwareNodeFinder;
+use Symplify\PHPStanRules\NodeFinder\TypeAwareNodeFinder;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -110,7 +110,6 @@ CODE_SAMPLE
 
     private function hasReturnReturnFunctionLike(ClassMethod $classMethod): bool
     {
-        /** @var Return_[] $returns */
         $returns = $this->typeAwareNodeFinder->findInstanceOf($classMethod, Return_::class);
         foreach ($returns as $return) {
             if ($return->expr !== null) {

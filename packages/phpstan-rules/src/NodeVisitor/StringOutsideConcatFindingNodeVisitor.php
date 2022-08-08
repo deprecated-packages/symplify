@@ -11,7 +11,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\FileCheckingFuncCallAnalyzer;
 
 final class StringOutsideConcatFindingNodeVisitor extends NodeVisitorAbstract

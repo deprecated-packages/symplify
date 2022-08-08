@@ -131,7 +131,7 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
-                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php # 46
+                - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php # 46
 
         -
             message: '#is forbidden to use#'
@@ -142,7 +142,7 @@ parameters:
             message: '#Use explicit return value over magic &reference#'
             paths:
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+                - */PhpDocParser/PhpDocNodeTraverser.php
 
         # exceptions to get file
         -
@@ -199,6 +199,7 @@ parameters:
             paths:
                  # traversing is complex operatoin
                  - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
                  - packages/phpstan-rules/packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php
 
@@ -220,11 +221,15 @@ parameters:
 
         -
             message: '#Use explicit names over dynamic ones#'
-            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+            paths:
+                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+                - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message:  '#Use separate function calls with readable variable names#'
-            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+            paths:
+                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
+                - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
@@ -239,10 +244,14 @@ parameters:
         - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
 
         -
-            message: '#Class cognitive complexity is \d+, keep it under 25#'
-            path: packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+            message: '#cognitive complexity is \d+, keep it under \d+#i'
+            paths:
+                - packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
+                - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 35, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 32, keep it under 8#'
 
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
@@ -267,6 +276,7 @@ parameters:
             paths:
                  - packages/phpstan-rules/src/Rules/AbstractSymplifyRule.php
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
+                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
                  - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
@@ -308,7 +318,7 @@ parameters:
                 # complex worker pool logic
                 - packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
                 # complex search for possible directories
-                - packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+                - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
                 - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
                 - packages/composer-json-manipulator/src/ComposerJsonFactory.php
@@ -317,11 +327,11 @@ parameters:
         # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
         -
             message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
-            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+            path: packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
 
         -
             message:  '#Class cognitive complexity is 26, keep it under 25#'
-            path: packages/phpstan-rules/src/Finder/ClassLikeNameFinder.php
+            path: packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
 
         # known realpath() checked with file_exist right above
         -
@@ -512,6 +522,7 @@ parameters:
             message: '#Method call return value that should be used, but is not#'
             paths:
                  - packages/easy-ci/src/Composer/SupportedPhpVersionResolver.php
+                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/smart-file-system/tests/SmartFileInfo/SmartFileInfoTest.php
                  # skip edge case
                  - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
@@ -549,3 +560,24 @@ parameters:
             paths:
                 - packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
                 - packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
+
+        # decoupling
+        -
+            message: '#Parameter argument on position 0 must use constant#'
+            path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
+
+        # missing generics in php-parser, will be fixed in - https://github.com/nikic/PHP-Parser/pull/869
+        - '#Method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) should return \(TNode of PhpParser\\Node\)\|null but returns PhpParser\\Node\|null#'
+        - '#Method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findInstanceOf\(\) should return array<TNode of PhpParser\\Node> but returns array<PhpParser\\Node>#'
+
+        # duplicit on purpose to split
+        - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'
+        - '#Content of method "parseDocBlock\(\)" is duplicated with method "parseDocBlock\(\)" in "Symplify\\Astral\\PhpDocParser\\SimplePhpDocParser" class\. Use unique content or service instead#'
+        - '#Content of method "enterNode\(\)" is duplicated with method "enterNode\(\)" in "Symplify\\Astral\\NodeVisitor\\CallableNodeVisitor" class\. Use unique content or service instead#'
+        - '#Content of method "parseNativeClassReflection\(\)" is duplicated with method "parseNativeClassReflection\(\)" in "Symplify\\Astral\\Reflection\\ReflectionParser" class\. Use unique content or service instead#'
+
+        -
+            message: '#Class method "parseDocBlock\(\)" is never used#'
+            path: packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
+
+        - '#Parameter \#1 \$nodes of method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) expects array<PhpParser\\Node>\|PhpParser\\Node, array<PhpParser\\Node\\Stmt>\|null given#'

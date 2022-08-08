@@ -10,8 +10,8 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeFinder;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\Reflection\ReflectionParser;
 use Symplify\PHPStanRules\Printer\NodeComparator;
+use Symplify\PHPStanRules\Reflection\ReflectionParser;
 
 final class MethodCallNodeFinder
 {

@@ -7,9 +7,12 @@ includes:
     - generated-services.neon
 
 services:
+    - Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser
+    - Symplify\PHPStanRules\PhpDocParser\PhpDocNodeTraverser
+    - Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser
+    - Symplify\PHPStanRules\Reflection\ReflectionParser
+
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
-    - Symplify\Astral\PhpDocParser\SimplePhpDocParser
-    - Symplify\Astral\PhpDocParser\PhpDocNodeTraverser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesCaller
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
