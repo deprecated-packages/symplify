@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PackageBuilder\Matcher;
+namespace Symplify\PHPStanRules\Matcher;
 
 /**
  * @api
