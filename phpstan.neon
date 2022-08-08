@@ -561,6 +561,7 @@ parameters:
 
         # duplicit on purpose to split
         - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'
+        - '#Content of method "parseDocBlock\(\)" is duplicated with method "parseDocBlock\(\)" in "Symplify\\Astral\\PhpDocParser\\SimplePhpDocParser" class\. Use unique content or service instead#'
 
         -
             message: '#Class method "parseDocBlock\(\)" is never used#'
