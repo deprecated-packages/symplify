@@ -100,10 +100,8 @@ final class StaticNodeCollector
     private function resolveClass(Name $staticClassName, ClassLike $classLike): string
     {
         $class = (string) $staticClassName;
-        if (in_array($class, ['self', 'static'], true)) {
-            if ($classLike->namespacedName instanceof Name) {
-                return $classLike->namespacedName->toString();
-            }
+        if (in_array($class, ['self', 'static'], true) && $classLike->namespacedName instanceof Name) {
+            return $classLike->namespacedName->toString();
         }
 
         if ($class === 'parent') {
