@@ -60,7 +60,7 @@ jobs:
             -   run: vendor/bin/rector process ${{ matrix.tools.directory }}-build --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}-build/vendor/autoload.php --ansi
 
             # copy github actions to repository, so tests run there too
-            -   run: cp -R packages/${{ matrix.tools.directory }}/build/target-repository/. ${{ matrix.tools.directory }}-prefixed-downgraded
+            -   run: cp -R packages/${{ matrix.tools.directory }}/build/target-repository/. ${{ matrix.tools.directory }}-build
 
             # clone remote repository, so we can push it
             -
