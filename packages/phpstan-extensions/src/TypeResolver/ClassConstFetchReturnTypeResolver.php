@@ -14,7 +14,7 @@ use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
-use Symplify\Astral\Exception\ShouldNotHappenException;
+use Symplify\PHPStanExtensions\Exception\ShouldNotHappenException;
 
 final class ClassConstFetchReturnTypeResolver
 {
