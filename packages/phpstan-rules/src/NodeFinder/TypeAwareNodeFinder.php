@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Finder;
+namespace Symplify\PHPStanRules\NodeFinder;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
+use Symplify\PHPStanRules\Finder\class;
 
 final class TypeAwareNodeFinder
 {

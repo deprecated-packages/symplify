@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Finder;
+namespace Symplify\PHPStanRules\Tests\NodeFinder;
 
 use Iterator;
 use PHPStan\Testing\PHPStanTestCase;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
-use Symplify\PHPStanRules\Finder\ClassLikeNameFinder;
+use Symplify\PHPStanRules\NodeFinder\ClassLikeNameFinder;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\PriceProviderInterface;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\ProductProviderInterface;
 use Symplify\PHPStanRules\Tests\Rules\ClassExtendingExclusiveNamespaceRule\Fixture\App\Component\PriceEngine\SkipFallbackPriceProviderInAuthorizedNamespace;

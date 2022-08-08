@@ -11,7 +11,7 @@ use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\Empty_;
 use PhpParser\Node\Expr\Isset_;
 use PhpParser\Node\Stmt\If_;
-use Symplify\PHPStanRules\Finder\TypeAwareNodeFinder;
+use Symplify\PHPStanRules\NodeFinder\TypeAwareNodeFinder;
 
 final class CacheIfAnalyzer
 {

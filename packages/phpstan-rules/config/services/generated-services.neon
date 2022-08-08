@@ -1,6 +1,6 @@
 services:
     - Symplify\PHPStanRules\TypeResolver\ClassMethodReturnTypeResolver
-    - Symplify\PHPStanRules\Finder\TypeAwareNodeFinder
+    - Symplify\PHPStanRules\NodeFinder\TypeAwareNodeFinder
     - Symplify\PHPStanRules\PhpDoc\SeePhpDocTagNodesFinder
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
@@ -8,7 +8,7 @@ services:
     - Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver
     - Symplify\PHPStanRules\Composer\Psr4PathValidator
     - Symplify\PHPStanRules\Enum\EnumConstantAnalyzer
-    - Symplify\PHPStanRules\Finder\ClassLikeNameFinder
+    - Symplify\PHPStanRules\NodeFinder\ClassLikeNameFinder
     - Symplify\PHPStanRules\Formatter\RequiredWithMessageFormatter
     - Symplify\PHPStanRules\Location\DirectoryChecker
     - Symplify\PHPStanRules\Matcher\ClassLikeNameMatcher
