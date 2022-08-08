@@ -51,5 +51,4 @@ rules:
     - Symplify\PHPStanRules\Rules\NoEmptyClassRule
 
     # naming
-    - Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule
     - Symplify\PHPStanRules\Rules\RequireAttributeNameRule

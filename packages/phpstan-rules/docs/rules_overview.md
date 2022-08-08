@@ -1,4 +1,4 @@
-# 107 Rules Overview
+# 106 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1400,31 +1400,6 @@ final class SomeClass
         // ...
     }
 }
-```
-
-:+1:
-
-<br>
-
-## NoBinaryOpCallCompareRule
-
-No magic closure function call is allowed, use explicit class with method instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule`](../src/Rules/NoBinaryOpCallCompareRule.php)
-
-```php
-return array_filter($items, function ($item) {
-}) !== [];
-```
-
-:x:
-
-<br>
-
-```php
-$values = array_filter($items, function ($item) {
-});
-return $values !== [];
 ```
 
 :+1:
