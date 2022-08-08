@@ -10,7 +10,6 @@ use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpected;
 use Symplify\EasyTesting\ValueObject\InputFileInfoAndExpectedFileInfo;
 use Symplify\EasyTesting\ValueObject\SplitLine;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 /**
  * @api
@@ -92,7 +91,6 @@ final class StaticFixtureSplitter
             mkdir($dir, 0777, true);
         }
 
-        /** @phpstan-ignore-next-line we don't use SmartFileSystem->dump() for performance reasons */
         file_put_contents($temporaryFilePath, $fileContent);
 
         return new SmartFileInfo($temporaryFilePath);

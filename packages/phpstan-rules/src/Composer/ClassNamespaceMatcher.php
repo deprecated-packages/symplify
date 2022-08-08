@@ -32,15 +32,15 @@ final class ClassNamespaceMatcher
                 return [];
             }
 
-            $directories = $this->standardizeToArray($directory);
-            foreach ($directories as $directory) {
-                if (! $this->directoryChecker->isInDirectoryNamed($scope, $directory)) {
+            $nestedDirectories = $this->standardizeToArray($directory);
+            foreach ($nestedDirectories as $nestedDirectory) {
+                if (! $this->directoryChecker->isInDirectoryNamed($scope, $nestedDirectory)) {
                     continue;
                 }
 
                 $namespaceToDirectories[] = new ClassNamespaceAndDirectory(
                     $namespace,
-                    $directory,
+                    $nestedDirectory,
                     $namespaceBeforeClass
                 );
                 continue 2;

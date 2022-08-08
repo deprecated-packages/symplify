@@ -6,15 +6,14 @@
     "require": {
         "php": ">=8.0",
         "nette/utils": "^3.2",
-        "symplify/smart-file-system": "^11.1",
         "phpstan/phpstan": "^1.8.1",
         "phpstan/phpdoc-parser": "^1.6.3",
         "nikic/php-parser": "^4.14.0",
-        "symplify/package-builder": "^11.1"
     },
     "require-dev": {
         "symfony/dependency-injection": "^6.0",
         "symfony/config": "^6.0",
+        "symplify/package-builder": "^11.1",
         "symplify/symplify-kernel": "^11.1",
         "symplify/easy-testing": "^11.1",
         "phpunit/phpunit": "^9.5.21"

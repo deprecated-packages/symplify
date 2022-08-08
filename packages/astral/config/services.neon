@@ -1,6 +1,5 @@
 services:
     # mostly used shared services
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - PhpParser\NodeFinder
 
     - Symplify\Astral\Reflection\ReflectionParser
@@ -12,6 +11,5 @@ services:
 
     - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\Astral\NodeValue\NodeValueResolver
-
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver
