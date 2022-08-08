@@ -29,9 +29,6 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "tests/Rules/NoFuncCallInMethodCallRule/Source/Namespaced.php"
-        ],
         "psr-4": {
             "Symplify\\PHPStanRules\\Tests\\": [
                 "tests",
