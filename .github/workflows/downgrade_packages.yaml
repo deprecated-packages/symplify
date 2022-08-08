@@ -43,16 +43,17 @@ jobs:
                     php-version: 8.0
                     coverage: none
 
+            # to have all local tools available
             -   run: composer update --no-progress --ansi
 
             # 1. prepare build directory
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
 
             # 2. install package dependencies so downgrade can go easily
-            -   run: composer install --working-dir packages/${{ matrix.tools.directory }} --ansi
+            -   run: composer install --working-dir ${{ matrix.tools.directory }}-build --ansi
 
             # 3. downgrade directly
-            -   run: vendor/bin/rector process ${{ matrix.tools.directory }} --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}/vendor/autoload.php --ansi
+            -   run: vendor/bin/rector process ${{ matrix.tools.directory }}-build --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}-build/vendor/autoload.php --ansi
 
             # copy github actions to repository, so tests run there too
             -   run: cp -R packages/${{ matrix.tools.directory }}/build/target-repository/. ${{ matrix.tools.directory }}-prefixed-downgraded
