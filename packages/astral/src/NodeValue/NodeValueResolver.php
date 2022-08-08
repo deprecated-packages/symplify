@@ -22,6 +22,8 @@ use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
 /**
  * @api
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
+ *
+ * @deprecated Use $scope->getType() instead
  */
 final class NodeValueResolver
 {
