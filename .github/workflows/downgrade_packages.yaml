@@ -31,14 +31,14 @@ jobs:
 
         steps:
             -
-                uses: actions/checkout@v2
+                uses: "actions/checkout@v2"
                 # this is required for "WyriHaximus/github-action-get-previous-tag" workflow
                 # see https://github.com/actions/checkout#fetch-all-history-for-all-tags-and-branches
                 with:
                     fetch-depth: 0
 
             -
-                uses: shivammathur/setup-php@v2
+                uses: "shivammathur/setup-php@v2"
                 with:
                     php-version: 8.0
                     coverage: none
@@ -47,9 +47,6 @@ jobs:
 
             # 1. prepare build directory
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
-            # remove test files
-            -   run: rm -rf ${{ matrix.tools.directory }}-build/tests
-            -   run: rm -rf ${{ matrix.tools.directory }}-build/packages-tests
 
             # 3. downgrade directly
             -   run: vendor/bin/rector process ${{ matrix.tools.directory }}-build --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}-build/vendor/autoload.php --ansi
@@ -67,6 +64,9 @@ jobs:
 
             # remove remote files, to avoid piling up dead code in remote repository
             -   run: rm -rf remote-repository/.github remote-repository/bin remote-repository/config remote-repository/src remote-repository/packages
+
+            # remove local vendor, do not push it
+            -   run: rm -rf ${{ matrix.tools.directory }}-prefixed-downgraded/vendor ${{ matrix.tools.directory }}-prefixed-downgraded/composer.lock
 
             # copy repository meta files
             -   run: cp -R ${{ matrix.tools.directory }}-prefixed-downgraded/. remote-repository
