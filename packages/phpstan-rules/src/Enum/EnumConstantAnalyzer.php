@@ -6,7 +6,17 @@ namespace Symplify\PHPStanRules\Enum;
 
 final class EnumConstantAnalyzer
 {
-    public function isNonEnumConstantName(string $name): bool
+    public function isNonEnumConstantPrefix(string $prefix): bool
+    {
+        // constant prefix is needed
+        if (! \str_ends_with($prefix, '_')) {
+            return true;
+        }
+
+        return $this->isNonEnumConstantName($prefix);
+    }
+
+    private function isNonEnumConstantName(string $name): bool
     {
         // not enum, but rather validation limit
         if (\str_starts_with($name, 'MIN_')) {
@@ -22,15 +32,5 @@ final class EnumConstantAnalyzer
         }
 
         return \str_ends_with($name, '_MAX');
-    }
-
-    public function isNonEnumConstantPrefix(string $prefix): bool
-    {
-        // constant prefix is needed
-        if (! \str_ends_with($prefix, '_')) {
-            return true;
-        }
-
-        return $this->isNonEnumConstantName($prefix);
     }
 }
