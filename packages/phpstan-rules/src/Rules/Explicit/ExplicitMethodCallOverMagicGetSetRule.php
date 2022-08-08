@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\TypeWithClassName;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 use Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;

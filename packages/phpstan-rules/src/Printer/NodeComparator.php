@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Param;
 use PhpParser\PrettyPrinter\Standard;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 
 final class NodeComparator
 {

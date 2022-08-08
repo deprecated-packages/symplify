@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\NodeVisitor;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 
 /**
  * Inspired by https://github.com/phpstan/phpstan-src/blob/1.7.x/src/Parser/NewAssignedToPropertyVisitor.php

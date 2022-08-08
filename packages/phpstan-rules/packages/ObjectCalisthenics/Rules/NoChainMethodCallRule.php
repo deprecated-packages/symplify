@@ -8,7 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 use Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;

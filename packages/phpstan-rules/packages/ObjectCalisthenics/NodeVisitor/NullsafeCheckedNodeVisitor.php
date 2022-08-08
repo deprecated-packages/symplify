@@ -7,7 +7,7 @@ namespace Symplify\PHPStanRules\ObjectCalisthenics\NodeVisitor;
 use PhpParser\Node;
 use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\Astral\ValueObject\AttributeKey;
+use Symplify\PHPStanRules\Enum\AttributeKey;
 
 final class NullsafeCheckedNodeVisitor extends NodeVisitorAbstract
 {
