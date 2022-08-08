@@ -30,6 +30,7 @@ return static function (EasyCIConfig $easyCIConfig): void {
     $easyCIConfig->excludeCheckPaths(['Fixture', 'Source', 'tests', 'stubs', 'templates']);
 
     $easyCIConfig->typesToSkip([
+        \Symplify\Astral\NodeValue\NodeValueResolver::class,
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
         SetList::class,

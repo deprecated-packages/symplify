@@ -21,6 +21,7 @@ use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
 use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
+ * @api
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
  */
 final class NodeValueResolver
