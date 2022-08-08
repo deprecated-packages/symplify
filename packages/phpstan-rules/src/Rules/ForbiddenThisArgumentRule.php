@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
@@ -31,7 +32,7 @@ final class ForbiddenThisArgumentRule implements Rule, DocumentedRuleInterface
     public const ERROR_MESSAGE = '$this as argument is not allowed. Refactor method to service composition';
 
     /**
-     * @var class-string[]
+     * @var array<class-string<PrivatesCaller>>
      */
     private const ALLOWED_CALLER_CLASSES = [
         // workaround type
