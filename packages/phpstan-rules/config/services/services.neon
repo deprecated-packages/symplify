@@ -8,7 +8,8 @@ includes:
 
 services:
     - Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker
-    - Symplify\Astral\PhpDocParser\SimplePhpDocParser
+    - Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser
+
     - Symplify\Astral\PhpDocParser\PhpDocNodeTraverser
     - Symplify\PackageBuilder\Matcher\ArrayStringAndFnMatcher
     - Symplify\PackageBuilder\Reflection\PrivatesCaller

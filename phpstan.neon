@@ -561,3 +561,7 @@ parameters:
 
         # duplicit on purpose to split
         - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'
+
+        -
+            message: '#Class method "parseDocBlock\(\)" is never used#'
+            path: packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php

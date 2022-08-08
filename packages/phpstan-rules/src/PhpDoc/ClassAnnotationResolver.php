@@ -8,8 +8,8 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser\ClassReferencePhpDocNodeTraverser;
+use Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser;
 
 final class ClassAnnotationResolver
 {
