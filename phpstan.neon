@@ -549,3 +549,8 @@ parameters:
             paths:
                 - packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
                 - packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
+
+        # decoupling
+        -
+            message: '#Parameter argument on position 0 must use constant#'
+            path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
