@@ -14,9 +14,9 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
-use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\PhpConfigPrinter\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\Naming\VariableNameResolver;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
@@ -24,7 +24,6 @@ use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 final class ConfiguratorClosureNodeFactory
 {
     public function __construct(
-        private NodeValueResolver $nodeValueResolver,
         private VariableNameResolver $variableNameResolver,
     ) {
     }
@@ -237,11 +236,10 @@ final class ConfiguratorClosureNodeFactory
             return null;
         }
 
-        $extensionName = $this->nodeValueResolver->resolve($firstArg->value, '');
-        if (! is_string($extensionName)) {
+        if (! $firstArg->value instanceof String_) {
             return null;
         }
 
-        return $extensionName;
+        return $firstArg->value->value;
     }
 }
