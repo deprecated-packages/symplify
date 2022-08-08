@@ -4,3 +4,6 @@ includes:
 
 parameters:
     level: 4
+
+    ignoreErrors:
+        - '#Class method "getName\(\)" is never used#'
