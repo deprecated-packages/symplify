@@ -1,4 +1,4 @@
-# 109 Rules Overview
+# 108 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -706,56 +706,6 @@ final class SomeClass
     {
         return new Person('John', 'Dope');
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenClassConstRule
-
-Constants in this class are not allowed, move them to custom Enum class instead
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule`](../src/Rules/Enum/ForbiddenClassConstRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classTypes:
-                - AbstractEntity
-```
-
-↓
-
-```php
-final class Product extends AbstractEntity
-{
-    public const TYPE_HIDDEN = 0;
-
-    public const TYPE_VISIBLE = 1;
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class Product extends AbstractEntity
-{
-}
-
-class ProductVisibility extends Enum
-{
-    public const HIDDEN = 0;
-
-    public const VISIBLE = 1;
 }
 ```
 
