@@ -12,7 +12,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\NodeFinder;
-use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\Enum\MethodName;
 
 final class DependencyNodeAnalyzer
 {

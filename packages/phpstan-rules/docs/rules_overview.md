@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 103 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -438,30 +438,6 @@ class SomeStatus
 
 <br>
 
-## EnumSpotterRule
-
-The string value "%s" is repeated %d times. Refactor to enum to avoid typos and make clear allowed values
-
-- class: [`Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule`](../src/Rules/Domain/EnumSpotterRule.php)
-
-```php
-$this->addFlash('info', 'Some message');
-$this->addFlash('info', 'Another message');
-```
-
-:x:
-
-<br>
-
-```php
-$this->addFlash(FlashType::INFO, 'Some message');
-$this->addFlash(FlashType::INFO, 'Another message');
-```
-
-:+1:
-
-<br>
-
 ## ExclusiveDependencyRule
 
 Dependency of specific type can be used only in specific class types
@@ -730,56 +706,6 @@ final class SomeClass
     {
         return new Person('John', 'Dope');
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenClassConstRule
-
-Constants in this class are not allowed, move them to custom Enum class instead
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule`](../src/Rules/Enum/ForbiddenClassConstRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\ForbiddenClassConstRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            classTypes:
-                - AbstractEntity
-```
-
-↓
-
-```php
-final class Product extends AbstractEntity
-{
-    public const TYPE_HIDDEN = 0;
-
-    public const TYPE_VISIBLE = 1;
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class Product extends AbstractEntity
-{
-}
-
-class ProductVisibility extends Enum
-{
-    public const HIDDEN = 0;
-
-    public const VISIBLE = 1;
 }
 ```
 
@@ -1480,31 +1406,6 @@ final class SomeClass
 
 <br>
 
-## NoBinaryOpCallCompareRule
-
-No magic closure function call is allowed, use explicit class with method instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoBinaryOpCallCompareRule`](../src/Rules/NoBinaryOpCallCompareRule.php)
-
-```php
-return array_filter($items, function ($item) {
-}) !== [];
-```
-
-:x:
-
-<br>
-
-```php
-$values = array_filter($items, function ($item) {
-});
-return $values !== [];
-```
-
-:+1:
-
-<br>
-
 ## NoClassWithStaticMethodWithoutStaticNameRule
 
 Class has a static method must so must contains "Static" in its name
@@ -1963,40 +1864,6 @@ final class SomeClass
 
 <br>
 
-## NoGetRepositoryOutsideConstructorRule
-
-Do not use `"$entityManager->getRepository()"` outside of the constructor of repository service or `setUp()` method in test case
-
-- class: [`Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule`](../src/Rules/NoGetRepositoryOutsideConstructorRule.php)
-
-```php
-final class SomeController
-{
-    public function someAction(EntityManager $entityManager): void
-    {
-        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeRepository
-{
-    public function __construct(EntityManager $entityManager): void
-    {
-        $someEntityRepository = $entityManager->getRepository(SomeEntity::class);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoGetterAndPropertyRule
 
 There are 2 way to get "%s" value: public property and getter now - pick one to avoid variant behavior.
@@ -2113,36 +1980,6 @@ class SomeClass
         if ($object !== null) {
             return $object;
         }
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoMagicClosureRule
-
-No magic closure function call is allowed, use explicit class with method instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoMagicClosureRule`](../src/Rules/NoMagicClosureRule.php)
-
-```php
-(static function () {
-    // ...
-})
-```
-
-:x:
-
-<br>
-
-```php
-final class HelpfulName
-{
-    public function clearName()
-    {
-        // ...
     }
 }
 ```
@@ -3276,59 +3113,6 @@ final class SomeAttribute
 
 <br>
 
-## RequireConstantInAttributeArgumentRule
-
-Argument "%s" must be a constant
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule`](../src/Rules/RequireConstantInAttributeArgumentRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireConstantInAttributeArgumentRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            attributeWithNames:
-                Symfony\Component\Routing\Annotation\Route:
-                    - name
-```
-
-↓
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeClass
-{
-    #[Route(path: '/archive', name: 'blog_archive')]
-    public function __invoke()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Routing\Annotation\Route;
-
-final class SomeClass
-{
-    #[Route(path: '/archive', name: RouteName::BLOG_ARCHIVE)]
-    public function __invoke()
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## RequireConstantInMethodCallPositionRule
 
 Parameter argument on position %d must use constant
@@ -3551,55 +3335,6 @@ final class IssueControlFactory
 
 final class IssueControl extends Control
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RequireStringArgumentInConstructorRule
-
-Use quoted string in constructor "new `%s()"` argument on position %d instead of "::class". It prevent scoping of the class in building prefixed package.
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule`](../src/Rules/RequireStringArgumentInConstructorRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\RequireStringArgumentInConstructorRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            stringArgPositionsByType:
-                SomeClass:
-                    - 0
-```
-
-↓
-
-```php
-class AnotherClass
-{
-    public function run()
-    {
-        new SomeClass(YetAnotherClass:class);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class AnotherClass
-{
-    public function run()
-    {
-        new SomeClass('YetAnotherClass');
-    }
 }
 ```
 

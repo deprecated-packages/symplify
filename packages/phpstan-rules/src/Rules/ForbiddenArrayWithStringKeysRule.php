@@ -13,7 +13,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ArrayType;
-use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\Enum\MethodName;
 use Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer;
 use Symplify\PHPStanRules\ParentGuard\ParentElementResolver\ParentMethodReturnTypeResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;

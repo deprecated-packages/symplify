@@ -1,9 +1,0 @@
-includes:
-    - ../../../../config/included_services.neon
-
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            repeatedCountThreshold: 1

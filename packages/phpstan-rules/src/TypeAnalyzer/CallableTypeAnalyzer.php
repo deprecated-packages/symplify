@@ -11,7 +11,7 @@ use PHPStan\Type\ClosureType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
-use Symplify\PackageBuilder\ValueObject\MethodName;
+use Symplify\PHPStanRules\Enum\MethodName;
 
 final class CallableTypeAnalyzer
 {

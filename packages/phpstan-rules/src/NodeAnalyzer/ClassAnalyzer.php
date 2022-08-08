@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeAnalyzer;
 
-use PhpParser\Node\Stmt\ClassLike;
+use PhpParser\Node\Stmt\Class_;
 
 final class ClassAnalyzer
 {
     /**
      * @return string[]
      */
-    public function resolveConstantNames(ClassLike $classLike): array
+    public function resolveConstantNames(Class_ $class): array
     {
         $constantNames = [];
 
-        foreach ($classLike->getConstants() as $classConst) {
+        foreach ($class->getConstants() as $classConst) {
             $constConst = $classConst->consts[0];
             $constantNames[] = $constConst->name->toString();
         }

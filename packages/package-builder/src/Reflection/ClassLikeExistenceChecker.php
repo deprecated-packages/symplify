@@ -34,6 +34,9 @@ final class ClassLikeExistenceChecker
         return trait_exists($classLike);
     }
 
+    /**
+     * @api
+     */
     public function doesClassLikeInsensitiveExists(string $classLikeName): bool
     {
         if (! $this->doesClassLikeExist($classLikeName)) {

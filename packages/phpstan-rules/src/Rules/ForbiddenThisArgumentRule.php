@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
+use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use PhpParser\Node;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
@@ -15,7 +16,6 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPStan\Type\ThisType;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -32,11 +32,11 @@ final class ForbiddenThisArgumentRule implements Rule, DocumentedRuleInterface
     public const ERROR_MESSAGE = '$this as argument is not allowed. Refactor method to service composition';
 
     /**
-     * @var class-string<PrivatesCaller>[]
+     * @var array<class-string<PrivatesCaller>>
      */
     private const ALLOWED_CALLER_CLASSES = [
         // workaround type
-        PrivatesCaller::class,
+        'Symplify\PackageBuilder\Reflection\PrivatesCaller',
     ];
 
     public function __construct(

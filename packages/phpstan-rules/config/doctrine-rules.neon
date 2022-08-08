@@ -11,6 +11,3 @@ services:
                 'Doctrine\ORM\EntityManagerInterface':
                     - '*Repository'
                     - 'Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface'
-
-rules:
-    - Symplify\PHPStanRules\Rules\NoGetRepositoryOutsideConstructorRule
