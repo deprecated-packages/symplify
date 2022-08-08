@@ -1,6 +1,5 @@
 services:
     # mostly used shared services
-    - Symplify\PackageBuilder\Reflection\PrivatesAccessor
     - PhpParser\NodeFinder
 
     - Symplify\Astral\Reflection\ReflectionParser
@@ -10,8 +9,6 @@ services:
         type: Symplify\Astral\PhpParser\SmartPhpParser
         factory: ['@Symplify\Astral\PhpParser\SmartPhpParserFactory', 'create']
 
-    - Symplify\PackageBuilder\Php\TypeChecker
     - Symplify\Astral\NodeValue\NodeValueResolver
-
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver
