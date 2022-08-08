@@ -104,7 +104,7 @@ abstract class AbstractParent
      * @var SomeType
      */
     #[Inject]
-    protected $someType;
+    public $someType;
 }
 
 final class SomeChild extends AbstractParent
@@ -125,7 +125,7 @@ abstract class AbstractParent
      * @var SomeType
      */
     #[Inject]
-    protected $someType;
+    public $someType;
 }
 
 final class SomeChild extends AbstractParent
