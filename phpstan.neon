@@ -1,5 +1,4 @@
 includes:
-    - packages/astral/config/services.neon
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
