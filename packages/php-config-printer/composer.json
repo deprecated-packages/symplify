@@ -7,10 +7,10 @@
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.14.0",
         "symfony/yaml": "^6.0",
-        "symplify/symplify-kernel": "^11.1"
+        "symplify/symplify-kernel": "^11.2"
     },
     "require-dev": {
-        "symplify/easy-testing": "^11.1",
+        "symplify/easy-testing": "^11.2",
         "phpunit/phpunit": "^9.5.21"
     },
     "autoload": {
@@ -29,7 +29,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "11.1-dev"
+            "dev-main": "11.2-dev"
         }
     },
     "conflict": {

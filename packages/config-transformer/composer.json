@@ -14,14 +14,14 @@
         "symfony/dependency-injection": "^6.0",
         "symfony/expression-language": "^6.0",
         "symfony/yaml": "^6.0",
-        "symplify/php-config-printer": "^11.1",
-        "symplify/symplify-kernel": "^11.1"
+        "symplify/php-config-printer": "^11.2",
+        "symplify/symplify-kernel": "^11.2"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
         "phpunit/phpunit": "^9.5.21",
         "symfony/framework-bundle": "^6.0.10",
-        "symplify/easy-testing": "^11.1"
+        "symplify/easy-testing": "^11.2"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +42,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "11.1-dev"
+            "dev-main": "11.2-dev"
         },
         "patches": {
             "symfony/dependency-injection": [
