@@ -1,3 +1,6 @@
 # this config is only for tests, it verifies all the rules are runnable
 includes:
     - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+
+parameters:
+    level: 4
