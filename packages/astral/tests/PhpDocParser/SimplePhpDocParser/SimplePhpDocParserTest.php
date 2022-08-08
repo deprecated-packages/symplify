@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\Astral\Tests\PhpDocParser\SimplePhpDocParser;
 
+use Nette\Utils\FileSystem;
 use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
 use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\Astral\Tests\PhpDocParser\HttpKernel\SimplePhpDocParserKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SimplePhpDocParserTest extends AbstractKernelTestCase
 {
@@ -22,9 +22,9 @@ final class SimplePhpDocParserTest extends AbstractKernelTestCase
 
     public function testVar(): void
     {
-        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/var_int.txt');
+        $fileContents = FileSystem::read(__DIR__ . '/Fixture/var_int.txt');
 
-        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($fileContents);
         $this->assertInstanceOf(SimplePhpDocNode::class, $simplePhpDocNode);
 
         $varTagValues = $simplePhpDocNode->getVarTagValues();
@@ -33,9 +33,9 @@ final class SimplePhpDocParserTest extends AbstractKernelTestCase
 
     public function testParam(): void
     {
-        $smartFileInfo = new SmartFileInfo(__DIR__ . '/Fixture/param_string_name.txt');
+        $fileContents = FileSystem::read(__DIR__ . '/Fixture/param_string_name.txt');
 
-        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($smartFileInfo->getContents());
+        $simplePhpDocNode = $this->simplePhpDocParser->parseDocBlock($fileContents);
         $this->assertInstanceOf(SimplePhpDocNode::class, $simplePhpDocNode);
 
         // DX friendly
