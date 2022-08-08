@@ -7,6 +7,9 @@ namespace Symplify\PHPStanRules\NodeFinder;
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 
+/**
+ * @todo remove after https://github.com/nikic/PHP-Parser/pull/869 is released
+ */
 final class TypeAwareNodeFinder
 {
     public function __construct(

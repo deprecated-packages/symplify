@@ -9,6 +9,7 @@ use PhpParser\NodeFinder;
 
 /**
  * @api
+ * @todo remove after https://github.com/nikic/PHP-Parser/pull/869 is released
  */
 final class TypeAwareNodeFinder
 {
