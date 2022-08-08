@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\ClassLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
 use PHPStan\Rules\Rule;
-use Symplify\Astral\NodeValue\NodeValueResolver;
+use PHPStan\Type\Constant\ConstantStringType;
 use Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -26,7 +26,6 @@ final class RequireUniqueEnumConstantRule implements Rule, DocumentedRuleInterfa
     public const ERROR_MESSAGE = 'Enum constants "%s" are duplicated. Make them unique instead';
 
     public function __construct(
-        private NodeValueResolver $nodeValueResolver,
         private EnumAnalyzer $enumAnalyzer
     ) {
     }
@@ -121,7 +120,12 @@ CODE_SAMPLE
         $constantValues = [];
         foreach ($classLike->getConstants() as $classConst) {
             foreach ($classConst->consts as $const) {
-                $constantValues[] = $this->nodeValueResolver->resolve($const->value, $scope->getFile());
+                $constValueType = $scope->getType($const->value);
+                if (! $constValueType instanceof ConstantStringType) {
+                    continue;
+                }
+
+                $constantValues[] = $constValueType->getValue();
             }
         }
 

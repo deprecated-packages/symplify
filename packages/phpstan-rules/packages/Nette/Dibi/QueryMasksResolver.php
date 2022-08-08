@@ -37,8 +37,8 @@ final class QueryMasksResolver
             return [];
         }
 
-        $queryString = $queryStringType->getValue();
-        return $this->resolveMasksFromString($queryString);
+        $queryStringValue = $queryStringType->getValue();
+        return $this->resolveMasksFromString($queryStringValue);
     }
 
     public function resolveSingleQueryMask(Expr|null $expr, Scope $scope): ?string

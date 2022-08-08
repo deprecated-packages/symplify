@@ -9,8 +9,8 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\TypeWithClassName;
-use Symplify\Astral\NodeValue\NodeValueResolver;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,11 +24,6 @@ final class ForbiddenArrayMethodCallRule implements Rule, DocumentedRuleInterfac
      * @var string
      */
     public const ERROR_MESSAGE = 'Array method calls [$this, "method"] are not allowed. Use explicit method instead to help PhpStorm, PHPStan and Rector understand your code';
-
-    public function __construct(
-        private NodeValueResolver $nodeValueResolver
-    ) {
-    }
 
     /**
      * @return class-string<Node>
@@ -106,11 +101,12 @@ CODE_SAMPLE
         }
 
         $secondItemValue = $secondItem->value;
-        $secondValue = $this->nodeValueResolver->resolve($secondItemValue, $scope->getFile());
-        if (! is_string($secondValue)) {
+
+        $secondItemType = $scope->getType($secondItemValue);
+        if (! $secondItemType instanceof ConstantStringType) {
             return null;
         }
 
-        return $secondValue;
+        return $secondItemType->getValue();
     }
 }
