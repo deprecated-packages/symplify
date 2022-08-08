@@ -12,6 +12,10 @@ jobs:
                 php_version: ['7.2', '7.3', '7.4', '8.0']
 
         steps:
+            # prepare empty composer.json that allows the phpstan extension plugin
+            -   run: composer init --name just/for-test --quiet
+            -   run: composer config --no-plugins allow-plugins.phpstan/extension-installer true
+
             -   run: composer require phpstan/phpstan phpstan/extension-installer --dev
 
             # get current dev-main version
