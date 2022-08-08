@@ -12,7 +12,6 @@ use PHPStan\Node\InClassMethodNode;
 use PHPStan\Rules\Rule;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -47,7 +46,6 @@ final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInter
 
     public function __construct(
         private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
-        private TypeChecker $typeChecker,
         private int $minimumLineCount = 3
     ) {
     }
@@ -173,8 +171,10 @@ CODE_SAMPLE
             return true;
         }
 
-        if ($this->typeChecker->isInstanceOf($className, self::EXCLUDED_TYPES)) {
-            return true;
+        foreach (self::EXCLUDED_TYPES as $excludedType) {
+            if (is_a($className, $excludedType, true)) {
+                return true;
+            }
         }
 
         /** @var Stmt[] $stmts */

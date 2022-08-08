@@ -11,7 +11,6 @@ use PHPStan\PhpDocParser\Parser\TypeParser;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\Astral\PhpParser\SmartPhpParser;
 use Symplify\Astral\PhpParser\SmartPhpParserFactory;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -34,7 +33,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->factory([service(SmartPhpParserFactory::class), 'create']);
 
     $services->set(ConstExprEvaluator::class);
-    $services->set(TypeChecker::class);
     $services->set(NodeFinder::class);
 
     // phpdoc parser

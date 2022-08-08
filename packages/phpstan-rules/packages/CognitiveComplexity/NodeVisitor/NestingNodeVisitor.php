@@ -14,7 +14,6 @@ use PhpParser\Node\Stmt\Foreach_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\While_;
 use PhpParser\NodeVisitorAbstract;
-use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PHPStanRules\CognitiveComplexity\DataCollector\CognitiveComplexityDataCollector;
 use Symplify\PHPStanRules\CognitiveComplexity\NodeAnalyzer\ComplexityAffectingNodeFinder;
 
@@ -41,7 +40,6 @@ final class NestingNodeVisitor extends NodeVisitorAbstract
     public function __construct(
         private CognitiveComplexityDataCollector $cognitiveComplexityDataCollector,
         private ComplexityAffectingNodeFinder $complexityAffectingNodeFinder,
-        private TypeChecker $typeChecker
     ) {
     }
 
@@ -88,6 +86,12 @@ final class NestingNodeVisitor extends NodeVisitorAbstract
 
     private function isNestingNode(Node $node): bool
     {
-        return $this->typeChecker->isInstanceOf($node, self::NESTING_NODE_TYPES);
+        foreach (self::NESTING_NODE_TYPES as $nestingNodeType) {
+            if (is_a($node, $nestingNodeType, true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

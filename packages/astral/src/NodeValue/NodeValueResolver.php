@@ -26,11 +26,7 @@ use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
 final class NodeValueResolver
 {
     /**
-<<<<<<< HEAD
      * @var array<class-string<Expr>>
-=======
-     * @var string[]
->>>>>>> [Astral] Make NodeValueResolver more standalone
      */
     private const UNRESOLVABLE_TYPES = [
         Variable::class, Cast::class, MethodCall::class, PropertyFetch::class, Instanceof_::class,
