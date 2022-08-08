@@ -49,6 +49,10 @@ jobs:
             # 1. prepare build directory
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
 
+            # remove test files
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/tests
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/packages-tests
+
             # 2. install package dependencies so downgrade can go easily
             -   run: composer install --working-dir ${{ matrix.tools.directory }}-build --ansi
 
