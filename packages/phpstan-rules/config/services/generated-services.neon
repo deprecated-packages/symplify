@@ -1,4 +1,5 @@
 services:
+    - Symplify\PHPStanRules\TypeResolver\ClassMethodReturnTypeResolver
     - Symplify\PHPStanRules\Finder\TypeAwareNodeFinder
     - Symplify\PHPStanRules\PhpDoc\SeePhpDocTagNodesFinder
     - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
