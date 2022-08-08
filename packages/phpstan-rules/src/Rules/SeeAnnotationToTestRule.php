@@ -9,15 +9,13 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
-use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\PHPStanRules\PhpDoc\PhpDocResolver;
+use Symplify\PHPStanRules\PhpDoc\SeePhpDocTagNodesFinder;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -33,16 +31,14 @@ final class SeeAnnotationToTestRule implements Rule, DocumentedRuleInterface, Co
      */
     public const ERROR_MESSAGE = 'Class "%s" is missing @see annotation with test case class reference';
 
-    private PrivatesAccessor $privatesAccessor;
-
     /**
      * @param string[] $requiredSeeTypes
      */
     public function __construct(
         private PhpDocResolver $phpDocResolver,
+        private SeePhpDocTagNodesFinder $seePhpDocTagNodesFinder,
         private array $requiredSeeTypes
     ) {
-        $this->privatesAccessor = new PrivatesAccessor();
     }
 
     /**
@@ -83,7 +79,7 @@ final class SeeAnnotationToTestRule implements Rule, DocumentedRuleInterface, Co
             return [];
         }
 
-        $seeTags = $this->getSeeTagNodes($resolvedPhpDocBlock);
+        $seeTags = $this->seePhpDocTagNodesFinder->find($resolvedPhpDocBlock);
         if ($this->hasSeeTestCaseAnnotation($seeTags)) {
             return [];
         }
@@ -148,20 +144,5 @@ CODE_SAMPLE
         }
 
         return false;
-    }
-
-    /**
-     * @return PhpDocTagNode[]
-     */
-    private function getSeeTagNodes(ResolvedPhpDocBlock $resolvedPhpDocBlock): array
-    {
-        /** @var PhpDocNode $phpDocNode */
-        $phpDocNode = $this->privatesAccessor->getPrivatePropertyOfClass(
-            $resolvedPhpDocBlock,
-            'phpDocNode',
-            PhpDocNode::class
-        );
-
-        return $phpDocNode->getTagsByName('@see');
     }
 }
