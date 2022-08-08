@@ -23,9 +23,9 @@ jobs:
 
             # prepare local files
             -   run: wget https://raw.githubusercontent.com/symplify/phpstan-rules/main/phpstan-for-tests.neon
-            -   run: wget https://raw.githubusercontent.com/symplify/phpstan-rules/main/tests/SomeClass.php.inc
+            -   run: wget https://raw.githubusercontent.com/symplify/phpstan-rules/main/tests/SomeClass.php.inc.inc
 
-            -   run: vendor/bin/phpstan analyze SomeClass.php.inc --configuration phpstan-for-tests.neon
+            -   run: vendor/bin/phpstan analyze SomeClass.php.inc.inc --configuration phpstan-for-tests.neon
 
 
 

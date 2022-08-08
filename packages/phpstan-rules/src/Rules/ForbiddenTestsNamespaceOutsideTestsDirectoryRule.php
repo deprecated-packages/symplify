@@ -71,7 +71,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule implements Rule, Do
         return new RuleDefinition(self::DESCRIPTION, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-// file path: "src/SomeClass.php
+// file path: "src/SomeClass.php"
 
 namespace App\Tests;
 
@@ -81,7 +81,7 @@ class SomeClass
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-// file path: "tests/SomeClass.php
+// file path: "tests/SomeClass.php"
 
 namespace App\Tests;
 
