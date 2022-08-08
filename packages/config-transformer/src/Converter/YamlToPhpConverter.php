@@ -6,6 +6,7 @@ namespace Symplify\ConfigTransformer\Converter;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
+use Symplify\ConfigTransformer\Routing\RoutingConfigDetector;
 use Symplify\PhpConfigPrinter\NodeFactory\ContainerConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\RoutingConfiguratorReturnClosureFactory;
 use Symplify\PhpConfigPrinter\Printer\PhpParserPhpConfigPrinter;
@@ -24,7 +25,8 @@ final class YamlToPhpConverter
         private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
         private ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
         private RoutingConfiguratorReturnClosureFactory $routingConfiguratorReturnClosureFactory,
-        private CheckerServiceParametersShifter $checkerServiceParametersShifter
+        private CheckerServiceParametersShifter $checkerServiceParametersShifter,
+        private RoutingConfigDetector $routingConfigDetector
     ) {
     }
 
@@ -44,7 +46,7 @@ final class YamlToPhpConverter
      */
     public function convertYamlArray(array $yamlArray, string $filePath): string
     {
-        if ($this->isRouteYaml($filePath)) {
+        if ($this->routingConfigDetector->isRoutingFilePath($filePath)) {
             $return = $this->routingConfiguratorReturnClosureFactory->createFromArrayData($yamlArray);
         } else {
             $yamlArray = $this->checkerServiceParametersShifter->process($yamlArray);
@@ -52,11 +54,5 @@ final class YamlToPhpConverter
         }
 
         return $this->phpParserPhpConfigPrinter->prettyPrintFile([$return]);
-    }
-
-    private function isRouteYaml(string $filePath): bool
-    {
-        // if the paths contains this keyword, we assume it contains routes
-        return !str_contains($filePath, DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR) && (str_contains($filePath, 'routing') || str_contains($filePath, 'routes'));
     }
 }
