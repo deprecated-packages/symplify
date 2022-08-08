@@ -32,50 +32,7 @@ includes:
 
 ## Usage
 
-### 1. Resolve Name of Any Node
-
-How can you get the name of a specific node?
-
-```php
-$someObject->someMethodCall();
-// "someObject"
-// "someMethodCall"
-```
-
-Require `SimpleNameResolver` in any service:
-
-```php
-use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
-use Symplify\Astral\Naming\SimpleNameResolver;
-
-final class SomeRule
-{
-    public function __construct(
-        // PHP 8.0 promoted property syntax
-        private SimpleNameResolver $simpleNameResolver
-    ) {
-    }
-
-    public function process(Node $node): void
-    {
-        if ($node instanceof MethodCall) {
-            $callerName = $this->simpleNameResolver->getName($node->var);
-            $methodName = $this->simpleNameResolver->getName($node->name);
-        }
-    }
-}
-```
-
-For dynamic names that are not possible to resolve, the `null` will be returned:
-
-```php
-$variable->${someMethod}();
-```
-
-<br>
-
-### 2. Resolve Value of Node
+### 1. Resolve Value of Node
 
 ```php
 $value = 1000;
@@ -130,7 +87,7 @@ __DIR__;
 
 <br>
 
-### 3. Unique `*Builder` Classes
+### 2. Unique `*Builder` Classes
 
 Native PhpParser node class and builder class share the same short class name.
 
@@ -153,7 +110,7 @@ $class = $classBuilder->getNode();
 
 <br>
 
-### 4. Traverse Nodes with Simple Callback
+### 3. Traverse Nodes with Simple Callback
 
 Working with nodes is based on traversing each one of them. You can use native `NodeVisitor` and `NodeTraverses`. But that requires to create at least 2 objects, to connect them and call them.
 
@@ -179,7 +136,7 @@ $simpleCallableNodeTraverser->traverseNodesWithCallable($classMethod, function (
 });
 ```
 
-### 5. Register Config
+### 4. Register Config
 
 Register config in your `config/config.php`:
 
@@ -192,7 +149,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-### 6. Usage of `SimplePhpDocParser`
+### 5. Usage of `SimplePhpDocParser`
 
 Required services `Symplify\Astral\PhpDocParser\SimplePhpDocParser` in constructor, where you need it, and use it:
 
@@ -227,7 +184,7 @@ final class SomeClass
 }
 ```
 
-## 4. Traverse Nodes with `PhpDocNodeTraverser`
+### 6. Traverse Nodes with `PhpDocNodeTraverser`
 
 ```php
 use PHPStan\PhpDocParser\Ast\Node;

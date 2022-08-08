@@ -7,9 +7,7 @@ use PhpParser\NodeFinder;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\Astral\StaticFactory\SimpleNameResolverStaticFactory;
 use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Php\TypeChecker;
@@ -34,8 +32,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(TypeChecker::class);
     $services->set(NodeValueResolver::class);
-    $services->set(SimpleNameResolver::class)
-        ->factory(SimpleNameResolverStaticFactory::class . '::create');
 
     $services->set(ParameterProvider::class)
         ->args([service('service_container')]);

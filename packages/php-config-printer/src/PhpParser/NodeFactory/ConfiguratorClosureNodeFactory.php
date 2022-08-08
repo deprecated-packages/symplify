@@ -16,16 +16,14 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
-use Symplify\Astral\Exception\ShouldNotHappenException;
-use Symplify\Astral\Naming\SimpleNameResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver;
+use Symplify\PhpConfigPrinter\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\Naming\VariableNameResolver;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 
 final class ConfiguratorClosureNodeFactory
 {
     public function __construct(
-        private SimpleNameResolver $simpleNameResolver,
         private NodeValueResolver $nodeValueResolver,
         private VariableNameResolver $variableNameResolver,
     ) {
@@ -225,7 +223,12 @@ final class ConfiguratorClosureNodeFactory
 
     private function matchExtensionName(MethodCall $methodCall): ?string
     {
-        if (! $this->simpleNameResolver->isName($methodCall->name, 'extension')) {
+        if (! $methodCall->name instanceof Identifier) {
+            return null;
+        }
+
+        $methodCallName = $methodCall->name->toString();
+        if ($methodCallName !== 'extension') {
             return null;
         }
 
