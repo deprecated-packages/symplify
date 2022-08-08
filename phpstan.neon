@@ -559,3 +559,5 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Finder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) should return \(TNode of PhpParser\\Node\)\|null but returns PhpParser\\Node\|null#'
         - '#Method Symplify\\PHPStanRules\\Finder\\TypeAwareNodeFinder\:\:findInstanceOf\(\) should return array<TNode of PhpParser\\Node> but returns array<PhpParser\\Node>#'
 
+        # duplicit on purpose to split
+        - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'

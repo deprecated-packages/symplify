@@ -5,20 +5,16 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
 use JsonSerializable;
+use Nette\Utils\Strings;
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
-use PHPStan\PhpDocParser\Ast\Node as PhpDocNode;
-use PHPStan\PhpDocParser\Ast\Type\ArrayShapeNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use Serializable;
-use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
-use Symplify\Astral\PhpDocParser\SimplePhpDocParser;
-use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
-use Symplify\PackageBuilder\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -33,11 +29,11 @@ final class ValueObjectOverArrayShapeRule implements Rule, DocumentedRuleInterfa
      */
     public const ERROR_MESSAGE = 'Instead of array shape, use value object with specific types in constructor and getters';
 
-    public function __construct(
-        private SimplePhpDocParser $simplePhpDocParser,
-        private PhpDocNodeTraverser $phpDocNodeTraverser,
-    ) {
-    }
+    /**
+     * @var string
+     * @see https://regex101.com/r/04AwRj/1
+     */
+    private const ARRAY_SHAPE_REGEX = '#array\{(.*?)\}#';
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -95,17 +91,18 @@ CODE_SAMPLE
             return [];
         }
 
-        $simplePhpDocNode = $this->simplePhpDocParser->parseNode($node);
-        if (! $simplePhpDocNode instanceof SimplePhpDocNode) {
+        $docComment = $node->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return [];
+        }
+
+        $match = Strings::match($docComment->getText(), self::ARRAY_SHAPE_REGEX);
+        if ($match === null) {
             return [];
         }
 
         // constructor is allowed, as API entrance
-        if ($node instanceof ClassMethod && $node->name->toString() === MethodName::CONSTRUCTOR) {
-            return [];
-        }
-
-        if (! $this->hasArrayShapeNode($simplePhpDocNode)) {
+        if ($node instanceof ClassMethod && $node->isMagic()) {
             return [];
         }
 
@@ -114,26 +111,6 @@ CODE_SAMPLE
         }
 
         return [self::ERROR_MESSAGE];
-    }
-
-    private function hasArrayShapeNode(SimplePhpDocNode $simplePhpDocNode): bool
-    {
-        $hasArrayShapeNode = false;
-
-        $this->phpDocNodeTraverser->traverseWithCallable(
-            $simplePhpDocNode,
-            '',
-            static function (PhpDocNode $phpDocNode) use (&$hasArrayShapeNode): int|PhpDocNode {
-                if ($phpDocNode instanceof ArrayShapeNode) {
-                    $hasArrayShapeNode = true;
-                    return PhpDocNodeTraverser::STOP_TRAVERSAL;
-                }
-
-                return $phpDocNode;
-            }
-        );
-
-        return $hasArrayShapeNode;
     }
 
     private function isSerializableObject(Scope $scope): bool
