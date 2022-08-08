@@ -115,7 +115,6 @@ parameters:
         # Symfony 4.2 typehint BC-break
         - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
 
-        - '#Access to an undefined property PhpParser\\Node\\Expr\\Error(.*?)#'
         - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
@@ -189,7 +188,6 @@ parameters:
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
             paths:
-                - packages/astral/src/NodeNameResolver/ClassLikeNodeNameResolver.php
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
@@ -521,10 +519,6 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
 
-        -
-            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
-
         # partial enum
         - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:(getBlockTypeByContent|getBlockTypeByToken)\(\) never returns \d+ so it can be removed from the return type#'
 
@@ -549,3 +543,7 @@ parameters:
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\RequireThisOnParentMethodCallRule\:\:processNode\(\)" is 9, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoNestedFuncCallRule\:\:processNode\(\)" is 10, keep it under 8#'
+
+        -
+            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
+            path: packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
