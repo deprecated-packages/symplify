@@ -142,6 +142,7 @@ CODE_SAMPLE
             }
 
             $argType = $scope->getType($arg->value);
+
             if ($argType instanceof MixedType) {
                 continue;
             }
@@ -161,6 +162,7 @@ CODE_SAMPLE
     private function validateParam(Param $param, int $position, Type $argType): ?RuleError
     {
         $type = $param->type;
+
         // @todo some static type mapper from php-parser to PHPStan?
         if (! $type instanceof FullyQualified) {
             return null;
@@ -176,6 +178,7 @@ CODE_SAMPLE
         }
 
         $objectType = new ObjectType($type->toString());
+
         if ($objectType->equals($argType)) {
             return null;
         }
@@ -190,9 +193,8 @@ CODE_SAMPLE
 
         $errorMessage = sprintf(self::ERROR_MESSAGE, $position + 1, $argTypeAsString);
 
-        $ruleErrorBuilder = RuleErrorBuilder::message($errorMessage)
-            ->line($param->getLine());
-
-        return $ruleErrorBuilder->build();
+        return RuleErrorBuilder::message($errorMessage)
+            ->line($param->getLine())
+            ->build();
     }
 }

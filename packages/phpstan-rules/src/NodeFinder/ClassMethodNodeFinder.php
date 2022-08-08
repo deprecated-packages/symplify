@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\Reflection\ReflectionParser;
+use Symplify\PHPStanRules\Reflection\ReflectionParser;
 
 final class ClassMethodNodeFinder
 {

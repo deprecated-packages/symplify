@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\PhpDoc\PhpDocNodeTraverser;
 
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
 use PHPStan\Reflection\ClassReflection;
-use Symplify\Astral\PhpDocParser\PhpDocNodeTraverser;
-use Symplify\Astral\PhpDocParser\ValueObject\Ast\PhpDoc\SimplePhpDocNode;
 use Symplify\PHPStanRules\PhpDoc\ClassReferencePhpDocNodeVisitor;
+use Symplify\PHPStanRules\PhpDocParser\PhpDocNodeTraverser;
 
 final class ClassReferencePhpDocNodeTraverser
 {
@@ -16,10 +16,8 @@ final class ClassReferencePhpDocNodeTraverser
     ) {
     }
 
-    public function decoratePhpDocNode(
-        SimplePhpDocNode $simplePhpDocNode,
-        ClassReflection $classReflection
-    ): void {
+    public function decoratePhpDocNode(PhpDocNode $simplePhpDocNode, ClassReflection $classReflection): void
+    {
         $phpDocNodeTraverser = new PhpDocNodeTraverser();
 
         $this->classReferencePhpDocNodeVisitor->configureClassName($classReflection->getName());
