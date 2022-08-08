@@ -1,4 +1,4 @@
-# 108 Rules Overview
+# 107 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2039,36 +2039,6 @@ class SomeClass
         if ($object !== null) {
             return $object;
         }
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoMagicClosureRule
-
-No magic closure function call is allowed, use explicit class with method instead
-
-- class: [`Symplify\PHPStanRules\Rules\NoMagicClosureRule`](../src/Rules/NoMagicClosureRule.php)
-
-```php
-(static function () {
-    // ...
-})
-```
-
-:x:
-
-<br>
-
-```php
-final class HelpfulName
-{
-    public function clearName()
-    {
-        // ...
     }
 }
 ```
