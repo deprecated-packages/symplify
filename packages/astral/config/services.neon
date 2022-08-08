@@ -14,5 +14,4 @@ services:
 
     - Symplify\Astral\NodeValue\NodeValueResolver
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
-    - Symplify\Astral\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver

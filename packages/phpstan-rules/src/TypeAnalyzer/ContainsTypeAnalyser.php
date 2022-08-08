@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\Astral\TypeAnalyzer;
+namespace Symplify\PHPStanRules\TypeAnalyzer;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
