@@ -4,6 +4,8 @@ parameters:
         nodeConnectingVisitorCompatibility: false
 
 services:
+    - PhpParser\NodeFinder
+
     - Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\PHPStanRules\PhpDocParser\PhpDocNodeTraverser
     - Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser
