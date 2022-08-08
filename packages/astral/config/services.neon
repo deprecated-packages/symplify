@@ -11,7 +11,7 @@ services:
         factory: ['@Symplify\Astral\PhpParser\SmartPhpParserFactory', 'create']
 
     - Symplify\PackageBuilder\Php\TypeChecker
-
     - Symplify\Astral\NodeValue\NodeValueResolver
+
     - Symplify\Astral\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\Astral\TypeAnalyzer\ClassMethodReturnTypeResolver

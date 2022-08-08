@@ -20,7 +20,6 @@ use PhpParser\Node\Stmt\Goto_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Switch_;
 use PhpParser\Node\Stmt\While_;
-use Symplify\PackageBuilder\Php\TypeChecker;
 
 final class ComplexityAffectingNodeFinder
 {
@@ -51,15 +50,10 @@ final class ComplexityAffectingNodeFinder
         Ternary::class,
     ];
 
-    public function __construct(
-        private TypeChecker $typeChecker
-    ) {
-    }
-
     public function isIncrementingNode(Node $node): bool
     {
         // B1. ternary operator
-        if ($this->typeChecker->isInstanceOf($node, self::INCREASING_NODE_TYPES)) {
+        if ($this->isInstanceOf($node, self::INCREASING_NODE_TYPES)) {
             return true;
         }
 
@@ -73,7 +67,7 @@ final class ComplexityAffectingNodeFinder
     public function isBreakingNode(Node $node): bool
     {
         // B1. goto LABEL, break LABEL, continue LABEL
-        if ($this->typeChecker->isInstanceOf($node, self::BREAKING_NODE_TYPES)) {
+        if ($this->isInstanceOf($node, self::BREAKING_NODE_TYPES)) {
             // skip empty breaks
             /** @var Goto_|Break_|Continue_ $node */
             if ($node instanceof Goto_ && $node->name !== null) {
@@ -81,6 +75,20 @@ final class ComplexityAffectingNodeFinder
             }
 
             if (($node instanceof Break_ || $node instanceof Continue_) && $node->num !== null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string[] $types
+     */
+    private function isInstanceOf(Node $node, array $types): bool
+    {
+        foreach ($types as $type) {
+            if (is_a($node, $type, true)) {
                 return true;
             }
         }
