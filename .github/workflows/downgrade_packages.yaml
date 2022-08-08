@@ -50,6 +50,7 @@ jobs:
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
 
             # remove test files
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/build
             -   run: rm -rf ${{ matrix.tools.directory }}-build/tests
             -   run: rm -rf ${{ matrix.tools.directory }}-build/packages-tests
 
@@ -71,7 +72,7 @@ jobs:
                     token: ${{ secrets.ACCESS_TOKEN }}
 
             # remove remote files, to avoid piling up dead code in remote repository
-            -   run: rm -rf remote-repository/.github remote-repository/config remote-repository/src remote-repository/packages
+            -   run: rm -rf remote-repository/.github remote-repository/build remote-repository/config remote-repository/src remote-repository/packages
 
             # remove local vendor, do not push it
             -   run: rm -rf ${{ matrix.tools.directory }}-build/vendor ${{ matrix.tools.directory }}-build/composer.lock
