@@ -18,7 +18,6 @@ use PhpParser\Node\Scalar\MagicConst\File;
 use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
 use Symplify\Astral\NodeValue\NodeValueResolver;
-use Symplify\Astral\StaticFactory\NodeValueResolverStaticFactory;
 use Symplify\Astral\Tests\NodeValue\Fixture\SomeClassWithConstant;
 
 final class NodeValueResolverTest extends TestCase
@@ -27,7 +26,7 @@ final class NodeValueResolverTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->nodeValueResolver = NodeValueResolverStaticFactory::create();
+        $this->nodeValueResolver = new NodeValueResolver();
     }
 
     /**

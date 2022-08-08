@@ -18,7 +18,6 @@ use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\FuncCallValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\MagicConstValueResolver;
-use Symplify\PackageBuilder\Php\TypeChecker;
 
 /**
  * @api
@@ -26,6 +25,13 @@ use Symplify\PackageBuilder\Php\TypeChecker;
  */
 final class NodeValueResolver
 {
+    /**
+     * @var array<class-string<Expr>>
+     */
+    private const UNRESOLVABLE_TYPES = [
+        Variable::class, Cast::class, MethodCall::class, PropertyFetch::class, Instanceof_::class,
+    ];
+
     private ConstExprEvaluator $constExprEvaluator;
 
     private ?string $currentFilePath = null;
@@ -35,9 +41,8 @@ final class NodeValueResolver
      */
     private array $nodeValueResolvers = [];
 
-    public function __construct(
-        private TypeChecker $typeChecker
-    ) {
+    public function __construct()
+    {
         $this->constExprEvaluator = new ConstExprEvaluator(fn (Expr $expr) => $this->resolveByNode($expr));
 
         $this->nodeValueResolvers[] = new ClassConstFetchValueResolver();
@@ -70,11 +75,12 @@ final class NodeValueResolver
         }
 
         // these values cannot be resolved in reliable way
-        if ($this->typeChecker->isInstanceOf(
-            $expr,
-            [Variable::class, Cast::class, MethodCall::class, PropertyFetch::class, Instanceof_::class]
-        )) {
-            throw new ConstExprEvaluationException();
+        foreach (self::UNRESOLVABLE_TYPES as $unresolvableType) {
+            if (is_a($expr, $unresolvableType, true)) {
+                throw new ConstExprEvaluationException(
+                    'The node "%s" value is not possible to resolve. Provide different one.'
+                );
+            }
         }
 
         return null;
