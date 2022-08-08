@@ -67,13 +67,13 @@ jobs:
                     token: ${{ secrets.ACCESS_TOKEN }}
 
             # remove remote files, to avoid piling up dead code in remote repository
-            -   run: rm -rf remote-repository/.github remote-repository/bin remote-repository/config remote-repository/src remote-repository/packages
+            -   run: rm -rf remote-repository/.github remote-repository/config remote-repository/src remote-repository/packages
 
             # remove local vendor, do not push it
-            -   run: rm -rf ${{ matrix.tools.directory }}-prefixed-downgraded/vendor ${{ matrix.tools.directory }}-prefixed-downgraded/composer.lock
+            -   run: rm -rf ${{ matrix.tools.directory }}-build/vendor ${{ matrix.tools.directory }}-build/composer.lock
 
             # copy repository meta files
-            -   run: cp -R ${{ matrix.tools.directory }}-prefixed-downgraded/. remote-repository
+            -   run: cp -R ${{ matrix.tools.directory }}-build/. remote-repository
 
             # setup git
             -
