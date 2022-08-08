@@ -1,4 +1,5 @@
 services:
+    - Symplify\PHPStanRules\TypeAnalyzer\ContainsTypeAnalyser
     - Symplify\PHPStanRules\Composer\ClassNamespaceMatcher
     - Symplify\PHPStanRules\Composer\ComposerAutoloadResolver
     - Symplify\PHPStanRules\Composer\ComposerVendorAutoloadResolver
