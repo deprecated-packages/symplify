@@ -7,7 +7,6 @@ use PhpParser\NodeFinder;
 use PhpParser\NodeVisitor\ParentConnectingVisitor;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\Yaml\Parser;
-use Symplify\Astral\TypeAwareNodeFinder;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Php\TypeChecker;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
@@ -27,7 +26,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(Parser::class);
     $services->set(BuilderFactory::class);
     $services->set(ParentConnectingVisitor::class);
-    $services->set(TypeAwareNodeFinder::class);
 
     $services->set(TypeChecker::class);
 

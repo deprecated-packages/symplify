@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\NodeFinder;
+namespace Symplify\PhpConfigPrinter\NodeFinder;
 
 use PhpParser\Node;
 use PhpParser\NodeFinder;
 
+/**
+ * @api
+ */
 final class TypeAwareNodeFinder
 {
     public function __construct(

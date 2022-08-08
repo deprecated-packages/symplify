@@ -7,7 +7,6 @@
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.14.0",
         "symfony/yaml": "^6.0",
-        "symplify/astral": "^11.1",
         "symplify/symplify-kernel": "^11.1"
     },
     "require-dev": {
