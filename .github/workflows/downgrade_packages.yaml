@@ -48,6 +48,9 @@ jobs:
             # 1. prepare build directory
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
 
+            # 2. install package dependencies so downgrade can go easily
+            -   run: composer install --working-dir packages/${{ matrix.tools.directory }} --ansi
+
             # 3. downgrade directly
             -   run: vendor/bin/rector process ${{ matrix.tools.directory }}-build --config packages/${{ matrix.tools.directory }}/build/config/config-downgrade.php -a ${{ matrix.tools.directory }}-build/vendor/autoload.php --ansi
 
