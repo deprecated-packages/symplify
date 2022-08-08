@@ -46,6 +46,8 @@ jobs:
             # to have all local tools available
             -   run: composer update --no-progress --ansi
 
+            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.tools.directory }}/composer.json --ansi
+
             # 1. prepare build directory
             -   run: cp -r packages/${{ matrix.tools.directory }}/. ${{ matrix.tools.directory }}-build
 
