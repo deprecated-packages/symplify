@@ -33,7 +33,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\DependencyNodeAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\Duplicates\DuplicatedStringArgValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfElseBranchAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\IfResemblingMatchAnalyzer

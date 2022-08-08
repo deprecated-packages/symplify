@@ -1,4 +1,4 @@
-# 110 Rules Overview
+# 109 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -432,30 +432,6 @@ class SomeStatus
 
     public const DISABLED = 0;
 }
-```
-
-:+1:
-
-<br>
-
-## EnumSpotterRule
-
-The string value "%s" is repeated %d times. Refactor to enum to avoid typos and make clear allowed values
-
-- class: [`Symplify\PHPStanRules\Rules\Domain\EnumSpotterRule`](../src/Rules/Domain/EnumSpotterRule.php)
-
-```php
-$this->addFlash('info', 'Some message');
-$this->addFlash('info', 'Another message');
-```
-
-:x:
-
-<br>
-
-```php
-$this->addFlash(FlashType::INFO, 'Some message');
-$this->addFlash(FlashType::INFO, 'Another message');
 ```
 
 :+1:
