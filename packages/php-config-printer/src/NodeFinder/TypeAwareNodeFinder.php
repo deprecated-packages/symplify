@@ -9,7 +9,10 @@ use PhpParser\NodeFinder;
 
 /**
  * @api
+<<<<<<< HEAD
  * @todo remove after https://github.com/nikic/PHP-Parser/pull/869 is released
+=======
+>>>>>>> [PhpConfigPrinter] Remove astral dependency
  */
 final class TypeAwareNodeFinder
 {
