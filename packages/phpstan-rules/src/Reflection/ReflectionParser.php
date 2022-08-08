@@ -96,9 +96,9 @@ final class ReflectionParser
             }
 
             // complete namespacedName variables
-            $nodeTraveser = new NodeTraverser();
-            $nodeTraveser->addVisitor(new NameResolver());
-            $nodeTraveser->traverse($stmts);
+            $nodeTraverser = new NodeTraverser();
+            $nodeTraverser->addVisitor(new NameResolver());
+            $nodeTraverser->traverse($stmts);
         } catch (Throwable) {
             // not reachable
             return null;
