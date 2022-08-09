@@ -13,9 +13,12 @@ use PhpParser\NodeFinder;
  */
 final class TypeAwareNodeFinder
 {
-    public function __construct(
-        private NodeFinder $nodeFinder
-    ) {
+    private NodeFinder $nodeFinder;
+
+    public function __construct()
+    {
+        // to avoid duplicated services on inject
+        $this->nodeFinder = new NodeFinder();
     }
 
     /**
