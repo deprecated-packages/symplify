@@ -40,6 +40,7 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
         'Symfony\Component\Finder\Finder',
         'PhpParser\NodeTraverser',
         'Symfony\Component\DependencyInjection\Loader\Configurator\AbstractConfigurator',
+        'Symfony\Component\Routing\Loader\Configurator\ImportConfigurator',
         'Nette\Neon\Traverser',
         'PHP_CodeSniffer\Fixer',
         'PhpCsFixer\Tokenizer\Tokens',
