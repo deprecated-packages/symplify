@@ -12,10 +12,10 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class TemplatePathsResolver
 {
     /**
-     * @see https://regex101.com/r/dAH2eR/1
+     * @see https://regex101.com/r/dAH2eR/3
      * @var string
      */
-    private const TEMPLATE_PATH_REGEX = '#(views|template)\/(?<template_relative_path>.*?)$#';
+    private const TEMPLATE_PATH_REGEX = '#(views|templates?)\/(?<template_relative_path>.*?)$#';
 
     /**
      * @see https://regex101.com/r/1xa9Ey/1
