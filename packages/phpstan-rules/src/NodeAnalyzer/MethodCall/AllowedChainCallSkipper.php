@@ -51,6 +51,8 @@ final class AllowedChainCallSkipper
         'Clue\React\NDJson\Encoder',
         'React\Promise\Promise',
         'Nette\Loaders\RobotLoader',
+        // mocks
+        'PHPUnit\Framework\MockObject\Builder\InvocationMocker',
     ];
 
     public function __construct(
