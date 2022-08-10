@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\NodeAnalyzer\MethodCall;
 
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Type\ErrorType;
 use Symplify\PHPStanRules\Matcher\ObjectTypeMatcher;
 
 final class AllowedChainCallSkipper
@@ -68,6 +69,12 @@ final class AllowedChainCallSkipper
         $allowedTypes = array_merge($extraAllowedTypes, self::ALLOWED_CHAIN_TYPES);
 
         if ($this->objectTypeMatcher->isExprTypes($methodCall, $scope, $allowedTypes)) {
+            return true;
+        }
+
+        // skip fluent call, possibly mock on final class
+        $callerType = $scope->getType($methodCall->var);
+        if ($callerType instanceof ErrorType) {
             return true;
         }
 

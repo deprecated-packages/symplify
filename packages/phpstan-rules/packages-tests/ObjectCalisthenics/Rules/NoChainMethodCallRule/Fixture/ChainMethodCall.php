@@ -10,4 +10,12 @@ final class ChainMethodCall
     {
         return $this->also()->more();
     }
+
+    private function also(): self
+    {
+    }
+
+    private function more()
+    {
+    }
 }
