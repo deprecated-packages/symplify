@@ -26,4 +26,12 @@ final class PossibleTemplatePathsResolverTest extends AbstractKernelTestCase
 
         $this->assertSame(['@RealClass/FirstName/SecondName/template.html.twig'], $templatePaths);
     }
+
+    public function testCompatibilityWithSymfony4AndUp(): void
+    {
+        $templatePaths = $this->templatePathsResolver->resolveFromDirectories([__DIR__ . '/../../SomeApp']);
+        $this->assertCount(1, $templatePaths);
+
+        $this->assertSame(['FirstName/SecondName/template.html.twig'], $templatePaths);
+    }
 }
