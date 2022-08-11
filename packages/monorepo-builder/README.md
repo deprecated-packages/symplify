@@ -51,6 +51,7 @@ Typical location for packages is `/packages`. But what if you have different nam
 ```php
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Config\MBConfig;
+use Symplify\MonorepoBuilder\ValueObject\Option;
 
 return static function (MBConfig $mbConfig): void {
     // where are the packages located?
