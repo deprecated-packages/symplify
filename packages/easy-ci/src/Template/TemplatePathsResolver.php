@@ -49,7 +49,7 @@ final class TemplatePathsResolver
             $relativeTemplateFilepath = $this->resolveRelativeTemplateFilepath($twigTemplateFileInfo);
             $bundlePrefix = $this->findBundlePrefix($twigTemplateFileInfo);
 
-            $templatePathsWithBundle[] = '@' . $bundlePrefix . '/' . $relativeTemplateFilepath;
+            $templatePathsWithBundle[] = ($bundlePrefix ? '@' . $bundlePrefix . '/' : '') . $relativeTemplateFilepath;
         }
 
         sort($templatePathsWithBundle);
@@ -84,7 +84,7 @@ final class TemplatePathsResolver
             }
         } while ($bundleFileInfo === null);
 
-        throw new ShouldNotHappenException();
+        return '';
     }
 
     private function resolveRelativeTemplateFilepath(SmartFileInfo $templateFileInfo): string
