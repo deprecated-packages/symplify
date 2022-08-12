@@ -12,6 +12,7 @@ use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Analyser\Scope;
@@ -120,7 +121,7 @@ final class NewAndSetterCallsCollector implements Collector
         return $collected;
     }
 
-    private function matchExprAssignToVariable(Node\Stmt $stmt): ?Assign
+    private function matchExprAssignToVariable(Stmt $stmt): ?Assign
     {
         if (! $stmt instanceof Expression) {
             return null;

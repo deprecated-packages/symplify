@@ -90,17 +90,17 @@ CODE_SAMPLE
     }
 
     /**
-     * @param mixed[] $newAndSetterCalls
+     * @param mixed[] $collections
      * @return array<string, string[][]>
      */
-    private function createGrouppedCallsByClass(array $newAndSetterCalls): array
+    private function createGrouppedCallsByClass(array $collections): array
     {
         $groupedCallsByClass = [];
 
-        foreach ($newAndSetterCalls as $collections) {
-            foreach ($collections as $collection) {
-                foreach ($collection as $className => $methodCallsByVariable) {
-                    foreach ($methodCallsByVariable as $variable => $methodCalls) {
+        foreach ($collections as $collection) {
+            foreach ($collection as $methodCallsByVariableAndClass) {
+                foreach ($methodCallsByVariableAndClass as $className => $methodCallsByVariable) {
+                    foreach ($methodCallsByVariable as $methodCalls) {
                         /** @var string $className */
                         /** @var string[] $methodCalls */
                         $groupedCallsByClass[$className][] = $methodCalls;
