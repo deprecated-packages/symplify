@@ -576,3 +576,7 @@ parameters:
             path: packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
 
         - '#Parameter \#1 \$nodes of method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) expects array<PhpParser\\Node>\|PhpParser\\Node, array<PhpParser\\Node\\Stmt>\|null given#'
+
+        # phpstan collector data
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'

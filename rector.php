@@ -73,5 +73,9 @@ return static function (RectorConfig $rectorConfig): void {
         StringClassNameToClassConstantRector::class => [
             __DIR__ . '/packages/phpstan-rules/src/NodeAnalyzer/MethodCall/AllowedChainCallSkipper.php',
         ],
+
+        \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class => [
+            __DIR__ . '/packages/phpstan-rules/src/Rules/Domain/ForbiddenAlwaysSetterCallRule.php',
+        ],
     ]);
 };
