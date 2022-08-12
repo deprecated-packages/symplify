@@ -589,6 +589,34 @@ $magicObject->getName();
 
 <br>
 
+## ForbiddenAlwaysSetterCallRule
+
+The "%s" class always calls `"%s()"` setters, better move it to constructor
+
+- class: [`Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule`](../src/Rules/Domain/ForbiddenAlwaysSetterCallRule.php)
+
+```php
+$firstPerson = new Person();
+$firstPerson->setName('John');
+
+$secondPerson = new Person();
+$secondPerson->setName('Van');
+```
+
+:x:
+
+<br>
+
+```php
+$firstPerson = new Person('John');
+
+$secondPerson = new Person('Van');
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenAnonymousClassRule
 
 Anonymous class is not allowed.
@@ -1109,7 +1137,7 @@ $message = sprintf('%s', $firstValue, $secondValue);
 - class: [`Symplify\PHPStanRules\Rules\ForbiddenTestsNamespaceOutsideTestsDirectoryRule`](../src/Rules/ForbiddenTestsNamespaceOutsideTestsDirectoryRule.php)
 
 ```php
-// file path: "src/SomeClass.php
+// file path: "src/SomeClass.php"
 
 namespace App\Tests;
 
@@ -1123,7 +1151,7 @@ class SomeClass
 <br>
 
 ```php
-// file path: "tests/SomeClass.php
+// file path: "tests/SomeClass.php"
 
 namespace App\Tests;
 
@@ -3793,50 +3821,6 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
-}
-```
-
-:+1:
-
-<br>
-
-## ValueObjectDestructRule
-
-Instead of calling all public methods of value object, pass it directly
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\ValueObjectDestructRule`](../src/Rules/Complexity/ValueObjectDestructRule.php)
-
-```php
-final class UsingPublicMethods
-{
-    public function run(SomeValueObject $someValueObject)
-    {
-        $this->process($someValueObject->getName(), $someValueObject->getSurname());
-    }
-
-    private function process(string $getName, string $getSurname)
-    {
-        // ...
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class UsingPublicMethods
-{
-    public function run(SomeValueObject $someValueObject)
-    {
-        $this->process($someValueObject);
-    }
-
-    private function process(SomeValueObject $someValueObject)
-    {
-        // ...
-    }
 }
 ```
 

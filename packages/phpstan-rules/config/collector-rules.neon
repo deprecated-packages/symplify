@@ -6,8 +6,18 @@ rules:
     - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
     - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
     - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
+    - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
 
 services:
+    # for ForbiddenAlwaysSetterCallRule
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\FormTypeClassCollector
+        tags: [phpstan.collector]
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\NewAndSetterCallsCollector
+        tags: [phpstan.collector]
+
     # for NoDuplicatedRegexRule
     -
         class: Symplify\PHPStanRules\Collector\ClassConst\RegexClassConstCollector

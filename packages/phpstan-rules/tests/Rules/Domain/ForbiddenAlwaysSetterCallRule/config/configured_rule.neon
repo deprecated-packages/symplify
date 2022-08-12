@@ -1,0 +1,16 @@
+includes:
+    - ../../../../config/included_services.neon
+
+services:
+    # for ForbiddenAlwaysSetterCallRule
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\FormTypeClassCollector
+        tags: [phpstan.collector]
+
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\NewAndSetterCallsCollector
+        tags: [phpstan.collector]
+
+
+rules:
+    - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
