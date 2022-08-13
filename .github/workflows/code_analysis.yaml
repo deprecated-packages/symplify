@@ -94,6 +94,8 @@ jobs:
                             packages/monorepo-builder/bin/monorepo-builder --ansi
                             packages/rule-doc-generator/bin/rule-doc-generator --ansi
                             packages/config-transformer/bin/config-transformer --ansi
+                            # check the dry-run option
+                            packages/config-transformer/bin/config-transformer switch -h
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi
                             packages/vendor-patches/bin/vendor-patches --ansi
