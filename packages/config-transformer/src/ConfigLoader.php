@@ -14,9 +14,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
 use Symfony\Component\DependencyInjection\Loader\GlobFileLoader;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\CheckerTolerantYamlFileLoader;
+use Symplify\ConfigTransformer\DependencyInjection\Loader\MissingAutodiscoveryDirectoryTolerantYamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\Loader\SkippingPhpFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\LoaderFactory\IdAwareXmlFileLoaderFactory;
 use Symplify\ConfigTransformer\Enum\Format;
@@ -71,7 +71,7 @@ final class ConfigLoader
                 static fn ($match): string => '"%const(' . str_replace('\\', '\\\\', $match[1]) . ')%"' . $match[2]
             );
             if ($content !== $smartFileInfo->getContents()) {
-                $fileRealPath = sys_get_temp_dir() . '/_migrify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
+                $fileRealPath = sys_get_temp_dir() . '/__symplify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
                 $this->smartFileSystem->dumpFile($fileRealPath, $content);
             }
 
@@ -96,8 +96,14 @@ final class ConfigLoader
         }
 
         if (in_array($suffix, [Format::YML, Format::YAML], true)) {
-            $yamlFileLoader = new YamlFileLoader($containerBuilder, new FileLocator());
-            return $this->wrapToDelegatingLoader($yamlFileLoader, $containerBuilder);
+            $missingAutodiscoveryDirectoryTolerantYamlFileLoader = new MissingAutodiscoveryDirectoryTolerantYamlFileLoader(
+                $containerBuilder,
+                new FileLocator()
+            );
+            return $this->wrapToDelegatingLoader(
+                $missingAutodiscoveryDirectoryTolerantYamlFileLoader,
+                $containerBuilder
+            );
         }
 
         if ($suffix === Format::PHP) {

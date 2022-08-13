@@ -6,6 +6,7 @@ namespace Symplify\ConfigTransformer\DependencyInjection\Loader;
 
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symplify\ConfigTransformer\DependencyInjection\ExtensionFaker;
 use Symplify\PhpConfigPrinter\Yaml\CheckerServiceParametersShifter;
@@ -26,6 +27,15 @@ final class CheckerTolerantYamlFileLoader extends YamlFileLoader
         $extensionFaker->fakeGenericExtensionsInContainerBuilder($containerBuilder);
 
         parent::__construct($containerBuilder, $fileLocator);
+    }
+
+    public function registerClasses(
+        Definition $definition,
+        string $namespace,
+        string $resource,
+        array|string $exclude = null
+    ): void {
+        // skip laoding classes, as the resource might not exist and invoke autoloading
     }
 
     /**
