@@ -15,9 +15,10 @@ Add config to `config/config.php`:
 
 ```php
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\SymfonyStaticDumper\ValueObject\SymfonyStaticDumperConfig;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->import(\Symplify\SymfonyStaticDumper\ValueObject\SymfonyStaticDumperConfig::FILE_PATH);
+    $containerConfigurator->import(SymfonyStaticDumperConfig::FILE_PATH);
 };
 ```
 
@@ -110,10 +111,18 @@ final class PostController extends AbstractController
 ## Use
 
 ```bash
-bin/console dump-static-site
+vendor/bin/console dump-static-site
 ```
 
 The website will be generated to `/output` directory in your root project.
+
+Do you want to modify the `/public` directory yourself?
+
+```bash
+vendor/bin/console dump-static-site --public-directory another-public --output-directory custom-output
+```
+
+<br>
 
 To see the website, just run local server:
 
