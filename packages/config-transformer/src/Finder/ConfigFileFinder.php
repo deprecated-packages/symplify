@@ -10,6 +10,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConfigFileFinder
 {
+    /**
+     * @see https://regex101.com/r/jmxqCg/1
+     * @var string
+     */
+    private const CONFIG_SUFFIXES_REGEX = '#\.(yml|yaml|xml)$#';
+
     public function __construct(
         private SmartFinder $smartFinder
     ) {
@@ -20,9 +26,6 @@ final class ConfigFileFinder
      */
     public function findFileInfos(Configuration $configuration): array
     {
-        $suffixes = $configuration->getInputSuffixes();
-        $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
-
-        return $this->smartFinder->find($configuration->getSources(), $suffixesRegex);
+        return $this->smartFinder->find($configuration->getSources(), self::CONFIG_SUFFIXES_REGEX);
     }
 }

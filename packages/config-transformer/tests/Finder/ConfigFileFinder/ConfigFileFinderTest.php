@@ -22,11 +22,9 @@ final class ConfigFileFinderTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $configuration = new Configuration([
-            __DIR__ . '/Fixture'
-        ], true);
+        $configuration = new Configuration([__DIR__ . '/Fixture'], true);
 
         $fileInfos = $this->configFileFinder->findFileInfos($configuration);
-        $this->assertCount(2, $fileInfos);
+        $this->assertCount(1, $fileInfos);
     }
 }
