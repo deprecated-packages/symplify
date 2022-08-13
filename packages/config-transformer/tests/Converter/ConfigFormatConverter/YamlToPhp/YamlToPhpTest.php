@@ -31,7 +31,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
 
     /**
      * @dataProvider provideData()
-     * @dataProvider provideDataIgnore()
      * @dataProvider provideDataWithPhpImported()
      */
     public function testNormal(SmartFileInfo $fixtureFileInfo): void
@@ -111,14 +110,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/normal', '*.yaml');
-    }
-
-    /**
-     * @return Iterator<mixed, SmartFileInfo[]>
-     */
-    public function provideDataIgnore(): Iterator
-    {
-        return StaticFixtureFinder::yieldDirectory(__DIR__ . '/Fixture/ignore', '*');
     }
 
     /**

@@ -1,4 +1,0 @@
-# edge case (dist.yaml) which should just be ignored: https://github.com/symfony/recipes-contrib/blob/main/pasaiakoudala/authbundle/0.1/config/packages/security.yaml.dist
-# so the behat.yml.dist still works and is kept untouched
-package:
-    key: value

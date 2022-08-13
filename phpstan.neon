@@ -580,3 +580,6 @@ parameters:
         # phpstan collector data
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'
+
+        # 2 different packages
+        - '#The "(INPUT_SUFFIX_REGEX|CONFIG_SUFFIXES_REGEX)" constant contains duplicated regex "\#\\\.\(yml\|yaml\|xml\)\$\#"\. Instead of duplicated regexes, extract domain regexes together to save maintenance#'
