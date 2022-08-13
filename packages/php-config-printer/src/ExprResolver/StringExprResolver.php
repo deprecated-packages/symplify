@@ -33,7 +33,8 @@ final class StringExprResolver
     public function resolve(
         string $value,
         bool $skipServiceReference,
-        bool $skipClassesToConstantReference
+        bool $skipClassesToConstantReference,
+        bool $isRoutingImport = false
     ): Expr {
         if ($value === '') {
             return new String_($value);
@@ -65,7 +66,12 @@ final class StringExprResolver
 
         // is service reference
         if (str_starts_with($value, '@') && ! $this->isFilePath($value)) {
-            return $this->resolveServiceReferenceExpr($value, $skipServiceReference, FunctionName::SERVICE);
+            return $this->resolveServiceReferenceExpr(
+                $value,
+                $skipServiceReference,
+                FunctionName::SERVICE,
+                $isRoutingImport
+            );
         }
 
         return BuilderHelpers::normalizeValue($value);
@@ -124,12 +130,18 @@ final class StringExprResolver
     private function resolveServiceReferenceExpr(
         string $value,
         bool $skipServiceReference,
-        string $functionName
+        string $functionName,
+        bool $isRoutingImport = false
     ): Expr {
         $value = ltrim($value, '@');
         $expr = $this->resolve($value, $skipServiceReference, false);
 
         if ($skipServiceReference) {
+            // return the `@` back
+            if ($isRoutingImport && $expr instanceof String_) {
+                $expr->value = '@' . $expr->value;
+            }
+
             return $expr;
         }
 
