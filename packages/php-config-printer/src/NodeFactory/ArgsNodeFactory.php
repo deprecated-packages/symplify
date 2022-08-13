@@ -67,12 +67,18 @@ final class ArgsNodeFactory
         mixed $values,
         bool $skipServiceReference = false,
         bool $skipClassesToConstantReference = false,
-        bool $isForConfig = false
+        bool $isForConfig = false,
+        bool $isRoutingImport = false
     ): array {
         if (is_array($values)) {
             $args = [];
             foreach ($values as $key => $value) {
-                $expr = $this->resolveExpr($value, $skipServiceReference, $skipClassesToConstantReference);
+                $expr = $this->resolveExpr(
+                    $value,
+                    $skipServiceReference,
+                    $skipClassesToConstantReference,
+                    $isRoutingImport
+                );
                 $args = $this->resolveArgs($args, $key, $expr, $isForConfig);
             }
 
@@ -100,13 +106,15 @@ final class ArgsNodeFactory
     public function resolveExpr(
         mixed $value,
         bool $skipServiceReference = false,
-        bool $skipClassesToConstantReference = false
+        bool $skipClassesToConstantReference = false,
+        bool $isRoutingImport = false
     ): Expr {
         if (is_string($value)) {
             return $this->stringExprResolver->resolve(
                 $value,
                 $skipServiceReference,
-                $skipClassesToConstantReference
+                $skipClassesToConstantReference,
+                $isRoutingImport
             );
         }
 

@@ -143,6 +143,6 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
             }
         }
 
-        return $this->argsNodeFactory->createFromValues($argumentValues);
+        return $this->argsNodeFactory->createFromValues($argumentValues, true, false, false, true);
     }
 }
