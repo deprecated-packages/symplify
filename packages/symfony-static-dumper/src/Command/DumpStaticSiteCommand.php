@@ -7,21 +7,15 @@ namespace Symplify\SymfonyStaticDumper\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
 use Symplify\SymfonyStaticDumper\Enum\Option;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 {
-    private string $projectDir;
-
     public function __construct(
         private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
-        ParameterBagInterface $parameterBag
     ) {
-        $this->projectDir = (string) $parameterBag->get('kernel.project_dir');
-
         parent::__construct();
     }
 
@@ -36,7 +30,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
             null,
             InputOption::VALUE_REQUIRED,
             'Define the input public directory',
-            $this->projectDir . '/public'
+            getcwd() . '/public'
         );
 
         $this->addOption(
