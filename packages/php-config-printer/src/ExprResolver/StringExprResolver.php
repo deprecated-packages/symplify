@@ -116,9 +116,11 @@ final class StringExprResolver
         if (! ctype_upper($value[0])) {
             return false;
         }
-
         // to avoid autoload in case of missing code sniffer dependency
-        if (str_ends_with($value, 'Sniff') || str_ends_with($value, 'Fixer')) {
+        if (str_ends_with($value, 'Sniff')) {
+            return true;
+        }
+        if (str_ends_with($value, 'Fixer')) {
             return true;
         }
 
