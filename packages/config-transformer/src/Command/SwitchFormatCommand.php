@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\ConfigTransformer\Configuration\ConfigurationFactory;
 use Symplify\ConfigTransformer\Converter\ConfigFormatConverter;
 use Symplify\ConfigTransformer\FileSystem\ConfigFileDumper;
+use Symplify\ConfigTransformer\Finder\ConfigFileFinder;
 use Symplify\ConfigTransformer\ValueObject\Configuration;
 use Symplify\ConfigTransformer\ValueObject\ConvertedContent;
 use Symplify\ConfigTransformer\ValueObject\Option;
@@ -22,7 +23,8 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
     public function __construct(
         private ConfigurationFactory $configurationFactory,
         private ConfigFileDumper $configFileDumper,
-        private ConfigFormatConverter $configFormatConverter
+        private ConfigFormatConverter $configFormatConverter,
+        private ConfigFileFinder $configFileFinder
     ) {
         parent::__construct();
     }
@@ -46,7 +48,7 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
     {
         $configuration = $this->configurationFactory->createFromInput($input);
 
-        $fileInfos = $this->findFileInfos($configuration);
+        $fileInfos = $this->configFileFinder->findFileInfos($configuration);
 
         foreach ($fileInfos as $fileInfo) {
             $convertedFileContent = $this->configFormatConverter->convert($fileInfo);
@@ -63,17 +65,6 @@ final class SwitchFormatCommand extends AbstractSymplifyCommand
         $this->symfonyStyle->success($successMessage);
 
         return self::SUCCESS;
-    }
-
-    /**
-     * @return SmartFileInfo[]
-     */
-    private function findFileInfos(Configuration $configuration): array
-    {
-        $suffixes = $configuration->getInputSuffixes();
-        $suffixesRegex = '#\.' . implode('|', $suffixes) . '$#';
-
-        return $this->smartFinder->find($configuration->getSources(), $suffixesRegex);
     }
 
     private function removeFileInfo(Configuration $configuration, SmartFileInfo $fileInfo): void
