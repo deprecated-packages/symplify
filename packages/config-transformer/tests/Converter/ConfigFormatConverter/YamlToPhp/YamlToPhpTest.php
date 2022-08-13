@@ -35,8 +35,6 @@ final class YamlToPhpTest extends AbstractConfigFormatConverterTest
      */
     public function testNormal(SmartFileInfo $fixtureFileInfo): void
     {
-        dump($fixtureFileInfo->getRealPath());
-
         // for imports
         $temporaryPath = StaticFixtureSplitter::getTemporaryPath();
         $this->smartFileSystem->mirror(__DIR__ . '/Fixture/normal', $temporaryPath);
