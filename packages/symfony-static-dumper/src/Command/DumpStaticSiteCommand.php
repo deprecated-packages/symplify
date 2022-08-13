@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SymfonyStaticDumper\Application\SymfonyStaticDumperApplication;
+use Symplify\SymfonyStaticDumper\Enum\Option;
 
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 {
@@ -31,7 +32,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 
         // Adding arguments options for the main command
         $this->addOption(
-            'public-directory',
+            Option::PUBLIC_DIRECTORY,
             null,
             InputOption::VALUE_REQUIRED,
             'Define the input public directory',
@@ -39,7 +40,7 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
         );
 
         $this->addOption(
-            'output-directory',
+            Option::OUTPUT_DIRECTORY,
             null,
             InputOption::VALUE_REQUIRED,
             'Define the output directory for generated static content',
@@ -51,8 +52,8 @@ final class DumpStaticSiteCommand extends AbstractSymplifyCommand
     {
         $this->symfonyStyle->section('Dumping static website');
 
-        $publicDirectory = $input->getOption('public-directory');
-        $outputDirectory = $input->getOption('output-directory');
+        $publicDirectory = $input->getOption(Option::PUBLIC_DIRECTORY);
+        $outputDirectory = $input->getOption(Option::OUTPUT_DIRECTORY);
         $this->symfonyStaticDumperApplication->run($publicDirectory, $outputDirectory);
 
         $this->symfonyStyle->note('Run local server to see the output: "php -S localhost:8001 -t output"');
