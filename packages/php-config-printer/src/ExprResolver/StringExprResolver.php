@@ -117,6 +117,11 @@ final class StringExprResolver
             return false;
         }
 
+        // to avoid autoload in case of missing code sniffer dependency
+        if (str_ends_with($value, 'Sniff') || str_ends_with($value, 'Fixer')) {
+            return true;
+        }
+
         if (class_exists($value)) {
             return true;
         }

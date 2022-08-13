@@ -80,8 +80,9 @@ final class ConfigLoader
 
         try {
             $delegatingLoader->load($fileRealPath);
-        } catch (LoaderLoadException $e) {
-            // ignore exception for maybe imported none existing files
+        } catch (LoaderLoadException) {
+            // ignore exception for maybe import of non-existing files
+            // usefull in gradual upgrade of configs
         }
 
         return new ContainerBuilderAndFileContent($containerBuilder, $content);
