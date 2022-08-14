@@ -11,7 +11,9 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PackageBuilder\Strings\StringFormatConverter;
 use Symplify\PhpConfigPrinter\Contract\RoutingCaseConverterInterface;
+use Symplify\PhpConfigPrinter\Enum\RouteOption;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
+use Symplify\PhpConfigPrinter\Routing\ControllerSplitter;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 
 final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
@@ -21,7 +23,7 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
      */
     private const NESTED_KEYS = [
         'name_prefix',
-        'defaults',
+        RouteOption::DEFAULTS,
         'requirements',
         'options',
         'utf8',
@@ -29,7 +31,7 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
         'host',
         'schemes',
         self::METHODS,
-        'controller',
+        RouteOption::CONTROLLER,
         'locale',
         'format',
         'stateless',
@@ -77,7 +79,8 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
     private StringFormatConverter $stringFormatConverter;
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory
+        private ArgsNodeFactory $argsNodeFactory,
+        private ControllerSplitter $controllerSplitter
     ) {
         $this->stringFormatConverter = new StringFormatConverter();
     }
@@ -109,6 +112,10 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
             }
 
             $nestedValues = $values[$nestedKey];
+
+            if ($nestedKey === RouteOption::CONTROLLER) {
+                $nestedValues = $this->controllerSplitter->splitControllerClassAndMethod($nestedValues);
+            }
 
             // Transform methods as string GET|HEAD to array
             if ($nestedKey === self::METHODS && is_string($nestedValues)) {
