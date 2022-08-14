@@ -1,0 +1,15 @@
+some_route_name:
+    path: /some-path
+    defaults:
+        _controller: App\SomeController::translateLegacyUrlsAction
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+return static function (RoutingConfigurator $routingConfigurator): void {
+    $routingConfigurator->add('some_route_name', '/some-path')
+        ->controller('App\SomeController::translateLegacyUrlsAction');
+};
