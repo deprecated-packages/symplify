@@ -17,7 +17,12 @@ final class RouteOption
     public const METHODS = 'methods';
 
     /**
+     * @var string
+     */
+    public const DEFAULTS = 'defaults';
+
+    /**
      * @var string[]
      */
-    public const ALL = ['controller', 'defaults', self::METHODS, 'requirements', 'options', 'resource'];
+    public const ALL = ['controller', self::DEFAULTS, self::METHODS, 'requirements', 'options', 'resource'];
 }

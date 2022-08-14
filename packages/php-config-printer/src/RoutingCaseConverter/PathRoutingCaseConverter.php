@@ -30,8 +30,6 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
     {
         $variable = new Variable(VariableName::ROUTING_CONFIGURATOR);
 
-        // @todo args
-
         $args = $this->createAddArgs($key, $values);
         $methodCall = new MethodCall($variable, 'add', $args);
 
@@ -47,8 +45,20 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
                 $nestedValues = explode('|', $nestedValues);
             }
 
-            $args = $this->argsNodeFactory->createFromValues([$nestedValues]);
-            $methodCall = new MethodCall($methodCall, $nestedKey, $args);
+            // if default and controller, replace with controller() method
+            // @see https://github.com/symfony/symfony/pull/24180/files#r141346267
+            if ($this->hasControllerDefaults($nestedKey, $nestedValues)) {
+                $controllerValue = $nestedValues['_controller'];
+                $args = $this->argsNodeFactory->createFromValues([$controllerValue]);
+                $methodCall = new MethodCall($methodCall, 'controller', $args);
+
+                unset($nestedValues['_controller']);
+            }
+
+            if (! is_array($nestedValues) || (is_array($nestedValues) && $nestedValues !== [])) {
+                $args = $this->argsNodeFactory->createFromValues([$nestedValues]);
+                $methodCall = new MethodCall($methodCall, $nestedKey, $args);
+            }
         }
 
         return new Expression($methodCall);
@@ -67,5 +77,14 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
         }
 
         return $this->argsNodeFactory->createFromValues($argumentValues);
+    }
+
+    private function hasControllerDefaults(string $nestedKey, mixed $nestedValues): bool
+    {
+        if ($nestedKey !== RouteOption::DEFAULTS) {
+            return false;
+        }
+
+        return array_key_exists('_controller', $nestedValues);
     }
 }
