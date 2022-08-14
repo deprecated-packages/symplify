@@ -49,6 +49,13 @@ final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
             // @see https://github.com/symfony/symfony/pull/24180/files#r141346267
             if ($this->hasControllerDefaults($nestedKey, $nestedValues)) {
                 $controllerValue = $nestedValues['_controller'];
+
+                // split to class + method for better readability
+                if(str_contains($controllerValue, '::')) {
+                    [$controllerClass, $controllerMethod] = explode('::', $controllerValue);
+                    $controllerValue = [$controllerClass, $controllerMethod];
+                }
+
                 $args = $this->argsNodeFactory->createFromValues([$controllerValue]);
                 $methodCall = new MethodCall($methodCall, 'controller', $args);
 
