@@ -1,4 +1,76 @@
-# 5 Rules Overview
+# 6 Rules Overview
+
+## NoConstructorSymfonyFormObjectRule
+
+This object is used in a Symfony form, that uses magic setters/getters, so it cannot have required constructor
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoConstructorSymfonyFormObjectRule`](../packages/Symfony/Rules/NoConstructorSymfonyFormObjectRule.php)
+
+```php
+final class Ticket
+{
+    public function __construct(private int $price)
+    {
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Ticket
+{
+    private ?int $price = null;
+
+    public function setPrice(int $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
+    }
+}
+```
+
+:+1:
+
+<br>
 
 ## PreventDoubleSetParameterRule
 
