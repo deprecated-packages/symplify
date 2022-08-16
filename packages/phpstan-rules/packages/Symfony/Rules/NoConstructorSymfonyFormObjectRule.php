@@ -165,9 +165,9 @@ CODE_SAMPLE
             return false;
         }
 
-        foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflection) {
-            /** @var PhpParameterReflection $parameterReflection */
-            if ($parameterReflection->isOptional()) {
+        foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflectionWithPhpDoc) {
+            /** @var PhpParameterReflection $parameterReflectionWithPhpDoc */
+            if ($parameterReflectionWithPhpDoc->isOptional()) {
                 continue;
             }
 
