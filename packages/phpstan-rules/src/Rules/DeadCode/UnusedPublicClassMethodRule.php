@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\DeadCode;
+namespace Symplify\PHPStanRules\Rules\DeadCode;
 
 use Nette\Utils\Arrays;
 use PhpParser\Node;

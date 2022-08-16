@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2731,6 +2731,38 @@ final class SomeClass
 
 <br>
 
+## ParamTypeDeclarationSeaLevelRule
+
+The param type sea level %d %% has not passed minimal required level of %d %%. Add more param types to rise above the required level
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ParamTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public function run($name, $age)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run(string $name, int $age)
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## PreferredAttributeOverAnnotationRule
 
 Use attribute instead of "%s" annotation
@@ -3702,7 +3734,7 @@ return match($key) {
 
 Class constant "%s" is never used
 
-- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule`](../src/DeadCode/UnusedPublicClassConstRule.php)
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule`](../src/Rules/DeadCode/UnusedPublicClassConstRule.php)
 
 ```php
 final class Direction
@@ -3752,7 +3784,7 @@ if ($direction === Direction::RIGHT) {
 
 Class method `"%s()"` is never used
 
-- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule`](../src/DeadCode/UnusedPublicClassMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule`](../src/Rules/DeadCode/UnusedPublicClassMethodRule.php)
 
 ```php
 final class Car

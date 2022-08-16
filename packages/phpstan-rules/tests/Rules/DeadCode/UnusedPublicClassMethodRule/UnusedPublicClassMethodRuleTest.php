@@ -10,7 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector;
 use Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector;
-use Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule;
+use Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule;
 
 /**
  * @extends RuleTestCase<UnusedPublicClassMethodRule>
