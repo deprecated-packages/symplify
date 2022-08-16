@@ -1,4 +1,4 @@
-# 103 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2723,6 +2723,38 @@ final class SomeClass
     public function getData(): array
     {
         // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## ParamTypeDeclarationSeaLevelRule
+
+The param type sea level %d %% has not passed minimal required level of %d %%. Add more param types to rise above the required level
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ParamTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public function run($name, $age)
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run(string $name, int $age)
+    {
     }
 }
 ```
