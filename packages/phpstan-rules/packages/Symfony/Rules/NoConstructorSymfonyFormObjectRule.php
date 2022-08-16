@@ -16,13 +16,16 @@ use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Collector\ClassMethod\FormTypeClassCollector;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @implements Rule<CollectedDataNode>
  *
  * @see \Symplify\PHPStanRules\Tests\Symfony\Rules\NoConstructorSymfonyFormObjectRule\NoConstructorSymfonyFormObjectRuleTest
  */
-final class NoConstructorSymfonyFormObjectRule implements Rule
+final class NoConstructorSymfonyFormObjectRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -85,16 +88,84 @@ final class NoConstructorSymfonyFormObjectRule implements Rule
         return $ruleErrors;
     }
 
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(
+            self::ERROR_MESSAGE,
+            [
+                new CodeSample(
+                    <<<'CODE_SAMPLE'
+final class Ticket
+{
+    public function __construct(private int $price)
+    {
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
+    }
+}
+CODE_SAMPLE
+                    ,
+                    <<<'CODE_SAMPLE'
+final class Ticket
+{
+    private ?int $price = null;
+
+    public function setPrice(int $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
+    }
+}
+CODE_SAMPLE
+                ),
+            ]
+        );
+    }
+
     private function hasClassMethodRequiredParameter(PhpMethodReflection $phpMethodReflection): bool
     {
-        $parametersAcceptor = ParametersAcceptorSelector::selectSingle($phpMethodReflection->getVariants());
+        $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($phpMethodReflection->getVariants());
 
         // no parameters in constructor → we can skip
-        if ($parametersAcceptor->getParameters() === []) {
+        if ($parametersAcceptorWithPhpDocs->getParameters() === []) {
             return false;
         }
 
-        foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
+        foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflection) {
             /** @var PhpParameterReflection $parameterReflection */
             if ($parameterReflection->isOptional()) {
                 continue;
