@@ -10,7 +10,7 @@ use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector;
 use Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector;
-use Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule;
+use Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule;
 
 /**
  * @extends RuleTestCase<UnusedPublicClassConstRule>

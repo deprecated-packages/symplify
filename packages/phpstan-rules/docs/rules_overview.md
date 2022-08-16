@@ -3702,7 +3702,7 @@ return match($key) {
 
 Class constant "%s" is never used
 
-- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassConstRule`](../src/DeadCode/UnusedPublicClassConstRule.php)
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule`](../src/Rules/DeadCode/UnusedPublicClassConstRule.php)
 
 ```php
 final class Direction
@@ -3752,7 +3752,7 @@ if ($direction === Direction::RIGHT) {
 
 Class method `"%s()"` is never used
 
-- class: [`Symplify\PHPStanRules\DeadCode\UnusedPublicClassMethodRule`](../src/DeadCode/UnusedPublicClassMethodRule.php)
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule`](../src/Rules/DeadCode/UnusedPublicClassMethodRule.php)
 
 ```php
 final class Car

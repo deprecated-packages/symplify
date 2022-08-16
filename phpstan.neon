@@ -493,7 +493,7 @@ parameters:
         - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
         - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\PublicClassMethodCollector\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{class\-string, string, int\}#'
 
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
 
         # silent configure method
         -
