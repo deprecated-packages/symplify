@@ -44,6 +44,14 @@ final class NoConstructorSymfonyFormObjectRuleTest extends RuleTestCase
             ],
             [[NoConstructorSymfonyFormObjectRule::ERROR_MESSAGE, 6]],
         ];
+
+        yield [
+            [
+                __DIR__ . '/Fixture/ClassUsedInSymfonyFormButWithConstructor.php',
+                __DIR__ . '/Source/SymfonyFormSetDefault.php',
+            ],
+            [[NoConstructorSymfonyFormObjectRule::ERROR_MESSAGE, 6]],
+        ];
     }
 
     /**
