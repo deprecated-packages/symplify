@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules;
 
-use PhpParser\Node\Attribute;
+use PhpParser\Node;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Rules\Rule;
 use PHPStan\Type\Constant\ConstantStringType;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -17,8 +19,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\CheckAttributteArgumentClassExistsRule\CheckAttributteArgumentClassExistsRuleTest
+ *
+ * @implements Rule<AttributeGroup>
  */
-final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule implements DocumentedRuleInterface
+final class CheckAttributteArgumentClassExistsRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -30,33 +34,41 @@ final class CheckAttributteArgumentClassExistsRule extends AbstractAttributeRule
     ) {
     }
 
+    public function getNodeType(): string
+    {
+        return AttributeGroup::class;
+    }
+
     /**
+     * @param AttributeGroup $node
      * @return string[]
      */
-    public function processAttribute(Attribute $attribute, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): array
     {
-        $errors = [];
+        $ruleErrors = [];
 
-        foreach ($attribute->args as $arg) {
-            $value = $arg->value;
-            if (! $this->isClassConstFetch($value)) {
-                continue;
+        foreach ($node->attrs as $attribute) {
+            foreach ($attribute->args as $arg) {
+                $value = $arg->value;
+                if (! $this->isClassConstFetch($value)) {
+                    continue;
+                }
+
+                $valueType = $scope->getType($value);
+                if (! $valueType instanceof ConstantStringType) {
+                    $ruleErrors[] = self::ERROR_MESSAGE;
+                    continue;
+                }
+
+                if ($this->reflectionProvider->hasClass($valueType->getValue())) {
+                    continue;
+                }
+
+                $ruleErrors[] = self::ERROR_MESSAGE;
             }
-
-            $valueType = $scope->getType($value);
-            if (! $valueType instanceof ConstantStringType) {
-                $errors[] = self::ERROR_MESSAGE;
-                continue;
-            }
-
-            if ($this->reflectionProvider->hasClass($valueType->getValue())) {
-                continue;
-            }
-
-            $errors[] = self::ERROR_MESSAGE;
         }
 
-        return $errors;
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition

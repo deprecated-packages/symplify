@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 105 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3595,6 +3595,38 @@ class AbstractClass
 ```php
 abstract class AbstractClass
 {
+}
+```
+
+:+1:
+
+<br>
+
+## ReturnTypeDeclarationSeaLevelRule
+
+The return type sea level %d %% has not passed minimal required level of %d %%. Add more return types to rise above the required level
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ReturnTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public function run()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public function run(): void
+    {
+    }
 }
 ```
 
