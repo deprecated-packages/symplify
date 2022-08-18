@@ -160,7 +160,6 @@ final class ParallelFileProcessor
                     &$reachedInternalErrorsCountLimit,
                     $processIdentifier
                 ): void {
-
                     // decode arrays to objects
                     foreach ($json[Bridge::SYSTEM_ERRORS] as $jsonError) {
                         if (is_string($jsonError)) {

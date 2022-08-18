@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutowireArrayParameter\Tests\SourcePhp8;
+namespace Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source;
 
-use Symplify\AutowireArrayParameter\Tests\Source\Contract\FirstCollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source\Contract\FirstCollectedInterface;
 
 final class PromotedPropertyCollector
 {
