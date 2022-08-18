@@ -68,64 +68,6 @@ class SomeClass
 
 <br>
 
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            limitsByTypes:
-                Symfony\Component\Console\Command\Command: 5
-```
-
-↓
-
-```php
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        if (...) {
-            // ...
-        } else {
-            // ...
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        return $this->externalService->resolve(...);
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## FunctionLikeCognitiveComplexityRule
 
 Cognitive complexity of function/method must be under specific limit

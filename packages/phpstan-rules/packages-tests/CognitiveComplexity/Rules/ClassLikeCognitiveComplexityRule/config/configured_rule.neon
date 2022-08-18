@@ -8,5 +8,3 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 50
-            limitsByTypes:
-                Symfony\Component\Console\Command\Command: 5

@@ -20,9 +20,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 25
-            limitsByTypes:
-                PHPStan\Rules\Rule: 18
-                Symplify\CodingStandard\Fixer\AbstractSymplifyFixer: 18
 
 parameters:
     level: 8
@@ -190,7 +187,6 @@ parameters:
                  # traversing is complex operatoin
                  - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
-                 - packages/phpstan-rules/packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
 

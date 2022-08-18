@@ -9,5 +9,4 @@ services:
         arguments:
             maxClassCognitiveComplexity: 50
             scoreCompositionOverInheritance: true
-            limitsByTypes:
-                Symfony\Component\Console\Command\Command: 5
+
