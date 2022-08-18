@@ -38,70 +38,7 @@ The `/vendor` directory is excluded by default.
 
 <br>
 
-### 2. Provide `php-json` for Dynamic GitHub Actions Matrix
-
-[Dynamic Matrix for GitHub Actions](https://tomasvotruba.com/blog/2020/11/16/how-to-make-dynamic-matrix-in-github-actions/) is one of cool way to simplify CI setup.
-
-Instead of providing PHP versions manually one by one:
-
-```yaml
-        # ...
-        strategy:
-            matrix:
-                php:
-                    - 7.3
-                    - 7.4
-                    - 8.0
-```
-
-Use information from your `composer.json`:
-
-```bash
-vendor/bin/easy-ci php-versions-json
-# "[7.3, 7.4, 8.0]"
-```
-
-Use in GitHub Action Workflow like this:
-
-```yaml
-jobs:
-    provide_php_versions_json:
-        runs-on: ubuntu-latest
-
-        steps:
-            # git clone + use PHP + composer install
-            -   uses: actions/checkout@v2
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 8.0
-
-            -   uses: "ramsey/composer-install@v1"
-
-            # to see the output
-            -   run: vendor/bin/easy-ci php-versions-json
-
-            # here we create the json, we need the "id:" so we can use it in "outputs" bellow
-            -
-                id: output_data
-                run: echo "::set-output name=matrix::$(vendor/bin/easy-ci php-versions-json)"
-
-        # here, we save the result of this 1st phase to the "outputs"
-        outputs:
-            matrix: ${{ steps.output_data.outputs.matrix }}
-
-    unit_tests:
-        needs: provide_php_versions_json
-        strategy:
-            fail-fast: false
-            matrix:
-                php: ${{ fromJson(needs.provide_php_versions_json.outputs.matrix) }}
-
-        # ...
-```
-
-<br>
-
-### 3. Check Configs for Non-Existing Classes
+### 2. Check Configs for Non-Existing Classes
 
 ```bash
 vendor/bin/easy-ci check-config src
@@ -111,7 +48,7 @@ Supported types are YAML.
 
 <br>
 
-### 4. Check Twig Controller Paths
+### 3. Check Twig Controller Paths
 
 ```bash
 vendor/bin/easy-ci check-twig-render src/Controller
@@ -129,7 +66,7 @@ final class SomeController
 
 <br>
 
-### 5. Detect Static Calls in Your Code
+### 4. Detect Static Calls in Your Code
 
 ```bash
 vendor/bin/easy-ci detect-static src
@@ -137,7 +74,7 @@ vendor/bin/easy-ci detect-static src
 
 <br>
 
-### 8. Detect Commented Code
+### 5. Detect Commented Code
 
 Have you ever forgot commented code in your code?
 
@@ -154,7 +91,7 @@ vendor/bin/easy-ci check-commented-code <directory>
 vendor/bin/easy-ci check-commented-code packages --line-limit 5
 ```
 
-### 9. Short File === Class Name
+### 6. Short File === Class Name
 
 Does short file name matches the class name?
 
@@ -162,7 +99,7 @@ Does short file name matches the class name?
 vendor/bin/easy-ci check-file-class-name src
 ```
 
-### 10. Avoid 2 classes in 1 File
+### 7. Avoid 2 classes in 1 File
 
 What files have 2 and more classes?
 
