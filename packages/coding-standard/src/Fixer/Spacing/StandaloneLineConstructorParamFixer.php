@@ -86,7 +86,7 @@ final class StandaloneLineConstructorParamFixer extends AbstractSymplifyFixer im
                 <<<'CODE_SAMPLE'
 final class PromotedProperties
 {
-    public function __construct(public int $age, private string $name)
+    public function __construct(int $age, string $name)
     {
     }
 }
@@ -96,8 +96,8 @@ CODE_SAMPLE
 final class PromotedProperties
 {
     public function __construct(
-        public int $age,
-        private string $name
+        int $age,
+        string $name
     ) {
     }
 }

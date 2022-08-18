@@ -83,7 +83,7 @@ final class ComplexityAffectingNodeFinder
     }
 
     /**
-     * @param string[] $types
+     * @param class-string[] $types
      */
     private function isInstanceOf(Node $node, array $types): bool
     {

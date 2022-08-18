@@ -11,6 +11,11 @@ services:
         arguments:
             minimumLineCount: 4
 
+    # required for "PreventDuplicateClassMethodRule"
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\ClassMethodContentCollector
+        tags: [phpstan.collector]
+
     -
         class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
         tags: [phpstan.rules.rule]
