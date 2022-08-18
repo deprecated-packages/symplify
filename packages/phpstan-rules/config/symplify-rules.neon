@@ -9,7 +9,6 @@ includes:
     - doctrine-rules.neon
     - regex-rules.neon
     - packages/symfony/symfony-rules.neon
-    - packages/nette/nette-rules.neon
     - test-rules.neon
     - naming-rules.neon
     - collector-rules.neon

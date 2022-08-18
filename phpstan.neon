@@ -6,7 +6,6 @@ includes:
     - packages/phpstan-rules/config/services/services.neon
 
     - packages/phpstan-rules/config/packages/symfony/services.neon
-    - packages/phpstan-rules/config/packages/nette/services.neon
 
 services:
     # cognitive complexity
