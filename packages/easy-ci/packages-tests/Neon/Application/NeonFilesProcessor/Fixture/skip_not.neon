@@ -1,5 +1,0 @@
-services:
-    -
-        class: Service
-        arguments:
-            caching: not(%consoleMode%)

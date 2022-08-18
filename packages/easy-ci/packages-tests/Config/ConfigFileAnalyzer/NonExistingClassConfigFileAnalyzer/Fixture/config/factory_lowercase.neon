@@ -1,4 +1,0 @@
-services:
-    -
-        class: lowercase\LowercaseFactory
-        factory: lowercase\LowercaseFactory::getInstance()
