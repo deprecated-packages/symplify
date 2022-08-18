@@ -73,11 +73,11 @@ parameters:
         - *packages/monorepo-builder/templates/*
         - *packages/coding-standard/tests/**/correct*
         - *packages/coding-standard/tests/**/wrong*
-        - *packages/coding-standard/tests/**/Wrong*
         - *packages/phpstan-extensions/**/Source/**
+        - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
+
         # tests
         - packages/symfony-static-dumper/tests/test_project/
-        - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # 3rd party
         - packages/package-builder/src/Yaml/ParametersMerger.php
@@ -200,7 +200,6 @@ parameters:
             paths:
                  # traversing is complex operatoin
                  - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
                  - packages/phpstan-rules/packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php
 
@@ -214,11 +213,6 @@ parameters:
             message: '#Generator expects value type (.*?), array<int, array<int, array<int, int\|string\>\>\|string\> given#'
             paths:
                 -  packages/phpstan-rules/tests/Rules
-
-        -
-            message: '#Do not compare call directly, use a variable assign#'
-            paths:
-                - packages/easy-ci/src/Git/ConflictResolver.php
 
         -
             message: '#Use explicit names over dynamic ones#'
@@ -282,7 +276,6 @@ parameters:
                  - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
-                 - packages/phpstan-rules/src/Rules/AbstractAttributeRule.php
 
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
@@ -384,10 +377,6 @@ parameters:
             path: packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
 
         -
-            message: '#Cannot cast array\|bool\|float\|int\|string\|UnitEnum\|null to string#'
-            path:  packages/symfony-static-dumper/src/Command/DumpStaticSiteCommand.php
-
-        -
             message: '#Add explicit array type to assigned "\$definitions" expression#'
             path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
 
@@ -447,21 +436,6 @@ parameters:
             message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
             path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
-        -
-            message: '#Instead of calling all public methods of value object, pass it directly#'
-            paths:
-                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/DiffCodeSamplePrinter.php
-                - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
-                # /vendor api
-                - packages/coding-standard/src/Fixer/LineLength/LineLengthFixer.php
-                - packages/coding-standard/src/Fixer/Spacing/MethodChainingNewlineFixer.php
-                - packages/coding-standard/src/TokenRunner/Transformer/FixerTransformer/LineLengthTransformer.php
-
-        # known value
-        -
-            message: '#Cannot call method toString\(\) on PhpParser\\Node\\Identifier\|null#'
-            path: packages/phpstan-rules/src/Rules/RequireConstantInAttributeArgumentRule.php
-
         # nesting on purpose
         -
             message: '#New objects with "\$methodCall" name are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
@@ -510,7 +484,6 @@ parameters:
                 - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
-                - packages/phpstan-rules/src/Rules/Domain/EnumSpotterRule.php
                 # should be improved
                 - packages/monorepo-builder/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
@@ -561,21 +534,9 @@ parameters:
             message: '#Parameter argument on position 0 must use constant#'
             path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
 
-        # missing generics in php-parser, will be fixed in - https://github.com/nikic/PHP-Parser/pull/869
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) should return \(TNode of PhpParser\\Node\)\|null but returns PhpParser\\Node\|null#'
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findInstanceOf\(\) should return array<TNode of PhpParser\\Node> but returns array<PhpParser\\Node>#'
-
-        # duplicit on purpose to split
-        - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'
-        - '#Content of method "parseDocBlock\(\)" is duplicated with method "parseDocBlock\(\)" in "Symplify\\Astral\\PhpDocParser\\SimplePhpDocParser" class\. Use unique content or service instead#'
-        - '#Content of method "enterNode\(\)" is duplicated with method "enterNode\(\)" in "Symplify\\Astral\\NodeVisitor\\CallableNodeVisitor" class\. Use unique content or service instead#'
-        - '#Content of method "parseNativeClassReflection\(\)" is duplicated with method "parseNativeClassReflection\(\)" in "Symplify\\Astral\\Reflection\\ReflectionParser" class\. Use unique content or service instead#'
-
         -
             message: '#Class method "parseDocBlock\(\)" is never used#'
             path: packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
-
-        - '#Parameter \#1 \$nodes of method Symplify\\PHPStanRules\\NodeFinder\\TypeAwareNodeFinder\:\:findFirstInstanceOf\(\) expects array<PhpParser\\Node>\|PhpParser\\Node, array<PhpParser\\Node\\Stmt>\|null given#'
 
         # phpstan collector data
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
