@@ -5,7 +5,9 @@ declare(strict_types=1);
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
 use PhpCsFixer\Fixer\Basic\BracesFixer;
+use PhpCsFixer\Fixer\Basic\CurlyBracesPositionFixer;
 use PhpCsFixer\Fixer\Basic\EncodingFixer;
+use PhpCsFixer\Fixer\Basic\NoMultipleStatementsPerLineFixer;
 use PhpCsFixer\Fixer\Casing\ConstantCaseFixer;
 use PhpCsFixer\Fixer\Casing\LowercaseKeywordsFixer;
 use PhpCsFixer\Fixer\CastNotation\LowercaseCastFixer;
@@ -15,6 +17,8 @@ use PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleClassElementPerStatementFixer;
 use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer;
+use PhpCsFixer\Fixer\ControlStructure\ControlStructureBracesFixer;
+use PhpCsFixer\Fixer\ControlStructure\ControlStructureContinuationPositionFixer;
 use PhpCsFixer\Fixer\ControlStructure\ElseifFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoBreakCommentFixer;
 use PhpCsFixer\Fixer\ControlStructure\SwitchCaseSemicolonToColonFixer;
@@ -28,6 +32,7 @@ use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer;
 use PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer;
+use PhpCsFixer\Fixer\LanguageConstruct\DeclareParenthesesFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
@@ -60,6 +65,14 @@ return static function (ECSConfig $ecsConfig): void {
         'position_after_control_structures' => 'same',
         'position_after_anonymous_constructs' => 'same',
     ]);
+
+    // split of BracesFixer in PHP CS Fixer 3.10 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/4884
+    $ecsConfig->rule(ControlStructureBracesFixer::class);
+    $ecsConfig->rule(CurlyBracesPositionFixer::class);
+    $ecsConfig->rule(NoMultipleStatementsPerLineFixer::class);
+    $ecsConfig->rule(DeclareParenthesesFixer::class);
+    $ecsConfig->rule(ControlStructureContinuationPositionFixer::class);
+    $ecsConfig->rule(\PhpCsFixer\Fixer\Whitespace\StatementIndentationFixer::class);
 
     $ecsConfig->ruleWithConfiguration(VisibilityRequiredFixer::class, [
         'elements' => ['const', 'method', 'property'],

@@ -162,11 +162,11 @@ if (
     // elseif body
 }
 
-switch ($simple) {
+switch($simple) {
     case $test:
         break;
 }
-switch ($simple) {
+switch($simple) {
     case $test:
         break;
 }
@@ -190,9 +190,9 @@ foreach ($simple as $key => $value) {
 
 try {
     // try body
-} catch (FirstThrowableType $e) {
+} catch(FirstThrowableType $e) {
     // catch body
-} catch (OtherThrowableType $e) {
+} catch(OtherThrowableType $e) {
     // catch body
 } finally {
     // finally body
@@ -249,5 +249,5 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
 new class($a, $b, $c) extends SomeExtendedClass implements
     \ArrayAccess,
     \Countable {
-        // Body
-    };
+    // Body
+};
