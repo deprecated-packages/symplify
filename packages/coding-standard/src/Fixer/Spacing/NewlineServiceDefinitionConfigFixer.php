@@ -145,4 +145,26 @@ CODE_SAMPLE
 
         return in_array($nextToken->getContent(), $methodNames, true);
     }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function getPreviousToken(Tokens $tokens, int $index): ?Token
+    {
+        $previousIndex = $index - 1;
+        return $tokens[$previousIndex] ?? null;
+    }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
+    {
+        $nextMeaningfulTokenPosition = $tokens->getNextMeaningfulToken($index);
+        if ($nextMeaningfulTokenPosition === null) {
+            return null;
+        }
+
+        return $tokens[$nextMeaningfulTokenPosition];
+    }
 }
