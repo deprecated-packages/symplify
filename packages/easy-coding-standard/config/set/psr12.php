@@ -33,6 +33,7 @@ use PhpCsFixer\Fixer\Import\SingleImportPerStatementFixer;
 use PhpCsFixer\Fixer\Import\SingleLineAfterImportsFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareEqualNormalizeFixer;
 use PhpCsFixer\Fixer\LanguageConstruct\DeclareParenthesesFixer;
+use PhpCsFixer\Fixer\LanguageConstruct\SingleSpaceAfterConstructFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\BlankLineAfterNamespaceFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
@@ -48,6 +49,7 @@ use PhpCsFixer\Fixer\Whitespace\LineEndingFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesInsideParenthesisFixer;
 use PhpCsFixer\Fixer\Whitespace\NoTrailingWhitespaceFixer;
 use PhpCsFixer\Fixer\Whitespace\SingleBlankLineAtEofFixer;
+use PhpCsFixer\Fixer\Whitespace\StatementIndentationFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
@@ -67,12 +69,15 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // split of BracesFixer in PHP CS Fixer 3.10 - https://github.com/FriendsOfPHP/PHP-CS-Fixer/pull/4884
-    $ecsConfig->rule(ControlStructureBracesFixer::class);
-    $ecsConfig->rule(CurlyBracesPositionFixer::class);
-    $ecsConfig->rule(NoMultipleStatementsPerLineFixer::class);
-    $ecsConfig->rule(DeclareParenthesesFixer::class);
-    $ecsConfig->rule(ControlStructureContinuationPositionFixer::class);
-    $ecsConfig->rule(\PhpCsFixer\Fixer\Whitespace\StatementIndentationFixer::class);
+    $ecsConfig->rules([
+        ControlStructureBracesFixer::class,
+        CurlyBracesPositionFixer::class,
+        NoMultipleStatementsPerLineFixer::class,
+        DeclareParenthesesFixer::class,
+        ControlStructureContinuationPositionFixer::class,
+        StatementIndentationFixer::class,
+        SingleSpaceAfterConstructFixer::class,
+    ]);
 
     $ecsConfig->ruleWithConfiguration(VisibilityRequiredFixer::class, [
         'elements' => ['const', 'method', 'property'],
