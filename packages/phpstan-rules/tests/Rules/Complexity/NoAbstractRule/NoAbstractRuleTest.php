@@ -25,8 +25,10 @@ final class NoAbstractRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [__DIR__ . '/Fixture/SkipAbstractCommand.php', []];
         yield [__DIR__ . '/Fixture/SkipNonAbstractClass.php', []];
         yield [__DIR__ . '/Fixture/SkipAbstractTestCase.php', []];
+
         yield [__DIR__ . '/Fixture/AbstractClass.php', [[NoAbstractRule::ERROR_MESSAGE, 7]]];
     }
 

@@ -9,6 +9,9 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
+/**
+ * @deprecated Use fixer directly :) not much value here
+ */
 abstract class AbstractSymplifyFixer implements FixerInterface
 {
     public function getPriority(): int

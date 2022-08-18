@@ -11,6 +11,7 @@ use PHPStan\Node\InClassNode;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Command\Command;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,6 +25,11 @@ final class NoAbstractRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Instead of abstract class, use specific service with composition';
+
+    /**
+     * @var string[]
+     */
+    private const ALLOWED_TYPES = [Command::class, TestCase::class];
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -84,8 +90,10 @@ CODE_SAMPLE
             return [];
         }
 
-        if ($classReflection->isSubclassOf(TestCase::class)) {
-            return [];
+        foreach (self::ALLOWED_TYPES as $allowedType) {
+            if ($classReflection->isSubclassOf($allowedType)) {
+                return [];
+            }
         }
 
         return [self::ERROR_MESSAGE];

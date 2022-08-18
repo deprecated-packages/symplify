@@ -58,19 +58,15 @@ parameters:
         - packages/easy-coding-standard/build/target-repository/bootstrap.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
-        - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
+#        - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
 
         # PHP 8 only
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
-        - packages/autowire-array-parameter/tests/SourcePhp8/PromotedPropertyCollector.php
-        - packages/autowire-array-parameter/tests/DependencyInjection/CompilerPass/Php8Test.php
 
         # functions false positive
-#        - */Vendor/*
-        - *packages/**/tests/**/config.php
-#        - *packages/**/tests/**-config.php
+#        - *packages/**/tests/**/config.php
         - *packages/monorepo-builder/templates/*
-        - *packages/phpstan-extensions/**/Source/**
+#        - *packages/phpstan-extensions/**/Source/**
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # tests
@@ -80,18 +76,14 @@ parameters:
         - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # tests
-        - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
-#        - '*/tests/Source/*'
         - '*/tests/**/Source/*'
         - '*/tests/**/Fixture/*'
-#        - '*/tests/**/Fixture*/*'
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*
-        - */tests/Fixture/*
         - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
-        - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
+#        - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
         # private code for deployed package only
         - packages/phpstan-rules/build/*
 
@@ -271,7 +263,6 @@ parameters:
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
                  - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
-                 - packages/easy-coding-standard/src/Console/Command/AbstractCheckCommand.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
         -
@@ -542,3 +533,6 @@ parameters:
 
         # 2 different packages
         - '#The "(INPUT_SUFFIX_REGEX|CONFIG_SUFFIXES_REGEX)" constant contains duplicated regex "\#\\\.\(yml\|yaml\|xml\)\$\#"\. Instead of duplicated regexes, extract domain regexes together to save maintenance#'
+
+        # astral left over
+        - '#Content of method "parseNativeClassReflection\(\)" is duplicated with method "parseNativeClassReflection\(\)" in "Symplify\\Astral\\Reflection\\ReflectionParser" class\. Use unique content or service instead#'
