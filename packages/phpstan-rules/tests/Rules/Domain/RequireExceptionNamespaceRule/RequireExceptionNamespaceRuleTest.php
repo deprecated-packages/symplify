@@ -25,7 +25,7 @@ final class RequireExceptionNamespaceRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
-        yield [__DIR__ . '/Fixture/MisslocatedException.php', [[RequireExceptionNamespaceRule::ERROR_MESSAGE, 7]]];
+        yield [__DIR__ . '/Fixture/MisslocatedException.php', [[RequireExceptionNamespaceRule::ERROR_MESSAGE, 9]]];
         yield [__DIR__ . '/Fixture/Exception/SkipCorrectException.php', []];
     }
 

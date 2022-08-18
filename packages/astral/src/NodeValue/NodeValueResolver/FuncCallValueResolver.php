@@ -9,7 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Name;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
-use Symplify\Astral\Exception\ShouldNotHappenException;
+use Symplify\Astral\Exception\UnresolvableValueException;
 
 /**
  * @see \Symplify\Astral\Tests\NodeValue\NodeValueResolverTest
@@ -59,7 +59,7 @@ final class FuncCallValueResolver implements NodeValueResolverInterface
                 return $functionName(...$arguments);
             }
 
-            throw new ShouldNotHappenException();
+            throw new UnresolvableValueException();
         }
 
         return null;
