@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\DocBlock\UselessDocBlockCleaner;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Traverser\TokenReverser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -26,7 +27,8 @@ final class RemoveUselessDefaultCommentFixer extends AbstractSymplifyFixer imple
     private const ERROR_MESSAGE = 'Remove useless PHPStorm-generated @todo comments, redundant "Class XY" or "gets service" comments etc.';
 
     public function __construct(
-        private UselessDocBlockCleaner $uselessDocBlockCleaner
+        private UselessDocBlockCleaner $uselessDocBlockCleaner,
+        private TokenReverser $tokenReverser
     ) {
     }
 
@@ -48,7 +50,8 @@ final class RemoveUselessDefaultCommentFixer extends AbstractSymplifyFixer imple
      */
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
-        $reversedTokens = $this->reverseTokens($tokens);
+        $reversedTokens = $this->tokenReverser->reverse($tokens);
+
         foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;

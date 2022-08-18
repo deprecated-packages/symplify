@@ -12,6 +12,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
 use Symplify\CodingStandard\TokenAnalyzer\SymfonyClosureAnalyzer;
+use Symplify\CodingStandard\TokenRunner\Traverser\TokenReverser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -33,7 +34,8 @@ final class NewlineServiceDefinitionConfigFixer extends AbstractSymplifyFixer im
 
     public function __construct(
         private WhitespacesFixerConfig $whitespacesFixerConfig,
-        private SymfonyClosureAnalyzer $symfonyClosureAnalyzer
+        private SymfonyClosureAnalyzer $symfonyClosureAnalyzer,
+        private TokenReverser $tokenReverser,
     ) {
     }
 
@@ -59,7 +61,7 @@ final class NewlineServiceDefinitionConfigFixer extends AbstractSymplifyFixer im
             return;
         }
 
-        $reversedTokens = $this->reverseTokens($tokens);
+        $reversedTokens = $this->tokenReverser->reverse($tokens);
 
         foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind(T_OBJECT_OPERATOR)) {
@@ -142,5 +144,27 @@ CODE_SAMPLE
         }
 
         return in_array($nextToken->getContent(), $methodNames, true);
+    }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function getPreviousToken(Tokens $tokens, int $index): ?Token
+    {
+        $previousIndex = $index - 1;
+        return $tokens[$previousIndex] ?? null;
+    }
+
+    /**
+     * @param Tokens<Token> $tokens
+     */
+    private function getNextMeaningfulToken(Tokens $tokens, int $index): ?Token
+    {
+        $nextMeaningfulTokenPosition = $tokens->getNextMeaningfulToken($index);
+        if ($nextMeaningfulTokenPosition === null) {
+            return null;
+        }
+
+        return $tokens[$nextMeaningfulTokenPosition];
     }
 }

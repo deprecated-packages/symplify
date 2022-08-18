@@ -18,6 +18,7 @@ use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\ParamNameTypoMalf
 use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousReturnNameMalformWorker;
 use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SuperfluousVarNameMalformWorker;
 use Symplify\CodingStandard\TokenRunner\DocBlock\MalformWorker\SwitchedTypeAndNameMalformWorker;
+use Symplify\CodingStandard\TokenRunner\Traverser\TokenReverser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -49,7 +50,8 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
      * @param MalformWorkerInterface[] $malformWorkers
      */
     public function __construct(
-        private array $malformWorkers
+        private array $malformWorkers,
+        private TokenReverser $tokenReverser
     ) {
     }
 
@@ -67,7 +69,8 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
             return false;
         }
 
-        $reversedTokens = $this->reverseTokens($tokens);
+        $reversedTokens = $this->tokenReverser->reverse($tokens);
+
         foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind([T_CALLABLE])) {
                 continue;
@@ -88,7 +91,8 @@ final class ParamReturnAndVarTagMalformsFixer extends AbstractSymplifyFixer impl
      */
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
-        $reversedTokens = $this->reverseTokens($tokens);
+        $reversedTokens = $this->tokenReverser->reverse($tokens);
+
         foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;

@@ -11,6 +11,7 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 use Symplify\CodingStandard\Fixer\AbstractSymplifyFixer;
+use Symplify\CodingStandard\TokenRunner\Traverser\TokenReverser;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -31,6 +32,11 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer implemen
      */
     private const ERROR_MESSAGE = 'Remove "Created by PhpStorm" annotations';
 
+    public function __construct(
+        private TokenReverser $tokenReverser
+    ) {
+    }
+
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(self::ERROR_MESSAGE, []);
@@ -49,7 +55,8 @@ final class RemovePHPStormAnnotationFixer extends AbstractSymplifyFixer implemen
      */
     public function fix(SplFileInfo $fileInfo, Tokens $tokens): void
     {
-        $reversedTokens = $this->reverseTokens($tokens);
+        $reversedTokens = $this->tokenReverser->reverse($tokens);
+
         foreach ($reversedTokens as $index => $token) {
             if (! $token->isGivenKind([T_DOC_COMMENT, T_COMMENT])) {
                 continue;
