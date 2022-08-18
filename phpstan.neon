@@ -534,3 +534,6 @@ parameters:
         - '#Content of method "parseNativeClassReflection\(\)" is duplicated with method "parseNativeClassReflection\(\)" in "Symplify\\Astral\\Reflection\\ReflectionParser" class\. Use unique content or service instead#'
         - '#Content of method "enterNode\(\)" is duplicated with method "enterNode\(\)" in "Symplify\\Astral\\NodeVisitor\\CallableNodeVisitor" class\. Use unique content or service instead#'
         - '#Content of method "resolve\(\)" is duplicated with method "resolve\(\)" in "Symplify\\Astral\\TypeAnalyzer\\ClassMethodReturnTypeResolver" class\. Use unique content or service instead#'
+
+        # some autoloading glitch
+        - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\ClassMethodContentCollector\:\:getNodeType\(\) should return class\-string<Symplify\\PHPStanRules\\Collector\\ClassMethod\\InClassMethod> but returns string#'

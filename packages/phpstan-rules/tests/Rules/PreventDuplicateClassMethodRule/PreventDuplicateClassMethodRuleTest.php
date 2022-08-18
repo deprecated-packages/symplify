@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule;
 
 use Iterator;
+use PHPStan\Collectors\Collector;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
+use Symplify\PHPStanRules\Collector\ClassMethod\ClassMethodContentCollector;
 use Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule;
-use Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\Fixture\DifferentMethodName1;
 
 /**
  * @extends RuleTestCase<PreventDuplicateClassMethodRule>
@@ -49,17 +50,13 @@ final class PreventDuplicateClassMethodRuleTest extends RuleTestCase
             __DIR__ . '/Fixture/SkipClassUseTrait2.php',
         ], []];
 
-        $errorMessage = sprintf(
-            PreventDuplicateClassMethodRule::ERROR_MESSAGE,
-            'sleep',
-            'go',
-            DifferentMethodName1::class
-        );
+        $firstErrorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'go');
+        $secondErrorMessage = sprintf(PreventDuplicateClassMethodRule::ERROR_MESSAGE, 'sleep');
 
         yield [[
             __DIR__ . '/Fixture/DifferentMethodName1.php',
             __DIR__ . '/Fixture/DifferentMethodName2.php',
-        ], [[$errorMessage, 9]]];
+        ], [[$firstErrorMessage, 9], [$secondErrorMessage, 9]]];
     }
 
     /**
@@ -68,6 +65,15 @@ final class PreventDuplicateClassMethodRuleTest extends RuleTestCase
     public static function getAdditionalConfigFiles(): array
     {
         return [__DIR__ . '/config/configured_rule.neon'];
+    }
+
+    /**
+     * @return Collector[]
+     */
+    protected function getCollectors(): array
+    {
+        $classMethodContentCollector = self::getContainer()->getByType(ClassMethodContentCollector::class);
+        return [$classMethodContentCollector];
     }
 
     protected function getRule(): Rule
