@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\VendorPatches\Composer;
 
-use Symplify\Astral\Exception\ShouldNotHappenException;
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Symplify\VendorPatches\Exception\ComposerPatchingException;
 
 /**
  * @see \Symplify\VendorPatches\Tests\Composer\ComposerPatchesConfigurationUpdater\ComposerPatchesConfigurationUpdaterTest
@@ -51,7 +51,7 @@ final class ComposerPatchesConfigurationUpdater
 
         $fileInfo = $composerJson->getFileInfo();
         if (! $fileInfo instanceof SmartFileInfo) {
-            throw new ShouldNotHappenException();
+            throw new ComposerPatchingException();
         }
 
         $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $fileInfo->getRealPath());

@@ -13,7 +13,7 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use Symplify\Astral\Contract\NodeValueResolver\NodeValueResolverInterface;
-use Symplify\Astral\Exception\ShouldNotHappenException;
+use Symplify\Astral\Exception\UnresolvableValueException;
 use Symplify\Astral\NodeValue\NodeValueResolver\ClassConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\ConstFetchValueResolver;
 use Symplify\Astral\NodeValue\NodeValueResolver\FuncCallValueResolver;
@@ -70,7 +70,7 @@ final class NodeValueResolver
     private function resolveByNode(Expr $expr): mixed
     {
         if ($this->currentFilePath === null) {
-            throw new ShouldNotHappenException();
+            throw new UnresolvableValueException();
         }
 
         foreach ($this->nodeValueResolvers as $nodeValueResolver) {
