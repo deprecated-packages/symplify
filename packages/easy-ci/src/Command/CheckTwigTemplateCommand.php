@@ -30,7 +30,7 @@ final class CheckTwigTemplateCommand extends AbstractSymplifyCommand
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
             'One or more paths with templates'
         );
-        $this->setDescription('Analyze missing classes, constant and static calls in Latte templates');
+        $this->setDescription('Analyze missing classes, constant and static calls in Twig templates');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
