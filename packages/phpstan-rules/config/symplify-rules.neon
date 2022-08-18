@@ -6,7 +6,6 @@ includes:
     - array-rules.neon
     - code-complexity-rules.neon
     - forbidden-static-rules.neon
-    - doctrine-rules.neon
     - regex-rules.neon
     - packages/symfony/symfony-rules.neon
     - test-rules.neon

@@ -66,12 +66,10 @@ parameters:
         - packages/autowire-array-parameter/tests/DependencyInjection/CompilerPass/Php8Test.php
 
         # functions false positive
-        - */Vendor/*
+#        - */Vendor/*
         - *packages/**/tests/**/config.php
-        - *packages/**/tests/**-config.php
+#        - *packages/**/tests/**-config.php
         - *packages/monorepo-builder/templates/*
-        - *packages/coding-standard/tests/**/correct*
-        - *packages/coding-standard/tests/**/wrong*
         - *packages/phpstan-extensions/**/Source/**
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
@@ -84,10 +82,10 @@ parameters:
         # tests
         - packages/phpstan-extensions/tests/Rules/ClassMethod/Source/*
 
-        - '*/tests/Source/*'
+#        - '*/tests/Source/*'
         - '*/tests/**/Source/*'
         - '*/tests/**/Fixture/*'
-        - '*/tests/**/Fixture*/*'
+#        - '*/tests/**/Fixture*/*'
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*

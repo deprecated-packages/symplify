@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\AutowireArrayParameter\Tests\Source;
+namespace Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source;
 
-use Symplify\AutowireArrayParameter\Tests\Source\Contract\FirstCollectedInterface;
-use Symplify\AutowireArrayParameter\Tests\Source\Contract\SecondCollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source\Contract\FirstCollectedInterface;
+use Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source\Contract\SecondCollectedInterface;
 
 final class SomeCollector
 {

@@ -32,6 +32,7 @@ final class NoDynamicPropertyOnStaticCallRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipSelfStatic.php', []];
         yield [__DIR__ . '/Fixture/SkipAbstractClassCall.php', []];
         yield [__DIR__ . '/Fixture/SkipUnionTypes.php', []];
+        yield [__DIR__ . '/Fixture/SkipObjectClass.php', []];
     }
 
     /**

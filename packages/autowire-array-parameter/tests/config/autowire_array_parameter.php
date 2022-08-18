@@ -11,5 +11,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->autowire()
         ->public();
 
-    $services->load('Symplify\AutowireArrayParameter\Tests\Source\\', __DIR__ . '/../Source');
+    $services->load(
+        'Symplify\AutowireArrayParameter\Tests\DependencyInjection\CompilerPass\Source\\',
+        __DIR__ . '/../DependencyInjection/CompilerPass/Source'
+    )
+        ->exclude([__DIR__ . '/../DependencyInjection/CompilerPass/Source/SkipMe']);
 };
