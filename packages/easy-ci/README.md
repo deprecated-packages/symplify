@@ -5,9 +5,8 @@
 Tools that make easy to setup CI.
 
 - Check git conflicts in CI
-- Check TWIG and Latte templates for missing classes, non-existing static calls and constant fetches
-- Check YAML and NEON configs for the same
-- Extract Latte filters from static calls in templates
+- Check TWIG templates for missing classes, non-existing static calls and constant fetches
+- Check YAML configs for the same
 
 ## Install
 
@@ -108,19 +107,11 @@ jobs:
 vendor/bin/easy-ci check-config src
 ```
 
-Supported types are YAML and NEON.
+Supported types are YAML.
 
 <br>
 
-### 4. Check Templates for Non-Existing Classes
-
-```bash
-vendor/bin/easy-ci check-latte-template templates
-```
-
-<br>
-
-### 5. Check Twig Controller Paths
+### 4. Check Twig Controller Paths
 
 ```bash
 vendor/bin/easy-ci check-twig-render src/Controller
@@ -138,39 +129,7 @@ final class SomeController
 
 <br>
 
-### 6. Avoid Static Calls in Latte Templates and use FilterProvider Instead
-
-Static calls in Latte templates [are a code smell](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters). Make your code more decoupled and use a Latte filter instead:
-
-```diff
- # any latte file
--{\App\SomeClass::someStaticMethod($value)}
-+{$value|someStaticMethod}
-```
-
-Filter provider can look like this:
-
-```php
-use App\Contract\Latte\FilterProviderInterface;
-use App\SomeClass;
-
-final class SomeMethodFilterProvider implements FilterProviderInterface
-{
-    public function __invoke(string $name): int
-    {
-        return SomeClass::someStaticMethod($name);
-    }
-
-    public function getName(): string
-    {
-        return 'someMethod';
-    }
-}
-```
-
-<br>
-
-### 7. Detect Static Calls in Your Code
+### 5. Detect Static Calls in Your Code
 
 ```bash
 vendor/bin/easy-ci detect-static src

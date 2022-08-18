@@ -1,3 +1,0 @@
-services:
-    # basically removes service by the name
-    some_service: null

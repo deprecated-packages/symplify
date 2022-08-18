@@ -1,5 +1,0 @@
-services:
-    -
-        class: Service
-        setup:
-            - setValue(100)

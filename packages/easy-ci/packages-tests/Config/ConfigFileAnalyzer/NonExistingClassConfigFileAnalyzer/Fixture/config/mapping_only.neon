@@ -1,2 +1,0 @@
-mapping:
-    Rest: ['RestModule\Presenter', '*Presenter', '*Presenter']

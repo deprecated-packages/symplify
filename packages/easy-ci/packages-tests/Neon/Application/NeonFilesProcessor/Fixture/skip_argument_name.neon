@@ -1,5 +1,0 @@
-services:
-    middlewares.application:
-        class: stdClass
-        arguments:
-            chain: @middlewares.chain::create()

@@ -26,7 +26,7 @@ final class CheckConfigCommand extends AbstractSymplifyCommand
     {
         $this->setName('check-config');
 
-        $this->setDescription('Check NEON and YAML configs for existing classes and class constants');
+        $this->setDescription('Check YAML configs for existing classes and class constants');
         $this->addArgument(
             Option::SOURCES,
             InputArgument::REQUIRED | InputArgument::IS_ARRAY,
