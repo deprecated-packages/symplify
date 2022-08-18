@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.21",
-        "friendsofphp/php-cs-fixer": "^3.9.5",
+        "friendsofphp/php-cs-fixer": "^3.10",
         "phpstan/phpstan": "^1.8.1"
     },
     "autoload": {
