@@ -5,9 +5,8 @@
 Tools that make easy to setup CI.
 
 - Check git conflicts in CI
-- Check TWIG and Latte templates for missing classes, non-existing static calls and constant fetches
-- Check YAML and NEON configs for the same
-- Extract Latte filters from static calls in templates
+- Check TWIG templates for missing classes, non-existing static calls and constant fetches
+- Check YAML configs for the same
 
 ## Install
 
@@ -45,19 +44,11 @@ The `/vendor` directory is excluded by default.
 vendor/bin/easy-ci check-config src
 ```
 
-Supported types are YAML and NEON.
+Supported types are YAML.
 
 <br>
 
-### 3. Check Templates for Non-Existing Classes
-
-```bash
-vendor/bin/easy-ci check-latte-template templates
-```
-
-<br>
-
-### 4. Check Twig Controller Paths
+### 3. Check Twig Controller Paths
 
 ```bash
 vendor/bin/easy-ci check-twig-render src/Controller
@@ -75,39 +66,7 @@ final class SomeController
 
 <br>
 
-### 5. Avoid Static Calls in Latte Templates and use FilterProvider Instead
-
-Static calls in Latte templates [are a code smell](https://tomasvotruba.com/blog/2020/08/17/how-to-get-rid-of-magic-static-and-chaos-from-latte-filters). Make your code more decoupled and use a Latte filter instead:
-
-```diff
- # any latte file
--{\App\SomeClass::someStaticMethod($value)}
-+{$value|someStaticMethod}
-```
-
-Filter provider can look like this:
-
-```php
-use App\Contract\Latte\FilterProviderInterface;
-use App\SomeClass;
-
-final class SomeMethodFilterProvider implements FilterProviderInterface
-{
-    public function __invoke(string $name): int
-    {
-        return SomeClass::someStaticMethod($name);
-    }
-
-    public function getName(): string
-    {
-        return 'someMethod';
-    }
-}
-```
-
-<br>
-
-### 6. Detect Static Calls in Your Code
+### 4. Detect Static Calls in Your Code
 
 ```bash
 vendor/bin/easy-ci detect-static src
@@ -115,7 +74,7 @@ vendor/bin/easy-ci detect-static src
 
 <br>
 
-### 7. Detect Commented Code
+### 5. Detect Commented Code
 
 Have you ever forgot commented code in your code?
 
@@ -132,7 +91,7 @@ vendor/bin/easy-ci check-commented-code <directory>
 vendor/bin/easy-ci check-commented-code packages --line-limit 5
 ```
 
-### 8. Short File === Class Name
+### 6. Short File === Class Name
 
 Does short file name matches the class name?
 
@@ -140,7 +99,7 @@ Does short file name matches the class name?
 vendor/bin/easy-ci check-file-class-name src
 ```
 
-### 9. Avoid 2 classes in 1 File
+### 7. Avoid 2 classes in 1 File
 
 What files have 2 and more classes?
 
