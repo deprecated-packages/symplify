@@ -1,6 +1,0 @@
-security:
-    firewalls:
-        main:
-            guard:
-                authenticators:
-                    - "app\\specific\\securityauthenticator"

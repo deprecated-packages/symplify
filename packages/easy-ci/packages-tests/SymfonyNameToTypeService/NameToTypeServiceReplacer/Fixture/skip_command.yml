@@ -1,3 +1,0 @@
-services:
-    some.command:
-        class: "App\\Command\\SomeCommand"

@@ -498,10 +498,6 @@ parameters:
             path: packages/php-config-printer/src/ServiceOptionConverter/AbstractServiceOptionKeyYamlToPhpFactory.php
 
         # not neccesary complexity
-        -
-            path: packages/easy-ci/packages/SymfonyNameToTypeService/NameToTypeServiceReplacer.php
-            message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\RequireThisOnParentMethodCallRule\:\:processNode\(\)" is 9, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoNestedFuncCallRule\:\:processNode\(\)" is 10, keep it under 8#'
 
