@@ -8,9 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\InClassNode;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Rules\Rule;
-use Symfony\Component\Console\Command\Command;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 use Symplify\PHPStanRules\CognitiveComplexity\CompositionOverInheritanceAnalyzer;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
@@ -28,14 +26,10 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
      */
     public const ERROR_MESSAGE = 'Class cognitive complexity is %d, keep it under %d';
 
-    /**
-     * @param array<string, int> $limitsByTypes
-     */
     public function __construct(
         private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
         private CompositionOverInheritanceAnalyzer $compositionOverInheritanceAnalyzer,
         private int $maxClassCognitiveComplexity = 50,
-        private array $limitsByTypes = [],
         private bool $scoreCompositionOverInheritance = false
     ) {
     }
@@ -59,20 +53,17 @@ final class ClassLikeCognitiveComplexityRule implements Rule, DocumentedRuleInte
             return [];
         }
 
-        $classReflection = $node->getClassReflection();
-
         if ($this->scoreCompositionOverInheritance) {
             $measuredCognitiveComplexity = $this->compositionOverInheritanceAnalyzer->analyzeClassLike($classLike);
         } else {
             $measuredCognitiveComplexity = $this->astCognitiveComplexityAnalyzer->analyzeClassLike($classLike);
         }
 
-        $allowedCognitiveComplexity = $this->resolveAllowedCognitiveComplexity($classReflection);
-        if ($measuredCognitiveComplexity <= $allowedCognitiveComplexity) {
+        if ($measuredCognitiveComplexity <= $this->maxClassCognitiveComplexity) {
             return [];
         }
 
-        $message = sprintf(self::ERROR_MESSAGE, $measuredCognitiveComplexity, $allowedCognitiveComplexity);
+        $message = sprintf(self::ERROR_MESSAGE, $measuredCognitiveComplexity, $this->maxClassCognitiveComplexity);
 
         return [$message];
     }
@@ -126,67 +117,7 @@ CODE_SAMPLE
                     'maxClassCognitiveComplexity' => 10,
                     'scoreCompositionOverInheritance' => true,
                 ]
-            ),
-                new ConfiguredCodeSample(
-                    <<<'CODE_SAMPLE'
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        if (...) {
-            // ...
-        } else {
-            // ...
-        }
-    }
-}
-CODE_SAMPLE
-                    ,
-                    <<<'CODE_SAMPLE'
-use Symfony\Component\Console\Command\Command;
-
-class SomeCommand extends Command
-{
-    public function configure()
-    {
-        $this->setName('...');
-    }
-
-    public function execute()
-    {
-        return $this->externalService->resolve(...);
-    }
-}
-CODE_SAMPLE
-                    ,
-                    [
-                        'limitsByTypes' => [
-                            Command::class => 5,
-                        ],
-                    ]
-                ),
-
-            ]
+            )]
         );
-    }
-
-    private function resolveAllowedCognitiveComplexity(ClassReflection $classReflection): int
-    {
-        $className = $classReflection->getName();
-
-        foreach ($this->limitsByTypes as $type => $limit) {
-            if (is_a($className, $type, true)) {
-                return $limit;
-            }
-        }
-
-        return $this->maxClassCognitiveComplexity;
     }
 }
