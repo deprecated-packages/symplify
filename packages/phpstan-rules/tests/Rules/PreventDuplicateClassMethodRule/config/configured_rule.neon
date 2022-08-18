@@ -3,3 +3,8 @@ includes:
 
 rules:
     - Symplify\PHPStanRules\Rules\PreventDuplicateClassMethodRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassMethod\ClassMethodContentCollector
+        tags: [phpstan.collector]

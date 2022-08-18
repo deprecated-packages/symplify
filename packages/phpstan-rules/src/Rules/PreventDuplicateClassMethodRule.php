@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\Rules;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
-use PHPStan\Node\InClassMethodNode;
+use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\HttpKernel\Kernel;
-use Symplify\PHPStanRules\Enum\MethodName;
-use Symplify\PHPStanRules\Printer\DuplicatedClassMethodPrinter;
+use PHPStan\Rules\RuleError;
+use PHPStan\Rules\RuleErrorBuilder;
+use Symplify\PHPStanRules\Collector\ClassMethod\ClassMethodContentCollector;
+use Symplify\PHPStanRules\ValueObject\Metadata\ClassMethodMetadata;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -21,32 +19,18 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @see \Symplify\PHPStanRules\Tests\Rules\PreventDuplicateClassMethodRule\PreventDuplicateClassMethodRuleTest
+ *
+ * @implements Rule<CollectedDataNode>
  */
 final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInterface, ConfigurableRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated with method "%s()" in "%s" class. Use unique content or service instead';
-
-    /**
-     * @var string[]
-     */
-    private const PHPSTAN_GET_NODE_TYPE_METHODS = ['getNodeType', 'getNodeTypes'];
-
-    /**
-     * @var array<class-string>
-     */
-    private const EXCLUDED_TYPES = [Kernel::class, Extension::class];
-
-    /**
-     * @var array<array<string, string>>
-     */
-    private array $classMethodContents = [];
+    public const ERROR_MESSAGE = 'Content of method "%s()" is duplicated. Use unique content or service instead';
 
     public function __construct(
-        private DuplicatedClassMethodPrinter $duplicatedClassMethodPrinter,
-        private int $minimumLineCount = 3
+        private int $minimumLineCount = 3,
     ) {
     }
 
@@ -55,44 +39,47 @@ final class PreventDuplicateClassMethodRule implements Rule, DocumentedRuleInter
      */
     public function getNodeType(): string
     {
-        return InClassMethodNode::class;
+        return CollectedDataNode::class;
     }
 
     /**
-     * @param InClassMethodNode $node
-     * @return string[]
+     * @param CollectedDataNode $node
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $methodReflection = $node->getMethodReflection();
-        $declaringClassReflection = $methodReflection->getDeclaringClass();
+        $classMethodsContentByFile = $node->get(ClassMethodContentCollector::class);
 
-        $classMethod = $node->getOriginalNode();
+        $ruleErrors = [];
 
-        $className = $declaringClassReflection->getName();
-        if ($this->shouldSkip($classMethod, $scope, $className)) {
-            return [];
+        $classMethodMetadatasByContentsHash = $this->groupClassMethodMetadatasByContentsHash(
+            $classMethodsContentByFile
+        );
+        foreach ($classMethodMetadatasByContentsHash as $classMethodMetadatas) {
+            // keep only long enough methods
+            $classMethodMetadatas = array_filter(
+                $classMethodMetadatas,
+                fn (ClassMethodMetadata $classMethodMetadata): bool => $classMethodMetadata->getLineCount() >= $this->minimumLineCount
+            );
+
+            // method is unique, we can skip it
+            if (count($classMethodMetadatas) === 1) {
+                continue;
+            }
+
+            // report errors
+            /** @var ClassMethodMetadata $classMethodMetadata */
+            foreach ($classMethodMetadatas as $classMethodMetadata) {
+                $errorMessage = sprintf(self::ERROR_MESSAGE, $classMethodMetadata->getMethodName());
+
+                $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
+                    ->file($classMethodMetadata->getFileName())
+                    ->line($classMethodMetadata->getLine())
+                    ->build();
+            }
         }
 
-        $classMethodName = $classMethod->name->toString();
-        if (in_array($classMethodName, self::PHPSTAN_GET_NODE_TYPE_METHODS, true)) {
-            return [];
-        }
-
-        $printStmts = $this->duplicatedClassMethodPrinter->printClassMethod($classMethod);
-
-        $validateDuplication = $this->validateDuplication($classMethodName, $printStmts);
-        if ($validateDuplication !== []) {
-            return $validateDuplication;
-        }
-
-        $this->classMethodContents[] = [
-            'class' => $className,
-            'method' => $classMethodName,
-            'content' => $printStmts,
-        ];
-
-        return [];
+        return $ruleErrors;
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -139,59 +126,28 @@ CODE_SAMPLE
     }
 
     /**
-     * @return string[]
+     * @param mixed[] $classMethodsContentByFile
+     * @return array<string, ClassMethodMetadata[]>
      */
-    private function validateDuplication(string $classMethodName, string $currentClassMethodContent): array
+    private function groupClassMethodMetadatasByContentsHash(array $classMethodsContentByFile): array
     {
-        foreach ($this->classMethodContents as $classMethodContent) {
-            if ($classMethodContent['content'] !== $currentClassMethodContent) {
-                continue;
-            }
+        $methodsNamesAndFilesByMethodContents = [];
 
-            $errorMessage = sprintf(
-                self::ERROR_MESSAGE,
-                $classMethodName,
-                $classMethodContent['method'],
-                $classMethodContent['class']
-            );
+        foreach ($classMethodsContentByFile as $fileName => $classMethodContents) {
+            foreach ($classMethodContents as [$methodName, $methodLine, $methodContents]) {
+                $methodContentsHash = md5($methodContents);
 
-            return [$errorMessage];
-        }
+                $methodLineCount = substr_count($methodContents, "\n");
 
-        return [];
-    }
-
-    private function shouldSkip(ClassMethod $classMethod, Scope $scope, string $className): bool
-    {
-        if ($scope->isInTrait()) {
-            return true;
-        }
-
-        if (! $scope->isInClass()) {
-            return true;
-        }
-
-        foreach (self::EXCLUDED_TYPES as $excludedType) {
-            if (is_a($className, $excludedType, true)) {
-                return true;
+                $methodsNamesAndFilesByMethodContents[$methodContentsHash][] = new ClassMethodMetadata(
+                    $methodName,
+                    $methodLineCount,
+                    $fileName,
+                    $methodLine,
+                );
             }
         }
 
-        /** @var Stmt[] $stmts */
-        $stmts = (array) $classMethod->stmts;
-        if (count($stmts) < $this->minimumLineCount) {
-            return true;
-        }
-
-        return $this->isConstructorOrInTestClass($classMethod, $className);
-    }
-
-    private function isConstructorOrInTestClass(ClassMethod $classMethod, string $className): bool
-    {
-        if ($classMethod->name->toString() === MethodName::CONSTRUCTOR) {
-            return true;
-        }
-
-        return \str_ends_with($className, 'Test');
+        return $methodsNamesAndFilesByMethodContents;
     }
 }

@@ -8,8 +8,8 @@ use PhpCsFixer\Fixer\FixerInterface;
 use SplFileInfo;
 
 /**
- * We could use native AbstractFixer here,
- * but it runs magic setup of newlines/spaces in constructor and many other methods. This keeps it simple :)
+ * We could use native AbstractFixer here, but it runs magic setup of newlines/spaces in constructor and many other
+ * methods. This keeps it simple :)
  */
 abstract class AbstractSymplifyFixer implements FixerInterface
 {
