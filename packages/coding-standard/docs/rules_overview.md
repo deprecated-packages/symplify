@@ -277,11 +277,11 @@ Constructor param should be on a standalone line to ease git diffs on new depend
 ```diff
  final class PromotedProperties
  {
--    public function __construct(public int $age, private string $name)
+-    public function __construct(int $age, string $name)
 -    {
 +    public function __construct(
-+        public int $age,
-+        private string $name
++        int $age,
++        string $name
 +    ) {
      }
  }
