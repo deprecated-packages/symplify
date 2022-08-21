@@ -2960,7 +2960,7 @@ abstract class AbstractSomeClass
 
 ## PreventDuplicateClassMethodRule
 
-Content of method `"%s()"` is duplicated with method `"%s()"` in "%s" class. Use unique content or service instead
+Content of method `"%s()"` is duplicated. Use unique content or service instead
 
 :wrench: **configure it!**
 
