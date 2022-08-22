@@ -1,4 +1,4 @@
-# 105 Rules Overview
+# 122 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -348,6 +348,74 @@ class CustomerProductProvider extends PriceProviderInterface
 
 <br>
 
+## ClassLikeCognitiveComplexityRule
+
+Cognitive complexity of class/trait must be under specific limit
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/ClassLikeCognitiveComplexityRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxClassCognitiveComplexity: 10
+            scoreCompositionOverInheritance: true
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function another($value)
+    {
+        if ($value !== 1 && $value !== 2) {
+            return false;
+        }
+
+        return true;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        return $this->someOtherService->count($value);
+    }
+
+    public function another($value)
+    {
+        return $this->someOtherService->delete($value);
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## ClassNameRespectsParentSuffixRule
 
 Class should have suffix "%s" to respect parent type
@@ -382,6 +450,28 @@ class Some extends Command
 class SomeCommand extends Command
 {
 }
+```
+
+:+1:
+
+<br>
+
+## DibiMaskMatchesVariableTypeRule
+
+Modifier "%s" is not matching passed variable type "%s". The "%s" type is expected - see https://dibiphp.com/en/documentation#toc-modifiers-for-arrays
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule`](../packages/Nette/Rules/DibiMaskMatchesVariableTypeRule.php)
+
+```php
+$database->query('INSERT INTO table %v', 'string');
+```
+
+:x:
+
+<br>
+
+```php
+$database->query('INSERT INTO table %v', ['name' => 'Matthias']);
 ```
 
 :+1:
@@ -970,6 +1060,58 @@ final class SomeClass extends TestCase
 
 <br>
 
+## ForbiddenNetteInjectOverrideRule
+
+Assign to already injected property is not allowed
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\ForbiddenNetteInjectOverrideRule`](../packages/Nette/Rules/ForbiddenNetteInjectOverrideRule.php)
+
+```php
+use Nette\DI\Attributes\Inject;
+
+abstract class AbstractParent
+{
+    /**
+     * @var SomeType
+     */
+    #[Inject]
+    public $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+    public function __construct(AnotherType $anotherType)
+    {
+        $this->someType = $anotherType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\DI\Attributes\Inject;
+
+abstract class AbstractParent
+{
+    /**
+     * @var SomeType
+     */
+    #[Inject]
+    public $someType;
+}
+
+final class SomeChild extends AbstractParent
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## ForbiddenNodeRule
 
 "%s" is forbidden to use
@@ -1180,6 +1322,63 @@ $this->someService->process($this, ...);
 
 ```php
 $this->someService->process($value, ...);
+```
+
+:+1:
+
+<br>
+
+## FunctionLikeCognitiveComplexityRule
+
+Cognitive complexity of function/method must be under specific limit
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/FunctionLikeCognitiveComplexityRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            maxMethodCognitiveComplexity: 5
+```
+
+↓
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value !== 1) {
+            if ($value !== 2) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    public function simple($value)
+    {
+        if ($value === 1) {
+            return true;
+        }
+
+        return $value === 2;
+    }
+}
 ```
 
 :+1:
@@ -1434,6 +1633,49 @@ final class SomeClass
 
 <br>
 
+## NoChainMethodCallRule
+
+Do not use chained method calls. Put each on separated lines.
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule`](../packages/ObjectCalisthenics/Rules/NoChainMethodCallRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoChainMethodCallRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            allowedChainTypes:
+                - AllowedFluent
+```
+
+↓
+
+```php
+$this->runThis()->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()->two();
+```
+
+:x:
+
+<br>
+
+```php
+$this->runThis();
+$this->runThat();
+
+$fluentClass = new AllowedFluent();
+$fluentClass->one()->two();
+```
+
+:+1:
+
+<br>
+
 ## NoClassWithStaticMethodWithoutStaticNameRule
 
 Class has a static method must so must contains "Static" in its name
@@ -1524,6 +1766,78 @@ final class SomeTest
     public function setUp()
     {
         // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoConstructorSymfonyFormObjectRule
+
+This object is used in a Symfony form, that uses magic setters/getters, so it cannot have required constructor
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\NoConstructorSymfonyFormObjectRule`](../packages/Symfony/Rules/NoConstructorSymfonyFormObjectRule.php)
+
+```php
+final class Ticket
+{
+    public function __construct(private int $price)
+    {
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Ticket
+{
+    private ?int $price = null;
+
+    public function setPrice(int $price): void
+    {
+        $this->price = $price;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+}
+
+---
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Ticket;
+
+final class TicketFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Ticket::class,
+        ]);
     }
 }
 ```
@@ -1923,6 +2237,40 @@ final class SomeProduct
     {
         return $this->name;
     }
+}
+```
+
+:+1:
+
+<br>
+
+## NoInjectOnFinalRule
+
+Use constructor on final classes, instead of property injection
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoInjectOnFinalRule`](../packages/Nette/Rules/NoInjectOnFinalRule.php)
+
+```php
+use Nette\DI\Attributes\Inject;
+
+final class SomePresenter
+{
+     #[Inject]
+    public $property;
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\DI\Attributes\Inject;
+
+abstract class SomePresenter
+{
+    #[Inject]
+    public $property;
 }
 ```
 
@@ -2365,6 +2713,126 @@ $filteredValues = array_filter($mappedItems);
 
 <br>
 
+## NoNetteArrayAccessInControlRule
+
+Avoid using magical unclear array access and use explicit `"$this->getComponent()"` instead
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteArrayAccessInControlRule`](../packages/Nette/Rules/NoNetteArrayAccessInControlRule.php)
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        return $this['someControl'];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        return $this->getComponent('someControl');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteDoubleTemplateAssignRule
+
+Avoid double template variable override of "%s"
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteDoubleTemplateAssignRule`](../packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php)
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        $this->template->key = '1';
+        $this->template->key = '2';
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\Application\UI\Presenter;
+
+class SomeClass extends Presenter
+{
+    public function render()
+    {
+        $this->template->key = '2';
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## NoNetteInjectAndConstructorRule
+
+Use either `__construct()` or @inject, not both together
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\NoNetteInjectAndConstructorRule`](../packages/Nette/Rules/NoNetteInjectAndConstructorRule.php)
+
+```php
+class SomeClass
+{
+    private $someType;
+
+    public function __construct()
+    {
+        // ...
+    }
+
+    public function injectSomeType($someType)
+    {
+        $this->someType = $someType;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+class SomeClass
+{
+    private $someType;
+
+    public function __construct($someType)
+    {
+        $this->someType = $someType;
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## NoNullableArrayPropertyRule
 
 Use required typed property over of nullable array property
@@ -2669,6 +3137,45 @@ final class SomeFlippedAssert extends TestCase
 
 <br>
 
+## NoShortNameRule
+
+Do not name "%s", shorter than %d chars
+
+:wrench: **configure it!**
+
+- class: [`Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule`](../packages/ObjectCalisthenics/Rules/NoShortNameRule.php)
+
+```yaml
+services:
+    -
+        class: Symplify\PHPStanRules\ObjectCalisthenics\Rules\NoShortNameRule
+        tags: [phpstan.rules.rule]
+        arguments:
+            minNameLength: 3
+```
+
+↓
+
+```php
+function is()
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+function isClass()
+{
+}
+```
+
+:+1:
+
+<br>
+
 ## NoStaticPropertyRule
 
 Do not use static property
@@ -2952,6 +3459,41 @@ abstract class SomeClass
 abstract class AbstractSomeClass
 {
 }
+```
+
+:+1:
+
+<br>
+
+## PreventDoubleSetParameterRule
+
+Set param value is overridden. Merge it to previous set above
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\PreventDoubleSetParameterRule`](../packages/Symfony/Rules/PreventDoubleSetParameterRule.php)
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('some_param', [1]);
+    $parameters->set('some_param', [2]);
+};
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('some_param', [1, 2]);
+};
 ```
 
 :+1:
@@ -3312,6 +3854,125 @@ namespace App\Exception;
 
 final class SomeException extends Exception
 {
+}
+```
+
+:+1:
+
+<br>
+
+## RequireInvokableControllerRule
+
+Use invokable controller with `__invoke()` method instead of named action method
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireInvokableControllerRule`](../packages/Symfony/Rules/RequireInvokableControllerRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeController extends AbstractController
+{
+    #[Route()]
+    public function someMethod()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+
+final class SomeController extends AbstractController
+{
+    #[Route()]
+    public function __invoke()
+    {
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNamedCommandRule
+
+The command is missing `$this->setName("...")` or [#AsCommand] attribute to set the name
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNamedCommandRule`](../packages/Symfony/Rules/RequireNamedCommandRule.php)
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+final class SomeCommand extends Command
+{
+    public function configure()
+    {
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Console\Command\Command;
+
+final class SomeCommand extends Command
+{
+    public function configure()
+    {
+        $this->setName('some');
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## RequireNativeArraySymfonyRenderCallRule
+
+Second argument of `$this->render("template.twig",` [...]) method should be explicit array, to avoid accidental variable override, see https://tomasvotruba.com/blog/2021/02/15/how-dangerous-is-your-nette-template-assign/
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireNativeArraySymfonyRenderCallRule`](../packages/Symfony/Rules/RequireNativeArraySymfonyRenderCallRule.php)
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        $parameters['name'] = 'John';
+        $parameters['name'] = 'Doe';
+        return $this->render('...', $parameters);
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class SomeController extends AbstractController
+{
+    public function default()
+    {
+        return $this->render('...', [
+            'name' => 'John'
+        ]);
+    }
 }
 ```
 
@@ -3762,6 +4423,55 @@ return match($key) {
 
 <br>
 
+## TwigPublicCallableExistsRule
+
+The callable method [$this, "%s"] was not found
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\TwigPublicCallableExistsRule`](../packages/Symfony/Rules/TwigPublicCallableExistsRule.php)
+
+```php
+use Twig\Extension\AbstractExtension;
+use Twig_SimpleFunction;
+
+final class TwigExtensionWithMissingCallable extends AbstractExtension
+{
+    public function getFunctions()
+    {
+        return [
+            new Twig_SimpleFunction('someFunctionName', [$this, 'someMethod']),
+        ];
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Twig\Extension\AbstractExtension;
+use Twig_SimpleFunction;
+
+final class TwigExtensionWithMissingCallable extends AbstractExtension
+{
+    public function getFunctions()
+    {
+        return [
+            new Twig_SimpleFunction('someFunctionName', [$this, 'someMethod']),
+        ];
+    }
+
+    public function someMethod()
+    {
+        // ...
+    }
+}
+```
+
+:+1:
+
+<br>
+
 ## UnusedPublicClassConstRule
 
 Class constant "%s" is never used
@@ -3885,6 +4595,40 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
+}
+```
+
+:+1:
+
+<br>
+
+## ValidNetteInjectRule
+
+Property with `@inject` annotation or #[Nette\DI\Attributes\Inject] attribute must be public
+
+- class: [`Symplify\PHPStanRules\Nette\Rules\ValidNetteInjectRule`](../packages/Nette/Rules/ValidNetteInjectRule.php)
+
+```php
+use Nette\DI\Attributes\Inject;
+
+class SomeClass
+{
+    #[Inject]
+    private $someDependency;
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Nette\DI\Attributes\Inject;
+
+class SomeClass
+{
+    #[Inject]
+    public $someDependency;
 }
 ```
 
