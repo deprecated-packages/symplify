@@ -4,6 +4,7 @@ rules:
     - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
     - Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
     - Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule
+    - Symplify\PHPStanRules\Rules\ForbiddenExtendOfNonAbstractClassRule
 
     # domain
     - Symplify\PHPStanRules\Rules\Domain\RequireExceptionNamespaceRule
