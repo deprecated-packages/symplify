@@ -55,15 +55,11 @@ final class ForbiddenExtendOfNonAbstractClassRule implements Rule, DocumentedRul
 
         // skip vendor based classes, as designed for extension
         $fileName = $parentClassReflection->getFileName();
-        if (!is_string($fileName)) {
-            return [self::ERROR_MESSAGE];
+        if (is_string($fileName) && str_contains($fileName, 'vendor')) {
+            return [];
         }
 
-        if (!str_contains($fileName, 'vendor')) {
-            return [self::ERROR_MESSAGE];
-        }
-
-        return [];
+        return [self::ERROR_MESSAGE];
     }
 
     public function getRuleDefinition(): RuleDefinition
