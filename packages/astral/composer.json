@@ -16,7 +16,7 @@
         "symfony/config": "^6.0",
         "symplify/symplify-kernel": "^11.2",
         "symplify/easy-testing": "^11.2",
-        "phpunit/phpunit": "^9.5.21"
+        "phpunit/phpunit": "^9.5.23"
     },
     "autoload": {
         "psr-4": {
