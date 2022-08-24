@@ -58,9 +58,11 @@ final class ForbiddenExtendOfNonAbstractClassRule implements Rule, DocumentedRul
         if (!is_string($fileName)) {
             return [self::ERROR_MESSAGE];
         }
+
         if (!str_contains($fileName, 'vendor')) {
             return [self::ERROR_MESSAGE];
         }
+
         return [];
     }
 
