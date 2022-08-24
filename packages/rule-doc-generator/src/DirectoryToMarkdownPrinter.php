@@ -49,7 +49,7 @@ final class DirectoryToMarkdownPrinter
         $this->symfonyStyle->note($message);
 
         $classes = array_map(
-            static fn (RuleClassWithFilePath $rule): string => $rule->getClass(),
+            static fn (RuleClassWithFilePath $ruleClassWithFilePath): string => $ruleClassWithFilePath->getClass(),
             $documentedRuleClasses
         );
 
