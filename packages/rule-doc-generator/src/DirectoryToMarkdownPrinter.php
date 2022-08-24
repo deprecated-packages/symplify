@@ -6,6 +6,7 @@ namespace Symplify\RuleDocGenerator;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\Contract\RuleOutFilterInterface;
 use Symplify\RuleDocGenerator\Finder\ClassByTypeFinder;
 use Symplify\RuleDocGenerator\Printer\RuleDefinitionsPrinter;
 use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
@@ -15,11 +16,15 @@ use Symplify\RuleDocGenerator\ValueObject\RuleClassWithFilePath;
  */
 final class DirectoryToMarkdownPrinter
 {
+    /**
+     * @param RuleOutFilterInterface[] $ruleOutFilters
+     */
     public function __construct(
         private ClassByTypeFinder $classByTypeFinder,
         private SymfonyStyle $symfonyStyle,
         private RuleDefinitionsResolver $ruleDefinitionsResolver,
-        private RuleDefinitionsPrinter $ruleDefinitionsPrinter
+        private RuleDefinitionsPrinter $ruleDefinitionsPrinter,
+        private array $ruleOutFilters
     ) {
     }
 
@@ -34,6 +39,11 @@ final class DirectoryToMarkdownPrinter
             $directories,
             DocumentedRuleInterface::class
         );
+
+        // apply user-defined filters to remove some rules
+        foreach ($this->ruleOutFilters as $ruleOutFilter) {
+            $documentedRuleClasses = $ruleOutFilter->filter($documentedRuleClasses);
+        }
 
         $message = sprintf('Found %d documented rule classes', count($documentedRuleClasses));
         $this->symfonyStyle->note($message);
