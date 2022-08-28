@@ -1,4 +1,4 @@
-# 122 Rules Overview
+# 123 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -851,6 +851,40 @@ foreach ($this->getData($arg) as $key => $item) {
 $data = $this->getData($arg);
 foreach ($arg as $key => $item) {
     // ...
+}
+```
+
+:+1:
+
+<br>
+
+## ForbiddenExtendOfNonAbstractClassRule
+
+Only abstract classes can be extended
+
+- class: [`Symplify\PHPStanRules\Rules\ForbiddenExtendOfNonAbstractClassRule`](../src/Rules/ForbiddenExtendOfNonAbstractClassRule.php)
+
+```php
+final class SomeClass extends ParentClass
+{
+}
+
+class ParentClass
+{
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass extends ParentClass
+{
+}
+
+abstract class ParentClass
+{
 }
 ```
 
