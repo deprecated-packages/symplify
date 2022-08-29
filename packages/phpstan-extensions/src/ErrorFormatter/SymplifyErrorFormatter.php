@@ -12,7 +12,7 @@ use PHPStan\Command\Output;
 use PHPStan\Command\OutputStyle;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Terminal;
-use Symplify\SmartFileSystem\SmartFileInfo;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @see \Symplify\PHPStanExtensions\Tests\ErrorFormatter\SymplifyErrorFormatterTest
@@ -94,8 +94,10 @@ final class SymplifyErrorFormatter implements ErrorFormatter
             return $clearFilePath;
         }
 
-        $smartFileInfo = new SmartFileInfo($clearFilePath);
-        return $smartFileInfo->getRelativeFilePathFromCwd();
+        $filesystem = new Filesystem();
+        $relativeFilePath =  $filesystem->makePathRelative($clearFilePath, getcwd());
+
+        return rtrim($relativeFilePath, '/');
     }
 
     private function regexMessage(string $message): string
