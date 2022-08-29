@@ -95,7 +95,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
         }
 
         $filesystem = new Filesystem();
-        $relativeFilePath =  $filesystem->makePathRelative($clearFilePath, getcwd());
+        $relativeFilePath = $filesystem->makePathRelative($clearFilePath, getcwd());
 
         return rtrim($relativeFilePath, '/');
     }
