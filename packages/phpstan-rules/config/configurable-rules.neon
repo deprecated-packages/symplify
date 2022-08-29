@@ -47,7 +47,6 @@ services:
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
                 # smart file system
                 'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
-                'Symfony\Component\Filesystem\Filesystem': 'Symplify\SmartFileSystem\SmartFileSystem'
 
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule
