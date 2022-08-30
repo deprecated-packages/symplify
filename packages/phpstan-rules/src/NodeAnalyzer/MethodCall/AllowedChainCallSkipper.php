@@ -48,7 +48,6 @@ final class AllowedChainCallSkipper
         'PHPStan\PhpDocParser\Parser\TokenIterator',
         'DOMElement',
         'DateTimeInterface',
-        'Symplify\Astral\PhpDocParser\Contract\PhpDocNodeVisitorInterface',
         'Clue\React\NDJson\Encoder',
         'React\Promise\Promise',
         'Nette\Loaders\RobotLoader',
