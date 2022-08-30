@@ -14,8 +14,6 @@ use Symplify\PHPStanRules\PhpDocParser\PhpDocNodeVisitor\CallablePhpDocNodeVisit
  *
  * Mimics
  * https://github.com/nikic/PHP-Parser/blob/4abdcde5f16269959a834e4e58ea0ba0938ab133/lib/PhpParser/NodeTraverser.php
- *
- * @see \Symplify\Astral\Tests\PhpDocParser\SimplePhpDocNodeTraverser\PhpDocNodeTraverserTest
  */
 final class PhpDocNodeTraverser
 {

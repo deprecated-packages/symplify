@@ -183,7 +183,6 @@ parameters:
             message: '#Class cognitive complexity is \d+, keep it under \d+#'
             paths:
                  # traversing is complex operatoin
-                 - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
@@ -200,13 +199,11 @@ parameters:
         -
             message: '#Use explicit names over dynamic ones#'
             paths:
-                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         -
             message:  '#Use separate function calls with readable variable names#'
             paths:
-                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
@@ -243,10 +240,6 @@ parameters:
         # this can change on downgrade build
         - "#'@package_version@' and '@package_version@' will always evaluate to false#"
 
-        -
-            message: '#Cognitive complexity for "Symplify\\Astral\\PhpDocParser\\PhpDocNodeTraverser\:\:(.*?)\(\)" is \d+, keep it under \d+#'
-            path: packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-
         - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
 
         -
@@ -256,7 +249,6 @@ parameters:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
-                 - packages/astral/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
         -
@@ -268,9 +260,6 @@ parameters:
         -
             message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
             path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
-
-        # false positive - way too generic
-        - '#Property Symplify\\Astral\\NodeValue\\NodeValueResolver\:\:\$nodeValueResolvers with generic interface Symplify\\Astral\\Contract\\NodeValueResolver\\NodeValueResolverInterface does not specify its types\: TExpr#'
 
         # vendor test case limitation
         -
@@ -348,17 +337,6 @@ parameters:
 
         # weird stringable callable
         -
-            message: '#Make callable type explicit\. Here is how\: https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#callables#'
-            paths:
-                # callable value resolving
-                - packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
-
-        # callable value resolving
-        -
-            message: '#Use explicit names over dynamic ones#'
-            path: packages/astral/src/NodeValue/NodeValueResolver/FuncCallValueResolver.php
-
-        -
             message: '#Add explicit array type to assigned "\$definitions" expression#'
             path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
 
@@ -424,11 +402,6 @@ parameters:
             paths:
                 - packages/php-config-printer/src/*Converter/*
 
-        # cached parser
-        -
-            message: '#Creating new PHPStan(.*?) is not covered by backward compatibility promise#'
-            path: packages/astral/src/PhpParser/SmartPhpParserFactory.php
-
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
 
         # single constant
@@ -477,7 +450,6 @@ parameters:
         -
             message: '#Method call return value that should be used, but is not#'
             paths:
-                 - packages/easy-ci/src/Composer/SupportedPhpVersionResolver.php
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
                  - packages/smart-file-system/tests/SmartFileInfo/SmartFileInfoTest.php
                  # skip edge case
@@ -528,17 +500,8 @@ parameters:
         -
             message: '#Content of method "(.*?)" is duplicated\. Use unique content or service instead#'
             paths:
-                - packages/astral/src/NodeVisitor/CallableNodeVisitor.php
-                - packages/phpstan-rules/src/NodeVisitor/CallableNodeVisitor.php
-                - packages/astral/src/PhpDocParser/SimplePhpDocParser.php
                 - packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
                 - packages/phpstan-rules/src/PhpDoc/BarePhpDocParser.ph
-                - packages/astral/src/Reflection/ReflectionParser.php
-                - packages/phpstan-rules/src/Reflection/ReflectionParser.php
-                - packages/astral/src/PhpDocParser/PhpDocNodeTraverser.php
-                - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
-                - packages/astral/src/TypeAnalyzer/ClassMethodReturnTypeResolver.php
-                - packages/phpstan-rules/src/TypeResolver/ClassMethodReturnTypeResolver.php
 
                 - packages/phpstan-rules/src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php
                 - packages/phpstan-rules/packages/Symfony/Rules/PreventDoubleSetParameterRule.php

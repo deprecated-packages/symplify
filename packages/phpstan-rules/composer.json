@@ -71,8 +71,7 @@
         "symplify/composer-json-manipulator": "<11.1.5",
         "symplify/package-builder": "<11.1.5",
         "symplify/smart-file-system": "<11.1.5",
-        "symplify/rule-doc-generator-contracts": "<11.1.5",
-        "symplify/astral": "<11.1.5"
+        "symplify/rule-doc-generator-contracts": "<11.1.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

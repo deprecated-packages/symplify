@@ -68,7 +68,6 @@
             "packages/easy-ci/stubs"
         ],
         "psr-4": {
-            "Symplify\\Astral\\": "packages/astral/src",
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\CodingStandard\\": "packages/coding-standard/src",
             "Symplify\\ComposerJsonManipulator\\": "packages/composer-json-manipulator/src",
@@ -117,7 +116,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\Astral\\Tests\\": "packages/astral/tests",
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
             "Symplify\\ComposerJsonManipulator\\Tests\\": "packages/composer-json-manipulator/tests",
@@ -166,7 +164,6 @@
         }
     },
     "replace": {
-        "symplify/astral": "11.1.5",
         "symplify/autowire-array-parameter": "11.1.5",
         "symplify/coding-standard": "11.1.5",
         "symplify/composer-json-manipulator": "11.1.5",

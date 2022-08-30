@@ -31,7 +31,6 @@ return static function (EasyCIConfig $easyCIConfig): void {
 
     $easyCIConfig->typesToSkip([
         'SomeClass',
-        \Symplify\Astral\NodeValue\NodeValueResolver::class,
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
         SetList::class,
@@ -39,7 +38,6 @@ return static function (EasyCIConfig $easyCIConfig): void {
         SomeFile::class,
         Application::class,
         TwigTemplateAnalyzerInterface::class,
-        LatteTemplateAnalyzerInterface::class,
         CompilerPassInterface::class,
         ReleaseWorkerInterface::class,
         ComposerKeyMergerInterface::class,
