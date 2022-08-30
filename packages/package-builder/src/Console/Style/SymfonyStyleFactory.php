@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\EasyTesting\PHPUnit\StaticPHPUnitEnvironment;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 
 /**
@@ -43,10 +42,18 @@ final class SymfonyStyleFactory
         }
 
         // disable output for tests
-        if (StaticPHPUnitEnvironment::isPHPUnitRun()) {
+        if ($this->isPHPUnitRun()) {
             $consoleOutput->setVerbosity(OutputInterface::VERBOSITY_QUIET);
         }
 
         return new SymfonyStyle($argvInput, $consoleOutput);
+    }
+
+    /**
+     * Never ever used static methods if not neccesary, this is just handy for tests + src to prevent duplication.
+     */
+    private function isPHPUnitRun(): bool
+    {
+        return defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__');
     }
 }
