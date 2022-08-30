@@ -522,3 +522,10 @@ parameters:
                 - packages/coding-standard/src/TokenAnalyzer/HeredocAnalyzer.php
                 - packages/coding-standard/src/Fixer/Spacing/NewlineServiceDefinitionConfigFixer.php
                 - packages/coding-standard/src/Fixer/ArrayNotation/ArrayOpenerAndCloserNewlineFixer.php
+
+        # to separate packages
+        -
+            message: '#Content of method "(.*?)\(\)" is duplicated\. Use unique content or service instead#'
+            paths:
+                - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
+                - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
