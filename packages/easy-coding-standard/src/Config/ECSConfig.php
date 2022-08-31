@@ -44,6 +44,8 @@ final class ECSConfig extends ContainerConfigurator
      */
     public function only(array $onlys): void
     {
+        echo 'The option only() is deprecated as error prone and hard to do right. Use skip() with configuration instead.';
+        sleep(3);
     }
 
     /**
