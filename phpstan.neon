@@ -149,9 +149,6 @@ parameters:
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
 
-        # skipped tests
-        - '#Method Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string\>\|null\> but returns array<int\|string, mixed\>#'
-
         -
             message: '#Array destruct is not allowed\. Use value object to pass data instead#'
             paths:
@@ -324,8 +321,6 @@ parameters:
 
         # is never string
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
-
-        - '#Property Symplify\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string\>\|null\>\) does not accept array<int\|string, mixed\>#'
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
@@ -529,3 +524,12 @@ parameters:
             paths:
                 - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
                 - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
+
+        # array known types
+        -
+            message: '#Property Symplify\\EasyCodingStandard\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string>\|null>\) does not accept array<int\|string, mixed>#'
+            path: packages/easy-coding-standard/packages/Skipper/SkipCriteriaResolver/SkippedClassAndCodesResolver.php
+        -
+            message: '#Method Symplify\\EasyCodingStandard\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string>\|null> but returns array<int\|string, mixed>#'
+            path:  packages/easy-coding-standard/packages/Skipper/SkipCriteriaResolver/SkippedClassAndCodesResolver.php
+

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Symplify\EasyCodingStandard\Application;
 
 use Symplify\EasyCodingStandard\Caching\ChangedFilesDetector;
+use Symplify\EasyCodingStandard\Skipper\Skipper\Skipper;
 use Symplify\EasyCodingStandard\SniffRunner\ValueObject\Error\CodingStandardError;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyCodingStandard\ValueObject\Error\FileDiff;
-use Symplify\Skipper\Skipper\Skipper;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SingleFileProcessor

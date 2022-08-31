@@ -99,6 +99,9 @@ return static function (ECSConfig $ecsConfig): void {
 
             // or multiple files by path to match against "fnmatch()"
             __DIR__ . '/packages/*/src/Command',
+
+            // generics paths
+            '*Sniff.php',
         ],
 
         // skip rule completely

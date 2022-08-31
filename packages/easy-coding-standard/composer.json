@@ -20,7 +20,6 @@
         "symplify/easy-parallel": "^11.2",
         "symplify/easy-testing": "^11.2",
         "symplify/package-builder": "^11.2",
-        "symplify/skipper": "^11.2",
         "symplify/smart-file-system": "^11.2",
         "symplify/symplify-kernel": "^11.2",
         "webmozart/assert": "^1.10"
