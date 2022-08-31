@@ -10,7 +10,6 @@ use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::SKIP, []);
-    $parameters->set(Option::ONLY, []);
 
     $services = $containerConfigurator->services();
 

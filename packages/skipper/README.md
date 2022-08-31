@@ -67,24 +67,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 };
 ```
 
-### 2. Configure with `Option::ONLY` parameter.
-
-This is exact invert of `SKIP`. The `SomeFixer` will run **only if** in defined paths:
-
-```php
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\Skipper\ValueObject\Option;
-
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-    $parameters->set(Option::ONLY, [
-        // this should be removed in the future, with all dead comments
-        SomeFixer::class => [__DIR__ . '/src/Controller'],
-    ]);
-};
-```
-
-### 3. Use `Skipper` service in Your Project
+### 2. Use `Skipper` service in Your Project
 
 You have 3 way to decide, if the *something* should be skipped:
 
