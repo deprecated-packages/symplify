@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\ValueObject;
 
+use PHP_CodeSniffer\Sniffs\Sniff;
 use Symplify\EasyCodingStandard\Console\Output\ConsoleOutputFormatter;
 
 final class Configuration
 {
     /**
      * @param string[] $sources
+     * @param array<class-string<Sniff>> $reportSniffClassesWarnings
      */
     public function __construct(
         private bool $isFixer = false,
@@ -19,6 +21,7 @@ final class Configuration
         private array $sources = [],
         private string $outputFormat = ConsoleOutputFormatter::NAME,
         private bool $isParallel = false,
+        private array $reportSniffClassesWarnings = [],
         private ?string $config = null,
         private string | null $parallelPort = null,
         private string | null $parallelIdentifier = null,
@@ -62,6 +65,14 @@ final class Configuration
     public function isParallel(): bool
     {
         return $this->isParallel;
+    }
+
+    /**
+     * @return array<class-string<Sniff>>
+     */
+    public function getReportSniffClassesWarnings(): array
+    {
+        return $this->reportSniffClassesWarnings;
     }
 
     public function getConfig(): ?string

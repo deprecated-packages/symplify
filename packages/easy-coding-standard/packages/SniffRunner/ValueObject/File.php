@@ -8,10 +8,6 @@ use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File as BaseFile;
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UnusedFunctionParameterSniff;
-use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\PropertyDeclarationSniff;
-use PHP_CodeSniffer\Standards\PSR2\Sniffs\Methods\MethodDeclarationSniff;
-use PHP_CodeSniffer\Standards\Squiz\Sniffs\PHP\CommentedOutCodeSniff;
 use PHP_CodeSniffer\Util\Common;
 use Symplify\EasyCodingStandard\Console\Style\EasyCodingStandardStyle;
 use Symplify\EasyCodingStandard\SniffRunner\DataCollector\SniffMetadataCollector;
@@ -27,19 +23,6 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class File extends BaseFile
 {
     /**
-     * Explicit list for classes that use only warnings. ECS only knows only errors, so this one promotes them to error.
-     *
-     * @var array<class-string<Sniff>>
-     */
-    private const REPORT_WARNINGS_SNIFFS = [
-        '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
-        PropertyDeclarationSniff::class,
-        MethodDeclarationSniff::class,
-        CommentedOutCodeSniff::class,
-        UnusedFunctionParameterSniff::class,
-    ];
-
-    /**
      * @var string
      */
     public $tokenizerType = 'PHP';
@@ -54,6 +37,11 @@ final class File extends BaseFile
     private array $tokenListeners = [];
 
     private ?SmartFileInfo $fileInfo = null;
+
+    /**
+     * @var array<class-string<Sniff>>
+     */
+    private array $reportSniffClassesWarnings = [];
 
     public function __construct(
         string $path,
@@ -151,7 +139,7 @@ final class File extends BaseFile
             throw new ShouldNotHappenException();
         }
 
-        if (! $this->isSniffClassWarningAllowed($this->activeSniffClass)) {
+        if ($this->shouldSkipClassWarnings($this->activeSniffClass)) {
             return false;
         }
 
@@ -159,10 +147,15 @@ final class File extends BaseFile
     }
 
     /**
+     * @param array<class-string<Sniff>> $reportSniffClassesWarnings
      * @param array<int|string, Sniff[]> $tokenListeners
      */
-    public function processWithTokenListenersAndFileInfo(array $tokenListeners, SmartFileInfo $fileInfo): void
-    {
+    public function processWithTokenListenersAndFileInfo(
+        array $reportSniffClassesWarnings,
+        array $tokenListeners,
+        SmartFileInfo $fileInfo
+    ): void {
+        $this->reportSniffClassesWarnings = $reportSniffClassesWarnings;
         $this->tokenListeners = $tokenListeners;
         $this->fileInfo = $fileInfo;
         $this->process();
@@ -254,14 +247,14 @@ final class File extends BaseFile
         return $this->skipper->shouldSkipElementAndFileInfo($message, $this->fileInfo);
     }
 
-    private function isSniffClassWarningAllowed(string $sniffClass): bool
+    private function shouldSkipClassWarnings(string $sniffClass): bool
     {
-        foreach (self::REPORT_WARNINGS_SNIFFS as $reportWarningsSniff) {
+        foreach ($this->reportSniffClassesWarnings as $reportWarningsSniff) {
             if (is_a($sniffClass, $reportWarningsSniff, true)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 }

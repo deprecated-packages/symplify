@@ -39,6 +39,8 @@ final class ConfigurationFactory
 
         $isParallel = $this->parameterProvider->provideBoolParameter(Option::PARALLEL);
 
+        $reportSniffClassesWarnings = $this->parameterProvider->provideArrayParameter(Option::REPORT_SNIFF_WARNINGS);
+
         $config = $input->getOption(Option::CONFIG);
         if ($config !== null) {
             $config = (string) $config;
@@ -52,6 +54,7 @@ final class ConfigurationFactory
             $paths,
             $outputFormat,
             $isParallel,
+            $reportSniffClassesWarnings,
             $config,
             $parallelPort,
             $parallelIdentifier,

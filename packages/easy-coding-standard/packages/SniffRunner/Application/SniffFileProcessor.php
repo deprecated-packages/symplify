@@ -74,7 +74,8 @@ final class SniffFileProcessor implements FileProcessorInterface
         $errorsAndDiffs = [];
 
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
-        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
+        $reportSniffClassesWarnings = $configuration->getReportSniffClassesWarnings();
+        $this->fixFile($file, $this->fixer, $reportSniffClassesWarnings, $smartFileInfo, $this->tokenListeners);
 
         // add coding standard errors
         $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
@@ -110,7 +111,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     public function processFileToString(SmartFileInfo $smartFileInfo): string
     {
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
-        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners);
+        $this->fixFile($file, $this->fixer, [], $smartFileInfo, $this->tokenListeners);
 
         return $this->fixer->getContents();
     }
@@ -142,10 +143,16 @@ final class SniffFileProcessor implements FileProcessorInterface
      *
      * @see \PHP_CodeSniffer\Fixer::fixFile()
      *
+     * @param array<class-string<Sniff>> $reportSniffClassesWarnings
      * @param array<int|string, Sniff[]> $tokenListeners
      */
-    private function fixFile(File $file, Fixer $fixer, SmartFileInfo $smartFileInfo, array $tokenListeners): void
-    {
+    private function fixFile(
+        File $file,
+        Fixer $fixer,
+        array $reportSniffClassesWarnings,
+        SmartFileInfo $smartFileInfo,
+        array $tokenListeners
+    ): void {
         $previousContent = $smartFileInfo->getContents();
         $this->fixer->loops = 0;
 
@@ -155,7 +162,7 @@ final class SniffFileProcessor implements FileProcessorInterface
 
             $this->privatesAccessor->setPrivateProperty($fixer, 'inConflict', false);
             $file->setContent($content);
-            $file->processWithTokenListenersAndFileInfo($tokenListeners, $smartFileInfo);
+            $file->processWithTokenListenersAndFileInfo($reportSniffClassesWarnings, $tokenListeners, $smartFileInfo);
 
             // fixed content
             $previousContent = $fixer->getContents();
