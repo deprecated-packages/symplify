@@ -10,5 +10,5 @@ interface SkipVoterInterface
 {
     public function match(string | object $element): bool;
 
-    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool;
+    public function shouldSkip(string | object $element, SmartFileInfo | string $file): bool;
 }

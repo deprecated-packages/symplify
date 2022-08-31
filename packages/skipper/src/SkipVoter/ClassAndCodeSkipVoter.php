@@ -29,7 +29,7 @@ final class ClassAndCodeSkipVoter implements SkipVoterInterface
         return substr_count($element, '.') === 1;
     }
 
-    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo | string $file): bool
     {
         if (is_object($element)) {
             return false;
@@ -46,6 +46,6 @@ final class ClassAndCodeSkipVoter implements SkipVoterInterface
             return true;
         }
 
-        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $skippedPaths);
+        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($file, $skippedPaths);
     }
 }

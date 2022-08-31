@@ -39,12 +39,11 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
+     * @deprecated This feature is deprecated, as hard to configure right and confusing. Use skip() instead
      * @param mixed[] $onlys
      */
     public function only(array $onlys): void
     {
-        $parameters = $this->parameters();
-        $parameters->set(Option::ONLY, $onlys);
     }
 
     /**
