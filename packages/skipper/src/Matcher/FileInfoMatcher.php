@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Symplify\Skipper\Matcher;
 
 use Symplify\Skipper\FileSystem\FnMatchPathNormalizer;
+use Symplify\Skipper\Fnmatcher;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class FileInfoMatcher
 {
     public function __construct(
-        private FnMatchPathNormalizer $fnMatchPathNormalizer
+        private FnMatchPathNormalizer $fnMatchPathNormalizer,
+        private Fnmatcher $fnmatcher
     ) {
     }
 
     /**
      * @param string[] $filePatterns
      */
-    public function doesFileInfoMatchPatterns(SmartFileInfo $smartFileInfo, array $filePatterns): bool
+    public function doesFileInfoMatchPatterns(SmartFileInfo | string $smartFileInfo, array $filePatterns): bool
     {
         foreach ($filePatterns as $filePattern) {
             if ($this->doesFileInfoMatchPattern($smartFileInfo, $filePattern)) {
@@ -31,10 +33,12 @@ final class FileInfoMatcher
     /**
      * Supports both relative and absolute $file path. They differ for PHP-CS-Fixer and PHP_CodeSniffer.
      */
-    private function doesFileInfoMatchPattern(SmartFileInfo $smartFileInfo, string $ignoredPath): bool
+    private function doesFileInfoMatchPattern(SmartFileInfo | string $file, string $ignoredPath): bool
     {
+        $filePath = $file instanceof SmartFileInfo ? $file->getRealPath() : $file;
+
         // in ecs.php, the path can be absolute
-        if ($smartFileInfo->getRealPath() === $ignoredPath) {
+        if ($filePath === $ignoredPath) {
             return true;
         }
 
@@ -43,14 +47,14 @@ final class FileInfoMatcher
             return false;
         }
 
-        if ($smartFileInfo->startsWith($ignoredPath)) {
+        if (str_starts_with($filePath, $ignoredPath)) {
             return true;
         }
 
-        if ($smartFileInfo->endsWith($ignoredPath)) {
+        if (str_ends_with($filePath, $ignoredPath)) {
             return true;
         }
 
-        return $smartFileInfo->doesFnmatch($ignoredPath);
+        return $this->fnmatcher->match($ignoredPath, $filePath);
     }
 }

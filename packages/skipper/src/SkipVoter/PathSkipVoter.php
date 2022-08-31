@@ -22,9 +22,9 @@ final class PathSkipVoter implements SkipVoterInterface
         return true;
     }
 
-    public function shouldSkip(string | object $element, SmartFileInfo $smartFileInfo): bool
+    public function shouldSkip(string | object $element, SmartFileInfo | string $file): bool
     {
         $skippedPaths = $this->skippedPathsResolver->resolve();
-        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($smartFileInfo, $skippedPaths);
+        return $this->fileInfoMatcher->doesFileInfoMatchPatterns($file, $skippedPaths);
     }
 }

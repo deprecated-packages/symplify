@@ -33,7 +33,7 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
         $this->assertCount(2, $checkers);
 
         /** @var ArraySyntaxFixer $arraySyntaxFixer */
-        $arraySyntaxFixer = $checkers[0];
+        $arraySyntaxFixer = $checkers[1];
         $this->assertInstanceOf(ArraySyntaxFixer::class, $arraySyntaxFixer);
 
         $configuration = $this->privatesAccessor->getPrivateProperty($arraySyntaxFixer, 'configuration');
@@ -42,7 +42,7 @@ final class FixerServiceRegistrationTest extends AbstractKernelTestCase
         ], $configuration);
 
         /** @var VisibilityRequiredFixer $visibilityRequiredFixer */
-        $visibilityRequiredFixer = $checkers[1];
+        $visibilityRequiredFixer = $checkers[0];
         $this->assertInstanceOf(VisibilityRequiredFixer::class, $visibilityRequiredFixer);
 
         $configuration = $this->privatesAccessor->getPrivateProperty($visibilityRequiredFixer, 'configuration');

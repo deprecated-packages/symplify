@@ -87,11 +87,6 @@ return static function (ECSConfig $ecsConfig): void {
     // alternative to CLI arguments, easier to maintain and extend
     $ecsConfig->paths([__DIR__ . '/src', __DIR__ . '/tests']);
 
-    // run single rule only on specific path
-    $ecsConfig->only([
-        ArraySyntaxFixer::class => [__DIR__ . '/src/NewCode'],
-    ]);
-
     // bear in mind that this will override SetList skips if one was previously imported
     // this is result of design decision in symfony https://github.com/symfony/symfony/issues/26713
     $ecsConfig->skip([
