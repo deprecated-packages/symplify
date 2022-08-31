@@ -18,11 +18,13 @@ use Symplify\EasyCodingStandard\FixerRunner\Application\FixerFileProcessor;
 use Symplify\EasyCodingStandard\FixerRunner\WhitespacesFixerConfigFactory;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
 use Symplify\SmartFileSystem\FileSystemFilter;
 use Symplify\SmartFileSystem\FileSystemGuard;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\Finder\SmartFinder;
+use Symplify\SmartFileSystem\Normalizer\PathNormalizer;
 use Symplify\SmartFileSystem\SmartFileSystem;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
@@ -44,6 +46,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->parallel();
 
     $ecsConfig->paths([]);
+    $ecsConfig->skip([]);
     $ecsConfig->fileExtensions(['php']);
 
     $parameters = $ecsConfig->parameters();
@@ -99,4 +102,7 @@ return static function (ECSConfig $ecsConfig): void {
     $services->set(UnifiedDiffer::class);
     $services->alias(DifferInterface::class, UnifiedDiffer::class);
     $services->set(FixerFileProcessor::class);
+
+    $services->set(ClassLikeExistenceChecker::class);
+    $services->set(PathNormalizer::class);
 };

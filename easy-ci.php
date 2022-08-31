@@ -24,7 +24,7 @@ use Symplify\RuleDocGenerator\Contract\CodeSampleInterface;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\Contract\RuleCodeSamplePrinterInterface;
-use Symplify\Skipper\Contract\SkipVoterInterface;
+use Symplify\EasyCodingStandard\Skipper\Contract\SkipVoterInterface;
 
 return static function (EasyCIConfig $easyCIConfig): void {
     $easyCIConfig->excludeCheckPaths(['Fixture', 'Source', 'tests', 'stubs', 'templates']);

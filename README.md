@@ -35,7 +35,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 - [Package Builder](https://github.com/symplify/package-builder)
 - [Smart File System](https://github.com/symplify/smart-file-system)
 - [Rule Doc Generator](https://github.com/symplify/rule-doc-generator)
-- [Skipper](https://github.com/symplify/skipper)
 - [Symplify Kernel](https://github.com/symplify/symplify-kernel)
 - [Config Transformer](https://github.com/symplify/config-transformer)
 
