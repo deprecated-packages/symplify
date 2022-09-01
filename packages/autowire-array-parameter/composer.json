@@ -9,7 +9,8 @@
         "symplify/package-builder": "^11.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5.23"
+        "phpunit/phpunit": "^9.5.23",
+        "symplify/symplify-kernel": "^11.2"
     },
     "autoload": {
         "psr-4": {
