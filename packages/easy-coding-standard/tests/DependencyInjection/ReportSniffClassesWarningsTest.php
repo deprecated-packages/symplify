@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Tests\DependencyInjection;
 
+use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\ForLoopWithTestFunctionCallSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\JumbledIncrementerSniff;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UnusedFunctionParameterSniff;
@@ -24,7 +25,7 @@ final class ReportSniffClassesWarningsTest extends AbstractKernelTestCase
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, []);
 
         $expectedClasses = [
-            '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
+            AssignmentInConditionSniff::class,
             PropertyDeclarationSniff::class,
             MethodDeclarationSniff::class,
             CommentedOutCodeSniff::class,
@@ -45,7 +46,7 @@ final class ReportSniffClassesWarningsTest extends AbstractKernelTestCase
         );
 
         $expectedClasses = [
-            '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
+            AssignmentInConditionSniff::class,
             PropertyDeclarationSniff::class,
             MethodDeclarationSniff::class,
             CommentedOutCodeSniff::class,
