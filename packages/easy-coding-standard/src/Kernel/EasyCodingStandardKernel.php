@@ -19,7 +19,6 @@ use Symplify\EasyCodingStandard\ValueObject\EasyCodingStandardConfig;
 use Symplify\EasyParallel\ValueObject\EasyParallelConfig;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\PackageBuilder\ValueObject\ConsoleColorDiffConfig;
-use Symplify\Skipper\ValueObject\SkipperConfig;
 use Symplify\SymplifyKernel\HttpKernel\AbstractSymplifyKernel;
 
 final class EasyCodingStandardKernel extends AbstractSymplifyKernel
@@ -34,7 +33,6 @@ final class EasyCodingStandardKernel extends AbstractSymplifyKernel
         $compilerPasses = $this->createCompilerPasses();
 
         $configFiles[] = ConsoleColorDiffConfig::FILE_PATH;
-        $configFiles[] = SkipperConfig::FILE_PATH;
         $configFiles[] = CodingStandardConfig::FILE_PATH;
         $configFiles[] = EasyCodingStandardConfig::FILE_PATH;
         $configFiles[] = EasyParallelConfig::FILE_PATH;

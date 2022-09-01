@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter;
 
-use Symplify\RuleDocGenerator\Tests\Fixture\StaticFixtureUpdater;
 use Iterator;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
+use Symplify\RuleDocGenerator\Tests\Fixture\StaticFixtureUpdater;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
@@ -34,10 +34,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize);
 
         $expectedFileInfo = new SmartFileInfo($expectedFile);
-        StaticFixtureUpdater::updateExpectedFixtureContent(
-            $fileContent,
-            $expectedFileInfo
-        );
+        StaticFixtureUpdater::updateExpectedFixtureContent($fileContent, $expectedFileInfo);
 
         $directoryFileInfo = new SmartFileInfo($directory);
         $this->assertStringEqualsFile($expectedFile, $fileContent, $directoryFileInfo->getRelativeFilePathFromCwd());

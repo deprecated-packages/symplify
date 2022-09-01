@@ -49,7 +49,7 @@ final class Option
 
     /**
      * @api
-     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::only()
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::skip()
      * @var string
      */
     public const ONLY = 'only';

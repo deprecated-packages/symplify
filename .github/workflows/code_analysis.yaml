@@ -71,7 +71,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-rules --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/skipper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/smart-file-system --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symfony-static-dumper --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/symplify-kernel --ansi
