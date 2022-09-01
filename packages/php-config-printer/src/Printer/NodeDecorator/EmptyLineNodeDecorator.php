@@ -11,8 +11,8 @@ use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Nop;
+use Symplify\PhpConfigPrinter\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\NodeFinder\TypeAwareNodeFinder;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class EmptyLineNodeDecorator
 {

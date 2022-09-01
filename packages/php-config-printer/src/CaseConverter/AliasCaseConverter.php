@@ -14,13 +14,13 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Expression;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PhpConfigPrinter\Contract\CaseConverterInterface;
+use Symplify\PhpConfigPrinter\Exception\ShouldNotHappenException;
 use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 use Symplify\PhpConfigPrinter\NodeFactory\Service\ServiceOptionNodeFactory;
 use Symplify\PhpConfigPrinter\ValueObject\MethodName;
 use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
-use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 final class AliasCaseConverter implements CaseConverterInterface
 {
