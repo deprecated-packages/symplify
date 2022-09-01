@@ -22,7 +22,7 @@
         "symplify/package-builder": "^11.2",
         "symplify/smart-file-system": "^11.2",
         "symplify/symplify-kernel": "^11.2",
-        "webmozart/assert": "^1.10"
+        "webmozart/assert": "^1.11"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
