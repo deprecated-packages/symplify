@@ -162,7 +162,7 @@ final class SniffFileProcessor implements FileProcessorInterface
 
             $this->privatesAccessor->setPrivateProperty($fixer, 'inConflict', false);
             $file->setContent($content);
-            $file->processWithTokenListenersAndFileInfo($reportSniffClassesWarnings, $tokenListeners, $smartFileInfo);
+            $file->processWithTokenListenersAndFileInfo($tokenListeners, $smartFileInfo, $reportSniffClassesWarnings);
 
             // fixed content
             $previousContent = $fixer->getContents();

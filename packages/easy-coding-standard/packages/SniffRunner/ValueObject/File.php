@@ -151,13 +151,13 @@ final class File extends BaseFile
      * @param array<int|string, Sniff[]> $tokenListeners
      */
     public function processWithTokenListenersAndFileInfo(
-        array $reportSniffClassesWarnings,
         array $tokenListeners,
-        SmartFileInfo $fileInfo
+        SmartFileInfo $fileInfo,
+        array $reportSniffClassesWarnings
     ): void {
-        $this->reportSniffClassesWarnings = $reportSniffClassesWarnings;
         $this->tokenListeners = $tokenListeners;
         $this->fileInfo = $fileInfo;
+        $this->reportSniffClassesWarnings = $reportSniffClassesWarnings;
         $this->process();
     }
 
