@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff;
 
 use PHP_CodeSniffer\Fixer;
 use PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\UnusedFunctionParameterSniff;
@@ -51,7 +52,7 @@ return static function (ECSConfig $ecsConfig): void {
 
     // ECS only knows about errors, these are the classes allowed to promote warnings to errors
     $ecsConfig->reportSniffClassWarnings([
-        '\PHP_CodeSniffer\Standards\Generic\Sniffs\CodeAnalysis\AssignmentInConditionSniff',
+        AssignmentInConditionSniff::class,
         PropertyDeclarationSniff::class,
         MethodDeclarationSniff::class,
         CommentedOutCodeSniff::class,
