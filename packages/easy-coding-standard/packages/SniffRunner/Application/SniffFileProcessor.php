@@ -75,7 +75,7 @@ final class SniffFileProcessor implements FileProcessorInterface
 
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
         $reportSniffClassesWarnings = $configuration->getReportSniffClassesWarnings();
-        $this->fixFile($file, $this->fixer, $reportSniffClassesWarnings, $smartFileInfo, $this->tokenListeners);
+        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners, $reportSniffClassesWarnings);
 
         // add coding standard errors
         $codingStandardErrors = $this->sniffMetadataCollector->getCodingStandardErrors();
@@ -111,7 +111,7 @@ final class SniffFileProcessor implements FileProcessorInterface
     public function processFileToString(SmartFileInfo $smartFileInfo): string
     {
         $file = $this->fileFactory->createFromFileInfo($smartFileInfo);
-        $this->fixFile($file, $this->fixer, [], $smartFileInfo, $this->tokenListeners);
+        $this->fixFile($file, $this->fixer, $smartFileInfo, $this->tokenListeners, []);
 
         return $this->fixer->getContents();
     }
@@ -143,15 +143,15 @@ final class SniffFileProcessor implements FileProcessorInterface
      *
      * @see \PHP_CodeSniffer\Fixer::fixFile()
      *
-     * @param array<class-string<Sniff>> $reportSniffClassesWarnings
      * @param array<int|string, Sniff[]> $tokenListeners
+     * @param array<class-string<Sniff>> $reportSniffClassesWarnings
      */
     private function fixFile(
         File $file,
         Fixer $fixer,
-        array $reportSniffClassesWarnings,
         SmartFileInfo $smartFileInfo,
-        array $tokenListeners
+        array $tokenListeners,
+        array $reportSniffClassesWarnings
     ): void {
         $previousContent = $smartFileInfo->getContents();
         $this->fixer->loops = 0;
