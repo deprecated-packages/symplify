@@ -7,6 +7,7 @@
     ],
     "require": {
         "php": ">=8.0",
+        "nette/neon": "^3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.14.0",

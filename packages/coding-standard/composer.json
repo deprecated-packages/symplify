@@ -12,7 +12,6 @@
         "symplify/rule-doc-generator-contracts": "^11.2"
     },
     "require-dev": {
-        "nette/bootstrap": "^3.1.2",
         "doctrine/orm": "^2.13",
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2",
