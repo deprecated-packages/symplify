@@ -24,7 +24,7 @@ final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements Servi
         mixed $values,
         MethodCall $methodCall
     ): MethodCall {
-        $args = (is_array($yaml) || strpos($yaml, ':') !== false)
+        $args = (is_array($yaml) || str_contains($yaml, ':'))
             ? $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml)
             : $this->argsNodeFactory->createFromValues($yaml);
 
