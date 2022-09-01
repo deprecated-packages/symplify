@@ -22,6 +22,6 @@ final class FileTest extends AbstractKernelTestCase
         $fileInfo = new SmartFileInfo(__DIR__ . '/FileSource/SomeFile.php');
 
         $this->file = $fileFactory->createFromFileInfo($fileInfo);
-        $this->file->processWithTokenListenersAndFileInfo([], $fileInfo);
+        $this->file->processWithTokenListenersAndFileInfo([], $fileInfo, []);
     }
 }

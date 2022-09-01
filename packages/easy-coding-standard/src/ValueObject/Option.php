@@ -112,6 +112,12 @@ final class Option
     public const PARALLEL = 'parallel';
 
     /**
+     * @see \Symplify\EasyCodingStandard\Config\ECSConfig::reportSniffClassWarnings()
+     * @var string
+     */
+    public const REPORT_SNIFF_WARNINGS = 'report_sniff_warnings';
+
+    /**
      * @var string
      */
     public const CONFIG = 'config';
