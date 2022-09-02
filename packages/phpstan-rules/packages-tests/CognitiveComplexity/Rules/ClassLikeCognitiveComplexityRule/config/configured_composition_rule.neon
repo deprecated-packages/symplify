@@ -7,6 +7,5 @@ services:
         class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
         tags: [phpstan.rules.rule]
         arguments:
-            maxClassCognitiveComplexity: 50
+            maxClassCognitiveComplexity: 30
             scoreCompositionOverInheritance: true
-
