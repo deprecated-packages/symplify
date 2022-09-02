@@ -11,7 +11,7 @@
         "symfony/console": "^6.0"
     },
     "require-dev": {
-        "symplify/package-builder": "^11.1.9",
+        "symplify/package-builder": "^11.2",
         "phpunit/phpunit": "^9.5.23"
     },
     "autoload": {
