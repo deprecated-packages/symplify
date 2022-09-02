@@ -7,7 +7,6 @@
     ],
     "require": {
         "php": ">=8.0",
-        "ext-intl": "*",
         "nette/utils": "^3.2",
         "phar-io/version": "^3.2",
         "symfony/finder": "^6.0",
@@ -59,7 +58,6 @@
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-intl-grapheme": "*",
-        "symfony/polyfill-intl-normalizer": "*",
         "symfony/polyfill-mbstring": "*"
     },
     "conflict": {
