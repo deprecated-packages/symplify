@@ -50,6 +50,7 @@ return [
     ],
     'exclude-constants' => ['#^SYMFONY\_[\p{L}_]+$#'],
     'expose-classes' => [
+        'Normalizer',
         // part of public interface of configs.php
         'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
