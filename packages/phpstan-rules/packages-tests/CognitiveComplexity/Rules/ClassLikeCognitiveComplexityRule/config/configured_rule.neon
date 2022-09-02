@@ -8,3 +8,4 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 50
+            scoreCompositionOverInheritance: false

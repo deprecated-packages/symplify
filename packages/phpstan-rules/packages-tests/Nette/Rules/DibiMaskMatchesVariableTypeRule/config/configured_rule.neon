@@ -1,5 +1,0 @@
-includes:
-    - ../../../config/config_tests.neon
-
-rules:
-    - Symplify\PHPStanRules\Nette\Rules\DibiMaskMatchesVariableTypeRule

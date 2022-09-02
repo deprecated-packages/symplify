@@ -1,6 +1,0 @@
-services:
-    # php-parser
-    - Symplify\PHPStanRules\Nette\Dibi\QueryMasksResolver
-
-    - Symplify\PHPStanRules\Nette\NetteInjectAnalyzer
-    - Symplify\PHPStanRules\Nette\NodeAnalyzer\DibiQueryAnalyzer

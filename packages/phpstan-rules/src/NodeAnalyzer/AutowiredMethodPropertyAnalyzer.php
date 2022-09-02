@@ -15,26 +15,22 @@ final class AutowiredMethodPropertyAnalyzer
      * @var string
      * @see https://regex101.com/r/gn2P0C/1
      */
-    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@(required|inject)\n?#';
+    private const REQUIRED_DOCBLOCK_REGEX = '#\*\s+@(required)\n?#';
 
-    public function detect(ClassMethod | Property $stmt): bool
+    public function detect(ClassMethod $classMethod): bool
     {
-        $docComment = $stmt->getDocComment();
+        $hasRequiredAttribute = $this->hasAttributes($classMethod, ['Symfony\Contracts\Service\Attribute\Required']);
+
+        $docComment = $classMethod->getDocComment();
         if (! $docComment instanceof Doc) {
-            return $this->hasAttributes(
-                $stmt,
-                ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
-            );
+            return $hasRequiredAttribute;
         }
 
         if ((bool) Strings::match($docComment->getText(), self::REQUIRED_DOCBLOCK_REGEX)) {
             return true;
         }
 
-        return $this->hasAttributes(
-            $stmt,
-            ['Symfony\Contracts\Service\Attribute\Required', 'Nette\DI\Attributes\Inject']
-        );
+        return $hasRequiredAttribute;
     }
 
     /**

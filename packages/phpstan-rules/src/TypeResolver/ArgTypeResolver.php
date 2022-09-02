@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\TypeResolver;
 
 use PhpParser\Node\Expr\FuncCall;
-use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\Type;
 
@@ -14,7 +13,7 @@ final class ArgTypeResolver
     /**
      * @return Type[]
      */
-    public function resolveArgTypesWithoutFirst(FuncCall|MethodCall $funcCall, Scope $scope): array
+    public function resolveArgTypesWithoutFirst(FuncCall $funcCall, Scope $scope): array
     {
         $args = $funcCall->getArgs();
         unset($args[0]);
