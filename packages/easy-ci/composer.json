@@ -10,7 +10,7 @@
         "nette/neon": "^3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
-        "nikic/php-parser": "^4.14.0",
+        "nikic/php-parser": "^4.15.1",
         "symfony/console": "^6.0",
         "symfony/dependency-injection": "^6.0",
         "symplify/package-builder": "^11.2",
