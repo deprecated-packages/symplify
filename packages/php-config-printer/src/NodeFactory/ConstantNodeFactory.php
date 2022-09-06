@@ -28,6 +28,12 @@ final class ConstantNodeFactory
         $match = Strings::match($value, self::CLASS_CONST_FETCH_REGEX);
         if ($match !== null) {
             [$class, $constant] = explode('::', $value);
+
+            // Ignore static factories (FQCN::method)
+            if (method_exists($class, $constant)) {
+                return null;
+            }
+
             if (! $checkExistence) {
                 return new ClassConstFetch(new FullyQualified($class), $constant);
             }

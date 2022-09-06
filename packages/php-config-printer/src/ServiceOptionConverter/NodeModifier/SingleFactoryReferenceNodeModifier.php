@@ -17,10 +17,10 @@ use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 final class SingleFactoryReferenceNodeModifier
 {
     /**
-     * @see https://regex101.com/r/Smydt1/1
+     * @see https://regex101.com/r/Smydt1/2
      * @var string
      */
-    private const SERVICE_METHOD_REGEX = '#(?<service_name>.*?)\:(?<method_name>\w+)#';
+    private const FACTORY_REGEX = '#(?<callee>.*?)(?<operator>\:{1,2})(?<method_name>\w+)#';
 
     public function __construct(
         private ArgsNodeFactory $argsNodeFactory
@@ -57,18 +57,17 @@ final class SingleFactoryReferenceNodeModifier
 
         $factoryValue = $singleArrayItem->value;
 
-        $match = Strings::match($factoryValue->value, self::SERVICE_METHOD_REGEX);
+        $match = Strings::match($factoryValue->value, self::FACTORY_REGEX);
         if ($match === null) {
             return;
         }
 
-        $serviceName = $match['service_name'];
-        $methodName = $match['method_name'];
+        $callee = $match['operator'] === ':'
+            ? $this->createServiceFuncCall($match['callee'])
+            : $this->argsNodeFactory->resolveExpr($match['callee']);
+        $methodNameString = new String_($match['method_name']);
 
-        $serviceFuncCall = $this->createServiceFuncCall($serviceName);
-        $methodNameString = new String_($methodName);
-
-        $singleArgValue->items = [new ArrayItem($serviceFuncCall), new ArrayItem($methodNameString)];
+        $singleArgValue->items = [new ArrayItem($callee), new ArrayItem($methodNameString)];
     }
 
     private function createServiceFuncCall(string $serviceName): FuncCall

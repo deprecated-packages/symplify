@@ -166,6 +166,7 @@ parameters:
                 - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
+                - packages/php-config-printer/src/NodeFactory/ConstantNodeFactory.php
 
         -
             message: '#Function "property_exists\(\)" cannot be used/left in the code#'
