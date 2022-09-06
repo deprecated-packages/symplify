@@ -14,6 +14,9 @@ use Symplify\MonorepoBuilder\Release\ReleaseWorker\UpdateReplaceReleaseWorker;
 
 return static function (MBConfig $mbConfig): void {
     $mbConfig->packageDirectories([__DIR__ . '/packages']);
+    // This is a test to ensure monorepo-builder can ignore paths. It may not be in `test`
+    // because monorepo-builder ignores `test` folders outside of PHPUnit.
+    $mbConfig->packageDirectoriesExcludes([__DIR__ . '/packages/monorepo-builder/ignore']);
     $mbConfig->defaultBranch('main');
 
     $mbConfig->dataToRemove([
