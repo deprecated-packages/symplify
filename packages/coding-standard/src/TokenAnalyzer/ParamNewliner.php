@@ -29,6 +29,6 @@ final class ParamNewliner
             return;
         }
 
-        $this->tokensNewliner->breakMultipleItems($blockInfo, $tokens, LineKind::CALLS);
+        $this->tokensNewliner->breakItems($blockInfo, $tokens, LineKind::CALLS);
     }
 }
