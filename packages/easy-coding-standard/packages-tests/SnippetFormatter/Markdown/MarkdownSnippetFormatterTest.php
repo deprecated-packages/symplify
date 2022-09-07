@@ -6,26 +6,21 @@ namespace Symplify\EasyCodingStandard\Tests\SnippetFormatter\Markdown;
 
 use Iterator;
 use Symplify\EasyCodingStandard\Kernel\EasyCodingStandardKernel;
-use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\SnippetFormatter;
-use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
-use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
+use Symplify\EasyCodingStandard\SnippetFormatter\Formatter\MarkdownSnippetFormatter;
 use Symplify\EasyCodingStandard\ValueObject\Configuration;
 use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
 use Symplify\EasyTesting\StaticFixtureSplitter;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-/**
- * For testing approach @see https://github.com/symplify/easy-testing
- */
 final class MarkdownSnippetFormatterTest extends AbstractKernelTestCase
 {
-    private SnippetFormatter $snippetFormatter;
+    private MarkdownSnippetFormatter $markdownSnippetFormatter;
 
     protected function setUp(): void
     {
         $this->bootKernelWithConfigs(EasyCodingStandardKernel::class, [__DIR__ . '/config/array_fixer.php']);
-        $this->snippetFormatter = $this->getService(SnippetFormatter::class);
+        $this->markdownSnippetFormatter = $this->getService(MarkdownSnippetFormatter::class);
     }
 
     /**
@@ -39,10 +34,8 @@ final class MarkdownSnippetFormatterTest extends AbstractKernelTestCase
 
         $configuration = new Configuration(true);
 
-        $changedContent = $this->snippetFormatter->format(
+        $changedContent = $this->markdownSnippetFormatter->format(
             $inputAndExpectedFileInfos->getInputFileInfo(),
-            SnippetPattern::MARKDOWN_PHP_SNIPPET_REGEX,
-            SnippetKind::MARKDOWN,
             $configuration
         );
 

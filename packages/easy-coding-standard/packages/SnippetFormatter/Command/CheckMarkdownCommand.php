@@ -7,14 +7,12 @@ namespace Symplify\EasyCodingStandard\SnippetFormatter\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\EasyCodingStandard\Console\Command\AbstractCheckCommand;
-use Symplify\EasyCodingStandard\SnippetFormatter\Application\SnippetFormatterApplication;
-use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetKind;
-use Symplify\EasyCodingStandard\SnippetFormatter\ValueObject\SnippetPattern;
+use Symplify\EasyCodingStandard\SnippetFormatter\Application\MarkdownSnippetFormatterApplication;
 
 final class CheckMarkdownCommand extends AbstractCheckCommand
 {
     public function __construct(
-        private SnippetFormatterApplication $snippetFormatterApplication
+        private MarkdownSnippetFormatterApplication $markdownSnippetFormatterApplication
     ) {
         parent::__construct();
     }
@@ -37,11 +35,9 @@ final class CheckMarkdownCommand extends AbstractCheckCommand
         $configuration = $this->configurationFactory->createFromInput($input);
         $phpFileInfos = $this->smartFinder->find($configuration->getSources(), '*.php', ['Fixture']);
 
-        return $this->snippetFormatterApplication->processFileInfosWithSnippetPattern(
+        return $this->markdownSnippetFormatterApplication->processFileInfosWithSnippetPattern(
             $configuration,
-            $phpFileInfos,
-            SnippetPattern::MARKDOWN_PHP_SNIPPET_REGEX,
-            SnippetKind::MARKDOWN
+            $phpFileInfos
         );
     }
 }
