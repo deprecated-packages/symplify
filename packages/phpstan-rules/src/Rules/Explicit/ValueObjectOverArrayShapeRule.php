@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+use Iterator;
 use JsonSerializable;
 use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
@@ -140,6 +141,6 @@ CODE_SAMPLE
         }
 
         $returnTypeClass = $returnType->toString();
-        return $returnTypeClass === \Iterator::class;
+        return $returnTypeClass === Iterator::class;
     }
 }
