@@ -21,7 +21,7 @@ final class MarkdownSnippetFormatterApplication
 {
     public function __construct(
         private SnippetReporter $snippetReporter,
-        private MarkdownSnippetFormatter $snippetFormatter,
+        private MarkdownSnippetFormatter $markdownSnippetFormatter,
         private SmartFileSystem $smartFileSystem,
         private SymfonyStyle $symfonyStyle,
         private ProcessedFileReporter $processedFileReporter,
@@ -64,7 +64,7 @@ final class MarkdownSnippetFormatterApplication
         SmartFileInfo $phpFileInfo,
         Configuration $configuration
     ): ?FileDiff {
-        $fixedContent = $this->snippetFormatter->format($phpFileInfo, $configuration);
+        $fixedContent = $this->markdownSnippetFormatter->format($phpFileInfo, $configuration);
 
         $originalContent = $phpFileInfo->getContents();
         if ($phpFileInfo->getContents() === $fixedContent) {
