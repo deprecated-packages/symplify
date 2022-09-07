@@ -30,6 +30,7 @@ final class ValueObjectOverArrayShapeRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipJsonSerializable.php', []];
         yield [__DIR__ . '/Fixture/SkipNoArrayShape.php', []];
         yield [__DIR__ . '/Fixture/SkipConstructorAsIntroData.php', []];
+        yield [__DIR__ . '/Fixture/SkipIteratorContract.php', []];
     }
 
     /**

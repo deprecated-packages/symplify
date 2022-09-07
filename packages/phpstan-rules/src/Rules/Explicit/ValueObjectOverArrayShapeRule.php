@@ -9,6 +9,7 @@ use Nette\Utils\Strings;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Function_;
 use PHPStan\Analyser\Scope;
@@ -96,6 +97,10 @@ CODE_SAMPLE
             return [];
         }
 
+        if ($this->isIteratorReturnType($node)) {
+            return [];
+        }
+
         $match = Strings::match($docComment->getText(), self::ARRAY_SHAPE_REGEX);
         if ($match === null) {
             return [];
@@ -125,5 +130,16 @@ CODE_SAMPLE
         }
 
         return $classReflection->implementsInterface(JsonSerializable::class);
+    }
+
+    private function isIteratorReturnType(ClassMethod|Function_ $node): bool
+    {
+        $returnType = $node->returnType;
+        if (! $returnType instanceof FullyQualified) {
+            return false;
+        }
+
+        $returnTypeClass = $returnType->toString();
+        return $returnTypeClass === \Iterator::class;
     }
 }
