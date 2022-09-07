@@ -1,12 +1,15 @@
 services:
     SomeClass:
         factory: "some_name:createMethod"
+    ExistingClass:
+        factory: 'Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\StaticFactory::create'
 -----
 <?php
 
 declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symplify\ConfigTransformer\Tests\Converter\ConfigFormatConverter\Source\StaticFactory;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -14,4 +17,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('SomeClass')
         ->factory([service('some_name'), 'createMethod']);
+
+    $services->set('ExistingClass')
+        ->factory([StaticFactory::class, 'create']);
 };
