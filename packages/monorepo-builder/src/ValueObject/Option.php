@@ -120,4 +120,10 @@ final class Option
      * @var string
      */
     public const REMOVE_COMPLETELY = 'remove_completely';
+
+    /**
+     * @api
+     * @var string
+     */
+    public const LIMIT_RECENT_TAG_RESOLVING_SCOPE_TO_CURRENT_BRANCH = 'limit_recent_tag_resolving_scope_to_current_branch';
 }

@@ -25,6 +25,7 @@ return static function (MBConfig $mbConfig): void {
 
     $parameters->set(Option::IS_STAGE_REQUIRED, false);
     $parameters->set(Option::STAGES_TO_ALLOW_EXISTING_TAG, []);
+    $parameters->set(Option::LIMIT_RECENT_TAG_RESOLVING_SCOPE_TO_CURRENT_BRANCH, false);
 
     // for back compatibility, better switch to "main"
     $mbConfig->defaultBranch('master');

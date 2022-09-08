@@ -8,7 +8,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-final class ProcessRunner
+final class ProcessRunner implements ProcessRunnerInterface
 {
     /**
      * Reasonable timeout to report hang off: 10 minutes

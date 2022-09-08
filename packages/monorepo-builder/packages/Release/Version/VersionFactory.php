@@ -37,6 +37,7 @@ final class VersionFactory
     {
         // get current version
         $mostRecentVersionString = $this->tagResolver->resolve(getcwd());
+
         if ($mostRecentVersionString === null) {
             // the very first tag
             return new Version('v0.1.0');
