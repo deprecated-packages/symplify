@@ -25,7 +25,7 @@ final class UnusedPublicClassMethodRule implements Rule, DocumentedRuleInterface
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class method "%s()" is never used outside of its own class';
+    public const ERROR_MESSAGE = 'Class method "%s()" is never used outside of its class';
     private const TIP_MESSAGE = 'Either reduce its visibility or mark it with @api.';
 
     public function getNodeType(): string
