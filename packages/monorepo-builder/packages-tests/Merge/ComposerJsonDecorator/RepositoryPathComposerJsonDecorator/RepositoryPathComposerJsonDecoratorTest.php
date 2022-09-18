@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\ReplaceRepositoriesRelativePathComposerJsonDecorator;
+namespace Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\RepositoryPathComposerJsonDecorator;
 
 use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
-use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\NormalizeRepositoriesPathComposerJsonDecorator;
+use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\RepositoryPathComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 
-final class NormalizeRepositoriesPathComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
+final class RepositoryPathComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     private const COMPOSER_JSON_DATA = [
         ComposerJsonSection::REPOSITORIES => [
@@ -27,6 +27,10 @@ final class NormalizeRepositoriesPathComposerJsonDecoratorTest extends AbstractC
                 'type' => 'path',
                 'url' => '../../libs/*/',
             ],
+            [
+                'type' => 'path',
+                'url' => 'libs/*/',
+            ],
         ],
     ];
 
@@ -34,20 +38,22 @@ final class NormalizeRepositoriesPathComposerJsonDecoratorTest extends AbstractC
 
     private ComposerJson $expectedComposerJson;
 
-    private NormalizeRepositoriesPathComposerJsonDecorator $replaceRepositoriesRelativePathComposerJsonDecorator;
+    private RepositoryPathComposerJsonDecorator $replaceRepositoriesComposerJsonDecorator;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->replaceRepositoriesRelativePathComposerJsonDecorator = $this->getService(NormalizeRepositoriesPathComposerJsonDecorator::class);
+        $this->replaceRepositoriesComposerJsonDecorator = $this->getService(
+            RepositoryPathComposerJsonDecorator::class
+        );
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
     }
 
     public function test(): void
     {
-        $this->replaceRepositoriesRelativePathComposerJsonDecorator->decorate($this->composerJson);
+        $this->replaceRepositoriesComposerJsonDecorator->decorate($this->composerJson);
 
         $this->assertComposerJsonEquals($this->expectedComposerJson, $this->composerJson);
     }
