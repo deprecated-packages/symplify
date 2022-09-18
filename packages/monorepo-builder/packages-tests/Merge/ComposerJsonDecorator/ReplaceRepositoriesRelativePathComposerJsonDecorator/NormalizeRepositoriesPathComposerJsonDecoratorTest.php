@@ -8,19 +8,20 @@ use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
-use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\ReplaceRepositoriesRelativePathComposerJsonDecorator;
+use Symplify\MonorepoBuilder\Merge\ComposerJsonDecorator\NormalizeRepositoriesPathComposerJsonDecorator;
 use Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\AbstractComposerJsonDecoratorTest;
 
-final class ReplaceRepositoriesRelativePathComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
+final class NormalizeRepositoriesPathComposerJsonDecoratorTest extends AbstractComposerJsonDecoratorTest
 {
     /**
-     * @var mixed[]
+     * @var array
      */
     private const COMPOSER_JSON_DATA = [
         ComposerJsonSection::REPOSITORIES => [
             [
-                'type' => 'composer',
-                'url' => 'https://www.packagist.org',
+                'type' => 'artifact',
+                'url' => 'path/to/directory/with/zips/',
+
             ],
             [
                 'type' => 'path',
@@ -33,13 +34,13 @@ final class ReplaceRepositoriesRelativePathComposerJsonDecoratorTest extends Abs
 
     private ComposerJson $expectedComposerJson;
 
-    private ReplaceRepositoriesRelativePathComposerJsonDecorator $replaceRepositoriesRelativePathComposerJsonDecorator;
+    private NormalizeRepositoriesPathComposerJsonDecorator $replaceRepositoriesRelativePathComposerJsonDecorator;
 
     protected function setUp(): void
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->replaceRepositoriesRelativePathComposerJsonDecorator = $this->getService(ReplaceRepositoriesRelativePathComposerJsonDecorator::class);
+        $this->replaceRepositoriesRelativePathComposerJsonDecorator = $this->getService(NormalizeRepositoriesPathComposerJsonDecorator::class);
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
     }
@@ -67,8 +68,8 @@ final class ReplaceRepositoriesRelativePathComposerJsonDecoratorTest extends Abs
         $expectedComposerJson = [
             ComposerJsonSection::REPOSITORIES => [
                 [
-                    'type' => 'composer',
-                    'url' => 'https://www.packagist.org',
+                    'type' => 'artifact',
+                    'url' => 'path/to/directory/with/zips/',
                 ],
                 [
                     'type' => 'path',
