@@ -41,7 +41,7 @@ jobs:
                     php-version: 8.0
                     coverage: none
 
-            -   uses: "ramsey/composer-install@v1"
+            -   uses: "ramsey/composer-install@v2"
 
             -   run: ${{ matrix.actions.run }}
 
