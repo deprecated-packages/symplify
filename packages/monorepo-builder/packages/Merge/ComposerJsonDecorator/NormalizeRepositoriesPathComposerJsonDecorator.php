@@ -10,7 +10,7 @@ use Symplify\MonorepoBuilder\Merge\Contract\ComposerJsonDecoratorInterface;
 /**
  * @see \Symplify\MonorepoBuilder\Tests\Merge\ComposerJsonDecorator\ReplaceRepositoriesRelativePathComposerJsonDecorator\ReplaceRepositoriesRelativePathComposerJsonDecoratorTest
  */
-final class ReplaceRepositoriesRelativePathComposerJsonDecorator implements ComposerJsonDecoratorInterface
+final class NormalizeRepositoriesPathComposerJsonDecorator implements ComposerJsonDecoratorInterface
 {
     private const UP_DIRECTORY = '../';
 
