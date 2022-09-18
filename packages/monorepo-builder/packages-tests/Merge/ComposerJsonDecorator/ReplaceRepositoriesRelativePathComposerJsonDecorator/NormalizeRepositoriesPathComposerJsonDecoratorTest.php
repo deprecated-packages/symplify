@@ -27,6 +27,10 @@ final class NormalizeRepositoriesPathComposerJsonDecoratorTest extends AbstractC
                 'type' => 'path',
                 'url' => '../../libs/*/',
             ],
+            [
+                'type' => 'path',
+                'url' => 'libs/*/',
+            ],
         ],
     ];
 

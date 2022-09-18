@@ -19,6 +19,7 @@ final class NormalizeRepositoriesPathComposerJsonDecorator implements ComposerJs
     public function decorate(ComposerJson $composerJson): void
     {
         $this->processReplaceRepositoriesRelativePath($composerJson);
+        $this->processRemoveDuplicates($composerJson);
     }
 
     private function processReplaceRepositoriesRelativePath(ComposerJson $composerJson): void
@@ -31,6 +32,26 @@ final class NormalizeRepositoriesPathComposerJsonDecorator implements ComposerJs
             }
 
             $repositories[$index]['url'] = str_replace(self::UP_DIRECTORY, '', $repository['url']);
+        }
+
+        $composerJson->setRepositories($repositories);
+    }
+
+    private function processRemoveDuplicates(ComposerJson $composerJson): void
+    {
+        $repositories = $composerJson->getRepositories();
+        $paths = [];
+
+        foreach ($repositories as $index => $repository) {
+            if ($repository['type'] !== 'path') {
+                continue;
+            }
+
+            if (in_array((string)$repository['url'], $paths, true) === true) {
+                unset($repositories[$index]);
+            }
+
+            $paths[] = $repository['url'];
         }
 
         $composerJson->setRepositories($repositories);
