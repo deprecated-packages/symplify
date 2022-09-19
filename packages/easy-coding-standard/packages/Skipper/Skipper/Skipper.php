@@ -44,7 +44,11 @@ final class Skipper
                 continue;
             }
 
-            return $skipVoter->shouldSkip($element, $smartFileInfo);
+            if (! $skipVoter->shouldSkip($element, $smartFileInfo)) {
+                continue;
+            }
+
+            return true;
         }
 
         return false;
