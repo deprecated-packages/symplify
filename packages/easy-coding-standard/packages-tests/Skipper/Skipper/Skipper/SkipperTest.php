@@ -41,6 +41,15 @@ final class SkipperTest extends AbstractKernelTestCase
     {
         yield [__DIR__ . '/Fixture/SomeRandom/file.txt', false];
         yield [__DIR__ . '/Fixture/SomeSkipped/any.txt', true];
+
+        $basenameCwd = basename(getcwd());
+        if ($basenameCwd === 'easy-coding-standard') {
+            // split test inside packages/easy-coding-standard
+            yield ['packages-tests/Skipper/Skipper/Skipper/Fixture/SomeSkipped/any.txt', true];
+        } else {
+            // from root symplify
+            yield ['packages/easy-coding-standard/packages-tests/Skipper/Skipper/Skipper/Fixture/SomeSkipped/any.txt', true];
+        }
     }
 
     /**

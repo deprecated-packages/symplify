@@ -73,7 +73,7 @@ final class KernelBootAndApplicationRun
         $inputDefinition = $application->getDefinition();
 
         $options = $inputDefinition->getOptions();
-        $options = array_filter($options, static fn ($option) => $option->getName() !== 'no-interaction');
+        $options = array_filter($options, static fn ($option): bool => $option->getName() !== 'no-interaction');
 
         $inputDefinition->setOptions($options);
 

@@ -439,6 +439,7 @@ parameters:
                 - packages/monorepo-builder/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
+                - packages/easy-coding-standard/packages-tests/Skipper/Skipper/Skipper/SkipperTest.php
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
