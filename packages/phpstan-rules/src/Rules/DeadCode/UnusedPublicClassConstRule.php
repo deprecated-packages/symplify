@@ -25,7 +25,8 @@ final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Class constant "%s" is never used';
+    public const ERROR_MESSAGE = 'Class constant "%s" is never used outside of its class';
+    public const TIP_MESSAGE = 'Either reduce the constants visibility or annotate it with @api.';
 
     public function getNodeType(): string
     {
@@ -56,6 +57,7 @@ final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
                     $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
                         ->file($filePath)
                         ->line($line)
+                        ->tip(self::TIP_MESSAGE)
                         ->build();
                 }
             }
