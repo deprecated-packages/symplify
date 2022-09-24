@@ -33,7 +33,7 @@ composer require symplify/easy-coding-standard --dev
 - ...or [Fixers](https://github.com/FriendsOfPHP/PHP-CS-Fixer) you'd love to use
 
 ```php
-// ecs.php
+<?php // ecs.php
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
@@ -80,6 +80,7 @@ vendor/bin/ecs check src --config another-config.php
 Configuration can be extended with many options. Here is list of them with example values and little description what are they for:
 
 ```php
+<?php
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
@@ -144,6 +145,7 @@ That means 1600 % faster run with same amount of analysed files. Did you code ba
 How to enable it?
 
 ```php
+<?php
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return static function (ECSConfig $ecsConfig): void {
