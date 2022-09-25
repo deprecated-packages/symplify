@@ -27,6 +27,9 @@ final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
      */
     public const ERROR_MESSAGE = 'Class constant "%s" is never used outside of its class';
 
+    /**
+     * @var string
+     */
     public const TIP_MESSAGE = 'Either reduce the constants visibility or annotate it with @api.';
 
     public function getNodeType(): string
