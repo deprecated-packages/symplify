@@ -9,6 +9,7 @@ use PhpParser\Node\Stmt\ClassConst;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\ReflectionProvider;
 use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
 
 /**
@@ -47,7 +48,15 @@ final class PublicClassLikeConstCollector implements Collector
 
         $constantNames = [];
         foreach ($node->consts as $constConst) {
-            $constantNames[] = [$classReflection->getName(), $constConst->name->toString(), $node->getLine()];
+            $constantName = $constConst->name->toString();
+
+            if ($classReflection->hasConstant($constantName)) {
+                $constantReflection = $classReflection->getConstant($constantName);
+
+                $constantNames[] = [$constantReflection->getDeclaringClass()->getName(), $constantName, $node->getLine()];
+            } else {
+                $constantNames[] = [$classReflection->getName(), $constantName, $node->getLine()];
+            }
         }
 
         return $constantNames;

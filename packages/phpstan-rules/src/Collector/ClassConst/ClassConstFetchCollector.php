@@ -10,7 +10,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
-use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Reflection\ClassReflection;
 
 /**
  * @implements Collector<ClassConstFetch, string[]>
