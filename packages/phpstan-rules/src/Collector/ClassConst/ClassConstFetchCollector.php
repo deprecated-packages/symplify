@@ -10,6 +10,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
+use PHPStan\Reflection\ReflectionProvider;
 
 /**
  * @implements Collector<ClassConstFetch, string[]>
@@ -35,8 +36,19 @@ final class ClassConstFetchCollector implements Collector
             return null;
         }
 
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return null;
+        }
+
         $className = $node->class->toString();
         $constantName = $node->name->toString();
+
+        if ($classReflection->hasConstant($constantName)) {
+            $constantReflection = $classReflection->getConstant($constantName);
+
+            return [$constantReflection->getDeclaringClass()->getName(). '::' . $constantName];
+        }
 
         return [$className . '::' . $constantName];
     }
