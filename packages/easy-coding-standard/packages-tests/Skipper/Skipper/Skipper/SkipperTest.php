@@ -48,7 +48,10 @@ final class SkipperTest extends AbstractKernelTestCase
             yield ['packages-tests/Skipper/Skipper/Skipper/Fixture/SomeSkipped/any.txt', true];
         } else {
             // from root symplify
-            yield ['packages/easy-coding-standard/packages-tests/Skipper/Skipper/Skipper/Fixture/SomeSkipped/any.txt', true];
+            yield [
+                'packages/easy-coding-standard/packages-tests/Skipper/Skipper/Skipper/Fixture/SomeSkipped/any.txt',
+                true,
+            ];
         }
     }
 

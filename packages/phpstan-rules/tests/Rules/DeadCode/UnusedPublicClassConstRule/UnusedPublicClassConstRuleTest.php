@@ -30,13 +30,19 @@ final class UnusedPublicClassConstRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'UNUSED');
-        yield [[__DIR__ . '/Fixture/UnusedPublicConstant.php'], [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]]];
+        yield [[__DIR__ . '/Fixture/UnusedPublicConstant.php'],
+            [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE],
+        ], ];
 
         $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'UNUSED');
-        yield [[__DIR__ . '/Fixture/UnusedPublicConstantFromInterface.php'], [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]]];
+        yield [[__DIR__ . '/Fixture/UnusedPublicConstantFromInterface.php'],
+            [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE],
+        ], ];
 
         $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'LOCALLY_ONLY');
-        yield [[__DIR__ . '/Fixture/LocallyUsedPublicConstant.php'], [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]]];
+        yield [[__DIR__ . '/Fixture/LocallyUsedPublicConstant.php'],
+            [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE],
+        ], ];
 
         yield [[__DIR__ . '/Fixture/SkipApiPublicConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPrivateConstant.php'], []];
