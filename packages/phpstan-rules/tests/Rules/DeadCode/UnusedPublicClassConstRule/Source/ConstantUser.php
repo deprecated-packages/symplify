@@ -14,6 +14,6 @@ final class ConstantUser
     }
     public function run2()
     {
-        return SkipUsedPublicConstantInSubclass::USED;
+        return SkipUsedPublicConstantInSubclass::USED_FROM_SUBCLASS;
     }
 }

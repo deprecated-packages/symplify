@@ -6,7 +6,7 @@ namespace Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\
 
 class PublicConstant
 {
-    public const USED = 'yes, please';
+    public const USED_FROM_SUBCLASS = 'yes, please';
 }
 
 final class SkipUsedPublicConstantInSubclass extends PublicConstant
