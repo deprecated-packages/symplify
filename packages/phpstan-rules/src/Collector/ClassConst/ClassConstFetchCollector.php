@@ -46,8 +46,9 @@ final class ClassConstFetchCollector implements Collector
 
         if ($classReflection->hasConstant($constantName)) {
             $constantReflection = $classReflection->getConstant($constantName);
+            $declaringClass = $constantReflection->getDeclaringClass();
 
-            return [$constantReflection->getDeclaringClass()->getName(). '::' . $constantName];
+            return [$declaringClass->getName(). '::' . $constantName];
         }
 
         return [$className . '::' . $constantName];

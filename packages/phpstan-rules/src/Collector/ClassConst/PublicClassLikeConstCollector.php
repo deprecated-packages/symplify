@@ -52,8 +52,9 @@ final class PublicClassLikeConstCollector implements Collector
 
             if ($classReflection->hasConstant($constantName)) {
                 $constantReflection = $classReflection->getConstant($constantName);
-
-                $constantNames[] = [$constantReflection->getDeclaringClass()->getName(), $constantName, $node->getLine()];
+                $declaringClass = $constantReflection->getDeclaringClass();
+                
+                $constantNames[] = [$declaringClass->getName(), $constantName, $node->getLine()];
             } else {
                 $constantNames[] = [$classReflection->getName(), $constantName, $node->getLine()];
             }
