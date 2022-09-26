@@ -4280,7 +4280,7 @@ final class TwigExtensionWithMissingCallable extends AbstractExtension
 
 ## UnusedPublicClassConstRule
 
-Class constant "%s" is never used
+Class constant "%s" is never used outside of its class
 
 - class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule`](../src/Rules/DeadCode/UnusedPublicClassConstRule.php)
 
@@ -4330,7 +4330,7 @@ if ($direction === Direction::RIGHT) {
 
 ## UnusedPublicClassMethodRule
 
-Class method `"%s()"` is never used
+Class method `"%s()"` is never used outside of its class
 
 - class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule`](../src/Rules/DeadCode/UnusedPublicClassMethodRule.php)
 

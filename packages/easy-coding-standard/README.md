@@ -51,7 +51,7 @@ return static function (ECSConfig $ecsConfig): void {
 
 #### Full Sets before Standalone Rules
 
-It is highly recommended to imports sets (A) first, then add standalone rules (B).
+It is highly recommended to import sets (A) first, then add standalone rules (B).
 
 The reason for this is that some settings are configured in the full sets too, and will therefore overwrite your standalone rules, if not configured first.
 
@@ -114,7 +114,7 @@ return static function (ECSConfig $ecsConfig): void {
         'Cognitive complexity for method "addAction" is 13 but has to be less than or equal to 8.',
     ]);
 
-    // scan other file extendsions; [default: [php]]
+    // scan other file extensions; [default: [php]]
     $ecsConfig->fileExtensions(['php', 'phpt']);
 
     // configure cache paths & namespace - useful for Gitlab CI caching, where getcwd() produces always different path
