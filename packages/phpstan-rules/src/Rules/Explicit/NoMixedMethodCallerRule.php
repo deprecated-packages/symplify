@@ -48,6 +48,10 @@ final class NoMixedMethodCallerRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
+        if ($callerType instanceof \PHPStan\Type\ErrorType) {
+            return [];
+        }
+
         $printedMethodCall = $this->printerStandard->prettyPrintExpr($node->var);
 
         return [sprintf(self::ERROR_MESSAGE, $printedMethodCall)];
