@@ -26,6 +26,7 @@ final class NoMixedMethodCallerRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/SkipKnownCallerType.php', []];
+        yield [__DIR__ . '/Fixture/SkipMockObject.php', []];
 
         $errorMessage = sprintf(NoMixedMethodCallerRule::ERROR_MESSAGE, '$someType');
         yield [__DIR__ . '/Fixture/MagicMethodName.php', [[$errorMessage, 11]]];
