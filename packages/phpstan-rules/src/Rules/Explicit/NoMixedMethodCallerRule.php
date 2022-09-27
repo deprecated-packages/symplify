@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+use PHPStan\Type\ErrorType;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\PrettyPrinter\Standard;
@@ -45,6 +46,10 @@ final class NoMixedMethodCallerRule implements Rule, DocumentedRuleInterface
     {
         $callerType = $scope->getType($node->var);
         if (! $callerType instanceof MixedType) {
+            return [];
+        }
+
+        if ($callerType instanceof ErrorType) {
             return [];
         }
 
