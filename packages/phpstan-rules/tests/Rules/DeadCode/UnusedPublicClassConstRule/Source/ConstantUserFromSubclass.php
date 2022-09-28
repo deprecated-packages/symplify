@@ -6,10 +6,10 @@ namespace Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\
 use Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\Fixture\SkipUsedPublicConstant;
 use Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\Fixture\SkipUsedPublicConstantInSubclass;
 
-final class ConstantUser
+final class ConstantUserFromSubclass
 {
-    public function run()
+    public function run2()
     {
-        return SkipUsedPublicConstant::USED;
+        return SkipUsedPublicConstantInSubclass::USED_FROM_SUBCLASS;
     }
 }
