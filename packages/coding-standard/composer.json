@@ -6,19 +6,19 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "friendsofphp/php-cs-fixer": "^3.11",
-        "symplify/symplify-kernel": "^11.1.10",
-        "symplify/package-builder": "^11.1.10",
-        "symplify/autowire-array-parameter": "^11.1.10",
-        "symplify/rule-doc-generator-contracts": "^11.1.10"
+        "symplify/symplify-kernel": "^11.2",
+        "symplify/package-builder": "^11.2",
+        "symplify/autowire-array-parameter": "^11.2",
+        "symplify/rule-doc-generator-contracts": "^11.2"
     },
     "require-dev": {
         "doctrine/orm": "^2.13",
-        "symplify/symplify-kernel": "^11.1.10",
-        "symplify/smart-file-system": "^11.1.10",
+        "symplify/symplify-kernel": "^11.2",
+        "symplify/smart-file-system": "^11.2",
         "symfony/framework-bundle": "^6.0.10",
-        "symplify/easy-coding-standard": "^11.1.10",
+        "symplify/easy-coding-standard": "^11.2",
         "phpunit/phpunit": "^9.5.23",
-        "symplify/rule-doc-generator": "^11.1.10",
+        "symplify/rule-doc-generator": "^11.2",
         "cweagans/composer-patches": "^1.7"
     },
     "autoload": {
