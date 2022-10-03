@@ -36,23 +36,19 @@ final class ClassConstFetchCollector implements Collector
             return null;
         }
 
-        $classReflection = $scope->getClassReflection();
-        if (! $classReflection instanceof ClassReflection) {
-            return null;
-        }
-
         $className = $node->class->toString();
         $constantName = $node->name->toString();
 
-        if ($classReflection->hasConstant($constantName)) {
-            $constantReflection = $classReflection->getConstant($constantName);
-            $declaringClass = $constantReflection->getDeclaringClass();
+        $classReflection = $scope->getClassReflection();
+        if ($classReflection !== null) {
+            if ($classReflection->hasConstant($constantName)) {
+                $constantReflection = $classReflection->getConstant($constantName);
+                $declaringClass = $constantReflection->getDeclaringClass();
 
-            if ($declaringClass->getFileName() !== $classReflection->getFileName()) {
-                return [$declaringClass->getName(). '::' . $constantName];
+                if ($declaringClass->getFileName() !== $classReflection->getFileName()) {
+                    //return [$declaringClass->getName(). '::' . $constantName];
+                }
             }
-
-            return null;
         }
 
         return [$className . '::' . $constantName];
