@@ -48,6 +48,8 @@ final class ClassConstFetchCollector implements Collector
                 if ($declaringClass->getFileName() !== $classReflection->getFileName()) {
                     return [$declaringClass->getName(). '::' . $constantName];
                 }
+
+                return null;
             }
         }
 
