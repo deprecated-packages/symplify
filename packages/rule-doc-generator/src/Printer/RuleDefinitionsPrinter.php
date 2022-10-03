@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Printer;
 
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Nette\Utils\Strings;
 use Symplify\RuleDocGenerator\Category\CategoryResolver;
 use Symplify\RuleDocGenerator\Printer\CodeSamplePrinter\CodeSamplePrinter;
 use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
@@ -16,7 +16,6 @@ final class RuleDefinitionsPrinter
         private CodeSamplePrinter $codeSamplePrinter,
         private KeywordHighlighter $keywordHighlighter,
         private CategoryResolver $categoryResolver,
-        private AsciiSlugger $asciiSlugger,
     ) {
     }
 
@@ -106,8 +105,7 @@ final class RuleDefinitionsPrinter
         $lines[] = '## Categories';
 
         foreach ($ruleDefinitionsByCategory as $category => $ruleDefinitions) {
-            $categoryLink = $this->asciiSlugger->slug($category)
-                ->lower();
+            $categoryLink = strtolower(Strings::webalize($category));
 
             $lines[] = sprintf('- [%s](#%s) (%d)', $category, $categoryLink, count($ruleDefinitions));
         }
