@@ -8,7 +8,11 @@ declare(strict_types=1);
 return [
     'composerJsonPath' => __DIR__ . '/composer.json',
     'vendorPath' => __DIR__ . '/vendor/',
-    'scanDirectories' => [
-        __DIR__ . '/packages'
+    'scanDirectories' => [__DIR__ . '/packages'],
+    'skipPackages' => [
+        // meta package for applying patches
+        'cweagans/composer-patches',
+        // needed for config transformer and legacy symfony configs
+        'symfony/expression-language',
     ],
 ];
