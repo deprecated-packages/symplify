@@ -6,7 +6,6 @@ use SebastianBergmann\Diff\Differ;
 use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symplify\PackageBuilder\Reflection\ClassLikeExistenceChecker;
 use Symplify\PackageBuilder\Reflection\PrivatesAccessor;
 use Symplify\RuleDocGenerator\Command\GenerateCommand;
@@ -28,8 +27,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->call('add', [service(GenerateCommand::class)]);
 
     $services->set(ClassLikeExistenceChecker::class);
-    $services->set(AsciiSlugger::class);
-
     $services->set(Differ::class);
 
     // markdown

@@ -28,6 +28,7 @@ return static function (ECSConfig $ecsConfig): void {
         __DIR__ . '/ecs.php',
         __DIR__ . '/monorepo-builder.php',
         __DIR__ . '/rector.php',
+        __DIR__ . '/unused-scanner.php',
     ]);
 
     $ecsConfig->skip([
