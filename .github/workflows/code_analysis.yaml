@@ -54,7 +54,7 @@ jobs:
 
                     -
                         name: 'Detect unused dependencies'
-                        run: vendor/bin/unused_scanner unused-scanner.php
+                        run: vendor/bin/composer-unused --ansi
 
                     # is the class really used somewhere in the package?
                     -

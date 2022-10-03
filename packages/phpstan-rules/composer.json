@@ -8,10 +8,10 @@
         "nikic/php-parser": "^4.15.1",
         "nette/utils": "^3.2",
         "phpstan/phpdoc-parser": "^1.7.0",
-        "phpstan/phpstan": "^1.8.4",
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
+        "phpstan/phpstan": "^1.8.4",
         "symplify/rule-doc-generator-contracts": "^11.2",
         "symplify/easy-testing": "^11.2",
         "symplify/phpstan-extensions": "^11.2",
