@@ -19,12 +19,14 @@ final class SourceFinder
      * @var string[]
      */
     private array $fileExtensions = [];
+    private bool $dotFilesIncluded;
 
     public function __construct(
         private FinderSanitizer $finderSanitizer,
         ParameterProvider $parameterProvider,
     ) {
         $this->fileExtensions = $parameterProvider->provideArrayParameter(Option::FILE_EXTENSIONS);
+        $this->dotFilesIncluded = $parameterProvider->provideBoolParameter(Option::INCLUDE_DOT_FILES);
     }
 
     /**
@@ -56,6 +58,7 @@ final class SourceFinder
         $normalizedFileExtensions = $this->normalizeFileExtensions($this->fileExtensions);
 
         $finder = Finder::create()
+            ->ignoreDotFiles(!$this->dotFilesIncluded)
             ->files()
             ->name($normalizedFileExtensions)
             ->in($directory)
@@ -77,6 +80,10 @@ final class SourceFinder
 
         foreach ($fileExtensions as $fileExtension) {
             $normalizedFileExtensions[] = '*.' . $fileExtension;
+
+            if ($this->dotFilesIncluded) {
+                $normalizedFileExtensions[] = '.*.' . $fileExtension;
+            }
         }
 
         return $normalizedFileExtensions;

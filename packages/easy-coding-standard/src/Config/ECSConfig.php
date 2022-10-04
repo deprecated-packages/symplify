@@ -149,6 +149,12 @@ final class ECSConfig extends ContainerConfigurator
         $parameters->set(Option::FILE_EXTENSIONS, $fileExtensions);
     }
 
+    public function includeDotFiles(bool $includeDotFiles = true): void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::INCLUDE_DOT_FILES, $includeDotFiles);
+    }
+
     public function parallel(int $seconds = 120, int $maxNumberOfProcess = 16, int $jobSize = 20): void
     {
         $parameters = $this->parameters();

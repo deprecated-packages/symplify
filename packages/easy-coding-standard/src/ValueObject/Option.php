@@ -85,6 +85,12 @@ final class Option
     public const FILE_EXTENSIONS = 'file_extensions';
 
     /**
+     * @deprecated Use @see \Symplify\EasyCodingStandard\Config\ECSConfig::includeDotFiles()
+     * @var string
+     */
+    public const INCLUDE_DOT_FILES = 'include_dot_files';
+
+    /**
      * @var string
      */
     public const INDENTATION_SPACES = 'spaces';
