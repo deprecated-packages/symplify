@@ -54,7 +54,8 @@ jobs:
 
                     -
                         name: 'Detect unused dependencies'
-                        run: vendor/bin/composer-unused --ansi
+                        # "default" format overrides default "github" in CI
+                        run: vendor/bin/composer-unused --ansi --output-format default
 
                     # is the class really used somewhere in the package?
                     -
