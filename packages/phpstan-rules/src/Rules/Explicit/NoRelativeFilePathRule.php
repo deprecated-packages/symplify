@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
+use Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -28,6 +29,12 @@ final class NoRelativeFilePathRule implements Rule, DocumentedRuleInterface
      * @var string
      */
     public const ERROR_MESSAGE = 'Relative file path "%s" is not allowed, use absolute one with __DIR__';
+
+    /**
+     * @var string
+     * @see https://regex101.com/r/833ECx/1
+     */
+    private const URL_START_REGEX = '#^(https|http|git|ssh|ftp|file)://#';
 
     /**
      * @return class-string<Node>
@@ -55,6 +62,7 @@ final class NoRelativeFilePathRule implements Rule, DocumentedRuleInterface
             }
 
             $errorMessage = sprintf(self::ERROR_MESSAGE, $string->value);
+
             $errorMessages[] = RuleErrorBuilder::message($errorMessage)
                 ->line($string->getLine())
                 ->build();
@@ -98,6 +106,11 @@ CODE_SAMPLE
 
     private function isFileString(String_ $string): bool
     {
+        // probably an url
+        if (Strings::match($string->value, self::URL_START_REGEX)) {
+            return false;
+        }
+
         $pathInfo = pathinfo($string->value);
         if (! isset($pathInfo['extension'])) {
             return false;
