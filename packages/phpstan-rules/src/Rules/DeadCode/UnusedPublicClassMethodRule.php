@@ -30,7 +30,7 @@ final class UnusedPublicClassMethodRule implements Rule, DocumentedRuleInterface
     /**
      * @var string
      */
-    public const TIP_MESSAGE = 'Either reduce the methods visibility or annotate it with @api.';
+    public const TIP_MESSAGE = 'Either reduce the methods visibility or annotate it or its class with @api.';
 
     public function getNodeType(): string
     {
