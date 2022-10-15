@@ -12,7 +12,6 @@
         "symplify/rule-doc-generator-contracts": "^11.2"
     },
     "require-dev": {
-        "doctrine/orm": "^2.13",
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2",
         "symfony/framework-bundle": "^6.0.10",
