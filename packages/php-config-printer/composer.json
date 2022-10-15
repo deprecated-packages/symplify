@@ -6,7 +6,7 @@
         "php": ">=8.0",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.1",
-        "symfony/yaml": "^6.0"
+        "symfony/yaml": "^6.1"
     },
     "require-dev": {
         "symplify/easy-testing": "^11.2",
