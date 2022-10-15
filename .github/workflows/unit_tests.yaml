@@ -11,8 +11,6 @@ jobs:
     unit_tests:
         runs-on: ubuntu-latest
 
-        name: PHP 8.0 tests
-
         steps:
             -   uses: actions/checkout@v2
 
