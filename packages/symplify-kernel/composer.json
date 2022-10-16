@@ -3,7 +3,7 @@
     "description": "Internal Kernel for Symplify packages",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "symfony/console": "^6.1",
         "symfony/dependency-injection": "^6.1",
         "symplify/smart-file-system": "^11.2",

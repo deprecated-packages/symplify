@@ -3,7 +3,7 @@
     "description": "Helper package for easier CLI project parallelization",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "clue/ndjson-react": "^1.2",
         "react/child-process": "^0.6.5",
         "react/event-loop": "^1.3",

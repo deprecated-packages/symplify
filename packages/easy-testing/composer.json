@@ -7,7 +7,7 @@
         "bin/easy-testing"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
         "symfony/finder": "^6.1",
         "symfony/console": "^6.1",
