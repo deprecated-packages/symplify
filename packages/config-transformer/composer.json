@@ -6,21 +6,21 @@
         "bin/config-transformer"
     ],
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-dom": "*",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.1",
-        "symfony/console": "^6.0",
-        "symfony/dependency-injection": "^6.0",
-        "symfony/expression-language": "^6.0",
-        "symfony/yaml": "^6.0",
+        "symfony/console": "^6.1",
+        "symfony/dependency-injection": "^6.1",
+        "symfony/expression-language": "^6.1",
+        "symfony/yaml": "^6.1",
         "symplify/php-config-printer": "^11.2",
         "symplify/symplify-kernel": "^11.2"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
         "phpunit/phpunit": "^9.5.23",
-        "symfony/framework-bundle": "^6.0.10",
+        "symfony/framework-bundle": "^6.1",
         "symplify/easy-testing": "^11.2"
     },
     "autoload": {

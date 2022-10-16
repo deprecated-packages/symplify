@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Fixture;
 
-use Doctrine\ORM\EntityManager;
+use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\CustomEntityManager;
 
 final class WarnController
 {
     /**
-     * @var EntityManager
+     * @var CustomEntityManager
      */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(CustomEntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
     }

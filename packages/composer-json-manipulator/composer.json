@@ -4,11 +4,11 @@
     "license": "MIT",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
-        "symfony/config": "^6.0",
-        "symfony/dependency-injection": "^6.0",
-        "symfony/filesystem": "^6.0",
+        "symfony/config": "^6.1",
+        "symfony/dependency-injection": "^6.1",
+        "symfony/filesystem": "^6.1",
         "symplify/package-builder": "^11.2",
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2"

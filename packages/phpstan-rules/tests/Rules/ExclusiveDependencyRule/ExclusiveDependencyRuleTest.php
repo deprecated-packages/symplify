@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule;
 
-use Doctrine\ORM\EntityManager;
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
 use Symplify\PHPStanRules\Rules\ExclusiveDependencyRule;
 use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\AllowedEventSubscriber;
+use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\CustomEntityManager;
 
 /**
  * @extends RuleTestCase<ExclusiveDependencyRule>
@@ -36,7 +36,7 @@ final class ExclusiveDependencyRuleTest extends RuleTestCase
 
         $errorMessage = sprintf(
             ExclusiveDependencyRule::ERROR_MESSAGE,
-            EntityManager::class,
+            CustomEntityManager::class,
             implode('", "', [AllowedEventSubscriber::class, '*Repository'])
         );
 
