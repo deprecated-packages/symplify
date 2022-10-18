@@ -16,5 +16,5 @@ framework:
     use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
-    $containerConfigurator->extension('framework', ['workflows' => ['plant' => ['supports' => [Plant::class], 'places' => ['seed', 'planted'], 'transitions' => ['plant' => ['from' => 'seed', 'to' => 'planted']]]]]);
+    $containerConfigurator->extension('framework', ['workflows' => ['plant' => ['supports' => [Plant::class], 'places' => ['seed', 'planted'], 'transitions' => [\App\Entity\Plant::class => ['from' => 'seed', 'to' => 'planted']]]]]);
 };
