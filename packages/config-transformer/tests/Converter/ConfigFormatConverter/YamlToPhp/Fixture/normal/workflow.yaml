@@ -1,0 +1,20 @@
+framework:
+    workflows:
+        plant:
+            supports: [App\Entity\Plant]
+            places: [seed, planted]
+            transitions:
+                !php/const App\Entity\Plant::TRANSITION_PLANT:
+                    from: seed
+                    to:   planted
+-----
+<?php
+
+    declare(strict_types=1);
+
+    use App\Entity\Plant;
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->extension('framework', ['workflows' => ['plant' => ['supports' => [Plant::class], 'places' => ['seed', 'planted'], 'transitions' => ['plant' => ['from' => 'seed', 'to' => 'planted']]]]]);
+};
