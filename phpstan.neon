@@ -23,7 +23,7 @@ services:
 
 parameters:
     level: 8
-    reportUnmatchedIgnoredErrors: false
+#    reportUnmatchedIgnoredErrors: false
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
@@ -420,11 +420,6 @@ parameters:
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
 
-        # silent configure method
-        -
-            message: '#Class method "configure\(\)" is never used#'
-            path: packages/coding-standard/src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php
-
         - '#Method (.*?)::getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
 
         # relative file path resolving tests
@@ -473,7 +468,6 @@ parameters:
         -
             message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
             paths:
-                - packages/phpstan-rules/src/Rules/Enum/RequireUniqueEnumConstantRule.php
                 - packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
 
         # decoupling
@@ -501,16 +495,9 @@ parameters:
                 - packages/phpstan-rules/src/PhpDoc/BarePhpDocParser.ph
 
                 - packages/phpstan-rules/src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php
-                - packages/phpstan-rules/packages/Symfony/Rules/PreventDoubleSetParameterRule.php
                 - packages/phpstan-rules/packages/Symfony/Rules/RequireNamedCommandRule.php
                 - packages/package-builder/src/Php/TypeChecker.php
                 - packages/phpstan-rules/packages/CognitiveComplexity/NodeAnalyzer/ComplexityAffectingNodeFinder.php
-
-        # decopuling on purpose
-        -
-            message: '#Content of method "isVariableName\(\)" is duplicated\. Use unique content or service instead#'
-            paths:
-                - packages/phpstan-rules/packages/Nette/Rules/NoNetteDoubleTemplateAssignRule.php
 
         -
             message: '#Content of method "getNextMeaningfulToken\(\)" is duplicated\. Use unique content or service instead#'
@@ -535,3 +522,5 @@ parameters:
             message: '#Method Symplify\\EasyCodingStandard\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string>\|null> but returns array<int\|string, mixed>#'
             path:  packages/easy-coding-standard/packages/Skipper/SkipCriteriaResolver/SkippedClassAndCodesResolver.php
 
+        # un helpful
+        - '#Parameter (.*?) expects non\-empty\-string, string given#'
