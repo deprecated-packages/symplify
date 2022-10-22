@@ -7,4 +7,6 @@ namespace Symplify\PHPStanRules\Tests\Rules\Explicit\PropertyTypeDeclarationSeaL
 final class UnknownPropertyType
 {
     public $name;
+
+    public $surname;
 }

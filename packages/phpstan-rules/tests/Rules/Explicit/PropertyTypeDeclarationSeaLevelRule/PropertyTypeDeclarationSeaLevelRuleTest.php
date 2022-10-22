@@ -34,7 +34,7 @@ final class PropertyTypeDeclarationSeaLevelRuleTest extends RuleTestCase
     {
         yield [[__DIR__ . '/Fixture/SkipKnownPropertyType.php'], []];
 
-        $errorMessage = sprintf(PropertyTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 0, 20);
+        $errorMessage = sprintf(PropertyTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 2, 0, 80);
         yield [[__DIR__ . '/Fixture/UnknownPropertyType.php'], [[$errorMessage, -1]]];
     }
 

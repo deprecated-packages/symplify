@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-use Nette\Utils\Arrays;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
@@ -24,10 +23,10 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'The return type sea level %d %% has not passed minimal required level of %d %%. Add more return types to rise above the required level';
+    public const ERROR_MESSAGE = 'Out of %d possible reutnr types, only %d %% actually have it. Add more return types to get over %d %%';
 
     public function __construct(
-        private float $minimalLevel = 0.20
+        private float $minimalLevel = 0.80
     ) {
     }
 
@@ -51,10 +50,10 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
         $returnCount = 0;
 
         foreach ($returnSeaLevelDataByFilePath as $returnSeaLevelData) {
-            $returnSeaLevelData = Arrays::flatten($returnSeaLevelData);
-
-            $typedReturnCount += $returnSeaLevelData[0];
-            $returnCount += $returnSeaLevelData[1];
+            foreach ($returnSeaLevelData as $nestedReturnSeaLevelData) {
+                $typedReturnCount += $nestedReturnSeaLevelData[0];
+                $returnCount += $nestedReturnSeaLevelData[1];
+            }
         }
 
         if ($returnCount === 0) {
@@ -64,11 +63,17 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
         $returnTypeDeclarationSeaLevel = $typedReturnCount / $returnCount;
 
         // has the code met the minimal sea level of types?
-        if ($returnTypeDeclarationSeaLevel > $this->minimalLevel) {
+        if ($returnTypeDeclarationSeaLevel >= $this->minimalLevel) {
             return [];
         }
 
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $returnTypeDeclarationSeaLevel * 100, $this->minimalLevel * 100);
+        $errorMessage = sprintf(
+            self::ERROR_MESSAGE,
+            $returnCount,
+            $returnTypeDeclarationSeaLevel * 100,
+            $this->minimalLevel * 100
+        );
+
         return [$errorMessage];
     }
 

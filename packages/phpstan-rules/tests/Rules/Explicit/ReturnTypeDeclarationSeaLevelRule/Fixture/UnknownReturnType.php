@@ -9,4 +9,8 @@ final class UnknownReturnType
     public function run()
     {
     }
+
+    public function again()
+    {
+    }
 }
