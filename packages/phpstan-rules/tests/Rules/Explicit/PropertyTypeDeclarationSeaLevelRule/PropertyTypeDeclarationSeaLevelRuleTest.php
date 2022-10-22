@@ -12,7 +12,7 @@ use Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector;
 use Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule;
 
 /**
- * @extends RuleTestCase<\Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule>
+ * @extends RuleTestCase<PropertyTypeDeclarationSeaLevelRule>
  */
 final class PropertyTypeDeclarationSeaLevelRuleTest extends RuleTestCase
 {
