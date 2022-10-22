@@ -1,0 +1,10 @@
+includes:
+    - ../../../../config/included_services.neon
+
+rules:
+    - Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule
+
+services:
+    -
+        class: Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector
+        tags: [phpstan.collector]
