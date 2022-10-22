@@ -22,9 +22,9 @@ final class PropertyMetadataResolver
     {
         $propertyMetadatas = [];
 
-        $nativeClassReflection = $classReflection->getNativeReflection();
+        $nativeReflection = $classReflection->getNativeReflection();
 
-        foreach ($nativeClassReflection->getProperties() as $nativeReflectionProperty) {
+        foreach ($nativeReflection->getProperties() as $nativeReflectionProperty) {
             $propertyName = $nativeReflectionProperty->getName();
 
             $phpstanPropertyReflection = $classReflection->getProperty($propertyName, $scope);
@@ -47,16 +47,16 @@ final class PropertyMetadataResolver
 
         $reflector = (new BetterReflection())->reflector();
 
-        $betterClassReflection = $reflector->reflectClass($declaringClassReflection->getName());
-        if (! $betterClassReflection->hasProperty($propertyName)) {
+        $reflectionClass = $reflector->reflectClass($declaringClassReflection->getName());
+        if (! $reflectionClass->hasProperty($propertyName)) {
             throw new ShouldNotHappenException();
         }
 
-        $betterPropertyReflection = $betterClassReflection->getProperty($propertyName);
-        if (! $betterPropertyReflection instanceof ReflectionProperty) {
+        $reflectionProperty = $reflectionClass->getProperty($propertyName);
+        if (! $reflectionProperty instanceof ReflectionProperty) {
             throw new ShouldNotHappenException();
         }
 
-        return $betterPropertyReflection->getStartLine();
+        return $reflectionProperty->getStartLine();
     }
 }

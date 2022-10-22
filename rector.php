@@ -40,6 +40,7 @@ return static function (RectorConfig $rectorConfig): void {
         'Symfony\Bundle\FrameworkBundle\Controller\AbstractController',
         'Rector\Config\RectorConfig',
         'Symplify\PackageBuilder\Reflection\PrivatesCaller',
+        'Symfony\Component\Form\AbstractType',
     ]);
 
     $rectorConfig->paths([__DIR__ . '/packages']);

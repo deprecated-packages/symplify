@@ -7,6 +7,7 @@ namespace Symplify\PHPStanRules\Symfony\Rules;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -25,13 +26,16 @@ use Symplify\PHPStanRules\Exception\ShouldNotHappenException;
 use Symplify\PHPStanRules\Symfony\Finder\ArrayKeyFinder;
 use Symplify\PHPStanRules\Symfony\PropertyMetadataResolver;
 use Symplify\PHPStanRules\Symfony\ValueObject\PropertyMetadata;
+use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
+use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
+use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * @implements Rule<InClassNode>
  *
  * @see \Symplify\PHPStanRules\Tests\Symfony\Rules\RequireCascadeValidateRule\RequireCascadeValidateRuleTest
  */
-final class RequireCascadeValidateRule implements Rule
+final class RequireCascadeValidateRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
@@ -61,15 +65,59 @@ final class RequireCascadeValidateRule implements Rule
             return [];
         }
 
-        /** @var Class_ $class */
-        $class = $node->getOriginalNode();
-        $configureOptionsClassMethod = $class->getMethod('configureOptions');
+        /** @var Class_ $classLike */
+        $classLike = $node->getOriginalNode();
+        $configureOptionsClassMethod = $classLike->getMethod('configureOptions');
 
         if ($configureOptionsClassMethod instanceof ClassMethod) {
             return $this->processConfigureOptionsClassMethod($configureOptionsClassMethod, $scope);
         }
 
         return [];
+    }
+
+    public function getRuleDefinition(): RuleDefinition
+    {
+        return new RuleDefinition(self::ERROR_MESSAGE, [
+            new CodeSample(
+                <<<'CODE_SAMPLE'
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
+
+final class NullablePropertyFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver->setDefaults([
+            'data_class' => SomeEntity::class,
+            'constraints' => new Valid(),
+        ]);
+    }
+}
+
+class SomeEntity
+{
+    /**
+     * @var NestedEntity
+     */
+    private $nestedEntity;
+}
+CODE_SAMPLE
+                ,
+                <<<'CODE_SAMPLE'
+use Symfony\Component\Validator\Constraints as Assert;
+
+class SomeEntity
+{
+    /**
+     * @Assert\Valid
+     * @var NestedEntity
+     */
+    private $nestedEntity;
+}
+CODE_SAMPLE
+            ), ]);
     }
 
     private function hasConstraintValidOption(ClassMethod $configureOptionsClassMethod, Scope $scope): bool
@@ -86,7 +134,7 @@ final class RequireCascadeValidateRule implements Rule
             }
 
             $className = $classType->getValue();
-        } elseif ($expr->class instanceof Node\Name) {
+        } elseif ($expr->class instanceof Name) {
             $className = $expr->class->toString();
         } else {
             return false;
@@ -107,12 +155,12 @@ final class RequireCascadeValidateRule implements Rule
             return null;
         }
 
-        $className = $valueType->getValue();
-        if (! $this->reflectionProvider->hasClass($className)) {
+        $value = $valueType->getValue();
+        if (! $this->reflectionProvider->hasClass($value)) {
             return null;
         }
 
-        return $this->reflectionProvider->getClass($className);
+        return $this->reflectionProvider->getClass($value);
     }
 
     /**
