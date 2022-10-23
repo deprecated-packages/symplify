@@ -9,4 +9,8 @@ final class UnknownParamType
     public function run($name, $age)
     {
     }
+
+    public function again($city)
+    {
+    }
 }
