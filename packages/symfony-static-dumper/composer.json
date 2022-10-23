@@ -12,10 +12,10 @@
         "symfony/config": "^6.1",
         "symfony/dependency-injection": "^6.1",
         "symfony/routing": "^6.1",
-        "symplify/autowire-array-parameter": "^11.1.11",
-        "symplify/package-builder": "^11.1.11",
-        "symplify/symplify-kernel": "^11.1.11",
-        "symplify/smart-file-system": "^11.1.11"
+        "symplify/autowire-array-parameter": "^11.2",
+        "symplify/package-builder": "^11.2",
+        "symplify/symplify-kernel": "^11.2",
+        "symplify/smart-file-system": "^11.2"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8.9",
