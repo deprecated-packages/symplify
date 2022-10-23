@@ -1,4 +1,4 @@
-# 117 Rules Overview
+# 118 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3404,6 +3404,34 @@ class SomeClass
     public function run()
     {
     }
+}
+```
+
+:+1:
+
+<br>
+
+## PropertyTypeDeclarationSeaLevelRule
+
+The property type sea level %d %% has not passed minimal required level of %d %%. Add more propertgy types to rise above the required level
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/PropertyTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public $name;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public string $name;
 }
 ```
 
