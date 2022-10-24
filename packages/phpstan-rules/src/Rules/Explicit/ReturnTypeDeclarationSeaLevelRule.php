@@ -23,7 +23,7 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Out of %d possible reutnr types, only %d %% actually have it. Add more return types to get over %d %%';
+    public const ERROR_MESSAGE = 'Out of %d possible return types, only %d %% actually have it. Add more return types to get over %d %%';
 
     public function __construct(
         private float $minimalLevel = 0.80
