@@ -12,10 +12,10 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8.9",
-        "symplify/rule-doc-generator-contracts": "^11.1.12",
-        "symplify/easy-testing": "^11.1.12",
-        "symplify/phpstan-extensions": "^11.1.12",
-        "symplify/rule-doc-generator": "^11.1.12",
+        "symplify/rule-doc-generator-contracts": "^11.2",
+        "symplify/easy-testing": "^11.2",
+        "symplify/phpstan-extensions": "^11.2",
+        "symplify/rule-doc-generator": "^11.2",
         "phpunit/phpunit": "^9.5.23",
         "myclabs/php-enum": "^1.8",
         "symfony/framework-bundle": "^6.1"
