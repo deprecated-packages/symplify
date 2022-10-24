@@ -57,7 +57,7 @@ return [
         'PHP_CODESNIFFER_VERBOSITY',
     ],
     'expose-constants' => ['__ECS_RUNNING__'],
-    'expose-functions' => ['u', 'b', 's'],
+    'expose-functions' => ['u', 'b', 's', 'trigger_deprecation'],
 
     'exclude-files' => [...$polyfillsBootstraps, ...$polyfillsStubs],
 
