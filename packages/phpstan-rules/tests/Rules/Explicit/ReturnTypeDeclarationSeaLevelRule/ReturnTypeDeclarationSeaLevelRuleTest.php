@@ -34,7 +34,7 @@ final class ReturnTypeDeclarationSeaLevelRuleTest extends RuleTestCase
     {
         yield [[__DIR__ . '/Fixture/SkipKnownReturnType.php', __DIR__ . '/Fixture/SkipAgainKnownReturnType.php'], []];
 
-        $errorMessage = sprintf(ReturnTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 0, 20);
+        $errorMessage = sprintf(ReturnTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 2, 0, 80);
         yield [[__DIR__ . '/Fixture/UnknownReturnType.php'], [[$errorMessage, -1]]];
     }
 

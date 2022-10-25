@@ -69,6 +69,16 @@ return [
     ],
 
     'patchers' => [
+        // fix symfony deprecation reports, @see https://github.com/symplify/symplify/issues/4449
+        static function (string $filePath, string $prefix, string $content): string {
+            if (! \str_ends_with($filePath, 'vendor/symfony/deprecation-contracts/function.php')) {
+                return $content;
+            }
+
+            // comment out
+            return str_replace('@\trigger_', '// @\trigger_', $content);
+        },
+
         // scope symfony configs
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {

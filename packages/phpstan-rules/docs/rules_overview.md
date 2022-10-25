@@ -1,4 +1,4 @@
-# 116 Rules Overview
+# 118 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3411,6 +3411,34 @@ class SomeClass
 
 <br>
 
+## PropertyTypeDeclarationSeaLevelRule
+
+The property type sea level %d %% has not passed minimal required level of %d %%. Add more propertgy types to rise above the required level
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/PropertyTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public $name;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public string $name;
+}
+```
+
+:+1:
+
+<br>
+
 ## RegexSuffixInRegexConstantRule
 
 Name your constant with "_REGEX" suffix, instead of "%s"
@@ -3514,6 +3542,58 @@ namespace App\Attribute;
 #[\Attribute]
 final class SomeAttribute
 {
+}
+```
+
+:+1:
+
+<br>
+
+## RequireCascadeValidateRule
+
+Property "$%s" is missing `@Valid` annotation
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireCascadeValidateRule`](../packages/Symfony/Rules/RequireCascadeValidateRule.php)
+
+```php
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
+
+final class NullablePropertyFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver->setDefaults([
+            'data_class' => SomeEntity::class,
+            'constraints' => new Valid(),
+        ]);
+    }
+}
+
+class SomeEntity
+{
+    /**
+     * @var NestedEntity
+     */
+    private $nestedEntity;
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Validator\Constraints as Assert;
+
+class SomeEntity
+{
+    /**
+     * @Assert\Valid
+     * @var NestedEntity
+     */
+    private $nestedEntity;
 }
 ```
 
