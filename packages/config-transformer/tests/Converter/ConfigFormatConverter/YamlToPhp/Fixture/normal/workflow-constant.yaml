@@ -1,7 +1,5 @@
 transitions:
-    !php/const App\Entity\Plant::TRANSITION_PLANT:
-        from: seed
-        to:   planted
+    !php/const App\Entity\Plant::TRANSITION_PLANT: some_value
 -----
 <?php
 
