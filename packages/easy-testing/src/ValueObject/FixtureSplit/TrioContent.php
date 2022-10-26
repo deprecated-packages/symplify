@@ -6,26 +6,11 @@ namespace Symplify\EasyTesting\ValueObject\FixtureSplit;
 
 final class TrioContent
 {
-    /**
-     * @var string
-     */
-    private $firstValue;
-
-    /**
-     * @var string
-     */
-    private $secondValue;
-
-    /**
-     * @var string
-     */
-    private $expectedResult;
-
-    public function __construct(string $firstValue, string $secondValue, string $expectedResult)
-    {
-        $this->firstValue = $firstValue;
-        $this->secondValue = $secondValue;
-        $this->expectedResult = $expectedResult;
+    public function __construct(
+        private string $firstValue,
+        private string $secondValue,
+        private string $expectedResult
+    ) {
     }
 
     public function getFirstValue(): string

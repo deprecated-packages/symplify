@@ -35,7 +35,7 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
      * @var string[]
      * @noRector
      */
-    private $excludedFatalClasses = [
+    private array $excludedFatalClasses = [
         'Symfony\Component\Form\FormExtensionInterface',
         'Symfony\Component\Asset\PackageInterface',
         'Symfony\Component\Config\Loader\LoaderInterface',

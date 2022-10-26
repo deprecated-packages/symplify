@@ -13,7 +13,8 @@ services:
         class: Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule
         tags: [phpstan.rules.rule]
         arguments:
-            minimalLevel: 0.95
+            # very strict :)
+            minimalLevel: 0.99
 
     -
         class: Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule
@@ -26,8 +27,8 @@ services:
         class: Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule
         tags: [phpstan.rules.rule]
         arguments:
-            minimalLevel: 0.85
-
+            # very strict :)
+            minimalLevel: 0.99
 
     # for "type declaration sea level"
     -
