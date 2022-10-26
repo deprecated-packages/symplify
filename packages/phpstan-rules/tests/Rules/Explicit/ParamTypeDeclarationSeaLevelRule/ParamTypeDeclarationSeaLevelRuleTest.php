@@ -33,6 +33,7 @@ final class ParamTypeDeclarationSeaLevelRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [[__DIR__ . '/Fixture/SkipKnownParamType.php', __DIR__ . '/Fixture/SkipAgainKnownParamType.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipVariadic.php'], []];
 
         $errorMessage = sprintf(ParamTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 3, 0, 80);
 

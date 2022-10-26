@@ -42,6 +42,12 @@ final class ParamTypeSeaLevelCollector implements Collector
 
         $typedParamCount = 0;
         foreach ($node->getParams() as $param) {
+            if ($param->variadic) {
+                // skip variadic
+                --$paramCount;
+                continue;
+            }
+
             if ($param->type === null) {
                 continue;
             }
