@@ -34,6 +34,7 @@ final class ParamTypeDeclarationSeaLevelRuleTest extends RuleTestCase
     {
         yield [[__DIR__ . '/Fixture/SkipKnownParamType.php', __DIR__ . '/Fixture/SkipAgainKnownParamType.php'], []];
         yield [[__DIR__ . '/Fixture/SkipVariadic.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipCallableParam.php'], []];
 
         $errorMessage = sprintf(ParamTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 3, 0, 80);
 

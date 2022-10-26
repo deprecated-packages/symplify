@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\FunctionLike;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 use PhpParser\PrettyPrinter\Standard;
@@ -33,12 +34,11 @@ final class ParamTypeSeaLevelCollector implements Collector
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $paramCount = count($node->getParams());
-
-        // nothing to analyse
-        if ($paramCount === 0) {
+        if ($this->shouldSkipFunctionLike($node)) {
             return [0, 0, ''];
         }
+
+        $paramCount = count($node->getParams());
 
         $typedParamCount = 0;
         foreach ($node->getParams() as $param) {
@@ -59,5 +59,27 @@ final class ParamTypeSeaLevelCollector implements Collector
         $printedClassMethod = $paramCount !== $typedParamCount ? $this->printerStandard->prettyPrint([$node]) : '';
 
         return [$typedParamCount, $paramCount, $printedClassMethod];
+    }
+
+    private function shouldSkipFunctionLike(FunctionLike $functionLike): bool
+    {
+        // nothing to analyse
+        if (count($functionLike->getParams()) === 0) {
+            return true;
+        }
+
+        return $this->hasFunctionLikeCallableParam($functionLike);
+    }
+
+    private function hasFunctionLikeCallableParam(FunctionLike $functionLike): bool
+    {
+        // skip callable, can be anythings
+        $docComment = $functionLike->getDocComment();
+        if (! $docComment instanceof Doc) {
+            return false;
+        }
+
+        $docCommentText = $docComment->getText();
+        return str_contains($docCommentText, '@param callable');
     }
 }
