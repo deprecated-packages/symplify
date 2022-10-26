@@ -36,6 +36,17 @@ final class ReturnTypeDeclarationSeaLevelRuleTest extends RuleTestCase
         yield [[__DIR__ . '/Fixture/SkipConstructor.php'], []];
 
         $errorMessage = sprintf(ReturnTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 2, 0, 80);
+        $errorMessage .= '
+
+public function run()
+{
+}
+
+public function again()
+{
+}
+';
+
         yield [[__DIR__ . '/Fixture/UnknownReturnType.php'], [[$errorMessage, -1]]];
     }
 

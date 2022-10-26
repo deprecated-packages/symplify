@@ -35,6 +35,18 @@ final class ParamTypeDeclarationSeaLevelRuleTest extends RuleTestCase
         yield [[__DIR__ . '/Fixture/SkipKnownParamType.php', __DIR__ . '/Fixture/SkipAgainKnownParamType.php'], []];
 
         $errorMessage = sprintf(ParamTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 3, 0, 80);
+
+        $errorMessage .= '
+
+public function run($name, $age)
+{
+}
+
+public function again($city)
+{
+}
+';
+
         yield [[__DIR__ . '/Fixture/UnknownParamType.php'], [[$errorMessage, -1]]];
     }
 

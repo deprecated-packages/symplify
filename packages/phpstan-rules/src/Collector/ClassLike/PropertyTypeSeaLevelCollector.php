@@ -13,9 +13,16 @@ use PHPStan\Collectors\Collector;
 
 /**
  * @implements Collector<ClassLike, array{int, int, string}>>
+ *
+ * @see \Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule
  */
 final class PropertyTypeSeaLevelCollector implements Collector
 {
+    public function __construct(
+        private readonly Standard $printerStandard
+    ) {
+    }
+
     public function getNodeType(): string
     {
         return ClassLike::class;
@@ -33,8 +40,6 @@ final class PropertyTypeSeaLevelCollector implements Collector
         $propertyCount = count($node->getProperties());
 
         $typedPropertyCount = 0;
-
-        $standard = new Standard();
 
         foreach ($node->getProperties() as $property) {
             if ($property->type instanceof Node) {
@@ -54,7 +59,7 @@ final class PropertyTypeSeaLevelCollector implements Collector
             }
 
             // give useful context
-            $printedProperties .= PHP_EOL . PHP_EOL . $standard->prettyPrint([$property]);
+            $printedProperties .= PHP_EOL . PHP_EOL . $this->printerStandard->prettyPrint([$property]);
         }
 
         return [$typedPropertyCount, $propertyCount, $printedProperties];

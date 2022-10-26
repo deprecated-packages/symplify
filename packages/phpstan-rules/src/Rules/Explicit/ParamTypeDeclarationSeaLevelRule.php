@@ -49,10 +49,18 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
         $typedParamCount = 0;
         $paramCount = 0;
 
+        $printedClassMethods = '';
+
         foreach ($paramSeaLevelDataByFilePath as $paramSeaLevelData) {
             foreach ($paramSeaLevelData as $nestedParamSeaLevelData) {
                 $typedParamCount += $nestedParamSeaLevelData[0];
                 $paramCount += $nestedParamSeaLevelData[1];
+
+                /** @var string $printedClassMethod */
+                $printedClassMethod = $nestedParamSeaLevelData[2];
+                if ($printedClassMethod !== '') {
+                    $printedClassMethods .= PHP_EOL . PHP_EOL . $printedClassMethod;
+                }
             }
         }
 
@@ -73,6 +81,8 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
             $paramTypeDeclarationSeaLevel * 100,
             $this->minimalLevel * 100
         );
+
+        $errorMessage .= $printedClassMethods . PHP_EOL;
 
         return [$errorMessage];
     }

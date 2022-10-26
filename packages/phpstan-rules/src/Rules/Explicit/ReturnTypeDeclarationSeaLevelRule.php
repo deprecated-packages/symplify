@@ -49,10 +49,18 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
         $typedReturnCount = 0;
         $returnCount = 0;
 
+        $printedClassMethods = '';
+
         foreach ($returnSeaLevelDataByFilePath as $returnSeaLevelData) {
             foreach ($returnSeaLevelData as $nestedReturnSeaLevelData) {
                 $typedReturnCount += $nestedReturnSeaLevelData[0];
                 $returnCount += $nestedReturnSeaLevelData[1];
+
+                /** @var string $printedClassMethod */
+                $printedClassMethod = $nestedReturnSeaLevelData[2];
+                if ($printedClassMethod !== '') {
+                    $printedClassMethods .= PHP_EOL . PHP_EOL . trim($printedClassMethod);
+                }
             }
         }
 
@@ -73,6 +81,8 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
             $returnTypeDeclarationSeaLevel * 100,
             $this->minimalLevel * 100
         );
+
+        $errorMessage .= $printedClassMethods . PHP_EOL;
 
         return [$errorMessage];
     }
