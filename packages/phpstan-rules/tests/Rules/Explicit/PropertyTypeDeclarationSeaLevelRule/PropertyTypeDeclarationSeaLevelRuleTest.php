@@ -33,8 +33,19 @@ final class PropertyTypeDeclarationSeaLevelRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [[__DIR__ . '/Fixture/SkipKnownPropertyType.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipCallableProperty.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipResource.php'], []];
 
         $errorMessage = sprintf(PropertyTypeDeclarationSeaLevelRule::ERROR_MESSAGE, 2, 0, 80);
+
+        $errorMessage .= '
+
+public $name;
+
+public $surname;
+
+';
+
         yield [[__DIR__ . '/Fixture/UnknownPropertyType.php'], [[$errorMessage, -1]]];
     }
 
