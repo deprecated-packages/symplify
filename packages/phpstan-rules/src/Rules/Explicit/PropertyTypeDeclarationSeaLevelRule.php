@@ -56,7 +56,12 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
                 $typedPropertyCount += $nestedPropertySeaLevelData[0];
                 $propertyCount += $nestedPropertySeaLevelData[1];
 
-                $printedUntypedPropertiesContents .= $nestedPropertySeaLevelData[2] . PHP_EOL . PHP_EOL;
+                /** @var string $printedPropertyContent */
+                $printedPropertyContent = $nestedPropertySeaLevelData[2];
+
+                if ($printedPropertyContent !== '') {
+                    $printedUntypedPropertiesContents .= $printedPropertyContent . PHP_EOL . PHP_EOL;
+                }
             }
         }
 
