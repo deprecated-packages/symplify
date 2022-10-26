@@ -25,6 +25,11 @@ final class ReturnTypeSeaLevelCollector implements Collector
      */
     public function processNode(Node $node, Scope $scope): array
     {
+        // skip magic
+        if ($node->isMagic()) {
+            return [1, 1];
+        }
+
         $typedReturnCount = $node->returnType instanceof Node ? 1 : 0;
         return [$typedReturnCount, 1];
     }
