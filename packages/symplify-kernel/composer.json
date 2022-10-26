@@ -6,9 +6,9 @@
         "php": ">=8.1",
         "symfony/console": "^6.1",
         "symfony/dependency-injection": "^6.1",
-        "symplify/smart-file-system": "^11.1.13",
-        "symplify/autowire-array-parameter": "^11.1.13",
-        "symplify/package-builder": "^11.1.13",
+        "symplify/smart-file-system": "^11.2",
+        "symplify/autowire-array-parameter": "^11.2",
+        "symplify/package-builder": "^11.2",
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
