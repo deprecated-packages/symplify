@@ -6,14 +6,22 @@ namespace Symplify\PHPStanRules\Collector\FunctionLike;
 
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
+use PhpParser\PrettyPrinter\Standard;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
 
 /**
- * @implements Collector<FunctionLike, array<int, int>>>
+ * @implements Collector<FunctionLike, array{int, int, string}>>
+ *
+ * @see \Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule
  */
 final class ParamTypeSeaLevelCollector implements Collector
 {
+    public function __construct(
+        private readonly Standard $printerStandard
+    ) {
+    }
+
     public function getNodeType(): string
     {
         return FunctionLike::class;
@@ -21,14 +29,18 @@ final class ParamTypeSeaLevelCollector implements Collector
 
     /**
      * @param FunctionLike $node
-     * @return array<int, int>
+     * @return array{int, int, string}
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        // return typed params/all params
         $paramCount = count($node->getParams());
-        $typedParamCount = 0;
 
+        // nothing to analyse
+        if ($paramCount === 0) {
+            return [0, 0, ''];
+        }
+
+        $typedParamCount = 0;
         foreach ($node->getParams() as $param) {
             if ($param->type === null) {
                 continue;
@@ -37,6 +49,9 @@ final class ParamTypeSeaLevelCollector implements Collector
             ++$typedParamCount;
         }
 
-        return [$typedParamCount, $paramCount];
+        // missing at least 1 type
+        $printedClassMethod = $paramCount !== $typedParamCount ? $this->printerStandard->prettyPrint([$node]) : '';
+
+        return [$typedParamCount, $paramCount, $printedClassMethod];
     }
 }

@@ -43,7 +43,6 @@ final class PropertyTypeDeclarationSeaLevelRuleTest extends RuleTestCase
 public $name;
 
 public $surname;
-
 ';
 
         yield [[__DIR__ . '/Fixture/UnknownPropertyType.php'], [[$errorMessage, -1]]];
