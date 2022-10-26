@@ -9,8 +9,8 @@
         "symfony/yaml": "^6.1"
     },
     "require-dev": {
-        "symplify/easy-testing": "^11.1.14",
-        "symplify/symplify-kernel": "^11.1.14",
+        "symplify/easy-testing": "^11.2",
+        "symplify/symplify-kernel": "^11.2",
         "phpunit/phpunit": "^9.5.23"
     },
     "autoload": {
