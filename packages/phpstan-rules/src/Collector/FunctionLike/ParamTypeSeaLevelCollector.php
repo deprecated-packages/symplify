@@ -64,7 +64,7 @@ final class ParamTypeSeaLevelCollector implements Collector
     private function shouldSkipFunctionLike(FunctionLike $functionLike): bool
     {
         // nothing to analyse
-        if (count($functionLike->getParams()) === 0) {
+        if ($functionLike->getParams() === []) {
             return true;
         }
 
