@@ -2,7 +2,7 @@
     "name": "symplify/composer-json-manipulator",
     "description": "Package to load, merge and save composer.json file(s)",
     "license": "MIT",
-    "type": "symfony-bundle",
+    "type": "library",
     "require": {
         "php": ">=8.1",
         "nette/utils": "^3.2",
