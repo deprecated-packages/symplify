@@ -1942,7 +1942,7 @@ class AnotherClass
 
 ## NoDuplicatedTraitMethodNameRule
 
-Method name `"%s()"` is used in multiple traits. Make it it unique to avoid conflicts
+Method name `"%s()"` is used in multiple traits. Make it unique to avoid conflicts
 
 - class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule`](../src/Rules/Complexity/NoDuplicatedTraitMethodNameRule.php)
 
@@ -3046,7 +3046,7 @@ final class SomeClass
 
 ## ParamTypeDeclarationSeaLevelRule
 
-The param type sea level %d %% has not passed minimal required level of %d %%. Add more param types to rise above the required level
+Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ParamTypeDeclarationSeaLevelRule.php)
 
@@ -3413,7 +3413,7 @@ class SomeClass
 
 ## PropertyTypeDeclarationSeaLevelRule
 
-The property type sea level %d %% has not passed minimal required level of %d %%. Add more propertgy types to rise above the required level
+Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/PropertyTypeDeclarationSeaLevelRule.php)
 
@@ -4151,7 +4151,7 @@ abstract class AbstractClass
 
 ## ReturnTypeDeclarationSeaLevelRule
 
-The return type sea level %d %% has not passed minimal required level of %d %%. Add more return types to rise above the required level
+Out of %d possible return types, only %d %% actually have it. Add more return types to get over %d %%
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ReturnTypeDeclarationSeaLevelRule.php)
 
