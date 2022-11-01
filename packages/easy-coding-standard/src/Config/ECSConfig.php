@@ -102,6 +102,18 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
+     * @param array<class-string<Sniff|FixerInterface>, mixed[]> $rulesWithConfiguration
+     */
+    public function rulesWithConfiguration(array $rulesWithConfiguration): void
+    {
+        Assert::allIsArray($rulesWithConfiguration);
+
+        foreach ($rulesWithConfiguration as $checkerClass => $configuration) {
+            $this->ruleWithConfiguration($checkerClass, $configuration);
+        }
+    }
+
+    /**
      * @param Option::INDENTATION_* $indentation
      */
     public function indentation(string $indentation): void
