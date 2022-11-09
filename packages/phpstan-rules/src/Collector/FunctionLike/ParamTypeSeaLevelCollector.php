@@ -32,7 +32,7 @@ final class ParamTypeSeaLevelCollector implements Collector
      * @param FunctionLike $node
      * @return array{int, int, string}
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): ?array
     {
         if ($this->shouldSkipFunctionLike($node)) {
             return null;

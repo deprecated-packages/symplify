@@ -31,11 +31,11 @@ final class ReturnTypeSeaLevelCollector implements Collector
      * @param ClassMethod $node
      * @return array{int, int, string}
      */
-    public function processNode(Node $node, Scope $scope): array
+    public function processNode(Node $node, Scope $scope): ?array
     {
         // skip magic
         if ($node->isMagic()) {
-            return [0, 0, ''];
+            return null;
         }
 
         if ($node->returnType instanceof Node) {
