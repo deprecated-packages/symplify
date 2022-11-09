@@ -75,6 +75,7 @@ services:
     - Symplify\PHPStanRules\Matcher\ClassMethodCallReferenceResolver
     - Symplify\PHPStanRules\Printer\CollectorMetadataPrinter
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper
+    - Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter
 
 
     -
