@@ -35,7 +35,7 @@ final class ParamTypeSeaLevelCollector implements Collector
     public function processNode(Node $node, Scope $scope): array
     {
         if ($this->shouldSkipFunctionLike($node)) {
-            return [0, 0, ''];
+            return null;
         }
 
         $paramCount = count($node->getParams());
