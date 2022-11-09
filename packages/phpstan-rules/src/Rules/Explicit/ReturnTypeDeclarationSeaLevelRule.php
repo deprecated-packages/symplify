@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Collector\FunctionLike\ReturnTypeSeaLevelCollector;
+use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,10 +25,17 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
      * @var string
      */
     public const ERROR_MESSAGE = 'Out of %d possible return types, only %d %% actually have it. Add more return types to get over %d %%';
+    private float $minimalLevel = 0.80;
+    private bool $printSuggestions = true;
+
 
     public function __construct(
-        private float $minimalLevel = 0.80
+        private SeaLevelRuleErrorFormatter $seaLevelRuleErrorFormatter,
+        float $minimalLevel = 0.80,
+        bool $printSuggestions = true
     ) {
+        $this->minimalLevel = $minimalLevel;
+        $this->printSuggestions = $printSuggestions;
     }
 
     /**
@@ -50,45 +57,32 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
         $typedReturnCount = 0;
         $returnCount = 0;
 
-        $printedClassMethods = '';
+        $printedClassMethods = [];
 
         foreach ($returnSeaLevelDataByFilePath as $returnSeaLevelData) {
             foreach ($returnSeaLevelData as $nestedReturnSeaLevelData) {
                 $typedReturnCount += $nestedReturnSeaLevelData[0];
                 $returnCount += $nestedReturnSeaLevelData[1];
 
+                if ($this->printSuggestions === false) {
+                    continue;
+                }
+
                 /** @var string $printedClassMethod */
                 $printedClassMethod = $nestedReturnSeaLevelData[2];
                 if ($printedClassMethod !== '') {
-                    $printedClassMethods .= PHP_EOL . PHP_EOL . trim($printedClassMethod);
+                    $printedClassMethods[] = trim($printedClassMethod);
                 }
             }
         }
 
-        if ($returnCount === 0) {
-            return [];
-        }
-
-        $returnTypeDeclarationSeaLevel = $typedReturnCount / $returnCount;
-
-        // has the code met the minimal sea level of types?
-        if ($returnTypeDeclarationSeaLevel >= $this->minimalLevel) {
-            return [];
-        }
-
-        $errorMessage = sprintf(
+        return $this->seaLevelRuleErrorFormatter->formatErrors(
             self::ERROR_MESSAGE,
+            $this->minimalLevel,
             $returnCount,
-            $returnTypeDeclarationSeaLevel * 100,
-            $this->minimalLevel * 100
+            $typedReturnCount,
+            $printedClassMethods
         );
-
-        $errorMessage .= $printedClassMethods . PHP_EOL;
-
-        // keep error printable
-        $errorMessage = Strings::truncate($errorMessage, 8000);
-
-        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition

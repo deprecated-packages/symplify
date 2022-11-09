@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-use Nette\Utils\Strings;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector;
+use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -25,10 +25,17 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
      * @var string
      */
     public const ERROR_MESSAGE = 'Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%';
+    private float $minimalLevel = 0.80;
+    private bool $printSuggestions = true;
+
 
     public function __construct(
-        private float $minimalLevel = 0.80
+        private SeaLevelRuleErrorFormatter $seaLevelRuleErrorFormatter,
+        float $minimalLevel = 0.80,
+        bool $printSuggestions = true
     ) {
+        $this->minimalLevel = $minimalLevel;
+        $this->printSuggestions = $printSuggestions;
     }
 
     /**
@@ -50,45 +57,32 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
         $typedPropertyCount = 0;
         $propertyCount = 0;
 
-        $printedUntypedPropertiesContents = '';
+        $printedUntypedPropertiesContents = [];
 
         foreach ($propertySeaLevelDataByFilePath as $propertySeaLevelData) {
             foreach ($propertySeaLevelData as $nestedPropertySeaLevelData) {
                 $typedPropertyCount += $nestedPropertySeaLevelData[0];
                 $propertyCount += $nestedPropertySeaLevelData[1];
 
+                if ($this->printSuggestions === false) {
+                    continue;
+                }
+
                 /** @var string $printedPropertyContent */
                 $printedPropertyContent = $nestedPropertySeaLevelData[2];
                 if ($printedPropertyContent !== '') {
-                    $printedUntypedPropertiesContents .= PHP_EOL . PHP_EOL . trim($printedPropertyContent);
+                    $printedUntypedPropertiesContents[] = trim($printedPropertyContent);
                 }
             }
         }
 
-        if ($propertyCount === 0) {
-            return [];
-        }
-
-        $propertyTypeDeclarationSeaLevel = $typedPropertyCount / $propertyCount;
-
-        // has the code met the minimal sea level of types?
-        if ($propertyTypeDeclarationSeaLevel >= $this->minimalLevel) {
-            return [];
-        }
-
-        $errorMessage = sprintf(
+        return $this->seaLevelRuleErrorFormatter->formatErrors(
             self::ERROR_MESSAGE,
+            $this->minimalLevel,
             $propertyCount,
-            $propertyTypeDeclarationSeaLevel * 100,
-            $this->minimalLevel * 100
+            $typedPropertyCount,
+            $printedUntypedPropertiesContents
         );
-
-        $errorMessage .= $printedUntypedPropertiesContents . PHP_EOL;
-
-        // keep error printable
-        $errorMessage = Strings::truncate($errorMessage, 8000);
-
-        return [$errorMessage];
     }
 
     public function getRuleDefinition(): RuleDefinition
