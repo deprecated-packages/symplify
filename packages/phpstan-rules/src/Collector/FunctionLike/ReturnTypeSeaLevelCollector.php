@@ -29,7 +29,7 @@ final class ReturnTypeSeaLevelCollector implements Collector
 
     /**
      * @param ClassMethod $node
-     * @return array{int, int, string}
+     * @return array{int, int, string}|null
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
