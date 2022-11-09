@@ -19,16 +19,26 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @implements Rule<CollectedDataNode>
  */
-final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInterface
+final class PropertyTypeDeclarationSeaLevelRule implements Rule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%';
+    /**
+     * @var float
+     */
+    private $minimalLevel = 0.80;
 
-    public function __construct(
-        private float $minimalLevel = 0.80
-    ) {
+    /**
+     * @var bool
+     */
+    private $printSuggestions = true;
+
+    public function __construct(float $minimalLevel = 0.80, bool $printSuggestions = true)
+    {
+        $this->minimalLevel = $minimalLevel;
+        $this->printSuggestions = $printSuggestions;
     }
 
     /**
@@ -83,10 +93,12 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
             $this->minimalLevel * 100
         );
 
-        $errorMessage .= $printedUntypedPropertiesContents . PHP_EOL;
+        if ($this->printSuggestions) {
+            $errorMessage .= $printedUntypedPropertiesContents . PHP_EOL;
 
-        // keep error printable
-        $errorMessage = Strings::truncate($errorMessage, 8000);
+            // keep error printable
+            $errorMessage = Strings::truncate($errorMessage, 8000);
+        }
 
         return [$errorMessage];
     }

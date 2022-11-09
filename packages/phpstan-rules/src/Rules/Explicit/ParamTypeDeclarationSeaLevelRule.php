@@ -19,16 +19,26 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  *
  * @implements Rule<CollectedDataNode>
  */
-final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInterface
+final class ParamTypeDeclarationSeaLevelRule implements Rule
 {
     /**
      * @var string
      */
     public const ERROR_MESSAGE = 'Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%';
+    /**
+     * @var float
+     */
+    private $minimalLevel = 0.80;
 
-    public function __construct(
-        private float $minimalLevel = 0.80
-    ) {
+    /**
+     * @var bool
+     */
+    private $printSuggestions = true;
+
+    public function __construct(float $minimalLevel = 0.80, bool $printSuggestions = true)
+    {
+        $this->minimalLevel = $minimalLevel;
+        $this->printSuggestions = $printSuggestions;
     }
 
     /**
@@ -83,10 +93,12 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
             $this->minimalLevel * 100
         );
 
-        $errorMessage .= $printedClassMethods . PHP_EOL;
+        if ($this->printSuggestions) {
+            $errorMessage .= $printedClassMethods . PHP_EOL;
 
-        // keep error printable
-        $errorMessage = Strings::truncate($errorMessage, 8000);
+            // keep error printable
+            $errorMessage = Strings::truncate($errorMessage, 8000);
+        }
 
         return [$errorMessage];
     }
