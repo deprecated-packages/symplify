@@ -24,7 +24,7 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%';
+    public const ERROR_MESSAGE = 'Out of %d declared properties, only %d %% have a type defined. Type more properties to get over %d %%';
     private float $minimalLevel = 0.80;
     private bool $printSuggestions = true;
 

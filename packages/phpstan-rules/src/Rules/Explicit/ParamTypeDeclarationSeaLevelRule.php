@@ -24,7 +24,7 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%';
+    public const ERROR_MESSAGE = 'Out of %d declared parameters, only %d %% have a type defined. Type more parameters to get over %d %%';
     private float $minimalLevel = 0.80;
     private bool $printSuggestions = true;
 
