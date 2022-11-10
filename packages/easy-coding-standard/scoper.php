@@ -76,7 +76,9 @@ return [
 
             // PHP Code Sniffer and php-cs-fixer use different type, so both are compatible
             // remove type, to allow string|int constants for token emulation
-            return str_replace('array_map(static function (int $id)', 'array_map(static function ($id)', $content);
+            $content = str_replace('array_map(static function (int $id)', 'array_map(static function ($id)', $content);
+
+            return str_replace('static fn (int $id)', 'static fn ($id)', $content);
         },
 
         static function (string $filePath, string $prefix, string $content): string {
