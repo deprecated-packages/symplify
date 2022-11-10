@@ -70,7 +70,10 @@ return [
 
     'patchers' => [
         static function (string $filePath, string $prefix, string $content): string {
-            if (! \str_ends_with($filePath, 'vendor/friendsofphp/php-cs-fixer/src/Fixer/Operator/OperatorLinebreakFixer.php')) {
+            if (! \str_ends_with(
+                $filePath,
+                'vendor/friendsofphp/php-cs-fixer/src/Fixer/Operator/OperatorLinebreakFixer.php'
+            )) {
                 return $content;
             }
 

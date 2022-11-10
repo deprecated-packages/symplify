@@ -6,8 +6,8 @@ namespace Symplify\PHPStanRules\Formatter;
 
 use Nette\Utils\Strings;
 
-final class SeaLevelRuleErrorFormatter {
-
+final class SeaLevelRuleErrorFormatter
+{
     /**
      * @param string[] $errors
      * @return string[]
@@ -19,7 +19,6 @@ final class SeaLevelRuleErrorFormatter {
         int $typedPropertyCount,
         array $errors
     ): array {
-
         if ($propertyCount === 0) {
             return [];
         }
