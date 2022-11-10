@@ -69,7 +69,16 @@ return [
     ],
 
     'patchers' => [
-        // fix symfony deprecation reports, @see https://github.com/symplify/symplify/issues/4449
+        static function (string $filePath, string $prefix, string $content): string {
+            if (! \str_ends_with($filePath, 'vendor/symplify/easy-coding-standard/vendor/friendsofphp/php-cs-fixer/src/Fixer/Operator/OperatorLinebreakFixer.php')) {
+                return $content;
+            }
+
+            // PHP Code Sniffer and php-cs-fixer use different type, so both are compatible
+            // remove type, to allow string|int constants for token emulation
+            return str_replace('array_map(static function (int $id)', 'array_map(static function ($id)', $content);
+        },
+
         static function (string $filePath, string $prefix, string $content): string {
             if (! \str_ends_with($filePath, 'vendor/symfony/deprecation-contracts/function.php')) {
                 return $content;
