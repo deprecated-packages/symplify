@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SmartFileSystem\Tests\Finder\FinderSanitizer;
 
-use Nette\Utils\Finder as NetteFinder;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
@@ -39,20 +38,6 @@ final class FinderSanitizerTest extends TestCase
 
         $this->assertCount(2, $fileInfos);
         $files = $this->finderSanitizer->sanitize($symfonyFinder);
-        $this->assertCount(2, $files);
-
-        $this->assertFilesEqualFixtureFiles($files[0], $files[1]);
-    }
-
-    public function testNetteFinder(): void
-    {
-        $netteFinder = NetteFinder::findFiles('*')
-            ->from(__DIR__ . '/Source');
-
-        $fileInfos = iterator_to_array($netteFinder->getIterator());
-        $this->assertCount(2, $fileInfos);
-
-        $files = $this->finderSanitizer->sanitize($netteFinder);
         $this->assertCount(2, $files);
 
         $this->assertFilesEqualFixtureFiles($files[0], $files[1]);
