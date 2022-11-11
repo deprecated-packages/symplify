@@ -37,7 +37,7 @@ final class SeaLevelRuleErrorFormatter
             $minimalLevel * 100
         );
 
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             $errorMessage .= PHP_EOL . PHP_EOL;
             $errorMessage .= implode(PHP_EOL . PHP_EOL, $errors);
             $errorMessage .= PHP_EOL;
