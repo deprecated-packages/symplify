@@ -6,6 +6,7 @@ namespace Symplify\PHPStanRules\Printer;
 
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\IntersectionType as NodeIntersectionType;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
@@ -98,6 +99,14 @@ final class CollectorMetadataPrinter
         $typeNames = [];
 
         foreach ($unionType->types as $type) {
+            if ($type instanceof NodeIntersectionType) {
+                foreach ($type->types as $intersectionType) {
+                    $typeNames[] = (string) $intersectionType;
+                }
+
+                continue;
+            }
+
             $typeNames[] = (string) $type;
         }
 
