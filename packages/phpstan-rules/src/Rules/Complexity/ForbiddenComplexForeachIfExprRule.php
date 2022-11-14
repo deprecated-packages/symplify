@@ -100,7 +100,7 @@ CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
 $data = $this->getData($arg);
-foreach ($arg as $key => $item) {
+foreach ($data as $key => $item) {
     // ...
 }
 CODE_SAMPLE
