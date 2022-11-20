@@ -827,7 +827,7 @@ foreach ($this->getData($arg) as $key => $item) {
 
 ```php
 $data = $this->getData($arg);
-foreach ($arg as $key => $item) {
+foreach ($data as $key => $item) {
     // ...
 }
 ```
