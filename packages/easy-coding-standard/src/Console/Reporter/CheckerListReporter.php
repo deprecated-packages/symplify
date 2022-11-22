@@ -24,7 +24,7 @@ final class CheckerListReporter
             return;
         }
 
-        $checkerNames = array_map(fn ($checker): string => $checker::class, $checkers);
+        $checkerNames = array_map(static fn($checker): string => $checker::class, $checkers);
 
         $sectionMessage = sprintf('%d checker%s from %s:', count($checkers), count($checkers) === 1 ? '' : 's', $type);
         $this->symfonyStyle->section($sectionMessage);

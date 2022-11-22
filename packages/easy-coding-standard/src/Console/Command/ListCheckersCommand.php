@@ -61,14 +61,10 @@ final class ListCheckersCommand extends AbstractSymplifyCommand
             $sniffs = $this->sniffFileProcessor->getCheckers();
             $fixers = $this->fixerFileProcessor->getCheckers();
 
-            $sniffClasses = array_map(function (Sniff $sniff): string {
-                return get_class($sniff);
-            }, $sniffs);
+            $sniffClasses = array_map(static fn(Sniff $sniff): string => $sniff::class, $sniffs);
             sort($sniffClasses);
 
-            $fixerClasses = array_map(function (FixerInterface $fixer): string {
-                return get_class($fixer);
-            }, $fixers);
+            $fixerClasses = array_map(static fn(FixerInterface $fixer): string => $fixer::class, $fixers);
             sort($fixerClasses);
 
             $data = [
