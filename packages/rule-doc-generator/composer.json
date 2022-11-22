@@ -14,7 +14,7 @@
         "symplify/rule-doc-generator-contracts": "^11.2",
         "symplify/package-builder": "^11.2",
         "nette/utils": "^3.2",
-        "sebastian/diff": "^4.0",
+        "sebastian/diff": "^4.0|^5.0",
         "symplify/php-config-printer": "^11.2",
         "symplify/smart-file-system": "^11.2"
     },

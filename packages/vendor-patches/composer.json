@@ -10,7 +10,7 @@
         "nette/utils": "^3.2",
         "symfony/console": "^6.1",
         "symfony/dependency-injection": "^6.1",
-        "sebastian/diff": "^4.0",
+        "sebastian/diff": "^4.0|^5.0",
         "cweagans/composer-patches": "^1.7",
         "symplify/composer-json-manipulator": "^11.2",
         "symplify/symplify-kernel": "^11.2"
