@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\EasyCodingStandard\Console\Reporter;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PhpCsFixer\Fixer\FixerInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class CheckerListReporter
@@ -16,20 +14,21 @@ final class CheckerListReporter
     }
 
     /**
-     * @param FixerInterface[]|Sniff[] $checkers
+     * @param class-string[] $checkerClasses
      */
-    public function report(array $checkers, string $type): void
+    public function report(array $checkerClasses, string $type): void
     {
-        if ($checkers === []) {
+        if ($checkerClasses === []) {
             return;
         }
 
-        $checkerNames = array_map(static fn($checker): string => $checker::class, $checkers);
-
-        $sectionMessage = sprintf('%d checker%s from %s:', count($checkers), count($checkers) === 1 ? '' : 's', $type);
+        $sectionMessage = sprintf(
+            '%d checker%s from %s:',
+            count($checkerClasses),
+            count($checkerClasses) === 1 ? '' : 's',
+            $type
+        );
         $this->symfonyStyle->section($sectionMessage);
-
-        sort($checkerNames);
-        $this->symfonyStyle->listing($checkerNames);
+        $this->symfonyStyle->listing($checkerClasses);
     }
 }
