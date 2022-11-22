@@ -112,9 +112,6 @@ $files = [new Symfony\Component\Finder\SplFileInfo('someFile.php', 'someFile', '
 $files = (new Symfony\Component\Finder\Finder())->files();
 
 // or
-$files = Nette\Utils\Finder::findFiles('*');
-
-// or
 $files = ['someFile.php'];
 ```
 

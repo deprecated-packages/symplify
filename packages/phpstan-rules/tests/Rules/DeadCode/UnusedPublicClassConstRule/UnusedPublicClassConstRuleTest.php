@@ -42,13 +42,17 @@ final class UnusedPublicClassConstRuleTest extends RuleTestCase
             [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]], ];
 
         $errorMessage = sprintf(UnusedPublicClassConstRule::ERROR_MESSAGE, 'LOCALLY_ONLY_NAMED');
-        yield [[__DIR__ . '/Fixture/LocallyUsedPublicConstantByName.php'], [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]]];
+        yield [[__DIR__ . '/Fixture/LocallyUsedPublicConstantByName.php'],
+            [[$errorMessage, 9, UnusedPublicClassConstRule::TIP_MESSAGE]], ];
 
         yield [[__DIR__ . '/Fixture/SkipApiPublicConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipPrivateConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipApiClassPublicConstant.php'], []];
         yield [[__DIR__ . '/Fixture/SkipUsedPublicConstant.php', __DIR__ . '/Source/ConstantUser.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipUsedConstantInSubclass.php', __DIR__ . '/Source/ConstantUserFromSubclass.php'], []];
+        yield [[
+            __DIR__ . '/Fixture/SkipUsedConstantInSubclass.php', __DIR__ . '/Source/ConstantUserFromSubclass.php', ],
+            [],
+        ];
 
         yield [[__DIR__ . '/Fixture/SkipInterfaceConstantUsed.php', __DIR__ . '/Source/InterfaceConstantUser.php'], []];
     }

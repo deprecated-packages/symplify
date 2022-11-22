@@ -1,3 +1,6 @@
+includes:
+    - type-coverage-rules.neon
+
 # these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
 rules:
     - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule
@@ -7,14 +10,8 @@ rules:
     - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
     - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
     - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
-    - Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule
 
 services:
-    # for "type declaration sea level"
-    -
-        class: Symplify\PHPStanRules\Collector\FunctionLike\ParamTypeSeaLevelCollector
-        tags: [phpstan.collector]
-
     # for ForbiddenAlwaysSetterCallRule
     -
         class: Symplify\PHPStanRules\Collector\ClassMethod\FormTypeClassCollector

@@ -10,7 +10,6 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
-use PHPStan\Reflection\ClassReflection;
 
 /**
  * @implements Collector<ClassConstFetch, string[]>
@@ -44,7 +43,7 @@ final class ClassConstFetchCollector implements Collector
             $constantReflection = $classReflection->getConstant($constantName);
             $declaringClass = $constantReflection->getDeclaringClass();
             if ($declaringClass->getFileName() !== $classReflection->getFileName()) {
-                return [$declaringClass->getName(). '::' . $constantName];
+                return [$declaringClass->getName() . '::' . $constantName];
             }
 
             return null;

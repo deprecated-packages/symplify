@@ -20,7 +20,7 @@ jobs:
             # required for matrix of packages set
             -   uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
+                    php-version: 8.1
                     coverage: none
 
             -   uses: "ramsey/composer-install@v2"
@@ -28,7 +28,7 @@ jobs:
             # get package json list
             -
                 id: output_data
-                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package monorepo-builder --exclude-package config-transformer --exclude-package easy-ci --exclude-package vendor-patches --exclude-package phpstan-rules)"
+                run: echo "matrix=$(packages/monorepo-builder/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package monorepo-builder --exclude-package config-transformer --exclude-package easy-ci --exclude-package vendor-patches --exclude-package phpstan-rules)" >> $GITHUB_OUTPUT
 
         # this step is needed, so the output gets to the next defined job
         outputs:

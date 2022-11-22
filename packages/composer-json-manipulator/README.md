@@ -47,7 +47,12 @@ class SomeClass
     {
         // ↓ instance of \Symplify\ComposerJsonManipulator\ValueObject\ComposerJson
         $composerJson = $this->composerJsonFactory->createFromFilePath(getcwd() . '/composer.json');
-        // ...
+
+        // Add a PRS-4 namespace
+        $autoLoad = $composerJson->getAutoload();
+        $autoLoad['psr-4']['Cool\\Stuff\\'] = './lib/';
+        $composerJson->setAutoload($autoLoad);
+        $this->jsonFileManager->printComposerJsonToFilePath($composerJson, $composerJson->getFileInfo()->getRealPath());
     }
 }
 ```

@@ -3,15 +3,15 @@
     "description": "Print Symfony services array with configuration to to plain PHP file format thanks to this simple php-parser wrapper",
     "license": "MIT",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.1",
-        "symfony/yaml": "^6.0"
+        "symfony/yaml": "^6.1"
     },
     "require-dev": {
         "symplify/easy-testing": "^11.2",
         "symplify/symplify-kernel": "^11.2",
-        "phpunit/phpunit": "^9.5.23"
+        "phpunit/phpunit": "^9.5.25"
     },
     "autoload": {
         "psr-4": {
@@ -33,24 +33,24 @@
         }
     },
     "conflict": {
-        "symplify/composer-json-manipulator": "<11.1.10",
-        "symplify/easy-coding-standard": "<11.1.10",
-        "symplify/phpstan-rules": "<11.1.10",
-        "symplify/easy-testing": "<11.1.10",
-        "symplify/rule-doc-generator-contracts": "<11.1.10",
-        "symplify/autowire-array-parameter": "<11.1.10",
-        "symplify/package-builder": "<11.1.10",
-        "symplify/phpstan-extensions": "<11.1.10",
-        "symplify/rule-doc-generator": "<11.1.10",
-        "symplify/vendor-patches": "<11.1.10",
-        "symplify/smart-file-system": "<11.1.10",
-        "symplify/symfony-static-dumper": "<11.1.10",
-        "symplify/monorepo-builder": "<11.1.10",
-        "symplify/config-transformer": "<11.1.10",
-        "symplify/easy-ci": "<11.1.10",
-        "symplify/coding-standard": "<11.1.10",
-        "symplify/easy-parallel": "<11.1.10",
-        "symplify/symplify-kernel": "<11.1.10"
+        "symplify/composer-json-manipulator": "<11.1.17",
+        "symplify/easy-coding-standard": "<11.1.17",
+        "symplify/phpstan-rules": "<11.1.17",
+        "symplify/easy-testing": "<11.1.17",
+        "symplify/rule-doc-generator-contracts": "<11.1.17",
+        "symplify/autowire-array-parameter": "<11.1.17",
+        "symplify/package-builder": "<11.1.17",
+        "symplify/phpstan-extensions": "<11.1.17",
+        "symplify/rule-doc-generator": "<11.1.17",
+        "symplify/vendor-patches": "<11.1.17",
+        "symplify/smart-file-system": "<11.1.17",
+        "symplify/symfony-static-dumper": "<11.1.17",
+        "symplify/monorepo-builder": "<11.1.17",
+        "symplify/config-transformer": "<11.1.17",
+        "symplify/easy-ci": "<11.1.17",
+        "symplify/coding-standard": "<11.1.17",
+        "symplify/easy-parallel": "<11.1.17",
+        "symplify/symplify-kernel": "<11.1.17"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

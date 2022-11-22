@@ -18,7 +18,7 @@ jobs:
 
             -   uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
+                    php-version: 8.1
                     coverage: none
 
             -   uses: "ramsey/composer-install@v2"
@@ -26,7 +26,7 @@ jobs:
             # get package json list
             -
                 id: output_data
-                run: echo "::set-output name=matrix::$(packages/monorepo-builder/bin/monorepo-builder packages-json)"
+                run: echo "matrix=$(packages/monorepo-builder/bin/monorepo-builder packages-json)" >> $GITHUB_OUTPUT
 
         outputs:
             matrix: ${{ steps.output_data.outputs.matrix }}
@@ -57,7 +57,7 @@ jobs:
             -
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.0
+                    php-version: 8.1
 
             -   uses: "ramsey/composer-install@v2"
 

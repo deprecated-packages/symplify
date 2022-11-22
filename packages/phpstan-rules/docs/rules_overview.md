@@ -1,4 +1,4 @@
-# 116 Rules Overview
+# 118 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -827,7 +827,7 @@ foreach ($this->getData($arg) as $key => $item) {
 
 ```php
 $data = $this->getData($arg);
-foreach ($arg as $key => $item) {
+foreach ($data as $key => $item) {
     // ...
 }
 ```
@@ -1942,7 +1942,7 @@ class AnotherClass
 
 ## NoDuplicatedTraitMethodNameRule
 
-Method name `"%s()"` is used in multiple traits. Make it it unique to avoid conflicts
+Method name `"%s()"` is used in multiple traits. Make it unique to avoid conflicts
 
 - class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule`](../src/Rules/Complexity/NoDuplicatedTraitMethodNameRule.php)
 
@@ -3046,7 +3046,7 @@ final class SomeClass
 
 ## ParamTypeDeclarationSeaLevelRule
 
-The param type sea level %d %% has not passed minimal required level of %d %%. Add more param types to rise above the required level
+Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ParamTypeDeclarationSeaLevelRule.php)
 
@@ -3411,6 +3411,34 @@ class SomeClass
 
 <br>
 
+## PropertyTypeDeclarationSeaLevelRule
+
+Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%
+
+- class: [`Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/PropertyTypeDeclarationSeaLevelRule.php)
+
+```php
+final class SomeClass
+{
+    public $name;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class SomeClass
+{
+    public string $name;
+}
+```
+
+:+1:
+
+<br>
+
 ## RegexSuffixInRegexConstantRule
 
 Name your constant with "_REGEX" suffix, instead of "%s"
@@ -3514,6 +3542,58 @@ namespace App\Attribute;
 #[\Attribute]
 final class SomeAttribute
 {
+}
+```
+
+:+1:
+
+<br>
+
+## RequireCascadeValidateRule
+
+Property "$%s" is missing `@Valid` annotation
+
+- class: [`Symplify\PHPStanRules\Symfony\Rules\RequireCascadeValidateRule`](../packages/Symfony/Rules/RequireCascadeValidateRule.php)
+
+```php
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
+
+final class NullablePropertyFormType extends AbstractType
+{
+    public function configureOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver->setDefaults([
+            'data_class' => SomeEntity::class,
+            'constraints' => new Valid(),
+        ]);
+    }
+}
+
+class SomeEntity
+{
+    /**
+     * @var NestedEntity
+     */
+    private $nestedEntity;
+}
+```
+
+:x:
+
+<br>
+
+```php
+use Symfony\Component\Validator\Constraints as Assert;
+
+class SomeEntity
+{
+    /**
+     * @Assert\Valid
+     * @var NestedEntity
+     */
+    private $nestedEntity;
 }
 ```
 
@@ -4071,7 +4151,7 @@ abstract class AbstractClass
 
 ## ReturnTypeDeclarationSeaLevelRule
 
-The return type sea level %d %% has not passed minimal required level of %d %%. Add more return types to rise above the required level
+Out of %d possible return types, only %d %% actually have it. Add more return types to get over %d %%
 
 - class: [`Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ReturnTypeDeclarationSeaLevelRule.php)
 

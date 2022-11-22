@@ -57,6 +57,7 @@ return [
         'PHP_CODESNIFFER_VERBOSITY',
     ],
     'expose-constants' => ['__ECS_RUNNING__'],
+    'expose-functions' => ['u', 'b', 's', 'trigger_deprecation'],
 
     'exclude-files' => [...$polyfillsBootstraps, ...$polyfillsStubs],
 
@@ -68,6 +69,30 @@ return [
     ],
 
     'patchers' => [
+        static function (string $filePath, string $prefix, string $content): string {
+            if (! \str_ends_with(
+                $filePath,
+                'vendor/friendsofphp/php-cs-fixer/src/Fixer/Operator/OperatorLinebreakFixer.php'
+            )) {
+                return $content;
+            }
+
+            // PHP Code Sniffer and php-cs-fixer use different type, so both are compatible
+            // remove type, to allow string|int constants for token emulation
+            $content = str_replace('array_map(static function (int $id)', 'array_map(static function ($id)', $content);
+
+            return str_replace('static fn (int $id)', 'static fn ($id)', $content);
+        },
+
+        static function (string $filePath, string $prefix, string $content): string {
+            if (! \str_ends_with($filePath, 'vendor/symfony/deprecation-contracts/function.php')) {
+                return $content;
+            }
+
+            // comment out
+            return str_replace('@\trigger_', '// @\trigger_', $content);
+        },
+
         // scope symfony configs
         function (string $filePath, string $prefix, string $content): string {
             if (! Strings::match($filePath, '#(packages|config|services)\.php$#')) {

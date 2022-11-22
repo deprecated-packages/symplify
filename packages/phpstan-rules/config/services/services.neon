@@ -6,6 +6,8 @@ parameters:
 services:
     - PhpParser\NodeFinder
 
+    - Symplify\PHPStanRules\Symfony\PropertyMetadataResolver
+    - Symplify\PHPStanRules\Symfony\Finder\ArrayKeyFinder
     - Symplify\PHPStanRules\NodeTraverser\SimpleCallableNodeTraverser
     - Symplify\PHPStanRules\PhpDocParser\PhpDocNodeTraverser
     - Symplify\PHPStanRules\PhpDocParser\SimplePhpDocParser
@@ -73,6 +75,7 @@ services:
     - Symplify\PHPStanRules\Matcher\ClassMethodCallReferenceResolver
     - Symplify\PHPStanRules\Printer\CollectorMetadataPrinter
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\AllowedChainCallSkipper
+    - Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter
 
 
     -

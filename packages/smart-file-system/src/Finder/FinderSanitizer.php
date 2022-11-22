@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\SmartFileSystem\Finder;
 
-use Nette\Utils\Finder as NetteFinder;
 use SplFileInfo;
 use Symfony\Component\Finder\Finder as SymfonyFinder;
 use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
@@ -16,10 +15,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class FinderSanitizer
 {
     /**
-     * @param NetteFinder<SplFileInfo>|SymfonyFinder<SymfonySplFileInfo>|SplFileInfo[]|SymfonySplFileInfo[]|string[] $files
+     * @param SymfonyFinder<SymfonySplFileInfo>|SplFileInfo[]|SymfonySplFileInfo[]|string[] $files
      * @return SmartFileInfo[]
      */
-    public function sanitize(NetteFinder | SymfonyFinder | array $files): array
+    public function sanitize(SymfonyFinder | array $files): array
     {
         $smartFileInfos = [];
         foreach ($files as $file) {

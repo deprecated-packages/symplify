@@ -25,7 +25,7 @@ final class NoDuplicatedTraitMethodNameRule implements Rule, DocumentedRuleInter
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Method name "%s()" is used in multiple traits. Make it it unique to avoid conflicts';
+    public const ERROR_MESSAGE = 'Method name "%s()" is used in multiple traits. Make it unique to avoid conflicts';
 
     /**
      * @return class-string<Node>

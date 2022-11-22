@@ -39,16 +39,6 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
-     * @deprecated This feature is deprecated, as hard to configure right and confusing. Use skip() instead
-     * @param mixed[] $onlys
-     */
-    public function only(array $onlys): void
-    {
-        echo 'The option only() is deprecated as error prone and hard to do right. Use skip() with configuration instead.';
-        sleep(3);
-    }
-
-    /**
      * @param string[] $sets
      */
     public function sets(array $sets): void
@@ -108,6 +98,18 @@ final class ECSConfig extends ContainerConfigurator
 
                 $service->property($propertyName, $value);
             }
+        }
+    }
+
+    /**
+     * @param array<class-string<Sniff|FixerInterface>, mixed[]> $rulesWithConfiguration
+     */
+    public function rulesWithConfiguration(array $rulesWithConfiguration): void
+    {
+        Assert::allIsArray($rulesWithConfiguration);
+
+        foreach ($rulesWithConfiguration as $checkerClass => $configuration) {
+            $this->ruleWithConfiguration($checkerClass, $configuration);
         }
     }
 

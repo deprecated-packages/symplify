@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use Isolated\Symfony\Component\Finder\Finder;
-
 require __DIR__ . '/vendor/autoload.php';
 
 $nowDateTime = new DateTime('now');
@@ -11,29 +9,6 @@ $timestamp = $nowDateTime->format('Ym');
 
 // @see https://github.com/humbug/php-scoper/blob/master/docs/further-reading.md
 use Nette\Utils\Strings;
-
-$polyfillsBootstraps = array_map(
-    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
-    iterator_to_array(
-        Finder::create()
-            ->files()
-            ->in(__DIR__ . '/vendor/symfony/polyfill-*')
-            ->name('bootstrap*.php'),
-        false,
-    ),
-);
-
-$polyfillsStubs = array_map(
-    static fn (SplFileInfo $fileInfo) => $fileInfo->getPathname(),
-    iterator_to_array(
-        Finder::create()
-            ->files()
-            ->in(__DIR__ . '/vendor/symfony/polyfill-*/Resources/stubs')
-            ->name('*.php'),
-        false,
-    ),
-);
-
 
 // see https://github.com/humbug/php-scoper
 return [
@@ -49,8 +24,6 @@ return [
         // these paths are relative to this file location, so it should be in the root directory
         'vendor/symfony/deprecation-contracts/function.php',
         'stubs/PHPUnit/PHPUnit_Framework_TestCase.php',
-        ...$polyfillsBootstraps,
-        ...$polyfillsStubs,
     ],
     'patchers' => [
         // scope symfony configs

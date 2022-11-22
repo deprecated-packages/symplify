@@ -1,4 +1,4 @@
-# 16 Rules Overview
+# 15 Rules Overview
 
 ## ArrayListItemNewlineFixer
 
@@ -73,40 +73,6 @@ return static function (ECSConfig $ecsConfig): void {
  function some()
  {
  }
-```
-
-<br>
-
-## DoctrineAnnotationNestedBracketsFixer
-
-Adds nested curly brackets to defined annotations, see https://github.com/doctrine/annotations/issues/418
-
-:wrench: **configure it!**
-
-- class: [`Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer`](../src/Fixer/Annotation/DoctrineAnnotationNestedBracketsFixer.php)
-
-```php
-use Symplify\CodingStandard\Fixer\Annotation\DoctrineAnnotationNestedBracketsFixer;
-use Symplify\EasyCodingStandard\Config\ECSConfig;
-
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->ruleWithConfiguration(DoctrineAnnotationNestedBracketsFixer::class, [
-        DoctrineAnnotationNestedBracketsFixer::ANNOTATION_CLASSES => ['MainAnnotation'],
-    ]);
-};
-```
-
-↓
-
-```diff
- /**
--* @MainAnnotation(
-+* @MainAnnotation({
- *     @NestedAnnotation(),
- *     @NestedAnnotation(),
--* )
-+* })
- */
 ```
 
 <br>

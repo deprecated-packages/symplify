@@ -2,12 +2,11 @@
 
 namespace Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Fixture;
 
-use Doctrine\ORM\EntityManager;
+use Symplify\PHPStanRules\Tests\Rules\ExclusiveDependencyRule\Source\CustomEntityManager;
 
 class SomeController
 {
-    public function __construct(EntityManager $em)
+    public function __construct(CustomEntityManager $em)
     {
-
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\Explicit;
 
-use Nette\Utils\Arrays;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use Symplify\PHPStanRules\Collector\FunctionLike\ParamTypeSeaLevelCollector;
+use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -24,10 +24,12 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'The param type sea level %d %% has not passed minimal required level of %d %%. Add more param types to rise above the required level';
+    public const ERROR_MESSAGE = 'Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%';
 
     public function __construct(
-        private float $minimalLevel = 0.20
+        private SeaLevelRuleErrorFormatter $seaLevelRuleErrorFormatter,
+        private float $minimalLevel = 0.80,
+        private bool $printSuggestions = true
     ) {
     }
 
@@ -50,26 +52,32 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
         $typedParamCount = 0;
         $paramCount = 0;
 
+        $printedClassMethods = [];
+
         foreach ($paramSeaLevelDataByFilePath as $paramSeaLevelData) {
-            $paramSeaLevelData = Arrays::flatten($paramSeaLevelData);
+            foreach ($paramSeaLevelData as $nestedParamSeaLevelData) {
+                $typedParamCount += $nestedParamSeaLevelData[0];
+                $paramCount += $nestedParamSeaLevelData[1];
 
-            $typedParamCount += $paramSeaLevelData[0];
-            $paramCount += $paramSeaLevelData[1];
+                if (! $this->printSuggestions) {
+                    continue;
+                }
+
+                /** @var string $printedClassMethod */
+                $printedClassMethod = $nestedParamSeaLevelData[2];
+                if ($printedClassMethod !== '') {
+                    $printedClassMethods[] = trim($printedClassMethod);
+                }
+            }
         }
 
-        if ($paramCount === 0) {
-            return [];
-        }
-
-        $paramTypeDeclarationSeaLevel = $typedParamCount / $paramCount;
-
-        // has the code met the minimal sea level of types?
-        if ($paramTypeDeclarationSeaLevel > $this->minimalLevel) {
-            return [];
-        }
-
-        $errorMessage = sprintf(self::ERROR_MESSAGE, $paramTypeDeclarationSeaLevel * 100, $this->minimalLevel * 100);
-        return [$errorMessage];
+        return $this->seaLevelRuleErrorFormatter->formatErrors(
+            self::ERROR_MESSAGE,
+            $this->minimalLevel,
+            $paramCount,
+            $typedParamCount,
+            $printedClassMethods
+        );
     }
 
     public function getRuleDefinition(): RuleDefinition
