@@ -1,3 +1,4 @@
+# @see https://symfony.com/doc/6.1/service_container/import.html
 imports:
     - { resource: '%kernel.project_dir%/somefile.yaml' }
 -----
