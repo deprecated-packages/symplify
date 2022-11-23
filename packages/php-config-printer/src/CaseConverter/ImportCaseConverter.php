@@ -151,6 +151,10 @@ final class ImportCaseConverter implements CaseConverterInterface
             return new ClassConstFetch(new FullyQualified($className), $constantName);
         }
 
+        if (is_string($value) && \str_starts_with($value, '@') !== \false) {
+            return new String_($value);
+        }
+
         $value = $this->replaceImportedFileSuffix($value);
         return $this->commonNodeFactory->createAbsoluteDirExpr($value);
     }
