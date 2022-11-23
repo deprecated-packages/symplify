@@ -156,6 +156,11 @@ final class ImportCaseConverter implements CaseConverterInterface
         }
 
         $value = $this->replaceImportedFileSuffix($value);
+
+        if (is_string($value) && \str_starts_with($value, '%') !== \false) {
+            return new String_($value);
+        }
+
         return $this->commonNodeFactory->createAbsoluteDirExpr($value);
     }
 }
