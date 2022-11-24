@@ -25,6 +25,10 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // commas
+    $ecsConfig->ruleWithConfiguration(\PhpCsFixer\Fixer\Basic\NoTrailingCommaInSinglelineFixer::class, [
+        'elements' => ['arguments', 'array_destructuring', 'array', 'group_import'],
+    ]);
+
     $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, [
         'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
     ]);
