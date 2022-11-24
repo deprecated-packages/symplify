@@ -52,7 +52,6 @@
         }
     },
     "conflict": {
-        "symplify/easy-coding-standard": "<11.1.17",
         "symplify/easy-testing": "<11.1.17",
         "symplify/php-config-printer": "<11.1.17",
         "symplify/autowire-array-parameter": "<11.1.17",
