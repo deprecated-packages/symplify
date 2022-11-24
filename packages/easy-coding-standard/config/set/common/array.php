@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+use PhpCsFixer\Fixer\Basic\NoTrailingCommaInSinglelineFixer;
 
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
@@ -25,7 +26,7 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     // commas
-    $ecsConfig->ruleWithConfiguration(\PhpCsFixer\Fixer\Basic\NoTrailingCommaInSinglelineFixer::class, [
+    $ecsConfig->ruleWithConfiguration(NoTrailingCommaInSinglelineFixer::class, [
         'elements' => ['arguments', 'array_destructuring', 'array', 'group_import'],
     ]);
 
