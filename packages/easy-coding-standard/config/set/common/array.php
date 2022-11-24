@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
@@ -23,7 +22,6 @@ return static function (ECSConfig $ecsConfig): void {
         WhitespaceAfterCommaInArrayFixer::class,
         ArrayListItemNewlineFixer::class,
         StandaloneLineInMultilineArrayFixer::class,
-        NoTrailingCommaInSinglelineArrayFixer::class,
     ]);
 
     // commas
