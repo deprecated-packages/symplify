@@ -134,9 +134,9 @@ final class ImportCaseConverter implements CaseConverterInterface
 
     private function resolveExpr(mixed $value): Expr
     {
-        $normalizedValue = $this->processNormalizedValue($value);
-        if ($normalizedValue instanceof Expr) {
-            return $normalizedValue;
+        $expr = $this->processNormalizedValue($value);
+        if ($expr instanceof Expr) {
+            return $expr;
         }
 
         if ($value === 'not_found') {
@@ -148,13 +148,13 @@ final class ImportCaseConverter implements CaseConverterInterface
             return new ClassConstFetch(new FullyQualified($className), $constantName);
         }
 
-        if (is_string($value) && \str_starts_with($value, '@') !== \false) {
+        if (is_string($value) && \str_starts_with($value, '@')) {
             return new String_($value);
         }
 
         $value = $this->replaceImportedFileSuffix($value);
 
-        if (is_string($value) && \str_starts_with($value, '%') !== \false) {
+        if (is_string($value) && \str_starts_with($value, '%')) {
             return new String_($value);
         }
 
