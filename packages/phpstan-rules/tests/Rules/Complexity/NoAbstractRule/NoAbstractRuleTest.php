@@ -42,6 +42,6 @@ final class NoAbstractRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(NoAbstractRule::class,);
+        return self::getContainer()->getByType(NoAbstractRule::class);
     }
 }
