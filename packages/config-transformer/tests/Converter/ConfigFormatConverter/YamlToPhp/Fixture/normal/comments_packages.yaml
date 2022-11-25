@@ -1,0 +1,22 @@
+# Intro comment
+security:
+    # Some nice comment 1
+    encoders: true # inline comment
+    # Some nice comment 2
+    other: true # inline comment
+-----
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    // Intro comment
+    $containerConfigurator->extension('security', [
+        // Some nice comment 1
+        'encoders' => true, // inline comment
+        // Some nice comment 2
+        'other' => true, // inline comment
+    ]);
+};

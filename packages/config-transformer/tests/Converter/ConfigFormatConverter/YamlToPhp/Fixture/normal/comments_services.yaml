@@ -1,0 +1,19 @@
+# Intro comment
+services:
+    # Some nice comment
+    App\Service: ~ # inline comment
+-----
+<?php
+
+declare(strict_types=1);
+
+use App\Service;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    // Intro comment
+    $services = $containerConfigurator->services();
+
+    // Some nice comment
+    $services->set(Service::class); // inline comment
+};
