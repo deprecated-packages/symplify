@@ -68,7 +68,11 @@ final class ConfigLoader
             $content = Strings::replace(
                 $content,
                 self::PHP_CONST_REGEX,
-                static fn ($match): string => '"%const(' . str_replace('\\', '\\\\', $match[1]) . ')%"' . ($match[3] ?? '')
+                static fn ($match): string => '"%const(' . str_replace(
+                    '\\',
+                    '\\\\',
+                    $match[1]
+                ) . ')%"' . ($match[3] ?? '')
             );
             if ($content !== $smartFileInfo->getContents()) {
                 $fileRealPath = sys_get_temp_dir() . '/__symplify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();
