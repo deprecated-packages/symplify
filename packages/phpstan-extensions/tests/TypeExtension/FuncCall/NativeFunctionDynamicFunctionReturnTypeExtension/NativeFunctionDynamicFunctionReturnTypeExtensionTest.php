@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\Tests\TypeExtension\FuncCall\NativeFunctionDynamicFunctionReturnTypeExtension;
 
+use Iterator;
 use PHPStan\Testing\TypeInferenceTestCase;
 
 final class NativeFunctionDynamicFunctionReturnTypeExtensionTest extends TypeInferenceTestCase
 {
-    /**
-     * @return iterable<string, mixed[]>
-     */
-    public function dataAsserts(): iterable
+    public function dataAsserts(): Iterator
     {
         yield from $this->gatherAssertTypes(__DIR__ . '/data/fixture.php');
     }
