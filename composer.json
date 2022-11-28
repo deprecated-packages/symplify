@@ -15,7 +15,7 @@
         "nette/neon": "^3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
-        "nikic/php-parser": "^4.15.1",
+        "nikic/php-parser": "^4.15.2",
         "phar-io/version": "^3.2",
         "phpstan/phpdoc-parser": "^1.13.0",
         "react/child-process": "^0.6.5",
