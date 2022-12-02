@@ -8,8 +8,8 @@
     "require": {
         "php": ">=8.1",
         "nette/utils": "^3.2",
-        "symfony/console": "^6.1",
-        "symfony/dependency-injection": "^6.1",
+        "symfony/console": "^6.2",
+        "symfony/dependency-injection": "^6.2",
         "sebastian/diff": "^4.0|^5.0",
         "cweagans/composer-patches": "^1.7",
         "symplify/composer-json-manipulator": "^11.2",
