@@ -11,10 +11,10 @@
         "friendsofphp/php-cs-fixer": "^3.12",
         "nette/utils": "^3.2",
         "squizlabs/php_codesniffer": "^3.7.1",
-        "symfony/config": "^6.1",
-        "symfony/console": "^6.1",
-        "symfony/dependency-injection": "^6.1",
-        "symfony/finder": "^6.1",
+        "symfony/config": "^6.2",
+        "symfony/console": "^6.2",
+        "symfony/dependency-injection": "^6.2",
+        "symfony/finder": "^6.2",
         "symplify/autowire-array-parameter": "^11.2",
         "symplify/coding-standard": "^11.2",
         "symplify/easy-parallel": "^11.2",
@@ -51,7 +51,7 @@
         },
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
             ]
         }
     },

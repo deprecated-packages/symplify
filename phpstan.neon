@@ -527,3 +527,5 @@ parameters:
 
         # false postive
         - '#Method Symplify\\EasyCodingStandard\\Console\\Command\\ListCheckersCommand\:\:getObjectClasses\(\) should return array<class\-string<TObject of PHP_CodeSniffer\\Sniffs\\Sniff\|PhpCsFixer\\Fixer\\FixerInterface>> but returns array<TObject of class\-string<PHP_CodeSniffer\\Sniffs\\Sniff>\|class\-string<PhpCsFixer\\Fixer\\FixerInterface>>#'
+
+        - '#Parameter \#1 \$configs \(array<string>\) of method Symplify\\(.*?)\:\:load\(\) should be compatible with parameter \$configs \(array<array>\) of method Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\:\:load\(\)#'

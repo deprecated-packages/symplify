@@ -9,10 +9,10 @@
         "php": ">=8.1",
         "nette/utils": "^3.2",
         "phar-io/version": "^3.2",
-        "symfony/finder": "^6.1",
-        "symfony/dependency-injection": "^6.1",
-        "symfony/console": "^6.1",
-        "symfony/process": "^6.1",
+        "symfony/finder": "^6.2",
+        "symfony/dependency-injection": "^6.2",
+        "symfony/console": "^6.2",
+        "symfony/process": "^6.2",
         "symplify/package-builder": "^11.2",
         "symplify/composer-json-manipulator": "^11.2",
         "symplify/smart-file-system": "^11.2",
@@ -45,7 +45,7 @@
         },
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
             ]
         }
     },
