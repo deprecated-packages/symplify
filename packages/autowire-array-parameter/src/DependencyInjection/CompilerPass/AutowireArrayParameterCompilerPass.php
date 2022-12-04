@@ -33,8 +33,6 @@ final class AutowireArrayParameterCompilerPass implements CompilerPassInterface
      * Classes that create circular dependencies
      *
      * @var string[]
-     * @noRector \Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector
-     * @noRector \Rector\Php55\Rector\String_\StringClassNameToClassConstantRector
      */
     private array $excludedFatalClasses = [
         'Symfony\Component\Form\FormExtensionInterface',

@@ -26,7 +26,6 @@ final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfac
 
     public function isMatch(string $class): bool
     {
-        /** @noRector */
         return is_a($class, 'Rector\Core\Contract\Rector\RectorInterface', true);
     }
 
