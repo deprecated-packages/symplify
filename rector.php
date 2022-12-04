@@ -69,13 +69,18 @@ return static function (RectorConfig $rectorConfig): void {
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
         ],
 
-        // keep classes utouched, to avoid prefixing and renames
+        // keep classes untouched, to avoid prefixing and renames
         StringClassNameToClassConstantRector::class => [
             __DIR__ . '/packages/phpstan-rules/src/NodeAnalyzer/MethodCall/AllowedChainCallSkipper.php',
+            __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
         ],
 
         \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class => [
             __DIR__ . '/packages/phpstan-rules/src/Rules/Domain/ForbiddenAlwaysSetterCallRule.php',
+        ],
+
+        \Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class => [
+            __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
         ],
     ]);
 };

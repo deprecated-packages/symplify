@@ -24,7 +24,6 @@ final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 
     public function isMatch(string $class): bool
     {
-        /** @noRector */
         if (is_a($class, 'PHP_CodeSniffer\Sniffs\Sniff', true)) {
             return true;
         }
