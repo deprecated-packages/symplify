@@ -23,7 +23,6 @@ final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterfa
 
     public function isMatch(string $class): bool
     {
-        /** @noRector */
         return is_a($class, 'PHPStan\Rules\Rule', true);
     }
 
