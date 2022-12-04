@@ -82,9 +82,5 @@ return static function (RectorConfig $rectorConfig): void {
         \Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class => [
             __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
         ],
-
-        \Rector\Privatization\Rector\ClassMethod\PrivatizeLocalOnlyMethodRector::class => [
-            __DIR__ . '/packages/easy-testing/src/ValueObject/ExpectedAndOutputFileInfoPair.php',
-        ],
     ]);
 };
