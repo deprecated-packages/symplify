@@ -46,7 +46,7 @@
         "phpunit/phpunit": "^9.5.26",
         "psr/log": "^1.1.4",
         "rector/rector": "dev-main",
-        "symfony/framework-bundle": "^6.2",
+        "symfony/framework-bundle": "^6.1",
         "symfony/twig-bundle": "^6.2",
         "tracy/tracy": "^2.9.4"
     },

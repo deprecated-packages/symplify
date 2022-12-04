@@ -18,7 +18,7 @@
         "symplify/rule-doc-generator": "^11.2",
         "phpunit/phpunit": "^9.5.26",
         "myclabs/php-enum": "^1.8",
-        "symfony/framework-bundle": "^6.2"
+        "symfony/framework-bundle": "^6.1"
     },
     "autoload": {
         "psr-4": {
