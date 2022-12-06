@@ -13,10 +13,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ConflictResolver
 {
     /**
-     * @see https://regex101.com/r/iYPxCV/1
+     * @see https://regex101.com/r/pXt4Io/1
      * @var string
      */
-    private const CONFLICT_REGEX = '#^<<<<<<<<#';
+    private const CONFLICT_REGEX = '#^<<<<<<<#';
 
     public function extractFromFileInfo(SmartFileInfo $fileInfo): int
     {
