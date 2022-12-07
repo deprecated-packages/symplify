@@ -13,7 +13,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ConflictResolver
 {
     /**
-     * @see https://regex101.com/r/pXt4Io/1
+     * @see https://regex101.com/r/iYPxCV/2
      * @var string
      */
     private const CONFLICT_REGEX = '#^<<<<<<<#';
