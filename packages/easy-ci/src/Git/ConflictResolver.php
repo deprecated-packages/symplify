@@ -40,9 +40,7 @@ final class ConflictResolver
             }
 
             // test fixtures, that should be ignored
-            if ($fileInfo->getRealPath() === realpath(
-                __DIR__ . '/../../tests/Git/ConflictResolver/Fixture/some_file.txt'
-            )) {
+            if (str_contains($fileInfo->getRealPath(), '/tests/Git/ConflictResolver/Fixture')) {
                 continue;
             }
 
