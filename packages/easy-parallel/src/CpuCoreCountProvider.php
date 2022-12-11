@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\EasyParallel;
 
-use Fidry\CpuCounter\CpuCoreCounter;
-use Fidry\CpuCounter\NumberOfCpuCoreNotFound;
+use Fidry\CpuCoreCounter\CpuCoreCounter;
+use Fidry\CpuCoreCounter\NumberOfCpuCoreNotFound;
 
 final class CpuCoreCountProvider
 {
