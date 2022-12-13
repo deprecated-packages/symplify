@@ -12,12 +12,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConstantPathTwigTemplateAnalyzerTest extends AbstractKernelTestCase
 {
-    private ConstantPathTwigTemplateAnalyzer $missingClassConstantTwigAnalyzer;
+    private ConstantPathTwigTemplateAnalyzer $constantPathTwigTemplateAnalyzer;
 
     protected function setUp(): void
     {
         $this->bootKernel(EasyCIKernel::class);
-        $this->missingClassConstantTwigAnalyzer = $this->getService(ConstantPathTwigTemplateAnalyzer::class);
+        $this->constantPathTwigTemplateAnalyzer = $this->getService(ConstantPathTwigTemplateAnalyzer::class);
     }
 
     /**
@@ -25,7 +25,7 @@ final class ConstantPathTwigTemplateAnalyzerTest extends AbstractKernelTestCase
      */
     public function test(SmartFileInfo $inputFileInfo, int $expectedErrorCount): void
     {
-        $templateErrors = $this->missingClassConstantTwigAnalyzer->analyze([$inputFileInfo]);
+        $templateErrors = $this->constantPathTwigTemplateAnalyzer->analyze([$inputFileInfo]);
         $this->assertCount($expectedErrorCount, $templateErrors);
     }
 
