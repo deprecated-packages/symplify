@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\ClassMethod;
 
+use Twig\Extension\ExtensionInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -38,7 +39,7 @@ final class PublicClassMethodCollector implements Collector
 
         // skip
         if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(
-            'Twig\Extension\ExtensionInterface'
+            ExtensionInterface::class
         )) {
             return null;
         }
