@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Matcher\Collector;
 
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Reflection\ClassReflection;
 use PHPUnit\Framework\TestCase;
@@ -65,6 +66,17 @@ final class PublicClassMethodMatcher
             return true;
         }
 
-        return ! $classMethod->isPublic();
+        if (! $classMethod->isPublic()) {
+            return true;
+        }
+
+        $doc = $classMethod->getDocComment();
+
+        // skip symfony action
+        if ($doc instanceof Doc && str_contains($doc->getText(), '@Route')) {
+            return true;
+        }
+
+        return false;
     }
 }

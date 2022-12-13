@@ -39,6 +39,7 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
 
         // public methods expected
         yield [[__DIR__ . '/Fixture/SkipTestPublicMethod.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipControllerMethod.php'], []];
 
         // method required by parent
         yield [[__DIR__ . '/Fixture/SkipParentMethodOverride.php'], []];
@@ -85,7 +86,6 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        $container = self::getContainer();
-        return $container->getByType(UnusedPublicClassMethodRule::class);
+        return self::getContainer()->getByType(UnusedPublicClassMethodRule::class);
     }
 }
