@@ -1,4 +1,4 @@
-# 118 Rules Overview
+# 119 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4453,6 +4453,44 @@ final class Driver
     {
         $car->turn();
     }
+}
+```
+
+:+1:
+
+<br>
+
+## UnusedPublicStaticPropertyRule
+
+Public property "$%s" is never used outside of its class
+
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicStaticPropertyRule`](../src/Rules/DeadCode/UnusedPublicStaticPropertyRule.php)
+
+```php
+final class Category
+{
+    public PREMIUM = 'premium';
+
+    public EXTRA = 'extra';
+}
+
+if ($category === Category::PREMIUM) {
+    return 1000;
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Category
+{
+    public PREMIUM = 'premium';
+}
+
+if ($category === Category::PREMIUM) {
+    return 1000;
 }
 ```
 

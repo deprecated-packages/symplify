@@ -44,9 +44,7 @@ final class RepositoryPathComposerJsonDecoratorTest extends AbstractComposerJson
     {
         $this->bootKernel(MonorepoBuilderKernel::class);
 
-        $this->repositoryPathComposerJsonDecorator = $this->getService(
-            RepositoryPathComposerJsonDecorator::class
-        );
+        $this->repositoryPathComposerJsonDecorator = $this->getService(RepositoryPathComposerJsonDecorator::class);
         $this->composerJson = $this->createMainComposerJson();
         $this->expectedComposerJson = $this->createExpectedComposerJson();
     }
