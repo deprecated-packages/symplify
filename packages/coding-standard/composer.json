@@ -14,7 +14,7 @@
     "require-dev": {
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2",
-        "symfony/framework-bundle": "^6.2",
+        "symfony/framework-bundle": "6.1.*",
         "symplify/easy-coding-standard": "^11.2",
         "phpunit/phpunit": "^9.5.26",
         "symplify/rule-doc-generator": "^11.2",

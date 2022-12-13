@@ -20,7 +20,7 @@
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
         "phpunit/phpunit": "^9.5.26",
-        "symfony/framework-bundle": "^6.2",
+        "symfony/framework-bundle": "6.1.*",
         "symplify/easy-testing": "^11.2"
     },
     "autoload": {
