@@ -11,7 +11,7 @@
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.2",
         "symfony/console": "^6.2",
-        "symfony/dependency-injection": "^6.2",
+        "symfony/dependency-injection": "6.1.*",
         "symfony/expression-language": "^6.2",
         "symfony/yaml": "^6.2",
         "symplify/php-config-printer": "^11.2",
