@@ -3,6 +3,7 @@ includes:
 
 # these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
 rules:
+    - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicPropertyRule
     - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicStaticPropertyRule
     - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule
     - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule
@@ -13,6 +14,17 @@ rules:
     - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
 
 services:
+    # for UnusedPublicPropertyRule
+    -
+        class: Symplify\PHPStanRules\Collector\Class_\PublicPropertyCollector
+        tags:
+            - phpstan.collector
+
+    -
+        class: Symplify\PHPStanRules\Collector\PropertyFetch\PublicPropertyFetchCollector
+        tags:
+            - phpstan.collector
+
     # for UnusedPublicStaticPropertyRule
     -
         class: Symplify\PHPStanRules\Collector\StaticPropertyFetch\PublicStaticPropertyFetchCollector

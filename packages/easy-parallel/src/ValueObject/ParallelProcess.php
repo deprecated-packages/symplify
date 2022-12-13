@@ -22,7 +22,7 @@ use Throwable;
  */
 final class ParallelProcess
 {
-    public Process $process;
+    private Process $process;
 
     private Encoder $encoder;
 
