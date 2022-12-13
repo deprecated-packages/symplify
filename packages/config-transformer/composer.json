@@ -9,18 +9,18 @@
         "php": ">=8.1",
         "ext-dom": "*",
         "nette/utils": "^3.2",
-        "nikic/php-parser": "^4.15.1",
-        "symfony/console": "^6.1",
-        "symfony/dependency-injection": "^6.1",
-        "symfony/expression-language": "^6.1",
-        "symfony/yaml": "^6.1",
+        "nikic/php-parser": "^4.15.2",
+        "symfony/console": "^6.2",
+        "symfony/dependency-injection": "^6.2",
+        "symfony/expression-language": "^6.2",
+        "symfony/yaml": "^6.2",
         "symplify/php-config-printer": "^11.2",
         "symplify/symplify-kernel": "^11.2"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
-        "phpunit/phpunit": "^9.5.25",
-        "symfony/framework-bundle": "^6.1",
+        "phpunit/phpunit": "^9.5.26",
+        "symfony/framework-bundle": "^6.2",
         "symplify/easy-testing": "^11.2"
     },
     "autoload": {
@@ -54,7 +54,6 @@
     },
     "conflict": {
         "symplify/composer-json-manipulator": "<11.1.17",
-        "symplify/easy-coding-standard": "<11.1.17",
         "symplify/phpstan-rules": "<11.1.17",
         "symplify/easy-testing": "<11.1.17",
         "symplify/rule-doc-generator-contracts": "<11.1.17",
@@ -62,12 +61,9 @@
         "symplify/package-builder": "<11.1.17",
         "symplify/phpstan-extensions": "<11.1.17",
         "symplify/rule-doc-generator": "<11.1.17",
-        "symplify/vendor-patches": "<11.1.17",
         "symplify/smart-file-system": "<11.1.17",
         "symplify/symfony-static-dumper": "<11.1.17",
         "symplify/symplify-kernel": "<9.4.70",
-        "symplify/monorepo-builder": "<11.1.17",
-        "symplify/easy-ci": "<11.1.17",
         "symplify/coding-standard": "<11.1.17",
         "symplify/easy-parallel": "<11.1.17"
     },

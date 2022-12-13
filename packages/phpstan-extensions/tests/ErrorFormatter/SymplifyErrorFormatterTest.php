@@ -26,7 +26,7 @@ final class SymplifyErrorFormatterTest extends ErrorFormatterTestCase
         $symplifyErrorFormatter = self::getContainer()->getByType(SymplifyErrorFormatter::class);
 
         $analysisResult = $this->getAnalysisResult($numFileErrors, $numGenericErrors);
-        $resultCode = $symplifyErrorFormatter->formatErrors($analysisResult, $this->getOutput(),);
+        $resultCode = $symplifyErrorFormatter->formatErrors($analysisResult, $this->getOutput());
 
         $this->assertSame($expectedExitCode, $resultCode);
 

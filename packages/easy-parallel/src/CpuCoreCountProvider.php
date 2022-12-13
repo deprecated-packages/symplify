@@ -4,19 +4,11 @@ declare(strict_types=1);
 
 namespace Symplify\EasyParallel;
 
-use Nette\Utils\Strings;
+use Fidry\CpuCoreCounter\CpuCoreCounter;
+use Fidry\CpuCoreCounter\NumberOfCpuCoreNotFound;
 
-/**
- * From https://github.com/phpstan/phpstan-src/commit/9124c66dcc55a222e21b1717ba5f60771f7dda92
- */
 final class CpuCoreCountProvider
 {
-    /**
-     * @see https://regex101.com/r/XMeAl4/1
-     * @var string
-     */
-    private const PROCESSOR_REGEX = '#^processor#m';
-
     /**
      * @var int
      */
@@ -24,52 +16,10 @@ final class CpuCoreCountProvider
 
     public function provide(): int
     {
-        // from brianium/paratest
-        $cpuInfoCount = $this->resolveFromProcCpuinfo();
-        if ($cpuInfoCount !== null) {
-            return $cpuInfoCount;
+        try {
+            return (new CpuCoreCounter())->getCount();
+        } catch (NumberOfCpuCoreNotFound) {
+            return self::DEFAULT_CORE_COUNT;
         }
-
-        $coreCount = self::DEFAULT_CORE_COUNT;
-
-        if (\DIRECTORY_SEPARATOR === '\\') {
-            // Windows
-            $process = @popen('wmic cpu get NumberOfCores', 'rb');
-            if ($process !== false) {
-                fgets($process);
-                $coreCount = (int) fgets($process);
-                pclose($process);
-            }
-
-            return $coreCount;
-        }
-
-        $process = @\popen('sysctl -n hw.ncpu', 'rb');
-        if ($process !== false) {
-            $coreCount = (int) fgets($process);
-            pclose($process);
-        }
-
-        return $coreCount;
-    }
-
-    private function resolveFromProcCpuinfo(): int|null
-    {
-        if (! is_file('/proc/cpuinfo')) {
-            return null;
-        }
-
-        // Linux (and potentially Windows with linux sub systems)
-        $cpuinfo = file_get_contents('/proc/cpuinfo');
-        if ($cpuinfo === false) {
-            return null;
-        }
-
-        $matches = Strings::matchAll($cpuinfo, self::PROCESSOR_REGEX);
-        if ($matches === []) {
-            return 0;
-        }
-
-        return count($matches);
     }
 }

@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
-use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
+
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
+use PhpCsFixer\Fixer\Basic\NoTrailingCommaInSinglelineFixer;
 use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\Whitespace\ArrayIndentationFixer;
 use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
@@ -23,10 +24,13 @@ return static function (ECSConfig $ecsConfig): void {
         WhitespaceAfterCommaInArrayFixer::class,
         ArrayListItemNewlineFixer::class,
         StandaloneLineInMultilineArrayFixer::class,
-        NoTrailingCommaInSinglelineArrayFixer::class,
     ]);
 
     // commas
+    $ecsConfig->ruleWithConfiguration(NoTrailingCommaInSinglelineFixer::class, [
+        'elements' => ['arguments', 'array_destructuring', 'array', 'group_import'],
+    ]);
+
     $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, [
         'elements' => [TrailingCommaInMultilineFixer::ELEMENTS_ARRAYS],
     ]);

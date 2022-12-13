@@ -28,10 +28,10 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class ConfigLoader
 {
     /**
-     * @see https://regex101.com/r/4Uanps/2
+     * @see https://regex101.com/r/4Uanps/4
      * @var string
      */
-    private const PHP_CONST_REGEX = '#!php/const[:\s]\s*(.*)(\s*)#';
+    private const PHP_CONST_REGEX = '#!php/const:?\s*([a-zA-Z0-9_\\\\]+(::[a-zA-Z0-9_]+)?)+(:\s*(.*))?#';
 
     /**
      * @see https://regex101.com/r/spi4ir/1
@@ -68,7 +68,11 @@ final class ConfigLoader
             $content = Strings::replace(
                 $content,
                 self::PHP_CONST_REGEX,
-                static fn ($match): string => '"%const(' . str_replace('\\', '\\\\', $match[1]) . ')%"' . $match[2]
+                static fn ($match): string => '"%const(' . str_replace(
+                    '\\',
+                    '\\\\',
+                    $match[1]
+                ) . ')%"' . ($match[3] ?? '')
             );
             if ($content !== $smartFileInfo->getContents()) {
                 $fileRealPath = sys_get_temp_dir() . '/__symplify_config_tranformer_clean_yaml/' . $smartFileInfo->getFilename();

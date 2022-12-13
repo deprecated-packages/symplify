@@ -35,6 +35,7 @@ final class ConflictResolverTest extends AbstractKernelTestCase
     public function provideData(): Iterator
     {
         yield [new SmartFileInfo(__DIR__ . '/Fixture/some_file.txt'), 1];
+        yield [new SmartFileInfo(__DIR__ . '/Fixture/some_other_file.txt'), 1];
         yield [new SmartFileInfo(__DIR__ . '/Fixture/correct_file.txt'), 0];
     }
 }

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanExtensions\Tests\TypeExtension\MethodCall\SplFileInfoTolerantReturnTypeExtension;
 
+use Iterator;
 use PHPStan\Testing\TypeInferenceTestCase;
 
 final class SplFileInfoTolerantReturnTypeExtensionTest extends TypeInferenceTestCase
 {
-    /**
-     * @return iterable<string, mixed[]>
-     */
-    public function dataAsserts(): iterable
+    public function dataAsserts(): Iterator
     {
         yield from $this->gatherAssertTypes(__DIR__ . '/data/fixture.php');
     }

@@ -13,10 +13,10 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class ConflictResolver
 {
     /**
-     * @see https://regex101.com/r/iYPxCV/1
+     * @see https://regex101.com/r/iYPxCV/2
      * @var string
      */
-    private const CONFLICT_REGEX = '#^<<<<<<<<#';
+    private const CONFLICT_REGEX = '#^<<<<<<<#';
 
     public function extractFromFileInfo(SmartFileInfo $fileInfo): int
     {
@@ -40,9 +40,7 @@ final class ConflictResolver
             }
 
             // test fixtures, that should be ignored
-            if ($fileInfo->getRealPath() === realpath(
-                __DIR__ . '/../../tests/Git/ConflictResolver/Fixture/some_file.txt'
-            )) {
+            if (str_contains($fileInfo->getRealPath(), '/tests/Git/ConflictResolver/Fixture')) {
                 continue;
             }
 

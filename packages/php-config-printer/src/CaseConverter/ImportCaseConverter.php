@@ -134,12 +134,9 @@ final class ImportCaseConverter implements CaseConverterInterface
 
     private function resolveExpr(mixed $value): Expr
     {
-        if (is_bool($value)) {
-            return BuilderHelpers::normalizeValue($value);
-        }
-
-        if (in_array($value, ['annotations', 'directory', 'glob'], true)) {
-            return BuilderHelpers::normalizeValue($value);
+        $expr = $this->processNormalizedValue($value);
+        if ($expr instanceof Expr) {
+            return $expr;
         }
 
         if ($value === 'not_found') {
@@ -151,7 +148,29 @@ final class ImportCaseConverter implements CaseConverterInterface
             return new ClassConstFetch(new FullyQualified($className), $constantName);
         }
 
+        if (is_string($value) && \str_starts_with($value, '@')) {
+            return new String_($value);
+        }
+
         $value = $this->replaceImportedFileSuffix($value);
+
+        if (is_string($value) && \str_starts_with($value, '%')) {
+            return new String_($value);
+        }
+
         return $this->commonNodeFactory->createAbsoluteDirExpr($value);
+    }
+
+    private function processNormalizedValue(mixed $value): ?Expr
+    {
+        if (is_bool($value)) {
+            return BuilderHelpers::normalizeValue($value);
+        }
+
+        if (in_array($value, ['annotations', 'directory', 'glob'], true)) {
+            return BuilderHelpers::normalizeValue($value);
+        }
+
+        return null;
     }
 }

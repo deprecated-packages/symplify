@@ -5,23 +5,23 @@
     "type": "symfony-bundle",
     "require": {
         "php": ">=8.1",
-        "symfony/console": "^6.1",
-        "symfony/filesystem": "^6.1",
-        "symfony/finder": "^6.1",
-        "symfony/http-foundation": "^6.1",
-        "symfony/config": "^6.1",
-        "symfony/dependency-injection": "^6.1",
-        "symfony/routing": "^6.1",
+        "symfony/console": "^6.2",
+        "symfony/filesystem": "^6.2",
+        "symfony/finder": "^6.2",
+        "symfony/http-foundation": "^6.2",
+        "symfony/config": "^6.2",
+        "symfony/dependency-injection": "^6.2",
+        "symfony/routing": "^6.2",
         "symplify/autowire-array-parameter": "^11.2",
         "symplify/package-builder": "^11.2",
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.8.11",
-        "phpunit/phpunit": "^9.5.25",
-        "symfony/framework-bundle": "^6.1",
-        "symfony/twig-bundle": "^6.1"
+        "phpstan/phpstan": "^1.9.2",
+        "phpunit/phpunit": "^9.5.26",
+        "symfony/framework-bundle": "^6.2",
+        "symfony/twig-bundle": "^6.2"
     },
     "autoload": {
         "psr-4": {
@@ -41,17 +41,13 @@
     },
     "conflict": {
         "symplify/composer-json-manipulator": "<11.1.17",
-        "symplify/easy-coding-standard": "<11.1.17",
         "symplify/phpstan-rules": "<11.1.17",
         "symplify/easy-testing": "<11.1.17",
         "symplify/rule-doc-generator-contracts": "<11.1.17",
         "symplify/php-config-printer": "<11.1.17",
         "symplify/phpstan-extensions": "<11.1.17",
         "symplify/rule-doc-generator": "<11.1.17",
-        "symplify/vendor-patches": "<11.1.17",
-        "symplify/monorepo-builder": "<11.1.17",
         "symplify/config-transformer": "<11.1.17",
-        "symplify/easy-ci": "<11.1.17",
         "symplify/coding-standard": "<11.1.17",
         "symplify/easy-parallel": "<11.1.17"
     },

@@ -14,9 +14,9 @@
     "require-dev": {
         "symplify/symplify-kernel": "^11.2",
         "symplify/smart-file-system": "^11.2",
-        "symfony/framework-bundle": "^6.1",
+        "symfony/framework-bundle": "^6.2",
         "symplify/easy-coding-standard": "^11.2",
-        "phpunit/phpunit": "^9.5.25",
+        "phpunit/phpunit": "^9.5.26",
         "symplify/rule-doc-generator": "^11.2",
         "cweagans/composer-patches": "^1.7"
     },
@@ -37,7 +37,7 @@
         "enable-patching": true,
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/symplify/vendor-patch-files/main/patches/generic-php-config-loader.patch"
+                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
             ]
         }
     },
@@ -48,18 +48,14 @@
     },
     "conflict": {
         "symplify/composer-json-manipulator": "<11.1.17",
-        "symplify/easy-coding-standard": "<11.1.17",
         "symplify/phpstan-rules": "<11.1.17",
         "symplify/easy-testing": "<11.1.17",
         "symplify/php-config-printer": "<11.1.17",
         "symplify/phpstan-extensions": "<11.1.17",
         "symplify/rule-doc-generator": "<11.1.17",
-        "symplify/vendor-patches": "<11.1.17",
         "symplify/smart-file-system": "<11.1.17",
         "symplify/symfony-static-dumper": "<11.1.17",
-        "symplify/monorepo-builder": "<11.1.17",
         "symplify/config-transformer": "<11.1.17",
-        "symplify/easy-ci": "<11.1.17",
         "symplify/easy-parallel": "<11.1.17"
     },
     "minimum-stability": "dev",

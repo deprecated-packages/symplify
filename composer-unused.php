@@ -11,9 +11,6 @@ return static function (Configuration $config): Configuration {
     // required to install patches
     $config->addNamedFilter(NamedFilter::fromString('cweagans/composer-patches'));
 
-    // needed for config transformer and legacy symfony configs
-    $config->addNamedFilter(NamedFilter::fromString('symfony/expression-language'));
-
     // required by ECS
     $config->addNamedFilter(NamedFilter::fromString('squizlabs/php_codesniffer'));
 
