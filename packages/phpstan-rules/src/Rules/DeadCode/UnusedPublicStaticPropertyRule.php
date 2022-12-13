@@ -79,26 +79,26 @@ final class UnusedPublicStaticPropertyRule implements Rule, DocumentedRuleInterf
         return new RuleDefinition(self::ERROR_MESSAGE, [
             new CodeSample(
                 <<<'CODE_SAMPLE'
-final class Category
+final class ResultProvider
 {
-    public PREMIUM = 'premium';
+    public static $some;
 
-    public EXTRA = 'extra';
-}
-
-if ($category === Category::PREMIUM) {
-    return 1000;
+    public function getSome()
+    {
+        return self::$some;
+    }
 }
 CODE_SAMPLE
                 ,
                 <<<'CODE_SAMPLE'
-final class Category
+final class ResultProvider
 {
-    public PREMIUM = 'premium';
-}
+    private static $some;
 
-if ($category === Category::PREMIUM) {
-    return 1000;
+    public function getSome()
+    {
+        return self::$some;
+    }
 }
 CODE_SAMPLE
             ),
