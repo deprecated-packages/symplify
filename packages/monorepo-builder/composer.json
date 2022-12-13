@@ -45,7 +45,7 @@
         },
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection-loader-phpfileloader-php.patch"
+                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection.patch"
             ]
         }
     },

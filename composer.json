@@ -31,7 +31,7 @@
         "symfony/filesystem": "^6.2",
         "symfony/finder": "^6.2",
         "symfony/http-foundation": "^6.2",
-        "symfony/http-kernel": "^6.2",
+        "symfony/http-kernel": "6.1.*",
         "symfony/process": "^6.2",
         "symfony/routing": "^6.2",
         "symfony/yaml": "^6.2",
@@ -47,8 +47,8 @@
         "phpunit/phpunit": "^9.5.26",
         "psr/log": "^1.1.4",
         "rector/rector": "dev-main",
-        "symfony/framework-bundle": "^6.2",
-        "symfony/twig-bundle": "^6.2",
+        "symfony/framework-bundle": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
         "tracy/tracy": "^2.9.4"
     },
     "autoload": {
@@ -140,7 +140,7 @@
         "enable-patching": true,
         "patches": {
             "symfony/dependency-injection": [
-                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection-loader-phpfileloader-php.patch",
+                "https://raw.githubusercontent.com/rectorphp/vendor-patches/main/patches/symfony-dependency-injection.patch",
                 "patches/symfony-dependency-injection-loader-yamlfileloader-php.patch",
                 "patches/symfony-dependency-injection-definition-php.patch"
             ],
