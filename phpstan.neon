@@ -526,4 +526,11 @@ parameters:
         - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicStaticPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
 
         - '#Parameter \#1 \$configs \(array<string>\) of method Symplify\\(.*?)\:\:load\(\) should be compatible with parameter \$configs \(array<array>\) of method Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\:\:load\(\)#'
+
+        # collectors
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicStaticPropertyRule\:\:processNode\(\)" is 10, keep it under 8#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicPropertyRule\:\:processNode\(\)" is 10, keep it under 8#'
+        - '#Parameter \#1 \$collectorType of method PHPStan\\Node\\CollectedDataNode\:\:get\(\) expects class\-string<PHPStan\\Collectors\\Collector<PhpParser\\Node, array<string>>>, string given#'
+        - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
+
+

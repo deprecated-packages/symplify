@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\PropertyFetch;
 
-use PhpParser\Node\Expr\Variable;
 use PhpParser\Node;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PHPStan\Analyser\Scope;
 use PHPStan\Collectors\Collector;
@@ -16,19 +17,16 @@ use PHPStan\Type\TypeWithClassName;
  */
 final class PublicPropertyFetchCollector implements Collector
 {
-<<<<<<< HEAD
-=======
     /**
      * @return class-string<Node>
      */
->>>>>>> 73b9ce0fa ([ci-review] Rector Rectify)
     public function getNodeType(): string
     {
-        return Node\Expr\PropertyFetch::class;
+        return PropertyFetch::class;
     }
 
     /**
-     * @param Node\Expr\PropertyFetch $node
+     * @param PropertyFetch $node
      * @return string[]|null
      */
     public function processNode(Node $node, Scope $scope): ?array
