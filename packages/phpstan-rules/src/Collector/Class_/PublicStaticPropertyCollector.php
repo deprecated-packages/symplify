@@ -23,7 +23,7 @@ final class PublicStaticPropertyCollector implements Collector
     }
 
     /**
-     * @return class-string<\PhpParser\Node>
+     * @return class-string<Node>
      */
     public function getNodeType(): string
     {
