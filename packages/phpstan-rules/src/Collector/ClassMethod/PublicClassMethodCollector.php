@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\ClassMethod;
 
+use Twig\Extension\ExtensionInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -34,6 +35,15 @@ final class PublicClassMethodCollector implements Collector
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
+        $classReflection = $scope->getClassReflection();
+
+        // skip
+        if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(
+            ExtensionInterface::class
+        )) {
+            return null;
+        }
+
         if ($this->publicClassMethodMatcher->shouldSkipClassMethod($node)) {
             return null;
         }

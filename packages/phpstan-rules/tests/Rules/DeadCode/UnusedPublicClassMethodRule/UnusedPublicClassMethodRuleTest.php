@@ -39,6 +39,7 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
 
         // public methods expected
         yield [[__DIR__ . '/Fixture/SkipTestPublicMethod.php'], []];
+        yield [[__DIR__ . '/Fixture/SkipControllerMethod.php'], []];
 
         // method required by parent
         yield [[__DIR__ . '/Fixture/SkipParentMethodOverride.php'], []];
@@ -55,6 +56,8 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
             __DIR__ . '/Fixture/SkipNullableUsedPublicMethod.php', __DIR__ . '/Source/NullableClassMethodCaller.php', ],
             [],
         ];
+
+        yield [[__DIR__ . '/Fixture/SkipPublicMethodInTwigExtension.php'], []];
 
         // parent abstract method used by child call
         yield [[
@@ -85,7 +88,6 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        $container = self::getContainer();
-        return $container->getByType(UnusedPublicClassMethodRule::class);
+        return self::getContainer()->getByType(UnusedPublicClassMethodRule::class);
     }
 }
