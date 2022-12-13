@@ -57,6 +57,8 @@ final class UnusedPublicClassMethodRuleTest extends RuleTestCase
             [],
         ];
 
+        yield [[__DIR__ . '/Fixture/SkipPublicMethodInTwigExtension.php'], []];
+
         // parent abstract method used by child call
         yield [[
             __DIR__ . '/Fixture/SkipChildUsedPublicMethod.php',

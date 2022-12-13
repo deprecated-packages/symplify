@@ -34,6 +34,15 @@ final class PublicClassMethodCollector implements Collector
      */
     public function processNode(Node $node, Scope $scope): ?array
     {
+        $classReflection = $scope->getClassReflection();
+
+        // skip
+        if ($classReflection instanceof ClassReflection && $classReflection->isSubclassOf(
+            'Twig\Extension\ExtensionInterface'
+        )) {
+            return null;
+        }
+
         if ($this->publicClassMethodMatcher->shouldSkipClassMethod($node)) {
             return null;
         }
