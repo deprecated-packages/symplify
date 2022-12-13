@@ -4467,15 +4467,14 @@ Public property "$%s" is never used outside of its class
 - class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicStaticPropertyRule`](../src/Rules/DeadCode/UnusedPublicStaticPropertyRule.php)
 
 ```php
-final class Category
+final class ResultProvider
 {
-    public PREMIUM = 'premium';
+    public static $some;
 
-    public EXTRA = 'extra';
-}
-
-if ($category === Category::PREMIUM) {
-    return 1000;
+    public function getSome()
+    {
+        return self::$some;
+    }
 }
 ```
 
@@ -4484,13 +4483,14 @@ if ($category === Category::PREMIUM) {
 <br>
 
 ```php
-final class Category
+final class ResultProvider
 {
-    public PREMIUM = 'premium';
-}
+    private static $some;
 
-if ($category === Category::PREMIUM) {
-    return 1000;
+    public function getSome()
+    {
+        return self::$some;
+    }
 }
 ```
 
