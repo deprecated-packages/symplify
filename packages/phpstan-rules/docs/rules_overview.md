@@ -1,4 +1,4 @@
-# 119 Rules Overview
+# 120 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -4452,6 +4452,44 @@ final class Driver
     public function driveCar(Car $car)
     {
         $car->turn();
+    }
+}
+```
+
+:+1:
+
+<br>
+
+## UnusedPublicPropertyRule
+
+Property `"%s()"` is never used outside of its class
+
+- class: [`Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicPropertyRule`](../src/Rules/DeadCode/UnusedPublicPropertyRule.php)
+
+```php
+final class Car
+{
+    public $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+}
+```
+
+:x:
+
+<br>
+
+```php
+final class Car
+{
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
     }
 }
 ```
