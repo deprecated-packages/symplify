@@ -135,7 +135,6 @@ parameters:
         -
             message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
             paths:
-                - packages/easy-parallel/src/CpuCoreCountProvider.php
                 - packages/smart-file-system/src/SmartFileSystem.php
 
         # child type
@@ -266,9 +265,6 @@ parameters:
         -
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
-
-        # parallel
-        - '#popen(.*?)" is forbidden to use#'
 
         # json return
         -
@@ -527,5 +523,7 @@ parameters:
 
         # false postive
         - '#Method Symplify\\EasyCodingStandard\\Console\\Command\\ListCheckersCommand\:\:getObjectClasses\(\) should return array<class\-string<TObject of PHP_CodeSniffer\\Sniffs\\Sniff\|PhpCsFixer\\Fixer\\FixerInterface>> but returns array<TObject of class\-string<PHP_CodeSniffer\\Sniffs\\Sniff>\|class\-string<PhpCsFixer\\Fixer\\FixerInterface>>#'
+        - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicStaticPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
 
         - '#Parameter \#1 \$configs \(array<string>\) of method Symplify\\(.*?)\:\:load\(\) should be compatible with parameter \$configs \(array<array>\) of method Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\:\:load\(\)#'
+        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicStaticPropertyRule\:\:processNode\(\)" is 10, keep it under 8#'
