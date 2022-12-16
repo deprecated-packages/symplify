@@ -9,7 +9,6 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -26,13 +25,6 @@ final class ParamTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInte
      * @var string
      */
     public const ERROR_MESSAGE = 'Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%';
-
-    public function __construct(
-        private SeaLevelRuleErrorFormatter $seaLevelRuleErrorFormatter,
-        private float $minimalLevel = 0.80,
-        private bool $printSuggestions = true
-    ) {
-    }
 
     /**
      * @return class-string<Node>
