@@ -13,6 +13,7 @@ use PHPStan\Collectors\Collector;
 
 /**
  * @implements Collector<ClassConstFetch, string[]>
+ * @deprecated
  */
 final class ClassConstFetchCollector implements Collector
 {

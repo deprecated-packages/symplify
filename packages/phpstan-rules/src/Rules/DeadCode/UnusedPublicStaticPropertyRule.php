@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\DeadCode;
 
-use Nette\Utils\Arrays;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\Collector\Class_\PublicStaticPropertyCollector;
-use Symplify\PHPStanRules\Collector\StaticPropertyFetch\PublicStaticPropertyFetchCollector;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicStaticPropertyRule\UnusedPublicStaticPropertyRuleTest
+ * @deprecated
  */
 final class UnusedPublicStaticPropertyRule implements Rule, DocumentedRuleInterface
 {
@@ -43,35 +40,13 @@ final class UnusedPublicStaticPropertyRule implements Rule, DocumentedRuleInterf
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $staticStaticPropertyFetchCollector = $node->get(PublicStaticPropertyFetchCollector::class);
-        $publicStaticPropertyCollector = $node->get(PublicStaticPropertyCollector::class);
-
-        $ruleErrors = [];
-
-        foreach ($publicStaticPropertyCollector as $filePath => $declarationsGroups) {
-            foreach ($declarationsGroups as $declarationGroup) {
-                foreach ($declarationGroup as [$className, $propertyName, $line]) {
-                    if ($this->isPublicStaticPropertyUsed(
-                        $className,
-                        $propertyName,
-                        $staticStaticPropertyFetchCollector
-                    )) {
-                        continue;
-                    }
-
-                    /** @var string $propertyName */
-                    $errorMessage = sprintf(self::ERROR_MESSAGE, $propertyName);
-
-                    $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
-                        ->file($filePath)
-                        ->line($line)
-                        ->tip(self::TIP_MESSAGE)
-                        ->build();
-                }
-            }
-        }
-
-        return $ruleErrors;
+        return [
+            RuleErrorBuilder::message(sprintf(
+                'The "%s" rule was deprecated and moved to "%s" package that has much simpler configuration. Use it instead.',
+                self::class,
+                'https://github.com/TomasVotruba/unused-public'
+            ))->build(),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -103,16 +78,5 @@ final class ResultProvider
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param mixed[] $usedProperties
-     */
-    private function isPublicStaticPropertyUsed(string $className, string $propertyName, array $usedProperties): bool
-    {
-        $publicPropertyReference = $className . '::' . $propertyName;
-
-        $usedProperties = Arrays::flatten($usedProperties);
-        return in_array($publicPropertyReference, $usedProperties, true);
     }
 }

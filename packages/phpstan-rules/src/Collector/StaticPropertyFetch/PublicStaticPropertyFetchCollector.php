@@ -13,6 +13,7 @@ use PHPStan\Collectors\Collector;
 
 /**
  * @implements Collector<StaticPropertyFetch, string[]>
+ * @deprecated
  */
 final class PublicStaticPropertyFetchCollector implements Collector
 {

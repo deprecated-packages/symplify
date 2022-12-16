@@ -3,10 +3,6 @@ includes:
 
 # these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
 rules:
-    - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicPropertyRule
-    - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicStaticPropertyRule
-    - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassConstRule
-    - Symplify\PHPStanRules\Rules\DeadCode\UnusedPublicClassMethodRule
     - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
     - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
     - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
@@ -14,26 +10,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
 
 services:
-    # for UnusedPublicPropertyRule
-    -
-        class: Symplify\PHPStanRules\Collector\Class_\PublicPropertyCollector
-        tags:
-            - phpstan.collector
-
-    -
-        class: Symplify\PHPStanRules\Collector\PropertyFetch\PublicPropertyFetchCollector
-        tags:
-            - phpstan.collector
-
-    # for UnusedPublicStaticPropertyRule
-    -
-        class: Symplify\PHPStanRules\Collector\StaticPropertyFetch\PublicStaticPropertyFetchCollector
-        tags: [phpstan.collector]
-
-    -
-        class: Symplify\PHPStanRules\Collector\Class_\PublicStaticPropertyCollector
-        tags: [phpstan.collector]
-
     # for ForbiddenAlwaysSetterCallRule
     -
         class: Symplify\PHPStanRules\Collector\ClassMethod\FormTypeClassCollector
@@ -53,23 +29,6 @@ services:
         class: Symplify\PHPStanRules\Collector\Variable\VariableNameCollector
         tags: [phpstan.collector]
 
-    # for UnusedPublicClassConstRule
-    -
-        class: Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector
-        tags: [phpstan.collector]
-
-    -
-        class: Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector
-        tags: [phpstan.collector]
-
-    # for UnusedPublicClassMethodRule
-    -
-        class: Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector
-        tags: [phpstan.collector]
-
-    -
-        class: Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector
-        tags: [phpstan.collector]
 
     # for NarrowPublicClassMethodParamTypeByCallerTypeRule
     -

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Collector\ClassMethod;
 
-use Twig\Extension\ExtensionInterface;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Analyser\Scope;
@@ -12,9 +11,11 @@ use PHPStan\Collectors\Collector;
 use PHPStan\Reflection\ClassReflection;
 use Symplify\PHPStanRules\Matcher\Collector\PublicClassMethodMatcher;
 use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
+use Twig\Extension\ExtensionInterface;
 
 /**
  * @implements Collector<ClassMethod, array{class-string, string, int}|null>
+ * @deprecated
  */
 final class PublicClassMethodCollector implements Collector
 {

@@ -15,6 +15,7 @@ use Symplify\PHPStanRules\ValueObject\MethodCallReference;
 
 /**
  * @implements Collector<MethodCall, array<string>|null>
+ * @deprecated
  */
 final class MethodCallCollector implements Collector
 {

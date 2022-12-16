@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\DeadCode;
 
-use Nette\Utils\Arrays;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\Collector\ClassMethod\MethodCallCollector;
-use Symplify\PHPStanRules\Collector\ClassMethod\PublicClassMethodCollector;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassMethodRule\UnusedPublicClassMethodRuleTest
+ * @deprecated
  */
 final class UnusedPublicClassMethodRule implements Rule, DocumentedRuleInterface
 {
@@ -43,29 +40,13 @@ final class UnusedPublicClassMethodRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $methodCallCollector = $node->get(MethodCallCollector::class);
-        $publicClassMethodCollector = $node->get(PublicClassMethodCollector::class);
-
-        $ruleErrors = [];
-
-        foreach ($publicClassMethodCollector as $filePath => $declarations) {
-            foreach ($declarations as [$className, $methodName, $line]) {
-                if ($this->isClassMethod($className, $methodName, $methodCallCollector)) {
-                    continue;
-                }
-
-                /** @var string $methodName */
-                $errorMessage = sprintf(self::ERROR_MESSAGE, $methodName);
-
-                $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
-                    ->file($filePath)
-                    ->line($line)
-                    ->tip(self::TIP_MESSAGE)
-                    ->build();
-            }
-        }
-
-        return $ruleErrors;
+        return [
+            RuleErrorBuilder::message(sprintf(
+                'The "%s" rule was deprecated and moved to "%s" package that has much simpler configuration. Use it instead.',
+                self::class,
+                'https://github.com/TomasVotruba/unused-public'
+            ))->build(),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -111,16 +92,5 @@ final class Driver
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param mixed[] $usedClassMethods
-     */
-    private function isClassMethod(string $className, string $constantName, array $usedClassMethods): bool
-    {
-        $publicMethodReference = $className . '::' . $constantName;
-        $usedClassMethods = Arrays::flatten($usedClassMethods);
-
-        return in_array($publicMethodReference, $usedClassMethods, true);
     }
 }
