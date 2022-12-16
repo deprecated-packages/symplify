@@ -8,16 +8,15 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanRules\Collector\FunctionLike\ReturnTypeSeaLevelCollector;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule\ReturnTypeDeclarationSeaLevelRuleTest
- *
  * @implements Rule<CollectedDataNode>
+ * @deprecated
  */
 final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInterface
 {
@@ -47,37 +46,13 @@ final class ReturnTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInt
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $returnSeaLevelDataByFilePath = $node->get(ReturnTypeSeaLevelCollector::class);
-
-        $typedReturnCount = 0;
-        $returnCount = 0;
-
-        $printedClassMethods = [];
-
-        foreach ($returnSeaLevelDataByFilePath as $returnSeaLevelData) {
-            foreach ($returnSeaLevelData as $nestedReturnSeaLevelData) {
-                $typedReturnCount += $nestedReturnSeaLevelData[0];
-                $returnCount += $nestedReturnSeaLevelData[1];
-
-                if (! $this->printSuggestions) {
-                    continue;
-                }
-
-                /** @var string $printedClassMethod */
-                $printedClassMethod = $nestedReturnSeaLevelData[2];
-                if ($printedClassMethod !== '') {
-                    $printedClassMethods[] = trim($printedClassMethod);
-                }
-            }
-        }
-
-        return $this->seaLevelRuleErrorFormatter->formatErrors(
-            self::ERROR_MESSAGE,
-            $this->minimalLevel,
-            $returnCount,
-            $typedReturnCount,
-            $printedClassMethods
-        );
+        return [
+            RuleErrorBuilder::message(sprintf(
+                'The "%s" rule was deprecated and moved to "%s" package that has much simpler configuration. Use it instead.',
+                self::class,
+                'https://github.com/TomasVotruba/type-coverage'
+            ))->build(),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition

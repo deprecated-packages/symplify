@@ -22,16 +22,3 @@ services:
             # very strict :)
             minimalLevel: 0.99
             printSuggestions: true
-
-    # for "type declaration sea level"
-    -
-        class: Symplify\PHPStanRules\Collector\FunctionLike\ParamTypeSeaLevelCollector
-        tags: [phpstan.collector]
-
-    -
-        class: Symplify\PHPStanRules\Collector\FunctionLike\ReturnTypeSeaLevelCollector
-        tags: [phpstan.collector]
-
-    -
-        class: Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector
-        tags: [phpstan.collector]

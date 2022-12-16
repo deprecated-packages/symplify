@@ -8,16 +8,14 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
-use Symplify\PHPStanRules\Collector\ClassLike\PropertyTypeSeaLevelCollector;
+use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\Formatter\SeaLevelRuleErrorFormatter;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule\PropertyTypeDeclarationSeaLevelRuleTest
- *
- * @implements Rule<CollectedDataNode>
+ * @deprecated
  */
 final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleInterface
 {
@@ -47,37 +45,13 @@ final class PropertyTypeDeclarationSeaLevelRule implements Rule, DocumentedRuleI
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $propertySeaLevelDataByFilePath = $node->get(PropertyTypeSeaLevelCollector::class);
-
-        $typedPropertyCount = 0;
-        $propertyCount = 0;
-
-        $printedUntypedPropertiesContents = [];
-
-        foreach ($propertySeaLevelDataByFilePath as $propertySeaLevelData) {
-            foreach ($propertySeaLevelData as $nestedPropertySeaLevelData) {
-                $typedPropertyCount += $nestedPropertySeaLevelData[0];
-                $propertyCount += $nestedPropertySeaLevelData[1];
-
-                if (! $this->printSuggestions) {
-                    continue;
-                }
-
-                /** @var string $printedPropertyContent */
-                $printedPropertyContent = $nestedPropertySeaLevelData[2];
-                if ($printedPropertyContent !== '') {
-                    $printedUntypedPropertiesContents[] = trim($printedPropertyContent);
-                }
-            }
-        }
-
-        return $this->seaLevelRuleErrorFormatter->formatErrors(
-            self::ERROR_MESSAGE,
-            $this->minimalLevel,
-            $propertyCount,
-            $typedPropertyCount,
-            $printedUntypedPropertiesContents
-        );
+        return [
+            RuleErrorBuilder::message(sprintf(
+                'The "%s" rule was deprecated and moved to "%s" package that has much simpler configuration. Use it instead.',
+                self::class,
+                'https://github.com/TomasVotruba/type-coverage'
+            ))->build(),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
