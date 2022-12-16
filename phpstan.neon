@@ -533,4 +533,5 @@ parameters:
         - '#Parameter \#1 \$collectorType of method PHPStan\\Node\\CollectedDataNode\:\:get\(\) expects class\-string<PHPStan\\Collectors\\Collector<PhpParser\\Node, array<string>>>, string given#'
         - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
 
-
+        # skip deprecated rule
+        - '#Class "Symplify\\PHPStanRules\\Rules\\DeadCode\\(.*?)" is missing @see annotation with test case class reference#'

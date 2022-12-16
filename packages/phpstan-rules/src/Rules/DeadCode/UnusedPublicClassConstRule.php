@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\Rules\DeadCode;
 
-use Nette\Utils\Arrays;
 use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
-use Symplify\PHPStanRules\Collector\ClassConst\ClassConstFetchCollector;
-use Symplify\PHPStanRules\Collector\ClassConst\PublicClassLikeConstCollector;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\DeadCode\UnusedPublicClassConstRule\UnusedPublicClassConstRuleTest
+ * @deprecated
  */
 final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
 {
@@ -43,31 +40,13 @@ final class UnusedPublicClassConstRule implements Rule, DocumentedRuleInterface
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        $classConstFetchCollector = $node->get(ClassConstFetchCollector::class);
-        $publicClassLikeConstCollector = $node->get(PublicClassLikeConstCollector::class);
-
-        $ruleErrors = [];
-
-        foreach ($publicClassLikeConstCollector as $filePath => $declarationsGroups) {
-            foreach ($declarationsGroups as $declarationGroup) {
-                foreach ($declarationGroup as [$className, $constantName, $line]) {
-                    if ($this->isClassConstantUsed($className, $constantName, $classConstFetchCollector)) {
-                        continue;
-                    }
-
-                    /** @var string $constantName */
-                    $errorMessage = sprintf(self::ERROR_MESSAGE, $constantName);
-
-                    $ruleErrors[] = RuleErrorBuilder::message($errorMessage)
-                        ->file($filePath)
-                        ->line($line)
-                        ->tip(self::TIP_MESSAGE)
-                        ->build();
-                }
-            }
-        }
-
-        return $ruleErrors;
+        return [
+            RuleErrorBuilder::message(sprintf(
+                'The "%s" rule was deprecated and moved to "%s" package that has much simpler configuration. Use it instead.',
+                self::class,
+                'https://github.com/TomasVotruba/unused-public'
+            ))->build(),
+        ];
     }
 
     public function getRuleDefinition(): RuleDefinition
@@ -111,16 +90,5 @@ if ($direction === Direction::RIGHT) {
 CODE_SAMPLE
             ),
         ]);
-    }
-
-    /**
-     * @param mixed[] $usedConstFetches
-     */
-    private function isClassConstantUsed(string $className, string $constantName, array $usedConstFetches): bool
-    {
-        $publicConstantReference = $className . '::' . $constantName;
-
-        $usedConstFetches = Arrays::flatten($usedConstFetches);
-        return in_array($publicConstantReference, $usedConstFetches, true);
     }
 }

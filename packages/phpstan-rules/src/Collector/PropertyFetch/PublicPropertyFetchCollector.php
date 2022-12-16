@@ -14,6 +14,7 @@ use PHPStan\Type\TypeWithClassName;
 
 /**
  * @implements Collector<PropertyFetch, string[]>
+ * @deprecated
  */
 final class PublicPropertyFetchCollector implements Collector
 {

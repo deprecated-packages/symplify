@@ -13,6 +13,7 @@ use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
 
 /**
  * @implements Collector<ClassConst, array<array{class-string, string, int}>>
+ * @deprecated
  */
 final class PublicClassLikeConstCollector implements Collector
 {

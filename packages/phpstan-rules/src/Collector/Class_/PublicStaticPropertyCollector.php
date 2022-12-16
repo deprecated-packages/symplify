@@ -14,6 +14,7 @@ use Symplify\PHPStanRules\PhpDoc\ApiDocStmtAnalyzer;
 
 /**
  * @implements Collector<Class_, array<array{class-string, string, int}>>
+ * @deprecated
  */
 final class PublicStaticPropertyCollector implements Collector
 {
