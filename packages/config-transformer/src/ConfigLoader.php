@@ -39,6 +39,12 @@ final class ConfigLoader
      */
     private const UNQUOTED_PARAMETER_REGEX = '#(\w+:\s+)(\%(.*?)%)(.*?)?$#m';
 
+    /**
+     * @see https://regex101.com/r/I2wiC9/2
+     * @var string
+     */
+    private const COMMENT_REGEX = '#^(\s+)?\# (.*)#m';
+
     public function __construct(
         private IdAwareXmlFileLoaderFactory $idAwareXmlFileLoaderFactory,
         private SmartFileSystem $smartFileSystem,
@@ -62,6 +68,13 @@ final class ConfigLoader
             $content,
             self::UNQUOTED_PARAMETER_REGEX,
             static fn (array $match): string => $match[1] . '"' . $match[2] . ($match[4] ?? '') . '"'
+        );
+
+        // fake comment to keep them
+        $content = Strings::replace(
+            $content,
+            self::COMMENT_REGEX,
+            static fn ($match): string =>  $match[1] . '"%comment(' . $match[2] . ')%": null'
         );
 
         if (in_array($smartFileInfo->getSuffix(), [Format::YML, Format::YAML], true)) {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\PhpConfigPrinter\NodeFactory;
 
 use Nette\Utils\Json;
+use PhpParser\Comment\Doc;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
@@ -60,7 +61,10 @@ final class ContainerConfiguratorReturnClosureFactory
      */
     private function createClosureStmts(array $yamlData): array
     {
-        $yamlData = array_filter($yamlData);
+        $yamlData = array_filter($yamlData, function($v, $k) {
+            return $v || str_starts_with($k, '%comment(');
+        }, ARRAY_FILTER_USE_BOTH);
+
         return $this->createStmtsFromCaseConverters($yamlData);
     }
 
@@ -72,10 +76,24 @@ final class ContainerConfiguratorReturnClosureFactory
     {
         $stmts = [];
 
+        $lastComments = [];
+        $rootLastComments = [];
         foreach ($yamlData as $key => $values) {
+            if (str_starts_with($key, '%comment(')) {
+                $rootLastComments[] = substr($key, 9, -2);
+
+                continue;
+            }
+
             $stmts = $this->createInitializeStmt($key, $stmts);
 
             foreach ($values as $nestedKey => $nestedValues) {
+                if (str_starts_with($nestedKey, '%comment(')) {
+                    $lastComments[] = substr($nestedKey, 9, -2);
+
+                    continue;
+                }
+
                 $nestedNodes = $this->processNestedNodes($key, $nestedKey, $nestedValues);
 
                 if ($nestedNodes !== []) {
@@ -89,10 +107,25 @@ final class ContainerConfiguratorReturnClosureFactory
                 }
 
                 $lastNode = end($stmts);
+
                 $node = $this->resolveExpressionWhenAtEnv($expression, $key, $lastNode);
+
                 if ($node !== null) {
+                    foreach ($lastComments as $lastComment) {
+                        $node->setDocComment(new Doc('// ' . $lastComment));
+                    }
+                    $lastComment = [];
+
                     $stmts[] = $node;
                 }
+            }
+
+            $firstNode = reset($stmts);
+            if ($firstNode) {
+                foreach ($rootLastComments as $lastComment) {
+                    $firstNode->setDocComment(new Doc('// ' . $lastComment));
+                }
+                $rootLastComments = [];
             }
         }
 
