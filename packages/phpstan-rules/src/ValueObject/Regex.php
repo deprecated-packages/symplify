@@ -14,5 +14,5 @@ final class Regex
      * @see https://regex101.com/r/U7LxLr/3
      * @var string
      */
-    public const TESTS_PART_REGEX = '(^Tests\\\\|\\\\Tests\\\\|\\\\Tests$)';
+    public const TESTS_PART_REGEX = '#(^Tests\\\\|\\\\Tests\\\\|\\\\Tests$)#';
 }
