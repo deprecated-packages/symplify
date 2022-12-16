@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Symplify\PHPStanRules\PhpDoc;
 
 use PhpParser\Comment\Doc;
-use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\PhpDoc\ResolvedPhpDocBlock;
 use PHPStan\Reflection\ClassReflection;
 
 final class ApiDocStmtAnalyzer
 {
-    public function isApiDoc(Stmt $stmt, ClassReflection $classReflection): bool
+    public function isApiDoc(ClassMethod $classMethod, ClassReflection $classReflection): bool
     {
         if ($classReflection->getResolvedPhpDoc() instanceof ResolvedPhpDocBlock) {
             $resolvedPhpDoc = $classReflection->getResolvedPhpDoc();
@@ -20,7 +20,7 @@ final class ApiDocStmtAnalyzer
             }
         }
 
-        $docComment = $stmt->getDocComment();
+        $docComment = $classMethod->getDocComment();
         if (! $docComment instanceof Doc) {
             return false;
         }
