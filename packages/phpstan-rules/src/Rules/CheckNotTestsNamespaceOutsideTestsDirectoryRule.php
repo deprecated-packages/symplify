@@ -75,6 +75,20 @@ namespace App\Tests;
 class SomeTest
 {
 }
+
+// file: "AnotherTest.php
+namespace App\Tests\Features;
+
+class AnotherTest
+{
+}
+
+// file: "SomeOtherTest.php
+namespace Tests\Features;
+
+class SomeOtherTest
+{
+}
 CODE_SAMPLE
             ),
         ]);
