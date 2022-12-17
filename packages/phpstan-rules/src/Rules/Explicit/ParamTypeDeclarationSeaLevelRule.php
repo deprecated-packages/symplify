@@ -14,7 +14,6 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\Explicit\ParamTypeDeclarationSeaLevelRule\ParamTypeDeclarationSeaLevelRuleTest
  *
  * @implements Rule<CollectedDataNode>
  * @deprecated
