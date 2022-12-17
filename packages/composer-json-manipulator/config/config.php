@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\ComposerJsonManipulator\ValueObject\Option;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\Option;
 use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;

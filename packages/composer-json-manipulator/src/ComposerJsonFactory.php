@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator;
 
 use Nette\Utils\Json;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ComposerJson\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**

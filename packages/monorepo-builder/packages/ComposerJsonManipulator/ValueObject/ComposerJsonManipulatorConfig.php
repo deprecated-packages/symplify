@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator\ValueObject;
+namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject;
 
 /**
  * @api

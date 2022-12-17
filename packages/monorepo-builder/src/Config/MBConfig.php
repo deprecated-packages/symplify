@@ -94,15 +94,4 @@ final class MBConfig extends ContainerConfigurator
         $parameters = $this->parameters();
         $parameters->set(Option::SECTION_ORDER, $sectionOrder);
     }
-
-    /**
-     * @param string[] $inlineSections
-     */
-    public function composerInlineSections(array $inlineSections): void
-    {
-        Assert::allString($inlineSections);
-
-        $parameters = $this->parameters();
-        $parameters->set(Option::INLINE_SECTIONS, $inlineSections);
-    }
 }

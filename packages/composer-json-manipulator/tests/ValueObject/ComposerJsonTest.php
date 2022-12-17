@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\Tests\ValueObject;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJson;
 
 final class ComposerJsonTest extends TestCase
 {

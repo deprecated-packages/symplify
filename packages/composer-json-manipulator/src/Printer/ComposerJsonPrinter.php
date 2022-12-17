@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\Printer;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJson\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJson;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**

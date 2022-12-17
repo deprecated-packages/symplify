@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Kernel;
 
 use Psr\Container\ContainerInterface;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonManipulatorConfig;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\PackageBuilder\DependencyInjection\CompilerPass\AutowireInterfacesCompilerPass;
 use Symplify\PackageBuilder\ValueObject\ConsoleColorDiffConfig;

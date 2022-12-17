@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Symplify\ComposerJsonManipulator\FileSystem;
 
 use Nette\Utils\Json;
-use Symplify\ComposerJsonManipulator\Json\JsonCleaner;
-use Symplify\ComposerJsonManipulator\Json\JsonInliner;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJson\Json\JsonCleaner;
+use Symplify\MonorepoBuilder\ComposerJson\Json\JsonInliner;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJson;
 use Symplify\PackageBuilder\Configuration\StaticEolConfiguration;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SmartFileSystem\SmartFileSystem;

@@ -6,7 +6,8 @@ namespace Symplify\ComposerJsonManipulator\ValueObject;
 
 use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
-use Symplify\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
+use Symplify\MonorepoBuilder\ComposerJson\Sorter\ComposerPackageSorter;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 

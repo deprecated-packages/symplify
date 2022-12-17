@@ -3,12 +3,17 @@
 declare(strict_types=1);
 
 use Symfony\Component\Console\Application;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\MonorepoBuilder\Config\MBConfig;
 use Symplify\MonorepoBuilder\Console\MonorepoBuilderApplication;
 use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\PackageBuilder\Console\Style\SymfonyStyleFactory;
+use Symplify\PackageBuilder\Parameter\ParameterProvider;
 use Symplify\PackageBuilder\Reflection\PrivatesCaller;
 use Symplify\PackageBuilder\Yaml\ParametersMerger;
+use Symplify\SmartFileSystem\SmartFileSystem;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (MBConfig $mbConfig): void {
     $parameters = $mbConfig->parameters();
@@ -30,8 +35,6 @@ return static function (MBConfig $mbConfig): void {
     $mbConfig->defaultBranch('master');
 
     $mbConfig->packageAliasFormat('<major>.<minor>-dev');
-
-    $mbConfig->composerInlineSections(['keywords']);
 
     $mbConfig->composerSectionOrder([
         ComposerJsonSection::NAME,
@@ -84,4 +87,14 @@ return static function (MBConfig $mbConfig): void {
 
     $services->set(PrivatesCaller::class);
     $services->set(ParametersMerger::class);
+
+    $services->set(SmartFileSystem::class);
+    $services->set(PrivatesCaller::class);
+
+    $services->set(ParameterProvider::class)
+        ->args([service('service_container')]);
+
+    $services->set(SymfonyStyleFactory::class);
+    $services->set(SymfonyStyle::class)
+        ->factory([service(SymfonyStyleFactory::class), 'create']);
 };

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\ComposerJsonManipulator\Tests\Kernel\ComposerJsonManipulatorKernel;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ComposerJson\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJson\ValueObject\ComposerJsonSection;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
