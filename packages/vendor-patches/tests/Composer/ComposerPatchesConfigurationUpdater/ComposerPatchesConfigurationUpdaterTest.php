@@ -32,6 +32,6 @@ final class ComposerPatchesConfigurationUpdaterTest extends AbstractKernelTestCa
                 'some_package' => ['some.patch'],
                 'symfony/console' => ['patches/symfony-console-style-symfonystyle-php.patch'],
             ],
-        ], $composerJson->getExtra());
+        ], $composerJson['extra']);
     }
 }
