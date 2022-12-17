@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonFactory;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ComposerJsonFactory;
 
-use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\Tests\Kernel\ComposerJsonManipulatorKernel;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -23,7 +23,7 @@ final class ComposerJsonFactoryTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(ComposerJsonManipulatorKernel::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
         $this->composerJsonFactory = $this->getService(ComposerJsonFactory::class);
         $this->jsonFileManager = $this->getService(JsonFileManager::class);
     }

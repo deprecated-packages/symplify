@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class DependencyUpdater

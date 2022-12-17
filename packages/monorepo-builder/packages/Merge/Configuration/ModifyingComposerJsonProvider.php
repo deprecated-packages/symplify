@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\MonorepoBuilder\Merge\Configuration;
 
-use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJson;
 use Symplify\MonorepoBuilder\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 

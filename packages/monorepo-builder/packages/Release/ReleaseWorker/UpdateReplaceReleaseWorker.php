@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Release\ReleaseWorker;
 
 use PharIo\Version\Version;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
 use Symplify\MonorepoBuilder\Release\Contract\ReleaseWorker\ReleaseWorkerInterface;
 use Symplify\MonorepoBuilder\Release\Exception\MissingComposerJsonException;

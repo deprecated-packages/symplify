@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder\Testing;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
 use Symplify\MonorepoBuilder\Testing\ComposerJson\ComposerVersionManipulator;
 use Symplify\MonorepoBuilder\Testing\PackageDependency\UsedPackagesResolver;
 use Symplify\PackageBuilder\Console\Output\ConsoleDiffer;

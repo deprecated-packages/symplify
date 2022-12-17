@@ -41,7 +41,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 ## For Any Developer
 
 - [Easy Testing](https://github.com/symplify/easy-testing)
-- [Composer Json Manipulator](https://github.com/symplify/composer-json-manipulator)
 - [Symfony Static Dumper](https://github.com/symplify/symfony-static-dumper)
 
 ## For PHPStan Lovers

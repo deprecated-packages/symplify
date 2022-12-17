@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator;
+namespace Symplify\MonorepoBuilder\ComposerJsonManipulator;
 
 use Nette\Utils\Json;
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJson;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJson;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @api
- * @see \Symplify\ComposerJsonManipulator\Tests\ComposerJsonFactory\ComposerJsonFactoryTest
+ * @see \Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ComposerJsonFactory\ComposerJsonFactoryTest
  */
 final class ComposerJsonFactory
 {

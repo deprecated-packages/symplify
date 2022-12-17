@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Symplify\MonorepoBuilder;
 
 use PharIo\Version\Version;
-use Symplify\ComposerJsonManipulator\ComposerJsonFactory;
-use Symplify\ComposerJsonManipulator\Printer\ComposerJsonPrinter;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ComposerJsonFactory;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\Printer\ComposerJsonPrinter;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**

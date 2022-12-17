@@ -52,7 +52,7 @@ return [
     'expose-classes' => [
         'Normalizer',
         // part of public interface of configs.php
-        'Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
+        'Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection',
         'Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator',
     ],
     'patchers' => [

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator\Tests\ComposerJsonSchemaValidation;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ComposerJsonSchemaValidation;
 
-use Symplify\ComposerJsonManipulator\FileSystem\JsonFileManager;
-use Symplify\ComposerJsonManipulator\Tests\Kernel\ComposerJsonManipulatorKernel;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\FileSystem\JsonFileManager;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\SmartFileSystem\SmartFileSystem;
 
@@ -18,7 +18,7 @@ final class ComposerJsonSchemaValidationTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(ComposerJsonManipulatorKernel::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
 
         $this->jsonFileManager = $this->getService(JsonFileManager::class);
         $this->smartFileSystem = new SmartFileSystem();

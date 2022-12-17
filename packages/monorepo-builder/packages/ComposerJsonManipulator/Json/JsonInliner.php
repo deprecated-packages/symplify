@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator\Json;
+namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\Json;
 
 use Nette\Utils\Strings;
-use Symplify\ComposerJsonManipulator\ValueObject\Option;
+use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\Option;
 use Symplify\PackageBuilder\Parameter\ParameterProvider;
 
 final class JsonInliner

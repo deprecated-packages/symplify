@@ -226,11 +226,6 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 32, keep it under 8#'
 
         -
-            message: '#Class cognitive complexity is \d+, keep it under 25#'
-            paths:
-                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
-
-        -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
 
@@ -280,7 +275,6 @@ parameters:
                 - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
                 - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
-                - packages/composer-json-manipulator/src/ComposerJsonFactory.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
 
         # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
@@ -410,12 +404,6 @@ parameters:
         - '#Calling PHPStan\\Testing\\ErrorFormatterTestCase\:\:get(.*?)\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
         - '#Extending PHPStan\\Testing\\ErrorFormatterTestCase is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
 
-        # collector metadata
-        - '#Method Symplify\\PHPStanRules\\Tests\\Rules\\DeadCode\\(.*?)\:\:getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
-        - '#Method Symplify\\PHPStanRules\\Collector\\ClassMethod\\PublicClassMethodCollector\:\:processNode\(\) should return array<array\{class\-string, string, int\}>\|null but returns array\{class\-string, string, int\}#'
-
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicClassConstRule\:\:processNode\(\)" is 10, keep it under 8#'
-
         - '#Method (.*?)::getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
 
         # relative file path resolving tests
@@ -471,10 +459,6 @@ parameters:
             message: '#Parameter argument on position 0 must use constant#'
             path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
 
-        -
-            message: '#Class method "parseDocBlock\(\)" is never used#'
-            path: packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
-
         # phpstan collector data
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'
@@ -523,15 +507,11 @@ parameters:
 
         # false postive
         - '#Method Symplify\\EasyCodingStandard\\Console\\Command\\ListCheckersCommand\:\:getObjectClasses\(\) should return array<class\-string<TObject of PHP_CodeSniffer\\Sniffs\\Sniff\|PhpCsFixer\\Fixer\\FixerInterface>> but returns array<TObject of class\-string<PHP_CodeSniffer\\Sniffs\\Sniff>\|class\-string<PhpCsFixer\\Fixer\\FixerInterface>>#'
-        - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicStaticPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
-
-        - '#Parameter \#1 \$configs \(array<string>\) of method Symplify\\(.*?)\:\:load\(\) should be compatible with parameter \$configs \(array<array>\) of method Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\:\:load\(\)#'
-
-        # collectors
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicStaticPropertyRule\:\:processNode\(\)" is 10, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\DeadCode\\UnusedPublicPropertyRule\:\:processNode\(\)" is 10, keep it under 8#'
-        - '#Parameter \#1 \$collectorType of method PHPStan\\Node\\CollectedDataNode\:\:get\(\) expects class\-string<PHPStan\\Collectors\\Collector<PhpParser\\Node, array<string>>>, string given#'
-        - '#Parameter \#1 \$node \(PHPStan\\Node\\InClassNode\) of method Symplify\\PHPStanRules\\Collector\\Class_\\PublicPropertyCollector\:\:processNode\(\) should be compatible with parameter \$node \(PhpParser\\Node\\Stmt\\Class_\) of method PHPStan\\Collectors\\Collector<PhpParser\\Node\\Stmt\\Class_,array<array<int, int\|string>>>\:\:processNode\(\)#'
 
         # skip deprecated rule
-        - '#Class "Symplify\\PHPStanRules\\Rules\\DeadCode\\(.*?)" is missing @see annotation with test case class reference#'
+        - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
+
+        # to separate package
+        -
+            message: "#Class cognitive complexity is 26, keep it under 25#"
+            path:  packages/monorepo-builder/packages/ComposerJsonManipulator/ValueObject/ComposerJson.php

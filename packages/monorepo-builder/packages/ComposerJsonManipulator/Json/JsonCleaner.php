@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\ComposerJsonManipulator\Json;
+namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\Json;
 
 final class JsonCleaner
 {
