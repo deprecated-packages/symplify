@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\Tests\Sorter;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\Sorter;
 
 use Iterator;
 use Symplify\MonorepoBuilder\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
-use Symplify\MonorepoBuilder\ComposerJsonManipulator\Tests\Kernel\ComposerJsonManipulatorKernel;
+use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ComposerPackageSorterTest extends AbstractKernelTestCase
@@ -15,7 +15,7 @@ final class ComposerPackageSorterTest extends AbstractKernelTestCase
 
     protected function setUp(): void
     {
-        $this->bootKernel(ComposerJsonManipulatorKernel::class);
+        $this->bootKernel(MonorepoBuilderKernel::class);
         $this->composerPackageSorter = $this->getService(ComposerPackageSorter::class);
     }
 

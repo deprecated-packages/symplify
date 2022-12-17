@@ -64,7 +64,6 @@ jobs:
                         run: |
                             packages/easy-ci/bin/easy-ci check-active-class packages/autowire-array-parameter --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/composer-json-manipulator --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi

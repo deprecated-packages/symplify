@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\Tests\ValueObject;
+namespace Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ValueObject;
 
 use PHPUnit\Framework\TestCase;
 use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJson;

@@ -12,7 +12,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @api
- * @see \Symplify\MonorepoBuilder\ComposerJsonManipulator\Tests\ComposerJsonFactory\ComposerJsonFactoryTest
+ * @see \Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ComposerJsonFactory\ComposerJsonFactoryTest
  */
 final class ComposerJsonFactory
 {

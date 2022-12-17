@@ -7,13 +7,12 @@ namespace Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject;
 use Nette\Utils\Arrays;
 use Nette\Utils\Strings;
 use Symplify\MonorepoBuilder\ComposerJsonManipulator\Sorter\ComposerPackageSorter;
-use Symplify\MonorepoBuilder\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
 /**
  * @api
- * @see \Symplify\MonorepoBuilder\ComposerJsonManipulator\Tests\ValueObject\ComposerJsonTest
+ * @see \Symplify\MonorepoBuilder\Tests\ComposerJsonManipulator\ValueObject\ComposerJsonTest
  */
 final class ComposerJson
 {

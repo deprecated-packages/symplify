@@ -228,7 +228,7 @@ parameters:
         -
             message: '#Class cognitive complexity is \d+, keep it under 25#'
             paths:
-                - packages/composer-json-manipulator/src/ValueObject/ComposerJson.php
+                - packages/monorepo-builder/packages/ComposerJsonManipulatorValueObject/ComposerJson.php
 
         -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
@@ -280,7 +280,7 @@ parameters:
                 - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
                 - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
-                - packages/composer-json-manipulator/src/ComposerJsonFactory.php
+                - packages/monorepo-builder/packages/ComposerJsonManipulatorComposerJsonFactory.php
                 - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
 
         # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
@@ -535,3 +535,16 @@ parameters:
 
         # skip deprecated rule
         - '#Class "Symplify\\PHPStanRules\\Rules\\DeadCode\\(.*?)" is missing @see annotation with test case class reference#'
+
+        -
+            message: '#Content of method (.*?) is duplicated\. Use unique content or service instead#'
+            paths:
+                - "packages/monorepo-builder/packages/ComposerJsonManipulator"
+                - "packages/ComposerJsonManipulator"
+
+        - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
+
+        # to separate package
+        -
+            message: "#Class cognitive complexity is 26, keep it under 25#"
+            path:  packages/monorepo-builder/packages/ComposerJsonManipulator/ValueObject/ComposerJson.php
