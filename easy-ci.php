@@ -30,8 +30,6 @@ return static function (EasyCIConfig $easyCIConfig): void {
     $easyCIConfig->excludeCheckPaths(['Fixture', 'Source', 'tests', 'stubs', 'templates']);
 
     $easyCIConfig->typesToSkip([
-        \PHPStan\Collectors\Collector::class,
-
         'SomeClass',
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,

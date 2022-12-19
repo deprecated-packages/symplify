@@ -1,4 +1,4 @@
-# 120 Rules Overview
+# 117 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -3044,38 +3044,6 @@ final class SomeClass
 
 <br>
 
-## ParamTypeDeclarationSeaLevelRule
-
-Out of %d possible param types, only %d %% actually have it. Add more param types to get over %d %%
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\ParamTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ParamTypeDeclarationSeaLevelRule.php)
-
-```php
-final class SomeClass
-{
-    public function run($name, $age)
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run(string $name, int $age)
-    {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## PreferredAttributeOverAnnotationRule
 
 Use attribute instead of "%s" annotation
@@ -3404,34 +3372,6 @@ class SomeClass
     public function run()
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## PropertyTypeDeclarationSeaLevelRule
-
-Out of %d possible property types, only %d %% actually have it. Add more property types to get over %d %%
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\PropertyTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/PropertyTypeDeclarationSeaLevelRule.php)
-
-```php
-final class SomeClass
-{
-    public $name;
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public string $name;
 }
 ```
 
@@ -4142,38 +4082,6 @@ class AbstractClass
 ```php
 abstract class AbstractClass
 {
-}
-```
-
-:+1:
-
-<br>
-
-## ReturnTypeDeclarationSeaLevelRule
-
-Out of %d possible return types, only %d %% actually have it. Add more return types to get over %d %%
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\ReturnTypeDeclarationSeaLevelRule`](../src/Rules/Explicit/ReturnTypeDeclarationSeaLevelRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run(): void
-    {
-    }
 }
 ```
 
