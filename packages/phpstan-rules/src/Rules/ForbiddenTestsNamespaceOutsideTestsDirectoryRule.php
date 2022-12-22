@@ -59,7 +59,7 @@ final class ForbiddenTestsNamespaceOutsideTestsDirectoryRule implements Rule, Do
             return [];
         }
 
-        if ($this->directoryChecker->isInDirectoryNames($scope, ['tests', 'packages-tests'])) {
+        if ($this->directoryChecker->isInDirectoryNames($scope, ['tests', 'rules-tests', 'packages-tests'])) {
             return [];
         }
 
