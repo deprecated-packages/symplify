@@ -8,16 +8,15 @@ use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 use Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer;
 
+/**
+ * @deprecated
+ */
 final class FunctionLikeCognitiveComplexityRule implements Rule
 {
-    /**
-     * @var string
-     */
-    public const ERROR_MESSAGE = 'Cognitive complexity for "%s" is %d, keep it under %d';
-
     public function __construct(
         private AstCognitiveComplexityAnalyzer $astCognitiveComplexityAnalyzer,
         private int $maxMethodCognitiveComplexity = 8
@@ -34,7 +33,7 @@ final class FunctionLikeCognitiveComplexityRule implements Rule
 
     /**
      * @param FunctionLike $node
-     * @return string[]
+     * @return RuleError[]
      */
     public function processNode(Node $node, Scope $scope): array
     {
