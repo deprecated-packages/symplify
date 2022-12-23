@@ -12,7 +12,7 @@
         "fidry/cpu-core-counter": "^0.4.0"
     },
     "require-dev": {
-        "symplify/package-builder": "^11.1.23",
+        "symplify/package-builder": "^11.2",
         "phpunit/phpunit": "^9.5.26"
     },
     "autoload": {

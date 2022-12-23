@@ -12,7 +12,7 @@
         "symfony/finder": "^6.2"
     },
     "require-dev": {
-        "symplify/symplify-kernel": "^11.1.23",
+        "symplify/symplify-kernel": "^11.2",
         "phpunit/phpunit": "^9.5.26"
     },
     "autoload": {
