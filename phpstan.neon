@@ -1,4 +1,6 @@
 includes:
+    - vendor/tomasvotruba/unused-public/config/extension.neon
+
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
     # for cognitive rules
@@ -24,6 +26,9 @@ services:
 parameters:
     level: 8
     reportUnmatchedIgnoredErrors: false
+
+    unused_public:
+        properties: true
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
