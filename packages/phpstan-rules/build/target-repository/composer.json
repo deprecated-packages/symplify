@@ -26,7 +26,6 @@
         "phpstan": {
             "includes": [
                 "config/services/services.neon",
-                "config/packages/cognitive-complexity/cognitive-complexity-services.neon",
                 "config/packages/symfony/services.neon"
             ]
         }

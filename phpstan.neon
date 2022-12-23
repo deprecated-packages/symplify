@@ -1,5 +1,7 @@
 includes:
+    # @todo why are these needed? should be loaded by extension installer
     - vendor/tomasvotruba/unused-public/config/extension.neon
+    - vendor/tomasvotruba/cognitive-complexity/config/extension.neon
 
     - packages/phpstan-extensions/config/config.neon
     - packages/phpstan-rules/config/symplify-rules.neon
@@ -9,23 +11,13 @@ includes:
 
     - packages/phpstan-rules/config/packages/symfony/services.neon
 
-services:
-    # cognitive complexity
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCognitiveComplexity: 8
-
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxClassCognitiveComplexity: 25
-
 parameters:
     level: 8
     reportUnmatchedIgnoredErrors: false
+
+    cognitive_complexity:
+        class: 25
+        function: 8
 
     unused_public:
         properties: true
@@ -49,6 +41,9 @@ parameters:
         - rector.php
 
     excludePaths:
+        # deprecated, to be removed
+        - packages/phpstan-rules/packages/CognitiveComplexity
+
         - */scoper.php
 
         # parallel

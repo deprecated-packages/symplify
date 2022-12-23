@@ -49,6 +49,9 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->autoloadPaths([__DIR__ . '/tests/bootstrap.php']);
 
     $rectorConfig->skip([
+        // deprecated, to be removed
+        __DIR__ . '/packages/phpstan-rules/packages/CognitiveComplexity',
+
         '*/scoper.php',
         '*/vendor/*',
         '*/init/*',

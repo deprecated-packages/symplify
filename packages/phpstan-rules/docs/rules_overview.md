@@ -1,4 +1,4 @@
-# 113 Rules Overview
+# 111 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -341,73 +341,6 @@ use App\Component\PriceEngine\PriceProviderInterface;
 
 class CustomerProductProvider extends PriceProviderInterface
 {
-}
-```
-
-:+1:
-
-<br>
-
-## ClassLikeCognitiveComplexityRule
-
-Cognitive complexity of class/trait must be under specific limit
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/ClassLikeCognitiveComplexityRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\ClassLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxClassCognitiveComplexity: 10
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function another($value)
-    {
-        if ($value !== 1 && $value !== 2) {
-            return false;
-        }
-
-        return true;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        return $this->someOtherService->count($value);
-    }
-
-    public function another($value)
-    {
-        return $this->someOtherService->delete($value);
-    }
 }
 ```
 
@@ -1281,63 +1214,6 @@ $this->someService->process($this, ...);
 
 ```php
 $this->someService->process($value, ...);
-```
-
-:+1:
-
-<br>
-
-## FunctionLikeCognitiveComplexityRule
-
-Cognitive complexity of function/method must be under specific limit
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule`](../packages/CognitiveComplexity/Rules/FunctionLikeCognitiveComplexityRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\CognitiveComplexity\Rules\FunctionLikeCognitiveComplexityRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            maxMethodCognitiveComplexity: 5
-```
-
-↓
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value !== 1) {
-            if ($value !== 2) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function simple($value)
-    {
-        if ($value === 1) {
-            return true;
-        }
-
-        return $value === 2;
-    }
-}
 ```
 
 :+1:
