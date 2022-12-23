@@ -49,17 +49,13 @@ vendor/bin/monorepo-builder merge
 Typical location for packages is `/packages`. But what if you have different naming or extra `/projects` directory?
 
 ```php
-// File: monorepo-builder.php
-
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+// monorepo-builder.php
 use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
-use Symplify\MonorepoBuilder\ValueObject\Option;
+use Symplify\MonorepoBuilder\Config\MBConfig;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
-
+return static function (MBConfig $mbConfig): void {
     // where are the packages located?
-    $parameters->set(Option::PACKAGE_DIRECTORIES, [
+    $mbConfig->packageDirectories([
         // default value
         __DIR__ . '/packages',
         // custom
@@ -67,12 +63,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ]);
 
     // how skip packages in loaded direectories?
-    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [__DIR__ . '/packages/secret-package']);
+    $mbConfig->packageDirectoriesExcludes([__DIR__ . '/packages/secret-package']);
 
     // "merge" command related
 
     // what extra parts to add after merge?
-    $parameters->set(Option::DATA_TO_APPEND, [
+    $mbConfig->dataToAppend([
         ComposerJsonSection::AUTOLOAD_DEV => [
             'psr-4' => [
                 'Symplify\Tests\\' => 'tests',
@@ -83,7 +79,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ],
     ]);
 
-    $parameters->set(Option::DATA_TO_REMOVE, [
+    $mbConfig->dataToRemove([
         ComposerJsonSection::REQUIRE => [
             // the line is removed by key, so version is irrelevant, thus *
             'phpunit/phpunit' => '*',
