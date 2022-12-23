@@ -33,11 +33,6 @@ final class SmartFileSystem extends Filesystem
         return $source;
     }
 
-    public function readFileToSmartFileInfo(string $fileName): SmartFileInfo
-    {
-        return new SmartFileInfo($fileName);
-    }
-
     /**
      * Converts given HTML code to plain text
      *

@@ -30,6 +30,7 @@ parameters:
     unused_public:
         properties: true
         constants: true
+        methods: true
 
     featureToggles:
         # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
