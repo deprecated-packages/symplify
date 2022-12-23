@@ -14,25 +14,6 @@ final class PackagePathResolver
     /**
      * See https://getcomposer.org/doc/05-repositories.md#path
      */
-    public function resolveRelativePathToLocalPackage(
-        SmartFileInfo $rootComposerFileInfo,
-        SmartFileInfo $packageComposerFileInfo
-    ): string {
-        $relativeFolderPathToLocalPackage = $this->resolveRelativeFolderPathToLocalPackage(
-            $rootComposerFileInfo,
-            $packageComposerFileInfo
-        );
-        $relativeDirectoryToRoot = $this->resolveRelativeDirectoryToRoot(
-            $rootComposerFileInfo,
-            $packageComposerFileInfo
-        );
-
-        return $relativeFolderPathToLocalPackage . $relativeDirectoryToRoot;
-    }
-
-    /**
-     * See https://getcomposer.org/doc/05-repositories.md#path
-     */
     public function resolveRelativeFolderPathToLocalPackage(
         SmartFileInfo $rootComposerFileInfo,
         SmartFileInfo $packageComposerFileInfo
