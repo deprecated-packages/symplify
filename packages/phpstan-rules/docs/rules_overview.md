@@ -363,7 +363,6 @@ services:
         tags: [phpstan.rules.rule]
         arguments:
             maxClassCognitiveComplexity: 10
-            scoreCompositionOverInheritance: true
 ```
 
 ↓
