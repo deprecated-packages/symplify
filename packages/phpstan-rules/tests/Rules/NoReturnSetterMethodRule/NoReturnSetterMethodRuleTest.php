@@ -30,6 +30,7 @@ final class NoReturnSetterMethodRuleTest extends RuleTestCase
         yield [__DIR__ . '/Fixture/SkipEmptyReturn.php', []];
         yield [__DIR__ . '/Fixture/SkipVoidSetter.php', []];
         yield [__DIR__ . '/Fixture/SkipSetUp.php', []];
+        yield [__DIR__ . '/Fixture/SkipArrayFilter.php', []];
     }
 
     /**
