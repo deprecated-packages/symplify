@@ -19,6 +19,7 @@ final class ComposerPatchesConfigurationUpdater
     }
 
     /**
+     * @api
      * @param mixed[] $composerExtraPatches
      * @return mixed[]
      */

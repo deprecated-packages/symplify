@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyTesting\ValueObject\FixtureSplit;
 
+/**
+ * @api
+ */
 final class TrioContent
 {
     public function __construct(

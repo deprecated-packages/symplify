@@ -22,6 +22,7 @@ final class UseImportsResolver
     }
 
     /**
+     * @api
      * @param SmartFileInfo[] $phpFileInfos
      * @return string[]
      */

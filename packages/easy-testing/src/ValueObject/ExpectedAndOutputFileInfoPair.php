@@ -7,6 +7,9 @@ namespace Symplify\EasyTesting\ValueObject;
 use Symplify\SmartFileSystem\SmartFileInfo;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 
+/**
+ * @api
+ */
 final class ExpectedAndOutputFileInfoPair
 {
     public function __construct(

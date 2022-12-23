@@ -6,6 +6,7 @@ namespace Symplify\MonorepoBuilder\Tests\Release\ReleaseWorkerProvider;
 
 use Symplify\MonorepoBuilder\Kernel\MonorepoBuilderKernel;
 use Symplify\MonorepoBuilder\Release\ReleaseWorkerProvider;
+use Symplify\MonorepoBuilder\Release\ValueObject\Stage;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 
 final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
@@ -20,7 +21,7 @@ final class ReleaseWorkerProviderTest extends AbstractKernelTestCase
 
     public function test(): void
     {
-        $releaseWorkers = $this->releaseWorkerProvider->provide();
+        $releaseWorkers = $this->releaseWorkerProvider->provideByStage(Stage::MAIN);
         $this->assertCount(7, $releaseWorkers);
     }
 }

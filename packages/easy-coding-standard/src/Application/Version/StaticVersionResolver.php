@@ -30,6 +30,9 @@ final class StaticVersionResolver
      */
     private const SUCCESS_CODE = 0;
 
+    /**
+     * @api
+     */
     public static function resolvePackageVersion(): string
     {
         // resolve current tag
@@ -60,6 +63,9 @@ final class StaticVersionResolver
         return trim($version, '"');
     }
 
+    /**
+     * @api
+     */
     public static function resolverReleaseDateTime(): DateTime
     {
         exec('git log -n1 --pretty=%ci HEAD', $output, $resultCode);

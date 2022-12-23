@@ -27,13 +27,6 @@ final class PackagePathResolverTest extends AbstractKernelTestCase
             __DIR__ . '/PackagePathResolverTestSource/some_root/nested_packages/nested/composer.json'
         );
 
-        $relativePathToLocalPackage = $this->packagePathResolver->resolveRelativePathToLocalPackage(
-            $mainComposerJson,
-            $packageComposerJson
-        );
-
-        $this->assertSame('../../nested_packages/nested', $relativePathToLocalPackage);
-
         $relativeFolderPathToLocalPackage = $this->packagePathResolver->resolveRelativeFolderPathToLocalPackage(
             $mainComposerJson,
             $packageComposerJson

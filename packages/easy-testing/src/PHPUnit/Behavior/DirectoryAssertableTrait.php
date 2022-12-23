@@ -35,6 +35,7 @@ trait DirectoryAssertableTrait
             // output file exists
             $this->assertFileExists($outputDirectory . '/' . $relativeFilePath);
 
+            /** @var ExpectedAndOutputFileInfoPair $expectedAndOutputFileInfoPair */
             if (! $expectedAndOutputFileInfoPair->doesOutputFileExist()) {
                 continue;
             }

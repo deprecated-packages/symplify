@@ -8,9 +8,6 @@ use Nette\Utils\Strings;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 
-/**
- * @see \Symplify\SmartFileSystem\Tests\SmartFileSystem\SmartFileSystemTest
- */
 final class SmartFileSystem extends Filesystem
 {
     /**
@@ -31,11 +28,6 @@ final class SmartFileSystem extends Filesystem
         }
 
         return $source;
-    }
-
-    public function readFileToSmartFileInfo(string $fileName): SmartFileInfo
-    {
-        return new SmartFileInfo($fileName);
     }
 
     /**
