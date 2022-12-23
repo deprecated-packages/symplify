@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeVisitor;
 
-use PhpParser\Node\Expr\Closure;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;

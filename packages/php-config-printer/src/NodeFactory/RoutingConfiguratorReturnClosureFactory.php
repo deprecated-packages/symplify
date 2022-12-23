@@ -73,7 +73,7 @@ final class RoutingConfiguratorReturnClosureFactory
                 break;
             }
 
-            if (!$stmt instanceof Stmt) {
+            if (! $stmt instanceof Stmt) {
                 continue;
             }
 
