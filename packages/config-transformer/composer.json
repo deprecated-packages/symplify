@@ -14,14 +14,14 @@
         "symfony/dependency-injection": "6.1.*",
         "symfony/expression-language": "^6.2",
         "symfony/yaml": "^6.2",
-        "symplify/php-config-printer": "^11.2",
-        "symplify/symplify-kernel": "^11.2"
+        "symplify/php-config-printer": "^11.1.24",
+        "symplify/symplify-kernel": "^11.1.24"
     },
     "require-dev": {
         "cweagans/composer-patches": "^1.7",
         "phpunit/phpunit": "^9.5.26",
         "symfony/framework-bundle": "6.1.*",
-        "symplify/easy-testing": "^11.2"
+        "symplify/easy-testing": "^11.1.24"
     },
     "autoload": {
         "psr-4": {
@@ -53,22 +53,22 @@
         "enable-patching": true
     },
     "conflict": {
-        "symplify/phpstan-rules": "<11.1.23",
-        "symplify/easy-testing": "<11.1.23",
-        "symplify/rule-doc-generator-contracts": "<11.1.23",
-        "symplify/autowire-array-parameter": "<11.1.23",
-        "symplify/package-builder": "<11.1.23",
-        "symplify/phpstan-extensions": "<11.1.23",
-        "symplify/rule-doc-generator": "<11.1.23",
-        "symplify/smart-file-system": "<11.1.23",
-        "symplify/symfony-static-dumper": "<11.1.23",
+        "symplify/phpstan-rules": "<11.1.24",
+        "symplify/easy-testing": "<11.1.24",
+        "symplify/rule-doc-generator-contracts": "<11.1.24",
+        "symplify/autowire-array-parameter": "<11.1.24",
+        "symplify/package-builder": "<11.1.24",
+        "symplify/phpstan-extensions": "<11.1.24",
+        "symplify/rule-doc-generator": "<11.1.24",
+        "symplify/smart-file-system": "<11.1.24",
+        "symplify/symfony-static-dumper": "<11.1.24",
         "symplify/symplify-kernel": "<9.4.70",
-        "symplify/coding-standard": "<11.1.23",
-        "symplify/easy-parallel": "<11.1.23",
-        "symplify/easy-ci": "<11.1.23",
-        "symplify/monorepo-builder": "<11.1.23",
-        "symplify/vendor-patches": "<11.1.23",
-        "symplify/easy-coding-standard": "<11.1.23"
+        "symplify/coding-standard": "<11.1.24",
+        "symplify/easy-parallel": "<11.1.24",
+        "symplify/easy-ci": "<11.1.24",
+        "symplify/monorepo-builder": "<11.1.24",
+        "symplify/vendor-patches": "<11.1.24",
+        "symplify/easy-coding-standard": "<11.1.24"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
