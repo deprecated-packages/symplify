@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Symplify\PHPStanRules\NodeVisitor;
 
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt\Return_;
@@ -17,9 +18,9 @@ final class HasScopedReturnNodeVisitor extends NodeVisitorAbstract
     ) {
     }
 
-    public function enterNode(Node $node): int|\PhpParser\Node|null
+    public function enterNode(Node $node): int|Node|null
     {
-        if ($node instanceof Node\Expr\Closure) {
+        if ($node instanceof Closure) {
             return NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
         }
 

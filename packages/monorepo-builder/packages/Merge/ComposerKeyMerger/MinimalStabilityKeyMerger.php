@@ -28,7 +28,7 @@ final class MinimalStabilityKeyMerger implements ComposerKeyMergerInterface
             $mainStability = null;
         }
 
-        if ($mainStability === null || $mainStability->isGreaterThan($newStability)) {
+        if (!$mainStability instanceof PreReleaseSuffix || $mainStability->isGreaterThan($newStability)) {
             $mainComposerJson->setMinimumStability($newStability->asString());
         }
     }

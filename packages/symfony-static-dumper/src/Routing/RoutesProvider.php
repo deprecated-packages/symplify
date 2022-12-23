@@ -25,6 +25,7 @@ final class RoutesProvider
     }
 
     /**
+     * @api
      * @return array<string, Route>
      */
     public function provide(): array

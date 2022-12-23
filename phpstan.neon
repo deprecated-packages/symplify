@@ -522,3 +522,8 @@ parameters:
         -
             message: "#Class cognitive complexity is 26, keep it under 25#"
             path:  packages/monorepo-builder/packages/ComposerJsonManipulator/ValueObject/ComposerJson.php
+
+        # false positives
+        -
+            message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
+            path: packages/monorepo-builder/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php

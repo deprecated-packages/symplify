@@ -24,6 +24,7 @@ final class Psr4SwitcherConfiguration
     }
 
     /**
+     * @api
      * For testing
      */
     public function loadForTest(string $composerJsonPath): void

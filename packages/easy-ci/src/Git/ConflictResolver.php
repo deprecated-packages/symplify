@@ -18,6 +18,9 @@ final class ConflictResolver
      */
     private const CONFLICT_REGEX = '#^<<<<<<<#';
 
+    /**
+     * @api
+     */
     public function extractFromFileInfo(SmartFileInfo $fileInfo): int
     {
         $conflictsMatch = Strings::matchAll($fileInfo->getContents(), self::CONFLICT_REGEX);

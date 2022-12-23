@@ -29,7 +29,7 @@ final class ChangedFilesDetector
     }
 
     /**
-     * For tests
+     * @api For tests
      */
     public function changeConfigurationFile(string $configurationFile): void
     {
