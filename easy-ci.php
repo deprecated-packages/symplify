@@ -30,6 +30,8 @@ return static function (EasyCIConfig $easyCIConfig): void {
     $easyCIConfig->excludeCheckPaths(['Fixture', 'Source', 'tests', 'stubs', 'templates']);
 
     $easyCIConfig->typesToSkip([
+        // deprecated, to be removed
+        \TomasVotruba\CognitiveComplexity\AstCognitiveComplexityAnalyzer::class,
         'SomeClass',
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
