@@ -30,7 +30,7 @@ final class ECSConfig extends ContainerConfigurator
     }
 
     /**
-     * @param list<string>|array<class-string<Sniff|FixerInterface>, list<string>> $skips
+     * @param list<string>|array<class-string<Sniff|FixerInterface>, list<string>|null> $skips
      */
     public function skip(array $skips): void
     {
