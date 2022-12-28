@@ -31,7 +31,7 @@ return static function (EasyCIConfig $easyCIConfig): void {
 
     $easyCIConfig->typesToSkip([
         // deprecated, to be removed
-        \Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer:class,
+        \Symplify\PHPStanRules\CognitiveComplexity\AstCognitiveComplexityAnalyzer::class,
         'SomeClass',
         ConfigurableRuleInterface::class,
         MalformWorkerInterface::class,
