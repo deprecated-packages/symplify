@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Tests\Finder\FinderSanitizer;
 
 use PHPUnit\Framework\TestCase;
-use SplFileInfo;
-use Symfony\Component\Finder\Finder as SymfonyFinder;
-use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\Finder\FinderSanitizer;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
@@ -17,12 +16,14 @@ final class FinderSanitizerTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->markTestSkipped('This test is skipped because the service is not really useful');
+
         $this->finderSanitizer = new FinderSanitizer();
     }
 
     public function testSymfonyFinder(): void
     {
-        $symfonyFinder = SymfonyFinder::create()
+        $symfonyFinder = Finder::create()
             ->files()
             ->in(__DIR__ . '/Source');
 
@@ -60,7 +61,7 @@ final class FinderSanitizerTest extends TestCase
 
     private function assertFileIsFromFixtureDirAndHasCorrectClass(SmartFileInfo $smartFileInfo): void
     {
-        $this->assertInstanceOf(SymfonySplFileInfo::class, $smartFileInfo);
+        $this->assertInstanceOf(SplFileInfo::class, $smartFileInfo);
 
         $this->assertStringEndsWith('NestedDirectory', $smartFileInfo->getRelativeDirectoryPath());
     }

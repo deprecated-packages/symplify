@@ -66,7 +66,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi

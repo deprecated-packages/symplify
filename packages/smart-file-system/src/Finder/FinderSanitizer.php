@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Symplify\SmartFileSystem\Finder;
 
-use SplFileInfo;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**

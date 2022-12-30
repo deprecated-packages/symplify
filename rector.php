@@ -64,9 +64,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
         __DIR__ . '/packages/phpstan-rules/build/*',
 
-        // many false positives related to file class autoload
-        __DIR__ . '/packages/easy-coding-standard/bin/ecs.php',
-
         // false positive on "locale" string
         VarConstantCommentRector::class => [
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
