@@ -89,8 +89,7 @@
             ],
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
             "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
-            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src",
-            "Symplify\\VendorPatches\\": "packages/vendor-patches/src"
+            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
         }
     },
     "autoload-dev": {
@@ -132,8 +131,7 @@
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
             "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
-            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests",
-            "Symplify\\VendorPatches\\Tests\\": "packages/vendor-patches/tests"
+            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
         }
     },
     "extra": {
