@@ -49,6 +49,7 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symplify/easy-coding-standard": "^11.1",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/unused-public": "^0.0.25",
         "tracy/tracy": "^2.9.4"
@@ -64,10 +65,6 @@
             "Symplify\\EasyCI\\": [
                 "packages/easy-ci/packages",
                 "packages/easy-ci/src"
-            ],
-            "Symplify\\EasyCodingStandard\\": [
-                "packages/easy-coding-standard/packages",
-                "packages/easy-coding-standard/src"
             ],
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
@@ -110,10 +107,6 @@
                 "packages/easy-ci/packages-tests",
                 "packages/easy-ci/tests"
             ],
-            "Symplify\\EasyCodingStandard\\Tests\\": [
-                "packages/easy-coding-standard/packages-tests",
-                "packages/easy-coding-standard/tests"
-            ],
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\MonorepoBuilder\\Tests\\": [
@@ -152,7 +145,6 @@
         "symplify/coding-standard": "11.1.24",
         "symplify/config-transformer": "11.1.24",
         "symplify/easy-ci": "11.1.24",
-        "symplify/easy-coding-standard": "11.1.24",
         "symplify/easy-parallel": "11.1.24",
         "symplify/easy-testing": "11.1.24",
         "symplify/monorepo-builder": "11.1.24",
@@ -168,10 +160,10 @@
         "symplify/vendor-patches": "11.1.24"
     },
     "scripts": {
-        "check-cs": "packages/easy-coding-standard/bin/ecs check --ansi",
+        "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": [
-            "packages/easy-coding-standard/bin/ecs check --fix --ansi",
-            "packages/easy-coding-standard/bin/ecs check-markdown README.md packages/**/README.md --fix --ansi",
+            "vendor/bin/ecs check --fix --ansi",
+            "vendor/bin/ecs check-markdown README.md packages/**/README.md --fix --ansi",
             "bin/clear_readmes.sh"
         ],
         "phpstan": [
@@ -180,7 +172,7 @@
         ],
         "docs": [
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
-            "packages/easy-coding-standard/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
+            "vendor/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src packages/phpstan-rules/packages --output-file packages/phpstan-rules/docs/rules_overview.md --ansi"
         ],
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",

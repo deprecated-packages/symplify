@@ -51,7 +51,7 @@
         "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
         "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
         "rector": "rector process packages --config rector-ci.yaml --dry-run --ansi"
-    },
+        },
     "replace": {
         "symplify/phpstan-extensions": "self.version",
         "symplify/set-config-resolver": "self.version"
