@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Symplify\EasyParallel\Enum;
 
 /**
- * @enum
+ * @api
  */
 final class ReactEvent
 {
