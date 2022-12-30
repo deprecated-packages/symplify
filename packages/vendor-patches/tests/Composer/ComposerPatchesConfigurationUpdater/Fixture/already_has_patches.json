@@ -1,9 +1,0 @@
-{
-    "extra": {
-        "patches": {
-            "symfony/console": [
-                "patches/symfony-console-style-symfonystyle-php.patch"
-            ]
-        }
-    }
-}

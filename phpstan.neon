@@ -81,7 +81,6 @@ parameters:
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*
-        - packages/vendor-patches/tests/Finder/VendorFilesFinderSource/Vendor/some/package/src/PackageClass.php
 #        - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
         # private code for deployed package only
         - packages/phpstan-rules/build/*
