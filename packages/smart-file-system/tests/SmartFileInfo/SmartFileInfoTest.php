@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Tests\SmartFileInfo;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
-use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SmartFileInfoTest extends TestCase
