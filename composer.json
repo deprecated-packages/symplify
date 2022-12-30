@@ -49,7 +49,7 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
-        "tomasvotruba/cognitive-complexity": "^0.1.0",
+        "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/unused-public": "^0.0.25",
         "tracy/tracy": "^2.9.4"
     },
