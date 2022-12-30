@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Finder;
 
 use SplFileInfo;
-use Symfony\Component\Finder\Finder as SymfonyFinder;
-use Symfony\Component\Finder\SplFileInfo as SymfonySplFileInfo;
+use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
@@ -15,14 +14,12 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class FinderSanitizer
 {
     /**
-     * @param SymfonyFinder<SymfonySplFileInfo>|SplFileInfo[]|SymfonySplFileInfo[]|string[] $files
      * @return SmartFileInfo[]
      */
-    public function sanitize(SymfonyFinder | array $files): array
+    public function sanitize(Finder $finder): array
     {
         $smartFileInfos = [];
-        foreach ($files as $file) {
-            $fileInfo = is_string($file) ? new SplFileInfo($file) : $file;
+        foreach ($finder as $fileInfo) {
             if (! $this->isFileInfoValid($fileInfo)) {
                 continue;
             }

@@ -20,14 +20,6 @@ final class FinderSanitizerTest extends TestCase
         $this->finderSanitizer = new FinderSanitizer();
     }
 
-    public function testValidTypes(): void
-    {
-        $files = [new SplFileInfo(__DIR__ . '/Source/MissingFile.php')];
-        $sanitizedFiles = $this->finderSanitizer->sanitize($files);
-
-        $this->assertCount(0, $sanitizedFiles);
-    }
-
     public function testSymfonyFinder(): void
     {
         $symfonyFinder = SymfonyFinder::create()
