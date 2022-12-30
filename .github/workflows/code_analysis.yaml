@@ -66,7 +66,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/easy-coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi
@@ -91,7 +90,6 @@ jobs:
                         name: Binary File Run
                         run: |
                             # test run bin files
-                            packages/easy-coding-standard/bin/ecs -h --ansi
                             packages/monorepo-builder/bin/monorepo-builder --ansi
                             packages/rule-doc-generator/bin/rule-doc-generator --ansi
                             packages/config-transformer/bin/config-transformer --ansi

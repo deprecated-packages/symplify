@@ -45,8 +45,6 @@ services:
                 PHPStan\Node\ClassMethod: 'PhpParser\Node\Stmt\ClassMethod'
                 DateTime: 'Nette\Utils\DateTime'
                 'PhpCsFixer\Finder': 'Symfony\Component\Finder\Finder'
-                # smart file system
-                'Symfony\Component\Finder\SplFileInfo': 'Symplify\SmartFileSystem\SmartFileInfo'
 
     -
         class: Symplify\PHPStanRules\Rules\ForbiddenFuncCallRule

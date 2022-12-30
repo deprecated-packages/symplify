@@ -6,6 +6,9 @@ namespace Symplify\EasyParallel\FileSystem;
 
 use Symplify\SmartFileSystem\SmartFileInfo;
 
+/**
+ * @api
+ */
 final class FilePathNormalizer
 {
     /**

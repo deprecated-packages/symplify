@@ -10,6 +10,7 @@ use Symplify\EasyParallel\Exception\ParallelShouldNotHappenException;
 use Symplify\EasyParallel\Reflection\CommandFromReflectionFactory;
 
 /**
+ * @api
  * @see \Symplify\EasyParallel\Tests\CommandLine\WorkerCommandLineFactoryTest
  */
 final class WorkerCommandLineFactory

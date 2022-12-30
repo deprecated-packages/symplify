@@ -9,6 +9,9 @@ use ReflectionMethod;
 use Symfony\Component\Console\Command\Command;
 use Symplify\EasyParallel\Exception\ParallelShouldNotHappenException;
 
+/**
+ * @api
+ */
 final class CommandFromReflectionFactory
 {
     /**

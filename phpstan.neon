@@ -49,12 +49,10 @@ parameters:
         # parallel
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
-        - packages/easy-coding-standard/build/target-repository/tests
 
         # class aliasing for old PHPUnit test case
         - packages/easy-ci/packages-tests/Testing/UnitTestFilePathsFinder/UnitTestFilePathsFinderTest.php
 
-        - packages/easy-coding-standard/build/target-repository/bootstrap.php
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
 #        - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
@@ -81,7 +79,6 @@ parameters:
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*
-#        - packages/phpstan-rules/tests/Rules/AllowedExclusiveDependencyRule/FixturePhp74/*
         # private code for deployed package only
         - packages/phpstan-rules/build/*
 
@@ -110,8 +107,6 @@ parameters:
         -
             message: '#Use value object over return of values#'
             paths:
-                # Symfony API
-                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
                 # direct string printer
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
 
@@ -176,7 +171,6 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
 
-        - '#\$this as argument is not allowed\. Refactor method to service composition#'
         -
             message: '#Class cognitive complexity is \d+, keep it under \d+#'
             paths:
@@ -207,33 +201,17 @@ parameters:
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
         -
-            message:  '#Use local named constant instead of inline string for regex to explain meaning by constant name#'
-            path: packages/easy-coding-standard/scoper.php
-
-        -
-            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
-            path: packages/easy-coding-standard/scoper.php
-
-        - '#Method "processTokensByFixer\(\)" returns bool type, so the name should start with is/has/was#'
-
-        -
             message: '#cognitive complexity is \d+, keep it under \d+#i'
             paths:
                 - packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
                 - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
-        - '#"@var_export\(new \\Symplify\\EasyCodingStandard\\Caching\\ValueObject\\CacheItem\(\$variableKey, \$data\), true\)" is forbidden to use#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 35, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 32, keep it under 8#'
 
         -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
             path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
-
-        # this can change on downgrade build
-        - "#'@package_version@' and '@package_version@' will always evaluate to false#"
-
-        - '#Method Symplify\\EasyCodingStandard\\FixerRunner\\Parser\\FileToTokensParser\:\:parseFromFilePath\(\) should return iterable<PhpCsFixer\\Tokenizer\\Token\>&PhpCsFixer\\Tokenizer\\Tokens but returns PhpCsFixer\\Tokenizer\\Tokens#'
 
         -
             message: '#Instead of abstract class, use specific service with composition#'
@@ -249,11 +227,6 @@ parameters:
             paths:
                 - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
 
-        # on purpose, to make service a simple as possible
-        -
-            message: '#Instead of "DateTime" class/interface use "Nette\\Utils\\DateTime"#'
-            path: packages/easy-coding-standard/src/Application/Version/StaticVersionResolver.php
-
         # vendor test case limitation
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
@@ -262,21 +235,13 @@ parameters:
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
 
-        # json return
-        -
-            message: '#Use value object over return of values#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
-
         -
             message: '#Cognitive complexity for "(.*?)" is \d+, keep it under 8#'
             paths:
-                # complex worker pool logic
-                - packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
                 # complex search for possible directories
                 - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
                 - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
-                - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
 
         # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
         -
@@ -300,10 +265,6 @@ parameters:
         -
             path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
-
-        -
-            message: '#Cannot call method (.*?) on Symplify\\EasyParallel\\ValueObject\\ProcessPool\|null#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         -
             message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
@@ -335,12 +296,6 @@ parameters:
             message: '#Instead of array shape, use value object with specific types in constructor and getters#'
             paths:
                 # json serialize on purpose
-                - packages/easy-coding-standard/src/Console/Output/JsonOutputFormatter.php
-                - packages/easy-coding-standard/src/Contract/Application/FileProcessorInterface.php
-                - packages/easy-coding-standard/src/Reporter/ProcessedFileReporter.php
-                - packages/easy-coding-standard/src/*FileProcessor.php
-                - packages/easy-coding-standard/src/Application/EasyCodingStandardApplication.php
-                - packages/easy-coding-standard/packages/*/Application/*FileProcessor.php
                 - packages/phpstan-rules/src/Collector/*
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/config-transformer/src/Collector/XmlImportCollector.php
@@ -349,14 +304,6 @@ parameters:
             message: '#Complete known array shape to the method @return type#'
             paths:
                 - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
-
-        # messy array shapes - possibly value objects?
-        - '#Method Symplify\\EasyCodingStandard\\Application\\(.*?)FileProcessor\:\:processFileInfo\(\) should return (.*?)#'
-
-        # false positive, as just checked by phpunit
-        -
-            message: '#Offset (.*?)file_diffs(.*?) does not exist on (.*?) array<Symplify\\EasyCodingStandard\\ValueObject\\Error\\FileDiff>#'
-            path:  packages/easy-coding-standard/tests/Error/ErrorCollector/FixerFileProcessorTest.php
 
         # false positive sa checked before
         -
@@ -377,11 +324,6 @@ parameters:
             path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
 
         - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
-
-        # open api
-        -
-            message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
-            path: packages/easy-coding-standard/packages/Parallel/Application/ParallelFileProcessor.php
 
         # nesting on purpose
         -
@@ -419,7 +361,6 @@ parameters:
                 - packages/monorepo-builder/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
-                - packages/easy-coding-standard/packages-tests/Skipper/Skipper/Skipper/SkipperTest.php
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
@@ -427,10 +368,9 @@ parameters:
         -
             message: '#Method call return value that should be used, but is not#'
             paths:
+                 - packages/coding-standard/config
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
-                 - packages/smart-file-system/tests/SmartFileInfo/SmartFileInfoTest.php
                  # skip edge case
-                 - packages/easy-coding-standard/packages/SniffRunner/ValueObject/File.php
                  - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
@@ -477,8 +417,6 @@ parameters:
 
                 - packages/phpstan-rules/src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php
                 - packages/phpstan-rules/packages/Symfony/Rules/RequireNamedCommandRule.php
-                - packages/package-builder/src/Php/TypeChecker.php
-                - packages/phpstan-rules/packages/CognitiveComplexity/NodeAnalyzer/ComplexityAffectingNodeFinder.php
 
         -
             message: '#Content of method "getNextMeaningfulToken\(\)" is duplicated\. Use unique content or service instead#'
@@ -495,19 +433,8 @@ parameters:
                 - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
                 - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
 
-        # array known types
-        -
-            message: '#Property Symplify\\EasyCodingStandard\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:\$skippedClassAndCodes \(array<string, array<string>\|null>\) does not accept array<int\|string, mixed>#'
-            path: packages/easy-coding-standard/packages/Skipper/SkipCriteriaResolver/SkippedClassAndCodesResolver.php
-        -
-            message: '#Method Symplify\\EasyCodingStandard\\Skipper\\SkipCriteriaResolver\\SkippedClassAndCodesResolver\:\:resolve\(\) should return array<string, array<string>\|null> but returns array<int\|string, mixed>#'
-            path:  packages/easy-coding-standard/packages/Skipper/SkipCriteriaResolver/SkippedClassAndCodesResolver.php
-
         # un helpful
         - '#Parameter (.*?) expects non\-empty\-string, string given#'
-
-        # false postive
-        - '#Method Symplify\\EasyCodingStandard\\Console\\Command\\ListCheckersCommand\:\:getObjectClasses\(\) should return array<class\-string<TObject of PHP_CodeSniffer\\Sniffs\\Sniff\|PhpCsFixer\\Fixer\\FixerInterface>> but returns array<TObject of class\-string<PHP_CodeSniffer\\Sniffs\\Sniff>\|class\-string<PhpCsFixer\\Fixer\\FixerInterface>>#'
 
         # skip deprecated rule
         - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
@@ -521,3 +448,10 @@ parameters:
         -
             message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
             path: packages/monorepo-builder/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php
+
+        # skip and fix in original ECS tester, use paths instead
+        - '#Parameter \#1 \$fileInfo of method Symplify\\EasyCodingStandard\\Testing\\PHPUnit\\AbstractCheckerTestCase\:\:doTestFileInfo\(\) expects (.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo, Symplify\\SmartFileSystem\\SmartFileInfo given#'
+
+        -
+            message: '#Do not use chained method calls\. Put each on separated lines#'
+            path: packages/coding-standard/config

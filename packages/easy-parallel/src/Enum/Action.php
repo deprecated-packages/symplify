@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Symplify\EasyParallel\Enum;
 
+/**
+ * @api
+ */
 final class Action
 {
     /**

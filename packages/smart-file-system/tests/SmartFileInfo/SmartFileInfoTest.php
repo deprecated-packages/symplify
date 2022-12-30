@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace Symplify\SmartFileSystem\Tests\SmartFileInfo;
 
 use PHPUnit\Framework\TestCase;
-use Symplify\SmartFileSystem\Exception\DirectoryNotFoundException;
-use Symplify\SmartFileSystem\Exception\FileNotFoundException;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class SmartFileInfoTest extends TestCase
 {
-    public function testInvalidPath(): void
+    protected function setUp(): void
     {
-        $this->expectException(FileNotFoundException::class);
-        new SmartFileInfo('random');
+        // prefer local autoloaded file
+        if (! class_exists(SmartFileInfo::class)) {
+            require_once __DIR__ . '/../../src/SmartFileInfo.php';
+        }
+
+        parent::setUp();
     }
 
     public function testRelatives(): void
@@ -48,14 +50,6 @@ final class SmartFileInfoTest extends TestCase
 
         $relativePath = $smartFileInfo->getRelativeFilePathFromDirectory(__DIR__);
         $this->assertSame('Source/AnotherFile.txt', $relativePath);
-    }
-
-    public function testRelativeToDirException(): void
-    {
-        $smartFileInfo = new SmartFileInfo(__FILE__);
-
-        $this->expectException(DirectoryNotFoundException::class);
-        $smartFileInfo->getRelativeFilePathFromDirectory('non-existing-path');
     }
 
     public function testDoesFnmatch(): void
