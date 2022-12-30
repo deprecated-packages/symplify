@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symplify\MonorepoBuilder\DependencyUpdater;
 use Symplify\MonorepoBuilder\FileSystem\ComposerJsonProvider;
+use Symplify\MonorepoBuilder\Package\PackageNamesProvider;
 use Symplify\MonorepoBuilder\Validator\SourcesPresenceValidator;
 use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
@@ -23,7 +24,7 @@ final class BumpInterdependencyCommand extends AbstractSymplifyCommand
     public function __construct(
         private DependencyUpdater $dependencyUpdater,
         private ComposerJsonProvider $composerJsonProvider,
-        private SourcesPresenceValidator $sourcesPresenceValidator
+        private PackageNamesProvider $packageNamesProvider
     ) {
         parent::__construct();
     }
@@ -41,23 +42,11 @@ final class BumpInterdependencyCommand extends AbstractSymplifyCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->sourcesPresenceValidator->validateRootComposerJsonName();
-
         /** @var string $version */
         $version = $input->getArgument(self::VERSION_ARGUMENT);
-
-        $rootComposerJson = $this->composerJsonProvider->getRootComposerJson();
-
-        // @todo resolve better for only found packages
-        // see https://github.com/symplify/symplify/pull/1037/files
-        $vendorName = $rootComposerJson->getVendorName();
-        if ($vendorName === null) {
-            throw new ShouldNotHappenException();
-        }
-
-        $this->dependencyUpdater->updateFileInfosWithVendorAndVersion(
+        $this->dependencyUpdater->updateFileInfosWithPackagesAndVersion(
             $this->composerJsonProvider->getPackagesComposerFileInfos(),
-            $vendorName,
+            $this->packageNamesProvider->provide(),
             $version
         );
 
