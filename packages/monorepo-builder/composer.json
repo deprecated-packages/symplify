@@ -73,7 +73,7 @@
         "symplify/easy-parallel": "<11.1.24",
         "symplify/easy-ci": "<11.1.24",
         "symplify/vendor-patches": "<11.1.24"
-},
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
