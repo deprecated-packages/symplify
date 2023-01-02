@@ -21,7 +21,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 ## Coding Standards
 
-- [Easy Coding Standard](https://github.com/symplify/easy-coding-standard)
 - [Coding Standard](https://github.com/symplify/coding-standard)
 
 ## For Symfony
