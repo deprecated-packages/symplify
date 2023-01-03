@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\Source;
+namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedClassElementRule\Source;
 
 abstract class ClassUsingTraitWithProtectedAbstractMethod
 {
