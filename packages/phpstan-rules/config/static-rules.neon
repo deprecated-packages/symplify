@@ -1,5 +1,5 @@
 rules:
-    - Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule
+    - Symplify\PHPStanRules\Rules\NoProtectedClassElementRule
 
     - Symplify\PHPStanRules\Rules\Spotter\IfElseToMatchSpotterRule
     - Symplify\PHPStanRules\Rules\Missing\CheckSprintfMatchingTypesRule
@@ -35,7 +35,6 @@ rules:
     - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
     - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
     - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
-    - Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule
     - Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
 
     # comlexity

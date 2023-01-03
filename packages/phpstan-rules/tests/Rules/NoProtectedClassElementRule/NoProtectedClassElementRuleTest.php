@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule;
+namespace Symplify\PHPStanRules\Tests\Rules\NoProtectedClassElementRule;
 
 use Iterator;
 use PHPStan\Rules\Rule;
 use PHPStan\Testing\RuleTestCase;
-use Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule;
+use Symplify\PHPStanRules\Rules\NoProtectedClassElementRule;
 
 /**
- * @extends RuleTestCase<NoProtectedElementInFinalClassRule>
+ * @extends RuleTestCase<NoProtectedClassElementRule>
  */
-final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
+final class NoProtectedClassElementRuleTest extends RuleTestCase
 {
     /**
      * @param string[] $filePaths
@@ -28,27 +28,23 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
     {
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
         yield [[__DIR__ . '/Fixture/SkipTrait.php'], []];
-        yield [[__DIR__ . '/Fixture/SkipNotFinalClass.php'], []];
 
         yield [[__DIR__ . '/Fixture/SkipMicroKernelProtectedMethod.php'], []];
         yield [[__DIR__ . '/Fixture/SkipKernelProtectedMethod.php'], []];
 
         yield [
             [__DIR__ . '/Fixture/SomeFinalClassWithProtectedProperty.php'],
-            [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9]],
+            [[NoProtectedClassElementRule::ERROR_MESSAGE, 9]],
         ];
 
         yield [
             [__DIR__ . '/Fixture/SomeFinalClassWithProtectedMethod.php'],
-            [[NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9]],
+            [[NoProtectedClassElementRule::ERROR_MESSAGE, 9]],
         ];
 
         yield [
             [__DIR__ . '/Fixture/SomeFinalClassWithProtectedPropertyAndProtectedMethod.php'],
-            [
-                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 9],
-                [NoProtectedElementInFinalClassRule::ERROR_MESSAGE, 11],
-            ],
+            [[NoProtectedClassElementRule::ERROR_MESSAGE, 9], [NoProtectedClassElementRule::ERROR_MESSAGE, 11]],
         ];
     }
 
@@ -62,6 +58,6 @@ final class NoProtectedElementInFinalClassRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return self::getContainer()->getByType(NoProtectedElementInFinalClassRule::class);
+        return self::getContainer()->getByType(NoProtectedClassElementRule::class);
     }
 }
