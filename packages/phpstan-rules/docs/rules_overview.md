@@ -1,4 +1,4 @@
-# 109 Rules Overview
+# 108 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2382,31 +2382,6 @@ function run(KnownType $knownType)
 {
     return $knownType->name;
 }
-```
-
-:+1:
-
-<br>
-
-## NoMultiArrayAssignRule
-
-Use value object over multi array assign
-
-- class: [`Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`](../src/Rules/NoMultiArrayAssignRule.php)
-
-```php
-$values = [];
-$values['person']['name'] = 'Tom';
-$values['person']['surname'] = 'Dev';
-```
-
-:x:
-
-<br>
-
-```php
-$values = [];
-$values[] = new Person('Tom', 'Dev');
 ```
 
 :+1:
