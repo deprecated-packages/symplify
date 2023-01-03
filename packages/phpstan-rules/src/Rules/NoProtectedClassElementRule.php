@@ -21,14 +21,14 @@ use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
- * @see \Symplify\PHPStanRules\Tests\Rules\NoProtectedElementInFinalClassRule\NoProtectedElementInFinalClassRuleTest
+ * @see \Symplify\PHPStanRules\Tests\Rules\NoProtectedClassElementRule\NoProtectedClassElementRuleTest
  */
-final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleInterface
+final class NoProtectedClassElementRule implements Rule, DocumentedRuleInterface
 {
     /**
      * @var string
      */
-    public const ERROR_MESSAGE = 'Instead of protected element in final class use private element or contract method';
+    public const ERROR_MESSAGE = 'Instead of protected element in use private element or contract method';
 
     public function __construct(
         private ParentClassMethodGuard $parentClassMethodGuard
@@ -48,10 +48,6 @@ final class NoProtectedElementInFinalClassRule implements Rule, DocumentedRuleIn
     {
         $classLike = $node->getOriginalNode();
         if (! $classLike instanceof Class_) {
-            return [];
-        }
-
-        if (! $classLike->isFinal()) {
             return [];
         }
 

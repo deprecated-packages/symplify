@@ -1,4 +1,4 @@
-# 107 Rules Overview
+# 106 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -996,37 +996,6 @@ final class SomeRector implements RectorInterface
 {
     public function refactor(Node $node)
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenProtectedPropertyRule
-
-Property with protected modifier is not allowed. Use interface contract method instead
-
-- class: [`Symplify\PHPStanRules\Rules\ForbiddenProtectedPropertyRule`](../src/Rules/ForbiddenProtectedPropertyRule.php)
-
-```php
-class SomeClass
-{
-    protected $repository;
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass implements RepositoryAwareInterface
-{
-    public function getRepository()
-    {
-        // ....
     }
 }
 ```
@@ -2469,11 +2438,11 @@ class SomeClass extends Printer
 
 <br>
 
-## NoProtectedElementInFinalClassRule
+## NoProtectedClassElementRule
 
-Instead of protected element in final class use private element or contract method
+Instead of protected element in use private element or contract method
 
-- class: [`Symplify\PHPStanRules\Rules\NoProtectedElementInFinalClassRule`](../src/Rules/NoProtectedElementInFinalClassRule.php)
+- class: [`Symplify\PHPStanRules\Rules\NoProtectedClassElementRule`](../src/Rules/NoProtectedClassElementRule.php)
 
 ```php
 final class SomeClass
