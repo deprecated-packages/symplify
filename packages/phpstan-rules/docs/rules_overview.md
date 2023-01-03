@@ -1310,55 +1310,6 @@ class SomeClass
 
 <br>
 
-## NoArrayStringObjectReturnRule
-
-Use another value object over array with string-keys and objects, array<string, ValueObject>
-
-- class: [`Symplify\PHPStanRules\Rules\NoArrayStringObjectReturnRule`](../src/Rules/NoArrayStringObjectReturnRule.php)
-
-```php
-final class SomeClass
-{
-    public function getItems()
-    {
-        return $this->getValues();
-    }
-
-    /**
-     * @return array<string, Value>
-     */
-    private function getValues()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function getItems()
-    {
-        return $this->getValues();
-    }
-
-    /**
-     * @return WrappingValue[]
-     */
-    private function getValues()
-    {
-        // ...
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoChainMethodCallRule
 
 Do not use chained method calls. Put each on separated lines.
