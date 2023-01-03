@@ -1,4 +1,4 @@
-# 108 Rules Overview
+# 107 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2910,73 +2910,6 @@ class SomeClass
     public function run()
     {
         return new CustomFileInfo('...');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferredRawDataInTestDataProviderRule
-
-Code configured at `setUp()` cannot be used in data provider. Move it to `test()` method
-
-- class: [`Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`](../src/Rules/PreferredRawDataInTestDataProviderRule.php)
-
-```php
-final class UseDataFromSetupInTestDataProviderTest extends TestCase
-{
-    private $data;
-
-    protected function setUp(): void
-    {
-        $this->data = true;
-    }
-
-    public function provideFoo()
-    {
-        yield [$this->data];
-    }
-
-    /**
-     * @dataProvider provideFoo
-     */
-    public function testFoo($value)
-    {
-        $this->assertTrue($value);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use stdClass;
-
-final class UseRawDataForTestDataProviderTest
-{
-    private $obj;
-
-    protected function setUp(): void
-    {
-        $this->obj = new stdClass;
-    }
-
-    public function provideFoo()
-    {
-        yield [true];
-    }
-
-    /**
-     * @dataProvider provideFoo
-     */
-    public function testFoo($value)
-    {
-        $this->obj->x = $value;
-        $this->assertTrue($this->obj->x);
     }
 }
 ```

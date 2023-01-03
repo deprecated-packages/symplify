@@ -32,7 +32,6 @@ rules:
     - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
     - Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
     - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
-    - Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
     - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
     - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
     - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
