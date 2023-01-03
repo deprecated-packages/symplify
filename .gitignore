@@ -11,7 +11,4 @@ package-lock.json
 # phpunit
 .phpunit.result.cache
 
-packages/easy-coding-standard/vendor/
-packages/easy-coding-standard/tmp/
-
 php-scoper.phar
