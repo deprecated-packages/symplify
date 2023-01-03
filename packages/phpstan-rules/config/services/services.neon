@@ -28,7 +28,6 @@ services:
     - Symplify\PHPStanRules\Naming\ClassToSuffixResolver
     - Symplify\PHPStanRules\NodeAnalyzer\ArrayAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\AttributeFinder
-    - Symplify\PHPStanRules\NodeAnalyzer\AutowiredMethodPropertyAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\CacheIfAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\ClassAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\EnumAnalyzer

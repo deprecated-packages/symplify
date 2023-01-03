@@ -448,3 +448,12 @@ parameters:
         -
             message: '#Do not use chained method calls\. Put each on separated lines#'
             path: packages/coding-standard/config
+
+        -
+            message: '#Instead of protected element in use private element or contract method#'
+            paths:
+                - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
+                # test helper methods
+                - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
+                - packages/config-transformer/tests/Converter/ConfigFormatConverter/AbstractConfigFormatConverterTest.php
+                - packages/monorepo-builder/packages-tests/Merge/Package/AbstractMergeTestCase.php
