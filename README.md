@@ -51,10 +51,6 @@ You'll find all packages in [`/packages`](/packages) directory. Here is a brief 
 
 - [Easy CI](https://github.com/symplify/easy-ci)
 
-## For Upgrades
-
-- [Vendor Patches](https://github.com/symplify/vendor-patches)
-
 <br>
 
 ## Contributing & Issues
