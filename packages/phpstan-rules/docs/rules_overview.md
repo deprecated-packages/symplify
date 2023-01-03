@@ -1,4 +1,4 @@
-# 105 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2143,47 +2143,6 @@ $filePath = __DIR__ . '/missing_location.txt';
 
 ```php
 $filePath = __DIR__ . '/existing_location.txt';
-```
-
-:+1:
-
-<br>
-
-## NoMixedArrayDimFetchRule
-
-Add explicit array type to assigned "%s" expression
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedArrayDimFetchRule`](../src/Rules/Explicit/NoMixedArrayDimFetchRule.php)
-
-```php
-class SomeClass
-{
-    private $items = [];
-
-    public function addItem(string $key, string $value)
-    {
-        $this->items[$key] = $value;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    /**
-     * @var array<string, string>
-     */
-    private $items = [];
-
-    public function addItem(string $key, string $value)
-    {
-        $this->items[$key] = $value;
-    }
-}
 ```
 
 :+1:

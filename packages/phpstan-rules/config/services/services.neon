@@ -57,7 +57,6 @@ services:
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
     - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
-    - Symplify\PHPStanRules\TypeAnalyzer\ArrayShapeDetector
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver
