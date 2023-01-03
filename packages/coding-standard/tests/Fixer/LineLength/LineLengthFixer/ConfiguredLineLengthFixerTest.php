@@ -6,25 +6,20 @@ namespace Symplify\CodingStandard\Tests\Fixer\LineLength\LineLengthFixer;
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
-use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class ConfiguredLineLengthFixerTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureConfigured');
+        yield self::yieldFiles(__DIR__ . '/FixtureConfigured');
     }
 
     public function provideConfig(): string

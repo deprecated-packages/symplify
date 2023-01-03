@@ -30,9 +30,6 @@ final class MinimalStabilityKeyMergerTest extends AbstractComposerJsonDecoratorT
         $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $mainComposerJson);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture/MinimalStability', '*.json');
