@@ -24,10 +24,6 @@ parameters:
         constants: true
         methods: true
 
-    featureToggles:
-        # disable node connecting visitor, see https://github.com/phpstan/phpstan-src/pull/1175
-        nodeConnectingVisitorCompatibility: false
-
     # requires exact closure types
     checkMissingCallableSignature: true
 
@@ -55,15 +51,12 @@ parameters:
 
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
-#        - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
 
         # PHP 8 only
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
         # functions false positive
-#        - *packages/**/tests/**/config.php
         - *packages/monorepo-builder/templates/*
-#        - *packages/phpstan-extensions/**/Source/**
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # tests
