@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 101 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1378,38 +1378,6 @@ class SomeStaticClass
     public static function getSome()
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## NoConstantInterfaceRule
-
-Reserve interface for contract only. Move constant holder to a class soon-to-be Enum
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule`](../src/Rules/Enum/NoConstantInterfaceRule.php)
-
-```php
-interface SomeContract
-{
-    public const YES = 'yes';
-
-    public const NO = 'no';
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeValues
-{
-    public const YES = 'yes';
-
-    public const NO = 'no';
 }
 ```
 
@@ -3840,50 +3808,6 @@ final class SomeClass
 final class SomeClass
 {
     public const SOME = 'value';
-}
-```
-
-:+1:
-
-<br>
-
-## ValueObjectOverArrayShapeRule
-
-Instead of array shape, use value object with specific types in constructor and getters
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\ValueObjectOverArrayShapeRule`](../src/Rules/Explicit/ValueObjectOverArrayShapeRule.php)
-
-```php
-/**
- * @return array{line: int}
- */
-function createConfiguration()
-{
-    return ['line' => 100];
-}
-```
-
-:x:
-
-<br>
-
-```php
-function createConfiguration()
-{
-    return new Configuration(100);
-}
-
-final class Configuration
-{
-    public function __construct(
-        private int $line
-    ) {
-    }
-
-    public function getLine(): int
-    {
-        return $this->line;
-    }
 }
 ```
 
