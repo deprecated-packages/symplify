@@ -11,7 +11,7 @@
         "webmozart/assert": "^1.11"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.9.5",
+        "phpstan/phpstan": "^1.9.6",
         "symplify/rule-doc-generator-contracts": "^11.2",
         "symplify/easy-testing": "^11.2",
         "symplify/phpstan-extensions": "^11.2",
