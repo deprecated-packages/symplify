@@ -32,7 +32,6 @@ rules:
     - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
     - Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
     - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
-    - Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule
     - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
     - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
     - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
@@ -43,7 +42,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
 
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenArrayMethodCallRule
-    - Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule
     - Symplify\PHPStanRules\Rules\ForbiddenThisArgumentRule
     - Symplify\PHPStanRules\Rules\ForbiddenSpreadOperatorRule
     - Symplify\PHPStanRules\Rules\ForbiddenAnonymousClassRule

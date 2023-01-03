@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 107 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -438,57 +438,6 @@ class SomeStatus
 
 <br>
 
-## ExclusiveDependencyRule
-
-Dependency of specific type can be used only in specific class types
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`](../src/Rules/ExclusiveDependencyRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedExclusiveDependencyInTypes:
-                Doctrine\ORM\EntityManager:
-                    - '*Repository'
-                Doctrine\ORM\EntityManagerInterface:
-                    - '*Repository'
-```
-
-↓
-
-```php
-final class CheckboxController
-{
-    public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class CheckboxRepository
-{
-    public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ExclusiveNamespaceRule
 
 Exclusive namespace can only contain classes of specific type, nothing else
@@ -734,33 +683,6 @@ final class SomeClass
     {
         return new Person('John', 'Dope');
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenComplexForeachIfExprRule
-
-`foreach()`, `while()`, `for()` or `if()` cannot contain a complex expression. Extract it to a new variable on a line before
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule`](../src/Rules/Complexity/ForbiddenComplexForeachIfExprRule.php)
-
-```php
-foreach ($this->getData($arg) as $key => $item) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$data = $this->getData($arg);
-foreach ($data as $key => $item) {
-    // ...
 }
 ```
 
@@ -2466,31 +2388,6 @@ function run(KnownType $knownType)
 
 <br>
 
-## NoMultiArrayAssignRule
-
-Use value object over multi array assign
-
-- class: [`Symplify\PHPStanRules\Rules\NoMultiArrayAssignRule`](../src/Rules/NoMultiArrayAssignRule.php)
-
-```php
-$values = [];
-$values['person']['name'] = 'Tom';
-$values['person']['surname'] = 'Dev';
-```
-
-:x:
-
-<br>
-
-```php
-$values = [];
-$values[] = new Person('Tom', 'Dev');
-```
-
-:+1:
-
-<br>
-
 ## NoNestedFuncCallRule
 
 Use separate function calls with readable variable names
@@ -3013,73 +2910,6 @@ class SomeClass
     public function run()
     {
         return new CustomFileInfo('...');
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## PreferredRawDataInTestDataProviderRule
-
-Code configured at `setUp()` cannot be used in data provider. Move it to `test()` method
-
-- class: [`Symplify\PHPStanRules\Rules\PreferredRawDataInTestDataProviderRule`](../src/Rules/PreferredRawDataInTestDataProviderRule.php)
-
-```php
-final class UseDataFromSetupInTestDataProviderTest extends TestCase
-{
-    private $data;
-
-    protected function setUp(): void
-    {
-        $this->data = true;
-    }
-
-    public function provideFoo()
-    {
-        yield [$this->data];
-    }
-
-    /**
-     * @dataProvider provideFoo
-     */
-    public function testFoo($value)
-    {
-        $this->assertTrue($value);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use stdClass;
-
-final class UseRawDataForTestDataProviderTest
-{
-    private $obj;
-
-    protected function setUp(): void
-    {
-        $this->obj = new stdClass;
-    }
-
-    public function provideFoo()
-    {
-        yield [true];
-    }
-
-    /**
-     * @dataProvider provideFoo
-     */
-    public function testFoo($value)
-    {
-        $this->obj->x = $value;
-        $this->assertTrue($this->obj->x);
     }
 }
 ```
