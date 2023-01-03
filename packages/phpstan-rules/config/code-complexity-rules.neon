@@ -1,6 +1,4 @@
 rules:
-    - Symplify\PHPStanRules\Rules\Explicit\NoMixedArrayDimFetchRule
-    - Symplify\PHPStanRules\Rules\Explicit\NoMissingArrayShapeReturnArrayRule
     - Symplify\PHPStanRules\Rules\Explicit\NoMixedCallableRule
     - Symplify\PHPStanRules\Rules\Explicit\NoMixedPropertyFetcherRule
     - Symplify\PHPStanRules\Rules\Explicit\NoMixedMethodCallerRule

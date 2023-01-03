@@ -1,4 +1,4 @@
-# 106 Rules Overview
+# 104 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2083,37 +2083,6 @@ final class AssertMirror extends TestCase
 
 <br>
 
-## NoMissingArrayShapeReturnArrayRule
-
-Complete known array shape to the method `@return` type
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMissingArrayShapeReturnArrayRule`](../src/Rules/Explicit/NoMissingArrayShapeReturnArrayRule.php)
-
-```php
-function run(string $name)
-{
-    return ['name' => $name];
-}
-```
-
-:x:
-
-<br>
-
-```php
-/**
- * @return array{name: string}
- */
-function run(string $name)
-{
-    return ['name' => $name];
-}
-```
-
-:+1:
-
-<br>
-
 ## NoMissingAssingNoVoidMethodCallRule
 
 Method call return value that should be used, but is not
@@ -2174,47 +2143,6 @@ $filePath = __DIR__ . '/missing_location.txt';
 
 ```php
 $filePath = __DIR__ . '/existing_location.txt';
-```
-
-:+1:
-
-<br>
-
-## NoMixedArrayDimFetchRule
-
-Add explicit array type to assigned "%s" expression
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoMixedArrayDimFetchRule`](../src/Rules/Explicit/NoMixedArrayDimFetchRule.php)
-
-```php
-class SomeClass
-{
-    private $items = [];
-
-    public function addItem(string $key, string $value)
-    {
-        $this->items[$key] = $value;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    /**
-     * @var array<string, string>
-     */
-    private $items = [];
-
-    public function addItem(string $key, string $value)
-    {
-        $this->items[$key] = $value;
-    }
-}
 ```
 
 :+1:
