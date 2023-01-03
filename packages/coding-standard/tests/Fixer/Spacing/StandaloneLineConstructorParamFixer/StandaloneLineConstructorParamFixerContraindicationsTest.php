@@ -6,25 +6,20 @@ namespace Symplify\CodingStandard\Tests\Fixer\Spacing\StandaloneLineConstructorP
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
-use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class StandaloneLineConstructorParamFixerContraindicationsTest extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixtureContraindications');
+        yield self::yieldFiles(__DIR__ . '/FixtureContraindications');
     }
 
     public function provideConfig(): string

@@ -6,8 +6,6 @@ namespace Symplify\CodingStandard\Tests\Fixer\Commenting\ParamReturnAndVarTagMal
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
-use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 /**
  * @mimic https://github.com/rectorphp/rector/pull/807/files
@@ -17,17 +15,14 @@ final class ParamReturnAndVarTagMalformsFixerTest extends AbstractCheckerTestCas
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture');
+        yield self::yieldFiles(__DIR__ . '/Fixture');
     }
 
     public function provideConfig(): string

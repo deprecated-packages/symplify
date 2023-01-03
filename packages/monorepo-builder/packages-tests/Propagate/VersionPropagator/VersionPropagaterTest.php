@@ -35,9 +35,6 @@ final class VersionPropagaterTest extends AbstractComposerJsonDecoratorTest
         $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $packageComposerJson);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.json');

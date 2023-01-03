@@ -6,25 +6,20 @@ namespace Symplify\CodingStandard\Tests\Fixer\ArrayNotation\StandaloneLineInMult
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
-use Symplify\EasyTesting\DataProvider\StaticFixtureFinder;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class StandaloneLineInMultilineArrayFixerTestPhp80Test extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
-        return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/FixturePhp80');
+        yield self::yieldFiles(__DIR__ . '/FixturePhp80');
     }
 
     public function provideConfig(): string

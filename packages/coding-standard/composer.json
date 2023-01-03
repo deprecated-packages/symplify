@@ -17,7 +17,7 @@
         "symfony/framework-bundle": "6.1.*",
         "squizlabs/php_codesniffer": "^3.7.1",
         "symplify/easy-testing": "^11.2",
-        "symplify/easy-coding-standard": "^11.1.30",
+        "symplify/easy-coding-standard": "^11.1.31",
         "phpunit/phpunit": "^9.5.26",
         "symplify/rule-doc-generator": "^11.2",
         "cweagans/composer-patches": "^1.7"

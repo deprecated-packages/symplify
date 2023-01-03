@@ -6,24 +6,20 @@ namespace Symplify\CodingStandard\Tests\Issues;
 
 use Iterator;
 use Symplify\EasyCodingStandard\Testing\PHPUnit\AbstractCheckerTestCase;
-use Symplify\SmartFileSystem\SmartFileInfo;
 
 final class Issue973Test extends AbstractCheckerTestCase
 {
     /**
      * @dataProvider provideData()
      */
-    public function test(SmartFileInfo $fileInfo): void
+    public function test(string $filePath): void
     {
-        $this->doTestFileInfo($fileInfo);
+        $this->doTestFile($filePath);
     }
 
-    /**
-     * @return Iterator<SmartFileInfo[]>
-     */
     public function provideData(): Iterator
     {
-        yield [new SmartFileInfo(__DIR__ . '/Fixture/correct973.php.inc')];
+        yield [__DIR__ . '/Fixture/correct973.php.inc'];
     }
 
     public function provideConfig(): string

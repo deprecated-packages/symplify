@@ -36,9 +36,6 @@ final class ComposerJsonMergerTest extends AbstractComposerJsonDecoratorTest
         $this->assertComposerJsonEquals($trioContent->getExpectedResult(), $mainComposerJson);
     }
 
-    /**
-     * @return Iterator<mixed, SmartFileInfo>
-     */
     public function provideData(): Iterator
     {
         return StaticFixtureFinder::yieldDirectoryExclusively(__DIR__ . '/Fixture', '*.json');
