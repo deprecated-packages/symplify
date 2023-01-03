@@ -1,4 +1,4 @@
-# 104 Rules Overview
+# 101 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1378,38 +1378,6 @@ class SomeStaticClass
     public static function getSome()
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## NoConstantInterfaceRule
-
-Reserve interface for contract only. Move constant holder to a class soon-to-be Enum
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\NoConstantInterfaceRule`](../src/Rules/Enum/NoConstantInterfaceRule.php)
-
-```php
-interface SomeContract
-{
-    public const YES = 'yes';
-
-    public const NO = 'no';
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeValues
-{
-    public const YES = 'yes';
-
-    public const NO = 'no';
 }
 ```
 
