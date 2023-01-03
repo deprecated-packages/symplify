@@ -1,4 +1,4 @@
-# 111 Rules Overview
+# 109 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -438,57 +438,6 @@ class SomeStatus
 
 <br>
 
-## ExclusiveDependencyRule
-
-Dependency of specific type can be used only in specific class types
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ExclusiveDependencyRule`](../src/Rules/ExclusiveDependencyRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ExclusiveDependencyRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            allowedExclusiveDependencyInTypes:
-                Doctrine\ORM\EntityManager:
-                    - '*Repository'
-                Doctrine\ORM\EntityManagerInterface:
-                    - '*Repository'
-```
-
-↓
-
-```php
-final class CheckboxController
-{
-    public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class CheckboxRepository
-{
-    public function __construct(
-        private EntityManagerInterface $entityManager
-    ) {
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## ExclusiveNamespaceRule
 
 Exclusive namespace can only contain classes of specific type, nothing else
@@ -734,33 +683,6 @@ final class SomeClass
     {
         return new Person('John', 'Dope');
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ForbiddenComplexForeachIfExprRule
-
-`foreach()`, `while()`, `for()` or `if()` cannot contain a complex expression. Extract it to a new variable on a line before
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\ForbiddenComplexForeachIfExprRule`](../src/Rules/Complexity/ForbiddenComplexForeachIfExprRule.php)
-
-```php
-foreach ($this->getData($arg) as $key => $item) {
-    // ...
-}
-```
-
-:x:
-
-<br>
-
-```php
-$data = $this->getData($arg);
-foreach ($data as $key => $item) {
-    // ...
 }
 ```
 
