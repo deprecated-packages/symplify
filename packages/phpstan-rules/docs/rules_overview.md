@@ -1,4 +1,4 @@
-# 100 Rules Overview
+# 99 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1663,50 +1663,6 @@ trait SecondTrait
 {
     public function fly()
     {
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoDuplicatedVariableCasingNameRule
-
-Lowered variable "%s" is used in various-cased names: "%s", unite it to one
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule`](../src/Rules/Explicit/NoDuplicatedVariableCasingNameRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $run = 1;
-    }
-
-    public function go()
-    {
-        $ruN = 2;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $run = 1;
-    }
-
-    public function go()
-    {
-        $run = 2;
     }
 }
 ```
