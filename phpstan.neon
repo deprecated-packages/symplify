@@ -107,7 +107,6 @@ parameters:
             message: '#Do not use static property#'
             paths:
                 - packages/easy-testing/src/StaticFixtureSplitter.php # 19
-                - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php # 46
 
         -
             message: '#is forbidden to use#'
@@ -128,11 +127,6 @@ parameters:
 
         # child type
         - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
-
-        -
-            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 91
 
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
@@ -232,18 +226,7 @@ parameters:
             message: '#Cognitive complexity for "(.*?)" is \d+, keep it under 8#'
             paths:
                 # complex search for possible directories
-                - packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
-                - packages/phpstan-rules/src/Rules/NoMultiArrayAssignRule.php
-
-        # SmartFileSystem::readFile throws error when file is empty, which we dont want in this case
-        -
-            message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
-            path: packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
-
-        -
-            message:  '#Class cognitive complexity is 26, keep it under 25#'
-            path: packages/phpstan-rules/src/NodeFinder/ClassLikeNameFinder.php
 
         # known realpath() checked with file_exist right above
         -
@@ -259,12 +242,6 @@ parameters:
             path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
             message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
 
-        -
-            message: '#Use another value object over array with string\-keys and objects, array<string, ValueObject\>#'
-            paths:
-                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
-                - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
-
         # is never string
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
 
@@ -275,28 +252,6 @@ parameters:
         -
             message: '#Callable callable\(PHPStan\\Type\\Type\)\: PHPStan\\Type\\Type invoked with 2 parameters, 1 required#'
             path: packages/phpstan-rules/src/Rules/Explicit/NoMixedCallableRule.php
-
-        # weird stringable callable
-        -
-            message: '#Add explicit array type to assigned "\$definitions" expression#'
-            path: packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
-
-        -
-            message: '#Add explicit array type to assigned "\$excludeValue" expression#'
-            path: packages/php-config-printer/src/NodeFactory/Service/ServicesPhpNodeFactory.php
-
-        -
-            message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-            paths:
-                # json serialize on purpose
-                - packages/phpstan-rules/src/Collector/*
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-                - packages/config-transformer/src/Collector/XmlImportCollector.php
-
-        -
-            message: '#Complete known array shape to the method @return type#'
-            paths:
-                - packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
 
         # false positive sa checked before
         -
@@ -347,7 +302,6 @@ parameters:
             message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
-                - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
                 # should be improved
@@ -442,9 +396,6 @@ parameters:
             message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
             path: packages/monorepo-builder/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php
 
-        # skip and fix in original ECS tester, use paths instead
-        - '#Parameter \#1 \$fileInfo of method Symplify\\EasyCodingStandard\\Testing\\PHPUnit\\AbstractCheckerTestCase\:\:doTestFileInfo\(\) expects (.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo, Symplify\\SmartFileSystem\\SmartFileInfo given#'
-
         -
             message: '#Do not use chained method calls\. Put each on separated lines#'
             path: packages/coding-standard/config
@@ -457,3 +408,6 @@ parameters:
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
                 - packages/config-transformer/tests/Converter/ConfigFormatConverter/AbstractConfigFormatConverterTest.php
                 - packages/monorepo-builder/packages-tests/Merge/Package/AbstractMergeTestCase.php
+
+        # false positive
+        - '#Parameters should use "(.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo" types as the only types passed to this method#'
