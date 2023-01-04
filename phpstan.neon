@@ -56,7 +56,7 @@ parameters:
         - packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
         # functions false positive
-        - *packages/monorepo-builder/templates/*
+        - *vendor/templates/*
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # tests
@@ -145,7 +145,7 @@ parameters:
         -
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
             paths:
-                - packages/monorepo-builder/packages/Release/Process/ProcessRunner.php
+                - vendor/packages/Release/Process/ProcessRunner.php
                 # PHPUnit 9/10 compat
                 - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 - packages/php-config-printer/src/NodeFactory/ConstantNodeFactory.php
@@ -231,7 +231,7 @@ parameters:
         # known realpath() checked with file_exist right above
         -
             message: '#Function resolveConfigFile\(\) should return string\|null but returns string\|false#'
-            path: packages/monorepo-builder/bin/monorepo-builder.php
+            path: vendor/bin/monorepo-builder.php
 
         -
             path: packages/php-config-printer/src/ValueObject/YamlKey.php
@@ -302,10 +302,10 @@ parameters:
             message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
-                - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
+                - vendor/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
                 # should be improved
-                - packages/monorepo-builder/src/ValueObject/File.php
+                - vendor/src/ValueObject/File.php
                 - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
                 - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
 
@@ -382,12 +382,12 @@ parameters:
         # to separate package
         -
             message: "#Class cognitive complexity is 26, keep it under 25#"
-            path:  packages/monorepo-builder/packages/ComposerJsonManipulator/ValueObject/ComposerJson.php
+            path:  vendor/packages/ComposerJsonManipulator/ValueObject/ComposerJson.php
 
         # false positives
         -
             message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
-            path: packages/monorepo-builder/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php
+            path: vendor/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php
 
         -
             message: '#Do not use chained method calls\. Put each on separated lines#'
@@ -398,8 +398,8 @@ parameters:
             paths:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
                 # test helper methods
-                - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
-                - packages/monorepo-builder/packages-tests/Merge/Package/AbstractMergeTestCase.php
+                - vendor/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
+                - vendor/packages-tests/Merge/Package/AbstractMergeTestCase.php
 
         # false positive
         - '#Parameters should use "(.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo" types as the only types passed to this method#'

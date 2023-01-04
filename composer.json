@@ -50,6 +50,7 @@
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
         "symplify/easy-coding-standard": "^11.1.31",
+        "symplify/monorepo-builder": "^11.1.24",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/unused-public": "^0.0.25",
         "tracy/tracy": "^2.9.4"
@@ -67,10 +68,6 @@
             ],
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
-            "Symplify\\MonorepoBuilder\\": [
-                "packages/monorepo-builder/packages",
-                "packages/monorepo-builder/src"
-            ],
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PHPStanRules\\": [
                 "packages/phpstan-rules/packages",
@@ -107,10 +104,6 @@
             ],
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
-            "Symplify\\MonorepoBuilder\\Tests\\": [
-                "packages/monorepo-builder/packages-tests",
-                "packages/monorepo-builder/tests"
-            ],
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PHPStanRules\\Tests\\": [
                 "packages/phpstan-rules/packages-tests",
@@ -171,11 +164,11 @@
             "vendor/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src packages/phpstan-rules/packages --output-file packages/phpstan-rules/docs/rules_overview.md --ansi"
         ],
-        "merge": "packages/monorepo-builder/bin/monorepo-builder merge --ansi",
-        "propagate": "packages/monorepo-builder/bin/monorepo-builder propagate --ansi",
+        "merge": "vendor/bin/monorepo-builder merge --ansi",
+        "propagate": "vendor/bin/monorepo-builder propagate --ansi",
         "rector": "vendor/bin/rector process --dry-run --ansi",
-        "validate-monorepo": "packages/monorepo-builder/bin/monorepo-builder validate --ansi",
-        "release": "packages/monorepo-builder/bin/monorepo-builder release patch --ansi"
+        "validate-monorepo": "vendor/bin/monorepo-builder validate --ansi",
+        "release": "vendor/bin/monorepo-builder release patch --ansi"
     },
     "config": {
         "sort-packages": true,
