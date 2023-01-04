@@ -4,7 +4,6 @@ includes:
 # these rule focus on the whole-project analysis, see https://phpstan.org/developing-extensions/collectors
 rules:
     - Symplify\PHPStanRules\Rules\NarrowType\NarrowPublicClassMethodParamTypeByCallerTypeRule
-    - Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule
     - Symplify\PHPStanRules\Rules\Domain\NoDuplicatedRegexRule
     - Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedTraitMethodNameRule
     - Symplify\PHPStanRules\Rules\Domain\ForbiddenAlwaysSetterCallRule
@@ -23,12 +22,6 @@ services:
     -
         class: Symplify\PHPStanRules\Collector\ClassConst\RegexClassConstCollector
         tags: [phpstan.collector]
-
-    # for NoDuplicatedVariableCasingNameRule
-    -
-        class: Symplify\PHPStanRules\Collector\Variable\VariableNameCollector
-        tags: [phpstan.collector]
-
 
     # for NarrowPublicClassMethodParamTypeByCallerTypeRule
     -

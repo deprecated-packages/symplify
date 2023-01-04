@@ -1,4 +1,4 @@
-# 101 Rules Overview
+# 99 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1671,50 +1671,6 @@ trait SecondTrait
 
 <br>
 
-## NoDuplicatedVariableCasingNameRule
-
-Lowered variable "%s" is used in various-cased names: "%s", unite it to one
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\NoDuplicatedVariableCasingNameRule`](../src/Rules/Explicit/NoDuplicatedVariableCasingNameRule.php)
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $run = 1;
-    }
-
-    public function go()
-    {
-        $ruN = 2;
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-final class SomeClass
-{
-    public function run()
-    {
-        $run = 1;
-    }
-
-    public function go()
-    {
-        $run = 2;
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoDynamicNameRule
 
 Use explicit names over dynamic ones
@@ -2004,45 +1960,6 @@ class SomeClass
     public function getExplicitValue()
     {
         return 'explicit';
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoMirrorAssertRule
-
-The assert is tautology that compares to itself. Fix it to different values
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule`](../src/Rules/Complexity/NoMirrorAssertRule.php)
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class AssertMirror extends TestCase
-{
-    public function test()
-    {
-        $this->assertSame(1, 1);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class AssertMirror extends TestCase
-{
-    public function test()
-    {
-        $value = 200;
-        $this->assertSame(1, $value);
     }
 }
 ```
