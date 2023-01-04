@@ -1,4 +1,4 @@
-# 96 Rules Overview
+# 95 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1361,28 +1361,6 @@ throw new RuntimeException('...');
 use App\Exception\FileNotFoundException;
 
 throw new FileNotFoundException('...');
-```
-
-:+1:
-
-<br>
-
-## NoDuplicatedArgumentRule
-
-This call has duplicate argument
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\NoDuplicatedArgumentRule`](../src/Rules/Complexity/NoDuplicatedArgumentRule.php)
-
-```php
-function run($one, $one);
-```
-
-:x:
-
-<br>
-
-```php
-function run($one, $two);
 ```
 
 :+1:

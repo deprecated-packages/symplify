@@ -33,7 +33,6 @@ services:
     - Symplify\PHPStanRules\NodeAnalyzer\MethodCall\MethodCallClassConstFetchPositionResolver
     - Symplify\PHPStanRules\NodeAnalyzer\RegexFuncCallAnalyzer
     - Symplify\PHPStanRules\NodeAnalyzer\RegexStaticCallAnalyzer
-    - Symplify\PHPStanRules\NodeAnalyzer\ScalarValueResolver
     - Symplify\PHPStanRules\NodeAnalyzer\SprintfSpecifierTypeResolver
     - Symplify\PHPStanRules\NodeFinder\ClassMethodNodeFinder
     - Symplify\PHPStanRules\NodeFinder\MethodCallNodeFinder
@@ -52,7 +51,6 @@ services:
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
-    - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
     - Symplify\PHPStanRules\TypeResolver\ArgTypeResolver

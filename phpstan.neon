@@ -337,11 +337,6 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\RequireThisOnParentMethodCallRule\:\:processNode\(\)" is 9, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoNestedFuncCallRule\:\:processNode\(\)" is 10, keep it under 8#'
 
-        -
-            message: '#array_count_values\(\)\: Can only count string and integer values, entry skipped#'
-            paths:
-                - packages/phpstan-rules/src/NodeAnalyzer/ScalarValueResolver.php
-
         # decoupling
         -
             message: '#Parameter argument on position 0 must use constant#'
