@@ -59,7 +59,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/Fixture/*',
         '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
-        __DIR__ . '/vendor/templates',
         // test fixtures
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
         __DIR__ . '/packages/phpstan-rules/build/*',
