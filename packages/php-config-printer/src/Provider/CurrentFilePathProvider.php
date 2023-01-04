@@ -8,6 +8,9 @@ final class CurrentFilePathProvider
 {
     private ?string $filePath = null;
 
+    /**
+     * @api config-transformer
+     */
     public function setFilePath(string $yamlFilePath): void
     {
         $this->filePath = $yamlFilePath;
