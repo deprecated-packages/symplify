@@ -1,4 +1,4 @@
-# 99 Rules Overview
+# 97 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -476,62 +476,6 @@ namespace App\Presenter;
 class SomePresenter
 {
 }
-```
-
-:+1:
-
-<br>
-
-## ExplicitMethodCallOverMagicGetSetRule
-
-Instead of magic property "%s" access use direct explicit `"%s->%s()"` method call
-
-- class: [`Symplify\PHPStanRules\Rules\Explicit\ExplicitMethodCallOverMagicGetSetRule`](../src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php)
-
-```php
-use Nette\SmartObject;
-
-final class MagicObject
-{
-    // adds magic __get() and __set() methods
-    use SmartObject;
-
-    private $name;
-
-    public function getName()
-    {
-        return $this->name;
-    }
-}
-
-$magicObject = new MagicObject();
-// magic re-directed to method
-$magicObject->name;
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\SmartObject;
-
-final class MagicObject
-{
-    // adds magic __get() and __set() methods
-    use SmartObject;
-
-    private $name;
-
-    public function getName()
-    {
-        return $this->name;
-    }
-}
-
-$magicObject = new MagicObject();
-// explicit
-$magicObject->getName();
 ```
 
 :+1:
@@ -1923,43 +1867,6 @@ class SomeClass
         if ($object !== null) {
             return $object;
         }
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoMethodTagInClassDocblockRule
-
-Do not use `@method` tag in class docblock
-
-- class: [`Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule`](../src/Rules/NoMethodTagInClassDocblockRule.php)
-
-```php
-/**
- * @method getMagic() string
- */
-class SomeClass
-{
-    public function __call()
-    {
-        // more magic
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function getExplicitValue()
-    {
-        return 'explicit';
     }
 }
 ```

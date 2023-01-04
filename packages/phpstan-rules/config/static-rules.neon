@@ -34,7 +34,6 @@ rules:
     - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
     - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
     - Symplify\PHPStanRules\Rules\ForbiddenMultipleClassLikeInOneFileRule
-    - Symplify\PHPStanRules\Rules\NoMethodTagInClassDocblockRule
 
     # comlexity
     - Symplify\PHPStanRules\Rules\Complexity\ForbiddenSameNamedNewInstanceRule
