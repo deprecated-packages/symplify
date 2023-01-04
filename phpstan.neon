@@ -347,7 +347,6 @@ parameters:
             message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
-                - packages/phpstan-rules/src/Composer/ComposerVendorAutoloadResolver.php
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/RemoverComposerJsonDecorator/RemoverComposerJsonDecoratorTest.php
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
                 # should be improved

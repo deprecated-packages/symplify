@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 97 Rules Overview
+=======
+# 98 Rules Overview
+>>>>>>> c50435601 ([PHPStanRules] Remove ClassExtendingExclusiveNamespaceRule, better handled by deptrack tool)
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -249,98 +253,6 @@ class SomeClass
     private function isCheck(MethodCall $node)
     {
     }
-}
-```
-
-:+1:
-
-<br>
-
-## ClassExtendingExclusiveNamespaceRule
-
-Define in which namespaces (using *, ** or ? glob-like pattern matching) can classes extending specified class or implementing specified interface exist
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule`](../src/Rules/ClassExtendingExclusiveNamespaceRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            guards:
-                Symfony\Component\Form\FormTypeInterface:
-                    - 'App\Form\**'
-```
-
-↓
-
-```php
-namespace App;
-
-// AbstractType implements \Symfony\Component\Form\FormTypeInterface
-use Symfony\Component\Form\AbstractType;
-
-class UserForm extends AbstractType
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-namespace App\Form;
-
-use Symfony\Component\Form\AbstractType;
-
-class UserForm extends AbstractType
-{
-}
-```
-
-:+1:
-
-<br>
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\ClassExtendingExclusiveNamespaceRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            guards:
-                'App\Component\PriceEngine\**':
-                    - 'App\Component\PriceEngine\**'
-                    - 'App\Component\PriceEngineImpl\**'
-```
-
-↓
-
-```php
-namespace App\Services;
-
-use App\Component\PriceEngine\PriceProviderInterface;
-
-class CustomerProductProvider extends PriceProviderInterface
-{
-}
-```
-
-:x:
-
-<br>
-
-```php
-namespace App\Component\PriceEngineImpl;
-
-use App\Component\PriceEngine\PriceProviderInterface;
-
-class CustomerProductProvider extends PriceProviderInterface
-{
 }
 ```
 
