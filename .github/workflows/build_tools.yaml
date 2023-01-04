@@ -1,5 +1,4 @@
 # builds the content of:
-# * https://github.com/symplify/config-transformer
 # * https://github.com/symplify/monorepo-builder
 # * https://github.com/symplify/easy-ci
 
@@ -27,10 +26,6 @@ jobs:
             fail-fast: false
             matrix:
                 tools:
-                    -
-                        name: 'Config Transformer'
-                        directory: 'config-transformer'
-
                     -
                         name: 'Monorepo Builder'
                         directory: 'monorepo-builder'
