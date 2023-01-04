@@ -29,7 +29,6 @@ rules:
 
     # explicit naming
     - Symplify\PHPStanRules\Rules\NoDefaultExceptionRule
-    - Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule
     - Symplify\PHPStanRules\Rules\NoParentMethodCallOnNoOverrideProcessRule
     - Symplify\PHPStanRules\Rules\RequireThisOnParentMethodCallRule
     - Symplify\PHPStanRules\Rules\RequireThisCallOnLocalMethodRule
