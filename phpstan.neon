@@ -378,9 +378,6 @@ parameters:
             message: '#Instead of protected element in use private element or contract method#'
             paths:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
-                # test helper methods
-                - vendor/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
-                - vendor/packages-tests/Merge/Package/AbstractMergeTestCase.php
 
         # false positive
         - '#Parameters should use "(.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo" types as the only types passed to this method#'
