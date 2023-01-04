@@ -52,7 +52,7 @@ jobs:
             -   run: composer update --no-progress --ansi
 
             # 1. localize dependencies to monorepo packages
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.tools.directory }}/composer.json --ansi
+            -   run: vendor/bin/monorepo-builder localize-composer-paths packages/${{ matrix.tools.directory }}/composer.json --ansi
 
             # 2. install package dependencies so downgrade can go easily
             -

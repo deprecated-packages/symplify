@@ -22,7 +22,7 @@ jobs:
 
                     -
                         name: 'Root composer.json and packages are Synced'
-                        run: packages/monorepo-builder/bin/monorepo-builder propagate --ansi --dry-run
+                        run: vendor/bin/monorepo-builder propagate --ansi --dry-run
 
                     -
                         name: 'PHPStan'
@@ -66,7 +66,6 @@ jobs:
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/package-builder --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/php-config-printer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
@@ -89,7 +88,7 @@ jobs:
                         name: Binary File Run
                         run: |
                             # test run bin files
-                            packages/monorepo-builder/bin/monorepo-builder --ansi
+                            vendor/bin/monorepo-builder --ansi
                             packages/rule-doc-generator/bin/rule-doc-generator --ansi
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi

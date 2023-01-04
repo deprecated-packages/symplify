@@ -1,5 +1,4 @@
 # builds the content of:
-# * https://github.com/symplify/monorepo-builder
 # * https://github.com/symplify/easy-ci
 
 # inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
@@ -26,10 +25,6 @@ jobs:
             fail-fast: false
             matrix:
                 tools:
-                    -
-                        name: 'Monorepo Builder'
-                        directory: 'monorepo-builder'
-
                     -
                         name: 'Easy CI'
                         directory: 'easy-ci'
@@ -60,7 +55,7 @@ jobs:
             -   run: composer update --no-progress --ansi
 
             # 1. install package dependencies
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.tools.directory }}/composer.json --ansi
+            -   run: vendor/bin/monorepo-builder localize-composer-paths packages/${{ matrix.tools.directory }}/composer.json --ansi
 
             # invoke patches first, @see https://twitter.com/VotrubaT/status/1531197495224721408
             -

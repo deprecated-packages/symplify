@@ -24,7 +24,7 @@ jobs:
             # get package json list
             -
                 id: output_data
-                run: echo "matrix=$(packages/monorepo-builder/bin/monorepo-builder packages-json --tests)" >> $GITHUB_OUTPUT
+                run: echo "matrix=$(vendor/bin/monorepo-builder packages-json --tests)" >> $GITHUB_OUTPUT
 
         outputs:
             matrix: ${{ steps.output_data.outputs.matrix }}
@@ -51,7 +51,7 @@ jobs:
 
             -   uses: "ramsey/composer-install@v2"
 
-            -   run: packages/monorepo-builder/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package }}/composer.json --ansi
+            -   run: vendor/bin/monorepo-builder localize-composer-paths packages/${{ matrix.package }}/composer.json --ansi
 
             -   run: composer update --no-progress --ansi --working-dir packages/${{ matrix.package }}
 
