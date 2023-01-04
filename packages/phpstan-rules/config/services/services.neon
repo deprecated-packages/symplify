@@ -55,7 +55,6 @@ services:
     - Symplify\PHPStanRules\Printer\NodeComparator
     - Symplify\PHPStanRules\Reflection\MethodCallNodeAnalyzer
     - Symplify\PHPStanRules\Reflection\MethodNodeAnalyser
-    - Symplify\PHPStanRules\Reflection\PublicClassReflectionAnalyzer
     - Symplify\PHPStanRules\Reflection\StaticCallNodeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\CallableTypeAnalyzer
     - Symplify\PHPStanRules\TypeAnalyzer\MatchingTypeAnalyzer
