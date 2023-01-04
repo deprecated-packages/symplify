@@ -26,15 +26,6 @@ jobs:
             matrix:
                 tools:
                     -
-<<<<<<< HEAD
-                        name: 'Monorepo Builder'
-                        directory: 'monorepo-builder'
-=======
-                        name: 'Config Transformer'
-                        directory: 'config-transformer'
->>>>>>> 5344b5eb5 (remove monorepo-builder from build-tools)
-
-                    -
                         name: 'Easy CI'
                         directory: 'easy-ci'
 
