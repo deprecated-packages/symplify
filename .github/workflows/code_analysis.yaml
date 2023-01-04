@@ -64,7 +64,6 @@ jobs:
                         run: |
                             packages/easy-ci/bin/easy-ci check-active-class packages/autowire-array-parameter --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/coding-standard --ansi
-                            packages/easy-ci/bin/easy-ci check-active-class packages/config-transformer --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-ci --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/easy-testing --ansi
                             packages/easy-ci/bin/easy-ci check-active-class packages/monorepo-builder --ansi
@@ -92,9 +91,6 @@ jobs:
                             # test run bin files
                             packages/monorepo-builder/bin/monorepo-builder --ansi
                             packages/rule-doc-generator/bin/rule-doc-generator --ansi
-                            packages/config-transformer/bin/config-transformer --ansi
-                            # check the dry-run option
-                            packages/config-transformer/bin/config-transformer switch -h
                             packages/easy-ci/bin/easy-ci --ansi
                             packages/easy-testing/bin/easy-testing --ansi
 

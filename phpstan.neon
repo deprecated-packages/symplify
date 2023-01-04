@@ -317,8 +317,6 @@ parameters:
             paths:
                  - packages/coding-standard/config
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
-                 # skip edge case
-                 - packages/config-transformer/src/DependencyInjection/Loader/IdAwareXmlFileLoader.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
 
@@ -401,7 +399,6 @@ parameters:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
                 # test helper methods
                 - packages/monorepo-builder/packages-tests/Merge/ComposerJsonDecorator/AbstractComposerJsonDecoratorTest.php
-                - packages/config-transformer/tests/Converter/ConfigFormatConverter/AbstractConfigFormatConverterTest.php
                 - packages/monorepo-builder/packages-tests/Merge/Package/AbstractMergeTestCase.php
 
         # false positive

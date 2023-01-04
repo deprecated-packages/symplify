@@ -61,7 +61,6 @@
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\CodingStandard\\": "packages/coding-standard/src",
-            "Symplify\\ConfigTransformer\\": "packages/config-transformer/src",
             "Symplify\\EasyCI\\": [
                 "packages/easy-ci/packages",
                 "packages/easy-ci/src"
@@ -102,7 +101,6 @@
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
-            "Symplify\\ConfigTransformer\\Tests\\": "packages/config-transformer/tests",
             "Symplify\\EasyCI\\Tests\\": [
                 "packages/easy-ci/packages-tests",
                 "packages/easy-ci/tests"
@@ -143,7 +141,6 @@
     "replace": {
         "symplify/autowire-array-parameter": "11.1.24",
         "symplify/coding-standard": "11.1.24",
-        "symplify/config-transformer": "11.1.24",
         "symplify/easy-ci": "11.1.24",
         "symplify/easy-parallel": "11.1.24",
         "symplify/easy-testing": "11.1.24",
