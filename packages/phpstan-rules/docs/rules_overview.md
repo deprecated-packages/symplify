@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# 97 Rules Overview
-=======
-# 98 Rules Overview
->>>>>>> c50435601 ([PHPStanRules] Remove ClassExtendingExclusiveNamespaceRule, better handled by deptrack tool)
+# 96 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
