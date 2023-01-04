@@ -370,11 +370,6 @@ parameters:
         # skip deprecated rule
         - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
 
-        # false positives
-        -
-            message: '#On passing a constant, the method should have an enum type\. See https\://phpstan\.org/writing\-php\-code/phpdoc\-types\#literals\-and\-constants#'
-            path: vendor/packages-tests/Release/ReleaseWorkerProvider/ReleaseWorkerProviderTest.php
-
         -
             message: '#Do not use chained method calls\. Put each on separated lines#'
             path: packages/coding-standard/config
