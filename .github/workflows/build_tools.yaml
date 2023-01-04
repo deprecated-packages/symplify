@@ -1,5 +1,4 @@
 # builds the content of:
-# * https://github.com/symplify/monorepo-builder
 # * https://github.com/symplify/easy-ci
 
 # inspiration from https://github.com/phpstan/phpstan-src/blob/master/.github/workflows/phar.yml
@@ -27,8 +26,13 @@ jobs:
             matrix:
                 tools:
                     -
+<<<<<<< HEAD
                         name: 'Monorepo Builder'
                         directory: 'monorepo-builder'
+=======
+                        name: 'Config Transformer'
+                        directory: 'config-transformer'
+>>>>>>> 5344b5eb5 (remove monorepo-builder from build-tools)
 
                     -
                         name: 'Easy CI'
