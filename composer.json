@@ -137,7 +137,6 @@
         "symplify/easy-ci": "11.1.24",
         "symplify/easy-parallel": "11.1.24",
         "symplify/easy-testing": "11.1.24",
-        "symplify/monorepo-builder": "11.1.24",
         "symplify/package-builder": "11.1.24",
         "symplify/php-config-printer": "11.1.24",
         "symplify/phpstan-extensions": "11.1.24",
