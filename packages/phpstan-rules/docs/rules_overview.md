@@ -1,4 +1,4 @@
-# 101 Rules Overview
+# 100 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2004,45 +2004,6 @@ class SomeClass
     public function getExplicitValue()
     {
         return 'explicit';
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoMirrorAssertRule
-
-The assert is tautology that compares to itself. Fix it to different values
-
-- class: [`Symplify\PHPStanRules\Rules\Complexity\NoMirrorAssertRule`](../src/Rules/Complexity/NoMirrorAssertRule.php)
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class AssertMirror extends TestCase
-{
-    public function test()
-    {
-        $this->assertSame(1, 1);
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use PHPUnit\Framework\TestCase;
-
-final class AssertMirror extends TestCase
-{
-    public function test()
-    {
-        $value = 200;
-        $this->assertSame(1, $value);
     }
 }
 ```
