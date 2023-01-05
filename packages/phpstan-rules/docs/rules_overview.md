@@ -1,4 +1,4 @@
-# 93 Rules Overview
+# 92 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -2997,47 +2997,6 @@ class SomeController extends AbstractController
         ]);
     }
 }
-```
-
-:+1:
-
-<br>
-
-## RequireNewArgumentConstantRule
-
-New expression argument on position %d must use constant over value
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule`](../src/Rules/Enum/RequireNewArgumentConstantRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantArgByNewByType:
-                Symfony\Component\Console\Input\InputOption:
-                    - 2
-```
-
-↓
-
-```php
-use Symfony\Component\Console\Input\InputOption;
-
-$inputOption = new InputOption('name', null, 2);
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Console\Input\InputOption;
-
-$inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
 ```
 
 :+1:
