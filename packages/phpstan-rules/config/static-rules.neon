@@ -12,7 +12,6 @@ rules:
     - Symplify\PHPStanRules\Rules\Enum\RequireUniqueEnumConstantRule
     - Symplify\PHPStanRules\Rules\ForbiddenParamTypeRemovalRule
     - Symplify\PHPStanRules\Rules\NoNestedFuncCallRule
-    - Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule
     - Symplify\PHPStanRules\Rules\PreventParentMethodVisibilityOverrideRule
 
     # paths

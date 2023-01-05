@@ -1,4 +1,4 @@
-# 95 Rules Overview
+# 93 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1527,40 +1527,6 @@ class SomeClass
     public function old(): bool
     {
         return $this->specificMethodName();
-    }
-}
-```
-
-:+1:
-
-<br>
-
-## NoDynamicPropertyOnStaticCallRule
-
-Use non-dynamic property on static calls or class const fetches
-
-- class: [`Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`](../src/Rules/NoDynamicPropertyOnStaticCallRule.php)
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return $this->connection::literal();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return Connection::literal();
     }
 }
 ```
@@ -3113,54 +3079,6 @@ final class IssueControlFactory
 
 final class IssueControl extends Control
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RequireStringRegexMatchKeyRule
-
-Regex must use string named capture groups instead of numeric
-
-- class: [`Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`](../src/Rules/RequireStringRegexMatchKeyRule.php)
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    private const REGEX = '#(a content)#';
-
-    public function run()
-    {
-        $matches = Strings::match('a content', self::REGEX);
-        if ($matches) {
-            echo $matches[1];
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    private const REGEX = '#(?<content>a content)#';
-
-    public function run()
-    {
-        $matches = Strings::match('a content', self::REGEX);
-        if ($matches) {
-            echo $matches['content'];
-        }
-    }
 }
 ```
 
