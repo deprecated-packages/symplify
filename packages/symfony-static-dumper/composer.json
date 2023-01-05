@@ -18,7 +18,7 @@
         "symplify/smart-file-system": "^11.2"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.9.6",
+        "phpstan/phpstan": "^1.9.7",
         "phpunit/phpunit": "^9.5.26",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*"
