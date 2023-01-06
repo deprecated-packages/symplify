@@ -28,7 +28,7 @@ jobs:
             # get package json list
             -
                 id: output_data
-                run: echo "matrix=$(vendor/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package easy-ci --exclude-package phpstan-rules)" >> $GITHUB_OUTPUT
+                run: echo "matrix=$(vendor/bin/monorepo-builder packages-json --exclude-package easy-coding-standard --exclude-package --exclude-package phpstan-rules)" >> $GITHUB_OUTPUT
 
         # this step is needed, so the output gets to the next defined job
         outputs:
