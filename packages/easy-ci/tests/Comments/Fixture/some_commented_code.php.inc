@@ -1,5 +1,0 @@
-<?php
-
-// some
-// more
-// lines
