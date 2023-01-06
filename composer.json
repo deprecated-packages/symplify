@@ -13,7 +13,6 @@
         "fidry/cpu-core-counter": "^0.4.0",
         "friendsofphp/php-cs-fixer": "^3.12",
         "myclabs/php-enum": "^1.8",
-        "nette/neon": "^3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.2",
