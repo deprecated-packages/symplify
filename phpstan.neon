@@ -46,9 +46,6 @@ parameters:
         - packages/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
-        # class aliasing for old PHPUnit test case
-        - packages/easy-ci/packages-tests/Testing/UnitTestFilePathsFinder/UnitTestFilePathsFinderTest.php
-
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
 
@@ -205,11 +202,6 @@ parameters:
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
                  - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
-        -
-            message: '#Class has a static method must so must contains "Static" in its name#'
-            paths:
-                - packages/easy-ci/src/ValueObject/ConfigFileSuffixes.php
-
         # vendor test case limitation
         -
             message: '#Class has a static method must so must contains "Static" in its name#'
@@ -227,11 +219,6 @@ parameters:
         -
             path: packages/php-config-printer/src/ValueObject/YamlKey.php
             message: '#Class has a static method must so must contains "Static" in its name#'
-
-        # value changed to int
-        -
-            path: packages/easy-ci/packages/Psr4/Utils/SymplifyStrings.php
-            message: '#Strict comparison using \!\=\= between null and null will always evaluate to false#'
 
         # is never string
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
@@ -258,10 +245,6 @@ parameters:
                 - packages/phpstan-rules/tests
                 - packages/phpstan-rules/packages
 
-        -
-            message: '#Cannot call method toString\(\) on PhpParser\\Node\\Name\|null#'
-            path: packages/easy-ci/packages/ActiveClass/NodeVisitor/ClassNameNodeVisitor.php
-
         - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
 
         # nesting on purpose
@@ -271,11 +254,6 @@ parameters:
                 - packages/php-config-printer/src/*Converter/*
 
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
-
-        # single constant
-        -
-            message: '#Parameter argument on position 0 must use constant#'
-            path:  packages/easy-ci/packages/ActiveClass/NodeVisitor/UsedClassNodeVisitor.php
 
         # static parent method
         -
@@ -294,9 +272,6 @@ parameters:
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
-                # should be improved
-                - packages/easy-ci/packages/Testing/Command/DetectUnitTestsCommand.php
-                - packages/easy-ci/packages-tests/Psr4/ValueObjectFactory/Psr4NamespaceToPathFactory/Psr4NamespaceToPathFactoryTest.php
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
