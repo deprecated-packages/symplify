@@ -13,7 +13,6 @@
         "fidry/cpu-core-counter": "^0.4.0",
         "friendsofphp/php-cs-fixer": "^3.12",
         "myclabs/php-enum": "^1.8",
-        "nette/neon": "^3.3",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.2",
@@ -48,6 +47,7 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symplify/easy-ci": "^11.1",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
@@ -55,16 +55,9 @@
         "tracy/tracy": "^2.9.4"
     },
     "autoload": {
-        "classmap": [
-            "packages/easy-ci/stubs"
-        ],
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\CodingStandard\\": "packages/coding-standard/src",
-            "Symplify\\EasyCI\\": [
-                "packages/easy-ci/packages",
-                "packages/easy-ci/src"
-            ],
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
@@ -97,10 +90,6 @@
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
-            "Symplify\\EasyCI\\Tests\\": [
-                "packages/easy-ci/packages-tests",
-                "packages/easy-ci/tests"
-            ],
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
@@ -133,7 +122,6 @@
     "replace": {
         "symplify/autowire-array-parameter": "11.1.24",
         "symplify/coding-standard": "11.1.24",
-        "symplify/easy-ci": "11.1.24",
         "symplify/easy-parallel": "11.1.24",
         "symplify/easy-testing": "11.1.24",
         "symplify/package-builder": "11.1.24",
@@ -155,7 +143,7 @@
         ],
         "phpstan": [
             "vendor/bin/phpstan analyse --memory-limit=-1 --error-format symplify --ansi",
-            "packages/easy-ci/bin/easy-ci check-config packages --ansi"
+            "vendor/bin/easy-ci check-config packages --ansi"
         ],
         "docs": [
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
