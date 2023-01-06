@@ -1,7 +1,0 @@
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantArgByNewByType:
-                Symfony\Component\Console\Input\InputOption: [2]

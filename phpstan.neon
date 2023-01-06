@@ -162,8 +162,6 @@ parameters:
                  # traversing is complex operatoin
                  - packages/php-config-printer/src/NodeFactory/ArgsNodeFactory.php
 
-        - '#Method Symplify\\PHPStanRules\\Rules\\RequireStringRegexMatchKeyRule\:\:findVariableArrayDimFetches\(\) should return array<PhpParser\\Node\\Expr\\ArrayDimFetch\> but returns array<PhpParser\\Node\>#'
-
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
         # wrong keys

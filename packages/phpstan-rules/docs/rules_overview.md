@@ -1,4 +1,4 @@
-# 95 Rules Overview
+# 92 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -1535,40 +1535,6 @@ class SomeClass
 
 <br>
 
-## NoDynamicPropertyOnStaticCallRule
-
-Use non-dynamic property on static calls or class const fetches
-
-- class: [`Symplify\PHPStanRules\Rules\NoDynamicPropertyOnStaticCallRule`](../src/Rules/NoDynamicPropertyOnStaticCallRule.php)
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return $this->connection::literal();
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeClass
-{
-    public function run()
-    {
-        return Connection::literal();
-    }
-}
-```
-
-:+1:
-
-<br>
-
 ## NoEmptyClassRule
 
 There should be no empty class
@@ -3037,47 +3003,6 @@ class SomeController extends AbstractController
 
 <br>
 
-## RequireNewArgumentConstantRule
-
-New expression argument on position %d must use constant over value
-
-:wrench: **configure it!**
-
-- class: [`Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule`](../src/Rules/Enum/RequireNewArgumentConstantRule.php)
-
-```yaml
-services:
-    -
-        class: Symplify\PHPStanRules\Rules\Enum\RequireNewArgumentConstantRule
-        tags: [phpstan.rules.rule]
-        arguments:
-            constantArgByNewByType:
-                Symfony\Component\Console\Input\InputOption:
-                    - 2
-```
-
-↓
-
-```php
-use Symfony\Component\Console\Input\InputOption;
-
-$inputOption = new InputOption('name', null, 2);
-```
-
-:x:
-
-<br>
-
-```php
-use Symfony\Component\Console\Input\InputOption;
-
-$inputOption = new InputOption('name', null, InputOption::VALUE_REQUIRED);
-```
-
-:+1:
-
-<br>
-
 ## RequireSpecificReturnTypeOverAbstractRule
 
 Provide more specific return type "%s" over abstract one
@@ -3113,54 +3038,6 @@ final class IssueControlFactory
 
 final class IssueControl extends Control
 {
-}
-```
-
-:+1:
-
-<br>
-
-## RequireStringRegexMatchKeyRule
-
-Regex must use string named capture groups instead of numeric
-
-- class: [`Symplify\PHPStanRules\Rules\RequireStringRegexMatchKeyRule`](../src/Rules/RequireStringRegexMatchKeyRule.php)
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    private const REGEX = '#(a content)#';
-
-    public function run()
-    {
-        $matches = Strings::match('a content', self::REGEX);
-        if ($matches) {
-            echo $matches[1];
-        }
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-use Nette\Utils\Strings;
-
-class SomeClass
-{
-    private const REGEX = '#(?<content>a content)#';
-
-    public function run()
-    {
-        $matches = Strings::match('a content', self::REGEX);
-        if ($matches) {
-            echo $matches['content'];
-        }
-    }
 }
 ```
 
