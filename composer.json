@@ -57,7 +57,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
-            "Symplify\\CodingStandard\\": "packages/coding-standard/src",
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
@@ -89,7 +88,6 @@
         ],
         "psr-4": {
             "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
-            "Symplify\\CodingStandard\\Tests\\": "packages/coding-standard/tests",
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
@@ -146,8 +144,6 @@
             "vendor/bin/easy-ci check-config packages --ansi"
         ],
         "docs": [
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/coding-standard --output-file packages/coding-standard/docs/rules_overview.md --ansi",
-            "vendor/bin/ecs check-markdown packages/coding-standard/docs/rules_overview.md --fix --ansi",
             "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src packages/phpstan-rules/packages --output-file packages/phpstan-rules/docs/rules_overview.md --ansi"
         ],
         "merge": "vendor/bin/monorepo-builder merge --ansi",

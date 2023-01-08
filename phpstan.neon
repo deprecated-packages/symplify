@@ -200,7 +200,6 @@ parameters:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
-                 - packages/coding-standard/src/Fixer/AbstractSymplifyFixer.php
 
         # vendor test case limitation
         -
@@ -279,7 +278,6 @@ parameters:
         -
             message: '#Method call return value that should be used, but is not#'
             paths:
-                 - packages/coding-standard/config
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
@@ -322,14 +320,6 @@ parameters:
                 - packages/phpstan-rules/src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php
                 - packages/phpstan-rules/packages/Symfony/Rules/RequireNamedCommandRule.php
 
-        -
-            message: '#Content of method "getNextMeaningfulToken\(\)" is duplicated\. Use unique content or service instead#'
-            paths:
-                - packages/coding-standard/src/TokenAnalyzer/Naming/MethodNameResolver.php
-                - packages/coding-standard/src/TokenAnalyzer/HeredocAnalyzer.php
-                - packages/coding-standard/src/Fixer/Spacing/NewlineServiceDefinitionConfigFixer.php
-                - packages/coding-standard/src/Fixer/ArrayNotation/ArrayOpenerAndCloserNewlineFixer.php
-
         # to separate packages
         -
             message: '#Content of method "(.*?)\(\)" is duplicated\. Use unique content or service instead#'
@@ -342,10 +332,6 @@ parameters:
 
         # skip deprecated rule
         - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
-
-        -
-            message: '#Do not use chained method calls\. Put each on separated lines#'
-            path: packages/coding-standard/config
 
         -
             message: '#Instead of protected element in use private element or contract method#'
