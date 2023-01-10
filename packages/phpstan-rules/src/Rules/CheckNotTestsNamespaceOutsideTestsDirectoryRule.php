@@ -23,7 +23,7 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRule implements Rule, Doc
     /**
      * @var string
      */
-    private const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
+    public const ERROR_MESSAGE = '"*Test.php" file cannot be located outside "Tests" namespace';
 
     /**
      * @return class-string<Node>
@@ -73,6 +73,20 @@ CODE_SAMPLE
 namespace App\Tests;
 
 class SomeTest
+{
+}
+
+// file: "AnotherTest.php
+namespace App\Tests\Features;
+
+class AnotherTest
+{
+}
+
+// file: "SomeOtherTest.php
+namespace Tests\Features;
+
+class SomeOtherTest
 {
 }
 CODE_SAMPLE
