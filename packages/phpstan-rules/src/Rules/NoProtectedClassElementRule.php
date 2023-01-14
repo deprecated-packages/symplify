@@ -51,6 +51,10 @@ final class NoProtectedClassElementRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
+        if ($this->isAbstractTestCase($scope)) {
+            return [];
+        }
+
         $propertyErrorMessages = $this->processProperties($classLike->getProperties(), $scope);
         $classMethodErrorMessages = $this->processClassMethods($classLike->getMethods(), $scope);
 
@@ -175,5 +179,15 @@ CODE_SAMPLE
         return RuleErrorBuilder::message(self::ERROR_MESSAGE)
             ->line($node->getLine())
             ->build();
+    }
+
+    private function isAbstractTestCase(Scope $scope): bool
+    {
+        $classReflection = $scope->getClassReflection();
+        if (! $classReflection instanceof ClassReflection) {
+            return false;
+        }
+
+        return $classReflection->isSubclassOf('PHPUnit\Framework\TestCase');
     }
 }

@@ -26,6 +26,7 @@ final class NoProtectedClassElementRuleTest extends RuleTestCase
 
     public function provideData(): Iterator
     {
+        yield [[__DIR__ . '/Fixture/SkipAbstractTestCase.php'], []];
         yield [[__DIR__ . '/Fixture/SkipInterface.php'], []];
         yield [[__DIR__ . '/Fixture/SkipTrait.php'], []];
 
