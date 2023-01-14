@@ -35,6 +35,7 @@ final class AllowedChainCallSkipper
         // symfony
         'Symfony\Component\Mime\Email',
         'Symfony\Component\Mime\Message',
+        'Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface',
         // php-scoper finder
         'Isolated\Symfony\Component\Finder\Finder',
         'React\ChildProcess\Process',
