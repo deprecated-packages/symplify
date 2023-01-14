@@ -77,19 +77,11 @@ parameters:
         - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
 
     ignoreErrors:
-        # invalid 3rd party-code
-        - '#Parameter \#1 \$index of method PhpCsFixer\\Tokenizer\\Tokens::getNextTokenOfKind\(\) expects int, int\|null given#'
-
         # required for autowiring, since only interface is autowired
         - '#Call to an undefined method Symfony\\Component\\DependencyInjection\\ContainerInterface::getParameterBag\(\)#'
 
         # phpstan 0.10 news
         - '#Parameter \#1 \$path of function dirname expects string, string\|false given#'
-
-        # Symfony 4.2 typehint BC-break
-        - '#Parameter \#1 \$command of class Symfony\\Component\\Process\\Process constructor expects array, array<string>\|string given#'
-
-        - '#Cannot call method (.*?) on PhpCsFixer\\Tokenizer\\Token\|null#'
 
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
@@ -201,10 +193,6 @@ parameters:
                  - packages/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
 
-        # vendor test case limitation
-        -
-            message: '#Class has a static method must so must contains "Static" in its name#'
-            path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
         -
             message: '#Spread operator is not allowed#'
             path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
@@ -214,10 +202,6 @@ parameters:
             paths:
                 # complex search for possible directories
                 - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
-
-        -
-            path: packages/php-config-printer/src/ValueObject/YamlKey.php
-            message: '#Class has a static method must so must contains "Static" in its name#'
 
         # is never string
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
@@ -238,12 +222,6 @@ parameters:
         # needless generics
         - '#Class Symplify\\PHPStanRules\\(.*?)Rule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
 
-        -
-            message: '#Class has a static method must so must contains "Static" in its name#'
-            paths:
-                - packages/phpstan-rules/tests
-                - packages/phpstan-rules/packages
-
         - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
 
         # nesting on purpose
@@ -253,11 +231,6 @@ parameters:
                 - packages/php-config-printer/src/*Converter/*
 
         - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
-
-        # static parent method
-        -
-            message: '#Class has a static method must so must contains "Static" in its name#'
-            path:  packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
 
         # test case
         - '#Calling PHPStan\\Testing\\ErrorFormatterTestCase\:\:get(.*?)\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
@@ -282,9 +255,6 @@ parameters:
 
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
 
-        # partial enum
-        - '#Method Symplify\\CodingStandard\\TokenRunner\\Analyzer\\FixerAnalyzer\\BlockFinder\:\:(getBlockTypeByContent|getBlockTypeByToken)\(\) never returns \d+ so it can be removed from the return type#'
-
         # narrowed to generic type
         - '#Method Symplify\\(.*?)\\TypeAwareNodeFinder\:\:(findInstanceOf|findFirstInstanceOf)\(\) should return (.*?)#'
 
@@ -307,18 +277,12 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'
         - '#Calling PHPStan\\Reflection\\Php\\PhpParameterReflection\:\:isOptional\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
 
-        # 2 different packages
-        - '#The "(INPUT_SUFFIX_REGEX|CONFIG_SUFFIXES_REGEX)" constant contains duplicated regex "\#\\\.\(yml\|yaml\|xml\)\$\#"\. Instead of duplicated regexes, extract domain regexes together to save maintenance#'
-
         # astral left over
         -
             message: '#Content of method "(.*?)" is duplicated\. Use unique content or service instead#'
             paths:
                 - packages/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
                 - packages/phpstan-rules/src/PhpDoc/BarePhpDocParser.ph
-
-                - packages/phpstan-rules/src/Rules/Explicit/ExplicitMethodCallOverMagicGetSetRule.php
-                - packages/phpstan-rules/packages/Symfony/Rules/RequireNamedCommandRule.php
 
         # to separate packages
         -
@@ -330,13 +294,7 @@ parameters:
         # un helpful
         - '#Parameter (.*?) expects non\-empty\-string, string given#'
 
-        # skip deprecated rule
-        - '#Cognitive complexity for "Symplify\\MonorepoBuilder\\ComposerJsonManipulator\\ComposerJsonFactory\:\:createFromArray\(\)" is 24, keep it under 8#'
-
         -
             message: '#Instead of protected element in use private element or contract method#'
             paths:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
-
-        # false positive
-        - '#Parameters should use "(.*?)\\Symplify\\SmartFileSystem\\SmartFileInfo" types as the only types passed to this method#'
