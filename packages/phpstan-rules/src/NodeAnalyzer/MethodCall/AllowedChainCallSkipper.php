@@ -40,6 +40,9 @@ final class AllowedChainCallSkipper
         'React\ChildProcess\Process',
         'Symplify\EasyCodingStandard\Contract\Application\FileProcessorInterface',
         'Stringy\Stringy',
+        // fluent configs
+        'Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator',
+        'Symfony\Component\Routing\Loader\Configurator\ImportConfigurator',
         // also trinary logic ↓
         'Symfony\Component\Process\Process',
         'Symfony\Component\HttpFoundation\Request',
