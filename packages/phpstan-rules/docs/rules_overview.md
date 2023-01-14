@@ -1,4 +1,4 @@
-# 92 Rules Overview
+# 91 Rules Overview
 
 ## AnnotateRegexClassConstWithRegexLinkRule
 
@@ -149,6 +149,20 @@ class SomeTest
 namespace App\Tests;
 
 class SomeTest
+{
+}
+
+// file: "AnotherTest.php
+namespace App\Tests\Features;
+
+class AnotherTest
+{
+}
+
+// file: "SomeOtherTest.php
+namespace Tests\Features;
+
+class SomeOtherTest
 {
 }
 ```
@@ -1199,38 +1213,6 @@ $this->runThat();
 
 $fluentClass = new AllowedFluent();
 $fluentClass->one()->two();
-```
-
-:+1:
-
-<br>
-
-## NoClassWithStaticMethodWithoutStaticNameRule
-
-Class has a static method must so must contains "Static" in its name
-
-- class: [`Symplify\PHPStanRules\Rules\NoClassWithStaticMethodWithoutStaticNameRule`](../src/Rules/NoClassWithStaticMethodWithoutStaticNameRule.php)
-
-```php
-class SomeClass
-{
-    public static function getSome()
-    {
-    }
-}
-```
-
-:x:
-
-<br>
-
-```php
-class SomeStaticClass
-{
-    public static function getSome()
-    {
-    }
-}
 ```
 
 :+1:
