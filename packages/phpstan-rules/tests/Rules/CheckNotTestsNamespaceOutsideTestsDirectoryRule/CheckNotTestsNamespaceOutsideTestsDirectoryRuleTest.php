@@ -29,7 +29,9 @@ final class CheckNotTestsNamespaceOutsideTestsDirectoryRuleTest extends RuleTest
     public function provideData(): Iterator
     {
         // expect error
-        yield [__DIR__ . '/Fixture/Fail/NotInTestsDirectory/FailNotInTestsDirectoryTest.php', [[CheckNotTestsNamespaceOutsideTestsDirectoryRule::ERROR_MESSAGE, 5]]];
+        yield [
+            __DIR__ . '/Fixture/Fail/NotInTestsDirectory/FailNotInTestsDirectoryTest.php',
+            [[CheckNotTestsNamespaceOutsideTestsDirectoryRule::ERROR_MESSAGE, 5]]];
 
         // Skip
         yield [__DIR__ . '/Fixture/Tests/SkipTestsNamespaceInsideTestsDirectoryClass.php', []];
