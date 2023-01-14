@@ -37,6 +37,7 @@ final class NoMissingAssingNoVoidMethodCallRule implements Rule, DocumentedRuleI
      * @var string[]
      */
     private const SKIPPED_TYPES = [
+        'Symfony\Component\Stopwatch\Stopwatch',
         'Dotenv\Dotenv',
         'Symfony\Component\Form\FormBuilderInterface',
         'Symfony\Component\OptionsResolver\Options',
