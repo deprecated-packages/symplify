@@ -45,6 +45,11 @@ final class NoConstructorInTestRule implements Rule, DocumentedRuleInterface
             return [];
         }
 
+        // no parent class, probably not a test case
+        if ($classReflection->getParentClass() === null) {
+            return [];
+        }
+
         $classLike = $node->getOriginalNode();
         $constructorClassMethod = $classLike->getMethod(MethodName::CONSTRUCTOR);
         if (! $constructorClassMethod instanceof ClassMethod) {
