@@ -26,7 +26,9 @@ final class NoConstructorInTestRuleTest extends RuleTestCase
     public function provideData(): Iterator
     {
         yield [__DIR__ . '/Fixture/Test1/SkipTestWithoutConstructTest.php', []];
-        yield [__DIR__ . '/Fixture/Test2/SomeTest.php', [[NoConstructorInTestRule::ERROR_MESSAGE, 11]]];
+        yield [__DIR__ . '/Fixture/Test3/SkipTestWithoutParentTest.php', []];
+
+        yield [__DIR__ . '/Fixture/Test2/SomeTest.php', [[NoConstructorInTestRule::ERROR_MESSAGE, 12]]];
     }
 
     /**
