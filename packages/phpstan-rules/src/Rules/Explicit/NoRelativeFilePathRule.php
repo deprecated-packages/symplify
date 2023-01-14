@@ -111,6 +111,11 @@ CODE_SAMPLE
             return false;
         }
 
+        // probably an email
+        if (str_contains($string->value, '@')) {
+            return false;
+        }
+
         $pathInfo = pathinfo($string->value);
         if (! isset($pathInfo['extension'])) {
             return false;

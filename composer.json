@@ -47,7 +47,7 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
-        "symplify/easy-ci": "^11.1",
+        "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
