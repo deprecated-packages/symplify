@@ -33,6 +33,8 @@ final class AllowedChainCallSkipper
         'Symfony\Component\Finder\Finder',
         'Symfony\Component\String\AbstractString',
         // symfony
+        'Symfony\Component\Mime\Email',
+        'Symfony\Component\Mime\Message',
         // php-scoper finder
         'Isolated\Symfony\Component\Finder\Finder',
         'React\ChildProcess\Process',
