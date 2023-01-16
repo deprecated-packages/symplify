@@ -37,20 +37,12 @@ parameters:
         - rector.php
 
     excludePaths:
-        # deprecated, to be removed
-        - vendor/symplify/phpstan-rules/packages/CognitiveComplexity
-
         - */scoper.php
 
-        # parallel
-        - vendor/symplify/phpstan-rules/packages/*-phpstan-printer/tests/*ToPhpCompiler/Fixture*
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
         # there is some bug
         - packages/package-builder/src/Testing/AbstractKernelTestCase.php
-
-        # PHP 8 only
-        - vendor/symplify/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php
 
         # functions false positive
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
@@ -68,8 +60,6 @@ parameters:
         - */stubs/*
         - */packages-tests/**/Fixture/*
         - */packages-tests/**/Source/*
-        # private code for deployed package only
-        - vendor/symplify/phpstan-rules/build/*
 
     bootstrapFiles:
         - tests/bootstrap.php
@@ -155,20 +145,7 @@ parameters:
 
         # wrong keys
         - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
-        -
-            message: '#Generator expects value type (.*?), array<int, array<int, array<int, int\|string\>\>\|string\> given#'
-            paths:
-                -  vendor/symplify/phpstan-rules/tests/Rules
 
-        -
-            message: '#Use explicit names over dynamic ones#'
-            paths:
-                - vendor/symplify/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
-
-        -
-            message:  '#Use separate function calls with readable variable names#'
-            paths:
-                - vendor/symplify/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
 
@@ -176,7 +153,6 @@ parameters:
             message: '#cognitive complexity is \d+, keep it under \d+#i'
             paths:
                 - packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
-                - vendor/symplify/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
 
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 35, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 32, keep it under 8#'
@@ -188,9 +164,7 @@ parameters:
         -
             message: '#Instead of abstract class, use specific service with composition#'
             paths:
-                 - vendor/symplify/phpstan-rules/src/Rules/AbstractSymplifyRule.php
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
-                 - vendor/symplify/phpstan-rules/src/PhpDocParser/PhpDocNodeVisitor/AbstractPhpDocNodeVisitor.php
                  - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
 
         -
@@ -208,11 +182,6 @@ parameters:
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
-
-        # invalid PHPStan type - it alwasy requires 2 types to traverse with callable
-        -
-            message: '#Callable callable\(PHPStan\\Type\\Type\)\: PHPStan\\Type\\Type invoked with 2 parameters, 1 required#'
-            path: vendor/symplify/phpstan-rules/src/Rules/Explicit/NoMixedCallableRule.php
 
         # false positive sa checked before
         -
@@ -247,12 +216,6 @@ parameters:
 
         - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
 
-        # false positive on commands
-        -
-            message: '#Method call return value that should be used, but is not#'
-            paths:
-                 - vendor/symplify/phpstan-rules/src/PhpDocParser/PhpDocNodeTraverser.php
-
         - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
 
         # narrowed to generic type
@@ -276,13 +239,6 @@ parameters:
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
         - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'
         - '#Calling PHPStan\\Reflection\\Php\\PhpParameterReflection\:\:isOptional\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
-
-        # astral left over
-        -
-            message: '#Content of method "(.*?)" is duplicated\. Use unique content or service instead#'
-            paths:
-                - vendor/symplify/phpstan-rules/src/PhpDocParser/SimplePhpDocParser.php
-                - vendor/symplify/phpstan-rules/src/PhpDoc/BarePhpDocParser.ph
 
         # to separate packages
         -
