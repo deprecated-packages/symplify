@@ -254,3 +254,34 @@ parameters:
             message: '#Instead of protected element in use private element or contract method#'
             paths:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
+
+        -
+            message: '#Use another value object over array with string\-keys and objects#'
+            paths:
+                - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
+                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php
+                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
+
+        -
+            message: '#Complete known array shape to the method @return type#'
+            path: packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
+
+        -
+            message: '#Add explicit array type to assigned "\$excludeValue" expression#'
+            path: packages/php-config-printer/src/NodeFactory/Service/ServicesPhpNodeFactory.php
+
+        -
+            message: '#Class has a static method must so must contains "Static" in its name#'
+            paths:
+                - packages/phpstan-extensions/tests/TypeExtension/MethodCall/SplFileInfoTolerantReturnTypeExtension/SplFileInfoTolerantReturnTypeExtensionTest.php
+                - packages/phpstan-extensions/tests/TypeExtension/MethodCall/ContainerGetReturnTypeExtension/ContainerGetReturnTypeExtensionTest.php
+                - packages/phpstan-extensions/tests/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension/NativeFunctionDynamicFunctionReturnTypeExtensionTest.php
+                - packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
+                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
+                - packages/php-config-printer/src/ValueObject/YamlKey.php
+
+        - message: '#Instead of array shape, use value object with specific types in constructor and getters#'
+          path: packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
+
+        - message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
+          path: packages/smart-file-system/src/Finder/FinderSanitizer.php
