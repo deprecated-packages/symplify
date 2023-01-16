@@ -30,8 +30,5 @@ return static function (ECSConfig $ecsConfig): void {
         // paths to skip
         '*/Fixture/*',
         '*/Source/*',
-
-        // PHP 8 only
-        __DIR__ . '/packages/phpstan-rules/tests/Rules/ForbiddenArrayWithStringKeysRule/FixturePhp80/SkipAttributeArrayKey.php',
     ]);
 };

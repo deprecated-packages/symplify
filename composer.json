@@ -50,6 +50,7 @@
         "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
+        "symplify/phpstan-rules": "11.1.24",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/unused-public": "^0.0.25",
         "tracy/tracy": "^2.9.4"
@@ -60,11 +61,6 @@
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
-            "Symplify\\PHPStanRules\\": [
-                "packages/phpstan-rules/packages",
-                "packages/phpstan-rules/src"
-            ],
-            "Symplify\\PHPStanRules\\Symfony\\": "packages/phpstan-rules/packages/Symfony",
             "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -78,7 +74,6 @@
     },
     "autoload-dev": {
         "classmap": [
-            "packages/phpstan-rules/stubs",
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
@@ -91,10 +86,6 @@
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
-            "Symplify\\PHPStanRules\\Tests\\": [
-                "packages/phpstan-rules/packages-tests",
-                "packages/phpstan-rules/tests"
-            ],
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
@@ -125,7 +116,6 @@
         "symplify/package-builder": "11.1.24",
         "symplify/php-config-printer": "11.1.24",
         "symplify/phpstan-extensions": "11.1.24",
-        "symplify/phpstan-rules": "11.1.24",
         "symplify/rule-doc-generator": "11.1.24",
         "symplify/rule-doc-generator-contracts": "11.1.24",
         "symplify/smart-file-system": "11.1.24",
@@ -142,9 +132,6 @@
         "phpstan": [
             "vendor/bin/phpstan analyse --memory-limit=-1 --error-format symplify --ansi",
             "vendor/bin/easy-ci check-config packages --ansi"
-        ],
-        "docs": [
-            "packages/rule-doc-generator/bin/rule-doc-generator generate packages/phpstan-rules/src packages/phpstan-rules/packages --output-file packages/phpstan-rules/docs/rules_overview.md --ansi"
         ],
         "merge": "vendor/bin/monorepo-builder merge --ansi",
         "propagate": "vendor/bin/monorepo-builder propagate --ansi",
