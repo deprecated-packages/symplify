@@ -1,4 +1,0 @@
-rules:
-    - Symplify\PHPStanRules\Rules\AnnotateRegexClassConstWithRegexLinkRule
-    - Symplify\PHPStanRules\Rules\NoInlineStringRegexRule
-    - Symplify\PHPStanRules\Rules\RegexSuffixInRegexConstantRule

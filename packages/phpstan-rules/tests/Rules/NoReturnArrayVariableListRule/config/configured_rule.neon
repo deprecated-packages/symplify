@@ -1,5 +1,0 @@
-includes:
-    - ../../../config/included_services.neon
-
-rules:
-    - Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule

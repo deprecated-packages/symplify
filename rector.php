@@ -49,9 +49,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->autoloadPaths([__DIR__ . '/tests/bootstrap.php']);
 
     $rectorConfig->skip([
-        // deprecated, to be removed
-        __DIR__ . '/packages/phpstan-rules/packages/CognitiveComplexity',
-
         '*/scoper.php',
         '*/vendor/*',
         '*/init/*',
@@ -61,7 +58,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/ChangedFilesDetectorSource/*',
         // test fixtures
         '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
-        __DIR__ . '/packages/phpstan-rules/build/*',
 
         // false positive on "locale" string
         VarConstantCommentRector::class => [
@@ -70,12 +66,7 @@ return static function (RectorConfig $rectorConfig): void {
 
         // keep classes untouched, to avoid prefixing and renames
         StringClassNameToClassConstantRector::class => [
-            __DIR__ . '/packages/phpstan-rules/src/NodeAnalyzer/MethodCall/AllowedChainCallSkipper.php',
             __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
-        ],
-
-        \Rector\Naming\Rector\Foreach_\RenameForeachValueVariableToMatchExprVariableRector::class => [
-            __DIR__ . '/packages/phpstan-rules/src/Rules/Domain/ForbiddenAlwaysSetterCallRule.php',
         ],
 
         \Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class => [

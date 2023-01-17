@@ -1,4 +1,0 @@
-rules:
-    - Symplify\PHPStanRules\Rules\NoReturnArrayVariableListRule
-    - Symplify\PHPStanRules\Rules\ForbiddenArrayDestructRule
-    - Symplify\PHPStanRules\Rules\ForbiddenArrayWithStringKeysRule
