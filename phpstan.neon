@@ -280,6 +280,11 @@ parameters:
                 - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
                 - packages/php-config-printer/src/ValueObject/YamlKey.php
 
+        # complex logic
+        -
+            message: '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createStmtsFromCaseConverters\(\)" is 9, keep it under 8#'
+            path: 'packages/php-config-printer/src/NodeFactory/ContainerConfiguratorReturnClosureFactory.php'
+
         - message: '#Instead of array shape, use value object with specific types in constructor and getters#'
           path: packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
 

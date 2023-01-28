@@ -73,6 +73,11 @@ final class ContainerConfiguratorReturnClosureFactory
         $stmts = [];
 
         foreach ($yamlData as $key => $values) {
+            // keys can be int, but we need string
+            if (! is_string($key)) {
+                $key = (string) $key;
+            }
+
             $stmts = $this->createInitializeStmt($key, $stmts);
 
             foreach ($values as $nestedKey => $nestedValues) {
