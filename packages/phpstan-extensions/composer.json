@@ -6,7 +6,7 @@
     "require": {
         "php": ">=8.1",
         "phpstan/phpstan": "^1.9.7",
-        "symplify/package-builder": "^11.2"
+        "symplify/package-builder": "^11.1.25"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.26"
@@ -33,17 +33,17 @@
     },
     "conflict": {
         "symplify/phpstan-rules": "<11.1.24",
-        "symplify/easy-testing": "<11.1.24",
-        "symplify/rule-doc-generator-contracts": "<11.1.24",
-        "symplify/php-config-printer": "<11.1.24",
-        "symplify/autowire-array-parameter": "<11.1.24",
-        "symplify/rule-doc-generator": "<11.1.24",
-        "symplify/symfony-static-dumper": "<11.1.24",
-        "symplify/symplify-kernel": "<11.1.24",
+        "symplify/easy-testing": "<11.1.25",
+        "symplify/rule-doc-generator-contracts": "<11.1.25",
+        "symplify/php-config-printer": "<11.1.25",
+        "symplify/autowire-array-parameter": "<11.1.25",
+        "symplify/rule-doc-generator": "<11.1.25",
+        "symplify/symfony-static-dumper": "<11.1.25",
+        "symplify/symplify-kernel": "<11.1.25",
         "symplify/config-transformer": "<11.1.24",
         "symplify/coding-standard": "<11.1.24",
-        "symplify/easy-parallel": "<11.1.24",
-        "symplify/smart-file-system": "<11.1.24",
+        "symplify/easy-parallel": "<11.1.25",
+        "symplify/smart-file-system": "<11.1.25",
         "symplify/easy-ci": "<11.1.24",
         "symplify/monorepo-builder": "<11.1.24"
     },
