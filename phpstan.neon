@@ -1,19 +1,13 @@
 includes:
-    # @todo why are these needed? should be loaded by extension installer
-    - vendor/tomasvotruba/unused-public/config/extension.neon
-    - vendor/tomasvotruba/cognitive-complexity/config/extension.neon
-
     - packages/phpstan-extensions/config/config.neon
     - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+
     # for cognitive rules
     - vendor/symplify/phpstan-rules/config/packages/cognitive-complexity/cognitive-complexity-services.neon
-    - vendor/symplify/phpstan-rules/config/services/services.neon
-
-    - vendor/symplify/phpstan-rules/config/packages/symfony/services.neon
 
 parameters:
     level: 8
-    # reportUnmatchedIgnoredErrors: false
+    reportUnmatchedIgnoredErrors: false
 
     cognitive_complexity:
         class: 25
@@ -224,3 +218,6 @@ parameters:
 
         # known
         - '#Parameter \#1 \$nodes of method PhpParser\\PrettyPrinterAbstract\:\:pCommaSeparatedMultiline\(\) expects array<PhpParser\\Node>, array<PhpParser\\Node\\Expr\\ArrayItem\|null> given#'
+
+        # not helpful in phpunit
+        - '#Dynamic call to static method PHPUnit\\Framework\\(.*?)\:\:(.*?)\(\)#'
