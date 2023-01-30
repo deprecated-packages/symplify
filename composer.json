@@ -111,17 +111,17 @@
         }
     },
     "replace": {
-        "symplify/autowire-array-parameter": "11.1.26",
-        "symplify/easy-parallel": "11.1.26",
-        "symplify/easy-testing": "11.1.26",
-        "symplify/package-builder": "11.1.26",
-        "symplify/php-config-printer": "11.1.26",
-        "symplify/phpstan-extensions": "11.1.26",
-        "symplify/rule-doc-generator": "11.1.26",
-        "symplify/rule-doc-generator-contracts": "11.1.26",
-        "symplify/smart-file-system": "11.1.26",
-        "symplify/symfony-static-dumper": "11.1.26",
-        "symplify/symplify-kernel": "11.1.26"
+        "symplify/autowire-array-parameter": "11.1.27",
+        "symplify/easy-parallel": "11.1.27",
+        "symplify/easy-testing": "11.1.27",
+        "symplify/package-builder": "11.1.27",
+        "symplify/php-config-printer": "11.1.27",
+        "symplify/phpstan-extensions": "11.1.27",
+        "symplify/rule-doc-generator": "11.1.27",
+        "symplify/rule-doc-generator-contracts": "11.1.27",
+        "symplify/smart-file-system": "11.1.27",
+        "symplify/symfony-static-dumper": "11.1.27",
+        "symplify/symplify-kernel": "11.1.27"
     },
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
