@@ -17,7 +17,12 @@ use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\ConfigurableRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(ConfigurableRector::class, [['key' => 'value', 'second_key' => 'second_value']]);
+    $rectorConfig->ruleWithConfiguration(ConfigurableRector::class, [
+        [
+            'key' => 'value',
+            'second_key' => 'second_value',
+        ],
+    ]);
 };
 ```
 
@@ -47,7 +52,10 @@ use Rector\Config\RectorConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable\DirectConfiguredStringKeyRector;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(DirectConfiguredStringKeyRector::class, ['view' => 'Laravel\Templating\render', 'redirect' => 'Some\Redirector\redirect']);
+    $rectorConfig->ruleWithConfiguration(DirectConfiguredStringKeyRector::class, [
+        'view' => 'Laravel\Templating\render',
+        'redirect' => 'Some\Redirector\redirect',
+    ]);
 };
 ```
 
@@ -79,7 +87,9 @@ use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Co
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Source\SomeValueObjectWrapper;
 
 return static function (RectorConfig $rectorConfig): void {
-    $rectorConfig->ruleWithConfiguration(WithPHPStanTypeObject::class, [new SomeValueObjectWrapper(new ObjectType('SomeObject'))]);
+    $rectorConfig->ruleWithConfiguration(WithPHPStanTypeObject::class, [
+        new SomeValueObjectWrapper(new ObjectType('SomeObject')),
+    ]);
 };
 ```
 

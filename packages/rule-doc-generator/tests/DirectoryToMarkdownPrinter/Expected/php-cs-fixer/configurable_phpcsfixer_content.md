@@ -17,7 +17,9 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHPCSFixer\Configurable\SomeConfiguredFixer;
 
 return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->ruleWithConfiguration(SomeConfiguredFixer::class, [SomeConfiguredFixer::LOCAL_CONSTANT => 'value']);
+    $ecsConfig->ruleWithConfiguration(SomeConfiguredFixer::class, [
+        SomeConfiguredFixer::LOCAL_CONSTANT => 'value',
+    ]);
 };
 ```
 
