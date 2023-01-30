@@ -12,7 +12,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 final class PropertiesServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private SingleServicePhpNodeFactory $singleServicePhpNodeFactory
+        private readonly SingleServicePhpNodeFactory $singleServicePhpNodeFactory
     ) {
     }
 

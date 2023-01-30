@@ -14,8 +14,8 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ECSConfigConfiguredRuleCustomPrinter implements ConfiguredRuleCustomPrinterInterface
 {
     public function __construct(
-        private ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
-        private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
+        private readonly ContainerConfiguratorReturnClosureFactory $containerConfiguratorReturnClosureFactory,
+        private readonly PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
     ) {
     }
 

@@ -23,8 +23,8 @@ final class ECSRuleCaseConverter implements CaseConverterInterface
     public const NAME = 'ecsConfig';
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceConfigurationDecorator $serviceConfigurationDecorator,
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceConfigurationDecorator $serviceConfigurationDecorator,
     ) {
     }
 

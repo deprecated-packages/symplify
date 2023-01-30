@@ -10,7 +10,7 @@ use Symplify\PhpConfigPrinter\CaseConverter\NestedCaseConverter\InstanceOfNested
 final class ContainerNestedNodesFactory
 {
     public function __construct(
-        private InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter
+        private readonly InstanceOfNestedCaseConverter $instanceOfNestedCaseConverter
     ) {
     }
 

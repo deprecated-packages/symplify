@@ -13,7 +13,7 @@ final class AutowireInterfacesCompilerPass implements CompilerPassInterface
      * @param string[] $typesToAutowire
      */
     public function __construct(
-        private array $typesToAutowire
+        private readonly array $typesToAutowire
     ) {
     }
 

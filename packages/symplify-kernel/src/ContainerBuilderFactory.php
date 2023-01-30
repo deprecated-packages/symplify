@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
 final class ContainerBuilderFactory
 {
     public function __construct(
-        private LoaderFactoryInterface $loaderFactory
+        private readonly LoaderFactoryInterface $loaderFactory
     ) {
     }
 

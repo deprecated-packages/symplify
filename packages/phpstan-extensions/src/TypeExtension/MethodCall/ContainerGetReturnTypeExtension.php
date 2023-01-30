@@ -20,7 +20,7 @@ use Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver;
 final class ContainerGetReturnTypeExtension implements DynamicMethodReturnTypeExtension
 {
     public function __construct(
-        private ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver
+        private readonly ClassConstFetchReturnTypeResolver $classConstFetchReturnTypeResolver
     ) {
     }
 

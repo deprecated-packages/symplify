@@ -19,10 +19,10 @@ use Symplify\PhpConfigPrinter\ValueObject\ImportType;
 final class ImportFullyQualifiedNamesNodeTraverser
 {
     public function __construct(
-        private ParentConnectingVisitor $parentConnectingVisitor,
-        private ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
-        private FullyQualifiedImportSorter $fullyQualifiedImportSorter,
-        private BuilderFactory $builderFactory
+        private readonly ParentConnectingVisitor $parentConnectingVisitor,
+        private readonly ImportFullyQualifiedNamesNodeVisitor $importFullyQualifiedNamesNodeVisitor,
+        private readonly FullyQualifiedImportSorter $fullyQualifiedImportSorter,
+        private readonly BuilderFactory $builderFactory
     ) {
     }
 

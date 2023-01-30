@@ -12,7 +12,7 @@ use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 final class TaggedReturnsCloneResolver
 {
     public function __construct(
-        private ServiceReferenceExprResolver $serviceReferenceExprResolver
+        private readonly ServiceReferenceExprResolver $serviceReferenceExprResolver
     ) {
     }
 

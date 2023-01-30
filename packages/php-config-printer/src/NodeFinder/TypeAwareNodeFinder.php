@@ -14,7 +14,7 @@ use PhpParser\NodeFinder;
 final class TypeAwareNodeFinder
 {
     public function __construct(
-        private NodeFinder $nodeFinder
+        private readonly NodeFinder $nodeFinder
     ) {
     }
 

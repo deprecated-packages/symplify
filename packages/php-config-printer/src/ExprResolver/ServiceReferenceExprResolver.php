@@ -13,7 +13,7 @@ use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 final class ServiceReferenceExprResolver
 {
     public function __construct(
-        private StringExprResolver $stringExprResolver
+        private readonly StringExprResolver $stringExprResolver
     ) {
     }
 

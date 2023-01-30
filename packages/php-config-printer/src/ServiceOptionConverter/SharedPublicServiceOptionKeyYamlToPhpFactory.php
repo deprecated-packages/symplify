@@ -13,7 +13,7 @@ use Symplify\PhpConfigPrinter\NodeFactory\CommonNodeFactory;
 final class SharedPublicServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
+        private readonly CommonNodeFactory $commonNodeFactory,
     ) {
     }
 

@@ -14,7 +14,7 @@ use Symplify\SymfonyStaticDumper\Enum\Option;
 final class DumpStaticSiteCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
+        private readonly SymfonyStaticDumperApplication $symfonyStaticDumperApplication,
     ) {
         parent::__construct();
     }

@@ -16,9 +16,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 final class BindAutowireAutoconfigureServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceOptionAnalyzer $serviceOptionAnalyzer
+        private readonly CommonNodeFactory $commonNodeFactory,
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceOptionAnalyzer $serviceOptionAnalyzer
     ) {
     }
 

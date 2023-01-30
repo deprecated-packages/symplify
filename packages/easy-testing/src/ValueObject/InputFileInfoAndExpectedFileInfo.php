@@ -12,8 +12,8 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class InputFileInfoAndExpectedFileInfo
 {
     public function __construct(
-        private SmartFileInfo $inputFileInfo,
-        private SmartFileInfo $expectedFileInfo
+        private readonly SmartFileInfo $inputFileInfo,
+        private readonly SmartFileInfo $expectedFileInfo
     ) {
     }
 

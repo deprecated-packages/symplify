@@ -11,7 +11,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class FixtureFinder
 {
     public function __construct(
-        private FinderSanitizer $finderSanitizer
+        private readonly FinderSanitizer $finderSanitizer
     ) {
     }
 

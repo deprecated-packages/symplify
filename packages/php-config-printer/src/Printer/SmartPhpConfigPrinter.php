@@ -15,9 +15,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class SmartPhpConfigPrinter
 {
     public function __construct(
-        private ContainerConfiguratorReturnClosureFactory $configuratorReturnClosureFactory,
-        private PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
-        private ServiceConfigurationDecorator $serviceConfigurationDecorator
+        private readonly ContainerConfiguratorReturnClosureFactory $configuratorReturnClosureFactory,
+        private readonly PhpParserPhpConfigPrinter $phpParserPhpConfigPrinter,
+        private readonly ServiceConfigurationDecorator $serviceConfigurationDecorator
     ) {
     }
 

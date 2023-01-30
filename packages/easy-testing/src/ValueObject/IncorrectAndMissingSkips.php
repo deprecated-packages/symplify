@@ -13,8 +13,8 @@ final class IncorrectAndMissingSkips
      * @param SmartFileInfo[] $missingSkipFileInfos
      */
     public function __construct(
-        private array $incorrectSkipFileInfos,
-        private array $missingSkipFileInfos,
+        private readonly array $incorrectSkipFileInfos,
+        private readonly array $missingSkipFileInfos,
     ) {
     }
 

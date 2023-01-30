@@ -20,7 +20,7 @@ final class ProcessPool
     private array $processes = [];
 
     public function __construct(
-        private TcpServer $tcpServer
+        private readonly TcpServer $tcpServer
     ) {
     }
 

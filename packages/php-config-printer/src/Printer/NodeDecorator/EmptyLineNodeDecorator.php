@@ -17,7 +17,7 @@ use Symplify\PhpConfigPrinter\NodeFinder\TypeAwareNodeFinder;
 final class EmptyLineNodeDecorator
 {
     public function __construct(
-        private TypeAwareNodeFinder $typeAwareNodeFinder
+        private readonly TypeAwareNodeFinder $typeAwareNodeFinder
     ) {
     }
 

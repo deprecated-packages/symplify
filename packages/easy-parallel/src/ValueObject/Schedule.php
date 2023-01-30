@@ -16,8 +16,8 @@ final class Schedule
      * @param array<array<string>> $jobs
      */
     public function __construct(
-        private int $numberOfProcesses,
-        private array $jobs
+        private readonly int $numberOfProcesses,
+        private readonly array $jobs
     ) {
     }
 

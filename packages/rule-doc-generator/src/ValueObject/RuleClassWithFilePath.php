@@ -7,8 +7,8 @@ namespace Symplify\RuleDocGenerator\ValueObject;
 final class RuleClassWithFilePath
 {
     public function __construct(
-        private string $class,
-        private string $path
+        private readonly string $class,
+        private readonly string $path
     ) {
     }
 

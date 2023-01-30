@@ -15,8 +15,8 @@ use Symplify\PackageBuilder\Console\Command\AbstractSymplifyCommand;
 final class ValidateFixtureSkipNamingCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private MissplacedSkipPrefixResolver $missplacedSkipPrefixResolver,
-        private FixtureFinder $fixtureFinder
+        private readonly MissplacedSkipPrefixResolver $missplacedSkipPrefixResolver,
+        private readonly FixtureFinder $fixtureFinder
     ) {
         parent::__construct();
     }

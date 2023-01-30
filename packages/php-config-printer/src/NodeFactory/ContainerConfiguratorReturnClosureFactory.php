@@ -31,9 +31,9 @@ final class ContainerConfiguratorReturnClosureFactory
      * @param CaseConverterInterface[] $caseConverters
      */
     public function __construct(
-        private ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
-        private array $caseConverters,
-        private ContainerNestedNodesFactory $containerNestedNodesFactory
+        private readonly ConfiguratorClosureNodeFactory $configuratorClosureNodeFactory,
+        private readonly array $caseConverters,
+        private readonly ContainerNestedNodesFactory $containerNestedNodesFactory
     ) {
     }
 

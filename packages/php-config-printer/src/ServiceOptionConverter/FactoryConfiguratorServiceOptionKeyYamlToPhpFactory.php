@@ -13,8 +13,8 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private SingleFactoryReferenceNodeModifier $singleFactoryReferenceNodeModifier
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly SingleFactoryReferenceNodeModifier $singleFactoryReferenceNodeModifier
     ) {
     }
 
@@ -24,7 +24,7 @@ final class FactoryConfiguratorServiceOptionKeyYamlToPhpFactory implements Servi
         mixed $values,
         MethodCall $methodCall
     ): MethodCall {
-        $args = (is_array($yaml) || str_contains($yaml, ':'))
+        $args = (is_array($yaml) || str_contains((string) $yaml, ':'))
             ? $this->argsNodeFactory->createFromValuesAndWrapInArray($yaml)
             : $this->argsNodeFactory->createFromValues($yaml);
 

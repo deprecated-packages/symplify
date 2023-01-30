@@ -15,8 +15,8 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class SmartFinder
 {
     public function __construct(
-        private FinderSanitizer $finderSanitizer,
-        private FileSystemFilter $fileSystemFilter
+        private readonly FinderSanitizer $finderSanitizer,
+        private readonly FileSystemFilter $fileSystemFilter
     ) {
     }
 

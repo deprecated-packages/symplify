@@ -125,7 +125,6 @@
         "check-cs": "vendor/bin/ecs check --ansi",
         "fix-cs": [
             "vendor/bin/ecs check --fix --ansi",
-            "vendor/bin/ecs check-markdown README.md packages/**/README.md --fix --ansi",
             "bin/clear_readmes.sh"
         ],
         "phpstan": [

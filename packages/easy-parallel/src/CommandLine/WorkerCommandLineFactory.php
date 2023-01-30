@@ -27,7 +27,7 @@ final class WorkerCommandLineFactory
      */
     private const EXCLUDED_OPTION_NAMES = ['output-format'];
 
-    private CommandFromReflectionFactory $commandFromReflectionFactory;
+    private readonly CommandFromReflectionFactory $commandFromReflectionFactory;
 
     public function __construct()
     {
@@ -67,7 +67,7 @@ final class WorkerCommandLineFactory
                 break;
             }
 
-            $processCommandArray[] = escapeshellarg($arg);
+            $processCommandArray[] = escapeshellarg((string) $arg);
         }
 
         $processCommandArray[] = $workerCommandName;

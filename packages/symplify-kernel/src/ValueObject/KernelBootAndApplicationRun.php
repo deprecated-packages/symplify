@@ -23,8 +23,8 @@ final class KernelBootAndApplicationRun
      * @param string[] $extraConfigs
      */
     public function __construct(
-        private string $kernelClass,
-        private array $extraConfigs = []
+        private readonly string $kernelClass,
+        private readonly array $extraConfigs = []
     ) {
         $this->validateKernelClass($this->kernelClass);
     }

@@ -12,7 +12,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlServiceKey;
 final class DeprecatedServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory
+        private readonly ArgsNodeFactory $argsNodeFactory
     ) {
     }
 

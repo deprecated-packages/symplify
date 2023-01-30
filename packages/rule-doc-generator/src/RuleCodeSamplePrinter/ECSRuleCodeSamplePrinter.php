@@ -15,10 +15,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
     public function __construct(
-        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter,
-        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
-        private ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter,
-        private DiffCodeSamplePrinter $diffCodeSamplePrinter
+        private readonly BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter,
+        private readonly ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
+        private readonly ECSConfigConfiguredRuleCustomPrinter $ecsConfigConfiguredRuleCustomPrinter,
+        private readonly DiffCodeSamplePrinter $diffCodeSamplePrinter
     ) {
     }
 

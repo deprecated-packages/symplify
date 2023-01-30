@@ -12,12 +12,12 @@ abstract class AbstractCodeSample implements CodeSampleInterface
     /**
      * @var non-empty-string
      */
-    private string $goodCode;
+    private readonly string $goodCode;
 
     /**
      * @var non-empty-string
      */
-    private string $badCode;
+    private readonly string $badCode;
 
     public function __construct(string $badCode, string $goodCode)
     {

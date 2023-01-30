@@ -14,8 +14,8 @@ final class ControllerWithDataProviderMatcher
      * @param ControllerWithDataProviderInterface[] $controllerWithDataProviders
      */
     public function __construct(
-        private ControllerMatcher $controllerMatcher,
-        private array $controllerWithDataProviders
+        private readonly ControllerMatcher $controllerMatcher,
+        private readonly array $controllerWithDataProviders
     ) {
     }
 

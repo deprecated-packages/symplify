@@ -20,7 +20,7 @@ final class RoutesProvider
     private const PARAMETERS_IN_ROUTE_REGEX = '#\{(.*?)\}#sm';
 
     public function __construct(
-        private RouterInterface $router
+        private readonly RouterInterface $router
     ) {
     }
 

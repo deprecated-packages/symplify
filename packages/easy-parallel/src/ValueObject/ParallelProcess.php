@@ -46,9 +46,9 @@ final class ParallelProcess
     private ?TimerInterface $timer = null;
 
     public function __construct(
-        private string $command,
-        private LoopInterface $loop,
-        private int $timetoutInSeconds
+        private readonly string $command,
+        private readonly LoopInterface $loop,
+        private readonly int $timetoutInSeconds
     ) {
     }
 

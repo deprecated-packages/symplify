@@ -22,7 +22,7 @@ final class ImportFullyQualifiedNamesNodeVisitor extends NodeVisitorAbstract
     private array $fullyQualifiedImports = [];
 
     public function __construct(
-        private ClassNaming $classNaming
+        private readonly ClassNaming $classNaming
     ) {
     }
 

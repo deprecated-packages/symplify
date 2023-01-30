@@ -25,7 +25,7 @@ final class RuleDefinition
      * @param CodeSampleInterface[] $codeSamples
      */
     public function __construct(
-        private string $description,
+        private readonly string $description,
         array $codeSamples
     ) {
         if ($codeSamples === []) {

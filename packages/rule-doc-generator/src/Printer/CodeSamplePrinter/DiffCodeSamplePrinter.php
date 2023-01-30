@@ -10,7 +10,7 @@ use Symplify\RuleDocGenerator\MarkdownDiffer\MarkdownDiffer;
 final class DiffCodeSamplePrinter
 {
     public function __construct(
-        private MarkdownDiffer $markdownDiffer
+        private readonly MarkdownDiffer $markdownDiffer
     ) {
     }
 

@@ -37,10 +37,10 @@ final class AliasCaseConverter implements CaseConverterInterface
     private const NAMED_ALIAS_REGEX = '#\w+\s+\$\w+#';
 
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceOptionNodeFactory $serviceOptionNodeFactory,
-        private ClassLikeExistenceChecker $classLikeExistenceChecker
+        private readonly CommonNodeFactory $commonNodeFactory,
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceOptionNodeFactory $serviceOptionNodeFactory,
+        private readonly ClassLikeExistenceChecker $classLikeExistenceChecker
     ) {
     }
 
@@ -108,7 +108,7 @@ final class AliasCaseConverter implements CaseConverterInterface
         $concat = new Concat($classConstFetch, new String_(' ' . $argumentName));
         $args[] = new Arg($concat);
 
-        $serviceName = ltrim($serviceValues, '@');
+        $serviceName = ltrim((string) $serviceValues, '@');
         $args[] = new Arg(new String_($serviceName));
 
         return new MethodCall(new Variable(VariableName::SERVICES), MethodName::ALIAS, $args);

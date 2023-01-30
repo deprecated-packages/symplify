@@ -16,9 +16,9 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class ControllerContentResolver
 {
     public function __construct(
-        private ContainerInterface $container,
-        private RequestStack $requestStack,
-        private ControllerMatcher $controllerMatcher
+        private readonly ContainerInterface $container,
+        private readonly RequestStack $requestStack,
+        private readonly ControllerMatcher $controllerMatcher
     ) {
     }
 

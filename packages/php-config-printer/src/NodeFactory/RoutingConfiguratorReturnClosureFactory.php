@@ -18,8 +18,8 @@ final class RoutingConfiguratorReturnClosureFactory
      * @param RoutingCaseConverterInterface[] $routingCaseConverters
      */
     public function __construct(
-        private ConfiguratorClosureNodeFactory $containerConfiguratorClosureNodeFactory,
-        private array $routingCaseConverters
+        private readonly ConfiguratorClosureNodeFactory $containerConfiguratorClosureNodeFactory,
+        private readonly array $routingCaseConverters
     ) {
     }
 

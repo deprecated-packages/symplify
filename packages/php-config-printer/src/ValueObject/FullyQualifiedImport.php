@@ -12,9 +12,9 @@ final class FullyQualifiedImport implements Stringable
      * @param ImportType::* $type
      */
     public function __construct(
-        private string $type,
-        private string $fullyQualified,
-        private string $shortClassName
+        private readonly string $type,
+        private readonly string $fullyQualified,
+        private readonly string $shortClassName
     ) {
     }
 

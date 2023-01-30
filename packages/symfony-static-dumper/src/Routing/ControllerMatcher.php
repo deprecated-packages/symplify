@@ -20,7 +20,7 @@ final class ControllerMatcher
     {
         $controller = $route->getDefault('_controller');
 
-        if (\str_contains($controller, '::')) {
+        if (\str_contains((string) $controller, '::')) {
             [$controllerClass, $method] = Strings::split($controller, self::DOUBLE_COLLON_REGEX);
         } else {
             $controllerClass = $controller;

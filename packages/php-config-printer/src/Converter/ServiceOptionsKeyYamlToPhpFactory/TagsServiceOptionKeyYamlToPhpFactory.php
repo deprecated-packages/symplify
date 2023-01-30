@@ -22,7 +22,7 @@ final class TagsServiceOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYam
     private const TAG = 'tag';
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory
+        private readonly ArgsNodeFactory $argsNodeFactory
     ) {
     }
 
