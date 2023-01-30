@@ -7,7 +7,13 @@ includes:
 
 parameters:
     level: 8
+
     reportUnmatchedIgnoredErrors: false
+
+    type_coverage:
+        return_type: 99
+        param_type: 99
+        property_type: 99
 
     cognitive_complexity:
         class: 25
@@ -218,6 +224,3 @@ parameters:
 
         # known
         - '#Parameter \#1 \$nodes of method PhpParser\\PrettyPrinterAbstract\:\:pCommaSeparatedMultiline\(\) expects array<PhpParser\\Node>, array<PhpParser\\Node\\Expr\\ArrayItem\|null> given#'
-
-        # not helpful in phpunit
-        - '#Dynamic call to static method PHPUnit\\Framework\\(.*?)\:\:(.*?)\(\)#'
