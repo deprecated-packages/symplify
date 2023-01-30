@@ -8,36 +8,23 @@ env:
     COMPOSER_ROOT_VERSION: "dev-main"
 
 jobs:
-    provide_packages_json:
-        # see json juggling: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#example-6
-        runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   uses: shivammathur/setup-php@v2
-                with:
-                    php-version: 8.1
-                    coverage: none
-
-            -   uses: "ramsey/composer-install@v2"
-
-            # get package json list
-            -
-                id: output_data
-                run: echo "matrix=$(vendor/bin/monorepo-builder packages-json --tests)" >> $GITHUB_OUTPUT
-
-        outputs:
-            matrix: ${{ steps.output_data.outputs.matrix }}
-
     split_tests:
-        needs: provide_packages_json
-
         runs-on: ubuntu-latest
 
         strategy:
             fail-fast: false
+
             matrix:
-                package: ${{ fromJson(needs.provide_packages_json.outputs.matrix )}}
+                package:
+                    - autowire-array-parameter
+                    - easy-parallel
+                    - easy-testing
+                    - package-builder
+                    - php-config-printer
+                    - rule-doc-generator
+                    - smart-file-system
+                    - symfony-static-dumper
+                    - symplify-kernel
 
         name: Split Tests of ${{ matrix.package }}
 
