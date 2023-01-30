@@ -1,15 +1,9 @@
 includes:
-    # @todo why are these needed? should be loaded by extension installer
-    - vendor/tomasvotruba/unused-public/config/extension.neon
-    - vendor/tomasvotruba/cognitive-complexity/config/extension.neon
-
     - packages/phpstan-extensions/config/config.neon
     - vendor/symplify/phpstan-rules/config/symplify-rules.neon
+
     # for cognitive rules
     - vendor/symplify/phpstan-rules/config/packages/cognitive-complexity/cognitive-complexity-services.neon
-    - vendor/symplify/phpstan-rules/config/services/services.neon
-
-    - vendor/symplify/phpstan-rules/config/packages/symfony/services.neon
 
 parameters:
     level: 8
@@ -95,7 +89,6 @@ parameters:
             message: '#Use explicit return value over magic &reference#'
             paths:
                 - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-                - */PhpDocParser/PhpDocNodeTraverser.php
 
         # exceptions to get file
         -
@@ -104,7 +97,6 @@ parameters:
                 - packages/smart-file-system/src/SmartFileSystem.php
 
         # child type
-        - '#Parameter \#1 \$node of method Symplify\\PHPStanRules\\Rules\\ForbiddenSpreadOperatorRule\:\:hasVariadicParam\(\) expects PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_, PhpParser\\Node\\Expr\\ArrowFunction\|PhpParser\\Node\\Expr\\Closure\|\(PhpParser\\Node\\Expr\\FuncCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\MethodCall&PhpParser\\Node\\FunctionLike\)\|\(PhpParser\\Node\\Expr\\StaticCall&PhpParser\\Node\\FunctionLike\)\|PhpParser\\Node\\Stmt\\ClassMethod\|PhpParser\\Node\\Stmt\\Function_ given#'
 
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
@@ -133,8 +125,6 @@ parameters:
                 # PHP compat
                 - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
-        - '#Method Symplify\\PHPStanRules\\NodeFinder\\MethodCallNodeFinder\:\:findUsages\(\) should return array<PhpParser\\Node\\Expr\\MethodCall\> but returns array<PhpParser\\Node\>#'
-
         -
             message: '#Class cognitive complexity is \d+, keep it under \d+#'
             paths:
@@ -143,19 +133,10 @@ parameters:
 
         - '#Method Symplify\\EasyTesting\\DataProvider\\StaticFixtureFinder\:\:yieldDirectoryExclusively\(\) should return Iterator<mixed, Symplify\\SmartFileSystem\\SmartFileInfo\> but returns Iterator<mixed, array<int, Symplify\\SmartFileSystem\\SmartFileInfo\>\>#'
 
-        # wrong keys
-        - '#Generator expects value type array<array<int\|string\>\|string\>, array<int, array<int, array<int, int\|string\>\>\|string\> given#'
-
-
-        - '#\$reflectionClass with generic class ReflectionClass but does not specify its types\: T#'
-
         -
             message: '#cognitive complexity is \d+, keep it under \d+#i'
             paths:
                 - packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
-
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseArray\(\)" is 35, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\PhpDocParser\\PhpDocNodeTraverser\:\:traverseNode\(\)" is 32, keep it under 8#'
 
         -
             message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
@@ -188,24 +169,15 @@ parameters:
             message: '#Parameter \#1 \$stream of function (.*?) expects resource, resource\|null given#'
             path: packages/easy-parallel/src/ValueObject/ParallelProcess.php
 
-        # needless generics
-        - '#Class Symplify\\PHPStanRules\\(.*?)Rule implements generic interface PHPStan\\Rules\\Rule but does not specify its types\: TNodeType#'
-
-        - '#Parameter \#1 \$values of method Symplify\\PHPStanRules\\Rules\\Enum\\RequireUniqueEnumConstantRule\:\:filterDuplicatedValues\(\) expects array<int\|string>, array<bool\|float\|int\|string> given#'
-
         # nesting on purpose
         -
             message: '#New objects with "\$methodCall" name are overridden\. This can lead to unwanted bugs, please pick a different name to avoid it#'
             paths:
                 - packages/php-config-printer/src/*Converter/*
 
-        - '#Calling PHPStan\\Reflection\\ParameterReflectionWithPhpDocs\:\:getNativeType\(\) is not covered by backward compatibility promise#'
-
         # test case
         - '#Calling PHPStan\\Testing\\ErrorFormatterTestCase\:\:get(.*?)\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
         - '#Extending PHPStan\\Testing\\ErrorFormatterTestCase is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
-
-        - '#Method (.*?)::getCollectors\(\) return type with generic interface PHPStan\\Collectors\\Collector does not specify its types\: TNodeType, TValue#'
 
         # relative file path resolving tests
         -
@@ -213,10 +185,6 @@ parameters:
             paths:
                 - packages/smart-file-system/tests/SmartFileInfo/*
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
-
-        - '#Parameter \#(.*?) \$(.*?) of method (.*?) expects array<class\-string>, array<string> given#'
-
-        - '#Method Symplify\\PHPStanRules\\Rules\\Domain\\NoDuplicatedRegexRule\:\:groupConstantsBySharedValue\(\) should return array<string, array<Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>> but returns array<int\|string, array<int, Symplify\\PHPStanRules\\ValueObject\\ClassConstRegexMetadata>>#'
 
         # narrowed to generic type
         - '#Method Symplify\\(.*?)\\TypeAwareNodeFinder\:\:(findInstanceOf|findFirstInstanceOf)\(\) should return (.*?)#'
@@ -226,19 +194,10 @@ parameters:
             message: '#Class name starting with "Abstract" must have an `abstract` keyword#'
             path: packages/php-config-printer/src/ServiceOptionConverter/AbstractServiceOptionKeyYamlToPhpFactory.php
 
-        # not neccesary complexity
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\RequireThisOnParentMethodCallRule\:\:processNode\(\)" is 9, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\NoNestedFuncCallRule\:\:processNode\(\)" is 10, keep it under 8#'
-
         # decoupling
         -
             message: '#Parameter argument on position 0 must use constant#'
             path: packages/php-config-printer/src/ExprResolver/StringExprResolver.php
-
-        # phpstan collector data
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Rules\\Domain\\ForbiddenAlwaysSetterCallRule\:\:createGrouppedCallsByClass\(\)" is 10, keep it under 8#'
-        - '#Cognitive complexity for "Symplify\\PHPStanRules\\Collector\\ClassMethod\\NewAndSetterCallsCollector\:\:processNode\(\)" is 17, keep it under 8#'
-        - '#Calling PHPStan\\Reflection\\Php\\PhpParameterReflection\:\:isOptional\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
 
         # to separate packages
         -
@@ -247,46 +206,18 @@ parameters:
                 - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
                 - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
 
-        # un helpful
-        - '#Parameter (.*?) expects non\-empty\-string, string given#'
-
         -
             message: '#Instead of protected element in use private element or contract method#'
             paths:
                 - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
-
-        -
-            message: '#Use another value object over array with string\-keys and objects#'
-            paths:
-                - packages/autowire-array-parameter/src/DependencyInjection/DefinitionFinder.php
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php
-                - packages/symfony-static-dumper/src/Routing/RoutesProvider.php
-
-        -
-            message: '#Complete known array shape to the method @return type#'
-            path: packages/php-config-printer/src/NodeFactory/Service/ServiceOptionNodeFactory.php
-
-        -
-            message: '#Add explicit array type to assigned "\$excludeValue" expression#'
-            path: packages/php-config-printer/src/NodeFactory/Service/ServicesPhpNodeFactory.php
-
-        -
-            message: '#Class has a static method must so must contains "Static" in its name#'
-            paths:
-                - packages/phpstan-extensions/tests/TypeExtension/MethodCall/SplFileInfoTolerantReturnTypeExtension/SplFileInfoTolerantReturnTypeExtensionTest.php
-                - packages/phpstan-extensions/tests/TypeExtension/MethodCall/ContainerGetReturnTypeExtension/ContainerGetReturnTypeExtensionTest.php
-                - packages/phpstan-extensions/tests/TypeExtension/FuncCall/NativeFunctionDynamicFunctionReturnTypeExtension/NativeFunctionDynamicFunctionReturnTypeExtensionTest.php
-                - packages/phpstan-extensions/tests/ErrorFormatter/SymplifyErrorFormatterTest.php
-                - packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
-                - packages/php-config-printer/src/ValueObject/YamlKey.php
 
         # complex logic
         -
             message: '#Cognitive complexity for "Symplify\\PhpConfigPrinter\\NodeFactory\\ContainerConfiguratorReturnClosureFactory\:\:createStmtsFromCaseConverters\(\)" is 9, keep it under 8#'
             path: 'packages/php-config-printer/src/NodeFactory/ContainerConfiguratorReturnClosureFactory.php'
 
-        - message: '#Instead of array shape, use value object with specific types in constructor and getters#'
-          path: packages/php-config-printer/src/Printer/SmartPhpConfigPrinter.php
+        # known
+        - '#Parameter \#1 \$nodes of method PhpParser\\PrettyPrinterAbstract\:\:pCommaSeparatedMultiline\(\) expects array<PhpParser\\Node>, array<PhpParser\\Node\\Expr\\ArrayItem\|null> given#'
 
-        - message: '#Instead of "Symfony\\Component\\Finder\\SplFileInfo" class/interface use "Symplify\\SmartFileSystem\\SmartFileInfo"#'
-          path: packages/smart-file-system/src/Finder/FinderSanitizer.php
+        # not helpful in phpunit
+        - '#Dynamic call to static method PHPUnit\\Framework\\(.*?)\:\:(.*?)\(\)#'

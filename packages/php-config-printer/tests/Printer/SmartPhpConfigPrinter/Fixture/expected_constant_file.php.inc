@@ -9,5 +9,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(ClassWithConstants::class)
-        ->call('configure', [[ClassWithConstants::CONFIG_KEY => 'it is constant', ClassWithConstants::NUMERIC_CONFIG_KEY => 'a lot of numbers']]);
+        ->call('configure', [
+        [
+            ClassWithConstants::CONFIG_KEY => 'it is constant',
+            ClassWithConstants::NUMERIC_CONFIG_KEY => 'a lot of numbers',
+        ],
+    ]);
 };
