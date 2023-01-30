@@ -11,7 +11,7 @@ use Symplify\PhpConfigPrinter\NodeFactory\ArgsNodeFactory;
 final class AutowiringTypesOptionKeyYamlToPhpFactory implements ServiceOptionsKeyYamlToPhpFactoryInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
+        private readonly ArgsNodeFactory $argsNodeFactory,
     ) {
     }
 

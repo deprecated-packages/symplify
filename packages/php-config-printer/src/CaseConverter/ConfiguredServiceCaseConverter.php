@@ -18,8 +18,8 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class ConfiguredServiceCaseConverter implements CaseConverterInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceOptionNodeFactory $serviceOptionNodeFactory
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceOptionNodeFactory $serviceOptionNodeFactory
     ) {
     }
 

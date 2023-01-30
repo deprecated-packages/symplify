@@ -7,8 +7,8 @@ namespace Symplify\SymfonyStaticDumper\ValueObject;
 final class ControllerCallable
 {
     public function __construct(
-        private string $class,
-        private string $method
+        private readonly string $class,
+        private readonly string $method
     ) {
     }
 

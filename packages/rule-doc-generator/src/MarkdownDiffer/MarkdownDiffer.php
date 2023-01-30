@@ -25,7 +25,7 @@ final class MarkdownDiffer
     private const SPACE_AND_NEWLINE_REGEX = '#( ){1,}\n#';
 
     public function __construct(
-        private Differ $differ
+        private readonly Differ $differ
     ) {
     }
 

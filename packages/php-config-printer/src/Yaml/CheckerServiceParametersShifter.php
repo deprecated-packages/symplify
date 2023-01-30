@@ -71,7 +71,7 @@ final class CheckerServiceParametersShifter
         'autowiring_types',
     ];
 
-    private StringFormatConverter $stringFormatConverter;
+    private readonly StringFormatConverter $stringFormatConverter;
 
     public function __construct()
     {

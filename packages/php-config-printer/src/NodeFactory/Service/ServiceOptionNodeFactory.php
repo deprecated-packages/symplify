@@ -15,8 +15,8 @@ final class ServiceOptionNodeFactory
      * @param ServiceOptionsKeyYamlToPhpFactoryInterface[] $serviceOptionKeyYamlToPhpFactories
      */
     public function __construct(
-        private ServiceOptionAnalyzer $serviceOptionAnalyzer,
-        private array $serviceOptionKeyYamlToPhpFactories
+        private readonly ServiceOptionAnalyzer $serviceOptionAnalyzer,
+        private readonly array $serviceOptionKeyYamlToPhpFactories
     ) {
     }
 

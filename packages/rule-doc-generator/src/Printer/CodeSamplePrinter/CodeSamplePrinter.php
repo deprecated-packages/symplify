@@ -20,7 +20,7 @@ final class CodeSamplePrinter
      * @param RuleCodeSamplePrinterInterface[] $ruleCodeSamplePrinters
      */
     public function __construct(
-        private array $ruleCodeSamplePrinters
+        private readonly array $ruleCodeSamplePrinters
     ) {
     }
 

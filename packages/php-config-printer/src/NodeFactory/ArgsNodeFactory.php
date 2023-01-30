@@ -33,13 +33,13 @@ final class ArgsNodeFactory
      */
     private const TAG_RETURNS_CLONE = 'returns_clone';
 
-    private bool $isPhpNamedArguments;
+    private readonly bool $isPhpNamedArguments;
 
     public function __construct(
-        private StringExprResolver $stringExprResolver,
-        private TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
-        private TaggedServiceResolver $taggedServiceResolver,
-        private NewValueObjectFactory $newValueObjectFactory,
+        private readonly StringExprResolver $stringExprResolver,
+        private readonly TaggedReturnsCloneResolver $taggedReturnsCloneResolver,
+        private readonly TaggedServiceResolver $taggedServiceResolver,
+        private readonly NewValueObjectFactory $newValueObjectFactory,
     ) {
         $this->isPhpNamedArguments = PHP_VERSION_ID >= 80000;
     }

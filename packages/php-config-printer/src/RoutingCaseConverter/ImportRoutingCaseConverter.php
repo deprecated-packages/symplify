@@ -76,11 +76,11 @@ final class ImportRoutingCaseConverter implements RoutingCaseConverterInterface
      */
     private const METHODS = 'methods';
 
-    private StringFormatConverter $stringFormatConverter;
+    private readonly StringFormatConverter $stringFormatConverter;
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private ControllerSplitter $controllerSplitter
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ControllerSplitter $controllerSplitter
     ) {
         $this->stringFormatConverter = new StringFormatConverter();
     }

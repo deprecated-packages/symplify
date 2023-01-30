@@ -125,16 +125,16 @@ final class StaticFixtureSplitter
 
     private static function retypeExpected(mixed $expected): mixed
     {
-        if (! is_numeric(trim($expected))) {
+        if (! is_numeric(trim((string) $expected))) {
             return $expected;
         }
 
         // value re-type
-        if (strlen((string) (int) $expected) === strlen(trim($expected))) {
+        if (strlen((string) (int) $expected) === strlen(trim((string) $expected))) {
             return (int) $expected;
         }
 
-        if (strlen((string) (float) $expected) === strlen(trim($expected))) {
+        if (strlen((string) (float) $expected) === strlen(trim((string) $expected))) {
             return (float) $expected;
         }
 

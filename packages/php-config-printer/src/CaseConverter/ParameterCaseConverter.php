@@ -25,9 +25,9 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class ParameterCaseConverter implements CaseConverterInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private CurrentFilePathProvider $currentFilePathProvider,
-        private CommonNodeFactory $commonNodeFactory
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly CurrentFilePathProvider $currentFilePathProvider,
+        private readonly CommonNodeFactory $commonNodeFactory
     ) {
     }
 

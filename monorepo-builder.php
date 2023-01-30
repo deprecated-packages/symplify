@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Symplify\MonorepoBuilder\Config\MBConfig;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushNextDevReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\PushTagReleaseWorker;
-use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualConflictsReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetCurrentMutualDependenciesReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\SetNextMutualDependenciesReleaseWorker;
 use Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker;
@@ -29,7 +28,6 @@ return static function (MBConfig $mbConfig): void {
     $mbConfig->workers([
         // release workers - in order to execute
         UpdateReplaceReleaseWorker::class,
-        SetCurrentMutualConflictsReleaseWorker::class,
         SetCurrentMutualDependenciesReleaseWorker::class,
         TagVersionReleaseWorker::class,
         PushTagReleaseWorker::class,

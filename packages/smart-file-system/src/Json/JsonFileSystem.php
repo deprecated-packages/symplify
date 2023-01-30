@@ -16,8 +16,8 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class JsonFileSystem
 {
     public function __construct(
-        private FileSystemGuard $fileSystemGuard,
-        private SmartFileSystem $smartFileSystem
+        private readonly FileSystemGuard $fileSystemGuard,
+        private readonly SmartFileSystem $smartFileSystem
     ) {
     }
 

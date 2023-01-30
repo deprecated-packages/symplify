@@ -10,7 +10,7 @@ use Symplify\RuleDocGenerator\Printer\MarkdownCodeWrapper;
 final class BadGoodCodeSamplePrinter
 {
     public function __construct(
-        private MarkdownCodeWrapper $markdownCodeWrapper
+        private readonly MarkdownCodeWrapper $markdownCodeWrapper
     ) {
     }
 

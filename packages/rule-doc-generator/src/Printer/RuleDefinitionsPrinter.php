@@ -13,9 +13,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RuleDefinitionsPrinter
 {
     public function __construct(
-        private CodeSamplePrinter $codeSamplePrinter,
-        private KeywordHighlighter $keywordHighlighter,
-        private CategoryResolver $categoryResolver,
+        private readonly CodeSamplePrinter $codeSamplePrinter,
+        private readonly KeywordHighlighter $keywordHighlighter,
+        private readonly CategoryResolver $categoryResolver,
     ) {
     }
 

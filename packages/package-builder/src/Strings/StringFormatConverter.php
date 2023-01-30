@@ -66,7 +66,9 @@ final class StringFormatConverter
 
         $parts = [];
         foreach ($matches as $match) {
-            $parts[] = $match[0] === strtoupper($match[0]) ? strtolower($match[0]) : lcfirst($match[0]);
+            $parts[] = $match[0] === strtoupper((string) $match[0]) ? strtolower($match[0]) : lcfirst(
+                (string) $match[0]
+            );
         }
 
         return implode($glue, $parts);

@@ -20,11 +20,11 @@ final class DirectoryToMarkdownPrinter
      * @param RuleOutFilterInterface[] $ruleOutFilters
      */
     public function __construct(
-        private ClassByTypeFinder $classByTypeFinder,
-        private SymfonyStyle $symfonyStyle,
-        private RuleDefinitionsResolver $ruleDefinitionsResolver,
-        private RuleDefinitionsPrinter $ruleDefinitionsPrinter,
-        private array $ruleOutFilters
+        private readonly ClassByTypeFinder $classByTypeFinder,
+        private readonly SymfonyStyle $symfonyStyle,
+        private readonly RuleDefinitionsResolver $ruleDefinitionsResolver,
+        private readonly RuleDefinitionsPrinter $ruleDefinitionsPrinter,
+        private readonly array $ruleOutFilters
     ) {
     }
 

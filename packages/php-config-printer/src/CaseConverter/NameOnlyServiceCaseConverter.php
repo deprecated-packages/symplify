@@ -17,7 +17,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class NameOnlyServiceCaseConverter implements CaseConverterInterface
 {
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory
+        private readonly CommonNodeFactory $commonNodeFactory
     ) {
     }
 

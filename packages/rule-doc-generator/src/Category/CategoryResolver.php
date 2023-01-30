@@ -18,7 +18,7 @@ final class CategoryResolver
      * @param CategoryInfererInterface[] $categoryInferers
      */
     public function __construct(
-        private array $categoryInferers
+        private readonly array $categoryInferers
     ) {
     }
 

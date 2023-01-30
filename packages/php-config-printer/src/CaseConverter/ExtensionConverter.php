@@ -19,7 +19,7 @@ final class ExtensionConverter implements CaseConverterInterface
     private ?string $rootKey = null;
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
+        private readonly ArgsNodeFactory $argsNodeFactory,
     ) {
     }
 

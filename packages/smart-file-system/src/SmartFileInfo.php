@@ -23,7 +23,7 @@ final class SmartFileInfo extends SplFileInfo
      */
     private const LAST_SUFFIX_REGEX = '#\.[^.]+$#';
 
-    private SmartFileSystem $smartFileSystem;
+    private readonly SmartFileSystem $smartFileSystem;
 
     public function __construct(string $filePath)
     {

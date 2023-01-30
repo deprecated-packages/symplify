@@ -19,8 +19,8 @@ use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 final class PathRoutingCaseConverter implements RoutingCaseConverterInterface
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private ControllerSplitter $controllerSplitter
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ControllerSplitter $controllerSplitter
     ) {
     }
 

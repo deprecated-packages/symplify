@@ -12,8 +12,8 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class AutoBindNodeFactory
 {
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly TagsServiceOptionKeyYamlToPhpFactory $tagsServiceOptionKeyYamlToPhpFactory
     ) {
     }
 

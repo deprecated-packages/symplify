@@ -17,10 +17,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RectorRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
     public function __construct(
-        private DiffCodeSamplePrinter $diffCodeSamplePrinter,
-        private MarkdownCodeWrapper $markdownCodeWrapper,
-        private ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
-        private RectorConfigConfiguredRuleCustomPrinter $rectorConfigConfiguredRuleCustomPrinter
+        private readonly DiffCodeSamplePrinter $diffCodeSamplePrinter,
+        private readonly MarkdownCodeWrapper $markdownCodeWrapper,
+        private readonly ConfiguredCodeSamplerPrinter $configuredCodeSamplerPrinter,
+        private readonly RectorConfigConfiguredRuleCustomPrinter $rectorConfigConfiguredRuleCustomPrinter
     ) {
     }
 

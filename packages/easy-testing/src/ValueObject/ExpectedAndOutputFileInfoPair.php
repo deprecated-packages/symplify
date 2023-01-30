@@ -13,8 +13,8 @@ use Symplify\SymplifyKernel\Exception\ShouldNotHappenException;
 final class ExpectedAndOutputFileInfoPair
 {
     public function __construct(
-        private SmartFileInfo $expectedFileInfo,
-        private ?SmartFileInfo $outputFileInfo
+        private readonly SmartFileInfo $expectedFileInfo,
+        private readonly ?SmartFileInfo $outputFileInfo
     ) {
     }
 

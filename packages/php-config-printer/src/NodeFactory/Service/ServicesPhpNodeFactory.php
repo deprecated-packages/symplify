@@ -22,9 +22,9 @@ final class ServicesPhpNodeFactory
     private const EXCLUDE = 'exclude';
 
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceOptionNodeFactory $serviceOptionNodeFactory,
+        private readonly CommonNodeFactory $commonNodeFactory,
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceOptionNodeFactory $serviceOptionNodeFactory,
     ) {
     }
 

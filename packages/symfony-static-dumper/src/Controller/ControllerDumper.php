@@ -16,12 +16,12 @@ use Symplify\SymfonyStaticDumper\Routing\RoutesProvider;
 final class ControllerDumper
 {
     public function __construct(
-        private ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
-        private ControllerContentResolver $controllerContentResolver,
-        private RoutesProvider $routesProvider,
-        private SymfonyStyle $symfonyStyle,
-        private FilePathResolver $filePathResolver,
-        private SmartFileSystem $smartFileSystem
+        private readonly ControllerWithDataProviderMatcher $controllerWithDataProviderMatcher,
+        private readonly ControllerContentResolver $controllerContentResolver,
+        private readonly RoutesProvider $routesProvider,
+        private readonly SymfonyStyle $symfonyStyle,
+        private readonly FilePathResolver $filePathResolver,
+        private readonly SmartFileSystem $smartFileSystem
     ) {
     }
 

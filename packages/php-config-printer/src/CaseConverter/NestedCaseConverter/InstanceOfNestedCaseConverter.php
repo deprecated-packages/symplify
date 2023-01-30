@@ -18,8 +18,8 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class InstanceOfNestedCaseConverter
 {
     public function __construct(
-        private CommonNodeFactory $commonNodeFactory,
-        private ServiceOptionNodeFactory $serviceOptionNodeFactory
+        private readonly CommonNodeFactory $commonNodeFactory,
+        private readonly ServiceOptionNodeFactory $serviceOptionNodeFactory
     ) {
     }
 

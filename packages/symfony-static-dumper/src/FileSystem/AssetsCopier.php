@@ -15,8 +15,8 @@ use Symplify\SmartFileSystem\SmartFileSystem;
 final class AssetsCopier
 {
     public function __construct(
-        private FinderSanitizer $finderSanitizer,
-        private SmartFileSystem $smartFileSystem
+        private readonly FinderSanitizer $finderSanitizer,
+        private readonly SmartFileSystem $smartFileSystem
     ) {
     }
 

@@ -12,7 +12,7 @@ use Symplify\PhpConfigPrinter\ValueObject\YamlKey;
 final class ResourceCaseConverter implements CaseConverterInterface
 {
     public function __construct(
-        private ServicesPhpNodeFactory $servicesPhpNodeFactory
+        private readonly ServicesPhpNodeFactory $servicesPhpNodeFactory
     ) {
     }
 

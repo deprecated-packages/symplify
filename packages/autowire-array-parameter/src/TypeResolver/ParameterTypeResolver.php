@@ -16,7 +16,7 @@ final class ParameterTypeResolver
     private array $resolvedParameterTypesCached = [];
 
     public function __construct(
-        private ParamTypeDocBlockResolver $paramTypeDocBlockResolver
+        private readonly ParamTypeDocBlockResolver $paramTypeDocBlockResolver
     ) {
     }
 

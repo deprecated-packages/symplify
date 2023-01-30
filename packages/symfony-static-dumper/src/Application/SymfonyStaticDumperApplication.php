@@ -14,9 +14,9 @@ use Symplify\SymfonyStaticDumper\FileSystem\AssetsCopier;
 final class SymfonyStaticDumperApplication
 {
     public function __construct(
-        private ControllerDumper $controllerDumper,
-        private SymfonyStyle $symfonyStyle,
-        private AssetsCopier $assetsCopier
+        private readonly ControllerDumper $controllerDumper,
+        private readonly SymfonyStyle $symfonyStyle,
+        private readonly AssetsCopier $assetsCopier
     ) {
     }
 

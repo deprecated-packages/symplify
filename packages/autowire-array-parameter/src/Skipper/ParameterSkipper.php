@@ -37,7 +37,7 @@ final class ParameterSkipper
      * @param string[] $excludedFatalClasses
      */
     public function __construct(
-        private ParameterTypeResolver $parameterTypeResolver,
+        private readonly ParameterTypeResolver $parameterTypeResolver,
         array $excludedFatalClasses
     ) {
         $this->excludedFatalClasses = array_merge(self::DEFAULT_EXCLUDED_FATAL_CLASSES, $excludedFatalClasses);

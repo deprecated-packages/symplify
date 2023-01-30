@@ -23,7 +23,7 @@ final class SingleFactoryReferenceNodeModifier
     private const FACTORY_REGEX = '#(?<callee>.*?)(?<operator>\:{1,2})(?<method_name>\w+)#';
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory
+        private readonly ArgsNodeFactory $argsNodeFactory
     ) {
     }
 

@@ -15,9 +15,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class PHPStanRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 {
     public function __construct(
-        private NeonPrinter $neonPrinter,
-        private MarkdownCodeWrapper $markdownCodeWrapper,
-        private BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
+        private readonly NeonPrinter $neonPrinter,
+        private readonly MarkdownCodeWrapper $markdownCodeWrapper,
+        private readonly BadGoodCodeSamplePrinter $badGoodCodeSamplePrinter
     ) {
     }
 

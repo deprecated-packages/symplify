@@ -24,8 +24,8 @@ final class RectorRuleCaseConverter implements CaseConverterInterface
     public const NAME = 'rectorConfig';
 
     public function __construct(
-        private ArgsNodeFactory $argsNodeFactory,
-        private ServiceConfigurationDecorator $serviceConfigurationDecorator
+        private readonly ArgsNodeFactory $argsNodeFactory,
+        private readonly ServiceConfigurationDecorator $serviceConfigurationDecorator
     ) {
     }
 

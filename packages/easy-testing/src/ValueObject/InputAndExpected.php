@@ -7,8 +7,8 @@ namespace Symplify\EasyTesting\ValueObject;
 final class InputAndExpected
 {
     public function __construct(
-        private string $input,
-        private mixed $expected
+        private readonly string $input,
+        private readonly mixed $expected
     ) {
     }
 

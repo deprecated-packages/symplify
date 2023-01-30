@@ -25,8 +25,8 @@ final class StringExprResolver
     private const TWIG_HTML_XML_SUFFIX_REGEX = '#\.(twig|html|xml)$#';
 
     public function __construct(
-        private ConstantNodeFactory $constantNodeFactory,
-        private CommonNodeFactory $commonNodeFactory
+        private readonly ConstantNodeFactory $constantNodeFactory,
+        private readonly CommonNodeFactory $commonNodeFactory
     ) {
     }
 

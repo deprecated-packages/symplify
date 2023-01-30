@@ -13,8 +13,8 @@ use Symplify\PackageBuilder\Console\Formatter\ColorConsoleDiffFormatter;
 final class ConsoleDiffer
 {
     public function __construct(
-        private Differ $differ,
-        private ColorConsoleDiffFormatter $colorConsoleDiffFormatter
+        private readonly Differ $differ,
+        private readonly ColorConsoleDiffFormatter $colorConsoleDiffFormatter
     ) {
     }
 

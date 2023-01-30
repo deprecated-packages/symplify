@@ -36,8 +36,8 @@ final class ImportCaseConverter implements CaseConverterInterface
     private const INPUT_SUFFIX_REGEX = '#\.(yml|yaml|xml)$#';
 
     public function __construct(
-        private YamlArgumentSorter $yamlArgumentSorter,
-        private CommonNodeFactory $commonNodeFactory
+        private readonly YamlArgumentSorter $yamlArgumentSorter,
+        private readonly CommonNodeFactory $commonNodeFactory
     ) {
     }
 

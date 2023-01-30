@@ -35,7 +35,7 @@ final class SymplifyErrorFormatter implements ErrorFormatter
     private ?Output $output = null;
 
     public function __construct(
-        private Terminal $terminal
+        private readonly Terminal $terminal
     ) {
     }
 

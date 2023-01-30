@@ -11,7 +11,7 @@ use Symplify\PhpConfigPrinter\ValueObject\FunctionName;
 final class TaggedServiceResolver
 {
     public function __construct(
-        private ServiceReferenceExprResolver $serviceReferenceExprResolver
+        private readonly ServiceReferenceExprResolver $serviceReferenceExprResolver
     ) {
     }
 

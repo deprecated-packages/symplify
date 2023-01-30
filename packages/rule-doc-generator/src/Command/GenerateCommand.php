@@ -16,7 +16,7 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 final class GenerateCommand extends AbstractSymplifyCommand
 {
     public function __construct(
-        private DirectoryToMarkdownPrinter $directoryToMarkdownPrinter
+        private readonly DirectoryToMarkdownPrinter $directoryToMarkdownPrinter
     ) {
         parent::__construct();
     }

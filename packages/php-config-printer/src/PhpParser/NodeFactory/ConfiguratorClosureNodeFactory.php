@@ -24,7 +24,7 @@ use Symplify\PhpConfigPrinter\ValueObject\VariableName;
 final class ConfiguratorClosureNodeFactory
 {
     public function __construct(
-        private VariableNameResolver $variableNameResolver,
+        private readonly VariableNameResolver $variableNameResolver,
     ) {
     }
 

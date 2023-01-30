@@ -9,7 +9,7 @@ use Symplify\PhpConfigPrinter\Reflection\ConstantNameFromValueResolver;
 final class ServiceConfigurationDecorator
 {
     public function __construct(
-        private ConstantNameFromValueResolver $constantNameFromValueResolver,
+        private readonly ConstantNameFromValueResolver $constantNameFromValueResolver,
     ) {
     }
 
