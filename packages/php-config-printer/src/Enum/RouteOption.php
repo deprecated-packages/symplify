@@ -29,5 +29,5 @@ final class RouteOption
     /**
      * @var string[]
      */
-    public const ALL = [self::CONTROLLER, self::DEFAULTS, self::METHODS, 'requirements', 'options', 'resource'];
+    public const ALL = ['host', self::CONTROLLER, self::DEFAULTS, self::METHODS, 'requirements', 'options', 'resource'];
 }
