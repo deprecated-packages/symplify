@@ -41,7 +41,6 @@
         "symplify/phpstan-extensions": "<11.1.25",
         "symplify/rule-doc-generator": "<11.1.25",
         "symplify/smart-file-system": "<11.1.25",
-        "symplify/symfony-static-dumper": "<11.1.25",
         "symplify/config-transformer": "<11.1.24",
         "symplify/coding-standard": "<11.1.24",
         "symplify/easy-parallel": "<11.1.25",

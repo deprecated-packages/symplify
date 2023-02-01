@@ -47,9 +47,6 @@ parameters:
         # functions false positive
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
-        # tests
-        - packages/symfony-static-dumper/tests/test_project/
-
         # 3rd party
         - packages/package-builder/src/Yaml/ParametersMerger.php
 
@@ -122,7 +119,6 @@ parameters:
             message: '#Function "method_exists\(\)" cannot be used/left in the code#'
             paths:
                 # PHPUnit 9/10 compat
-                - packages/symfony-static-dumper/tests/FileSystem/AssetsCopierTest.php
                 - packages/php-config-printer/src/NodeFactory/ConstantNodeFactory.php
 
         -

@@ -31,7 +31,6 @@
         "symfony/http-foundation": "^6.2",
         "symfony/http-kernel": "6.1.*",
         "symfony/process": "^6.2",
-        "symfony/routing": "^6.2",
         "symfony/yaml": "^6.2",
         "twig/twig": "^3.4",
         "webmozart/assert": "^1.11"
@@ -70,7 +69,6 @@
                 "packages/rule-doc-generator/src"
             ],
             "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\SymfonyStaticDumper\\": "packages/symfony-static-dumper/src",
             "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
         }
     },
@@ -92,8 +90,6 @@
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\": "packages/symfony-static-dumper/tests",
-            "Symplify\\SymfonyStaticDumper\\Tests\\TestProject\\": "packages/symfony-static-dumper/tests/test_project/src",
             "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
         }
     },
@@ -120,7 +116,6 @@
         "symplify/rule-doc-generator": "11.1.27",
         "symplify/rule-doc-generator-contracts": "11.1.27",
         "symplify/smart-file-system": "11.1.27",
-        "symplify/symfony-static-dumper": "11.1.27",
         "symplify/symplify-kernel": "11.1.27"
     },
     "scripts": {
