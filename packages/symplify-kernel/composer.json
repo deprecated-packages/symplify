@@ -8,7 +8,8 @@
         "symfony/dependency-injection": "6.1.*",
         "symplify/smart-file-system": "^11.2",
         "symplify/package-builder": "^11.2",
-        "webmozart/assert": "^1.11"
+        "webmozart/assert": "^1.11",
+        "symplify/autowire-array-parameter": "^11.1.25"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5.26"
