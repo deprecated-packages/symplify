@@ -63,14 +63,5 @@ return static function (RectorConfig $rectorConfig): void {
         VarConstantCommentRector::class => [
             __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
         ],
-
-        // keep classes untouched, to avoid prefixing and renames
-        StringClassNameToClassConstantRector::class => [
-            __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
-        ],
-
-        \Rector\Privatization\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector::class => [
-            __DIR__ . '/packages/autowire-array-parameter/src/DependencyInjection/CompilerPass/AutowireArrayParameterCompilerPass.php',
-        ],
     ]);
 };
