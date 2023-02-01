@@ -220,3 +220,7 @@ parameters:
 
         # known
         - '#Parameter \#1 \$nodes of method PhpParser\\PrettyPrinterAbstract\:\:pCommaSeparatedMultiline\(\) expects array<PhpParser\\Node>, array<PhpParser\\Node\\Expr\\ArrayItem\|null> given#'
+
+        # move the symplify/autowire-array-parameter as require on symplify-kernel
+        - '#Instantiated class Symplify\\AutowireArrayParameter\\DependencyInjection\\CompilerPass\\AutowireArrayParameterCompilerPass not found#'
+        - '#Parameter \#2 \$compilerPasses of method Symplify\\SymplifyKernel\\ContainerBuilderFactory\:\:create\(\) expects array<Symfony\\Component\\DependencyInjection\\Compiler\\CompilerPassInterface>, array<Symfony\\Component\\DependencyInjection\\Compiler\\CompilerPassInterface\|Symplify\\AutowireArrayParameter\\DependencyInjection\\CompilerPass\\AutowireArrayParameterCompilerPass> given#'
