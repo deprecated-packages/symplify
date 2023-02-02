@@ -44,7 +44,6 @@
     "conflict": {
         "symplify/phpstan-rules": "<11.1.24",
         "symplify/easy-testing": "<11.1.25",
-        "symplify/autowire-array-parameter": "<11.1.25",
         "symplify/phpstan-extensions": "<11.1.25",
         "symplify/config-transformer": "<11.1.24",
         "symplify/coding-standard": "<11.1.24",

@@ -47,6 +47,7 @@
         "rector/rector": "dev-main",
         "symfony/framework-bundle": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
+        "symplify/autowire-array-parameter": "^11.1.25",
         "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
@@ -58,7 +59,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\AutowireArrayParameter\\": "packages/autowire-array-parameter/src",
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
@@ -82,7 +82,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\AutowireArrayParameter\\Tests\\": "packages/autowire-array-parameter/tests",
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
@@ -107,7 +106,6 @@
         }
     },
     "replace": {
-        "symplify/autowire-array-parameter": "11.1.27",
         "symplify/easy-parallel": "11.1.27",
         "symplify/easy-testing": "11.1.27",
         "symplify/package-builder": "11.1.27",

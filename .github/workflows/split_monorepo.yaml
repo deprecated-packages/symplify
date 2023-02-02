@@ -14,7 +14,6 @@ jobs:
             fail-fast: false
             matrix:
                 package:
-                    - autowire-array-parameter
                     - easy-parallel
                     - easy-testing
                     - package-builder

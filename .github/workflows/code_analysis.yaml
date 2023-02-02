@@ -62,7 +62,6 @@ jobs:
                         name: Check Active Classes
                         # on purpose in single pipe-line to allow faster CI, as this is bottle neck - runs a full container for just 2 secs operation
                         run: |
-                            vendor/bin/easy-ci check-active-class packages/autowire-array-parameter --ansi
                             vendor/bin/easy-ci check-active-class packages/easy-testing --ansi
                             vendor/bin/easy-ci check-active-class packages/package-builder --ansi
                             vendor/bin/easy-ci check-active-class packages/php-config-printer --ansi
