@@ -148,7 +148,6 @@ parameters:
             message: '#Instead of abstract class, use specific service with composition#'
             paths:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
-                 - packages/symplify-kernel/src/HttpKernel/AbstractSymplifyKernel.php
 
         -
             message: '#Spread operator is not allowed#'

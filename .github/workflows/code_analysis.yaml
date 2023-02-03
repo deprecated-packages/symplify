@@ -69,7 +69,6 @@ jobs:
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
                             vendor/bin/easy-ci check-active-class packages/smart-file-system --ansi
-                            vendor/bin/easy-ci check-active-class packages/symplify-kernel --ansi
 
                     -
                         name: Commented Code
