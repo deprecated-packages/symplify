@@ -32,8 +32,7 @@
         "symfony/http-kernel": "6.1.*",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
-        "twig/twig": "^3.4",
-        "webmozart/assert": "^1.11"
+        "twig/twig": "^3.4"
     },
     "require-dev": {
         "icanhazstring/composer-unused": "^0.8.3",
