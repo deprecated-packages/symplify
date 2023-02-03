@@ -19,7 +19,6 @@ jobs:
                     - php-config-printer
                     - rule-doc-generator
                     - rule-doc-generator-contracts
-                    - smart-file-system
 
         steps:
             -   uses: actions/checkout@v2

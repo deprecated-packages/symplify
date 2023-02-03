@@ -82,21 +82,10 @@ parameters:
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
-        # exceptions to get file
-        -
-            message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
-            paths:
-                - packages/smart-file-system/src/SmartFileSystem.php
-
         # child type
 
         # nesting
         - '#Parameter \#1 \$items of class PhpParser\\Node\\Expr\\Array_ constructor expects array<PhpParser\\Node\\Expr\\ArrayItem\|null\>, array<PhpParser\\Node\\Arg\> given#'
-
-        -
-            message: '#Array destruct is not allowed\. Use value object to pass data instead#'
-            paths:
-                - packages/smart-file-system/src/Normalizer/PathNormalizer.php
 
         - '#Parameter (.*?) class ReflectionClass constructor expects class\-string<T of object\>\|T of object, string given#'
 
@@ -167,7 +156,6 @@ parameters:
         -
             message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
             paths:
-                - packages/smart-file-system/tests/SmartFileInfo/*
                 - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
 
         # narrowed to generic type
