@@ -22,7 +22,6 @@ jobs:
                     - php-config-printer
                     - rule-doc-generator
                     - smart-file-system
-                    - symplify-kernel
 
         name: Split Tests of ${{ matrix.package }}
 

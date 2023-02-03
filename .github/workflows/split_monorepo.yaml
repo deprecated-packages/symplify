@@ -21,7 +21,6 @@ jobs:
                     - rule-doc-generator
                     - rule-doc-generator-contracts
                     - smart-file-system
-                    - symplify-kernel
 
         steps:
             -   uses: actions/checkout@v2

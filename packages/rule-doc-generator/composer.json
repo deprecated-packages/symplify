@@ -10,7 +10,7 @@
         "symfony/dependency-injection": "6.1.*",
         "symfony/console": "^6.2",
         "nette/robot-loader": "^3.4",
-        "symplify/symplify-kernel": "^11.2",
+        "symplify/symplify-kernel": "^11.1",
         "symplify/rule-doc-generator-contracts": "^11.2",
         "symplify/package-builder": "^11.2",
         "nette/utils": "^3.2",

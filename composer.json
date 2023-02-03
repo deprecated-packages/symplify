@@ -32,8 +32,7 @@
         "symfony/http-kernel": "6.1.*",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
-        "twig/twig": "^3.4",
-        "webmozart/assert": "^1.11"
+        "twig/twig": "^3.4"
     },
     "require-dev": {
         "icanhazstring/composer-unused": "^0.8.3",
@@ -55,7 +54,8 @@
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/type-coverage": "^0.0.9",
         "tomasvotruba/unused-public": "^0.0.25",
-        "tracy/tracy": "^2.9.4"
+        "tracy/tracy": "^2.9.4",
+        "symplify/symplify-kernel": "^11.1"
     },
     "autoload": {
         "psr-4": {
@@ -68,8 +68,7 @@
                 "packages/rule-doc-generator-contracts/src",
                 "packages/rule-doc-generator/src"
             ],
-            "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src",
-            "Symplify\\SymplifyKernel\\": "packages/symplify-kernel/src"
+            "Symplify\\SmartFileSystem\\": "packages/smart-file-system/src"
         }
     },
     "autoload-dev": {
@@ -88,8 +87,7 @@
             "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
-            "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests",
-            "Symplify\\SymplifyKernel\\Tests\\": "packages/symplify-kernel/tests"
+            "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests"
         }
     },
     "extra": {
@@ -113,8 +111,7 @@
         "symplify/phpstan-extensions": "11.1.27",
         "symplify/rule-doc-generator": "11.1.27",
         "symplify/rule-doc-generator-contracts": "11.1.27",
-        "symplify/smart-file-system": "11.1.27",
-        "symplify/symplify-kernel": "11.1.27"
+        "symplify/smart-file-system": "11.1.27"
     },
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
