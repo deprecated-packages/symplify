@@ -16,7 +16,6 @@ jobs:
                 package:
                     - easy-parallel
                     - easy-testing
-                    - package-builder
                     - php-config-printer
                     - rule-doc-generator
                     - rule-doc-generator-contracts

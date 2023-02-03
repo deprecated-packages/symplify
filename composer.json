@@ -28,8 +28,6 @@
         "symfony/expression-language": "^6.2",
         "symfony/filesystem": "^6.2",
         "symfony/finder": "^6.2",
-        "symfony/http-foundation": "^6.2",
-        "symfony/http-kernel": "6.1.*",
         "symfony/process": "^6.2",
         "symfony/yaml": "^6.2",
         "twig/twig": "^3.4"
@@ -62,7 +60,6 @@
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
-            "Symplify\\PackageBuilder\\": "packages/package-builder/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
                 "packages/rule-doc-generator-contracts/src",
@@ -84,7 +81,6 @@
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
-            "Symplify\\PackageBuilder\\Tests\\": "packages/package-builder/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests",
             "Symplify\\SmartFileSystem\\Tests\\": "packages/smart-file-system/tests"
@@ -106,7 +102,6 @@
     "replace": {
         "symplify/easy-parallel": "11.1.27",
         "symplify/easy-testing": "11.1.27",
-        "symplify/package-builder": "11.1.27",
         "symplify/php-config-printer": "11.1.27",
         "symplify/phpstan-extensions": "11.1.27",
         "symplify/rule-doc-generator": "11.1.27",
