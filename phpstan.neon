@@ -41,14 +41,8 @@ parameters:
 
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
 
-        # there is some bug
-        - packages/package-builder/src/Testing/AbstractKernelTestCase.php
-
         # functions false positive
         - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
-
-        # 3rd party
-        - packages/package-builder/src/Yaml/ParametersMerger.php
 
         # tests
 
@@ -88,11 +82,6 @@ parameters:
             paths:
                 - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
 
-        -
-            message: '#Use explicit return value over magic &reference#'
-            paths:
-                - packages/package-builder/src/Reflection/PrivatesCaller.php # 40
-
         # exceptions to get file
         -
             message: '#Function "file_get_contents\(\)" cannot be used/left in the code\: Use Symplify\\SmartFileSystem\\SmartFileSystem\:\:readFile\(\) instead#'
@@ -120,12 +109,6 @@ parameters:
             paths:
                 # PHPUnit 9/10 compat
                 - packages/php-config-printer/src/NodeFactory/ConstantNodeFactory.php
-
-        -
-            message: '#Function "property_exists\(\)" cannot be used/left in the code#'
-            paths:
-                # PHP compat
-                - packages/package-builder/src/Reflection/PrivatesAccessor.php
 
         -
             message: '#Class cognitive complexity is \d+, keep it under \d+#'
@@ -206,11 +189,6 @@ parameters:
             paths:
                 - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
                 - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
-
-        -
-            message: '#Instead of protected element in use private element or contract method#'
-            paths:
-                - packages/package-builder/src/Console/Command/AbstractSymplifyCommand.php
 
         # complex logic
         -

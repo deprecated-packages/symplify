@@ -1,6 +1,0 @@
-imports:
-    - { resource: 'imported-file.yml' }
-
-parameters:
-    festivals:
-        - three
