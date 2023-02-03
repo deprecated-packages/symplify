@@ -67,7 +67,6 @@ jobs:
                             vendor/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
-                            vendor/bin/easy-ci check-active-class packages/smart-file-system --ansi
 
                     -
                         name: Commented Code
