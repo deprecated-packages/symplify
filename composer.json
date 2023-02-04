@@ -6,20 +6,15 @@
         "php": ">=8.1",
         "ext-dom": "*",
         "ext-simplexml": "*",
-        "clue/ndjson-react": "^1.3",
         "composer/semver": "^3.3",
         "composer/xdebug-handler": "^3.0",
         "cweagans/composer-patches": "^1.7",
-        "fidry/cpu-core-counter": "^0.4.0",
         "friendsofphp/php-cs-fixer": "^3.12",
         "myclabs/php-enum": "^1.8",
         "nette/robot-loader": "^3.4",
         "nette/utils": "^3.2",
         "nikic/php-parser": "^4.15.2",
         "phpstan/phpdoc-parser": "^1.15.0",
-        "react/child-process": "^0.6.5",
-        "react/event-loop": "^1.3",
-        "react/socket": "^1.12",
         "sebastian/diff": "^4.0|^5.0",
         "squizlabs/php_codesniffer": "^3.7.1",
         "symfony/config": "^6.2",
@@ -47,6 +42,7 @@
         "symplify/autowire-array-parameter": "^11.1.25",
         "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
+        "symplify/easy-parallel": "^11.1",
         "symplify/monorepo-builder": "^11.1.24",
         "symplify/phpstan-extensions": "^11.1",
         "symplify/phpstan-rules": "^11.1.24",
@@ -58,7 +54,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
@@ -77,7 +72,6 @@
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests"
@@ -97,7 +91,6 @@
         }
     },
     "replace": {
-        "symplify/easy-parallel": "11.1.27",
         "symplify/easy-testing": "11.1.27",
         "symplify/php-config-printer": "11.1.27",
         "symplify/rule-doc-generator": "11.1.27",
