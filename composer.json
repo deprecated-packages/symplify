@@ -48,18 +48,18 @@
         "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
+        "symplify/phpstan-extensions": "^11.1",
         "symplify/phpstan-rules": "^11.1.24",
+        "symplify/symplify-kernel": "^11.1",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/type-coverage": "^0.0.9",
         "tomasvotruba/unused-public": "^0.0.25",
-        "tracy/tracy": "^2.9.4",
-        "symplify/symplify-kernel": "^11.1"
+        "tracy/tracy": "^2.9.4"
     },
     "autoload": {
         "psr-4": {
             "Symplify\\EasyParallel\\": "packages/easy-parallel/src",
             "Symplify\\EasyTesting\\": "packages/easy-testing/src",
-            "Symplify\\PHPStanExtensions\\": "packages/phpstan-extensions/src",
             "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
                 "packages/rule-doc-generator-contracts/src",
@@ -79,7 +79,6 @@
         "psr-4": {
             "Symplify\\EasyParallel\\Tests\\": "packages/easy-parallel/tests",
             "Symplify\\EasyTesting\\Tests\\": "packages/easy-testing/tests",
-            "Symplify\\PHPStanExtensions\\Tests\\": "packages/phpstan-extensions/tests",
             "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests"
         }
@@ -101,7 +100,6 @@
         "symplify/easy-parallel": "11.1.27",
         "symplify/easy-testing": "11.1.27",
         "symplify/php-config-printer": "11.1.27",
-        "symplify/phpstan-extensions": "11.1.27",
         "symplify/rule-doc-generator": "11.1.27",
         "symplify/rule-doc-generator-contracts": "11.1.27"
     },

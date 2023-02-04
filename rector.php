@@ -56,8 +56,6 @@ return static function (RectorConfig $rectorConfig): void {
         '*/Fixture/*',
         '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
-        // test fixtures
-        '*/packages/phpstan-extensions/tests/TypeExtension/*/*Extension/data/*',
 
         // false positive on "locale" string
         VarConstantCommentRector::class => [

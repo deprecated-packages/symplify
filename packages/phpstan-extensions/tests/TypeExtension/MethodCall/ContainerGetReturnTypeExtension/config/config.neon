@@ -1,6 +1,0 @@
-services:
-    - Symplify\PHPStanExtensions\TypeResolver\ClassConstFetchReturnTypeResolver
-
-    -
-        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\ContainerGetReturnTypeExtension
-        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]

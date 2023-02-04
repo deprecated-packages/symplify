@@ -64,7 +64,6 @@ jobs:
                         run: |
                             vendor/bin/easy-ci check-active-class packages/easy-testing --ansi
                             vendor/bin/easy-ci check-active-class packages/php-config-printer --ansi
-                            vendor/bin/easy-ci check-active-class packages/phpstan-extensions --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
 
