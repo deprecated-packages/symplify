@@ -113,22 +113,11 @@ parameters:
             paths:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
 
-        -
-            message: '#Cognitive complexity for "(.*?)" is \d+, keep it under 8#'
-            paths:
-                # complex search for possible directories
-                - packages/easy-parallel/src/CommandLine/WorkerCommandLineFactory.php
-
         # is never string
         - '#"@file_get_contents\(\$fileName\)" is forbidden to use#'
 
         # not useful
         - '#Parameter \#2 \$length of function array_chunk expects int<1, max\>, int given#'
-
-        # false positive sa checked before
-        -
-            message: '#Parameter \#1 \$stream of function (.*?) expects resource, resource\|null given#'
-            path: packages/easy-parallel/src/ValueObject/ParallelProcess.php
 
         # nesting on purpose
         -
