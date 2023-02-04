@@ -48,12 +48,13 @@
         "symplify/easy-ci": "11.1.26.72",
         "symplify/easy-coding-standard": "^11.1.31",
         "symplify/monorepo-builder": "^11.1.24",
+        "symplify/phpstan-extensions": "^11.1",
         "symplify/phpstan-rules": "^11.1.24",
+        "symplify/symplify-kernel": "^11.1",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/type-coverage": "^0.0.9",
         "tomasvotruba/unused-public": "^0.0.25",
-        "tracy/tracy": "^2.9.4",
-        "symplify/symplify-kernel": "^11.1"
+        "tracy/tracy": "^2.9.4"
     },
     "autoload": {
         "psr-4": {
