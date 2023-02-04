@@ -1,5 +1,0 @@
-services:
-    -
-        class: Symplify\PHPStanExtensions\TypeExtension\MethodCall\SplFileInfoTolerantReturnTypeExtension
-        tags: [phpstan.broker.dynamicMethodReturnTypeExtension]
-

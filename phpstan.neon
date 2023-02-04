@@ -1,5 +1,5 @@
 includes:
-    - packages/phpstan-extensions/config/config.neon
+    - vendor/symplify/phpstan-extensions/config/config.neon
     - vendor/symplify/phpstan-rules/config/symplify-rules.neon
 
     # for cognitive rules
@@ -40,9 +40,6 @@ parameters:
         - */scoper.php
 
         - packages/*-phpstan-compiler/tests/*ToPhpCompiler/Fixture*
-
-        # functions false positive
-        - packages/phpstan-extensions/tests/TypeExtension/*/*/data/*
 
         # tests
 
@@ -113,17 +110,9 @@ parameters:
                 - packages/php-config-printer/src/PhpParser/NodeFactory/ConfiguratorClosureNodeFactory.php
 
         -
-            message: '#Cannot call method (.*?) on PHPStan\\Command\\Output\|null#'
-            path: packages/phpstan-extensions/src/ErrorFormatter/SymplifyErrorFormatter.php
-
-        -
             message: '#Instead of abstract class, use specific service with composition#'
             paths:
                  - packages/rule-doc-generator-contracts/src/ValueObject/AbstractCodeSample.php
-
-        -
-            message: '#Spread operator is not allowed#'
-            path: packages/phpstan-extensions/tests/TypeExtension/*/*TypeExtension/*Test.php
 
         -
             message: '#Cognitive complexity for "(.*?)" is \d+, keep it under 8#'
