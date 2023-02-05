@@ -62,7 +62,6 @@ jobs:
                         name: Check Active Classes
                         # on purpose in single pipe-line to allow faster CI, as this is bottle neck - runs a full container for just 2 secs operation
                         run: |
-                            vendor/bin/easy-ci check-active-class packages/easy-testing --ansi
                             vendor/bin/easy-ci check-active-class packages/php-config-printer --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
@@ -78,7 +77,7 @@ jobs:
                             vendor/bin/monorepo-builder --ansi
                             packages/rule-doc-generator/bin/rule-doc-generator --ansi
                             vendor/bin/easy-ci --ansi
-                            packages/easy-testing/bin/easy-testing --ansi
+                            vendor/bin/easy-testing --ansi
 
         name: ${{ matrix.actions.name }}
         runs-on: ubuntu-latest

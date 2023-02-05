@@ -18,7 +18,6 @@
     },
     "conflict": {
         "symplify/phpstan-rules": "<11.1.24",
-        "symplify/easy-testing": "<11.1.25",
         "symplify/php-config-printer": "<11.1.25",
         "symplify/rule-doc-generator": "<11.1.25",
         "symplify/config-transformer": "<11.1.24",
