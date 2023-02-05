@@ -68,16 +68,6 @@ parameters:
                 # direct string printer
                 - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
 
-        -
-            message: '#Do not use static property#'
-            paths:
-                - packages/easy-testing/src/StaticFixtureSplitter.php # 19
-
-        -
-            message: '#is forbidden to use#'
-            paths:
-                - packages/easy-testing/src/PHPUnit/Behavior/DirectoryAssertableTrait.php # 18
-
         # child type
 
         # nesting
@@ -129,12 +119,6 @@ parameters:
         - '#Calling PHPStan\\Testing\\ErrorFormatterTestCase\:\:get(.*?)\(\) is not covered by backward compatibility promise\. The method might change in a minor PHPStan version#'
         - '#Extending PHPStan\\Testing\\ErrorFormatterTestCase is not covered by backward compatibility promise\. The class might change in a minor PHPStan version#'
 
-        # relative file path resolving tests
-        -
-            message: '#Relative file path "(.*?)" is not allowed, use absolute one with __DIR__#'
-            paths:
-                - packages/easy-testing/tests/DataProvider/StaticFixtureFinder/StaticFixtureFinderTest.php
-
         # narrowed to generic type
         - '#Method Symplify\\(.*?)\\TypeAwareNodeFinder\:\:(findInstanceOf|findFirstInstanceOf)\(\) should return (.*?)#'
 
@@ -153,7 +137,6 @@ parameters:
             message: '#Content of method "(.*?)\(\)" is duplicated\. Use unique content or service instead#'
             paths:
                 - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
-                - packages/easy-testing/src/DataProvider/StaticFixtureUpdater.php
 
         # complex logic
         -

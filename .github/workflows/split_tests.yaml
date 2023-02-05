@@ -16,7 +16,6 @@ jobs:
 
             matrix:
                 package:
-                    - easy-testing
                     - php-config-printer
                     - rule-doc-generator
 
