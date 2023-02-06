@@ -18,11 +18,11 @@ final class SomeSkippedFixer implements DocumentedRuleInterface, SkippedRuleInte
                 <<<'CODE_SAMPLE'
 bad code
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 good code
 CODE_SAMPLE
-            )
+            ),
         ]);
     }
 }

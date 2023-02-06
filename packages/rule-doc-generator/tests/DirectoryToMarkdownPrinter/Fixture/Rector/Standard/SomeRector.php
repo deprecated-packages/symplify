@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Standard;
@@ -16,11 +17,11 @@ final class SomeRector implements RectorInterface
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE
-            )
+            ),
         ]);
     }
 }
