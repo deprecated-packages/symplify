@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable;
@@ -30,12 +31,13 @@ final class WithPHPStanTypeObject implements RectorInterface, ConfigurableRuleIn
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE
-                , $exampleConfiguration
-            )
+                ,
+                $exampleConfiguration
+            ),
         ]);
     }
 }

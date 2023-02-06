@@ -17,11 +17,11 @@ final class SomeFixer implements DocumentedRuleInterface
                 <<<'CODE_SAMPLE'
 bad code
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 good code
 CODE_SAMPLE
-            )
+            ),
         ]);
     }
 }

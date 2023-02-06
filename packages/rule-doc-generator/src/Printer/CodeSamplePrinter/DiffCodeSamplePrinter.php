@@ -19,6 +19,11 @@ final class DiffCodeSamplePrinter
      */
     public function print(CodeSampleInterface $codeSample): array
     {
-        return [$this->markdownDiffer->diff($codeSample->getBadCode(), $codeSample->getGoodCode())];
+        $diffCode = $this->markdownDiffer->diff(
+            $codeSample->getBadCode(),
+            $codeSample->getGoodCode()
+        );
+
+        return [$diffCode];
     }
 }

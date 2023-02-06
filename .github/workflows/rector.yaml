@@ -18,7 +18,6 @@ jobs:
             fail-fast: false
             matrix:
                 package:
-                    - php-config-printer
                     - rule-doc-generator
                     - rule-doc-generator-contracts
 

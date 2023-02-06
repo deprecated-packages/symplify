@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\Rector\Configurable;
@@ -17,7 +18,7 @@ final class DirectConfiguredStringKeyRector implements RectorInterface, Configur
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE,
@@ -25,7 +26,7 @@ CODE_SAMPLE,
                     'view' => 'Laravel\\Templating\\render',
                     'redirect' => 'Some\\Redirector\\redirect',
                 ]
-            )
+            ),
         ]);
     }
 }

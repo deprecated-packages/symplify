@@ -7,7 +7,6 @@ namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter\Fixture\PHP
 use PHPStan\Rules\Rule;
 use Symplify\RuleDocGenerator\Contract\ConfigurableRuleInterface;
 use Symplify\RuleDocGenerator\Contract\DocumentedRuleInterface;
-use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
@@ -30,14 +29,15 @@ final class SomePHPStanRule implements Rule, DocumentedRuleInterface, Configurab
                 <<<'CODE_SAMPLE'
 bad code
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 good code
 CODE_SAMPLE
-                , [
+                ,
+                [
                     'someValue' => 10,
                 ]
-            )
+            ),
         ]);
     }
 

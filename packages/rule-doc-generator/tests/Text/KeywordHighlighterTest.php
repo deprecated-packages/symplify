@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Tests\Text;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
 use Symplify\RuleDocGenerator\Text\KeywordHighlighter;
@@ -19,16 +20,14 @@ final class KeywordHighlighterTest extends AbstractKernelTestCase
         $this->keywordHighlighter = $this->getService(KeywordHighlighter::class);
     }
 
-    /**
-     * @dataProvider provideData()
-     */
+    #[DataProvider('provideData')]
     public function test(string $inputText, string $expectedHighlightedText): void
     {
         $highlightedText = $this->keywordHighlighter->highlight($inputText);
         $this->assertSame($expectedHighlightedText, $highlightedText);
     }
 
-    public function provideData(): Iterator
+    public static function provideData(): Iterator
     {
         yield ['some @var text', 'some `@var` text'];
         yield ['@param @var text', '`@param` `@var` text'];

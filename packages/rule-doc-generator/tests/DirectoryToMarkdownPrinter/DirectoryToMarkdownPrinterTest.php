@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Symplify\RuleDocGenerator\Tests\DirectoryToMarkdownPrinter;
 
 use Iterator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symplify\PackageBuilder\Testing\AbstractKernelTestCase;
 use Symplify\RuleDocGenerator\DirectoryToMarkdownPrinter;
 use Symplify\RuleDocGenerator\Kernel\RuleDocGeneratorKernel;
@@ -24,11 +25,9 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         $this->directoryToMarkdownPrinter = $this->getService(DirectoryToMarkdownPrinter::class);
     }
 
-    /**
-     * @dataProvider provideDataPHPStan()
-     * @dataProvider provideDataPHPCSFixer()
-     * @dataProvider provideDataRector()
-     */
+    #[DataProvider('provideDataPHPStan')]
+    #[DataProvider('provideDataPHPCSFixer')]
+    #[DataProvider('provideDataRector')]
     public function test(string $directory, string $expectedFile, bool $shouldCategorize = false): void
     {
         $fileContent = $this->directoryToMarkdownPrinter->print(__DIR__, [$directory], $shouldCategorize);
@@ -40,7 +39,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         $this->assertStringEqualsFile($expectedFile, $fileContent, $directoryFileInfo->getRelativeFilePathFromCwd());
     }
 
-    public function provideDataPHPStan(): Iterator
+    public static function provideDataPHPStan(): Iterator
     {
         yield [__DIR__ . '/Fixture/PHPStan/Standard', __DIR__ . '/Expected/phpstan/phpstan_content.md'];
         yield [
@@ -49,7 +48,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
         ];
     }
 
-    public function provideDataPHPCSFixer(): Iterator
+    public static function provideDataPHPCSFixer(): Iterator
     {
         yield [__DIR__ . '/Fixture/PHPCSFixer/Standard', __DIR__ . '/Expected/php-cs-fixer/phpcsfixer_content.md'];
 
@@ -62,7 +61,7 @@ final class DirectoryToMarkdownPrinterTest extends AbstractKernelTestCase
     /**
      * @return Iterator<string[]|bool[]>
      */
-    public function provideDataRector(): Iterator
+    public static function provideDataRector(): Iterator
     {
         yield [__DIR__ . '/Fixture/Rector/Standard', __DIR__ . '/Expected/rector/rector_content.md'];
         yield [

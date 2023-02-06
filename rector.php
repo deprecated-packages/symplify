@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\ClassConst\VarConstantCommentRector;
 use Rector\Config\RectorConfig;
 use Rector\Php55\Rector\String_\StringClassNameToClassConstantRector;
 use Rector\PHPUnit\Set\PHPUnitSetList;
@@ -56,10 +55,5 @@ return static function (RectorConfig $rectorConfig): void {
         '*/Fixture/*',
         '*/Fixture*/*',
         '*/ChangedFilesDetectorSource/*',
-
-        // false positive on "locale" string
-        VarConstantCommentRector::class => [
-            __DIR__ . '/packages/php-config-printer/src/RoutingCaseConverter/ImportRoutingCaseConverter.php',
-        ],
     ]);
 };

@@ -24,11 +24,11 @@ final class ECSRuleCodeSamplePrinter implements RuleCodeSamplePrinterInterface
 
     public function isMatch(string $class): bool
     {
-        if (is_a($class, 'PHP_CodeSniffer\Sniffs\Sniff', true)) {
+        if (str_ends_with($class, 'Fixer')) {
             return true;
         }
 
-        return is_a($class, 'PhpCsFixer\Fixer\FixerInterface', true);
+        return str_ends_with($class, 'Sniff');
     }
 
     /**

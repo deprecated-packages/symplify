@@ -49,6 +49,7 @@ final class ConfiguredCodeSamplerPrinter
         $lines[] = '↓';
 
         $newLines = $this->diffCodeSamplePrinter->print($configuredCodeSample);
+
         return array_merge($lines, $newLines);
     }
 }

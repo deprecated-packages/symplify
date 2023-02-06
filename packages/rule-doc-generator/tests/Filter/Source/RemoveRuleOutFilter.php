@@ -15,8 +15,6 @@ final class RemoveRuleOutFilter implements RuleOutFilterInterface
      */
     public function filter(array $ruleClassWithFilePath): array
     {
-        return array_filter($ruleClassWithFilePath, function(RuleClassWithFilePath $ruleClassWithFilePath): bool {
-            return ! is_a($ruleClassWithFilePath->getClass(), SkippedRuleInterface::class, true);
-        });
+        return array_filter($ruleClassWithFilePath, static fn (RuleClassWithFilePath $ruleClassWithFilePath): bool => ! is_a($ruleClassWithFilePath->getClass(), SkippedRuleInterface::class, true));
     }
 }

@@ -18,11 +18,11 @@ final class SomePHPStanRule implements Rule, DocumentedRuleInterface
                 <<<'CODE_SAMPLE'
 bad code
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 good code
 CODE_SAMPLE
-            )
+            ),
         ]);
     }
 

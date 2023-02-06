@@ -18,7 +18,7 @@ final class ConfigurableRector implements RectorInterface, ConfigurableRuleInter
                 <<<'CODE_SAMPLE'
 before
 CODE_SAMPLE
-,
+                ,
                 <<<'CODE_SAMPLE'
 after
 CODE_SAMPLE
@@ -27,7 +27,7 @@ CODE_SAMPLE
                     'key' => 'value',
                     'second_key' => 'second_value',
                 ]]
-            )
+            ),
         ]);
     }
 }
