@@ -4,6 +4,8 @@ includes:
     # for cognitive rules
     - vendor/symplify/phpstan-rules/config/packages/cognitive-complexity/cognitive-complexity-services.neon
 
+    - phpstan-baseline.neon
+
 parameters:
     level: 8
 
