@@ -2,7 +2,7 @@
 
 namespace PhpCsFixer;
 
-if (class_exists('PhpCsFixer\AbstractFixer')) {
+if (class_exists(\PhpCsFixer\AbstractFixer::class)) {
     return;
 }
 
