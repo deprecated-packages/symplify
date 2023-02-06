@@ -16,7 +16,6 @@ jobs:
 
             matrix:
                 package:
-                    - php-config-printer
                     - rule-doc-generator
 
         name: Split Tests of ${{ matrix.package }}

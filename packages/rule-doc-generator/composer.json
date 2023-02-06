@@ -15,7 +15,7 @@
         "symplify/package-builder": "^11.2",
         "nette/utils": "^3.2",
         "sebastian/diff": "^4.0|^5.0",
-        "symplify/php-config-printer": "^11.2",
+        "symplify/php-config-printer": "^11.1",
         "symplify/smart-file-system": "^11.2"
     },
     "require-dev": {

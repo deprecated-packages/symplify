@@ -45,6 +45,7 @@
         "symplify/easy-parallel": "^11.1",
         "symplify/easy-testing": "^11.1",
         "symplify/monorepo-builder": "^11.1.24",
+        "symplify/php-config-printer": "^11.1",
         "symplify/phpstan-extensions": "^11.1",
         "symplify/phpstan-rules": "^11.1.24",
         "symplify/symplify-kernel": "^11.1",
@@ -55,7 +56,6 @@
     },
     "autoload": {
         "psr-4": {
-            "Symplify\\PhpConfigPrinter\\": "packages/php-config-printer/src",
             "Symplify\\RuleDocGenerator\\": [
                 "packages/rule-doc-generator-contracts/src",
                 "packages/rule-doc-generator/src"
@@ -67,12 +67,9 @@
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
-            "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_object_function.php",
-            "packages/php-config-printer/tests/Printer/SmartPhpConfigPrinter/Source/custom_inline_objects_function.php",
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ],
         "psr-4": {
-            "Symplify\\PhpConfigPrinter\\Tests\\": "packages/php-config-printer/tests",
             "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests"
         }
     },
@@ -90,7 +87,6 @@
         }
     },
     "replace": {
-        "symplify/php-config-printer": "11.1.27",
         "symplify/rule-doc-generator": "11.1.27",
         "symplify/rule-doc-generator-contracts": "11.1.27"
     },
