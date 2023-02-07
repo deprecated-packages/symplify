@@ -1,4 +1,0 @@
-```diff
--old code
-+new code
-```

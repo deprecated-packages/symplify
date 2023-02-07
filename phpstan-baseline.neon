@@ -1,11 +1,2 @@
 parameters:
 	ignoreErrors:
-		-
-			message: "#^Attribute must have all names explicitly defined$#"
-			count: 3
-			path: packages/rule-doc-generator/tests/DirectoryToMarkdownPrinter/DirectoryToMarkdownPrinterTest.php
-
-		-
-			message: "#^Attribute must have all names explicitly defined$#"
-			count: 1
-			path: packages/rule-doc-generator/tests/Text/KeywordHighlighterTest.php
