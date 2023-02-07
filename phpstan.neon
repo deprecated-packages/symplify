@@ -64,12 +64,6 @@ parameters:
 
         - '#Parameter \#1 \$endPath of method Symfony\\Component\\Filesystem\\Filesystem\:\:makePathRelative\(\) expects string, string\|false given#'
 
-        -
-            message: '#Use value object over return of values#'
-            paths:
-                # direct string printer
-                - packages/rule-doc-generator/src/Printer/CodeSamplePrinter/BadGoodCodeSamplePrinter.php
-
         # child type
 
         # nesting
@@ -92,11 +86,6 @@ parameters:
         # narrowed to generic type
         - '#Method Symplify\\(.*?)\\TypeAwareNodeFinder\:\:(findInstanceOf|findFirstInstanceOf)\(\) should return (.*?)#'
 
-        # to separate packages
-        -
-            message: '#Content of method "(.*?)\(\)" is duplicated\. Use unique content or service instead#'
-            paths:
-                - packages/rule-doc-generator/tests/Fixture/StaticFixtureUpdater.php
 
         # known
         - '#Parameter \#1 \$nodes of method PhpParser\\PrettyPrinterAbstract\:\:pCommaSeparatedMultiline\(\) expects array<PhpParser\\Node>, array<PhpParser\\Node\\Expr\\ArrayItem\|null> given#'

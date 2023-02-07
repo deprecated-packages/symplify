@@ -8,7 +8,6 @@
   <testsuite name="all">
     <directory>packages/**/tests</directory>
     <directory>packages/**/packages/**/tests</directory>
-    <exclude>packages/rule-doc-generator/tests/DirectoryToMarkdownPrinter</exclude>
   </testsuite>
   <groups>
     <exclude>

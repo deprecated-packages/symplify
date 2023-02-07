@@ -49,23 +49,13 @@
         "tomasvotruba/unused-public": "^0.0.25",
         "tracy/tracy": "^2.9.4"
     },
-    "autoload": {
-        "psr-4": {
-            "Symplify\\RuleDocGenerator\\": [
-                "packages/rule-doc-generator/src"
-            ]
-        }
-    },
     "autoload-dev": {
         "classmap": [
             "packages/rule-doc-generator/stubs"
         ],
         "files": [
             "vendor/squizlabs/php_codesniffer/autoload.php"
-        ],
-        "psr-4": {
-            "Symplify\\RuleDocGenerator\\Tests\\": "packages/rule-doc-generator/tests"
-        }
+        ]
     },
     "extra": {
         "enable-patching": true,
@@ -79,9 +69,6 @@
                 "patches/squizlabs-php-codesniffer-tests-standards-abstractsniffunittest-php.patch"
             ]
         }
-    },
-    "replace": {
-        "symplify/rule-doc-generator": "11.1.27"
     },
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",

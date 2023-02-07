@@ -57,13 +57,6 @@ jobs:
                         # "default" format overrides default "github" in CI
                         run: vendor/bin/composer-unused --ansi --output-format default
 
-                    # is the class really used somewhere in the package?
-                    -
-                        name: Check Active Classes
-                        # on purpose in single pipe-line to allow faster CI, as this is bottle neck - runs a full container for just 2 secs operation
-                        run: |
-                            vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
-
                     -
                         name: Commented Code
                         run: vendor/bin/easy-ci check-commented-code packages --line-limit 5 --ansi
@@ -73,7 +66,6 @@ jobs:
                         run: |
                             # test run bin files
                             vendor/bin/monorepo-builder --ansi
-                            packages/rule-doc-generator/bin/rule-doc-generator --ansi
                             vendor/bin/easy-ci --ansi
                             vendor/bin/easy-testing --ansi
 
