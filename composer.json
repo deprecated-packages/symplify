@@ -50,9 +50,6 @@
         "tracy/tracy": "^2.9.4"
     },
     "autoload-dev": {
-        "classmap": [
-            "packages/rule-doc-generator/stubs"
-        ],
         "files": [
             "vendor/squizlabs/php_codesniffer/autoload.php"
         ]
