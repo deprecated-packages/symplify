@@ -19,7 +19,6 @@ jobs:
             matrix:
                 package:
                     - rule-doc-generator
-                    - rule-doc-generator-contracts
 
         steps:
             -
