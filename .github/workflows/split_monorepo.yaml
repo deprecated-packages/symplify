@@ -15,7 +15,6 @@ jobs:
             matrix:
                 package:
                     - rule-doc-generator
-                    - rule-doc-generator-contracts
 
         steps:
             -   uses: actions/checkout@v2

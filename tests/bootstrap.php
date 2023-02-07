@@ -37,4 +37,4 @@ if (! defined('PHP_CODESNIFFER_VERBOSITY')) {
 define('SYMPLIFY_MONOREPO', true);
 
 // give priority over rector included
-require __DIR__ . '/../packages/rule-doc-generator-contracts/src/Contract/RuleCodeSamplePrinterInterface.php';
+require __DIR__ . '/../vendor/symplify/rule-doc-generator-contracts/src/Contract/RuleCodeSamplePrinterInterface.php';

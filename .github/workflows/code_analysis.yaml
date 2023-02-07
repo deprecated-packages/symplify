@@ -63,7 +63,6 @@ jobs:
                         # on purpose in single pipe-line to allow faster CI, as this is bottle neck - runs a full container for just 2 secs operation
                         run: |
                             vendor/bin/easy-ci check-active-class packages/rule-doc-generator --ansi
-                            vendor/bin/easy-ci check-active-class packages/rule-doc-generator-contracts --ansi
 
                     -
                         name: Commented Code

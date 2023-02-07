@@ -42,6 +42,7 @@
         "symplify/php-config-printer": "^11.1",
         "symplify/phpstan-extensions": "^11.1",
         "symplify/phpstan-rules": "^11.1.24",
+        "symplify/rule-doc-generator-contracts": "^11.1",
         "symplify/symplify-kernel": "^11.1",
         "tomasvotruba/cognitive-complexity": "^0.0.1",
         "tomasvotruba/type-coverage": "^0.0.9",
@@ -51,7 +52,6 @@
     "autoload": {
         "psr-4": {
             "Symplify\\RuleDocGenerator\\": [
-                "packages/rule-doc-generator-contracts/src",
                 "packages/rule-doc-generator/src"
             ]
         }
@@ -81,8 +81,7 @@
         }
     },
     "replace": {
-        "symplify/rule-doc-generator": "11.1.27",
-        "symplify/rule-doc-generator-contracts": "11.1.27"
+        "symplify/rule-doc-generator": "11.1.27"
     },
     "scripts": {
         "check-cs": "vendor/bin/ecs check --ansi",
