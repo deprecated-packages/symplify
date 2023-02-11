@@ -1,0 +1,12 @@
+transitions:
+    !php/const App\Entity\Plant::TRANSITION_PLANT: some_value
+-----
+<?php
+
+    declare(strict_types=1);
+
+    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $containerConfigurator->extension('transitions', [\App\Entity\Plant::class => ['from' => 'seed', 'to' => 'planted']]);
+};
