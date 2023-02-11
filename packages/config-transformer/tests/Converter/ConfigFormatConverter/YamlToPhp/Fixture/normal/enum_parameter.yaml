@@ -1,0 +1,19 @@
+# https://symfony.com/blog/new-in-symfony-6-2-improved-enum-support
+parameters:
+    app.enum_parameter_env: '%env(enum:App\Enum\AppEnvironment:APP_ENV)%'
+    app.enum_parameter: '!php/enum App\Enum\AppEnvironment:APP_ENV'
+-----
+<?php
+
+declare(strict_types=1);
+
+use App\Enum\AppEnvironment;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
+return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+
+    $parameters->set('app.enum_parameter_env', '%env(enum:App\Enum\AppEnvironment:APP_ENV)%');
+
+    $parameters->set('app.enum_parameter', AppEnvironment::APP_ENV);
+};
